@@ -1,28 +1,38 @@
 {
   "name": "metaos-desktop",
   "productName": "MetaOS",
-  "description": "Emotional Intelligence development tools using Meta Engine",
-  "version": "0.0.0",
+  "description": "MetaOS",
+  "version": "0.0.2",
   "private": true,
   "author": {
-    "name": "Kara Marie Rawson",
-    "email": "kara@openmastery.org"
+    "name": "OpenMastery.org",
+    "email": "info@openmastery.org"
   },
   "copyright": "© 2017, OpenMastery.org",
   "homepage": "./",
   "main": "public/electron.js",
-  "repository" : { 
-    "type" : "git", 
-    "url" : "https://github.com/torchie-love/MetaOS-desktop-release.git"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/torchie-love/MetaOS-desktop-release.git"
   },
   "build": {
-    "appId": "org.openmastery.metaos-desktop",
+    "appId": "org.openmastery.metaos.desktop",
     "files": [
       "build/**/*",
       "package.json"
     ],
     "directories": {
-      "buildResources": "assets"
+      "buildResources": "resources"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "perMachine": true,
+      "artifactName": "${productName}-Setup.${ext}",
+      "uninstallDisplayName": "${productName}",
+      "differentialPackage": true,
+      "warningsAsErrors": true
     },
     "publish": {
       "provider": "github"
@@ -40,16 +50,18 @@
     "prerelease": "yarn build"
   },
   "dependencies": {
-    "electron-is-dev": "^0.1.2",
+    "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.6",
     "electron-updater": "^2.4.3",
     "node-notifier": "^5.1.2",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "semantic-ui-css": "^2.2.12",
+    "semantic-ui-react": "^0.74.2"
   },
   "devDependencies": {
-    "cross-env": "^5.0.1",
     "concurrently": "^3.4.0",
+    "cross-env": "^5.0.1",
     "electron": "^1.6.10",
     "electron-builder": "^19.8.0",
     "prettier": "^1.4.4",
