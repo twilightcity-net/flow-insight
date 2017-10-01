@@ -30,15 +30,20 @@ let window = undefined;
  */
 
 app.on('ready', onAppReadyCb);
+app.on('activate', onAppActivateCb);  //macOS
 app.on('window-all-closed', onAppWindowAllCloseCb);
-app.on('activate', onAppActivateCb);
 
 /*
  * Event Callback Functions
  */
 
 function onAppReadyCb() {
+  initAutoUpdate();
   createTray();
+  createWindow();
+}
+
+function onAppActivateCb() {
   createWindow();
 }
 
@@ -46,10 +51,6 @@ function onAppWindowAllCloseCb() {
   if (process.platform !== 'darwin') {
     app.quit();
   }
-}
-
-function onAppActivateCb() {
-  createWindow();
 }
 
 function onWindowReadyToShowCb() {
@@ -126,9 +127,6 @@ function createWindow() {
   // handle our windows events
   window.on('ready-to-show', onWindowReadyToShowCb);
   window.on('closed', onWindowCloseCb);
-
-  // start the autoupdate service
-  initAutoUpdate();
 }
 
 /*
@@ -184,44 +182,75 @@ function initAutoUpdate() {
     return;
   }
 
+  autoUpdater.autoDownload = false;
+
   // configure update logging to file
   autoUpdater.logger = logger;
   autoUpdater.logger.transports.file.level = 'info';
 
+  autoUpdater.on('checking-for-update', () => {
+    autoUpdater.logger.info('Checking for update...');
+  })
+  autoUpdater.on('update-available', (info) => {
+    autoUpdater.logger.info('Update available.');
+    // createUpdateWindow();
+  })
+  autoUpdater.on('update-not-available', (info) => {
+    autoUpdater.logger.info('Update not available.');
+  })
+  autoUpdater.on('error', (err) => {
+    autoUpdater.logger.error('Error in auto-updater.');
+  })
+  autoUpdater.on('download-progress', (progressObj) => {
+    let logMsg = "Download speed: " + progressObj.bytesPerSecond;
+    logMsg = logMsg + ' - Downloaded ' + progressObj.percent + '%';
+    logMsg = logMsg + ' (' + progressObj.transferred + "/" + progressObj.total + ')';
+    autoUpdater.logger.info(logMsg);
+  })
+  autoUpdater.on('update-downloaded', (info) => {
+    autoUpdater.logger.info('Update downloaded');
+  });
+
   // check for updates and notify if we have a new version
   autoUpdater.checkForUpdates();
-  autoUpdater.signals.updateDownloaded(showUpdateNotification);
 }
 
-/*
- * shows system notification for when there is a new app update
- * >> CURRENTLY BROKEN : not showing for when there is an update <<
-*/
-function showUpdateNotification(it) {
-  
-  // TODO implement logger into notifications
+function createUpdateWindow() {
 
-  // define our object and lables
-  it = it || {};
-  const restartNowAction = 'Restart now';
-  const versionLabel = it.label 
-    ? `Version ${it.version}` 
-    : 'The latest version';
+  // dont make the window if it already exists
+  if(window !== (null || undefined)) {
+    return;
+  }
 
-  // display a system notification dialog
-  notifier.notify(
+  // make new browser window and load view
+  window = new BrowserWindow(
     {
-      title: 'A new update is ready to install.',
-      message: `${versionLabel} has been downloaded and will be automatically installed after restart.`,
-      closeLabel: 'Okay',
-      actions: restartNowAction
-    },
-    function(err, response, metadata) {
-      if (err) throw err;
-      if (metadata.activationValue !== restartNowAction) {
-        return;
+      name: 'metaos-update-window',
+      width: 400, 
+      height: 300,
+      show: false,
+      backgroundColor: '#ffffff',
+      fullscreenable : false,
+      webPreferences: 
+      {
+        devTools: true,
+        toolbar: false
       }
-      autoUpdater.quitAndInstall();
     }
   );
+  window.loadURL(
+    isDev
+      ? 'http://localhost:3000'
+      : `file://${path.join(__dirname, '../build/index.html')}`
+  );
+  window.setMenu(null);
+  window.openDevTools(
+    {
+      detach: true
+    }
+  );
+
+  // handle our windows events
+  window.on('ready-to-show', onWindowReadyToShowCb);
+  window.on('closed', onWindowCloseCb);
 }
