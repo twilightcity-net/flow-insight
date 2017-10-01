@@ -2,7 +2,7 @@
   "name": "metaos-desktop",
   "productName": "MetaOS",
   "description": "MetaOS",
-  "version": "0.0.2",
+  "version": "0.0.1",
   "private": true,
   "author": {
     "name": "OpenMastery.org",
@@ -46,8 +46,10 @@
     "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "pack": "build --em.main=build/electron.js",
     "release": "build --em.main=build/electron.js --publish=always",
+    "release:update:win":".\\tasks\\update-dist.bat",
     "prepack": "yarn build",
-    "prerelease": "yarn build"
+    "prerelease": "yarn build",
+    "prerelease:update:win": "yarn build"
   },
   "dependencies": {
     "electron-is-dev": "^0.3.0",
