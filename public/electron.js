@@ -38,13 +38,14 @@ app.on('window-all-closed', onAppWindowAllCloseCb);
  */
 
 function onAppReadyCb() {
-  initAutoUpdate();
   createTray();
-  createWindow();
+  initAutoUpdate();
 }
 
 function onAppActivateCb() {
-  createWindow();
+
+  // TODO need to experiment with how this works with the loading window
+  // createWindow();
 }
 
 function onAppWindowAllCloseCb() {
@@ -117,8 +118,8 @@ function createWindow() {
   );
   window.loadURL(
     isDev
-      ? 'http://localhost:3000'
-      : `file://${path.join(__dirname, '../build/index.html')}`
+      ? 'http://localhost:3000?console'
+      : `file://${path.join(__dirname, '../build/index.html?console')}`
   );
   window.setMenu(null);
 
@@ -193,7 +194,7 @@ function initAutoUpdate() {
   })
   autoUpdater.on('update-available', (info) => {
     autoUpdater.logger.info('Update available.');
-    // createUpdateWindow();
+    createUpdateWindow();
   })
   autoUpdater.on('update-not-available', (info) => {
     autoUpdater.logger.info('Update not available.');
@@ -233,22 +234,22 @@ function createUpdateWindow() {
       fullscreenable : false,
       webPreferences: 
       {
-        devTools: true,
+        devTools: isDev,
         toolbar: false
       }
     }
   );
   window.loadURL(
     isDev
-      ? 'http://localhost:3000'
-      : `file://${path.join(__dirname, '../build/index.html')}`
+      ? 'http://localhost:3000?update'
+      : `file://${path.join(__dirname, '../build/index.html?update')}`
   );
   window.setMenu(null);
-  window.openDevTools(
-    {
-      detach: true
-    }
-  );
+  // window.openDevTools(
+  //   {
+  //     detach: true
+  //   }
+  // );
 
   // handle our windows events
   window.on('ready-to-show', onWindowReadyToShowCb);

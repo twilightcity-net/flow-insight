@@ -1,8 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import App from './app';
-import registerServiceWorker from './registerServiceWorker';
-import 'semantic-ui-css/semantic.min.css';
+import ReactDOM from 'react-dom'
+import ViewManager from './ViewManager';
 
-ReactDOM.render(<App />, document.getElementById('root'));
-registerServiceWorker();
+ReactDOM.render(<ViewManager />, document.getElementById('root'));

@@ -29,7 +29,7 @@
     },
     "nsis": {
       "perMachine": true,
-      "artifactName": "${productName}-Setup.${ext}",
+      "artifactName": "${productName}-Setup-${version}.${ext}",
       "uninstallDisplayName": "${productName}",
       "differentialPackage": true,
       "warningsAsErrors": true
@@ -46,7 +46,7 @@
     "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "pack": "build --em.main=build/electron.js",
     "release": "build --em.main=build/electron.js --publish=always",
-    "release:update:win":".\\tasks\\update-dist.bat",
+    "release:update:win": ".\\tasks\\update-dist.bat",
     "prepack": "yarn build",
     "prerelease": "yarn build",
     "prerelease:update:win": "yarn build"
@@ -58,6 +58,7 @@
     "node-notifier": "^5.1.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
+    "react-router-dom": "^4.2.2",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.74.2"
   },
