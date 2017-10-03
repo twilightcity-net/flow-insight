@@ -58,7 +58,6 @@
     "node-notifier": "^5.1.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-router-dom": "^4.2.2",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.74.2"
   },
