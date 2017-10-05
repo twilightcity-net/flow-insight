@@ -38,8 +38,9 @@ app.on('window-all-closed', onAppWindowAllCloseCb);
  */
 
 function onAppReadyCb() {
-  createTray();
-  initAutoUpdate();
+  // createTray();
+  createUpdateWindow();
+  // initAutoUpdate();
 }
 
 function onAppActivateCb() {
@@ -194,7 +195,6 @@ function initAutoUpdate() {
   })
   autoUpdater.on('update-available', (info) => {
     autoUpdater.logger.info('Update available.');
-    createUpdateWindow();
   })
   autoUpdater.on('update-not-available', (info) => {
     autoUpdater.logger.info('Update not available.');
@@ -226,9 +226,12 @@ function createUpdateWindow() {
   // make new browser window and load view
   window = new BrowserWindow(
     {
-      name: 'metaos-update-window',
-      width: 400, 
-      height: 300,
+      name: 'metaos-loading-window',
+      width: 350, 
+      height: 160,
+      minWidth: 350,
+      minHeight: 160,
+      resizable: false,
       show: false,
       backgroundColor: '#ffffff',
       fullscreenable : false,
@@ -245,11 +248,6 @@ function createUpdateWindow() {
       : `file://${path.join(__dirname, '../build/index.html?update')}`
   );
   window.setMenu(null);
-  // window.openDevTools(
-  //   {
-  //     detach: true
-  //   }
-  // );
 
   // handle our windows events
   window.on('ready-to-show', onWindowReadyToShowCb);

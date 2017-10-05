@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Route
-} from 'react-router-dom'
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Update from './view/Update.js';
 import Console from './view/Console.js';
 
