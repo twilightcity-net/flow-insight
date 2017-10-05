@@ -1,7 +1,20 @@
 import React, { Component } from 'react';
 import { Divider, Transition, Icon, Header, Progress, Segment } from 'semantic-ui-react';
 
+/*
+ * This view class is used to show application loading which consists of:
+ *    1> checking for ner version to update
+ *    2> downloading update if there is one, auto restart
+ *    3> load database file into memory
+ *    4> read user configuration
+ *    5> authenticate user API-Key if online
+ */
+
 export default class Loading extends Component {
+
+  /*
+   * State is used to store the local data about the current view
+   */
 
 	state = { 
     visible: true,
@@ -18,10 +31,18 @@ export default class Loading extends Component {
     }
   }
   
+  /*
+   * toggles the view state to trigger animation on icon
+   */
+
   onHideShow = () => this.setState({ 
   	visible: !this.state.visible
   })
 
+  /*
+   * renders the view into our root element of our window
+   */
+   
   render() {
   	return (
 			<Segment basic>

@@ -13,6 +13,13 @@ import Console from './view/Console';
 export default class ViewManager extends Component {
 
   /*
+   * Linking map from helper for consistency
+   */
+   
+  static get ViewNames() {
+    return ViewManagerHelper.ViewNames;
+  }
+  /*
    * When adding new views be sure to also update ViewManagerHelper
    * with the name of the view you wish to reference from main process
    */
