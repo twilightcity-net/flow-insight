@@ -44,10 +44,8 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "pack": "build --em.main=build/electron.js",
     "release": "build --em.main=build/electron.js --publish=always",
     "release:update:win": ".\\tasks\\update-dist.bat",
-    "prepack": "yarn build",
     "prerelease": "yarn build",
     "prerelease:update:win": "yarn build"
   },

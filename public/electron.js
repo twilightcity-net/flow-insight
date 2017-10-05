@@ -5,7 +5,6 @@
 const { app, BrowserWindow, ipcMain, Tray } = require('electron');
 const autoUpdater = require('electron-updater').autoUpdater;
 const path = require('path');
-const url = require('url');
 const isDev = require('electron-is-dev');
 const notifier = require('node-notifier');
 const logger = require('electron-log');
@@ -30,11 +29,12 @@ const trayIcon = assetsDirectory + '/icons/icon.png';
  */
 
 let tray = undefined;
-let window = undefined;
 
 /*
  * Application Events
  */
+
+// TODO move to its own App Class, and call one function to start
 
 app.on('ready', onAppReadyCb);
 app.on('activate', onAppActivateCb);  //macOS
@@ -46,13 +46,13 @@ app.on('window-all-closed', onAppWindowAllCloseCb);
 
 function onAppReadyCb() {
   // createTray();
-  createUpdateWindow();
+  WindowManager.createWindowLoading();
   // initAutoUpdate();
 }
 
+// FIXME doesn't work, untested
 function onAppActivateCb() {
-
-  // TODO need to experiment with how this works with the loading window
+  // should show or create a console window
   // createWindow();
 }
 
@@ -62,29 +62,17 @@ function onAppWindowAllCloseCb() {
   }
 }
 
-function onWindowReadyToShowCb() {
-  showWindow();
-}
-
-function onWindowCloseCb() {
-  window = null;
-}
-
+// TODO move tray stuff to its own AppTray Class
 function onTrayRightClickCb() {
-  toggleWindow();
+  // TODO toggle console window
 }
 
 function onTrayDoubleClickCb() {
-  toggleWindow();
+  // TODO toggle console window
 }
 
 function onTrayClickCb(event) {
-    toggleWindow()
-
-    // Show devtools when command clicked
-    if (window.isVisible() && process.defaultApp && event.ctrlKey) {
-      showDevTools();
-    }
+    // TODO toggle console window
 }
 
 /*
@@ -98,87 +86,10 @@ function createTray() {
 }
 
 /*
- * Creates the main application window. Called by onAppReadyCb()
- */
-function createWindow() {
-
-  // dont make the window if it already exists
-  if(window !== (null || undefined)) {
-    return;
-  }
-
-  // make new browser window and load view
-  window = new BrowserWindow(
-    {
-      name: WindowManager.WindowNames.CONSOLE,
-      width: 900, 
-      height: 680,
-      show: false,
-      backgroundColor: '#ffffff',
-      icon: applicationIcon,
-      fullscreenable : false,
-      webPreferences: 
-      {
-        devTools: isDev,
-        toolbar: false
-      }
-    }
-  );
-
-  // load our view into the window
-  let windowView = ViewManagerHelper.ViewNames.CONSOLE;
-  let windowURL = WindowManager.GetWindowViewURL(windowView);
-  window.loadURL(windowURL);
-  window.setMenu(null);
-
-  // handle our windows events
-  window.on('ready-to-show', onWindowReadyToShowCb);
-  window.on('closed', onWindowCloseCb);
-}
-
-/*
- * show the main application window
- */
-function showWindow() {
-  window.show();
-  window.focus();
-}
-
-/*
- * hides the main application window
- */
-function hideWindow() {
-  window.hide();
-}
-
-/*
- * toggles window display between show and hide state
- */
-function toggleWindow() {
-  if (window.isVisible()) {
-    hideWindow();
-  } else {
-    showWindow();
-  }
-}
-
-/*
- * show the debug dev tools
- */
-function showDevTools() {
-  if(!isDev) {
-    return
-  }
-  window.openDevTools(
-    {
-      detach: true
-    }
-  );
-}
-
-/*
  * setup auto-update and check for updates. Called from createWindow()
 */
+
+// TODO move to its own AppUpdater Class
 function initAutoUpdate() {
 
   // skip update if we are in linux or dev mode
@@ -219,44 +130,4 @@ function initAutoUpdate() {
 
   // check for updates and notify if we have a new version
   autoUpdater.checkForUpdates();
-}
-
-function createUpdateWindow() {
-
-  // dont make the window if it already exists
-  if(window !== (null || undefined)) {
-    return;
-  }
-
-  // make new browser window and load view
-  window = new BrowserWindow(
-    {
-      name: WindowManager.WindowNames.LOADING,
-      width: 360, 
-      height: 160,
-      minWidth: 360,
-      minHeight: 160,
-      resizable: false,
-      show: false,
-      backgroundColor: '#ffffff',
-      fullscreenable : false,
-      webPreferences: 
-      {
-        devTools: isDev,
-        toolbar: false
-      }
-    }
-  );
-
-  // load our view into the window
-  let windowView = ViewManagerHelper.ViewNames.LOADING;
-  let windowURL = WindowManager.GetWindowViewURL(windowView);
-  window.loadURL(windowURL);
-  window.setMenu(null);
-
-  showDevTools();
-
-  // handle our windows events
-  window.on('ready-to-show', onWindowReadyToShowCb);
-  window.on('closed', onWindowCloseCb);
 }
