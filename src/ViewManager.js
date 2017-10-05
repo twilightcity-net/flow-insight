@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ViewManagerHelper from './ViewManagerHelper';
-import Loading from './view/Loading';
-import Console from './view/Console';
+import Loading from './views/Loading';
+import Console from './views/Console';
 
 /*
  * This class is used to manage the rendering of views in windows.
@@ -15,7 +15,7 @@ export default class ViewManager extends Component {
   /*
    * Linking map from helper for consistency
    */
-   
+
   static get ViewNames() {
     return ViewManagerHelper.ViewNames;
   }
