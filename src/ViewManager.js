@@ -1,25 +1,48 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import Update from './view/Update.js';
-import Console from './view/Console.js';
+import ViewManagerHelper from './ViewManagerHelper';
+import Loading from './view/Loading';
+import Console from './view/Console';
 
-class ViewManager extends Component {
+/*
+ * This class is used to manage the rendering of views in windows.
+ * There is a helper class ViewManagerHelper that is used to store
+ * the names of the views.
+ */
 
-  static Views() {
+export default class ViewManager extends Component {
+
+  /*
+   * When adding new views be sure to also update ViewManagerHelper
+   * with the name of the view you wish to reference from main process
+   */
+
+  static get Views() {
     return {
-      update: <Update/>,
-      console: <Console/>
+      LOADING: <Loading/>,
+      CONSOLE: <Console/>
     }
   }
 
+  /*
+   * This method looks up the view from a query search string in the
+   * URL of the view that is loaded in the window. An exception is throw
+   * if  now view is found in the mapping
+   */
+
   static View(props) {
     let name = props.location.search.substr(1);
-    let view = ViewManager.Views()[name];
+    let view = ViewManager.Views[name.toUpperCase()];
     if(view == null) 
       throw new Error("View '" + name + "' is undefined");
     return view;
   }
   
+  /*
+   * this method creates a react routers and returns it to the DOM's 
+   * bundled js. It will inject the correct view into the window
+   */
+
   render() {
     return (
       <Router>
@@ -30,5 +53,3 @@ class ViewManager extends Component {
     );
   }
 }
-
-export default ViewManager

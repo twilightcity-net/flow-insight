@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Divider, Transition, Icon, Header, Progress, Segment } from 'semantic-ui-react';
 
-export default class Update extends Component {
+export default class Loading extends Component {
 
 	state = { 
     visible: true,
     header: {
-      title: 'Loading Application',
+      title: 'Loading MetaOS',
       text: 'Checking for new version...',
       icon: 'hand spock'
     },

@@ -1,5 +1,5 @@
 /*
- * Required Packages
+ * Electron Node Required Packages
  */
 
 const { app, BrowserWindow, ipcMain, Tray } = require('electron');
@@ -8,7 +8,14 @@ const path = require('path');
 const url = require('url');
 const isDev = require('electron-is-dev');
 const notifier = require('node-notifier');
-const logger = require("electron-log");
+const logger = require('electron-log');
+
+/*
+ * Project Required Packages
+ */
+
+const WindowManager = require('../src/WindowManager');
+const ViewManagerHelper = require('../src/ViewManagerHelper');
 
 /*
  * Global Constants
@@ -103,7 +110,7 @@ function createWindow() {
   // make new browser window and load view
   window = new BrowserWindow(
     {
-      name: 'metaos-console-window',
+      name: WindowManager.WindowNames.CONSOLE,
       width: 900, 
       height: 680,
       show: false,
@@ -117,14 +124,12 @@ function createWindow() {
       }
     }
   );
-  window.loadURL(
-    isDev
-      ? 'http://localhost:3000?console'
-      : `file://${path.join(__dirname, '../build/index.html?console')}`
-  );
-  window.setMenu(null);
 
-  showDevTools();
+  // load our view into the window
+  let windowView = ViewManagerHelper.ViewNames.CONSOLE;
+  let windowURL = WindowManager.GetWindowViewURL(windowView);
+  window.loadURL(windowURL);
+  window.setMenu(null);
 
   // handle our windows events
   window.on('ready-to-show', onWindowReadyToShowCb);
@@ -226,10 +231,10 @@ function createUpdateWindow() {
   // make new browser window and load view
   window = new BrowserWindow(
     {
-      name: 'metaos-loading-window',
-      width: 350, 
+      name: WindowManager.WindowNames.LOADING,
+      width: 360, 
       height: 160,
-      minWidth: 350,
+      minWidth: 360,
       minHeight: 160,
       resizable: false,
       show: false,
@@ -242,12 +247,14 @@ function createUpdateWindow() {
       }
     }
   );
-  window.loadURL(
-    isDev
-      ? 'http://localhost:3000?update'
-      : `file://${path.join(__dirname, '../build/index.html?update')}`
-  );
+
+  // load our view into the window
+  let windowView = ViewManagerHelper.ViewNames.LOADING;
+  let windowURL = WindowManager.GetWindowViewURL(windowView);
+  window.loadURL(windowURL);
   window.setMenu(null);
+
+  showDevTools();
 
   // handle our windows events
   window.on('ready-to-show', onWindowReadyToShowCb);
