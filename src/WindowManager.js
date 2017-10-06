@@ -27,7 +27,8 @@ module.exports = class WindowManager {
 		let appName = 'metaos-';
 		return {
 			LOADING: appName + ViewManagerHelper.ViewNames.LOADING,
-			CONSOLE: appName + ViewManagerHelper.ViewNames.CONSOLE
+			CONSOLE: appName + ViewManagerHelper.ViewNames.CONSOLE,
+			BUGREPORT: appName +ViewManagerHelper.ViewNames.BUGREPORT
 		}
 	}
 

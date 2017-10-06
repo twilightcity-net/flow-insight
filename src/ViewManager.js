@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from 'react-router-dom';
 import ViewManagerHelper from './ViewManagerHelper';
 import LoadingView from './views/LoadingView';
 import ConsoleView from './views/ConsoleView';
+import BugReportView from './views/BugReportView';
 
 /*
  * This class is used to manage the rendering of views in windows.
@@ -27,7 +28,8 @@ export default class ViewManager extends Component {
   static get Views() {
     return {
       LOADING: <LoadingView/>,
-      CONSOLE: <ConsoleView/>
+      CONSOLE: <ConsoleView/>,
+      BUGREPORT: <BugReportView/>
     }
   }
 
