@@ -40,7 +40,8 @@ app.on("window-all-closed", onAppWindowAllCloseCb);
  * Event Callback Functions
  */
 function onAppReadyCb() {
-  // createTray();
+    app.setName('MetaOS');
+    // createTray();
   WindowManager.createWindowLoading();
   // initAutoUpdate();
 }
@@ -61,6 +62,68 @@ function onTrayRightClickCb() {}
 function onTrayDoubleClickCb() {}
 
 function onTrayClickCb(event) {}
+
+/*
+ * Creates the app's menu for MacOS
+ * Ref. https://electron.atom.io/docs/api/menu/#notes-on-macos-application-menu
+ */
+function createMenu() {
+    let menu = null;
+    if (process.platform === 'darwin') {
+        const template = [];
+        template.push({
+            label: app.getName(),
+            submenu: [
+                {role: 'about'},
+                {type: 'separator'},
+                {role: 'services', submenu: []},
+                {type: 'separator'},
+                {role: 'hide'},
+                {role: 'hideothers'},
+                {role: 'unhide'},
+                {type: 'separator'},
+                {role: 'quit'}
+            ]
+        })
+        template.push(
+            {
+                role: 'window',
+                submenu: [
+                    {role: 'close'},
+                    {role: 'minimize'},
+                    {role: 'zoom'},
+                    {type: 'separator'},
+                    {role: 'front'}
+                ]
+            }
+        )
+        template.push(
+            {
+                role: 'help',
+                submenu: [
+                    {
+                        label: 'MetaOS - Learn More',
+                        click() {
+                            require('electron').shell.openExternal('http://www.openmastery.org/')
+                        }
+                    },
+                    {
+                        label: 'Report bug',
+                        click() {
+                            createBugReportWindow();
+                            showBugReportWindow();
+                        }
+                    }
+
+                ]
+            }
+        )
+
+        menu = Menu.buildFromTemplate(template)
+    }
+
+    Menu.setApplicationMenu(menu)
+}
 
 /*
  * Creates the system tray object and icon. Called by onAppReadyCb()

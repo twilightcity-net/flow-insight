@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import LoadingView from "./views/LoadingView";
 import ConsoleView from "./views/ConsoleView";
+import BugReportView from './views/BugReportView';
 
 /*
  * This class is used to manage the rendering of views in windows.
@@ -14,7 +15,11 @@ export default class ViewManager extends Component {
    * with the name of the view you wish to reference from main process
    */
   static get Views() {
-    return { LOADING: <LoadingView />, CONSOLE: <ConsoleView /> };
+    return {
+      LOADING: <LoadingView/>,
+      CONSOLE: <ConsoleView/>
+   ,
+      BUGREPORT: <BugReportView/> };
   }
 
   /*
