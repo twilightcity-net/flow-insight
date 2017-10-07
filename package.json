@@ -17,10 +17,7 @@
   },
   "build": {
     "appId": "org.openmastery.metaos.desktop",
-    "files": [
-      "build/**/*",
-      "package.json"
-    ],
+    "files": ["build/**/*", "package.json"],
     "directories": {
       "buildResources": "resources"
     },
@@ -69,7 +66,7 @@
     "electron-builder": "^19.8.0",
     "gulp": "^3.9.1",
     "gulp-jshint": "^2.0.4",
-    "gulp-prettier": "^1.1.0",
+    "gulp-prettier-plugin": "^1.0.1",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^3.0.0",
     "jshint": "^2.9.5",
@@ -83,12 +80,17 @@
   "jshintConfig": {
     "esversion": 6
   },
-  "prettierConfig": {
-    "printWidth": 80,
-    "tabWidth": 2,
-    "useFlowParser": false,
-    "singleQuote": false,
-    "trailingComma": false,
-    "bracketSpacing": true
+  "prettier": {
+    "configJS": {
+      "printWidth": 80,
+      "tabWidth": 2,
+      "bracketSpacing": true
+    },
+    "configJSON": {
+      "parser": "json",
+      "printWidth": 120,
+      "tabWidth": 2,
+      "bracketSpacing": true
+    }
   }
 }

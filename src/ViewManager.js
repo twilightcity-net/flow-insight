@@ -25,8 +25,7 @@ export default class ViewManager extends Component {
   static View(props) {
     let name = props.location.search.substr(1);
     let view = ViewManager.Views[name.toUpperCase()];
-    if (view == null)
-      throw new Error("View '" + name + "' is undefined");
+    if (view == null) throw new Error("View '" + name + "' is undefined");
     return view;
   }
 

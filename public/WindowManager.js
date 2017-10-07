@@ -46,7 +46,11 @@ module.exports = class WindowManager {
     if (isDev) {
       return "http://localhost:3000?" + viewName;
     }
-    let filePath = `${path.join(app.getAppPath(), __dirname, '/index.html?' + viewName)}`;
+    let filePath = `${path.join(
+      app.getAppPath(),
+      __dirname,
+      "/index.html?" + viewName
+    )}`;
     return "file://" + filePath;
   }
 

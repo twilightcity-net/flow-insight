@@ -1,35 +1,26 @@
 const gulp = require("gulp");
 const pkg = require("../../package");
-const config = pkg.prettierConfig;
-const prettier = require("gulp-prettier");
+const configJS = pkg.prettier.configJS;
+const configJSON = pkg.prettier.configJSON;
+const prettier = require("gulp-prettier-plugin");
 
 module.exports = function() {
   return function() {
-    // var stream = gulp
-    //   .src([ "./gulp/**/*.js" ])
-    //   .pipe(prettier(config))
-    //   .pipe(gulp.dest("./gulp"));
-
-    // stream += gulp
-    //   .src([
-    //     "./public/**/*.js",
-    //     "./public/**/*.json",
-    //     "!./public/assets/**/*"
-    //   ])
-    //   .pipe(prettier(config))
-    //   .pipe(gulp.dest("./public"));
-
-    // stream += gulp
-    //   .src([ "./src/**/*.js", "./src/**/*.json"])
-    //   .pipe(prettier(config))
-    //   .pipe(gulp.dest("./src"));
-
-    //   stream += gulp
-    //   .src([ "./gulpfile.js" ])
-    //   .pipe(prettier(config))
-    //   .pipe(gulp.dest("./"));
-
-    // return stream;
-    return null;
+    var stream = gulp
+      .src([
+        "./gulp/**/*.js",
+        "./public/**/*.js",
+        "!./public/assets/**/*",
+        "./src/**/*.js",
+        "./gulpfile.js"
+      ])
+      .pipe(prettier(configJS))
+      // passing a function that returns base will write the files in-place
+      .pipe(gulp.dest(file => file.base));
+    stream += gulp
+      .src(["./package.json"])
+      .pipe(prettier(configJSON))
+      .pipe(gulp.dest(file => file.base));
+    return stream;
   };
 };

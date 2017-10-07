@@ -62,9 +62,7 @@ export default class Loading extends Component {
         <Header as="h3" floated="left">
           <Header.Content>
             {this.state.header.title}
-            <Header.Subheader>
-              {this.state.header.text}
-            </Header.Subheader>
+            <Header.Subheader>{this.state.header.text}</Header.Subheader>
           </Header.Content>
         </Header>
         <Divider clearing />

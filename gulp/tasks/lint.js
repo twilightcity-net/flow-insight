@@ -11,7 +11,7 @@ module.exports = function() {
 
   return function() {
     var stream = gulp
-      .src([ "./public/*.js", "!./public/assets/**/*", "./gulp/**/*.js" ])
+      .src(["./public/*.js", "!./public/assets/**/*", "./gulp/**/*.js"])
       .pipe(jshint(config))
       .pipe(jshint.reporter(stylish))
       .pipe(jshint.reporter("fail"));

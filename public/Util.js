@@ -8,8 +8,7 @@ module.exports = class Util {
 	 * Used to force showing the chrome dev tools for debugging
 	 */
   static showDevTools(window) {
-    if (!isDev)
-      return;
+    if (!isDev) return;
     window.openDevTools({ detach: true });
   }
 };

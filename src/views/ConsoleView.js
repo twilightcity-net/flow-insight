@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 /*
  * This View will contain logic to inject the various tabs of the
@@ -9,10 +9,7 @@ import React, { Component } from 'react';
  */
 
 export default class Console extends Component {
-  
   render() {
-    return (
-      <h1>console view</h1>
-    );
+    return <h1>console view</h1>;
   }
 }
