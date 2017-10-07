@@ -44,6 +44,7 @@
     "build": "react-scripts build",
     "prebundle": "yarn build",
     "bundle": "gulp browserify && gulp uglify",
+    "postbundle": "gulp clean",
     "prerelease": "yarn bundle",
     "release": "build --em.main=build/electron.bundle.min.js --publish=always",
     "prerelease:update:build:win": "yarn prerelease",
