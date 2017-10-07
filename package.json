@@ -40,17 +40,15 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "prebuild": "gulp lint",
-    "build": "react-scripts build",
-    "bundle": "gulp bundle",
-    "test": "react-scripts test --env=jsdom",
-    "predev": "gulp prettier",
     "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
-    "prerelease": "yarn build",
+    "test": "react-scripts test --env=jsdom",
+    "prebuild": "gulp prettier lint",
+    "build": "react-scripts build",
+    "prerelease": "yarn build && gulp bundle",
     "release": "build --em.main=build/electron.bundle.js --publish=always",
-    "release:update:win": ".\\tasks\\update-dist.bat",
     "prerelease:update:build:win": "yarn build",
-    "release:update:build:win": ".\\tasks\\update-dist.bat"
+    "release:update:build:win": ".\\tasks\\update-dist.bat",
+    "release:update:win": ".\\tasks\\update-dist.bat"
   },
   "dependencies": {
     "electron-is-dev": "^0.3.0",

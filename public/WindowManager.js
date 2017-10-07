@@ -1,4 +1,4 @@
-const { BrowserWindow } = require("electron");
+const { app, BrowserWindow } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
 const Util = require("./Util");
@@ -46,7 +46,8 @@ module.exports = class WindowManager {
     if (isDev) {
       return "http://localhost:3000?" + viewName;
     }
-    return `file://${path.join(__dirname, "../build/index.html?" + viewName)}`;
+    let filePath = `${path.join(app.getAppPath(), __dirname, '/index.html?' + viewName)}`;
+    return "file://" + filePath;
   }
 
   /*

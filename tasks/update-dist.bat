@@ -50,7 +50,6 @@ GOTO PACK_ASAR
 :PACK_ASAR
 ECHO Packing %ASAR%...
 asar pack %ASAR_EXTRACTED_DIR% %ASAR_DIR% && ECHO Running MetaOS... && %DIST_DIR%\MetaOS.exe && GOTO END
-GOTO RUN_APP
 
 :END
 @ECHO on
