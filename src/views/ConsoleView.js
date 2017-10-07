@@ -9,10 +9,10 @@ import React, { Component } from 'react';
  */
 
 export default class Console extends Component {
-	
+  
   render() {
     return (
-    	<h1>View.Console.render()</h1>
+      <h1>console view</h1>
     );
   }
 }

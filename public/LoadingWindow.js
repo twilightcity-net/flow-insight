@@ -38,4 +38,4 @@ module.exports = class LoadingWindow {
     // dont show a menu
     this.window.setMenu(null);
 	}
-}
+};
