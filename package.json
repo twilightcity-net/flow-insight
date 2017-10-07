@@ -15,26 +15,6 @@
     "type": "git",
     "url": "https://github.com/torchie-love/MetaOS-desktop-release.git"
   },
-  "build": {
-    "appId": "org.openmastery.metaos.desktop",
-    "files": ["build/**/*", "package.json"],
-    "directories": {
-      "buildResources": "resources"
-    },
-    "win": {
-      "target": "nsis"
-    },
-    "nsis": {
-      "perMachine": true,
-      "artifactName": "${productName}-Setup-${version}.${ext}",
-      "uninstallDisplayName": "${productName}",
-      "differentialPackage": true,
-      "warningsAsErrors": true
-    },
-    "publish": {
-      "provider": "github"
-    }
-  },
   "scripts": {
     "stage": "gulp prettier lint && git add .",
     "start": "react-scripts start",
@@ -46,7 +26,7 @@
     "bundle": "gulp browserify && gulp uglify",
     "postbundle": "gulp clean",
     "prerelease": "yarn bundle",
-    "release": "build --em.main=build/electron.bundle.min.js --publish=always",
+    "release": "build --em.main=build/org.openmastery.metaos.dat --publish=always",
     "prerelease:update:build:win": "yarn prerelease",
     "release:update:build:win": ".\\tasks\\update-dist.bat",
     "release:update:win": ".\\tasks\\update-dist.bat"
@@ -68,8 +48,10 @@
     "cross-env": "^5.0.1",
     "electron": "^1.6.10",
     "electron-builder": "^19.8.0",
+    "gnirts": "^1.1.3",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
+    "gulp-gnirts": "^1.0.3",
     "gulp-jshint": "^2.0.4",
     "gulp-prettier-plugin": "^1.0.1",
     "gulp-rename": "^1.2.2",
@@ -151,5 +133,25 @@
     "nameCache": null,
     "ie8": false,
     "warnings": true
+  },
+  "build": {
+    "appId": "org.openmastery.metaos.desktop",
+    "files": ["build/**/*", "package.json"],
+    "directories": {
+      "buildResources": "resources"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "nsis": {
+      "perMachine": true,
+      "artifactName": "${productName}-Setup-${version}.${ext}",
+      "uninstallDisplayName": "${productName}",
+      "differentialPackage": true,
+      "warningsAsErrors": true
+    },
+    "publish": {
+      "provider": "github"
+    }
   }
 }

@@ -9,7 +9,7 @@ module.exports = function() {
           "build/*.js",
           "!build/assets/**/*",
           "!build/static/**/*",
-          "!build/**/*.min.js"
+          "!build/**/*.dat"
         ],
         { read: false }
       )
