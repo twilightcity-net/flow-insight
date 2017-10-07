@@ -17,10 +17,7 @@
   },
   "build": {
     "appId": "org.openmastery.metaos.desktop",
-    "files": [
-      "build/**/*",
-      "package.json"
-    ],
+    "files": ["build/**/*", "package.json"],
     "directories": {
       "buildResources": "resources"
     },
@@ -39,14 +36,17 @@
     }
   },
   "scripts": {
+    "stage": "gulp prettier lint && git add .",
     "start": "react-scripts start",
     "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "test": "react-scripts test --env=jsdom",
     "prebuild": "gulp prettier lint",
     "build": "react-scripts build",
-    "prerelease": "yarn build && gulp browserify uglify",
+    "prebundle": "yarn build",
+    "bundle": "gulp browserify && gulp uglify",
+    "prerelease": "yarn bundle",
     "release": "build --em.main=build/electron.bundle.min.js --publish=always",
-    "prerelease:update:build:win": "yarn build",
+    "prerelease:update:build:win": "yarn prerelease",
     "release:update:build:win": ".\\tasks\\update-dist.bat",
     "release:update:win": ".\\tasks\\update-dist.bat"
   },
@@ -84,7 +84,8 @@
     "wait-on": "^2.0.2"
   },
   "jshint": {
-    "esversion": 6
+    "esversion": 6,
+    "lookup": false
   },
   "prettier": {
     "configJS": {
@@ -100,15 +101,54 @@
     }
   },
   "browserify": {
-      "entries": "build/electron.js",
-      "builtins": false,
-      "browserField": false,
-      "commondir": true,
-      "ignoreMissing": true,
-      "insertGlobalVars": "global",
-      "bundleExternal": false
+    "entries": "build/electron.js",
+    "builtins": false,
+    "browserField": false,
+    "commondir": true,
+    "ignoreMissing": true,
+    "insertGlobalVars": "global",
+    "bundleExternal": false
+  },
+  "uglify": {
+    "parse": {
+      "html5_comments": false,
+      "shebang": false
     },
-    "uglify": {
-
-    }
+    "compress": {
+      "dead_code": true,
+      "drop_debugger": true,
+      "booleans": true,
+      "loops": true,
+      "unused": true,
+      "toplevel": true,
+      "top_retain": true,
+      "hoist_vars": true,
+      "if_return": true,
+      "inline": true,
+      "join_vars": true,
+      "reduce_vars": true,
+      "cascade": true,
+      "warnings": true,
+      "drop_console": true,
+      "passes": 1,
+      "ecma": 6
+    },
+    "mangle": {
+      "toplevel": true,
+      "eval": true
+    },
+    "output": {
+      "preamble": "/* © 2017 // OpenMastery.org // MetaOS // Author : 1-14x0r */",
+      "bracketize": true,
+      "ecma": 6,
+      "indent_level": 0,
+      "max_line_len": false,
+      "preserve_line": false,
+      "quote_keys": false
+    },
+    "ecma": 6,
+    "nameCache": null,
+    "ie8": false,
+    "warnings": true
+  }
 }

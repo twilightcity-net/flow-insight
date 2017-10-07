@@ -7,8 +7,6 @@ const stylish = require("jshint-stylish");
 // TODO we should lint the src view files
 // TODO we should have a global lint functions for everything
 module.exports = function() {
-  config.lookup = false;
-
   return function() {
     var stream = gulp
       .src(["./public/*.js", "!./public/assets/**/*", "./gulp/**/*.js"])
