@@ -6,6 +6,7 @@ function getTask(name) {
 
 gulp.task("prettier", getTask("prettier"));
 gulp.task("lint", getTask("lint"));
-gulp.task("bundle", getTask("bundle"));
+gulp.task("browserify", getTask("browserify"));
+gulp.task("uglify", getTask("uglify"));
 
 gulp.task("default");

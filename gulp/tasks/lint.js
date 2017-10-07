@@ -1,6 +1,6 @@
 const gulp = require("gulp");
 const pkg = require("../../package");
-const config = pkg.jshintConfig;
+const config = pkg.jshint;
 const jshint = require("gulp-jshint");
 const stylish = require("jshint-stylish");
 
