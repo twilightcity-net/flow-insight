@@ -1,9 +1,9 @@
 const { BrowserWindow } = require('electron');
 const path = require('path');
 const isDev = require('electron-is-dev');
-const Util = require('../src/Util');
-const ViewManagerHelper = require('../src/ViewManagerHelper');
-const LoadingWindow = require('../src/windows/LoadingWindow');
+const Util = require('./Util');
+const ViewManagerHelper = require('./ViewManagerHelper');
+const LoadingWindow = require('./LoadingWindow');
 
 /*
  * An array containing all of our global windows the app uses
@@ -64,7 +64,7 @@ module.exports = class WindowManager {
 	  	this.openWindow(window);
 	  });
 	  window.window.on('closed', () => {
-	  	this.closeWindow(window, true);
+	  	this.destroyWindow(window);
 	  });
 	}
 
@@ -94,10 +94,10 @@ module.exports = class WindowManager {
 	 * is needed so that we do not leak memory or waste local resources.
 	 */
 
-	static destroyWindow(name) {
+	static destroyWindow(window) {
 		Windows.forEach(function(item, index, array) {
-		  if (Windows[i].name == name) {
-	      return Windows.splice(index, 1);
+		  if (array[index].name == window.name) {
+	      return array.splice(index, 1);
 	    }
 		});
 		return null;

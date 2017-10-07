@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import ViewManagerHelper from './ViewManagerHelper';
 import LoadingView from './views/LoadingView';
 import ConsoleView from './views/ConsoleView';
 
@@ -12,13 +11,6 @@ import ConsoleView from './views/ConsoleView';
 
 export default class ViewManager extends Component {
 
-  /*
-   * Linking map from helper for consistency
-   */
-
-  static get ViewNames() {
-    return ViewManagerHelper.ViewNames;
-  }
   /*
    * When adding new views be sure to also update ViewManagerHelper
    * with the name of the view you wish to reference from main process

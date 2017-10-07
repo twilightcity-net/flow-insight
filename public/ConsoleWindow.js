@@ -1,6 +1,6 @@
 const { BrowserWindow } = require('electron');
 const isDev = require('electron-is-dev');
-const ViewManagerHelper = require('../ViewManagerHelper');
+const ViewManagerHelper = require('./ViewManagerHelper');
 const applicationIcon = assetsDirectory + '/icons/icon.ico';
 
 /*

@@ -13,8 +13,8 @@ const logger = require('electron-log');
  * Project Required Packages
  */
 
-const WindowManager = require('../src/WindowManager');
-const ViewManagerHelper = require('../src/ViewManagerHelper');
+const WindowManager = require('./WindowManager');
+const ViewManagerHelper = require('./ViewManagerHelper');
 
 /*
  * Global Constants
@@ -56,6 +56,7 @@ function onAppActivateCb() {
   // createWindow();
 }
 
+// FIXME dont think we want to do this, quit done from tray or app menu
 function onAppWindowAllCloseCb() {
   if (process.platform !== 'darwin') {
     app.quit();

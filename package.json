@@ -46,8 +46,9 @@
     "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "release": "build --em.main=build/electron.js --publish=always",
     "release:update:win": ".\\tasks\\update-dist.bat",
+    "release:update:build:win": ".\\tasks\\update-dist.bat",
     "prerelease": "yarn build",
-    "prerelease:update:win": "yarn build"
+    "prerelease:update:build:win": "yarn build"
   },
   "dependencies": {
     "electron-is-dev": "^0.3.0",
