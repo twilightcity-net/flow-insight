@@ -17,12 +17,11 @@ import {
  *    5> authenticate user API-Key if online
  */
 export default class Loading extends Component {
-
   /*
    * State is used to store the local data about the current view
    */
 
-	state = { 
+  state = {
     visible: true,
     header: {
       title: "Loading MetaOS",
@@ -30,60 +29,65 @@ export default class Loading extends Component {
       icon: "hand spock"
     },
     progress: {
-    	color: "violet",
-    	value: 0,
-    	total: 5,
-    	label: "Checking..." }
-    };
+      color: "violet",
+      value: 0,
+      total: 5,
+      label: "Checking..."
+    }
+  };
 
   /*
 
    * toggles the view state to trigger animation on icon
    */
 
-  onHideShow = () => this.setState({
-  	visible: !this.state.visible
-  });
+  onHideShow = () =>
+    this.setState({
+      visible: !this.state.visible
+    });
 
   /*
    * renders the view into our root element of our window
    */
-   
+
   render() {
-  	return (
-			<Segment basic>
+    return (
+      <Segment basic>
         <Header as="h4" floated="left">
           <Transition
-          	visible={this.state.visible}
-          	transitionOnMount
-          	animation="scale"
-          	duration={800}
-          	onHide={this.onHideShow}
-          	onShow={this.onHideShow}
-          >  <Icon
-            	size="big"
-            	circular
-            	inverted
-            	color="violet"
-            	 name={this.state.header.icon}
-          /></Transition>
+            visible={this.state.visible}
+            transitionOnMount
+            animation="scale"
+            duration={800}
+            onHide={this.onHideShow}
+            onShow={this.onHideShow}
+          >
+            {" "}
+            <Icon
+              size="big"
+              circular
+              inverted
+              color="violet"
+              name={this.state.header.icon}
+            />
+          </Transition>
         </Header>
         <Header as="h3" floated="left">
           <Header.Content>
             {this.state.header.title}
-            <Header.Subheader>
-              {this.state.header.text}
-            </Header.Subheader>
+            <Header.Subheader>{this.state.header.text}</Header.Subheader>
           </Header.Content>
         </Header>
-        <Divider clearing/>
+        <Divider clearing />
         <Progress
-        	color={this.state.progress.color}
-        	value={this.state.progress.value}
-        	total={this.state.progress.total}
-        	progress="percent"
-        	active size="small">
-          {this.state.progress.label} 
+          color={this.state.progress.color}
+          value={this.state.progress.value}
+          total={this.state.progress.total}
+          progress="percent"
+          active
+          size="small"
+        >
+          {this.state.progress.label}
         </Progress>
       </Segment>
     );
