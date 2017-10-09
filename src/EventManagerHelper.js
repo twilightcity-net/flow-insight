@@ -1,5 +1,5 @@
-import { ipcRenderer, remote } from "electron";
-//const remote = window.require('electron').remote;
+const { ipcRenderer, remote } = window.require("electron");
+// const EventManager = remote.require("./EventManager");
 
 /*
  * This class is used as a helper class to store event names from 
@@ -23,28 +23,29 @@ export default class EventManagerHelper {
 
   static test() {
     console.log("test event manager helper");
-    var { ipcRenderer, remote } = require("electron");
-    var main = remote.require("./main.js");
 
-    // Send async message to main process
+    // // Send async message to main process
     ipcRenderer.send("async", 1);
 
-    // Listen for async-reply message from main process
-    ipcRenderer.on("async-reply", (event, arg) => {
-      // Print 2
-      console.log(arg);
-      // Send sync message to main process
-      let mainValue = ipcRenderer.sendSync("sync", 3);
-      // Print 4
-      console.log(mainValue);
-    });
+    // // Listen for async-reply message from main process
+    // ipcRenderer.on("async-reply", (event, arg) => {
+    //   // Print 2
+    //   console.log(arg);
+    //   // Send sync message to main process
+    //   let mainValue = ipcRenderer.sendSync("sync", 3);
+    //   // Print 4
+    //   console.log(mainValue);
+    // });
 
-    // Listen for main message
-    ipcRenderer.on("ping", (event, arg) => {
-      // Print 5
-      console.log(arg);
-      // Invoke method directly on main process
-      main.pong(6);
-    });
+    // // Listen for main message
+    // ipcRenderer.on("ping", (event, arg) => {
+    //   // Print 5
+    //   console.log(arg);
+    //   // Invoke method directly on main process
+    //   main.pong(6);
+    // });
   }
 }
+
+//+const remote = window.require('electron').remote;
+// +const appVersion = remote.app.getVersion();

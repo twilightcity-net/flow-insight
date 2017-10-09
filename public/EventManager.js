@@ -41,11 +41,9 @@ module.exports = class EventManager {
       // Send async message to renderer process
       mainWindow.webContents.send("ping", 5);
     });
+  }
 
-    // Make method externaly visible
-    exports.pong = arg => {
-      //Print 6
-      console.log(arg);
-    };
+  static pong(arg) {
+    console.log(arg);
   }
 };
