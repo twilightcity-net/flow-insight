@@ -1,9 +1,10 @@
-const {app, BrowserWindow} = require("electron");
+const { app } = require("electron");
 const path = require("path");
 const isDev = require("electron-is-dev");
-const Util = require("./Util");
 const ViewManagerHelper = require("./ViewManagerHelper");
 const LoadingWindow = require("./LoadingWindow");
+const BugReportWindow = require("./BugReportWindow");
+const ConsoleWindow = require("./ConsoleWindow");
 
 /*
  * An array containing all of our global windows the app uses
@@ -15,7 +16,7 @@ const Windows = [];
  * of our windows in our application. Windows are stored in an array
  * and are dynamically loaded.
  */
-class WindowManager {
+module.exports = class WindowManager {
     /*
          * static helper enum subclass to store window names
          */
@@ -140,6 +141,8 @@ class WindowManager {
                 return new LoadingWindow(this);
             case this.WindowNames.CONSOLE:
                 return new ConsoleWindow(this);
+            case this.WindowNames.BUGREPORT:
+                return new BugReportWindow(this);
             default:
                 return null;
         }
@@ -163,16 +166,5 @@ class WindowManager {
         const name = this.WindowNames.BUGREPORT;
         this.createWindow(name);
     }
-
-    static openBugReportWindow() {
-        const name = this.WindowNames.BUGREPORT;
-        this.openWindow(WindowManager.getWindow(name));
-    }
 }
 
-module.exports = {
-    WindowManager: WindowManager,
-    Windows: Windows,
-    openBugReportWindow: WindowManager.openBugReportWindow,
-    createWindowBugReport: WindowManager.createWindowBugReport
-};

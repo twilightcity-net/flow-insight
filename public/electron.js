@@ -41,7 +41,6 @@ function onAppReadyCb() {
   app.setName("MetaOS");
   // createTray();
   createMenu();
-  WindowManager.createWindowBugReport();
   // initAutoUpdate();
 }
 
@@ -108,7 +107,7 @@ function createMenu() {
           {
             label: "Report bug",
             click() {
-              WindowManager.openBugReportWindow();
+                WindowManager.createWindowBugReport();
             }
           }
         ]
@@ -163,7 +162,7 @@ function createMenu() {
           {
             label: "Report bug",
             click() {
-              WindowManager.openBugReportWindow();
+                WindowManager.createWindowBugReport();
             }
           }
         ]
