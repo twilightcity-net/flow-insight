@@ -12,6 +12,7 @@ const logger = require("electron-log");
 /*
  * Project Required Packages
  */
+const EventManager = require("./EventManager");
 const WindowManager = require("./WindowManager");
 const ViewManagerHelper = require("./ViewManagerHelper");
 
@@ -30,7 +31,7 @@ let tray;
 /*
  * Application Events
  */
-// TODO move to its own App Class, and call one function to start
+// TODO move to its own app Class, and call one function to start
 app.on("ready", onAppReadyCb);
 app.on("activate", onAppActivateCb);
 //macOS
@@ -42,6 +43,7 @@ app.on("window-all-closed", onAppWindowAllCloseCb);
 function onAppReadyCb() {
   // createTray();
   WindowManager.createWindowLoading();
+  EventManager.test();
   // initAutoUpdate();
 }
 

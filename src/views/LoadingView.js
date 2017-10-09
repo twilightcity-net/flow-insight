@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import EventManagerHelper from "../EventManagerHelper";
 import {
   Divider,
   Transition,
@@ -16,7 +17,7 @@ import {
  *    4> read user configuration
  *    5> authenticate user API-Key if online
  */
-export default class Loading extends Component {
+export default class LoadingView extends Component {
   /*
    * State is used to store the local data about the current view
    */
@@ -34,6 +35,38 @@ export default class Loading extends Component {
    * toggles the view state to trigger animation on icon
    */
   onHideShow = () => this.setState({ visible: !this.state.visible });
+
+  constructor(props) {
+    super(props);
+    console.log("component instantiated");
+    // STUB
+  }
+
+  /*
+   * An update can be caused by changes to props or state. These methods are 
+   * called when a component is being re-rendered:
+   *
+   * componentWillReceiveProps()
+   * shouldComponentUpdate()
+   * componentWillUpdate()
+   * render()
+   * componentDidUpdate()
+   */
+  componentWillMount() {
+    console.log("component will mount");
+    // STUB
+  }
+
+  componentDidMount() {
+    console.log("component did mount");
+    EventManagerHelper.test();
+    // STUB
+  }
+
+  componentWillUnmount() {
+    console.log("component did unmount");
+    // STUB
+  }
 
   /*
    * renders the view into our root element of our window

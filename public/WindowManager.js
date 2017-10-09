@@ -8,11 +8,11 @@ const LoadingWindow = require("./LoadingWindow");
 /*
  * An array containing all of our global windows the app uses
  */
-module.exports = Windows = [];
+module.exports = windows = [];
 
 /*
  * This class is used to manage the view, state, and display of each
- * of our windows in our application. Windows are stored in an array
+ * of our windows in our application. windows are stored in an array
  * and are dynamically loaded.
  */
 module.exports = class WindowManager {
@@ -31,9 +31,9 @@ module.exports = class WindowManager {
 	 * Gets the window from the global array of windows
 	 */
   static getWindow(name) {
-    Windows.forEach(function(item, index, array) {
-      if (Windows[i].name == name) {
-        return Windows[i];
+    windows.forEach(function(item, index, array) {
+      if (windows[i].name == name) {
+        return windows[i];
       }
     });
     return null;
@@ -73,6 +73,7 @@ module.exports = class WindowManager {
   static openWindow(window) {
     window.window.show();
     window.window.focus();
+    Util.showDevTools(window.window);
   }
 
   /*
@@ -91,9 +92,9 @@ module.exports = class WindowManager {
 	 * is needed so that we do not leak memory or waste local resources.
 	 */
   static destroyWindow(window) {
-    for (var i = Windows.length - 1; i >= 0; i--) {
-      if (Windows[i].name == window.name) {
-        return Windows.splice(i, 1);
+    for (var i = windows.length - 1; i >= 0; i--) {
+      if (windows[i].name == window.name) {
+        return windows.splice(i, 1);
       }
     }
     return null;
@@ -110,7 +111,7 @@ module.exports = class WindowManager {
       window = this.getWindowClassFromName(name);
     }
     this.loadWindow(window);
-    Windows.push(window);
+    windows.push(window);
   }
 
   /*

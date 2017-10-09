@@ -16,7 +16,8 @@
     "url": "https://github.com/torchie-love/MetaOS-desktop-release.git"
   },
   "scripts": {
-    "stage": "gulp prettier lint && git add .",
+    "prestage": "gulp prettier lint",
+    "stage": "git add .",
     "start": "react-scripts start",
     "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "test": "react-scripts test --env=jsdom",
