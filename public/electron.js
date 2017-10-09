@@ -14,6 +14,7 @@ const logger = require("electron-log");
  */
 const WindowManager = require("./WindowManager");
 const ViewManagerHelper = require("./ViewManagerHelper");
+const SlackManager = require("./SlackManager");
 
 /*
  * Global Constants
@@ -41,7 +42,8 @@ app.on("window-all-closed", onAppWindowAllCloseCb);
  */
 function onAppReadyCb() {
   // createTray();
-  WindowManager.createWindowLoading();
+  SlackManager.test();
+  // WindowManager.createWindowLoading();
   // initAutoUpdate();
 }
 
