@@ -1,7 +1,8 @@
 /*eslint no-console: ["error", { allow: ["warn", "error"] }] */
 
-import React, { Component } from "react";
-import { Button, Form, Segment } from "semantic-ui-react";
+import React, { Component } from 'react';
+import { Button, Label, Segment } from 'semantic-ui-react';
+import { Form, Input, TextArea } from 'formsy-semantic-ui-react';
 
 /*
  * This View will contain logic to inject the various tabs of the
@@ -13,8 +14,8 @@ import { Button, Form, Segment } from "semantic-ui-react";
 
 export default class BugReport extends Component {
     state = {
-        issueDescription: "",
-        email: ""
+        issueDescription: '',
+        email: ''
     };
 
     handleDescriptionChange = event => {
@@ -38,20 +39,27 @@ export default class BugReport extends Component {
     };
 
     render() {
+        const errorLabel = <Label color="red" pointing/>
         return (
             <Segment basic>
                 <Form>
                     <Form.Field>
-                        <label>Issue description</label>
-                        <textarea
+                        <Label>Issue description</Label>
+                        <TextArea
                             placeholder="...description..."
+                            name="description"
                             value={this.state.issueDescription}
                             onChange={this.handleDescriptionChange}
                         />
                     </Form.Field>
                     <Form.Field>
-                        <label>Email address</label>
-                        <input value={this.state.email} onChange={this.handleEmailChange}/>
+                        <Label>Email address</Label>
+                        <Input value={this.state.email}
+                               name="email"
+                               onChange={this.handleEmailChange}
+                               validations="isEmail"
+                               validationErrors={{ isEmail: 'Invalid email' }}
+                               errorLabel={ errorLabel }/>
                     </Form.Field>
                     <Button type="submit" onClick={this.submit}>
                         Submit
