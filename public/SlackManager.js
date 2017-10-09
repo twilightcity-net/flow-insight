@@ -1,5 +1,7 @@
 const Util = require("./Util");
 const IncomingWebhook = require("@slack/client").IncomingWebhook;
+const Notifier = require("node-notifier");
+const Logger = require("electron-log");
 
 /*
  * This is a high level management class for Slack Integration. This
@@ -7,31 +9,65 @@ const IncomingWebhook = require("@slack/client").IncomingWebhook;
  */
 
 module.exports = class SlackManager {
-  static test() {
-    console.log("testing SlackManager");
-    let url = this.getWebhookURL();
-    console.log("slack webhook -> " + url);
+  /*
+   * called to initialize the manager
+   */
+  static init() {
+    this.logger = Logger;
+    this.logger.transports.file.level = "info";
+
+    // some test stuff
+    this.sendBuggeryMessage(
+      "I'm Mr. Meeseeks, look at me!!!",
+      this.buggeryMessageCb
+    );
+  }
+
+  /*
+   * Sends a message with @mr.meeseeks into #metaos_buggery
+   */
+  static sendBuggeryMessage(message, callback) {
+    let url = this.getBuggeryURL();
     let webhook = new IncomingWebhook(url);
-    webhook.send("I'm Mr. Meeseeks, look at me!!!", function(
-      err,
-      header,
-      statusCode,
-      body
-    ) {
-      if (err) {
-        console.log("Error:", err);
-      } else {
-        console.log("Received", statusCode, "from Slack");
-      }
-    });
+    webhook.send(message, callback);
+  }
+
+  static buggeryMessageCb(err, header, statusCode, body) {
+    if (err) {
+      Notifier.notify(
+        {
+          title: "Bugged Out",
+          message: "Unable to send bug report : " + err
+        },
+        function(err, response) {
+          //TODO implement a fallback notification
+        }
+      );
+      SlackManager.logger.error(
+        "Unable to send bug report : " + response + " : " + err
+      );
+    } else {
+      console.log("Received", statusCode, "from Slack");
+      Notifier.notify(
+        {
+          title: "Bug Report Sent",
+          message:
+            "Your bug report been recieved by ninjas and wizards. We will contact you shortly!"
+        },
+        function(err, response) {
+          //TODO implement a fallback notification
+        }
+      );
+      SlackManager.logger.info("Sent Bug Report : " + body);
+    }
   }
 
   /*
    * Assembles the webhook tokens and service url for slack see :
    * https://api.slack.com/apps/A7EHS2P7S/incoming-webhooks?error=access_denied&state=
    */
-  static getWebhookURL() {
-    let tokens = [this.webhookTokens, this.urlTokens];
+  static getBuggeryURL() {
+    let tokens = [this.webhook, this.url];
     let tokenStr = "",
       urlStr = "";
     for (var i = 0; i < tokens[0].length; i++) {
@@ -46,14 +82,13 @@ module.exports = class SlackManager {
       else if (j === 1 || j === 2) urlStr += ".";
       else if (j === 3 || j === 4) urlStr += "/";
     }
-    console.log(urlStr);
     return urlStr + tokenStr;
   }
 
   /*
    * reads tokens into an array
    */
-  static get webhookTokens() {
+  static get webhook() {
     let tokenArr = [
       Util.tokenI.reverse(),
       Util.tokenH.reverse(),
@@ -68,7 +103,7 @@ module.exports = class SlackManager {
   /*
    * creates url tokens into an array
    */
-  static get urlTokens() {
+  static get url() {
     let urlArr = [
       Util.tokenA,
       Util.tokenB,

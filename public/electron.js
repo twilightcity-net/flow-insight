@@ -42,8 +42,8 @@ app.on("window-all-closed", onAppWindowAllCloseCb);
  */
 function onAppReadyCb() {
   // createTray();
-  SlackManager.test();
-  // WindowManager.createWindowLoading();
+  SlackManager.init();
+  WindowManager.createWindowLoading();
   // initAutoUpdate();
 }
 
