@@ -44,8 +44,4 @@ module.exports = class EventManager {
       // mainWindow.webContents.send("ping", 5);
     });
   }
-
-  static pong(arg) {
-    console.log(arg);
-  }
 };
