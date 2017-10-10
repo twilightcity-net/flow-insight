@@ -8,7 +8,7 @@ const LoadingWindow = require("./LoadingWindow");
 /*
  * An array containing all of our global windows the app uses
  */
-module.exports = windows = [];
+const windows = [];
 
 /*
  * This class is used to manage the view, state, and display of each

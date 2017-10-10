@@ -12,7 +12,7 @@ const log = require("electron-log");
 /*
  * Project Required Packages
  */
-const EventManager = require("./EventManager");
+const { EventManager } = require("./EventManager");
 const WindowManager = require("./WindowManager");
 const ViewManagerHelper = require("./ViewManagerHelper");
 

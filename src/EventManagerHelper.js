@@ -12,7 +12,7 @@ export default class EventManagerHelper {
   /*
    * static enum subclass to store event names
    */
-  static get EventNames() {
+  static get Events() {
     let prefix = "metaos-ipc-";
     return {
       ASYNC: prefix + "async",
@@ -22,13 +22,19 @@ export default class EventManagerHelper {
     };
   }
 
+  // TESTING LOGIC
   static test() {
-    console.log("test event manager helper");
-
     log.info("test event manager helper");
-    // EventManager.pong(6);
+  }
+}
 
-    // // Send async message to main process
+// should listen for new events that have been registered
+
+//+const remote = window.require('electron').remote;
+// +const appVersion = remote.app.getVersion();
+
+/*
+// // Send async message to main process
     ipcRenderer.send("async", 1);
 
     // Listen for async-reply message from main process
@@ -40,8 +46,5 @@ export default class EventManagerHelper {
       // Print 4
       console.log(mainValue);
     });
-  }
-}
 
-//+const remote = window.require('electron').remote;
-// +const appVersion = remote.app.getVersion();
+    */
