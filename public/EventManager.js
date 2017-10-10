@@ -21,10 +21,6 @@ class EventManager {
   static get Events() {
     let prefix = "metaos-ipc-";
     return {
-      ASYNC: prefix + "async",
-      SYNC: prefix + "sync",
-      ASYNC_REPLY: prefix + "async-reply",
-      PING: prefix + "ping",
       TEST_EVENT: prefix + "test-event"
     };
   }
@@ -33,40 +29,31 @@ class EventManager {
   static test() {
     log.info("EventManager : test()");
 
-    let testEventA = new MainEvent(
-      this.Events.TEST_EVENT,
-      true,
-      this,
-      function() {
-        log.info("test-eventA : callback -> hello from A");
-      }
-    );
-    let testEventB = new MainEvent(
-      this.Events.TEST_EVENT,
-      true,
-      this,
-      function() {
-        log.info("test-eventB : callback -> hello from B");
-      }
-    );
-    let testEventC = new MainEvent(
-      this.Events.TEST_EVENT,
-      true,
-      this,
-      function() {
-        log.info("test-eventB : callback -> hello from C");
-      }
-    );
+    let testEventA = new MainEvent(this.Events.TEST_EVENT, true, this, function(
+      event,
+      arg
+    ) {
+      log.info("test-eventA : callback -> hello from A : " + arg);
+    });
+    let testEventB = new MainEvent(this.Events.TEST_EVENT, true, this, function(
+      event,
+      arg
+    ) {
+      log.info("test-eventB : callback -> hello from B : " + arg);
+    });
+    let testEventC = new MainEvent(this.Events.TEST_EVENT, true, this, function(
+      event,
+      arg
+    ) {
+      log.info("test-eventB : callback -> hello from C : " + arg);
+    });
 
     this.registerEvent(testEventA);
     this.registerEvent(testEventB);
     this.registerEvent(testEventC);
     this.unregisterEvent(testEventB);
 
-    //testing
-    testEventA.dispatch();
-    testEventB.dispatch();
-    testEventC.dispatch();
+    this.dispatch(this.Events.TEST_EVENT, 1);
   }
 
   /*
@@ -78,6 +65,12 @@ class EventManager {
   static registerEvent(event) {
     log.info("register event : " + event.type);
     events.push(event);
+    let listener = (_event, arg) => {
+      log.info("recieved event : " + event.type + " -> " + arg);
+      event.executeCb(_event, args);
+    };
+    event.listener = listener;
+    ipcMain.on(event.type, event.listener);
   }
 
   /*
@@ -91,7 +84,28 @@ class EventManager {
     log.info("unregister event : " + event.type + " @ [" + index + "]");
     events.splice(index, 1);
     event.active = false;
+    ipcMain.removeListener(event.type, event.listener);
     return event;
+  }
+
+  /*
+   * called to execute the event callback within main process threads
+   */
+  static dispatch(eventType, arg) {
+    log.info("dispatch event : " + eventType);
+    for (var i = 0; i < events.length; i++) {
+      if (events[i].type === eventType) {
+        log.info("found event to execute : " + eventType);
+        let event = {
+          sender: {
+            send: function(_eventType, _arg) {
+              this.dispatch(_eventType, _arg);
+            }
+          }
+        };
+        events[i].executeCb(event, arg);
+      }
+    }
   }
 }
 
@@ -116,24 +130,19 @@ class MainEvent {
 
   /*
    * called by the dispatch function of the Manager
+   * arg: data object sent from the caller
+   * event: the caller of this event callback , can send reply
+   *        event.sender.send(Event.Type, arg);
    */
   // TODO implement try catch for exception handling
-  execute() {
+  executeCb(event, arg) {
     if (this.active) {
-      log.info("execute callback : " + this.type);
-      this.callback();
+      log.info("execute callback : " + this.type + " -> " + arg);
+      this.callback(event, arg);
       return true;
     }
     log.info("callback inactive : " + this.type);
     return false;
-  }
-
-  /*
-   * called by the manager to execute the event callback
-   */
-  dispatch() {
-    log.info("dispatch event : " + this.type);
-    this.execute();
   }
 }
 
