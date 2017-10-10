@@ -53,7 +53,7 @@ class EventManager {
     this.registerEvent(testEventC);
     this.unregisterEvent(testEventB);
 
-    this.dispatch(this.Events.TEST_EVENT, 1);
+    this.dispatch(this.Events.TEST_EVENT, 1); // between main processes
   }
 
   /*
@@ -91,6 +91,7 @@ class EventManager {
   /*
    * called to execute the event callback within main process threads
    */
+  // TODO send message to all windows.. pass arg
   static dispatch(eventType, arg) {
     log.info("dispatch event : " + eventType);
     for (var i = 0; i < events.length; i++) {
@@ -135,6 +136,7 @@ class MainEvent {
    *        event.sender.send(Event.Type, arg);
    */
   // TODO implement try catch for exception handling
+  // TODO need to test reply call back functions: event.sender.send()
   executeCb(event, arg) {
     if (this.active) {
       log.info("execute callback : " + this.type + " -> " + arg);
@@ -148,23 +150,11 @@ class MainEvent {
 
 module.exports = { EventManager, MainEvent };
 
+// TODO extend dispatch() to send event to all windows
 /*
-    // Listen for async message from renderer process
-    ipcMain.on("async", (event, arg) => {
-      // Print 1
-      console.log(arg);
-      // Reply on async message from renderer process
-      event.sender.send("async-reply", 2);
-    });
-
-    // Listen for sync message from renderer process
-    ipcMain.on("sync", (event, arg) => {
-      // Print 3
-      console.log(arg);
-      // Send value synchronously back to renderer process
-      event.returnValue = 4;
-      // Send async message to renderer process
-      // mainWindow.webContents.send("ping", 5);
-    });
-
-  */
+  ipcMain.on("sync", (event, arg) => {
+    console.log(arg);
+    event.returnValue = 4; // Send value synchronously to renderer process
+    window[].webContents.send("ping", 5); // Send value async to renderer process
+  });
+*/
