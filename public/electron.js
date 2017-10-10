@@ -42,11 +42,12 @@ app.on("window-all-closed", onAppWindowAllCloseCb);
  */
 function onAppReadyCb() {
   initLogger();
-  // createTray();
   WindowManager.init();
   EventManager.init();
-  WindowManager.createWindowLoading();
   EventManager.test();
+  WindowManager.createWindowLoading();
+  // TODO need to refactor these into classes and change loading order
+  // createTray();
   // initAutoUpdate();
 }
 
