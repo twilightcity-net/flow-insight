@@ -7,7 +7,7 @@ const autoUpdater = require("electron-updater").autoUpdater;
 const path = require("path");
 const isDev = require("electron-is-dev");
 const notifier = require("node-notifier");
-const logger = require("electron-log");
+const log = require("electron-log");
 
 /*
  * Project Required Packages
@@ -41,6 +41,7 @@ app.on("window-all-closed", onAppWindowAllCloseCb);
  * Event Callback Functions
  */
 function onAppReadyCb() {
+  initLogger();
   // createTray();
   WindowManager.createWindowLoading();
   EventManager.test();
@@ -75,6 +76,19 @@ function createTray() {
 }
 
 /*
+ * configures our logging utility on startup
+ */
+function initLogger() {
+  let level = "info";
+  if (isDev) {
+    level = "debug";
+    log.transports.file.file = `${path.join(app.getAppPath() + "/debug.log")}`;
+  }
+  log.transports.file.level = level;
+  log.transports.console.level = level;
+}
+
+/*
  * setup auto-update and check for updates. Called from createWindow()
 */
 // TODO move to its own AppUpdater Class
@@ -90,30 +104,30 @@ function initAutoUpdate() {
   autoUpdater.autoDownload = false;
 
   // configure update logging to file
-  autoUpdater.logger = logger;
-  autoUpdater.logger.transports.file.level = "info";
+  autoUpdater.log = log;
+  autoUpdater.log.transports.file.level = "info";
 
   autoUpdater.on("checking-for-update", () => {
-    autoUpdater.logger.info("Checking for update...");
+    autoUpdater.log.info("Checking for update...");
   });
   autoUpdater.on("update-available", info => {
-    autoUpdater.logger.info("Update available.");
+    autoUpdater.log.info("Update available.");
   });
   autoUpdater.on("update-not-available", info => {
-    autoUpdater.logger.info("Update not available.");
+    autoUpdater.log.info("Update not available.");
   });
   autoUpdater.on("error", err => {
-    autoUpdater.logger.error("Error in auto-updater.");
+    autoUpdater.log.error("Error in auto-updater.");
   });
   autoUpdater.on("download-progress", progressObj => {
     let logMsg = "Download speed: " + progressObj.bytesPerSecond;
     logMsg = logMsg + " - Downloaded " + progressObj.percent + "%";
     logMsg =
       logMsg + " (" + progressObj.transferred + "/" + progressObj.total + ")";
-    autoUpdater.logger.info(logMsg);
+    autoUpdater.log.info(logMsg);
   });
   autoUpdater.on("update-downloaded", info => {
-    autoUpdater.logger.info("Update downloaded");
+    autoUpdater.log.info("Update downloaded");
   });
 
   // check for updates and notify if we have a new version

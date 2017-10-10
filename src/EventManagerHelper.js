@@ -1,4 +1,5 @@
 const { ipcRenderer, remote } = window.require("electron");
+const log = remote.require("electron-log");
 // const EventManager = remote.require("./EventManager");
 
 /*
@@ -24,8 +25,11 @@ export default class EventManagerHelper {
   static test() {
     console.log("test event manager helper");
 
+    log.info("test event manager helper");
+    // EventManager.pong(6);
+
     // // Send async message to main process
-    ipcRenderer.send("async", 1);
+    // ipcRenderer.send("async", 1);
 
     // // Listen for async-reply message from main process
     // ipcRenderer.on("async-reply", (event, arg) => {

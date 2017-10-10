@@ -1,4 +1,5 @@
-const { App, ipcMain } = require("electron");
+const { ipcMain } = require("electron");
+const log = require("electron-log");
 
 /*
  * This class is used to managed the ipc events within the main process.
@@ -22,7 +23,8 @@ module.exports = class EventManager {
   }
 
   static test() {
-    console.log("test event manager");
+    // console.log("test event manager");
+    log.info("test event manager");
 
     // Listen for async message from renderer process
     ipcMain.on("async", (event, arg) => {
@@ -39,7 +41,7 @@ module.exports = class EventManager {
       // Send value synchronously back to renderer process
       event.returnValue = 4;
       // Send async message to renderer process
-      mainWindow.webContents.send("ping", 5);
+      // mainWindow.webContents.send("ping", 5);
     });
   }
 
