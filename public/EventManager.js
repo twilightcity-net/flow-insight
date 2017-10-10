@@ -1,11 +1,5 @@
 const { ipcMain } = require("electron");
 const log = require("electron-log");
-
-/*
- * An array containing all of our global events that have been registered
- */
-const events = [];
-
 /*
  * This class is used to managed the ipc events within the main process.
  * the helper class in ./src/EventManagerHelp is used to help look up
@@ -14,11 +8,24 @@ const events = [];
  */
 class EventManager {
   /*
+   * Initialization method that creates an array to store events in
+   */
+  static init() {
+    this.events = [];
+  }
+
+  /*
+   * Static array containing all of our events the app uses
+   */
+  static get Events() {
+    return this.events;
+  }
+  /*
    * static enum subclass to store event names. These are basically the type
    * of possible events that can be dispatched by the Manager. When adding new 
    * events make sure to update this and ./src/EventManagerHelper 
    */
-  static get Events() {
+  static get EventTypes() {
     let prefix = "metaos-ipc-";
     return {
       TEST_EVENT: prefix + "test-event"
@@ -29,31 +36,37 @@ class EventManager {
   static test() {
     log.info("EventManager : test()");
 
-    let testEventA = new MainEvent(this.Events.TEST_EVENT, true, this, function(
-      event,
-      arg
-    ) {
-      log.info("test-eventA : callback -> hello from A : " + arg);
-    });
-    let testEventB = new MainEvent(this.Events.TEST_EVENT, true, this, function(
-      event,
-      arg
-    ) {
-      log.info("test-eventB : callback -> hello from B : " + arg);
-    });
-    let testEventC = new MainEvent(this.Events.TEST_EVENT, true, this, function(
-      event,
-      arg
-    ) {
-      log.info("test-eventB : callback -> hello from C : " + arg);
-    });
+    let testEventA = new MainEvent(
+      this.EventTypes.TEST_EVENT,
+      true,
+      this,
+      function(event, arg) {
+        log.info("test-eventA : callback -> hello from A : " + arg);
+      }
+    );
+    let testEventB = new MainEvent(
+      this.EventTypes.TEST_EVENT,
+      true,
+      this,
+      function(event, arg) {
+        log.info("test-eventB : callback -> hello from B : " + arg);
+      }
+    );
+    let testEventC = new MainEvent(
+      this.EventTypes.TEST_EVENT,
+      true,
+      this,
+      function(event, arg) {
+        log.info("test-eventB : callback -> hello from C : " + arg);
+      }
+    );
 
     this.registerEvent(testEventA);
     this.registerEvent(testEventB);
     this.registerEvent(testEventC);
     this.unregisterEvent(testEventB);
 
-    this.dispatch(this.Events.TEST_EVENT, 1); // between main processes
+    this.dispatch(this.EventTypes.TEST_EVENT, 1); // between main processes
   }
 
   /*
@@ -64,7 +77,7 @@ class EventManager {
    */
   static registerEvent(event) {
     log.info("register event : " + event.type);
-    events.push(event);
+    this.events.push(event);
     let listener = (_event, arg) => {
       log.info("recieved event : " + event.type + " -> " + arg);
       event.executeCb(_event, args);
@@ -80,9 +93,9 @@ class EventManager {
    * the event.
    */
   static unregisterEvent(event) {
-    let index = events.indexOf(event);
+    let index = this.events.indexOf(event);
     log.info("unregister event : " + event.type + " @ [" + index + "]");
-    events.splice(index, 1);
+    this.events.splice(index, 1);
     event.active = false;
     ipcMain.removeListener(event.type, event.listener);
     return event;
@@ -94,8 +107,8 @@ class EventManager {
   // TODO send message to all windows.. pass arg
   static dispatch(eventType, arg) {
     log.info("dispatch event : " + eventType);
-    for (var i = 0; i < events.length; i++) {
-      if (events[i].type === eventType) {
+    for (var i = 0; i < this.events.length; i++) {
+      if (this.events[i].type === eventType) {
         log.info("found event to execute : " + eventType);
         let event = {
           sender: {
@@ -104,7 +117,7 @@ class EventManager {
             }
           }
         };
-        events[i].executeCb(event, arg);
+        this.events[i].executeCb(event, arg);
       }
     }
   }

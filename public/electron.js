@@ -32,9 +32,9 @@ let tray;
  * Application Events
  */
 // TODO move to its own app Class, and call one function to start
+// TODO implement https://electron.atom.io/docs/all/#appmakesingleinstancecallback
 app.on("ready", onAppReadyCb);
-app.on("activate", onAppActivateCb);
-//macOS
+app.on("activate", onAppActivateCb); // macOS
 app.on("window-all-closed", onAppWindowAllCloseCb);
 
 /*
@@ -43,6 +43,8 @@ app.on("window-all-closed", onAppWindowAllCloseCb);
 function onAppReadyCb() {
   initLogger();
   // createTray();
+  WindowManager.init();
+  EventManager.init();
   WindowManager.createWindowLoading();
   EventManager.test();
   // initAutoUpdate();
@@ -90,6 +92,7 @@ function initLogger() {
 
 /*
  * setup auto-update and check for updates. Called from createWindow()
+ * see -> https://electron.atom.io/docs/all/#apprelaunchoptions
 */
 // TODO move to its own AppUpdater Class
 function initAutoUpdate() {

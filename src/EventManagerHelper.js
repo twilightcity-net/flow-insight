@@ -12,13 +12,10 @@ export default class EventManagerHelper {
   /*
    * static enum subclass to store event names
    */
-  static get Events() {
+  static get EventTypes() {
     let prefix = "metaos-ipc-";
     return {
-      ASYNC: prefix + "async",
-      SYNC: prefix + "sync",
-      ASYNC_REPLY: prefix + "async-reply",
-      PING: prefix + "ping"
+      TEST_EVENT: prefix + "test-event"
     };
   }
 
