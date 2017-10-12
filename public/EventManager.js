@@ -1,6 +1,6 @@
 const { ipcMain } = require("electron"),
-  log = require("electron-log");
-// WindowManager = require("./WindowManager");
+  log = require("electron-log"),
+  WindowManager = require("./WindowManager");
 /*
  * This class is used to managed the ipc events within the main process.
  * the helper class in ./src/EventManagerHelp is used to help look up
@@ -108,6 +108,10 @@ class EventManager {
         }
       }
     }
+  }
+
+  static dispatchMainEvents() {
+    
   }
 }
 
