@@ -1,31 +1,26 @@
 /*
  * Electron Node Required Packages
  */
-
-const { app, BrowserWindow, ipcMain, Tray } = require("electron");
-const autoUpdater = require("electron-updater").autoUpdater;
-const path = require("path");
-const isDev = require("electron-is-dev");
-const notifier = require("node-notifier");
-const log = require("electron-log");
+const { app, BrowserWindow, ipcMain, Tray } = require("electron"),
+  path = require("path"),
+  isDev = require("electron-is-dev"),
+  notifier = require("node-notifier"),
+  log = require("electron-log"),
+  autoUpdater = require("electron-updater").autoUpdater;
 
 /*
  * Project Required Packages
  */
-const {
-  EventManager,
-  MainEvent,
-  MainEventException
-} = require("./EventManager");
-const WindowManager = require("./WindowManager");
-const ViewManagerHelper = require("./ViewManagerHelper");
+const WindowManager = require("./WindowManager"),
+  ViewManagerHelper = require("./ViewManagerHelper"),
+  { EventManager, MainEvent, MainEventException } = require("./EventManager");
 
 /*
  * Global Constants
  */
-const assetsDirectory = path.join(__dirname, "assets");
-const applicationIcon = assetsDirectory + "/icons/icon.ico";
-const trayIcon = assetsDirectory + "/icons/icon.png";
+const assetsDirectory = path.join(__dirname, "assets"),
+  applicationIcon = assetsDirectory + "/icons/icon.ico",
+  trayIcon = assetsDirectory + "/icons/icon.png";
 
 /*
  * Global Objects
