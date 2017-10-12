@@ -36,27 +36,39 @@ class EventManager {
   static test() {
     log.info("EventManager : test()");
 
-    let testEventA = new MainEvent(this.EventTypes.TEST_EVENT, this, function(
-      event,
-      arg
-    ) {
-      log.info("test-eventA : callback -> hello from A : " + arg);
-      return arg;
-    });
-    let testEventB = new MainEvent(this.EventTypes.TEST_EVENT, this, function(
-      event,
-      arg
-    ) {
-      log.info("test-eventB : callback -> hello from B : " + arg);
-      return arg;
-    });
-    let testEventC = new MainEvent(this.EventTypes.TEST_EVENT, this, function(
-      event,
-      arg
-    ) {
-      log.info("test-eventB : callback -> hello from C : " + arg);
-      return arg;
-    });
+    let testEventA = new MainEvent(
+      this.EventTypes.TEST_EVENT,
+      this,
+      function(event, arg) {
+        log.info("test-eventA : callback -> hello from A : " + arg);
+        return arg;
+      },
+      null
+    );
+    let testEventB = new MainEvent(
+      this.EventTypes.TEST_EVENT,
+      this,
+      function(event, arg) {
+        log.info("test-eventB : callback -> hello from B : " + arg);
+        return arg;
+      },
+      function(event, arg) {
+        log.info("test-eventB : reply -> hello from B : " + arg);
+        return arg;
+      }
+    );
+    let testEventC = new MainEvent(
+      this.EventTypes.TEST_EVENT,
+      this,
+      function(event, arg) {
+        log.info("test-eventB : callback -> hello from C : " + arg);
+        return arg;
+      },
+      function(event, arg) {
+        log.info("test-eventC : reply -> hello from C : " + arg);
+        return arg;
+      }
+    );
 
     this.registerEvent(testEventA);
     this.registerEvent(testEventB);
@@ -78,10 +90,21 @@ class EventManager {
     mainEvent.listener = (event, arg) => {
       log.info("renderer event : " + mainEvent.type + " -> " + arg);
       event.returnValue = mainEvent.executeCb(event, arg);
-
-      // TODO implement sendBack => event.sender.send('async-reply', 2);
+      if (mainEvent.reply) {
+        log.info("reply event : " + mainEvent.type + "-reply -> " + arg);
+        event.sender.send(mainEvent.type + "-reply", event.returnValue);
+      }
     };
     ipcMain.on(mainEvent.type, mainEvent.listener);
+    if (mainEvent.reply) {
+      mainEvent.replyListener = (event, arg) => {
+        log.info(
+          "renderer reply event : " + mainEvent.type + "-reply -> " + arg
+        );
+        event.returnValue = mainEvent.executeReply(event, arg);
+      };
+      ipcMain.on(mainEvent.type + "-reply", mainEvent.replyListener);
+    }
   }
 
   /*
@@ -96,6 +119,12 @@ class EventManager {
     this.events.splice(index, 1);
     event.active = false;
     ipcMain.removeListener(event.type, event.listener);
+    if (event.reply) {
+      log.info(
+        "unregister reply event : " + event.type + "-reply @ [" + index + "]"
+      );
+      ipcMain.removeListener(event.type + "-reply", event.replyListener);
+    }
     return event;
   }
 
@@ -118,6 +147,9 @@ class EventManager {
           }
         };
         this.events[i].executeCb(event, arg);
+        // if(this.events[i].reply) {
+        //   log.info("found event to execute : " + eventType);
+        // }
       }
     }
   }
@@ -132,11 +164,12 @@ class MainEvent {
    * caller: parent object that created the event
    * callback: the function to dispatch
    */
-  constructor(eventType, caller, callback) {
+  constructor(eventType, caller, callback, reply) {
     log.info("create event : " + eventType);
     this.type = eventType;
     this.caller = caller;
     this.callback = callback;
+    this.reply = reply;
     this.active = true; //private
   }
 
@@ -152,6 +185,15 @@ class MainEvent {
       return this.callback(event, arg);
     }
     log.info("callback inactive : " + this.type);
+    return;
+  }
+
+  executeReply(event, arg) {
+    if (this.active) {
+      log.info("execute reply : " + this.type + "-reply -> " + arg);
+      return this.reply(event, arg);
+    }
+    log.info("reply inactive : " + this.type + "-reply");
     return;
   }
 }
