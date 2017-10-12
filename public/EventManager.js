@@ -32,52 +32,6 @@ class EventManager {
     };
   }
 
-  //TESTING LOGIC
-  static test() {
-    log.info("EventManager : test()");
-
-    let testEventA = new MainEvent(
-      this.EventTypes.TEST_EVENT,
-      this,
-      function(event, arg) {
-        log.info("test-eventA : callback -> hello from A : " + arg);
-        return arg;
-      },
-      null
-    );
-    let testEventB = new MainEvent(
-      this.EventTypes.TEST_EVENT,
-      this,
-      function(event, arg) {
-        log.info("test-eventB : callback -> hello from B : " + arg);
-        return arg;
-      },
-      function(event, arg) {
-        log.info("test-eventB : reply -> hello from B : " + arg);
-        return arg;
-      }
-    );
-    let testEventC = new MainEvent(
-      this.EventTypes.TEST_EVENT,
-      this,
-      function(event, arg) {
-        log.info("test-eventC : callback -> hello from C : " + arg);
-        return arg;
-      },
-      function(event, arg) {
-        log.info("test-eventC : reply -> hello from C : " + arg);
-        return arg;
-      }
-    );
-
-    this.registerEvent(testEventA);
-    this.registerEvent(testEventB);
-    this.registerEvent(testEventC);
-    this.unregisterEvent(testEventB);
-
-    this.dispatch(this.EventTypes.TEST_EVENT, 1); // between main processes
-  }
-
   /*
    * adds new event into a global array to manage. There can exist multiple
    * events of the same name, and even same functions. They are referenced 
@@ -226,7 +180,7 @@ class MainEvent {
 }
 
 /*
- * Generalized exception class to throw errors into
+ * Generalized exception class to throw errors for MainEvent's
  */
 class MainEventException {
   constructor(message) {

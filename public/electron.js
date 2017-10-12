@@ -12,7 +12,11 @@ const log = require("electron-log");
 /*
  * Project Required Packages
  */
-const { EventManager } = require("./EventManager");
+const {
+  EventManager,
+  MainEvent,
+  MainEventException
+} = require("./EventManager");
 const WindowManager = require("./WindowManager");
 const ViewManagerHelper = require("./ViewManagerHelper");
 
@@ -44,7 +48,7 @@ function onAppReadyCb() {
   initLogger();
   WindowManager.init();
   EventManager.init();
-  EventManager.test();
+  testEventManager();
   WindowManager.createWindowLoading();
   // TODO need to refactor these into classes and change loading order
   // createTray();
@@ -136,4 +140,50 @@ function initAutoUpdate() {
 
   // check for updates and notify if we have a new version
   autoUpdater.checkForUpdates();
+}
+
+//TESTING LOGIC
+function testEventManager() {
+  log.info("EventManager : test()");
+
+  let testEventA = new MainEvent(
+    EventManager.EventTypes.TEST_EVENT,
+    this,
+    function(event, arg) {
+      log.info("test-eventA : callback -> hello from A : " + arg);
+      return arg;
+    },
+    null
+  );
+  let testEventB = new MainEvent(
+    EventManager.EventTypes.TEST_EVENT,
+    this,
+    function(event, arg) {
+      log.info("test-eventB : callback -> hello from B : " + arg);
+      return arg;
+    },
+    function(event, arg) {
+      log.info("test-eventB : reply -> hello from B : " + arg);
+      return arg;
+    }
+  );
+  let testEventC = new MainEvent(
+    EventManager.EventTypes.TEST_EVENT,
+    this,
+    function(event, arg) {
+      log.info("test-eventC : callback -> hello from C : " + arg);
+      return arg;
+    },
+    function(event, arg) {
+      log.info("test-eventC : reply -> hello from C : " + arg);
+      return arg;
+    }
+  );
+
+  EventManager.registerEvent(testEventA);
+  EventManager.registerEvent(testEventB);
+  EventManager.registerEvent(testEventC);
+  EventManager.unregisterEvent(testEventB);
+
+  EventManager.dispatch(EventManager.EventTypes.TEST_EVENT, 1);
 }
