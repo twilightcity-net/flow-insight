@@ -61,7 +61,7 @@ class EventManager {
       this.EventTypes.TEST_EVENT,
       this,
       function(event, arg) {
-        log.info("test-eventB : callback -> hello from C : " + arg);
+        log.info("test-eventC : callback -> hello from C : " + arg);
         return arg;
       },
       function(event, arg) {
@@ -147,9 +147,10 @@ class EventManager {
           }
         };
         this.events[i].executeCb(event, arg);
-        // if(this.events[i].reply) {
-        //   log.info("found event to execute : " + eventType);
-        // }
+        if (this.events[i].reply) {
+          log.info("event has reply to execute : " + eventType + "-reply");
+          this.events[i].executeReply(event, arg);
+        }
       }
     }
   }
@@ -178,24 +179,64 @@ class MainEvent {
    * arg: data object sent from the caller
    * event: the caller of this event callback
    */
-  // TODO implement try catch for exception handling
   executeCb(event, arg) {
     if (this.active) {
       log.info("execute callback : " + this.type + " -> " + arg);
-      return this.callback(event, arg);
+      try {
+        return this.callback(event, arg);
+      } catch (e) {
+        if (e instanceof MainEventException) {
+          log.error(
+            "callback exception : " + this.type + " -> " + e.toString()
+          );
+          return e;
+        }
+        log.error("unknown callback exception: " + this.type + " -> " + e);
+        return e;
+      }
     }
     log.info("callback inactive : " + this.type);
     return;
   }
 
+  /*
+   * called automatically if a reply function is specified
+   * arg: data object sent from the caller
+   * event: the caller of this event callback
+   */
   executeReply(event, arg) {
     if (this.active) {
       log.info("execute reply : " + this.type + "-reply -> " + arg);
-      return this.reply(event, arg);
+      try {
+        return this.reply(event, arg);
+      } catch (e) {
+        if (e instanceof MainEventException) {
+          log.error(
+            "reply exception : " + this.type + "-reply -> " + e.toString()
+          );
+          return e;
+        }
+        log.error("unknown reply exception: " + this.type + " -> " + e);
+        return e;
+      }
     }
     log.info("reply inactive : " + this.type + "-reply");
     return;
   }
 }
 
-module.exports = { EventManager, MainEvent };
+/*
+ * Generalized exception class to throw errors into
+ */
+class MainEventException {
+  constructor(message) {
+    this.name = "MainEventException";
+    this.message = message;
+  }
+
+  toString() {
+    return "[ " + this.name + " :: " + this.message + " ]";
+  }
+}
+
+module.exports = { EventManager, MainEvent, MainEventException };
