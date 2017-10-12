@@ -36,30 +36,24 @@ class EventManager {
   static test() {
     log.info("EventManager : test()");
 
-    let testEventA = new MainEvent(
-      this.EventTypes.TEST_EVENT,
-      true,
-      this,
-      function(event, arg) {
-        log.info("test-eventA : callback -> hello from A : " + arg);
-      }
-    );
-    let testEventB = new MainEvent(
-      this.EventTypes.TEST_EVENT,
-      true,
-      this,
-      function(event, arg) {
-        log.info("test-eventB : callback -> hello from B : " + arg);
-      }
-    );
-    let testEventC = new MainEvent(
-      this.EventTypes.TEST_EVENT,
-      true,
-      this,
-      function(event, arg) {
-        log.info("test-eventB : callback -> hello from C : " + arg);
-      }
-    );
+    let testEventA = new MainEvent(this.EventTypes.TEST_EVENT, this, function(
+      event,
+      arg
+    ) {
+      log.info("test-eventA : callback -> hello from A : " + arg);
+    });
+    let testEventB = new MainEvent(this.EventTypes.TEST_EVENT, this, function(
+      event,
+      arg
+    ) {
+      log.info("test-eventB : callback -> hello from B : " + arg);
+    });
+    let testEventC = new MainEvent(this.EventTypes.TEST_EVENT, this, function(
+      event,
+      arg
+    ) {
+      log.info("test-eventB : callback -> hello from C : " + arg);
+    });
 
     this.registerEvent(testEventA);
     this.registerEvent(testEventB);
@@ -129,14 +123,12 @@ class EventManager {
 class MainEvent {
   /*
    * eventType: the name of the event to listen on
-   * isAsync: dispatch the event async
    * caller: parent object that created the event
    * callback: the function to dispatch
    */
-  constructor(eventType, isAsync, caller, callback) {
+  constructor(eventType, caller, callback) {
     log.info("create event : " + eventType);
     this.type = eventType;
-    this.async = isAsync;
     this.caller = caller;
     this.callback = callback;
     this.active = true; //private
