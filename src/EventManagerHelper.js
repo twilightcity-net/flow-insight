@@ -15,33 +15,21 @@ export default class EventManagerHelper {
   static get EventTypes() {
     let prefix = "metaos-ipc-";
     return {
-      TEST_EVENT: prefix + "test-event"
+      TEST_EVENT: prefix + "test"
     };
   }
 
   // TESTING LOGIC
   static test() {
     log.info("test event manager helper");
+    let returnValue = ipcRenderer.sendSync(this.EventTypes.TEST_EVENT, 1);
+    console.log("reply value -> " + returnValue);
   }
 }
 
-// should listen for new events that have been registered
-
-//+const remote = window.require('electron').remote;
-// +const appVersion = remote.app.getVersion();
-
 /*
-// // Send async message to main process
-    ipcRenderer.send("async", 1);
-
-    // Listen for async-reply message from main process
-    ipcRenderer.on("async-reply", (event, arg) => {
-      // Print 2
-      console.log(arg);
-      // Send sync message to main process
-      let mainValue = ipcRenderer.sendSync("sync", 3);
-      // Print 4
-      console.log(mainValue);
-    });
-
-    */
+  // Listen for async-reply message from main process
+  ipcRenderer.on("async-reply", (event, arg) => {
+    console.log(arg);
+  });
+*/

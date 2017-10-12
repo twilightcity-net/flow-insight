@@ -28,7 +28,7 @@ class EventManager {
   static get EventTypes() {
     let prefix = "metaos-ipc-";
     return {
-      TEST_EVENT: prefix + "test-event"
+      TEST_EVENT: prefix + "test"
     };
   }
 
@@ -41,18 +41,21 @@ class EventManager {
       arg
     ) {
       log.info("test-eventA : callback -> hello from A : " + arg);
+      return arg;
     });
     let testEventB = new MainEvent(this.EventTypes.TEST_EVENT, this, function(
       event,
       arg
     ) {
       log.info("test-eventB : callback -> hello from B : " + arg);
+      return arg;
     });
     let testEventC = new MainEvent(this.EventTypes.TEST_EVENT, this, function(
       event,
       arg
     ) {
       log.info("test-eventB : callback -> hello from C : " + arg);
+      return arg;
     });
 
     this.registerEvent(testEventA);
@@ -69,15 +72,16 @@ class EventManager {
    * with variable pointers. The event should be store as a variable in the 
    * caller class
    */
-  static registerEvent(event) {
-    log.info("register event : " + event.type);
-    this.events.push(event);
-    let listener = (_event, arg) => {
-      log.info("recieved event : " + event.type + " -> " + arg);
-      event.executeCb(_event, args);
+  static registerEvent(mainEvent) {
+    log.info("register event : " + mainEvent.type);
+    this.events.push(mainEvent);
+    mainEvent.listener = (event, arg) => {
+      log.info("renderer event : " + mainEvent.type + " -> " + arg);
+      event.returnValue = mainEvent.executeCb(event, arg);
+
+      // TODO implement sendBack => event.sender.send('async-reply', 2);
     };
-    event.listener = listener;
-    ipcMain.on(event.type, event.listener);
+    ipcMain.on(mainEvent.type, mainEvent.listener);
   }
 
   /*
@@ -99,6 +103,8 @@ class EventManager {
    * called to execute the event callback within main process threads
    */
   // TODO send message to all windows.. pass arg
+  // TODO extend dispatch() to send event to all windows
+  // window[].webContents.send("ping", 5); // Send value async to renderer process
   static dispatch(eventType, arg) {
     log.info("dispatch event : " + eventType);
     for (var i = 0; i < this.events.length; i++) {
@@ -137,29 +143,17 @@ class MainEvent {
   /*
    * called by the dispatch function of the Manager
    * arg: data object sent from the caller
-   * event: the caller of this event callback , can send reply
-   *        event.sender.send(Event.Type, arg);
+   * event: the caller of this event callback
    */
   // TODO implement try catch for exception handling
-  // TODO need to test reply call back functions: event.sender.send()
   executeCb(event, arg) {
     if (this.active) {
       log.info("execute callback : " + this.type + " -> " + arg);
-      this.callback(event, arg);
-      return true;
+      return this.callback(event, arg);
     }
     log.info("callback inactive : " + this.type);
-    return false;
+    return;
   }
 }
 
 module.exports = { EventManager, MainEvent };
-
-// TODO extend dispatch() to send event to all windows
-/*
-  ipcMain.on("sync", (event, arg) => {
-    console.log(arg);
-    event.returnValue = 4; // Send value synchronously to renderer process
-    window[].webContents.send("ping", 5); // Send value async to renderer process
-  });
-*/
