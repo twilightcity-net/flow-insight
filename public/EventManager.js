@@ -93,15 +93,11 @@ class EventManager {
     log.info("dispatch event : " + eventType);
     for (var i = 0; i < this.events.length; i++) {
       if (this.events[i].type === eventType) {
-        log.info("found event to execute : " + eventType);
-        let event = {
-          sender: {
-            send: function(_eventType, _arg) {
-              this.dispatch(_eventType, _arg);
-            }
-          }
-        };
-        this.events[i].executeCb(event, arg);
+        
+
+        let event = this.handleCallback(this.events[i], arg);
+
+
         if (this.events[i].reply) {
           log.info("event has reply to execute : " + eventType + "-reply");
           this.events[i].executeReply(event, arg);
@@ -110,8 +106,24 @@ class EventManager {
     }
   }
 
-  static dispatchMainEvents() {
-    
+  /*
+   * looks for events in MainEvents Array and executes their callback. Used 
+   * for inter main process communication
+   */
+  static handleCallback(event, arg) {
+    log.info("found event to execute : " + event.type);
+        let _event = {
+          sender: {
+            send: function(_eventType, _arg) {
+              this.dispatch(_eventType, _arg);
+            }
+          }
+        };
+        return event.executeCb(_event, arg);
+  }
+
+  static dispatchReply() {
+
   }
 }
 
