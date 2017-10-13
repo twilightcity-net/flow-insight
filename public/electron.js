@@ -41,6 +41,7 @@ function onAppReadyCb() {
   app.setName("MetaOS");
   // createTray();
   createMenu();
+  WindowManager.createWindowLoading();
   // initAutoUpdate();
 }
 
