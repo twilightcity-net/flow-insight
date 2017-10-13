@@ -4,15 +4,14 @@ const { applicationIcon } = require("./electron");
 const ViewManagerHelper = require("./ViewManagerHelper");
 
 /*
- * the main application window for UX. Suspose to slide in and out of 
- * the top of the screen with a global hot key
+ * Should display when the user select the Help menu's item for reporting bugs,
  */
-module.exports = class ConsoleWindow {
+module.exports = class BugReportWindow {
   constructor(WindowManager) {
     // window and view properties
     this.manager = WindowManager;
-    this.name = WindowManager.WindowNames.CONSOLE;
-    this.view = ViewManagerHelper.ViewNames.CONSOLE;
+    this.name = WindowManager.WindowNames.BUGREPORT;
+    this.view = ViewManagerHelper.ViewNames.BUGREPORT;
     this.url = WindowManager.getWindowViewURL(this.view);
 
     // the main window for view content
