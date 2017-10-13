@@ -30,9 +30,7 @@
     "publish": "build --em.main=build/org.openmastery.metaos.dat --publish=always",
     "prerelease:update:build:win": "yarn prerelease",
     "release:update:build:win": ".\\tasks\\update-dist.bat",
-    "release:update:win": ".\\tasks\\update-dist.bat",
-    "pack": "electron-builder --dir",
-    "dist": "electron-builder"
+    "release:update:win": ".\\tasks\\update-dist.bat"
   },
   "dependencies": {
     "electron-is-dev": "^0.3.0",
