@@ -63,7 +63,7 @@ class EventManager {
         log.info("reply event -> " + mainEvent.type + " : " + arg);
         event.sender.send(mainEvent.type + "-reply", event.returnValue);
       } catch (e) {
-        log.error(e.event + " -> " + e.toString() + "\n\n" + e.stack + "\n");
+        log.error(e.toString() + "\n\n" + e.stack + "\n");
         event.returnValue = e;
       }
     };
@@ -132,9 +132,7 @@ class EventManager {
     } else if (error instanceof EventReplyException) {
       event.setReplyReturnValue(error);
     }
-    log.error(
-      error.event + " -> " + error.toString() + "\n\n" + error.stack + "\n"
-    );
+    log.error(error.toString() + "\n\n" + error.stack + "\n");
   }
 }
 
@@ -242,6 +240,7 @@ class MainEvent {
 class EventException extends Error {
   constructor(event, ...args) {
     super(...args);
+    this.class = "Error";
     this.name = "EventException";
     this.event = event;
     this.msg = this.message;

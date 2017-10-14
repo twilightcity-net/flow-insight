@@ -1,6 +1,5 @@
 const { ipcRenderer, remote } = window.require("electron");
 const log = remote.require("electron-log");
-// const EventManager = remote.require("./EventManager");
 
 /*
  * This class is used as a helper class to store event names from 
@@ -21,14 +20,58 @@ export default class EventManagerHelper {
 
   // TESTING LOGIC
   static test() {
-    log.info("test event manager helper");
-    let returnValue = ipcRenderer.sendSync(this.EventTypes.TEST_EVENT, 1);
-    console.log(returnValue);
+    console.log("test event manager helper");
 
-    //doesn't work right now
-    if (returnValue instanceof Error) {
-      console.log("we got an exception");
+    try {
+      let returnValue = ipcRenderer.sendSync(this.EventTypes.TEST_EVENT, 1);
+      this.checkReturnValueForError(returnValue);
+      console.log(returnValue);
+    } catch (error) {
+      log.error("[Renderer] " + error.toString() + "\n\n" + error.stack + "\n");
+      console.error(error.toString());
     }
+  }
+
+  static checkReturnValueForError(returnValue) {
+    if (!returnValue) {
+      throw new Error("Event returned null object");
+    }
+    if (returnValue.class === "Error") {
+      throw new EventException(returnValue);
+    }
+  }
+}
+
+export class EventException {
+  constructor(error) {
+    Error.captureStackTrace(this, EventException);
+    this.name = error.name;
+    this.date = new Date(error.date);
+    this.event = error.event;
+    this.message = error.msg;
+  }
+
+  /*
+   * returns the error in string format
+   */
+  toString() {
+    return (
+      "[ " +
+      this.name +
+      " :: " +
+      this.event +
+      " -> " +
+      this.message +
+      " @ " +
+      this.getDateTimeString() +
+      " ]"
+    );
+  }
+
+  getDateTimeString() {
+    return (
+      this.date.toLocaleTimeString() + " " + this.date.toLocaleDateString()
+    );
   }
 }
 
