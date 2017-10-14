@@ -44,6 +44,7 @@ class EventManager {
    */
   static registerEvent(mainEvent) {
     log.info("register event : " + mainEvent.type);
+    mainEvent.active = true;
     mainEvent = this.createListener(mainEvent);
     ipcMain.on(mainEvent.type, mainEvent.listener);
     log.info("store event : " + mainEvent.type);
@@ -159,6 +160,25 @@ class MainEvent {
     this.returnValues = this.initReturnValues();
     this.async = async;
     this.active = true; //private
+    EventManager.registerEvent(this);
+  }
+
+  /*
+   * removes the listeners and returns an empty object
+   */
+  destroy() {
+    let event = EventManager.unregisterEvent(this);
+    for (let property in event) {
+      delete event[property];
+    }
+    return null;
+  }
+
+  /*
+   * fires the event associated with the event's channel.
+   */
+  dispatch(arg) {
+    return EventManager.dispatch(this.type, arg);
   }
 
   /*

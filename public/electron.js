@@ -179,12 +179,8 @@ function testEventManager() {
     true
   );
 
-  // TODO move these into the constructor
-  EventManager.registerEvent(testEventA);
-  EventManager.registerEvent(testEventB);
-  EventManager.registerEvent(testEventC);
-  EventManager.unregisterEvent(testEventB);
+  testEventB = testEventB.destroy();
 
-  // TODO move this into the event class
-  EventManager.dispatch(EventManager.EventTypes.TEST_EVENT, 1);
+  testEventA.dispatch(1);
+  // EventManager.dispatch(EventManager.EventTypes.TEST_EVENT, 1);
 }
