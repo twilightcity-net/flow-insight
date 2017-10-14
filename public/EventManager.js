@@ -92,20 +92,22 @@ class EventManager {
   // window[].webContents.send("ping", 5); // Send value async to renderer process
   static dispatch(eventType, arg) {
     log.info("dispatch event : " + eventType);
-    let events = [],
-      event;
+    let events = [];
     for (var i = 0; i < this.events.length; i++) {
-      event = this.events[i];
-      if (event.type === eventType) {
-        event.initReturnValues();
-        event = this.handleCallback(event, arg);
-        if (event.reply) {
-          event = this.handleReply(event, arg);
-        }
-        events.push(event);
+      if (this.events[i].type === eventType) {
+        events.push(this.handleEvent(this.events[i], arg));
       }
     }
     return events;
+  }
+
+  static handleEvent(event, arg) {
+    event.initReturnValues();
+    event = this.handleCallback(event, arg);
+    if (event.reply) {
+      event = this.handleReply(event, arg);
+    }
+    return event;
   }
 
   /*
