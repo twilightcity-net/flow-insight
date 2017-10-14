@@ -22,27 +22,35 @@ export default class EventManagerHelper {
   static test() {
     console.log("test event manager helper");
 
+    let rendererEvent = new RendererEvent(
+      EventManagerHelper.EventTypes.TEST_EVENT,
+      this,
+      function(event, arg) {
+        log.info("[Renderer] test-eventD : callback -> hello from D : " + arg);
+        return arg;
+      }
+    );
+
     try {
-      let returnValue = ipcRenderer.sendSync(this.EventTypes.TEST_EVENT, 1);
-      this.checkReturnValueForError(returnValue);
-      console.log(returnValue);
+      rendererEvent = rendererEvent.dispatch(1);
+      console.log(rendererEvent);
     } catch (error) {
       log.error("[Renderer] " + error.toString() + "\n\n" + error.stack + "\n");
       console.error(error.toString());
     }
   }
 
-  static checkReturnValueForError(returnValue) {
-    if (!returnValue) {
+  static checkEventForError(event) {
+    if (!event.returnValue) {
       throw new Error("Event returned null object");
     }
-    if (returnValue.class === "Error") {
-      throw new EventException(returnValue);
+    if (event.returnValue.class === "Error") {
+      throw new EventException(event.returnValue);
     }
   }
 }
 
-export class EventException {
+class EventException {
   constructor(error) {
     Error.captureStackTrace(this, EventException);
     this.name = error.name;
@@ -72,6 +80,31 @@ export class EventException {
     return (
       this.date.toLocaleTimeString() + " " + this.date.toLocaleDateString()
     );
+  }
+}
+
+export class RendererEvent {
+  constructor(eventType, caller, callback) {
+    this.type = eventType;
+    this.caller = caller;
+    this.callback = callback;
+    this.returnValue = null;
+  }
+
+  dispatch(arg) {
+    log.info("[Renderer] dispatch event -> " + this.type + " : " + arg);
+    this.returnValue = null;
+    this.returnValue = ipcRenderer.sendSync(this.type, arg);
+
+    EventManagerHelper.checkEventForError(this);
+
+    if (this.callback) {
+      log.info(
+        "[Renderer] execute callback -> " + this.type + " : " + this.returnValue
+      );
+      this.returnValue = this.callback(this, this.returnValue);
+    }
+    return this;
   }
 }
 
