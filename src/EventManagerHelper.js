@@ -22,24 +22,27 @@ export default class EventManagerHelper {
   static test() {
     console.log("test event manager helper");
 
-    let rendererEvent = new RendererEvent(
+    let testEventD = new RendererEvent(
       EventManagerHelper.EventTypes.TEST_EVENT,
       this,
       function(event, arg) {
         log.info("[Renderer] test-eventD : callback -> hello from D : " + arg);
         return arg;
+      },
+      function(event, arg) {
+        log.info("[Renderer] test-eventD : reply -> hello from D : " + arg);
+        return arg;
       }
     );
 
-    try {
-      rendererEvent = rendererEvent.dispatch(1);
-      console.log(rendererEvent);
-    } catch (error) {
-      log.error("[Renderer] " + error.toString() + "\n\n" + error.stack + "\n");
-      console.error(error.toString());
-    }
+    console.log(testEventD.dispatch(1));
   }
 
+  /*
+   * checks the sync return value for an exception. Required becuase the IPC 
+   * transport uncasts the object type, and well having all classes of type
+   * object is fuckin' dumb stupid.
+   */
   static checkEventForError(event) {
     if (!event.returnValue) {
       throw new Error("Event returned null object");
@@ -50,6 +53,9 @@ export default class EventManagerHelper {
   }
 }
 
+/*
+ * generalize event exception class. others should extend this
+ */
 class EventException {
   constructor(error) {
     Error.captureStackTrace(this, EventException);
@@ -76,6 +82,9 @@ class EventException {
     );
   }
 
+  /*
+   * gets the localized date time string for error reporting
+   */
   getDateTimeString() {
     return (
       this.date.toLocaleTimeString() + " " + this.date.toLocaleDateString()
@@ -83,34 +92,57 @@ class EventException {
   }
 }
 
+/*
+ * events generated from the renderer. If there is an associated event in the main
+ * process, then those callbacks will be envoked. The MainEvent property, async,
+ * will fire a *-reply event back which is picked up by this classes reply function
+ */
 export class RendererEvent {
-  constructor(eventType, caller, callback) {
+  constructor(eventType, caller, callback, reply) {
     this.type = eventType;
     this.caller = caller;
     this.callback = callback;
+    this.reply = reply;
     this.returnValue = null;
+    this.replyReturnValue = null;
+    this.listenForReply(this);
   }
 
+  /*
+   * fires the an event on the associated channel with the event.
+   */
   dispatch(arg) {
     log.info("[Renderer] dispatch event -> " + this.type + " : " + arg);
     this.returnValue = null;
-    this.returnValue = ipcRenderer.sendSync(this.type, arg);
-
-    EventManagerHelper.checkEventForError(this);
-
-    if (this.callback) {
-      log.info(
-        "[Renderer] execute callback -> " + this.type + " : " + this.returnValue
-      );
-      this.returnValue = this.callback(this, this.returnValue);
+    try {
+      this.returnValue = ipcRenderer.sendSync(this.type, arg);
+      EventManagerHelper.checkEventForError(this);
+      if (this.callback) {
+        log.info(
+          "[Renderer] callback -> " + this.type + " : " + this.returnValue
+        );
+        this.returnValue = this.callback(this, this.returnValue);
+      }
+    } catch (error) {
+      this.returnValue = error;
+      log.error("[Renderer] " + error.toString() + "\n\n" + error.stack + "\n");
+      console.error(error.toString());
+    } finally {
+      return this;
     }
-    return this;
+  }
+
+  /*
+   * sets up listeners for reply events. If there are more then one main process
+   * events listening, then each one of those events will send an async reply, unless
+   * the async flag is set on the mainevent
+   */
+  listenForReply(event) {
+    if (!event.reply) return;
+    log.info("[Renderer] listening for reply -> " + this.type + "-reply");
+    ipcRenderer.on(this.type + "-reply", (_event, _arg) => {
+      log.info("[Renderer] reply -> " + event.type + "-reply : " + _arg);
+      event.replyReturnValue = event.reply(_event, _arg);
+    });
   }
 }
-
-/*
-  // Listen for async-reply message from main process
-  ipcRenderer.on("async-reply", (event, arg) => {
-    console.log(arg);
-  });
-*/

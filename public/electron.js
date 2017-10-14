@@ -175,13 +175,16 @@ function testEventManager() {
       log.info("test-eventC : reply -> hello from C : " + arg);
       // throw new Error("test reply error");
       return arg;
-    }
+    },
+    true
   );
 
+  // TODO move these into the constructor
   EventManager.registerEvent(testEventA);
   EventManager.registerEvent(testEventB);
   EventManager.registerEvent(testEventC);
   EventManager.unregisterEvent(testEventB);
 
+  // TODO move this into the event class
   EventManager.dispatch(EventManager.EventTypes.TEST_EVENT, 1);
 }

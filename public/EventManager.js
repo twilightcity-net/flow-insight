@@ -59,9 +59,12 @@ class EventManager {
     mainEvent.listener = (event, arg) => {
       log.info("renderer event : " + mainEvent.type + " -> " + arg);
       try {
-        event.returnValue = mainEvent.executeCb(event, arg);
-        log.info("reply event -> " + mainEvent.type + " : " + arg);
-        event.sender.send(mainEvent.type + "-reply", event.returnValue);
+        let value = mainEvent.executeCb(event, arg);
+        event.returnValue = value;
+        if (mainEvent.async) {
+          log.info("reply event -> " + mainEvent.type + " : " + value);
+          event.sender.send(mainEvent.type + "-reply", value);
+        }
       } catch (e) {
         log.error(e.toString() + "\n\n" + e.stack + "\n");
         event.returnValue = e;
@@ -144,8 +147,9 @@ class MainEvent {
    * eventType: the name of the event to listen on
    * caller: parent object that created the event
    * callback: the function to dispatch
+   * async: weather to send an async message back
    */
-  constructor(eventType, caller, callback, reply) {
+  constructor(eventType, caller, callback, reply, async) {
     log.info("create event : " + eventType);
     this.type = eventType;
     this.caller = caller;
@@ -153,6 +157,7 @@ class MainEvent {
     this.callback = callback;
     this.reply = reply;
     this.returnValues = this.initReturnValues();
+    this.async = async;
     this.active = true; //private
   }
 
