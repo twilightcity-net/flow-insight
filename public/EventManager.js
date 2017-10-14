@@ -101,6 +101,9 @@ class EventManager {
     return events;
   }
 
+  /*
+   * handles the event dispatching by envoking the callback and reply functions
+   */
   static handleEvent(event, arg) {
     event.initReturnValues();
     event = this.handleCallback(event, arg);
