@@ -133,6 +133,6 @@ export default class LoadingView extends Component {
       }
     );
 
-    console.log(testEventD.dispatch(1));
+    testEventD.dispatch(2);
   }
 }

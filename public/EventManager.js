@@ -92,19 +92,23 @@ class EventManager {
   /*
    * called to execute the event callback within main process threads
    */
-  // TODO send message to all windows.. pass arg
-  // TODO extend dispatch() to send event to all windows
-  // window[].webContents.send("ping", 5); // Send value async to renderer process
   static dispatch(eventType, arg) {
     log.info("dispatch event : " + eventType);
-    let events = [];
+    let returnedEvents = [];
     for (var i = 0; i < this.events.length; i++) {
       if (this.events[i].type === eventType) {
         log.info("found event : " + eventType);
-        events.push(this.handleEvent(this.events[i], arg));
+        returnedEvents.push(this.handleEvent(this.events[i], arg));
       }
     }
-    return events;
+    console.log(WindowManager);
+    if(WindowManager.Windows) {
+      for (var j = 0; j < WindowManager.Windows.length; j++) {
+        log.info("dispatch window event : " + eventType);
+        WindowManager.Windows[j].webContents.send(eventType, arg);
+      }
+    }
+    return returnedEvents;
   }
 
   /*

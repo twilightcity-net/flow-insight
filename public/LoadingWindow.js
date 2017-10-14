@@ -1,6 +1,8 @@
-const { BrowserWindow } = require("electron");
-const isDev = require("electron-is-dev");
-const ViewManagerHelper = require("./ViewManagerHelper");
+const { BrowserWindow } = require("electron"),
+  isDev = require("electron-is-dev"),
+  ViewManagerHelper = require("./ViewManagerHelper"),
+  log = require("electron-log"),
+  { EventManager, MainEvent, MainEventException } = require("./EventManager");
 
 /*
  * The Application loading window. Loads LoadingView class. This window
@@ -31,5 +33,23 @@ module.exports = class LoadingWindow {
 
     // dont show a menu
     this.window.setMenu(null);
+
+    let testEventE = new MainEvent(
+      EventManager.EventTypes.TEST_EVENT,
+      this,
+      function(event, arg) {
+        log.info("test-eventE : callback -> hello from E : " + arg);
+        // throw new Error("test callback error");
+        return arg;
+      },
+      function(event, arg) {
+        log.info("test-eventE : reply -> hello from E : " + arg);
+        // throw new Error("test reply error");
+        return arg;
+      },
+      true
+    );
+
+    testEventE.dispatch(3);
   }
 };

@@ -13,7 +13,7 @@ const { app, BrowserWindow, ipcMain, Tray } = require("electron"),
  */
 const WindowManager = require("./WindowManager"),
   ViewManagerHelper = require("./ViewManagerHelper"),
-  { EventManager, MainEvent, MainEventException } = require("./EventManager");
+  { EventManager, MainEvent } = require("./EventManager");
 
 /*
  * Global Constants
@@ -181,6 +181,12 @@ function testEventManager() {
 
   testEventB = testEventB.destroy();
 
-  testEventA.dispatch(1);
-  // EventManager.dispatch(EventManager.EventTypes.TEST_EVENT, 1);
+  let value = 1;
+
+  function intervalFunc() {
+    testEventA.dispatch(value);
+    value++;
+  }
+
+  setInterval(intervalFunc, 10000);
 }

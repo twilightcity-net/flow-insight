@@ -1,6 +1,7 @@
 const { app, BrowserWindow } = require("electron"),
   path = require("path"),
   isDev = require("electron-is-dev"),
+  log = require("electron-log"),
   Util = require("./Util"),
   ViewManagerHelper = require("./ViewManagerHelper"),
   LoadingWindow = require("./LoadingWindow");
@@ -15,6 +16,7 @@ class WindowManager {
    * initialization method that creates an array to store windows in
    */
   static init() {
+    log.info("Initialize WindowManager");
     this.windows = [];
   }
 
@@ -67,6 +69,7 @@ class WindowManager {
 	 * Loads a view into a window and creates its event handlers
 	 */
   static loadWindow(window) {
+    log.info("Load window : " + window.name);
     window.window.loadURL(window.url);
     window.window.on("ready-to-show", () => {
       this.openWindow(window);
@@ -80,6 +83,7 @@ class WindowManager {
 	 * Opens a window based on its object reference
 	 */
   static openWindow(window) {
+    log.info("Open window : " + window.name);
     window.window.show();
     window.window.focus();
     Util.showDevTools(window.window);
@@ -90,6 +94,7 @@ class WindowManager {
 	 * Memory
 	 */
   static closeWindow(window, destroy) {
+    log.info("Close window : " + window.name);
     window.window.hide();
     if (destroy) {
       this.destroyWindow(window);
@@ -103,6 +108,7 @@ class WindowManager {
   static destroyWindow(window) {
     for (var i = this.windows.length - 1; i >= 0; i--) {
       if (this.windows[i].name == window.name) {
+        log.info("Destroy window : " + window.name);
         return this.windows.splice(i, 1);
       }
     }
@@ -115,18 +121,20 @@ class WindowManager {
 	 * be reused.
 	 */
   static createWindow(name) {
+    log.info("Create window : " + name);
     let window = this.getWindow(name);
     if (!window) {
       window = this.getWindowClassFromName(name);
     }
     this.loadWindow(window);
-    this.windows.push(window);
+    WindowManager.Windows.push(window);
   }
 
   /*
 	 * Toggles open / close of windows withing our Array
 	 */
   static toggleWindow(window) {
+    log.info("Toggle window : " + window.name);
     if (window.window.isVisible()) {
       openWindow(window);
     } else {
