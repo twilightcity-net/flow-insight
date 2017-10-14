@@ -50,6 +50,11 @@ class EventManager {
     this.events.push(mainEvent);
   }
 
+  /*
+   * creates the listener for renderer events, passes event and args. Any
+   * exception is caught, logged, and returned as an object back to the 
+   * EventManagerHelper for processing
+   */
   static createListener(mainEvent) {
     mainEvent.listener = (event, arg) => {
       log.info("renderer event : " + mainEvent.type + " -> " + arg);
@@ -111,22 +116,22 @@ class EventManager {
         event.setReplyReturnValue(event.executeReply(event, arg));
       }
     } catch (error) {
-      this.handleError(error);
+      this.handleError(event, error);
     } finally {
       return event;
     }
   }
 
   /*
-   * handles and logs any errors that events might throw
+   * handles and logs any errors that events might throw, and then stores
+   * the exception as the return value for future procession in call stack
    */
-  static handleError(error) {
+  static handleError(event, error) {
     if (error instanceof EventCallbackException) {
       event.setCallbackReturnValue(error);
     } else if (error instanceof EventReplyException) {
       event.setReplyReturnValue(error);
     }
-
     log.error(
       error.event + " -> " + error.toString() + "\n\n" + error.stack + "\n"
     );
@@ -232,9 +237,18 @@ class MainEvent {
 }
 
 /*
+ * Base Exception class for any specific type of event
+ */
+class EventException extends Error {
+  constructor(...args) {
+    super(...args);
+  }
+}
+
+/*
  * Exception class to throw errors in Callback functions
  */
-class EventCallbackException extends Error {
+class EventCallbackException extends EventException {
   constructor(event, ...args) {
     super(...args);
     this.name = "EventCallbackException";
@@ -264,7 +278,7 @@ class EventCallbackException extends Error {
 /*
  * Exception class to throw errors in Reply functions
  */
-class EventReplyException extends Error {
+class EventReplyException extends EventException {
   constructor(event, ...args) {
     super(...args);
     this.name = "EventReplyException";
