@@ -41,7 +41,6 @@ class EventManager {
    */
   static registerEvent(mainEvent) {
     log.info("register event : " + mainEvent.type);
-    this.events.push(mainEvent);
     mainEvent.listener = (event, arg) => {
       log.info("renderer event : " + mainEvent.type + " -> " + arg);
       event.returnValue = mainEvent.executeCb(event, arg);
@@ -60,6 +59,8 @@ class EventManager {
       };
       ipcMain.on(mainEvent.type + "-reply", mainEvent.replyListener);
     }
+    log.info("store event : " + mainEvent.type);
+    this.events.push(mainEvent);
   }
 
   /*
@@ -91,11 +92,12 @@ class EventManager {
   // window[].webContents.send("ping", 5); // Send value async to renderer process
   static dispatch(eventType, arg) {
     log.info("dispatch event : " + eventType);
-    let events = [], event;
+    let events = [],
+      event;
     for (var i = 0; i < this.events.length; i++) {
       event = this.events[i];
       if (event.type === eventType) {
-        event.initReturnValues()
+        event.initReturnValues();
         event = this.handleCallback(event, arg);
         if (event.reply) {
           event = this.handleReply(event, arg);
@@ -107,24 +109,25 @@ class EventManager {
   }
 
   /*
-   * looks for events in MainEvents Array and executes their callback. Used 
-   * for inter main process communication
+   * handles executing the callback. creates sender function to envoke
+   * a dispatch for firing events inside of callback and reply functions.
+   * also stores the return value in the event for logic processing.
+   * returns the event when done with it
    */
   static handleCallback(event, arg) {
-    log.info("found event to execute : " + event.type);
-        event.sender = {
-            send: function(_eventType, _arg) {
-              this.dispatch(_eventType, _arg);
-            }
-        };
-        event.setCallbackReturnValue(event.executeCb(event, arg));
-        return event;
+    log.info("handle callback : " + event.type);
+    event.setCallbackReturnValue(event.executeCb(event, arg));
+    return event;
   }
 
+  /*
+   * handles executing the reply function and stores the return value in event
+   * returns the event when it is done with it
+   */
   static handleReply(event, arg) {
-        log.info("event has reply to execute : " + event.type + "-reply");
-        event.setReplyReturnValue(event.executeReply(event, arg));
-        return event;
+    log.info("handle reply : " + event.type + "-reply");
+    event.setReplyReturnValue(event.executeReply(event, arg));
+    return event;
   }
 }
 
@@ -141,6 +144,7 @@ class MainEvent {
     log.info("create event : " + eventType);
     this.type = eventType;
     this.caller = caller;
+    this.sender = this.createNewSender();
     this.callback = callback;
     this.reply = reply;
     this.returnValues = this.initReturnValues();
@@ -197,19 +201,42 @@ class MainEvent {
     return;
   }
 
+  /*
+   * creates returnValues object with null values. called when dispatching 
+   * a new event channel
+   */
   initReturnValues() {
     return {
       callback: null,
       reply: null
-    }
+    };
   }
 
+  /*
+   * sets the return value from the callback function
+   */
   setCallbackReturnValue(value) {
     this.returnValues.callback = value;
   }
 
+  /*
+   * sets the return value from the reply function
+   */
   setReplyReturnValue(value) {
     this.returnValues.reply = value;
+  }
+
+  /*
+   * creates new sender object that can dispatch the event in a 
+   * feedback loop. Useful for calling circular events within 
+   * a state machine.
+   */
+  createNewSender() {
+    return {
+      send: function(_eventType, _arg) {
+        EventManager.dispatch(_eventType, _arg);
+      }
+    };
   }
 }
 
