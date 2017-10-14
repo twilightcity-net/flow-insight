@@ -146,6 +146,7 @@ function testEventManager() {
     this,
     function(event, arg) {
       log.info("test-eventA : callback -> hello from A : " + arg);
+      // throw new Error("test renderer error");
       return arg;
     },
     null
@@ -167,10 +168,12 @@ function testEventManager() {
     this,
     function(event, arg) {
       log.info("test-eventC : callback -> hello from C : " + arg);
+      // throw new Error("test callback error");
       return arg;
     },
     function(event, arg) {
       log.info("test-eventC : reply -> hello from C : " + arg);
+      // throw new Error("test reply error");
       return arg;
     }
   );
@@ -180,5 +183,5 @@ function testEventManager() {
   EventManager.registerEvent(testEventC);
   EventManager.unregisterEvent(testEventB);
 
-  console.log(EventManager.dispatch(EventManager.EventTypes.TEST_EVENT, 1));
+  EventManager.dispatch(EventManager.EventTypes.TEST_EVENT, 1);
 }

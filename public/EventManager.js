@@ -1,6 +1,8 @@
 const { ipcMain } = require("electron"),
   log = require("electron-log"),
+  Util = require("./Util"),
   WindowManager = require("./WindowManager");
+
 /*
  * This class is used to managed the ipc events within the main process.
  * the helper class in ./src/EventManagerHelp is used to help look up
@@ -21,6 +23,7 @@ class EventManager {
   static get Events() {
     return this.events;
   }
+
   /*
    * static enum subclass to store event names. These are basically the type
    * of possible events that can be dispatched by the Manager. When adding new 
@@ -41,26 +44,25 @@ class EventManager {
    */
   static registerEvent(mainEvent) {
     log.info("register event : " + mainEvent.type);
-    mainEvent.listener = (event, arg) => {
-      log.info("renderer event : " + mainEvent.type + " -> " + arg);
-      event.returnValue = mainEvent.executeCb(event, arg);
-      if (mainEvent.reply) {
-        log.info("reply event : " + mainEvent.type + "-reply -> " + arg);
-        event.sender.send(mainEvent.type + "-reply", event.returnValue);
-      }
-    };
+    mainEvent = this.createListener(mainEvent);
     ipcMain.on(mainEvent.type, mainEvent.listener);
-    if (mainEvent.reply) {
-      mainEvent.replyListener = (event, arg) => {
-        log.info(
-          "renderer reply event : " + mainEvent.type + "-reply -> " + arg
-        );
-        event.returnValue = mainEvent.executeReply(event, arg);
-      };
-      ipcMain.on(mainEvent.type + "-reply", mainEvent.replyListener);
-    }
     log.info("store event : " + mainEvent.type);
     this.events.push(mainEvent);
+  }
+
+  static createListener(mainEvent) {
+    mainEvent.listener = (event, arg) => {
+      log.info("renderer event : " + mainEvent.type + " -> " + arg);
+      try {
+        event.returnValue = mainEvent.executeCb(event, arg);
+        log.info("reply event -> " + mainEvent.type + " : " + arg);
+        event.sender.send(mainEvent.type + "-reply", event.returnValue);
+      } catch (e) {
+        log.error(e.event + " -> " + e.toString() + "\n\n" + e.stack + "\n");
+        event.returnValue = e;
+      }
+    };
+    return mainEvent;
   }
 
   /*
@@ -75,12 +77,6 @@ class EventManager {
     this.events.splice(index, 1);
     event.active = false;
     ipcMain.removeListener(event.type, event.listener);
-    if (event.reply) {
-      log.info(
-        "unregister reply event : " + event.type + "-reply @ [" + index + "]"
-      );
-      ipcMain.removeListener(event.type + "-reply", event.replyListener);
-    }
     return event;
   }
 
@@ -95,6 +91,7 @@ class EventManager {
     let events = [];
     for (var i = 0; i < this.events.length; i++) {
       if (this.events[i].type === eventType) {
+        log.info("found event : " + eventType);
         events.push(this.handleEvent(this.events[i], arg));
       }
     }
@@ -106,33 +103,33 @@ class EventManager {
    */
   static handleEvent(event, arg) {
     event.initReturnValues();
-    event = this.handleCallback(event, arg);
-    if (event.reply) {
-      event = this.handleReply(event, arg);
+    try {
+      log.info("handle callback : " + event.type);
+      event.setCallbackReturnValue(event.executeCb(event, arg));
+      if (event.reply) {
+        log.info("handle reply : " + event.type + "-reply");
+        event.setReplyReturnValue(event.executeReply(event, arg));
+      }
+    } catch (error) {
+      this.handleError(error);
+    } finally {
+      return event;
     }
-    return event;
   }
 
   /*
-   * handles executing the callback. creates sender function to envoke
-   * a dispatch for firing events inside of callback and reply functions.
-   * also stores the return value in the event for logic processing.
-   * returns the event when done with it
+   * handles and logs any errors that events might throw
    */
-  static handleCallback(event, arg) {
-    log.info("handle callback : " + event.type);
-    event.setCallbackReturnValue(event.executeCb(event, arg));
-    return event;
-  }
+  static handleError(error) {
+    if (error instanceof EventCallbackException) {
+      event.setCallbackReturnValue(error);
+    } else if (error instanceof EventReplyException) {
+      event.setReplyReturnValue(error);
+    }
 
-  /*
-   * handles executing the reply function and stores the return value in event
-   * returns the event when it is done with it
-   */
-  static handleReply(event, arg) {
-    log.info("handle reply : " + event.type + "-reply");
-    event.setReplyReturnValue(event.executeReply(event, arg));
-    return event;
+    log.error(
+      error.event + " -> " + error.toString() + "\n\n" + error.stack + "\n"
+    );
   }
 }
 
@@ -162,23 +159,13 @@ class MainEvent {
    * event: the caller of this event callback
    */
   executeCb(event, arg) {
-    if (this.active) {
-      log.info("execute callback : " + this.type + " -> " + arg);
-      try {
-        return this.callback(event, arg);
-      } catch (e) {
-        if (e instanceof MainEventException) {
-          log.error(
-            "callback exception : " + this.type + " -> " + e.toString()
-          );
-          return e;
-        }
-        log.error("unknown callback exception: " + this.type + " -> " + e);
-        return e;
-      }
+    if (!this.isActive) return;
+    log.info("execute callback -> " + this.type + " : " + arg);
+    try {
+      return this.callback(event, arg);
+    } catch (e) {
+      throw new EventCallbackException(this.type, e);
     }
-    log.info("callback inactive : " + this.type);
-    return;
   }
 
   /*
@@ -187,23 +174,22 @@ class MainEvent {
    * event: the caller of this event callback
    */
   executeReply(event, arg) {
-    if (this.active) {
-      log.info("execute reply : " + this.type + "-reply -> " + arg);
-      try {
-        return this.reply(event, arg);
-      } catch (e) {
-        if (e instanceof MainEventException) {
-          log.error(
-            "reply exception : " + this.type + "-reply -> " + e.toString()
-          );
-          return e;
-        }
-        log.error("unknown reply exception: " + this.type + " -> " + e);
-        return e;
-      }
+    if (!this.isActive) return;
+    log.info("execute reply -> " + this.type + "-reply : " + arg);
+    try {
+      return this.reply(event, arg);
+    } catch (e) {
+      throw new EventReplyException(this.type, e);
     }
-    log.info("reply inactive : " + this.type + "-reply");
-    return;
+  }
+
+  /*
+   * checks to see if event is active or not
+   */
+  isActive() {
+    if (this.active) return true;
+    log.info("event inactive : " + this.types);
+    return false;
   }
 
   /*
@@ -246,17 +232,65 @@ class MainEvent {
 }
 
 /*
- * Generalized exception class to throw errors for MainEvent's
+ * Exception class to throw errors in Callback functions
  */
-class MainEventException {
-  constructor(message) {
-    this.name = "MainEventException";
-    this.message = message;
+class EventCallbackException extends Error {
+  constructor(event, ...args) {
+    super(...args);
+    this.name = "EventCallbackException";
+    this.event = event;
+    this.msg = this.message;
+    this.date = new Date();
   }
 
+  /*
+   * returns the error in string format
+   */
   toString() {
-    return "[ " + this.name + " :: " + this.message + " ]";
+    return (
+      "[ " +
+      this.name +
+      " :: " +
+      this.event +
+      " -> " +
+      this.message +
+      " @ " +
+      Util.getDateTimeString(this.date) +
+      " ]"
+    );
   }
 }
 
-module.exports = { EventManager, MainEvent, MainEventException };
+/*
+ * Exception class to throw errors in Reply functions
+ */
+class EventReplyException extends Error {
+  constructor(event, ...args) {
+    super(...args);
+    this.name = "EventReplyException";
+    this.event = event;
+    this.msg = this.message;
+    this.date = new Date();
+  }
+
+  toString() {
+    return (
+      "[ " +
+      this.name +
+      " :: " +
+      this.event +
+      " -> " +
+      this.message +
+      " @ " +
+      Util.getDateTimeString(this.date) +
+      " ]"
+    );
+  }
+}
+
+module.exports = {
+  EventManager,
+  MainEvent,
+  EventCallbackException,
+  EventReplyException
+};

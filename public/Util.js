@@ -11,4 +11,8 @@ module.exports = class Util {
     if (!isDev) return;
     window.openDevTools({ detach: true });
   }
+
+  static getDateTimeString(date) {
+    return date.toLocaleTimeString() + " " + date.toLocaleDateString();
+  }
 };

@@ -23,7 +23,12 @@ export default class EventManagerHelper {
   static test() {
     log.info("test event manager helper");
     let returnValue = ipcRenderer.sendSync(this.EventTypes.TEST_EVENT, 1);
-    console.log("reply value -> " + returnValue);
+    console.log(returnValue);
+
+    //doesn't work right now
+    if (returnValue instanceof Error) {
+      console.log("we got an exception");
+    }
   }
 }
 
