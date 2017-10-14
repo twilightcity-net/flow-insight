@@ -7,7 +7,7 @@ const log = remote.require("electron-log");
  * both files with the new event name. This class is also used to store
  * and register event handlers.
  */
-export default class EventManagerHelper {
+export class EventManagerHelper {
   /*
    * static enum subclass to store event names
    */
@@ -16,26 +16,6 @@ export default class EventManagerHelper {
     return {
       TEST_EVENT: prefix + "test"
     };
-  }
-
-  // TESTING LOGIC
-  static test() {
-    console.log("test event manager helper");
-
-    let testEventD = new RendererEvent(
-      EventManagerHelper.EventTypes.TEST_EVENT,
-      this,
-      function(event, arg) {
-        log.info("[Renderer] test-eventD : callback -> hello from D : " + arg);
-        return arg;
-      },
-      function(event, arg) {
-        log.info("[Renderer] test-eventD : reply -> hello from D : " + arg);
-        return arg;
-      }
-    );
-
-    console.log(testEventD.dispatch(1));
   }
 
   /*
