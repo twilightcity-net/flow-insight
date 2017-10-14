@@ -180,5 +180,5 @@ function testEventManager() {
   EventManager.registerEvent(testEventC);
   EventManager.unregisterEvent(testEventB);
 
-  EventManager.dispatch(EventManager.EventTypes.TEST_EVENT, 1);
+  console.log(EventManager.dispatch(EventManager.EventTypes.TEST_EVENT, 1));
 }

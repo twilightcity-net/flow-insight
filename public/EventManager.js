@@ -91,19 +91,19 @@ class EventManager {
   // window[].webContents.send("ping", 5); // Send value async to renderer process
   static dispatch(eventType, arg) {
     log.info("dispatch event : " + eventType);
+    let events = [], event;
     for (var i = 0; i < this.events.length; i++) {
-      if (this.events[i].type === eventType) {
-        
-
-        let event = this.handleCallback(this.events[i], arg);
-
-
-        if (this.events[i].reply) {
-          log.info("event has reply to execute : " + eventType + "-reply");
-          this.events[i].executeReply(event, arg);
+      event = this.events[i];
+      if (event.type === eventType) {
+        event.initReturnValues()
+        event = this.handleCallback(event, arg);
+        if (event.reply) {
+          event = this.handleReply(event, arg);
         }
+        events.push(event);
       }
     }
+    return events;
   }
 
   /*
@@ -112,18 +112,19 @@ class EventManager {
    */
   static handleCallback(event, arg) {
     log.info("found event to execute : " + event.type);
-        let _event = {
-          sender: {
+        event.sender = {
             send: function(_eventType, _arg) {
               this.dispatch(_eventType, _arg);
             }
-          }
         };
-        return event.executeCb(_event, arg);
+        event.setCallbackReturnValue(event.executeCb(event, arg));
+        return event;
   }
 
-  static dispatchReply() {
-
+  static handleReply(event, arg) {
+        log.info("event has reply to execute : " + event.type + "-reply");
+        event.setReplyReturnValue(event.executeReply(event, arg));
+        return event;
   }
 }
 
@@ -142,6 +143,7 @@ class MainEvent {
     this.caller = caller;
     this.callback = callback;
     this.reply = reply;
+    this.returnValues = this.initReturnValues();
     this.active = true; //private
   }
 
@@ -193,6 +195,21 @@ class MainEvent {
     }
     log.info("reply inactive : " + this.type + "-reply");
     return;
+  }
+
+  initReturnValues() {
+    return {
+      callback: null,
+      reply: null
+    }
+  }
+
+  setCallbackReturnValue(value) {
+    this.returnValues.callback = value;
+  }
+
+  setReplyReturnValue(value) {
+    this.returnValues.reply = value;
   }
 }
 
