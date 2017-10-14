@@ -240,18 +240,9 @@ class MainEvent {
  * Base Exception class for any specific type of event
  */
 class EventException extends Error {
-  constructor(...args) {
-    super(...args);
-  }
-}
-
-/*
- * Exception class to throw errors in Callback functions
- */
-class EventCallbackException extends EventException {
   constructor(event, ...args) {
     super(...args);
-    this.name = "EventCallbackException";
+    this.name = "EventException";
     this.event = event;
     this.msg = this.message;
     this.date = new Date();
@@ -276,29 +267,22 @@ class EventCallbackException extends EventException {
 }
 
 /*
+ * Exception class to throw errors in Callback functions
+ */
+class EventCallbackException extends EventException {
+  constructor(event, ...args) {
+    super(event, ...args);
+    this.name = "EventCallbackException";
+  }
+}
+
+/*
  * Exception class to throw errors in Reply functions
  */
 class EventReplyException extends EventException {
   constructor(event, ...args) {
     super(...args);
     this.name = "EventReplyException";
-    this.event = event;
-    this.msg = this.message;
-    this.date = new Date();
-  }
-
-  toString() {
-    return (
-      "[ " +
-      this.name +
-      " :: " +
-      this.event +
-      " -> " +
-      this.message +
-      " @ " +
-      Util.getDateTimeString(this.date) +
-      " ]"
-    );
   }
 }
 
