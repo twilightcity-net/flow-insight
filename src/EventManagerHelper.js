@@ -31,6 +31,17 @@ export class EventManagerHelper {
       throw new EventException(event.returnValue);
     }
   }
+
+  /*
+   * helper function to create an EventException used for logging and debug
+   */
+  static createEventError(error, event) {
+    error.name = "EventException";
+    error.date = new Date();
+    error.event = event.type;
+    error.msg = error.message;
+    return new EventException(error);
+  }
 }
 
 /*
@@ -123,8 +134,22 @@ export class RendererEvent {
     log.info("[Renderer] listening for callback -> " + this.type + "-reply");
     ipcRenderer.on(this.type, (_event, _arg) => {
       log.info("[Renderer] callback -> " + event.type + " : " + _arg);
-      event.returnValue = event.callback(_event, _arg);
-      return event;
+      event.returnValue = null;
+      try {
+        event.returnValue = event.callback(_event, _arg);
+      } catch (error) {
+        event.returnValue = EventManagerHelper.createEventError(error, event);
+        log.error(
+          "[Renderer] " +
+            event.returnValue.toString() +
+            "\n\n" +
+            event.returnValue.stack +
+            "\n"
+        );
+        console.error(event.returnValue.toString());
+      } finally {
+        return event;
+      }
     });
   }
 
@@ -138,8 +163,25 @@ export class RendererEvent {
     log.info("[Renderer] listening for reply -> " + this.type + "-reply");
     ipcRenderer.on(this.type + "-reply", (_event, _arg) => {
       log.info("[Renderer] reply -> " + event.type + "-reply : " + _arg);
-      event.replyReturnValue = event.reply(_event, _arg);
-      return event;
+      event.replyReturnValue = null;
+      try {
+        event.replyReturnValue = event.reply(_event, _arg);
+      } catch (error) {
+        event.replyReturnValue = EventManagerHelper.createEventError(
+          error,
+          event
+        );
+        log.error(
+          "[Renderer] " +
+            event.replyReturnValue.toString() +
+            "\n\n" +
+            event.replyReturnValue.stack +
+            "\n"
+        );
+        console.error(event.replyReturnValue.toString());
+      } finally {
+        return event;
+      }
     });
   }
 }
