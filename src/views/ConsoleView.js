@@ -10,6 +10,6 @@ import React, { Component } from "react";
 
 export default class ConsoleView extends Component {
   render() {
-    return <h1>console view</h1>;
+    return <h1>View.Console.render()</h1>;
   }
 }

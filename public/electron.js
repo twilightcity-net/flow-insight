@@ -1,7 +1,7 @@
 /*
  * Electron Node Required Packages
  */
-const { app, BrowserWindow, ipcMain, Tray } = require("electron"),
+const { app, BrowserWindow, ipcMain, Menu, Tray } = require("electron"),
   path = require("path"),
   isDev = require("electron-is-dev"),
   notifier = require("node-notifier"),
@@ -13,8 +13,8 @@ const { app, BrowserWindow, ipcMain, Tray } = require("electron"),
  */
 const WindowManager = require("./WindowManager"),
   ViewManagerHelper = require("./ViewManagerHelper"),
+  SlackManager = require("./SlackManager"),
   { EventManager, MainEvent } = require("./EventManager");
-const SlackManager = require("./SlackManager");
 
 /*
  * Global Constants
@@ -41,15 +41,16 @@ app.on("window-all-closed", onAppWindowAllCloseCb);
  * Event Callback Functions
  */
 function onAppReadyCb() {
+  app.setName("MetaOS");
   initLogger();
   WindowManager.init();
   EventManager.init();
-
-  // TODO need to refactor these into classes and change loading order
-  // createTray();
   SlackManager.init();
-  WindowManager.createWindowLoading();
+  // TODO need to refactor these into classes and change loading order
   // initAutoUpdate();
+  WindowManager.createWindowLoading();
+  // createTray();
+  createMenu();
 }
 
 // FIXME doesn't work, untested
@@ -69,6 +70,63 @@ function onTrayDoubleClickCb() {}
 
 function onTrayClickCb(event) {}
 
+/*
+ * Creates the app's menu for MacOS
+ * Ref. https://electron.atom.io/docs/api/menu/#notes-on-macos-application-menu
+ */
+function createMenu() {
+  if (process.platform !== "darwin") {
+    return;
+  }
+  let menu = null;
+  const template = [
+    {
+      label: app.getName(),
+      submenu: [
+        { role: "about" },
+        { type: "separator" },
+        { role: "services", submenu: [] },
+        { type: "separator" },
+        { role: "hide" },
+        { role: "hideothers" },
+        { role: "unhide" },
+        { type: "separator" },
+        { role: "quit" }
+      ]
+    },
+    {
+      role: "window",
+      submenu: [
+        { role: "close" },
+        { role: "minimize" },
+        { type: "separator" },
+        { role: "front" }
+      ]
+    },
+    {
+      role: "help",
+      submenu: [
+        {
+          label: "MetaOS - Learn More",
+          click() {
+            require("electron").shell.openExternal(
+              "http://www.openmastery.org/"
+            );
+          }
+        },
+        {
+          label: "Report bug",
+          click() {
+            WindowManager.createWindowBugReport();
+          }
+        }
+      ]
+    }
+  ];
+  menu = Menu.buildFromTemplate(template);
+
+  Menu.setApplicationMenu(menu);
+}
 /*
  * Creates the system tray object and icon. Called by onAppReadyCb()
  */

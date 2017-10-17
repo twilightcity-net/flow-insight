@@ -5,7 +5,8 @@ const { app, BrowserWindow } = require("electron"),
   Util = require("./Util"),
   ViewManagerHelper = require("./ViewManagerHelper"),
   LoadingWindow = require("./LoadingWindow"),
-  ConsoleWindow = require("./ConsoleWindow");
+  ConsoleWindow = require("./ConsoleWindow"),
+  BugReportWindow = require("./BugReportWindow");
 
 /*
  * This class is used to manage the view, state, and display of each
@@ -35,7 +36,8 @@ module.exports = class WindowManager {
     let appName = "metaos-";
     return {
       LOADING: appName + ViewManagerHelper.ViewNames.LOADING,
-      CONSOLE: appName + ViewManagerHelper.ViewNames.CONSOLE
+      CONSOLE: appName + ViewManagerHelper.ViewNames.CONSOLE,
+      BUGREPORT: appName + ViewManagerHelper.ViewNames.BUGREPORT
     };
   }
 
@@ -158,6 +160,8 @@ module.exports = class WindowManager {
         return new LoadingWindow(this);
       case this.WindowNames.CONSOLE:
         return new ConsoleWindow(this);
+      case this.WindowNames.BUGREPORT:
+        return new BugReportWindow(this);
       default:
         return null;
     }
@@ -174,6 +178,11 @@ module.exports = class WindowManager {
 
   static createWindowConsole() {
     let name = this.WindowNames.CONSOLE;
+    this.createWindow(name);
+  }
+
+  static createWindowBugReport() {
+    const name = this.WindowNames.BUGREPORT;
     this.createWindow(name);
   }
 };
