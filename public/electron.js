@@ -7,7 +7,7 @@ const { app, BrowserWindow, ipcMain } = require("electron"),
   log = require("electron-log"),
   WindowManager = require("./WindowManager"),
   SlackManager = require("./SlackManager"),
-  EventManager = require("./EventManager"),
+  { EventManager } = require("./EventManager"),
   AppLoader = require("./AppLoader"),
   AppUpdater = require("./AppUpdater");
 
@@ -45,6 +45,7 @@ function onAppWindowAllCloseCb() {
 /*
  * configures our logging utility on startup
  */
+// TODO move to logging class
 function initLogger() {
   let level = "info";
   if (isDev) {

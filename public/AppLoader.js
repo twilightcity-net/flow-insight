@@ -1,5 +1,6 @@
 const { Menu, Tray } = require("electron"),
   Util = require("./Util"),
+  path = require("path"),
   log = require("electron-log"),
   WindowManager = require("./WindowManager"),
   assetsDirectory = path.join(__dirname, "assets"),
@@ -17,8 +18,9 @@ module.exports = class AppLoader {
     log.info("Initialize AppLoader");
     this.tray = null;
     this.createTray();
-    this.createMenu();
+    // this.createMenu();
     WindowManager.createWindowLoading();
+    this.createMenu();
   }
 
   /*
