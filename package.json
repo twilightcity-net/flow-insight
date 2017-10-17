@@ -31,7 +31,9 @@
     "publish": "build --em.main=build/org.openmastery.metaos.dat --publish=always",
     "prerelease:update:build:win": "yarn prerelease",
     "release:update:build:win": ".\\tasks\\update-dist.bat",
-    "release:update:win": ".\\tasks\\update-dist.bat"
+    "release:update:win": ".\\tasks\\update-dist.bat",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
   },
   "dependencies": {
     "electron-is-dev": "^0.3.0",
@@ -144,6 +146,23 @@
     },
     "win": {
       "target": "nsis"
+    },
+    "mac": {
+      "category": "public.app-category.developer-tools"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
     },
     "nsis": {
       "perMachine": true,

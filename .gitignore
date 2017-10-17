@@ -22,6 +22,8 @@ metaos-desktop-v*.tgz
 .env.test.local
 .env.production.local
 electron-builder.env
+MetaOS-desktop.iml
+/.vscode
 
 *debug.log*
 npm-debug.log*
