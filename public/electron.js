@@ -14,6 +14,7 @@ const { app, BrowserWindow, ipcMain, Tray } = require("electron"),
 const WindowManager = require("./WindowManager"),
   ViewManagerHelper = require("./ViewManagerHelper"),
   { EventManager, MainEvent } = require("./EventManager");
+const SlackManager = require("./SlackManager");
 
 /*
  * Global Constants
@@ -43,9 +44,11 @@ function onAppReadyCb() {
   initLogger();
   WindowManager.init();
   EventManager.init();
-  WindowManager.createWindowLoading();
+
   // TODO need to refactor these into classes and change loading order
   // createTray();
+  SlackManager.init();
+  WindowManager.createWindowLoading();
   // initAutoUpdate();
 }
 
