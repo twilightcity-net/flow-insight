@@ -124,7 +124,6 @@ function createMenu() {
     }
   ];
   menu = Menu.buildFromTemplate(template);
-
   Menu.setApplicationMenu(menu);
 }
 /*
