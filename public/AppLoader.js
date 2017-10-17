@@ -17,9 +17,8 @@ module.exports = class AppLoader {
   static init() {
     log.info("Initialize AppLoader");
     this.tray = null;
-    this.createTray();
-    // this.createMenu();
     WindowManager.createWindowLoading();
+    this.createTray();
     this.createMenu();
   }
 
