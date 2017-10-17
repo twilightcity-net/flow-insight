@@ -14,7 +14,8 @@ const WindowManager = require("./WindowManager"),
   ViewManagerHelper = require("./ViewManagerHelper"),
   SlackManager = require("./SlackManager"),
   { EventManager, MainEvent } = require("./EventManager"),
-  AppUpdater = require("./AppUpdater");
+  AppUpdater = require("./AppUpdater"),
+  AppLoader = require("./AppLoader");
 
 /*
  * Global Constants
@@ -46,8 +47,9 @@ function onAppReadyCb() {
   WindowManager.init();
   EventManager.init();
   SlackManager.init();
-  // TODO need to refactor these into classes and change loading order
+  AppLoader.init();
   AppUpdater.init();
+  // TODO move these into AppLoader.init()
   // createTray();
   createMenu();
   WindowManager.createWindowLoading();
@@ -75,9 +77,7 @@ function onTrayClickCb(event) {}
  * Ref. https://electron.atom.io/docs/api/menu/#notes-on-macos-application-menu
  */
 function createMenu() {
-  if (process.platform !== "darwin") {
-    return;
-  }
+  if (process.platform !== "darwin") return;
   let menu = null;
   const template = [
     {
