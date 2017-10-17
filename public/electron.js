@@ -5,8 +5,7 @@ const { app, BrowserWindow, ipcMain, Menu, Tray } = require("electron"),
   path = require("path"),
   isDev = require("electron-is-dev"),
   notifier = require("node-notifier"),
-  log = require("electron-log"),
-  autoUpdater = require("electron-updater").autoUpdater;
+  log = require("electron-log");
 
 /*
  * Project Required Packages
@@ -14,7 +13,8 @@ const { app, BrowserWindow, ipcMain, Menu, Tray } = require("electron"),
 const WindowManager = require("./WindowManager"),
   ViewManagerHelper = require("./ViewManagerHelper"),
   SlackManager = require("./SlackManager"),
-  { EventManager, MainEvent } = require("./EventManager");
+  { EventManager, MainEvent } = require("./EventManager"),
+  AppUpdater = require("./AppUpdater");
 
 /*
  * Global Constants
@@ -47,7 +47,7 @@ function onAppReadyCb() {
   EventManager.init();
   SlackManager.init();
   // TODO need to refactor these into classes and change loading order
-  // initAutoUpdate();
+  AppUpdater.init();
   // createTray();
   createMenu();
   WindowManager.createWindowLoading();
@@ -147,51 +147,4 @@ function initLogger() {
   }
   log.transports.file.level = level;
   log.transports.console.level = level;
-}
-
-/*
- * setup auto-update and check for updates. Called from createWindow()
- * see -> https://electron.atom.io/docs/all/#apprelaunchoptions
-*/
-// TODO move to its own AppUpdater Class
-function initAutoUpdate() {
-  // skip update if we are in linux or dev mode
-  if (isDev) {
-    return;
-  }
-  if (process.platform === "linux") {
-    return;
-  }
-
-  autoUpdater.autoDownload = false;
-
-  // configure update logging to file
-  autoUpdater.log = log;
-  autoUpdater.log.transports.file.level = "info";
-
-  autoUpdater.on("checking-for-update", () => {
-    autoUpdater.log.info("Checking for update...");
-  });
-  autoUpdater.on("update-available", info => {
-    autoUpdater.log.info("Update available.");
-  });
-  autoUpdater.on("update-not-available", info => {
-    autoUpdater.log.info("Update not available.");
-  });
-  autoUpdater.on("error", err => {
-    autoUpdater.log.error("Error in auto-updater.");
-  });
-  autoUpdater.on("download-progress", progressObj => {
-    let logMsg = "Download speed: " + progressObj.bytesPerSecond;
-    logMsg = logMsg + " - Downloaded " + progressObj.percent + "%";
-    logMsg =
-      logMsg + " (" + progressObj.transferred + "/" + progressObj.total + ")";
-    autoUpdater.log.info(logMsg);
-  });
-  autoUpdater.on("update-downloaded", info => {
-    autoUpdater.log.info("Update downloaded");
-  });
-
-  // check for updates and notify if we have a new version
-  autoUpdater.checkForUpdates();
 }

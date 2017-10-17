@@ -1,7 +1,7 @@
 const Util = require("./Util");
 const IncomingWebhook = require("@slack/client").IncomingWebhook;
 const Notifier = require("node-notifier");
-const Logger = require("electron-log");
+const log = require("electron-log");
 
 /*
  * This is a high level management class for Slack Integration. This
@@ -13,10 +13,14 @@ module.exports = class SlackManager {
    * called to initialize the manager
    */
   static init() {
-    this.logger = Logger;
-    this.logger.transports.file.level = "info";
+    log.info("Initialize SlackManager");
+    //this.test();
+  }
 
-    // some test stuff
+  /*
+   * test the service
+   */
+  static test() {
     this.sendBuggeryMessage(
       "I'm Mr. Meeseeks, look at me!!!",
       this.buggeryMessageCb
@@ -27,6 +31,7 @@ module.exports = class SlackManager {
    * Sends a message with @mr.meeseeks into #metaos_buggery
    */
   static sendBuggeryMessage(message, callback) {
+    log.info("[SlackManager] send bug report -> #metaos_buggery");
     let url = this.getBuggeryURL();
     let webhook = new IncomingWebhook(url);
     webhook.send(message, callback);
@@ -43,9 +48,7 @@ module.exports = class SlackManager {
           //TODO implement a fallback notification
         }
       );
-      SlackManager.logger.error(
-        "Unable to send bug report : " + response + " : " + err
-      );
+      log.error("Unable to send bug report : " + response + " : " + err);
     } else {
       console.log("Received", statusCode, "from Slack");
       Notifier.notify(
@@ -58,7 +61,7 @@ module.exports = class SlackManager {
           //TODO implement a fallback notification
         }
       );
-      SlackManager.logger.info("Sent Bug Report : " + body);
+      log.info("Sent Bug Report : " + body);
     }
   }
 
