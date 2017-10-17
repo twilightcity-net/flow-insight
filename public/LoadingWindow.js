@@ -1,15 +1,14 @@
-const { BrowserWindow } = require("electron");
-const isDev = require("electron-is-dev");
-const ViewManagerHelper = require("./ViewManagerHelper");
+const { BrowserWindow } = require("electron"),
+  isDev = require("electron-is-dev"),
+  ViewManagerHelper = require("./ViewManagerHelper"),
+  log = require("electron-log");
 
 /*
  * The Application loading window. Loads LoadingView class. This window
  * is always show when the application first loads
  */
 module.exports = class LoadingWindow {
-  // TODO extend BrowserWindow instead; this makes us call window.window
   constructor(WindowManager) {
-    // window and view properties
     this.manager = WindowManager;
     this.name = WindowManager.WindowNames.LOADING;
     this.view = ViewManagerHelper.ViewNames.LOADING;
