@@ -4,14 +4,15 @@ const { app, BrowserWindow } = require("electron"),
   log = require("electron-log"),
   Util = require("./Util"),
   ViewManagerHelper = require("./ViewManagerHelper"),
-  LoadingWindow = require("./LoadingWindow");
+  LoadingWindow = require("./LoadingWindow"),
+  ConsoleWindow = require("./ConsoleWindow");
 
 /*
  * This class is used to manage the view, state, and display of each
  * of our windows in our application. windows are stored in an array
  * and are dynamically loaded.
  */
-class WindowManager {
+module.exports = class WindowManager {
   /*
    * initialization method that creates an array to store windows in
    */
@@ -127,7 +128,7 @@ class WindowManager {
       window = this.getWindowClassFromName(name);
     }
     this.loadWindow(window);
-    WindowManager.Windows.push(window);
+    this.Windows.push(window);
   }
 
   /*
@@ -175,6 +176,4 @@ class WindowManager {
     let name = this.WindowNames.CONSOLE;
     this.createWindow(name);
   }
-}
-
-module.exports = WindowManager;
+};

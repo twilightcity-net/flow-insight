@@ -149,44 +149,14 @@ function testEventManager() {
       // throw new Error("test renderer error");
       return arg;
     },
-    null
-  );
-  let testEventB = new MainEvent(
-    EventManager.EventTypes.TEST_EVENT,
-    this,
-    function(event, arg) {
-      log.info("test-eventB : callback -> hello from B : " + arg);
-      return arg;
-    },
-    function(event, arg) {
-      log.info("test-eventB : reply -> hello from B : " + arg);
-      return arg;
-    }
-  );
-  let testEventC = new MainEvent(
-    EventManager.EventTypes.TEST_EVENT,
-    this,
-    function(event, arg) {
-      log.info("test-eventC : callback -> hello from C : " + arg);
-      // throw new Error("test callback error");
-      return arg;
-    },
-    function(event, arg) {
-      log.info("test-eventC : reply -> hello from C : " + arg);
-      // throw new Error("test reply error");
-      return arg;
-    },
+    null,
     true
   );
 
-  testEventB = testEventB.destroy();
-
   let value = 1;
-
   function intervalFunc() {
     testEventA.dispatch(value);
     value++;
   }
-
   setInterval(intervalFunc, 10000);
 }

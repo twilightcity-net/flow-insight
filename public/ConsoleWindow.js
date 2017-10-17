@@ -1,6 +1,8 @@
 const { BrowserWindow } = require("electron");
 const isDev = require("electron-is-dev");
+const path = require("path");
 const ViewManagerHelper = require("./ViewManagerHelper");
+const assetsDirectory = path.join(__dirname, "assets");
 const applicationIcon = assetsDirectory + "/icons/icon.ico";
 
 /*
@@ -9,7 +11,6 @@ const applicationIcon = assetsDirectory + "/icons/icon.ico";
  */
 module.exports = class ConsoleWindow {
   constructor(WindowManager) {
-    // window and view properties
     this.manager = WindowManager;
     this.name = WindowManager.WindowNames.CONSOLE;
     this.view = ViewManagerHelper.ViewNames.CONSOLE;

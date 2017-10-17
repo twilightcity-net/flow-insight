@@ -101,12 +101,9 @@ class EventManager {
         returnedEvents.push(this.handleEvent(this.events[i], arg));
       }
     }
-    console.log(WindowManager);
-    if(WindowManager.Windows) {
-      for (var j = 0; j < WindowManager.Windows.length; j++) {
-        log.info("dispatch window event : " + eventType);
-        WindowManager.Windows[j].webContents.send(eventType, arg);
-      }
+    for (var j = 0; j < WindowManager.Windows.length; j++) {
+      log.info("dispatch window event : " + eventType);
+      WindowManager.Windows[j].window.webContents.send(eventType, arg);
     }
     return returnedEvents;
   }
