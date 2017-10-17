@@ -85,6 +85,7 @@ export class RendererEvent {
     this.reply = reply;
     this.returnValue = null;
     this.replyReturnValue = null;
+    this.listenForCallback(this);
     this.listenForReply(this);
   }
 
@@ -113,6 +114,21 @@ export class RendererEvent {
   }
 
   /*
+   * sets up listeners for callback events. Usually fired from main processes. However 
+   * these can also be used to communicate between renderer processes. Async flag does
+   * not effect these callbacks
+   */
+  listenForCallback(event) {
+    if (!event.callback) return;
+    log.info("[Renderer] listening for callback -> " + this.type + "-reply");
+    ipcRenderer.on(this.type, (_event, _arg) => {
+      log.info("[Renderer] callback -> " + event.type + " : " + _arg);
+      event.returnValue = event.callback(_event, _arg);
+      return event;
+    });
+  }
+
+  /*
    * sets up listeners for reply events. If there are more then one main process
    * events listening, then each one of those events will send an async reply, unless
    * the async flag is set on the mainevent
@@ -123,6 +139,7 @@ export class RendererEvent {
     ipcRenderer.on(this.type + "-reply", (_event, _arg) => {
       log.info("[Renderer] reply -> " + event.type + "-reply : " + _arg);
       event.replyReturnValue = event.reply(_event, _arg);
+      return event;
     });
   }
 }
