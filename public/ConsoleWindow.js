@@ -1,9 +1,9 @@
-const { BrowserWindow } = require("electron");
-const isDev = require("electron-is-dev");
-const path = require("path");
-const ViewManagerHelper = require("./ViewManagerHelper");
-const assetsDirectory = path.join(__dirname, "assets");
-const applicationIcon = assetsDirectory + "/icons/icon.ico";
+const { BrowserWindow } = require("electron"),
+  isDev = require("electron-is-dev"),
+  path = require("path"),
+  ViewManagerHelper = require("./ViewManagerHelper"),
+  assetsDirectory = path.join(__dirname, "assets"),
+  applicationIcon = assetsDirectory + "/icons/icon.ico";
 
 /*
  * the main application window for UX. Suspose to slide in and out of 

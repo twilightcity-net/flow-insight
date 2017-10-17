@@ -1,5 +1,5 @@
-const { ipcRenderer, remote } = window.require("electron");
-const log = remote.require("electron-log");
+const { ipcRenderer, remote } = window.require("electron"),
+  log = remote.require("electron-log");
 
 /*
  * This class is used as a helper class to store event names from 

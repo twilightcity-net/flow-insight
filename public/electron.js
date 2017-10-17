@@ -43,7 +43,6 @@ function onAppReadyCb() {
   initLogger();
   WindowManager.init();
   EventManager.init();
-  testEventManager();
   WindowManager.createWindowLoading();
   // TODO need to refactor these into classes and change loading order
   // createTray();
@@ -135,28 +134,4 @@ function initAutoUpdate() {
 
   // check for updates and notify if we have a new version
   autoUpdater.checkForUpdates();
-}
-
-//TESTING LOGIC
-function testEventManager() {
-  log.info("EventManager : test()");
-
-  let testEventA = new MainEvent(
-    EventManager.EventTypes.TEST_EVENT,
-    this,
-    function(event, arg) {
-      log.info("test-eventA : callback -> hello from A : " + arg);
-      // throw new Error("test renderer error");
-      return arg;
-    },
-    null,
-    true
-  );
-
-  let value = 1;
-  function intervalFunc() {
-    testEventA.dispatch(value);
-    value++;
-  }
-  setInterval(intervalFunc, 10000);
 }
