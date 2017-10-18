@@ -31,8 +31,19 @@ module.exports = class Util {
   }
 
   /*
-    * opens external default os browser window with url
-    */
+   * sets the applications tray into memory
+   */
+  static setAppTray(tray) {
+    app.tray = tray;
+  }
+
+  static getAppTray() {
+    return app.tray;
+  }
+
+  /*
+   * opens external default os browser window with url
+   */
   static openExternalBrowser(url) {
     shell.openExternal(url);
   }

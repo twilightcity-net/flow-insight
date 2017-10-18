@@ -1,10 +1,10 @@
 const { Menu } = require("electron"),
   log = require("electron-log"),
-  Util = require("./Util");
-WindowManager = require("./WindowManager");
+  Util = require("./Util"),
+  WindowManager = require("./WindowManager");
 
 /*
- * This class is used to init the Application loading
+ * This class is used to init the Application menu. mac only now
  */
 module.exports = class AppMenu extends Menu {
   constructor() {
