@@ -11,7 +11,7 @@ module.exports = class AppUpdater {
    * called to initialize the updater
    */
   static init() {
-    log.info("Initialize AppUpdater");
+    log.info("[AppUpdater] Initialize");
 
     // disable updates for linux and dev mode
     if (isDev || process.platform === "linux") return;

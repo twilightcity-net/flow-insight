@@ -13,7 +13,7 @@ module.exports = class SlackManager {
    * called to initialize the manager
    */
   static init() {
-    log.info("Initialize SlackManager");
+    log.info("[SlackManager] Initialize");
     //this.test();
   }
 
@@ -48,9 +48,11 @@ module.exports = class SlackManager {
           //TODO implement a fallback notification
         }
       );
-      log.error("Unable to send bug report : " + response + " : " + err);
+      log.error(
+        "[SlackManager] Unable to send bug report : " + response + " : " + err
+      );
     } else {
-      console.log("Received", statusCode, "from Slack");
+      log.info("[SlackManager] responded with : " + statusCode);
       Notifier.notify(
         {
           title: "Bug Report Sent",
@@ -61,7 +63,7 @@ module.exports = class SlackManager {
           //TODO implement a fallback notification
         }
       );
-      log.info("Sent Bug Report : " + body);
+      log.info("[SlackManager] reported : " + body);
     }
   }
 

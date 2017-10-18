@@ -18,7 +18,7 @@ module.exports = class WindowManager {
    * initialization method that creates an array to store windows in
    */
   static init() {
-    log.info("Initialize WindowManager");
+    log.info("[WindowManager] Initialize");
     this.windows = [];
   }
 
@@ -45,11 +45,11 @@ module.exports = class WindowManager {
 	 * Gets the window from the global array of windows
 	 */
   static getWindow(name) {
-    this.windows.forEach(function(item, index, array) {
-      if (this.windows[i].name == name) {
+    for (var i = this.windows.length - 1; i >= 0; i--) {
+      if (this.windows[i].name === name) {
         return this.windows[i];
       }
-    });
+    }
     return null;
   }
 
@@ -72,7 +72,7 @@ module.exports = class WindowManager {
 	 * Loads a view into a window and creates its event handlers
 	 */
   static loadWindow(window) {
-    log.info("Load window : " + window.name);
+    log.info("[WindowManager] Load window : " + window.name);
     window.window.loadURL(window.url);
     window.window.on("ready-to-show", () => {
       this.openWindow(window);
@@ -86,7 +86,7 @@ module.exports = class WindowManager {
 	 * Opens a window based on its object reference
 	 */
   static openWindow(window) {
-    log.info("Open window : " + window.name);
+    log.info("[WindowManager] Open window : " + window.name);
     window.window.show();
     window.window.focus();
     Util.showDevTools(window.window);
@@ -97,7 +97,7 @@ module.exports = class WindowManager {
 	 * Memory
 	 */
   static closeWindow(window, destroy) {
-    log.info("Close window : " + window.name);
+    log.info("[WindowManager] Close window : " + window.name);
     window.window.hide();
     if (destroy) {
       this.destroyWindow(window);
@@ -110,8 +110,8 @@ module.exports = class WindowManager {
 	 */
   static destroyWindow(window) {
     for (var i = this.windows.length - 1; i >= 0; i--) {
-      if (this.windows[i].name == window.name) {
-        log.info("Destroy window : " + window.name);
+      if (this.windows[i].name === window.name) {
+        log.info("[WindowManager] Destroy window : " + window.name);
         return this.windows.splice(i, 1);
       }
     }
@@ -124,9 +124,10 @@ module.exports = class WindowManager {
 	 * be reused.
 	 */
   static createWindow(name) {
-    log.info("Create window : " + name);
+    log.info("[WindowManager] Create window : " + name);
     let window = this.getWindow(name);
     if (!window) {
+      log.info("[WindowManager] make new window -> " + name);
       window = this.getWindowClassFromName(name);
     }
     this.loadWindow(window);
@@ -137,7 +138,7 @@ module.exports = class WindowManager {
 	 * Toggles open / close of windows withing our Array
 	 */
   static toggleWindow(window) {
-    log.info("Toggle window : " + window.name);
+    log.info("[WindowManager] Toggle window : " + window.name);
     if (window.window.isVisible()) {
       openWindow(window);
     } else {

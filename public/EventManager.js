@@ -14,6 +14,7 @@ class EventManager {
    * Initialization method that creates an array to store events in
    */
   static init() {
+    log.info("[EventManager] Initialize");
     this.events = [];
   }
 

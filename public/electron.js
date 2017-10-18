@@ -31,10 +31,16 @@ function onAppReadyCb() {
   AppLoader.init();
 }
 
+/*
+ * application has become active.. mac os
+ */
 function onAppActivateCb() {
   log.info("[App] Activate Application");
 }
 
+/*
+ * console window should always be opened.. quit if force closed
+ */
 function onAppWindowAllCloseCb() {
   if (process.platform !== "darwin") {
     log.info("[App] Window All Closed -> quit");
@@ -54,5 +60,5 @@ function initLogger() {
   }
   log.transports.file.level = level;
   log.transports.console.level = level;
-  log.info("[Logger] log file initialized");
+  log.info("[Logger] Initialized");
 }

@@ -13,7 +13,7 @@ module.exports = class AppLoader {
    * called to initialize the loader
    */
   static init() {
-    log.info("Initialize AppLoader");
+    log.info("[AppLoader] Initialize");
     WindowManager.createWindowLoading();
     this.createTray();
     this.createMenu();
