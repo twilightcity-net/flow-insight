@@ -1,5 +1,6 @@
 const { app, shell } = require("electron"),
-  isDev = require("electron-is-dev");
+  isDev = require("electron-is-dev"),
+  path = require("path");
 
 /* 
  * general purpose global utility functions
@@ -10,6 +11,23 @@ module.exports = class Util {
    */
   static getAppName() {
     return app.getName();
+  }
+
+  /*
+   * gets the base path for the asset resouces
+   */
+  static getAssetsDir() {
+    if (isDev) {
+      return path.join(__dirname, "assets");
+    }
+    return path.join(app.getAppPath(), __dirname, "assets");
+  }
+
+  /*
+   * gets the path of a specific asset. must provide qualifying location
+   */
+  static getAssetPath(asset) {
+    return path.join(Util.getAssetsDir(), asset);
   }
 
   /*

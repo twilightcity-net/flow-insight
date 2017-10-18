@@ -1,5 +1,4 @@
-const { app, Menu, Tray } = require("electron"),
-  path = require("path"),
+const { app, Tray } = require("electron"),
   log = require("electron-log"),
   Util = require("./Util"),
   WindowManager = require("./WindowManager"),
@@ -14,9 +13,9 @@ module.exports = class AppLoader {
    */
   static init() {
     log.info("Initialize AppLoader");
-    // this.tray = null;
+    this.tray = null;
     WindowManager.createWindowLoading();
-    // this.createTray();
+    this.createTray();
     this.createMenu();
   }
 
@@ -27,9 +26,9 @@ module.exports = class AppLoader {
   // TODO move to its own class
   static createMenu() {
     if (process.platform === "darwin") {
-      Menu.setApplicationMenu(new AppMenu());
+      AppMenu.setApplicationMenu(new AppMenu());
     } else {
-      Menu.setApplicationMenu(null);
+      AppMenu.setApplicationMenu(null);
     }
   }
 
@@ -38,9 +37,8 @@ module.exports = class AppLoader {
    */
   // TODO move to its own class
   static createTray() {
-    let assetsDirectory = path.join(__dirname, "assets");
-    let trayIcon = assetsDirectory + "/icons/icon.png";
-    log.info("test");
+    let trayIcon = Util.getAssetPath("/icons/icon.png");
+    log.info(trayIcon);
     this.tray = new Tray(trayIcon);
     this.tray.on("click", (event, bounds, position) => {
       log.info("[Tray] tray event -> click");
