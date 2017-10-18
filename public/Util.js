@@ -1,9 +1,23 @@
-const isDev = require("electron-is-dev");
+const { app, shell } = require("electron"),
+  isDev = require("electron-is-dev");
 
 /* 
  * general purpose global utility functions
  */
 module.exports = class Util {
+  /*
+   * returns the applications name
+   */
+  static getAppName() {
+    return app.getName();
+  }
+
+  /*
+    * opens external default os browser window with url
+    */
+  static openExternalBrowser(url) {
+    shell.openExternal(url);
+  }
   /*
 	 * Used to force showing the chrome dev tools for debugging
 	 */

@@ -1,15 +1,13 @@
-/*
- * Electron Node Required Packages
- */
-const { app, BrowserWindow, ipcMain } = require("electron"),
+const { app } = require("electron"),
   path = require("path"),
   isDev = require("electron-is-dev"),
   log = require("electron-log"),
+  Util = require("./Util"),
   WindowManager = require("./WindowManager"),
   SlackManager = require("./SlackManager"),
   { EventManager } = require("./EventManager"),
-  AppLoader = require("./AppLoader"),
-  AppUpdater = require("./AppUpdater");
+  AppUpdater = require("./AppUpdater"),
+  AppLoader = require("./AppLoader");
 
 /*
  * Application Events
@@ -23,21 +21,23 @@ app.on("window-all-closed", onAppWindowAllCloseCb);
  * Event Callback Functions
  */
 function onAppReadyCb() {
+  log.info("[App] ready -> " + Util.getAppName());
   app.setName("MetaOS");
   initLogger();
   WindowManager.init();
   EventManager.init();
   SlackManager.init();
-  AppLoader.init();
   AppUpdater.init();
+  AppLoader.init();
 }
 
-// FIXME doesn't work, untested
-function onAppActivateCb() {}
+function onAppActivateCb() {
+  log.info("[App] Activate Application");
+}
 
-// FIXME dont think we want to do this, quit done from tray or app menu
 function onAppWindowAllCloseCb() {
   if (process.platform !== "darwin") {
+    log.info("[App] Window All Closed -> quit");
     app.quit();
   }
 }
@@ -54,4 +54,5 @@ function initLogger() {
   }
   log.transports.file.level = level;
   log.transports.console.level = level;
+  log.info("[Logger] log file initialized");
 }

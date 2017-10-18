@@ -1,5 +1,4 @@
 const Updater = require("electron-updater").autoUpdater,
-  Util = require("./Util"),
   log = require("electron-log"),
   isDev = require("electron-is-dev");
 

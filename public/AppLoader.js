@@ -1,11 +1,9 @@
-const { Menu, Tray } = require("electron"),
-  Util = require("./Util"),
+const { app, Menu, Tray } = require("electron"),
   path = require("path"),
   log = require("electron-log"),
+  Util = require("./Util"),
   WindowManager = require("./WindowManager"),
-  assetsDirectory = path.join(__dirname, "assets"),
-  applicationIcon = assetsDirectory + "/icons/icon.ico",
-  trayIcon = assetsDirectory + "/icons/icon.png";
+  AppMenu = require("./AppMenu");
 
 /*
  * This class is used to init the Application loading
@@ -16,9 +14,9 @@ module.exports = class AppLoader {
    */
   static init() {
     log.info("Initialize AppLoader");
-    this.tray = null;
+    // this.tray = null;
     WindowManager.createWindowLoading();
-    this.createTray();
+    // this.createTray();
     this.createMenu();
   }
 
@@ -28,54 +26,11 @@ module.exports = class AppLoader {
    */
   // TODO move to its own class
   static createMenu() {
-    if (process.platform !== "darwin") return;
-    let menu = null;
-    const template = [
-      {
-        label: app.getName(),
-        submenu: [
-          { role: "about" },
-          { type: "separator" },
-          { role: "services", submenu: [] },
-          { type: "separator" },
-          { role: "hide" },
-          { role: "hideothers" },
-          { role: "unhide" },
-          { type: "separator" },
-          { role: "quit" }
-        ]
-      },
-      {
-        role: "window",
-        submenu: [
-          { role: "close" },
-          { role: "minimize" },
-          { type: "separator" },
-          { role: "front" }
-        ]
-      },
-      {
-        role: "help",
-        submenu: [
-          {
-            label: "MetaOS - Learn More",
-            click() {
-              require("electron").shell.openExternal(
-                "http://www.openmastery.org/"
-              );
-            }
-          },
-          {
-            label: "Report bug",
-            click() {
-              WindowManager.createWindowBugReport();
-            }
-          }
-        ]
-      }
-    ];
-    menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
+    if (process.platform === "darwin") {
+      Menu.setApplicationMenu(new AppMenu());
+    } else {
+      Menu.setApplicationMenu(null);
+    }
   }
 
   /*
@@ -83,6 +38,9 @@ module.exports = class AppLoader {
    */
   // TODO move to its own class
   static createTray() {
+    let assetsDirectory = path.join(__dirname, "assets");
+    let trayIcon = assetsDirectory + "/icons/icon.png";
+    log.info("test");
     this.tray = new Tray(trayIcon);
     this.tray.on("click", (event, bounds, position) => {
       log.info("[Tray] tray event -> click");
