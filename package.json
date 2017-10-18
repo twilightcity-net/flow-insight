@@ -54,7 +54,7 @@
     "concurrently": "^3.4.0",
     "cross-env": "^5.0.1",
     "electron": "^1.6.10",
-    "electron-builder": "^19.8.0",
+    "electron-builder": "^19.37.2",
     "gulp": "^3.9.1",
     "gulp-clean": "^0.3.2",
     "gulp-gnirts": "^1.0.3",
@@ -170,8 +170,8 @@
       "perMachine": true,
       "artifactName": "${productName}-Setup-${version}.${ext}",
       "uninstallDisplayName": "${productName}",
-      "differentialPackage": true,
-      "warningsAsErrors": true
+      "differentialPackage": false,
+      "warningsAsErrors": false
     },
     "publish": {
       "provider": "github"
