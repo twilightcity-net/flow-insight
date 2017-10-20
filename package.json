@@ -27,8 +27,9 @@
     "bundle": "gulp browserify && gulp uglify",
     "postbundle": "gulp clean",
     "prerelease": "yarn bundle",
+    "prerelease:publish": "yarn bundle",
     "release": "build --em.main=build/org.openmastery.metaos.dat --publish=never",
-    "publish": "build --em.main=build/org.openmastery.metaos.dat --publish=always",
+    "release:publish": "build --em.main=build/org.openmastery.metaos.dat --publish=always",
     "prerelease:update:build:win": "yarn prerelease",
     "release:update:build:win": ".\\tasks\\update-dist.bat",
     "release:update:win": ".\\tasks\\update-dist.bat"
