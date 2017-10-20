@@ -2,7 +2,7 @@
   "name": "metaos-desktop",
   "productName": "MetaOS",
   "description": "MetaOS",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "private": true,
   "author": {
     "name": "OpenMastery.org",
