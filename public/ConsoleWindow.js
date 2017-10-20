@@ -2,6 +2,7 @@ const { BrowserWindow } = require("electron"),
   isDev = require("electron-is-dev"),
   path = require("path"),
   ViewManagerHelper = require("./ViewManagerHelper"),
+  { EventManager, MainEvent } = require("./EventManager"),
   assetsDirectory = path.join(__dirname, "assets"),
   applicationIcon = assetsDirectory + "/icons/icon.ico";
 
@@ -26,8 +27,19 @@ module.exports = class ConsoleWindow {
       fullscreenable: false,
       webPreferences: { devTools: isDev, toolbar: false }
     });
-
-    // do not show a menu
     this.window.setMenu(null);
+    this.events = {
+      ready: new ConsoleWindowEventReady(this)
+    };
+    this.window.on("ready-to-show", () => {
+      EventManager.dispatch(EventManager.EventTypes.WINDOW_CONSOLE_READY, 0);
+    });
   }
 };
+
+class ConsoleWindowEventReady extends MainEvent {
+  constructor(window) {
+    super(EventManager.EventTypes.WINDOW_CONSOLE_READY, window);
+    return this;
+  }
+}

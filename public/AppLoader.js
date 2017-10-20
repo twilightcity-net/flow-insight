@@ -41,20 +41,20 @@ module.exports = class AppLoader {
    */
   static createConsole() {
     log.info("[AppLoader] create console");
+    WindowManager.createWindowConsole();
   }
 };
 
 class LoadingWindowEventShown extends MainEvent {
   constructor(clazz) {
     super(EventManager.EventTypes.WINDOW_LOADING_SHOWN, clazz, (event, arg) => {
-      log.info(">>>loading shown event");
       setTimeout(() => {
         EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
-          load: "consoleWindow",
-          value: 0,
+          load: "console",
+          value: 1,
           total: 3,
-          label: "Loading...",
-          text: "Creating console window..."
+          label: "Feeding lemmings and unicorns...",
+          text: "Creating Console..."
         });
       }, 500);
     });
@@ -63,9 +63,11 @@ class LoadingWindowEventShown extends MainEvent {
 }
 
 class AppLoaderEventLoad extends MainEvent {
-  constructor(clazz) {
-    super(EventManager.EventTypes.APPLOADER_LOAD, clazz, (event, arg) => {
-      log.info(">>>loading load event");
+  constructor(appLoader) {
+    super(EventManager.EventTypes.APPLOADER_LOAD, appLoader, (event, arg) => {
+      if (arg.load === "console") {
+        appLoader.createConsole();
+      }
     });
     return this;
   }

@@ -36,8 +36,8 @@ module.exports = class LoadingWindow {
 };
 
 class LoadingWindowEventShown extends MainEvent {
-  constructor(clazz) {
-    super(EventManager.EventTypes.WINDOW_LOADING_SHOWN, clazz);
+  constructor(window) {
+    super(EventManager.EventTypes.WINDOW_LOADING_SHOWN, window);
     return this;
   }
 }
