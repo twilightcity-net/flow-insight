@@ -17,11 +17,10 @@ class MainEvent {
     log.info("create event : " + eventType);
     this.type = eventType;
     this.caller = caller;
-    this.sender = this.createNewSender();
     this.callback = callback;
     this.reply = reply;
     this.async = async;
-    this.active = true; //private
+    EventManager.initSender(this);
     EventManager.initReturnValues(this);
     EventManager.registerEvent(this);
   }
@@ -39,50 +38,12 @@ class MainEvent {
    * event: the caller of this event callback
    */
   executeCb(event, arg) {
-    if (!this.isActive) return;
     log.info("execute callback -> " + this.type + " : " + arg);
     try {
       return this.callback(event, arg);
     } catch (e) {
       throw new EventCallbackException(this.type, e);
     }
-  }
-
-  /*
-   * called automatically if a reply function is specified
-   * arg: data object sent from the caller
-   * event: the caller of this event callback
-   */
-  executeReply(event, arg) {
-    if (!this.isActive) return;
-    log.info("execute reply -> " + this.type + "-reply : " + arg);
-    try {
-      return this.reply(event, arg);
-    } catch (e) {
-      throw new EventReplyException(this.type, e);
-    }
-  }
-
-  /*
-   * checks to see if event is active or not
-   */
-  isActive() {
-    if (this.active) return true;
-    log.info("event inactive : " + this.types);
-    return false;
-  }
-
-  /*
-   * creates new sender object that can dispatch the event in a 
-   * feedback loop. Useful for calling circular events within 
-   * a state machine.
-   */
-  createNewSender() {
-    return {
-      send: function(_eventType, _arg) {
-        EventManager.dispatch(_eventType, _arg);
-      }
-    };
   }
 }
 
@@ -160,6 +121,19 @@ class EventManager {
   }
 
   /*
+   * creates new sender object that can dispatch the event in a 
+   * feedback loop. Useful for calling circular events within 
+   * a state machine.
+   */
+  static initSender(event) {
+    event.sender = {
+      send: function(_eventType, _arg) {
+        EventManager.dispatch(_eventType, _arg);
+      }
+    };
+  }
+
+  /*
    * creates returnValues object with null values. called when dispatching 
    * a new event channel
    */
@@ -178,7 +152,6 @@ class EventManager {
    */
   static registerEvent(mainEvent) {
     log.info("register event : " + mainEvent.type);
-    mainEvent.active = true;
     mainEvent = this.createListener(mainEvent);
     ipcMain.on(mainEvent.type, mainEvent.listener);
     log.info("store event : " + mainEvent.type);
@@ -194,7 +167,7 @@ class EventManager {
     mainEvent.listener = (event, arg) => {
       log.info("renderer event : " + mainEvent.type + " -> " + arg);
       try {
-        let value = mainEvent.executeCb(event, arg);
+        let value = mainEvent.executeCb(mainEvent, arg);
         event.returnValue = value;
         if (mainEvent.async) {
           log.info("reply event -> " + mainEvent.type + " : " + value);
@@ -211,14 +184,11 @@ class EventManager {
   /*
    * removes an event from the global events registry. The event much match
    * the pointer to it. not by the name. Returns the event that was removed.
-   * A flag for active is set to false which will prevent dispatching the 
-   * the event.
    */
   static unregisterEvent(event) {
     let index = this.events.indexOf(event);
     log.info("unregister event : " + event.type + " @ [" + index + "]");
     this.events.splice(index, 1);
-    event.active = false;
     ipcMain.removeListener(event.type, event.listener);
     return event;
   }
@@ -226,12 +196,26 @@ class EventManager {
   /*
    * removes the listeners and returns an empty object
    */
-  destroy(event) {
+  static destroy(event) {
     this.unregisterEvent(event);
     for (let property in event) {
       delete event[property];
     }
     return null;
+  }
+
+  /*
+   * called automatically if a reply function is specified
+   * arg: data object sent from the caller
+   * event: the caller of this event callback
+   */
+  static executeReply(event, arg) {
+    log.info("execute reply -> " + event.type + "-reply : " + arg);
+    try {
+      return event.reply(event, arg);
+    } catch (e) {
+      throw new EventReplyException(event.type, e);
+    }
   }
 
   /*
@@ -263,7 +247,7 @@ class EventManager {
       event.returnValues.callback = event.executeCb(event, arg);
       if (event.reply) {
         log.info("handle reply : " + event.type + "-reply");
-        event.returnValues.reply = event.executeReply(event, arg);
+        event.returnValues.reply = this.executeReply(event, arg);
       }
     } catch (error) {
       this.handleError(event, error);

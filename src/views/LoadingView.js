@@ -122,12 +122,10 @@ export default class LoadingView extends Component {
         console.log(
           "[Renderer] test-eventD : callback -> hello from D : " + arg
         );
-        // throw new Error("test error");
         return arg;
       },
       function(event, arg) {
         console.log("[Renderer] test-eventD : reply -> hello from D : " + arg);
-        // throw new Error("test error");
         return arg;
       }
     );

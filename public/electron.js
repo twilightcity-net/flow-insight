@@ -75,7 +75,10 @@ function testEventManager() {
       log.info("test-eventA : callback -> hello from A : " + arg);
       return arg;
     },
-    null,
+    function(event, arg) {
+      log.info("test-eventA : reply -> hello from A : " + arg);
+      return arg;
+    },
     true
   );
 
