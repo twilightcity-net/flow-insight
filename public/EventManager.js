@@ -14,7 +14,7 @@ class MainEvent {
    * async: weather to send an async message back
    */
   constructor(eventType, caller, callback, reply, async) {
-    log.info("create event : " + eventType);
+    log.info("[EventManager] create event : " + eventType);
     this.type = eventType;
     this.caller = caller;
     this.callback = callback;
@@ -22,7 +22,7 @@ class MainEvent {
     this.async = async;
     EventManager.initSender(this);
     EventManager.initReturnValues(this);
-    EventManager.registerEvent(this);
+    EventManager.register(this);
   }
 
   /*
@@ -136,12 +136,12 @@ class EventManager {
    * with variable pointers. The event should be store as a variable in the 
    * caller class
    */
-  static registerEvent(mainEvent) {
-    log.info("register event : " + mainEvent.type);
-    mainEvent = this.createListener(mainEvent);
-    ipcMain.on(mainEvent.type, mainEvent.listener);
-    log.info("store event : " + mainEvent.type);
-    this.events.push(mainEvent);
+  static register(event) {
+    log.info("[EventManager] register event : " + event.type);
+    event = this.createListener(event);
+    ipcMain.on(event.type, event.listener);
+    log.info("[EventManager] store event : " + event.type);
+    this.events.push(event);
   }
 
   /*
@@ -151,16 +151,18 @@ class EventManager {
    */
   static createListener(event) {
     event.listener = (_event, _arg) => {
-      log.info("renderer event : " + event.type + " -> " + _arg);
+      log.info("[EventManager] renderer event : " + event.type + " -> " + _arg);
       try {
-        let value = EventManager.executeCb(event, _arg);
+        let value = EventManager.executeCallback(event, _arg);
         _event.returnValue = value;
         if (event.async) {
-          log.info("reply event -> " + event.type + " : " + value);
+          log.info(
+            "[EventManager] reply event -> " + event.type + " : " + value
+          );
           _event.sender.send(event.type + "-reply", value);
         }
       } catch (e) {
-        log.error(e.toString() + "\n\n" + e.stack + "\n");
+        log.error("[EventManager] " + e.toString() + "\n\n" + e.stack + "\n");
         _event.returnValue = e;
       }
     };
@@ -171,9 +173,11 @@ class EventManager {
    * removes an event from the global events registry. The event much match
    * the pointer to it. not by the name. Returns the event that was removed.
    */
-  static unregisterEvent(event) {
+  static unregister(event) {
     let index = this.events.indexOf(event);
-    log.info("unregister event : " + event.type + " @ [" + index + "]");
+    log.info(
+      "[EventManager] unregister event : " + event.type + " @ [" + index + "]"
+    );
     this.events.splice(index, 1);
     ipcMain.removeListener(event.type, event.listener);
     return event;
@@ -183,7 +187,8 @@ class EventManager {
    * removes the listeners and returns an empty object
    */
   static destroy(event) {
-    this.unregisterEvent(event);
+    log.info("[EventManager] destroy event : " + event.type);
+    this.unregister(event);
     for (let property in event) {
       delete event[property];
     }
@@ -195,8 +200,8 @@ class EventManager {
    * arg: data object sent from the caller
    * event: the caller of this event callback
    */
-  static executeCb(event, arg) {
-    log.info("execute callback -> " + event.type + " : " + arg);
+  static executeCallback(event, arg) {
+    log.info("[EventManager] execute callback -> " + event.type + " : " + arg);
     try {
       return event.callback(event, arg);
     } catch (e) {
@@ -210,7 +215,9 @@ class EventManager {
    * event: the caller of this event callback
    */
   static executeReply(event, arg) {
-    log.info("execute reply -> " + event.type + "-reply : " + arg);
+    log.info(
+      "[EventManager] execute reply -> " + event.type + "-reply : " + arg
+    );
     try {
       return event.reply(event, arg);
     } catch (e) {
@@ -222,16 +229,16 @@ class EventManager {
    * called to execute the event callback within main process threads
    */
   static dispatch(eventType, arg) {
-    log.info("dispatch event : " + eventType);
+    log.info("[EventManager] dispatch event : " + eventType);
     let returnedEvents = [];
     for (var i = 0; i < this.events.length; i++) {
       if (this.events[i].type === eventType) {
-        log.info("found event : " + eventType);
+        log.info("[EventManager] found event : " + eventType);
         returnedEvents.push(this.handleEvent(this.events[i], arg));
       }
     }
     for (var j = 0; j < WindowManager.Windows.length; j++) {
-      log.info("dispatch window event : " + eventType);
+      log.info("[EventManager] dispatch window event : " + eventType);
       WindowManager.Windows[j].window.webContents.send(eventType, arg);
     }
     return returnedEvents;
@@ -243,10 +250,10 @@ class EventManager {
   static handleEvent(event, arg) {
     this.initReturnValues(event);
     try {
-      log.info("handle callback : " + event.type);
-      event.returnValues.callback = EventManager.executeCb(event, arg);
+      log.info("[EventManager] handle callback : " + event.type);
+      event.returnValues.callback = EventManager.executeCallback(event, arg);
       if (event.reply) {
-        log.info("handle reply : " + event.type + "-reply");
+        log.info("[EventManager] handle reply : " + event.type + "-reply");
         event.returnValues.reply = this.executeReply(event, arg);
       }
     } catch (error) {
@@ -266,7 +273,9 @@ class EventManager {
     } else if (error instanceof EventReplyException) {
       event.returnValues.reply = error;
     }
-    log.error(error.toString() + "\n\n" + error.stack + "\n");
+    log.error(
+      "[EventManager] " + error.toString() + "\n\n" + error.stack + "\n"
+    );
   }
 
   /*
