@@ -11,8 +11,6 @@ module.exports = class BugReportWindow {
     this.name = WindowManager.WindowNames.BUGREPORT;
     this.view = ViewManagerHelper.ViewNames.BUGREPORT;
     this.url = WindowManager.getWindowViewURL(this.view);
-
-    // the main window for view content
     this.window = new BrowserWindow({
       name: this.name,
       width: 900,

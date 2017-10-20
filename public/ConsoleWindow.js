@@ -15,8 +15,6 @@ module.exports = class ConsoleWindow {
     this.name = WindowManager.WindowNames.CONSOLE;
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
     this.url = WindowManager.getWindowViewURL(this.view);
-
-    // the main window for view content
     this.window = new BrowserWindow({
       name: this.name,
       width: 900,
