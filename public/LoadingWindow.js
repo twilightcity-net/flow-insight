@@ -31,18 +31,20 @@ module.exports = class LoadingWindow {
     // dont show a menu
     this.window.setMenu(null);
 
-    let event = this.createShownEvent();
+    let event = new LoadingWindowEventShown(this);
     event.dispatch(0);
-  }
-
-  createShownEvent() {
-    let event = new MainEvent(
-      EventManager.EventTypes.WINDOW_LOADING_SHOWN,
-      this,
-      function(event, arg) {
-        log.info("test:" + arg);
-      }
-    );
-    return event;
+    EventManager.dispatch(EventManager.EventTypes.WINDOW_LOADING_SHOWN, 1);
   }
 };
+
+class LoadingWindowEventShown extends MainEvent {
+  constructor(window) {
+    super(EventManager.EventTypes.WINDOW_LOADING_SHOWN, window, function(
+      event,
+      arg
+    ) {
+      log.info("test:" + arg);
+    });
+    return this;
+  }
+}
