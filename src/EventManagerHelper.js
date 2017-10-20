@@ -22,7 +22,7 @@ export class RendererEvent {
   }
 
   dispatch(arg) {
-    EventManagerHelper.dispatch(this, arg);
+    return EventManagerHelper.dispatch(this, arg);
   }
 }
 
@@ -72,16 +72,6 @@ class EventException {
  * and register event handlers.
  */
 export class EventManagerHelper {
-  /*
-   * static enum subclass to store event names
-   */
-  static get EventTypes() {
-    let prefix = "metaos-ipc-";
-    return {
-      TEST_EVENT: prefix + "test"
-    };
-  }
-
   /*
    * checks the sync return value for an exception. Required becuase the IPC 
    * transport uncasts the object type, and well having all classes of type
@@ -195,5 +185,15 @@ export class EventManagerHelper {
     } finally {
       return event;
     }
+  }
+
+  /*
+   * static enum subclass to store event names
+   */
+  static get EventTypes() {
+    let prefix = "metaos-ipc-";
+    return {
+      TEST_EVENT: prefix + "test"
+    };
   }
 }
