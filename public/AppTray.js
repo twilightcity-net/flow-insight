@@ -1,4 +1,4 @@
-const { Tray } = require("electron"),
+const { Menu, Tray } = require("electron"),
   log = require("electron-log"),
   Util = require("./Util");
 
@@ -8,7 +8,15 @@ const { Tray } = require("electron"),
 module.exports = class AppTray extends Tray {
   constructor() {
     log.info("[AppTray] create tray");
-    super(Util.getAssetPath("/icons/icon.png"));
+    super(Util.getAssetPath("/icons/icon.ico"));
+    let menu = Menu.buildFromTemplate([
+      {
+        label: "Quit",
+        role: "quit"
+      }
+    ]);
+    this.setToolTip("MetaOS - desktop application");
+    this.setContextMenu(menu);
     this.on("click", (event, bounds, position) => {
       log.info("[AppTray] tray event -> click");
     });

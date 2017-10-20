@@ -15,16 +15,13 @@ module.exports = class AppLoader {
    */
   static init() {
     log.info("[AppLoader] Initialize");
+    Util.setAppTray(new AppTray());
     this.loadingWindow = WindowManager.createWindowLoading();
+    this.createMenu();
     this.events = {
       shown: new LoadingWindowEventShown(this),
       load: new AppLoaderEventLoad(this)
     };
-
-    // move to callbacks
-    this.createTray();
-    this.createMenu();
-    this.createConsole();
   }
 
   /*
@@ -40,13 +37,6 @@ module.exports = class AppLoader {
   }
 
   /*
-   * Creates the system tray object and icon.
-   */
-  static createTray() {
-    Util.setAppTray(new AppTray());
-  }
-
-  /*
    * creates the console window to the application
    */
   static createConsole() {
@@ -58,8 +48,15 @@ class LoadingWindowEventShown extends MainEvent {
   constructor(clazz) {
     super(EventManager.EventTypes.WINDOW_LOADING_SHOWN, clazz, (event, arg) => {
       log.info(">>>loading shown event");
-      EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, 0);
-      return 0;
+      setTimeout(() => {
+        EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
+          load: "consoleWindow",
+          value: 0,
+          total: 3,
+          label: "Loading...",
+          text: "Creating console window"
+        });
+      }, 500);
     });
     return this;
   }
@@ -69,7 +66,6 @@ class AppLoaderEventLoad extends MainEvent {
   constructor(clazz) {
     super(EventManager.EventTypes.APPLOADER_LOAD, clazz, (event, arg) => {
       log.info(">>>loading load event");
-      return 0;
     });
     return this;
   }

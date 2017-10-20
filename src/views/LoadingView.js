@@ -28,7 +28,7 @@ export default class LoadingView extends Component {
       text: "Checking for new version...",
       icon: "hand spock"
     },
-    progress: { color: "violet", value: 0, total: 5, label: "Checking..." }
+    progress: { color: "violet", value: 0, total: 3, label: "Checking..." }
   };
 
   /*
@@ -39,32 +39,22 @@ export default class LoadingView extends Component {
   constructor(props) {
     super(props);
     console.log("[LoadingView] component instantiated");
-    this.registerEvents();
+    this.events = this.createEvents();
   }
 
-  registerEvents() {
+  createEvents() {
     console.log("[LoadingView] register events");
-
-    let shownEvent = new RendererEvent(
-      EventManagerHelper.EventTypes.WINDOW_LOADING_SHOWN,
-      this,
-      (event, arg) => {
-        console.log("[LoadingView] loading window shown");
-        // console.log(this);
-      }
-    );
-
     let loadEvent = new RendererEvent(
       EventManagerHelper.EventTypes.APPLOADER_LOAD,
       this,
       function(event, arg) {
-        console.log("[LoadingView] apploader load event : " + arg);
+        console.log("[LoadingView] event : " + event.type);
         console.log(this);
+        console.log(arg);
       }
     );
 
-    this.events = {
-      shown: shownEvent,
+    return {
       load: loadEvent
     };
   }
