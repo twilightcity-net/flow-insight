@@ -10,9 +10,9 @@ const { ipcRenderer, remote } = window.require("electron"),
  * main process or the renderer will hang
  */
 export class RendererEvent {
-  constructor(eventType, caller, callback, reply) {
+  constructor(eventType, scope, callback, reply) {
     this.type = eventType;
-    this.caller = caller;
+    this.scope = scope;
     this.callback = callback;
     this.reply = reply;
     this.returnValue = null;
@@ -193,7 +193,8 @@ export class EventManagerHelper {
   static get EventTypes() {
     let prefix = "metaos-ipc-";
     return {
-      TEST_EVENT: prefix + "test"
+      WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
+      APPLOADER_LOAD: prefix + "apploader-load"
     };
   }
 }

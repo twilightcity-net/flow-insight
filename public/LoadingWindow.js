@@ -13,8 +13,6 @@ module.exports = class LoadingWindow {
     this.name = WindowManager.WindowNames.LOADING;
     this.view = ViewManagerHelper.ViewNames.LOADING;
     this.url = WindowManager.getWindowViewURL(this.view);
-
-    // creates the BrowserWindow with View Content
     this.window = new BrowserWindow({
       name: this.name,
       width: 360,
@@ -27,24 +25,19 @@ module.exports = class LoadingWindow {
       fullscreenable: false,
       webPreferences: { devTools: isDev, toolbar: false }
     });
-
-    // dont show a menu
     this.window.setMenu(null);
-
-    let event = new LoadingWindowEventShown(this);
-    event.dispatch(0);
-    EventManager.dispatch(EventManager.EventTypes.WINDOW_LOADING_SHOWN, 1);
+    this.events = {
+      shown: new LoadingWindowEventShown(this)
+    };
+    this.window.on("show", () => {
+      EventManager.dispatch(EventManager.EventTypes.WINDOW_LOADING_SHOWN, 0);
+    });
   }
 };
 
 class LoadingWindowEventShown extends MainEvent {
-  constructor(window) {
-    super(EventManager.EventTypes.WINDOW_LOADING_SHOWN, window, function(
-      event,
-      arg
-    ) {
-      log.info("test:" + arg);
-    });
+  constructor(clazz) {
+    super(EventManager.EventTypes.WINDOW_LOADING_SHOWN, clazz);
     return this;
   }
 }

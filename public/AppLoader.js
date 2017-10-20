@@ -2,6 +2,7 @@ const { app, Tray } = require("electron"),
   log = require("electron-log"),
   Util = require("./Util"),
   WindowManager = require("./WindowManager"),
+  { EventManager, MainEvent } = require("./EventManager"),
   AppMenu = require("./AppMenu"),
   AppTray = require("./AppTray");
 
@@ -15,6 +16,12 @@ module.exports = class AppLoader {
   static init() {
     log.info("[AppLoader] Initialize");
     this.loadingWindow = WindowManager.createWindowLoading();
+    this.events = {
+      shown: new LoadingWindowEventShown(this),
+      load: new AppLoaderEventLoad(this)
+    };
+
+    // move to callbacks
     this.createTray();
     this.createMenu();
     this.createConsole();
@@ -46,3 +53,24 @@ module.exports = class AppLoader {
     log.info("[AppLoader] create console");
   }
 };
+
+class LoadingWindowEventShown extends MainEvent {
+  constructor(clazz) {
+    super(EventManager.EventTypes.WINDOW_LOADING_SHOWN, clazz, (event, arg) => {
+      log.info(">>>loading shown event");
+      EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, 0);
+      return 0;
+    });
+    return this;
+  }
+}
+
+class AppLoaderEventLoad extends MainEvent {
+  constructor(clazz) {
+    super(EventManager.EventTypes.APPLOADER_LOAD, clazz, (event, arg) => {
+      log.info(">>>loading load event");
+      return 0;
+    });
+    return this;
+  }
+}

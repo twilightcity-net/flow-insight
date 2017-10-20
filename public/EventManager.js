@@ -8,14 +8,15 @@ const { ipcMain } = require("electron"),
 class MainEvent {
   /*
    * eventType: the name of the event to listen on
-   * caller: parent object that created the event
+   * scope: parent object that created the event
    * callback: the function to dispatch
-   * async: weather to send an async message back
+   * reply: the reply function to dispatch
+   * async: true to send an async message back
    */
-  constructor(eventType, caller, callback, reply, async) {
+  constructor(eventType, scope, callback, reply, async) {
     log.info("[EventManager] create event : " + eventType);
     this.type = eventType;
-    this.caller = caller;
+    this.scope = scope;
     this.callback = callback;
     this.reply = reply;
     this.async = async;
@@ -135,7 +136,7 @@ class EventManager {
    * adds new event into a global array to manage. There can exist multiple
    * events of the same name, and even same functions. They are referenced 
    * with variable pointers. The event should be store as a variable in the 
-   * caller class
+   * scope class
    */
   static register(event) {
     log.info("[EventManager] register event : " + event.type);
@@ -198,13 +199,13 @@ class EventManager {
 
   /*
    * called by the dispatch function of the Manager
-   * arg: data object sent from the caller
-   * event: the caller of this event callback
+   * arg: data object sent from the scope
+   * event: the scope of this event callback
    */
   static executeCallback(event, arg) {
     log.info("[EventManager] execute callback -> " + event.type + " : " + arg);
     try {
-      return event.callback(event, arg);
+      if (event.callback) return event.callback(event, arg);
     } catch (e) {
       throw new EventCallbackException(event.type, e);
     }
@@ -212,8 +213,8 @@ class EventManager {
 
   /*
    * called automatically if a reply function is specified
-   * arg: data object sent from the caller
-   * event: the caller of this event callback
+   * arg: data object sent from the scope
+   * event: the scope of this event callback
    */
   static executeReply(event, arg) {
     log.info(
@@ -288,7 +289,8 @@ class EventManager {
   static get EventTypes() {
     let prefix = "metaos-ipc-";
     return {
-      WINDOW_LOADING_SHOWN: prefix + "window-loading-shown"
+      WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
+      APPLOADER_LOAD: prefix + "apploader-load"
     };
   }
 }

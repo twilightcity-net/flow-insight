@@ -38,8 +38,35 @@ export default class LoadingView extends Component {
 
   constructor(props) {
     super(props);
-    console.log("component instantiated");
-    // STUB
+    console.log("[LoadingView] component instantiated");
+    this.registerEvents();
+  }
+
+  registerEvents() {
+    console.log("[LoadingView] register events");
+
+    let shownEvent = new RendererEvent(
+      EventManagerHelper.EventTypes.WINDOW_LOADING_SHOWN,
+      this,
+      (event, arg) => {
+        console.log("[LoadingView] loading window shown");
+        // console.log(this);
+      }
+    );
+
+    let loadEvent = new RendererEvent(
+      EventManagerHelper.EventTypes.APPLOADER_LOAD,
+      this,
+      function(event, arg) {
+        console.log("[LoadingView] apploader load event : " + arg);
+        console.log(this);
+      }
+    );
+
+    this.events = {
+      shown: shownEvent,
+      load: loadEvent
+    };
   }
 
   /*
@@ -53,17 +80,16 @@ export default class LoadingView extends Component {
    * componentDidUpdate()
    */
   componentWillMount() {
-    console.log("component will mount");
+    console.log("[LoadingView] component will mount");
     // STUB
   }
 
   componentDidMount() {
-    console.log("component did mount");
-    this.createUpdateEvents();
+    console.log("[LoadingView] component did mount");
   }
 
   componentWillUnmount() {
-    console.log("component did unmount");
+    console.log("[LoadingView] component did unmount");
     // STUB
   }
 
@@ -110,26 +136,5 @@ export default class LoadingView extends Component {
         </Progress>
       </Segment>
     );
-  }
-
-  createUpdateEvents() {
-    console.log("create update event");
-
-    // let updateEvent = new RendererEvent(
-    //   EventManagerHelper.EventTypes.TEST_EVENT,
-    //   this,
-    //   function(event, arg) {
-    //     console.log(
-    //       "[Renderer] test-eventD : callback -> hello from D : " + arg
-    //     );
-    //     return arg;
-    //   },
-    //   function(event, arg) {
-    //     console.log("[Renderer] test-eventD : reply -> hello from D : " + arg);
-    //     return arg;
-    //   }
-    // );
-
-    // updateEvent.dispatch(2);
   }
 }
