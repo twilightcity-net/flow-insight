@@ -21,6 +21,7 @@ module.exports = class AppLoader {
     this.events = {
       shown: new LoadingWindowEventShown(this),
       consoleReady: new ConsoleWindowEventReady(this),
+      shortcutsRegistered: new ShortcutsEventRegistered(this),
       load: new AppLoaderEventLoad(this)
     };
   }
@@ -52,6 +53,16 @@ module.exports = class AppLoader {
     log.info("[AppLoader] register shortcuts");
 
     // TODO implement shortcut registry
+
+    this.events.shortcutsRegistered.dispatch();
+  }
+
+  /*
+   * called when AppLoader is completed
+   */
+  static finished() {
+    log.info("[AppLoader] finished");
+    WindowManager.closeWindow(this.loadingWindow, true);
   }
 };
 
@@ -87,10 +98,31 @@ class ConsoleWindowEventReady extends MainEvent {
             load: "shortcuts",
             value: 2,
             total: 3,
-            label: "Calculating schmeckles ...",
+            label: "Calculating schmeckles...",
             text: "Registering shortcuts..."
           });
         }, 200);
+      }
+    );
+    return this;
+  }
+}
+
+class ShortcutsEventRegistered extends MainEvent {
+  constructor(appLoader) {
+    super(
+      EventManager.EventTypes.SHORTCUTS_REGISTERED,
+      appLoader,
+      (event, arg) => {
+        setTimeout(() => {
+          EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
+            load: "finished",
+            value: 3,
+            total: 3,
+            label: "Matrix activated",
+            text: "Ready!"
+          });
+        }, 250);
       }
     );
     return this;
@@ -104,6 +136,8 @@ class AppLoaderEventLoad extends MainEvent {
         appLoader.createConsole();
       } else if (arg.load === "shortcuts") {
         appLoader.registerShortcuts();
+      } else if (arg.load === "finished") {
+        appLoader.finished();
       }
     });
     return this;

@@ -291,7 +291,8 @@ class EventManager {
     return {
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
       WINDOW_CONSOLE_READY: prefix + "window-console-ready",
-      APPLOADER_LOAD: prefix + "apploader-load"
+      APPLOADER_LOAD: prefix + "apploader-load",
+      SHORTCUTS_REGISTERED: prefix + "shortcuts-registered"
     };
   }
 }
