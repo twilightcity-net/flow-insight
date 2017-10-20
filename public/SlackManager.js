@@ -14,6 +14,7 @@ module.exports = class SlackManager {
    */
   static init() {
     log.info("[SlackManager] Initialize");
+    global.SlackManager = this;
     //this.test();
   }
 
@@ -23,7 +24,7 @@ module.exports = class SlackManager {
   static test() {
     this.sendBuggeryMessage(
       "I'm Mr. Meeseeks, look at me!!!",
-      this.buggeryMessageCb
+      this.buggeryMessageCallback
     );
   }
 
@@ -37,7 +38,7 @@ module.exports = class SlackManager {
     webhook.send(message, callback);
   }
 
-  static buggeryMessageCb(err, header, statusCode, body) {
+  static buggeryMessageCallback(err, header, statusCode, body) {
     if (err) {
       Notifier.notify(
         {

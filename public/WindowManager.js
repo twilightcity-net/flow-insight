@@ -20,13 +20,7 @@ module.exports = class WindowManager {
   static init() {
     log.info("[WindowManager] Initialize");
     this.windows = [];
-  }
-
-  /*
-   * Static array containing all of our windows the app uses
-   */
-  static get Windows() {
-    return this.windows;
+    global.WindowManager = this;
   }
 
   /*
@@ -131,7 +125,7 @@ module.exports = class WindowManager {
       window = this.getWindowClassFromName(name);
     }
     this.loadWindow(window);
-    this.Windows.push(window);
+    this.windows.push(window);
     return window;
   }
 
@@ -159,11 +153,11 @@ module.exports = class WindowManager {
     // TODO this should use a factory design
     switch (name) {
       case this.WindowNames.LOADING:
-        return new LoadingWindow(this);
+        return new LoadingWindow();
       case this.WindowNames.CONSOLE:
-        return new ConsoleWindow(this);
+        return new ConsoleWindow();
       case this.WindowNames.BUGREPORT:
-        return new BugReportWindow(this);
+        return new BugReportWindow();
       default:
         return null;
     }

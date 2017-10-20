@@ -1,7 +1,6 @@
 const { ipcMain } = require("electron"),
   log = require("electron-log"),
-  Util = require("./Util"),
-  WindowManager = require("./WindowManager");
+  Util = require("./Util");
 
 /* 
  * an object class used to instantiate new event with callbacks.
@@ -97,6 +96,8 @@ class EventManager {
   static init() {
     log.info("[EventManager] Initialize");
     this.events = [];
+    this.WindowManager = global.WindowManager;
+    global.EventManager = this;
   }
 
   /*
@@ -230,16 +231,17 @@ class EventManager {
    */
   static dispatch(eventType, arg) {
     log.info("[EventManager] dispatch event : " + eventType);
-    let returnedEvents = [];
+    let returnedEvents = [],
+      windows = this.WindowManager.windows;
     for (var i = 0; i < this.events.length; i++) {
       if (this.events[i].type === eventType) {
         log.info("[EventManager] found event : " + eventType);
         returnedEvents.push(this.handleEvent(this.events[i], arg));
       }
     }
-    for (var j = 0; j < WindowManager.Windows.length; j++) {
+    for (var j = 0; j < windows.length; j++) {
       log.info("[EventManager] dispatch window event : " + eventType);
-      WindowManager.Windows[j].window.webContents.send(eventType, arg);
+      windows[j].window.webContents.send(eventType, arg);
     }
     return returnedEvents;
   }
@@ -286,7 +288,7 @@ class EventManager {
   static get EventTypes() {
     let prefix = "metaos-ipc-";
     return {
-      TEST_EVENT: prefix + "test"
+      WINDOW_LOADING_SHOWN: prefix + "window-loading-shown"
     };
   }
 }

@@ -7,9 +7,7 @@ const ViewManagerHelper = require("./ViewManagerHelper");
  * Should display when the user select the Help menu's item for reporting bugs,
  */
 module.exports = class BugReportWindow {
-  constructor(WindowManager) {
-    // window and view properties
-    this.manager = WindowManager;
+  constructor() {
     this.name = WindowManager.WindowNames.BUGREPORT;
     this.view = ViewManagerHelper.ViewNames.BUGREPORT;
     this.url = WindowManager.getWindowViewURL(this.view);

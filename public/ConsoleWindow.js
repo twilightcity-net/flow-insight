@@ -10,8 +10,7 @@ const { BrowserWindow } = require("electron"),
  * the top of the screen with a global hot key
  */
 module.exports = class ConsoleWindow {
-  constructor(WindowManager) {
-    this.manager = WindowManager;
+  constructor() {
     this.name = WindowManager.WindowNames.CONSOLE;
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
     this.url = WindowManager.getWindowViewURL(this.view);

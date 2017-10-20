@@ -1,6 +1,7 @@
 const { BrowserWindow } = require("electron"),
   isDev = require("electron-is-dev"),
   ViewManagerHelper = require("./ViewManagerHelper"),
+  { EventManager, MainEvent } = require("./EventManager"),
   log = require("electron-log");
 
 /*
@@ -8,8 +9,7 @@ const { BrowserWindow } = require("electron"),
  * is always show when the application first loads
  */
 module.exports = class LoadingWindow {
-  constructor(WindowManager) {
-    this.manager = WindowManager;
+  constructor() {
     this.name = WindowManager.WindowNames.LOADING;
     this.view = ViewManagerHelper.ViewNames.LOADING;
     this.url = WindowManager.getWindowViewURL(this.view);
@@ -30,5 +30,19 @@ module.exports = class LoadingWindow {
 
     // dont show a menu
     this.window.setMenu(null);
+
+    let event = this.createShownEvent();
+    event.dispatch(0);
+  }
+
+  createShownEvent() {
+    let event = new MainEvent(
+      EventManager.EventTypes.WINDOW_LOADING_SHOWN,
+      this,
+      function(event, arg) {
+        log.info("test:" + arg);
+      }
+    );
+    return event;
   }
 };

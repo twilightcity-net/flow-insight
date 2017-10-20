@@ -4,8 +4,8 @@ const { app } = require("electron"),
   log = require("electron-log"),
   Util = require("./Util"),
   WindowManager = require("./WindowManager"),
+  { EventManager } = require("./EventManager"),
   SlackManager = require("./SlackManager"),
-  { EventManager, MainEvent } = require("./EventManager"),
   AppUpdater = require("./AppUpdater"),
   AppLoader = require("./AppLoader");
 
@@ -29,7 +29,6 @@ function onAppReadyCb() {
   SlackManager.init();
   AppUpdater.init();
   AppLoader.init();
-  testEventManager();
 }
 
 /*
@@ -62,30 +61,4 @@ function initLogger() {
   log.transports.file.level = level;
   log.transports.console.level = level;
   log.info("[Logger] Initialized");
-}
-
-//TESTING LOGIC
-function testEventManager() {
-  log.info("EventManager : test()");
-
-  let testEventA = new MainEvent(
-    EventManager.EventTypes.TEST_EVENT,
-    this,
-    function(event, arg) {
-      log.info("test-eventA : callback -> hello from A : " + arg);
-      return arg;
-    },
-    function(event, arg) {
-      log.info("test-eventA : reply -> hello from A : " + arg);
-      return arg;
-    },
-    true
-  );
-
-  let value = 1;
-  function intervalFunc() {
-    testEventA.dispatch(value);
-    value++;
-  }
-  setInterval(intervalFunc, 10000);
 }
