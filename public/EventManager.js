@@ -31,20 +31,6 @@ class MainEvent {
   dispatch(arg) {
     return EventManager.dispatch(this.type, arg);
   }
-
-  /*
-   * called by the dispatch function of the Manager
-   * arg: data object sent from the caller
-   * event: the caller of this event callback
-   */
-  executeCb(event, arg) {
-    log.info("execute callback -> " + this.type + " : " + arg);
-    try {
-      return this.callback(event, arg);
-    } catch (e) {
-      throw new EventCallbackException(this.type, e);
-    }
-  }
 }
 
 /*
@@ -163,22 +149,22 @@ class EventManager {
    * exception is caught, logged, and returned as an object back to the 
    * EventManagerHelper for processing
    */
-  static createListener(mainEvent) {
-    mainEvent.listener = (event, arg) => {
-      log.info("renderer event : " + mainEvent.type + " -> " + arg);
+  static createListener(event) {
+    event.listener = (_event, _arg) => {
+      log.info("renderer event : " + event.type + " -> " + _arg);
       try {
-        let value = mainEvent.executeCb(mainEvent, arg);
-        event.returnValue = value;
-        if (mainEvent.async) {
-          log.info("reply event -> " + mainEvent.type + " : " + value);
-          event.sender.send(mainEvent.type + "-reply", value);
+        let value = EventManager.executeCb(event, _arg);
+        _event.returnValue = value;
+        if (event.async) {
+          log.info("reply event -> " + event.type + " : " + value);
+          _event.sender.send(event.type + "-reply", value);
         }
       } catch (e) {
         log.error(e.toString() + "\n\n" + e.stack + "\n");
-        event.returnValue = e;
+        _event.returnValue = e;
       }
     };
-    return mainEvent;
+    return event;
   }
 
   /*
@@ -202,6 +188,20 @@ class EventManager {
       delete event[property];
     }
     return null;
+  }
+
+  /*
+   * called by the dispatch function of the Manager
+   * arg: data object sent from the caller
+   * event: the caller of this event callback
+   */
+  static executeCb(event, arg) {
+    log.info("execute callback -> " + event.type + " : " + arg);
+    try {
+      return event.callback(event, arg);
+    } catch (e) {
+      throw new EventCallbackException(event.type, e);
+    }
   }
 
   /*
@@ -244,7 +244,7 @@ class EventManager {
     this.initReturnValues(event);
     try {
       log.info("handle callback : " + event.type);
-      event.returnValues.callback = event.executeCb(event, arg);
+      event.returnValues.callback = EventManager.executeCb(event, arg);
       if (event.reply) {
         log.info("handle reply : " + event.type + "-reply");
         event.returnValues.reply = this.executeReply(event, arg);
