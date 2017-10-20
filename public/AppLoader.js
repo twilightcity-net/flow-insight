@@ -54,7 +54,7 @@ class LoadingWindowEventShown extends MainEvent {
           value: 0,
           total: 3,
           label: "Loading...",
-          text: "Creating console window"
+          text: "Creating console window..."
         });
       }, 500);
     });

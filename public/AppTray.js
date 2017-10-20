@@ -15,7 +15,7 @@ module.exports = class AppTray extends Tray {
         role: "quit"
       }
     ]);
-    this.setToolTip("MetaOS - desktop application");
+    this.setToolTip("MetaOS");
     this.setContextMenu(menu);
     this.on("click", (event, bounds, position) => {
       log.info("[AppTray] tray event -> click");

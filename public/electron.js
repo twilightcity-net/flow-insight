@@ -1,7 +1,6 @@
 const { app } = require("electron"),
-  path = require("path"),
-  isDev = require("electron-is-dev"),
   log = require("electron-log"),
+  Logger = require("./Logger"),
   Util = require("./Util"),
   WindowManager = require("./WindowManager"),
   { EventManager } = require("./EventManager"),
@@ -21,9 +20,9 @@ app.on("window-all-closed", onAppWindowAllCloseCb);
  * Event Callback Functions
  */
 function onAppReadyCb() {
+  Logger.init();
   log.info("[App] ready -> " + Util.getAppName());
-  app.setName("MetaOS");
-  initLogger();
+  app.setName(Util.getAppName());
   WindowManager.init();
   EventManager.init();
   SlackManager.init();
@@ -46,19 +45,4 @@ function onAppWindowAllCloseCb() {
     log.info("[App] Window All Closed -> quit");
     app.quit();
   }
-}
-
-/*
- * configures our logging utility on startup
- */
-// TODO move to logging class
-function initLogger() {
-  let level = "info";
-  if (isDev) {
-    level = "debug";
-    log.transports.file.file = `${path.join(app.getAppPath() + "/debug.log")}`;
-  }
-  log.transports.file.level = level;
-  log.transports.console.level = level;
-  log.info("[Logger] Initialized");
 }
