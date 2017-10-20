@@ -26,11 +26,12 @@ module.exports = class LoadingWindow {
       webPreferences: { devTools: isDev, toolbar: false }
     });
     this.window.setMenu(null);
+    this.autoShow = true;
     this.events = {
       shown: new LoadingWindowEventShown(this)
     };
     this.window.on("show", () => {
-      EventManager.dispatch(EventManager.EventTypes.WINDOW_LOADING_SHOWN, 0);
+      EventManager.dispatch(EventManager.EventTypes.WINDOW_LOADING_SHOWN);
     });
   }
 };

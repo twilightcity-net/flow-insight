@@ -69,7 +69,7 @@ module.exports = class WindowManager {
     log.info("[WindowManager] Load window : " + window.name);
     window.window.loadURL(window.url);
     window.window.on("ready-to-show", () => {
-      this.openWindow(window);
+      if (window.autoShow) this.openWindow(window);
     });
     window.window.on("closed", () => {
       this.destroyWindow(window);

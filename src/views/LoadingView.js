@@ -38,7 +38,7 @@ export default class LoadingView extends Component {
   constructor(props) {
     super(props);
     this.header = {
-      title: "Loading MetaOS",
+      title: "Staring MetaOS",
       text: "Checking for new version...",
       icon: "hand spock"
     };
@@ -46,7 +46,7 @@ export default class LoadingView extends Component {
       color: "violet",
       value: 0,
       total: 3,
-      label: "Checking..."
+      label: "Populating cats and synthesizers"
     };
     this.state = this.createState();
     this.events = this.createEvents();
@@ -78,14 +78,13 @@ export default class LoadingView extends Component {
       EventManagerHelper.EventTypes.APPLOADER_LOAD,
       this,
       function(event, arg) {
-        console.log("[LoadingView] event : " + event.type);
+        console.log("[LoadingView] event : " + this.type + " -> " + arg.load);
         this.scope.setState(state => {
           this.scope.updateHeaderText(arg.text);
           this.scope.updateProgress(arg.value, arg.total, arg.label);
         });
       }
     );
-
     return {
       load: loadEvent
     };

@@ -28,11 +28,12 @@ module.exports = class ConsoleWindow {
       webPreferences: { devTools: isDev, toolbar: false }
     });
     this.window.setMenu(null);
+    this.autoShow = false;
     this.events = {
       ready: new ConsoleWindowEventReady(this)
     };
     this.window.on("ready-to-show", () => {
-      EventManager.dispatch(EventManager.EventTypes.WINDOW_CONSOLE_READY, 0);
+      EventManager.dispatch(EventManager.EventTypes.WINDOW_CONSOLE_READY);
     });
   }
 };

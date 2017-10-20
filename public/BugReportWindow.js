@@ -23,8 +23,7 @@ module.exports = class BugReportWindow {
       fullscreenable: false,
       webPreferences: { devTools: isDev, toolbar: false }
     });
-
-    // do not show a menu
     this.window.setMenu(null);
+    this.autoShow = false;
   }
 };
