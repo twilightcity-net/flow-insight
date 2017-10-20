@@ -132,6 +132,7 @@ module.exports = class WindowManager {
     }
     this.loadWindow(window);
     this.Windows.push(window);
+    return window;
   }
 
   /*
@@ -174,16 +175,16 @@ module.exports = class WindowManager {
 	 */
   static createWindowLoading() {
     let name = this.WindowNames.LOADING;
-    this.createWindow(name);
+    return this.createWindow(name);
   }
 
   static createWindowConsole() {
     let name = this.WindowNames.CONSOLE;
-    this.createWindow(name);
+    return this.createWindow(name);
   }
 
   static createWindowBugReport() {
     const name = this.WindowNames.BUGREPORT;
-    this.createWindow(name);
+    return this.createWindow(name);
   }
 };

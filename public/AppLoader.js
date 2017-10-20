@@ -14,9 +14,10 @@ module.exports = class AppLoader {
    */
   static init() {
     log.info("[AppLoader] Initialize");
-    WindowManager.createWindowLoading();
+    this.loadingWindow = WindowManager.createWindowLoading();
     this.createTray();
     this.createMenu();
+    this.createConsole();
   }
 
   /*
@@ -36,5 +37,12 @@ module.exports = class AppLoader {
    */
   static createTray() {
     Util.setAppTray(new AppTray());
+  }
+
+  /*
+   * creates the console window to the application
+   */
+  static createConsole() {
+    log.info("[AppLoader] create console");
   }
 };

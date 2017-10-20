@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { EventManagerHelper, RendererEvent } from "../EventManagerHelper";
 import {
   Divider,
   Transition,
@@ -58,7 +59,7 @@ export default class LoadingView extends Component {
 
   componentDidMount() {
     console.log("component did mount");
-    // STUB
+    this.createUpdateEvents();
   }
 
   componentWillUnmount() {
@@ -109,5 +110,28 @@ export default class LoadingView extends Component {
         </Progress>
       </Segment>
     );
+  }
+
+  createUpdateEvents() {
+    console.log("create update event");
+
+    let updateEvent = new RendererEvent(
+      EventManagerHelper.EventTypes.TEST_EVENT,
+      this,
+      function(event, arg) {
+        console.log(
+          "[Renderer] test-eventD : callback -> hello from D : " + arg
+        );
+        // throw new Error("test error");
+        return arg;
+      },
+      function(event, arg) {
+        console.log("[Renderer] test-eventD : reply -> hello from D : " + arg);
+        // throw new Error("test error");
+        return arg;
+      }
+    );
+
+    updateEvent.dispatch(2);
   }
 }
