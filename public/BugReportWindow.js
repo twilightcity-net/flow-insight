@@ -22,6 +22,6 @@ module.exports = class BugReportWindow {
       webPreferences: { devTools: isDev, toolbar: false }
     });
     this.window.setMenu(null);
-    this.autoShow = false;
+    this.autoShow = true;
   }
 };
