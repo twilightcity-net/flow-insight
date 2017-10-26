@@ -1,5 +1,6 @@
 const { app, Tray } = require("electron"),
   log = require("electron-log"),
+  platform = require("electron-platform"),
   Util = require("./Util"),
   WindowManager = require("./WindowManager"),
   { EventManager, MainEvent } = require("./EventManager"),
@@ -54,7 +55,7 @@ module.exports = class AppLoader {
    * Ref. https://electron.atom.io/docs/api/menu/#notes-on-macos-application-menu
    */
   static createMenu() {
-    if (process.platform === "darwin") {
+    if (platform.isDarwin) {
       AppMenu.setApplicationMenu(new AppMenu());
     } else {
       AppMenu.setApplicationMenu(null);

@@ -1,5 +1,6 @@
 const Updater = require("electron-updater").autoUpdater,
   log = require("electron-log"),
+  platform = require("electron-platform"),
   isDev = require("electron-is-dev");
 
 /*
@@ -47,7 +48,7 @@ module.exports = class AppUpdater {
    * see -> https://electron.atom.io/docs/all/#apprelaunchoptions
    */
   static startUpdate() {
-    if (isDev || process.platform === "linux") return;
+    if (isDev || !(platform.isWin32 || platform.isDarwin)) return;
     Updater.checkForUpdates();
   }
 };

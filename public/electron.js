@@ -1,5 +1,6 @@
 const { app } = require("electron"),
   log = require("electron-log"),
+  platform = require("electron-platform"),
   Logger = require("./Logger"),
   Util = require("./Util"),
   WindowManager = require("./WindowManager"),
@@ -43,7 +44,7 @@ function onAppActivateCb() {
  * console window should always be opened.. quit if force closed
  */
 function onAppWindowAllCloseCb() {
-  if (process.platform !== "darwin") {
+  if (platform.isDarwin) {
     log.info("[App] Window All Closed -> quit");
     app.quit();
   }

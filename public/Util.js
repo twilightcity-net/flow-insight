@@ -55,6 +55,9 @@ module.exports = class Util {
     window.openDevTools({ detach: true });
   }
 
+  /*
+   * gets the local time and date as a string
+   */
   static getDateTimeString(date) {
     return date.toLocaleTimeString() + " " + date.toLocaleDateString();
   }

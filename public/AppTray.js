@@ -23,9 +23,6 @@ module.exports = class AppTray extends Tray {
     this.on("right-click", (event, bounds) => {
       log.info("[AppTray] tray event -> right-click");
     });
-    this.on("double-click", (event, bounds) => {
-      log.info("[AppTray] tray event -> double-click");
-    });
     return this;
   }
 };
