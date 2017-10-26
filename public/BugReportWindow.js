@@ -1,7 +1,7 @@
-const { BrowserWindow } = require("electron");
-const isDev = require("electron-is-dev");
-const { applicationIcon } = require("./electron");
-const ViewManagerHelper = require("./ViewManagerHelper");
+const { BrowserWindow } = require("electron"),
+  isDev = require("electron-is-dev"),
+  { applicationIcon } = require("./electron"),
+  ViewManagerHelper = require("./ViewManagerHelper");
 
 /*
  * Should display when the user select the Help menu's item for reporting bugs,

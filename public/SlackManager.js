@@ -1,7 +1,7 @@
-const Util = require("./Util");
-const IncomingWebhook = require("@slack/client").IncomingWebhook;
-const Notifier = require("node-notifier");
-const log = require("electron-log");
+const Util = require("./Util"),
+  IncomingWebhook = require("@slack/client").IncomingWebhook,
+  Notifier = require("node-notifier"),
+  log = require("electron-log");
 
 /*
  * This is a high level management class for Slack Integration. This

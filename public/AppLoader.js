@@ -15,7 +15,6 @@ module.exports = class AppLoader {
   /*
    * called to initialize the loader
    */
-  // TODO test to see if we can use promises instead of chaning events
   static init() {
     log.info("[AppLoader] Initialize");
     Util.setAppTray(new AppTray());
@@ -75,20 +74,17 @@ module.exports = class AppLoader {
    */
   static createShortcuts() {
     log.info("[AppLoader] create shortcuts");
+    let promise = new Promise((resolve, reject) => resolve())
+      .then(() => ShortcutManager.createGlobalShortcuts())
+      .then(() => this.events.shortcutsCreated.dispatch())
+      .catch(error => this.handleError(error));
+  }
 
-    // var p1 = new Promise((resolve, reject) => {
-    //   if (true)
-    //     throw new Error("rejected!");
-    //   else
-    //     resolve(4);
-    // });
-    // p1.then((val) => val + 2)
-    //   .then((val) => console.log("got", val))
-    //   .catch((err) => console.log("error: ", err.message));
-
-    ShortcutManager.createGlobalShortcuts();
-
-    this.events.shortcutsCreated.dispatch();
+  /*
+   * process any errors thrown by a stage in the app loader
+   */
+  static handleError(error) {
+    log.error("[AppLoader] " + error.toString() + "\n\n" + error.stack + "\n");
   }
 
   /*
@@ -102,25 +98,33 @@ module.exports = class AppLoader {
   }
 };
 
+/*
+ * the event that is dispatched right after the loading window is shown
+ */
 class LoadingWindowEventShown extends MainEvent {
   constructor(appLoader) {
     super(
       EventManager.EventTypes.WINDOW_LOADING_SHOWN,
       appLoader,
       (event, arg) => {
-        EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
-          load: appLoader.stages.CONSOLE,
-          value: appLoader.incrementStage(),
-          total: appLoader.getTotalStages(),
-          label: "Feeding lemmings and unicorns...",
-          text: "Creating Console..."
-        });
+        setTimeout(() => {
+          EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
+            load: appLoader.stages.CONSOLE,
+            value: appLoader.incrementStage(),
+            total: appLoader.getTotalStages(),
+            label: "Feeding lemmings and unicorns...",
+            text: "Creating Console..."
+          });
+        }, appLoader.eventTimerMs);
       }
     );
     return this;
   }
 }
 
+/*
+ * event that is dispatched after console window is created
+ */
 class ConsoleWindowEventReady extends MainEvent {
   constructor(appLoader) {
     super(
@@ -142,6 +146,9 @@ class ConsoleWindowEventReady extends MainEvent {
   }
 }
 
+/*
+ * event that is dispatched after shortcuts are created
+ */
 class ShortcutsEventCreated extends MainEvent {
   constructor(appLoader) {
     super(
@@ -163,6 +170,9 @@ class ShortcutsEventCreated extends MainEvent {
   }
 }
 
+/*
+ * the main app loader event that is used to process the various stages
+ */
 class AppLoaderEventLoad extends MainEvent {
   constructor(appLoader) {
     super(EventManager.EventTypes.APPLOADER_LOAD, appLoader, (event, arg) => {
