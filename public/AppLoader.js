@@ -20,7 +20,7 @@ module.exports = class AppLoader {
     Util.setAppTray(new AppTray());
     this.loadingWindow = WindowManager.createWindowLoading();
     this.createMenu();
-    this.eventTimerMs = 1000;
+    this.eventTimerMs = 420;
     this.currentStage = 1;
     this.stages = {
       CONSOLE: "console",
@@ -42,6 +42,9 @@ module.exports = class AppLoader {
     return Object.keys(this.stages).length;
   }
 
+  /*
+   * increments the current stage count for progress bar
+   */
   static incrementStage() {
     return this.currentStage++;
   }
@@ -105,7 +108,7 @@ class LoadingWindowEventShown extends MainEvent {
       appLoader,
       (event, arg) => {
         EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
-          load: "console",
+          load: appLoader.stages.CONSOLE,
           value: appLoader.incrementStage(),
           total: appLoader.getTotalStages(),
           label: "Feeding lemmings and unicorns...",
@@ -125,7 +128,7 @@ class ConsoleWindowEventReady extends MainEvent {
       (event, arg) => {
         setTimeout(() => {
           EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
-            load: "shortcuts",
+            load: appLoader.stages.SHORTCUTS,
             value: appLoader.incrementStage(),
             total: appLoader.getTotalStages(),
             label: "Calculating schmeckles...",
@@ -146,7 +149,7 @@ class ShortcutsEventCreated extends MainEvent {
       (event, arg) => {
         setTimeout(() => {
           EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
-            load: "finished",
+            load: appLoader.stages.FINISHED,
             value: appLoader.incrementStage(),
             total: appLoader.getTotalStages(),
             label: "Matrix activated",
