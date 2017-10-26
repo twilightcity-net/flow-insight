@@ -4,6 +4,7 @@ const { app } = require("electron"),
   Util = require("./Util"),
   WindowManager = require("./WindowManager"),
   { EventManager } = require("./EventManager"),
+  { ShortcutManager } = require("./ShortcutManager"),
   SlackManager = require("./SlackManager"),
   AppUpdater = require("./AppUpdater"),
   AppLoader = require("./AppLoader");
@@ -25,6 +26,7 @@ function onAppReadyCb() {
   app.setName(Util.getAppName());
   WindowManager.init();
   EventManager.init();
+  ShortcutManager.init();
   SlackManager.init();
   AppUpdater.init();
   AppLoader.init();

@@ -79,7 +79,7 @@ class EventCallbackException extends EventException {
  */
 class EventReplyException extends EventException {
   constructor(event, ...args) {
-    super(...args);
+    super(event, ...args);
     this.name = "EventReplyException";
   }
 }
@@ -306,7 +306,7 @@ class EventManager {
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
       WINDOW_CONSOLE_READY: prefix + "window-console-ready",
       APPLOADER_LOAD: prefix + "apploader-load",
-      SHORTCUTS_REGISTERED: prefix + "shortcuts-registered"
+      SHORTCUTS_CREATED: prefix + "shortcuts-created"
     };
   }
 }

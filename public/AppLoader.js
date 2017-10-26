@@ -3,6 +3,7 @@ const { app, Tray } = require("electron"),
   Util = require("./Util"),
   WindowManager = require("./WindowManager"),
   { EventManager, MainEvent } = require("./EventManager"),
+  { ShortcutManager } = require("./ShortcutManager"),
   AppMenu = require("./AppMenu"),
   AppTray = require("./AppTray");
 
@@ -13,6 +14,7 @@ module.exports = class AppLoader {
   /*
    * called to initialize the loader
    */
+  // TODO test to see if we can use promises instead of chaning events
   static init() {
     log.info("[AppLoader] Initialize");
     Util.setAppTray(new AppTray());
@@ -21,7 +23,7 @@ module.exports = class AppLoader {
     this.events = {
       shown: new LoadingWindowEventShown(this),
       consoleReady: new ConsoleWindowEventReady(this),
-      shortcutsRegistered: new ShortcutsEventRegistered(this),
+      shortcutsCreated: new ShortcutsEventCreated(this),
       load: new AppLoaderEventLoad(this)
     };
   }
@@ -49,12 +51,14 @@ module.exports = class AppLoader {
   /*
    * registers global application shortcuts
    */
-  static registerShortcuts() {
-    log.info("[AppLoader] register shortcuts");
+  static createShortcuts() {
+    log.info("[AppLoader] create shortcuts");
 
-    // TODO implement shortcut registry
+    // TODO implement a promise here
 
-    this.events.shortcutsRegistered.dispatch();
+    ShortcutManager.createGlobalShortcuts();
+
+    this.events.shortcutsCreated.dispatch();
   }
 
   /*
@@ -108,10 +112,10 @@ class ConsoleWindowEventReady extends MainEvent {
   }
 }
 
-class ShortcutsEventRegistered extends MainEvent {
+class ShortcutsEventCreated extends MainEvent {
   constructor(appLoader) {
     super(
-      EventManager.EventTypes.SHORTCUTS_REGISTERED,
+      EventManager.EventTypes.SHORTCUTS_CREATED,
       appLoader,
       (event, arg) => {
         setTimeout(() => {
@@ -135,7 +139,7 @@ class AppLoaderEventLoad extends MainEvent {
       if (arg.load === "console") {
         appLoader.createConsole();
       } else if (arg.load === "shortcuts") {
-        appLoader.registerShortcuts();
+        appLoader.createShortcuts();
       } else if (arg.load === "finished") {
         appLoader.finished();
       }
