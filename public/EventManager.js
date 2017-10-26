@@ -236,14 +236,28 @@ class EventManager {
       windows = this.WindowManager.windows;
     for (var i = 0; i < this.events.length; i++) {
       if (this.events[i].type === eventType) {
-        log.info("[EventManager] found event : " + eventType);
         returnedEvents.push(this.handleEvent(this.events[i], arg));
       }
     }
+    if (returnedEvents.length === 0) {
+      log.info("[EventManager] no events found : " + eventType);
+      return [];
+    }
+    log.info(
+      "[EventManager] handled {" +
+        returnedEvents.length +
+        "} events : " +
+        eventType
+    );
     for (var j = 0; j < windows.length; j++) {
-      log.info("[EventManager] dispatch window event : " + eventType);
       windows[j].window.webContents.send(eventType, arg);
     }
+    log.info(
+      "[EventManager] dispatched {" +
+        windows.length +
+        "} window events : " +
+        eventType
+    );
     return returnedEvents;
   }
 
