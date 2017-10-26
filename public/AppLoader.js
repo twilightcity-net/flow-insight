@@ -20,12 +20,30 @@ module.exports = class AppLoader {
     Util.setAppTray(new AppTray());
     this.loadingWindow = WindowManager.createWindowLoading();
     this.createMenu();
+    this.eventTimerMs = 1000;
+    this.currentStage = 1;
+    this.stages = {
+      CONSOLE: "console",
+      SHORTCUTS: "shortcuts",
+      FINISHED: "finished"
+    };
     this.events = {
       shown: new LoadingWindowEventShown(this),
       consoleReady: new ConsoleWindowEventReady(this),
       shortcutsCreated: new ShortcutsEventCreated(this),
       load: new AppLoaderEventLoad(this)
     };
+  }
+
+  /*
+   * returns the total amount of stages to process
+   */
+  static getTotalStages() {
+    return Object.keys(this.stages).length;
+  }
+
+  static incrementStage() {
+    return this.currentStage++;
   }
 
   /*
@@ -54,7 +72,15 @@ module.exports = class AppLoader {
   static createShortcuts() {
     log.info("[AppLoader] create shortcuts");
 
-    // TODO implement a promise here
+    // var p1 = new Promise((resolve, reject) => {
+    //   if (true)
+    //     throw new Error("rejected!");
+    //   else
+    //     resolve(4);
+    // });
+    // p1.then((val) => val + 2)
+    //   .then((val) => console.log("got", val))
+    //   .catch((err) => console.log("error: ", err.message));
 
     ShortcutManager.createGlobalShortcuts();
 
@@ -66,7 +92,9 @@ module.exports = class AppLoader {
    */
   static finished() {
     log.info("[AppLoader] finished");
-    WindowManager.closeWindow(this.loadingWindow, true);
+    setTimeout(() => {
+      WindowManager.closeWindow(this.loadingWindow, true);
+    }, this.eventTimerMs);
   }
 };
 
@@ -76,15 +104,13 @@ class LoadingWindowEventShown extends MainEvent {
       EventManager.EventTypes.WINDOW_LOADING_SHOWN,
       appLoader,
       (event, arg) => {
-        setTimeout(() => {
-          EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
-            load: "console",
-            value: 1,
-            total: 3,
-            label: "Feeding lemmings and unicorns...",
-            text: "Creating Console..."
-          });
-        }, 300);
+        EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
+          load: "console",
+          value: appLoader.incrementStage(),
+          total: appLoader.getTotalStages(),
+          label: "Feeding lemmings and unicorns...",
+          text: "Creating Console..."
+        });
       }
     );
     return this;
@@ -100,12 +126,12 @@ class ConsoleWindowEventReady extends MainEvent {
         setTimeout(() => {
           EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
             load: "shortcuts",
-            value: 2,
-            total: 3,
+            value: appLoader.incrementStage(),
+            total: appLoader.getTotalStages(),
             label: "Calculating schmeckles...",
             text: "Registering shortcuts..."
           });
-        }, 200);
+        }, appLoader.eventTimerMs);
       }
     );
     return this;
@@ -121,12 +147,12 @@ class ShortcutsEventCreated extends MainEvent {
         setTimeout(() => {
           EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
             load: "finished",
-            value: 3,
-            total: 3,
+            value: appLoader.incrementStage(),
+            total: appLoader.getTotalStages(),
             label: "Matrix activated",
             text: "Ready!"
           });
-        }, 250);
+        }, appLoader.eventTimerMs);
       }
     );
     return this;
@@ -136,12 +162,18 @@ class ShortcutsEventCreated extends MainEvent {
 class AppLoaderEventLoad extends MainEvent {
   constructor(appLoader) {
     super(EventManager.EventTypes.APPLOADER_LOAD, appLoader, (event, arg) => {
-      if (arg.load === "console") {
-        appLoader.createConsole();
-      } else if (arg.load === "shortcuts") {
-        appLoader.createShortcuts();
-      } else if (arg.load === "finished") {
-        appLoader.finished();
+      switch (arg.load) {
+        case appLoader.stages.CONSOLE:
+          appLoader.createConsole();
+          break;
+        case appLoader.stages.SHORTCUTS:
+          appLoader.createShortcuts();
+          break;
+        case appLoader.stages.FINISHED:
+          appLoader.finished();
+          break;
+        default:
+          log.warn("[AppLoader] unrecognized stage : " + arg.load);
       }
     });
     return this;
