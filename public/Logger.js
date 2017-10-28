@@ -7,7 +7,7 @@ const { app } = require("electron"),
  * This class is used to init the Logger
  */
 module.exports = class Logger {
-  static init() {
+  static create() {
     let level = "info";
     if (isDev) {
       level = "debug";
@@ -18,6 +18,6 @@ module.exports = class Logger {
     log.transports.file.level = level;
     log.transports.console.level = level;
     log.info("[Logger] Initialized");
-    global.Logger = log;
+    return log;
   }
 };
