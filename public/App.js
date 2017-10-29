@@ -13,7 +13,7 @@ const { app, dialog } = require("electron"),
 /*
  * our main application class that is stored at global.App
  */
-class App {
+module.exports = class App {
   constructor() {
     this.Logger = Logger.create();
     this.events = {
@@ -131,8 +131,4 @@ class App {
   static quit() {
     app.quit();
   }
-}
-
-module.exports = {
-  App
 };
