@@ -4,8 +4,7 @@ function main() {
   try {
     global.App = new App();
   } catch (error) {
-    error.fatal = true;
-    App.handleError(error);
+    App.handleError(error, true);
   }
 }
 

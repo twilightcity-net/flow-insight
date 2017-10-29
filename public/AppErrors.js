@@ -5,7 +5,6 @@ const Util = require("./Util");
 module.exports = class AppError extends Error {
   constructor(...args) {
     super(...args);
-    this.fatal = false;
     this.name = "AppError";
     this.date = new Date();
   }
@@ -15,13 +14,13 @@ module.exports = class AppError extends Error {
    */
   toString() {
     return (
-      "[ " +
+      "[" +
       this.name +
       " :: " +
       this.message +
       " @ " +
       Util.getDateTimeString(this.date) +
-      " ]"
+      "]"
     );
   }
 };

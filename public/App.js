@@ -47,8 +47,7 @@ class App {
       AppUpdater.init();
       AppLoader.init();
     } catch (error) {
-      error.fatal = true;
-      App.handleError(error);
+      App.handleError(error, true);
     }
   }
 
@@ -87,23 +86,30 @@ class App {
 	 */
   // TODO implement https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
   onCrash(event, killed) {
-    log.error("[App] WTF : gpu crashed and burned -> killed : " + killed);
-    log.error(event);
-    App.quit();
+    App.handleError(new Error("WTF the GPU crashed : killed=" + killed), true);
   }
 
   /*
    * process any errors thrown by the application
    */
-  static handleError(error) {
-    dialog.showErrorBox("MetaOS", error.toString());
+  static handleError(error, fatal) {
     if (global.App) {
-      log.error("[App] " + error.toString() + "\n\n" + error.stack + "\n");
+      log.error(
+        (fatal ? "[FATAL] " : "") +
+          "[App] " +
+          error.toString() +
+          "\n\n" +
+          error.stack +
+          "\n"
+      );
     } else {
-      console.error(error.toString());
+      console.error((fatal ? "[FATAL] " : "") + error.toString());
     }
-    if (error.fatal) {
+    if (fatal) {
+      dialog.showErrorBox("MetaOS", "[FATAL] " + error.toString());
       process.exit(1);
+    } else {
+      dialog.showErrorBox("MetaOS", error.toString());
     }
   }
 
