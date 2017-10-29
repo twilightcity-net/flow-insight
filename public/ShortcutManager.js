@@ -1,5 +1,6 @@
 const { globalShortcut } = require("electron"),
   log = require("electron-log"),
+  // AppError = require("./AppErrors"),
   Util = require("./Util"),
   WindowManager = require("./WindowManager"),
   EventManager = require("./EventManager");
@@ -91,6 +92,7 @@ class ShortcutManager {
     this.WindowManager = global.WindowManager;
     this.EventManager = global.EventManager;
     global.ShortcutManager = this;
+    // throw new AppError("Heya fucker this is a test");
   }
 
   static createGlobalShortcuts() {

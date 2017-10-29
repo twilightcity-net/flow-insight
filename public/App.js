@@ -1,4 +1,4 @@
-const { app } = require("electron"),
+const { app, dialog } = require("electron"),
   log = require("electron-log"),
   platform = require("electron-platform"),
   Logger = require("./Logger"),
@@ -13,7 +13,7 @@ const { app } = require("electron"),
 /*
  * our main application class that is stored at global.App
  */
-module.exports = class App {
+class App {
   constructor() {
     this.Logger = Logger.create();
     this.events = {
@@ -24,8 +24,6 @@ module.exports = class App {
       crashed: this.onCrash
     };
     this.isSecondInstance = app.makeSingleInstance(this.onSingleInstance);
-
-    // only allow one instance of the application
     if (this.isSecondInstance) {
       log.info("[App] quit second instance...");
       this.quit();
@@ -41,18 +39,17 @@ module.exports = class App {
     global.App.name = Util.getAppName();
     app.setName(global.App.name);
     log.info("[App] ready -> " + global.App.name);
-
-    // let promise = new Promise((resolve, reject) => resolve())
-    //     .then(() => ShortcutManager.createGlobalShortcuts())
-    //     .then(() => this.events.shortcutsCreated.dispatch())
-    //     .catch(error => this.handleError(error));
-
-    WindowManager.init();
-    EventManager.init();
-    ShortcutManager.init();
-    SlackManager.init();
-    AppUpdater.init();
-    AppLoader.init();
+    try {
+      WindowManager.init();
+      EventManager.init();
+      ShortcutManager.init();
+      SlackManager.init();
+      AppUpdater.init();
+      AppLoader.init();
+    } catch (error) {
+      error.fatal = true;
+      App.handleError(error);
+    }
   }
 
   /*
@@ -67,8 +64,6 @@ module.exports = class App {
         " => " +
         commandLine
     );
-
-    // TODO process any command line arguments here
   }
 
   /*
@@ -76,8 +71,6 @@ module.exports = class App {
 	 */
   onWindowAllClosed() {
     log.info("[App] app idle : no windows");
-
-    // TODO make sure we have the app data saved
   }
 
   /*
@@ -87,19 +80,31 @@ module.exports = class App {
     log.info(
       "[App] quitting -> " + event.sender.name + " exitCode : " + exitCode
     );
-
-    // TODO make sure we save the user data and app data, show closing window?
   }
 
   /*
 	 * handles when the gpu crashes then quites if not already quit.
 	 */
+  // TODO implement https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
   onCrash(event, killed) {
     log.error("[App] WTF : gpu crashed and burned -> killed : " + killed);
     log.error(event);
-    app.quit();
+    App.quit();
+  }
 
-    // TODO implement https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
+  /*
+   * process any errors thrown by the application
+   */
+  static handleError(error) {
+    dialog.showErrorBox("MetaOS", error.toString());
+    if (global.App) {
+      log.error("[App] " + error.toString() + "\n\n" + error.stack + "\n");
+    } else {
+      console.error(error.toString());
+    }
+    if (error.fatal) {
+      process.exit(1);
+    }
   }
 
   /*
@@ -107,6 +112,7 @@ module.exports = class App {
 	 */
   start() {
     log.info("[App] starting...");
+    process.on("uncaughtException", error => App.handleError);
     app.on("ready", this.events.ready);
     app.on("window-all-closed", this.events.windowAllClosed);
     app.on("quit", this.events.quit);
@@ -116,7 +122,11 @@ module.exports = class App {
   /*
 	 * wrapper function to quit the application
 	 */
-  quit() {
+  static quit() {
     app.quit();
   }
+}
+
+module.exports = {
+  App
 };

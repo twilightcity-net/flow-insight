@@ -1,9 +1,12 @@
-/*
- * main execution function for electron.. called first
- */
+const { App } = require("./App");
+
 function main() {
-  let App = require("./App");
-  global.App = new App();
+  try {
+    global.App = new App();
+  } catch (error) {
+    error.fatal = true;
+    App.handleError(error);
+  }
 }
 
 main();
