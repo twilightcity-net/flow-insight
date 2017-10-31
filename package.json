@@ -5,10 +5,10 @@
   "version": "0.0.3",
   "private": true,
   "author": {
-    "name": "OpenMastery.org",
-    "email": "info@openmastery.org"
+    "name": "DreamScale.io",
+    "email": "info@dreamscale.io"
   },
-  "copyright": "© 2017, OpenMastery.org",
+  "copyright": "Copyright © 2017 Dreamscale Inc",
   "homepage": "./",
   "main": "public/electron.js",
   "repository": {
@@ -28,8 +28,8 @@
     "postbundle": "gulp clean",
     "prerelease": "yarn bundle",
     "prerelease:publish": "yarn bundle",
-    "release": "build --em.main=build/org.openmastery.metaos.dat --publish=never",
-    "release:publish": "build --em.main=build/org.openmastery.metaos.dat --publish=always",
+    "release": "build --em.main=build/io.dreamscale.metaos.dat --publish=never",
+    "release:publish": "build --em.main=build/io.dreamscale.metaos.dat --publish=always",
     "prerelease:update:build:win": "yarn prerelease",
     "release:update:build:win": ".\\tasks\\update-dist.bat",
     "release:update:win": ".\\tasks\\update-dist.bat"
@@ -130,7 +130,7 @@
       "eval": true
     },
     "output": {
-      "preamble": "/* © 2017 // OpenMastery.org // MetaOS // Author : 1-14x0r */",
+      "preamble": "/* Copyright © 2017 DreamScale Inc // MetaOS // Author : 1-14x0r // License : LGPL */",
       "bracketize": true,
       "ecma": 6,
       "indent_level": 0,
@@ -144,7 +144,7 @@
     "warnings": true
   },
   "build": {
-    "appId": "org.openmastery.metaos.desktop",
+    "appId": "io.dreamscale.metaos.desktop",
     "files": ["build/**/*", "package.json"],
     "directories": {
       "buildResources": "resources"
