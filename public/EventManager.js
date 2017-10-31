@@ -1,6 +1,7 @@
 const { ipcMain } = require("electron"),
   log = require("electron-log"),
-  Util = require("./Util");
+  App = require("./App");
+Util = require("./Util");
 
 /* 
  * an object class used to instantiate new event with callbacks.

@@ -26,7 +26,7 @@ module.exports = class App {
     this.isSecondInstance = app.makeSingleInstance(this.onSingleInstance);
     if (this.isSecondInstance) {
       log.info("[App] quit second instance...");
-      App.quit();
+      this.quit();
     } else {
       this.start();
     }
@@ -92,7 +92,7 @@ module.exports = class App {
   /*
    * process any errors thrown by the application
    */
-  static handleError(error, fatal) {
+  handleError(error, fatal) {
     if (global.App) {
       log.error(
         (fatal ? "[FATAL] " : "") +
@@ -128,7 +128,7 @@ module.exports = class App {
   /*
 	 * wrapper function to quit the application
 	 */
-  static quit() {
+  quit() {
     app.quit();
   }
 };

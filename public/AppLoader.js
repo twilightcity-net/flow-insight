@@ -1,6 +1,6 @@
-const { app, Tray } = require("electron"),
-  log = require("electron-log"),
+const log = require("electron-log"),
   platform = require("electron-platform"),
+  App = require("./App"),
   Util = require("./Util"),
   WindowManager = require("./WindowManager"),
   { EventManager, MainEvent } = require("./EventManager"),
@@ -66,7 +66,11 @@ module.exports = class AppLoader {
    */
   static createConsole() {
     log.info("[AppLoader] create console");
-    WindowManager.createWindowConsole();
+    try {
+      WindowManager.createWindowConsole();
+    } catch (error) {
+      global.App.handleError(error, true);
+    }
   }
 
   /*
@@ -74,17 +78,12 @@ module.exports = class AppLoader {
    */
   static createShortcuts() {
     log.info("[AppLoader] create shortcuts");
-    let promise = new Promise((resolve, reject) => resolve())
-      .then(() => ShortcutManager.createGlobalShortcuts())
-      .then(() => this.events.shortcutsCreated.dispatch())
-      .catch(error => this.handleError(error));
-  }
-
-  /*
-   * process any errors thrown by a stage in the app loader
-   */
-  static handleError(error) {
-    log.error("[AppLoader] " + error.toString() + "\n\n" + error.stack + "\n");
+    try {
+      ShortcutManager.createGlobalShortcuts();
+      this.events.shortcutsCreated.dispatch();
+    } catch (error) {
+      global.App.handleError(error, true);
+    }
   }
 
   /*
