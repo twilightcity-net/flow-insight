@@ -99,6 +99,7 @@ class ShortcutManager {
     log.info("[ShortcutManager] create global shortcuts");
 
     // TODO implement shortcut register logic
+    throw new Error("what a test");
   }
 
   /*

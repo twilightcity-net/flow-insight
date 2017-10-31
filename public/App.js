@@ -26,7 +26,7 @@ module.exports = class App {
     this.isSecondInstance = app.makeSingleInstance(this.onSingleInstance);
     if (this.isSecondInstance) {
       log.info("[App] quit second instance...");
-      this.quit();
+      App.quit();
     } else {
       this.start();
     }
