@@ -2,7 +2,7 @@ const Util = require("./Util");
 /*
  * Base Exception class for app, all other errors should extend this
  */
-class AppError extends Error {
+module.exports = class AppError extends Error {
   constructor(...args) {
     super(...args);
     this.name = "AppError";
@@ -23,8 +23,4 @@ class AppError extends Error {
       "]"
     );
   }
-}
-
-module.exports = {
-  AppError
 };

@@ -1,6 +1,6 @@
 const { globalShortcut } = require("electron"),
   log = require("electron-log"),
-  // { AppError } = require("./AppErrors"),
+  AppError = require("./AppError"),
   Util = require("./Util"),
   WindowManager = require("./WindowManager"),
   EventManager = require("./EventManager");
@@ -10,7 +10,7 @@ const { globalShortcut } = require("electron"),
  * be global, a specific window, or within a local scope of a window (meaning
  * outside of this manager class -> quick and dirty)
  */
-class ShortcutInput {
+class Shortcut {
   /*
    * accelerator: the shortcut to register with
    * type: the type of shortcut; global, window, or local
@@ -27,53 +27,13 @@ class ShortcutInput {
 }
 
 /*
- * Base Exception class for any specific type of shortcut
+ * Base Error class for any specific type of shortcut
  */
-class ShortcutException extends Error {
+class ShortcutError extends AppError {
   constructor(shortcut, ...args) {
     super(...args);
-    this.class = "Error";
     this.name = "ShortcutException";
     this.shortcut = shortcut;
-    this.msg = this.message;
-    this.date = new Date();
-  }
-
-  /*
-   * returns the error in string format
-   */
-  toString() {
-    return (
-      "[ " +
-      this.name +
-      " :: " +
-      this.shortcut +
-      " -> " +
-      this.message +
-      " @ " +
-      Util.getDateTimeString(this.date) +
-      " ]"
-    );
-  }
-}
-
-/*
- * Exception class to throw errors in Global Shortcuts
- */
-class ShortcutGlobalException extends ShortcutException {
-  constructor(shortcut, ...args) {
-    super(shortcut, ...args);
-    this.name = "GlobalShortcutException";
-  }
-}
-
-/*
- * Exception class to throw errors in Window shortcuts
- */
-class ShortcutWindowException extends ShortcutException {
-  constructor(shortcut, ...args) {
-    super(shortcut, ...args);
-    this.name = "WindowShortcutException";
   }
 }
 
@@ -89,17 +49,13 @@ class ShortcutManager {
   static init() {
     log.info("[ShortcutManager] Initialize");
     this.shortcuts = [];
-    this.WindowManager = global.WindowManager;
-    this.EventManager = global.EventManager;
     global.ShortcutManager = this;
-    // throw new AppError("Heya fucker this is a test");
   }
 
   static createGlobalShortcuts() {
     log.info("[ShortcutManager] create global shortcuts");
 
     // TODO implement shortcut register logic
-    throw new Error("what a test");
   }
 
   /*
@@ -111,8 +67,7 @@ class ShortcutManager {
 }
 
 module.exports = {
-  ShortcutManager,
-  ShortcutInput,
-  ShortcutGlobalException,
-  ShortcutWindowException
+  Shortcut,
+  ShortcutError,
+  ShortcutManager
 };

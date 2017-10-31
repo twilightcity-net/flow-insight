@@ -285,6 +285,7 @@ class EventManager {
    * handles and logs any errors that events might throw, and then stores
    * the exception as the return value for future procession in call stack
    */
+  // TODO this should use global.App.handleError()
   static handleError(event, error) {
     if (error instanceof EventCallbackException) {
       event.returnValues.callback = error;

@@ -40,6 +40,7 @@ module.exports = class App {
     app.setName(global.App.name);
     log.info("[App] ready -> " + global.App.name);
     try {
+      // TODO convert these to constructors inside global.App
       WindowManager.init();
       EventManager.init();
       ShortcutManager.init();
@@ -47,7 +48,7 @@ module.exports = class App {
       AppUpdater.init();
       AppLoader.init();
     } catch (error) {
-      App.handleError(error, true);
+      global.App.handleError(error, true);
     }
   }
 
@@ -86,7 +87,10 @@ module.exports = class App {
 	 */
   // TODO implement https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
   onCrash(event, killed) {
-    App.handleError(new Error("WTF the GPU crashed : killed=" + killed), true);
+    App.handleError(
+      new AppError("WTF the GPU crashed : killed=" + killed),
+      true
+    );
   }
 
   /*
