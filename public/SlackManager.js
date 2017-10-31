@@ -9,13 +9,9 @@ const Util = require("./Util"),
  */
 
 module.exports = class SlackManager {
-  /*
-   * called to initialize the manager
-   */
-  static init() {
-    log.info("[SlackManager] Initialize");
-    global.SlackManager = this;
-    //this.test();
+  constructor() {
+    log.info("[SlackManager] created : okay");
+    // SlackManager.test();
   }
 
   /*

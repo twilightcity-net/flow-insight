@@ -44,7 +44,7 @@ module.exports = class App {
       WindowManager.init();
       EventManager.init();
       ShortcutManager.init();
-      SlackManager.init();
+      global.App.SlackManager = new SlackManager();
       AppUpdater.init();
       AppLoader.init();
     } catch (error) {
