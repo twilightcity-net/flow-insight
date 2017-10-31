@@ -25,14 +25,6 @@ module.exports = class WindowManager {
   }
 
   /*
-	 * static helper enum subclass to store window names
-	 */
-  static get WindowNames() {
-    let appName = "metaos-";
-    return;
-  }
-
-  /*
 	 * Gets the window from the global array of windows
 	 */
   getWindow(name) {
