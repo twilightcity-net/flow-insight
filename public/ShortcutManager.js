@@ -43,13 +43,9 @@ class ShortcutError extends AppError {
  * the listener.
  */
 class ShortcutManager {
-  /*
-   * Initialization method that creates an array to store shortcuts in
-   */
-  static init() {
-    log.info("[ShortcutManager] Initialize");
+  constructor() {
+    log.info("[ShortcutManager] created : okay");
     this.shortcuts = [];
-    global.ShortcutManager = this;
   }
 
   static createGlobalShortcuts() {
