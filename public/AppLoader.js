@@ -112,7 +112,7 @@ class LoadingWindowEventShown extends MainEvent {
             load: appLoader.stages.CONSOLE,
             value: appLoader.incrementStage(),
             total: appLoader.getTotalStages(),
-            label: "Feeding lemmings and unicorns...",
+            label: "Feeding lemmings...",
             text: "Creating Console..."
           });
         }, appLoader.eventTimerMs);
@@ -136,7 +136,7 @@ class ConsoleWindowEventReady extends MainEvent {
             load: appLoader.stages.SHORTCUTS,
             value: appLoader.incrementStage(),
             total: appLoader.getTotalStages(),
-            label: "Calculating schmeckles...",
+            label: "Counting schmeckles...",
             text: "Registering shortcuts..."
           });
         }, appLoader.eventTimerMs);

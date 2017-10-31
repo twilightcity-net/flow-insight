@@ -9,7 +9,7 @@ module.exports = function() {
     var stream = gulp
       .src("build/electron.bundle.js")
       .pipe(uglify(config))
-      .pipe(rename("org.openmastery.metaos.dat"))
+      .pipe(rename("io.dreamscale.metaos.dat"))
       .pipe(gulp.dest("build"));
     return stream;
   };

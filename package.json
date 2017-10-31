@@ -2,7 +2,7 @@
   "name": "metaos-desktop",
   "productName": "MetaOS",
   "description": "MetaOS",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "private": true,
   "author": {
     "name": "DreamScale.io",
