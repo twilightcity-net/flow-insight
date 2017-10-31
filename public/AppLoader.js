@@ -12,11 +12,8 @@ const log = require("electron-log"),
  * This class is used to init the Application loading
  */
 module.exports = class AppLoader {
-  /*
-   * called to initialize the loader
-   */
-  static init() {
-    log.info("[AppLoader] Initialize");
+  constructor() {
+    log.info("[AppLoader] created : okay");
     Util.setAppTray(new AppTray());
     this.loadingWindow = WindowManager.createWindowLoading();
     this.createMenu();
@@ -38,14 +35,14 @@ module.exports = class AppLoader {
   /*
    * returns the total amount of stages to process
    */
-  static getTotalStages() {
+  getTotalStages() {
     return Object.keys(this.stages).length;
   }
 
   /*
    * increments the current stage count for progress bar
    */
-  static incrementStage() {
+  incrementStage() {
     return this.currentStage++;
   }
 
@@ -53,7 +50,7 @@ module.exports = class AppLoader {
    * Creates the app's menu for MacOS
    * Ref. https://electron.atom.io/docs/api/menu/#notes-on-macos-application-menu
    */
-  static createMenu() {
+  createMenu() {
     if (platform.isDarwin) {
       AppMenu.setApplicationMenu(new AppMenu());
     } else {
@@ -64,7 +61,7 @@ module.exports = class AppLoader {
   /*
    * creates the console window to the application
    */
-  static createConsole() {
+  createConsole() {
     log.info("[AppLoader] create console");
     try {
       WindowManager.createWindowConsole();
@@ -76,7 +73,7 @@ module.exports = class AppLoader {
   /*
    * registers global application shortcuts
    */
-  static createShortcuts() {
+  createShortcuts() {
     log.info("[AppLoader] create shortcuts");
     try {
       ShortcutManager.createGlobalShortcuts();
@@ -89,7 +86,7 @@ module.exports = class AppLoader {
   /*
    * called when AppLoader is completed
    */
-  static finished() {
+  finished() {
     log.info("[AppLoader] finished");
     setTimeout(() => {
       WindowManager.closeWindow(this.loadingWindow, true);
@@ -107,6 +104,7 @@ class LoadingWindowEventShown extends MainEvent {
       appLoader,
       (event, arg) => {
         setTimeout(() => {
+          console.log("here");
           EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
             load: appLoader.stages.CONSOLE,
             value: appLoader.incrementStage(),
