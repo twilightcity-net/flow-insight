@@ -45,7 +45,7 @@ module.exports = class App {
       EventManager.init();
       ShortcutManager.init();
       global.App.SlackManager = new SlackManager();
-      AppUpdater.init();
+      global.App.AppUpdater = new AppUpdater();
       AppLoader.init();
     } catch (error) {
       global.App.handleError(error, true);

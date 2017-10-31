@@ -8,11 +8,8 @@ const Updater = require("electron-updater").autoUpdater,
  * should use the built in package manager for update? Maybe not.. need testing.
  */
 module.exports = class AppUpdater {
-  /*
-   * called to initialize the updater
-   */
-  static init() {
-    log.info("[AppUpdater] Initialize");
+  constructor() {
+    log.info("[AppUpdater] created : okay");
 
     // disable updates for linux and dev mode
     if (isDev || process.platform === "linux") return;
