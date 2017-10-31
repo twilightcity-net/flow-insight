@@ -8,9 +8,9 @@ const { BrowserWindow } = require("electron"),
  */
 module.exports = class BugReportWindow {
   constructor() {
-    this.name = WindowManager.WindowNames.BUGREPORT;
+    this.name = global.App.WindowManager.types.BUGREPORT;
     this.view = ViewManagerHelper.ViewNames.BUGREPORT;
-    this.url = WindowManager.getWindowViewURL(this.view);
+    this.url = global.App.WindowManager.getWindowViewURL(this.view);
     this.window = new BrowserWindow({
       name: this.name,
       width: 900,

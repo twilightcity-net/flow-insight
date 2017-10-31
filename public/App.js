@@ -41,7 +41,7 @@ module.exports = class App {
     log.info("[App] ready -> " + global.App.name);
     try {
       // TODO convert these to constructors inside global.App
-      WindowManager.init();
+      global.App.WindowManager = new WindowManager();
       EventManager.init();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.SlackManager = new SlackManager();

@@ -14,13 +14,14 @@ const { app, BrowserWindow } = require("electron"),
  * and are dynamically loaded.
  */
 module.exports = class WindowManager {
-  /*
-   * initialization method that creates an array to store windows in
-   */
-  static init() {
-    log.info("[WindowManager] Initialize");
+  constructor() {
+    log.info("[WindowManager] created : okay");
     this.windows = [];
-    global.WindowManager = this;
+    this.types = {
+      LOADING: "metaos-" + ViewManagerHelper.ViewNames.LOADING,
+      CONSOLE: "metaos-" + ViewManagerHelper.ViewNames.CONSOLE,
+      BUGREPORT: "metaos-" + ViewManagerHelper.ViewNames.BUGREPORT
+    };
   }
 
   /*
@@ -28,17 +29,13 @@ module.exports = class WindowManager {
 	 */
   static get WindowNames() {
     let appName = "metaos-";
-    return {
-      LOADING: appName + ViewManagerHelper.ViewNames.LOADING,
-      CONSOLE: appName + ViewManagerHelper.ViewNames.CONSOLE,
-      BUGREPORT: appName + ViewManagerHelper.ViewNames.BUGREPORT
-    };
+    return;
   }
 
   /*
 	 * Gets the window from the global array of windows
 	 */
-  static getWindow(name) {
+  getWindow(name) {
     for (var i = this.windows.length - 1; i >= 0; i--) {
       if (this.windows[i].name === name) {
         return this.windows[i];
@@ -50,7 +47,7 @@ module.exports = class WindowManager {
   /*
 	 * Gets the url to load in the window based on a name of a view
 	 */
-  static getWindowViewURL(viewName) {
+  getWindowViewURL(viewName) {
     if (isDev) {
       return "http://localhost:3000?" + viewName;
     }
@@ -65,7 +62,7 @@ module.exports = class WindowManager {
   /*
 	 * Loads a view into a window and creates its event handlers
 	 */
-  static loadWindow(window) {
+  loadWindow(window) {
     log.info("[WindowManager] Load window : " + window.name);
     window.window.loadURL(window.url);
     window.window.on("ready-to-show", () => {
@@ -79,7 +76,7 @@ module.exports = class WindowManager {
   /*
 	 * Opens a window based on its object reference
 	 */
-  static openWindow(window) {
+  openWindow(window) {
     log.info("[WindowManager] Open window : " + window.name);
     window.window.show();
     window.window.focus();
@@ -90,7 +87,7 @@ module.exports = class WindowManager {
 	 * closes the window with and option to destroy the window from
 	 * Memory
 	 */
-  static closeWindow(window, destroy) {
+  closeWindow(window, destroy) {
     log.info("[WindowManager] Close window : " + window.name);
     window.window.hide();
     if (destroy) {
@@ -102,7 +99,7 @@ module.exports = class WindowManager {
 	 * Hids the window, and removes it from the Array of windows. This
 	 * is needed so that we do not leak memory or waste local resources.
 	 */
-  static destroyWindow(window) {
+  destroyWindow(window) {
     for (var i = this.windows.length - 1; i >= 0; i--) {
       if (this.windows[i].name === window.name) {
         log.info("[WindowManager] Destroy window : " + window.name);
@@ -117,7 +114,7 @@ module.exports = class WindowManager {
 	 * After creating the window, it is added to a global array to
 	 * be reused.
 	 */
-  static createWindow(name) {
+  createWindow(name) {
     log.info("[WindowManager] Create window : " + name);
     let window = this.getWindow(name);
     if (!window) {
@@ -132,7 +129,7 @@ module.exports = class WindowManager {
   /*
 	 * Toggles open / close of windows withing our Array
 	 */
-  static toggleWindow(window) {
+  toggleWindow(window) {
     log.info("[WindowManager] Toggle window : " + window.name);
     if (window.window.isVisible()) {
       openWindow(window);
@@ -149,14 +146,14 @@ module.exports = class WindowManager {
 	 *
 	 * Need to add a new case for each window we wish to open
 	 */
-  static getWindowClassFromName(name) {
+  getWindowClassFromName(name) {
     // TODO this should use a factory design
     switch (name) {
-      case this.WindowNames.LOADING:
+      case global.App.WindowManager.types.LOADING:
         return new LoadingWindow();
-      case this.WindowNames.CONSOLE:
+      case global.App.WindowManager.types.CONSOLE:
         return new ConsoleWindow();
-      case this.WindowNames.BUGREPORT:
+      case global.App.WindowManager.types.BUGREPORT:
         return new BugReportWindow();
       default:
         return null;
@@ -168,17 +165,17 @@ module.exports = class WindowManager {
 	 * level API calls for other classes to use.
 	 */
   static createWindowLoading() {
-    let name = this.WindowNames.LOADING;
-    return this.createWindow(name);
+    let name = global.App.WindowManager.types.LOADING;
+    return global.App.WindowManager.createWindow(name);
   }
 
   static createWindowConsole() {
-    let name = this.WindowNames.CONSOLE;
-    return this.createWindow(name);
+    let name = global.App.WindowManager.types.CONSOLE;
+    return global.App.WindowManager.createWindow(name);
   }
 
   static createWindowBugReport() {
-    const name = this.WindowNames.BUGREPORT;
-    return this.createWindow(name);
+    const name = global.App.WindowManager.types.BUGREPORT;
+    return global.App.WindowManager.createWindow(name);
   }
 };

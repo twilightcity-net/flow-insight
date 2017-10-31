@@ -98,7 +98,7 @@ class EventManager {
   static init() {
     log.info("[EventManager] Initialize");
     this.events = [];
-    this.WindowManager = global.WindowManager;
+    this.WindowManager = global.App.WindowManager;
     global.EventManager = this;
   }
 

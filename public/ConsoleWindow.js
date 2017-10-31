@@ -12,9 +12,9 @@ const { BrowserWindow } = require("electron"),
  */
 module.exports = class ConsoleWindow {
   constructor() {
-    this.name = WindowManager.WindowNames.CONSOLE;
+    this.name = global.App.WindowManager.types.CONSOLE;
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
-    this.url = WindowManager.getWindowViewURL(this.view);
+    this.url = global.App.WindowManager.getWindowViewURL(this.view);
     this.window = new BrowserWindow({
       name: this.name,
       width: 900,

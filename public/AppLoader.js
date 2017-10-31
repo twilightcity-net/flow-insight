@@ -89,7 +89,7 @@ module.exports = class AppLoader {
   finished() {
     log.info("[AppLoader] finished");
     setTimeout(() => {
-      WindowManager.closeWindow(this.loadingWindow, true);
+      global.App.WindowManager.closeWindow(this.loadingWindow, true);
     }, this.eventTimerMs);
   }
 };

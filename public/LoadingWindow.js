@@ -10,9 +10,9 @@ const { BrowserWindow } = require("electron"),
  */
 module.exports = class LoadingWindow {
   constructor() {
-    this.name = WindowManager.WindowNames.LOADING;
+    this.name = global.App.WindowManager.types.LOADING;
     this.view = ViewManagerHelper.ViewNames.LOADING;
-    this.url = WindowManager.getWindowViewURL(this.view);
+    this.url = global.App.WindowManager.getWindowViewURL(this.view);
     this.window = new BrowserWindow({
       name: this.name,
       width: 360,
