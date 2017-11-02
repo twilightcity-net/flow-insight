@@ -3,7 +3,7 @@ const { app, BrowserWindow } = require("electron"),
   isDev = require("electron-is-dev"),
   log = require("electron-log"),
   Util = require("./Util"),
-  ViewManagerHelper = require("./ViewManagerHelper"),
+  WindowManagerHelper = require("./WindowManagerHelper"),
   LoadingWindow = require("./LoadingWindow"),
   ConsoleWindow = require("./ConsoleWindow"),
   BugReportWindow = require("./BugReportWindow");
@@ -17,11 +17,6 @@ module.exports = class WindowManager {
   constructor() {
     log.info("[WindowManager] created : okay");
     this.windows = [];
-    this.types = {
-      LOADING: "metaos-" + ViewManagerHelper.ViewNames.LOADING,
-      CONSOLE: "metaos-" + ViewManagerHelper.ViewNames.CONSOLE,
-      BUGREPORT: "metaos-" + ViewManagerHelper.ViewNames.BUGREPORT
-    };
   }
 
   /*
@@ -141,11 +136,11 @@ module.exports = class WindowManager {
   getWindowClassFromName(name) {
     // TODO this should use a factory design
     switch (name) {
-      case global.App.WindowManager.types.LOADING:
+      case WindowManagerHelper.WindowNames.LOADING:
         return new LoadingWindow();
-      case global.App.WindowManager.types.CONSOLE:
+      case WindowManagerHelper.WindowNames.CONSOLE:
         return new ConsoleWindow();
-      case global.App.WindowManager.types.BUGREPORT:
+      case WindowManagerHelper.WindowNames.BUGREPORT:
         return new BugReportWindow();
       default:
         return null;
@@ -157,17 +152,17 @@ module.exports = class WindowManager {
 	 * level API calls for other classes to use.
 	 */
   static createWindowLoading() {
-    let name = global.App.WindowManager.types.LOADING;
+    let name = WindowManagerHelper.WindowNames.LOADING;
     return global.App.WindowManager.createWindow(name);
   }
 
   static createWindowConsole() {
-    let name = global.App.WindowManager.types.CONSOLE;
+    let name = WindowManagerHelper.WindowNames.CONSOLE;
     return global.App.WindowManager.createWindow(name);
   }
 
   static createWindowBugReport() {
-    const name = global.App.WindowManager.types.BUGREPORT;
+    const name = WindowManagerHelper.WindowNames.BUGREPORT;
     return global.App.WindowManager.createWindow(name);
   }
 };

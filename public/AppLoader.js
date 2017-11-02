@@ -104,7 +104,6 @@ class LoadingWindowEventShown extends MainEvent {
       appLoader,
       (event, arg) => {
         setTimeout(() => {
-          console.log("here");
           EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
             load: appLoader.stages.CONSOLE,
             value: appLoader.incrementStage(),

@@ -1,6 +1,7 @@
 const { BrowserWindow } = require("electron"),
   isDev = require("electron-is-dev"),
   ViewManagerHelper = require("./ViewManagerHelper"),
+  WindowManagerHelper = require("./WindowManagerHelper"),
   { EventManager, MainEvent } = require("./EventManager"),
   log = require("electron-log");
 
@@ -10,7 +11,7 @@ const { BrowserWindow } = require("electron"),
  */
 module.exports = class LoadingWindow {
   constructor() {
-    this.name = global.App.WindowManager.types.LOADING;
+    this.name = WindowManagerHelper.WindowNames.LOADING;
     this.view = ViewManagerHelper.ViewNames.LOADING;
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
     this.window = new BrowserWindow({
