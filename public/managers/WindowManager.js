@@ -2,11 +2,11 @@ const { app, BrowserWindow } = require("electron"),
   path = require("path"),
   isDev = require("electron-is-dev"),
   log = require("electron-log"),
-  Util = require("./Util"),
+  Util = require("../Util"),
   WindowManagerHelper = require("./WindowManagerHelper"),
-  LoadingWindow = require("./windows/LoadingWindow"),
-  ConsoleWindow = require("./windows/ConsoleWindow"),
-  BugReportWindow = require("./windows/BugReportWindow");
+  LoadingWindow = require("../windows/LoadingWindow"),
+  ConsoleWindow = require("../windows/ConsoleWindow"),
+  BugReportWindow = require("../windows/BugReportWindow");
 
 /*
  * This class is used to manage the view, state, and display of each
@@ -40,9 +40,10 @@ module.exports = class WindowManager {
     }
     let filePath = `${path.join(
       app.getAppPath(),
-      __dirname,
+      Util.getAppRootDir(),
       "/index.html?" + viewName
     )}`;
+    log.info(">>>>" + filePath);
     return "file://" + filePath;
   }
 
@@ -145,24 +146,5 @@ module.exports = class WindowManager {
       default:
         return null;
     }
-  }
-
-  /*
-	 * Stuff that you need to add when making a new window. These are high 
-	 * level API calls for other classes to use.
-	 */
-  static createWindowLoading() {
-    let name = WindowManagerHelper.WindowNames.LOADING;
-    return global.App.WindowManager.createWindow(name);
-  }
-
-  static createWindowConsole() {
-    let name = WindowManagerHelper.WindowNames.CONSOLE;
-    return global.App.WindowManager.createWindow(name);
-  }
-
-  static createWindowBugReport() {
-    const name = WindowManagerHelper.WindowNames.BUGREPORT;
-    return global.App.WindowManager.createWindow(name);
   }
 };

@@ -2,9 +2,9 @@ const { BrowserWindow } = require("electron"),
   isDev = require("electron-is-dev"),
   path = require("path"),
   Util = require("../Util"),
-  ViewManagerHelper = require("../ViewManagerHelper"),
-  WindowManagerHelper = require("../WindowManagerHelper"),
-  { EventManager, MainEvent } = require("../EventManager");
+  ViewManagerHelper = require("../managers/ViewManagerHelper"),
+  WindowManagerHelper = require("../managers/WindowManagerHelper"),
+  { EventManager, MainEvent } = require("../managers/EventManager");
 
 /*
  * the main application window for UX. Suspose to slide in and out of 

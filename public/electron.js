@@ -49,7 +49,7 @@
  *                                                                                           *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-const App = require("./App");
+const App = require("./app/App");
 
 function main() {
   try {

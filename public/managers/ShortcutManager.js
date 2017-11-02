@@ -1,7 +1,7 @@
 const { globalShortcut } = require("electron"),
   log = require("electron-log"),
-  AppError = require("./AppError"),
-  Util = require("./Util"),
+  Util = require("../Util"),
+  AppError = require("../app/AppError"),
   WindowManager = require("./WindowManager"),
   EventManager = require("./EventManager");
 

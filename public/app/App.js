@@ -1,12 +1,12 @@
 const { app, dialog } = require("electron"),
   log = require("electron-log"),
   platform = require("electron-platform"),
-  Logger = require("./Logger"),
-  Util = require("./Util"),
-  WindowManager = require("./WindowManager"),
-  { EventManager } = require("./EventManager"),
-  { ShortcutManager } = require("./ShortcutManager"),
-  SlackManager = require("./SlackManager"),
+  Logger = require("./AppLogger"),
+  Util = require("../Util"),
+  WindowManager = require("../managers/WindowManager"),
+  { EventManager } = require("../managers/EventManager"),
+  { ShortcutManager } = require("../managers/ShortcutManager"),
+  SlackManager = require("../managers/SlackManager"),
   AppUpdater = require("./AppUpdater"),
   AppLoader = require("./AppLoader");
 

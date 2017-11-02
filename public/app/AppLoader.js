@@ -1,10 +1,10 @@
 const log = require("electron-log"),
   platform = require("electron-platform"),
   App = require("./App"),
-  Util = require("./Util"),
-  WindowManager = require("./WindowManager"),
-  { EventManager, MainEvent } = require("./EventManager"),
-  { ShortcutManager } = require("./ShortcutManager"),
+  Util = require("../Util"),
+  WindowManagerHelper = require("../managers/WindowManagerHelper"),
+  { EventManager, MainEvent } = require("../managers/EventManager"),
+  { ShortcutManager } = require("../managers/ShortcutManager"),
   AppMenu = require("./AppMenu"),
   AppTray = require("./AppTray");
 
@@ -15,7 +15,7 @@ module.exports = class AppLoader {
   constructor() {
     log.info("[AppLoader] created : okay");
     Util.setAppTray(new AppTray());
-    this.loadingWindow = WindowManager.createWindowLoading();
+    this.loadingWindow = WindowManagerHelper.createWindowLoading();
     this.createMenu();
     this.eventTimerMs = 420;
     this.currentStage = 1;
@@ -64,7 +64,7 @@ module.exports = class AppLoader {
   createConsole() {
     log.info("[AppLoader] create console");
     try {
-      WindowManager.createWindowConsole();
+      WindowManagerHelper.createWindowConsole();
     } catch (error) {
       global.App.handleError(error, true);
     }
@@ -90,7 +90,7 @@ module.exports = class AppLoader {
     log.info("[AppLoader] finished");
     setTimeout(() => {
       global.App.WindowManager.closeWindow(this.loadingWindow, true);
-    }, this.eventTimerMs);
+    }, this.eventTimerMs * 2);
   }
 };
 

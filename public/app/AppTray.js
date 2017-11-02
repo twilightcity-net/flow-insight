@@ -1,6 +1,6 @@
 const { Menu, Tray } = require("electron"),
   log = require("electron-log"),
-  Util = require("./Util");
+  Util = require("../Util");
 
 /*
  * This class is used to init the Application tray

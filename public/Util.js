@@ -21,6 +21,13 @@ module.exports = class Util {
   }
 
   /*
+   * gets the root app page
+   */
+  static getAppRootDir() {
+    return __dirname;
+  }
+
+  /*
    * gets the base path for the asset resouces
    */
   static getAssetsDir() {

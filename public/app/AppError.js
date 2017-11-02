@@ -1,4 +1,4 @@
-const Util = require("./Util");
+const Util = require("../Util");
 /*
  * Base Exception class for app, all other errors should extend this
  */

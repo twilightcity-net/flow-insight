@@ -1,7 +1,7 @@
 const { Menu } = require("electron"),
   log = require("electron-log"),
-  Util = require("./Util"),
-  WindowManager = require("./WindowManager");
+  Util = require("../Util"),
+  WindowManager = require("../managers/WindowManager");
 
 /*
  * This class is used to init the Application menu. mac only now

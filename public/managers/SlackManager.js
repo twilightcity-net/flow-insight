@@ -1,13 +1,12 @@
-const Util = require("./Util"),
-  IncomingWebhook = require("@slack/client").IncomingWebhook,
+const IncomingWebhook = require("@slack/client").IncomingWebhook,
   Notifier = require("node-notifier"),
-  log = require("electron-log");
+  log = require("electron-log"),
+  Util = require("../Util");
 
 /*
  * This is a high level management class for Slack Integration. This
  * class uses the @mr.meeseeks bot to send messages to #metaos_buggery
  */
-
 module.exports = class SlackManager {
   constructor() {
     log.info("[SlackManager] created : okay");

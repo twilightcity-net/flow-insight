@@ -2,9 +2,9 @@ const { BrowserWindow } = require("electron"),
   isDev = require("electron-is-dev"),
   log = require("electron-log"),
   Util = require("../Util"),
-  ViewManagerHelper = require("../ViewManagerHelper"),
-  WindowManagerHelper = require("../WindowManagerHelper"),
-  { EventManager, MainEvent } = require("../EventManager");
+  ViewManagerHelper = require("../managers/ViewManagerHelper"),
+  WindowManagerHelper = require("../managers/WindowManagerHelper"),
+  { EventManager, MainEvent } = require("../managers/EventManager");
 
 /*
  * The Application loading window. Loads LoadingView class. This window
