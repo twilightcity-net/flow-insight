@@ -14,6 +14,13 @@ module.exports = class Util {
   }
 
   /*
+   * gets the root applciation icon
+   */
+  static getAppIcon(name) {
+    return path.join(__dirname, "assets/icons/" + name);
+  }
+
+  /*
    * gets the base path for the asset resouces
    */
   static getAssetsDir() {

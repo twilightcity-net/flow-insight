@@ -1,9 +1,10 @@
 const { BrowserWindow } = require("electron"),
   isDev = require("electron-is-dev"),
-  ViewManagerHelper = require("./ViewManagerHelper"),
-  WindowManagerHelper = require("./WindowManagerHelper"),
-  { EventManager, MainEvent } = require("./EventManager"),
-  log = require("electron-log");
+  log = require("electron-log"),
+  Util = require("../Util"),
+  ViewManagerHelper = require("../ViewManagerHelper"),
+  WindowManagerHelper = require("../WindowManagerHelper"),
+  { EventManager, MainEvent } = require("../EventManager");
 
 /*
  * The Application loading window. Loads LoadingView class. This window
@@ -14,6 +15,7 @@ module.exports = class LoadingWindow {
     this.name = WindowManagerHelper.WindowNames.LOADING;
     this.view = ViewManagerHelper.ViewNames.LOADING;
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
+    this.icon = Util.getAppIcon("icon.ico");
     this.window = new BrowserWindow({
       name: this.name,
       width: 360,
@@ -22,6 +24,7 @@ module.exports = class LoadingWindow {
       minHeight: 160,
       resizable: false,
       show: false,
+      icon: this.icon,
       backgroundColor: "#ffffff",
       fullscreenable: false,
       webPreferences: { devTools: isDev, toolbar: false }

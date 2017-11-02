@@ -4,9 +4,9 @@ const { app, BrowserWindow } = require("electron"),
   log = require("electron-log"),
   Util = require("./Util"),
   WindowManagerHelper = require("./WindowManagerHelper"),
-  LoadingWindow = require("./LoadingWindow"),
-  ConsoleWindow = require("./ConsoleWindow"),
-  BugReportWindow = require("./BugReportWindow");
+  LoadingWindow = require("./windows/LoadingWindow"),
+  ConsoleWindow = require("./windows/ConsoleWindow"),
+  BugReportWindow = require("./windows/BugReportWindow");
 
 /*
  * This class is used to manage the view, state, and display of each

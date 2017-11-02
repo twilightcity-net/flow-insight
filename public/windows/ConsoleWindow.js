@@ -1,11 +1,10 @@
 const { BrowserWindow } = require("electron"),
   isDev = require("electron-is-dev"),
   path = require("path"),
-  ViewManagerHelper = require("./ViewManagerHelper"),
-  WindowManagerHelper = require("./WindowManagerHelper"),
-  { EventManager, MainEvent } = require("./EventManager"),
-  assetsDirectory = path.join(__dirname, "assets"),
-  applicationIcon = assetsDirectory + "/icons/icon.ico";
+  Util = require("../Util"),
+  ViewManagerHelper = require("../ViewManagerHelper"),
+  WindowManagerHelper = require("../WindowManagerHelper"),
+  { EventManager, MainEvent } = require("../EventManager");
 
 /*
  * the main application window for UX. Suspose to slide in and out of 
@@ -16,13 +15,14 @@ module.exports = class ConsoleWindow {
     this.name = WindowManagerHelper.WindowNames.CONSOLE;
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
+    this.icon = Util.getAppIcon("icon.ico");
     this.window = new BrowserWindow({
       name: this.name,
       width: 900,
       height: 680,
       show: false,
       backgroundColor: "#ffffff",
-      icon: applicationIcon,
+      icon: this.icon,
       fullscreenable: false,
       webPreferences: { devTools: isDev, toolbar: false }
     });
