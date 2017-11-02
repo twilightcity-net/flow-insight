@@ -7,6 +7,9 @@ module.exports = function() {
       .src(
         [
           "build/*.js",
+          "build/app/*.js",
+          "build/managers/*.js",
+          "build/windows/*.js",
           "!build/assets/**/*",
           "!build/static/**/*",
           "!build/**/*.dat"
