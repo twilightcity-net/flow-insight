@@ -42,7 +42,7 @@ module.exports = class App {
     try {
       // TODO convert these to constructors inside global.App
       global.App.WindowManager = new WindowManager();
-      EventManager.init();
+      global.App.EventManager = new EventManager();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.SlackManager = new SlackManager();
       global.App.AppUpdater = new AppUpdater();

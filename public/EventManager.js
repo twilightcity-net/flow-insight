@@ -21,9 +21,9 @@ class MainEvent {
     this.callback = callback;
     this.reply = reply;
     this.async = async;
-    EventManager.initSender(this);
-    EventManager.initReturnValues(this);
-    EventManager.register(this);
+    global.App.EventManager.initSender(this);
+    global.App.EventManager.initReturnValues(this);
+    global.App.EventManager.register(this);
   }
 
   /*
@@ -92,14 +92,9 @@ class EventReplyException extends EventException {
  * new events make sure to update both classes
  */
 class EventManager {
-  /*
-   * Initialization method that creates an array to store events in
-   */
-  static init() {
+  constructor() {
     log.info("[EventManager] Initialize");
     this.events = [];
-    this.WindowManager = global.App.WindowManager;
-    global.EventManager = this;
   }
 
   /*
@@ -114,7 +109,7 @@ class EventManager {
    * feedback loop. Useful for calling circular events within 
    * a state machine.
    */
-  static initSender(event) {
+  initSender(event) {
     event.sender = {
       send: function(_eventType, _arg) {
         EventManager.dispatch(_eventType, _arg);
@@ -126,7 +121,7 @@ class EventManager {
    * creates returnValues object with null values. called when dispatching 
    * a new event channel
    */
-  static initReturnValues(event) {
+  initReturnValues(event) {
     event.returnValues = {
       callback: null,
       reply: null
@@ -139,7 +134,7 @@ class EventManager {
    * with variable pointers. The event should be store as a variable in the 
    * scope class
    */
-  static register(event) {
+  register(event) {
     log.info("[EventManager] register event : " + event.type);
     event = this.createListener(event);
     ipcMain.on(event.type, event.listener);
@@ -152,7 +147,7 @@ class EventManager {
    * exception is caught, logged, and returned as an object back to the 
    * EventManagerHelper for processing
    */
-  static createListener(event) {
+  createListener(event) {
     event.listener = (_event, _arg) => {
       log.info("[EventManager] renderer event : " + event.type + " -> " + _arg);
       try {
@@ -176,7 +171,7 @@ class EventManager {
    * removes an event from the global events registry. The event much match
    * the pointer to it. not by the name. Returns the event that was removed.
    */
-  static unregister(event) {
+  unregister(event) {
     let index = this.events.indexOf(event);
     log.info(
       "[EventManager] unregister event : " + event.type + " @ [" + index + "]"
@@ -189,7 +184,7 @@ class EventManager {
   /*
    * removes the listeners and returns an empty object
    */
-  static destroy(event) {
+  destroy(event) {
     log.info("[EventManager] destroy event : " + event.type);
     this.unregister(event);
     for (let property in event) {
@@ -203,7 +198,7 @@ class EventManager {
    * arg: data object sent from the scope
    * event: the scope of this event callback
    */
-  static executeCallback(event, arg) {
+  executeCallback(event, arg) {
     log.info("[EventManager] execute callback -> " + event.type + " : " + arg);
     try {
       if (event.callback) return event.callback(event, arg);
@@ -217,7 +212,7 @@ class EventManager {
    * arg: data object sent from the scope
    * event: the scope of this event callback
    */
-  static executeReply(event, arg) {
+  executeReply(event, arg) {
     log.info(
       "[EventManager] execute reply -> " + event.type + "-reply : " + arg
     );
@@ -233,11 +228,12 @@ class EventManager {
    */
   static dispatch(eventType, arg) {
     log.info("[EventManager] dispatch event : " + eventType);
-    let returnedEvents = [],
-      windows = this.WindowManager.windows;
-    for (var i = 0; i < this.events.length; i++) {
-      if (this.events[i].type === eventType) {
-        returnedEvents.push(this.handleEvent(this.events[i], arg));
+    let windows = global.App.WindowManager.windows,
+      manager = global.App.EventManager,
+      returnedEvents = [];
+    for (var i = 0; i < manager.events.length; i++) {
+      if (manager.events[i].type === eventType) {
+        returnedEvents.push(manager.handleEvent(manager.events[i], arg));
       }
     }
     if (returnedEvents.length === 0) {
@@ -265,11 +261,11 @@ class EventManager {
   /*
    * handles the event dispatching by envoking the callback and reply functions
    */
-  static handleEvent(event, arg) {
+  handleEvent(event, arg) {
     this.initReturnValues(event);
     try {
       log.info("[EventManager] handle callback : " + event.type);
-      event.returnValues.callback = EventManager.executeCallback(event, arg);
+      event.returnValues.callback = this.executeCallback(event, arg);
       if (event.reply) {
         log.info("[EventManager] handle reply : " + event.type + "-reply");
         event.returnValues.reply = this.executeReply(event, arg);
@@ -286,7 +282,7 @@ class EventManager {
    * the exception as the return value for future procession in call stack
    */
   // TODO this should use global.App.handleError()
-  static handleError(event, error) {
+  handleError(event, error) {
     if (error instanceof EventCallbackException) {
       event.returnValues.callback = error;
     } else if (error instanceof EventReplyException) {
