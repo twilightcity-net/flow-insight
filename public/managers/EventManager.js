@@ -292,21 +292,6 @@ class EventManager {
       "[EventManager] " + error.toString() + "\n\n" + error.stack + "\n"
     );
   }
-
-  /*
-   * static enum subclass to store event names. These are basically the type
-   * of possible events that can be dispatched by the Manager. When adding new 
-   * events make sure to update this and ./src/EventManagerHelper 
-   */
-  static get EventTypes() {
-    let prefix = "metaos-ipc-";
-    return {
-      WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
-      WINDOW_CONSOLE_READY: prefix + "window-console-ready",
-      APPLOADER_LOAD: prefix + "apploader-load",
-      SHORTCUTS_CREATED: prefix + "shortcuts-created"
-    };
-  }
 }
 
 module.exports = {

@@ -4,6 +4,7 @@ const log = require("electron-log"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   { EventManager, MainEvent } = require("../managers/EventManager"),
+  EventManagerHelper = require("../managers/EventManagerHelper"),
   { ShortcutManager } = require("../managers/ShortcutManager"),
   AppMenu = require("./AppMenu"),
   AppTray = require("./AppTray");
@@ -100,11 +101,11 @@ module.exports = class AppLoader {
 class LoadingWindowEventShown extends MainEvent {
   constructor(appLoader) {
     super(
-      EventManager.EventTypes.WINDOW_LOADING_SHOWN,
+      EventManagerHelper.Events.WINDOW_LOADING_SHOWN,
       appLoader,
       (event, arg) => {
         setTimeout(() => {
-          EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
+          EventManager.dispatch(EventManagerHelper.Events.APPLOADER_LOAD, {
             load: appLoader.stages.CONSOLE,
             value: appLoader.incrementStage(),
             total: appLoader.getTotalStages(),
@@ -124,11 +125,11 @@ class LoadingWindowEventShown extends MainEvent {
 class ConsoleWindowEventReady extends MainEvent {
   constructor(appLoader) {
     super(
-      EventManager.EventTypes.WINDOW_CONSOLE_READY,
+      EventManagerHelper.Events.WINDOW_CONSOLE_READY,
       appLoader,
       (event, arg) => {
         setTimeout(() => {
-          EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
+          EventManager.dispatch(EventManagerHelper.Events.APPLOADER_LOAD, {
             load: appLoader.stages.SHORTCUTS,
             value: appLoader.incrementStage(),
             total: appLoader.getTotalStages(),
@@ -148,11 +149,11 @@ class ConsoleWindowEventReady extends MainEvent {
 class ShortcutsEventCreated extends MainEvent {
   constructor(appLoader) {
     super(
-      EventManager.EventTypes.SHORTCUTS_CREATED,
+      EventManagerHelper.Events.SHORTCUTS_CREATED,
       appLoader,
       (event, arg) => {
         setTimeout(() => {
-          EventManager.dispatch(EventManager.EventTypes.APPLOADER_LOAD, {
+          EventManager.dispatch(EventManagerHelper.Events.APPLOADER_LOAD, {
             load: appLoader.stages.FINISHED,
             value: appLoader.incrementStage(),
             total: appLoader.getTotalStages(),
@@ -171,7 +172,7 @@ class ShortcutsEventCreated extends MainEvent {
  */
 class AppLoaderEventLoad extends MainEvent {
   constructor(appLoader) {
-    super(EventManager.EventTypes.APPLOADER_LOAD, appLoader, (event, arg) => {
+    super(EventManagerHelper.Events.APPLOADER_LOAD, appLoader, (event, arg) => {
       switch (arg.load) {
         case appLoader.stages.CONSOLE:
           appLoader.createConsole();

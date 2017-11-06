@@ -4,7 +4,8 @@ const { BrowserWindow } = require("electron"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
-  { EventManager, MainEvent } = require("../managers/EventManager");
+  { EventManager, MainEvent } = require("../managers/EventManager"),
+  EventManagerHelper = require("../managers/EventManagerHelper");
 
 /*
  * The Application loading window. Loads LoadingView class. This window
@@ -35,14 +36,14 @@ module.exports = class LoadingWindow {
       shown: new LoadingWindowEventShown(this)
     };
     this.window.on("show", () => {
-      EventManager.dispatch(EventManager.EventTypes.WINDOW_LOADING_SHOWN);
+      EventManager.dispatch(EventManagerHelper.Events.WINDOW_LOADING_SHOWN);
     });
   }
 };
 
 class LoadingWindowEventShown extends MainEvent {
   constructor(window) {
-    super(EventManager.EventTypes.WINDOW_LOADING_SHOWN, window);
+    super(EventManagerHelper.Events.WINDOW_LOADING_SHOWN, window);
     return this;
   }
 }

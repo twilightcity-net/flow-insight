@@ -4,7 +4,8 @@ const { BrowserWindow } = require("electron"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
-  { EventManager, MainEvent } = require("../managers/EventManager");
+  { EventManager, MainEvent } = require("../managers/EventManager"),
+  EventManagerHelper = require("../managers/EventManagerHelper");
 
 /*
  * the main application window for UX. Suspose to slide in and out of 
@@ -32,14 +33,14 @@ module.exports = class ConsoleWindow {
       ready: new ConsoleWindowEventReady(this)
     };
     this.window.on("ready-to-show", () => {
-      EventManager.dispatch(EventManager.EventTypes.WINDOW_CONSOLE_READY);
+      EventManager.dispatch(EventManagerHelper.Events.WINDOW_CONSOLE_READY);
     });
   }
 };
 
 class ConsoleWindowEventReady extends MainEvent {
   constructor(window) {
-    super(EventManager.EventTypes.WINDOW_CONSOLE_READY, window);
+    super(EventManagerHelper.Events.WINDOW_CONSOLE_READY, window);
     return this;
   }
 }
