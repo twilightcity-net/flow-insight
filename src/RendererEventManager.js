@@ -104,9 +104,13 @@ export class RendererEventManager {
    */
   static listenForReply(event) {
     if (!event.reply) return;
-    log.info("[Renderer] listening for reply -> " + event.type + "-reply");
+    log.info(
+      "[RendererEventManager] listening for reply -> " + event.type + "-reply"
+    );
     ipcRenderer.on(event.type + "-reply", (_event, _arg) => {
-      log.info("[Renderer] reply -> " + event.type + "-reply : " + _arg);
+      log.info(
+        "[RendererEventManager] reply -> " + event.type + "-reply : " + _arg
+      );
       event.replyReturnValue = null;
       try {
         event.replyReturnValue = event.reply(_event, _arg);

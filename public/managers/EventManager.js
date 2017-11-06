@@ -15,7 +15,7 @@ class MainEvent {
    * async: true to send an async message back
    */
   constructor(eventType, scope, callback, reply, async) {
-    log.info("[EventManager] create event : " + eventType);
+    log.info("[EventManager] create event -> " + eventType);
     this.type = eventType;
     this.scope = scope;
     this.callback = callback;
@@ -93,7 +93,7 @@ class EventReplyException extends EventException {
  */
 class EventManager {
   constructor() {
-    log.info("[EventManager] Initialize");
+    log.info("[EventManager] created : okay");
     this.events = [];
   }
 
@@ -135,10 +135,10 @@ class EventManager {
    * scope class
    */
   register(event) {
-    log.info("[EventManager] register event : " + event.type);
+    log.info("[EventManager] |> register event -> " + event.type);
     event = this.createListener(event);
     ipcMain.on(event.type, event.listener);
-    log.info("[EventManager] store event : " + event.type);
+    log.info("[EventManager] └> store event -> " + event.type);
     this.events.push(event);
   }
 
@@ -149,18 +149,22 @@ class EventManager {
    */
   createListener(event) {
     event.listener = (_event, _arg) => {
-      log.info("[EventManager] renderer event : " + event.type + " -> " + _arg);
+      log.info(
+        "[EventManager] |> renderer event -> " + event.type + " : " + _arg
+      );
       try {
         let value = EventManager.executeCallback(event, _arg);
         _event.returnValue = value;
         if (event.async) {
           log.info(
-            "[EventManager] reply event -> " + event.type + " : " + value
+            "[EventManager] |> reply event -> " + event.type + " : " + value
           );
           _event.sender.send(event.type + "-reply", value);
         }
       } catch (e) {
-        log.error("[EventManager] " + e.toString() + "\n\n" + e.stack + "\n");
+        log.error(
+          "[EventManager] └> " + e.toString() + "\n\n" + e.stack + "\n"
+        );
         _event.returnValue = e;
       }
     };
@@ -174,7 +178,7 @@ class EventManager {
   unregister(event) {
     let index = this.events.indexOf(event);
     log.info(
-      "[EventManager] unregister event : " + event.type + " @ [" + index + "]"
+      "[EventManager] unregister event -> " + event.type + " @ [" + index + "]"
     );
     this.events.splice(index, 1);
     ipcMain.removeListener(event.type, event.listener);
@@ -185,7 +189,7 @@ class EventManager {
    * removes the listeners and returns an empty object
    */
   destroy(event) {
-    log.info("[EventManager] destroy event : " + event.type);
+    log.info("[EventManager] destroy event -> " + event.type);
     this.unregister(event);
     for (let property in event) {
       delete event[property];
@@ -199,7 +203,9 @@ class EventManager {
    * event: the scope of this event callback
    */
   executeCallback(event, arg) {
-    log.info("[EventManager] execute callback -> " + event.type + " : " + arg);
+    log.info(
+      "[EventManager] |> execute callback -> " + event.type + " : " + arg
+    );
     try {
       if (event.callback) return event.callback(event, arg);
     } catch (e) {
@@ -237,11 +243,11 @@ class EventManager {
       }
     }
     if (returnedEvents.length === 0) {
-      log.info("[EventManager] no events found : " + eventType);
+      log.info("[EventManager] |> no events found : " + eventType);
       return [];
     }
     log.info(
-      "[EventManager] handled {" +
+      "[EventManager] |> handled {" +
         returnedEvents.length +
         "} events : " +
         eventType
@@ -250,7 +256,7 @@ class EventManager {
       windows[j].window.webContents.send(eventType, arg);
     }
     log.info(
-      "[EventManager] dispatched {" +
+      "[EventManager] └> dispatched {" +
         windows.length +
         "} window events : " +
         eventType
@@ -264,10 +270,10 @@ class EventManager {
   handleEvent(event, arg) {
     this.initReturnValues(event);
     try {
-      log.info("[EventManager] handle callback : " + event.type);
+      log.info("[EventManager] |> handle callback : " + event.type);
       event.returnValues.callback = this.executeCallback(event, arg);
       if (event.reply) {
-        log.info("[EventManager] handle reply : " + event.type + "-reply");
+        log.info("[EventManager] |> handle reply : " + event.type + "-reply");
         event.returnValues.reply = this.executeReply(event, arg);
       }
     } catch (error) {
@@ -289,7 +295,7 @@ class EventManager {
       event.returnValues.reply = error;
     }
     log.error(
-      "[EventManager] " + error.toString() + "\n\n" + error.stack + "\n"
+      "[EventManager] └> " + error.toString() + "\n\n" + error.stack + "\n"
     );
   }
 }

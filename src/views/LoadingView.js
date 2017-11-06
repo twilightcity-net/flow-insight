@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { RendererEventManager, RendererEvent } from "../RendererEventManager";
+import { RendererEvent } from "../RendererEventManager";
 import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
 import {
   Divider,

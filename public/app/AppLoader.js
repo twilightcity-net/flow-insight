@@ -88,7 +88,7 @@ module.exports = class AppLoader {
    * called when AppLoader is completed
    */
   finished() {
-    log.info("[AppLoader] finished");
+    log.info("[AppLoader] finished : okay");
     setTimeout(() => {
       global.App.WindowManager.closeWindow(this.loadingWindow, true);
     }, this.eventTimerMs * 2);
