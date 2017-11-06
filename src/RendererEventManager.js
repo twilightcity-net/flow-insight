@@ -1,6 +1,5 @@
 const { ipcRenderer, remote } = window.require("electron"),
   log = remote.require("electron-log");
-// EventManagerHelper = require("../manager/EventManagerHelper");
 
 /*
  * events generated from the renderer. If there is an associated event in the main
@@ -186,16 +185,5 @@ export class RendererEventManager {
     } finally {
       return event;
     }
-  }
-
-  /*
-   * static enum subclass to store event names
-   */
-  static get EventTypes() {
-    let prefix = "metaos-ipc-";
-    return {
-      WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
-      APPLOADER_LOAD: prefix + "apploader-load"
-    };
   }
 }
