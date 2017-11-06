@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { EventManagerHelper, RendererEvent } from "../EventManagerHelper";
+import { RendererEventManager, RendererEvent } from "../RendererEventManager";
 import {
   Divider,
   Transition,
@@ -75,7 +75,7 @@ export default class LoadingView extends Component {
   createEvents() {
     console.log("[LoadingView] register events");
     let loadEvent = new RendererEvent(
-      EventManagerHelper.EventTypes.APPLOADER_LOAD,
+      RendererEventManager.EventTypes.APPLOADER_LOAD,
       this,
       function(event, arg) {
         console.log("[LoadingView] event : " + this.type + " -> " + arg.load);

@@ -1,5 +1,6 @@
 const { ipcRenderer, remote } = window.require("electron"),
   log = remote.require("electron-log");
+// EventManagerHelper = require("../manager/EventManagerHelper");
 
 /*
  * events generated from the renderer. If there is an associated event in the main
@@ -17,12 +18,12 @@ export class RendererEvent {
     this.reply = reply;
     this.returnValue = null;
     this.replyReturnValue = null;
-    EventManagerHelper.listenForCallback(this);
-    EventManagerHelper.listenForReply(this);
+    RendererEventManager.listenForCallback(this);
+    RendererEventManager.listenForReply(this);
   }
 
   dispatch(arg) {
-    return EventManagerHelper.dispatch(this, arg);
+    return RendererEventManager.dispatch(this, arg);
   }
 }
 
@@ -71,7 +72,7 @@ class EventException {
  * both files with the new event name. This class is also used to store
  * and register event handlers.
  */
-export class EventManagerHelper {
+export class RendererEventManager {
   /*
    * checks the sync return value for an exception. Required becuase the IPC 
    * transport uncasts the object type, and well having all classes of type
@@ -111,7 +112,7 @@ export class EventManagerHelper {
       try {
         event.replyReturnValue = event.reply(_event, _arg);
       } catch (error) {
-        event.replyReturnValue = EventManagerHelper.createEventError(
+        event.replyReturnValue = RendererEventManager.createEventError(
           error,
           event
         );
@@ -143,7 +144,7 @@ export class EventManagerHelper {
       try {
         event.returnValue = event.callback(_event, _arg);
       } catch (error) {
-        event.returnValue = EventManagerHelper.createEventError(error, event);
+        event.returnValue = RendererEventManager.createEventError(error, event);
         log.error(
           "[Renderer] " +
             event.returnValue.toString() +
@@ -169,7 +170,7 @@ export class EventManagerHelper {
           "[Renderer] dispatch sync event -> " + event.type + " : " + arg
         );
         event.returnValue = ipcRenderer.sendSync(event.type, arg);
-        EventManagerHelper.checkEventForError(event);
+        RendererEventManager.checkEventForError(event);
         log.info(
           "[Renderer] callback -> " + event.type + " : " + event.returnValue
         );
