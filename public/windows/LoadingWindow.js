@@ -4,7 +4,7 @@ const { BrowserWindow } = require("electron"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
-  { EventManager, MainEvent } = require("../managers/EventManager"),
+  EventFactory = require("../managers/EventFactory"),
   EventManagerHelper = require("../managers/EventManagerHelper");
 
 /*
@@ -17,6 +17,7 @@ module.exports = class LoadingWindow {
     this.view = ViewManagerHelper.ViewNames.LOADING;
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
     this.icon = Util.getAppIcon("icon.ico");
+    this.autoShow = true;
     this.window = new BrowserWindow({
       name: this.name,
       width: 360,
@@ -31,19 +32,20 @@ module.exports = class LoadingWindow {
       webPreferences: { devTools: isDev, toolbar: false }
     });
     this.window.setMenu(null);
-    this.autoShow = true;
+    this.window.on("show", () => this.onShow());
     this.events = {
-      shown: new LoadingWindowEventShown(this)
+      shown: this.onShown()
     };
-    this.window.on("show", () => {
-      EventManager.dispatch(EventManagerHelper.Events.WINDOW_LOADING_SHOWN);
-    });
+  }
+
+  onShow() {
+    this.events.shown.dispatch();
+  }
+
+  onShown() {
+    return EventFactory.createEvent(
+      EventFactory.Types.WINDOW_LOADING_SHOWN,
+      this
+    );
   }
 };
-
-class LoadingWindowEventShown extends MainEvent {
-  constructor(window) {
-    super(EventManagerHelper.Events.WINDOW_LOADING_SHOWN, window);
-    return this;
-  }
-}

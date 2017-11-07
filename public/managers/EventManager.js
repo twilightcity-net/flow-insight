@@ -14,9 +14,9 @@ class MainEvent {
    * reply: the reply function to dispatch
    * async: true to send an async message back
    */
-  constructor(eventType, scope, callback, reply, async) {
-    log.info("[EventManager] create event -> " + eventType);
-    this.type = eventType;
+  constructor(type, scope, callback, reply, async) {
+    log.info("[EventManager] create event -> " + type);
+    this.type = type;
     this.scope = scope;
     this.callback = callback;
     this.reply = reply;
