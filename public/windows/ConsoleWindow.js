@@ -4,8 +4,7 @@ const { BrowserWindow } = require("electron"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
-  { EventManager, MainEvent } = require("../managers/EventManager"),
-  EventManagerHelper = require("../managers/EventManagerHelper");
+  EventFactory = require("../managers/EventFactory");
 
 /*
  * the main application window for UX. Suspose to slide in and out of 
@@ -17,6 +16,7 @@ module.exports = class ConsoleWindow {
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
     this.icon = Util.getAppIcon("icon.ico");
+    this.autoShow = false;
     this.window = new BrowserWindow({
       name: this.name,
       width: 900,
@@ -28,19 +28,20 @@ module.exports = class ConsoleWindow {
       webPreferences: { devTools: isDev, toolbar: false }
     });
     this.window.setMenu(null);
-    this.autoShow = false;
+    this.window.on("ready-to-show", () => this.onReadyToShow());
     this.events = {
-      ready: new ConsoleWindowEventReady(this)
+      ready: this.onReady()
     };
-    this.window.on("ready-to-show", () => {
-      EventManager.dispatch(EventManagerHelper.Events.WINDOW_CONSOLE_READY);
-    });
+  }
+
+  onReadyToShow() {
+    this.events.ready.dispatch();
+  }
+
+  onReady() {
+    return EventFactory.createEvent(
+      EventFactory.Types.WINDOW_CONSOLE_READY,
+      this
+    );
   }
 };
-
-class ConsoleWindowEventReady extends MainEvent {
-  constructor(window) {
-    super(EventManagerHelper.Events.WINDOW_CONSOLE_READY, window);
-    return this;
-  }
-}

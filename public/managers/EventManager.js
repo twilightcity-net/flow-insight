@@ -21,6 +21,8 @@ class MainEvent {
     this.callback = callback;
     this.reply = reply;
     this.async = async;
+
+    //move to factory
     global.App.EventManager.initSender(this);
     global.App.EventManager.initReturnValues(this);
     global.App.EventManager.register(this);

@@ -40,7 +40,6 @@ module.exports = class App {
     app.setName(global.App.name);
     log.info("[App] ready -> " + global.App.name);
     try {
-      // TODO convert these to constructors inside global.App
       global.App.WindowManager = new WindowManager();
       global.App.EventManager = new EventManager();
       global.App.ShortcutManager = new ShortcutManager();

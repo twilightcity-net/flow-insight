@@ -10,7 +10,6 @@ module.exports = class EventFactory {
    */
   static createEvent(type, scope, callback, reply, async) {
     log.info("[EventFactory] create event -> " + type);
-    log.debug(scope);
     let event = new MainEvent(type, scope, reply, async);
     // global.App.EventManager.initSender(event);
     // global.App.EventManager.initReturnValues(event);
