@@ -9,7 +9,7 @@ const Updater = require("electron-updater").autoUpdater,
  */
 module.exports = class AppUpdater {
   constructor() {
-    log.info("[AppUpdater] created : okay");
+    log.info("[AppUpdater] created -> okay");
 
     // disable updates for linux and dev mode
     if (isDev || process.platform === "linux") return;

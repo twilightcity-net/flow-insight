@@ -8,9 +8,11 @@ module.exports = class EventFactory {
   /*
    * creates and returns a new Event Object
    */
-  static createEvent(type, scope, callback, reply, async) {
+  static createEvent(type, ...args) {
     log.info("[EventFactory] create event -> " + type);
-    let event = new MainEvent(type, scope, reply, async);
+    let event = new MainEvent(type, ...args);
+
+    // TODO be sure to remove these in the MainEvent constructor
     // global.App.EventManager.initSender(event);
     // global.App.EventManager.initReturnValues(event);
     // global.App.EventManager.register(event);

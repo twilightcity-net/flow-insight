@@ -7,7 +7,7 @@ const { Menu, Tray } = require("electron"),
  */
 module.exports = class AppTray extends Tray {
   constructor() {
-    log.info("[AppTray] created : okay");
+    log.info("[AppTray] created -> okay");
     super(Util.getAssetPath("/icons/icon.png"));
     let menu = Menu.buildFromTemplate([
       {

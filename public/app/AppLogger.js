@@ -17,7 +17,7 @@ module.exports = class Logger {
     }
     log.transports.file.level = level;
     log.transports.console.level = level;
-    log.info("[Logger] Initialized");
+    log.info("[Logger] initialized");
     return log;
   }
 };

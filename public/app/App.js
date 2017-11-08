@@ -76,9 +76,7 @@ module.exports = class App {
 	 * called when the application is quiting
 	 */
   onQuit(event, exitCode) {
-    log.info(
-      "[App] quitting -> " + event.sender.name + " exitCode : " + exitCode
-    );
+    log.info("[App] quitting -> exitCode : " + exitCode);
   }
 
   /*

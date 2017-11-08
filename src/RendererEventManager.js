@@ -108,11 +108,14 @@ export class RendererEventManager {
       "[RendererEventManager] listening for reply -> " + event.type + "-reply"
     );
     ipcRenderer.on(event.type + "-reply", (_event, _arg) => {
-      log.info(
-        "[RendererEventManager] reply -> " + event.type + "-reply : " + _arg
-      );
       event.replyReturnValue = null;
       try {
+        log.info(
+          "[RendererEventManager] event reply -> " +
+            event.type +
+            "-reply : " +
+            _arg
+        );
         event.replyReturnValue = event.reply(_event, _arg);
       } catch (error) {
         event.replyReturnValue = RendererEventManager.createEventError(
@@ -120,7 +123,7 @@ export class RendererEventManager {
           event
         );
         log.error(
-          "[Renderer] " +
+          "[RendererEventManager] " +
             event.replyReturnValue.toString() +
             "\n\n" +
             event.replyReturnValue.stack +
@@ -140,16 +143,25 @@ export class RendererEventManager {
    */
   static listenForCallback(event) {
     if (!event.callback) return;
-    log.info("[Renderer] listening for callback -> " + event.type + "-reply");
+    log.info(
+      "[RendererEventManager] listening for callback -> " +
+        event.type +
+        "-reply"
+    );
     ipcRenderer.on(event.type, (_event, _arg) => {
-      log.info("[Renderer] callback -> " + event.type + " : " + _arg);
       event.returnValue = null;
       try {
+        log.info(
+          "[RendererEventManager] event callback -> " +
+            event.type +
+            " : " +
+            _arg
+        );
         event.returnValue = event.callback(_event, _arg);
       } catch (error) {
         event.returnValue = RendererEventManager.createEventError(error, event);
         log.error(
-          "[Renderer] " +
+          "[RendererEventManager] " +
             event.returnValue.toString() +
             "\n\n" +
             event.returnValue.stack +
@@ -167,24 +179,41 @@ export class RendererEventManager {
    */
   static dispatch(event, arg) {
     event.returnValue = null;
+    log.info(
+      "[RendererEventManager] dispatch event -> " + event.type + " : " + arg
+    );
     try {
       if (event.callback) {
         log.info(
-          "[Renderer] dispatch sync event -> " + event.type + " : " + arg
+          "[RendererEventManager] |> send sync event -> " +
+            event.type +
+            " : " +
+            arg
         );
         event.returnValue = ipcRenderer.sendSync(event.type, arg);
         RendererEventManager.checkEventForError(event);
         log.info(
-          "[Renderer] callback -> " + event.type + " : " + event.returnValue
+          "[RendererEventManager] └> callback -> " +
+            event.type +
+            " : " +
+            event.returnValue
         );
         event.returnValue = event.callback(event, event.returnValue);
       } else {
-        log.info("[Renderer] dispatch event -> " + event.type + " : " + arg);
+        log.info(
+          "[RendererEventManager] └> send event -> " + event.type + " : " + arg
+        );
         ipcRenderer.send(event.type, arg);
       }
     } catch (error) {
       event.returnValue = error;
-      log.error("[Renderer] " + error.toString() + "\n\n" + error.stack + "\n");
+      log.error(
+        "[RendererEventManager] └> " +
+          error.toString() +
+          "\n\n" +
+          error.stack +
+          "\n"
+      );
       console.error(error.toString());
     } finally {
       return event;

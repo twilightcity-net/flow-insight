@@ -22,7 +22,7 @@ class MainEvent {
     this.reply = reply;
     this.async = async;
 
-    //move to factory
+    // TODO move to factory
     global.App.EventManager.initSender(this);
     global.App.EventManager.initReturnValues(this);
     global.App.EventManager.register(this);
@@ -95,7 +95,7 @@ class EventReplyException extends EventException {
  */
 class EventManager {
   constructor() {
-    log.info("[EventManager] created : okay");
+    log.info("[EventManager] created -> okay");
     this.events = [];
   }
 

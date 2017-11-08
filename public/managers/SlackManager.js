@@ -9,7 +9,7 @@ const IncomingWebhook = require("@slack/client").IncomingWebhook,
  */
 module.exports = class SlackManager {
   constructor() {
-    log.info("[SlackManager] created : okay");
+    log.info("[SlackManager] created -> okay");
     // SlackManager.test();
   }
 

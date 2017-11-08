@@ -15,7 +15,7 @@ const log = require("electron-log"),
  */
 module.exports = class AppLoader {
   constructor() {
-    log.info("[AppLoader] created : okay");
+    log.info("[AppLoader] created -> okay");
     Util.setAppTray(new AppTray());
     this.loadingWindow = WindowManagerHelper.createWindowLoading();
     this.createMenu();
@@ -64,7 +64,7 @@ module.exports = class AppLoader {
    * creates the console window to the application
    */
   createConsole() {
-    log.info("[AppLoader] create console");
+    log.info("[AppLoader] create console window");
     try {
       WindowManagerHelper.createWindowConsole();
     } catch (error) {

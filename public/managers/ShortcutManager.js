@@ -44,7 +44,7 @@ class ShortcutError extends AppError {
  */
 class ShortcutManager {
   constructor() {
-    log.info("[ShortcutManager] created : okay");
+    log.info("[ShortcutManager] created -> okay");
     this.shortcuts = [];
   }
 
