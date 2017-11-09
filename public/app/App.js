@@ -25,7 +25,7 @@ module.exports = class App {
     };
     this.isSecondInstance = app.makeSingleInstance(this.onSingleInstance);
     if (this.isSecondInstance) {
-      log.info("[App] quit second instance...");
+      log.info("[App] quit -> second instance");
       this.quit();
     } else {
       this.start();
@@ -91,9 +91,16 @@ module.exports = class App {
   }
 
   /*
+   * watch for errors on the application
+   */
+  errorWatcher() {
+    process.on("uncaughtException", error => App.handleError);
+  }
+
+  /*
    * process any errors thrown by the application
    */
-  handleError(error, fatal) {
+  static handleError(error, fatal) {
     if (global.App) {
       log.error(
         (fatal ? "[FATAL] " : "") +
@@ -104,7 +111,13 @@ module.exports = class App {
           "\n"
       );
     } else {
-      console.error((fatal ? "[FATAL] " : "") + error.toString());
+      console.error(
+        (fatal ? "[FATAL] " : "") +
+          error.toString() +
+          "\n\n" +
+          error.stack +
+          "\n"
+      );
     }
     if (fatal) {
       dialog.showErrorBox("MetaOS", "[FATAL] " + error.toString());
@@ -119,11 +132,12 @@ module.exports = class App {
 	 */
   start() {
     log.info("[App] starting...");
-    process.on("uncaughtException", error => App.handleError);
+    this.errorWatcher();
     app.on("ready", this.events.ready);
     app.on("window-all-closed", this.events.windowAllClosed);
     app.on("quit", this.events.quit);
     app.on("gpu-process-crashed", this.events.crashed);
+    // someFunction();
   }
 
   /*

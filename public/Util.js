@@ -1,11 +1,33 @@
 const { app, shell } = require("electron"),
   isDev = require("electron-is-dev"),
-  path = require("path");
+  path = require("path"),
+  util = require("util");
 
 /* 
  * general purpose global utility functions
  */
 module.exports = class Util {
+  /*
+   * static linking to internal nodejs util exports
+   * @https://nodejs.org/api/util.html#util_util
+   */
+  static get node() {
+    return util;
+  }
+
+  /*
+   * shortcut helper link to a baked util.inspect
+   */
+  static inspect(object) {
+    return util.inspect(object, {
+      showHidden: true,
+      depth: null,
+      colors: true,
+      showProxy: true,
+      maxArrayLength: null,
+      breakLength: 80
+    });
+  }
   /*
    * returns the applications name
    */
