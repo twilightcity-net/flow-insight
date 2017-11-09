@@ -1,14 +1,15 @@
 const { app, dialog } = require("electron"),
   log = require("electron-log"),
   platform = require("electron-platform"),
-  Logger = require("./AppLogger"),
-  Util = require("../Util"),
-  WindowManager = require("../managers/WindowManager"),
-  { EventManager } = require("../managers/EventManager"),
-  { ShortcutManager } = require("../managers/ShortcutManager"),
-  SlackManager = require("../managers/SlackManager"),
-  AppUpdater = require("./AppUpdater"),
-  AppLoader = require("./AppLoader");
+  cleanStack = require("clean-stack");
+(Logger = require("./AppLogger")), (AppError = require("./AppError"));
+(Util = require("../Util")),
+  (WindowManager = require("../managers/WindowManager")),
+  ({ EventManager } = require("../managers/EventManager")),
+  ({ ShortcutManager } = require("../managers/ShortcutManager")),
+  (SlackManager = require("../managers/SlackManager")),
+  (AppUpdater = require("./AppUpdater")),
+  (AppLoader = require("./AppLoader"));
 
 /*
  * our main application class that is stored at global.App
@@ -101,6 +102,9 @@ module.exports = class App {
    * process any errors thrown by the application
    */
   static handleError(error, fatal) {
+    if (!(error instanceof AppError)) {
+      error.stack = cleanStack(error.stack);
+    }
     if (global.App) {
       log.error(
         (fatal ? "[FATAL] " : "") +
@@ -138,6 +142,7 @@ module.exports = class App {
     app.on("quit", this.events.quit);
     app.on("gpu-process-crashed", this.events.crashed);
     // someFunction();
+    // throw new Error("fuck me");
   }
 
   /*
