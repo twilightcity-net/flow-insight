@@ -1,15 +1,16 @@
 const { app, dialog } = require("electron"),
   log = require("electron-log"),
   platform = require("electron-platform"),
-  cleanStack = require("clean-stack");
-(Logger = require("./AppLogger")), (AppError = require("./AppError"));
-(Util = require("../Util")),
-  (WindowManager = require("../managers/WindowManager")),
-  ({ EventManager } = require("../managers/EventManager")),
-  ({ ShortcutManager } = require("../managers/ShortcutManager")),
-  (SlackManager = require("../managers/SlackManager")),
-  (AppUpdater = require("./AppUpdater")),
-  (AppLoader = require("./AppLoader"));
+  cleanStack = require("clean-stack"),
+  Logger = require("./AppLogger"),
+  AppError = require("./AppError"),
+  Util = require("../Util"),
+  WindowManager = require("../managers/WindowManager"),
+  { EventManager } = require("../managers/EventManager"),
+  { ShortcutManager } = require("../managers/ShortcutManager"),
+  SlackManager = require("../managers/SlackManager"),
+  AppUpdater = require("./AppUpdater"),
+  AppLoader = require("./AppLoader");
 
 /*
  * our main application class that is stored at global.App
