@@ -97,6 +97,7 @@ module.exports = class App {
    */
   errorWatcher() {
     process.on("uncaughtException", error => App.handleError);
+    process.on("unhandledRejection", error => App.handleError);
   }
 
   /*
@@ -142,8 +143,6 @@ module.exports = class App {
     app.on("window-all-closed", this.events.windowAllClosed);
     app.on("quit", this.events.quit);
     app.on("gpu-process-crashed", this.events.crashed);
-    // someFunction();
-    // throw new Error("fuck me");
   }
 
   /*
