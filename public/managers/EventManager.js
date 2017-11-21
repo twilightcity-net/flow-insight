@@ -1,28 +1,29 @@
 const { ipcMain } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
-  App = require("../app/App");
+  App = require("../app/App"),
+  AppError = require("../app/AppError");
 
 /* 
  * an object class used to instantiate new event with callbacks.
  */
 class MainEvent {
   /*
-   * eventType: the name of the event to listen on
-   * scope: parent object that created the event
-   * callback: the function to dispatch
-   * reply: the reply function to dispatch
-   * async: true to send an async message back
+   * @parm {eventType} the name of the event to listen on
+   * @param {scope} parent object that created the event
+   * @param {callback} the function to dispatch
+   * @param {reply} the reply function to dispatch
+   * @param {async} true to send an async message back
    */
   constructor(type, scope, callback, reply, async) {
-    log.info("[EventManager] create event -> " + type);
+    log.info("[EventManager] new event -> " + type);
     this.type = type;
     this.scope = scope;
     this.callback = callback;
     this.reply = reply;
     this.async = async;
 
-    // TODO move to factory
+    // link stuff with EventManager
     global.App.EventManager.initSender(this);
     global.App.EventManager.initReturnValues(this);
     global.App.EventManager.register(this);
@@ -37,53 +38,24 @@ class MainEvent {
 }
 
 /*
- * Base Exception class for any specific type of event
- */
-class EventException extends Error {
-  constructor(event, ...args) {
-    super(...args);
-    this.class = "Error";
-    this.name = "EventException";
-    this.event = event;
-    this.msg = this.message;
-    this.date = new Date();
-  }
-
-  /*
-   * returns the error in string format
-   */
-  toString() {
-    return (
-      "[ " +
-      this.name +
-      " :: " +
-      this.event +
-      " -> " +
-      this.message +
-      " @ " +
-      Util.getDateTimeString(this.date) +
-      " ]"
-    );
-  }
-}
-
-/*
  * Exception class to throw errors in Callback functions
  */
-class EventCallbackException extends EventException {
+class EventCallbackException extends AppError {
   constructor(event, ...args) {
-    super(event, ...args);
+    super(...args);
     this.name = "EventCallbackException";
+    this.event = event;
   }
 }
 
 /*
- * Exception class to throw errors in Reply functions
+ * Error class to throw errors in Reply functions
  */
-class EventReplyException extends EventException {
+class EventReplyException extends AppError {
   constructor(event, ...args) {
-    super(event, ...args);
+    super(...args);
     this.name = "EventReplyException";
+    this.event = event;
   }
 }
 
@@ -146,8 +118,7 @@ class EventManager {
 
   /*
    * creates the listener for renderer events, passes event and args. Any
-   * exception is caught, logged, and returned as an object back to the 
-   * EventManagerHelper for processing
+   * exception is caught, logged, and returned
    */
   createListener(event) {
     event.listener = (_event, _arg) => {

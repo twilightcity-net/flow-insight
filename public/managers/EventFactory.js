@@ -11,18 +11,12 @@ module.exports = class EventFactory {
   static createEvent(type, ...args) {
     log.info("[EventFactory] create event -> " + type);
     let event = new MainEvent(type, ...args);
-
-    // TODO be sure to remove these in the MainEvent constructor
-    // global.App.EventManager.initSender(event);
-    // global.App.EventManager.initReturnValues(event);
-    // global.App.EventManager.register(event);
     return event;
   }
 
   /*
    * static enum to store event types. These are basically the type
-   * of possible events that can be dispatched by the Manager. When adding new 
-   * events make sure to update this and ./src/EventManagerHelper 
+   * of possible events that can be dispatched by the Manager.
    */
   static get Types() {
     let prefix = "metaos-ipc-";

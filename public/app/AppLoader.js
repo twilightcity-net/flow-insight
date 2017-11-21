@@ -5,7 +5,6 @@ const log = require("electron-log"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   { EventManager, MainEvent } = require("../managers/EventManager"),
   EventFactory = require("../managers/EventFactory"),
-  EventManagerHelper = require("../managers/EventManagerHelper"),
   { ShortcutManager } = require("../managers/ShortcutManager"),
   AppMenu = require("./AppMenu"),
   AppTray = require("./AppTray");
@@ -19,23 +18,128 @@ module.exports = class AppLoader {
     Util.setAppTray(new AppTray());
     this.loadingWindow = WindowManagerHelper.createWindowLoading();
     this.createMenu();
-    this.eventTimerMs = 420;
+    this.eventTimerMs = 300;
     this.currentStage = 1;
-    this.stages = {
+    this.stages = this.getStages();
+    this.events = this.createEvents();
+  }
+
+  /*
+   * the event callback that is dispatched right after the loading window is shown
+   * @param {event} the event that was fired 
+   * @param {arg} the argument parameters to be pass with callback
+   */
+  onLoadingShowCb(event, arg) {
+    setTimeout((event, arg) => {
+      EventManager.dispatch(EventFactory.Types.APPLOADER_LOAD, {
+        load: this.stages.CONSOLE,
+        value: this.incrementStage(),
+        total: this.getTotalStages(),
+        label: "Feeding lemmings...",
+        text: "Creating Console..."
+      });
+    }, this.eventTimerMs);
+  }
+
+  /*
+   * event callback that is dispatched after console window is created
+   * @param {event} the event that was fired 
+   * @param {arg} the argument parameters to be pass with callback
+   */
+  onConsoleReadyCb(event, arg) {
+    setTimeout((event, arg) => {
+      EventManager.dispatch(EventFactory.Types.APPLOADER_LOAD, {
+        load: this.stages.SHORTCUTS,
+        value: this.incrementStage(),
+        total: this.getTotalStages(),
+        label: "Counting schmeckles...",
+        text: "Registering shortcuts..."
+      });
+    }, this.eventTimerMs);
+  }
+
+  /*
+   * event callback that is dispatched after shortcuts are created
+   * @param {event} the event that was fired 
+   * @param {arg} the argument parameters to be pass with callback
+   */
+  onShortcutsCreatedCb(event, arg) {
+    setTimeout((event, arg) => {
+      EventManager.dispatch(EventFactory.Types.APPLOADER_LOAD, {
+        load: this.stages.FINISHED,
+        value: this.incrementStage(),
+        total: this.getTotalStages(),
+        label: "Matrix activated",
+        text: "Ready!"
+      });
+    }, this.eventTimerMs);
+  }
+
+  /*
+   * the main app loader event callback that is used to process the various stages
+   * @param {event} the event that was fired 
+   * @param {arg} the argument parameters to be pass with callback
+   */
+  onLoadCb(event, arg) {
+    switch (arg.load) {
+      case this.stages.CONSOLE:
+        this.createConsole();
+        break;
+      case this.stages.SHORTCUTS:
+        this.createShortcuts();
+        break;
+      case this.stages.FINISHED:
+        this.finished();
+        break;
+      default:
+        log.warn("[AppLoader] unrecognized stage : " + arg.load);
+        break;
+    }
+  }
+
+  /*
+   * the string enum object of stage names to process
+   * @return {enum} array of stage name strings 
+   */
+  getStages() {
+    return {
       CONSOLE: "console",
       SHORTCUTS: "shortcuts",
       FINISHED: "finished"
     };
-    this.events = {
-      shown: new LoadingWindowEventShown(this),
-      consoleReady: new ConsoleWindowEventReady(this),
-      shortcutsCreated: new ShortcutsEventCreated(this),
-      load: new AppLoaderEventLoad(this)
+  }
+
+  /* function used to create the class windows events from factory
+   * @return {object:list} a list of event names and their linked events
+   */
+  createEvents() {
+    return {
+      shown: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_LOADING_SHOWN,
+        this,
+        (event, arg) => this.onLoadingShowCb()
+      ),
+      consoleReady: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_CONSOLE_READY,
+        this,
+        (event, arg) => this.onConsoleReadyCb()
+      ),
+      shortcutsCreated: EventFactory.createEvent(
+        EventFactory.Types.SHORTCUTS_CREATED,
+        this,
+        (event, arg) => this.onShortcutsCreatedCb()
+      ),
+      load: EventFactory.createEvent(
+        EventFactory.Types.APPLOADER_LOAD,
+        this,
+        (event, arg) => this.onLoadCb(event, arg)
+      )
     };
   }
 
   /*
    * returns the total amount of stages to process
+   * @return {int} the integer representing the total stages to process
    */
   getTotalStages() {
     return Object.keys(this.stages).length;
@@ -43,6 +147,7 @@ module.exports = class AppLoader {
 
   /*
    * increments the current stage count for progress bar
+   * @return {int} the integer representing the current stage being processed
    */
   incrementStage() {
     return this.currentStage++;
@@ -50,7 +155,7 @@ module.exports = class AppLoader {
 
   /*
    * Creates the app's menu for MacOS
-   * Ref. https://electron.atom.io/docs/api/menu/#notes-on-macos-application-menu
+   * @ref {https://electron.atom.io/docs/api/menu/#notes-on-macos-application-menu}
    */
   createMenu() {
     if (platform.isDarwin) {
@@ -95,99 +200,3 @@ module.exports = class AppLoader {
     }, this.eventTimerMs * 2);
   }
 };
-
-/*
- * the event that is dispatched right after the loading window is shown
- */
-class LoadingWindowEventShown extends MainEvent {
-  constructor(appLoader) {
-    super(
-      EventManagerHelper.Events.WINDOW_LOADING_SHOWN,
-      appLoader,
-      (event, arg) => {
-        setTimeout(() => {
-          EventManager.dispatch(EventManagerHelper.Events.APPLOADER_LOAD, {
-            load: appLoader.stages.CONSOLE,
-            value: appLoader.incrementStage(),
-            total: appLoader.getTotalStages(),
-            label: "Feeding lemmings...",
-            text: "Creating Console..."
-          });
-        }, appLoader.eventTimerMs);
-      }
-    );
-    return this;
-  }
-}
-
-/*
- * event that is dispatched after console window is created
- */
-class ConsoleWindowEventReady extends MainEvent {
-  constructor(appLoader) {
-    super(
-      EventManagerHelper.Events.WINDOW_CONSOLE_READY,
-      appLoader,
-      (event, arg) => {
-        setTimeout(() => {
-          EventManager.dispatch(EventManagerHelper.Events.APPLOADER_LOAD, {
-            load: appLoader.stages.SHORTCUTS,
-            value: appLoader.incrementStage(),
-            total: appLoader.getTotalStages(),
-            label: "Counting schmeckles...",
-            text: "Registering shortcuts..."
-          });
-        }, appLoader.eventTimerMs);
-      }
-    );
-    return this;
-  }
-}
-
-/*
- * event that is dispatched after shortcuts are created
- */
-class ShortcutsEventCreated extends MainEvent {
-  constructor(appLoader) {
-    super(
-      EventManagerHelper.Events.SHORTCUTS_CREATED,
-      appLoader,
-      (event, arg) => {
-        setTimeout(() => {
-          EventManager.dispatch(EventManagerHelper.Events.APPLOADER_LOAD, {
-            load: appLoader.stages.FINISHED,
-            value: appLoader.incrementStage(),
-            total: appLoader.getTotalStages(),
-            label: "Matrix activated",
-            text: "Ready!"
-          });
-        }, appLoader.eventTimerMs);
-      }
-    );
-    return this;
-  }
-}
-
-/*
- * the main app loader event that is used to process the various stages
- */
-class AppLoaderEventLoad extends MainEvent {
-  constructor(appLoader) {
-    super(EventManagerHelper.Events.APPLOADER_LOAD, appLoader, (event, arg) => {
-      switch (arg.load) {
-        case appLoader.stages.CONSOLE:
-          appLoader.createConsole();
-          break;
-        case appLoader.stages.SHORTCUTS:
-          appLoader.createShortcuts();
-          break;
-        case appLoader.stages.FINISHED:
-          appLoader.finished();
-          break;
-        default:
-          log.warn("[AppLoader] unrecognized stage : " + arg.load);
-      }
-    });
-    return this;
-  }
-}
