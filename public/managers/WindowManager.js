@@ -29,6 +29,15 @@ module.exports = class WindowManager {
         EventFactory.Types.WINDOW_BLUR,
         this,
         (event, arg) => this.onBlurWindowCb(event, arg)
+      ),
+      shortcutRecievedTest: EventFactory.createEvent(
+        EventFactory.Types.SHORTCUTS_RECIEVED,
+        this,
+        (event, arg) => {
+          log.info(
+            "[WindowManager] shortcut recieved -> shortcutRecievedTest : " + arg
+          );
+        }
       )
     };
   }
