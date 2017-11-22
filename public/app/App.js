@@ -42,8 +42,8 @@ module.exports = class App {
     app.setName(global.App.name);
     log.info("[App] ready -> " + global.App.name);
     try {
-      global.App.WindowManager = new WindowManager();
       global.App.EventManager = new EventManager();
+      global.App.WindowManager = new WindowManager();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.SlackManager = new SlackManager();
       global.App.AppUpdater = new AppUpdater();

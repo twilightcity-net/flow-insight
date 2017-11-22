@@ -11,6 +11,11 @@ const log = require("electron-log"),
 
 /*
  * This class is used to init the Application loading
+ * @property {loadingWindow} the window to be displayed
+ * @property {eventTimerMs} the amount of milliseconds to wait between stages
+ * @property {currentStage} the curren stage being processed
+ * @property {stages} an enum list of stages to process
+ * @property {events} the events and callbacks linked to this class
  */
 module.exports = class AppLoader {
   constructor() {
@@ -21,7 +26,28 @@ module.exports = class AppLoader {
     this.eventTimerMs = 300;
     this.currentStage = 1;
     this.stages = this.getStages();
-    this.events = this.createEvents();
+    this.events = {
+      shown: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_LOADING_SHOWN,
+        this,
+        (event, arg) => this.onLoadingShowCb()
+      ),
+      consoleReady: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_CONSOLE_READY,
+        this,
+        (event, arg) => this.onConsoleReadyCb()
+      ),
+      shortcutsCreated: EventFactory.createEvent(
+        EventFactory.Types.SHORTCUTS_CREATED,
+        this,
+        (event, arg) => this.onShortcutsCreatedCb()
+      ),
+      load: EventFactory.createEvent(
+        EventFactory.Types.APPLOADER_LOAD,
+        this,
+        (event, arg) => this.onLoadCb(event, arg)
+      )
+    };
   }
 
   /*
@@ -31,7 +57,7 @@ module.exports = class AppLoader {
    */
   onLoadingShowCb(event, arg) {
     setTimeout((event, arg) => {
-      EventManager.dispatch(EventFactory.Types.APPLOADER_LOAD, {
+      this.events.load.dispatch({
         load: this.stages.CONSOLE,
         value: this.incrementStage(),
         total: this.getTotalStages(),
@@ -48,7 +74,7 @@ module.exports = class AppLoader {
    */
   onConsoleReadyCb(event, arg) {
     setTimeout((event, arg) => {
-      EventManager.dispatch(EventFactory.Types.APPLOADER_LOAD, {
+      this.events.load.dispatch({
         load: this.stages.SHORTCUTS,
         value: this.incrementStage(),
         total: this.getTotalStages(),
@@ -65,7 +91,7 @@ module.exports = class AppLoader {
    */
   onShortcutsCreatedCb(event, arg) {
     setTimeout((event, arg) => {
-      EventManager.dispatch(EventFactory.Types.APPLOADER_LOAD, {
+      this.events.load.dispatch({
         load: this.stages.FINISHED,
         value: this.incrementStage(),
         total: this.getTotalStages(),
@@ -106,34 +132,6 @@ module.exports = class AppLoader {
       CONSOLE: "console",
       SHORTCUTS: "shortcuts",
       FINISHED: "finished"
-    };
-  }
-
-  /* function used to create the class windows events from factory
-   * @return {object:list} a list of event names and their linked events
-   */
-  createEvents() {
-    return {
-      shown: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_LOADING_SHOWN,
-        this,
-        (event, arg) => this.onLoadingShowCb()
-      ),
-      consoleReady: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_CONSOLE_READY,
-        this,
-        (event, arg) => this.onConsoleReadyCb()
-      ),
-      shortcutsCreated: EventFactory.createEvent(
-        EventFactory.Types.SHORTCUTS_CREATED,
-        this,
-        (event, arg) => this.onShortcutsCreatedCb()
-      ),
-      load: EventFactory.createEvent(
-        EventFactory.Types.APPLOADER_LOAD,
-        this,
-        (event, arg) => this.onLoadCb(event, arg)
-      )
     };
   }
 

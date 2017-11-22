@@ -180,7 +180,9 @@ class EventManager {
       "[EventManager] |> execute callback -> " + event.type + " : " + arg
     );
     try {
-      if (event.callback) return event.callback(event, arg);
+      if (event.callback) {
+        return event.callback(event, arg);
+      }
     } catch (e) {
       throw new EventCallbackException(event.type, e);
     }

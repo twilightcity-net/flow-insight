@@ -3,6 +3,8 @@ const { app, BrowserWindow } = require("electron"),
   isDev = require("electron-is-dev"),
   log = require("electron-log"),
   Util = require("../Util"),
+  EventFactory = require("./EventFactory"),
+  { ShortcutManager } = require("./ShortcutManager"),
   WindowManagerHelper = require("./WindowManagerHelper"),
   LoadingWindow = require("../windows/LoadingWindow"),
   ConsoleWindow = require("../windows/ConsoleWindow"),
@@ -17,6 +19,28 @@ module.exports = class WindowManager {
   constructor() {
     log.info("[WindowManager] created -> okay");
     this.windows = [];
+    this.events = {
+      focusWindow: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_FOCUS,
+        this,
+        (event, arg) => this.onFocusWindowCb(event, arg)
+      ),
+      blurWindow: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_BLUR,
+        this,
+        (event, arg) => this.onBlurWindowCb(event, arg)
+      )
+    };
+  }
+
+  onFocusWindowCb(event, arg) {
+    log.info("[WindowManager] focus window -> " + arg.sender.name);
+    ShortcutManager.activateWindowShortcuts(arg.sender);
+  }
+
+  onBlurWindowCb(event, arg) {
+    log.info("[WindowManager] blur window -> " + arg.sender.name);
+    ShortcutManager.deactivateWindowShortcuts(arg.sender);
   }
 
   /*
@@ -109,6 +133,12 @@ module.exports = class WindowManager {
     if (!window) {
       log.info("[WindowManager] └> get or make window -> " + name);
       window = this.getWindowClassFromName(name);
+      window.window.on("focus", event => {
+        this.events.focusWindow.dispatch(event);
+      });
+      window.window.on("blur", event => {
+        this.events.blurWindow.dispatch(event);
+      });
     }
     this.loadWindow(window);
     this.windows.push(window);

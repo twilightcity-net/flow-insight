@@ -23,6 +23,7 @@ module.exports = class BugReportWindow {
       fullscreenable: false,
       webPreferences: { devTools: isDev, toolbar: false }
     });
+    this.window.name = this.name;
     this.window.setMenu(null);
     this.autoShow = true;
   }

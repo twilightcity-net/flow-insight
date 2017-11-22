@@ -27,6 +27,7 @@ module.exports = class ConsoleWindow {
       fullscreenable: false,
       webPreferences: { devTools: isDev, toolbar: false }
     });
+    this.window.name = this.name;
     this.window.setMenu(null);
     this.window.on("ready-to-show", () => this.onReadyToShow());
     this.events = {

@@ -8,21 +8,25 @@ const { globalShortcut } = require("electron"),
 /* 
  * an object class used to instantiate new shortcuts with events. These can
  * be global, a specific window, or within a local scope of a window (meaning
- * outside of this manager class -> quick and dirty)
+ * outside of this manager class -> quick and dirty) There is no current way
+ * to remove a shortcut or deactivate it.. needs to be done as it is needed.
  */
 class Shortcut {
   /*
-   * accelerator: the shortcut to register with
-   * type: the type of shortcut; global, window, or local
-   * event: the event to dispatch for shortcut
+   * @param {name} the logical name of the shortcut
+   * @param {accelerator} the shortcut to register with
+   * @param {win} window to attach the shortcut; pass null to make global
+   * @param {callback} the callback function to execute (optional)
    */
-  constructor(accelerator, type, event) {
+  constructor(name, accelerator, win, callback) {
     log.info(
-      "[ShortcutManager] create shortcut : " + type + " -> " + accelerator
+      "[ShortcutManager] create shortcut -> " + name + " : " + accelerator
     );
+    this.name = name;
     this.accelerator = accelerator;
-    this.type = type;
-    this.event = event;
+    this.window = win;
+    this.callback = callback;
+    ShortcutManager.registerShortcut(this);
   }
 }
 
@@ -50,15 +54,90 @@ class ShortcutManager {
 
   static createGlobalShortcuts() {
     log.info("[ShortcutManager] create global shortcuts");
+    // let shortcut = ShortcutFactory.createShortcut(
+    //   ShortcutFactory.Names.GLOBAL_TEST,
+    //   "CommandOrControl+Shift+`",
+    //   this,
+    //   () => {
+    //     console.log(">>>> global shortcut callback");
+    //   }
+    // );
+    // log.info("[ShortcutManager] └> register global shortcuts");
+    // globalShortcut.register(shortcut.accelerator, () => {
+    //   console.log("<<<<GLOBAL");
+    // });
+  }
 
-    // TODO implement shortcut register logic
+  /*
+   *registers the shortcut with the manager. Any shortcut with the window property
+   * set is assumed to be only linked to that shortcut. currently we do not 
+   * check to see if a shortcut has already be set.. will override
+   * @param {shortcut} the shortcut to register with the manager
+   * @return {shortcut} the shortcut object that was registered
+   */
+  static registerShortcut(shortcut) {
+    log.info("[ShortcutManager] |> register shortcut -> " + shortcut.name);
+    if (!shortcut.window) {
+      log.info(
+        "[ShortcutManager] └> create global shortcut -> " + shortcut.name
+      );
+    } else {
+      log.info(
+        "[ShortcutManager] └> create window shortcut -> " +
+          shortcut.window.name +
+          " : " +
+          shortcut.name
+      );
+    }
+    ShortcutManager.Shortcuts.push(shortcut);
+    return shortcut;
+  }
+
+  /*
+   * activates any shortcut associated with window parameter
+   * @param {win} the window object with shortcuts registered to
+   */
+  static activateWindowShortcuts(win) {
+    log.info("[ShortcutManager] activate window shortcuts -> " + win.name);
+    let shortcut;
+    for (var i = 0; i < ShortcutManager.Shortcuts.length; i++) {
+      shortcut = ShortcutManager.Shortcuts[i];
+      if (shortcut.window.window === win) {
+        log.info(
+          "[ShortcutManager] found window shortcut to activate -> " +
+            shortcut.name
+        );
+        globalShortcut.register(shortcut.accelerator, () =>
+          shortcut.callback(win)
+        );
+      }
+    }
+  }
+
+  /*
+   * deactivates any shortcut associated with window parameter
+   * @param {win} the window object with shortcuts registered to
+   */
+  static deactivateWindowShortcuts(win) {
+    log.info("[ShortcutManager] deactivate window shortcuts -> " + win.name);
+    let shortcut;
+    for (var i = 0; i < ShortcutManager.Shortcuts.length; i++) {
+      shortcut = ShortcutManager.Shortcuts[i];
+      if (shortcut.window.window === win) {
+        log.info(
+          "[ShortcutManager] found window shortcut to deactivate -> " +
+            shortcut.name
+        );
+        // globalShortcut.unregister(ShortcutManager.Shortcuts[i].accelerator);
+      }
+    }
   }
 
   /*
    * Static array containing all of our shortcuts the app uses
    */
   static get Shortcuts() {
-    return this.shortcuts;
+    return global.App.ShortcutManager.shortcuts;
   }
 }
 
