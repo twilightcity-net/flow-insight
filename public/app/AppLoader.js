@@ -181,7 +181,7 @@ module.exports = class AppLoader {
   createShortcuts() {
     log.info("[AppLoader] create shortcuts");
     try {
-      ShortcutManager.createGlobalShortcuts();
+      global.App.Shortcuts = ShortcutManager.createGlobalShortcuts();
       this.events.shortcutsCreated.dispatch();
     } catch (error) {
       global.App.handleError(error, true);

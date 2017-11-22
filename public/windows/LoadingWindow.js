@@ -40,16 +40,16 @@ module.exports = class LoadingWindow {
         this
       )
     };
-    this.shortcuts = {
-      test: ShortcutFactory.createShortcut(
-        ShortcutFactory.Names.WINDOW_TEST,
-        "CommandOrControl+`",
-        this,
-        win => {
-          log.info("[LoadingWindow] shortcut callback -> " + win.name);
-        }
-      )
-    };
+    // this.shortcuts = {
+    //   test: ShortcutFactory.createShortcut(
+    //     ShortcutFactory.Names.WINDOW_TEST,
+    //     "CommandOrControl+`",
+    //     this,
+    //     win => {
+    //       log.info("[LoadingWindow] shortcut callback -> " + win.name);
+    //     }
+    //   )
+    // };
   }
 
   onShow() {

@@ -252,26 +252,24 @@ class EventManager {
         event.returnValues.reply = this.executeReply(event, arg);
       }
     } catch (error) {
-      this.handleError(event, error);
+      if (error instanceof EventCallbackException) {
+        event.returnValues.callback = error;
+      } else if (error instanceof EventReplyException) {
+        event.returnValues.reply = error;
+      }
+      log.error(
+        "[EventManager] └> { " +
+          error.event +
+          " } -> " +
+          error.toString() +
+          "\n\n" +
+          error.stack +
+          "\n"
+      );
+      global.App.handleError(error, false);
     } finally {
       return event;
     }
-  }
-
-  /*
-   * handles and logs any errors that events might throw, and then stores
-   * the exception as the return value for future procession in call stack
-   */
-  // TODO this should use global.App.handleError()
-  handleError(event, error) {
-    if (error instanceof EventCallbackException) {
-      event.returnValues.callback = error;
-    } else if (error instanceof EventReplyException) {
-      event.returnValues.reply = error;
-    }
-    log.error(
-      "[EventManager] └> " + error.toString() + "\n\n" + error.stack + "\n"
-    );
   }
 }
 

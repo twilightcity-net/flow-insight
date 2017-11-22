@@ -3,7 +3,8 @@ const { globalShortcut } = require("electron"),
   Util = require("../Util"),
   AppError = require("../app/AppError"),
   WindowManager = require("./WindowManager"),
-  EventManager = require("./EventManager");
+  EventManager = require("./EventManager"),
+  ShortcutFactory = require("./ShortcutFactory");
 
 /* 
  * an object class used to instantiate new shortcuts with events. These can
@@ -52,20 +53,38 @@ class ShortcutManager {
     this.shortcuts = [];
   }
 
+  /*
+   * creates global app shortcuts which are listening even if the app has
+   * no windows focused
+   */
   static createGlobalShortcuts() {
     log.info("[ShortcutManager] create global shortcuts");
-    // let shortcut = ShortcutFactory.createShortcut(
-    //   ShortcutFactory.Names.GLOBAL_TEST,
-    //   "CommandOrControl+Shift+`",
-    //   this,
-    //   () => {
-    //     console.log(">>>> global shortcut callback");
-    //   }
-    // );
-    // log.info("[ShortcutManager] └> register global shortcuts");
-    // globalShortcut.register(shortcut.accelerator, () => {
-    //   console.log("<<<<GLOBAL");
-    // });
+    let shortcuts = {
+      globalTest: new Shortcut(
+        ShortcutFactory.Names.GLOBAL_TEST,
+        "CommandOrControl+Shift+`",
+        null,
+        () => {
+          log.info(
+            "[ShortcutManager] recieved shortcut keypress -> globalTest"
+          );
+        }
+      )
+    };
+    log.info("[ShortcutManager] |> created global shortcuts");
+    for (var shortcut in shortcuts) {
+      log.info(
+        "[ShortcutManager] |> register global shortcut -> " +
+          shortcut +
+          " : " +
+          shortcuts[shortcut].accelerator
+      );
+      globalShortcut.register(shortcuts[shortcut].accelerator, () =>
+        shortcuts[shortcut].callback()
+      );
+    }
+    log.info("[ShortcutManager] └> registered global shortcuts");
+    return shortcuts;
   }
 
   /*
@@ -79,7 +98,7 @@ class ShortcutManager {
     log.info("[ShortcutManager] |> register shortcut -> " + shortcut.name);
     if (!shortcut.window) {
       log.info(
-        "[ShortcutManager] └> create global shortcut -> " + shortcut.name
+        "[ShortcutManager] |> create global shortcut -> " + shortcut.name
       );
     } else {
       log.info(
@@ -102,7 +121,7 @@ class ShortcutManager {
     let shortcut;
     for (var i = 0; i < ShortcutManager.Shortcuts.length; i++) {
       shortcut = ShortcutManager.Shortcuts[i];
-      if (shortcut.window.window === win) {
+      if (shortcut.window && shortcut.window.window === win) {
         log.info(
           "[ShortcutManager] found window shortcut to activate -> " +
             shortcut.name
@@ -123,12 +142,12 @@ class ShortcutManager {
     let shortcut;
     for (var i = 0; i < ShortcutManager.Shortcuts.length; i++) {
       shortcut = ShortcutManager.Shortcuts[i];
-      if (shortcut.window.window === win) {
+      if (shortcut.window && shortcut.window.window === win) {
         log.info(
           "[ShortcutManager] found window shortcut to deactivate -> " +
             shortcut.name
         );
-        // globalShortcut.unregister(ShortcutManager.Shortcuts[i].accelerator);
+        globalShortcut.unregister(ShortcutManager.Shortcuts[i].accelerator);
       }
     }
   }
