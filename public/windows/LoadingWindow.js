@@ -43,7 +43,7 @@ module.exports = class LoadingWindow {
     this.shortcuts = {
       windowTest: new Shortcut(
         ShortcutManager.Names.TEST_WINDOW,
-        "CommandOrControl+`",
+        "CommandOrControl+Shift+`",
         this,
         () => {
           log.info(

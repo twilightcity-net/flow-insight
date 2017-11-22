@@ -2,14 +2,15 @@ const { globalShortcut } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   AppError = require("../app/AppError"),
-  WindowManager = require("./WindowManager"),
-  EventManager = require("./EventManager");
+  { EventManager } = require("./EventManager");
+EventFactory = require("./EventFactory");
 
 /* 
  * an object class used to instantiate new shortcuts with events. These can
  * be global, a specific window, or within a local scope of a window (meaning
  * outside of this manager class -> quick and dirty) There is no current way
  * to remove a shortcut or deactivate it.. needs to be done as it is needed.
+ * @ref {https://electronjs.org/docs/api/accelerator}
  */
 class Shortcut {
   /*
@@ -27,7 +28,10 @@ class Shortcut {
     this.window = win;
     this.callback = callback;
     ShortcutManager.registerShortcut(this);
-    globalShortcut.register(this.accelerator, () => this.callback());
+    globalShortcut.register(this.accelerator, () => {
+      EventManager.dispatch(EventFactory.Types.SHORTCUTS_RECIEVED, this);
+      this.callback();
+    });
   }
 }
 
@@ -51,6 +55,12 @@ class ShortcutManager {
   constructor() {
     log.info("[ShortcutManager] created -> okay");
     this.shortcuts = [];
+    this.events = {
+      shown: EventFactory.createEvent(
+        EventFactory.Types.SHORTCUTS_RECIEVED,
+        this
+      )
+    };
   }
 
   /*
@@ -62,7 +72,7 @@ class ShortcutManager {
     let shortcuts = {
       globalTest: new Shortcut(
         this.Names.TEST_GLOBAL,
-        "CommandOrControl+Shift+`",
+        "CommandOrControl+`",
         null,
         () => {
           log.info(
