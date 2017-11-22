@@ -3,8 +3,7 @@ const { globalShortcut } = require("electron"),
   Util = require("../Util"),
   AppError = require("../app/AppError"),
   WindowManager = require("./WindowManager"),
-  EventManager = require("./EventManager"),
-  ShortcutFactory = require("./ShortcutFactory");
+  EventManager = require("./EventManager");
 
 /* 
  * an object class used to instantiate new shortcuts with events. These can
@@ -28,6 +27,7 @@ class Shortcut {
     this.window = win;
     this.callback = callback;
     ShortcutManager.registerShortcut(this);
+    globalShortcut.register(this.accelerator, () => this.callback());
   }
 }
 
@@ -61,7 +61,7 @@ class ShortcutManager {
     log.info("[ShortcutManager] create global shortcuts");
     let shortcuts = {
       globalTest: new Shortcut(
-        ShortcutFactory.Names.GLOBAL_TEST,
+        this.Names.TEST_GLOBAL,
         "CommandOrControl+Shift+`",
         null,
         () => {
@@ -71,19 +71,7 @@ class ShortcutManager {
         }
       )
     };
-    log.info("[ShortcutManager] |> created global shortcuts");
-    for (var shortcut in shortcuts) {
-      log.info(
-        "[ShortcutManager] |> register global shortcut -> " +
-          shortcut +
-          " : " +
-          shortcuts[shortcut].accelerator
-      );
-      globalShortcut.register(shortcuts[shortcut].accelerator, () =>
-        shortcuts[shortcut].callback()
-      );
-    }
-    log.info("[ShortcutManager] └> registered global shortcuts");
+    log.info("[ShortcutManager] |> created global shortcuts -> okay");
     return shortcuts;
   }
 
@@ -157,6 +145,18 @@ class ShortcutManager {
    */
   static get Shortcuts() {
     return global.App.ShortcutManager.shortcuts;
+  }
+
+  /*
+   * static enum to store shortcut names. These are basically the type
+   * of possible shortcuts that can be registered by the Manager.
+   */
+  static get Names() {
+    let prefix = "metaos-shortcut-";
+    return {
+      TEST_GLOBAL: prefix + "test-global",
+      TEST_WINDOW: prefix + "test-window"
+    };
   }
 }
 

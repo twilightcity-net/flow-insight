@@ -5,7 +5,7 @@ const { BrowserWindow } = require("electron"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../managers/EventFactory"),
-  ShortcutFactory = require("../managers/ShortcutFactory");
+  { ShortcutManager, Shortcut } = require("../managers/ShortcutManager");
 
 /*
  * The Application loading window. Loads LoadingView class. This window
@@ -40,16 +40,18 @@ module.exports = class LoadingWindow {
         this
       )
     };
-    // this.shortcuts = {
-    //   test: ShortcutFactory.createShortcut(
-    //     ShortcutFactory.Names.WINDOW_TEST,
-    //     "CommandOrControl+`",
-    //     this,
-    //     win => {
-    //       log.info("[LoadingWindow] shortcut callback -> " + win.name);
-    //     }
-    //   )
-    // };
+    this.shortcuts = {
+      windowTest: new Shortcut(
+        ShortcutManager.Names.TEST_WINDOW,
+        "CommandOrControl+`",
+        this,
+        () => {
+          log.info(
+            "[ShortcutManager] recieved shortcut keypress -> windowTest"
+          );
+        }
+      )
+    };
   }
 
   onShow() {
