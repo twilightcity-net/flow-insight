@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { RendererEvent } from "../RendererEventManager";
 import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
 import {
+  Container,
   Divider,
   Transition,
   Icon,
@@ -97,30 +98,32 @@ export default class LoadingView extends Component {
   render() {
     return (
       <Segment basic>
-        <Header as="h4" floated="left">
-          <Transition
-            visible={this.state.visible}
-            transitionOnMount
-            animation="scale"
-            duration={800}
-            onHide={this.onHideShow}
-            onShow={this.onHideShow}
-          >
-            <Icon
-              size="big"
-              circular
-              inverted
-              color="violet"
-              name={this.state.header.icon}
-            />
-          </Transition>
-        </Header>
-        <Header as="h3" floated="left">
-          <Header.Content>
-            {this.state.header.title}
-            <Header.Subheader>{this.state.header.text}</Header.Subheader>
-          </Header.Content>
-        </Header>
+        <Container>
+          <Header as="h4" floated="left">
+            <Transition
+              visible={this.state.visible}
+              transitionOnMount
+              animation="scale"
+              duration={800}
+              onHide={this.onHideShow}
+              onShow={this.onHideShow}
+            >
+              <Icon
+                size="big"
+                circular
+                inverted
+                color="violet"
+                name={this.state.header.icon}
+              />
+            </Transition>
+          </Header>
+          <Header as="h3" floated="left">
+            <Header.Content>
+              {this.state.header.title}
+              <Header.Subheader>{this.state.header.text}</Header.Subheader>
+            </Header.Content>
+          </Header>
+        </Container>
         <Divider clearing />
         <Progress
           color={this.state.progress.color}

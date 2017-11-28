@@ -23,7 +23,7 @@ module.exports = class AppLoader {
     Util.setAppTray(new AppTray());
     this.loadingWindow = WindowManagerHelper.createWindowLoading();
     this.createMenu();
-    this.eventTimerMs = 300;
+    this.eventTimerMs = 250;
     this.currentStage = 1;
     this.stages = this.getStages();
     this.events = {
@@ -61,7 +61,7 @@ module.exports = class AppLoader {
         load: this.stages.CONSOLE,
         value: this.incrementStage(),
         total: this.getTotalStages(),
-        label: "Feeding lemmings...",
+        label: "feeding lemmings...",
         text: "Creating Console..."
       });
     }, this.eventTimerMs);
@@ -78,7 +78,7 @@ module.exports = class AppLoader {
         load: this.stages.SHORTCUTS,
         value: this.incrementStage(),
         total: this.getTotalStages(),
-        label: "Counting schmeckles...",
+        label: "counting schmeckles...",
         text: "Registering shortcuts..."
       });
     }, this.eventTimerMs);
@@ -95,7 +95,7 @@ module.exports = class AppLoader {
         load: this.stages.FINISHED,
         value: this.incrementStage(),
         total: this.getTotalStages(),
-        label: "Matrix activated",
+        label: "matrix activated",
         text: "Ready!"
       });
     }, this.eventTimerMs);
@@ -115,7 +115,7 @@ module.exports = class AppLoader {
         this.createShortcuts();
         break;
       case this.stages.FINISHED:
-        this.finished();
+        // this.finished();
         break;
       default:
         log.warn("[AppLoader] unrecognized stage : " + arg.load);

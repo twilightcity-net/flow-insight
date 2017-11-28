@@ -35,13 +35,21 @@ export default class ViewManager extends Component {
   }
 
   /*
+   * returns the name of the current view from the window location url
+   */
+  static get viewName() {
+    let name = window.location.search.substr(1);
+    return name;
+  }
+
+  /*
    * this method creates a react routers and returns it to the DOM's 
    * bundled js. It will inject the correct view into the window
    */
   render() {
     return (
       <Router>
-        <div>
+        <div id="view" className={ViewManager.viewName}>
           <Route path="/" component={ViewManager.View} />
         </div>
       </Router>
