@@ -115,7 +115,7 @@ module.exports = class AppLoader {
         this.createShortcuts();
         break;
       case this.stages.FINISHED:
-        // this.finished();
+        this.finished();
         break;
       default:
         log.warn("[AppLoader] unrecognized stage : " + arg.load);

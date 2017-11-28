@@ -30,26 +30,42 @@ module.exports = class WindowManager {
         this,
         (event, arg) => this.onBlurWindowCb(event, arg)
       ),
-      shortcutRecievedTest: EventFactory.createEvent(
+      shortcutShowHideConsole: EventFactory.createEvent(
         EventFactory.Types.SHORTCUTS_RECIEVED,
         this,
-        (event, arg) => {
-          log.info(
-            "[WindowManager] shortcut recieved -> shortcutRecievedTest : " + arg
-          );
-        }
+        (event, arg) => this.onShortcutShowHideConsoleCb(event, arg)
       )
     };
   }
 
+  /*
+   * callback for native window focus event. Activates any shortcuts associated
+   * to that window
+   */
   onFocusWindowCb(event, arg) {
     log.info("[WindowManager] focus window -> " + arg.sender.name);
     ShortcutManager.activateWindowShortcuts(arg.sender);
   }
 
+  /*
+   * callback for native window blur event. Deactivates any shortcuts associated
+   * to that window
+   */
   onBlurWindowCb(event, arg) {
     log.info("[WindowManager] blur window -> " + arg.sender.name);
     ShortcutManager.deactivateWindowShortcuts(arg.sender);
+  }
+
+  /*
+   * callback to handle our console shortcut event
+   */
+  onShortcutShowHideConsoleCb(event, arg) {
+    log.info(
+      "[WindowManager] shortcut recieved -> shortcutRecievedTest : " + arg
+    );
+    if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg.name) {
+      console.log(">>>>>>>>>> FOUND IT");
+    }
   }
 
   /*

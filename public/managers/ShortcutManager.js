@@ -56,7 +56,7 @@ class ShortcutManager {
     log.info("[ShortcutManager] created -> okay");
     this.shortcuts = [];
     this.events = {
-      shown: EventFactory.createEvent(
+      shortcutsRecieved: EventFactory.createEvent(
         EventFactory.Types.SHORTCUTS_RECIEVED,
         this
       )
@@ -71,12 +71,12 @@ class ShortcutManager {
     log.info("[ShortcutManager] create global shortcuts");
     let shortcuts = {
       globalTest: new Shortcut(
-        this.Names.TEST_GLOBAL,
+        this.Names.GLOBAL_SHOW_HIDE_CONSOLE,
         "CommandOrControl+`",
         null,
         () => {
           log.info(
-            "[ShortcutManager] recieved shortcut keypress -> globalTest"
+            "[ShortcutManager] recieved shortcut keypress -> GLOBAL_SHOW_HIDE_CONSOLE"
           );
         }
       )
@@ -164,7 +164,7 @@ class ShortcutManager {
   static get Names() {
     let prefix = "metaos-shortcut-";
     return {
-      TEST_GLOBAL: prefix + "test-global",
+      GLOBAL_SHOW_HIDE_CONSOLE: prefix + "global-show-hide-console",
       TEST_WINDOW: prefix + "test-window"
     };
   }
