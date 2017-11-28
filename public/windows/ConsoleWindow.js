@@ -29,20 +29,31 @@ module.exports = class ConsoleWindow {
     });
     this.window.name = this.name;
     this.window.setMenu(null);
-    this.window.on("ready-to-show", () => this.onReadyToShow());
+    this.window.on("ready-to-show", () => this.onReadyToShowCb());
     this.events = {
-      ready: this.onReady()
+      ready: this.onReadyCb(),
+      consoleShowHide: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE,
+        this,
+        (event, arg) => this.onConsoleShowHideCb(event, arg)
+      )
     };
+    this.states = {};
   }
 
-  onReadyToShow() {
+  onReadyToShowCb() {
     this.events.ready.dispatch();
   }
 
-  onReady() {
+  onReadyCb() {
     return EventFactory.createEvent(
       EventFactory.Types.WINDOW_CONSOLE_READY,
       this
     );
+  }
+
+  onConsoleShowHideCb(event, arg) {
+    console.log("<<<<<<<<<<");
+    global.App.WindowManager.toggleWindow(this);
   }
 };

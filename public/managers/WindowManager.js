@@ -30,10 +30,13 @@ module.exports = class WindowManager {
         this,
         (event, arg) => this.onBlurWindowCb(event, arg)
       ),
-      shortcutShowHideConsole: EventFactory.createEvent(
+      shortcutsRecieved: EventFactory.createEvent(
         EventFactory.Types.SHORTCUTS_RECIEVED,
         this,
-        (event, arg) => this.onShortcutShowHideConsoleCb(event, arg)
+        (event, arg) => this.onShortcutsRecievedCb(event, arg)
+      ),
+      consoleShowHide: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE
       )
     };
   }
@@ -59,12 +62,10 @@ module.exports = class WindowManager {
   /*
    * callback to handle our console shortcut event
    */
-  onShortcutShowHideConsoleCb(event, arg) {
-    log.info(
-      "[WindowManager] shortcut recieved -> shortcutRecievedTest : " + arg
-    );
+  onShortcutsRecievedCb(event, arg) {
+    log.info("[WindowManager] shortcut recieved -> shortcutsRecieved : " + arg);
     if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg.name) {
-      console.log(">>>>>>>>>> FOUND IT");
+      this.events.consoleShowHide.dispatch();
     }
   }
 
@@ -175,10 +176,10 @@ module.exports = class WindowManager {
 	 */
   toggleWindow(window) {
     log.info("[WindowManager] toggle window -> " + window.name);
-    if (window.window.isVisible()) {
-      openWindow(window);
+    if (!window.window.isVisible()) {
+      this.openWindow(window);
     } else {
-      closeWindow(window);
+      this.closeWindow(window);
     }
   }
 
