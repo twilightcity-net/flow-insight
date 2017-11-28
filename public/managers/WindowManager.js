@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require("electron"),
+  debug = require("electron-debug")({ showDevTools: false }),
   path = require("path"),
   isDev = require("electron-is-dev"),
   log = require("electron-log"),
