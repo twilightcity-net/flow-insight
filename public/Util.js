@@ -83,13 +83,6 @@ module.exports = class Util {
   static openExternalBrowser(url) {
     shell.openExternal(url);
   }
-  /*
-	 * Used to force showing the chrome dev tools for debugging
-	 */
-  static showDevTools(window) {
-    if (!isDev) return;
-    window.openDevTools({ detach: true });
-  }
 
   /*
    * gets the local time and date as a string

@@ -1,5 +1,4 @@
 const { BrowserWindow } = require("electron"),
-  isDev = require("electron-is-dev"),
   log = require("electron-log"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
@@ -31,7 +30,7 @@ module.exports = class LoadingWindow {
       icon: this.icon,
       backgroundColor: "#ffffff",
       fullscreenable: false,
-      webPreferences: { devTools: isDev, toolbar: false }
+      webPreferences: { toolbar: false }
     });
     this.window.name = this.name;
     this.window.setMenu(null);

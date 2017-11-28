@@ -1,5 +1,4 @@
 const { BrowserWindow } = require("electron"),
-  isDev = require("electron-is-dev"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper");
@@ -21,7 +20,7 @@ module.exports = class BugReportWindow {
       backgroundColor: "#ffffff",
       icon: this.icon,
       fullscreenable: false,
-      webPreferences: { devTools: isDev, toolbar: false }
+      webPreferences: { toolbar: false }
     });
     this.window.name = this.name;
     this.window.setMenu(null);

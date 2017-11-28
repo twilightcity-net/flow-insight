@@ -1,5 +1,4 @@
 const { BrowserWindow } = require("electron"),
-  isDev = require("electron-is-dev"),
   path = require("path"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
@@ -25,7 +24,7 @@ module.exports = class ConsoleWindow {
       backgroundColor: "#ffffff",
       icon: this.icon,
       fullscreenable: false,
-      webPreferences: { devTools: isDev, toolbar: false }
+      webPreferences: { toolbar: false }
     });
     this.window.name = this.name;
     this.window.setMenu(null);

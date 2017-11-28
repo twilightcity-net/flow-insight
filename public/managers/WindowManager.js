@@ -118,7 +118,6 @@ module.exports = class WindowManager {
     log.info("[WindowManager] open window -> " + window.name);
     window.window.show();
     window.window.focus();
-    Util.showDevTools(window.window);
   }
 
   /*
