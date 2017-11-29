@@ -36,7 +36,7 @@ class Shortcut {
 }
 
 /*
- * Base Error class for any specific type of shortcut
+ * baae error class for any specific type of shortcut
  */
 class ShortcutError extends AppError {
   constructor(shortcut, ...args) {
@@ -66,6 +66,7 @@ class ShortcutManager {
   /*
    * creates global app shortcuts which are listening even if the app has
    * no windows focused
+   * @return {array} the array of predefined global shortcuts.. doesn't change
    */
   static createGlobalShortcuts() {
     log.info("[ShortcutManager] create global shortcuts");
@@ -152,6 +153,7 @@ class ShortcutManager {
 
   /*
    * Static array containing all of our shortcuts the app uses
+   * @return {array} all of the currently register global and window shortcuts
    */
   static get Shortcuts() {
     return global.App.ShortcutManager.shortcuts;
@@ -160,6 +162,7 @@ class ShortcutManager {
   /*
    * static enum to store shortcut names. These are basically the type
    * of possible shortcuts that can be registered by the Manager.
+   * @return {list} an enum list of all of the shortcut names
    */
   static get Names() {
     let prefix = "metaos-shortcut-";
