@@ -21,6 +21,9 @@ module.exports = class ConsoleWindow {
       width: 900,
       height: 680,
       show: false,
+      frame: false,
+      // transparent: true,
+      // opacity: 0.7,
       backgroundColor: "#ffffff",
       icon: this.icon,
       fullscreenable: false,
@@ -38,6 +41,10 @@ module.exports = class ConsoleWindow {
       )
     };
     this.states = {};
+    // this.window.on("blur", event => {
+    //   log.info("[ConsoleWindow] blur window -> " + event);
+    //   this.window.hide();
+    // });
   }
 
   onReadyToShowCb() {

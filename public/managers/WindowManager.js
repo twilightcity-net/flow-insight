@@ -107,9 +107,6 @@ module.exports = class WindowManager {
     window.window.on("ready-to-show", () => {
       if (window.autoShow) this.openWindow(window);
     });
-    window.window.on("closed", () => {
-      this.destroyWindow(window);
-    });
   }
 
   /*
@@ -126,10 +123,12 @@ module.exports = class WindowManager {
 	 * Memory
 	 */
   closeWindow(window, destroy) {
-    log.info("[WindowManager] close window -> " + window.name);
+    log.info("[WindowManager] hide window -> " + window.name);
     window.window.hide();
     if (destroy) {
-      this.destroyWindow(window);
+      log.info("[WindowManager] close window -> " + window.name);
+      window.window.close();
+      window = this.destroyWindow(window);
     }
   }
 
@@ -139,9 +138,11 @@ module.exports = class WindowManager {
    * Window name are unique.. so only one per windows array
 	 */
   destroyWindow(window) {
+    log.info("[WindowManager] destroy window -> " + window.name);
+    Util.inspect(this.windows);
     for (var i = this.windows.length - 1; i >= 0; i--) {
       if (this.windows[i].name === window.name) {
-        log.info("[WindowManager] destroy window -> " + window.name);
+        log.info("[WindowManager] unregister window -> " + window.name);
         return this.windows.splice(i, 1);
       }
     }
