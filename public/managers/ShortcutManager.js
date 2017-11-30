@@ -29,8 +29,13 @@ class Shortcut {
     this.callback = callback;
     ShortcutManager.registerShortcut(this);
     globalShortcut.register(this.accelerator, () => {
-      EventManager.dispatch(EventFactory.Types.SHORTCUTS_RECIEVED, this);
-      this.callback();
+      if (global.App.ShortcutManager.enabled) {
+        log.info("[ShortcutManager] global shortcut -> system event recieved");
+        EventManager.dispatch(EventFactory.Types.SHORTCUTS_RECIEVED, this);
+        this.callback();
+      } else {
+        log.info("[ShortcutManager] global shortcut -> disabled in manager");
+      }
     });
   }
 }
@@ -55,6 +60,7 @@ class ShortcutManager {
   constructor() {
     log.info("[ShortcutManager] created -> okay");
     this.shortcuts = [];
+    this.enabled = false;
     this.events = {
       shortcutsRecieved: EventFactory.createEvent(
         EventFactory.Types.SHORTCUTS_RECIEVED,
@@ -71,7 +77,7 @@ class ShortcutManager {
   static createGlobalShortcuts() {
     log.info("[ShortcutManager] create global shortcuts");
     let shortcuts = {
-      globalTest: new Shortcut(
+      showHideConsole: new Shortcut(
         this.Names.GLOBAL_SHOW_HIDE_CONSOLE,
         "CommandOrControl+`",
         null,

@@ -35,7 +35,8 @@ module.exports = class LoadingWindow {
     });
     this.window.name = this.name;
     this.window.setMenu(null);
-    this.window.on("show", () => this.onShow());
+    this.window.on("show", () => this.onShowCb());
+    this.window.on("closed", () => this.onClosedCb());
     this.events = {
       shown: EventFactory.createEvent(
         EventFactory.Types.WINDOW_LOADING_SHOWN,
@@ -56,7 +57,12 @@ module.exports = class LoadingWindow {
     };
   }
 
-  onShow() {
+  onShowCb() {
     this.events.shown.dispatch();
+  }
+
+  onClosedCb() {
+    log.info("[LoadingWindow] closed window -> enable global shortcuts");
+    global.App.ShortcutManager.enabled = true;
   }
 };
