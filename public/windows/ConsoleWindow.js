@@ -34,7 +34,10 @@ module.exports = class ConsoleWindow {
     this.window.setMenu(null);
     this.window.on("ready-to-show", () => this.onReadyToShowCb());
     this.events = {
-      ready: this.onReadyCb(),
+      ready: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_CONSOLE_READY,
+        this
+      ),
       consoleShowHide: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE,
         this,
@@ -55,42 +58,52 @@ module.exports = class ConsoleWindow {
     };
   }
 
+  /*
+   * electron window event emitted when the window is ready to be show.. during
+   * app loading
+   */
   onReadyToShowCb() {
     this.events.ready.dispatch();
   }
 
-  onReadyCb() {
-    return EventFactory.createEvent(
-      EventFactory.Types.WINDOW_CONSOLE_READY,
-      this
-    );
-  }
-
+  /*
+   * event callback dispatched when the console window looses focus.. hide it
+   */
   onBlurWindowCb(event, arg) {
     log.info("[ConsoleWindow] blur window -> " + arg.sender.name);
     this.hideConsole();
   }
 
+  /*
+   * event dispatched from global shortcut callback. in charge of showing or hiding
+   * the console window.
+   */
   onConsoleShowHideCb(event, arg) {
-    if (this.window.isVisible()) {
-      // hide the window
-      this.hideConsole();
+    if (!this.window.isVisible()) {
+      this.state = this.showConsole();
     } else {
-      // show the window
-      this.showConsole();
+      this.state = this.hideConsole();
     }
   }
 
+  /*
+   * hides the console window and returns the state to hidden
+   * @return {int} the current state of the window
+   */
   hideConsole() {
     log.info("[ConsoleWindow] hide window -> " + this.name);
     this.window.hide();
-    this.state = this.states.HIDDEN;
+    return this.states.HIDDEN;
   }
 
+  /*
+   * shows the console window and returns the state of shown
+   * @return {int} the current state of the window
+   */
   showConsole() {
     log.info("[ConsoleWindow] show window -> " + this.name);
     this.window.show();
     this.window.focus();
-    this.state = this.states.SHOWN;
+    return this.states.SHOWN;
   }
 };
