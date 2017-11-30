@@ -89,22 +89,8 @@ module.exports = class ConsoleWindow {
     if (!this.window.isVisible()) {
       this.showConsole();
     } else {
-      this.state = this.hideConsole();
+      this.hideConsole();
     }
-  }
-
-  /*
-   * hides the console window and returns the state to hidden
-   * @return {int} the current state of the window
-   */
-  hideConsole() {
-    log.info("[ConsoleWindow] hide window -> " + this.name);
-
-    // TODO animate the hide
-
-    this.window.setPosition(0, -this.bounds.height / 2);
-    this.window.hide();
-    return this.states.HIDDEN;
   }
 
   /*
@@ -120,6 +106,9 @@ module.exports = class ConsoleWindow {
     this.animateShow(42, 14, this.window.getPosition()[1]);
   }
 
+  /*
+   * animates the window of the console to show
+   */
   animateShow(i, t, y) {
     setTimeout(() => {
       y += i;
@@ -136,6 +125,42 @@ module.exports = class ConsoleWindow {
       } else {
         this.window.setPosition(0, 0);
         this.state = this.states.SHOWN;
+      }
+    }, t);
+  }
+
+  /*
+   * hides the console window and returns the state to hidden
+   * @return {int} the current state of the window
+   */
+  hideConsole() {
+    log.info("[ConsoleWindow] hide window -> " + this.name);
+    this.state = this.states.HIDING;
+    this.animateHide(1, 14, this.window.getPosition()[1]);
+  }
+
+  /*
+   * animates the window of the console to hide
+   */
+  animateHide(i, t, y) {
+    setTimeout(() => {
+      y -= i;
+      if (i >= 40) {
+        i += 5;
+      } else if (i <= 40 && i > 10) {
+        i += 4;
+      } else if (i <= 10 && i > 4) {
+        i += 3;
+      } else if (i <= 4 && i > 0) {
+        i += 2;
+      }
+      this.window.setPosition(0, y);
+      if (y >= -this.bounds.height / 2) {
+        this.animateHide(i, t, y);
+      } else {
+        this.window.setPosition(0, -this.bounds.height / 2);
+        this.window.hide();
+        this.state = this.states.HIDDEN;
       }
     }, t);
   }
