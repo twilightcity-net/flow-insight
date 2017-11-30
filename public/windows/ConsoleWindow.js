@@ -1,4 +1,5 @@
-const { BrowserWindow } = require("electron"),
+const electron = require("electron"),
+  { BrowserWindow } = require("electron"),
   path = require("path"),
   log = require("electron-log"),
   Util = require("../Util"),
@@ -15,14 +16,20 @@ module.exports = class ConsoleWindow {
     this.name = WindowManagerHelper.WindowNames.CONSOLE;
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
+    this.display = electron.screen.getPrimaryDisplay();
+    this.bounds = this.display.workAreaSize;
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = false;
     this.window = new BrowserWindow({
       name: this.name,
-      width: 900,
-      height: 680,
+      width: this.bounds.width,
+      height: this.bounds.height / 2,
+      x: 0,
+      y: -this.bounds.height / 2,
       show: false,
       frame: false,
+      movable: false,
+      offscreen: true,
       // transparent: true,
       // opacity: 0.7,
       backgroundColor: "#ffffff",
@@ -80,7 +87,7 @@ module.exports = class ConsoleWindow {
    */
   onConsoleShowHideCb(event, arg) {
     if (!this.window.isVisible()) {
-      this.state = this.showConsole();
+      this.showConsole();
     } else {
       this.state = this.hideConsole();
     }
@@ -92,6 +99,10 @@ module.exports = class ConsoleWindow {
    */
   hideConsole() {
     log.info("[ConsoleWindow] hide window -> " + this.name);
+
+    // TODO animate the hide
+
+    this.window.setPosition(0, -this.bounds.height / 2);
     this.window.hide();
     return this.states.HIDDEN;
   }
@@ -102,8 +113,30 @@ module.exports = class ConsoleWindow {
    */
   showConsole() {
     log.info("[ConsoleWindow] show window -> " + this.name);
+    this.state = this.states.SHOWING;
+    this.window.setPosition(0, -this.bounds.height / 2);
     this.window.show();
     this.window.focus();
-    return this.states.SHOWN;
+    this.animateShow(42, 14, this.window.getPosition()[1]);
+  }
+
+  animateShow(i, t, y) {
+    setTimeout(() => {
+      y += i;
+      if (i >= 30) {
+        i -= 3;
+      } else if (i <= 30 && i > 6) {
+        i -= 2;
+      } else if (i <= 6 && i > 1) {
+        i -= 1;
+      }
+      this.window.setPosition(0, y);
+      if (y <= 0) {
+        this.animateShow(i, t, y);
+      } else {
+        this.window.setPosition(0, 0);
+        this.state = this.states.SHOWN;
+      }
+    }, t);
   }
 };

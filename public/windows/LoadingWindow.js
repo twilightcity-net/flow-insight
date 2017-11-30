@@ -25,6 +25,7 @@ module.exports = class LoadingWindow {
       minHeight: 144,
       resizable: false,
       movable: false,
+      center: true,
       frame: false,
       show: false,
       icon: this.icon,
