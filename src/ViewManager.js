@@ -42,6 +42,10 @@ export default class ViewManager extends Component {
     return name;
   }
 
+  componentWillMount() {
+    document.body.className = ViewManager.viewName;
+  }
+
   /*
    * this method creates a react routers and returns it to the DOM's 
    * bundled js. It will inject the correct view into the window
