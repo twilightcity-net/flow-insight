@@ -1,6 +1,7 @@
 const electron = require("electron"),
   { BrowserWindow } = require("electron"),
   path = require("path"),
+  isDev = require("electron-is-dev"),
   log = require("electron-log"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
@@ -30,11 +31,10 @@ module.exports = class ConsoleWindow {
       frame: false,
       movable: false,
       offscreen: true,
-      // transparent: true,
-      // opacity: 0.7,
-      backgroundColor: "#ffffff",
+      transparent: true,
       icon: this.icon,
       fullscreenable: false,
+      toolbar: false,
       webPreferences: { toolbar: false }
     });
     this.window.name = this.name;
@@ -78,6 +78,7 @@ module.exports = class ConsoleWindow {
    */
   onBlurWindowCb(event, arg) {
     log.info("[ConsoleWindow] blur window -> " + arg.sender.name);
+    if (isDev) return;
     this.hideConsole();
   }
 
