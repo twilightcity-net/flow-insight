@@ -98,7 +98,7 @@ module.exports = class AppLoader {
         label: "matrix activated",
         text: "Ready!"
       });
-    }, this.eventTimerMs);
+    }, this.eventTimerMs * 2);
   }
 
   /*
