@@ -66,7 +66,8 @@ module.exports = class WindowManager {
   onShortcutsRecievedCb(event, arg) {
     log.info("[WindowManager] shortcut recieved -> shortcutsRecieved : " + arg);
     if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg.name) {
-      this.events.consoleShowHide.dispatch();
+      let win = this.getWindow(WindowManagerHelper.WindowNames.CONSOLE);
+      this.events.consoleShowHide.dispatch(win.state);
     }
   }
 
