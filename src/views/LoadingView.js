@@ -50,15 +50,27 @@ export default class LoadingView extends Component {
       total: 3,
       label: "Populating cats and synthesizers"
     };
-    this.state = this.createState();
-    this.events = this.createEvents();
-  }
 
-  createState() {
-    return {
+    console.log("[LoadingView] create state");
+    this.state = {
       visible: true,
       header: this.header,
       progress: this.progress
+    };
+
+    console.log("[LoadingView] create events");
+    this.events = {
+      load: new RendererEvent(
+        RendererEventManagerHelper.Events.APPLOADER_LOAD,
+        this,
+        function(event, arg) {
+          console.log("[LoadingView] event -> " + this.type + " : " + arg.load);
+          this.scope.setState(state => {
+            this.scope.updateHeaderText(arg.text);
+            this.scope.updateProgress(arg.value, arg.total, arg.label);
+          });
+        }
+      )
     };
   }
 
@@ -72,24 +84,6 @@ export default class LoadingView extends Component {
     this.progress.total = total;
     this.progress.label = label;
     return this.progress;
-  }
-
-  createEvents() {
-    console.log("[LoadingView] register events");
-    let loadEvent = new RendererEvent(
-      RendererEventManagerHelper.Events.APPLOADER_LOAD,
-      this,
-      function(event, arg) {
-        console.log("[LoadingView] event -> " + this.type + " : " + arg.load);
-        this.scope.setState(state => {
-          this.scope.updateHeaderText(arg.text);
-          this.scope.updateProgress(arg.value, arg.total, arg.label);
-        });
-      }
-    );
-    return {
-      load: loadEvent
-    };
   }
 
   /*
