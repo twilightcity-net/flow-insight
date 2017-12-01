@@ -50,15 +50,11 @@ export default class LoadingView extends Component {
       total: 3,
       label: "Populating cats and synthesizers"
     };
-
-    console.log("[LoadingView] create state");
     this.state = {
       visible: true,
       header: this.header,
       progress: this.progress
     };
-
-    console.log("[LoadingView] create events");
     this.events = {
       load: new RendererEvent(
         RendererEventManagerHelper.Events.APPLOADER_LOAD,
@@ -74,11 +70,17 @@ export default class LoadingView extends Component {
     };
   }
 
+  /*
+   * updates the header text to the loading view
+   */
   updateHeaderText(text) {
     this.header.text = text;
     return this.header;
   }
 
+  /* 
+   * update the progress bar from the state of the event passed
+   */
   updateProgress(value, total, label) {
     this.progress.value = value;
     this.progress.total = total;
