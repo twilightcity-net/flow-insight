@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { RendererEvent } from "../RendererEventManager";
 import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
+import ConsoleTabs from "../components/ConsoleTabs";
 
 /*
  * This View will contain logic to inject the various tabs of the
@@ -27,8 +28,8 @@ export default class ConsoleView extends Component {
             this.scope.setTransparency(root, 0);
             this.scope.animateShow(root, 20, 14, 0);
           } else {
-            this.scope.setTransparency(root, 0.86);
-            this.scope.animateHide(root, 20, 14, 0.86);
+            this.scope.setTransparency(root, 0.9);
+            this.scope.animateHide(root, 20, 14, 0.9);
           }
         }
       )
@@ -52,10 +53,10 @@ export default class ConsoleView extends Component {
         o = Math.round((o + i * 0.004) * 100) / 100;
       }
       this.setTransparency(root, o);
-      if (o < 0.86) {
+      if (o < 0.9) {
         this.animateShow(root, i, t, o);
       } else {
-        this.setTransparency(root, 0.86);
+        this.setTransparency(root, 0.9);
       }
     }, t);
   }
@@ -69,16 +70,13 @@ export default class ConsoleView extends Component {
    */
   animateHide(root, i, t, o) {
     setTimeout(() => {
-      if (o > 0.6 && o < 0.86) {
+      if (o > 0.6 && o < 0.9) {
         o = Math.round((o - i * 0.001) * 100) / 100;
       } else if (o > 0.44 && o <= 0.6) {
         o = Math.round((o - i * 0.002) * 100) / 100;
       } else {
         o = Math.round((o - i * 0.004) * 100) / 100;
       }
-
-      // o = Math.round((o - i * 0.001) * 100) / 100;
-      console.log(o + "-=" + i * 0.001 + " -> " + t + "ms");
       this.setTransparency(root, o);
       if (o > 0) {
         this.animateHide(root, i, t, o);
@@ -102,6 +100,6 @@ export default class ConsoleView extends Component {
    * renders the component in the view
    */
   render() {
-    return <h1 id="tester">View.Console.render()</h1>;
+    return <ConsoleTabs/>;
   }
 }
