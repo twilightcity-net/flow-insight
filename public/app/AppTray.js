@@ -1,6 +1,7 @@
 const { Menu, Tray } = require("electron"),
   log = require("electron-log"),
-  Util = require("../Util");
+  Util = require("../Util"),
+  WindowManagerHelper = require("../managers/WindowManagerHelper");
 
 /*
  * This class is used to init the Application tray
@@ -11,18 +12,20 @@ module.exports = class AppTray extends Tray {
     super(Util.getAssetPath("/icons/icon.png"));
     let menu = Menu.buildFromTemplate([
       {
+        label: "Report Bug",
+        click() {
+          log.info("[AppMenu] open report bug window");
+          WindowManagerHelper.createWindowBugReport();
+        }
+      },
+      { type: "separator" },
+      {
         label: "Quit",
         role: "quit"
       }
     ]);
     this.setToolTip("MetaOS");
     this.setContextMenu(menu);
-    this.on("click", (event, bounds, position) => {
-      log.info("[AppTray] tray event -> click");
-    });
-    this.on("right-click", (event, bounds) => {
-      log.info("[AppTray] tray event -> right-click");
-    });
     return this;
   }
 };

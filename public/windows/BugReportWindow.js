@@ -16,7 +16,7 @@ module.exports = class BugReportWindow {
     this.window = new BrowserWindow({
       name: this.name,
       width: 900,
-      height: 680,
+      height: 620,
       show: false,
       backgroundColor: "#ffffff",
       icon: this.icon,
