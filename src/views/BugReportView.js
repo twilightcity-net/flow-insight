@@ -11,7 +11,12 @@ import { Form, Input, TextArea } from "formsy-semantic-ui-react";
  */
 
 export default class BugReport extends Component {
-  state = {};
+  constructor(props) {
+    super(props);
+    this.state = {};
+    document.body.style.overflow = "auto";
+    document.body.style.overflowX = "auto";
+  }
 
   handleDescriptionChange = event => {
     this.setState({
@@ -46,6 +51,7 @@ export default class BugReport extends Component {
   submit = () => {
     // TODO: djh - wait until after code from Kara is merged into master
     // Do something with this.state
+    // TODO dispatch a new event for submitting the bug. pass this info as json in arg
   };
 
   render() {

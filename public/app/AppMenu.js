@@ -1,7 +1,7 @@
 const { Menu } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
-  WindowManager = require("../managers/WindowManager");
+  WindowManagerHelper = require("../managers/WindowManagerHelper");
 
 /*
  * This class is used to init the Application menu. mac only now
@@ -55,7 +55,7 @@ module.exports = class AppMenu extends Menu {
             label: "Report bug",
             click() {
               log.info("[AppMenu] open report bug window");
-              WindowManager.createWindowBugReport();
+              WindowManagerHelper.createWindowBugReport();
             }
           }
         ]
