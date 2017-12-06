@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Menu, Icon, Input } from "semantic-ui-react";
+import { Menu, Icon } from "semantic-ui-react";
 
 /*
  * this component is the tab panel wrapper for the console content
@@ -7,9 +7,17 @@ import { Menu, Icon, Input } from "semantic-ui-react";
 export default class ConsoleTabs extends Component {
   constructor(props) {
     super(props);
+    this.bounds = this.getBounds();
     this.activeItem = this.state = {
       activeItem: "journal"
     };
+  }
+
+  getBounds() {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }
   }
 
   state = {};
