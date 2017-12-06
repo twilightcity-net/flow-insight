@@ -30,6 +30,7 @@ module.exports = class ConsoleWindow {
       show: false,
       frame: false,
       movable: false,
+      resizable: false,
       offscreen: true,
       transparent: true,
       icon: this.icon,

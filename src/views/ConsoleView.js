@@ -28,8 +28,8 @@ export default class ConsoleView extends Component {
             this.scope.setTransparency(root, 0);
             this.scope.animateShow(root, 20, 14, 0);
           } else {
-            this.scope.setTransparency(root, 0.9);
-            this.scope.animateHide(root, 20, 14, 0.9);
+            this.scope.setTransparency(root, 0.96);
+            this.scope.animateHide(root, 20, 14, 0.96);
           }
         }
       )
@@ -53,10 +53,10 @@ export default class ConsoleView extends Component {
         o = Math.round((o + i * 0.004) * 100) / 100;
       }
       this.setTransparency(root, o);
-      if (o < 0.9) {
+      if (o < 0.96) {
         this.animateShow(root, i, t, o);
       } else {
-        this.setTransparency(root, 0.9);
+        this.setTransparency(root, 0.96);
       }
     }, t);
   }
@@ -70,7 +70,7 @@ export default class ConsoleView extends Component {
    */
   animateHide(root, i, t, o) {
     setTimeout(() => {
-      if (o > 0.6 && o < 0.9) {
+      if (o > 0.6 && o < 0.96) {
         o = Math.round((o - i * 0.001) * 100) / 100;
       } else if (o > 0.44 && o <= 0.6) {
         o = Math.round((o - i * 0.002) * 100) / 100;
@@ -92,7 +92,7 @@ export default class ConsoleView extends Component {
    * @param {value} the amount to set the trans. to
    */
   setTransparency(obj, value) {
-    obj.style.background = "rgba(255, 255, 255, " + value + ")";
+    obj.style.background = "rgba(0, 0, 0, " + value + ")";
     obj.style.opacity = value + "";
   }
 
@@ -100,6 +100,6 @@ export default class ConsoleView extends Component {
    * renders the component in the view
    */
   render() {
-    return <ConsoleTabs/>;
+    return <ConsoleTabs />;
   }
 }
