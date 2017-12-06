@@ -26,6 +26,14 @@ export default class ConsoleTabs extends Component {
     this.setState({ activeItem: name });
   };
 
+  handleHideClick = (e, { name }) => {
+    console.log("[ConsoleTabs] open hide window");
+  };
+
+  handleUndockClick = (e, { name }) => {
+    console.log("[ConsoleTabs] open undock window");
+  };
+
   handleSettingsClick = (e, { name }) => {
     console.log("[ConsoleTabs] open settings window");
   };
@@ -37,7 +45,7 @@ export default class ConsoleTabs extends Component {
     const { activeItem } = this.state;
     return (
       <div id="wrapper" className="consoleTabs">
-        <div id="wrapper" className="segment">
+        <div id="wrapper" className="content">
           <Segment.Group>
             <Segment inverted>
               Ut vulputate sodales quam eu consequat. Vestibulum ante ipsum
@@ -83,10 +91,10 @@ export default class ConsoleTabs extends Component {
               Flow
             </Menu.Item>
             <Menu.Menu position="right">
-              <Menu.Item name="hide" onClick={this.handleSettingsClick}>
+              <Menu.Item name="hide" onClick={this.handleHideClick}>
                 <Icon name="toggle up" size="large" />
               </Menu.Item>
-              <Menu.Item name="undock" onClick={this.handleSettingsClick}>
+              <Menu.Item name="undock" onClick={this.handleUndockClick}>
                 <Icon name="window restore" size="large" />
               </Menu.Item>
               <Menu.Item name="settings" onClick={this.handleSettingsClick}>
