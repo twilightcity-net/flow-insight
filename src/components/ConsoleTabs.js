@@ -53,7 +53,10 @@ export default class ConsoleTabs extends Component {
           <Segment.Group>
             <Segment inverted>
               <Grid columns={16}>
-                <Grid.Column width={13} className="scrubber">
+                <Grid.Column width={2} className="dateStart">
+                  date start
+                </Grid.Column>
+                <Grid.Column width={12} className="scrubber">
                   <Input
                     type="range"
                     fluid
@@ -61,7 +64,9 @@ export default class ConsoleTabs extends Component {
                     onChange={this.handleRangeChange}
                   />
                 </Grid.Column>
-                <Grid.Column width={3}>cell 2</Grid.Column>
+                <Grid.Column width={2} className="dateEnd">
+                  date end
+                </Grid.Column>
               </Grid>
             </Segment>
           </Segment.Group>
