@@ -47,8 +47,27 @@
       #view.console #wrapper.content {
         padding: 4px;
       }
+      #view.console #wrapper.content .ui.segments {
+        margin: 0px;
+      }
+      #view.console #wrapper.content .content .ui.segment {
+        background: none;
+        border-bottom: 1px solid #333333;
+        margin: 0px;
+        padding: 8px 16px;
+      }
+      #view.console #wrapper.content .content .ui.segment:last-child {
+        border-bottom: none;
+      }
+      #view.console #wrapper.content .ui.grid .column.scrubber {
+        padding: 2px 8px 0px 16px;
+        border-right: 4px solid #141414;
+      }
       #view.console #wrapper.menu {
         padding: 4px;
+      }
+      #view.console #wrapper.menu .ui.menu {
+        background: #4a4a4a;
       }
       #view.console #wrapper.menu .ui.segment.tab {
         margin: 8px 0;
