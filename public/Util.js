@@ -39,6 +39,7 @@ module.exports = class Util {
    * gets the root applciation icon
    */
   static getAppIcon(name) {
+    // TODO: This is wrong.  It should take account of the platform; see AppTray.js.  Its code ought to be extracted into here
     return path.join(__dirname, "assets/icons/" + name);
   }
 
