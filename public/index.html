@@ -47,26 +47,38 @@
 
       /* COMPONENT: CONSOLE */
       #component.console #wrapper.journal {
-        padding: 4px;
+        padding: 8px;
       }
       #component.console #wrapper.consoleMenu {
-        padding: 4px;
+        padding: 0px 4px
       }
 
       /* COMPONENT: JOURNAL */
       #component.journal .ui.segments {
         margin: 0px;
       }
+      #component.journal #wrapper.journalItems {
+        margin: 0px;
+      }
 
       /* COMPONENT: JOURNAL-ITEMS */
-      #component.journalItems .ui.segment {
-        background: none;
-        border-bottom: 1px solid #333333;
-        margin: 0px;
-        padding: 8px 16px;
+      #component.journalItems .ui.grid {
+        margin: 2px 0;
       }
-      #component.journalItems .ui.segment:last-child {
-        border-bottom: none;
+      #component.journalItems .ui.grid>.row {
+        padding: 6px;
+      }
+      #component.journalItems .ui.grid .row .chunkTitle {
+        font-weight: 700;
+        color: rgba(21, 154, 20, 1);
+        font-style: italic;
+      }
+      #component.journalItems .ui.grid .row .chunkText {
+        font-weight: 500;
+        color: #cccccc;
+      }
+      #component.journalItems .ui.celled.grid>.row>.column {
+        padding: 8px;
       }
 
       /* COMPONENT: CONSOLE-MENU */
