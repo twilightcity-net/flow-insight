@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Grid, Menu, Icon, Input, Segment } from "semantic-ui-react";
+import { Grid, Menu, Icon, Segment } from "semantic-ui-react";
+import TimeScrubber from "./TimeScrubber";
 
 /*
  * this component is the tab panel wrapper for the console content
@@ -8,7 +9,8 @@ export default class ConsoleTabs extends Component {
   constructor(props) {
     super(props);
     this.bounds = this.getBounds();
-    this.activeItem = this.state = {
+    this.activeItem = "journal";
+    this.state = {
       activeItem: "journal"
     };
   }
@@ -21,10 +23,6 @@ export default class ConsoleTabs extends Component {
   }
 
   state = {};
-
-  handleRangeChange = e => {
-    console.log("[ConsoleTabs] range change -> " + e.target.value);
-  };
 
   handleMenuClick = (e, { name }) => {
     this.setState({ activeItem: name });
@@ -49,28 +47,8 @@ export default class ConsoleTabs extends Component {
     const { activeItem } = this.state;
     return (
       <div id="wrapper" className="consoleTabs">
+        <TimeScrubber />
         <div id="wrapper" className="content">
-          <Segment.Group>
-            <Segment inverted>
-              <Grid columns={16}>
-                <Grid.Column width={2} className="dateStart">
-                  date start
-                </Grid.Column>
-                <Grid.Column width={12} className="scrubber">
-                  <Input
-                    type="range"
-                    fluid
-                    max={256}
-                    onChange={this.handleRangeChange}
-                  />
-                </Grid.Column>
-                <Grid.Column width={2} className="dateEnd">
-                  date end
-                </Grid.Column>
-              </Grid>
-            </Segment>
-          </Segment.Group>
-
           <div className="content">
             <Segment size="small" basic inverted>
               Te eum doming eirmod, nominati pertinacia argumentum ad his.

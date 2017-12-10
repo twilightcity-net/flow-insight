@@ -7,7 +7,7 @@
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
     <title>MetaOS</title>
     <style>
-      /* GLOBAL STYLES */
+      /* GLOBAL */
       @keyframes fadein {
         from { 
           background: rgba(255, 255, 255, 0.0);
@@ -33,7 +33,7 @@
       body {
         overflow: hidden;
       }
-      /* LOADING VIEW STYLES */
+      /* VIEW: LOADING */
       #view.loading {
         margin-top: 4px;
       }
@@ -43,7 +43,10 @@
         padding-right: 5px;
         padding-top: 2px;
       }
-      /* CONSOLE VIEW STYLES */
+      /* VIEW: CONSOLE */
+      #view.console #wrapper.timeScrubber {
+        padding: 4px;
+      }
       #view.console #wrapper.content {
         padding: 4px;
       }
@@ -59,11 +62,6 @@
       #view.console #wrapper.content .content .ui.segment:last-child {
         border-bottom: none;
       }
-      #view.console #wrapper.content .ui.grid .column.scrubber {
-        padding: 2px 8px 0px 16px;
-        border-right: 4px solid #141414;
-        border-left: 4px solid #141414;
-      }
       #view.console #wrapper.menu {
         padding: 4px;
       }
@@ -78,6 +76,32 @@
       }
       #view.console #wrapper.menu .right.menu .item i {
         margin-right: 0px;
+      }
+      /* COMPONENT: TIME SCRUBBER */
+      #wrapper.timeScrubber .ui.grid .row {
+        padding: 3px;
+      }
+      #wrapper.timeScrubber .ui.grid .column.scrubber {
+        padding: 2px 8px 0px 16px;
+      }
+      #wrapper.timeScrubber .ui.grid .column.info div {
+        font-style: italic;
+      }
+      #wrapper.timeScrubber .ui.grid .column.info .title {
+        color:#c3c3c3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; 
+      }
+      #wrapper.timeScrubber .ui.grid .column.info .date {
+        font-weight:700; 
+      }
+      .popup.dateInfo {
+        border: 1px solid #7b7b7b !important; 
+      }
+      .popup.dateInfo:before {
+        border-left: 1px solid #7b7b7b !important;
+        border-top: 1px solid #7b7b7b !important; 
       }
     </style>
   </head>

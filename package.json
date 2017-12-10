@@ -46,6 +46,7 @@
     "electron-updater": "^2.4.3",
     "formsy-react": "^0.19.5",
     "formsy-semantic-ui-react": "^0.2.12",
+    "moment": "^2.19.3",
     "node-notifier": "^5.1.2",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
