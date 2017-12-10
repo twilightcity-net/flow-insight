@@ -8,10 +8,8 @@ import moment from "moment";
 export default class TimeScrubber extends Component {
   constructor(props) {
     super(props);
-    this.date = new Date(1995, 11, 17);
+    this.date = new Date(2017, 3, 7);
   }
-
-  state = {};
 
   handleRangeChange = e => {
     console.log("[ConsoleTabs] range change -> " + e.target.value);
@@ -22,7 +20,7 @@ export default class TimeScrubber extends Component {
    */
   render() {
     return (
-      <div id="wrapper" className="timeScrubber">
+      <div id="component" className="timeScrubber">
         <Segment.Group>
           <Segment inverted>
             <Grid textAlign="right" columns="equal" divided inverted>
@@ -51,7 +49,7 @@ export default class TimeScrubber extends Component {
                         </div>
                       </div>
                     }
-                    className="dateInfo"
+                    className="timeScrubber"
                     content="Eu quo homero blandit intellegebat. Te eum doming eirmod, nominati pertinacia argumentum ad his."
                     position="bottom right"
                     on="hover"

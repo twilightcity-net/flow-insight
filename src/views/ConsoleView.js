@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { RendererEvent } from "../RendererEventManager";
 import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
-import ConsoleTabs from "../components/ConsoleTabs";
+import Console from "../components/Console";
 
 /*
  * This View will contain logic to inject the various tabs of the
@@ -100,6 +100,10 @@ export default class ConsoleView extends Component {
    * renders the component in the view
    */
   render() {
-    return <ConsoleTabs />;
+    return (
+      <div id="wrapper" className="console">
+        <Console />
+      </div>
+    );
   }
 }

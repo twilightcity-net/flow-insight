@@ -33,6 +33,7 @@
       body {
         overflow: hidden;
       }
+      
       /* VIEW: LOADING */
       #view.loading {
         margin-top: 4px;
@@ -43,63 +44,66 @@
         padding-right: 5px;
         padding-top: 2px;
       }
-      /* VIEW: CONSOLE */
-      #view.console #wrapper.timeScrubber {
+
+      /* COMPONENT: CONSOLE */
+      #component.console #wrapper.journal {
         padding: 4px;
       }
-      #view.console #wrapper.content {
+      #component.console #wrapper.consoleMenu {
         padding: 4px;
       }
-      #view.console #wrapper.content .ui.segments {
+
+      /* COMPONENT: JOURNAL */
+      #component.journal .ui.segments {
         margin: 0px;
       }
-      #view.console #wrapper.content .content .ui.segment {
+
+      /* COMPONENT: JOURNAL-ITEMS */
+      #component.journalItems .ui.segment {
         background: none;
         border-bottom: 1px solid #333333;
         margin: 0px;
         padding: 8px 16px;
       }
-      #view.console #wrapper.content .content .ui.segment:last-child {
+      #component.journalItems .ui.segment:last-child {
         border-bottom: none;
       }
-      #view.console #wrapper.menu {
-        padding: 4px;
-      }
-      #view.console #wrapper.menu .ui.menu {
+
+      /* COMPONENT: CONSOLE-MENU */
+      #component.consoleMenu .ui.menu {
         background: #4a4a4a;
       }
-      #view.console #wrapper.menu .ui.segment.tab {
-        margin: 8px 0;
-      }
-      #view.console #wrapper.menu .menu .item {
+      #component.consoleMenu .menu .item {
         cursor: pointer !important;
       }
-      #view.console #wrapper.menu .right.menu .item i {
+      #component.consoleMenu .right.menu .item i {
         margin-right: 0px;
       }
-      /* COMPONENT: TIME SCRUBBER */
-      #wrapper.timeScrubber .ui.grid .row {
-        padding: 3px;
+
+      /* COMPONENT: TIME-SCRUBBER */
+      #component.timeScrubber .ui.grid .row {
+        padding: 3px 0px;
       }
-      #wrapper.timeScrubber .ui.grid .column.scrubber {
+      #component.timeScrubber .ui.grid .column.scrubber {
         padding: 2px 8px 0px 16px;
       }
-      #wrapper.timeScrubber .ui.grid .column.info div {
+      #component.timeScrubber .ui.grid .column.info div {
         font-style: italic;
       }
-      #wrapper.timeScrubber .ui.grid .column.info .title {
+      #component.timeScrubber .ui.grid .column.info .title {
         color:#c3c3c3;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis; 
       }
-      #wrapper.timeScrubber .ui.grid .column.info .date {
+      #component.timeScrubber .ui.grid .column.info .date {
         font-weight:700; 
       }
-      .popup.dateInfo {
+      /* COMPONENT: POPUP */
+      .popup.timeScrubber {
         border: 1px solid #7b7b7b !important; 
       }
-      .popup.dateInfo:before {
+      .popup.timeScrubber:before {
         border-left: 1px solid #7b7b7b !important;
         border-top: 1px solid #7b7b7b !important; 
       }
