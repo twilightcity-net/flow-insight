@@ -67,14 +67,22 @@
       }
       #component.journalItems .ui.grid>.row {
         padding: 6px;
+        background: none;
+        transition: background 0.6s ease-out;
+      }
+      #component.journalItems .ui.grid>.row:hover {
+        background: #2b2b2b;
       }
       #component.journalItems .ui.grid .row .chunkTitle {
-        font-weight: 700;
+        font-weight: 800;
         color: rgba(21, 154, 20, 1);
         font-style: italic;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis; 
       }
       #component.journalItems .ui.grid .row .chunkText {
-        font-weight: 500;
+        font-weight: 400;
         color: #cccccc;
       }
       #component.journalItems .ui.celled.grid>.row>.column {
@@ -112,10 +120,11 @@
         font-weight:700; 
       }
       /* COMPONENT: POPUP */
-      .popup.timeScrubber {
+      .popup {
         border: 1px solid #7b7b7b !important; 
       }
-      .popup.timeScrubber:before {
+      .popup:before {
+        top: -6px !important;
         border-left: 1px solid #7b7b7b !important;
         border-top: 1px solid #7b7b7b !important; 
       }
