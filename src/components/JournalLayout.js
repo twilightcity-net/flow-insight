@@ -6,7 +6,7 @@ import JournalEntry from "./JournalEntry";
 /*
  * this component is the tab panel wrapper for the console content
  */
-export default class Journal extends Component {
+export default class JournalLayout extends Component {
   constructor(props) {
     super(props);
   }
@@ -16,7 +16,7 @@ export default class Journal extends Component {
    */
   render() {
     return (
-      <div id="component" className="journal">
+      <div id="component" className="journalLayout">
         <div id="wrapper" className="timeScrubber">
           <TimeScrubber />
         </div>

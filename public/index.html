@@ -45,19 +45,19 @@
         padding-top: 2px;
       }
 
-      /* COMPONENT: CONSOLE */
-      #component.console #wrapper.journal {
+      /* COMPONENT: CONSOLE-LAYOUT */
+      #component.consoleLayout #wrapper.journalLayout {
         padding: 8px;
       }
-      #component.console #wrapper.consoleMenu {
+      #component.consoleLayout #wrapper.consoleMenu {
         padding: 0px 4px
       }
 
       /* COMPONENT: JOURNAL */
-      #component.journal .ui.segments {
+      #component.journalLayout .ui.segments {
         margin: 0px;
       }
-      #component.journal #wrapper.journalItems {
+      #component.journalLayout #wrapper.journalItems {
         margin: 0px;
       }
 
@@ -93,8 +93,9 @@
       #component.consoleMenu .ui.menu {
         background: #4a4a4a;
       }
-      #component.consoleMenu .menu .item {
+      #component.consoleMenu .ui.menu .item {
         cursor: pointer !important;
+        transition: background 0.420s ease-out;
       }
       #component.consoleMenu .right.menu .item i {
         margin-right: 0px;

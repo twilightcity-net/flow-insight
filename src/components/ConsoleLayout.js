@@ -5,7 +5,7 @@ import ConsoleMenu from "./ConsoleMenu";
 /*
  * this component is the tab panel wrapper for the console content
  */
-export default class Console extends Component {
+export default class ConsoleLayout extends Component {
   constructor(props) {
     super(props);
     this.bounds = this.getBounds();
@@ -23,7 +23,7 @@ export default class Console extends Component {
    */
   render() {
     return (
-      <div id="component" className="console">
+      <div id="component" className="consoleLayout">
         <div id="wrapper" className="ConsoleContent">
           <ConsoleContent />
         </div>
