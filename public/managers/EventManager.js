@@ -86,7 +86,7 @@ class EventManager {
   initSender(event) {
     event.sender = {
       send: function(_eventType, _arg) {
-        EventManager.dispatch(_eventType, _arg);
+        global.App.EventManager.dispatch(_eventType, _arg);
       }
     };
   }
@@ -126,7 +126,7 @@ class EventManager {
         "[EventManager] |> renderer event -> " + event.type + " : " + _arg
       );
       try {
-        let value = EventManager.executeCallback(event, _arg);
+        let value = global.App.EventManager.executeCallback(event, _arg);
         _event.returnValue = value;
         if (event.async) {
           log.info(

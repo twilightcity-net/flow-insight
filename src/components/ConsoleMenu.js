@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { RendererEvent } from "../RendererEventManager";
+import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
 import { Icon, Menu } from "semantic-ui-react";
 
 /*
@@ -11,6 +13,12 @@ export default class ConsoleMenu extends Component {
     this.state = {
       activeItem: "journal"
     };
+    this.events = {
+      hideConsole: new RendererEvent(
+        RendererEventManagerHelper.Events.WINDOW_CONSOLE_SHOW_HIDE,
+        this
+      )
+    };
   }
 
   handleMenuClick = (e, { name }) => {
@@ -19,6 +27,7 @@ export default class ConsoleMenu extends Component {
 
   handleHideClick = (e, { name }) => {
     console.log("[ConsoleTabs] open hide window");
+    this.events.hideConsole.dispatch(0);
   };
 
   handleUndockClick = (e, { name }) => {
