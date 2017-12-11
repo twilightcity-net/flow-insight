@@ -26,16 +26,16 @@ export default class ConsoleMenu extends Component {
   };
 
   handleHideClick = (e, { name }) => {
-    console.log("[ConsoleTabs] open hide window");
+    console.log("[ConsoleMenu] open hide window");
     this.events.hideConsole.dispatch(0);
   };
 
   handleUndockClick = (e, { name }) => {
-    console.log("[ConsoleTabs] open undock window");
+    console.log("[ConsoleMenu] open undock window");
   };
 
   handleSettingsClick = (e, { name }) => {
-    console.log("[ConsoleTabs] open settings window");
+    console.log("[ConsoleMenu] open settings window");
   };
 
   /*
