@@ -27,7 +27,8 @@ module.exports = class EventFactory {
       WINDOW_CONSOLE_READY: prefix + "window-console-ready",
       APPLOADER_LOAD: prefix + "apploader-load",
       SHORTCUTS_CREATED: prefix + "shortcuts-created",
-      SHORTCUTS_RECIEVED: prefix + "shortcuts-recieved"
+      SHORTCUTS_RECIEVED: prefix + "shortcuts-recieved",
+      SUBMIT_BUG_REPORT: prefix + "bugreport-submitted"
     };
   }
 };

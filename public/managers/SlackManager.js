@@ -11,6 +11,14 @@ module.exports = class SlackManager {
   constructor() {
     log.info("[SlackManager] created -> okay");
     // SlackManager.test();
+
+    this.events = {
+      bugReportSubmitted: EventFactory.createEvent(
+        EventFactory.Types.SUBMIT_BUG_REPORT,
+        this,
+        (event, formattedMessage) => this.sendBuggeryMessage(formattedMessage, this.buggeryMessageCallback)
+      )
+    }
   }
 
   /*
