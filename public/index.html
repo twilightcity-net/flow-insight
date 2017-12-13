@@ -91,7 +91,7 @@
 
       /* COMPONENT: CONSOLE-MENU */
       #component.consoleMenu .ui.menu {
-        background: #4a4a4a;
+        background: rgba(70, 70, 70, 0.96);
       }
       #component.consoleMenu .ui.menu .item {
         cursor: pointer !important;
@@ -128,9 +128,15 @@
       #component.journalEntry .ui.grid .column {
         padding: 0px 5px 0px 14px;
       }
-      #component.journalEntry .ui.dropdown.projectId .default.text {
+      #component.journalEntry .ui.grid .column:nth-child(2) {
+        padding: 0px 5px 0px 4px;
+      }
+      #component.journalEntry .ui.grid .column:nth-child(3) {
+        padding: 0px 14px 0px 4px;
+      }
+      #component.journalEntry .ui.dropdown .default.text {
         font-style: italic;
-        color: #000;
+        color: rgba(60, 60, 60, 0.96);
       }
       #component.journalEntry .ui.dropdown {
         background: rgba(221, 221, 221, 0.96);
@@ -149,6 +155,33 @@
       #component.journalEntry .ui.selection.dropdown .menu>.selected.item {
         background:rgba(100, 53, 201, 0.96);
         color: rgba(255, 255, 255, 0.96);
+      }
+      #component.journalEntry .ui.input.taskText input {
+        background: rgba(27, 28, 29, 0.96);
+        border: 1px solid rgba(74, 74, 74, 0.96);
+        border-right-width: 0px;
+        color: rgba(241, 241, 241, 0.96);
+      }
+      #component.journalEntry .ui.input.taskText input:focus {
+        border: 1px solid rgba(100, 53, 201, 0.96);
+        border-right-width: 0px;
+        transition: border 0.840s ease-out;
+      }
+      #component.journalEntry .ui.input.taskText input::placeholder {
+        font-style: italic;
+        color: rgba(74, 74, 74, 0.96)
+      }
+      #component.journalEntry .ui.input.taskText .ui.button {
+        transition: background 0.420s ease-out;
+        transition: color 0.840s ease-out;
+        background: rgba(72, 72, 72, 0.96);
+        color: rgba(187, 187, 187, 0.96);
+        border: none;
+      }
+      #component.journalEntry .column.focused .ui.input.taskText .ui.button {
+        background: rgba(100, 53, 201, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+        border: none;
       }
 
       /* COMPONENT: POPUP */

@@ -1,5 +1,14 @@
 import React, { Component } from "react";
-import { Dropdown, Grid, Segment } from "semantic-ui-react";
+// import { RendererEvent } from "../RendererEventManager";
+// import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
+import {
+  Button,
+  Dropdown,
+  Grid,
+  Icon,
+  Input,
+  Segment
+} from "semantic-ui-react";
 
 /*
  * this component is the tab panel wrapper for the console content
@@ -7,39 +16,83 @@ import { Dropdown, Grid, Segment } from "semantic-ui-react";
 export default class JournalEntry extends Component {
   constructor(props) {
     super(props);
-    this.options = [
-      { key: "English", text: "English", value: "English" },
-      { key: "French", text: "French", value: "French" },
-      { key: "Spanish", text: "Spanish", value: "Spanish" },
-      { key: "German", text: "German", value: "German" },
-      { key: "Chinese", text: "Chinese", value: "Chinese" }
-    ];
+    // this.events = {
+    //   createChunk: new RendererEvent(
+    //     RendererEventManagerHelper.Events.WINDOW_CONSOLE_JOURNAL_CREATE_CHUNK,
+    //     this,
+    //     function(event, arg) {
+    //       console.log("[JournalEntry] event -> " + this.type);
+    //       this.scope.events.hideConsole.dispatch(0);
+    //     }
+    //   ),
+    //   hideConsole: new RendererEvent(
+    //     RendererEventManagerHelper.Events.WINDOW_CONSOLE_SHOW_HIDE,
+    //     this
+    //   )
+    // };
     this.state = {
-      options: [
+      projects: [
         {
           key: "torchie",
           text: "torchie",
           value: "torchie"
         }
+      ],
+      chunks: [
+        {
+          key: "US124945",
+          text: "US124945",
+          value: "US124945"
+        }
       ]
     };
   }
 
-  handleProjectAddition = (e, { value }) =>
+  handleAdditionForProject = (e, { value }) =>
     this.setState({
-      options: [{ text: value, value }, ...this.state.options]
+      projects: [{ text: value, value }, ...this.state.projects]
     });
 
-  handleChange = (e, { value }) =>
+  handleAdditionForChunk = (e, { value }) =>
     this.setState({
-      currentValue: value
+      chunks: [{ text: value, value }, ...this.state.chunks]
     });
+
+  handleChangeForProject = (e, { value }) =>
+    this.setState({
+      currentProjectValue: value
+    });
+
+  handleChangeForChunk = (e, { value }) =>
+    this.setState({
+      currentChunkValue: value
+    });
+
+  handleClickForCreate = () => {
+    console.log("[JournalEntry] handle button click -> " + this.type);
+    // this.events.createChunk.dispatch(">>>create chunk");
+  };
+
+  handleKeyPressForCreate = e => {
+    if (e.charCode === 13) {
+      console.log(
+        "[JournalEntry] handle key press -> " + this.type + " : " + e.charCode
+      );
+      // this.events.createChunk.dispatch(">>>create chunk");
+    }
+  };
+
+  handleFocusForCreate = e => {
+    console.log(document.getElementById("createTaskInput"));
+    document.getElementById("createTaskInput").classList.toggle("focused");
+  };
 
   /*
    * renders the tab component of the console view
    */
   render() {
-    const { currentValue } = this.state;
+    const { currentProjectValue } = this.state;
+    const { currentChunkValue } = this.state;
     return (
       <div id="component" className="journalEntry">
         <Segment.Group>
@@ -49,20 +102,54 @@ export default class JournalEntry extends Component {
                 <Grid.Column width={2}>
                   <Dropdown
                     className="projectId"
-                    options={this.state.options}
+                    options={this.state.projects}
                     placeholder="Choose Project"
                     search
                     selection
                     fluid
                     upward
                     allowAdditions
-                    value={currentValue}
-                    onAddItem={this.handleProjectAddition}
-                    onChange={this.handleChange}
+                    value={currentProjectValue}
+                    onAddItem={this.handleAdditionForProject}
+                    onChange={this.handleChangeForProject}
                   />
                 </Grid.Column>
-                <Grid.Column width={2}>cell 2</Grid.Column>
-                <Grid.Column width={12}>cell 3</Grid.Column>
+                <Grid.Column width={2}>
+                  <Dropdown
+                    className="chunkId"
+                    options={this.state.chunks}
+                    placeholder="Choose Chunk"
+                    search
+                    selection
+                    fluid
+                    upward
+                    allowAdditions
+                    value={currentChunkValue}
+                    onAddItem={this.handleAdditionForChunk}
+                    onChange={this.handleChangeForChunk}
+                  />
+                </Grid.Column>
+                <Grid.Column width={12} id="createTaskInput">
+                  <Input
+                    className="taskText"
+                    fluid
+                    inverted
+                    onFocus={this.handleFocusForCreate}
+                    onBlur={this.handleFocusForCreate}
+                    onKeyPress={this.handleKeyPressForCreate}
+                    action={
+                      <Button
+                        className="createTask"
+                        icon="share"
+                        labelPosition="right"
+                        content="Create"
+                        onClick={this.handleClickForCreate}
+                        onKeyPress={this.handleKeyPressForCreate}
+                      />
+                    }
+                    placeholder="What chunk are you working on next?"
+                  />
+                </Grid.Column>
               </Grid.Row>
             </Grid>
           </Segment>
