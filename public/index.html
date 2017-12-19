@@ -139,18 +139,26 @@
         color: rgba(60, 60, 60, 0.96);
       }
       #component.journalEntry .ui.dropdown {
-        background: rgba(221, 221, 221, 0.96);
+        background: rgba(27, 28, 29, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+        border: 1px solid rgba(74, 74, 74, 0.96);
       }
       #component.journalEntry .ui.dropdown .menu {
-        background: rgba(221, 221, 221, 0.96);
+        background: rgba(27, 28, 29, 0.96);
+        border-color: rgba(72, 72, 72, 0.96);
       }
       #component.journalEntry .ui.selection.dropdown .menu>.item {
-        transition: background 0.420s ease-out;
-        border-top: 1px solid #eaeaea;
+        transition: background, color 0.420s ease-out;
+        border-top: 1px solid rgba(72, 72, 72, 0.96);
+        color: rgba(74, 74, 74, 0.96);
+      }
+      #component.journalEntry .ui.selection.dropdown .menu>.item:last-child {
+        border-bottom: 1px solid rgba(72, 72, 72, 0.96);
       }
       #component.journalEntry .ui.selection.dropdown .menu>.item:hover {
-        background: rgb(224, 224, 224);
+        background: #2b2b2b;
         font-weight: 800;
+        color: rgba(200, 200, 200, 0.96);
       }
       #component.journalEntry .ui.selection.dropdown .menu>.selected.item {
         background:rgba(100, 53, 201, 0.96);
@@ -172,8 +180,7 @@
         color: rgba(74, 74, 74, 0.96)
       }
       #component.journalEntry .ui.input.taskText .ui.button {
-        transition: background .840s ease-out;
-        transition: color .840s ease-out;
+        transition: background, color .840s ease-out;
         background: rgba(72, 72, 72, 0.96);
         color: rgba(187, 187, 187, 0.96);
         border: none;

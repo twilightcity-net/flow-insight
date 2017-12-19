@@ -36,6 +36,16 @@ export default class JournalEntry extends Component {
           key: "torchie",
           text: "torchie",
           value: "torchie"
+        },
+        {
+          key: "torchie2",
+          text: "torchie 2",
+          value: "torchie2"
+        },
+        {
+          key: "torchie3",
+          text: "torchie 3",
+          value: "torchie3"
         }
       ],
       chunks: [
@@ -43,6 +53,16 @@ export default class JournalEntry extends Component {
           key: "US124945",
           text: "US124945",
           value: "US124945"
+        },
+        {
+          key: "US124947",
+          text: "US124947",
+          value: "US124947"
+        },
+        {
+          key: "US124949",
+          text: "US124949",
+          value: "US124949"
         }
       ]
     };
