@@ -151,13 +151,21 @@
         color: rgba(60, 60, 60, 0.96);
       }
       #component.journalEntry .ui.dropdown {
+        transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);
         color: rgba(241, 241, 241, 0.96);
         border: 1px solid rgba(74, 74, 74, 0.96);
       }
       #component.journalEntry .ui.dropdown .menu {
+        transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);
         border-color: rgba(72, 72, 72, 0.96);
+      }
+      #component.journalEntry .column.focused .ui.dropdown {
+        border: 1px solid rgba(100, 53, 201, 0.96);
+      }
+      #component.journalEntry .column.focused .ui.dropdown .menu {
+        border: 1px solid rgba(100, 53, 201, 0.96);
       }
       #component.journalEntry .ui.selection.dropdown .menu>.item {
         transition: background, color 0.420s ease-out;
@@ -177,13 +185,13 @@
         color: rgba(255, 255, 255, 0.96);
       }
       #component.journalEntry .ui.input.taskText input {
+        transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);
         border: 1px solid rgba(74, 74, 74, 0.96);
         border-right-width: 0px;
         color: rgba(241, 241, 241, 0.96);
       }
       #component.journalEntry .ui.input.taskText input:focus {
-        transition: border 0.840s ease-out;
         border: 1px solid rgba(100, 53, 201, 0.96);
         border-right-width: 0px;
       }

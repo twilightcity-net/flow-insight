@@ -102,24 +102,45 @@ export default class JournalEntry extends Component {
     }
   };
 
-  handleFocusForCreate = e => {
-    console.log(document.getElementById("createTaskInput"));
-    document.getElementById("createTaskInput").classList.toggle("focused");
+  handleFocusForProject = e => {
+    document.getElementById("createProjectInput").classList.add("focused");
+    document.getElementById("createChunkInput").classList.remove("focused");
+    document.getElementById("createTaskInput").classList.remove("focused");
   };
 
+  handleFocusForChunk = e => {
+    document.getElementById("createProjectInput").classList.remove("focused");
+    document.getElementById("createChunkInput").classList.add("focused");
+    document.getElementById("createTaskInput").classList.remove("focused");
+  };
+
+  handleFocusForTask = e => {
+    document.getElementById("createProjectInput").classList.remove("focused");
+    document.getElementById("createChunkInput").classList.remove("focused");
+    document.getElementById("createTaskInput").classList.add("focused");
+  };
+
+  handleBlurForInput = e => {
+    document.getElementById("createProjectInput").classList.remove("focused");
+    document.getElementById("createChunkInput").classList.remove("focused");
+    document.getElementById("createTaskInput").classList.remove("focused");
+  };
   /*
    * renders the tab component of the console view
    */
   render() {
-    const { currentProjectValue } = this.state;
-    const { currentChunkValue } = this.state;
+    const {
+      currentProjectValue,
+      currentChunkValue,
+      currentTaskValue
+    } = this.state;
     return (
       <div id="component" className="journalEntry">
         <Segment.Group>
           <Segment inverted>
             <Grid columns="equal" divided inverted>
               <Grid.Row stretched>
-                <Grid.Column width={2}>
+                <Grid.Column width={2} id="createProjectInput">
                   <Dropdown
                     className="projectId"
                     options={this.state.projects}
@@ -130,11 +151,13 @@ export default class JournalEntry extends Component {
                     upward
                     allowAdditions
                     value={currentProjectValue}
+                    onFocus={this.handleFocusForProject}
+                    onBlur={this.handleBlurForInput}
                     onAddItem={this.handleAdditionForProject}
                     onChange={this.handleChangeForProject}
                   />
                 </Grid.Column>
-                <Grid.Column width={2}>
+                <Grid.Column width={2} id="createChunkInput">
                   <Dropdown
                     className="chunkId"
                     options={this.state.chunks}
@@ -145,6 +168,8 @@ export default class JournalEntry extends Component {
                     upward
                     allowAdditions
                     value={currentChunkValue}
+                    onFocus={this.handleFocusForChunk}
+                    onBlur={this.handleBlurForInput}
                     onAddItem={this.handleAdditionForChunk}
                     onChange={this.handleChangeForChunk}
                   />
@@ -154,17 +179,18 @@ export default class JournalEntry extends Component {
                     className="taskText"
                     fluid
                     inverted
-                    onFocus={this.handleFocusForCreate}
-                    onBlur={this.handleFocusForCreate}
-                    onKeyPress={this.handleKeyPressForCreate}
+                    value={currentTaskValue}
+                    onFocus={this.handleFocusForTask}
+                    onBlur={this.handleBlurForInput}
+                    onKeyPress={this.handleKeyPressForTask}
                     action={
                       <Button
                         className="createTask"
                         icon="share"
                         labelPosition="right"
                         content="Create"
-                        onClick={this.handleClickForCreate}
-                        onKeyPress={this.handleKeyPressForCreate}
+                        onClick={this.handleClickForTask}
+                        onKeyPress={this.handleKeyPressForTask}
                       />
                     }
                     placeholder="What chunk are you working on next?"
