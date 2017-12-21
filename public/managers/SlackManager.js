@@ -17,7 +17,12 @@ module.exports = class SlackManager {
       bugReportSubmitted: EventFactory.createEvent(
         EventFactory.Types.SUBMIT_BUG_REPORT,
         this,
-        (event, formattedMessage) => this.sendBuggeryMessage(formattedMessage, this.buggeryMessageCallback)
+        (event, message) => {
+          const formattedMessage = {
+            text: `*Issue description*: ${message.issueDescription}\n*Reproduction steps*: ${message.reproductionSteps}\n*Expected results*: ${message.expectedResults}\n*Actual results*: ${message.actualResults}\n*Email*: ${message.email}`
+          }
+          SlackManager.sendBuggeryMessage(formattedMessage, this.buggeryMessageCallback)
+        }
       )
     }
   }
@@ -37,6 +42,8 @@ module.exports = class SlackManager {
    */
   static sendBuggeryMessage(message, callback) {
     log.info("[SlackManager] send bug report -> #metaos_buggery");
+    const msgJson = JSON.stringify(message);
+    log.info(`[SlackManager] message=${msgJson}`);
     let url = this.getBuggeryURL();
     let webhook = new IncomingWebhook(url);
     webhook.send(message, callback);
@@ -62,7 +69,7 @@ module.exports = class SlackManager {
         {
           title: "Bug Report Sent",
           message:
-            "Your bug report been recieved by ninjas and wizards. We will contact you shortly!"
+            "Your bug report been received by ninjas and wizards. We will contact you shortly!"
         },
         function(err, response) {
           //TODO implement a fallback notification

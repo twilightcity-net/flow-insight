@@ -8,15 +8,13 @@ const {remote} = window.require("electron");
 const electronLog = remote.require("electron-log");
 
 /*
- * Presents a form that represents bug report info, then emits an event with the state of the form
+ * Presents a form that represents bug report info, then dispatches an event with the state of the form
  * upon form submission.
  */
 export default class BugReportView extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      submissionResult: null
-    };
+    this.state = this.createState();
     document.body.style.overflow = 'auto';
     document.body.style.overflowX = 'auto';
 
@@ -27,6 +25,16 @@ export default class BugReportView extends Component {
         this)
     }
   };
+
+  createState() {
+    return {
+      issueDescription: null,
+      reproductionSteps: null,
+      expectedResults: null,
+      actualResults: null,
+      email: null
+    };
+  }
 
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
@@ -65,8 +73,6 @@ export default class BugReportView extends Component {
   submit = () => {
     this.events.submitBugReport.dispatch(this.state);
   };
-
-
 
   render() {
     const errorLabel = <Label color="red" pointing />;
