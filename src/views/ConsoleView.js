@@ -3,16 +3,14 @@ import { RendererEvent } from "../RendererEventManager";
 import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
 import ConsoleLayout from "../components/ConsoleLayout";
 
-/*
- * This View will contain logic to inject the various tabs of the
- * console into the view. It will also manage the states of these
- * views in an array.
- */
+//
+// This View will contain logic to inject the various tabs of the
+// console into the view. It will also manage the states of these
+// views in an array.
+//
 export default class ConsoleView extends Component {
-  /*
-	 * sets up the event to listen for if the window is shown or hiden. Activates
-	 * animation according
-	 */
+  /// sets up the event to listen for if the window is shown or hiden.
+  /// Activates animation according
   constructor(props) {
     super(props);
     this.events = {
@@ -36,13 +34,11 @@ export default class ConsoleView extends Component {
     };
   }
 
-  /* 
-   * animates the window being shown
-   * @param {dom} the dom element that is the root of the document
-   * @param {integer} the amount to increment the animation by
-   * @param {integer} the amount of time to step the animation by
-   * @param {float} a float value of the current opacity. (circular ref.)
-   */
+  /// animates the window being shown
+  /// @param {dom} the dom element that is the root of the document
+  /// @param {integer} the amount to increment the animation by
+  /// @param {integer} the amount of time to step the animation by
+  /// @param {float} a float value of the current opacity. (circular ref.)
   animateShow(root, i, t, o) {
     setTimeout(() => {
       if (o > 0 && o < 0.16) {
@@ -61,13 +57,11 @@ export default class ConsoleView extends Component {
     }, t);
   }
 
-  /* 
-   * animates the window being hidden
-   * @param {dom} the dom element that is the root of the document
-   * @param {integer} the amount to increment the animation by
-   * @param {integer} the amount of time to step the animation by
-   * @param {float} a float value of the current opacity. (circular ref.)
-   */
+  /// animates the window being hidden
+  /// @param {dom} the dom element that is the root of the document
+  /// @param {integer} the amount to increment the animation by
+  /// @param {integer} the amount of time to step the animation by
+  /// @param {float} a float value of the current opacity. (circular ref.)
   animateHide(root, i, t, o) {
     setTimeout(() => {
       if (o > 0.6 && o < 0.96) {
@@ -86,19 +80,15 @@ export default class ConsoleView extends Component {
     }, t);
   }
 
-  /*
-   * sets the transparency of a dom object
-   * @param {dom} the dom object to apply this to
-   * @param {value} the amount to set the trans. to
-   */
+  /// sets the transparency of a dom object
+  /// @param {dom} the dom object to apply this to
+  /// @param {value} the amount to set the trans. to
   setTransparency(obj, value) {
     obj.style.background = "rgba(0, 0, 0, " + value + ")";
     obj.style.opacity = value + "";
   }
 
-  /*
-   * renders the component in the view
-   */
+  /// renders the component in the view
   render() {
     return (
       <div id="wrapper" className="console">

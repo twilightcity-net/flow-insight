@@ -1,17 +1,15 @@
 import React, { Component } from "react";
 import { Grid, Popup } from "semantic-ui-react";
 
-/*
- * this component is the tab panel wrapper for the console content
- */
+//
+// this component is the individual journal item entered in by the user
+//
 export default class JournalItem extends Component {
   constructor(props) {
     super(props);
   }
 
-  /*
-   * renders the tab component of the console view
-   */
+  /// renders the component of the console view
   render() {
     return (
       <Grid.Row>

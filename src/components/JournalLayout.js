@@ -10,9 +10,9 @@ export default class JournalLayout extends Component {
   constructor(props) {
     super(props);
     this.bounds = this.getBounds();
-    console.log(this.bounds);
   }
 
+  /// gets the dimensions of the window the view is in
   getBounds() {
     return {
       width: window.innerWidth,
@@ -20,6 +20,7 @@ export default class JournalLayout extends Component {
     };
   }
 
+  /// performs a simple calculation for dynamic height of items
   calculateJournalItemsHeight() {
     let heights = {
       bottomMargin: 5,
@@ -40,11 +41,10 @@ export default class JournalLayout extends Component {
       heights.timeScrubber -
       heights.journalEntry;
 
-    console.log(heights.journalItems);
     return heights.journalItems;
   }
 
-  /// renders the tab component of the console view
+  /// renders the journal layout of the console view
   render() {
     return (
       <div id="component" className="journalLayout">

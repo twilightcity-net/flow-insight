@@ -10,7 +10,7 @@ export default class JournalItems extends Component {
     super(props);
   }
 
-  /// renders the tab component of the console view
+  /// renders the journal items component from array in the console view
   render() {
     return (
       <div

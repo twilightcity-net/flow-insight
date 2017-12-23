@@ -11,30 +11,16 @@ import {
   Segment
 } from "semantic-ui-react";
 
-/*
- * This view class is used to show application loading which consists of:
- *    1> checking for ner version to update
- *    2> downloading update if there is one, auto restart
- *    3> load database file into memory
- *    4> read user configuration
- *    5> authenticate user API-Key if online
- *
- * An update can be caused by changes to props or state. These methods are 
- * called when a component is being re-rendered:
- *
- * componentWillMount()
- * componentDidMount()
- * componentWillUnmount()
- * componentWillReceiveProps()
- * shouldComponentUpdate()
- * componentWillUpdate()
- * render()
- * componentDidUpdate()
-   */
+//
+// This view class is used to show application loading which consists of:
+//   1> checking for ner version to update
+//   2> downloading update if there is one, auto restart
+//   3> load database file into memory
+//   4> read user configuration
+//   5> authenticate user API-Key if online
+//
 export default class LoadingView extends Component {
-  /*
-   * toggles the view state to trigger animation on icon
-   */
+  /// toggles the view state to trigger animation on icon
   onHideShow = () => this.setState({ visible: !this.state.visible });
 
   constructor(props) {
@@ -70,17 +56,13 @@ export default class LoadingView extends Component {
     };
   }
 
-  /*
-   * updates the header text to the loading view
-   */
+  /// updates the header text to the loading view
   updateHeaderText(text) {
     this.header.text = text;
     return this.header;
   }
 
-  /* 
-   * update the progress bar from the state of the event passed
-   */
+  /// update the progress bar from the state of the event passed
   updateProgress(value, total, label) {
     this.progress.value = value;
     this.progress.total = total;
@@ -88,9 +70,7 @@ export default class LoadingView extends Component {
     return this.progress;
   }
 
-  /*
-   * renders the view into our root element of our window
-   */
+  /// renders the view into our root element of our window
   render() {
     return (
       <Segment basic>

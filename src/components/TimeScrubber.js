@@ -2,22 +2,21 @@ import React, { Component } from "react";
 import { Grid, Input, Popup, Segment } from "semantic-ui-react";
 import moment from "moment";
 
-/*
- * this component is the tab panel wrapper for the console content
- */
+//
+// this component is the tab panel wrapper for the console content
+//
 export default class TimeScrubber extends Component {
   constructor(props) {
     super(props);
     this.date = new Date(2017, 3, 7);
   }
 
+  /// called when the range slider changes
   handleRangeChange = e => {
     console.log("[ConsoleTabs] range change -> " + e.target.value);
   };
 
-  /*
-   * renders the tab component of the console view
-   */
+  /// renders the time scrubber component of the console view
   render() {
     return (
       <div id="component" className="timeScrubber">

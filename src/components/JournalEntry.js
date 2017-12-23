@@ -10,9 +10,9 @@ import {
   Segment
 } from "semantic-ui-react";
 
-/*
- * this component is the tab panel wrapper for the console content
- */
+//
+// this component is the tab panel wrapper for the console content
+//
 export default class JournalEntry extends Component {
   constructor(props) {
     super(props);
@@ -68,31 +68,38 @@ export default class JournalEntry extends Component {
     };
   }
 
+  /// called when a new project is added from dropdown
   handleAdditionForProject = (e, { value }) =>
     this.setState({
       projects: [{ text: value, value }, ...this.state.projects]
     });
 
+  /// called when a new chunk is added from dropdown
   handleAdditionForChunk = (e, { value }) =>
     this.setState({
       chunks: [{ text: value, value }, ...this.state.chunks]
     });
 
+  /// called when a project is selected in dropdown
   handleChangeForProject = (e, { value }) =>
     this.setState({
       currentProjectValue: value
     });
 
+  /// called when a chunk is selected in the dropdown
   handleChangeForChunk = (e, { value }) =>
     this.setState({
       currentChunkValue: value
     });
 
+  /// called when the create task button is clicked on, it then shouold dispatch
+  /// a new event that will update the rendered view
   handleClickForCreate = () => {
     console.log("[JournalEntry] handle button click -> " + this.type);
     // this.events.createChunk.dispatch(">>>create chunk");
   };
 
+  /// works the same as the click for create handler.. see above ^
   handleKeyPressForCreate = e => {
     if (e.charCode === 13) {
       console.log(
@@ -102,32 +109,36 @@ export default class JournalEntry extends Component {
     }
   };
 
+  /// highlight field border when element is focused on
   handleFocusForProject = e => {
     document.getElementById("createProjectInput").classList.add("focused");
     document.getElementById("createChunkInput").classList.remove("focused");
     document.getElementById("createTaskInput").classList.remove("focused");
   };
 
+  /// highlight field border when element is focused on
   handleFocusForChunk = e => {
     document.getElementById("createProjectInput").classList.remove("focused");
     document.getElementById("createChunkInput").classList.add("focused");
     document.getElementById("createTaskInput").classList.remove("focused");
   };
 
+  /// highlight field border when element is focused on
   handleFocusForTask = e => {
     document.getElementById("createProjectInput").classList.remove("focused");
     document.getElementById("createChunkInput").classList.remove("focused");
     document.getElementById("createTaskInput").classList.add("focused");
   };
 
+  /// clear all of the highlights to the fields on any element blur.. called by all
+  /// form element inputs
   handleBlurForInput = e => {
     document.getElementById("createProjectInput").classList.remove("focused");
     document.getElementById("createChunkInput").classList.remove("focused");
     document.getElementById("createTaskInput").classList.remove("focused");
   };
-  /*
-   * renders the tab component of the console view
-   */
+
+  /// renders the journal entry component of the console view
   render() {
     const {
       currentProjectValue,
