@@ -2,20 +2,22 @@ import React, { Component } from "react";
 import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
 
-/*
- * this component is the tab panel wrapper for the console content
- */
+//
+// this component is the tab panel wrapper for the console content
+//
 export default class JournalItems extends Component {
   constructor(props) {
     super(props);
   }
 
-  /*
-   * renders the tab component of the console view
-   */
+  /// renders the tab component of the console view
   render() {
     return (
-      <div id="component" className="journalItems">
+      <div
+        id="component"
+        className="journalItems"
+        style={{ height: this.props.height }}
+      >
         <Grid inverted>
           <JournalItem
             projectId="torchie"
@@ -46,6 +48,16 @@ export default class JournalItems extends Component {
             projectId="torchie"
             chunkId="US233556"
             chunkText="Eu quo homero blandit intellegebat. Incorrupte consequuntur mei id."
+          />
+          <JournalItem
+            projectId="torchie"
+            chunkId="US233453"
+            chunkText="Doming. homero senectus mei Pellentesque. Incorrupte consequuntur mei id."
+          />
+          <JournalItem
+            projectId="torchie"
+            chunkId="US233453"
+            chunkText="Doming. homero senectus mei Pellentesque. Incorrupte consequuntur mei id."
           />
           <JournalItem
             projectId="torchie"

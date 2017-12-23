@@ -8,14 +8,6 @@ import ConsoleMenu from "./ConsoleMenu";
 export default class ConsoleLayout extends Component {
   constructor(props) {
     super(props);
-    this.bounds = this.getBounds();
-  }
-
-  getBounds() {
-    return {
-      width: window.innerWidth,
-      height: window.innerHeight
-    };
   }
 
   /*
@@ -24,7 +16,7 @@ export default class ConsoleLayout extends Component {
   render() {
     return (
       <div id="component" className="consoleLayout">
-        <div id="wrapper" className="ConsoleContent">
+        <div id="wrapper" className="consoleContent">
           <ConsoleContent />
         </div>
         <div id="wrapper" className="consoleMenu">
