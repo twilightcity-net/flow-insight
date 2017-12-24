@@ -23,9 +23,9 @@ export default class JournalLayout extends Component {
   /// performs a simple calculation for dynamic height of items
   calculateJournalItemsHeight() {
     let heights = {
-      bottomMargin: 5,
-      consoleMenu: 40,
-      contentMargin: 16,
+      rootBorder: 2,
+      consoleMenu: 28, //40
+      contentMargin: 8,
       contentPadding: 8,
       timeScrubber: 52,
       journalEntry: 48,
@@ -34,7 +34,7 @@ export default class JournalLayout extends Component {
 
     heights.journalItems =
       this.bounds.height -
-      heights.bottomMargin -
+      heights.rootBorder -
       heights.consoleMenu -
       heights.contentMargin -
       heights.contentPadding -

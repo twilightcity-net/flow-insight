@@ -3,9 +3,9 @@ import { RendererEvent } from "../RendererEventManager";
 import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
 import { Icon, Menu } from "semantic-ui-react";
 
-/*
- * this component is the tab panel wrapper for the console content
- */
+//
+// this component is the tab panel wrapper for the console content
+//
 export default class ConsoleMenu extends Component {
   constructor(props) {
     super(props);
@@ -38,9 +38,7 @@ export default class ConsoleMenu extends Component {
     console.log("[ConsoleMenu] open settings window");
   };
 
-  /*
-   * renders the tab component of the console view
-   */
+  /// renders the menu component of the console view
   render() {
     const { activeItem } = this.state;
     return (
@@ -77,10 +75,14 @@ export default class ConsoleMenu extends Component {
             <Menu.Item name="hide" onClick={this.handleHideClick}>
               <Icon name="toggle up" size="large" />
             </Menu.Item>
-            <Menu.Item name="undock" onClick={this.handleUndockClick}>
+            <Menu.Item name="undock" onClick={this.handleUndockClick} disabled>
               <Icon name="window restore" size="large" />
             </Menu.Item>
-            <Menu.Item name="settings" onClick={this.handleSettingsClick}>
+            <Menu.Item
+              name="settings"
+              onClick={this.handleSettingsClick}
+              disabled
+            >
               <Icon name="settings" size="large" />
             </Menu.Item>
           </Menu.Menu>
