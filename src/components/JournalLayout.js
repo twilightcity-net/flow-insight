@@ -20,28 +20,29 @@ export default class JournalLayout extends Component {
     };
   }
 
-  /// performs a simple calculation for dynamic height of items
+  /// performs a simple calculation for dynamic height of items, this
+  /// is becuase there will be a slight variation in the screen height
   calculateJournalItemsHeight() {
     let heights = {
       rootBorder: 2,
-      consoleMenu: 28, //40
+      consoleMenu: 28,
       contentMargin: 8,
       contentPadding: 8,
       timeScrubber: 52,
-      journalEntry: 48,
-      journalItems: 0
+      journalEntry: 48
     };
 
-    heights.journalItems =
+    /// subtract the root element's height from total window height that is
+    /// half of the clients screen height
+    return (
       this.bounds.height -
       heights.rootBorder -
       heights.consoleMenu -
       heights.contentMargin -
       heights.contentPadding -
       heights.timeScrubber -
-      heights.journalEntry;
-
-    return heights.journalItems;
+      heights.journalEntry
+    );
   }
 
   /// renders the journal layout of the console view
