@@ -44,6 +44,7 @@ export default class ConsoleMenu extends Component {
     return (
       <div id="component" className="consoleMenu">
         <Menu size="tiny" inverted>
+          <Menu.Item disabled />
           <Menu.Item
             name="journal"
             color="violet"
@@ -54,13 +55,13 @@ export default class ConsoleMenu extends Component {
             Journal
           </Menu.Item>
           <Menu.Item
-            name="torchie"
+            name="troubleshoot"
             color="violet"
-            active={activeItem === "torchie"}
+            active={activeItem === "troubleshoot"}
             onClick={this.handleMenuClick}
           >
-            <Icon name="heart" size="large" />
-            Torchie
+            <Icon name="lightning" size="large" />
+            Troubleshoot
           </Menu.Item>
           <Menu.Item
             name="flow"

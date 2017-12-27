@@ -9,15 +9,6 @@ import JournalEntry from "./JournalEntry";
 export default class JournalLayout extends Component {
   constructor(props) {
     super(props);
-    this.bounds = this.getBounds();
-  }
-
-  /// gets the dimensions of the window the view is in
-  getBounds() {
-    return {
-      width: window.innerWidth,
-      height: window.innerHeight
-    };
   }
 
   /// performs a simple calculation for dynamic height of items, this
@@ -35,7 +26,7 @@ export default class JournalLayout extends Component {
     /// subtract the root element's height from total window height that is
     /// half of the clients screen height
     return (
-      this.bounds.height -
+      window.innerHeight -
       heights.rootBorder -
       heights.consoleMenu -
       heights.contentMargin -
