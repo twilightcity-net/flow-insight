@@ -72,6 +72,24 @@ export default class ConsoleMenu extends Component {
             <Icon name="random" size="large" />
             Flow
           </Menu.Item>
+          <Menu.Item
+            name="projects"
+            color="violet"
+            active={activeItem === "projects"}
+            onClick={this.handleMenuClick}
+          >
+            <Icon name="cubes" size="large" />
+            Projects
+          </Menu.Item>
+          <Menu.Item
+            name="circles"
+            color="violet"
+            active={activeItem === "circles"}
+            onClick={this.handleMenuClick}
+          >
+            <Icon name="users" size="large" />
+            Circles
+          </Menu.Item>
           <Menu.Menu position="right">
             <Menu.Item name="hide" onClick={this.handleHideClick}>
               <Icon name="toggle up" size="large" />
