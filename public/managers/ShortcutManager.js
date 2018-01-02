@@ -29,14 +29,19 @@ class Shortcut {
     this.callback = callback;
     ShortcutManager.registerShortcut(this);
     globalShortcut.register(this.accelerator, () => {
-      EventManager.dispatch(EventFactory.Types.SHORTCUTS_RECIEVED, this);
-      this.callback();
+      if (global.App.ShortcutManager.enabled) {
+        log.info("[ShortcutManager] global shortcut -> system event recieved");
+        EventManager.dispatch(EventFactory.Types.SHORTCUTS_RECIEVED, this);
+        this.callback();
+      } else {
+        log.info("[ShortcutManager] global shortcut -> disabled in manager");
+      }
     });
   }
 }
 
 /*
- * Base Error class for any specific type of shortcut
+ * baae error class for any specific type of shortcut
  */
 class ShortcutError extends AppError {
   constructor(shortcut, ...args) {
@@ -55,8 +60,9 @@ class ShortcutManager {
   constructor() {
     log.info("[ShortcutManager] created -> okay");
     this.shortcuts = [];
+    this.enabled = false;
     this.events = {
-      shown: EventFactory.createEvent(
+      shortcutsRecieved: EventFactory.createEvent(
         EventFactory.Types.SHORTCUTS_RECIEVED,
         this
       )
@@ -66,17 +72,18 @@ class ShortcutManager {
   /*
    * creates global app shortcuts which are listening even if the app has
    * no windows focused
+   * @return {array} the array of predefined global shortcuts.. doesn't change
    */
   static createGlobalShortcuts() {
     log.info("[ShortcutManager] create global shortcuts");
     let shortcuts = {
-      globalTest: new Shortcut(
-        this.Names.TEST_GLOBAL,
+      showHideConsole: new Shortcut(
+        this.Names.GLOBAL_SHOW_HIDE_CONSOLE,
         "CommandOrControl+`",
         null,
         () => {
           log.info(
-            "[ShortcutManager] recieved shortcut keypress -> globalTest"
+            "[ShortcutManager] recieved shortcut keypress -> GLOBAL_SHOW_HIDE_CONSOLE"
           );
         }
       )
@@ -152,6 +159,7 @@ class ShortcutManager {
 
   /*
    * Static array containing all of our shortcuts the app uses
+   * @return {array} all of the currently register global and window shortcuts
    */
   static get Shortcuts() {
     return global.App.ShortcutManager.shortcuts;
@@ -160,11 +168,12 @@ class ShortcutManager {
   /*
    * static enum to store shortcut names. These are basically the type
    * of possible shortcuts that can be registered by the Manager.
+   * @return {list} an enum list of all of the shortcut names
    */
   static get Names() {
     let prefix = "metaos-shortcut-";
     return {
-      TEST_GLOBAL: prefix + "test-global",
+      GLOBAL_SHOW_HIDE_CONSOLE: prefix + "global-show-hide-console",
       TEST_WINDOW: prefix + "test-window"
     };
   }

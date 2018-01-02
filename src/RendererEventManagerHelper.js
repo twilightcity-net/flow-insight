@@ -11,6 +11,8 @@ export class RendererEventManagerHelper {
     let prefix = "metaos-ipc-";
     return {
       APPLOADER_LOAD: prefix + "apploader-load",
+      WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
+      VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel",
       SUBMIT_BUG_REPORT: prefix + "bugreport-submitted"
     };
   }

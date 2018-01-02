@@ -1,5 +1,4 @@
 const { BrowserWindow } = require("electron"),
-  isDev = require("electron-is-dev"),
   log = require("electron-log"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
@@ -20,20 +19,24 @@ module.exports = class LoadingWindow {
     this.autoShow = true;
     this.window = new BrowserWindow({
       name: this.name,
-      width: 360,
-      height: 160,
-      minWidth: 360,
-      minHeight: 160,
+      width: 420,
+      height: 144,
+      minWidth: 420,
+      minHeight: 144,
       resizable: false,
+      movable: false,
+      center: true,
+      frame: false,
       show: false,
       icon: this.icon,
       backgroundColor: "#ffffff",
       fullscreenable: false,
-      webPreferences: { devTools: isDev, toolbar: false }
+      webPreferences: { toolbar: false }
     });
     this.window.name = this.name;
     this.window.setMenu(null);
-    this.window.on("show", () => this.onShow());
+    this.window.on("show", () => this.onShowCb());
+    this.window.on("closed", () => this.onClosedCb());
     this.events = {
       shown: EventFactory.createEvent(
         EventFactory.Types.WINDOW_LOADING_SHOWN,
@@ -54,7 +57,12 @@ module.exports = class LoadingWindow {
     };
   }
 
-  onShow() {
+  onShowCb() {
     this.events.shown.dispatch();
+  }
+
+  onClosedCb() {
+    log.info("[LoadingWindow] closed window -> enable global shortcuts");
+    global.App.ShortcutManager.enabled = true;
   }
 };

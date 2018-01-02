@@ -4,42 +4,49 @@ const { ipcMain } = require("electron"),
   App = require("../app/App"),
   AppError = require("../app/AppError");
 
-/* 
- * an object class used to instantiate new event with callbacks.
- */
+//
+// an object class used to instantiate new event with callbacks.
+//
 class MainEvent {
-  /*
-   * @parm {eventType} the name of the event to listen on
-   * @param {scope} parent object that created the event
-   * @param {callback} the function to dispatch
-   * @param {reply} the reply function to dispatch
-   * @param {async} true to send an async message back
-   */
+  /// {eventType} the name of the event to listen on
+  /// {scope} parent object that created the event
+  /// {callback} the function to dispatch
+  /// {reply} the reply function to dispatch
+  /// {async} true to send an async message back
   constructor(type, scope, callback, reply, async) {
     log.info("[EventManager] new event -> " + type);
     this.type = type;
     this.scope = scope;
-    this.callback = callback;
+    this.callback = callback ? callback.bind(scope) : callback;
     this.reply = reply;
     this.async = async;
 
-    // link stuff with EventManager
+    /// link stuff with EventManager
     global.App.EventManager.initSender(this);
     global.App.EventManager.initReturnValues(this);
     global.App.EventManager.register(this);
   }
 
-  /*
-   * fires the event associated with the event's channel.
-   */
+  /// fires the event associated with the event's channel.
   dispatch(arg) {
     return EventManager.dispatch(this.type, arg);
   }
 }
 
-/*
- * Exception class to throw errors in Callback functions
- */
+//
+// Exception class to throw errors in echo events
+//
+class EventEchoException extends AppError {
+  constructor(event, ...args) {
+    super(...args);
+    this.name = "EventEchoException";
+    this.event = event;
+  }
+}
+
+//
+// Exception class to throw errors in Callback functions
+//
 class EventCallbackException extends AppError {
   constructor(event, ...args) {
     super(...args);
@@ -48,9 +55,9 @@ class EventCallbackException extends AppError {
   }
 }
 
-/*
- * Error class to throw errors in Reply functions
- */
+//
+// Error class to throw errors in Reply functions
+//
 class EventReplyException extends AppError {
   constructor(event, ...args) {
     super(...args);
@@ -59,30 +66,28 @@ class EventReplyException extends AppError {
   }
 }
 
-/*
- * This class is used to managed the ipc events within the main process.
- * the helper class in ./src/EventManagerHelp is used to help look up
- * event names in the render process that are defined here. When creating
- * new events make sure to update both classes
- */
+//
+// This class is used to managed the ipc events within the main process.
+// the helper class in ./src/EventManagerHelp is used to help look up
+// event names in the render process that are defined here. When creating
+// new events make sure to update both classes
+//
 class EventManager {
   constructor() {
     log.info("[EventManager] created -> okay");
     this.events = [];
+    this.initSonar();
   }
 
-  /*
-   * Static array containing all of our events the app uses
-   */
+  /// Static array containing all of our events the app uses
   static get Events() {
     return this.events;
   }
 
-  /*
-   * creates new sender object that can dispatch the event in a 
-   * feedback loop. Useful for calling circular events within 
-   * a state machine.
-   */
+  /// creates new sender object that can dispatch the event in a
+  /// feedback loop. Useful for calling circular events within
+  /// a state machine.
+  /// {event} the scope of this event callback
   initSender(event) {
     event.sender = {
       send: function(_eventType, _arg) {
@@ -91,10 +96,9 @@ class EventManager {
     };
   }
 
-  /*
-   * creates returnValues object with null values. called when dispatching 
-   * a new event channel
-   */
+  /// creates returnValues object with null values. called when dispatching
+  /// a new event channel
+  /// {event} the scope of this event callback
   initReturnValues(event) {
     event.returnValues = {
       callback: null,
@@ -102,12 +106,33 @@ class EventManager {
     };
   }
 
-  /*
-   * adds new event into a global array to manage. There can exist multiple
-   * events of the same name, and even same functions. They are referenced 
-   * with variable pointers. The event should be store as a variable in the 
-   * scope class
-   */
+  /// initializes event sonar, which will reflect any echo event sent
+  /// by main or renderer processes. usually for renderer
+  initSonar() {
+    log.info("[EventManager] └> setup event sonar");
+    ipcMain.on("echo-event", (_event, _arg) => {
+      if (!_arg.type) {
+        throw new EventEchoException(
+          "Unknown",
+          new Error("Event type is not specified in arg")
+        );
+      }
+      if (!_arg.arg) {
+        throw new EventEchoException(
+          "Unknown",
+          new Error("Event arg is missing in arg")
+        );
+      }
+      log.info("[EventManager] sonar echo -> " + _arg.type + " : " + _arg.arg);
+      EventManager.dispatch(_arg.type, _arg.arg);
+    });
+  }
+
+  /// adds new event into a global array to manage. There can exist multiple
+  /// events of the same name, and even same functions. They are referenced
+  /// with variable pointers. The event should be store as a variable in the
+  /// scope class
+  /// {event} the scope of this event callback
   register(event) {
     log.info("[EventManager] |> register event -> " + event.type);
     event = this.createListener(event);
@@ -116,10 +141,9 @@ class EventManager {
     this.events.push(event);
   }
 
-  /*
-   * creates the listener for renderer events, passes event and args. Any
-   * exception is caught, logged, and returned
-   */
+  /// creates the listener for renderer events, passes event and args. Any
+  /// exception is caught, logged, and returned
+  /// {event} the scope of this event callback
   createListener(event) {
     event.listener = (_event, _arg) => {
       log.info(
@@ -144,10 +168,9 @@ class EventManager {
     return event;
   }
 
-  /*
-   * removes an event from the global events registry. The event much match
-   * the pointer to it. not by the name. Returns the event that was removed.
-   */
+  //// removes an event from the global events registry. The event much match
+  /// the pointer to it. not by the name. Returns the event that was removed.
+  /// {event} the scope of this event callback
   unregister(event) {
     let index = this.events.indexOf(event);
     log.info(
@@ -158,9 +181,8 @@ class EventManager {
     return event;
   }
 
-  /*
-   * removes the listeners and returns an empty object
-   */
+  /// removes the listeners and returns an empty object
+  /// {event} the scope of this event callback
   destroy(event) {
     log.info("[EventManager] destroy event -> " + event.type);
     this.unregister(event);
@@ -170,11 +192,9 @@ class EventManager {
     return null;
   }
 
-  /*
-   * called by the dispatch function of the Manager
-   * arg: data object sent from the scope
-   * event: the scope of this event callback
-   */
+  /// called by the dispatch function of the Manager
+  /// {arg} data object sent from the scope
+  /// {event} the scope of this event callback
   executeCallback(event, arg) {
     log.info(
       "[EventManager] |> execute callback -> " + event.type + " : " + arg
@@ -188,11 +208,9 @@ class EventManager {
     }
   }
 
-  /*
-   * called automatically if a reply function is specified
-   * arg: data object sent from the scope
-   * event: the scope of this event callback
-   */
+  /// called automatically if a reply function is specified
+  /// {arg} data object sent from the scope
+  /// {event} the scope of this event callback
   executeReply(event, arg) {
     log.info(
       "[EventManager] execute reply -> " + event.type + "-reply : " + arg
@@ -204,51 +222,51 @@ class EventManager {
     }
   }
 
-  /*
-   * called to execute the event callback within main process threads
-   */
+  /// called to execute the event callback within main process threads
+  /// {arg} data object sent from the scope
+  /// {event} the scope of this event callback
   static dispatch(eventType, arg) {
-    log.info("[EventManager] dispatch event : " + eventType);
+    log.info("[EventManager] dispatch event -> " + eventType);
     let windows = global.App.WindowManager.windows,
       manager = global.App.EventManager,
       returnedEvents = [];
+    for (var j = 0; j < windows.length; j++) {
+      windows[j].window.webContents.send(eventType, arg);
+    }
+    log.info(
+      "[EventManager] |> dispatched {" +
+        windows.length +
+        "} window events -> " +
+        eventType
+    );
     for (var i = 0; i < manager.events.length; i++) {
       if (manager.events[i].type === eventType) {
         returnedEvents.push(manager.handleEvent(manager.events[i], arg));
       }
     }
     if (returnedEvents.length === 0) {
-      log.info("[EventManager] |> no events found : " + eventType);
+      log.info("[EventManager] └> no events found -> " + eventType);
       return [];
     }
     log.info(
-      "[EventManager] |> handled {" +
+      "[EventManager] └> handled {" +
         returnedEvents.length +
-        "} events : " +
-        eventType
-    );
-    for (var j = 0; j < windows.length; j++) {
-      windows[j].window.webContents.send(eventType, arg);
-    }
-    log.info(
-      "[EventManager] └> dispatched {" +
-        windows.length +
-        "} window events : " +
+        "} events -> " +
         eventType
     );
     return returnedEvents;
   }
 
-  /*
-   * handles the event dispatching by envoking the callback and reply functions
-   */
+  /// handles the event dispatching by envoking the callback and reply functions
+  /// {arg} data object sent from the scope
+  /// {event} the scope of this event callback
   handleEvent(event, arg) {
     this.initReturnValues(event);
     try {
-      log.info("[EventManager] |> handle callback : " + event.type);
+      log.info("[EventManager] |> handle callback -> " + event.type);
       event.returnValues.callback = this.executeCallback(event, arg);
       if (event.reply) {
-        log.info("[EventManager] |> handle reply : " + event.type + "-reply");
+        log.info("[EventManager] |> handle reply -> " + event.type + "-reply");
         event.returnValues.reply = this.executeReply(event, arg);
       }
     } catch (error) {
@@ -273,9 +291,13 @@ class EventManager {
   }
 }
 
+//
+// class exports for browserify
+//
 module.exports = {
   EventManager,
   MainEvent,
+  EventEchoException,
   EventCallbackException,
   EventReplyException
 };

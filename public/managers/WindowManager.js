@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require("electron"),
+  debug = require("electron-debug")({ showDevTools: false }),
   path = require("path"),
   isDev = require("electron-is-dev"),
   log = require("electron-log"),
@@ -30,26 +31,44 @@ module.exports = class WindowManager {
         this,
         (event, arg) => this.onBlurWindowCb(event, arg)
       ),
-      shortcutRecievedTest: EventFactory.createEvent(
+      shortcutsRecieved: EventFactory.createEvent(
         EventFactory.Types.SHORTCUTS_RECIEVED,
         this,
-        (event, arg) => {
-          log.info(
-            "[WindowManager] shortcut recieved -> shortcutRecievedTest : " + arg
-          );
-        }
+        (event, arg) => this.onShortcutsRecievedCb(event, arg)
+      ),
+      consoleShowHide: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE
       )
     };
   }
 
+  /*
+   * callback for native window focus event. Activates any shortcuts associated
+   * to that window
+   */
   onFocusWindowCb(event, arg) {
     log.info("[WindowManager] focus window -> " + arg.sender.name);
     ShortcutManager.activateWindowShortcuts(arg.sender);
   }
 
+  /*
+   * callback for native window blur event. Deactivates any shortcuts associated
+   * to that window
+   */
   onBlurWindowCb(event, arg) {
     log.info("[WindowManager] blur window -> " + arg.sender.name);
     ShortcutManager.deactivateWindowShortcuts(arg.sender);
+  }
+
+  /*
+   * callback to handle our console shortcut event
+   */
+  onShortcutsRecievedCb(event, arg) {
+    log.info("[WindowManager] shortcut recieved -> shortcutsRecieved : " + arg);
+    if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg.name) {
+      let win = this.getWindow(WindowManagerHelper.WindowNames.CONSOLE);
+      this.events.consoleShowHide.dispatch(win.state);
+    }
   }
 
   /*
@@ -89,9 +108,6 @@ module.exports = class WindowManager {
     window.window.on("ready-to-show", () => {
       if (window.autoShow) this.openWindow(window);
     });
-    window.window.on("closed", () => {
-      this.destroyWindow(window);
-    });
   }
 
   /*
@@ -101,7 +117,6 @@ module.exports = class WindowManager {
     log.info("[WindowManager] open window -> " + window.name);
     window.window.show();
     window.window.focus();
-    Util.showDevTools(window.window);
   }
 
   /*
@@ -109,10 +124,12 @@ module.exports = class WindowManager {
 	 * Memory
 	 */
   closeWindow(window, destroy) {
-    log.info("[WindowManager] close window -> " + window.name);
+    log.info("[WindowManager] hide window -> " + window.name);
     window.window.hide();
     if (destroy) {
-      this.destroyWindow(window);
+      log.info("[WindowManager] close window -> " + window.name);
+      window.window.close();
+      window = this.destroyWindow(window);
     }
   }
 
@@ -122,9 +139,11 @@ module.exports = class WindowManager {
    * Window name are unique.. so only one per windows array
 	 */
   destroyWindow(window) {
+    log.info("[WindowManager] destroy window -> " + window.name);
+    Util.inspect(this.windows);
     for (var i = this.windows.length - 1; i >= 0; i--) {
       if (this.windows[i].name === window.name) {
-        log.info("[WindowManager] destroy window -> " + window.name);
+        log.info("[WindowManager] unregister window -> " + window.name);
         return this.windows.splice(i, 1);
       }
     }
@@ -159,10 +178,10 @@ module.exports = class WindowManager {
 	 */
   toggleWindow(window) {
     log.info("[WindowManager] toggle window -> " + window.name);
-    if (window.window.isVisible()) {
-      openWindow(window);
+    if (!window.window.isVisible()) {
+      this.openWindow(window);
     } else {
-      closeWindow(window);
+      this.closeWindow(window);
     }
   }
 
