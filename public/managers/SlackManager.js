@@ -1,7 +1,8 @@
 const IncomingWebhook = require("@slack/client").IncomingWebhook,
   Notifier = require("node-notifier"),
   log = require("electron-log"),
-  Util = require("../Util");
+  Util = require("../Util"),
+  EventFactory = require("./EventFactory");
 
 /*
  * This is a high level management class for Slack Integration. This
@@ -11,6 +12,19 @@ module.exports = class SlackManager {
   constructor() {
     log.info("[SlackManager] created -> okay");
     // SlackManager.test();
+
+    this.events = {
+      bugReportSubmitted: EventFactory.createEvent(
+        EventFactory.Types.SUBMIT_BUG_REPORT,
+        this,
+        (event, message) => {
+          const formattedMessage = {
+            text: `*Issue description*: ${message.issueDescription}\n*Reproduction steps*: ${message.reproductionSteps}\n*Expected results*: ${message.expectedResults}\n*Actual results*: ${message.actualResults}\n*Email*: ${message.email}`
+          }
+          SlackManager.sendBuggeryMessage(formattedMessage, this.buggeryMessageCallback)
+        }
+      )
+    }
   }
 
   /*
@@ -28,6 +42,8 @@ module.exports = class SlackManager {
    */
   static sendBuggeryMessage(message, callback) {
     log.info("[SlackManager] send bug report -> #metaos_buggery");
+    const msgJson = JSON.stringify(message);
+    log.info(`[SlackManager] message=${msgJson}`);
     let url = this.getBuggeryURL();
     let webhook = new IncomingWebhook(url);
     webhook.send(message, callback);
@@ -53,7 +69,7 @@ module.exports = class SlackManager {
         {
           title: "Bug Report Sent",
           message:
-            "Your bug report been recieved by ninjas and wizards. We will contact you shortly!"
+            "Your bug report been received by ninjas and wizards. We will contact you shortly!"
         },
         function(err, response) {
           //TODO implement a fallback notification
