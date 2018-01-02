@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
-import {Button, Label, Segment} from 'semantic-ui-react';
-import {Form, Input, TextArea} from 'formsy-semantic-ui-react';
-import {RendererEvent} from '../RendererEventManager';
-import {RendererEventManagerHelper} from '../RendererEventManagerHelper';
+import React, { Component } from "react";
+import { Button, Label, Segment } from "semantic-ui-react";
+import { Form, Input, TextArea } from "formsy-semantic-ui-react";
+import { RendererEvent } from "../RendererEventManager";
+import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 const electronLog = remote.require("electron-log");
 
 /*
@@ -15,16 +15,17 @@ export default class BugReportView extends Component {
   constructor(props) {
     super(props);
     this.state = this.createState();
-    document.body.style.overflow = 'auto';
-    document.body.style.overflowX = 'auto';
+    document.body.style.overflow = "auto";
+    document.body.style.overflowX = "auto";
 
-    this.log('register events');
+    this.log("register events");
     this.events = {
       submitBugReport: new RendererEvent(
         RendererEventManagerHelper.Events.SUBMIT_BUG_REPORT,
-        this)
-    }
-  };
+        this
+      )
+    };
+  }
 
   createState() {
     return {
@@ -82,8 +83,8 @@ export default class BugReportView extends Component {
           <Form.Field>
             <label>Issue description</label>
             <TextArea
-              placeholder='...'
-              name='description'
+              placeholder="..."
+              name="description"
               value={this.state.issueDescription}
               onChange={this.handleDescriptionChange}
             />
@@ -91,8 +92,8 @@ export default class BugReportView extends Component {
           <Form.Field>
             <label>Steps to reproduce</label>
             <TextArea
-              placeholder='...'
-              name='reproductionSteps'
+              placeholder="..."
+              name="reproductionSteps"
               value={this.state.reproductionSteps}
               onChange={this.handleReproductionSteps}
             />
@@ -100,8 +101,8 @@ export default class BugReportView extends Component {
           <Form.Field>
             <label>Expected results</label>
             <TextArea
-              placeholder='...'
-              name='expectedResults'
+              placeholder="..."
+              name="expectedResults"
               value={this.state.expectedResults}
               onChange={this.handleExpectedResults}
             />
@@ -109,8 +110,8 @@ export default class BugReportView extends Component {
           <Form.Field>
             <label>Actual results</label>
             <TextArea
-              placeholder='...'
-              name='actualResults'
+              placeholder="..."
+              name="actualResults"
               value={this.state.actualResults}
               onChange={this.handleActualResults}
             />
@@ -119,14 +120,14 @@ export default class BugReportView extends Component {
             <label>Email address</label>
             <Input
               value={this.state.email}
-              name='email'
+              name="email"
               onChange={this.handleEmailChange}
-              validations='isEmail'
-              validationErrors={{isEmail: 'Invalid email'}}
+              validations="isEmail"
+              validationErrors={{ isEmail: "Invalid email" }}
               errorLabel={errorLabel}
             />
           </Form.Field>
-          <Button type='submit' onClick={this.submit}>
+          <Button type="submit" onClick={this.submit}>
             Submit
           </Button>
         </Form>
