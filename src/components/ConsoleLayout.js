@@ -2,15 +2,14 @@ import React, { Component } from "react";
 import ConsoleSidebar from "./ConsoleSidebar";
 import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";
-import { Icon } from "semantic-ui-react";
 
 //
 // this component is the tab panel wrapper for the console content
 //
 export default class ConsoleLayout extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   /// renders the root console layout of the console view
   render() {

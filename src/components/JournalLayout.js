@@ -7,9 +7,9 @@ import JournalEntry from "./JournalEntry";
 // this component is the tab panel wrapper for the console content
 //
 export default class JournalLayout extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height

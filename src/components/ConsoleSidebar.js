@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import { RendererEvent } from "../RendererEventManager";
+import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
 import { Icon, Label, Menu } from "semantic-ui-react";
 
 //
@@ -13,6 +15,19 @@ export default class ConsoleSidebar extends Component {
       iconMessages: "talk outline",
       iconNotifications: "bell outline"
     };
+    this.events = {
+      sidebarPanel: new RendererEvent(
+        RendererEventManagerHelper.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
+        this,
+        function(event, arg) {
+          this.test();
+        }
+      )
+    };
+  }
+
+  test() {
+    console.log(">>hello<<");
   }
 
   /// performs a simple calculation for dynamic height of menu
@@ -25,31 +40,55 @@ export default class ConsoleSidebar extends Component {
     return window.innerHeight - heights.rootBorder - heights.bottomMenuHeight;
   }
 
-  handleItemProfileClick = (e, { name }) => {
+  deselectItem(name) {
+    this.events.sidebarPanel.dispatch({
+      content: name,
+      show: 0
+    });
     this.setState({
+      activeItem: "",
+      iconProfile: "heart outline",
+      iconMessages: "talk outline",
+      iconNotifications: "bell outline"
+    });
+  }
+
+  selectItem(name) {
+    this.events.sidebarPanel.dispatch({
+      content: name,
+      show: 1
+    });
+    let state = {
       activeItem: name,
       iconProfile: "heart",
-      iconMessages: "talk outline",
-      iconNotifications: "bell outline"
-    });
-  };
-
-  handleItemMessagesClick = (e, { name }) => {
-    this.setState({
-      activeItem: name,
-      iconProfile: "heart outline",
       iconMessages: "talk",
-      iconNotifications: "bell outline"
-    });
-  };
-
-  handleItemNotificationsClick = (e, { name }) => {
-    this.setState({
-      activeItem: name,
-      iconProfile: "heart outline",
-      iconMessages: "talk outline",
       iconNotifications: "bell"
-    });
+    };
+    switch (name) {
+      case "profile":
+        state.iconMessages += " outline";
+        state.iconNotifications += " outline";
+        break;
+      case "messages":
+        state.iconProfile += " outline";
+        state.iconNotifications += " outline";
+        break;
+      case "notifications":
+        state.iconProfile += " outline";
+        state.iconMessages += " outline";
+        break;
+      default:
+        break;
+    }
+    this.setState(state);
+  }
+
+  handleItemClick = (e, { name }) => {
+    if (this.state.activeItem === name) {
+      this.deselectItem(name);
+    } else {
+      this.selectItem(name);
+    }
   };
 
   /// renders the sidebar of the console view
@@ -67,7 +106,7 @@ export default class ConsoleSidebar extends Component {
           <Menu.Item
             name="profile"
             active={activeItem === "profile"}
-            onClick={this.handleItemProfileClick}
+            onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconProfile}>
               {false && (
@@ -80,7 +119,7 @@ export default class ConsoleSidebar extends Component {
           <Menu.Item
             name="messages"
             active={activeItem === "messages"}
-            onClick={this.handleItemMessagesClick}
+            onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconMessages}>
               {false && (
@@ -93,7 +132,7 @@ export default class ConsoleSidebar extends Component {
           <Menu.Item
             name="notifications"
             active={activeItem === "notifications"}
-            onClick={this.handleItemNotificationsClick}
+            onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconNotifications}>
               {false && (

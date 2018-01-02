@@ -13,7 +13,7 @@ export class RendererEvent {
   constructor(eventType, scope, callback, reply) {
     this.type = eventType;
     this.scope = scope;
-    this.callback = callback;
+    this.callback = callback ? callback.bind(scope) : callback;
     this.reply = reply;
     this.returnValue = null;
     this.replyReturnValue = null;
@@ -21,8 +21,8 @@ export class RendererEvent {
     RendererEventManager.listenForReply(this);
   }
 
-  dispatch(arg) {
-    return RendererEventManager.dispatch(this, arg);
+  dispatch(arg, noEcho, isSync) {
+    return RendererEventManager.dispatch(this, arg, noEcho, isSync);
   }
 }
 
@@ -143,11 +143,7 @@ export class RendererEventManager {
    */
   static listenForCallback(event) {
     if (!event.callback) return;
-    log.info(
-      "[RendererEventManager] listening for callback -> " +
-        event.type +
-        "-reply"
-    );
+    log.info("[RendererEventManager] listening for callback -> " + event.type);
     ipcRenderer.on(event.type, (_event, _arg) => {
       event.returnValue = null;
       try {
@@ -174,16 +170,19 @@ export class RendererEventManager {
     });
   }
 
-  /*
-   * fires the an event on the associated channel with the event.
-   */
-  static dispatch(event, arg) {
+  /// dispatches an event on the associated channel with the event. renderer events
+  /// will be echo'd in the main event manager, so that we can supper inter-renderer
+  /// communication. Only use isSync if you understand how this will block the call stack.
+  /// Note: Sending a synchronous message will block the whole renderer process,
+  /// unless you know what you are doing you should never use it.
+  /// ref => https://github.com/electron/electron/blob/master/docs/api/ipc-renderer.md
+  static dispatch(event, arg, noEcho, isSync) {
     event.returnValue = null;
     log.info(
       "[RendererEventManager] dispatch event -> " + event.type + " : " + arg
     );
     try {
-      if (event.callback) {
+      if (noEcho && isSync) {
         log.info(
           "[RendererEventManager] |> send sync event -> " +
             event.type +
@@ -199,11 +198,19 @@ export class RendererEventManager {
             event.returnValue
         );
         event.returnValue = event.callback(event, event.returnValue);
-      } else {
+      } else if (noEcho) {
         log.info(
           "[RendererEventManager] └> send event -> " + event.type + " : " + arg
         );
         ipcRenderer.send(event.type, arg);
+      } else {
+        log.info(
+          "[RendererEventManager] └> send echo event -> " +
+            event.type +
+            " : " +
+            arg
+        );
+        ipcRenderer.send("echo-event", { type: event.type, arg: arg });
       }
     } catch (error) {
       event.returnValue = error;

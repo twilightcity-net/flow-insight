@@ -27,7 +27,7 @@ export default class ConsoleMenu extends Component {
 
   handleHideClick = (e, { name }) => {
     console.log("[ConsoleMenu] open hide window");
-    this.events.hideConsole.dispatch(0);
+    this.events.hideConsole.dispatch(0, true);
   };
 
   handleUndockClick = (e, { name }) => {

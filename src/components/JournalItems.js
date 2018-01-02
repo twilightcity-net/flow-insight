@@ -6,9 +6,9 @@ import JournalItem from "./JournalItem";
 // this component is the tab panel wrapper for the console content
 //
 export default class JournalItems extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   /// renders the journal items component from array in the console view
   render() {

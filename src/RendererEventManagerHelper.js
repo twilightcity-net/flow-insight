@@ -12,8 +12,7 @@ export class RendererEventManagerHelper {
     return {
       APPLOADER_LOAD: prefix + "apploader-load",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
-      WINDOW_CONSOLE_JOURNAL_CREATE_CHUNK:
-        prefix + "window-console-journal-create-chunk"
+      VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel"
     };
   }
 }

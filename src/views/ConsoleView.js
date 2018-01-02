@@ -23,11 +23,11 @@ export default class ConsoleView extends Component {
           );
           let root = document.getElementById("root");
           if (arg === 0) {
-            this.scope.setTransparency(root, 0);
-            this.scope.animateShow(root, 20, 14, 0);
+            this.setTransparency(root, 0);
+            this.animateShow(root, 20, 14, 0);
           } else {
-            this.scope.setTransparency(root, 0.96);
-            this.scope.animateHide(root, 20, 14, 0.96);
+            this.setTransparency(root, 0.96);
+            this.animateHide(root, 20, 14, 0.96);
           }
         }
       )

@@ -47,9 +47,9 @@ export default class LoadingView extends Component {
         this,
         function(event, arg) {
           console.log("[LoadingView] event -> " + this.type + " : " + arg.load);
-          this.scope.setState(state => {
-            this.scope.updateHeaderText(arg.text);
-            this.scope.updateProgress(arg.value, arg.total, arg.label);
+          this.setState(state => {
+            this.updateHeaderText(arg.text);
+            this.updateProgress(arg.value, arg.total, arg.label);
           });
         }
       )

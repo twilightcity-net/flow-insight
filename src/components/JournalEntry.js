@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-// import { RendererEvent } from "../RendererEventManager";
-// import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
-import {
-  Button,
-  Dropdown,
-  Grid,
-  Icon,
-  Input,
-  Segment
-} from "semantic-ui-react";
+import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -16,20 +7,6 @@ import {
 export default class JournalEntry extends Component {
   constructor(props) {
     super(props);
-    // this.events = {
-    //   createChunk: new RendererEvent(
-    //     RendererEventManagerHelper.Events.WINDOW_CONSOLE_JOURNAL_CREATE_CHUNK,
-    //     this,
-    //     function(event, arg) {
-    //       console.log("[JournalEntry] event -> " + this.type);
-    //       this.scope.events.hideConsole.dispatch(0);
-    //     }
-    //   ),
-    //   hideConsole: new RendererEvent(
-    //     RendererEventManagerHelper.Events.WINDOW_CONSOLE_SHOW_HIDE,
-    //     this
-    //   )
-    // };
     this.state = {
       projects: [
         {
@@ -96,7 +73,6 @@ export default class JournalEntry extends Component {
   /// a new event that will update the rendered view
   handleClickForCreate = () => {
     console.log("[JournalEntry] handle button click -> " + this.type);
-    // this.events.createChunk.dispatch(">>>create chunk");
   };
 
   /// works the same as the click for create handler.. see above ^
@@ -105,7 +81,6 @@ export default class JournalEntry extends Component {
       console.log(
         "[JournalEntry] handle key press -> " + this.type + " : " + e.charCode
       );
-      // this.events.createChunk.dispatch(">>>create chunk");
     }
   };
 
