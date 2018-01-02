@@ -102,7 +102,7 @@ module.exports = class ConsoleWindow {
   showConsole() {
     log.info("[ConsoleWindow] show window -> " + this.name);
     this.state = this.states.SHOWING;
-    this.window.setPosition(0, -this.bounds.height / 2);
+    this.window.setPosition(0, Math.floor(-this.bounds.height / 2));
     this.window.show();
     this.window.focus();
     this.animateShow(42, 14, this.window.getPosition()[1]);
