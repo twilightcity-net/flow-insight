@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { Divider, Grid, Input, Popup, Segment } from "semantic-ui-react";
 import moment from "moment";
+import { Divider, Grid, Input, Popup, Segment } from "semantic-ui-react";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -52,13 +52,14 @@ export default class TimeScrubber extends Component {
                     inverted
                     wide
                   >
-                    <Popup.Header>
-                      {moment(this.date).format("dddd, MMMM Do YYYY, h:mm a")}
-                    </Popup.Header>
+                    <Popup.Header>Troubleshooting Session Event:</Popup.Header>
                     <Popup.Content>
-                      <Divider />
                       Eu quo homero blandit intellegebat. Te eum doming eirmod,
                       nominati pertinacia argumentum ad his.
+                      <Divider />
+                      <i className="date">
+                        {moment(this.date).format("dddd, MMMM Do YYYY, h:mm a")}
+                      </i>
                     </Popup.Content>
                   </Popup>
                 </Grid.Column>

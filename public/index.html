@@ -348,13 +348,26 @@
       /* 
        * COMPONENT: POPUP 
        */
-      .popup {
+      .ui.popup {
+        color: #e9e9e9 !important;
         border: 1px solid #7b7b7b !important; 
       }
-      .popup:before {
+      .ui.popup.chunkTitle .date, .ui.popup.timeScrubber .date{
+        font-style: italic;
+        font-size: 12px;
+      }
+      .ui.popup.bottom:before {
         top: -6px !important;
         border-left: 1px solid #7b7b7b !important;
         border-top: 1px solid #7b7b7b !important; 
+      }
+      .ui.popup.top:before {
+        bottom: -6px !important;
+        border-right: 1px solid #7b7b7b !important;
+        border-bottom: 1px solid #7b7b7b !important; 
+      } 
+      .ui.popup .ui.divider {
+         margin: 8px 0 6px 0;
       }
     </style>
   </head>
