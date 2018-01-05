@@ -44,7 +44,9 @@ export default class ConsoleMenu extends Component {
     return (
       <div id="component" className="consoleMenu">
         <Menu size="tiny" inverted>
-          <Menu.Item disabled />
+          <Menu.Item header className="networkConnect">
+            <Icon name="signal" color="green" />
+          </Menu.Item>
           <Menu.Item
             name="journal"
             color="violet"
@@ -77,6 +79,7 @@ export default class ConsoleMenu extends Component {
             color="violet"
             active={activeItem === "projects"}
             onClick={this.handleMenuClick}
+            disabled
           >
             <Icon name="cubes" size="large" />
             Projects
@@ -86,6 +89,7 @@ export default class ConsoleMenu extends Component {
             color="violet"
             active={activeItem === "circles"}
             onClick={this.handleMenuClick}
+            disabled
           >
             <Icon name="users" size="large" />
             Circles

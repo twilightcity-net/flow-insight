@@ -113,6 +113,7 @@ export default class ConsoleSidebar extends Component {
             name="messages"
             active={activeItem === "messages"}
             onClick={this.handleItemClick}
+            disabled
           >
             <Icon name={this.state.iconMessages}>
               {false && (
@@ -126,6 +127,7 @@ export default class ConsoleSidebar extends Component {
             name="notifications"
             active={activeItem === "notifications"}
             onClick={this.handleItemClick}
+            disabled
           >
             <Icon name={this.state.iconNotifications}>
               {false && (
