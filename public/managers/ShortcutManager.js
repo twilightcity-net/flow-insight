@@ -88,7 +88,7 @@ class ShortcutManager {
         }
       )
     };
-    log.info("[ShortcutManager] |> created global shortcuts -> okay");
+    log.info("[ShortcutManager] └> created global shortcuts -> okay");
     return shortcuts;
   }
 

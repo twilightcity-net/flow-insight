@@ -18,16 +18,9 @@ export default class ConsoleSidebar extends Component {
     this.events = {
       sidebarPanel: new RendererEvent(
         RendererEventManagerHelper.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
-        this,
-        function(event, arg) {
-          this.test();
-        }
+        this
       )
     };
-  }
-
-  test() {
-    console.log(">>hello<<");
   }
 
   /// performs a simple calculation for dynamic height of menu

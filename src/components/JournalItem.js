@@ -15,11 +15,7 @@ export default class JournalItem extends Component {
       <Grid.Row>
         <Grid.Column width={2}>
           <Popup
-            trigger={
-              <div className="chunkTitle">
-                {this.props.projectId} / {this.props.chunkId}
-              </div>
-            }
+            trigger={<div className="chunkTitle">{this.props.projectId}</div>}
             className="chunkTitle"
             content={
               <div>
@@ -36,7 +32,26 @@ export default class JournalItem extends Component {
             inverted
           />
         </Grid.Column>
-        <Grid.Column width={14}>
+        <Grid.Column width={2}>
+          <Popup
+            trigger={<div className="chunkTitle">{this.props.chunkId}</div>}
+            className="chunkTitle"
+            content={
+              <div>
+                <div>
+                  <i>{this.props.projectId}</i>
+                </div>
+                <div>
+                  <b>{this.props.chunkId}</b>
+                </div>
+              </div>
+            }
+            position="bottom left"
+            on="hover"
+            inverted
+          />
+        </Grid.Column>
+        <Grid.Column width={12}>
           <div className="chunkText">{this.props.chunkText}</div>
         </Grid.Column>
       </Grid.Row>

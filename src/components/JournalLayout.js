@@ -20,7 +20,7 @@ export default class JournalLayout extends Component {
       contentMargin: 8,
       contentPadding: 8,
       timeScrubber: 52,
-      journalEntry: 48
+      journalEntry: 50
     };
 
     /// subtract the root element's height from total window height that is

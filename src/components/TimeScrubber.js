@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Input, Popup, Segment } from "semantic-ui-react";
+import { Divider, Grid, Input, Popup, Segment } from "semantic-ui-react";
 import moment from "moment";
 
 //
@@ -42,18 +42,25 @@ export default class TimeScrubber extends Component {
                           eirmod, nominati pertinacia argumentum ad his.
                         </div>
                         <div className="date">
-                          {moment(this.date).format(
-                            "dddd, MMMM Do YYYY, h:mm a"
-                          )}
+                          {moment(this.date).format("ddd, MMM Do 'YY, h:mm a")}
                         </div>
                       </div>
                     }
                     className="timeScrubber"
-                    content="Eu quo homero blandit intellegebat. Te eum doming eirmod, nominati pertinacia argumentum ad his."
                     position="bottom right"
                     on="hover"
                     inverted
-                  />
+                    wide
+                  >
+                    <Popup.Header>
+                      {moment(this.date).format("dddd, MMMM Do YYYY, h:mm a")}
+                    </Popup.Header>
+                    <Popup.Content>
+                      <Divider />
+                      Eu quo homero blandit intellegebat. Te eum doming eirmod,
+                      nominati pertinacia argumentum ad his.
+                    </Popup.Content>
+                  </Popup>
                 </Grid.Column>
               </Grid.Row>
             </Grid>
