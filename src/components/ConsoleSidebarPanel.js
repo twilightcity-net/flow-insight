@@ -18,9 +18,28 @@ export default class ConsoleSidebarPanel extends Component {
         }
       )
     };
+    console.log(this.calculateMenuHeight());
   }
 
-  /// renders the root console layout of the console view
+  /// performs a simple calculation for dynamic height of panel
+  calculateMenuHeight() {
+    let heights = {
+      rootBorder: 4,
+      contentMargin: 8,
+      contentHeader: 47,
+      bottomMenuHeight: 28
+    };
+
+    return (
+      window.innerHeight -
+      heights.rootBorder -
+      heights.contentMargin -
+      heights.contentHeader -
+      heights.bottomMenuHeight
+    );
+  }
+
+  /// renders the console sidebar panel of the console view
   render() {
     return (
       <div
@@ -33,7 +52,9 @@ export default class ConsoleSidebarPanel extends Component {
       >
         <Segment.Group>
           <Segment inverted>Spirit</Segment>
-          <Segment inverted>Content</Segment>
+          <Segment inverted style={{ height: this.calculateMenuHeight() }}>
+            Content
+          </Segment>
         </Segment.Group>
       </div>
     );
