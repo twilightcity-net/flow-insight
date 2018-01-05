@@ -23,7 +23,14 @@ export default class ConsoleSidebarPanel extends Component {
   /// renders the root console layout of the console view
   render() {
     return (
-      <div id="component" className="consoleSidebarPanel">
+      <div
+        id="component"
+        className="consoleSidebarPanel"
+        style={{
+          width: this.props.width,
+          opacity: this.props.opacity
+        }}
+      >
         <Segment.Group>
           <Segment inverted>Spirit</Segment>
           <Segment inverted>Content</Segment>
