@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { RendererEvent } from "../RendererEventManager";
 import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
-import { Icon, Menu } from "semantic-ui-react";
+import { Icon, Menu, Popup } from "semantic-ui-react";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -41,12 +41,32 @@ export default class ConsoleMenu extends Component {
   /// renders the menu component of the console view
   render() {
     const { activeItem } = this.state;
+    const networkMenuItem = (
+      <Menu.Item header className="networkConnect">
+        <Icon name="signal" color="green" />
+      </Menu.Item>
+    );
+    const popupContent = (
+      <div>
+        <div>
+          <i>torchie.dreamscale.io</i>
+        </div>
+        <div>
+          ping: <b>135ms</b>
+        </div>
+      </div>
+    );
     return (
       <div id="component" className="consoleMenu">
         <Menu size="tiny" inverted>
-          <Menu.Item header className="networkConnect">
-            <Icon name="signal" color="green" />
-          </Menu.Item>
+          <Popup
+            trigger={networkMenuItem}
+            className="chunkTitle"
+            content={popupContent}
+            position="top left"
+            offset={-2}
+            inverted
+          />
           <Menu.Item
             name="journal"
             color="violet"
