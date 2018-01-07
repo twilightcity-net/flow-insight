@@ -20,18 +20,9 @@ export default class ConsoleSidebarPanel extends Component {
       activeItem: "spirit",
       spiritVisible: true,
       badgesVisible: false,
+      animationType: "fly down",
       animationDelay: 500
     };
-    this.events = {
-      sidebarPanel: new RendererEvent(
-        RendererEventManagerHelper.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
-        this,
-        function(event, arg) {
-          console.log(arg);
-        }
-      )
-    };
-    console.log(this.calculateMenuHeight());
   }
 
   /// performs a simple calculation for dynamic height of panel
@@ -117,14 +108,14 @@ export default class ConsoleSidebarPanel extends Component {
           <Segment inverted style={{ height: this.calculateMenuHeight() }}>
             <Transition
               visible={this.state.spiritVisible}
-              animation="fly right"
+              animation={this.state.animationType}
               duration={this.state.animationDelay}
             >
               {spiritContent}
             </Transition>
             <Transition
               visible={this.state.badgesVisible}
-              animation="fly right"
+              animation={this.state.animationType}
               duration={this.state.animationDelay}
             >
               {badgesContent}
