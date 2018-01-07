@@ -3,20 +3,83 @@ const { Menu } = require("electron"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper");
 
-/*
- * This class is used to init the Application menu. mac only now
- */
+const helpSubmenu = [
+  {
+    label: "MetaOS - Learn More",
+    click() {
+      log.info("[AppMenu] open browser-> http://www.openmastery.org/");
+      Util.openExternalBrowser("http://www.openmastery.org/");
+    }
+  },
+  {
+    label: "Report bug",
+    click() {
+      log.info("[AppMenu] open report bug window");
+      WindowManagerHelper.createWindowBugReport();
+    }
+  }
+];
+
+class AppMenuException extends Error {
+  constructor(msg = `Could not build the app menu for this platform (${process.platform})`, ...params) {
+    super(msg, ...params);
+    this.msg = msg;
+    log.error(`[AppMenu] ${msg}`);
+    this.platform = process.platform;  // In case the catcher needs it
+  }
+}
+
 module.exports = class AppMenu extends Menu {
+
   constructor() {
     super();
     log.info("[AppMenu] create menu from template");
-    return Menu.buildFromTemplate(this.getTemplateMacOS());
+    return Menu.buildFromTemplate(this.getTemplate());
   }
 
-  /*
-   * returns the default template for our mac os menu
-   */
-  getTemplateMacOS() {
+  getTemplate() {
+    switch (process.platform) {
+      case 'darwin':
+        return this.getTemplateForMacOS();
+      case 'win32':
+        return this.getTemplateForWindows();
+    }
+    // TODO: determine if there are any other platforms we ought to support; e.g. linux.  In the meantime, throw
+    throw new AppMenuException();
+  }
+
+  getTemplateForWindows() {
+    return [
+      {
+        label: 'Edit',
+        submenu: [
+          {role: 'undo'},
+          {role: 'redo'},
+          {type: 'separator'},
+          {role: 'cut'},
+          {role: 'copy'},
+          {role: 'paste'},
+          {role: 'pasteandmatchstyle'},
+          {role: 'delete'},
+          {role: 'selectall'}
+        ]
+      },
+      {
+        role: 'window',
+        submenu: [
+          {role: 'minimize'},
+          {role: 'close'}
+        ]
+      },
+      {
+        role: 'help',
+        submenu: helpSubmenu
+      }
+    ]
+
+  }
+
+  getTemplateForMacOS() {
     return [
       {
         label: Util.getAppName(),
@@ -43,22 +106,7 @@ module.exports = class AppMenu extends Menu {
       },
       {
         role: "help",
-        submenu: [
-          {
-            label: "MetaOS - Learn More",
-            click() {
-              log.info("[AppMenu] open browser-> http://www.openmastery.org/");
-              Util.openExternalBrowser("http://www.openmastery.org/");
-            }
-          },
-          {
-            label: "Report bug",
-            click() {
-              log.info("[AppMenu] open report bug window");
-              WindowManagerHelper.createWindowBugReport();
-            }
-          }
-        ]
+        submenu: helpSubmenu
       }
     ];
   }
