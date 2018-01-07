@@ -28,11 +28,10 @@ export default class ConsoleLayout extends Component {
     };
   }
 
+  /// visually show the panel in the display
   animateSidebarPanel(show) {
     if (show) {
-      this.setState({
-        sidebarPanelVisible: true
-      });
+      this.setState({ sidebarPanelVisible: true });
       setTimeout(() => {
         this.setState({
           sidebarPanelWidth: 300,
@@ -45,34 +44,43 @@ export default class ConsoleLayout extends Component {
         sidebarPanelOpacity: 0
       });
       setTimeout(() => {
-        this.setState({
-          sidebarPanelVisible: false
-        });
+        this.setState({ sidebarPanelVisible: false });
       }, 1000);
     }
   }
 
+  /// store child component for future reloading
+  saveStateSidebarPanelCb = state => {
+    this.setState({ sidebarPanelState: state });
+  };
+
+  /// load the child components state from this state
+  loadStateSidebarPanelCb = () => {
+    return this.state.sidebarPanelState;
+  };
+
   /// renders the root console layout of the console view
   render() {
+    const sidebarPanel = (
+      <div
+        id="wrapper"
+        className="consoleSidebarPanel"
+        style={{ width: this.state.sidebarPanelWidth }}
+      >
+        <ConsoleSidebarPanel
+          loadStateCb={this.loadStateSidebarPanelCb}
+          saveStateCb={this.saveStateSidebarPanelCb}
+          width={this.state.sidebarPanelWidth}
+          opacity={this.state.sidebarPanelOpacity}
+        />
+      </div>
+    );
     return (
       <div id="component" className="consoleLayout">
         <div id="wrapper" className="consoleSidebar">
           <ConsoleSidebar />
         </div>
-
-        {this.state.sidebarPanelVisible && (
-          <div
-            id="wrapper"
-            className="consoleSidebarPanel"
-            style={{ width: this.state.sidebarPanelWidth }}
-          >
-            <ConsoleSidebarPanel
-              width={this.state.sidebarPanelWidth}
-              opacity={this.state.sidebarPanelOpacity}
-            />
-          </div>
-        )}
-
+        {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
           <ConsoleContent />
         </div>

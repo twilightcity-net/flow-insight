@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import { RendererEvent } from "../RendererEventManager";
-import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
-import {
-  Icon,
-  Image,
-  Menu,
-  Progress,
-  Segment,
-  Transition
-} from "semantic-ui-react";
+import { Image, Menu, Progress, Segment, Transition } from "semantic-ui-react";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -16,13 +7,27 @@ import {
 export default class ConsoleSidebarPanel extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeItem: "spirit",
-      spiritVisible: true,
-      badgesVisible: false,
-      animationType: "fly down",
-      animationDelay: 500
-    };
+    this.state = this.loadState();
+  }
+
+  /// laods the stored state from parent or use default values
+  loadState() {
+    let state = this.props.loadStateCb();
+    if (!state) {
+      return {
+        activeItem: "spirit",
+        spiritVisible: true,
+        badgesVisible: false,
+        animationType: "fly down",
+        animationDelay: 500
+      };
+    }
+    return state;
+  }
+
+  /// stores this components state in the parents state
+  saveState(state) {
+    this.props.saveStateCb(state);
   }
 
   /// performs a simple calculation for dynamic height of panel
@@ -33,7 +38,6 @@ export default class ConsoleSidebarPanel extends Component {
       contentHeader: 34,
       bottomMenuHeight: 28
     };
-
     return (
       window.innerHeight -
       heights.rootBorder -
@@ -43,6 +47,7 @@ export default class ConsoleSidebarPanel extends Component {
     );
   }
 
+  /// updates display to show spirit content
   handleSpiritClick = (e, { name }) => {
     this.setState({
       activeItem: name,
@@ -56,6 +61,7 @@ export default class ConsoleSidebarPanel extends Component {
     }, this.state.animationDelay);
   };
 
+  /// updates the display to show the badges content
   handleBadgesClick = (e, { name }) => {
     this.setState({
       activeItem: name,
@@ -68,6 +74,11 @@ export default class ConsoleSidebarPanel extends Component {
       });
     }, this.state.animationDelay);
   };
+
+  /// make sure we are saving the state when hiding component
+  componentWillUnmount() {
+    this.saveState(this.state);
+  }
 
   /// renders the console sidebar panel of the console view
   render() {
