@@ -11,7 +11,12 @@ export default class ConsoleContent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeLayout: "journal"
+      activeLayout: "journal",
+      journalVisible: true,
+      troubleshootVisible: false,
+      flowVisible: false,
+      animationType: "fly left",
+      animationDelay: 1000
     };
     this.events = {
       consoleMenuChange: RendererEventFactory.createEvent(
@@ -27,7 +32,9 @@ export default class ConsoleContent extends Component {
     console.log(arg);
     let newLayout = arg.new,
       oldLayout = arg.old;
-    this.setState({ activeLayout: newLayout });
+    this.setState({
+      activeLayout: newLayout
+    });
   }
 
   /// renders the content of the console view

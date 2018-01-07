@@ -8,9 +8,8 @@ import { Icon, Menu, Popup } from "semantic-ui-react";
 export default class ConsoleMenu extends Component {
   constructor(props) {
     super(props);
-    this.activeItem = "journal";
     this.state = {
-      activeItem: "journal"
+      activeItem: "troubleshoot"
     };
     this.events = {
       hideConsole: RendererEventFactory.createEvent(
