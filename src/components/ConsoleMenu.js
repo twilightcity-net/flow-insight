@@ -17,11 +17,16 @@ export default class ConsoleMenu extends Component {
       hideConsole: new RendererEvent(
         RendererEventManagerHelper.Events.WINDOW_CONSOLE_SHOW_HIDE,
         this
+      ),
+      consoleMenuChange: new RendererEvent(
+        RendererEventManagerHelper.Events.VIEW_CONSOLE_MENU_CHANGE,
+        this
       )
     };
   }
 
   handleMenuClick = (e, { name }) => {
+    this.events.consoleMenuChange.dispatch(name);
     this.setState({ activeItem: name });
   };
 
@@ -52,7 +57,10 @@ export default class ConsoleMenu extends Component {
           <i>torchie.dreamscale.io</i>
         </div>
         <div>
-          ping: <b>135ms</b>
+          ping:{" "}
+          <b>
+            <i>135ms</i>
+          </b>
         </div>
       </div>
     );
