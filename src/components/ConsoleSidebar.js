@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { RendererEvent } from "../RendererEventManager";
-import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
+import { RendererEventFactory } from "../RendererEventFactory";
 import { Icon, Label, Menu } from "semantic-ui-react";
 
 //
@@ -16,8 +15,8 @@ export default class ConsoleSidebar extends Component {
       iconNotifications: "bell outline"
     };
     this.events = {
-      sidebarPanel: new RendererEvent(
-        RendererEventManagerHelper.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
+      sidebarPanel: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
         this
       )
     };

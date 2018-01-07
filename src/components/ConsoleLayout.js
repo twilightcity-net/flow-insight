@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { RendererEvent } from "../RendererEventManager";
-import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
+import { RendererEventFactory } from "../RendererEventFactory";
 import ConsoleSidebar from "./ConsoleSidebar";
 import ConsoleSidebarPanel from "./ConsoleSidebarPanel";
 import ConsoleContent from "./ConsoleContent";
@@ -18,10 +17,10 @@ export default class ConsoleLayout extends Component {
       sidebarPanelOpacity: 0
     };
     this.events = {
-      sidebarPanel: new RendererEvent(
-        RendererEventManagerHelper.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
+      sidebarPanel: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
         this,
-        function(event, arg) {
+        (event, arg) => {
           this.animateSidebarPanel(arg.show);
         }
       )

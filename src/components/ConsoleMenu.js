@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { RendererEvent } from "../RendererEventManager";
-import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
+import { RendererEventFactory } from "../RendererEventFactory";
 import { Icon, Menu, Popup } from "semantic-ui-react";
 
 //
@@ -14,12 +13,12 @@ export default class ConsoleMenu extends Component {
       activeItem: "journal"
     };
     this.events = {
-      hideConsole: new RendererEvent(
-        RendererEventManagerHelper.Events.WINDOW_CONSOLE_SHOW_HIDE,
+      hideConsole: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
         this
       ),
-      consoleMenuChange: new RendererEvent(
-        RendererEventManagerHelper.Events.VIEW_CONSOLE_MENU_CHANGE,
+      consoleMenuChange: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
         this
       )
     };

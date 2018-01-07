@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import { RendererEvent } from "../RendererEventManager";
-import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
+import { RendererEventFactory } from "../RendererEventFactory";
 import ConsoleLayout from "../components/ConsoleLayout";
+
+const { remote } = window.require("electron"),
+  log = remote.require("electron-log");
 
 //
 // This View will contain logic to inject the various tabs of the
@@ -14,24 +16,24 @@ export default class ConsoleView extends Component {
   constructor(props) {
     super(props);
     this.events = {
-      load: new RendererEvent(
-        RendererEventManagerHelper.Events.WINDOW_CONSOLE_SHOW_HIDE,
+      load: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
         this,
-        function(event, arg) {
-          console.log(
-            "[ConsoleView] event -> WINDOW_CONSOLE_SHOW_HIDE : " + arg
-          );
-          let root = document.getElementById("root");
-          if (arg === 0) {
-            this.setTransparency(root, 0);
-            this.animateShow(root, 20, 14, 0);
-          } else {
-            this.setTransparency(root, 0.96);
-            this.animateHide(root, 20, 14, 0.96);
-          }
-        }
+        this.onLoadCb
       )
     };
+  }
+
+  onLoadCb(event, arg) {
+    log.info("[ConsoleView] event -> WINDOW_CONSOLE_SHOW_HIDE : " + arg);
+    let root = document.getElementById("root");
+    if (arg === 0) {
+      this.setTransparency(root, 0);
+      this.animateShow(root, 20, 14, 0);
+    } else {
+      this.setTransparency(root, 0.96);
+      this.animateHide(root, 20, 14, 0.96);
+    }
   }
 
   /// animates the window being shown

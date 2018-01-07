@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { RendererEvent } from "../RendererEventManager";
-import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
+import { RendererEventFactory } from "../RendererEventFactory";
 import {
   Container,
   Divider,
@@ -11,6 +10,9 @@ import {
   Segment
 } from "semantic-ui-react";
 
+const { remote } = window.require("electron"),
+  log = remote.require("electron-log");
+
 //
 // This view class is used to show application loading which consists of:
 //   1> checking for ner version to update
@@ -20,9 +22,6 @@ import {
 //   5> authenticate user API-Key if online
 //
 export default class LoadingView extends Component {
-  /// toggles the view state to trigger animation on icon
-  onHideShow = () => this.setState({ visible: !this.state.visible });
-
   constructor(props) {
     super(props);
     this.header = {
@@ -42,18 +41,20 @@ export default class LoadingView extends Component {
       progress: this.progress
     };
     this.events = {
-      load: new RendererEvent(
-        RendererEventManagerHelper.Events.APPLOADER_LOAD,
+      load: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.APPLOADER_LOAD,
         this,
-        function(event, arg) {
-          console.log("[LoadingView] event -> " + this.type + " : " + arg.load);
-          this.setState(state => {
-            this.updateHeaderText(arg.text);
-            this.updateProgress(arg.value, arg.total, arg.label);
-          });
-        }
+        this.onLoadCb
       )
     };
+  }
+
+  onLoadCb(event, arg) {
+    log.info("[LoadingView] event -> APPLOADER_LOAD : " + arg.load);
+    this.setState(state => {
+      this.updateHeaderText(arg.text);
+      this.updateProgress(arg.value, arg.total, arg.label);
+    });
   }
 
   /// updates the header text to the loading view
@@ -69,6 +70,9 @@ export default class LoadingView extends Component {
     this.progress.label = label;
     return this.progress;
   }
+
+  /// toggles the view state to trigger animation on icon
+  onHideShow = () => this.setState({ visible: !this.state.visible });
 
   /// renders the view into our root element of our window
   render() {

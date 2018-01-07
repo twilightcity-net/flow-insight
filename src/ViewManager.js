@@ -24,8 +24,8 @@ export default class ViewManager extends Component {
   /// URL of the view that is loaded in the window. An exception is throw
   /// if  now view is found in the mapping
   static View(props) {
-    let name = props.location.search.substr(1);
-    let view = ViewManager.Views[name.toUpperCase()];
+    let name = props.location.search.substr(1),
+      view = ViewManager.Views[name.toUpperCase()];
     if (view == null) throw new Error("View '" + name + "' is undefined");
     return view;
   }

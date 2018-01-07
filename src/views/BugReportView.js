@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Button, Label, Segment } from "semantic-ui-react";
 import { Form, Input, TextArea } from "formsy-semantic-ui-react";
-import { RendererEvent } from "../RendererEventManager";
-import { RendererEventManagerHelper } from "../RendererEventManagerHelper";
+import { RendererEventFactory } from "../RendererEventFactory";
 
 const { remote } = window.require("electron");
 const electronLog = remote.require("electron-log");
@@ -20,8 +19,8 @@ export default class BugReportView extends Component {
 
     this.log("register events");
     this.events = {
-      submitBugReport: new RendererEvent(
-        RendererEventManagerHelper.Events.SUBMIT_BUG_REPORT,
+      submitBugReport: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.SUBMIT_BUG_REPORT,
         this
       )
     };
