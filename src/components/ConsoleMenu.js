@@ -25,7 +25,10 @@ export default class ConsoleMenu extends Component {
   }
 
   handleMenuClick = (e, { name }) => {
-    this.events.consoleMenuChange.dispatch(name);
+    this.events.consoleMenuChange.dispatch({
+      old: this.state.activeItem,
+      new: name
+    });
     this.setState({ activeItem: name });
   };
 
