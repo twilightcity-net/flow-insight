@@ -121,6 +121,7 @@ export default class ConsoleSidebarPanel extends Component {
               visible={this.state.spiritVisible}
               animation={this.state.animationType}
               duration={this.state.animationDelay}
+              unmountOnHide
             >
               {spiritContent}
             </Transition>
@@ -128,6 +129,7 @@ export default class ConsoleSidebarPanel extends Component {
               visible={this.state.badgesVisible}
               animation={this.state.animationType}
               duration={this.state.animationDelay}
+              unmountOnHide
             >
               {badgesContent}
             </Transition>

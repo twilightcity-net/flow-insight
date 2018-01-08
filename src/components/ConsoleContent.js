@@ -3,6 +3,7 @@ import { RendererEventFactory } from "../RendererEventFactory";
 import JournalLayout from "./JournalLayout";
 import TroubleshootLayout from "./TroubleshootLayout";
 import FlowLayout from "./FlowLayout";
+import { Transition } from "semantic-ui-react";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -32,20 +33,52 @@ export default class ConsoleContent extends Component {
     console.log(arg);
     let newLayout = arg.new,
       oldLayout = arg.old;
-    this.setState({
-      activeLayout: newLayout
-    });
+    if (newLayout === "journal") {
+      this.setState({
+        activeLayout: newLayout,
+        journalVisible: true,
+        troubleshootVisible: false,
+        flowVisible: false
+      });
+    } else if (newLayout === "troubleshoot") {
+      this.setState({
+        activeLayout: newLayout,
+        journalVisible: false,
+        troubleshootVisible: true,
+        flowVisible: false
+      });
+    } else if (newLayout === "flow") {
+      this.setState({
+        activeLayout: newLayout,
+        journalVisible: false,
+        troubleshootVisible: false,
+        flowVisible: true
+      });
+    }
   }
 
   /// renders the content of the console view
   render() {
+    const journalLayout = (
+      <div id="wrapper" className="journalLayout">
+        <JournalLayout />
+      </div>
+    );
+    const troubleshootLayout = (
+      <div id="wrapper" className="troubleshootLayout">
+        <TroubleshootLayout />
+      </div>
+    );
+    const flowLayout = (
+      <div id="wrapper" className="flowLayout">
+        <FlowLayout />
+      </div>
+    );
     return (
       <div id="component" className="consoleContent">
-        <div id="wrapper" className="journalLayout">
-          {this.state.activeLayout === "journal" && <JournalLayout />}
-          {this.state.activeLayout === "troubleshoot" && <TroubleshootLayout />}
-          {this.state.activeLayout === "flow" && <FlowLayout />}
-        </div>
+        {this.state.journalVisible && journalLayout}
+        {this.state.troubleshootVisible && troubleshootLayout}
+        {this.state.flowVisible && flowLayout}
       </div>
     );
   }

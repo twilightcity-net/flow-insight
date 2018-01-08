@@ -9,7 +9,7 @@ export default class ConsoleMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      activeItem: "troubleshoot"
+      activeItem: "journal"
     };
     this.events = {
       hideConsole: RendererEventFactory.createEvent(
