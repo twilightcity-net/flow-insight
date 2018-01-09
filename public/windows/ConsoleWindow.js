@@ -160,7 +160,7 @@ module.exports = class ConsoleWindow {
       if (y >= -this.bounds.height / 2) {
         this.animateHide(i, t, y);
       } else {
-        this.window.setPosition(0, -this.bounds.height / 2);
+        this.window.setPosition(0, Math.floor(-this.bounds.height / 2));
         this.window.hide();
         this.state = this.states.HIDDEN;
       }
