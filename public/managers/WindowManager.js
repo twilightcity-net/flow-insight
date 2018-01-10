@@ -67,6 +67,11 @@ module.exports = class WindowManager {
     log.info("[WindowManager] shortcut recieved -> shortcutsRecieved : " + arg);
     if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg.name) {
       let win = this.getWindow(WindowManagerHelper.WindowNames.CONSOLE);
+      if (win.consoleShortcut.pressedState === 1) return;
+      win.consoleShortcut.pressedState = 1;
+      setTimeout(() => {
+        win.consoleShortcut.pressedState = 0;
+      }, win.consoleShortcut.delay);
       this.events.consoleShowHide.dispatch(win.state);
     }
   }
