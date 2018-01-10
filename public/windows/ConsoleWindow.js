@@ -62,7 +62,12 @@ module.exports = class ConsoleWindow {
       HIDDEN: 0,
       SHOWN: 1,
       SHOWING: 2,
-      HIDING: 3
+      HIDING: 3,
+      CANCEL: 4
+    };
+    this.consoleShortcut = {
+      pressedState: 0,
+      delay: 350
     };
   }
 
@@ -88,6 +93,13 @@ module.exports = class ConsoleWindow {
    * the console window.
    */
   onConsoleShowHideCb(event, arg) {
+    if (
+      this.state === this.states.SHOWING ||
+      this.state === this.states.HIDING
+    ) {
+      this.state = this.states.CANCEL;
+      return;
+    }
     if (!this.window.isVisible()) {
       this.showConsole();
     } else {
@@ -123,7 +135,11 @@ module.exports = class ConsoleWindow {
       }
       this.window.setPosition(0, y);
       if (y <= 0) {
-        this.animateShow(i, t, y);
+        if (this.state === this.states.CANCEL) {
+          this.hideConsole();
+        } else {
+          this.animateShow(i, t, y);
+        }
       } else {
         this.window.setPosition(0, 0);
         this.state = this.states.SHOWN;
@@ -158,7 +174,11 @@ module.exports = class ConsoleWindow {
       }
       this.window.setPosition(0, y);
       if (y >= -this.bounds.height / 2) {
-        this.animateHide(i, t, y);
+        if (this.state === this.states.CANCEL) {
+          this.showConsole();
+        } else {
+          this.animateHide(i, t, y);
+        }
       } else {
         this.window.setPosition(0, Math.floor(-this.bounds.height / 2));
         this.window.hide();
