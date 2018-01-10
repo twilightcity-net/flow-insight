@@ -11,13 +11,16 @@ import { Transition } from "semantic-ui-react";
 export default class ConsoleContent extends Component {
   constructor(props) {
     super(props);
+    this.isAnimating = false;
+    this.animationTime = this.props.animationTime / 2;
     this.state = {
       activeLayout: "journal",
       journalVisible: true,
       troubleshootVisible: false,
       flowVisible: false,
-      animationType: "fly left",
-      animationDelay: 1000
+      animationTypeJournal: "fly right",
+      animationTypeTroubleshoot: "fly left",
+      animationTypeFlow: "fly left",
     };
     this.events = {
       consoleMenuChange: RendererEventFactory.createEvent(
@@ -31,30 +34,66 @@ export default class ConsoleContent extends Component {
   // dispatched when the console menu changes from user clicks
   onConsoleMenuChangeCb(event, arg) {
     console.log(arg);
+    if(this.isAnimating) return;
+    this.isAnimating = true;
     let newLayout = arg.new,
-      oldLayout = arg.old;
-    if (newLayout === "journal") {
-      this.setState({
-        activeLayout: newLayout,
-        journalVisible: true,
-        troubleshootVisible: false,
-        flowVisible: false
-      });
-    } else if (newLayout === "troubleshoot") {
-      this.setState({
-        activeLayout: newLayout,
-        journalVisible: false,
-        troubleshootVisible: true,
-        flowVisible: false
-      });
-    } else if (newLayout === "flow") {
-      this.setState({
-        activeLayout: newLayout,
-        journalVisible: false,
-        troubleshootVisible: false,
-        flowVisible: true
-      });
+      oldLayout = arg.old,
+      state = this.getAnimationState(oldLayout, newLayout);
+    this.setState(state);
+    switch(newLayout) {
+      case "journal":
+        this.animateContentFromState({ journalVisible: true });
+        break;
+      case "troubleshoot":
+        this.animateContentFromState({ troubleshootVisible: true })
+        break;
+      case "flow":
+        this.animateContentFromState({ flowVisible: true })
+        break;
+      default: break;
     }
+  }
+
+  getAnimationState(oldLayout, newLayout) {
+    let state = {
+      activeLayout: newLayout,
+      journalVisible: false,
+      troubleshootVisible: false,
+      flowVisible: false,
+    };
+    if(oldLayout === "flow") {
+      state.animationTypeJournal = "fly right";
+      state.animationTypeTroubleshoot = "fly right";
+      state.animationTypeFlow = "fly left";
+    } else if(oldLayout === "flow" && newLayout === "journal") {
+      state.animationTypeJournal = "fly right";
+      state.animationTypeTroubleshoot = "fly right";
+      state.animationTypeFlow = "fly left";
+    } else if(oldLayout === "troubleshoot" && newLayout === "journal") {
+      state.animationTypeJournal = "fly right";
+      state.animationTypeTroubleshoot = "fly left";
+      state.animationTypeFlow = "fly right";
+    } else if(oldLayout === "troubleshoot" && newLayout === "flow") {
+      state.animationTypeJournal = "fly left";
+      state.animationTypeTroubleshoot = "fly right";
+      state.animationTypeFlow = "fly left";
+    } else if(oldLayout === "journal" && newLayout === "flow") {
+      state.animationTypeJournal = "fly right";
+      state.animationTypeTroubleshoot = "fly right";
+      state.animationTypeFlow = "fly left";
+    } else if(oldLayout === "journal" && newLayout === "troubleshoot") {
+      state.animationTypeJournal = "fly right";
+      state.animationTypeTroubleshoot = "fly left";
+      state.animationTypeFlow = "fly right";
+    }
+    return state;
+  }
+
+  animateContentFromState(state) {
+    setTimeout(() => {
+      this.setState(state);
+      this.isAnimating = false;
+    }, this.animationTime);
   }
 
   /// renders the content of the console view
@@ -76,9 +115,30 @@ export default class ConsoleContent extends Component {
     );
     return (
       <div id="component" className="consoleContent">
-        {this.state.journalVisible && journalLayout}
-        {this.state.troubleshootVisible && troubleshootLayout}
-        {this.state.flowVisible && flowLayout}
+        <Transition 
+          visible={this.state.journalVisible} 
+          animation={this.state.animationTypeJournal}
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {journalLayout}
+        </Transition>
+        <Transition 
+          visible={this.state.troubleshootVisible} 
+          animation={this.state.animationTypeTroubleshoot}
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {troubleshootLayout}
+        </Transition>
+        <Transition 
+          visible={this.state.flowVisible} 
+          animation={this.state.animationTypeFlow}
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {flowLayout}
+        </Transition>
       </div>
     );
   }

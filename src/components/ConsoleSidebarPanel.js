@@ -19,7 +19,7 @@ export default class ConsoleSidebarPanel extends Component {
         spiritVisible: true,
         badgesVisible: false,
         animationType: "fly down",
-        animationDelay: 500
+        animationDelay: 350
       };
     }
     return state;

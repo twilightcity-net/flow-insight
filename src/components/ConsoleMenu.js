@@ -8,6 +8,8 @@ import { Icon, Menu, Popup } from "semantic-ui-react";
 export default class ConsoleMenu extends Component {
   constructor(props) {
     super(props);
+    this.isChanging = false;
+    this.animationTime = this.props.animationTime + 50;
     this.state = {
       activeItem: "journal"
     };
@@ -24,11 +26,16 @@ export default class ConsoleMenu extends Component {
   }
 
   handleMenuClick = (e, { name }) => {
+    if(this.isChanging || this.state.activeItem === name) return;
+    this.isChanging = true;
     this.events.consoleMenuChange.dispatch({
       old: this.state.activeItem,
       new: name
     });
     this.setState({ activeItem: name });
+    setTimeout(() => {
+      this.isChanging = false;
+    }, this.animationTime);
   };
 
   handleHideClick = (e, { name }) => {
@@ -55,10 +62,10 @@ export default class ConsoleMenu extends Component {
     const popupContent = (
       <div>
         <div>
-          <i>torchie.dreamscale.io</i>
+          <i>node.torchie.dreamscale.io</i>
         </div>
         <div>
-          ping:{" "}
+          <i>ping:</i>
           <b>
             <i>135ms</i>
           </b>

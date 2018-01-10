@@ -14,8 +14,9 @@ export default class ConsoleLayout extends Component {
     this.state = {
       sidebarPanelVisible: false,
       sidebarPanelWidth: 0,
-      sidebarPanelOpacity: 0
+      sidebarPanelOpacity: 0,
     };
+    this.animationTime = 700;
     this.events = {
       sidebarPanel: RendererEventFactory.createEvent(
         RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
@@ -44,7 +45,7 @@ export default class ConsoleLayout extends Component {
       });
       setTimeout(() => {
         this.setState({ sidebarPanelVisible: false });
-      }, 1000);
+      }, 420);
     }
   }
 
@@ -81,11 +82,11 @@ export default class ConsoleLayout extends Component {
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
-          <ConsoleContent />
+          <ConsoleContent animationTime={this.animationTime}/>
         </div>
 
         <div id="wrapper" className="consoleMenu">
-          <ConsoleMenu />
+          <ConsoleMenu animationTime={this.animationTime}/>
         </div>
       </div>
     );
