@@ -14,7 +14,7 @@ export default class ConsoleLayout extends Component {
     this.state = {
       sidebarPanelVisible: false,
       sidebarPanelWidth: 0,
-      sidebarPanelOpacity: 0,
+      sidebarPanelOpacity: 0
     };
     this.animationTime = 700;
     this.events = {
@@ -82,11 +82,11 @@ export default class ConsoleLayout extends Component {
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
-          <ConsoleContent animationTime={this.animationTime}/>
+          <ConsoleContent animationTime={this.animationTime} />
         </div>
 
         <div id="wrapper" className="consoleMenu">
-          <ConsoleMenu animationTime={this.animationTime}/>
+          <ConsoleMenu animationTime={this.animationTime} />
         </div>
       </div>
     );

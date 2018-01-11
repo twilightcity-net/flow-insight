@@ -12,15 +12,15 @@ export default class ConsoleContent extends Component {
   constructor(props) {
     super(props);
     this.isAnimating = false;
-    this.animationTime = this.props.animationTime / 2;
+    this.animationTime = Math.floor(this.props.animationTime / 2);
     this.state = {
-      activeLayout: "journal",
-      journalVisible: true,
-      troubleshootVisible: false,
+      activeLayout: "troubleshoot",
+      journalVisible: false,
+      troubleshootVisible: true,
       flowVisible: false,
       animationTypeJournal: "fly right",
       animationTypeTroubleshoot: "fly left",
-      animationTypeFlow: "fly left",
+      animationTypeFlow: "fly left"
     };
     this.events = {
       consoleMenuChange: RendererEventFactory.createEvent(
@@ -33,24 +33,24 @@ export default class ConsoleContent extends Component {
 
   // dispatched when the console menu changes from user clicks
   onConsoleMenuChangeCb(event, arg) {
-    console.log(arg);
-    if(this.isAnimating) return;
+    if (this.isAnimating) return;
     this.isAnimating = true;
     let newLayout = arg.new,
       oldLayout = arg.old,
       state = this.getAnimationState(oldLayout, newLayout);
     this.setState(state);
-    switch(newLayout) {
+    switch (newLayout) {
       case "journal":
         this.animateContentFromState({ journalVisible: true });
         break;
       case "troubleshoot":
-        this.animateContentFromState({ troubleshootVisible: true })
+        this.animateContentFromState({ troubleshootVisible: true });
         break;
       case "flow":
-        this.animateContentFromState({ flowVisible: true })
+        this.animateContentFromState({ flowVisible: true });
         break;
-      default: break;
+      default:
+        break;
     }
   }
 
@@ -59,29 +59,29 @@ export default class ConsoleContent extends Component {
       activeLayout: newLayout,
       journalVisible: false,
       troubleshootVisible: false,
-      flowVisible: false,
+      flowVisible: false
     };
-    if(oldLayout === "flow") {
+    if (oldLayout === "flow") {
       state.animationTypeJournal = "fly right";
       state.animationTypeTroubleshoot = "fly right";
       state.animationTypeFlow = "fly left";
-    } else if(oldLayout === "flow" && newLayout === "journal") {
+    } else if (oldLayout === "flow" && newLayout === "journal") {
       state.animationTypeJournal = "fly right";
       state.animationTypeTroubleshoot = "fly right";
       state.animationTypeFlow = "fly left";
-    } else if(oldLayout === "troubleshoot" && newLayout === "journal") {
+    } else if (oldLayout === "troubleshoot" && newLayout === "journal") {
       state.animationTypeJournal = "fly right";
       state.animationTypeTroubleshoot = "fly left";
       state.animationTypeFlow = "fly right";
-    } else if(oldLayout === "troubleshoot" && newLayout === "flow") {
+    } else if (oldLayout === "troubleshoot" && newLayout === "flow") {
       state.animationTypeJournal = "fly left";
       state.animationTypeTroubleshoot = "fly right";
       state.animationTypeFlow = "fly left";
-    } else if(oldLayout === "journal" && newLayout === "flow") {
+    } else if (oldLayout === "journal" && newLayout === "flow") {
       state.animationTypeJournal = "fly right";
       state.animationTypeTroubleshoot = "fly right";
       state.animationTypeFlow = "fly left";
-    } else if(oldLayout === "journal" && newLayout === "troubleshoot") {
+    } else if (oldLayout === "journal" && newLayout === "troubleshoot") {
       state.animationTypeJournal = "fly right";
       state.animationTypeTroubleshoot = "fly left";
       state.animationTypeFlow = "fly right";
@@ -115,24 +115,24 @@ export default class ConsoleContent extends Component {
     );
     return (
       <div id="component" className="consoleContent">
-        <Transition 
-          visible={this.state.journalVisible} 
+        <Transition
+          visible={this.state.journalVisible}
           animation={this.state.animationTypeJournal}
           duration={this.animationTime}
           unmountOnHide
         >
           {journalLayout}
         </Transition>
-        <Transition 
-          visible={this.state.troubleshootVisible} 
+        <Transition
+          visible={this.state.troubleshootVisible}
           animation={this.state.animationTypeTroubleshoot}
           duration={this.animationTime}
           unmountOnHide
         >
           {troubleshootLayout}
         </Transition>
-        <Transition 
-          visible={this.state.flowVisible} 
+        <Transition
+          visible={this.state.flowVisible}
           animation={this.state.animationTypeFlow}
           duration={this.animationTime}
           unmountOnHide

@@ -21,16 +21,18 @@ const helpSubmenu = [
 ];
 
 class AppMenuException extends Error {
-  constructor(msg = `Could not build the app menu for this platform (${process.platform})`, ...params) {
+  constructor(
+    msg = `Could not build the app menu for this platform (${process.platform})`,
+    ...params
+  ) {
     super(msg, ...params);
     this.msg = msg;
     log.error(`[AppMenu] ${msg}`);
-    this.platform = process.platform;  // In case the catcher needs it
+    this.platform = process.platform; // In case the catcher needs it
   }
 }
 
 module.exports = class AppMenu extends Menu {
-
   constructor() {
     super();
     log.info("[AppMenu] create menu from template");
@@ -39,9 +41,9 @@ module.exports = class AppMenu extends Menu {
 
   getTemplate() {
     switch (process.platform) {
-      case 'darwin':
+      case "darwin":
         return this.getTemplateForMacOS();
-      case 'win32':
+      case "win32":
         return this.getTemplateForWindows();
     }
     // TODO: determine if there are any other platforms we ought to support; e.g. linux.  In the meantime, throw
@@ -51,32 +53,28 @@ module.exports = class AppMenu extends Menu {
   getTemplateForWindows() {
     return [
       {
-        label: 'Edit',
+        label: "Edit",
         submenu: [
-          {role: 'undo'},
-          {role: 'redo'},
-          {type: 'separator'},
-          {role: 'cut'},
-          {role: 'copy'},
-          {role: 'paste'},
-          {role: 'pasteandmatchstyle'},
-          {role: 'delete'},
-          {role: 'selectall'}
+          { role: "undo" },
+          { role: "redo" },
+          { type: "separator" },
+          { role: "cut" },
+          { role: "copy" },
+          { role: "paste" },
+          { role: "pasteandmatchstyle" },
+          { role: "delete" },
+          { role: "selectall" }
         ]
       },
       {
-        role: 'window',
-        submenu: [
-          {role: 'minimize'},
-          {role: 'close'}
-        ]
+        role: "window",
+        submenu: [{ role: "minimize" }, { role: "close" }]
       },
       {
-        role: 'help',
+        role: "help",
         submenu: helpSubmenu
       }
-    ]
-
+    ];
   }
 
   getTemplateForMacOS() {

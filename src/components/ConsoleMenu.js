@@ -11,7 +11,7 @@ export default class ConsoleMenu extends Component {
     this.isChanging = false;
     this.animationTime = this.props.animationTime + 50;
     this.state = {
-      activeItem: "journal"
+      activeItem: "troubleshoot"
     };
     this.events = {
       hideConsole: RendererEventFactory.createEvent(
@@ -26,7 +26,7 @@ export default class ConsoleMenu extends Component {
   }
 
   handleMenuClick = (e, { name }) => {
-    if(this.isChanging || this.state.activeItem === name) return;
+    if (this.isChanging || this.state.activeItem === name) return;
     this.isChanging = true;
     this.events.consoleMenuChange.dispatch({
       old: this.state.activeItem,

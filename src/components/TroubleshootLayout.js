@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import TimeScrubber from "./TimeScrubber";
+import TroubleshootPanelDefault from "./TroubleshootPanelDefault";
 import TroubleshootItems from "./TroubleshootItems";
 import TroubleshootEntry from "./TroubleshootEntry";
 
@@ -13,7 +14,7 @@ export default class TroubleshootLayout extends Component {
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
-  calculateJournalItemsHeight() {
+  calculateTroubleshootItemsHeight() {
     let heights = {
       rootBorder: 2,
       consoleMenu: 28,
@@ -38,17 +39,28 @@ export default class TroubleshootLayout extends Component {
 
   /// renders the journal layout of the console view
   render() {
+    const troubleshootPanelSegmentItems = (
+      <div id="wrapper" className="troubleshootItems">
+        <TroubleshootItems height={this.calculateTroubleshootItemsHeight()} />
+      </div>
+    );
+    const troubleshootPanelSegmentEntry = (
+      <div id="wrapper" className="journalEntry">
+        <TroubleshootEntry />
+      </div>
+    );
     return (
-      <div id="component" className="journalLayout">
+      <div id="component" className="troubleshootLayout">
         <div id="wrapper" className="timeScrubber">
           <TimeScrubber />
         </div>
-        <div id="wrapper" className="troubleshootItems">
-          <TroubleshootItems height={this.calculateJournalItemsHeight()} />
+        <div id="wrapper" className="troubleshootPanelDefault">
+          <TroubleshootPanelDefault
+            height={this.calculateTroubleshootItemsHeight()}
+          />
         </div>
-        <div id="wrapper" className="journalEntry">
-          <TroubleshootEntry />
-        </div>
+        {false && troubleshootPanelSegmentItems}
+        {false && troubleshootPanelSegmentEntry}
       </div>
     );
   }

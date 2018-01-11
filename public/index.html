@@ -186,16 +186,72 @@
       }
 
       /* 
+       * COMPONENT: TROUBLESHOOT-LAYOUT 
+       */
+      #component.troubleshootLayout #wrapper.troubleshootItems {
+        margin: 0px;
+        padding: 4px 1px;
+      }
+
+      #component.troubleshootLayout #wrapper.troubleshootPanelDefault {
+        margin: 0px;
+        padding: 21px 9px 0 9px;
+      }
+
+
+
+      /* 
+       * COMPONENT: TROUBLESHOOT-PANEL-DEFAULT 
+       */
+      #component.troubleshootPanelDefault .ui.grid .column.rootLayout {
+        padding-top: 0;
+      }
+      #component.troubleshootPanelDefault .ui.menu.typeSelect {
+        border: 1px solid rgba(85, 85, 85, 0.96);
+      }
+      #component.troubleshootPanelDefault .ui.menu.typeSelect .item {
+        transition: background 1s ease-out;
+      }
+      #component.troubleshootPanelDefault .ui.menu.typeSelect .item.active .text{
+        font-weight: 900;
+        font-style: italic;
+        letter-spacing: 2px;
+      }
+
+      #component.troubleshootPanelDefault textarea {
+        width: 100%;
+        border-radius: 4px;
+        background: transparent;
+        color: rgba(232, 232, 232, 0.96);
+        resize: none;
+        line-height: 20px;
+        font-size: 16px;
+        padding: 8px 8px;
+        border-color: #555555;
+        transition: outline-color 1s ease-out;
+      }
+      #component.troubleshootPanelDefault textarea::placeholder {
+        font-style: italic;
+        color: rgba(74, 74, 74, 0.96)
+      }
+      #component.troubleshootPanelDefault textarea.wtf:focus{
+        outline-color: red;
+      }
+      #component.troubleshootPanelDefault textarea.yay:focus{
+        outline-color: #6435c9;
+      }
+      #component.troubleshootPanelDefault .ui.button {
+        transition: background-color 1s ease-out;
+      }
+
+
+      /* 
        * COMPONENT: JOURNAL-LAYOUT 
        */
       #component.journalLayout .ui.segments {
         margin: 0px;
       }
       #component.journalLayout #wrapper.journalItems {
-        margin: 0px;
-        padding: 4px 1px;
-      }
-      #component.journalLayout #wrapper.troubleshootItems {
         margin: 0px;
         padding: 4px 1px;
       }
