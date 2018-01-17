@@ -3,6 +3,7 @@ import { RendererEventFactory } from "../RendererEventFactory";
 import {
   Button,
   Divider,
+  Header,
   Icon,
   Image,
   Grid,
@@ -17,32 +18,14 @@ import {
 export default class TroubleshootPanelDefault extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      activeItem: "wtf"
-    };
   }
 
   onClickScreenshot() {
     console.log("screenshot clicked on");
   }
 
-  handleMenuClick = (e, { name }) => {
-    this.setState({ activeItem: name });
-    let textArea = document.getElementById(
-      "layout-troubleshoot-default-wtf-textarea"
-    );
-    if (name === "yay") {
-      textArea.classList.remove("wtf");
-      textArea.classList.add("yay");
-    } else {
-      textArea.classList.remove("yay");
-      textArea.classList.add("wtf");
-    }
-  };
-
   /// renders the default troubleshoot component in the console view
   render() {
-    const { activeItem } = this.state;
     return (
       <div id="component" className="troubleshootPanelDefault">
         <Divider hidden fitted clearing />
@@ -52,55 +35,28 @@ export default class TroubleshootPanelDefault extends Component {
               <Grid textAlign="center">
                 <Grid.Row verticalAlign="middle">
                   <Grid.Column width={4}>
-                    <Icon
-                      name={activeItem === "wtf" ? "lightning" : "lab"}
-                      size="massive"
-                      inverted
+                    <Image
+                      centered
+                      src="./assets/images/flame_red_animated.gif"
                     />
                   </Grid.Column>
                   <Grid.Column width={12}>
-                    <Menu
-                      widths={2}
-                      attached="top"
-                      className="typeSelect"
-                      inverted
-                    >
-                      <Menu.Item
-                        name="wtf"
-                        active={activeItem === "wtf"}
-                        onClick={this.handleMenuClick}
-                      >
-                        <Icon name="bug" size="large" inverted />{" "}
-                        <span className="text">WTF! </span>
-                      </Menu.Item>
-                      <Menu.Item
-                        name="yay"
-                        active={activeItem === "yay"}
-                        onClick={this.handleMenuClick}
-                      >
-                        <Icon name="hand spock" size="large" inverted />{" "}
-                        <span className="text">YAY! </span>
-                      </Menu.Item>
-                    </Menu>
+                    <Header as="h1" attached="top" inverted>
+                      W T F!
+                    </Header>
                     <Segment attached basic inverted>
-                      <TextArea
-                        className="wtf"
-                        id="layout-troubleshoot-default-wtf-textarea"
-                        rows={4}
-                        placeholder="Rant about what is your current problem your having..."
-                      />
+                      Let's solve a problem! Click the button below will begin
+                      the troubleshooting session. On the next screen describe
+                      the problem your having, and the timer will be shown.
                     </Segment>
-
                     <Button
                       size="big"
-                      color={activeItem === "wtf" ? "red" : "violet"}
+                      color="red"
                       animated="fade"
                       attached="bottom"
                     >
                       <Button.Content visible>
-                        {activeItem === "wtf"
-                          ? "Start Troubleshooting..."
-                          : "Make Discovery"}
+                        Start Troubleshooting...
                       </Button.Content>
                       <Button.Content hidden>
                         click here to continue
@@ -115,9 +71,10 @@ export default class TroubleshootPanelDefault extends Component {
             <Segment inverted>
               <Image
                 fluid
+                className="screenshot"
                 label={{
                   as: "a",
-                  color: activeItem === "wtf" ? "red" : "violet",
+                  color: "red",
                   corner: "right",
                   icon: "external"
                 }}

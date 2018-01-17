@@ -198,51 +198,81 @@
         padding: 21px 9px 0 9px;
       }
 
-
-
       /* 
        * COMPONENT: TROUBLESHOOT-PANEL-DEFAULT 
        */
       #component.troubleshootPanelDefault .ui.grid .column.rootLayout {
         padding-top: 0;
       }
-      #component.troubleshootPanelDefault .ui.menu.typeSelect {
-        border: 1px solid rgba(85, 85, 85, 0.96);
-      }
-      #component.troubleshootPanelDefault .ui.menu.typeSelect .item {
-        transition: background 1s ease-out;
-      }
-      #component.troubleshootPanelDefault .ui.menu.typeSelect .item.active .text{
-        font-weight: 900;
-        font-style: italic;
-        letter-spacing: 2px;
-      }
-
-      #component.troubleshootPanelDefault textarea {
-        width: 100%;
-        border-radius: 4px;
-        background: transparent;
-        color: rgba(232, 232, 232, 0.96);
-        resize: none;
-        line-height: 20px;
-        font-size: 16px;
-        padding: 8px 8px;
-        border-color: #555555;
-        transition: outline-color 1s ease-out;
-      }
-      #component.troubleshootPanelDefault textarea::placeholder {
-        font-style: italic;
-        color: rgba(74, 74, 74, 0.96)
-      }
-      #component.troubleshootPanelDefault textarea.wtf:focus{
-        outline-color: red;
-      }
-      #component.troubleshootPanelDefault textarea.yay:focus{
-        outline-color: #6435c9;
-      }
       #component.troubleshootPanelDefault .ui.button {
+        cursor: pointer !important;
         transition: background-color 1s ease-out;
       }
+      #component.troubleshootPanelDefault .ui.image.screenshot,
+      #component.troubleshootPanelDefault .ui.image.screenshot .ui.corner,
+      #component.troubleshootPanelDefault .ui.image.screenshot .ui.corner .icon
+      {
+        cursor: pointer !important;
+      }
+
+
+
+
+
+      #component.troubleshootPanelDefault .ui.dropdown .default.text {
+        font-style: italic;
+        color: rgba(60, 60, 60, 0.96);
+      }
+      #component.troubleshootPanelDefault .ui.dropdown {
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+        border: 1px solid rgba(74, 74, 74, 0.96);
+      }
+      #component.troubleshootPanelDefault .ui.dropdown input {
+        color: rgba(222, 222, 222, 0.96);
+      }
+
+      #component.troubleshootPanelDefault .ui.dropdown div.text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+      }
+      #component.troubleshootPanelDefault .ui.dropdown .menu {
+        max-height: 147px;
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        border-color: rgba(72, 72, 72, 0.96);
+      }
+      #component.troubleshootPanelDefault .focused .ui.dropdown {
+        /*border: 1px solid rgba(100, 53, 201, 0.96);*/
+        border: 1px solid red;
+      }
+      #component.troubleshootPanelDefault .focused .ui.dropdown .menu {
+        /*border: 1px solid rgba(100, 53, 201, 0.96);*/
+        border: 1px solid red;
+      }
+      #component.troubleshootPanelDefault .ui.selection.dropdown .menu>.item {
+        transition: background, color 0.420s ease-out;
+        border-top: 1px solid rgba(72, 72, 72, 0.96);
+        color: rgba(74, 74, 74, 0.96);
+      }
+      #component.troubleshootPanelDefault .ui.selection.dropdown .menu>.item:last-child {
+        border-bottom: 1px solid rgba(72, 72, 72, 0.96);
+      }
+      #component.troubleshootPanelDefault .ui.selection.dropdown .menu>.item:hover {
+        background: #2b2b2b;
+        font-weight: 800;
+        color: rgba(200, 200, 200, 0.96);
+      }
+      #component.troubleshootPanelDefault .ui.selection.dropdown .menu>.selected.item {
+        /*background:rgba(100, 53, 201, 0.96);*/
+        background: red;
+        color: rgba(255, 255, 255, 0.96);
+      }
+
+
 
 
       /* 
@@ -369,6 +399,13 @@
       #component.journalEntry .ui.grid .column:nth-child(3) {
         padding: 0px 14px 0px 4px;
       }
+
+
+
+
+
+
+
       #component.journalEntry .ui.dropdown .default.text {
         font-style: italic;
         color: rgba(60, 60, 60, 0.96);
