@@ -3,6 +3,7 @@ const { app } = require("electron"),
   log = require("electron-log"),
   isDev = require("electron-is-dev"),
   fs = require("fs"),
+  crypto = require("crypto-js"),
   Util = require("../Util");
 
 //
@@ -16,6 +17,7 @@ module.exports = class AppSettings {
       settings.setPath(devPath);
     }
     this.path = settings.file();
+    this.keyToken = "70rCh13 L0v3";
     log.info("[AppSettings] load settings -> " + this.path);
   }
 
@@ -30,11 +32,14 @@ module.exports = class AppSettings {
   }
 
   setApiKey(value) {
-    settings.set(AppSettings.Keys.APP_API_KEY, value);
+    let cipher = crypto.AES.encrypt(value, this.keyToken).toString();
+    settings.set(AppSettings.Keys.APP_API_KEY, cipher);
   }
 
   getApiKey() {
-    return settings.get(AppSettings.Keys.APP_API_KEY);
+    let key = settings.get(AppSettings.Keys.APP_API_KEY),
+      bytes = crypto.AES.decrypt(key, this.keyToken);
+    return bytes.toString(crypto.enc.Utf8);
   }
 
   /// enum map of possible settings key pairs

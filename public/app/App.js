@@ -151,8 +151,12 @@ module.exports = class App {
   /// called to start loading the application from AppLoader class
   load() {
     log.info("[App] checking for settings...");
-    global.App.AppSettings.setApiKey("123e4567-e89b-12d3-a456-426655440000");
+    // global.App.AppSettings.setApiKey("123e4567-e89b-12d3-a456-426655440000");
     if (global.App.AppSettings.check()) {
+      // TODO implement activation REST-API call
+
+      global.App.ApiKey = global.App.AppSettings.getApiKey();
+
       global.App.AppLoader.load();
     } else {
       console.log("not activated");
