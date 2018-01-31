@@ -12,6 +12,7 @@ const { app, dialog } = require("electron"),
   SlackManager = require("../managers/SlackManager"),
   AppUpdater = require("./AppUpdater"),
   AppSettings = require("./AppSettings"),
+  AppActivator = require("./AppActivator"),
   AppLoader = require("./AppLoader");
 
 //
@@ -23,6 +24,7 @@ module.exports = class App {
     this.Logger = Logger.create();
     this.events = {
       ready: this.onReady,
+      appActivated: this.onAppActivated,
       singleInstance: this.onSingleInstance,
       windowAllClosed: this.onWindowAllClosed,
       quit: this.onQuit,
@@ -49,6 +51,7 @@ module.exports = class App {
       global.App.SlackManager = new SlackManager();
       global.App.AppUpdater = new AppUpdater();
       global.App.AppSettings = new AppSettings();
+      global.App.AppActivator = new AppActivator();
       global.App.AppLoader = new AppLoader();
       global.App.load();
     } catch (error) {
@@ -151,18 +154,18 @@ module.exports = class App {
   /// called to start loading the application from AppLoader class
   load() {
     log.info("[App] checking for settings...");
-    // global.App.AppSettings.setApiKey("123e4567-e89b-12d3-a456-426655440000");
+    global.App.AppSettings.setApiKey("123e4567-e89b-12d3-a456-426655440000");
     if (global.App.AppSettings.check()) {
-      // TODO implement activation REST-API call
-
-      global.App.ApiKey = global.App.AppSettings.getApiKey();
-
-      global.App.AppLoader.load();
+      global.App.AppActivator.checkActivation();
     } else {
-      console.log("not activated");
-
-      // TODO show activation window
+      global.App.AppActivator.start();
     }
+  }
+
+  onAppActivated() {
+    console.log("App.onAppActivated()");
+    global.App.ApiKey = global.App.AppSettings.getApiKey();
+    global.App.AppLoader.load();
   }
 
   /*

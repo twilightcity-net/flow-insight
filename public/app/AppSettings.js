@@ -40,9 +40,12 @@ module.exports = class AppSettings {
 
   /// decrypts and returns the stored api key in settings
   getApiKey() {
-    let key = settings.get(AppSettings.Keys.APP_API_KEY),
-      bytes = crypto.AES.decrypt(key, this.keyToken);
-    return bytes.toString(crypto.enc.Utf8);
+    let key = settings.get(AppSettings.Keys.APP_API_KEY);
+    if (key) {
+      let bytes = crypto.AES.decrypt(key, this.keyToken);
+      return bytes.toString(crypto.enc.Utf8);
+    }
+    return "";
   }
 
   /// enum map of possible settings key pairs

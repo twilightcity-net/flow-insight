@@ -203,6 +203,8 @@ module.exports = class WindowManager {
     switch (name) {
       case WindowManagerHelper.WindowNames.LOADING:
         return new LoadingWindow();
+      case WindowManagerHelper.WindowNames.ACTIVATOR:
+        return new ActivatorWindow();
       case WindowManagerHelper.WindowNames.CONSOLE:
         return new ConsoleWindow();
       case WindowManagerHelper.WindowNames.BUGREPORT:

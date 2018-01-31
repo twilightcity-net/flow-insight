@@ -10,6 +10,7 @@ module.exports = class ViewManagerHelper {
   static get ViewNames() {
     return {
       LOADING: "loading",
+      ACTIVATOR: "activator",
       CONSOLE: "console",
       BUGREPORT: "bugreport"
     };

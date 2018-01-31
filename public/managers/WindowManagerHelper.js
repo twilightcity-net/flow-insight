@@ -11,6 +11,7 @@ module.exports = class WindowManagerHelper {
   static get WindowNames() {
     return {
       LOADING: "metaos-" + ViewManagerHelper.ViewNames.LOADING,
+      ACTIVATOR: "metaos-" + ViewManagerHelper.ViewNames.ACTIVATOR,
       CONSOLE: "metaos-" + ViewManagerHelper.ViewNames.CONSOLE,
       BUGREPORT: "metaos-" + ViewManagerHelper.ViewNames.BUGREPORT
     };
@@ -22,6 +23,11 @@ module.exports = class WindowManagerHelper {
    */
   static createWindowLoading() {
     let name = WindowManagerHelper.WindowNames.LOADING;
+    return global.App.WindowManager.createWindow(name);
+  }
+
+  static createWindowActivator() {
+    let name = WindowManagerHelper.WindowNames.ACTIVATOR;
     return global.App.WindowManager.createWindow(name);
   }
 
