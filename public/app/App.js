@@ -14,9 +14,9 @@ const { app, dialog } = require("electron"),
   AppSettings = require("./AppSettings"),
   AppLoader = require("./AppLoader");
 
-/*
- * our main application class that is stored at global.App
- */
+//
+// our main application class that is stored at global.App
+//
 module.exports = class App {
   constructor() {
     if (isDev) Util.setDevUserDataDir();
@@ -37,9 +37,7 @@ module.exports = class App {
     }
   }
 
-  /*
-	 * called by the app ready event -> called first after electron app loaded
-	 */
+  /// called by the app ready event -> called first after electron app loaded
   onReady() {
     global.App.name = Util.getAppName();
     app.setName(global.App.name);
@@ -153,9 +151,14 @@ module.exports = class App {
   /// called to start loading the application from AppLoader class
   load() {
     log.info("[App] checking for settings...");
-    global.App.AppSettings.check();
-    log.info("[App] loading...");
-    global.App.AppLoader.load();
+    global.App.AppSettings.setApiKey("123e4567-e89b-12d3-a456-426655440000");
+    if (global.App.AppSettings.check()) {
+      global.App.AppLoader.load();
+    } else {
+      console.log("not activated");
+
+      // TODO show activation window
+    }
   }
 
   /*

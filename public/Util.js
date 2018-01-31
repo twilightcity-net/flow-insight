@@ -79,6 +79,11 @@ module.exports = class Util {
     app.setPath("userData", filePath);
   }
 
+  /// gets the user data directory for dev mode
+  static getDevSettingsPath() {
+    return path.join(app.getPath("userData"), "Settings");
+  }
+
   /*
    * sets the applications tray into memory
    */
