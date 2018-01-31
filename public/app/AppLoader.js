@@ -20,9 +20,6 @@ const log = require("electron-log"),
 module.exports = class AppLoader {
   constructor() {
     log.info("[AppLoader] created -> okay");
-    Util.setAppTray(new AppTray());
-    this.loadingWindow = WindowManagerHelper.createWindowLoading();
-    this.createMenu();
     this.eventTimerMs = 250;
     this.currentStage = 1;
     this.stages = this.getStages();
@@ -48,6 +45,14 @@ module.exports = class AppLoader {
         (event, arg) => this.onLoadCb(event, arg)
       )
     };
+  }
+
+  /// starts the app loader
+  load() {
+    log.info("[AppLoader] start loading...");
+    Util.setAppTray(new AppTray());
+    this.loadingWindow = WindowManagerHelper.createWindowLoading();
+    this.createMenu();
   }
 
   /*

@@ -52,6 +52,7 @@ module.exports = class App {
       global.App.AppUpdater = new AppUpdater();
       global.App.AppSettings = new AppSettings();
       global.App.AppLoader = new AppLoader();
+      global.App.load();
     } catch (error) {
       global.App.handleError(error, true);
     }
@@ -147,6 +148,12 @@ module.exports = class App {
     app.on("window-all-closed", this.events.windowAllClosed);
     app.on("quit", this.events.quit);
     app.on("gpu-process-crashed", this.events.crashed);
+  }
+
+  /// called to start loading the application from AppLoader class
+  load() {
+    log.info("[App] loading...");
+    global.App.AppLoader.load();
   }
 
   /*
