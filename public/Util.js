@@ -72,6 +72,13 @@ module.exports = class Util {
     return path.join(Util.getAssetsDir(), asset);
   }
 
+  /// sets the user data directory for dev mode
+  static setDevUserDataDir() {
+    let filePath = path.join(app.getAppPath(), "data");
+    console.log("*** DEVELOPMENT MODE [" + filePath + "] ***");
+    app.setPath("userData", filePath);
+  }
+
   /*
    * sets the applications tray into memory
    */

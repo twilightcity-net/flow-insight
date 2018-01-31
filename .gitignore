@@ -12,6 +12,7 @@
 
 # production
 /build
+/data
 /dist
 metaos-desktop-v*.tgz
 

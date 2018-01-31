@@ -1,5 +1,6 @@
 const { app, dialog } = require("electron"),
   log = require("electron-log"),
+  isDev = require("electron-is-dev"),
   platform = require("electron-platform"),
   cleanStack = require("clean-stack"),
   Logger = require("./AppLogger"),
@@ -18,6 +19,7 @@ const { app, dialog } = require("electron"),
  */
 module.exports = class App {
   constructor() {
+    if (isDev) Util.setDevUserDataDir();
     this.Logger = Logger.create();
     this.events = {
       ready: this.onReady,
