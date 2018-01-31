@@ -21,6 +21,7 @@ module.exports = class AppSettings {
     log.info("[AppSettings] load settings -> " + this.path);
   }
 
+  /// verifies that the settings file exists
   check() {
     log.info("[AppSettings] check path -> " + this.path);
     if (fs.existsSync(this.path)) {
@@ -31,11 +32,13 @@ module.exports = class AppSettings {
     return false;
   }
 
+  /// sets and encrypts the api key that is set by the activator
   setApiKey(value) {
     let cipher = crypto.AES.encrypt(value, this.keyToken).toString();
     settings.set(AppSettings.Keys.APP_API_KEY, cipher);
   }
 
+  /// decrypts and returns the stored api key in settings
   getApiKey() {
     let key = settings.get(AppSettings.Keys.APP_API_KEY),
       bytes = crypto.AES.decrypt(key, this.keyToken);
