@@ -152,6 +152,8 @@ module.exports = class App {
 
   /// called to start loading the application from AppLoader class
   load() {
+    log.info("[App] checking for settings...");
+    global.App.AppSettings.check();
     log.info("[App] loading...");
     global.App.AppLoader.load();
   }

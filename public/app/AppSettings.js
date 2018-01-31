@@ -8,13 +8,22 @@ const { app } = require("electron"),
 //
 module.exports = class AppSettings {
   constructor() {
-    let filePath = settings.file();
-    log.info("[AppSettings] check for settings -> " + filePath);
+    this.path = settings.file();
+    log.info("[AppSettings] load settings -> " + this.path);
     // settings.set('foo.bar', 'qux');
-    if (fs.existsSync(filePath)) {
+  }
+
+  check() {
+    log.info("[AppSettings] check path -> " + this.path);
+    if (fs.existsSync(this.path)) {
       log.info("[AppSettings] has settings -> true");
-    } else {
-      log.info("[AppSettings] has settings -> false");
+      return true;
     }
+    log.info("[AppSettings] has settings -> false");
+    return false;
+  }
+
+  getSettings() {
+    return settings;
   }
 };
