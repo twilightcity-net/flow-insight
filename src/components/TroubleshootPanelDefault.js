@@ -4,21 +4,18 @@ import {
   Button,
   Divider,
   Header,
-  Icon,
   Image,
   Grid,
-  Menu,
-  Segment,
-  TextArea
+  Segment
 } from "semantic-ui-react";
 
 //
 // this component is the tab panel wrapper for the console content
 //
 export default class TroubleshootPanelDefault extends Component {
-  constructor(props) {
-    super(props);
-  }
+  // constructor(props) {
+  //   super(props);
+  // }
 
   onClickScreenshot() {
     console.log("screenshot clicked on");
