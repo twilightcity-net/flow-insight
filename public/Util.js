@@ -50,6 +50,11 @@ module.exports = class Util {
     return __dirname;
   }
 
+  /// gets the user data for app
+  static getAppUserDataDir() {
+    return app.getPath("userData");
+  }
+
   /*
    * gets the base path for the asset resouces
    */

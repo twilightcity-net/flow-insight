@@ -10,6 +10,7 @@ const { app, dialog } = require("electron"),
   { ShortcutManager } = require("../managers/ShortcutManager"),
   SlackManager = require("../managers/SlackManager"),
   AppUpdater = require("./AppUpdater"),
+  AppSettings = require("./AppSettings"),
   AppLoader = require("./AppLoader");
 
 /*
@@ -47,6 +48,7 @@ module.exports = class App {
       global.App.ShortcutManager = new ShortcutManager();
       global.App.SlackManager = new SlackManager();
       global.App.AppUpdater = new AppUpdater();
+      global.App.AppSettings = new AppSettings();
       global.App.AppLoader = new AppLoader();
     } catch (error) {
       global.App.handleError(error, true);
