@@ -8,6 +8,7 @@ const { app, BrowserWindow } = require("electron"),
   { ShortcutManager } = require("./ShortcutManager"),
   WindowManagerHelper = require("./WindowManagerHelper"),
   LoadingWindow = require("../windows/LoadingWindow"),
+  ActivatorWindow = require("../windows/ActivatorWindow"),
   ConsoleWindow = require("../windows/ConsoleWindow"),
   BugReportWindow = require("../windows/BugReportWindow");
 

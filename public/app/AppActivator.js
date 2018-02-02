@@ -1,4 +1,5 @@
 const log = require("electron-log"),
+  App = require("./App"),
   EventFactory = require("../managers/EventFactory"),
   WindowManagerHelper = require("../managers/WindowManagerHelper");
 
@@ -8,6 +9,7 @@ const log = require("electron-log"),
 module.exports = class AppActivator {
   constructor() {
     log.info("[AppActivator] created -> okay");
+    this.app = App;
     this.events = {
       activated: EventFactory.createEvent(
         EventFactory.Types.APPACTIVATOR_ACTIVATED,

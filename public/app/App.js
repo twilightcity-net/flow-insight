@@ -105,11 +105,8 @@ module.exports = class App {
     process.on("unhandledRejection", error => App.handleError);
   }
 
-  /*
-   * process any errors thrown by the application
-   */
+  /// process any errors thrown by the application
   static handleError(error, fatal) {
-    console.log("TEST");
     if (!(error instanceof AppError)) {
       error.stack = cleanStack(error.stack);
     }
@@ -155,7 +152,8 @@ module.exports = class App {
   load() {
     log.info("[App] checking for settings...");
     global.App.AppSettings.setApiKey("123e4567-e89b-12d3-a456-426655440000");
-    if (global.App.AppSettings.check()) {
+    if (!global.App.AppSettings.check()) {
+      // if (global.App.AppSettings.check()) {
       // global.App.AppActivator.checkActivation();
 
       global.App.ApiKey = global.App.AppSettings.getApiKey();

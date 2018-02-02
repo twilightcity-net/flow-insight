@@ -17,21 +17,27 @@ module.exports = class ActivatorWindow {
     this.autoShow = true;
     this.window = new BrowserWindow({
       name: this.name,
-      width: 420,
-      height: 420,
-      minWidth: 420,
-      minHeight: 420,
+      width: 600,
+      height: 350,
+      minWidth: 600,
+      minHeight: 350,
       resizable: false,
       movable: true,
       center: true,
-      frame: false,
+      frame: true,
       show: false,
       icon: this.icon,
-      backgroundColor: "#ffffff",
+      backgroundColor: "#000000",
       fullscreenable: false,
       webPreferences: { toolbar: false }
     });
     this.window.name = this.name;
     this.window.setMenu(null);
+    this.window.on("closed", () => this.onClosedCb());
+  }
+
+  onClosedCb() {
+    log.info("[ActivatorWindow] closed window -> quit application");
+    global.App.quit();
   }
 };

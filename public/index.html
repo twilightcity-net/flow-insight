@@ -55,6 +55,50 @@
       }
 
       /* 
+       * VIEW: ACTIVATOR 
+       */
+      #view.activator {
+        background: #1b1c1d;
+        height: 100%;
+      }
+      #view.activator .ui.segment.apiKey {
+        padding-top: 16px;
+      }
+
+
+      #view.activator .ui.input input {
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        border: 1px solid rgba(74, 74, 74, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+      }
+      #view.activator .ui.input input:focus {
+        border: 1px solid rgba(100, 53, 201, 0.96);
+      }
+      #view.activator .ui.input input::placeholder {
+        font-style: italic;
+        color: rgba(74, 74, 74, 0.96)
+      }
+      #view.activator .ui.checkbox .box:before, 
+      #view.activator .ui.checkbox label:before {
+        background: transparent;
+        border: 1px solid rgba(74, 74, 74, 0.96);
+        transition: border 0.840s ease-out;
+      }
+      #view.activator .ui.checkbox .box:hover:before, 
+      #view.activator .ui.checkbox label:hover:before {
+        border: 1px solid rgba(100, 53, 201, 0.96);
+      }
+      #view.activator .ui.checkbox input:checked~.box:after, 
+      #view.activator .ui.checkbox input:checked~label:after {
+        color: #e0e0e0;
+      }
+
+
+
+
+
+      /* 
        * COMPONENT: CONSOLE-LAYOUT 
        */
       #component.consoleLayout #wrapper.consoleSidebar {
@@ -399,13 +443,6 @@
       #component.journalEntry .ui.grid .column:nth-child(3) {
         padding: 0px 14px 0px 4px;
       }
-
-
-
-
-
-
-
       #component.journalEntry .ui.dropdown .default.text {
         font-style: italic;
         color: rgba(60, 60, 60, 0.96);
@@ -419,14 +456,12 @@
       #component.journalEntry .ui.dropdown input {
         color: rgba(222, 222, 222, 0.96);
       }
-
       #component.journalEntry .ui.dropdown div.text {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         width: 100%;
       }
-
       #component.journalEntry .ui.dropdown .menu {
         transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);

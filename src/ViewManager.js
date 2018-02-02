@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import LoadingView from "./views/LoadingView";
+import ActivatorView from "./views/ActivatorView";
 import ConsoleView from "./views/ConsoleView";
 import BugReportView from "./views/BugReportView";
 
@@ -15,6 +16,7 @@ export default class ViewManager extends Component {
   static get Views() {
     return {
       LOADING: <LoadingView />,
+      ACTIVATOR: <ActivatorView />,
       CONSOLE: <ConsoleView />,
       BUGREPORT: <BugReportView />
     };
