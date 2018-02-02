@@ -175,7 +175,7 @@ module.exports = class AppLoader {
     try {
       WindowManagerHelper.createWindowConsole();
     } catch (error) {
-      global.App.handleError(error, true);
+      App.handleError(error, true);
     }
   }
 
@@ -188,7 +188,7 @@ module.exports = class AppLoader {
       global.App.Shortcuts = ShortcutManager.createGlobalShortcuts();
       this.events.shortcutsCreated.dispatch();
     } catch (error) {
-      global.App.handleError(error, true);
+      App.handleError(error, true);
     }
   }
 

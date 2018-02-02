@@ -100,7 +100,6 @@ module.exports = class WindowManager {
       Util.getAppRootDir(),
       "/index.html?" + viewName
     )}`;
-    log.info(">>>>" + filePath);
     return "file://" + filePath;
   }
 
@@ -190,16 +189,13 @@ module.exports = class WindowManager {
     }
   }
 
-  /*
-	 * This is a helper method that returns the class of a window
-	 * based on the literal string name of the class. A better way to do
-	 * is to figure out how to use some type of reflection with a 
-	 * factory class.
-	 *
-	 * Need to add a new case for each window we wish to open
-	 */
+  /// This is a helper method that returns the class of a window
+  /// based on the literal string name of the class. A better way to do
+  /// is to figure out how to use some type of reflection with a
+  /// factory class.
+  ///
+  /// Need to add a new case for each window we wish to open
   getWindowClassFromName(name) {
-    // TODO this should use a factory design
     switch (name) {
       case WindowManagerHelper.WindowNames.LOADING:
         return new LoadingWindow();

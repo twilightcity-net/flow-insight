@@ -284,7 +284,7 @@ class EventManager {
           error.stack +
           "\n"
       );
-      global.App.handleError(error, false);
+      App.handleError(error, false);
     } finally {
       return event;
     }

@@ -19,7 +19,7 @@ module.exports = class AppActivator {
 
   onActivatedCb(event, arg) {
     console.log("onActivatedCb");
-    global.App.events.appActivated();
+    // global.App.events.appActivated();
   }
 
   checkActivation() {
@@ -30,15 +30,14 @@ module.exports = class AppActivator {
       this.start();
     } else {
       // perform REST check on key
-
-      this.events.activated.dispatch("1");
+      // this.events.activated.dispatch("1");
     }
   }
 
   /// starts the app loader
   start() {
     log.info("[AppActivator] show activator");
-    // this.activatorWindow = WindowManagerHelper.createWindowActivator();
+    this.activatorWindow = WindowManagerHelper.createWindowActivator();
   }
 
   /*

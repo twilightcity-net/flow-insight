@@ -24,7 +24,6 @@ module.exports = class App {
     this.Logger = Logger.create();
     this.events = {
       ready: this.onReady,
-      appActivated: this.onAppActivated,
       singleInstance: this.onSingleInstance,
       windowAllClosed: this.onWindowAllClosed,
       quit: this.onQuit,
@@ -55,7 +54,7 @@ module.exports = class App {
       global.App.AppLoader = new AppLoader();
       global.App.load();
     } catch (error) {
-      global.App.handleError(error, true);
+      App.handleError(error, true);
     }
   }
 
@@ -110,6 +109,7 @@ module.exports = class App {
    * process any errors thrown by the application
    */
   static handleError(error, fatal) {
+    console.log("TEST");
     if (!(error instanceof AppError)) {
       error.stack = cleanStack(error.stack);
     }
@@ -156,16 +156,13 @@ module.exports = class App {
     log.info("[App] checking for settings...");
     global.App.AppSettings.setApiKey("123e4567-e89b-12d3-a456-426655440000");
     if (global.App.AppSettings.check()) {
-      global.App.AppActivator.checkActivation();
+      // global.App.AppActivator.checkActivation();
+
+      global.App.ApiKey = global.App.AppSettings.getApiKey();
+      global.App.AppLoader.load();
     } else {
       global.App.AppActivator.start();
     }
-  }
-
-  onAppActivated() {
-    console.log("App.onAppActivated()");
-    global.App.ApiKey = global.App.AppSettings.getApiKey();
-    global.App.AppLoader.load();
   }
 
   /*
