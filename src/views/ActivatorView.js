@@ -18,7 +18,6 @@ export default class ActivatorView extends Component {
     super(props);
     this.animationTime = 500;
     this.state = {
-      termsAccepted: false,
       apiKeyVisible: true,
       termsVisible: false,
       activatingVisible: false
@@ -33,25 +32,6 @@ export default class ActivatorView extends Component {
     });
     setTimeout(() => {
       this.setState({
-        activatingVisible: true
-      });
-    }, this.animationTime);
-  };
-
-  handleTermsAndConditions = () => {
-    if (this.state.termsAccepted) {
-      this.setState({
-        termsAccepted: false
-      });
-      return;
-    }
-    this.setState({
-      apiKeyVisible: false,
-      termsVisible: false,
-      activatingVisible: false
-    });
-    setTimeout(() => {
-      this.setState({
         termsVisible: true
       });
     }, this.animationTime);
@@ -59,14 +39,13 @@ export default class ActivatorView extends Component {
 
   handleTermsAndConditionsAccept = () => {
     this.setState({
-      termsAccepted: true,
       apiKeyVisible: false,
       termsVisible: false,
       activatingVisible: false
     });
     setTimeout(() => {
       this.setState({
-        apiKeyVisible: true
+        activatingVisible: true
       });
     }, this.animationTime);
   };
@@ -90,18 +69,13 @@ export default class ActivatorView extends Component {
         <Divider clearing />
         <Segment className="apiKey" inverted>
           <Form onSubmit={this.handleSubmit} size="big" inverted>
-            <Form.Group widths="equal">
+            <Form.Group widths="equal" className="apiKey">
               <Form.Input
                 fluid
                 label="Api-Key"
                 placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
               />
             </Form.Group>
-            <Form.Checkbox
-              label="I agree to the Terms and Conditions"
-              onClick={this.handleTermsAndConditions}
-              checked={this.state.termsAccepted}
-            />
             <Divider />
             <Button type="submit" size="big" color="violet" animated>
               <Button.Content visible>Activate Torchie</Button.Content>
