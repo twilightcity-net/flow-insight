@@ -151,9 +151,8 @@ module.exports = class App {
   /// called to start loading the application from AppLoader class
   load() {
     log.info("[App] checking for settings...");
-    global.App.AppSettings.setApiKey("123e4567-e89b-12d3-a456-426655440000");
-    if (!global.App.AppSettings.check()) {
-      // if (global.App.AppSettings.check()) {
+    // global.App.AppSettings.setApiKey("123e4567-e89b-12d3-a456-426655440000");
+    if (global.App.AppSettings.check()) {
       // global.App.AppActivator.checkActivation();
 
       global.App.ApiKey = global.App.AppSettings.getApiKey();

@@ -18,9 +18,9 @@ module.exports = class ActivatorWindow {
     this.window = new BrowserWindow({
       name: this.name,
       width: 600,
-      height: 350,
+      height: 360,
       minWidth: 600,
-      minHeight: 350,
+      minHeight: 360,
       resizable: false,
       movable: true,
       center: true,
