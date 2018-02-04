@@ -4,8 +4,12 @@ module.exports = class AccountHeartbeat {
   constructor(app, url) {
     app.post(url, function(req, res) {
       try {
+        let apiKey = req.headers["x-api-key"];
         let dto = req.body;
 
+        console.log(apiKey);
+
+        if (!apiKey) throw new Error("Request requires header 'x-api-key'");
         if (!dto.idleTime) throw new Error("Missing dto property : idleTime");
         if (!dto.deltaTime) throw new Error("Missing dto property : deltaTime");
 
