@@ -1,8 +1,11 @@
 const chalk = require('chalk');
-var express = require('express');
-var bodyParser = require('body-parser');
-var app = express();
-var port = process.env.PORT || 5000;
+const express = require('express');
+const bodyParser = require('body-parser');
+const app = express();
+const port = process.env.PORT || 5000;
+
+//routes
+const AccountActivate = require("./resource/account/AccountActivate");
 
 // called before everything, used for properties
 function config() {
@@ -12,37 +15,43 @@ function config() {
 
 // called before running, sets up middleware
 function routes() {
-	getRequests();
-	postRequest();
+	let resource = {
+		account: {
+			activate: new AccountActivate(app, '/account/activate')
+		}
+	}
+	console.log(resource.account.activate);
+	// getRequests();
+	// postRequest();
 }
 
 function getRequests() {
 	/// /api/users
-	app.get('/api/users', function(req, res) {
+	app.get('/account/activate', function(req, res) {
 	  var user_id = req.param('id');
 	  var token = req.param('token');
 	  var geo = req.param('geo');
 	  res.send(user_id + ' ' + token + ' ' + geo);
 	});
 
-	/// /api/version
-	app.get('/api/:version', function(req, res) {
-    res.send(req.params.version);
-  });
+	// /// /api/version
+	// app.get('/api/:version', function(req, res) {
+ //    res.send(req.params.version);
+ //  });
 
-  /// middleware
-  // parameter middleware that will run before the next routes
-	app.param('name', function(req, res, next, name) {
-    var modified = name + '-dude';
-    req.name = modified;
-    next();
-	});
+ //  /// middleware
+ //  // parameter middleware that will run before the next routes
+	// app.param('name', function(req, res, next, name) {
+ //    var modified = name + '-dude';
+ //    req.name = modified;
+ //    next();
+	// });
 
-	// http://localhost:8080/api/users/chris
-	app.get('/api/users/:name', function(req, res) {
-	    // the user was found and is available in req.user
-	    res.send('What is up ' + req.name + '!');
-	});
+	// // http://localhost:8080/api/users/chris
+	// app.get('/api/users/:name', function(req, res) {
+	//     // the user was found and is available in req.user
+	//     res.send('What is up ' + req.name + '!');
+	// });
 }
 
 function postRequest() {
@@ -76,7 +85,6 @@ function postRequest() {
 
 // called to run the server with config and middleware
 function start() {
-	// start the server
 	app.listen(port);
 	console.log(chalk.blue('Creating development server : ') + 'http://localhost:' + port);
 }				
