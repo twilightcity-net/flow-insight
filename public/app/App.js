@@ -40,9 +40,10 @@ module.exports = class App {
 
   /// called by the app ready event -> called first after electron app loaded
   onReady() {
+    global.App.api = Util.getAppApi();
     global.App.name = Util.getAppName();
     app.setName(global.App.name);
-    log.info("[App] ready -> " + global.App.name);
+    log.info("[App] ready -> " + global.App.name + " : " + global.App.api);
     try {
       global.App.EventManager = new EventManager();
       global.App.WindowManager = new WindowManager();

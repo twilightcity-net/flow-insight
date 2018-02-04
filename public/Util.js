@@ -35,6 +35,19 @@ module.exports = class Util {
     return app.getName();
   }
 
+  /// gets the api url to use
+  static getAppApi() {
+    let url = "https://ds-htmflow.herokuapp.com";
+    if (isDev) {
+      process.argv.forEach(function(val, index, array) {
+        if (val.toLowerCase().startsWith("server=")) {
+          url = val.toLowerCase().substring(7);
+        }
+      });
+    }
+    return url;
+  }
+
   /*
    * gets the root applciation icon
    */
