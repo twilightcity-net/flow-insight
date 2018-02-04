@@ -6,6 +6,7 @@ const port = process.env.PORT || 5000;
 
 //routes
 const AccountActivate = require("./resource/account/AccountActivate");
+const AccountHeartbeat = require("./resource/account/AccountHeartbeat");
 
 // called before everything, used for properties
 function config() {
@@ -17,10 +18,10 @@ function config() {
 function routes() {
   let resource = {
     account: {
-      activate: new AccountActivate(app, "/account/activate")
+      activate: new AccountActivate(app, "/account/activate"),
+      heartbeat: new AccountHeartbeat(app, "/account/heartbeat")
     }
   };
-  // getRequests();
 }
 
 function getRequests() {
