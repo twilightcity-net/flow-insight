@@ -14,4 +14,10 @@ module.exports = class Util {
         JSON.stringify(response)
     );
   }
+
+  static logError(e) {
+    console.log(
+      chalk.magenta("[API-DEV]") + chalk.red(" ERROR -> ") + e.message
+    );
+  }
 };
