@@ -8,16 +8,20 @@ module.exports = class Util {
         type +
         " -> " +
         request.url +
-        " : BODY=" +
+        " : REQ=" +
         JSON.stringify(request.body) +
-        " : RESPONSE=" +
+        " : RES=" +
         JSON.stringify(response)
     );
   }
 
   static logError(e) {
     console.log(
-      chalk.magenta("[API-DEV]") + chalk.red(" ERROR -> ") + e.message
+      chalk.magenta("[API-DEV]") +
+        " " +
+        chalk.bold.red("ERROR ->") +
+        " " +
+        chalk.bold(e.message)
     );
   }
 };
