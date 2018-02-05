@@ -1,26 +1,30 @@
 const chalk = require("chalk");
 
 module.exports = class Util {
-  static logPostRequest(type, request, response) {
+  static logPostRequest(type, url, dtoReq, dtoRes) {
     console.log(
       chalk.magenta("[API-DEV]") +
         " " +
         type +
         " -> " +
-        request.url +
+        url +
         " : REQ=" +
-        JSON.stringify(request.body) +
+        JSON.stringify(dtoReq) +
         " : RES=" +
-        JSON.stringify(response)
+        JSON.stringify(dtoRes)
     );
   }
 
-  static logError(e) {
+  static logError(e, type, url) {
     console.log(
       chalk.magenta("[API-DEV]") +
         " " +
-        chalk.bold.red("ERROR ->") +
+        chalk.bold.red("[ERROR]") +
         " " +
+        type +
+        " -> " +
+        url +
+        " : " +
         chalk.bold(e.message)
     );
   }
