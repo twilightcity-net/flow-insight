@@ -24,7 +24,7 @@
     "dev:remote":
       "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=https://ds-htmflow.herokuapp.com\"",
     "server": "node server/Server.js",
-    "test": "cross-env ENV=test mocha test/SetupApi.js test/api/*.js --exit",
+    "test": "cross-env ENV=test mocha test/SetupApi.js test/**/*Test.js --exit",
     "prebuild": "yarn test && gulp prettier lint",
     "build": "react-scripts build",
     "prebundle": "yarn build",
