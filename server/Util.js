@@ -1,4 +1,5 @@
 const chalk = require("chalk");
+const cleanStack = require("clean-stack");
 
 module.exports = class Util {
   static logPostRequest(type, url, dtoReq, dtoRes) {
@@ -27,7 +28,14 @@ module.exports = class Util {
         " -> " +
         url +
         " : " +
-        chalk.bold(e.message)
+        chalk.bold(e.stack)
     );
+  }
+
+  static isObjEmpty(obj) {
+    if (Object.keys(obj).length === 0 && obj.constructor === Object) {
+      return true;
+    }
+    return false;
   }
 };

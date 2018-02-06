@@ -3,6 +3,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const AccountActivate = require("./resource/account/AccountActivate");
 const AccountHeartbeat = require("./resource/account/AccountHeartbeat");
+const AccountLogin = require("./resource/account/AccountLogin");
+const AccountLogout = require("./resource/account/AccountLogout");
 
 const Server = (module.exports = class Server {
   constructor() {
@@ -18,7 +20,9 @@ const Server = (module.exports = class Server {
     this.resources = {
       account: {
         activate: new AccountActivate(this.express, "/account/activate"),
-        heartbeat: new AccountHeartbeat(this.express, "/account/heartbeat")
+        heartbeat: new AccountHeartbeat(this.express, "/account/heartbeat"),
+        login: new AccountLogin(this.express, "/account/login"),
+        logout: new AccountLogout(this.express, "/account/logout")
       }
     };
     this.express.listen(this.port);
