@@ -13,6 +13,7 @@ module.exports = function() {
         "!./public/assets/**/*",
         "./src/**/*.js",
         "./server/**/*.js",
+        "./test/**/*.js",
         "./gulpfile.js"
       ])
       .pipe(prettier(configJS))
