@@ -2,7 +2,7 @@ const chalk = require("chalk");
 
 module.exports = class Util {
   static logPostRequest(type, url, dtoReq, dtoRes) {
-    if (!Util.shouldLog()) return;
+    if (process.env.ENV === "test") return;
     console.log(
       chalk.magenta("[API-DEV]") +
         " " +
@@ -17,7 +17,7 @@ module.exports = class Util {
   }
 
   static logError(e, type, url) {
-    if (!Util.shouldLog()) return;
+    if (process.env.ENV === "test") return;
     console.log(
       chalk.magenta("[API-DEV]") +
         " " +
@@ -29,15 +29,5 @@ module.exports = class Util {
         " : " +
         chalk.bold(e.message)
     );
-  }
-
-  static shouldLog() {
-    let log = true;
-    process.argv.forEach(function(val, index, array) {
-      if (val.toLowerCase() === "env=test") {
-        log = false;
-      }
-    });
-    return log;
   }
 };
