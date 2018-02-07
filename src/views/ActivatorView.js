@@ -11,6 +11,9 @@ import {
   Transition
 } from "semantic-ui-react";
 
+const { remote } = window.require("electron"),
+  ActivationTokenDto = remote.require("./dto/ActivationTokenDto");
+
 //
 // This view class is used to activate the application
 //
@@ -18,28 +21,57 @@ export default class ActivatorView extends Component {
   constructor(props) {
     super(props);
     this.animationTime = 500;
+    this.activateWaitDelay = 2000;
     this.state = {
       apiKeyVisible: true,
       termsVisible: false,
-      activatingVisible: false
+      activatingVisible: false,
+      successVisible: false
     };
     this.store = DataStoreFactory.createStore(
       DataStoreFactory.Stores.ACCOUNT_ACTIVATION,
       this
     );
-    this.store.load(() => this.onStoreLoadCb());
+  }
+
+  processApiKey() {
+    this.store.load(
+      new ActivationTokenDto({
+        activationToken: this.apiKeyValue
+      }),
+      () => {
+        setTimeout(() => {
+          this.onStoreLoadCb();
+        }, this.activateWaitDelay);
+      }
+    );
   }
 
   onStoreLoadCb() {
     console.log("onLoadStoreCb");
-    console.log(this.store);
+
+    this.setState({
+      apiKeyVisible: false,
+      termsVisible: false,
+      activatingVisible: false,
+      successVisible: false
+    });
+    setTimeout(() => {
+      this.setState({
+        successVisible: true
+      });
+      console.log(this.store);
+    }, this.animationTime);
   }
+
+  handleChange = (e, { name, value }) => (this.apiKeyValue = value);
 
   handleSubmit = () => {
     this.setState({
       apiKeyVisible: false,
       termsVisible: false,
-      activatingVisible: false
+      activatingVisible: false,
+      successVisible: false
     });
     setTimeout(() => {
       this.setState({
@@ -52,13 +84,23 @@ export default class ActivatorView extends Component {
     this.setState({
       apiKeyVisible: false,
       termsVisible: false,
-      activatingVisible: false
+      activatingVisible: false,
+      successVisible: false
     });
     setTimeout(() => {
       this.setState({
         activatingVisible: true
       });
+      setTimeout(() => {
+        this.processApiKey();
+      }, this.animationTime * 2);
     }, this.animationTime);
+  };
+
+  handleFinishedActivating = () => {
+    console.log("Finished... close window");
+
+    // TODO fire event for activation finished
   };
 
   /// renders the view into our root element of our window
@@ -85,6 +127,8 @@ export default class ActivatorView extends Component {
                 fluid
                 label="Api-Key"
                 placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
+                name="name"
+                onChange={this.handleChange}
               />
             </Form.Group>
             <Divider />
@@ -234,6 +278,32 @@ export default class ActivatorView extends Component {
         </Segment>
       </Container>
     );
+    const successContent = (
+      <Container className="successContent">
+        <Segment textAlign="center" inverted>
+          <Icon size="huge" name="checkmark box" color="green" />
+          <Divider clearing />
+          <Header as="h3" floated="left" inverted>
+            <Header.Content>
+              Successfully Activated =]
+              <Header.Subheader>
+                <i>Thank you for activating your Torchie application!</i>
+              </Header.Subheader>
+            </Header.Content>
+          </Header>
+        </Segment>
+        <Divider clearing />
+        <Container textAlign="center">
+          <Button
+            onClick={this.handleFinishedActivating}
+            size="big"
+            color="green"
+          >
+            Okay
+          </Button>
+        </Container>
+      </Container>
+    );
     return (
       <Segment basic inverted>
         <Transition
@@ -259,6 +329,14 @@ export default class ActivatorView extends Component {
           unmountOnHide
         >
           {activatingContent}
+        </Transition>
+        <Transition
+          visible={this.state.successVisible}
+          animation="vertical flip"
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {successContent}
         </Transition>
       </Segment>
     );

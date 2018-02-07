@@ -25,7 +25,7 @@ export class DataStore {
     console.log("created store : " + this.guid);
   }
 
-  load(callback) {
+  load(dto, callback) {
     this.callback = callback;
     this.timestamp = new Date().getTime();
     this.events.load.dispatch(
@@ -33,7 +33,8 @@ export class DataStore {
         name: this.name,
         context: this.context,
         guid: this.guid,
-        timestamp: this.timestamp
+        timestamp: this.timestamp,
+        dto: dto
       },
       true
     );
