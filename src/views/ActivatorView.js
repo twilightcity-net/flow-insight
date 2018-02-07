@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { DataStoreFactory } from "../DataStoreFactory";
 import {
   Button,
   Container,
@@ -22,6 +23,16 @@ export default class ActivatorView extends Component {
       termsVisible: false,
       activatingVisible: false
     };
+    this.store = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.ACCOUNT_ACTIVATION,
+      this
+    );
+    this.store.load(() => this.onStoreLoadCb());
+  }
+
+  onStoreLoadCb() {
+    console.log("onLoadStoreCb");
+    console.log(this.store);
   }
 
   handleSubmit = () => {

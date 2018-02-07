@@ -2,7 +2,8 @@ const { BrowserWindow } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
-  WindowManagerHelper = require("../managers/WindowManagerHelper");
+  WindowManagerHelper = require("../managers/WindowManagerHelper"),
+  EventFactory = require("../managers/EventFactory");
 
 /*
  * The Application loading window. Loads LoadingView class. This window
@@ -34,6 +35,26 @@ module.exports = class ActivatorWindow {
     this.window.name = this.name;
     this.window.setMenu(null);
     this.window.on("closed", () => this.onClosedCb());
+
+    this.events = {
+      dataStoreLoad: EventFactory.createEvent(
+        EventFactory.Types.DATASTORE_LOAD,
+        this,
+        (event, arg) => {
+          console.log("DATASTORE_LOAD");
+          console.log(arg);
+          arg.timestamp = new Date().getTime();
+          arg.data = {
+            test: "test"
+          };
+          this.events.dataStoreLoaded.dispatch(arg);
+        }
+      ),
+      dataStoreLoaded: EventFactory.createEvent(
+        EventFactory.Types.DATASTORE_LOADED,
+        this
+      )
+    };
   }
 
   onClosedCb() {

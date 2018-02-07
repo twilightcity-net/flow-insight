@@ -23,7 +23,9 @@ export class RendererEventFactory {
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
       VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel",
       VIEW_CONSOLE_MENU_CHANGE: prefix + "view-console-menu-change",
-      SUBMIT_BUG_REPORT: prefix + "bugreport-submitted"
+      SUBMIT_BUG_REPORT: prefix + "bugreport-submitted",
+      DATASTORE_LOAD: prefix + "datastore-load",
+      DATASTORE_LOADED: prefix + "datastore-loaded"
     };
   }
 }

@@ -30,7 +30,9 @@ module.exports = class EventFactory {
       APPLOADER_LOAD: prefix + "apploader-load",
       SHORTCUTS_CREATED: prefix + "shortcuts-created",
       SHORTCUTS_RECIEVED: prefix + "shortcuts-recieved",
-      SUBMIT_BUG_REPORT: prefix + "bugreport-submitted"
+      SUBMIT_BUG_REPORT: prefix + "bugreport-submitted",
+      DATASTORE_LOAD: prefix + "datastore-load",
+      DATASTORE_LOADED: prefix + "datastore-loaded"
     };
   }
 };
