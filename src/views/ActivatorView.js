@@ -37,6 +37,11 @@ export default class ActivatorView extends Component {
     );
   }
 
+  componentDidMount() {
+    let input = document.getElementById("activator-view-form-tokenKey-input");
+    if (input) input.focus();
+  }
+
   processApiKey() {
     this.store.load(
       new ActivationTokenDto({
@@ -61,7 +66,7 @@ export default class ActivatorView extends Component {
       failedVisible: false
     });
     setTimeout(() => {
-      if (true) {
+      if (!true) {
         this.setState({
           successVisible: true
         });
@@ -141,6 +146,22 @@ export default class ActivatorView extends Component {
 
   handleErrorActivating = () => {
     console.log("Error... try again");
+    this.setState({
+      tokenKeyVisible: false,
+      termsVisible: false,
+      activatingVisible: false,
+      successVisible: false,
+      failedVisible: false
+    });
+    setTimeout(() => {
+      this.tokenKeyValue = "";
+      this.setState({
+        tokenKeyVisible: true
+      });
+      let input = document.getElementById("activator-view-form-tokenKey-input");
+      input.value = "";
+      input.focus();
+    }, this.animationTime);
   };
 
   /// renders the view into our root element of our window
