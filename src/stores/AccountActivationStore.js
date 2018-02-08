@@ -1,5 +1,7 @@
-import { DataStoreFactory } from "../DataStoreFactory";
 import { DataStore } from "./DataStore";
+
+const { remote } = window.require("electron"),
+  AccountActivationDto = remote.require("./dto/AccountActivationDto");
 
 //
 // this class is used to manage DataClient requests for Stores
@@ -7,5 +9,6 @@ import { DataStore } from "./DataStore";
 export class AccountActivationStore extends DataStore {
   constructor(scope) {
     super(scope);
+    this.dtoClass = AccountActivationDto;
   }
 }

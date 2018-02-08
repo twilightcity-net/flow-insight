@@ -7,7 +7,6 @@ import {
   Form,
   Icon,
   Header,
-  Popup,
   Segment,
   Transition
 } from "semantic-ui-react";
@@ -25,6 +24,7 @@ export default class ActivatorView extends Component {
     this.activateWaitDelay = 2000;
     this.tokenKeyValue = "";
     this.state = {
+      finishedMessage: "",
       submitBtnDisabled: true,
       tokenKeyVisible: true,
       termsVisible: false,
@@ -56,8 +56,6 @@ export default class ActivatorView extends Component {
   }
 
   onStoreLoadCb() {
-    console.log("onLoadStoreCb");
-
     this.setState({
       tokenKeyVisible: false,
       termsVisible: false,
@@ -66,14 +64,16 @@ export default class ActivatorView extends Component {
       failedVisible: false
     });
     setTimeout(() => {
-      if (!true) {
+      let accountActivationDto = this.store.dto;
+      if (accountActivationDto.isValid()) {
         this.setState({
-          successVisible: true
+          successVisible: true,
+          finishedMessage: accountActivationDto.message
         });
-        console.log(this.store);
       } else {
         this.setState({
-          failedVisible: true
+          failedVisible: true,
+          finishedMessage: accountActivationDto.message
         });
       }
     }, this.animationTime);
@@ -156,7 +156,8 @@ export default class ActivatorView extends Component {
     setTimeout(() => {
       this.tokenKeyValue = "";
       this.setState({
-        tokenKeyVisible: true
+        tokenKeyVisible: true,
+        submitBtnDisabled: true
       });
       let input = document.getElementById("activator-view-form-tokenKey-input");
       input.value = "";
@@ -356,7 +357,7 @@ export default class ActivatorView extends Component {
             <Header.Content>
               Successfully Activated =]
               <Header.Subheader>
-                <i>Thank you for activating your Torchie application!</i>
+                <i>{this.state.finishedMessage}</i>
               </Header.Subheader>
             </Header.Content>
           </Header>
@@ -382,7 +383,7 @@ export default class ActivatorView extends Component {
             <Header.Content>
               Unable to Activate
               <Header.Subheader>
-                <i>Oops, we were unable to activate with the token provided.</i>
+                <i>{this.state.finishedMessage}</i>
               </Header.Subheader>
             </Header.Content>
           </Header>

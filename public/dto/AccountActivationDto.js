@@ -5,7 +5,6 @@ module.exports = class AccountActivationDto {
   constructor(json) {
     try {
       if (typeof json === "string") json = JSON.parse(json);
-      this.validate(json);
       this.apiKey = json.apiKey;
       this.email = json.email;
       this.message = json.message;
@@ -17,10 +16,8 @@ module.exports = class AccountActivationDto {
     }
   }
 
-  validate(json) {
-    if (!json.apiKey) throw new Error("null property 'apiKey'");
-    if (!json.email) throw new Error("null property 'email'");
-    if (!json.message) throw new Error("null property 'message'");
-    if (!json.status) throw new Error("null property 'status'");
+  isValid() {
+    if (this.status === "VALID") return true;
+    return false;
   }
 };

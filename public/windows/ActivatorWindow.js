@@ -45,8 +45,13 @@ module.exports = class ActivatorWindow {
           console.log(arg);
           arg.timestamp = new Date().getTime();
           arg.data = {
-            test: "test"
+            status: "VALID",
+            message: "Your account has been successfully activated.",
+            email: "kara@dreamscale.io",
+            apiKey: "FASFD423fsfd32d2322d"
           };
+          console.log("DATASTORE_LOAD_RESPONSE");
+          console.log(arg);
           this.events.dataStoreLoaded.dispatch(arg);
         }
       ),

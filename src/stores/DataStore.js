@@ -22,7 +22,6 @@ export class DataStore {
         this.onLoadedCb
       )
     };
-    console.log("created store : " + this.guid);
   }
 
   load(dto, callback) {
@@ -46,10 +45,10 @@ export class DataStore {
       arg.context !== this.context ||
       arg.guid !== this.guid
     ) {
-      console.log("mismatched event");
       return;
     }
     this.data = arg.data;
+    this.dto = new this.dtoClass(this.data);
     this.callback();
   }
 }
