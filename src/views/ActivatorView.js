@@ -7,6 +7,7 @@ import {
   Form,
   Icon,
   Header,
+  Popup,
   Segment,
   Transition
 } from "semantic-ui-react";
@@ -22,8 +23,10 @@ export default class ActivatorView extends Component {
     super(props);
     this.animationTime = 500;
     this.activateWaitDelay = 2000;
+    this.tokenKeyValue = "";
     this.state = {
-      apiKeyVisible: true,
+      submitBtnDisabled: true,
+      tokenKeyVisible: true,
       termsVisible: false,
       activatingVisible: false,
       successVisible: false
@@ -37,7 +40,7 @@ export default class ActivatorView extends Component {
   processApiKey() {
     this.store.load(
       new ActivationTokenDto({
-        activationToken: this.apiKeyValue
+        activationToken: this.tokenKeyValue
       }),
       () => {
         setTimeout(() => {
@@ -51,27 +54,52 @@ export default class ActivatorView extends Component {
     console.log("onLoadStoreCb");
 
     this.setState({
-      apiKeyVisible: false,
+      tokenKeyVisible: false,
       termsVisible: false,
       activatingVisible: false,
-      successVisible: false
+      successVisible: false,
+      failedVisible: false
     });
     setTimeout(() => {
-      this.setState({
-        successVisible: true
-      });
-      console.log(this.store);
+      if (true) {
+        this.setState({
+          successVisible: true
+        });
+        console.log(this.store);
+      } else {
+        this.setState({
+          failedVisible: true
+        });
+      }
     }, this.animationTime);
   }
 
-  handleChange = (e, { name, value }) => (this.apiKeyValue = value);
+  handleChange = (e, { name, value }) => {
+    var letterNumber = /^[0-9a-zA-Z]+$/;
+    if (!value.match(letterNumber)) {
+      document.getElementById("activator-view-form-tokenKey-input").value = "";
+      return;
+    }
+    if (value.length > 20) {
+      document.getElementById(
+        "activator-view-form-tokenKey-input"
+      ).value = value.substring(0, 20);
+    }
+    if (value !== "" && this.state.submitBtnDisabled && value.length === 20) {
+      this.setState({
+        submitBtnDisabled: false
+      });
+    }
+    this.tokenKeyValue = value;
+  };
 
   handleSubmit = () => {
     this.setState({
-      apiKeyVisible: false,
+      tokenKeyVisible: false,
       termsVisible: false,
       activatingVisible: false,
-      successVisible: false
+      successVisible: false,
+      failedVisible: false
     });
     setTimeout(() => {
       this.setState({
@@ -82,10 +110,11 @@ export default class ActivatorView extends Component {
 
   handleTermsAndConditionsAccept = () => {
     this.setState({
-      apiKeyVisible: false,
+      tokenKeyVisible: false,
       termsVisible: false,
       activatingVisible: false,
-      successVisible: false
+      successVisible: false,
+      failedVisible: false
     });
     setTimeout(() => {
       this.setState({
@@ -103,10 +132,16 @@ export default class ActivatorView extends Component {
     // TODO fire event for activation finished
   };
 
+  handleErrorActivating = () => {
+    console.log("Error... try again");
+
+    // TODO fire event for activation finished
+  };
+
   /// renders the view into our root element of our window
   render() {
-    const apiKeyContent = (
-      <Container className="apiKeyContent">
+    const tokenContent = (
+      <Container className="tokenContent">
         <Header as="h4" floated="left" inverted>
           <Icon size="huge" circular inverted color="violet" name="signup" />
         </Header>
@@ -114,26 +149,33 @@ export default class ActivatorView extends Component {
           <Header.Content>
             Activate Application
             <Header.Subheader>
-              Please enter your api-key below and click 'Activate Torchie' to
-              continue.
+              Please enter your 'Activation Token' provided and click
+              'Activate'.
             </Header.Subheader>
           </Header.Content>
         </Header>
         <Divider clearing />
-        <Segment className="apiKey" inverted>
+        <Segment className="tokenKey" inverted>
           <Form onSubmit={this.handleSubmit} size="big" inverted>
-            <Form.Group widths="equal" className="apiKey">
+            <Form.Group widths="equal" className="tokenKey">
               <Form.Input
+                id="activator-view-form-tokenKey-input"
                 fluid
-                label="Api-Key"
+                label="Activation Token:"
                 placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
                 name="name"
                 onChange={this.handleChange}
               />
             </Form.Group>
             <Divider />
-            <Button type="submit" size="big" color="violet" animated>
-              <Button.Content visible>Activate Torchie</Button.Content>
+            <Button
+              type="submit"
+              size="big"
+              color="violet"
+              animated
+              disabled={this.state.submitBtnDisabled}
+            >
+              <Button.Content visible>Activate</Button.Content>
               <Button.Content hidden>
                 continue
                 <Icon name="right arrow" />
@@ -270,7 +312,8 @@ export default class ActivatorView extends Component {
               Activating Torchie...
               <Header.Subheader>
                 <i>
-                  Please standby while we verify your api-key with our servers.
+                  Please standby while we verify your 'Activation Token' with
+                  our servers.
                 </i>
               </Header.Subheader>
             </Header.Content>
@@ -304,15 +347,37 @@ export default class ActivatorView extends Component {
         </Container>
       </Container>
     );
+    const failedContent = (
+      <Container className="failedContent">
+        <Segment textAlign="center" inverted>
+          <Icon size="huge" name="warning circle" color="red" />
+          <Divider clearing />
+          <Header as="h3" floated="left" inverted>
+            <Header.Content>
+              Unable to Activate
+              <Header.Subheader>
+                <i>Oops, we were unable to activate with the token provided.</i>
+              </Header.Subheader>
+            </Header.Content>
+          </Header>
+        </Segment>
+        <Divider clearing />
+        <Container textAlign="center">
+          <Button onClick={this.handleErrorActivating} size="big" color="red">
+            Try Again
+          </Button>
+        </Container>
+      </Container>
+    );
     return (
       <Segment basic inverted>
         <Transition
-          visible={this.state.apiKeyVisible}
+          visible={this.state.tokenKeyVisible}
           animation="vertical flip"
           duration={this.animationTime}
           unmountOnHide
         >
-          {apiKeyContent}
+          {tokenContent}
         </Transition>
         <Transition
           visible={this.state.termsVisible}
@@ -337,6 +402,14 @@ export default class ActivatorView extends Component {
           unmountOnHide
         >
           {successContent}
+        </Transition>
+        <Transition
+          visible={this.state.failedVisible}
+          animation="vertical flip"
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {failedContent}
         </Transition>
       </Segment>
     );
