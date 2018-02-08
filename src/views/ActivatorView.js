@@ -75,16 +75,23 @@ export default class ActivatorView extends Component {
   }
 
   handleChange = (e, { name, value }) => {
-    var letterNumber = /^[0-9a-zA-Z]+$/;
-    if (!value.match(letterNumber)) {
-      document.getElementById("activator-view-form-tokenKey-input").value = "";
-      return;
-    }
+    /// reset the activate button if incorrect value present
     if (value.length > 20) {
       document.getElementById(
         "activator-view-form-tokenKey-input"
       ).value = value.substring(0, 20);
+    } else if (!this.state.submitBtnDisabled || value.length === 0) {
+      this.setState({
+        submitBtnDisabled: true
+      });
     }
+    /// filter out for alpha numeric
+    if (!value.match(/^[0-9a-zA-Z]+$/)) {
+      let input = document.getElementById("activator-view-form-tokenKey-input");
+      input.value = input.value.substring(0, input.value.length - 1);
+      return;
+    }
+    /// enable the activate button if everything is good
     if (value !== "" && this.state.submitBtnDisabled && value.length === 20) {
       this.setState({
         submitBtnDisabled: false
@@ -134,8 +141,6 @@ export default class ActivatorView extends Component {
 
   handleErrorActivating = () => {
     console.log("Error... try again");
-
-    // TODO fire event for activation finished
   };
 
   /// renders the view into our root element of our window
