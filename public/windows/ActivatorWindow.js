@@ -16,7 +16,7 @@ module.exports = class ActivatorWindow {
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = true;
-    this.activatorFinished = false;
+    // this.activatorFinished = false;
     this.window = new BrowserWindow({
       name: this.name,
       width: 600,
@@ -50,13 +50,15 @@ module.exports = class ActivatorWindow {
     if (!this.activatorFinished) {
       log.info("[ActivatorWindow] closed window -> quit application");
       global.App.quit();
-    } else {
-      log.info("[ActivatorWindow] closed window -> load application");
     }
   }
 
   onActivatorCloseCb(event, arg) {
-    this.activatorFinished = true;
-    global.App.WindowManager.closeWindow(this, true);
+    if (arg !== -1) {
+      this.activatorFinished = true;
+      global.App.restart();
+    } else {
+      global.App.WindowManager.closeWindow(this, true);
+    }
   }
 };

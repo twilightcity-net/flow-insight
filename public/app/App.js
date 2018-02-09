@@ -162,6 +162,10 @@ module.exports = class App {
     }
   }
 
+  restart() {
+    app.relaunch();
+    app.exit(0);
+  }
   /*
 	 * wrapper function to quit the application
 	 */

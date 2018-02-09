@@ -44,8 +44,19 @@ export default class ActivatorView extends Component {
       saveActivation: RendererEventFactory.createEvent(
         RendererEventFactory.Events.APPACTIVATOR_SAVE_ACTIVATION,
         this
+      ),
+      activationSaved: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.APPACTIVATOR_ACTIVATION_SAVED,
+        this,
+        this.onActivationSaved
       )
     };
+  }
+
+  onActivationSaved(event, arg) {
+    console.log("onActivationSaved");
+    console.log(arg);
+    this.showSuccessOrFailureContent();
   }
 
   componentDidMount() {
