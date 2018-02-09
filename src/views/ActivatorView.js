@@ -40,6 +40,10 @@ export default class ActivatorView extends Component {
       closeActivator: RendererEventFactory.createEvent(
         RendererEventFactory.Events.WINDOW_ACTIVATOR_CLOSE,
         this
+      ),
+      saveActivation: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.APPACTIVATOR_SAVE_ACTIVATION,
+        this
       )
     };
   }
@@ -67,6 +71,12 @@ export default class ActivatorView extends Component {
   }
 
   onStoreLoadCb() {
+    this.events.saveActivation.dispatch(this.store.dto, true);
+
+    // this.showSuccessOrFailureContent();
+  }
+
+  showSuccessOrFailureContent() {
     this.setState({
       tokenKeyVisible: false,
       termsVisible: false,
@@ -76,7 +86,7 @@ export default class ActivatorView extends Component {
     });
     setTimeout(() => {
       let accountActivationDto = this.store.dto;
-      if (accountActivationDto.isValid()) {
+      if (accountActivationDto.isValidToken()) {
         this.setState({
           successVisible: true,
           finishedMessage: accountActivationDto.message

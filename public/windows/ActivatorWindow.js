@@ -37,32 +37,7 @@ module.exports = class ActivatorWindow {
     this.window.setMenu(null);
     this.window.on("closed", () => this.onClosedCb());
 
-    //
-    // TODO move datastoreload and datastoreloaded into datamanager class
-    //
     this.events = {
-      dataStoreLoad: EventFactory.createEvent(
-        EventFactory.Types.DATASTORE_LOAD,
-        this,
-        (event, arg) => {
-          console.log("DATASTORE_LOAD");
-          console.log(arg);
-          arg.timestamp = new Date().getTime();
-          arg.data = {
-            status: "VALID",
-            message: "Your account has been successfully activated.",
-            email: "kara@dreamscale.io",
-            apiKey: "FASFD423fsfd32d2322d"
-          };
-          console.log("DATASTORE_LOAD_RESPONSE");
-          console.log(arg);
-          this.events.dataStoreLoaded.dispatch(arg);
-        }
-      ),
-      dataStoreLoaded: EventFactory.createEvent(
-        EventFactory.Types.DATASTORE_LOADED,
-        this
-      ),
       closeActivator: EventFactory.createEvent(
         EventFactory.Types.WINDOW_ACTIVATOR_CLOSE,
         this,

@@ -34,18 +34,29 @@ module.exports = class AppSettings {
 
   /// sets and encrypts the api key that is set by the activator
   setApiKey(value) {
+    log.info("[AppSettings] save api key");
     let cipher = crypto.AES.encrypt(value, this.keyToken).toString();
     settings.set(AppSettings.Keys.APP_API_KEY, cipher);
   }
 
   /// decrypts and returns the stored api key in settings
   getApiKey() {
+    log.info("[AppSettings] get api key");
     let key = settings.get(AppSettings.Keys.APP_API_KEY);
     if (key) {
       let bytes = crypto.AES.decrypt(key, this.keyToken);
       return bytes.toString(crypto.enc.Utf8);
     }
     return "";
+  }
+
+  deleteSettings() {
+    log.info("[AppSettings] delete settings");
+    if (this.check()) {
+      fs.unlinkSync(this.path, err => {
+        throw err;
+      });
+    }
   }
 
   /// enum map of possible settings key pairs

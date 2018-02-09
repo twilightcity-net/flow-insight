@@ -25,6 +25,7 @@ export class RendererEventFactory {
       VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel",
       VIEW_CONSOLE_MENU_CHANGE: prefix + "view-console-menu-change",
       SUBMIT_BUG_REPORT: prefix + "bugreport-submitted",
+      APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",
       DATASTORE_LOAD: prefix + "datastore-load",
       DATASTORE_LOADED: prefix + "datastore-loaded"
     };
