@@ -199,7 +199,6 @@ module.exports = class AppLoader {
     log.info("[AppLoader] finished : okay");
     setTimeout(() => {
       global.App.WindowManager.closeWindow(this.loadingWindow, true);
-      console.log(global.App.ApiKey);
     }, this.eventTimerMs * 2);
   }
 };

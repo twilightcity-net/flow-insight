@@ -26,6 +26,7 @@ module.exports = class EventFactory {
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
       WINDOW_CONSOLE_READY: prefix + "window-console-ready",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
+      WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
       APPACTIVATOR_ACTIVATED: prefix + "appactivator-activated",
       APPLOADER_LOAD: prefix + "apploader-load",
       SHORTCUTS_CREATED: prefix + "shortcuts-created",

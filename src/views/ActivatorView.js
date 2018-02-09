@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { DataStoreFactory } from "../DataStoreFactory";
+import { RendererEventFactory } from "../RendererEventFactory";
 import {
   Button,
   Container,
@@ -35,6 +36,12 @@ export default class ActivatorView extends Component {
       DataStoreFactory.Stores.ACCOUNT_ACTIVATION,
       this
     );
+    this.events = {
+      closeActivator: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_ACTIVATOR_CLOSE,
+        this
+      )
+    };
   }
 
   componentDidMount() {
@@ -53,6 +60,10 @@ export default class ActivatorView extends Component {
         }, this.activateWaitDelay);
       }
     );
+  }
+
+  activationFinished() {
+    this.events.closeActivator.dispatch(0, true);
   }
 
   onStoreLoadCb() {
@@ -139,9 +150,7 @@ export default class ActivatorView extends Component {
   };
 
   handleFinishedActivating = () => {
-    console.log("Finished... close window");
-
-    // TODO fire event for activation finished
+    this.activationFinished();
   };
 
   handleErrorActivating = () => {
@@ -199,14 +208,9 @@ export default class ActivatorView extends Component {
               type="submit"
               size="big"
               color="violet"
-              animated
               disabled={this.state.submitBtnDisabled}
             >
-              <Button.Content visible>Activate</Button.Content>
-              <Button.Content hidden>
-                continue
-                <Icon name="right arrow" />
-              </Button.Content>
+              Activate
             </Button>
           </Form>
         </Segment>
@@ -319,13 +323,8 @@ export default class ActivatorView extends Component {
           onClick={this.handleTermsAndConditionsAccept}
           size="big"
           color="violet"
-          animated
         >
-          <Button.Content visible>I Agree to Terms</Button.Content>
-          <Button.Content hidden>
-            continue
-            <Icon name="right arrow" />
-          </Button.Content>
+          I Agree to Terms
         </Button>
       </Container>
     );

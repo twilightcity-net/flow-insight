@@ -16,6 +16,7 @@ module.exports = class ActivatorWindow {
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = true;
+    this.activatorFinished = false;
     this.window = new BrowserWindow({
       name: this.name,
       width: 600,
@@ -36,6 +37,9 @@ module.exports = class ActivatorWindow {
     this.window.setMenu(null);
     this.window.on("closed", () => this.onClosedCb());
 
+    //
+    // TODO move datastoreload and datastoreloaded into datamanager class
+    //
     this.events = {
       dataStoreLoad: EventFactory.createEvent(
         EventFactory.Types.DATASTORE_LOAD,
@@ -58,12 +62,26 @@ module.exports = class ActivatorWindow {
       dataStoreLoaded: EventFactory.createEvent(
         EventFactory.Types.DATASTORE_LOADED,
         this
+      ),
+      closeActivator: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_ACTIVATOR_CLOSE,
+        this,
+        (event, arg) => this.onActivatorCloseCb(event, arg)
       )
     };
   }
 
   onClosedCb() {
-    log.info("[ActivatorWindow] closed window -> quit application");
-    global.App.quit();
+    if (!this.activatorFinished) {
+      log.info("[ActivatorWindow] closed window -> quit application");
+      global.App.quit();
+    } else {
+      log.info("[ActivatorWindow] closed window -> load application");
+    }
+  }
+
+  onActivatorCloseCb(event, arg) {
+    this.activatorFinished = true;
+    global.App.WindowManager.closeWindow(this, true);
   }
 };

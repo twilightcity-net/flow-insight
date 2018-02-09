@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   App = require("./App"),
-  EventFactory = require("../managers/EventFactory"),
   WindowManagerHelper = require("../managers/WindowManagerHelper");
+// EventFactory = require("../managers/EventFactory");
 
 //
 // class that is used to activate the application
@@ -10,18 +10,13 @@ module.exports = class AppActivator {
   constructor() {
     log.info("[AppActivator] created -> okay");
     this.app = App;
-    this.events = {
-      activated: EventFactory.createEvent(
-        EventFactory.Types.APPACTIVATOR_ACTIVATED,
-        this,
-        (event, arg) => this.onActivatedCb()
-      )
-    };
-  }
-
-  onActivatedCb(event, arg) {
-    console.log("onActivatedCb");
-    // global.App.events.appActivated();
+    // this.events = {
+    //   closeActivator: EventFactory.createEvent(
+    //     EventFactory.Types.WINDOW_ACTIVATOR_CLOSE,
+    //     this,
+    //     (event, arg) => this.onActivatorCloseCb(event, arg)
+    //   )
+    // };
   }
 
   checkActivation() {

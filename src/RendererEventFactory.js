@@ -21,6 +21,7 @@ export class RendererEventFactory {
     return {
       APPLOADER_LOAD: prefix + "apploader-load",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
+      WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
       VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel",
       VIEW_CONSOLE_MENU_CHANGE: prefix + "view-console-menu-change",
       SUBMIT_BUG_REPORT: prefix + "bugreport-submitted",
