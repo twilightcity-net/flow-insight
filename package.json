@@ -22,7 +22,7 @@
     "dev":
       "concurrently \"yarn server\" \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:5000\"",
     "dev:remote":
-      "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=https://ds-htmflow.herokuapp.com\"",
+      "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://htmflow.dreamscale.io\"",
     "server": "node server/Server.js",
     "test": "cross-env ENV=test mocha test/SetupApi.js test/**/*Test.js --exit",
     "prebuild": "yarn test && gulp prettier lint",

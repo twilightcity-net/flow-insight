@@ -12,6 +12,7 @@ const { app, dialog } = require("electron"),
   SlackManager = require("../managers/SlackManager"),
   AppUpdater = require("./AppUpdater"),
   AppSettings = require("./AppSettings"),
+  DataStoreManager = require("../managers/DataStoreManager"),
   AppActivator = require("./AppActivator"),
   AppLoader = require("./AppLoader");
 
@@ -51,6 +52,7 @@ module.exports = class App {
       global.App.SlackManager = new SlackManager();
       global.App.AppUpdater = new AppUpdater();
       global.App.AppSettings = new AppSettings();
+      global.App.DataStoreManager = new DataStoreManager();
       global.App.AppActivator = new AppActivator();
       global.App.AppLoader = new AppLoader();
       global.App.load();
@@ -153,7 +155,7 @@ module.exports = class App {
   load() {
     log.info("[App] checking for settings...");
     if (global.App.AppSettings.check()) {
-      // global.App.AppActivator.checkActivation();
+      /// TODO login the account, defer the following
 
       global.App.ApiKey = global.App.AppSettings.getApiKey();
       global.App.AppLoader.load();

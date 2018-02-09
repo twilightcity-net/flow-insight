@@ -13,28 +13,6 @@ module.exports = class AppActivator {
     log.info("[AppActivator] created -> okay");
     this.app = App;
     this.events = {
-      dataStoreLoad: EventFactory.createEvent(
-        EventFactory.Types.DATASTORE_LOAD,
-        this,
-        (event, arg) => {
-          console.log("DATASTORE_LOAD");
-          console.log(arg);
-          arg.timestamp = new Date().getTime();
-          arg.data = {
-            status: "VALID",
-            message: "Your account has been successfully activated.",
-            email: "kara@dreamscale.io",
-            apiKey: "FASFD423fsfd32d2322d"
-          };
-          console.log("DATASTORE_LOAD_RESPONSE");
-          console.log(arg);
-          this.events.dataStoreLoaded.dispatch(arg);
-        }
-      ),
-      dataStoreLoaded: EventFactory.createEvent(
-        EventFactory.Types.DATASTORE_LOADED,
-        this
-      ),
       saveActivation: EventFactory.createEvent(
         EventFactory.Types.APPACTIVATOR_SAVE_ACTIVATION,
         this,
@@ -67,18 +45,6 @@ module.exports = class AppActivator {
       this.events.closeActivator.dispatch(-1);
       dialog.showErrorBox("Torchie", "[FATAL] Unable to save api-key");
       process.exit(1);
-    }
-  }
-
-  checkActivation() {
-    log.info("[AppActivator] checking activation...");
-    let apiKey = global.App.AppSettings.getApiKey();
-    log.info("[AppActivator] verifying key -> " + apiKey);
-    if (apiKey === "") {
-      this.start();
-    } else {
-      // perform REST check on key
-      // this.events.activated.dispatch("1");
     }
   }
 
