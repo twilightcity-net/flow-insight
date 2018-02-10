@@ -22,7 +22,7 @@ export default class ActivatorView extends Component {
   constructor(props) {
     super(props);
     this.animationTime = 500;
-    this.activateWaitDelay = 2000;
+    this.activateWaitDelay = 1000;
     this.tokenKeyValue = "";
     this.state = {
       finishedMessage: "",
@@ -54,8 +54,6 @@ export default class ActivatorView extends Component {
   }
 
   onActivationSaved(event, arg) {
-    console.log("onActivationSaved");
-    console.log(arg);
     this.showSuccessOrFailureContent();
   }
 
@@ -69,9 +67,9 @@ export default class ActivatorView extends Component {
       new ActivationTokenDto({
         activationToken: this.tokenKeyValue
       }),
-      () => {
+      err => {
         setTimeout(() => {
-          this.onStoreLoadCb();
+          this.onStoreLoadCb(err);
         }, this.activateWaitDelay);
       }
     );
@@ -81,16 +79,15 @@ export default class ActivatorView extends Component {
     this.events.closeActivator.dispatch(0, true);
   }
 
-  onStoreLoadCb() {
-    if (!this.store.error) {
-      this.events.saveActivation.dispatch(this.store.dto, true);
-    } else {
-      console.log("has error");
+  onStoreLoadCb(err) {
+    if (err) {
       this.store.dto = new this.store.dtoClass({
-        message: this.store.error,
+        message: err,
         status: "FAILED"
       });
       this.showSuccessOrFailureContent();
+    } else {
+      this.events.saveActivation.dispatch(this.store.dto, true);
     }
   }
 
