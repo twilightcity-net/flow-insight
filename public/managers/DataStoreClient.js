@@ -11,30 +11,21 @@ class DataStoreClient {
     log.info("[DataStoreClient] created -> okay");
   }
 
-  makeStoreRequest(type, store, callback) {
+  makeStoreRequest(store, callback) {
     log.info(
-      "[DataStoreClient] make store request -> " + type + " : " + store.name
+      "[DataStoreClient] make store request -> " +
+        store.requestType +
+        " : " +
+        store.name
     );
-    let client = null;
-    if (DataStoreClient.Stores.ACCOUNT_ACTIVATION_STORE === store.name) {
-      client = new DataClient(store, callback);
-
-      /// TODO make a http request and pass in callback
-    }
-    client.doRequest(type);
+    let client = new DataClient(store, callback);
+    client.doRequest();
   }
 
   /// enum class of all of http requests
   static get Types() {
     return {
       POST: "post"
-    };
-  }
-
-  /// enum class of all of the store class names.
-  static get Stores() {
-    return {
-      ACCOUNT_ACTIVATION_STORE: "AccountActivationStore"
     };
   }
 }
@@ -46,14 +37,15 @@ class DataClient {
   constructor(store, callback) {
     log.info("[DataStoreClient] |> create data client");
     this.store = store;
+    this.urn = store.urn;
+    this.type = store.requestType;
     this.callback = callback;
-    // console.log(this.store);
   }
 
-  doRequest(type) {
-    let url = "http://localhost:5000/account/activate";
+  doRequest() {
+    let url = global.App.api + this.urn;
     log.info("[DataStoreClient] |> do request -> " + url);
-    if (DataStoreClient.Types.POST === type) {
+    if (DataStoreClient.Types.POST === this.type) {
       request
         .post(url)
         .retry(3)
@@ -72,8 +64,8 @@ class DataClient {
           } catch (e) {
             this.store.error = e.toString();
             log.error(
-              "[DataStoreClient] └> Connection Error -> " +
-                type +
+              "[DataStoreClient] |> Connection Error -> " +
+                this.type +
                 " " +
                 url +
                 " : " +
@@ -91,11 +83,11 @@ class DataClient {
         });
     } else {
       log.error(
-        "[DataStoreClient] └> Unknown Request Type -> " + type + " " + url
+        "[DataStoreClient] └> Unknown Request Type -> " + this.type + " " + url
       );
       dialog.showErrorBox(
         "Torchie",
-        "Unknown Request Type -> " + type + " " + url
+        "Unknown Request Type -> " + this.type + " " + url
       );
     }
   }

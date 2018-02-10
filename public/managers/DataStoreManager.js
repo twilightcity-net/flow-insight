@@ -26,7 +26,7 @@ module.exports = class DataStoreManager {
       "[DataStoreManager] data store load -> " + arg.name + " : " + arg.guid
     );
     let store = arg;
-    this.client.makeStoreRequest(DataStoreClient.Types.POST, store, store => {
+    this.client.makeStoreRequest(store, store => {
       this.events.dataStoreLoaded.dispatch(store);
     });
   }

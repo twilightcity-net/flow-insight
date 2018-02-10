@@ -10,6 +10,8 @@ export class DataStore {
     this.scope = scope;
     this.context = scope.constructor.name;
     this.guid = UtilRenderer.getGuid();
+    this.urn = "/";
+    this.loadRequestType = "";
     this.data = {};
     this.events = {
       load: RendererEventFactory.createEvent(
@@ -33,7 +35,9 @@ export class DataStore {
         context: this.context,
         guid: this.guid,
         timestamp: this.timestamp,
-        dto: dto
+        dto: dto,
+        urn: this.urn,
+        requestType: this.loadRequestType
       },
       true
     );
@@ -53,5 +57,12 @@ export class DataStore {
       this.dto = new this.dtoClass(this.data);
     }
     this.callback(this.error);
+  }
+
+  /// enum class of all of http requests
+  static get RequestTypes() {
+    return {
+      POST: "post"
+    };
   }
 }
