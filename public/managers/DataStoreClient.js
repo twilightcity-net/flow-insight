@@ -46,41 +46,7 @@ class DataClient {
     let url = global.App.api + this.urn;
     log.info("[DataStoreClient] |> do request -> " + url);
     if (DataStoreClient.Types.POST === this.type) {
-      request
-        .post(url)
-        .retry(3)
-        .timeout({
-          response: 10000,
-          deadline: 60000
-        })
-        .send(this.store.dto)
-        .set("Content-Type", "application/json")
-        .end((err, res) => {
-          log.info("[DataStoreClient] |> request complete -> " + url);
-          this.store.timestamp = new Date().getTime();
-          try {
-            if (err) throw new Error(err);
-            this.store.data = res.body;
-          } catch (e) {
-            this.store.error = e.toString();
-            log.error(
-              "[DataStoreClient] |> Connection Error -> " +
-                this.type +
-                " " +
-                url +
-                " : " +
-                err +
-                "\n\n" +
-                err.stack +
-                "\n"
-            );
-          } finally {
-            log.info(
-              "[DataStoreClient] └> dispatch request callback -> " + url
-            );
-            this.callback(this.store);
-          }
-        });
+      this.doPost(url);
     } else {
       log.error(
         "[DataStoreClient] └> Unknown Request Type -> " + this.type + " " + url
@@ -90,6 +56,43 @@ class DataClient {
         "Unknown Request Type -> " + this.type + " " + url
       );
     }
+  }
+
+  doPost(url) {
+    let req = request
+      .post(url)
+      .retry(3)
+      .timeout({
+        response: 10000,
+        deadline: 60000
+      })
+      .send(this.store.dto)
+      .set("Content-Type", "application/json");
+
+    req.end((err, res) => {
+      log.info("[DataStoreClient] |> request complete -> " + url);
+      this.store.timestamp = new Date().getTime();
+      try {
+        if (err) throw new Error(err);
+        this.store.data = res.body;
+      } catch (e) {
+        this.store.error = e.toString();
+        log.error(
+          "[DataStoreClient] |> Connection Error -> " +
+            this.type +
+            " " +
+            url +
+            " : " +
+            err +
+            "\n\n" +
+            err.stack +
+            "\n"
+        );
+      } finally {
+        log.info("[DataStoreClient] └> dispatch request callback -> " + url);
+        this.callback(this.store);
+      }
+    });
   }
 }
 
