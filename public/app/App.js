@@ -165,7 +165,7 @@ module.exports = class App {
   }
 
   restart() {
-    app.relaunch();
+    if (!isDev) app.relaunch();
     app.exit(0);
   }
   /*

@@ -1,4 +1,5 @@
 const log = require("electron-log"),
+  { DataStoreClient } = require("./DataStoreClient"),
   EventFactory = require("../managers/EventFactory");
 
 //
@@ -6,6 +7,7 @@ const log = require("electron-log"),
 module.exports = class DataStoreManager {
   constructor() {
     log.info("[DataStoreManager] created -> okay");
+    this.client = new DataStoreClient();
     this.events = {
       dataStoreLoad: EventFactory.createEvent(
         EventFactory.Types.DATASTORE_LOAD,
@@ -20,17 +22,12 @@ module.exports = class DataStoreManager {
   }
 
   onDataStoreLoadCb(event, arg) {
-    console.log("DATASTORE_LOAD");
-    console.log(arg);
-    arg.timestamp = new Date().getTime();
-    arg.data = {
-      status: "VALID",
-      message: "Your account has been successfully activated.",
-      email: "kara@dreamscale.io",
-      apiKey: "FASFD423fsfd32d2322d"
-    };
-    console.log("DATASTORE_LOAD_RESPONSE");
-    console.log(arg);
-    this.events.dataStoreLoaded.dispatch(arg);
+    log.info(
+      "[DataStoreManager] data store load -> " + arg.name + " : " + arg.guid
+    );
+    let store = arg;
+    this.client.makeStoreRequest(DataStoreClient.Types.POST, store, store => {
+      this.events.dataStoreLoaded.dispatch(store);
+    });
   }
 };

@@ -82,9 +82,16 @@ export default class ActivatorView extends Component {
   }
 
   onStoreLoadCb() {
-    this.events.saveActivation.dispatch(this.store.dto, true);
-
-    // this.showSuccessOrFailureContent();
+    if (!this.store.error) {
+      this.events.saveActivation.dispatch(this.store.dto, true);
+    } else {
+      console.log("has error");
+      this.store.dto = new this.store.dtoClass({
+        message: this.store.error,
+        status: "FAILED"
+      });
+      this.showSuccessOrFailureContent();
+    }
   }
 
   showSuccessOrFailureContent() {

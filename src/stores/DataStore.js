@@ -48,7 +48,11 @@ export class DataStore {
       return;
     }
     this.data = arg.data;
-    this.dto = new this.dtoClass(this.data);
+    this.error = arg.error;
+
+    if (!this.error) {
+      this.dto = new this.dtoClass(this.data);
+    }
     this.callback();
   }
 }
