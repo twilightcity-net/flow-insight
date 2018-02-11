@@ -40,6 +40,11 @@ class DataClient {
     this.urn = store.urn;
     this.type = store.requestType;
     this.callback = callback;
+    this.timeout = {
+      response: 10000,
+      deadline: 60000
+    };
+    this.retry = 3;
   }
 
   doRequest() {
@@ -61,13 +66,14 @@ class DataClient {
   doPost(url) {
     let req = request
       .post(url)
-      .retry(3)
-      .timeout({
-        response: 10000,
-        deadline: 60000
-      })
+      .retry(this.retry)
+      .timeout(this.timeout)
       .send(this.store.dto)
       .set("Content-Type", "application/json");
+
+    if (global.App.ApiKey) {
+      req.set("X-API-Key", global.App.ApiKey);
+    }
 
     req.end((err, res) => {
       log.info("[DataStoreClient] |> request complete -> " + url);

@@ -47,7 +47,7 @@ module.exports = class AppSettings {
       let bytes = crypto.AES.decrypt(key, this.keyToken);
       return bytes.toString(crypto.enc.Utf8);
     }
-    return "";
+    return null;
   }
 
   deleteSettings() {
