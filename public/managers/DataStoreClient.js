@@ -18,6 +18,7 @@ class DataStoreClient {
         " : " +
         store.name
     );
+    console.log(store);
     let client = new DataClient(store, callback);
     client.doRequest();
   }

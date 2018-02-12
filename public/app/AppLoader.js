@@ -6,7 +6,8 @@ const log = require("electron-log"),
   EventFactory = require("../managers/EventFactory"),
   { ShortcutManager } = require("../managers/ShortcutManager"),
   AppMenu = require("./AppMenu"),
-  AppTray = require("./AppTray");
+  AppTray = require("./AppTray"),
+  AppLogin = require("./AppLogin");
 
 /*
  * This class is used to init the Application loading
@@ -19,7 +20,7 @@ const log = require("electron-log"),
 module.exports = class AppLoader {
   constructor() {
     log.info("[AppLoader] created -> okay");
-    this.eventTimerMs = 1000;
+    this.eventTimerMs = 750;
     this.currentStage = 1;
     this.stages = this.getStages();
     this.events = {
@@ -32,6 +33,10 @@ module.exports = class AppLoader {
         EventFactory.Types.WINDOW_LOADING_LOGIN,
         this,
         (event, arg) => this.onLoadingLoginCb()
+      ),
+      loginFailed: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_LOADING_LOGIN_FAILED,
+        this
       ),
       consoleReady: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_READY,
@@ -120,7 +125,7 @@ module.exports = class AppLoader {
         label: "matrix activated",
         text: "Ready!"
       });
-    }, this.eventTimerMs * 2);
+    }, this.eventTimerMs);
   }
 
   /*
@@ -131,7 +136,7 @@ module.exports = class AppLoader {
   onLoadCb(event, arg) {
     switch (arg.load) {
       case this.stages.LOGIN:
-        this.doLogin();
+        this.processLogin();
         break;
       case this.stages.CONSOLE:
         this.createConsole();
@@ -190,10 +195,17 @@ module.exports = class AppLoader {
   }
 
   /// called from the laod event for login
-  doLogin() {
-    /// TODO start the login with a callback
-
-    this.events.login.dispatch();
+  processLogin() {
+    log.info("[AppLoader] process login");
+    AppLogin.doLogin(store => {
+      if (AppLogin.isValid()) {
+        log.info("[AppLoader] valid login -> dispatch next load event");
+        this.events.login.dispatch();
+      } else {
+        log.info("[AppLoader] failed login -> dispatch status to login event");
+        this.events.loginFailed.dispatch(store.data);
+      }
+    });
   }
 
   /*

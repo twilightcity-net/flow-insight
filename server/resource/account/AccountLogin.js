@@ -11,6 +11,10 @@ module.exports = class AccountLogin {
           message: "Successfully logged in",
           status: "VALID"
         });
+        // let dtoRes = new SimpleStatusDto({
+        //   message: "Sorry unable to login into Torchie",
+        //   status: "FAILED"
+        // });
 
         Util.logPostRequest("POST", req.url, null, dtoRes);
 

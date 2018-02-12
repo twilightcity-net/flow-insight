@@ -45,6 +45,11 @@ export default class LoadingView extends Component {
         RendererEventFactory.Events.APPLOADER_LOAD,
         this,
         this.onLoadCb
+      ),
+      loginFailed: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_LOADING_LOGIN_FAILED,
+        this,
+        this.onLoginFailedCb
       )
     };
   }
@@ -55,6 +60,17 @@ export default class LoadingView extends Component {
       this.updateHeaderText(arg.text);
       this.updateProgress(arg.value, arg.total, arg.label);
     });
+  }
+
+  ///called when the app loader login failes. updated gui
+  onLoginFailedCb(event, arg) {
+    log.info(
+      "[LoadingView] event -> WINDOW_LOADING_LOGIN_FAILED : login failed"
+    );
+    console.log("login failed");
+    console.log(arg);
+
+    /// TODO update the gui according
   }
 
   /// updates the header text to the loading view

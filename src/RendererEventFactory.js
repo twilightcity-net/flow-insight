@@ -20,6 +20,7 @@ export class RendererEventFactory {
     let prefix = "metaos-ipc-";
     return {
       APPLOADER_LOAD: prefix + "apploader-load",
+      WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
       VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel",

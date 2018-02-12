@@ -11,4 +11,9 @@ module.exports = class SimpleStatusDto {
       throw new Error("Unable to create dto 'SimpleStatusDto' : " + e.message);
     }
   }
+
+  isValid() {
+    if (this.status === "VALID") return true;
+    return false;
+  }
 };
