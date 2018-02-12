@@ -19,10 +19,10 @@ module.exports = class LoadingWindow {
     this.autoShow = true;
     this.window = new BrowserWindow({
       name: this.name,
-      width: 420,
-      height: 144,
-      minWidth: 420,
-      minHeight: 144,
+      width: 600,
+      height: 340,
+      minWidth: 600,
+      minHeight: 340,
       resizable: false,
       movable: false,
       center: true,

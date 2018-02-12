@@ -19,7 +19,7 @@ const log = require("electron-log"),
 module.exports = class AppLoader {
   constructor() {
     log.info("[AppLoader] created -> okay");
-    this.eventTimerMs = 250;
+    this.eventTimerMs = 1000;
     this.currentStage = 1;
     this.stages = this.getStages();
     this.events = {
@@ -27,6 +27,11 @@ module.exports = class AppLoader {
         EventFactory.Types.WINDOW_LOADING_SHOWN,
         this,
         (event, arg) => this.onLoadingShowCb()
+      ),
+      login: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_LOADING_LOGIN,
+        this,
+        (event, arg) => this.onLoadingLoginCb()
       ),
       consoleReady: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_READY,
@@ -60,6 +65,19 @@ module.exports = class AppLoader {
    * @param {arg} the argument parameters to be pass with callback
    */
   onLoadingShowCb(event, arg) {
+    setTimeout((event, arg) => {
+      this.events.load.dispatch({
+        load: this.stages.LOGIN,
+        value: this.incrementStage(),
+        total: this.getTotalStages(),
+        label: "talking to llamas...",
+        text: "Torchie Login..."
+      });
+    }, this.eventTimerMs);
+  }
+
+  /// called after loading window is shown.
+  onLoadingLoginCb(event, arg) {
     setTimeout((event, arg) => {
       this.events.load.dispatch({
         load: this.stages.CONSOLE,
@@ -112,6 +130,9 @@ module.exports = class AppLoader {
    */
   onLoadCb(event, arg) {
     switch (arg.load) {
+      case this.stages.LOGIN:
+        this.doLogin();
+        break;
       case this.stages.CONSOLE:
         this.createConsole();
         break;
@@ -133,6 +154,7 @@ module.exports = class AppLoader {
    */
   getStages() {
     return {
+      LOGIN: "login",
       CONSOLE: "console",
       SHORTCUTS: "shortcuts",
       FINISHED: "finished"
@@ -165,6 +187,13 @@ module.exports = class AppLoader {
     } else {
       AppMenu.setApplicationMenu(null);
     }
+  }
+
+  /// called from the laod event for login
+  doLogin() {
+    /// TODO start the login with a callback
+
+    this.events.login.dispatch();
   }
 
   /*

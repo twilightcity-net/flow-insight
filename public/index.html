@@ -12,18 +12,18 @@
        */
       @keyframes fadein {
         from { 
-          background: rgba(255, 255, 255, 0.0);
+          background: rgba(27, 28, 29, 0.0);
           opacity: 0; 
         }
         to { 
-          background: rgba(255, 255, 255, 0.96);
+          background: rgba(27, 28, 29, 0.96);
           opacity: 0.2; 
         }
       }
       div#root {
         cursor: default !important;
         height: 100%;
-        background: rgba(255, 255, 255, 0.96);
+        background: #1b1c1d;
         animation: fadein 0.420s;
         box-sizing: border-box; 
         border-top: 1px solid rgba(36, 36, 36, 0.96);
@@ -35,7 +35,7 @@
         cursor: default !important;
       }
       html, body.console {
-          background: rgba(255, 255, 255, 0);
+          background: #1b1c1d;
       }
       body {
         overflow: hidden;
@@ -45,10 +45,23 @@
        * VIEW: LOADING 
        */
       #view.loading {
-        margin-top: 4px;
+        background: #1b1c1d;
+        height: 100%;
+      }
+      #view.loading .icon {
+        margin: auto;
+        margin-top: 52px;
+        font-size: 32px;
+      }
+      #view.loading .ui.header .sub.header{
+        font-style: italic;
+      }
+      #view.loading .progress .bar {
+        background-color: #6435c9;
       }
       #view.loading .progress .label {
         text-align: right !important;
+        font-style: italic;
         opacity: 0.5;
         padding-right: 5px;
         padding-top: 2px;

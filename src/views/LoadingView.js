@@ -25,14 +25,14 @@ export default class LoadingView extends Component {
   constructor(props) {
     super(props);
     this.header = {
-      title: "Staring MetaOS",
+      title: "Loading Torchie",
       text: "Checking for new version...",
       icon: "hand spock"
     };
     this.progress = {
       color: "violet",
       value: 0,
-      total: 3,
+      total: 4,
       label: "Populating cats and synthesizers"
     };
     this.state = {
@@ -77,27 +77,25 @@ export default class LoadingView extends Component {
   /// renders the view into our root element of our window
   render() {
     return (
-      <Segment basic>
-        <Container>
-          <Header as="h4" floated="left">
-            <Transition
-              visible={this.state.visible}
-              transitionOnMount
-              animation="scale"
-              duration={800}
-              onHide={this.onHideShow}
-              onShow={this.onHideShow}
-            >
-              <Icon
-                size="big"
-                circular
-                inverted
-                color="violet"
-                name={this.state.header.icon}
-              />
-            </Transition>
-          </Header>
-          <Header as="h3" floated="left">
+      <Segment basic inverted>
+        <Container textAlign="center">
+          <Transition
+            visible={this.state.visible}
+            transitionOnMount
+            animation="scale"
+            duration={800}
+            onHide={this.onHideShow}
+            onShow={this.onHideShow}
+          >
+            <Icon
+              size="huge"
+              circular
+              inverted
+              color="violet"
+              name={this.state.header.icon}
+            />
+          </Transition>
+          <Header as="h2" inverted>
             <Header.Content>
               {this.state.header.title}
               <Header.Subheader>{this.state.header.text}</Header.Subheader>
@@ -112,7 +110,8 @@ export default class LoadingView extends Component {
           progress="percent"
           precision={0}
           active
-          size="small"
+          size="medium"
+          inverted
         >
           {this.state.progress.label}
         </Progress>
