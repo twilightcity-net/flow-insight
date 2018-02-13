@@ -8,6 +8,7 @@ const { app, dialog } = require("electron"),
   Util = require("../Util"),
   WindowManager = require("../managers/WindowManager"),
   { EventManager } = require("../managers/EventManager"),
+  EventFactory = require("../managers/EventFactory"),
   { ShortcutManager } = require("../managers/ShortcutManager"),
   SlackManager = require("../managers/SlackManager"),
   AppUpdater = require("./AppUpdater"),
@@ -55,6 +56,7 @@ module.exports = class App {
       global.App.DataStoreManager = new DataStoreManager();
       global.App.AppActivator = new AppActivator();
       global.App.AppLoader = new AppLoader();
+      global.App.createQuitListener();
       global.App.load();
     } catch (error) {
       App.handleError(error, true);
@@ -173,5 +175,15 @@ module.exports = class App {
 	 */
   quit() {
     app.quit();
+  }
+
+  createQuitListener() {
+    this.events.quitListener = EventFactory.createEvent(
+      EventFactory.Types.APP_QUIT,
+      this,
+      (event, arg) => {
+        global.App.quit();
+      }
+    );
   }
 };

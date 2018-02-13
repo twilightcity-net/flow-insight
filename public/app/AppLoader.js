@@ -20,7 +20,7 @@ const log = require("electron-log"),
 module.exports = class AppLoader {
   constructor() {
     log.info("[AppLoader] created -> okay");
-    this.eventTimerMs = 750;
+    this.eventTimerMs = 500;
     this.currentStage = 1;
     this.stages = this.getStages();
     this.events = {
