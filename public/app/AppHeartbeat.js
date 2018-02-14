@@ -24,7 +24,7 @@ module.exports = class AppHeartbeat {
     this.previousDeltaTime = new Date().getTime();
     this.interval = setInterval(() => {
       this.pulse();
-    }, this.intervalMs)
+    }, this.intervalMs);
   }
 
   stop() {
@@ -37,9 +37,9 @@ module.exports = class AppHeartbeat {
   //   this.dto.deltaTime = new Date().getTime() - this.previousDeltaTime;
 
   //   // log.info("[AppHeartbeat] pulse -> iMs:" + this.dto.idleTime + " | dMs:" + this.dto.deltaTime);
-    
+
   //   console.log(this.dto);
-    
+
   //   this.previousDeltaTime = new Date().getTime();
 
   //   let req = request

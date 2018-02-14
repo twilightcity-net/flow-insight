@@ -19,8 +19,10 @@
     "prestage": "gulp prettier lint",
     "stage": "git add .",
     "start": "react-scripts start",
-    "dev": "concurrently \"yarn server\" \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:5000\"",
-    "dev:remote": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://htmflow.dreamscale.io\"",
+    "dev":
+      "concurrently \"yarn server\" \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:5000\"",
+    "dev:remote":
+      "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://htmflow.dreamscale.io\"",
     "server": "node server/Server.js",
     "test": "cross-env ENV=test mocha test/SetupApi.js test/**/*Test.js --exit",
     "prebuild": "gulp prettier lint",
@@ -160,10 +162,7 @@
   },
   "build": {
     "appId": "io.dreamscale.metaos.desktop",
-    "files": [
-      "build/**/*",
-      "package.json"
-    ],
+    "files": ["build/**/*", "package.json"],
     "directories": {
       "buildResources": "resources"
     },
