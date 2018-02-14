@@ -15,7 +15,8 @@ const { app, dialog } = require("electron"),
   AppSettings = require("./AppSettings"),
   DataStoreManager = require("../managers/DataStoreManager"),
   AppActivator = require("./AppActivator"),
-  AppLoader = require("./AppLoader");
+  AppLoader = require("./AppLoader"),
+  AppHeartbeat = require("./AppHeartbeat");
 
 //
 // our main application class that is stored at global.App
@@ -44,6 +45,7 @@ module.exports = class App {
   onReady() {
     global.App.api = Util.getAppApi();
     global.App.name = Util.getAppName();
+    global.App.idleTime = 0;
     app.setName(global.App.name);
     log.info("[App] ready -> " + global.App.name + " : " + global.App.api);
     try {
@@ -56,6 +58,7 @@ module.exports = class App {
       global.App.DataStoreManager = new DataStoreManager();
       global.App.AppActivator = new AppActivator();
       global.App.AppLoader = new AppLoader();
+      global.App.AppHeartbeat = new AppHeartbeat();
       global.App.createQuitListener();
       global.App.load();
     } catch (error) {
@@ -157,8 +160,6 @@ module.exports = class App {
   load() {
     log.info("[App] checking for settings...");
     if (global.App.AppSettings.check()) {
-      /// TODO login the account, defer the following
-
       global.App.ApiKey = global.App.AppSettings.getApiKey();
       global.App.AppLoader.load();
     } else {

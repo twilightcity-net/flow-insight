@@ -240,6 +240,7 @@ module.exports = class AppLoader {
     log.info("[AppLoader] finished : okay");
     setTimeout(() => {
       global.App.WindowManager.closeWindow(this.loadingWindow, true);
+      global.App.AppHeartbeat.start();
     }, this.eventTimerMs * 2);
   }
 };
