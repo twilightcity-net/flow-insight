@@ -1,7 +1,8 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   request = require("superagent"),
-  HeartbeatDto = require("../dto/HeartbeatDto");
+  HeartbeatDto = require("../dto/HeartbeatDto"),
+  SimpleStatusDto = require("../dto/SimpleStatusDto");
 
 //
 // Application class that manages our heartbeat
@@ -58,6 +59,9 @@ module.exports = class AppHeartbeat {
         .set("Content-Type", "application/json")
         .set("X-API-Key", global.App.ApiKey);
 
+      /// create memory for our response body
+      let dto = new SimpleStatusDto({});
+
       /// store the current time to calculate our ping
       this.previousDeltaTime = new Date().getTime();
 
@@ -67,21 +71,35 @@ module.exports = class AppHeartbeat {
         log.info(
           chalk.green("[AppHeartbeat]") +
             " └> pulse complete ->  ping:" +
-            this.pingTime
+            this.pingTime +
+            "ms"
         );
 
         try {
           if (err) throw new Error(err);
-
-          // console.log(res.body);
+          dto = new SimpleStatusDto(res.body);
+          dto.pingTime = this.pingTime;
+          dto.isOnline = dto.isValid();
         } catch (e) {
-          console.log(">>>>>>>>>>heartbeat failed");
-          console.log(e);
+          global.App.isOnline = false;
+          dto = new SimpleStatusDto({
+            message: e.toString(),
+            status: "FAILED"
+          });
+          dto.pingTime = -1;
+          dto.isOnline = global.App.isOnline;
+        } finally {
+          /// TODO fire event with dto in it
+          if (dto) {
+            dto.server = global.App.api;
+            dto.isOnline = global.App.isOnline;
+            console.log(dto);
+          }
         }
       });
     } catch (e) {
       log.error(
-        chalk.blue("[AppHeartbeat]") + " " + e + "\n\n" + e.stack + "\n"
+        chalk.red("[AppHeartbeat]") + " " + e + "\n\n" + e.stack + "\n"
       );
     }
   }

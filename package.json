@@ -20,7 +20,7 @@
     "stage": "git add .",
     "start": "react-scripts start",
     "dev":
-      "concurrently \"yarn server\" \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:5000\"",
+      "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:5000\"",
     "dev:remote":
       "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://htmflow.dreamscale.io\"",
     "server": "node server/Server.js",

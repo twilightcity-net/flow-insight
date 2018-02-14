@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   Util = require("../Util"),
-  { DataClient } = require("../managers/DataStoreClient");
-SimpleStatusDto = require("../dto/SimpleStatusDto");
+  { DataClient } = require("../managers/DataStoreClient"),
+  SimpleStatusDto = require("../dto/SimpleStatusDto");
 
 //
 // Application class that manages our settings

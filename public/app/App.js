@@ -46,6 +46,7 @@ module.exports = class App {
     global.App.api = Util.getAppApi();
     global.App.name = Util.getAppName();
     global.App.idleTime = 0;
+    global.App.isOnline = false;
     app.setName(global.App.name);
     log.info("[App] ready -> " + global.App.name + " : " + global.App.api);
     try {
