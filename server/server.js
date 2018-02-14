@@ -1,10 +1,10 @@
-const chalk = require("chalk");
-const express = require("express");
-const bodyParser = require("body-parser");
-const AccountActivate = require("./resource/account/AccountActivate");
-const AccountHeartbeat = require("./resource/account/AccountHeartbeat");
-const AccountLogin = require("./resource/account/AccountLogin");
-const AccountLogout = require("./resource/account/AccountLogout");
+const chalk = require("chalk"),
+  express = require("express"),
+  bodyParser = require("body-parser"),
+  AccountActivate = require("./resource/account/AccountActivate"),
+  AccountHeartbeat = require("./resource/account/AccountHeartbeat"),
+  AccountLogin = require("./resource/account/AccountLogin"),
+  AccountLogout = require("./resource/account/AccountLogout");
 
 const Server = (module.exports = class Server {
   constructor() {

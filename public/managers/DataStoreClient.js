@@ -18,7 +18,6 @@ class DataStoreClient {
         " : " +
         store.name
     );
-    console.log(store);
     let client = new DataClient(store, callback);
     client.doRequest();
   }
@@ -90,9 +89,9 @@ class DataClient {
             " " +
             url +
             " : " +
-            err +
+            e +
             "\n\n" +
-            err.stack +
+            e.stack +
             "\n"
         );
       } finally {

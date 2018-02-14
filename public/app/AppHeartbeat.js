@@ -1,4 +1,6 @@
 const log = require("electron-log"),
+  chalk = require("chalk"),
+  request = require("superagent"),
   HeartbeatDto = require("../dto/HeartbeatDto");
 
 //
@@ -17,6 +19,8 @@ module.exports = class AppHeartbeat {
       deltaTime: 0
     });
     this.previousDeltaTime = 0;
+    this.pingTime = 0;
+    this.url = global.App.api + "/account/heartbeat";
   }
 
   start() {
@@ -32,46 +36,53 @@ module.exports = class AppHeartbeat {
     clearTimeout(this.interval);
   }
 
-  // pulse() {
-  //   this.dto.idleTime = global.App.idleTime;
-  //   this.dto.deltaTime = new Date().getTime() - this.previousDeltaTime;
+  pulse() {
+    try {
+      /// gets the calculated values for idle and delta time
+      this.dto.idleTime = global.App.idleTime;
+      this.dto.deltaTime = new Date().getTime() - this.previousDeltaTime;
 
-  //   // log.info("[AppHeartbeat] pulse -> iMs:" + this.dto.idleTime + " | dMs:" + this.dto.deltaTime);
+      log.info(
+        chalk.green("[AppHeartbeat]") +
+          " pulse -> iMs:" +
+          this.dto.idleTime +
+          " | dMs:" +
+          this.dto.deltaTime
+      );
 
-  //   console.log(this.dto);
+      /// build our heartbeat request, no retries
+      let req = request
+        .post(this.url)
+        .timeout(this.timeout)
+        .send(this.dto)
+        .set("Content-Type", "application/json")
+        .set("X-API-Key", global.App.ApiKey);
 
-  //   this.previousDeltaTime = new Date().getTime();
+      /// store the current time to calculate our ping
+      this.previousDeltaTime = new Date().getTime();
 
-  //   let req = request
-  //     .post(url)
-  //     .timeout(this.timeout)
-  //     .send(dto)
-  //     .set("Content-Type", "application/json")
-  //     .req.set("X-API-Key", global.App.ApiKey);
+      /// perform our request
+      req.end((err, res) => {
+        this.pingTime = new Date().getTime() - this.previousDeltaTime;
+        log.info(
+          chalk.green("[AppHeartbeat]") +
+            " └> pulse complete ->  ping:" +
+            this.pingTime
+        );
 
-  //   req.end((err, res) => {
-  //     log.info("[AppHeartbeat] |> request complete -> " + url);
-  //     this.store.timestamp = new Date().getTime();
-  //     try {
-  //       if (err) throw new Error(err);
-  //       this.store.data = res.body;
-  //     } catch (e) {
-  //       this.store.error = e.toString();
-  //       log.error(
-  //         "[DataStoreClient] |> Connection Error -> " +
-  //           this.type +
-  //           " " +
-  //           url +
-  //           " : " +
-  //           err +
-  //           "\n\n" +
-  //           err.stack +
-  //           "\n"
-  //       );
-  //     } finally {
-  //       log.info("[DataStoreClient] └> dispatch request callback -> " + url);
-  //       this.callback(this.store);
-  //     }
-  //   });
-  // }
+        try {
+          if (err) throw new Error(err);
+
+          // console.log(res.body);
+        } catch (e) {
+          console.log(">>>>>>>>>>heartbeat failed");
+          console.log(e);
+        }
+      });
+    } catch (e) {
+      log.error(
+        chalk.blue("[AppHeartbeat]") + " " + e + "\n\n" + e.stack + "\n"
+      );
+    }
+  }
 };
