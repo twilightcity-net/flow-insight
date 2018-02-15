@@ -11,8 +11,13 @@ export default class ConsoleMenu extends Component {
     this.isChanging = false;
     this.animationTime = this.props.animationTime + 50;
     this.state = {
-      activeItem: "troubleshoot"
+      activeItem: "troubleshoot",
+      isOnline: true,
+      pingTime: 0,
+      server: "identifying...",
+      errorMsg: ""
     };
+    this.isOnline = true;
     this.events = {
       hideConsole: RendererEventFactory.createEvent(
         RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
@@ -21,8 +26,23 @@ export default class ConsoleMenu extends Component {
       consoleMenuChange: RendererEventFactory.createEvent(
         RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
         this
+      ),
+      heartbeat: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.APP_HEARTBEAT,
+        this,
+        this.onHeartbeatCb
       )
     };
+  }
+
+  onHeartbeatCb(event, arg) {
+    console.log(arg);
+    this.setState({
+      isOnline: arg.isOnline,
+      pingTime: arg.pingTime,
+      server: arg.server,
+      errorMsg: arg.message
+    });
   }
 
   handleMenuClick = (e, { name }) => {
@@ -53,30 +73,43 @@ export default class ConsoleMenu extends Component {
 
   /// renders the menu component of the console view
   render() {
-    const { activeItem } = this.state;
-    const networkMenuItem = (
-      <Menu.Item header className="networkConnect">
-        <Icon name="signal" color="green" />
+    const { activeItem, isOnline, pingTime, server, errorMsg } = this.state;
+    const networkConnectMenuItem = (
+      <Menu.Item
+        header
+        className={isOnline ? "networkConnect" : "networkConnectError"}
+      >
+        <Icon
+          name={isOnline ? "signal" : "remove circle"}
+          color={isOnline ? "green" : "red"}
+        />
       </Menu.Item>
     );
     const popupContent = (
       <div>
         <div>
-          <i>node.torchie.dreamscale.io</i>
+          <i>{server}</i>
         </div>
         <div>
-          <i>ping:</i>
+          <i>ping: </i>
           <b>
-            <i>135ms</i>
+            <i>{pingTime <= 0 ? "calculating..." : pingTime + "ms"}</i>
           </b>
         </div>
+        {!isOnline && (
+          <div className="errorMsg">
+            <i style={{ color: "red" }}>
+              <b>{errorMsg}</b>
+            </i>
+          </div>
+        )}
       </div>
     );
     return (
       <div id="component" className="consoleMenu">
         <Menu size="tiny" inverted>
           <Popup
-            trigger={networkMenuItem}
+            trigger={networkConnectMenuItem}
             className="chunkTitle"
             content={popupContent}
             position="top left"

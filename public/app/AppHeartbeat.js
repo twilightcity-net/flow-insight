@@ -1,6 +1,7 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   request = require("superagent"),
+  EventFactory = require("../managers/EventFactory"),
   HeartbeatDto = require("../dto/HeartbeatDto"),
   SimpleStatusDto = require("../dto/SimpleStatusDto");
 
@@ -22,6 +23,12 @@ module.exports = class AppHeartbeat {
     this.previousDeltaTime = 0;
     this.pingTime = 0;
     this.url = global.App.api + "/account/heartbeat";
+    this.events = {
+      heartbeat: EventFactory.createEvent(
+        EventFactory.Types.APP_HEARTBEAT,
+        this
+      )
+    };
   }
 
   start() {
@@ -77,6 +84,7 @@ module.exports = class AppHeartbeat {
 
         try {
           if (err) throw new Error(err);
+          global.App.isOnline = true;
           dto = new SimpleStatusDto(res.body);
           dto.pingTime = this.pingTime;
           dto.isOnline = dto.isValid();
@@ -89,11 +97,10 @@ module.exports = class AppHeartbeat {
           dto.pingTime = -1;
           dto.isOnline = global.App.isOnline;
         } finally {
-          /// TODO fire event with dto in it
           if (dto) {
             dto.server = global.App.api;
             dto.isOnline = global.App.isOnline;
-            console.log(dto);
+            this.events.heartbeat.dispatch(dto);
           }
         }
       });

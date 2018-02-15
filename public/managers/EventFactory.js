@@ -22,6 +22,7 @@ module.exports = class EventFactory {
     let prefix = "metaos-ipc-";
     return {
       APP_QUIT: prefix + "app-quit",
+      APP_HEARTBEAT: prefix + "app-heartbeat",
       WINDOW_FOCUS: prefix + "window-focus",
       WINDOW_BLUR: prefix + "window-blur",
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
