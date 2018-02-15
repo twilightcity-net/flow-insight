@@ -37,7 +37,7 @@ module.exports = class Util {
 
   /// gets the api url to use
   static getAppApi() {
-    let url = "https://ds-htmflow.herokuapp.com";
+    let url = "http://htmflow.dreamscale.io";
     if (isDev) {
       process.argv.forEach(function(val, index, array) {
         if (val.toLowerCase().startsWith("server=")) {

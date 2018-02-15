@@ -11,7 +11,7 @@ const log = require("electron-log"),
 module.exports = class AppHeartbeat {
   constructor() {
     log.info("[AppHeartbeat] create heartbeat -> okay");
-    this.intervalMs = 10000;
+    this.intervalMs = 60000;
     this.timeout = {
       response: 6000,
       deadline: 9000
@@ -34,6 +34,7 @@ module.exports = class AppHeartbeat {
   start() {
     log.info("[AppHeartbeat] start heartbeat -> interval : " + this.intervalMs);
     this.previousDeltaTime = new Date().getTime();
+    this.pulse();
     this.interval = setInterval(() => {
       this.pulse();
     }, this.intervalMs);

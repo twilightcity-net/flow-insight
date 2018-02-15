@@ -41,8 +41,8 @@ class DataClient {
     this.type = store.requestType;
     this.callback = callback;
     this.timeout = {
-      response: 10000,
-      deadline: 60000
+      response: 9000,
+      deadline: 20000
     };
     this.retry = 3;
   }

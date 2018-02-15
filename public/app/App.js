@@ -16,7 +16,8 @@ const { app, dialog } = require("electron"),
   DataStoreManager = require("../managers/DataStoreManager"),
   AppActivator = require("./AppActivator"),
   AppLoader = require("./AppLoader"),
-  AppHeartbeat = require("./AppHeartbeat");
+  AppHeartbeat = require("./AppHeartbeat"),
+  AppLogin = require("./AppLogin");
 
 //
 // our main application class that is stored at global.App
@@ -30,6 +31,7 @@ module.exports = class App {
       singleInstance: this.onSingleInstance,
       windowAllClosed: this.onWindowAllClosed,
       quit: this.onQuit,
+      willQuit: this.onWillQuit,
       crashed: this.onCrash
     };
     this.isSecondInstance = app.makeSingleInstance(this.onSingleInstance);
@@ -47,6 +49,7 @@ module.exports = class App {
     global.App.name = Util.getAppName();
     global.App.idleTime = 0;
     global.App.isOnline = false;
+    global.App.isLoggedIn = false;
     app.setName(global.App.name);
     log.info("[App] ready -> " + global.App.name + " : " + global.App.api);
     try {
@@ -67,11 +70,9 @@ module.exports = class App {
     }
   }
 
-  /*
-   * This listener is activate when someone tries to run the app again. This is also where
-   * we would listen for any CLI commands or arguments... Such as MetaOS task-new or 
-   * MetaOS -quit
-   */
+  /// This listener is activate when someone tries to run the app again. This is also where
+  /// we would listen for any CLI commands or arguments... Such as MetaOS task-new or
+  /// MetaOS -quit
   onSingleInstance(commandLine, workingDirectory) {
     log.warn(
       "[App] second instance detected -> " +
@@ -81,23 +82,38 @@ module.exports = class App {
     );
   }
 
-  /*
-	 * idle the app if all windows are closed
-	 */
+  /// idle the app if all windows are closed
   onWindowAllClosed() {
     log.info("[App] app idle : no windows");
   }
 
-  /*
-	 * called when the application is quiting
-	 */
+  /// called before windows are closed and is going to quit.
+  onWillQuit(event) {
+    log.info("[App] before quit -> attempt to logout application");
+
+    /// only logout if we are already logged in. This is used to
+    /// bypass quiting during activation or loading
+    if (global.App.isLoggedIn) {
+      event.preventDefault();
+      AppLogin.doLogout(store => {
+        log.info("[App] before quit -> logout complete : quit");
+        app.exit(0);
+      });
+
+      /// hard quit just to make sure we dont memory leak
+      setTimeout(() => {
+        log.info("[App] before quit -> logout timemout : quit");
+        app.exit(0);
+      }, 10000);
+    }
+  }
+
+  /// called when the application is quiting
   onQuit(event, exitCode) {
     log.info("[App] quitting -> exitCode : " + exitCode);
   }
 
-  /*
-	 * handles when the gpu crashes then quites if not already quit.
-	 */
+  /// handles when the gpu crashes then quites if not already quit.
   // TODO implement https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
   onCrash(event, killed) {
     App.handleError(
@@ -106,9 +122,7 @@ module.exports = class App {
     );
   }
 
-  /*
-   * watch for errors on the application
-   */
+  /// watch for errors on the application
   errorWatcher() {
     process.on("uncaughtException", error => App.handleError);
     process.on("unhandledRejection", error => App.handleError);
@@ -145,15 +159,14 @@ module.exports = class App {
     }
   }
 
-  /*
-	 * used to start the app listeners which are dispatched by the apps events
-	 */
+  /// used to start the app listeners which are dispatched by the apps events
   start() {
     log.info("[App] starting...");
     this.errorWatcher();
     app.on("ready", this.events.ready);
     app.on("window-all-closed", this.events.windowAllClosed);
     app.on("quit", this.events.quit);
+    app.on("will-quit", this.events.willQuit);
     app.on("gpu-process-crashed", this.events.crashed);
   }
 
@@ -168,17 +181,19 @@ module.exports = class App {
     }
   }
 
+  /// restarts the application if not in dev mode; uses hard quit to
+  /// bypass any of the quit events.
   restart() {
     if (!isDev) app.relaunch();
     app.exit(0);
   }
-  /*
-	 * wrapper function to quit the application
-	 */
+
+  /// wrapper function to quit the application
   quit() {
     app.quit();
   }
 
+  /// async way to quit the application from renderer
   createQuitListener() {
     this.events.quitListener = EventFactory.createEvent(
       EventFactory.Types.APP_QUIT,

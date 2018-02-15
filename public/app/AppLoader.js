@@ -201,6 +201,7 @@ module.exports = class AppLoader {
       if (AppLogin.isValid()) {
         log.info("[AppLoader] valid login -> dispatch next load event");
         global.App.isOnline = true;
+        global.App.isLoggedIn = true;
         this.events.login.dispatch();
       } else {
         log.info("[AppLoader] failed login -> dispatch status to login event");
