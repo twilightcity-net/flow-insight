@@ -1,7 +1,7 @@
 {
-  "name": "metaos-desktop",
-  "productName": "MetaOS",
-  "description": "MetaOS",
+  "name": "torchie-desktop",
+  "productName": "Torchie",
+  "description": "Torchie",
   "version": "0.0.7",
   "private": true,
   "author": {
@@ -34,8 +34,8 @@
     "postbundle": "gulp clean",
     "prerelease": "yarn bundle",
     "prerelease:publish": "yarn bundle",
-    "release": "build --em.main=build/io.dreamscale.metaos.dat --publish=never",
-    "release:publish": "build --em.main=build/io.dreamscale.metaos.dat --publish=always",
+    "release": "build --em.main=build/io.dreamscale.torchie.dat --publish=never",
+    "release:publish": "build --em.main=build/io.dreamscale.torchie.dat --publish=always",
     "prerelease:update:build:win": "yarn prerelease",
     "release:build:update": "gulp releaseBuildUpdate",
     "release:build:update:run": "gulp releaseBuildUpdate && npm run dev"
@@ -163,7 +163,7 @@
     "warnings": true
   },
   "build": {
-    "appId": "io.dreamscale.metaos.desktop",
+    "appId": "io.dreamscale.torchie.desktop",
     "files": ["build/**/*", "package.json"],
     "directories": {
       "buildResources": "resources"

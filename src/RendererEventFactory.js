@@ -17,7 +17,7 @@ export class RendererEventFactory {
 
   ///static enum subclass to store event names
   static get Events() {
-    let prefix = "metaos-ipc-";
+    let prefix = "torchie-ipc-";
     return {
       APP_QUIT: prefix + "app-quit",
       APP_HEARTBEAT: prefix + "app-heartbeat",

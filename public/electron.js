@@ -22,7 +22,7 @@
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                                           *
  *   This document is a part of the source code and related artifacts                        *
- *   for MetaOS owned by DreamScale Inc.:                                                    *
+ *   for Torchie owned by DreamScale Inc.:                                                    *
  *                                                                                           *
  *   http://dreamscale.io                                                                    *
  *                                                                                           *
@@ -38,8 +38,8 @@
  *   https://www.gnu.org/licenses/lgpl-3.0.en.html                                           *
  *                                                                                           *
  *   You may obtain a copy of the DreamScale.io License and EULA at:                         *
- *   https://dreamscale.io/licenses/metaos-license.txt                                       *
- *   https://dreamscale.io/licenses/metaos-eula.txt                                          *
+ *   https://dreamscale.io/licenses/torchie-license.txt                                       *
+ *   https://dreamscale.io/licenses/torchie-eula.txt                                          *
  *                                                                                           *
  *   Unless required by applicable law or agreed to in writing, software                     *
  *   distributed under the License is distributed on an "AS IS" BASIS,                       *

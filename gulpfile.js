@@ -9,7 +9,7 @@ const taskClean = require("./gulp/tasks/clean");
 const OsTypeToTargetMap = {
   Darwin: {
     distDir: "./dist/mac/resources",
-    releaseAsarFile: "dist/mac/MetaOS.app/Contents/Resources/app.asar"
+    releaseAsarFile: "dist/mac/Torchie.app/Contents/Resources/app.asar"
   },
   Linux: {
     distDir: "./dist/win-unpacked/resources",

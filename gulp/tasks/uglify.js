@@ -9,7 +9,7 @@ module.exports = function() {
     var stream = gulp
       .src("build/electron.bundle.js")
       .pipe(uglify(config))
-      .pipe(rename("io.dreamscale.metaos.dat"))
+      .pipe(rename("io.dreamscale.torchie.dat"))
       .pipe(gulp.dest("build"));
     return stream;
   };

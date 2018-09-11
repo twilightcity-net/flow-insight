@@ -5,10 +5,10 @@ const { Menu } = require("electron"),
 
 const helpSubmenu = [
   {
-    label: "MetaOS - Learn More",
+    label: "Torchie - Learn More",
     click() {
-      log.info("[AppMenu] open browser-> http://www.openmastery.org/");
-      Util.openExternalBrowser("http://www.openmastery.org/");
+      log.info("[AppMenu] open browser-> http://www.dreamscale.io/");
+      Util.openExternalBrowser("http://www.dreamscale.io/");
     }
   },
   {

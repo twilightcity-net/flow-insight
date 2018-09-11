@@ -1,4 +1,4 @@
-### MetaOS Desktop Application ###
-Native desktop application which provides development tools for emotional intelligence.
+### Torchie Desktop Application ###
+Native desktop application which provides collaborative troubleshooting tools
 
-contact: [kara@openmastery.org](mailto:kara@openmastery.org)
+contact: [janelle@dreamscale.io](mailto:janelle@dreamscale.io)

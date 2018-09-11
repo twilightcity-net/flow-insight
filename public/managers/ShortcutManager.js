@@ -171,7 +171,7 @@ class ShortcutManager {
    * @return {list} an enum list of all of the shortcut names
    */
   static get Names() {
-    let prefix = "metaos-shortcut-";
+    let prefix = "torchie-shortcut-";
     return {
       GLOBAL_SHOW_HIDE_CONSOLE: prefix + "global-show-hide-console",
       TEST_WINDOW: prefix + "test-window"

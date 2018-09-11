@@ -10,10 +10,10 @@ module.exports = class WindowManagerHelper {
 	 */
   static get WindowNames() {
     return {
-      LOADING: "metaos-" + ViewManagerHelper.ViewNames.LOADING,
-      ACTIVATOR: "metaos-" + ViewManagerHelper.ViewNames.ACTIVATOR,
-      CONSOLE: "metaos-" + ViewManagerHelper.ViewNames.CONSOLE,
-      BUGREPORT: "metaos-" + ViewManagerHelper.ViewNames.BUGREPORT
+      LOADING: "torchie-" + ViewManagerHelper.ViewNames.LOADING,
+      ACTIVATOR: "torchie-" + ViewManagerHelper.ViewNames.ACTIVATOR,
+      CONSOLE: "torchie-" + ViewManagerHelper.ViewNames.CONSOLE,
+      BUGREPORT: "torchie-" + ViewManagerHelper.ViewNames.BUGREPORT
     };
   }
 

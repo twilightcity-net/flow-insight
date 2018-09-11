@@ -71,8 +71,8 @@ module.exports = class App {
   }
 
   /// This listener is activate when someone tries to run the app again. This is also where
-  /// we would listen for any CLI commands or arguments... Such as MetaOS task-new or
-  /// MetaOS -quit
+  /// we would listen for any CLI commands or arguments... Such as Torchie task-new or
+  /// Torchie -quit
   onSingleInstance(commandLine, workingDirectory) {
     log.warn(
       "[App] second instance detected -> " +
@@ -152,10 +152,10 @@ module.exports = class App {
       );
     }
     if (fatal) {
-      dialog.showErrorBox("MetaOS", "[FATAL] " + error.toString());
+      dialog.showErrorBox("Torchie", "[FATAL] " + error.toString());
       process.exit(1);
     } else {
-      dialog.showErrorBox("MetaOS", error.toString());
+      dialog.showErrorBox("Torchie", error.toString());
     }
   }
 

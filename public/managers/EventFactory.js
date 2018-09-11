@@ -19,7 +19,7 @@ module.exports = class EventFactory {
    * of possible events that can be dispatched by the Manager.
    */
   static get Types() {
-    let prefix = "metaos-ipc-";
+    let prefix = "torchie-ipc-";
     return {
       APP_QUIT: prefix + "app-quit",
       APP_HEARTBEAT: prefix + "app-heartbeat",
