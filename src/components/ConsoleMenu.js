@@ -11,7 +11,7 @@ export default class ConsoleMenu extends Component {
     this.isChanging = false;
     this.animationTime = this.props.animationTime + 50;
     this.state = {
-      activeItem: "troubleshoot",
+      activeItem: "journal",
       isOnline: true,
       pingTime: 0,
       server: "identifying...",

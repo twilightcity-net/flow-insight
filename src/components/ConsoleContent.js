@@ -14,9 +14,9 @@ export default class ConsoleContent extends Component {
     this.isAnimating = false;
     this.animationTime = Math.floor(this.props.animationTime / 2);
     this.state = {
-      activeLayout: "troubleshoot",
-      journalVisible: false,
-      troubleshootVisible: true,
+      activeLayout: "journal",
+      journalVisible: true,
+      troubleshootVisible: false,
       flowVisible: false,
       animationTypeJournal: "fly right",
       animationTypeTroubleshoot: "fly left",
