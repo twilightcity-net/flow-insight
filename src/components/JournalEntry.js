@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
+import React, {Component} from "react";
+import {Button, Dropdown, Grid, Input, Segment} from "semantic-ui-react";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -25,7 +25,7 @@ export default class JournalEntry extends Component {
           value: "torchie3"
         }
       ],
-      chunks: [
+      tasks: [
         {
           key: "US124945",
           text: "US124945",
@@ -46,27 +46,27 @@ export default class JournalEntry extends Component {
   }
 
   /// called when a new project is added from dropdown
-  handleAdditionForProject = (e, { value }) =>
+  handleAdditionForProject = (e, {value}) =>
     this.setState({
-      projects: [{ text: value, value }, ...this.state.projects]
+      projects: [{text: value, value}, ...this.state.projects]
     });
 
-  /// called when a new chunk is added from dropdown
-  handleAdditionForChunk = (e, { value }) =>
+  /// called when a new task is added from dropdown
+  handleAdditionForTask = (e, {value}) =>
     this.setState({
-      chunks: [{ text: value, value }, ...this.state.chunks]
+      tasks: [{text: value, value}, ...this.state.tasks]
     });
 
   /// called when a project is selected in dropdown
-  handleChangeForProject = (e, { value }) =>
+  handleChangeForProject = (e, {value}) =>
     this.setState({
       currentProjectValue: value
     });
 
-  /// called when a chunk is selected in the dropdown
-  handleChangeForChunk = (e, { value }) =>
+  /// called when a task is selected in the dropdown
+  handleChangeForTask = (e, {value}) =>
     this.setState({
-      currentChunkValue: value
+      currentTaskValue: value
     });
 
   /// called when the create task button is clicked on, it then shouold dispatch
@@ -86,39 +86,39 @@ export default class JournalEntry extends Component {
 
   /// highlight field border when element is focused on
   handleFocusForProject = e => {
-    document.getElementById("createProjectInput").classList.add("focused");
-    document.getElementById("createChunkInput").classList.remove("focused");
-    document.getElementById("createTaskInput").classList.remove("focused");
-  };
-
-  /// highlight field border when element is focused on
-  handleFocusForChunk = e => {
-    document.getElementById("createProjectInput").classList.remove("focused");
-    document.getElementById("createChunkInput").classList.add("focused");
-    document.getElementById("createTaskInput").classList.remove("focused");
+    document.getElementById("selectProjectInput").classList.add("focused");
+    document.getElementById("selectTaskInput").classList.remove("focused");
+    document.getElementById("createIntentionInput").classList.remove("focused");
   };
 
   /// highlight field border when element is focused on
   handleFocusForTask = e => {
-    document.getElementById("createProjectInput").classList.remove("focused");
-    document.getElementById("createChunkInput").classList.remove("focused");
-    document.getElementById("createTaskInput").classList.add("focused");
+    document.getElementById("selectProjectInput").classList.remove("focused");
+    document.getElementById("selectTaskInput").classList.add("focused");
+    document.getElementById("createIntentionInput").classList.remove("focused");
+  };
+
+  /// highlight field border when element is focused on
+  handleFocusForIntention = e => {
+    document.getElementById("selectProjectInput").classList.remove("focused");
+    document.getElementById("selectTaskInput").classList.remove("focused");
+    document.getElementById("createIntentionInput").classList.add("focused");
   };
 
   /// clear all of the highlights to the fields on any element blur.. called by all
   /// form element inputs
   handleBlurForInput = e => {
-    document.getElementById("createProjectInput").classList.remove("focused");
-    document.getElementById("createChunkInput").classList.remove("focused");
-    document.getElementById("createTaskInput").classList.remove("focused");
+    document.getElementById("selectProjectInput").classList.remove("focused");
+    document.getElementById("selectTaskInput").classList.remove("focused");
+    document.getElementById("createIntentionInput").classList.remove("focused");
   };
 
   /// renders the journal entry component of the console view
   render() {
     const {
       currentProjectValue,
-      currentChunkValue,
-      currentTaskValue
+      currentTaskValue,
+      currentIntentionValue
     } = this.state;
     return (
       <div id="component" className="journalEntry">
@@ -126,7 +126,7 @@ export default class JournalEntry extends Component {
           <Segment inverted>
             <Grid columns="equal" divided inverted>
               <Grid.Row stretched>
-                <Grid.Column width={2} id="createProjectInput">
+                <Grid.Column width={2} id="selectProjectInput">
                   <Dropdown
                     className="projectId"
                     options={this.state.projects}
@@ -143,43 +143,43 @@ export default class JournalEntry extends Component {
                     onChange={this.handleChangeForProject}
                   />
                 </Grid.Column>
-                <Grid.Column width={2} id="createChunkInput">
+                <Grid.Column width={2} id="selectTaskInput">
                   <Dropdown
                     className="chunkId"
-                    options={this.state.chunks}
-                    placeholder="Choose Chunk"
+                    options={this.state.tasks}
+                    placeholder="Choose Task"
                     search
                     selection
                     fluid
                     upward
                     allowAdditions
-                    value={currentChunkValue}
-                    onFocus={this.handleFocusForChunk}
-                    onBlur={this.handleBlurForInput}
-                    onAddItem={this.handleAdditionForChunk}
-                    onChange={this.handleChangeForChunk}
-                  />
-                </Grid.Column>
-                <Grid.Column width={12} id="createTaskInput">
-                  <Input
-                    className="taskText"
-                    fluid
-                    inverted
                     value={currentTaskValue}
                     onFocus={this.handleFocusForTask}
                     onBlur={this.handleBlurForInput}
-                    onKeyPress={this.handleKeyPressForTask}
+                    onAddItem={this.handleAdditionForTask}
+                    onChange={this.handleChangeForTask}
+                  />
+                </Grid.Column>
+                <Grid.Column width={12} id="createIntentionInput">
+                  <Input
+                    className="intentionText"
+                    fluid
+                    inverted
+                    value={currentIntentionValue}
+                    onFocus={this.handleFocusForIntention}
+                    onBlur={this.handleBlurForInput}
+                    onKeyPress={this.handleKeyPressForIntention}
                     action={
                       <Button
-                        className="createTask"
+                        className="createIntention"
                         icon="share"
                         labelPosition="right"
                         content="Create"
-                        onClick={this.handleClickForTask}
-                        onKeyPress={this.handleKeyPressForTask}
+                        onClick={this.handleClickForIntention}
+                        onKeyPress={this.handleKeyPressForIntention}
                       />
                     }
-                    placeholder="What chunk are you working on next?"
+                    placeholder="What's your next Intention?"
                   />
                 </Grid.Column>
               </Grid.Row>
