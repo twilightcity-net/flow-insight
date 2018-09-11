@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { DataStoreFactory } from "../DataStoreFactory";
-import { RendererEventFactory } from "../RendererEventFactory";
+import React, {Component} from "react";
+import {DataStoreFactory} from "../DataStoreFactory";
+import {RendererEventFactory} from "../RendererEventFactory";
 import {
   Button,
   Container,
@@ -12,8 +12,10 @@ import {
   Transition
 } from "semantic-ui-react";
 
-const { remote } = window.require("electron"),
-  ActivationTokenDto = remote.require("./dto/ActivationTokenDto");
+const {remote} = window.require("electron"),
+  ActivationCodeDto = remote.require("./dto/ActivationCodeDto");
+
+const electronLog = remote.require("electron-log");
 
 //
 // This view class is used to activate the application
@@ -53,19 +55,26 @@ export default class ActivatorView extends Component {
     };
   }
 
+  log = msg => {
+    electronLog.info(`[${this.constructor.name}] ${msg}`);
+  };
+
   onActivationSaved(event, arg) {
+    this.log("onActivationSaved");
     this.showSuccessOrFailureContent();
   }
 
   componentDidMount() {
+    this.log("componentDidMount");
     let input = document.getElementById("activator-view-form-tokenKey-input");
     if (input) input.focus();
   }
 
   processApiKey() {
+    this.log("processApiKey: " + this.tokenKeyValue);
     this.store.load(
-      new ActivationTokenDto({
-        activationToken: this.tokenKeyValue
+      new ActivationCodeDto({
+        activationCode: this.tokenKeyValue
       }),
       err => {
         setTimeout(() => {
@@ -76,10 +85,12 @@ export default class ActivatorView extends Component {
   }
 
   activationFinished() {
+    this.log("activationFinished");
     this.events.closeActivator.dispatch(0, true);
   }
 
   onStoreLoadCb(err) {
+    this.log("onStoreLoadCb");
     if (err) {
       this.store.dto = new this.store.dtoClass({
         message: err,
@@ -92,6 +103,7 @@ export default class ActivatorView extends Component {
   }
 
   showSuccessOrFailureContent() {
+    this.log("showSuccessOrFailureContent");
     this.setState({
       tokenKeyVisible: false,
       termsVisible: false,
@@ -115,12 +127,14 @@ export default class ActivatorView extends Component {
     }, this.animationTime);
   }
 
-  handleChange = (e, { name, value }) => {
+  handleChange = (e, {name, value}) => {
+    this.log("handleChange : " + value.length + " : " + value);
     /// reset the activate button if incorrect value present
-    if (value.length > 20) {
+    if (value.length > 32) {
       document.getElementById(
         "activator-view-form-tokenKey-input"
-      ).value = value.substring(0, 20);
+      ).value = value.substring(0, 32);
+      value = value.substring(0, 32);
     } else if (!this.state.submitBtnDisabled || value.length === 0) {
       this.setState({
         submitBtnDisabled: true
@@ -133,7 +147,7 @@ export default class ActivatorView extends Component {
       return;
     }
     /// enable the activate button if everything is good
-    if (value !== "" && this.state.submitBtnDisabled && value.length === 20) {
+    if (value !== "" && this.state.submitBtnDisabled && value.length === 32) {
       this.setState({
         submitBtnDisabled: false
       });
@@ -142,6 +156,7 @@ export default class ActivatorView extends Component {
   };
 
   handleSubmit = () => {
+    this.log("handleSubmit");
     this.setState({
       tokenKeyVisible: false,
       termsVisible: false,
@@ -157,6 +172,7 @@ export default class ActivatorView extends Component {
   };
 
   handleTermsAndConditionsAccept = () => {
+    this.log("handleTermsAndConditionsAccept");
     this.setState({
       tokenKeyVisible: false,
       termsVisible: false,
@@ -204,7 +220,7 @@ export default class ActivatorView extends Component {
     const tokenContent = (
       <Container className="tokenContent">
         <Header as="h4" floated="left" inverted>
-          <Icon size="huge" circular inverted color="violet" name="signup" />
+          <Icon size="huge" circular inverted color="violet" name="signup"/>
         </Header>
         <Header as="h3" floated="left" inverted>
           <Header.Content>
@@ -215,7 +231,7 @@ export default class ActivatorView extends Component {
             </Header.Subheader>
           </Header.Content>
         </Header>
-        <Divider clearing />
+        <Divider clearing/>
         <Segment className="tokenKey" inverted>
           <Form onSubmit={this.handleSubmit} size="big" inverted>
             <Form.Group widths="equal" className="tokenKey">
@@ -228,7 +244,7 @@ export default class ActivatorView extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            <Divider />
+            <Divider/>
             <Button
               type="submit"
               size="big"
@@ -261,7 +277,7 @@ export default class ActivatorView extends Component {
             </Header.Subheader>
           </Header.Content>
         </Header>
-        <Divider clearing />
+        <Divider clearing/>
         <Segment className="terms" inverted>
           <p>****** End-User License Agreement ******</p>
           <p>
@@ -343,7 +359,7 @@ export default class ActivatorView extends Component {
             Licensor and Licensee and supersedes any prior statements.
           </p>
         </Segment>
-        <Divider />
+        <Divider/>
         <Button
           onClick={this.handleTermsAndConditionsAccept}
           size="big"
@@ -356,8 +372,8 @@ export default class ActivatorView extends Component {
     const activatingContent = (
       <Container className="activatingContent">
         <Segment textAlign="center" inverted>
-          <Icon loading size="huge" name="spinner" color="violet" />
-          <Divider clearing />
+          <Icon loading size="huge" name="spinner" color="violet"/>
+          <Divider clearing/>
           <Header as="h3" floated="left" inverted>
             <Header.Content>
               Activating Torchie...
@@ -375,8 +391,8 @@ export default class ActivatorView extends Component {
     const successContent = (
       <Container className="successContent">
         <Segment textAlign="center" inverted>
-          <Icon size="huge" name="checkmark box" color="green" />
-          <Divider clearing />
+          <Icon size="huge" name="checkmark box" color="green"/>
+          <Divider clearing/>
           <Header as="h3" floated="left" inverted>
             <Header.Content>
               Successfully Activated =]
@@ -386,7 +402,7 @@ export default class ActivatorView extends Component {
             </Header.Content>
           </Header>
         </Segment>
-        <Divider clearing />
+        <Divider clearing/>
         <Container textAlign="center">
           <Button
             onClick={this.handleFinishedActivating}
@@ -401,8 +417,8 @@ export default class ActivatorView extends Component {
     const failedContent = (
       <Container className="failedContent">
         <Segment textAlign="center" inverted>
-          <Icon size="huge" name="warning circle" color="red" />
-          <Divider clearing />
+          <Icon size="huge" name="warning circle" color="red"/>
+          <Divider clearing/>
           <Header as="h3" floated="left" inverted>
             <Header.Content>
               Unable to Activate
@@ -412,7 +428,7 @@ export default class ActivatorView extends Component {
             </Header.Content>
           </Header>
         </Segment>
-        <Divider clearing />
+        <Divider clearing/>
         <Container textAlign="center">
           <Button onClick={this.handleErrorActivating} size="big" color="red">
             Try Again
