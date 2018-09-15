@@ -62,7 +62,8 @@ export class DataStore {
   /// enum class of all of http requests
   static get RequestTypes() {
     return {
-      POST: "post"
+      POST: "post",
+      GET: "get"
     };
   }
 }
