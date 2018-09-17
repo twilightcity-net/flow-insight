@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import {Button, Dropdown, Grid, Input, Segment} from "semantic-ui-react";
 import {DataStoreFactory} from "../DataStoreFactory";
 
-const {remote} = window.require("electron");
+const {remote} = window.require("electron"),
+  IntentionInputDto = remote.require("./dto/IntentionInputDto");
 
 const electronLog = remote.require("electron-log");
 
@@ -17,15 +18,24 @@ export default class JournalEntry extends Component {
     this.state = {
       projects: [],
       tasks: [],
-      currentProjectValue : null,
-      currentTaskValue : null,
-      currentIntentionValue : null
+      currentProjectValue: null,
+      currentTaskValue: null,
+      currentIntentionValue: null
     };
 
   }
 
-  componentDidMount() {
+  log = msg => {
+    electronLog.info(`[${this.constructor.name}] ${msg}`);
+  };
+
+  componentDidMount = () => {
     this.log("componentDidMount");
+
+    this.entryStore = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.JOURNAL_ENTRY,
+      this
+    );
 
     this.store = DataStoreFactory.createStore(
       DataStoreFactory.Stores.RECENT_JOURNAL,
@@ -39,10 +49,9 @@ export default class JournalEntry extends Component {
           this.onStoreLoadCb(err);
         }, this.activateWaitDelay);
       });
+  };
 
-  }
-
-  onStoreLoadCb(err) {
+  onStoreLoadCb = (err) => {
     this.log("onStoreLoadCb");
     if (err) {
       this.store.dto = new this.store.dtoClass({
@@ -59,9 +68,27 @@ export default class JournalEntry extends Component {
       let defaultProject = this.initCurrentProject(recentJournalDto);
       this.populateTasks(defaultProject, recentJournalDto);
 
-      this.setState({recentJournalDto : recentJournalDto});
+      this.setState({recentJournalDto: recentJournalDto});
     }
-  }
+  };
+
+  onSaveEntryCb = (err) => {
+    this.log("onSaveEntryCb saving!");
+    if (err) {
+      this.entryStore.dto = new this.store.dtoClass({
+        message: err,
+        status: "FAILED"
+      });
+      this.log("error:" + err);
+    } else {
+      let recentEntry = this.entryStore.dto;
+      this.log(JSON.stringify(recentEntry, null, 2));
+
+      this.setState({currentIntentionValue: ""});
+
+      this.log("Success!!");
+    }
+  };
 
   populateProjects = (recentJournalDto) => {
 
@@ -71,7 +98,7 @@ export default class JournalEntry extends Component {
     for (var i in recentProjects) {
       projects[i] = {
         text: recentProjects[i].name,
-        value: recentProjects[i].name
+        value: recentProjects[i].id
       };
     }
 
@@ -83,43 +110,40 @@ export default class JournalEntry extends Component {
 
   };
 
-  initCurrentProject(recentJournalDto) {
+  initCurrentProject = (recentJournalDto) => {
     //set default project
 
-    let recentIntentions = recentJournalDto.recentIntentions;
     let recentProjects = recentJournalDto.recentProjects;
 
     let currentProject = null;
-    if (recentIntentions.length > 0) {
-      currentProject = recentIntentions[0].projectName;
 
-    } else if (recentProjects.length > 0) {
-      currentProject = recentProjects[0].value;
+    if (recentProjects.length > 0) {
+      currentProject = recentProjects[0].id;
     }
 
     this.setState({
       currentProjectValue: currentProject
     });
 
-    this.log("initProject = "+currentProject);
+    this.log("initProject = " + currentProject);
 
     return currentProject;
-  }
+  };
 
   populateTasks = (currentProject, recentJournalDto) => {
 
-    this.log("current project = "+ currentProject);
+    this.log("populateTasks");
 
-    let currentTasks = recentJournalDto.recentTasksByProjectName[currentProject];
-
-    this.log("currentTasks = "+currentTasks);
+    let currentTasks = recentJournalDto.recentTasksByProjectId[currentProject];
 
     var tasksForProject = [];
     for (var i in currentTasks) {
       tasksForProject[i] = {
         text: currentTasks[i].name,
-        value: currentTasks[i].name
+        value: currentTasks[i].id
       };
+
+      this.log("task = "+ tasksForProject[i].text);
     }
 
     this.setState({
@@ -132,9 +156,7 @@ export default class JournalEntry extends Component {
 
   };
 
-  log = msg => {
-    electronLog.info(`[${this.constructor.name}] ${msg}`);
-  };
+
 
   /// called when a new project is added from dropdown
   handleAdditionForProject = (e, {value}) => {
@@ -154,7 +176,7 @@ export default class JournalEntry extends Component {
 
   /// called when a project is selected in dropdown
   handleChangeForProject = (e, {value}) => {
-    this.log("handleChangeForProject: "+value);
+    this.log("handleChangeForProject: " + value);
     this.setState({
       currentProjectValue: value
     });
@@ -165,9 +187,9 @@ export default class JournalEntry extends Component {
 
   /// called when a project is selected in dropdown
   handleKeyPressForProject = (e) => {
-    this.log("handleKeyPressForProject: "+e.key);
+    this.log("handleKeyPressForProject: " + e.key);
 
-    if(e.key === 'Enter'){
+    if (e.key === 'Enter') {
       this.log("ENTER!");
     }
   };
@@ -188,9 +210,10 @@ export default class JournalEntry extends Component {
 
   /// called when the create task button is clicked on, it then shouold dispatch
   /// a new event that will update the rendered view
-  handleClickForIntention = () => {
-    this.log("handleClickForIntention");
-    console.log("[JournalEntry] handle button click -> " + this.type);
+  handleClickForCreate = () => {
+    this.log("handleClickForCreate");
+
+    this.saveJournalEntry();
   };
 
   /// works the same as the click for create handler.. see above ^
@@ -198,14 +221,46 @@ export default class JournalEntry extends Component {
     this.log("handleKeyPressForIntention");
 
     if (e.charCode === 13) {
-      this.log("13!! " + this.state.currentIntentionValue);
+      this.log("Saving Intention! " + this.state.currentIntentionValue);
+      this.saveJournalEntry();
     }
   };
 
-  handleChangeForIntention = (e, {name, value})  => {
-    this.log("handleChangeForIntention "+value);
+  saveJournalEntry = () => {
 
-    this.setState({currentIntentionValue : value});
+    this.log("active projectId: "+ this.state.currentProjectValue);
+    this.log("active taskId: "+this.state.currentTaskValue);
+
+    //TODO extract active state of projectId, and taskId from current project and task fields
+
+    //what if I changed the active value to the Id, and the text to the friendly name?
+    //can I get the controls and their active value?
+    //or should I iterate over the list in the journal to find the project / task that matches the active?
+    //this seems like I should construct the lists so the values actually represent the selected thing
+
+    //then I need projectId, taskId, description, send this to server, and in theory should be able to make new tasks
+    //
+    // let recentJour = this.
+    //
+    this.log("saveJournalEntry: " + this.tokenKeyValue);
+    this.entryStore.load(
+      new IntentionInputDto({
+        projectId: this.state.currentProjectValue,
+        taskId: this.state.currentTaskValue,
+        description: this.state.currentIntentionValue
+      }),
+      err => {
+        setTimeout(() => {
+          this.onSaveEntryCb(err);
+        }, this.activateWaitDelay);
+      }
+    );
+  };
+
+  handleChangeForIntention = (e, {name, value}) => {
+    this.log("handleChangeForIntention " + value);
+
+    this.setState({currentIntentionValue: value});
   };
 
   /// highlight field border when element is focused on
@@ -235,6 +290,7 @@ export default class JournalEntry extends Component {
   /// clear all of the highlights to the fields on any element blur.. called by all
   /// form element inputs
   handleBlurForInput = e => {
+
     this.log("handleBlurForInput");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
@@ -302,8 +358,7 @@ export default class JournalEntry extends Component {
                         icon="share"
                         labelPosition="right"
                         content="Create"
-                        onClick={this.handleClickForIntention}
-                        onKeyPress={this.handleKeyPressForIntention}
+                        onClick={this.handleClickForCreate}
                       />
                     }
                     placeholder="What's your next Intention?"

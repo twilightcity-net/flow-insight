@@ -10,7 +10,7 @@ module.exports = class RecentJournalDto {
       this.testListString = json.testListString;
       this.recentIntentions = json.recentIntentions;
       this.recentProjects = json.recentProjects;
-      this.recentTasksByProjectName = json.recentTasksByProjectName;
+      this.recentTasksByProjectId = json.recentTasksByProjectId;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'RecentJournalDto' : " + e.message
