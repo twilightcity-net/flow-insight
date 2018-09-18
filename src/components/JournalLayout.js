@@ -17,7 +17,9 @@ export default class JournalLayout extends Component {
     super(props);
 
     this.state = {
-      recentProjects: []
+      recentProjects: [],
+      recentTasksByProjectId: [],
+      recentEntry: {}
     }
   }
 
@@ -104,6 +106,10 @@ export default class JournalLayout extends Component {
           description: savedEntry.description
         };
 
+      this.setState({
+        intentions: [...this.state.intentions, savedEntry]
+      });
+
       this.setState({recentEntry: recentEntry});
 
       this.log("Success!!");
@@ -137,7 +143,8 @@ export default class JournalLayout extends Component {
       this.setState({
         recentProjects: recentJournalDto.recentProjects,
         recentTasksByProjectId: recentJournalDto.recentTasksByProjectId,
-        recentEntry: recentEntry
+        recentEntry: recentEntry,
+        intentions: recentJournalDto.recentIntentions
       });
 
       this.log("Success!");
@@ -152,7 +159,7 @@ export default class JournalLayout extends Component {
           <TimeScrubber />
         </div>
         <div id="wrapper" className="journalItems">
-          <JournalItems height={this.calculateJournalItemsHeight()} />
+          <JournalItems intentions={this.state.intentions} height={this.calculateJournalItemsHeight()} />
         </div>
         <div id="wrapper" className="journalEntry">
           <JournalEntry onAddEntry={this.onAddEntry} recentEntry={this.state.recentEntry} recentProjects={this.state.recentProjects} recentTasksByProjectId={this.state.recentTasksByProjectId}/>

@@ -32,11 +32,6 @@ export default class JournalEntry extends Component {
   componentDidMount = () => {
     this.log("componentDidMount");
 
-    this.entryStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.JOURNAL_ENTRY,
-      this
-    );
-
   };
 
   componentWillReceiveProps = (nextProps) => {

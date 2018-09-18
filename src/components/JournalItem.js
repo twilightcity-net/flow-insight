@@ -14,17 +14,17 @@ export default class JournalItem extends Component {
   /// renders the component of the console view
   render() {
     const projectCell = (
-      <div className="chunkTitle">{this.props.projectId}</div>
+      <div className="chunkTitle">{this.props.projectName}</div>
     );
-    const taskCell = <div className="chunkTitle">{this.props.chunkId}</div>;
-    const chunkCell = <div className="chunkText">{this.props.chunkText}</div>;
+    const taskCell = <div className="chunkTitle">{this.props.taskName}</div>;
+    const chunkCell = <div className="chunkText">{this.props.description}</div>;
     const popupContent = (
       <div>
         <div>
-          <i>{this.props.projectId}</i>
+          <i>{this.props.projectName}</i>
         </div>
         <div>
-          <b>{this.props.chunkId}</b>
+          <b>{this.props.taskName}</b>
         </div>
         <Divider />
         <div>

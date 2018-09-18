@@ -2,13 +2,63 @@ import React, { Component } from "react";
 import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
 
+const {remote} = window.require("electron");
+
+const electronLog = remote.require("electron-log");
+
+
 //
 // this component is the tab panel wrapper for the console content
 //
 export default class JournalItems extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+
+  constructor(props) {
+
+    super(props);
+
+    this.state = {
+      journalItems: []
+    };
+
+  }
+
+  log = msg => {
+    electronLog.info(`[${this.constructor.name}] ${msg}`);
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    this.log("JournalItems:: componentWillReceiveProps");
+
+    this.log("intentions = "+ nextProps.intentions);
+
+    let intentions = nextProps.intentions;
+
+    var journalItems = [];
+    for (var i in intentions) {
+      journalItems[i] = {
+        projectName: intentions[i].projectName,
+        taskName: intentions[i].taskName,
+        description: intentions[i].description,
+      };
+    }
+
+    this.setState({
+      journalItems: journalItems
+    });
+
+  };
+
+  scrollToBottom = () => {
+    this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }
+
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottom();
+  }
 
   /// renders the journal items component from array in the console view
   render() {
@@ -19,53 +69,19 @@ export default class JournalItems extends Component {
         style={{ height: this.props.height }}
       >
         <Grid inverted>
-          <JournalItem
-            projectId="torchie"
-            chunkId="US143242"
-            chunkText="Incorrupte consequuntur mei quo argumentum tristique doming. homero senectus mei argumentum eirmod morbi."
-          />
-          <JournalItem
-            projectId="torchie"
-            chunkId="US157874"
-            chunkText="Pellentesque habitant morbi tristique senectus."
-          />
-          <JournalItem
-            projectId="torchie"
-            chunkId="US153345"
-            chunkText="Eu quo homero blandit intellegebat. Incorrupte consequuntur mei id."
-          />
-          <JournalItem
-            projectId="torchie"
-            chunkId="US152224"
-            chunkText="nominati quo argumentum tristique doming. homero senectus mei Pellentesque."
-          />
-          <JournalItem
-            projectId="torchie"
-            chunkId="US154445"
-            chunkText="argumentum eirmod morbi Incorrupte intellegebat."
-          />
-          <JournalItem
-            projectId="torchie"
-            chunkId="US233556"
-            chunkText="Eu quo homero blandit intellegebat. Incorrupte consequuntur mei id."
-          />
-          <JournalItem
-            projectId="torchie"
-            chunkId="US233453"
-            chunkText="Doming. homero senectus mei Pellentesque. Incorrupte consequuntur mei id."
-          />
-          <JournalItem
-            projectId="torchie"
-            chunkId="US233453"
-            chunkText="Doming. homero senectus mei Pellentesque. Incorrupte consequuntur mei id."
-          />
-          <JournalItem
-            projectId="torchie"
-            chunkId="US233453"
-            chunkText="Doming. homero senectus mei Pellentesque. Incorrupte consequuntur mei id."
-          />
+          {this.state.journalItems.map(d =>
+            <JournalItem
+              projectName={d.projectName}
+              taskName={d.taskName}
+              description={d.description}
+            />
+          )}
         </Grid>
+        <div style={{ float:"left", clear: "both" }}
+             ref={(el) => { this.messagesEnd = el; }}>
+        </div>
       </div>
     );
   }
 }
+
