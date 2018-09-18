@@ -37,62 +37,24 @@ export default class JournalEntry extends Component {
       this
     );
 
-    this.store = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.RECENT_JOURNAL,
-      this
-    );
-
-    this.store.load(
-      null,
-      err => {
-        setTimeout(() => {
-          this.onStoreLoadCb(err);
-        }, this.activateWaitDelay);
-      });
   };
 
-  onStoreLoadCb = (err) => {
-    this.log("onStoreLoadCb");
-    if (err) {
-      this.store.dto = new this.store.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
+  componentWillReceiveProps = (nextProps) => {
+    this.log("componentWillReceiveProps");
 
-      let recentJournalDto = this.store.dto;
+    this.log("recentProjects = "+ nextProps.recentProjects);
+    this.log("recentTasks = "+ nextProps.recentTasksByProjectId);
+    this.log("recentEntry = "+ nextProps.recentEntry);
 
-      this.populateProjects(recentJournalDto);
+    this.populateProjects(nextProps.recentProjects);
 
-      let defaultProject = this.initCurrentProject(recentJournalDto);
-      this.populateTasks(defaultProject, recentJournalDto);
+    let defaultProject = this.initCurrentProject(nextProps.recentProjects, nextProps.recentEntry);
+    this.populateTasks(defaultProject, nextProps.recentTasksByProjectId, nextProps.recentEntry);
 
-      this.setState({recentJournalDto: recentJournalDto});
-    }
   };
 
-  onSaveEntryCb = (err) => {
-    this.log("onSaveEntryCb saving!");
-    if (err) {
-      this.entryStore.dto = new this.store.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
-      let recentEntry = this.entryStore.dto;
-      this.log(JSON.stringify(recentEntry, null, 2));
 
-      this.setState({currentIntentionValue: ""});
-
-      this.log("Success!!");
-    }
-  };
-
-  populateProjects = (recentJournalDto) => {
-
-    let recentProjects = recentJournalDto.recentProjects;
+  populateProjects = (recentProjects) => {
 
     var projects = [];
     for (var i in recentProjects) {
@@ -106,18 +68,16 @@ export default class JournalEntry extends Component {
       projects: projects
     });
 
-    this.log(JSON.stringify(recentJournalDto, null, 2));
-
   };
 
-  initCurrentProject = (recentJournalDto) => {
+  initCurrentProject = (recentProjects, recentEntry) => {
     //set default project
-
-    let recentProjects = recentJournalDto.recentProjects;
 
     let currentProject = null;
 
-    if (recentProjects.length > 0) {
+    if (recentEntry) {
+      currentProject = recentEntry.projectId;
+    } else if (recentProjects.length > 0) {
       currentProject = recentProjects[0].id;
     }
 
@@ -130,11 +90,11 @@ export default class JournalEntry extends Component {
     return currentProject;
   };
 
-  populateTasks = (currentProject, recentJournalDto) => {
+  populateTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
 
     this.log("populateTasks");
 
-    let currentTasks = recentJournalDto.recentTasksByProjectId[currentProject];
+    let currentTasks = recentTasksByProjectId[currentProject];
 
     var tasksForProject = [];
     for (var i in currentTasks) {
@@ -150,8 +110,15 @@ export default class JournalEntry extends Component {
       tasks: tasksForProject
     });
 
+    let currentTask = tasksForProject[0].value;
+
+    if (recentEntry && recentEntry.projectId === currentProject) {
+      this.log("Populating recent default!");
+      currentTask = recentEntry.taskId;
+    }
+
     this.setState({
-      currentTaskValue: tasksForProject[0].value
+      currentTaskValue: currentTask
     });
 
   };
@@ -181,7 +148,7 @@ export default class JournalEntry extends Component {
       currentProjectValue: value
     });
 
-    this.populateTasks(value, this.state.recentJournalDto);
+    this.populateTasks(value, this.props.recentTasksByProjectId, this.props.recentEntry);
 
   };
 
@@ -214,6 +181,7 @@ export default class JournalEntry extends Component {
     this.log("handleClickForCreate");
 
     this.saveJournalEntry();
+
   };
 
   /// works the same as the click for create handler.. see above ^
@@ -227,35 +195,19 @@ export default class JournalEntry extends Component {
   };
 
   saveJournalEntry = () => {
-
     this.log("active projectId: "+ this.state.currentProjectValue);
     this.log("active taskId: "+this.state.currentTaskValue);
 
-    //TODO extract active state of projectId, and taskId from current project and task fields
+    let journalEntry = new IntentionInputDto({
+      projectId: this.state.currentProjectValue,
+      taskId: this.state.currentTaskValue,
+      description: this.state.currentIntentionValue
+    });
 
-    //what if I changed the active value to the Id, and the text to the friendly name?
-    //can I get the controls and their active value?
-    //or should I iterate over the list in the journal to find the project / task that matches the active?
-    //this seems like I should construct the lists so the values actually represent the selected thing
-
-    //then I need projectId, taskId, description, send this to server, and in theory should be able to make new tasks
-    //
-    // let recentJour = this.
-    //
-    this.log("saveJournalEntry: " + this.tokenKeyValue);
-    this.entryStore.load(
-      new IntentionInputDto({
-        projectId: this.state.currentProjectValue,
-        taskId: this.state.currentTaskValue,
-        description: this.state.currentIntentionValue
-      }),
-      err => {
-        setTimeout(() => {
-          this.onSaveEntryCb(err);
-        }, this.activateWaitDelay);
-      }
-    );
+    this.props.onAddEntry(journalEntry);
+    this.setState({currentIntentionValue: ""});
   };
+
 
   handleChangeForIntention = (e, {name, value}) => {
     this.log("handleChangeForIntention " + value);
@@ -299,7 +251,6 @@ export default class JournalEntry extends Component {
 
   /// renders the journal entry component of the console view
   render() {
-    const {} = this.state;
     return (
       <div id="component" className="journalEntry">
         <Segment.Group>
