@@ -8,7 +8,7 @@ import { Divider, Grid, Popup } from "semantic-ui-react";
 export default class JournalItem extends Component {
   constructor(props) {
     super(props);
-    this.date = new Date(2017, 3, 7);
+
   }
 
   /// renders the component of the console view
@@ -29,7 +29,8 @@ export default class JournalItem extends Component {
         <Divider />
         <div>
           <span className="date">
-            {moment(this.date).format("ddd, MMM Do 'YY, h:mm a")}
+
+            {this.props.position}
           </span>
         </div>
       </div>

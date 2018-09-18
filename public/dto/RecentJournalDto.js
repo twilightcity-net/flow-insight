@@ -5,9 +5,7 @@ module.exports = class RecentJournalDto {
   constructor(json) {
     try {
       if (typeof json === "string") json = JSON.parse(json);
-
-      this.testString = json.testString;
-      this.testListString = json.testListString;
+      
       this.recentIntentions = json.recentIntentions;
       this.recentProjects = json.recentProjects;
       this.recentTasksByProjectId = json.recentTasksByProjectId;

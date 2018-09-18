@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
+import moment from "moment";
 
 const {remote} = window.require("electron");
 
@@ -35,10 +36,15 @@ export default class JournalItems extends Component {
 
     var journalItems = [];
     for (var i in intentions) {
+
+      let d = intentions[i].position;
+      let dateObj = new Date(d[0], d[1], d[2], d[3], d[4], d[5]);
+
       journalItems[i] = {
         projectName: intentions[i].projectName,
         taskName: intentions[i].taskName,
         description: intentions[i].description,
+        position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a")
       };
     }
 
@@ -50,7 +56,7 @@ export default class JournalItems extends Component {
 
   scrollToBottom = () => {
     this.messagesEnd.scrollIntoView({ behavior: "smooth" });
-  }
+  };
 
   componentDidMount() {
     this.scrollToBottom();
@@ -74,6 +80,7 @@ export default class JournalItems extends Component {
               projectName={d.projectName}
               taskName={d.taskName}
               description={d.description}
+              position={d.position}
             />
           )}
         </Grid>
