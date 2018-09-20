@@ -3,6 +3,7 @@ import TimeScrubber from "./TimeScrubber";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
 import {DataStoreFactory} from "../DataStoreFactory";
+import moment from "moment";
 
 const {remote} = window.require("electron");
 
@@ -19,7 +20,11 @@ export default class JournalLayout extends Component {
     this.state = {
       recentProjects: [],
       recentTasksByProjectId: [],
-      recentEntry: {}
+      recentEntry: {},
+      activeIndex: 0,
+      activeSize: 0,
+      activeJournalItem: null,
+      allJournalItems: [],
     }
   }
 
@@ -106,11 +111,19 @@ export default class JournalLayout extends Component {
           description: savedEntry.description
         };
 
-      this.setState({
-        intentions: [...this.state.intentions, savedEntry]
-      });
 
-      this.setState({recentEntry: recentEntry});
+      //create journal item from saved entry
+      //set the active journal item and active index
+
+      let journalItem = this.createJournalItem(this.state.allJournalItems.length, savedEntry);
+
+      this.setState({
+        allJournalItems: [...this.state.allJournalItems,journalItem],
+        activeJournalItem: journalItem,
+        activeIndex: journalItem.index,
+        recentEntry: recentEntry,
+        activeSize: this.state.allJournalItems.length + 1
+      });
 
       this.log("Success!!");
     }
@@ -140,15 +153,66 @@ export default class JournalLayout extends Component {
          };
       }
 
+      var journalItems = [];
+      var intentions = recentJournalDto.recentIntentions;
+
+      for (var i in intentions) {
+        journalItems[i] = this.createJournalItem(i, intentions[i]);
+      }
+
+      let activeJournalItem = null;
+      let activeIndex = 0;
+
+      if (journalItems.length > 0) {
+        activeJournalItem = journalItems[journalItems.length - 1];
+        activeIndex = activeJournalItem.index;
+      }
+
       this.setState({
+        allJournalItems: journalItems,
+        activeJournalItem: activeJournalItem,
+        activeIndex: activeIndex,
         recentProjects: recentJournalDto.recentProjects,
         recentTasksByProjectId: recentJournalDto.recentTasksByProjectId,
         recentEntry: recentEntry,
-        intentions: recentJournalDto.recentIntentions
+        intentions: recentJournalDto.recentIntentions,
+        activeSize: recentJournalDto.recentIntentions.length
       });
 
       this.log("Success!");
     }
+  };
+
+  createJournalItem = (index, intention) => {
+
+    let d = intention.position;
+    let dateObj = new Date(d[0], d[1], d[2], d[3], d[4], d[5]);
+
+    return {
+      index: index,
+      id: intention.id,
+      projectName: intention.projectName,
+      taskName: intention.taskName,
+      taskSummary: intention.taskSummary,
+      description: intention.description,
+      position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a")
+    };
+  };
+
+  onChangeActiveEntry = (rowId, journalItem) => {
+    this.log("onChangeActiveEntry:" + rowId + ", "+ journalItem.index);
+    this.setState({
+       activeIndex: journalItem.index,
+       activeEntry: journalItem
+    });
+  };
+
+  onChangeScrubPosition = (selectedIndex) => {
+    this.log("onChangeScrubPosition:" + selectedIndex);
+    this.setState({
+      activeIndex: selectedIndex,
+      activeJournalItem: this.state.allJournalItems[selectedIndex]
+    })
   };
 
   /// renders the journal layout of the console view
@@ -156,10 +220,10 @@ export default class JournalLayout extends Component {
     return (
       <div id="component" className="journalLayout">
         <div id="wrapper" className="timeScrubber">
-          <TimeScrubber />
+          <TimeScrubber onChangeScrubPosition={this.onChangeScrubPosition} activeIndex={this.state.activeIndex} activeSize={this.state.activeSize} activeEntry={this.state.activeJournalItem}/>
         </div>
         <div id="wrapper" className="journalItems">
-          <JournalItems intentions={this.state.intentions} height={this.calculateJournalItemsHeight()} />
+          <JournalItems onChangeActiveEntry={this.onChangeActiveEntry} activeIndex={this.state.activeIndex} allJournalItems={this.state.allJournalItems} height={this.calculateJournalItemsHeight()} />
         </div>
         <div id="wrapper" className="journalEntry">
           <JournalEntry onAddEntry={this.onAddEntry} recentEntry={this.state.recentEntry} recentProjects={this.state.recentProjects} recentTasksByProjectId={this.state.recentTasksByProjectId}/>

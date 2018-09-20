@@ -1,6 +1,9 @@
 import React, { Component } from "react";
-import moment from "moment";
 import { Divider, Grid, Popup } from "semantic-ui-react";
+
+const {remote} = window.require("electron");
+
+const electronLog = remote.require("electron-log");
 
 //
 // this component is the individual journal item entered in by the user
@@ -9,6 +12,16 @@ export default class JournalItem extends Component {
   constructor(props) {
     super(props);
 
+  }
+
+  log = msg => {
+    electronLog.info(`[${this.constructor.name}] ${msg}`);
+  };
+
+  selectRow(rowId, journalItem) {
+    let rowObj = document.getElementById(rowId);
+
+    this.props.onSetActiveRow(rowId, rowObj, journalItem);
   }
 
   /// renders the component of the console view
@@ -40,7 +53,9 @@ export default class JournalItem extends Component {
     );
 
     return (
-      <Grid.Row>
+
+
+      <Grid.Row id={this.props.id} onClick={() => this.selectRow(this.props.id, this.props.journalItem)}>
         <Grid.Column width={2}>
           <Popup
             trigger={projectCell}
@@ -61,13 +76,7 @@ export default class JournalItem extends Component {
           />
         </Grid.Column>
         <Grid.Column width={12}>
-          <Popup
-            trigger={chunkCell}
-            className="chunkTitle"
-            content={popupContent}
-            position="bottom left"
-            inverted
-          />
+          {chunkCell}
         </Grid.Column>
       </Grid.Row>
     );

@@ -1,6 +1,10 @@
 import React, { Component } from "react";
-import moment from "moment";
 import { Divider, Grid, Input, Popup, Segment } from "semantic-ui-react";
+
+const {remote} = window.require("electron");
+
+const electronLog = remote.require("electron-log");
+
 
 //
 // this component is the tab panel wrapper for the console content
@@ -9,11 +13,48 @@ export default class TimeScrubber extends Component {
   constructor(props) {
     super(props);
     this.date = new Date(2017, 3, 7);
+
+    this.state = {
+      activeDate: "",
+      taskName: "",
+      taskDescription: "",
+      activeTick: 1,
+      activeMax: 64
+    };
+
   }
+
+  log = msg => {
+    electronLog.info(`[${this.constructor.name}] ${msg}`);
+  };
+
+  componentWillReceiveProps = (nextProps) => {
+    this.log("TimeScrubber:: componentWillReceiveProps");
+
+    this.log("activeSize = "+ nextProps.activeSize);
+    this.log("activeIndex =" + nextProps.activeIndex);
+    this.log("activeEntry = "+ nextProps.activeEntry);
+
+    if (nextProps.activeEntry) {
+
+      this.setState({
+        activeDate: nextProps.activeEntry.position,
+        activeTick: nextProps.activeIndex,
+        activeMax: nextProps.activeSize - 1,
+        taskName: nextProps.activeEntry.taskName,
+        taskDescription: nextProps.activeEntry.taskSummary
+      });
+    }
+  };
 
   /// called when the range slider changes
   handleRangeChange = e => {
     console.log("[ConsoleTabs] range change -> " + e.target.value);
+    this.setState({
+      activeTick: e.target.value
+    });
+
+    this.props.onChangeScrubPosition(e.target.value);
   };
 
   /// renders the time scrubber component of the console view
@@ -28,7 +69,9 @@ export default class TimeScrubber extends Component {
                   <Input
                     type="range"
                     fluid
-                    max={64}
+                    value={this.state.activeTick}
+                    min={0}
+                    max={this.state.activeMax}
                     onChange={this.handleRangeChange}
                   />
                 </Grid.Column>
@@ -38,11 +81,10 @@ export default class TimeScrubber extends Component {
                     trigger={
                       <div>
                         <div className="title">
-                          Eu quo homero blandit intellegebat. Te eum doming
-                          eirmod, nominati pertinacia argumentum ad his.
+                          {this.state.taskDescription}
                         </div>
                         <div className="date">
-                          {moment(this.date).format("ddd, MMM Do 'YY, h:mm a")}
+                          {this.state.activeDate}
                         </div>
                       </div>
                     }
@@ -52,13 +94,12 @@ export default class TimeScrubber extends Component {
                     inverted
                     wide
                   >
-                    <Popup.Header>Troubleshooting Session Event:</Popup.Header>
+                    <Popup.Header>{this.state.taskName}</Popup.Header>
                     <Popup.Content>
-                      Eu quo homero blandit intellegebat. Te eum doming eirmod,
-                      nominati pertinacia argumentum ad his.
+                      {this.state.taskDescription}
                       <Divider />
                       <i className="date">
-                        {moment(this.date).format("dddd, MMMM Do YYYY, h:mm a")}
+                        {this.state.activeDate}
                       </i>
                     </Popup.Content>
                   </Popup>

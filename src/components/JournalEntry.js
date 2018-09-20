@@ -1,6 +1,5 @@
 import React, {Component} from "react";
 import {Button, Dropdown, Grid, Input, Segment} from "semantic-ui-react";
-import {DataStoreFactory} from "../DataStoreFactory";
 
 const {remote} = window.require("electron"),
   IntentionInputDto = remote.require("./dto/IntentionInputDto");
