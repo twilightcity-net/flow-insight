@@ -43,6 +43,7 @@ export default class JournalItems extends Component {
       journalItems[i] = {
         projectName: intentions[i].projectName,
         taskName: intentions[i].taskName,
+        taskSummary: intentions[i].taskSummary,
         description: intentions[i].description,
         position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a")
       };
@@ -79,6 +80,7 @@ export default class JournalItems extends Component {
             <JournalItem
               projectName={d.projectName}
               taskName={d.taskName}
+              taskSummary={d.taskSummary}
               description={d.description}
               position={d.position}
             />

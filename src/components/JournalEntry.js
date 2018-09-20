@@ -105,16 +105,18 @@ export default class JournalEntry extends Component {
       tasks: tasksForProject
     });
 
-    let currentTask = tasksForProject[0].value;
+    if (tasksForProject.length > 0) {
+      let currentTask = tasksForProject[0].value;
 
-    if (recentEntry && recentEntry.projectId === currentProject) {
-      this.log("Populating recent default!");
-      currentTask = recentEntry.taskId;
+      if (recentEntry && recentEntry.projectId === currentProject) {
+        this.log("Populating recent default!");
+        currentTask = recentEntry.taskId;
+      }
+
+      this.setState({
+        currentTaskValue: currentTask
+      });
     }
-
-    this.setState({
-      currentTaskValue: currentTask
-    });
 
   };
 

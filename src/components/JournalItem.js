@@ -24,12 +24,15 @@ export default class JournalItem extends Component {
           <i>{this.props.projectName}</i>
         </div>
         <div>
-          <b>{this.props.taskName}</b>
+          <b>{this.props.taskName} </b>
         </div>
+        <div>
+          {this.props.taskSummary}
+        </div>
+
         <Divider />
         <div>
           <span className="date">
-
             {this.props.position}
           </span>
         </div>
