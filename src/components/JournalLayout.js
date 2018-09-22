@@ -4,6 +4,7 @@ import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
 import {DataStoreFactory} from "../DataStoreFactory";
 import moment from "moment";
+import {RendererEventFactory} from "../RendererEventFactory";
 
 const {remote} = window.require("electron");
 
@@ -25,8 +26,30 @@ export default class JournalLayout extends Component {
       activeSize: 0,
       activeJournalItem: null,
       allJournalItems: [],
-    }
+    };
+
+    this.events = {
+      consoleOpen: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
+        this,
+        this.resetCb
+      )
+    };
   }
+
+  resetCb = () => {
+    this.log("Reset CB!");
+
+    if (this.state.allJournalItems.length > 0) {
+      let lastItem = this.state.allJournalItems[this.state.activeSize - 1];
+
+      this.setState({
+        activeIndex: lastItem.index,
+        activeJournalItem: lastItem
+      });
+    }
+
+  };
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height

@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import {Button, Dropdown, Grid, Input, Segment} from "semantic-ui-react";
+import {RendererEventFactory} from "../RendererEventFactory";
 
 const {remote} = window.require("electron"),
   IntentionInputDto = remote.require("./dto/IntentionInputDto");
@@ -22,7 +23,22 @@ export default class JournalEntry extends Component {
       currentIntentionValue: null
     };
 
+    this.events = {
+      consoleOpen: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
+        this,
+        this.resetCb
+      )
+    };
   }
+
+  resetCb = () => {
+    this.log("JournalEntry:: Reset CB!");
+
+    document.getElementById("intentionTextInput").focus();
+    this.handleFocusForIntention();
+
+  };
 
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
@@ -291,6 +307,7 @@ export default class JournalEntry extends Component {
                 </Grid.Column>
                 <Grid.Column width={12} id="createIntentionInput">
                   <Input
+                    id="intentionTextInput"
                     className="intentionText"
                     fluid
                     inverted
