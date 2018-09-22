@@ -203,7 +203,7 @@ export default class JournalLayout extends Component {
     this.log("onChangeActiveEntry:" + rowId + ", "+ journalItem.index);
     this.setState({
        activeIndex: journalItem.index,
-       activeEntry: journalItem
+      activeJournalItem: journalItem
     });
   };
 

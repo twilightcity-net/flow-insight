@@ -81,7 +81,7 @@ export default class TimeScrubber extends Component {
                     trigger={
                       <div>
                         <div className="title">
-                          {this.state.taskDescription}
+                          {this.state.taskName + ": "+this.state.taskDescription}
                         </div>
                         <div className="date">
                           {this.state.activeDate}
