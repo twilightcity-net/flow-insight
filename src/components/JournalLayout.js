@@ -93,6 +93,19 @@ export default class JournalLayout extends Component {
       this
     );
 
+    this.recentTasksStore = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.RECENT_TASKS,
+      this
+    );
+
+    this.taskDetailsStore = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.TASK_DETAILS,
+      this
+    );
+
+    //okay so now, after I fetch a new task by name, I should be able to reload the recent project/task maps
+
+
     this.store.load(
       null,
       err => {
@@ -113,6 +126,16 @@ export default class JournalLayout extends Component {
         }, this.activateWaitDelay);
       }
     );
+  };
+
+  onAddTask = (projectId, taskName) => {
+    this.log("Journal Layout : onAddTask: "+projectId + ", "+taskName);
+
+    //then I need a new store for getting a task via projectId, and taskName, caching the taskDto.
+    //then once I get the task, I automatically add it to my recent tasks list, so when I refresh the recent list again,
+    //all the project/task recents are up to date.  5 Recent.  Recent (m, h, d, w, m, q, y)
+
+    //recent window, takes a window size as input, and produces a window size as output, can go up/down.  Zoom In, Zoom Out.
   };
 
   onSaveEntryCb = (err) => {
@@ -249,7 +272,7 @@ export default class JournalLayout extends Component {
           <JournalItems onChangeActiveEntry={this.onChangeActiveEntry} activeIndex={this.state.activeIndex} allJournalItems={this.state.allJournalItems} height={this.calculateJournalItemsHeight()} />
         </div>
         <div id="wrapper" className="journalEntry">
-          <JournalEntry onAddEntry={this.onAddEntry} recentEntry={this.state.recentEntry} recentProjects={this.state.recentProjects} recentTasksByProjectId={this.state.recentTasksByProjectId}/>
+          <JournalEntry onAddEntry={this.onAddEntry} onAddTask={this.onAddTask} recentEntry={this.state.recentEntry} recentProjects={this.state.recentProjects} recentTasksByProjectId={this.state.recentTasksByProjectId}/>
         </div>
       </div>
     );

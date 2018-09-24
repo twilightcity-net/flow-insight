@@ -1,16 +1,18 @@
 import { DataStore } from "./DataStore";
 
 const { remote } = window.require("electron"),
-  JournalEntryDto = remote.require("./dto/JournalEntryDto");
+  RecentTasksSummaryDto = remote.require("./dto/RecentTasksSummaryDto");
 
 //
 // this class is used to manage DataClient requests for Stores
 //
-export class JournalEntryStore extends DataStore {
+export class CreateTaskStore extends DataStore {
   constructor(scope) {
     super(scope);
-    this.dtoClass = JournalEntryDto;
-    this.urn = "/journal/entry/intention";
+    this.dtoClass = RecentTasksSummaryDto;
+    this.urn = "/journal/task";
     this.loadRequestType = DataStore.RequestTypes.POST;
   }
 }
+
+

@@ -36,7 +36,6 @@ export default class JournalEntry extends Component {
     this.log("JournalEntry:: Reset CB!");
 
     document.getElementById("intentionTextInput").focus();
-    this.handleFocusForIntention();
 
   };
 
@@ -135,7 +134,23 @@ export default class JournalEntry extends Component {
 
   };
 
+  /// called when a new task is added from dropdown
+  handleAdditionForTask = (e, {value}) => {
+    this.log("handleAdditionForTask:" + value);
 
+    this.props.onAddTask(this.state.currentProjectValue, value);
+
+    //easiest thing to do would be to... call a CB hook in the parent on add that looks up or posts
+    //task to server and gets the id back, then resets the recent by project list with the new addition
+    //automatically included, but right now, I've got that all bundled together with the journal
+    //should these actually be separate calls?
+
+    //recentjournal dto.
+
+      // this.setState({
+      //   tasks: [{text: value, value}, ...this.state.tasks]
+      // });
+  };
 
   /// called when a new project is added from dropdown
   handleAdditionForProject = (e, {value}) => {
@@ -145,13 +160,7 @@ export default class JournalEntry extends Component {
     });
   };
 
-  /// called when a new task is added from dropdown
-  handleAdditionForTask = (e, {value}) => {
-    this.log("handleAdditionForTask");
-    this.setState({
-      tasks: [{text: value, value}, ...this.state.tasks]
-    });
-  };
+
 
   /// called when a project is selected in dropdown
   handleChangeForProject = (e, {value}) => {
