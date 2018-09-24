@@ -88,8 +88,8 @@ export default class JournalLayout extends Component {
       this
     );
 
-    this.entryStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.JOURNAL_ENTRY,
+    this.newJournalEntryStore = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.NEW_JOURNAL_ENTRY,
       this
     );
 
@@ -98,8 +98,8 @@ export default class JournalLayout extends Component {
       this
     );
 
-    this.taskDetailsStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.TASK_DETAILS,
+    this.newTaskStore = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.NEW_TASK,
       this
     );
 
@@ -118,7 +118,7 @@ export default class JournalLayout extends Component {
   onAddEntry = (journalEntry) => {
    this.log("Journal Layout : onAddEntry: "+journalEntry.projectId);
 
-    this.entryStore.load(
+    this.newJournalEntryStore.load(
       journalEntry,
       err => {
         setTimeout(() => {
@@ -131,6 +131,14 @@ export default class JournalLayout extends Component {
   onAddTask = (projectId, taskName) => {
     this.log("Journal Layout : onAddTask: "+projectId + ", "+taskName);
 
+    let taskReference = { taskName };
+    this.newTaskStore.load(taskReference,
+      err => {
+        setTimeout(() => {
+          this.onSaveTaskReferenceCb(err);
+        }, this.activateWaitDelay);
+      })
+
     //then I need a new store for getting a task via projectId, and taskName, caching the taskDto.
     //then once I get the task, I automatically add it to my recent tasks list, so when I refresh the recent list again,
     //all the project/task recents are up to date.  5 Recent.  Recent (m, h, d, w, m, q, y)
@@ -138,25 +146,75 @@ export default class JournalLayout extends Component {
     //recent window, takes a window size as input, and produces a window size as output, can go up/down.  Zoom In, Zoom Out.
   };
 
-  onSaveEntryCb = (err) => {
-    this.log("Journal Layout : onSaveEntryCb saving!");
+
+  onSaveTaskReferenceCb = (err) => {
+    this.log("Journal Layout : onSaveTaskReferenceCb saving!");
     if (err) {
-      this.entryStore.dto = new this.store.dtoClass({
+      this.newTaskStore.dto = new this.newTaskStore.dtoClass({
         message: err,
         status: "FAILED"
       });
       this.log("error:" + err);
     } else {
-      let savedEntry = this.entryStore.dto;
-      this.log(JSON.stringify(savedEntry, null, 2));
+      let recentTasksSummary = this.newTaskStore.dto;
 
+      this.log(JSON.stringify(recentTasksSummary, null, 2));
+
+      let activeTask = recentTasksSummary.activeTask;
+      if (activeTask) {
+        let recentEntry = {
+          projectId : activeTask.projectId,
+          taskId : activeTask.id,
+          description: activeTask.summary
+        };
+
+        this.setState({
+           recentEntry: recentEntry,
+           recentTasksByProjectId: recentTasksSummary.recentTasksByProjectId
+        })
+      }
+
+      //
+      // let recentEntry = {
+      //   projectId : savedEntry.projectId,
+      //   taskId : savedEntry.taskId,
+      //   description: savedEntry.description
+      // };
+      //
+      //
+      // //create journal item from saved entry
+      // //set the active journal item and active index
+      //
+      // let journalItem = this.createJournalItem(this.state.allJournalItems.length, savedEntry);
+      //
+      // this.setState({
+      //   allJournalItems: [...this.state.allJournalItems,journalItem],
+      //   activeJournalItem: journalItem,
+      //   activeIndex: journalItem.index,
+      //   recentEntry: recentEntry,
+      //   activeSize: this.state.allJournalItems.length + 1
+      // });
+
+      this.log("Success!!");
+    }
+  };
+  onSaveEntryCb = (err) => {
+    this.log("Journal Layout : onSaveEntryCb saving!");
+    if (err) {
+      this.newJournalEntryStore.dto = new this.store.dtoClass({
+        message: err,
+        status: "FAILED"
+      });
+      this.log("error:" + err);
+    } else {
+      let savedEntry = this.newJournalEntryStore.dto;
+      this.log(JSON.stringify(savedEntry, null, 2));
 
       let recentEntry = {
           projectId : savedEntry.projectId,
           taskId : savedEntry.taskId,
           description: savedEntry.description
         };
-
 
       //create journal item from saved entry
       //set the active journal item and active index
