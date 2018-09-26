@@ -97,6 +97,10 @@ module.exports = class Util {
     return path.join(app.getPath("userData"), "Settings");
   }
 
+  static getFlowHomePath() {
+    return path.join(app.getPath("home"), ".flow");
+  }
+
   /*
    * sets the applications tray into memory
    */
