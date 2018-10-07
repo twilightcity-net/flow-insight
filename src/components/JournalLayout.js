@@ -147,6 +147,28 @@ export default class JournalLayout extends Component {
   };
 
 
+  onUpdateRecentTaskCb = (err) => {
+    this.log("Journal Layout : onUpdateRecentTaskCb");
+    if (err) {
+      this.recentTasksStore.dto = new this.recentTasksStore.dtoClass({
+        message: err,
+        status: "FAILED"
+      });
+      this.log("error:" + err);
+    } else {
+      let recentTasksSummary = this.recentTasksStore.dto;
+
+      this.log(JSON.stringify(recentTasksSummary, null, 2));
+
+
+      this.setState({
+        recentTasksByProjectId: recentTasksSummary.recentTasksByProjectId
+      });
+
+      this.log("Success!!");
+    }
+  };
+
   onSaveTaskReferenceCb = (err) => {
     this.log("Journal Layout : onSaveTaskReferenceCb saving!");
     if (err) {
@@ -229,6 +251,15 @@ export default class JournalLayout extends Component {
         activeSize: this.state.allJournalItems.length + 1
       });
 
+
+      this.log("Updating recent tasks!!");
+      this.recentTasksStore.load(null,
+        err => {
+          setTimeout(() => {
+            this.onUpdateRecentTaskCb(err);
+          }, this.activateWaitDelay);
+        });
+
       this.log("Success!!");
     }
   };
@@ -248,7 +279,7 @@ export default class JournalLayout extends Component {
       let recentEntry = {};
 
       if (recentJournalDto.recentIntentions.length > 0) {
-         let latestIntention = recentJournalDto.recentIntentions[0];
+         let latestIntention = recentJournalDto.recentIntentions[recentJournalDto.recentIntentions.length - 1];
 
          recentEntry = {
            projectId : latestIntention.projectId,

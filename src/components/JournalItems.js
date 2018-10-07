@@ -31,8 +31,6 @@ export default class JournalItems extends Component {
   componentWillReceiveProps = (nextProps) => {
     this.log("JournalItems:: componentWillReceiveProps");
 
-    this.log("allJournalItems = " + nextProps.allJournalItems);
-
     let activeJournalItem = null;
     let lastRowId = null;
 
