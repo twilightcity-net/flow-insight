@@ -1,5 +1,11 @@
 import React, { Component } from "react";
 import { Image, Menu, Progress, Segment, Transition } from "semantic-ui-react";
+import {DataStoreFactory} from "../DataStoreFactory";
+import {RendererEventFactory} from "../RendererEventFactory";
+
+const {remote} = window.require("electron");
+
+const electronLog = remote.require("electron-log");
 
 //
 // this component is the tab panel wrapper for the console content
@@ -8,7 +14,12 @@ export default class ConsoleSidebarPanel extends Component {
   constructor(props) {
     super(props);
     this.state = this.loadState();
+
   }
+
+  log = msg => {
+    electronLog.info(`[${this.constructor.name}] ${msg}`);
+  };
 
   /// laods the stored state from parent or use default values
   loadState() {
@@ -19,7 +30,11 @@ export default class ConsoleSidebarPanel extends Component {
         spiritVisible: true,
         badgesVisible: false,
         animationType: "fly down",
-        animationDelay: 350
+        animationDelay: 350,
+        level: 0,
+        percentXP: 99,
+        totalXP: 99999,
+        title: ""
       };
     }
     return state;
@@ -30,7 +45,61 @@ export default class ConsoleSidebarPanel extends Component {
     this.props.saveStateCb(state);
   }
 
-  /// performs a simple calculation for dynamic height of panel
+  componentDidMount = () => {
+    this.log("ConsoleSidebarPanel : componentDidMount");
+
+    this.store = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.XP_SUMMARY,
+      this
+    );
+
+    this.store.load(
+      null,
+      err => {
+        setTimeout(() => {
+          this.onStoreLoadCb(err);
+        }, this.activateWaitDelay);
+      });
+
+
+  };
+
+  refreshXP = (event, arg) => {
+    this.log("ConsoleSidebarPanel : refreshXP");
+    this.store.load(
+      null,
+      err => {
+        setTimeout(() => {
+          this.onStoreLoadCb(err);
+        }, this.activateWaitDelay);
+      });
+  };
+
+  onStoreLoadCb = (err) => {
+    this.log("ConsoleSidebarPanel : onStoreLoadCb");
+    if (err) {
+      this.store.dto = new this.store.dtoClass({
+        message: err,
+        status: "FAILED"
+      });
+      this.log("error:" + err);
+    } else {
+
+      let xpSummaryDto = this.store.dto;
+
+      this.setState({
+        level: xpSummaryDto.level,
+        percentXP: Math.round((xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100),
+        totalXP: xpSummaryDto.totalXP,
+        title: xpSummaryDto.title
+      });
+
+
+      this.log("Success!");
+    }
+  };
+
+    /// performs a simple calculation for dynamic height of panel
   calculateMenuHeight() {
     let heights = {
       rootBorder: 4,
@@ -86,8 +155,14 @@ export default class ConsoleSidebarPanel extends Component {
     const spiritContent = (
       <div className="spiritContent">
         <Image centered src="./assets/images/spirit.png" />
-        <Progress size="small" percent={70} color="violet" inverted progress>
-          3466/28993 XP
+        <div className="level">
+          <b>Level {this.state.level} </b>
+        </div>
+        <div className="level">
+          <i>Torchie {this.state.title} </i>
+        </div>
+        <Progress size="small" percent={this.state.percentXP} color="violet" inverted progress>
+          {this.state.totalXP} XP
         </Progress>
       </div>
     );

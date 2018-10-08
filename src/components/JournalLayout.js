@@ -33,8 +33,13 @@ export default class JournalLayout extends Component {
         RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
         this,
         this.resetCb
+      ),
+      xpUpdated: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.XP_UPDATED,
+        this
       )
     };
+
   }
 
   resetCb = () => {
@@ -158,8 +163,6 @@ export default class JournalLayout extends Component {
     } else {
       let recentTasksSummary = this.recentTasksStore.dto;
 
-      this.log(JSON.stringify(recentTasksSummary, null, 2));
-
 
       this.setState({
         recentTasksByProjectId: recentTasksSummary.recentTasksByProjectId
@@ -179,8 +182,6 @@ export default class JournalLayout extends Component {
       this.log("error:" + err);
     } else {
       let recentTasksSummary = this.newTaskStore.dto;
-
-      this.log(JSON.stringify(recentTasksSummary, null, 2));
 
       let activeTask = recentTasksSummary.activeTask;
       if (activeTask) {
@@ -259,6 +260,10 @@ export default class JournalLayout extends Component {
             this.onUpdateRecentTaskCb(err);
           }, this.activateWaitDelay);
         });
+
+
+      //TODO this isn't working
+      //this.events.xpUpdated.dispatch({}, true);
 
       this.log("Success!!");
     }
