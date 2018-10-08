@@ -5,6 +5,11 @@ import TroubleshootLayout from "./TroubleshootLayout";
 import FlowLayout from "./FlowLayout";
 import { Transition } from "semantic-ui-react";
 
+const {remote} = window.require("electron");
+
+const electronLog = remote.require("electron-log");
+
+
 //
 // this component is the tab panel wrapper for the console content
 //
@@ -30,6 +35,10 @@ export default class ConsoleContent extends Component {
       )
     };
   }
+
+  log = msg => {
+    electronLog.info(`[${this.constructor.name}] ${msg}`);
+  };
 
   // dispatched when the console menu changes from user clicks
   onConsoleMenuChangeCb(event, arg) {
@@ -96,11 +105,16 @@ export default class ConsoleContent extends Component {
     }, this.animationTime);
   }
 
+  onXpCB = () => {
+    this.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
+    this.props.onXP();
+  };
+
   /// renders the content of the console view
   render() {
     const journalLayout = (
       <div id="wrapper" className="journalLayout">
-        <JournalLayout />
+        <JournalLayout onXP={this.onXpCB}/>
       </div>
     );
     const troubleshootLayout = (

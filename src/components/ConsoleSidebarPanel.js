@@ -40,64 +40,34 @@ export default class ConsoleSidebarPanel extends Component {
     return state;
   }
 
+  componentWillReceiveProps = (nextProps) => {
+    this.log("componentWillReceiveProps ZZZZZZZZZZZZZZZ "+nextProps.xpSummary);
+
+    let xpSummaryDto = nextProps.xpSummary;
+
+    this.setState({
+      level: xpSummaryDto.level,
+      percentXP: Math.round((xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100),
+      totalXP: xpSummaryDto.totalXP,
+      title: xpSummaryDto.title
+    });
+    //
+    // this.log("recentProjects = "+ nextProps.recentProjects);
+    // this.log("recentTasks = "+ nextProps.recentTasksByProjectId);
+    // this.log("recentEntry = "+ nextProps.recentEntry);
+    //
+    // this.populateProjects(nextProps.recentProjects);
+    //
+    // let defaultProject = this.initCurrentProject(nextProps.recentProjects, nextProps.recentEntry);
+    // this.populateTasks(defaultProject, nextProps.recentTasksByProjectId, nextProps.recentEntry);
+
+  };
+
+
   /// stores this components state in the parents state
   saveState(state) {
     this.props.saveStateCb(state);
   }
-
-  componentDidMount = () => {
-    this.log("ConsoleSidebarPanel : componentDidMount");
-
-    this.store = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.XP_SUMMARY,
-      this
-    );
-
-    this.store.load(
-      null,
-      err => {
-        setTimeout(() => {
-          this.onStoreLoadCb(err);
-        }, this.activateWaitDelay);
-      });
-
-
-  };
-
-  refreshXP = (event, arg) => {
-    this.log("ConsoleSidebarPanel : refreshXP");
-    this.store.load(
-      null,
-      err => {
-        setTimeout(() => {
-          this.onStoreLoadCb(err);
-        }, this.activateWaitDelay);
-      });
-  };
-
-  onStoreLoadCb = (err) => {
-    this.log("ConsoleSidebarPanel : onStoreLoadCb");
-    if (err) {
-      this.store.dto = new this.store.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
-
-      let xpSummaryDto = this.store.dto;
-
-      this.setState({
-        level: xpSummaryDto.level,
-        percentXP: Math.round((xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100),
-        totalXP: xpSummaryDto.totalXP,
-        title: xpSummaryDto.title
-      });
-
-
-      this.log("Success!");
-    }
-  };
 
     /// performs a simple calculation for dynamic height of panel
   calculateMenuHeight() {

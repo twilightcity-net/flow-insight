@@ -261,9 +261,7 @@ export default class JournalLayout extends Component {
           }, this.activateWaitDelay);
         });
 
-
-      //TODO this isn't working
-      //this.events.xpUpdated.dispatch({}, true);
+      this.props.onXP();
 
       this.log("Success!!");
     }
