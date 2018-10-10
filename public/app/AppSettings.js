@@ -38,11 +38,11 @@ module.exports = class AppSettings {
     let cipher = crypto.AES.encrypt(value, this.keyToken).toString();
     settings.set(AppSettings.Keys.APP_API_KEY, cipher);
 
-    let flowHome = Util.getFlowHomePath() ;
+    let flowHome = Util.getFlowHomePath();
     log.info("[AppSettings] flow home path -> " + flowHome);
 
     fs.mkdir(flowHome);
-    fs.writeFile(flowHome + "/api.key", value );
+    fs.writeFile(flowHome + "/api.key", value);
   }
 
   /// decrypts and returns the stored api key in settings

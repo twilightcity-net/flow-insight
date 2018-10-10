@@ -1,5 +1,6 @@
 const { app, shell } = require("electron"),
   isDev = require("electron-is-dev"),
+  log = require("electron-log"),
   path = require("path"),
   util = require("util");
 
@@ -37,7 +38,7 @@ module.exports = class Util {
 
   /// gets the api url to use
   static getAppApi() {
-    let url = "http://htmflow.dreamscale.io";
+    let url = "https://torchie.dreamscale.io";
     if (isDev) {
       process.argv.forEach(function(val, index, array) {
         if (val.toLowerCase().startsWith("server=")) {
@@ -99,6 +100,11 @@ module.exports = class Util {
 
   static getFlowHomePath() {
     return path.join(app.getPath("home"), ".flow");
+  }
+
+  static deleteSettings() {
+    log.info("Delete settings in util" + this.getDevSettingsPath());
+    global.App.AppSettings.deleteSettings();
   }
 
   /*

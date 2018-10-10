@@ -1,4 +1,4 @@
-const { app, dialog } = require("electron"),
+const { app, dialog, Menu } = require("electron"),
   log = require("electron-log"),
   isDev = require("electron-is-dev"),
   platform = require("electron-platform"),
@@ -178,6 +178,7 @@ module.exports = class App {
       global.App.AppLoader.load();
     } else {
       global.App.AppActivator.start();
+      global.App.AppLoader.createMenu();
     }
   }
 

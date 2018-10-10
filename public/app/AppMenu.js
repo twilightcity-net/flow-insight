@@ -17,6 +17,13 @@ const helpSubmenu = [
       log.info("[AppMenu] open report bug window");
       WindowManagerHelper.createWindowBugReport();
     }
+  },
+  {
+    label: "Deactivate Torchie",
+    click() {
+      log.info("[AppMenu] deactivate and reset Torchie");
+      Util.deleteSettings();
+    }
   }
 ];
 
@@ -80,7 +87,7 @@ module.exports = class AppMenu extends Menu {
   getTemplateForMacOS() {
     return [
       {
-        label: Util.getAppName(),
+        label: "Torchie",
         submenu: [
           { role: "about" },
           { type: "separator" },
@@ -91,6 +98,26 @@ module.exports = class AppMenu extends Menu {
           { role: "unhide" },
           { type: "separator" },
           { role: "quit" }
+        ]
+      },
+      {
+        label: "Edit",
+        submenu: [
+          { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+          {
+            label: "Redo",
+            accelerator: "Shift+CmdOrCtrl+Z",
+            selector: "redo:"
+          },
+          { type: "separator" },
+          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+          {
+            label: "Select All",
+            accelerator: "CmdOrCtrl+A",
+            selector: "selectAll:"
+          }
         ]
       },
       {

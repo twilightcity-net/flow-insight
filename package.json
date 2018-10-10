@@ -22,9 +22,9 @@
     "dev":
       "concurrently \"yarn server\" \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:5000\"",
     "dev:remote":
-      "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://htmflow.dreamscale.io\"",
+      "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=https://torchie.dreamscale.io\"",
     "dev:sb":
-    "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:8080\"",
+      "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:8080\"",
     "server": "node server/Server.js",
     "test": "cross-env ENV=test mocha test/SetupApi.js test/**/*Test.js --exit",
     "prebuild": "gulp prettier lint",
@@ -149,7 +149,7 @@
       "eval": true
     },
     "output": {
-      "preamble": "/* Copyright © 2017 DreamScale Inc // MetaOS // Author : 1-14x0r // License : LGPL */",
+      "preamble": "/* Copyright © 2017 DreamScale Inc // Torchie // Author : 1-14x0r */",
       "bracketize": true,
       "ecma": 6,
       "indent_level": 0,
