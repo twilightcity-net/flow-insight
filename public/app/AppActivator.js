@@ -1,6 +1,7 @@
 const { dialog } = require("electron"),
   log = require("electron-log"),
   App = require("./App"),
+  Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../managers/EventFactory"),
   AccountActivationDto = require("../dto/AccountActivationDto");
@@ -33,7 +34,8 @@ module.exports = class AppActivator {
     log.info("[AppActivator] saving api-key...");
     try {
       let accountActivationDto = new AccountActivationDto(arg);
-      global.App.AppSettings.setApiKey(accountActivationDto.apiKey);
+      global.App.AppSettings.setApiKey(Util.getAppApi(), accountActivationDto.apiKey);
+
       let apiKey = global.App.AppSettings.getApiKey();
       if (accountActivationDto.apiKey !== apiKey) {
         throw new Error("Unable to save api-key");

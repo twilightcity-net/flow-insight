@@ -33,16 +33,19 @@ module.exports = class AppSettings {
   }
 
   /// sets and encrypts the api key that is set by the activator
-  setApiKey(value) {
+  setApiKey(apiUrl, apiKey) {
     log.info("[AppSettings] save api key");
-    let cipher = crypto.AES.encrypt(value, this.keyToken).toString();
+    log.info("save url: "+apiUrl);
+    let cipher = crypto.AES.encrypt(apiKey, this.keyToken).toString();
     settings.set(AppSettings.Keys.APP_API_KEY, cipher);
 
     let flowHome = Util.getFlowHomePath();
     log.info("[AppSettings] flow home path -> " + flowHome);
 
     fs.mkdir(flowHome);
-    fs.writeFile(flowHome + "/api.key", value);
+    fs.writeFile(flowHome + "/api.key", apiKey);
+
+    fs.writeFile(flowHome + "/settings.json", "{ \"apiUrl\" : \""+apiUrl + "\", \"apiKey\" : \""+apiKey + "\" }" );
   }
 
   /// decrypts and returns the stored api key in settings
