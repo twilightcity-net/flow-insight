@@ -1,8 +1,8 @@
-import React, {Component} from "react";
-import {Button, Dropdown, Grid, Input, Segment} from "semantic-ui-react";
-import {RendererEventFactory} from "../RendererEventFactory";
+import React, { Component } from "react";
+import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
+import { RendererEventFactory } from "../RendererEventFactory";
 
-const {remote} = window.require("electron"),
+const { remote } = window.require("electron"),
   IntentionInputDto = remote.require("./dto/IntentionInputDto");
 
 const electronLog = remote.require("electron-log");
@@ -12,7 +12,6 @@ const electronLog = remote.require("electron-log");
 //
 export default class JournalEntry extends Component {
   constructor(props) {
-
     super(props);
 
     this.state = {
@@ -36,7 +35,6 @@ export default class JournalEntry extends Component {
     this.log("JournalEntry:: Reset CB!");
 
     document.getElementById("intentionTextInput").focus();
-
   };
 
   log = msg => {
@@ -45,26 +43,29 @@ export default class JournalEntry extends Component {
 
   componentDidMount = () => {
     this.log("componentDidMount");
-
   };
 
-  componentWillReceiveProps = (nextProps) => {
+  componentWillReceiveProps = nextProps => {
     this.log("componentWillReceiveProps");
 
-    this.log("recentProjects = "+ nextProps.recentProjects);
-    this.log("recentTasks = "+ nextProps.recentTasksByProjectId);
-    this.log("recentEntry = "+ nextProps.recentEntry);
+    this.log("recentProjects = " + nextProps.recentProjects);
+    this.log("recentTasks = " + nextProps.recentTasksByProjectId);
+    this.log("recentEntry = " + nextProps.recentEntry);
 
     this.populateProjects(nextProps.recentProjects);
 
-    let defaultProject = this.initCurrentProject(nextProps.recentProjects, nextProps.recentEntry);
-    this.populateTasks(defaultProject, nextProps.recentTasksByProjectId, nextProps.recentEntry);
-
+    let defaultProject = this.initCurrentProject(
+      nextProps.recentProjects,
+      nextProps.recentEntry
+    );
+    this.populateTasks(
+      defaultProject,
+      nextProps.recentTasksByProjectId,
+      nextProps.recentEntry
+    );
   };
 
-
-  populateProjects = (recentProjects) => {
-
+  populateProjects = recentProjects => {
     var projects = [];
     for (var i in recentProjects) {
       projects[i] = {
@@ -76,7 +77,6 @@ export default class JournalEntry extends Component {
     this.setState({
       projects: projects
     });
-
   };
 
   initCurrentProject = (recentProjects, recentEntry) => {
@@ -86,7 +86,9 @@ export default class JournalEntry extends Component {
 
     if (recentEntry) {
       currentProject = recentEntry.projectId;
-    } else if (recentProjects.length > 0) {
+    }
+
+    if (!currentProject && recentProjects.length > 0) {
       currentProject = recentProjects[0].id;
     }
 
@@ -100,7 +102,6 @@ export default class JournalEntry extends Component {
   };
 
   populateTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
-
     this.log("populateTasks");
 
     let currentTasks = recentTasksByProjectId[currentProject];
@@ -112,7 +113,7 @@ export default class JournalEntry extends Component {
         value: currentTasks[i].id
       };
 
-      this.log("task = "+ tasksForProject[i].text);
+      this.log("task = " + tasksForProject[i].text);
     }
 
     this.setState({
@@ -131,11 +132,10 @@ export default class JournalEntry extends Component {
         currentTaskValue: currentTask
       });
     }
-
   };
 
   /// called when a new task is added from dropdown
-  handleAdditionForTask = (e, {value}) => {
+  handleAdditionForTask = (e, { value }) => {
     this.log("handleAdditionForTask:" + value);
 
     this.props.onAddTask(this.state.currentProjectValue, value);
@@ -147,49 +147,49 @@ export default class JournalEntry extends Component {
 
     //recentjournal dto.
 
-      // this.setState({
-      //   tasks: [{text: value, value}, ...this.state.tasks]
-      // });
+    // this.setState({
+    //   tasks: [{text: value, value}, ...this.state.tasks]
+    // });
   };
 
   /// called when a new project is added from dropdown
-  handleAdditionForProject = (e, {value}) => {
+  handleAdditionForProject = (e, { value }) => {
     this.log("handleAdditionForProject");
     this.setState({
-      projects: [{text: value, value}, ...this.state.projects]
+      projects: [{ text: value, value }, ...this.state.projects]
     });
   };
 
-
-
   /// called when a project is selected in dropdown
-  handleChangeForProject = (e, {value}) => {
+  handleChangeForProject = (e, { value }) => {
     this.log("handleChangeForProject: " + value);
     this.setState({
       currentProjectValue: value
     });
 
-    this.populateTasks(value, this.props.recentTasksByProjectId, this.props.recentEntry);
-
+    this.populateTasks(
+      value,
+      this.props.recentTasksByProjectId,
+      this.props.recentEntry
+    );
   };
 
   /// called when a project is selected in dropdown
-  handleKeyPressForProject = (e) => {
+  handleKeyPressForProject = e => {
     this.log("handleKeyPressForProject: " + e.key);
 
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       this.log("ENTER!");
     }
   };
 
   /// called when a project is selected in dropdown
-  handleKeyPressForTask = (e) => {
+  handleKeyPressForTask = e => {
     this.log("handleKeyPressForTask: ");
-
   };
 
   /// called when a task is selected in the dropdown
-  handleChangeForTask = (e, {value}) => {
+  handleChangeForTask = (e, { value }) => {
     this.log("handleChangeForTask");
     this.setState({
       currentTaskValue: value
@@ -202,7 +202,6 @@ export default class JournalEntry extends Component {
     this.log("handleClickForCreate");
 
     this.saveJournalEntry();
-
   };
 
   /// works the same as the click for create handler.. see above ^
@@ -216,8 +215,8 @@ export default class JournalEntry extends Component {
   };
 
   saveJournalEntry = () => {
-    this.log("active projectId: "+ this.state.currentProjectValue);
-    this.log("active taskId: "+this.state.currentTaskValue);
+    this.log("active projectId: " + this.state.currentProjectValue);
+    this.log("active taskId: " + this.state.currentTaskValue);
 
     let journalEntry = new IntentionInputDto({
       projectId: this.state.currentProjectValue,
@@ -226,14 +225,13 @@ export default class JournalEntry extends Component {
     });
 
     this.props.onAddEntry(journalEntry);
-    this.setState({currentIntentionValue: ""});
+    this.setState({ currentIntentionValue: "" });
   };
 
-
-  handleChangeForIntention = (e, {name, value}) => {
+  handleChangeForIntention = (e, { name, value }) => {
     this.log("handleChangeForIntention " + value);
 
-    this.setState({currentIntentionValue: value});
+    this.setState({ currentIntentionValue: value });
   };
 
   /// highlight field border when element is focused on
@@ -263,7 +261,6 @@ export default class JournalEntry extends Component {
   /// clear all of the highlights to the fields on any element blur.. called by all
   /// form element inputs
   handleBlurForInput = e => {
-
     this.log("handleBlurForInput");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
