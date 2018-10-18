@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Menu, Progress, Segment, Transition } from "semantic-ui-react";
+import {Button, Image, Menu, Progress, Segment, Transition, Icon} from "semantic-ui-react";
 import {DataStoreFactory} from "../DataStoreFactory";
 import {RendererEventFactory} from "../RendererEventFactory";
 
@@ -119,6 +119,14 @@ export default class ConsoleSidebarPanel extends Component {
     this.saveState(this.state);
   }
 
+  handleClickForRage = () => {
+    this.log("Rage!");
+  };
+
+  handleClickForYay =() => {
+    this.log("Yay!");
+  };
+
   /// renders the console sidebar panel of the console view
   render() {
     const { activeItem } = this.state;
@@ -134,6 +142,20 @@ export default class ConsoleSidebarPanel extends Component {
         <Progress size="small" percent={this.state.percentXP} color="violet" inverted progress>
           {this.state.totalXP} XP
         </Progress>
+        <div>
+
+        </div>
+
+        <div/>
+        <div className='ui fluid buttons'>
+            <button className='ui icon button rageButton' tabIndex='0' onClick={this.handleClickForRage}>
+              <Image centered src="./assets/images/wtf/24x24.png" />
+            </button>
+            <button className='ui icon button yayButton' tabIndex='0' onClick={this.handleClickForYay}>
+              <Image centered src="./assets/images/yay/24x24.png" />
+            </button>
+        </div>
+
       </div>
     );
     const badgesContent = (
