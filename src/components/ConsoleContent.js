@@ -110,11 +110,20 @@ export default class ConsoleContent extends Component {
     this.props.onXP();
   };
 
+  onFlameChangeCB = (flameRating) => {
+    if (!flameRating) {
+      flameRating = 0;
+    }
+
+    this.props.onFlameChange(flameRating);
+  };
+
+
   /// renders the content of the console view
   render() {
     const journalLayout = (
       <div id="wrapper" className="journalLayout">
-        <JournalLayout onXP={this.onXpCB}/>
+        <JournalLayout onXP={this.onXpCB} onFlameChange={this.onFlameChangeCB}/>
       </div>
     );
     const troubleshootLayout = (

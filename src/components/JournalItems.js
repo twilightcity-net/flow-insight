@@ -166,6 +166,7 @@ export default class JournalItems extends Component {
               taskName={d.taskName}
               taskSummary={d.taskSummary}
               description={d.description}
+              flameRating={d.flameRating}
               position={d.position}
               journalItem={d}
               onSetActiveRow={this.onSetActiveRow}

@@ -21,7 +21,8 @@ export default class ConsoleLayout extends Component {
       sidebarPanelVisible: false,
       sidebarPanelWidth: 0,
       sidebarPanelOpacity: 0,
-      xpSummary: null
+      xpSummary: null,
+      flameRating: 0
     };
     this.animationTime = 700;
     this.events = {
@@ -70,6 +71,31 @@ export default class ConsoleLayout extends Component {
     return this.state.sidebarPanelState;
   };
 
+  /// click the flame button, which either tries to do a +1 or -1
+  adjustFlameCb = (flameDelta) => {
+    this.log("Flame change :" + flameDelta);
+
+    let flameRating = this.state.flameRating + flameDelta;
+    if (flameRating > 5) {
+      flameRating = 5;
+    } else if (flameRating < -5) {
+      flameRating = -5;
+    }
+
+    if (this.state.flameRating > 0 && flameDelta < 0) {
+      flameRating = 0;
+    }
+
+    if (this.state.flameRating < 0 && flameDelta > 0) {
+      flameRating = 0;
+    }
+
+    this.setState({
+      flameRating : flameRating
+    });
+  };
+
+
   componentDidMount = () => {
     this.log("ConsoleLayout : componentDidMount");
 
@@ -113,8 +139,15 @@ export default class ConsoleLayout extends Component {
   };
 
   onXPCb = () => {
-    this.log("YYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY");
     this.refreshXP();
+  };
+
+  onFlameChangeCb = (flameRating) => {
+    this.log("flame update: "+flameRating);
+
+    this.setState({
+      flameRating : flameRating
+    });
   };
 
   refreshXP = () => {
@@ -139,6 +172,8 @@ export default class ConsoleLayout extends Component {
       >
         <ConsoleSidebarPanel
           xpSummary={this.state.xpSummary}
+          flameRating={this.state.flameRating}
+          adjustFlameCb={this.adjustFlameCb}
           loadStateCb={this.loadStateSidebarPanelCb}
           saveStateCb={this.saveStateSidebarPanelCb}
           width={this.state.sidebarPanelWidth}
@@ -153,7 +188,7 @@ export default class ConsoleLayout extends Component {
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
-          <ConsoleContent onXP={this.onXPCb} animationTime={this.animationTime} />
+          <ConsoleContent onXP={this.onXPCb} animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb}/>
         </div>
 
         <div id="wrapper" className="consoleMenu">

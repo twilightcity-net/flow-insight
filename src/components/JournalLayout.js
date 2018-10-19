@@ -52,6 +52,8 @@ export default class JournalLayout extends Component {
         activeIndex: lastItem.index,
         activeJournalItem: lastItem
       });
+
+      this.props.onFlameChange(lastItem.flameRating);
     }
 
   };
@@ -252,6 +254,7 @@ export default class JournalLayout extends Component {
         activeSize: this.state.allJournalItems.length + 1
       });
 
+      this.props.onFlameChange(journalItem.flameRating);
 
       this.log("Updating recent tasks!!");
       this.recentTasksStore.load(null,
@@ -262,6 +265,7 @@ export default class JournalLayout extends Component {
         });
 
       this.props.onXP();
+
 
       this.log("Success!!");
     }
@@ -317,6 +321,8 @@ export default class JournalLayout extends Component {
         activeSize: recentJournalDto.recentIntentions.length
       });
 
+      this.props.onFlameChange(activeJournalItem.flameRating);
+
       this.log("Success!");
     }
   };
@@ -343,6 +349,8 @@ export default class JournalLayout extends Component {
        activeIndex: journalItem.index,
       activeJournalItem: journalItem
     });
+
+    this.props.onFlameChange(journalItem.flameRating);
   };
 
   onChangeScrubPosition = (selectedIndex) => {
@@ -350,7 +358,8 @@ export default class JournalLayout extends Component {
     this.setState({
       activeIndex: selectedIndex,
       activeJournalItem: this.state.allJournalItems[selectedIndex]
-    })
+    });
+    this.props.onFlameChange(this.state.allJournalItems[selectedIndex].flameRating);
   };
 
   /// renders the journal layout of the console view

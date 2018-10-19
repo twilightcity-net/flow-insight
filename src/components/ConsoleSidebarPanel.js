@@ -45,11 +45,21 @@ export default class ConsoleSidebarPanel extends Component {
 
     let xpSummaryDto = nextProps.xpSummary;
 
+    let flameRating = nextProps.flameRating;
+
+    let flameString = "0";
+    if (flameRating > 0) {
+      flameString = "+" + flameRating;
+    } else if (flameRating < 0) {
+      flameString = flameRating;
+    }
+
     this.setState({
       level: xpSummaryDto.level,
       percentXP: Math.round((xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100),
       totalXP: xpSummaryDto.totalXP,
-      title: xpSummaryDto.title
+      title: xpSummaryDto.title,
+      flameRating: flameString
     });
     //
     // this.log("recentProjects = "+ nextProps.recentProjects);
@@ -119,13 +129,24 @@ export default class ConsoleSidebarPanel extends Component {
     this.saveState(this.state);
   }
 
+  //the side panel, needs to affect the journal for the activeRow, so this method
+  //so I need to torchie to display the active mood level
+  //then I need torchie's buttons to adjust the active mood, or the historical mood if activeRow is set to something historical
+  //don't worry about persisting these changes quite yet
+  //we will call save on change, and if the active row is the latest, we will update server status immediately
+  //mood lamps across the office reflect this rage status
+
   handleClickForRage = () => {
     this.log("Rage!");
+    this.props.adjustFlameCb(-1);
   };
 
   handleClickForYay =() => {
     this.log("Yay!");
+    this.props.adjustFlameCb(+1);
   };
+
+
 
   /// renders the console sidebar panel of the console view
   render() {
@@ -142,16 +163,16 @@ export default class ConsoleSidebarPanel extends Component {
         <Progress size="small" percent={this.state.percentXP} color="violet" inverted progress>
           {this.state.totalXP} XP
         </Progress>
-        <div>
 
-        </div>
-
-        <div/>
         <div className='ui fluid buttons'>
             <button className='ui icon button rageButton' tabIndex='0' onClick={this.handleClickForRage}>
               <Image centered src="./assets/images/wtf/24x24.png" />
             </button>
-            <button className='ui icon button yayButton' tabIndex='0' onClick={this.handleClickForYay}>
+
+            <button className='ui label flameRating'>
+              {this.state.flameRating}
+            </button>
+            <button toggle className='ui icon button yayButton' tabIndex='0' onClick={this.handleClickForYay}>
               <Image centered src="./assets/images/yay/24x24.png" />
             </button>
         </div>
