@@ -36,9 +36,11 @@ export default class JournalItems extends Component {
 
     if (nextProps.allJournalItems.length > 0) {
       activeJournalItem = nextProps.allJournalItems[nextProps.activeIndex];
+      activeJournalItem.flameRating = nextProps.updatedFlame;
     }
 
     this.clearActiveRows();
+
 
     this.setState({
       journalItems: nextProps.allJournalItems,

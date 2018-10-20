@@ -188,7 +188,7 @@ export default class ConsoleLayout extends Component {
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
-          <ConsoleContent onXP={this.onXPCb} animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb}/>
+          <ConsoleContent onXP={this.onXPCb} animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb} updatedFlame={this.state.flameRating}/>
         </div>
 
         <div id="wrapper" className="consoleMenu">

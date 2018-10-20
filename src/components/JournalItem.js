@@ -75,8 +75,8 @@ export default class JournalItem extends Component {
             inverted
           />
         </Grid.Column>
-        <Grid.Column width={1}>
-            {this.props.flameRating} 0
+        <Grid.Column width={1} className="chunkTitle">
+            {this.props.flameRating}
         </Grid.Column>
 
         <Grid.Column width={12}>

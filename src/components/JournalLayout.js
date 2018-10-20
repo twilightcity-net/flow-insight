@@ -26,6 +26,7 @@ export default class JournalLayout extends Component {
       activeSize: 0,
       activeJournalItem: null,
       allJournalItems: [],
+      updatedFlame: null
     };
 
     this.events = {
@@ -57,6 +58,17 @@ export default class JournalLayout extends Component {
     }
 
   };
+
+  componentWillReceiveProps = (nextProps) => {
+    this.log("((((((((((((((((((((" + nextProps.updatedFlame + this.state.activeIndex);
+
+    //TODO confirmed that activeIndex is still the old one, when updatedFlame is being called
+
+    this.setState({
+       updatedFlame : nextProps.updatedFlame
+    });
+  };
+
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
@@ -254,7 +266,7 @@ export default class JournalLayout extends Component {
         activeSize: this.state.allJournalItems.length + 1
       });
 
-      this.props.onFlameChange(journalItem.flameRating);
+      this.props.onFlameChange(0);
 
       this.log("Updating recent tasks!!");
       this.recentTasksStore.load(null,
@@ -335,6 +347,7 @@ export default class JournalLayout extends Component {
     return {
       index: index,
       id: intention.id,
+      flameRating: intention.flameRating,
       projectName: intention.projectName,
       taskName: intention.taskName,
       taskSummary: intention.taskSummary,
@@ -345,6 +358,7 @@ export default class JournalLayout extends Component {
 
   onChangeActiveEntry = (rowId, journalItem) => {
     this.log("onChangeActiveEntry:" + rowId + ", "+ journalItem.index);
+
     this.setState({
        activeIndex: journalItem.index,
       activeJournalItem: journalItem
@@ -370,7 +384,7 @@ export default class JournalLayout extends Component {
           <TimeScrubber onChangeScrubPosition={this.onChangeScrubPosition} activeIndex={this.state.activeIndex} activeSize={this.state.activeSize} activeEntry={this.state.activeJournalItem}/>
         </div>
         <div id="wrapper" className="journalItems">
-          <JournalItems onChangeActiveEntry={this.onChangeActiveEntry} activeIndex={this.state.activeIndex} allJournalItems={this.state.allJournalItems} height={this.calculateJournalItemsHeight()} />
+          <JournalItems onChangeActiveEntry={this.onChangeActiveEntry} updatedFlame={this.state.updatedFlame} activeIndex={this.state.activeIndex} allJournalItems={this.state.allJournalItems} height={this.calculateJournalItemsHeight()} />
         </div>
         <div id="wrapper" className="journalEntry">
           <JournalEntry onAddEntry={this.onAddEntry} onAddTask={this.onAddTask} recentEntry={this.state.recentEntry} recentProjects={this.state.recentProjects} recentTasksByProjectId={this.state.recentTasksByProjectId}/>

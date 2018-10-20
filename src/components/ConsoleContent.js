@@ -123,7 +123,7 @@ export default class ConsoleContent extends Component {
   render() {
     const journalLayout = (
       <div id="wrapper" className="journalLayout">
-        <JournalLayout onXP={this.onXpCB} onFlameChange={this.onFlameChangeCB}/>
+        <JournalLayout onXP={this.onXpCB} onFlameChange={this.onFlameChangeCB} updatedFlame={this.props.updatedFlame}/>
       </div>
     );
     const troubleshootLayout = (
