@@ -169,9 +169,11 @@ export default class ConsoleSidebarPanel extends Component {
               <Image centered src="./assets/images/wtf/24x24.png" />
             </button>
 
-            <button className='ui label flameRating'>
-              {this.state.flameRating}
-            </button>
+            
+            {/*<button className='ui label flameRating'>*/}
+              {/*{this.state.flameRating}*/}
+            {/*</button>*/}
+
             <button toggle className='ui icon button yayButton' tabIndex='0' onClick={this.handleClickForYay}>
               <Image centered src="./assets/images/yay/24x24.png" />
             </button>

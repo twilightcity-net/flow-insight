@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Divider, Grid, Popup } from "semantic-ui-react";
+import {Divider, Grid, Image, Popup} from "semantic-ui-react";
 
 const {remote} = window.require("electron");
 
@@ -52,6 +52,14 @@ export default class JournalItem extends Component {
       </div>
     );
 
+    let flameBlock = "";
+
+    if (this.props.flameRating > 0) {
+      flameBlock = <span className="yayFlame">{this.props.flameRating} <Image src="./assets/images/yay/16x16.png"  verticalAlign='top' /></span>;
+    } else if (this.props.flameRating < 0) {
+      flameBlock = <span className="wtfFlame">{Math.abs(this.props.flameRating)} <Image src="./assets/images/wtf/16x16.png"  verticalAlign='middle' /></span>;
+    }
+
     return (
 
 
@@ -75,8 +83,8 @@ export default class JournalItem extends Component {
             inverted
           />
         </Grid.Column>
-        <Grid.Column width={1} className="chunkTitle">
-            {this.props.flameRating}
+        <Grid.Column width={1} className="chunkTitle" >
+          {flameBlock}
         </Grid.Column>
 
         <Grid.Column width={12}>
