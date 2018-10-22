@@ -48,10 +48,6 @@ export default class JournalEntry extends Component {
   componentWillReceiveProps = nextProps => {
     this.log("componentWillReceiveProps");
 
-    this.log("recentProjects = " + nextProps.recentProjects);
-    this.log("recentTasks = " + nextProps.recentTasksByProjectId);
-    this.log("recentEntry = " + nextProps.recentEntry);
-
     this.populateProjects(nextProps.recentProjects);
 
     let defaultProject = this.initCurrentProject(
@@ -113,7 +109,6 @@ export default class JournalEntry extends Component {
         value: currentTasks[i].id
       };
 
-      this.log("task = " + tasksForProject[i].text);
     }
 
     this.setState({

@@ -4,6 +4,7 @@ import {NewJournalEntryStore} from "./stores/NewJournalEntryStore";
 import {RecentTasksStore} from "./stores/RecentTasksStore";
 import {NewTaskStore} from "./stores/NewTaskStore";
 import {XPSummaryStore} from "./stores/XPSummaryStore";
+import {UpdatedFlameStore} from "./stores/UpdatedFlameStore";
 
 //
 // this class is used to manage DataClient requests for Stores
@@ -23,6 +24,8 @@ export class DataStoreFactory {
         return new NewTaskStore(scope);
       case DataStoreFactory.Stores.XP_SUMMARY:
         return new XPSummaryStore(scope);
+      case DataStoreFactory.Stores.UPDATED_FLAME:
+        return new UpdatedFlameStore(scope);
       default:
         return null;
     }
@@ -35,7 +38,8 @@ export class DataStoreFactory {
       RECENT_TASKS: "recent-tasks",
       NEW_JOURNAL_ENTRY: "new-journal-entry",
       NEW_TASK: "new-task",
-      XP_SUMMARY: "xp-summary"
+      XP_SUMMARY: "xp-summary",
+      UPDATED_FLAME: "updated-flame"
     };
   }
 }

@@ -70,6 +70,7 @@ export default class JournalLayout extends Component {
   };
 
 
+
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
   calculateJournalItemsHeight() {
@@ -122,6 +123,11 @@ export default class JournalLayout extends Component {
       this
     );
 
+    this.updatedFlameStore = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.UPDATED_FLAME,
+      this
+    );
+
     //okay so now, after I fetch a new task by name, I should be able to reload the recent project/task maps
 
 
@@ -165,6 +171,31 @@ export default class JournalLayout extends Component {
     //recent window, takes a window size as input, and produces a window size as output, can go up/down.  Zoom In, Zoom Out.
   };
 
+  onSaveFlameUpdates = (journalItem) => {
+    this.log("Journal Layout : onSaveFlameUpdates: "+journalItem.index + ", "+journalItem.flameRating);
+
+    let flameRatingInput = { id: journalItem.id, flameRating: journalItem.flameRating };
+    this.updatedFlameStore.load(flameRatingInput,
+      err => {
+        setTimeout(() => {
+          this.onSaveFlameCb(err);
+        }, this.activateWaitDelay);
+      })
+  };
+
+  onSaveFlameCb = (err) => {
+    this.log("Journal Layout : onSaveFlameCb");
+    if (err) {
+      this.updatedFlameStore.dto = new this.updatedFlameStore.dtoClass({
+        message: err,
+        status: "FAILED"
+      });
+      this.log("error:" + err);
+    } else {
+
+      this.log("Success!!");
+    }
+  };
 
   onUpdateRecentTaskCb = (err) => {
     this.log("Journal Layout : onUpdateRecentTaskCb");
@@ -185,6 +216,8 @@ export default class JournalLayout extends Component {
       this.log("Success!!");
     }
   };
+
+
 
   onSaveTaskReferenceCb = (err) => {
     this.log("Journal Layout : onSaveTaskReferenceCb saving!");
@@ -384,7 +417,7 @@ export default class JournalLayout extends Component {
           <TimeScrubber onChangeScrubPosition={this.onChangeScrubPosition} activeIndex={this.state.activeIndex} activeSize={this.state.activeSize} activeEntry={this.state.activeJournalItem}/>
         </div>
         <div id="wrapper" className="journalItems">
-          <JournalItems onChangeActiveEntry={this.onChangeActiveEntry} updatedFlame={this.state.updatedFlame} activeIndex={this.state.activeIndex} allJournalItems={this.state.allJournalItems} height={this.calculateJournalItemsHeight()} />
+          <JournalItems onChangeActiveEntry={this.onChangeActiveEntry} onFlameUpdate={this.onSaveFlameUpdates} updatedFlame={this.state.updatedFlame} activeIndex={this.state.activeIndex} allJournalItems={this.state.allJournalItems} height={this.calculateJournalItemsHeight()} />
         </div>
         <div id="wrapper" className="journalEntry">
           <JournalEntry onAddEntry={this.onAddEntry} onAddTask={this.onAddTask} recentEntry={this.state.recentEntry} recentProjects={this.state.recentProjects} recentTasksByProjectId={this.state.recentTasksByProjectId}/>

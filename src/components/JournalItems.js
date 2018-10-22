@@ -36,10 +36,19 @@ export default class JournalItems extends Component {
 
     if (nextProps.allJournalItems.length > 0) {
       activeJournalItem = nextProps.allJournalItems[nextProps.activeIndex];
-      activeJournalItem.flameRating = nextProps.updatedFlame;
+      if (!activeJournalItem.flameRating) {
+        activeJournalItem.flameRating = 0;
+      }
+
+      if ( activeJournalItem.flameRating != nextProps.updatedFlame) {
+        activeJournalItem.flameRating = nextProps.updatedFlame;
+        this.saveDirtyFlames(this.props, activeJournalItem);
+      }
+
     }
 
     this.clearActiveRows();
+
 
 
     this.setState({
@@ -48,6 +57,21 @@ export default class JournalItems extends Component {
     });
 
   };
+
+
+  saveDirtyFlames = (props, journalItemWithFlameUpdates) => {
+
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+
+    this.timeout = setTimeout(function() {
+      electronLog.info("saveDirtyFlames!!!!!");
+      props.onFlameUpdate(journalItemWithFlameUpdates);
+    }, 500);
+
+  };
+
 
   scrollToBottomOrActive = () => {
     if (this.state.activeJournalItem) {
