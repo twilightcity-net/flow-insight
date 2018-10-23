@@ -151,9 +151,19 @@ export default class ConsoleSidebarPanel extends Component {
   /// renders the console sidebar panel of the console view
   render() {
     const { activeItem } = this.state;
+
+    let spiritImage = "";
+
+    if (this.state.flameRating >= 0) {
+      spiritImage = <Image centered src="./assets/images/spirit.png" />
+    } else if (this.state.flameRating < 0) {
+      spiritImage = <Image centered src="./assets/images/painSpirit.png" />;
+    }
+
     const spiritContent = (
       <div className="spiritContent">
-        <Image centered src="./assets/images/spirit.png" />
+
+        {spiritImage}
         <div className="level">
           <b>Level {this.state.level} </b>
         </div>
@@ -169,7 +179,6 @@ export default class ConsoleSidebarPanel extends Component {
               <Image centered src="./assets/images/wtf/24x24.png" />
             </button>
 
-            
             {/*<button className='ui label flameRating'>*/}
               {/*{this.state.flameRating}*/}
             {/*</button>*/}

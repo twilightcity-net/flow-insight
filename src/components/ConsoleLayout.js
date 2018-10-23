@@ -90,6 +90,7 @@ export default class ConsoleLayout extends Component {
       flameRating = 0;
     }
 
+    this.log("Old/New Flame rating :" + this.state.flameRating + "/" + flameRating);
     this.setState({
       flameRating : flameRating
     });
