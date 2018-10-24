@@ -76,10 +76,13 @@ class ShortcutManager {
    */
   static createGlobalShortcuts() {
     log.info("[ShortcutManager] create global shortcuts");
+
+    let configuredHotkey = Util.getConfiguredHotkeysOrDefault();
+
     let shortcuts = {
       showHideConsole: new Shortcut(
         this.Names.GLOBAL_SHOW_HIDE_CONSOLE,
-        "CommandOrControl+`",
+        configuredHotkey,
         null,
         () => {
           log.info(
@@ -88,6 +91,7 @@ class ShortcutManager {
         }
       )
     };
+
     log.info("[ShortcutManager] └> created global shortcuts -> okay");
     return shortcuts;
   }

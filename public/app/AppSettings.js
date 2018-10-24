@@ -33,7 +33,7 @@ module.exports = class AppSettings {
   }
 
   /// sets and encrypts the api key that is set by the activator
-  setApiKey(apiUrl, apiKey) {
+  configureApiKey(apiUrl, apiKey) {
     log.info("[AppSettings] save api key");
     log.info("save url: "+apiUrl);
     let cipher = crypto.AES.encrypt(apiKey, this.keyToken).toString();

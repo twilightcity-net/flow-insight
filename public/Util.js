@@ -2,7 +2,8 @@ const { app, shell } = require("electron"),
   isDev = require("electron-is-dev"),
   log = require("electron-log"),
   path = require("path"),
-  util = require("util");
+  util = require("util"),
+  fs = require("fs");
 
 /* 
  * general purpose global utility functions
@@ -96,6 +97,27 @@ module.exports = class Util {
   /// gets the user data directory for dev mode
   static getDevSettingsPath() {
     return path.join(app.getPath("userData"), "Settings");
+  }
+
+  static getConfiguredHotkeysOrDefault() {
+
+    let hotkeyConfPath = path.join( this.getFlowHomePath(), "hotkey.conf");
+
+    let defaultKey = "CommandOrControl+`";
+    let activeHotkey = defaultKey;
+
+    if (fs.existsSync(hotkeyConfPath)) {
+      activeHotkey = fs.readFileSync(hotkeyConfPath, 'utf8');
+
+    } else {
+      fs.mkdir(this.getFlowHomePath());
+
+
+      fs.writeFileSync(hotkeyConfPath, defaultKey, 'utf8');
+    }
+
+    log.info("[Util] found hotkey config: "+activeHotkey);
+    return activeHotkey;
   }
 
   static getFlowHomePath() {
