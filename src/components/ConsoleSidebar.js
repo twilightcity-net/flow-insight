@@ -46,6 +46,8 @@ export default class ConsoleSidebar extends Component {
   }
 
   selectItem(name) {
+    this.props.onChangeActiveSidePanel(name);
+
     this.events.sidebarPanel.dispatch({
       content: name,
       show: 1
@@ -112,7 +114,6 @@ export default class ConsoleSidebar extends Component {
             name="messages"
             active={activeItem === "messages"}
             onClick={this.handleItemClick}
-            disabled
           >
             <Icon name={this.state.iconMessages}>
               {false && (

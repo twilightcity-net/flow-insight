@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { RendererEventFactory } from "../RendererEventFactory";
 import ConsoleSidebar from "./ConsoleSidebar";
-import ConsoleSidebarPanel from "./ConsoleSidebarPanel";
+import SpiritPanel from "./SpiritPanel";
 import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";
 import {DataStoreFactory} from "../DataStoreFactory";
+import TeamPanel from "./TeamPanel";
 
 const {remote} = window.require("electron");
 
@@ -22,7 +23,8 @@ export default class ConsoleLayout extends Component {
       sidebarPanelWidth: 0,
       sidebarPanelOpacity: 0,
       xpSummary: null,
-      flameRating: 0
+      flameRating: 0,
+      activePanel: "profile"
     };
     this.animationTime = 700;
     this.events = {
@@ -163,29 +165,54 @@ export default class ConsoleLayout extends Component {
   };
 
 
+  changeActiveSidePanel = (activeSidePanel) => {
+    this.log("Changed panel! " + activeSidePanel);
+    this.setState({
+       activePanel: activeSidePanel
+    });
+  };
+
   /// renders the root console layout of the console view
   render() {
+
+    const spiritPanelContent = <SpiritPanel
+      xpSummary={this.state.xpSummary}
+      flameRating={this.state.flameRating}
+      adjustFlameCb={this.adjustFlameCb}
+      loadStateCb={this.loadStateSidebarPanelCb}
+      saveStateCb={this.saveStateSidebarPanelCb}
+      width={this.state.sidebarPanelWidth}
+      opacity={this.state.sidebarPanelOpacity}
+    />;
+
+    const teamPanelContent = <TeamPanel
+      width={this.state.sidebarPanelWidth}
+      opacity={this.state.sidebarPanelOpacity}
+      loadStateCb={this.loadStateSidebarPanelCb}
+      saveStateCb={this.saveStateSidebarPanelCb}
+    />;
+
+    let activePanel = null;
+
+    if (this.state.activePanel === "profile") {
+      activePanel = spiritPanelContent;
+    } else if (this.state.activePanel === "messages" ) {
+      activePanel = teamPanelContent;
+    }
+
     const sidebarPanel = (
       <div
         id="wrapper"
         className="consoleSidebarPanel"
         style={{ width: this.state.sidebarPanelWidth }}
       >
-        <ConsoleSidebarPanel
-          xpSummary={this.state.xpSummary}
-          flameRating={this.state.flameRating}
-          adjustFlameCb={this.adjustFlameCb}
-          loadStateCb={this.loadStateSidebarPanelCb}
-          saveStateCb={this.saveStateSidebarPanelCb}
-          width={this.state.sidebarPanelWidth}
-          opacity={this.state.sidebarPanelOpacity}
-        />
+        {activePanel}
       </div>
     );
     return (
       <div id="component" className="consoleLayout">
         <div id="wrapper" className="consoleSidebar">
-          <ConsoleSidebar />
+          <ConsoleSidebar onChangeActiveSidePanel={this.changeActiveSidePanel}/>
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">

@@ -10,7 +10,7 @@ const electronLog = remote.require("electron-log");
 //
 // this component is the tab panel wrapper for the console content
 //
-export default class ConsoleSidebarPanel extends Component {
+export default class SpiritPanel extends Component {
   constructor(props) {
     super(props);
     this.state = this.loadState();
@@ -61,15 +61,6 @@ export default class ConsoleSidebarPanel extends Component {
       title: xpSummaryDto.title,
       flameRating: flameString
     });
-    //
-    // this.log("recentProjects = "+ nextProps.recentProjects);
-    // this.log("recentTasks = "+ nextProps.recentTasksByProjectId);
-    // this.log("recentEntry = "+ nextProps.recentEntry);
-    //
-    // this.populateProjects(nextProps.recentProjects);
-    //
-    // let defaultProject = this.initCurrentProject(nextProps.recentProjects, nextProps.recentEntry);
-    // this.populateTasks(defaultProject, nextProps.recentTasksByProjectId, nextProps.recentEntry);
 
   };
 
