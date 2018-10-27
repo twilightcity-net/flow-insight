@@ -306,6 +306,31 @@
       #component.consoleMenu .right.menu .item i {
         margin-right: 0px;
       }
+      /*
+       * COMPONENT: TEAM-PANEL
+       */
+
+      #component.teamPanel .ui.grid {
+        margin: 0px 0;
+      }
+
+      #component.teamPanel .ui.grid>.row:last-child {
+        border-bottom: none;
+      }
+      #component.teamPanel .ui.grid>.row:hover {
+        background: rgba(40, 40, 40, 0.96);
+      }
+
+      #component.teamPanel .ui.grid>.active {
+        background: rgba(50, 50, 51, 0.96);
+        font-weight: bold;
+      }
+
+      #component.teamPanel .ui.grid .row .memberText {
+        font-weight: 400;
+        color: #cccccc;
+      }
+
 
       /* 
        * COMPONENT: TROUBLESHOOT-LAYOUT 
@@ -429,7 +454,7 @@
         border-bottom: none;
       }
       #component.journalItems .ui.grid>.row:hover {
-        background: rgba(27, 28, 29, 0.96);
+        background: rgba(40, 40, 40, 0.96);
       }
 
       #component.journalItems .ui.grid>.active {

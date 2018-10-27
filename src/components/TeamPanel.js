@@ -19,25 +19,25 @@ export default class TeamPanel extends Component {
     this.state = this.loadState();
 
     this.state.me = {id: "", name: ""};
-    this.state.teamMembers = [
-      {
-        id: "123",
-        name: "Janelle",
-        mood: -5,
-        status: "(WTF)"
-      },
-      {
-        id: "456",
-        name: "Adrian",
-        mood: 2
-      },
-      {
-        id: "789",
-        name: "Casey",
-        mood: 3
-      },
-    ];
+    this.state.teamMembers = [];
+
+    this.events = {
+      consoleOpen: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
+        this,
+        this.resetCb
+      )
+    };
   }
+
+  resetCb = () => {
+    this.log("Reset CB!");
+    if (this.state.me) {
+      setTimeout(() => {
+        this.selectRow(this.state.me.id, this.state.me);
+      }, this.activateWaitDelay);
+    }
+  };
 
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
@@ -86,7 +86,8 @@ export default class TeamPanel extends Component {
 
       this.setState({
         me: me,
-        teamMembers: membersList
+        teamMembers: membersList,
+        activeTeamMember: me
       });
 
       this.log("Success!");
@@ -178,21 +179,48 @@ export default class TeamPanel extends Component {
 
   selectRow = (id, teamMember) => {
     this.log("Team member clicked!" + teamMember.name);
+
+    let rowObj = document.getElementById(id);
+
+    this.clearActiveRows();
+
+    rowObj.classList.add("active");
+
+    this.setState({
+      activeTeamMember: teamMember
+    });
+
   };
+
+  clearActiveRows = () => {
+    if (this.state.activeTeamMember) {
+      let rowObj = document.getElementById(this.state.activeTeamMember.id);
+      rowObj.classList.remove("active");
+    }
+  };
+
+
 
   /// renders the console sidebar panel of the console view
   render() {
     const { activeItem } = this.state;
 
+    let meIsActive = "";
+    if (this.state.activeTeamMember === this.state.me) {
+      meIsActive = "active";
+    }
+
     const teamMembersContent = (
         <div >
           <Grid inverted>
-            <Grid.Row id={this.state.me.id} onClick={() => this.selectRow(this.state.me.id, this.state.me)}>
+            <Grid.Row className={meIsActive} id={this.state.me.id} onClick={() => this.selectRow(this.state.me.id, this.state.me)}>
               <Grid.Column width={1}>
                 <Icon link color='purple' name='circle' />
               </Grid.Column>
               <Grid.Column width={12}>
+                <div className="memberText">
                 Me ({this.state.me.name})
+                </div>
               </Grid.Column>
             </Grid.Row>
 
@@ -200,10 +228,12 @@ export default class TeamPanel extends Component {
 
               <Grid.Row id={d.id} onClick={() => this.selectRow(d.id, d)}>
                 <Grid.Column width={1}>
-                  <Icon link color='purple' name='circle' />
+                    <Icon  link color='purple' name='circle' />
                 </Grid.Column>
                 <Grid.Column width={12}>
+                  <div className="memberText">
                   {d.name}
+                  </div>
                 </Grid.Column>
               </Grid.Row>
             )}
@@ -214,7 +244,7 @@ export default class TeamPanel extends Component {
     return (
       <div
         id="component"
-        className="consoleSidebarPanel"
+        className="teamPanel"
         style={{
           width: this.props.width,
           opacity: this.props.opacity
