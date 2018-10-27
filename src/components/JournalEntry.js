@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
+import { Button, Dropdown, Grid, Input, Segment, Icon } from "semantic-ui-react";
 import { RendererEventFactory } from "../RendererEventFactory";
 
 const { remote } = window.require("electron"),
@@ -19,7 +19,8 @@ export default class JournalEntry extends Component {
       tasks: [],
       currentProjectValue: null,
       currentTaskValue: null,
-      currentIntentionValue: null
+      currentIntentionValue: null,
+      dreamModeActive: false,
     };
 
     this.events = {
@@ -262,6 +263,12 @@ export default class JournalEntry extends Component {
     document.getElementById("createIntentionInput").classList.remove("focused");
   };
 
+  handleDreamModeClick = () => {
+    this.setState({
+      dreamModeActive: !this.state.dreamModeActive
+    });
+  };
+
   /// renders the journal entry component of the console view
   render() {
     return (
@@ -307,6 +314,12 @@ export default class JournalEntry extends Component {
                   />
                 </Grid.Column>
                 <Grid.Column width={12} id="createIntentionInput">
+                  <div>
+                  {/*<Button attached='left' inverted basic icon toggle floated='left'*/}
+                          {/*active={this.state.dreamModeActive}*/}
+                          {/*onClick={this.handleDreamModeClick}>*/}
+                    {/*<Icon name='cloud'/>*/}
+                  {/*</Button>*/}
                   <Input
                     id="intentionTextInput"
                     className="intentionText"
@@ -328,6 +341,7 @@ export default class JournalEntry extends Component {
                     }
                     placeholder="What's your next Intention?"
                   />
+                  </div>
                 </Grid.Column>
               </Grid.Row>
             </Grid>

@@ -1,7 +1,9 @@
 import React, { Component } from "react";
-import {Button, Image, Menu, Progress, Segment, Transition, Icon} from "semantic-ui-react";
+import {Button, Image, Menu, Progress, Segment, Transition, Icon, Grid, Popup} from "semantic-ui-react";
 import {DataStoreFactory} from "../DataStoreFactory";
 import {RendererEventFactory} from "../RendererEventFactory";
+import JournalItem from "./JournalItem";
+import moment from "moment";
 
 const {remote} = window.require("electron");
 
@@ -15,12 +17,103 @@ export default class TeamPanel extends Component {
     super(props);
 
     this.state = this.loadState();
+
+    this.state.me = {id: "", name: ""};
+    this.state.teamMembers = [
+      {
+        id: "123",
+        name: "Janelle",
+        mood: -5,
+        status: "(WTF)"
+      },
+      {
+        id: "456",
+        name: "Adrian",
+        mood: 2
+      },
+      {
+        id: "789",
+        name: "Casey",
+        mood: 3
+      },
+    ];
   }
 
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
 
+
+
+  componentDidMount = () => {
+    this.log("Team Layout : componentDidMount");
+
+    this.store = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.TEAM_WITH_MEMBERS,
+      this
+    );
+
+    this.store.load(
+      null,
+      err => {
+        setTimeout(() => {
+          this.onStoreLoadCb(err);
+        }, this.activateWaitDelay);
+      });
+  };
+
+
+  onStoreLoadCb = (err) => {
+    this.log("Team Layout : onStoreLoadCb");
+    if (err) {
+      this.store.dto = new this.store.dtoClass({
+        message: err,
+        status: "FAILED"
+      });
+      this.log("error:" + err);
+    } else {
+
+      let teamWithMembersDto = this.store.dto;
+
+      var membersList = [];
+      var teamMembers = teamWithMembersDto.teamMembers;
+
+      for (var i in teamMembers) {
+        membersList[i] = this.createMember(i, teamMembers[i]);
+      }
+
+      let me = this.createMember(0, teamWithMembersDto.me);
+
+      this.setState({
+        me: me,
+        teamMembers: membersList
+      });
+
+      this.log("Success!");
+    }
+  };
+
+  createMember = (index, teamMember) => {
+
+    let d = teamMember.lastActivity;
+    let lastActivity = null;
+    if (d != null) {
+      let dateObj = new Date(d[0], d[1], d[2], d[3], d[4], d[5]);
+      lastActivity =  moment(dateObj).format("ddd, MMM Do 'YY, h:mm a");
+    }
+
+    return {
+      id: teamMember.id,
+      email: teamMember.email,
+      name: teamMember.fullName,
+
+      activeStatus: teamMember.activeStatus,
+      activeTaskName: teamMember.activeTaskName,
+      activeTaskSummary: teamMember.activeTaskSummary,
+      workingOn: teamMember.workingOn,
+      lastActivity: lastActivity
+    };
+  };
 
   componentWillReceiveProps = (nextProps) => {
 
@@ -83,14 +176,39 @@ export default class TeamPanel extends Component {
     }, this.state.animationDelay);
   };
 
+  selectRow = (id, teamMember) => {
+    this.log("Team member clicked!" + teamMember.name);
+  };
+
   /// renders the console sidebar panel of the console view
   render() {
     const { activeItem } = this.state;
 
     const teamMembersContent = (
-      <div className="spiritContent">
-        Team members
-      </div>
+        <div >
+          <Grid inverted>
+            <Grid.Row id={this.state.me.id} onClick={() => this.selectRow(this.state.me.id, this.state.me)}>
+              <Grid.Column width={1}>
+                <Icon link color='purple' name='circle' />
+              </Grid.Column>
+              <Grid.Column width={12}>
+                Me ({this.state.me.name})
+              </Grid.Column>
+            </Grid.Row>
+
+            {this.state.teamMembers.map(d =>
+
+              <Grid.Row id={d.id} onClick={() => this.selectRow(d.id, d)}>
+                <Grid.Column width={1}>
+                  <Icon link color='purple' name='circle' />
+                </Grid.Column>
+                <Grid.Column width={12}>
+                  {d.name}
+                </Grid.Column>
+              </Grid.Row>
+            )}
+          </Grid>
+        </div>
     );
 
     return (
