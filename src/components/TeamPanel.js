@@ -82,13 +82,16 @@ export default class TeamPanel extends Component {
         membersList[i] = this.createMember(i, teamMembers[i]);
       }
 
-      let me = this.createMember(0, teamWithMembersDto.me);
+      if (teamWithMembersDto.me) {
+        let me = this.createMember(0, teamWithMembersDto.me);
 
-      this.setState({
-        me: me,
-        teamMembers: membersList,
-        activeTeamMember: me
-      });
+        this.setState({
+          me: me,
+          teamMembers: membersList,
+          activeTeamMember: me
+        });
+      }
+
 
       this.log("Success!");
     }
@@ -184,11 +187,13 @@ export default class TeamPanel extends Component {
 
     this.clearActiveRows();
 
-    rowObj.classList.add("active");
+    if (rowObj) {
+      rowObj.classList.add("active");
 
-    this.setState({
-      activeTeamMember: teamMember
-    });
+      this.setState({
+        activeTeamMember: teamMember
+      });
+    }
 
   };
 

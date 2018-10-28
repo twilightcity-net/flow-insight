@@ -366,7 +366,9 @@ export default class JournalLayout extends Component {
         activeSize: recentJournalDto.recentIntentions.length
       });
 
-      this.props.onFlameChange(activeJournalItem.flameRating);
+      if (activeJournalItem) {
+        this.props.onFlameChange(activeJournalItem.flameRating);
+      }
 
       this.log("Success!");
     }
