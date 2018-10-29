@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Button, Image, Menu, Progress, Segment, Transition, Icon, Grid, Popup} from "semantic-ui-react";
+import {Button, Image, Menu, Progress, Segment, Transition, Icon, Grid, Popup, Divider} from "semantic-ui-react";
 import {DataStoreFactory} from "../DataStoreFactory";
 import {RendererEventFactory} from "../RendererEventFactory";
 import JournalItem from "./JournalItem";
@@ -106,16 +106,33 @@ export default class TeamPanel extends Component {
       lastActivity =  moment(dateObj).format("ddd, MMM Do 'YY, h:mm a");
     }
 
+    let level = 0;
+    let xpRequired = 0;
+    if (teamMember.xpSummary) {
+      level = teamMember.xpSummary.level;
+      xpRequired = teamMember.xpSummary.xpRequiredToLevel;
+    }
+
+    let statusColor = 'grey';
+    if (teamMember.activeStatus === 'Online') {
+      statusColor = 'purple';
+    }
+
     return {
       id: teamMember.id,
       email: teamMember.email,
       name: teamMember.fullName,
+      shortName: teamMember.shortName,
 
       activeStatus: teamMember.activeStatus,
       activeTaskName: teamMember.activeTaskName,
       activeTaskSummary: teamMember.activeTaskSummary,
+      level: level,
+      xpRequired: xpRequired,
+      mood: teamMember.moodRating,
       workingOn: teamMember.workingOn,
-      lastActivity: lastActivity
+      lastActivity: lastActivity,
+      statusColor: statusColor
     };
   };
 
@@ -220,12 +237,48 @@ export default class TeamPanel extends Component {
           <Grid inverted>
             <Grid.Row className={meIsActive} id={this.state.me.id} onClick={() => this.selectRow(this.state.me.id, this.state.me)}>
               <Grid.Column width={1}>
-                <Icon link color='purple' name='circle' />
+                <Icon link color={this.state.me.statusColor} name='circle' />
               </Grid.Column>
               <Grid.Column width={12}>
-                <div className="memberText">
-                Me ({this.state.me.name})
-                </div>
+
+                  <Popup
+                    trigger={
+                      <div className="memberText">
+                        Me ({this.state.me.shortName})
+                      </div>
+                    }
+                    className="chunkTitle"
+                    content={
+                      <div>
+                        <div>
+                          <i>{this.state.me.name} ({this.state.me.activeStatus})</i>
+                        </div>
+                        <div>
+                          <b>{this.state.me.activeTaskName} </b>
+                        </div>
+                        <div>
+                          {this.state.me.activeTaskSummary}
+                        </div>
+                        <div>
+                          {this.state.me.workingOn}
+
+                        </div>
+                        <Divider />
+                        <div>
+                        <span className="date">
+                          Torchie Level {this.state.me.level}&nbsp;&nbsp; (+{this.state.me.xpRequired} to go)
+                        </span>
+
+                        </div>
+                      </div>
+                    }
+                    position="bottom left"
+                    inverted
+                    hideOnScroll
+                  />
+
+
+
               </Grid.Column>
             </Grid.Row>
 
@@ -233,12 +286,47 @@ export default class TeamPanel extends Component {
 
               <Grid.Row id={d.id} onClick={() => this.selectRow(d.id, d)}>
                 <Grid.Column width={1}>
-                    <Icon  link color='purple' name='circle' />
+
+                    <Icon color={d.statusColor} name='circle' />
                 </Grid.Column>
                 <Grid.Column width={12}>
-                  <div className="memberText">
-                  {d.name}
-                  </div>
+                  <Popup
+                    trigger={
+                      <div className="memberText">
+                        {d.shortName}
+                      </div>
+                    }
+                    className="chunkTitle"
+                    content={
+                      <div>
+                        <div>
+                          <i>{d.name} ({d.activeStatus})</i>
+                        </div>
+                        <div>
+                          <b>{d.activeTaskName} </b>
+                        </div>
+                        <div>
+                          {d.activeTaskSummary}
+                        </div>
+                        <div>
+                          {d.workingOn}
+
+                        </div>
+                        <Divider />
+                        <div>
+                        <span className="date">
+                          Torchie Level {d.level}&nbsp;&nbsp; (+{d.xpRequired} to go)
+                        </span>
+
+                        </div>
+                      </div>
+                    }
+                    position="bottom left"
+                    inverted
+                    hideOnScroll
+                  />
+
+
                 </Grid.Column>
               </Grid.Row>
             )}
