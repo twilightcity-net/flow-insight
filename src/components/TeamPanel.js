@@ -25,17 +25,27 @@ export default class TeamPanel extends Component {
       consoleOpen: RendererEventFactory.createEvent(
         RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
         this,
-        this.resetCb
+        (event, arg) => this.resetCb(event, arg)
       )
     };
   }
 
-  resetCb = () => {
-    this.log("Reset CB!");
+  resetCb = (event, showHide) => {
+    this.log("Reset CB!"+ showHide);
     if (this.state.me) {
       setTimeout(() => {
         this.selectRow(this.state.me.id, this.state.me);
       }, this.activateWaitDelay);
+    }
+
+    if (showHide === 0) {
+      this.store.load(
+        null,
+        err => {
+          setTimeout(() => {
+            this.onStoreLoadCb(err);
+          }, this.activateWaitDelay);
+        });
     }
   };
 
@@ -63,7 +73,7 @@ export default class TeamPanel extends Component {
   };
 
 
-  onStoreLoadCb = (err) => {
+    onStoreLoadCb = (err) => {
     this.log("Team Layout : onStoreLoadCb");
     if (err) {
       this.store.dto = new this.store.dtoClass({
@@ -110,12 +120,14 @@ export default class TeamPanel extends Component {
     let xpRequired = 0;
     if (teamMember.xpSummary) {
       level = teamMember.xpSummary.level;
-      xpRequired = teamMember.xpSummary.xpRequiredToLevel;
+      xpRequired = teamMember.xpSummary.xpRequiredToLevel - teamMember.xpSummary.xpProgress;
     }
 
     let statusColor = 'grey';
     if (teamMember.activeStatus === 'Online') {
       statusColor = 'purple';
+    } else if (teamMember.activeStatus === 'Alarm') {
+      statusColor = 'red';
     }
 
     return {
@@ -137,7 +149,21 @@ export default class TeamPanel extends Component {
   };
 
   componentWillReceiveProps = (nextProps) => {
+    this.log("XXXXXXXXXZZZZZZZZZZZ " + nextProps.xpSummary);
 
+    let level = 0;
+    let xpRequired = 0;
+    if (nextProps.xpSummary) {
+      level = nextProps.xpSummary.level;
+      xpRequired = nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
+    }
+
+    this.state.me.level = level;
+    this.state.me.xpRequired = xpRequired;
+
+    this.setState({
+      me: this.state.me
+    });
 
   };
 

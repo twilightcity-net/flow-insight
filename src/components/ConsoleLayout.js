@@ -186,6 +186,7 @@ export default class ConsoleLayout extends Component {
     />;
 
     const teamPanelContent = <TeamPanel
+      xpSummary={this.state.xpSummary}
       width={this.state.sidebarPanelWidth}
       opacity={this.state.sidebarPanelOpacity}
       loadStateCb={this.loadStateSidebarPanelCb}
