@@ -9,10 +9,6 @@ const electronLog = remote.require("electron-log");
 // this component is the individual journal item entered in by the user
 //
 export default class JournalItem extends Component {
-  constructor(props) {
-    super(props);
-
-  }
 
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);

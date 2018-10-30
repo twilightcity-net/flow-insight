@@ -1,8 +1,7 @@
-import React, { Component } from "react";
-import {Button, Image, Menu, Progress, Segment, Transition, Icon, Grid, Popup, Divider} from "semantic-ui-react";
+import React, {Component} from "react";
+import {Menu, Segment, Transition, Icon, Grid, Popup, Divider} from "semantic-ui-react";
 import {DataStoreFactory} from "../DataStoreFactory";
 import {RendererEventFactory} from "../RendererEventFactory";
-import JournalItem from "./JournalItem";
 import moment from "moment";
 
 const {remote} = window.require("electron");
@@ -18,9 +17,6 @@ export default class TeamPanel extends Component {
 
     this.state = this.loadState();
 
-    this.state.me = {id: "", name: ""};
-    this.state.teamMembers = [];
-
     this.events = {
       consoleOpen: RendererEventFactory.createEvent(
         RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
@@ -31,7 +27,7 @@ export default class TeamPanel extends Component {
   }
 
   resetCb = (event, showHide) => {
-    this.log("Reset CB!"+ showHide);
+    this.log("Reset CB!" + showHide);
     if (this.state.me) {
       setTimeout(() => {
         this.selectRow(this.state.me.id, this.state.me);
@@ -54,7 +50,6 @@ export default class TeamPanel extends Component {
   };
 
 
-
   componentDidMount = () => {
     this.log("Team Layout : componentDidMount");
 
@@ -73,7 +68,7 @@ export default class TeamPanel extends Component {
   };
 
 
-    onStoreLoadCb = (err) => {
+  onStoreLoadCb = (err) => {
     this.log("Team Layout : onStoreLoadCb");
     if (err) {
       this.store.dto = new this.store.dtoClass({
@@ -113,7 +108,7 @@ export default class TeamPanel extends Component {
     let lastActivity = null;
     if (d != null) {
       let dateObj = new Date(d[0], d[1], d[2], d[3], d[4], d[5]);
-      lastActivity =  moment(dateObj).format("ddd, MMM Do 'YY, h:mm a");
+      lastActivity = moment(dateObj).format("ddd, MMM Do 'YY, h:mm a");
     }
 
     let level = 0;
@@ -149,8 +144,6 @@ export default class TeamPanel extends Component {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    this.log("XXXXXXXXXZZZZZZZZZZZ " + nextProps.xpSummary);
-
     let level = 0;
     let xpRequired = 0;
     if (nextProps.xpSummary) {
@@ -158,11 +151,13 @@ export default class TeamPanel extends Component {
       xpRequired = nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
     }
 
-    this.state.me.level = level;
-    this.state.me.xpRequired = xpRequired;
+    let newMe = this.state.me;
+
+    newMe.level = level;
+    newMe.xpRequired = xpRequired;
 
     this.setState({
-      me: this.state.me
+      me: newMe
     });
 
   };
@@ -172,6 +167,8 @@ export default class TeamPanel extends Component {
     let state = this.props.loadStateCb();
     if (!state) {
       return {
+        me: {id: "", name: ""},
+        teamMembers: [],
         activeItem: "team",
         teamVisible: true,
         circlesVisible: false,
@@ -210,7 +207,7 @@ export default class TeamPanel extends Component {
   }
 
   /// updates display to show spirit content
-  handleTeamClick = (e, { name }) => {
+  handleTeamClick = (e, {name}) => {
     this.setState({
       activeItem: name,
       teamVisible: false,
@@ -248,116 +245,113 @@ export default class TeamPanel extends Component {
   };
 
 
-
   /// renders the console sidebar panel of the console view
   render() {
-    const { activeItem } = this.state;
-
     let meIsActive = "";
     if (this.state.activeTeamMember === this.state.me) {
       meIsActive = "active";
     }
 
     const teamMembersContent = (
-        <div >
-          <Grid inverted>
-            <Grid.Row className={meIsActive} id={this.state.me.id} onClick={() => this.selectRow(this.state.me.id, this.state.me)}>
-              <Grid.Column width={1}>
-                <Icon link color={this.state.me.statusColor} name='circle' />
-              </Grid.Column>
-              <Grid.Column width={12}>
+      <div>
+        <Grid inverted>
+          <Grid.Row className={meIsActive} id={this.state.me.id}
+                    onClick={() => this.selectRow(this.state.me.id, this.state.me)}>
+            <Grid.Column width={1}>
+              <Icon link color={this.state.me.statusColor} name='circle'/>
+            </Grid.Column>
+            <Grid.Column width={12}>
 
-                  <Popup
-                    trigger={
-                      <div className="memberText">
-                        Me ({this.state.me.shortName})
-                      </div>
-                    }
-                    className="chunkTitle"
-                    content={
-                      <div>
-                        <div>
-                          <i>{this.state.me.name} ({this.state.me.activeStatus})</i>
-                        </div>
-                        <div>
-                          <b>{this.state.me.activeTaskName} </b>
-                        </div>
-                        <div>
-                          {this.state.me.activeTaskSummary}
-                        </div>
-                        <div>
-                          {this.state.me.workingOn}
+              <Popup
+                trigger={
+                  <div className="memberText">
+                    Me ({this.state.me.shortName})
+                  </div>
+                }
+                className="chunkTitle"
+                content={
+                  <div>
+                    <div>
+                      <i>{this.state.me.name} ({this.state.me.activeStatus})</i>
+                    </div>
+                    <div>
+                      <b>{this.state.me.activeTaskName} </b>
+                    </div>
+                    <div>
+                      {this.state.me.activeTaskSummary}
+                    </div>
+                    <div>
+                      {this.state.me.workingOn}
 
-                        </div>
-                        <Divider />
-                        <div>
+                    </div>
+                    <Divider/>
+                    <div>
                         <span className="date">
                           Torchie Level {this.state.me.level}&nbsp;&nbsp; (+{this.state.me.xpRequired} to go)
                         </span>
 
-                        </div>
-                      </div>
-                    }
-                    position="bottom left"
-                    inverted
-                    hideOnScroll
-                  />
+                    </div>
+                  </div>
+                }
+                position="bottom left"
+                inverted
+                hideOnScroll
+              />
 
 
+            </Grid.Column>
+          </Grid.Row>
 
+          {this.state.teamMembers.map(d =>
+
+            <Grid.Row key={d.id} id={d.id} onClick={() => this.selectRow(d.id, d)}>
+              <Grid.Column width={1}>
+
+                <Icon color={d.statusColor} name='circle'/>
               </Grid.Column>
-            </Grid.Row>
-
-            {this.state.teamMembers.map(d =>
-
-              <Grid.Row id={d.id} onClick={() => this.selectRow(d.id, d)}>
-                <Grid.Column width={1}>
-
-                    <Icon color={d.statusColor} name='circle' />
-                </Grid.Column>
-                <Grid.Column width={12}>
-                  <Popup
-                    trigger={
-                      <div className="memberText">
-                        {d.shortName}
-                      </div>
-                    }
-                    className="chunkTitle"
-                    content={
+              <Grid.Column width={12}>
+                <Popup
+                  trigger={
+                    <div className="memberText">
+                      {d.shortName}
+                    </div>
+                  }
+                  className="chunkTitle"
+                  content={
+                    <div>
                       <div>
-                        <div>
-                          <i>{d.name} ({d.activeStatus})</i>
-                        </div>
-                        <div>
-                          <b>{d.activeTaskName} </b>
-                        </div>
-                        <div>
-                          {d.activeTaskSummary}
-                        </div>
-                        <div>
-                          {d.workingOn}
+                        <i>{d.name} ({d.activeStatus})</i>
+                      </div>
+                      <div>
+                        <b>{d.activeTaskName} </b>
+                      </div>
+                      <div>
+                        {d.activeTaskSummary}
+                      </div>
+                      <div>
+                        {d.workingOn}
 
-                        </div>
-                        <Divider />
-                        <div>
+                      </div>
+                      <Divider/>
+                      <div>
                         <span className="date">
                           Torchie Level {d.level}&nbsp;&nbsp; (+{d.xpRequired} to go)
                         </span>
 
-                        </div>
                       </div>
-                    }
-                    position="bottom left"
-                    inverted
-                    hideOnScroll
-                  />
+                    </div>
+                  }
+                  position="bottom left"
+                  inverted
+                  hideOnScroll
+                />
 
 
-                </Grid.Column>
-              </Grid.Row>
-            )}
-          </Grid>
-        </div>
+              </Grid.Column>
+            </Grid.Row>
+          )}
+        </Grid>
+      </div>
     );
 
     return (
@@ -378,7 +372,7 @@ export default class TeamPanel extends Component {
             />
 
           </Menu>
-          <Segment inverted style={{ height: this.calculateMenuHeight() }}>
+          <Segment inverted style={{height: this.calculateMenuHeight()}}>
             <Transition
               visible={this.state.teamVisible}
               animation={this.state.animationType}

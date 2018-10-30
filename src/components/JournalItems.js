@@ -32,7 +32,6 @@ export default class JournalItems extends Component {
     this.log("JournalItems:: componentWillReceiveProps");
 
     let activeJournalItem = null;
-    let lastRowId = null;
 
     if (nextProps.allJournalItems.length > 0) {
       activeJournalItem = nextProps.allJournalItems[nextProps.activeIndex];
@@ -40,7 +39,7 @@ export default class JournalItems extends Component {
         activeJournalItem.flameRating = 0;
       }
 
-      if ( activeJournalItem.flameRating != nextProps.updatedFlame) {
+      if ( activeJournalItem.flameRating !== nextProps.updatedFlame) {
         activeJournalItem.flameRating = nextProps.updatedFlame;
         this.saveDirtyFlames(this.props, activeJournalItem);
       }
@@ -48,8 +47,6 @@ export default class JournalItems extends Component {
     }
 
     this.clearActiveRows();
-
-
 
     this.setState({
       journalItems: nextProps.allJournalItems,
@@ -97,7 +94,7 @@ export default class JournalItems extends Component {
       activeIndex = this.state.activeJournalItem.index;
     }
 
-    return activeIndex == 0;
+    return activeIndex === 0;
   }
 
   isLastActive() {
@@ -110,7 +107,7 @@ export default class JournalItems extends Component {
     this.log("activeIndex: "+activeIndex);
     this.log("journalItemSize: "+this.state.journalItems.length);
 
-    return activeIndex == (this.state.journalItems.length - 1);
+    return activeIndex === (this.state.journalItems.length - 1);
 
   }
 
@@ -187,6 +184,7 @@ export default class JournalItems extends Component {
         <Grid inverted>
           {this.state.journalItems.map(d =>
             <JournalItem
+              key={d.id}
               id={d.id}
               projectName={d.projectName}
               taskName={d.taskName}

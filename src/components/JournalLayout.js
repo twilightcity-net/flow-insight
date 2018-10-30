@@ -60,7 +60,6 @@ export default class JournalLayout extends Component {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    this.log("((((((((((((((((((((" + nextProps.updatedFlame + this.state.activeIndex);
 
     //TODO confirmed that activeIndex is still the old one, when updatedFlame is being called
 
@@ -128,9 +127,6 @@ export default class JournalLayout extends Component {
       this
     );
 
-    //okay so now, after I fetch a new task by name, I should be able to reload the recent project/task maps
-
-
     this.store.load(
       null,
       err => {
@@ -164,11 +160,6 @@ export default class JournalLayout extends Component {
         }, this.activateWaitDelay);
       })
 
-    //then I need a new store for getting a task via projectId, and taskName, caching the taskDto.
-    //then once I get the task, I automatically add it to my recent tasks list, so when I refresh the recent list again,
-    //all the project/task recents are up to date.  5 Recent.  Recent (m, h, d, w, m, q, y)
-
-    //recent window, takes a window size as input, and produces a window size as output, can go up/down.  Zoom In, Zoom Out.
   };
 
   onSaveFlameUpdates = (journalItem) => {

@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import {Button, Image, Menu, Progress, Segment, Transition, Icon} from "semantic-ui-react";
-import {DataStoreFactory} from "../DataStoreFactory";
-import {RendererEventFactory} from "../RendererEventFactory";
+import {Image, Menu, Progress, Segment, Transition} from "semantic-ui-react";
 
 const {remote} = window.require("electron");
 
@@ -41,7 +39,6 @@ export default class SpiritPanel extends Component {
   }
 
   componentWillReceiveProps = (nextProps) => {
-    this.log("componentWillReceiveProps ZZZZZZZZZZZZZZZ "+nextProps.xpSummary);
 
     let xpSummaryDto = nextProps.xpSummary;
 
@@ -120,13 +117,6 @@ export default class SpiritPanel extends Component {
     this.saveState(this.state);
   }
 
-  //the side panel, needs to affect the journal for the activeRow, so this method
-  //so I need to torchie to display the active mood level
-  //then I need torchie's buttons to adjust the active mood, or the historical mood if activeRow is set to something historical
-  //don't worry about persisting these changes quite yet
-  //we will call save on change, and if the active row is the latest, we will update server status immediately
-  //mood lamps across the office reflect this rage status
-
   handleClickForRage = () => {
     this.log("Rage!");
     this.props.adjustFlameCb(-1);
@@ -136,8 +126,6 @@ export default class SpiritPanel extends Component {
     this.log("Yay!");
     this.props.adjustFlameCb(+1);
   };
-
-
 
   /// renders the console sidebar panel of the console view
   render() {
@@ -174,7 +162,7 @@ export default class SpiritPanel extends Component {
               {/*{this.state.flameRating}*/}
             {/*</button>*/}
 
-            <button toggle className='ui icon button yayButton' tabIndex='0' onClick={this.handleClickForYay}>
+            <button className='ui icon button yayButton' tabIndex='0' onClick={this.handleClickForYay}>
               <Image centered src="./assets/images/yay/24x24.png" />
             </button>
         </div>

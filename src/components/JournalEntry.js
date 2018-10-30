@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Dropdown, Grid, Input, Segment, Icon } from "semantic-ui-react";
+import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
 import { RendererEventFactory } from "../RendererEventFactory";
 
 const { remote } = window.require("electron"),
@@ -19,7 +19,7 @@ export default class JournalEntry extends Component {
       tasks: [],
       currentProjectValue: null,
       currentTaskValue: null,
-      currentIntentionValue: null,
+      currentIntentionValue: "",
       dreamModeActive: false,
     };
 
@@ -172,8 +172,6 @@ export default class JournalEntry extends Component {
 
   /// called when a project is selected in dropdown
   handleKeyPressForProject = e => {
-    this.log("handleKeyPressForProject: " + e.key);
-
     if (e.key === "Enter") {
       this.log("ENTER!");
     }
