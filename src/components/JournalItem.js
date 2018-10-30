@@ -70,7 +70,7 @@ export default class JournalItem extends Component {
             hideOnScroll
           />
         </Grid.Column>
-        <Grid.Column width={1}>
+        <Grid.Column width={2}>
           <Popup
             trigger={taskCell}
             className="chunkTitle"
@@ -83,7 +83,7 @@ export default class JournalItem extends Component {
           {flameBlock}
         </Grid.Column>
 
-        <Grid.Column width={12}>
+        <Grid.Column width={9}>
           {chunkCell}
         </Grid.Column>
       </Grid.Row>
