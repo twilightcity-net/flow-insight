@@ -41,8 +41,18 @@ module.exports = class ConsoleWindow {
 
     if (isDev) {
       this.window.webContents.openDevTools();
-    }
 
+      // Install React Dev Tools
+      const {default: installExtension, REACT_DEVELOPER_TOOLS} = require('electron-devtools-installer');
+
+      installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
+        console.log(`Added Extension:  ${name}`);
+      })
+      .catch((err) => {
+        console.log('An error occurred: ', err);
+      });
+    }
+    
     this.window.name = this.name;
     this.window.setMenu(null);
     this.window.on("ready-to-show", () => this.onReadyToShowCb());
