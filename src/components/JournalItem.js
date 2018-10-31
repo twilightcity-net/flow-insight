@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Divider, Grid, Image, Popup} from "semantic-ui-react";
+import {Button, Divider, Grid, Image, Popup, Icon} from "semantic-ui-react";
 
 const {remote} = window.require("electron");
 
@@ -20,13 +20,31 @@ export default class JournalItem extends Component {
     this.props.onSetActiveRow(rowId, rowObj, journalItem);
   }
 
+  //entry needs to have a status as to whether it's done safely or aborted, need finish time
+  //then done/aborted flag in DB, then return this in the journal items
+
+  //then checkmarks appear if status is closed, safely needs to be added to the saving of intentions
+
+  //get the last intention, save the checkmark of the last intention if it's not aborted
+
+  handleClickForDone = () => {
+    this.log("donE");
+  };
+
+  handleClickForAbort = () => {
+    this.log("abort");
+  };
+
   /// renders the component of the console view
   render() {
     const projectCell = (
       <div className="chunkTitle">{this.props.projectName}</div>
     );
     const taskCell = <div className="chunkTitle">{this.props.taskName}</div>;
-    const chunkCell = <div className="chunkText">{this.props.description}</div>;
+    const chunkCell = <div className="chunkText">{this.props.description}
+      <Icon link name='close' color='red' onClick={this.handleClickForAbort}/>
+      <Icon link name='check' color='green' onClick={this.handleClickForDone}/>
+    </div>;
     const popupContent = (
       <div>
         <div>
