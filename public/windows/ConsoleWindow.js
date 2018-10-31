@@ -52,7 +52,7 @@ module.exports = class ConsoleWindow {
         console.log('An error occurred: ', err);
       });
     }
-    
+
     this.window.name = this.name;
     this.window.setMenu(null);
     this.window.on("ready-to-show", () => this.onReadyToShowCb());

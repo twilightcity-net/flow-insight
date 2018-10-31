@@ -3,6 +3,8 @@ import {Menu, Segment, Transition, Icon, Grid, Popup, Divider} from "semantic-ui
 import {DataStoreFactory} from "../DataStoreFactory";
 import {RendererEventFactory} from "../RendererEventFactory";
 import moment from "moment";
+import JournalItem from "./JournalItem";
+import TeamMember from "./TeamMember";
 
 const {remote} = window.require("electron");
 
@@ -16,6 +18,9 @@ export default class TeamPanel extends Component {
     super(props);
 
     this.state = this.loadState();
+    this.state.me = {id: "", name: ""};
+    this.state.teamMembers = [];
+
 
     this.events = {
       consoleOpen: RendererEventFactory.createEvent(
@@ -48,7 +53,6 @@ export default class TeamPanel extends Component {
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
-
 
   componentDidMount = () => {
     this.log("Team Layout : componentDidMount");
@@ -167,16 +171,8 @@ export default class TeamPanel extends Component {
     let state = this.props.loadStateCb();
     if (!state) {
       return {
-        me: {id: "", name: ""},
-        teamMembers: [],
-        activeItem: "team",
-        teamVisible: true,
-        circlesVisible: false,
         animationType: "fly down",
         animationDelay: 350,
-        level: 0,
-        percentXP: 99,
-        totalXP: 99999,
         title: ""
       };
     }
@@ -223,132 +219,55 @@ export default class TeamPanel extends Component {
   selectRow = (id, teamMember) => {
     this.log("Team member clicked!" + teamMember.name);
 
-    let rowObj = document.getElementById(id);
-
-    this.clearActiveRows();
-
-    if (rowObj) {
-      rowObj.classList.add("active");
-
-      this.setState({
-        activeTeamMember: teamMember
-      });
-    }
+    this.setState({
+      activeTeamMember: teamMember
+    });
 
   };
-
-  clearActiveRows = () => {
-    if (this.state.activeTeamMember) {
-      let rowObj = document.getElementById(this.state.activeTeamMember.id);
-      rowObj.classList.remove("active");
-    }
-  };
-
 
   /// renders the console sidebar panel of the console view
   render() {
-    let meIsActive = "";
-    if (this.state.activeTeamMember === this.state.me) {
-      meIsActive = "active";
-    }
 
     const teamMembersContent = (
       <div>
         <Grid inverted>
-          <Grid.Row className={meIsActive} id={this.state.me.id}
-                    onClick={() => this.selectRow(this.state.me.id, this.state.me)}>
-            <Grid.Column width={1}>
-              <Icon link color={this.state.me.statusColor} name='circle'/>
-            </Grid.Column>
-            <Grid.Column width={12}>
 
-              <Popup
-                trigger={
-                  <div className="memberText">
-                    Me ({this.state.me.shortName})
-                  </div>
-                }
-                className="chunkTitle"
-                content={
-                  <div>
-                    <div>
-                      <i>{this.state.me.name} ({this.state.me.activeStatus})</i>
-                    </div>
-                    <div>
-                      <b>{this.state.me.activeTaskName} </b>
-                    </div>
-                    <div>
-                      {this.state.me.activeTaskSummary}
-                    </div>
-                    <div>
-                      {this.state.me.workingOn}
-
-                    </div>
-                    <Divider/>
-                    <div>
-                        <span className="date">
-                          Torchie Level {this.state.me.level}&nbsp;&nbsp; (+{this.state.me.xpRequired} to go)
-                        </span>
-
-                    </div>
-                  </div>
-                }
-                position="bottom left"
-                inverted
-                hideOnScroll
-              />
-
-
-            </Grid.Column>
-          </Grid.Row>
+          <TeamMember
+            key={this.state.me.id}
+            id={this.state.me.id}
+            shortName={"Me ("+this.state.me.shortName + ")"}
+            name={this.state.me.name}
+            activeStatus={this.state.me.activeStatus}
+            statusColor={this.state.me.statusColor}
+            activeTaskName={this.state.me.description}
+            activeTaskSummary={this.state.me.activeTaskSummary}
+            workingOn={this.state.me.workingOn}
+            level={this.state.me.level}
+            xpRequired={this.state.me.xpRequired}
+            onSetActiveRow={this.selectRow}
+            teamMember={this.state.me}
+            activeTeamMember={this.state.activeTeamMember}
+          />
 
           {this.state.teamMembers.map(d =>
 
-            <Grid.Row key={d.id} id={d.id} onClick={() => this.selectRow(d.id, d)}>
-              <Grid.Column width={1}>
+            <TeamMember
+              key={d.id}
+              id={d.id}
+              shortName={d.shortName}
+              name={d.name}
+              activeStatus={d.activeStatus}
+              statusColor={d.statusColor}
+              activeTaskName={d.description}
+              activeTaskSummary={d.activeTaskSummary}
+              workingOn={d.workingOn}
+              level={d.level}
+              xpRequired={d.xpRequired}
+              onSetActiveRow={this.selectRow}
+              teamMember={d}
+              activeTeamMember={this.state.activeTeamMember}
+            />
 
-                <Icon color={d.statusColor} name='circle'/>
-              </Grid.Column>
-              <Grid.Column width={12}>
-                <Popup
-                  trigger={
-                    <div className="memberText">
-                      {d.shortName}
-                    </div>
-                  }
-                  className="chunkTitle"
-                  content={
-                    <div>
-                      <div>
-                        <i>{d.name} ({d.activeStatus})</i>
-                      </div>
-                      <div>
-                        <b>{d.activeTaskName} </b>
-                      </div>
-                      <div>
-                        {d.activeTaskSummary}
-                      </div>
-                      <div>
-                        {d.workingOn}
-
-                      </div>
-                      <Divider/>
-                      <div>
-                        <span className="date">
-                          Torchie Level {d.level}&nbsp;&nbsp; (+{d.xpRequired} to go)
-                        </span>
-
-                      </div>
-                    </div>
-                  }
-                  position="bottom left"
-                  inverted
-                  hideOnScroll
-                />
-
-
-              </Grid.Column>
-            </Grid.Row>
           )}
         </Grid>
       </div>
