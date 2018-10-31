@@ -37,13 +37,24 @@ export default class JournalItem extends Component {
 
   /// renders the component of the console view
   render() {
+
+    let finishIcon = "";
+    if (this.props.finishStatus == 'done') {
+      finishIcon = <Icon name='check' color='green'/>;
+    } else if (this.props.finishStatus === 'aborted') {
+      finishIcon = <Icon name='close' color='red'/>;
+    } else {
+      finishIcon = <span><Icon link name='check' color='green' onClick={this.handleClickForDone}/>
+        <Icon link name='close' color='red' onClick={this.handleClickForAbort}/></span>
+    }
+
+
     const projectCell = (
       <div className="chunkTitle">{this.props.projectName}</div>
     );
     const taskCell = <div className="chunkTitle">{this.props.taskName}</div>;
     const chunkCell = <div className="chunkText">{this.props.description}
-      <Icon link name='close' color='red' onClick={this.handleClickForAbort}/>
-      <Icon link name='check' color='green' onClick={this.handleClickForDone}/>
+      {finishIcon}
     </div>;
     const popupContent = (
       <div>

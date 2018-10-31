@@ -282,6 +282,11 @@ export default class JournalLayout extends Component {
 
       let journalItem = this.createJournalItem(this.state.allJournalItems.length, savedEntry);
 
+      if (this.state.allJournalItems.length > 0) {
+        let lastItem = this.state.allJournalItems[this.state.allJournalItems.length - 1];
+        lastItem.finishStatus = "done";
+      }
+
       this.setState({
         allJournalItems: [...this.state.allJournalItems,journalItem],
         activeJournalItem: journalItem,
@@ -378,6 +383,7 @@ export default class JournalLayout extends Component {
       taskName: intention.taskName,
       taskSummary: intention.taskSummary,
       description: intention.description,
+      finishStatus: intention.finishStatus,
       position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a")
     };
   };

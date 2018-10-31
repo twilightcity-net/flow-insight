@@ -14,6 +14,7 @@ module.exports = class JournalEntryDto {
       this.projectName = json.projectName;
       this.taskSummary = json.taskSummary;
       this.flameRating = json.flameRating;
+      this.finishStatus = json.finishStatus;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'JournalEntryDto' : " + e.message
