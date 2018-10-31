@@ -29,10 +29,19 @@ export default class JournalItem extends Component {
 
   handleClickForDone = () => {
     this.log("donE");
+    this.handleUpdateFinishStatus("done");
   };
 
   handleClickForAbort = () => {
     this.log("abort");
+
+    this.handleUpdateFinishStatus("aborted");
+
+  };
+
+  handleUpdateFinishStatus = (finishStatus) => {
+    this.props.journalItem.finishStatus = finishStatus;
+    this.props.onUpdateFinishStatus(finishStatus, this.props.journalItem);
   };
 
   /// renders the component of the console view

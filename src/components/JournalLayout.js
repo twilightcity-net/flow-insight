@@ -284,7 +284,9 @@ export default class JournalLayout extends Component {
 
       if (this.state.allJournalItems.length > 0) {
         let lastItem = this.state.allJournalItems[this.state.allJournalItems.length - 1];
-        lastItem.finishStatus = "done";
+        if (!lastItem.finishStatus) {
+          lastItem.finishStatus = "done";
+        }
       }
 
       this.setState({

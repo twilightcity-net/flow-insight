@@ -166,6 +166,10 @@ export default class JournalItems extends Component {
     this.props.onChangeActiveEntry(rowId, journalItem);
   };
 
+  onUpdateFinishStatus = (newStatus, journalItem) => {
+    this.log("onUpdateFinishStatus");
+  };
+
   clearActiveRows = () => {
     if (this.state.activeJournalItem) {
       let rowObj = document.getElementById(this.state.activeJournalItem.id);
@@ -195,6 +199,7 @@ export default class JournalItems extends Component {
               position={d.position}
               journalItem={d}
               onSetActiveRow={this.onSetActiveRow}
+              onUpdateFinishStatus={this.onUpdateFinishStatus}
             />
           )}
         </Grid>
