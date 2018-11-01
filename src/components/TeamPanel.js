@@ -124,7 +124,7 @@ export default class TeamPanel extends Component {
 
     let statusColor = 'grey';
     if (teamMember.activeStatus === 'Online') {
-      statusColor = 'purple';
+      statusColor = 'color1';
     } else if (teamMember.activeStatus === 'Alarm') {
       statusColor = 'red';
     }

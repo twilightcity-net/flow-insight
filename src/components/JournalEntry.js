@@ -292,7 +292,7 @@ export default class JournalEntry extends Component {
                     onKeyPress={this.handleKeyPressForProject}
                   />
                 </Grid.Column>
-                <Grid.Column width={2} id="selectTaskInput">
+                <Grid.Column width={3} id="selectTaskInput">
                   <Dropdown
                     id="journalEntryTaskId"
                     className="chunkId"
@@ -311,7 +311,7 @@ export default class JournalEntry extends Component {
                     onChange={this.handleChangeForTask}
                   />
                 </Grid.Column>
-                <Grid.Column width={12} id="createIntentionInput">
+                <Grid.Column width={11} id="createIntentionInput">
                   <div>
                   {/*<Button attached='left' inverted basic icon toggle floated='left'*/}
                           {/*active={this.state.dreamModeActive}*/}
