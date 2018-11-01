@@ -276,7 +276,7 @@ export default class TeamPanel extends Component {
     return (
       <div
         id="component"
-        className="teamPanel"
+        className="consoleSidebarPanel teamPanel"
         style={{
           width: this.props.width,
           opacity: this.props.opacity
