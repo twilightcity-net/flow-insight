@@ -6,6 +6,7 @@ import {NewTaskStore} from "./stores/NewTaskStore";
 import {XPSummaryStore} from "./stores/XPSummaryStore";
 import {UpdatedFlameStore} from "./stores/UpdatedFlameStore";
 import {TeamWithMembersStore} from "./stores/TeamWithMembersStore";
+import {UpdatedFinishStore} from "./stores/UpdatedFinishStore";
 
 //
 // this class is used to manage DataClient requests for Stores
@@ -27,8 +28,11 @@ export class DataStoreFactory {
         return new XPSummaryStore(scope);
       case DataStoreFactory.Stores.UPDATED_FLAME:
         return new UpdatedFlameStore(scope);
+      case DataStoreFactory.Stores.UPDATED_FINISH:
+        return new UpdatedFinishStore(scope);
       case DataStoreFactory.Stores.TEAM_WITH_MEMBERS:
         return new TeamWithMembersStore(scope);
+
       default:
         return null;
     }
@@ -43,7 +47,8 @@ export class DataStoreFactory {
       NEW_TASK: "new-task",
       XP_SUMMARY: "xp-summary",
       UPDATED_FLAME: "updated-flame",
-      TEAM_WITH_MEMBERS: "team-with-members"
+      TEAM_WITH_MEMBERS: "team-with-members",
+      UPDATED_FINISH: "updated-finish"
     };
   }
 }

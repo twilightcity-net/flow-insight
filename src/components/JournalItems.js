@@ -166,8 +166,9 @@ export default class JournalItems extends Component {
     this.props.onChangeActiveEntry(rowId, journalItem);
   };
 
-  onUpdateFinishStatus = (newStatus, journalItem) => {
+  onUpdateFinishStatus = (journalItem, newStatus) => {
     this.log("onUpdateFinishStatus");
+    this.props.onFinishEntry(journalItem, newStatus);
   };
 
   clearActiveRows = () => {
