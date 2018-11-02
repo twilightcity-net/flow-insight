@@ -20,35 +20,17 @@ export default class TeamPanel extends Component {
     this.state = this.loadState();
     this.state.me = {id: "", name: ""};
     this.state.teamMembers = [];
+    this.state.activeTeamMember = null;
 
-
-    this.events = {
-      consoleOpen: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-        this,
-        (event, arg) => this.resetCb(event, arg)
-      )
-    };
+    // this.events = {
+    //   consoleOpen: RendererEventFactory.createEvent(
+    //     RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
+    //     this,
+    //     (event, arg) => this.resetCb(event, arg)
+    //   )
+    // };
   }
 
-  resetCb = (event, showHide) => {
-    this.log("Reset CB!" + showHide);
-    if (this.state.me) {
-      setTimeout(() => {
-        this.selectRow(this.state.me.id, this.state.me);
-      }, this.activateWaitDelay);
-    }
-
-    if (showHide === 0) {
-      this.store.load(
-        null,
-        err => {
-          setTimeout(() => {
-            this.onStoreLoadCb(err);
-          }, this.activateWaitDelay);
-        });
-    }
-  };
 
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
@@ -57,12 +39,7 @@ export default class TeamPanel extends Component {
   componentDidMount = () => {
     this.log("Team Layout : componentDidMount");
 
-    this.store = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.TEAM_WITH_MEMBERS,
-      this
-    );
-
-    this.store.load(
+    this.props.teamStore.load(
       null,
       err => {
         setTimeout(() => {
@@ -75,14 +52,14 @@ export default class TeamPanel extends Component {
   onStoreLoadCb = (err) => {
     this.log("Team Layout : onStoreLoadCb");
     if (err) {
-      this.store.dto = new this.store.dtoClass({
+      this.props.teamStore.dto = new this.props.teamStore.dtoClass({
         message: err,
         status: "FAILED"
       });
       this.log("error:" + err);
     } else {
 
-      let teamWithMembersDto = this.store.dto;
+      let teamWithMembersDto = this.props.teamStore.dto;
 
       var membersList = [];
       var teamMembers = teamWithMembersDto.teamMembers;
@@ -164,6 +141,30 @@ export default class TeamPanel extends Component {
       me: newMe
     });
 
+    if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
+      //if it's now open, and used to be closed, need to reset the window
+      this.resetCb();
+    }
+
+    this.lastOpenCloseState = nextProps.consoleIsCollapsed;
+
+  };
+
+  resetCb = () => {
+    this.log("RESET TEAM PANEL!!!");
+    if (this.state.me) {
+      setTimeout(() => {
+        this.selectRow(this.state.me.id, this.state.me);
+      }, this.activateWaitDelay);
+    }
+
+    this.props.teamStore.load(
+      null,
+      err => {
+        setTimeout(() => {
+          this.onStoreLoadCb(err);
+        }, this.activateWaitDelay);
+      });
   };
 
   /// laods the stored state from parent or use default values

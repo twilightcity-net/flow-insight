@@ -24,7 +24,8 @@ export default class ConsoleLayout extends Component {
       sidebarPanelOpacity: 0,
       xpSummary: null,
       flameRating: 0,
-      activePanel: "profile"
+      activePanel: "profile",
+      consoleIsOpen: 0
     };
     this.animationTime = 700;
     this.events = {
@@ -34,9 +35,28 @@ export default class ConsoleLayout extends Component {
         (event, arg) => {
           this.animateSidebarPanel(arg.show);
         }
+      ),
+      consoleOpen: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
+        this,
+        (event, arg) => this.resetCb(event, arg)
       )
     };
+
+    this.teamStore = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.TEAM_WITH_MEMBERS,
+      this
+    );
+
   }
+
+  resetCb = (event, showHideFlag) => {
+      this.log("RESET!!" );
+      this.setState({
+        consoleIsCollapsed : showHideFlag
+      });
+  };
+
 
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
@@ -191,6 +211,8 @@ export default class ConsoleLayout extends Component {
       opacity={this.state.sidebarPanelOpacity}
       loadStateCb={this.loadStateSidebarPanelCb}
       saveStateCb={this.saveStateSidebarPanelCb}
+      teamStore={this.teamStore}
+      consoleIsCollapsed={this.state.consoleIsCollapsed}
     />;
 
     let activePanel = null;
