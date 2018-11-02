@@ -28,19 +28,29 @@ export default class TeamMember extends Component {
       activeClass = "active";
     }
 
+    let statusCircle = "";
+
+    if (this.props.statusColor === "offlineColor") {
+       statusCircle = <Icon color={this.props.statusColor} name='circle outline'/>
+    } else {
+       statusCircle = <Icon link color={this.props.statusColor} name='circle'/>
+    }
+
     return (
 
       <Grid.Row className={activeClass} id={this.props.id}
                 onClick={() => this.props.onSetActiveRow(this.props.id, this.props.teamMember)}>
         <Grid.Column width={1}>
-          <Icon link color={this.props.statusColor} name='circle'/>
+          {statusCircle}
         </Grid.Column>
         <Grid.Column width={12}>
 
           <Popup
             trigger={
               <div className="memberText">
+                <span className={this.props.statusColor}>
                 {this.props.shortName}
+                </span>
               </div>
             }
             className="chunkTitle"

@@ -99,9 +99,9 @@ export default class TeamPanel extends Component {
       xpRequired = teamMember.xpSummary.xpRequiredToLevel - teamMember.xpSummary.xpProgress;
     }
 
-    let statusColor = 'grey';
+    let statusColor = 'offlineColor';
     if (teamMember.activeStatus === 'Online') {
-      statusColor = 'color1';
+      statusColor = 'onlineColor';
     } else if (teamMember.activeStatus === 'Alarm') {
       statusColor = 'red';
     }
