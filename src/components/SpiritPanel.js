@@ -67,6 +67,16 @@ export default class SpiritPanel extends Component {
     this.props.saveStateCb(state);
   }
 
+  /// performs a simple calculation for dynamic height of panel
+  calculateSpiritHeight() {
+
+    let spiritHeight = this.calculateMenuHeight() - 150;
+
+    this.log("Spirit height = "+spiritHeight);
+
+    return spiritHeight;
+  }
+
     /// performs a simple calculation for dynamic height of panel
   calculateMenuHeight() {
     let heights = {
@@ -134,15 +144,16 @@ export default class SpiritPanel extends Component {
     let spiritImage = "";
 
     if (this.state.flameRating >= 0) {
-      spiritImage = <Image centered src="./assets/images/spirit.png" />
+      spiritImage = <Image height={this.calculateSpiritHeight()} centered src="./assets/images/spirit.png" />
     } else if (this.state.flameRating < 0) {
-      spiritImage = <Image centered src="./assets/images/painSpirit.png" />;
+      spiritImage = <Image height={this.calculateSpiritHeight()} centered src="./assets/images/painSpirit.png" />;
     }
 
     const spiritContent = (
       <div className="spiritContent">
-
+        <div className="spiritBackground">
         {spiritImage}
+        </div>
         <div className="level">
           <b>Level {this.state.level} </b>
         </div>
