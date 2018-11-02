@@ -2,7 +2,7 @@
   "name": "torchie-desktop",
   "productName": "Torchie",
   "description": "Torchie",
-  "version": "0.0.7",
+  "version": "0.0.9",
   "private": true,
   "author": {
     "name": "DreamScale.io",
