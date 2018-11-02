@@ -31,9 +31,9 @@ export default class TeamMember extends Component {
     let statusCircle = "";
 
     if (this.props.statusColor === "offlineColor") {
-       statusCircle = <Icon color={this.props.statusColor} name='circle outline'/>
+       statusCircle = <Icon className={this.props.statusColor} name='circle outline'/>
     } else {
-       statusCircle = <Icon link color={this.props.statusColor} name='circle'/>
+       statusCircle = <Icon link className={this.props.statusColor} name='circle'/>
     }
 
     return (

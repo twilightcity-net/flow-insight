@@ -49,11 +49,11 @@ export default class JournalItem extends Component {
 
     let finishIcon = "";
     if (this.props.finishStatus == 'done') {
-      finishIcon = <Icon name='check' color='doneGreen'/>;
+      finishIcon = <Icon name='check' className='doneGreenDark'/>;
     } else if (this.props.finishStatus === 'aborted') {
-      finishIcon = <Icon name='close' color='red'/>;
+      finishIcon = <Icon name='close' className='doneRed'/>;
     } else {
-      finishIcon = <span><Icon link name='check' color='doneGreen' onClick={this.handleClickForDone}/>
+      finishIcon = <span><Icon link name='check' className='doneGreen' onClick={this.handleClickForDone}/>
         <Icon link name='close' color='red' onClick={this.handleClickForAbort}/></span>
     }
 

@@ -55,6 +55,7 @@ export default class SpiritPanel extends Component {
       level: xpSummaryDto.level,
       percentXP: Math.round((xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100),
       totalXP: xpSummaryDto.totalXP,
+      remainingToLevel:  (xpSummaryDto.xpRequiredToLevel - xpSummaryDto.xpProgress),
       title: xpSummaryDto.title,
       flameRating: flameString
     });
@@ -71,6 +72,10 @@ export default class SpiritPanel extends Component {
   calculateSpiritHeight() {
 
     let spiritHeight = this.calculateMenuHeight() - 150;
+
+    if (spiritHeight > 200) {
+      spiritHeight = 200;
+    }
 
     this.log("Spirit height = "+spiritHeight);
 
@@ -153,15 +158,17 @@ export default class SpiritPanel extends Component {
       <div className="spiritContent">
         <div className="spiritBackground">
         {spiritImage}
-        </div>
+
         <div className="level">
           <b>Level {this.state.level} </b>
         </div>
         <div className="level">
           <i>Torchie {this.state.title} </i>
         </div>
+        <div>&nbsp;</div>
+        </div>
         <Progress size="small" percent={this.state.percentXP} color="violet" inverted progress>
-          {this.state.totalXP} XP
+          {this.state.remainingToLevel} XP remaining to Level
         </Progress>
 
         <div className='ui fluid buttons'>
