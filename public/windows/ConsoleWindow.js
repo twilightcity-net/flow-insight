@@ -19,14 +19,16 @@ module.exports = class ConsoleWindow {
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
     this.display = electron.screen.getPrimaryDisplay();
     this.bounds = this.display.workAreaSize;
+
+    log.info("width = "+this.bounds.width + ", "+this.bounds.height);
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = false;
     this.window = new BrowserWindow({
       name: this.name,
       width: this.bounds.width,
-      height: this.bounds.height / 2,
+      height: Math.floor(this.bounds.height / 2),
       x: 0,
-      y: -this.bounds.height / 2,
+      y: Math.floor(-this.bounds.height / 2),
       show: false,
       frame: false,
       movable: false,
@@ -188,7 +190,7 @@ module.exports = class ConsoleWindow {
         i += 2;
       }
       this.window.setPosition(0, y);
-      if (y >= -this.bounds.height / 2) {
+      if (y >= -Math.floor(this.bounds.height / 2)) {
         if (this.state === this.states.CANCEL) {
           this.showConsole();
         } else {
