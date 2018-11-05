@@ -124,6 +124,10 @@ module.exports = class Util {
     return path.join(app.getPath("home"), ".flow");
   }
 
+  static getLatestScreenshotPath() {
+    return path.join(this.getFlowHomePath(), "latest_screen.png");
+  }
+
   static deleteSettings() {
     log.info("Delete settings in util" + this.getDevSettingsPath());
     global.App.AppSettings.deleteSettings();

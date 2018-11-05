@@ -271,27 +271,6 @@ export default class JournalLayout extends Component {
         })
       }
 
-      //
-      // let recentEntry = {
-      //   projectId : savedEntry.projectId,
-      //   taskId : savedEntry.taskId,
-      //   description: savedEntry.description
-      // };
-      //
-      //
-      // //create journal item from saved entry
-      // //set the active journal item and active index
-      //
-      // let journalItem = this.createJournalItem(this.state.allJournalItems.length, savedEntry);
-      //
-      // this.setState({
-      //   allJournalItems: [...this.state.allJournalItems,journalItem],
-      //   activeJournalItem: journalItem,
-      //   activeIndex: journalItem.index,
-      //   recentEntry: recentEntry,
-      //   activeSize: this.state.allJournalItems.length + 1
-      // });
-
       this.log("Success!!");
     }
   };

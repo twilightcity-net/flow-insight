@@ -1,16 +1,28 @@
 import React, { Component } from "react";
 import TimeScrubber from "./TimeScrubber";
-import TroubleshootPanelDefault from "./TroubleshootPanelDefault";
-import TroubleshootItems from "./TroubleshootItems";
-import TroubleshootEntry from "./TroubleshootEntry";
+import TroubleshootPanelNewWTF from "./TroubleshootPanelNewWTF";
+import TroubleshootPanelOpenWTF from "./TroubleshootPanelOpenWTF";
+
+const {remote} = window.require("electron");
+
+const electronLog = remote.require("electron-log");
 
 //
 // this component is the tab panel wrapper for the console content
 //
 export default class TroubleshootLayout extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+
+
+    this.state = {
+        isWTFOpen : false
+    };
+  }
+
+  log = msg => {
+    electronLog.info(`[${this.constructor.name}] ${msg}`);
+  };
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
@@ -37,30 +49,39 @@ export default class TroubleshootLayout extends Component {
     );
   }
 
+  onChangeScrubPosition = (selectedIndex) => {
+    this.log("onChangeScrubPosition:" + selectedIndex);
+  };
+
+  onStartTroubleshooting = (problemStatement) => {
+    this.log("onStartTroubleshooting");
+    this.setState({
+      isWTFOpen : true
+    })
+  };
+
   /// renders the journal layout of the console view
   render() {
-    const troubleshootPanelSegmentItems = (
-      <div id="wrapper" className="troubleshootItems">
-        <TroubleshootItems height={this.calculateTroubleshootItemsHeight()} />
-      </div>
-    );
-    const troubleshootPanelSegmentEntry = (
-      <div id="wrapper" className="journalEntry">
-        <TroubleshootEntry />
-      </div>
-    );
+
+    let wtfPanel = null;
+
+    if (this.state.isWTFOpen) {
+      wtfPanel = <TroubleshootPanelOpenWTF height={this.calculateTroubleshootItemsHeight()}/>
+    } else {
+      wtfPanel = <TroubleshootPanelNewWTF
+        height={this.calculateTroubleshootItemsHeight()}
+        onStartTroubleshooting={this.onStartTroubleshooting}
+      />
+    }
+
     return (
       <div id="component" className="troubleshootLayout">
         <div id="wrapper" className="timeScrubber">
-          <TimeScrubber />
+          <TimeScrubber onChangeScrubPosition={this.onChangeScrubPosition}  />
         </div>
         <div id="wrapper" className="troubleshootPanelDefault">
-          <TroubleshootPanelDefault
-            height={this.calculateTroubleshootItemsHeight()}
-          />
+          {wtfPanel}
         </div>
-        {false && troubleshootPanelSegmentItems}
-        {false && troubleshootPanelSegmentEntry}
       </div>
     );
   }
