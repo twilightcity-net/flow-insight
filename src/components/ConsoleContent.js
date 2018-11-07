@@ -123,12 +123,12 @@ export default class ConsoleContent extends Component {
   render() {
     const journalLayout = (
       <div id="wrapper" className="journalLayout">
-        <JournalLayout onXP={this.onXpCB} onFlameChange={this.onFlameChangeCB} updatedFlame={this.props.updatedFlame}/>
+        <JournalLayout consoleIsCollapsed={this.props.consoleIsCollapsed} onXP={this.onXpCB} onFlameChange={this.onFlameChangeCB} updatedFlame={this.props.updatedFlame}/>
       </div>
     );
     const troubleshootLayout = (
       <div id="wrapper" className="troubleshootLayout">
-        <TroubleshootLayout />
+        <TroubleshootLayout consoleIsCollapsed={this.props.consoleIsCollapsed}/>
       </div>
     );
     const flowLayout = (

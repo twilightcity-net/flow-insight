@@ -12,7 +12,27 @@ import {UpdatedFinishStore} from "./stores/UpdatedFinishStore";
 // this class is used to manage DataClient requests for Stores
 //
 export class DataStoreFactory {
+
+  static storesByName = {};
+
   static createStore(name, scope) {
+     return DataStoreFactory.findOrCreateStore(name, scope);
+  }
+
+  static findOrCreateStore(name, scope) {
+     let storeFound = null;
+
+     if (DataStoreFactory.storesByName[name] != null) {
+       storeFound = DataStoreFactory.storesByName[name];
+     } else {
+       storeFound = DataStoreFactory.initializeNewStore(name, scope);
+       DataStoreFactory.storesByName[name] = storeFound;
+     }
+
+     return storeFound;
+  }
+
+  static initializeNewStore(name, scope) {
     switch (name) {
       case DataStoreFactory.Stores.ACCOUNT_ACTIVATION:
         return new AccountActivationStore(scope);
@@ -37,6 +57,7 @@ export class DataStoreFactory {
         return null;
     }
   }
+
 
   static get Stores() {
     return {

@@ -23,13 +23,6 @@ export default class JournalEntry extends Component {
       dreamModeActive: false,
     };
 
-    this.events = {
-      consoleOpen: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-        this,
-        this.resetCb
-      )
-    };
   }
 
   resetCb = () => {
@@ -60,6 +53,13 @@ export default class JournalEntry extends Component {
       nextProps.recentTasksByProjectId,
       nextProps.recentEntry
     );
+
+    if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
+      //if it's now open, and used to be closed, need to reset the window
+      this.resetCb();
+    }
+
+    this.lastOpenCloseState = nextProps.consoleIsCollapsed;
   };
 
   populateProjects = recentProjects => {
@@ -200,7 +200,6 @@ export default class JournalEntry extends Component {
 
   /// works the same as the click for create handler.. see above ^
   handleKeyPressForIntention = e => {
-    this.log("handleKeyPressForIntention");
 
     if (e.charCode === 13) {
       this.log("Saving Intention! " + this.state.currentIntentionValue);
@@ -223,7 +222,6 @@ export default class JournalEntry extends Component {
   };
 
   handleChangeForIntention = (e, { name, value }) => {
-    this.log("handleChangeForIntention " + value);
 
     this.setState({ currentIntentionValue: value });
   };

@@ -29,18 +29,6 @@ export default class JournalLayout extends Component {
       updatedFlame: null
     };
 
-    this.events = {
-      consoleOpen: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-        this,
-        this.resetCb
-      ),
-      xpUpdated: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.XP_UPDATED,
-        this
-      )
-    };
-
   }
 
   resetCb = () => {
@@ -61,11 +49,17 @@ export default class JournalLayout extends Component {
 
   componentWillReceiveProps = (nextProps) => {
 
-    //TODO confirmed that activeIndex is still the old one, when updatedFlame is being called
+    if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
+      //if it's now open, and used to be closed, need to reset the window
+      this.resetCb();
+    }
+
+    this.lastOpenCloseState = nextProps.consoleIsCollapsed;
 
     this.setState({
        updatedFlame : nextProps.updatedFlame
     });
+
   };
 
 
@@ -436,7 +430,7 @@ export default class JournalLayout extends Component {
           <JournalItems onChangeActiveEntry={this.onChangeActiveEntry} onFlameUpdate={this.onSaveFlameUpdates} onFinishEntry={this.onFinishEntry} updatedFlame={this.state.updatedFlame} activeIndex={this.state.activeIndex} allJournalItems={this.state.allJournalItems} height={this.calculateJournalItemsHeight()} />
         </div>
         <div id="wrapper" className="journalEntry">
-          <JournalEntry onAddEntry={this.onAddEntry} onAddTask={this.onAddTask} recentEntry={this.state.recentEntry} recentProjects={this.state.recentProjects} recentTasksByProjectId={this.state.recentTasksByProjectId}/>
+          <JournalEntry consoleIsCollapsed={this.props.consoleIsCollapsed} onAddEntry={this.onAddEntry} onAddTask={this.onAddTask} recentEntry={this.state.recentEntry} recentProjects={this.state.recentProjects} recentTasksByProjectId={this.state.recentTasksByProjectId}/>
         </div>
       </div>
     );
