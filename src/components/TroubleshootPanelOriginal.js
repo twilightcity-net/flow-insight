@@ -8,11 +8,17 @@ import {
   Grid,
   Segment
 } from "semantic-ui-react";
+import {RendererEventFactory} from "../RendererEventFactory";
 
 const electron = window.require('electron');
 const desktopCapturer = electron.desktopCapturer;
 const electronScreen = electron.screen;
 const shell = electron.shell;
+
+const {remote} = window.require("electron");
+
+const electronLog = remote.require("electron-log");
+
 
 const fs = window.require('fs');
 const os = window.require('os');
@@ -23,6 +29,22 @@ const path = window.require('path');
 export default class TroubleshootPanelNewWTF extends Component {
   constructor(props) {
     super(props);
+
+    this.events = {
+      prepareForScreenShot: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.PREPARE_FOR_SCREENSHOT,
+        this
+      ),
+      readyForScreenShot: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.READY_FOR_SCREENSHOT,
+        this,
+        (event, arg) => this.onReadyForScreenShot(event, arg)
+      ),
+      screenShotComplete: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.SCREENSHOT_COMPLETE,
+        this
+      ),
+    };
   }
 
   //so the thing we want to do, is everytime the console opens, before it automatically opens,
@@ -41,7 +63,13 @@ export default class TroubleshootPanelNewWTF extends Component {
 
   // then want to make it so clicking "start troubleshooting" sets an alarm on the server that starts a counter
 
+  onReadyForScreenShot = (event, arg) => {
+    console.log("ready for ss");
+    electronLog.info("ready for ss");
 
+    this.takeScreenShot();
+
+  };
 
   onClickStartTroubleshooting = () => {
     console.log("on click start troubleshooting");
@@ -52,7 +80,7 @@ export default class TroubleshootPanelNewWTF extends Component {
   onClickScreenshot = () => {
     console.log("screenshot clicked on");
 
-    this.takeScreenShot();
+    this.events.prepareForScreenShot.dispatch(0, true);
   };
 
   takeScreenShot = () => {
@@ -63,6 +91,7 @@ export default class TroubleshootPanelNewWTF extends Component {
       if (error) return console.log(error.message);
 
       sources.forEach((source) => {
+
 
         console.log("Saved!");
 
@@ -75,7 +104,10 @@ export default class TroubleshootPanelNewWTF extends Component {
           fs.writeFile(screenPath, source.thumbnail.toPNG(), (err) => {
             if (err) return console.log(err.message);
 
-            shell.openExternal('file://' + screenPath);
+            //shell.openExternal('file://' + screenPath);
+
+            electronLog.info("saved");
+            this.events.screenShotComplete.dispatch(0, true);
 
             console.log("Saved to " + screenPath);
           })

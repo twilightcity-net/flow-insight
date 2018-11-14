@@ -32,7 +32,9 @@ export class RendererEventFactory {
       APPACTIVATOR_ACTIVATION_SAVED: prefix + "appactivator-activation-saved",
       DATASTORE_LOAD: prefix + "datastore-load",
       DATASTORE_LOADED: prefix + "datastore-loaded",
-      XP_UPDATED: prefix + "xp-updated"
+      PREPARE_FOR_SCREENSHOT: prefix + "prepare-for-screenshot",
+      READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",
+      SCREENSHOT_COMPLETE: prefix + "screenshot-complete"
     };
   }
 }

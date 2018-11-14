@@ -6,7 +6,8 @@ const electron = require("electron"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
-  EventFactory = require("../managers/EventFactory");
+  EventFactory = require("../managers/EventFactory"),
+{ EventManager } = require("../managers/EventManager");
 
 /*
  * the main application window for UX. Suspose to slide in and out of 
@@ -72,6 +73,20 @@ module.exports = class ConsoleWindow {
         EventFactory.Types.WINDOW_BLUR,
         this,
         (event, arg) => this.onBlurWindowCb(event, arg)
+      ),
+      prepareForScreenShot: EventFactory.createEvent(
+        EventFactory.Types.PREPARE_FOR_SCREENSHOT,
+        this,
+        (event, arg) => this.onPrepareForScreenshot(event, arg)
+      ),
+      readyForScreenShot: EventFactory.createEvent(
+        EventFactory.Types.READY_FOR_SCREENSHOT,
+        this
+      ),
+      screenShotComplete: EventFactory.createEvent(
+        EventFactory.Types.SCREENSHOT_COMPLETE,
+        this,
+        (event, arg) => this.onScreenshotComplete(event, arg)
       )
     };
     this.state = 0;
@@ -103,6 +118,27 @@ module.exports = class ConsoleWindow {
     log.info("[ConsoleWindow] blur window -> " + arg.sender.name);
     if (isDev) return;
     this.hideConsole();
+  }
+
+  onPrepareForScreenshot(event, arg) {
+    log.info("[ConsoleWindow] onPrepareForScreenshot");
+
+    this.hideConsole();
+
+    log.info("hidden!");
+
+
+    setTimeout(() => {
+      this.events.readyForScreenShot.dispatch(0, true);
+    }, 1000);
+
+  }
+
+  onScreenshotComplete(event, arg) {
+    log.info("[ConsoleWindow] onScreenshotComplete");
+
+    //EventManager.dispatch(EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE, this);
+    this.showConsole();
   }
 
   /*
