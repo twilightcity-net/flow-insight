@@ -30,6 +30,10 @@ export default class TroubleshootPanelNewWTF extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      screenPath: "./assets/images/screenshot.png"
+    };
+
     this.events = {
       prepareForScreenShot: RendererEventFactory.createEvent(
         RendererEventFactory.Events.PREPARE_FOR_SCREENSHOT,
@@ -65,9 +69,9 @@ export default class TroubleshootPanelNewWTF extends Component {
 
   onReadyForScreenShot = (event, arg) => {
     console.log("ready for ss");
-    electronLog.info("ready for ss");
+    electronLog.info("ready for ss:" + arg);
 
-    this.takeScreenShot();
+    this.takeScreenShot(arg);
 
   };
 
@@ -83,7 +87,7 @@ export default class TroubleshootPanelNewWTF extends Component {
     this.events.prepareForScreenShot.dispatch(0, true);
   };
 
-  takeScreenShot = () => {
+  takeScreenShot = (screenPath) => {
     let thumbSize = this.determineScreenShotSize();
     let options = {types: ['screen'], thumbnailSize: thumbSize};
 
@@ -98,13 +102,16 @@ export default class TroubleshootPanelNewWTF extends Component {
         console.log("Saved! : " + source.name);
         if (source.name === 'Entire screen' || source.name === 'Screen 1') {
 
-
-          const screenPath = path.join(os.tmpdir(), 'screenshot.png');
+          //const screenPath = path.join(os.tmpdir(), 'screenshot.png');
 
           fs.writeFile(screenPath, source.thumbnail.toPNG(), (err) => {
             if (err) return console.log(err.message);
 
             //shell.openExternal('file://' + screenPath);
+
+            this.setState({
+              screenPath : "file://"+screenPath
+            });
 
             electronLog.info("saved");
             this.events.screenShotComplete.dispatch(0, true);
@@ -181,7 +188,7 @@ export default class TroubleshootPanelNewWTF extends Component {
                   corner: "right",
                   icon: "external"
                 }}
-                src="./assets/images/screenshot.png"
+                src={this.state.screenPath}
                 onClick={this.onClickScreenshot}
               />
             </Segment>

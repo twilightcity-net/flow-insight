@@ -39,7 +39,8 @@ module.exports = class ConsoleWindow {
       icon: this.icon,
       fullscreenable: false,
       toolbar: false,
-      webPreferences: { toolbar: false }
+      webPreferences: { toolbar: false, webSecurity: false }
+      
     });
 
     if (isDev) {
@@ -127,9 +128,10 @@ module.exports = class ConsoleWindow {
 
     log.info("hidden!");
 
+    let screenPath = Util.getLatestScreenshotPath();
 
     setTimeout(() => {
-      this.events.readyForScreenShot.dispatch(0, true);
+      this.events.readyForScreenShot.dispatch(screenPath, true);
     }, 1000);
 
   }
