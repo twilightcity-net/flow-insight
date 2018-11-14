@@ -25,7 +25,8 @@ export default class ConsoleLayout extends Component {
       xpSummary: null,
       flameRating: 0,
       activePanel: "profile",
-      consoleIsOpen: 0
+      consoleIsCollapsed: 0,
+      workStatus : null
     };
     this.animationTime = 700;
     this.events = {
@@ -45,6 +46,16 @@ export default class ConsoleLayout extends Component {
 
     this.teamStore = DataStoreFactory.createStore(
       DataStoreFactory.Stores.TEAM_WITH_MEMBERS,
+      this
+    );
+
+    this.pushWtfStore = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.PUSH_WTF,
+      this
+    );
+
+    this.resolveWithYayStore = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.RESOLVE_YAY,
       this
     );
 
@@ -173,6 +184,73 @@ export default class ConsoleLayout extends Component {
     });
   };
 
+  onStartTroubleshooting = (problemStatement) => {
+     this.log("start WTF");
+
+     let wtfStatusInput = { problemStatement : problemStatement };
+     this.pushWtfStore.load(wtfStatusInput,
+       err => {
+             setTimeout(() => {
+               this.onPushWTFStatusCb(err);
+             }, this.activateWaitDelay);
+       }
+     );
+
+  };
+
+  onStopTroubleshooting = () => {
+    this.log("stop WTF");
+
+    this.resolveWithYayStore.load(null,
+      err => {
+        setTimeout(() => {
+          this.onResolveWTFStatusCb(err);
+        }, this.activateWaitDelay);
+      }
+    );
+
+  };
+
+  onPushWTFStatusCb = (err) => {
+    this.log("ConsoleLayout : onPushWTFStatusCb");
+    if (err) {
+      this.pushWtfStore.dto = new this.pushWtfStore.dtoClass({
+        message: err,
+        status: "FAILED"
+      });
+      this.log("error:" + err);
+    } else {
+
+      let teamMemberWorkStatusDto = this.pushWtfStore.dto;
+
+      this.setState({
+        workStatus: teamMemberWorkStatusDto,
+      });
+
+      this.log("Success!");
+    }
+  };
+
+  onResolveWTFStatusCb = (err) => {
+    this.log("ConsoleLayout : onResolveWTFStatusCb");
+    if (err) {
+      this.resolveWithYayStore.dto = new this.resolveWithYayStore.dtoClass({
+        message: err,
+        status: "FAILED"
+      });
+      this.log("error:" + err);
+    } else {
+
+      let teamMemberWorkStatusDto = this.resolveWithYayStore.dto;
+
+      this.setState({
+        workStatus: teamMemberWorkStatusDto,
+      });
+
+      this.log("Success!");
+    }
+  };
+
   refreshXP = () => {
     this.log("ConsoleSidebarPanel : refreshXP");
     this.store.load(
@@ -213,6 +291,7 @@ export default class ConsoleLayout extends Component {
       saveStateCb={this.saveStateSidebarPanelCb}
       teamStore={this.teamStore}
       consoleIsCollapsed={this.state.consoleIsCollapsed}
+      workStatus={this.state.workStatus}
     />;
 
     let activePanel = null;
@@ -239,7 +318,7 @@ export default class ConsoleLayout extends Component {
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
-          <ConsoleContent consoleIsCollapsed={this.state.consoleIsCollapsed} onXP={this.onXPCb} animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb} updatedFlame={this.state.flameRating}/>
+          <ConsoleContent onStartTroubleshooting={this.onStartTroubleshooting} onStopTroubleshooting={this.onStopTroubleshooting} consoleIsCollapsed={this.state.consoleIsCollapsed} onXP={this.onXPCb} animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb} updatedFlame={this.state.flameRating}/>
         </div>
 
         <div id="wrapper" className="consoleMenu">

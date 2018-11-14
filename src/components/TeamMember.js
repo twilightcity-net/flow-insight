@@ -20,6 +20,12 @@ export default class TeamMember extends Component {
     this.props.onSetActiveRow(rowId, rowObj, teamMember);
   }
 
+  formatAsDuration(alarmDurationInSeconds) {
+     let minutes = Math.floor(alarmDurationInSeconds / 60);
+
+     return minutes + " minutes";
+  }
+
   /// renders the component of the console view
   render() {
 
@@ -35,6 +41,15 @@ export default class TeamMember extends Component {
     } else {
        statusCircle = <Icon link className={this.props.statusColor} name='circle'/>
     }
+
+    let activeStatus = this.props.activeStatus;
+    let alarmDetails = "";
+
+    if (this.props.spiritStatus === "WTF?!") {
+      activeStatus = this.props.spiritStatus + " "+ this.formatAsDuration(this.props.alarmDurationInSeconds);
+      alarmDetails = this.props.spiritStatus + " " + this.props.spiritMessage;
+    }
+
 
     return (
 
@@ -57,7 +72,7 @@ export default class TeamMember extends Component {
             content={
               <div>
                 <div>
-                  <i>{this.props.name} ({this.props.activeStatus})</i>
+                  <i>{this.props.name} ( {activeStatus} )</i>
                 </div>
                 <div>
                   <b>{this.props.activeTaskName} </b>
@@ -67,8 +82,13 @@ export default class TeamMember extends Component {
                 </div>
                 <div>
                   {this.props.workingOn}
-
                 </div>
+                <div>
+                  <span className="alarm">
+                    {alarmDetails}
+                  </span>
+                </div>
+
                 <Divider/>
                 <div>
                         <span className="date">

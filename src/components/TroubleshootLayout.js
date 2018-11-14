@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import TimeScrubber from "./TimeScrubber";
-import TroubleshootPanelNewWTF from "./TroubleshootPanelNewWTF";
-import TroubleshootPanelOpenWTF from "./TroubleshootPanelOpenWTF";
+import TroubleshootPanelOriginal from "./TroubleshootPanelOriginal";
+import TroubleshootPanelOriginalOpen from "./TroubleshootPanelOriginalOpen";
 
 const {remote} = window.require("electron");
 
@@ -55,8 +55,19 @@ export default class TroubleshootLayout extends Component {
 
   onStartTroubleshooting = (problemStatement) => {
     this.log("onStartTroubleshooting");
+    this.props.onStartTroubleshooting(problemStatement);
+
     this.setState({
       isWTFOpen : true
+    })
+  };
+
+  onStopTroubleshooting = () => {
+    this.log("onStopTroubleshooting");
+    this.props.onStopTroubleshooting();
+
+    this.setState({
+      isWTFOpen : false
     })
   };
 
@@ -66,9 +77,12 @@ export default class TroubleshootLayout extends Component {
     let wtfPanel = null;
 
     if (this.state.isWTFOpen) {
-      wtfPanel = <TroubleshootPanelOpenWTF height={this.calculateTroubleshootItemsHeight()}/>
+      wtfPanel = <TroubleshootPanelOriginalOpen
+        height={this.calculateTroubleshootItemsHeight()}
+        onStopTroubleshooting={this.onStopTroubleshooting}
+      />
     } else {
-      wtfPanel = <TroubleshootPanelNewWTF
+      wtfPanel = <TroubleshootPanelOriginal
         height={this.calculateTroubleshootItemsHeight()}
         onStartTroubleshooting={this.onStartTroubleshooting}
       />

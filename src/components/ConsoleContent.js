@@ -128,7 +128,7 @@ export default class ConsoleContent extends Component {
     );
     const troubleshootLayout = (
       <div id="wrapper" className="troubleshootLayout">
-        <TroubleshootLayout consoleIsCollapsed={this.props.consoleIsCollapsed}/>
+        <TroubleshootLayout onStartTroubleshooting={this.props.onStartTroubleshooting} onStopTroubleshooting={this.props.onStopTroubleshooting} consoleIsCollapsed={this.props.consoleIsCollapsed}/>
       </div>
     );
     const flowLayout = (

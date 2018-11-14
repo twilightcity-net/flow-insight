@@ -49,6 +49,8 @@ export default class TeamPanel extends Component {
   };
 
 
+
+
   onStoreLoadCb = (err) => {
     this.log("Team Layout : onStoreLoadCb");
     if (err) {
@@ -99,12 +101,7 @@ export default class TeamPanel extends Component {
       xpRequired = teamMember.xpSummary.xpRequiredToLevel - teamMember.xpSummary.xpProgress;
     }
 
-    let statusColor = 'offlineColor';
-    if (teamMember.activeStatus === 'Online') {
-      statusColor = 'onlineColor';
-    } else if (teamMember.activeStatus === 'Alarm') {
-      statusColor = 'red';
-    }
+
 
     return {
       id: teamMember.id,
@@ -119,27 +116,55 @@ export default class TeamPanel extends Component {
       xpRequired: xpRequired,
       mood: teamMember.moodRating,
       workingOn: teamMember.workingOn,
+      spiritStatus: teamMember.spiritStatus,
+      spiritMessage: teamMember.spiritMessage,
+      alarmDurationInSeconds: teamMember.alarmDurationInSeconds,
       lastActivity: lastActivity,
-      statusColor: statusColor
+      statusColor: this.toStatusColor(teamMember.activeStatus, teamMember.spiritStatus)
     };
+  };
+
+  toStatusColor = (activeStatus, spiritStatus) => {
+    this.log("spirit status ="+spiritStatus);
+
+    let statusColor = 'offlineColor';
+    if (activeStatus === 'Online') {
+      statusColor = 'onlineColor';
+    }
+    if (spiritStatus == 'WTF?!') {
+      statusColor = 'red';
+    }
+
+    return statusColor;
   };
 
   componentWillReceiveProps = (nextProps) => {
     let level = 0;
     let xpRequired = 0;
-    if (nextProps.xpSummary) {
-      level = nextProps.xpSummary.level;
-      xpRequired = nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
-    }
 
     let newMe = this.state.me;
 
-    newMe.level = level;
-    newMe.xpRequired = xpRequired;
+    if (nextProps.xpSummary) {
+      newMe.level = nextProps.xpSummary.level;
+      newMe.xpRequired = nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
+    }
+
+    if (nextProps.workStatus) {
+      newMe.activeStatus = nextProps.workStatus.activeStatus;
+      newMe.statusColor= this.toStatusColor(nextProps.workStatus.activeStatus, nextProps.workStatus.alarmStatus);
+      newMe.activeTaskName = nextProps.workStatus.activeTaskName;
+      newMe.activeTaskSummary = nextProps.workStatus.activeTaskSummary;
+      newMe.workingOn = nextProps.workStatus.workingOn;
+      newMe.spiritStatus = nextProps.workStatus.spiritStatus;
+      newMe.spiritMessage = nextProps.workStatus.spiritMessage;
+      newMe.alarmDurationInSeconds = nextProps.workStatus.alarmDurationInSeconds;
+      newMe.statusColor = this.toStatusColor(nextProps.workStatus.activeStatus, nextProps.workStatus.spiritStatus)
+    }
 
     this.setState({
       me: newMe
     });
+
 
     if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
       //if it's now open, and used to be closed, need to reset the window
@@ -243,6 +268,9 @@ export default class TeamPanel extends Component {
             activeTaskName={this.state.me.description}
             activeTaskSummary={this.state.me.activeTaskSummary}
             workingOn={this.state.me.workingOn}
+            spiritStatus={this.state.me.spiritStatus}
+            spiritMessage={this.state.me.spiritMessage}
+            alarmDurationInSeconds={this.state.me.alarmDurationInSeconds}
             level={this.state.me.level}
             xpRequired={this.state.me.xpRequired}
             onSetActiveRow={this.selectRow}
@@ -262,6 +290,9 @@ export default class TeamPanel extends Component {
               activeTaskName={d.description}
               activeTaskSummary={d.activeTaskSummary}
               workingOn={d.workingOn}
+              spiritStatus={d.spiritStatus}
+              spiritMessage={d.spiritMessage}
+              alarmDurationInSeconds={d.alarmDurationInSeconds}
               level={d.level}
               xpRequired={d.xpRequired}
               onSetActiveRow={this.selectRow}
