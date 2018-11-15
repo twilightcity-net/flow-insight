@@ -26,7 +26,8 @@ export default class ConsoleLayout extends Component {
       flameRating: 0,
       activePanel: "profile",
       consoleIsCollapsed: 0,
-      workStatus : null
+      workStatus : null,
+      isWTFOpen : false
     };
     this.animationTime = 700;
     this.events = {
@@ -196,6 +197,9 @@ export default class ConsoleLayout extends Component {
        }
      );
 
+    this.setState({
+      isWTFOpen : true
+    })
   };
 
   onStopTroubleshooting = () => {
@@ -208,6 +212,10 @@ export default class ConsoleLayout extends Component {
         }, this.activateWaitDelay);
       }
     );
+
+    this.setState({
+      isWTFOpen : false
+    })
 
   };
 
@@ -318,7 +326,7 @@ export default class ConsoleLayout extends Component {
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
-          <ConsoleContent onStartTroubleshooting={this.onStartTroubleshooting} onStopTroubleshooting={this.onStopTroubleshooting} consoleIsCollapsed={this.state.consoleIsCollapsed} onXP={this.onXPCb} animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb} updatedFlame={this.state.flameRating}/>
+          <ConsoleContent isWTFOpen={this.state.isWTFOpen} onStartTroubleshooting={this.onStartTroubleshooting} onStopTroubleshooting={this.onStopTroubleshooting} consoleIsCollapsed={this.state.consoleIsCollapsed} onXP={this.onXPCb} animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb} updatedFlame={this.state.flameRating}/>
         </div>
 
         <div id="wrapper" className="consoleMenu">

@@ -57,18 +57,12 @@ export default class TroubleshootLayout extends Component {
     this.log("onStartTroubleshooting");
     this.props.onStartTroubleshooting(problemStatement);
 
-    this.setState({
-      isWTFOpen : true
-    })
   };
 
   onStopTroubleshooting = () => {
     this.log("onStopTroubleshooting");
     this.props.onStopTroubleshooting();
 
-    this.setState({
-      isWTFOpen : false
-    })
   };
 
   /// renders the journal layout of the console view
@@ -76,7 +70,7 @@ export default class TroubleshootLayout extends Component {
 
     let wtfPanel = null;
 
-    if (this.state.isWTFOpen) {
+    if (this.props.isWTFOpen) {
       wtfPanel = <TroubleshootPanelOriginalOpen
         height={this.calculateTroubleshootItemsHeight()}
         onStopTroubleshooting={this.onStopTroubleshooting}
