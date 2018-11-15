@@ -147,6 +147,11 @@ export default class ConsoleLayout extends Component {
           this.onStoreLoadCb(err);
         }, this.activateWaitDelay);
       });
+
+    setTimeout(() => {
+      this.animateSidebarPanel(true);
+    }, 500);
+
   };
 
   onStoreLoadCb = (err) => {

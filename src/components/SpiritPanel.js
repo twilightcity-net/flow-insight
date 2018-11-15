@@ -51,14 +51,17 @@ export default class SpiritPanel extends Component {
       flameString = flameRating;
     }
 
-    this.setState({
-      level: xpSummaryDto.level,
-      percentXP: Math.round((xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100),
-      totalXP: xpSummaryDto.totalXP,
-      remainingToLevel:  (xpSummaryDto.xpRequiredToLevel - xpSummaryDto.xpProgress),
-      title: xpSummaryDto.title,
-      flameRating: flameString
-    });
+    if (xpSummaryDto) {
+      this.setState({
+        level: xpSummaryDto.level,
+        percentXP: Math.round((xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100),
+        totalXP: xpSummaryDto.totalXP,
+        remainingToLevel:  (xpSummaryDto.xpRequiredToLevel - xpSummaryDto.xpProgress),
+        title: xpSummaryDto.title,
+        flameRating: flameString
+      });
+
+    }
 
   };
 

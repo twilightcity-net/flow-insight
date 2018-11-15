@@ -37,6 +37,7 @@ export default class JournalEntry extends Component {
 
   componentDidMount = () => {
     this.log("componentDidMount");
+    this.resetCb();
   };
 
   componentWillReceiveProps = nextProps => {
