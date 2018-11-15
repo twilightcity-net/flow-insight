@@ -41,7 +41,8 @@ module.exports = class EventFactory {
       DATASTORE_LOADED: prefix + "datastore-loaded",
       PREPARE_FOR_SCREENSHOT: prefix + "prepare-for-screenshot",
       READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",
-      SCREENSHOT_COMPLETE: prefix + "screenshot-complete"
+      SCREENSHOT_COMPLETE: prefix + "screenshot-complete",
+      SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display"
     };
   }
 };

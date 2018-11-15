@@ -3,7 +3,8 @@ const { app, shell } = require("electron"),
   log = require("electron-log"),
   path = require("path"),
   util = require("util"),
-  fs = require("fs");
+  fs = require("fs"),
+  os = require("os");
 
 /* 
  * general purpose global utility functions
@@ -124,8 +125,14 @@ module.exports = class Util {
     return path.join(app.getPath("home"), ".flow");
   }
 
+  static getScreenshotFolderPath() {
+    let screensFolder = path.join( this.getFlowHomePath(), "screenshots");
+    fs.mkdir(screensFolder);
+    return screensFolder;
+  }
+
   static getLatestScreenshotPath() {
-    return path.join(this.getFlowHomePath(), "latest_screen.png");
+    return path.join(this.getScreenshotFolderPath(), "screen_"+Math.random()+".png");
   }
 
   static deleteSettings() {

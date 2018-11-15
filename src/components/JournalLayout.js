@@ -410,22 +410,19 @@ export default class JournalLayout extends Component {
     this.props.onFlameChange(journalItem.flameRating);
   };
 
-  onChangeScrubPosition = (selectedIndex) => {
-    this.log("onChangeScrubPosition:" + selectedIndex);
-    this.setState({
-      activeIndex: selectedIndex,
-      activeJournalItem: this.state.allJournalItems[selectedIndex]
-    });
-    this.props.onFlameChange(this.state.allJournalItems[selectedIndex].flameRating);
-  };
+  // onChangeScrubPosition = (selectedIndex) => {
+  //   this.log("onChangeScrubPosition:" + selectedIndex);
+  //   this.setState({
+  //     activeIndex: selectedIndex,
+  //     activeJournalItem: this.state.allJournalItems[selectedIndex]
+  //   });
+  //   this.props.onFlameChange(this.state.allJournalItems[selectedIndex].flameRating);
+  // };
 
   /// renders the journal layout of the console view
   render() {
     return (
       <div id="component" className="journalLayout">
-        <div id="wrapper" className="timeScrubber">
-          <TimeScrubber onChangeScrubPosition={this.onChangeScrubPosition} activeIndex={this.state.activeIndex} activeSize={this.state.activeSize} activeEntry={this.state.activeJournalItem}/>
-        </div>
         <div id="wrapper" className="journalItems">
           <JournalItems onChangeActiveEntry={this.onChangeActiveEntry} onFlameUpdate={this.onSaveFlameUpdates} onFinishEntry={this.onFinishEntry} updatedFlame={this.state.updatedFlame} activeIndex={this.state.activeIndex} allJournalItems={this.state.allJournalItems} height={this.calculateJournalItemsHeight()} />
         </div>

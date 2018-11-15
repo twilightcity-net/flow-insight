@@ -49,9 +49,7 @@ export default class TroubleshootLayout extends Component {
     );
   }
 
-  onChangeScrubPosition = (selectedIndex) => {
-    this.log("onChangeScrubPosition:" + selectedIndex);
-  };
+
 
   onStartTroubleshooting = (problemStatement) => {
     this.log("onStartTroubleshooting");
@@ -84,9 +82,7 @@ export default class TroubleshootLayout extends Component {
 
     return (
       <div id="component" className="troubleshootLayout">
-        <div id="wrapper" className="timeScrubber">
-          <TimeScrubber onChangeScrubPosition={this.onChangeScrubPosition}  />
-        </div>
+
         <div id="wrapper" className="troubleshootPanelDefault">
           {wtfPanel}
         </div>

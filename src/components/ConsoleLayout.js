@@ -6,6 +6,7 @@ import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";
 import {DataStoreFactory} from "../DataStoreFactory";
 import TeamPanel from "./TeamPanel";
+import TimeScrubber from "./TimeScrubber";
 
 const {remote} = window.require("electron");
 
@@ -278,6 +279,10 @@ export default class ConsoleLayout extends Component {
     });
   };
 
+  onChangeScrubPosition = (selectedIndex) => {
+    this.log("onChangeScrubPosition:" + selectedIndex);
+  };
+
   /// renders the root console layout of the console view
   render() {
 
@@ -326,6 +331,9 @@ export default class ConsoleLayout extends Component {
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
+          <div id="wrapper" className="timeScrubber">
+            <TimeScrubber onChangeScrubPosition={this.onChangeScrubPosition}  />
+          </div>
           <ConsoleContent isWTFOpen={this.state.isWTFOpen} onStartTroubleshooting={this.onStartTroubleshooting} onStopTroubleshooting={this.onStopTroubleshooting} consoleIsCollapsed={this.state.consoleIsCollapsed} onXP={this.onXPCb} animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb} updatedFlame={this.state.flameRating}/>
         </div>
 

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Divider, Grid, Input, Popup, Segment } from "semantic-ui-react";
+import moment from "moment";
 
 const {remote} = window.require("electron");
-
 const electronLog = remote.require("electron-log");
 
 
@@ -14,14 +14,25 @@ export default class TimeScrubber extends Component {
     super(props);
     this.date = new Date(2017, 3, 7);
 
-    this.state = {
-      activeDate: "",
-      taskName: "",
-      taskDescription: "",
-      activeTick: 1,
-      activeMax: 64
-    };
+    let dateObj = new Date();
+    let dateStr = moment(dateObj).format("dddd, MMM Do, YYYY");
 
+    this.state = {
+      activeDate: dateStr,
+      nowShowing: "Showing Latest Activity",
+      showingDetails: "",
+      activeTick: 90,
+      activeMax: 90
+    };
+  }
+
+  fromTickToDate(tickIndex) {
+    let dateObj = new Date();
+    let offset = this.state.activeMax - tickIndex;
+    dateObj.setDate(dateObj.getDate() - offset);
+
+    let dateStr = moment(dateObj).format("dddd, MMM Do, YYYY");
+    return dateStr;
   }
 
   log = msg => {
@@ -35,22 +46,25 @@ export default class TimeScrubber extends Component {
     this.log("activeIndex =" + nextProps.activeIndex);
     this.log("activeEntry = "+ nextProps.activeEntry);
 
-    if (nextProps.activeEntry) {
-
-      this.setState({
-        activeDate: nextProps.activeEntry.position,
-        activeTick: nextProps.activeIndex,
-        activeMax: nextProps.activeSize - 1,
-        taskName: nextProps.activeEntry.taskName,
-        taskDescription: nextProps.activeEntry.taskSummary
-      });
-    }
+    // if (nextProps.activeEntry) {
+    //
+    //   this.setState({
+    //     activeDate: nextProps.activeEntry.position,
+    //     activeTick: nextProps.activeIndex,
+    //     activeMax: nextProps.activeSize - 1,
+    //     taskName: nextProps.activeEntry.taskName,
+    //     taskDescription: nextProps.activeEntry.taskSummary
+    //   });
+    // }
   };
 
   /// called when the range slider changes
   handleRangeChange = e => {
     console.log("[ConsoleTabs] range change -> " + e.target.value);
+
+    let newDate = this.fromTickToDate(e.target.value);
     this.setState({
+      activeDate: newDate,
       activeTick: e.target.value
     });
 
@@ -74,6 +88,7 @@ export default class TimeScrubber extends Component {
                     max={this.state.activeMax}
                     onChange={this.handleRangeChange}
                   />
+
                 </Grid.Column>
 
                 <Grid.Column className="info">
@@ -81,7 +96,7 @@ export default class TimeScrubber extends Component {
                     trigger={
                       <div>
                         <div className="title">
-                          {this.state.taskName + ": "+this.state.taskDescription}
+                          {this.state.nowShowing}
                         </div>
                         <div className="date">
                           {this.state.activeDate}
@@ -94,9 +109,9 @@ export default class TimeScrubber extends Component {
                     inverted
                     wide
                   >
-                    <Popup.Header>{this.state.taskName}</Popup.Header>
+                    <Popup.Header>{this.state.nowShowing}</Popup.Header>
                     <Popup.Content>
-                      {this.state.taskDescription}
+                      {this.state.showingDetails}
                       <Divider />
                       <i className="date">
                         {this.state.activeDate}

@@ -40,9 +40,6 @@ export default class FlowLayout extends Component {
   render() {
     return (
       <div id="component" className="journalLayout">
-        <div id="wrapper" className="timeScrubber">
-          <TimeScrubber />
-        </div>
         <div id="wrapper" className="troubleshootItems">
           <FlowChunkChart height={this.calculateJournalItemsHeight()} />
         </div>

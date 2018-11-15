@@ -26,7 +26,7 @@ const path = window.require('path');
 //
 // this component is the tab panel wrapper for the console content
 //
-export default class TroubleshootPanelNewWTF extends Component {
+export default class TroubleshootPanelOriginal extends Component {
   constructor(props) {
     super(props);
 
@@ -48,6 +48,11 @@ export default class TroubleshootPanelNewWTF extends Component {
         RendererEventFactory.Events.SCREENSHOT_COMPLETE,
         this
       ),
+      screenReadyForDisplay: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.SCREENSHOT_READY_FOR_DISPLAY,
+        this,
+        (event, arg) => this.onScreenShotReadyForDisplay(event, arg)
+      ),
     };
   }
 
@@ -66,6 +71,15 @@ export default class TroubleshootPanelNewWTF extends Component {
   //that I can import?  I'll refactor this out later, first just make it work
 
   // then want to make it so clicking "start troubleshooting" sets an alarm on the server that starts a counter
+
+  onScreenShotReadyForDisplay = (event, screenPath) => {
+    electronLog.info("ready for display:" + screenPath);
+
+    this.setState({
+      screenPath : "file://"+screenPath
+    });
+
+  };
 
   onReadyForScreenShot = (event, arg) => {
     console.log("ready for ss");
@@ -96,7 +110,6 @@ export default class TroubleshootPanelNewWTF extends Component {
 
       sources.forEach((source) => {
 
-
         console.log("Saved!");
 
         console.log("Saved! : " + source.name);
@@ -109,12 +122,9 @@ export default class TroubleshootPanelNewWTF extends Component {
 
             //shell.openExternal('file://' + screenPath);
 
-            this.setState({
-              screenPath : "file://"+screenPath
-            });
 
             electronLog.info("saved");
-            this.events.screenShotComplete.dispatch(0, true);
+            this.events.screenShotComplete.dispatch(screenPath, true);
 
             console.log("Saved to " + screenPath);
           })

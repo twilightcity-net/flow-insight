@@ -9,6 +9,8 @@ const electron = require("electron"),
   EventFactory = require("../managers/EventFactory"),
 { EventManager } = require("../managers/EventManager");
 
+
+
 /*
  * the main application window for UX. Suspose to slide in and out of 
  * the top of the screen with a global hot key
@@ -40,7 +42,7 @@ module.exports = class ConsoleWindow {
       fullscreenable: false,
       toolbar: false,
       webPreferences: { toolbar: false, webSecurity: false }
-      
+
     });
 
     if (isDev) {
@@ -88,7 +90,11 @@ module.exports = class ConsoleWindow {
         EventFactory.Types.SCREENSHOT_COMPLETE,
         this,
         (event, arg) => this.onScreenshotComplete(event, arg)
-      )
+      ),
+      screenShotReadyForDisplay: EventFactory.createEvent(
+        EventFactory.Types.SCREENSHOT_READY_FOR_DISPLAY,
+        this
+      ),
     };
     this.state = 0;
     this.states = {
@@ -139,8 +145,12 @@ module.exports = class ConsoleWindow {
   onScreenshotComplete(event, arg) {
     log.info("[ConsoleWindow] onScreenshotComplete");
 
-    //EventManager.dispatch(EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE, this);
     this.showConsole();
+
+    setTimeout(() => {
+      this.events.screenShotReadyForDisplay.dispatch(arg, true);
+    }, 100);
+
   }
 
   /*
