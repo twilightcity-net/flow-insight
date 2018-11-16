@@ -4,9 +4,11 @@ import {
   Divider,
   Header,
   Image,
+  Input,
   Grid,
   Segment
 } from "semantic-ui-react";
+import ChatBox from "./ChatBox"
 
 const electron = window.require('electron');
 
@@ -14,6 +16,13 @@ const electron = window.require('electron');
 // this component is the tab panel wrapper for the console content
 //
 export default class TroubleshootPanelOriginalOpen extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      chatInputValue: ""
+    }
+  }
 
   onClickStopTroubleshooting = () => {
     console.log("on click stop troubleshooting");
@@ -25,36 +34,27 @@ export default class TroubleshootPanelOriginalOpen extends Component {
   /// renders the default troubleshoot component in the console view
   render() {
     return (
-      <div id="component" className="troubleshootPanelDefault">
+      <div id="component" className="troubleshootPanelOpenDefault">
         <Divider hidden fitted clearing/>
         <Grid textAlign="center" verticalAlign="middle" inverted>
-          <Grid.Column width={10} className="rootLayout">
+          <Grid.Column width={6} className="rootLayout">
             <Segment className="wtf" inverted>
-              <Grid textAlign="center">
-                <Grid.Row verticalAlign="middle">
-                  <Grid.Column width={4}>
+              <div>
+                <ChatBox/>
+              </div>
 
-                  </Grid.Column>
-                  <Grid.Column width={12}>
-                    <Header as="h1" attached="top" inverted>
-                      Session is Open!
-                    </Header>
-                    <Button onClick={this.onClickStopTroubleshooting}
-                            size="big"
-                            color="purple"
-                            animated="fade"
-                            attached="bottom"
-                    >
-                      <Button.Content visible>
-                        Solved!
-                      </Button.Content>
-                      <Button.Content hidden>
-                        click here to continue
-                      </Button.Content>
-                    </Button>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
+              <Button onClick={this.onClickStopTroubleshooting}
+                      size="big"
+                      color="purple"
+                      animated="fade"
+                      attached="bottom">
+                <Button.Content visible>
+                  Solved!
+                </Button.Content>
+                <Button.Content hidden>
+                  click here to continue
+                </Button.Content>
+              </Button>
             </Segment>
           </Grid.Column>
           <Grid.Column width={6} className="rootLayout">

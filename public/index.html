@@ -389,8 +389,18 @@
       /* 
        * COMPONENT: TROUBLESHOOT-PANEL-DEFAULT 
        */
+      #component.troubleshootPanelDefault .ui.grid{
+        margin-bottom: -2rem;
+      }
       #component.troubleshootPanelDefault .ui.grid .column.rootLayout {
         padding-top: 0;
+        padding-bottom: 0;
+      }
+      #component.troubleshootPanelDefault .ui.grid .column.rootLayout.screenshot {
+        padding-right: 1rem;
+      }
+      #component.troubleshootPanelDefault .ui.grid > .row {
+        padding-bottom: 0;
       }
       #component.troubleshootPanelDefault .ui.button {
         cursor: pointer !important;
@@ -401,6 +411,7 @@
       #component.troubleshootPanelDefault .ui.image.screenshot .ui.corner .icon
       {
         cursor: pointer !important;
+        padding-bottom: 0;
       }
 
 
@@ -456,11 +467,73 @@
         background: red;
         color: rgba(255, 255, 255, 0.96);
       }
+      #component.troubleshootPanelDefault .ui.grid > .row.troubleshootPanelTextbox {
+        /*padding-bottom: 10px;*/
+        padding-top: 0;
+      }
+      #component.troubleshootPanelDefault .troubleshootPanelTextbox {
+        width: 100%;
+        height: 100%;
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+        border: 1px solid rgba(74, 74, 74, 0.96);
+      }
+      #component.troubleshootPanelDefault .troubleshootPanelMessage {
+        height: 100%;
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+        padding: 0 0 0 2rem;
+      }
+      .troubleshootPanelTextbox::-webkit-input-placeholder {
+        padding-left: 1%;
+        padding-top: 1%;
+        text-align: left;
+      }
+      .troubleshootPanelTextbox:-moz-placeholder { /* Firefox 18- */
+        padding-left: 1%;
+        padding-top: 1%;
+        text-align: left;
+      }
+      .troubleshootPanelTextbox::-moz-placeholder {  /* Firefox 19+ */
+        padding-left: 1%;
+        padding-top: 1%;
+        text-align: left;
+      }
+      .troubleshootPanelTextbox:-ms-input-placeholder {
+        padding-left: 1%;
+        padding-top: 1%;
+        text-align: left;
+      }
 
       #component.headerBar .headerTitle {
         text-align: left;
         font-weight: 400;
         font-size: 20pt;
+      }
+
+      #troubleshootChatInput {
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        border: 1px solid rgba(74, 74, 74, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+      }
+
+      #chatMessages{
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+
+      #chatMessages > ul > li {
+        list-style-type: none;
+      }
+
+      div .ui.inverted.segment.troubleshootChatBox {
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+        border: 1px solid rgba(74, 74, 74, 0.96);
       }
 
 

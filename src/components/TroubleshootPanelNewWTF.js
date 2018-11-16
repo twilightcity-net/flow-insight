@@ -4,9 +4,12 @@ import {
   Button,
   Divider,
   Header,
+  Icon,
   Image,
   Grid,
-  Segment
+  Message,
+  Segment,
+  TextArea
 } from "semantic-ui-react";
 
 const electron = window.require('electron');
@@ -100,60 +103,82 @@ export default class TroubleshootPanelNewWTF extends Component {
     return (
       <div id="component" className="troubleshootPanelDefault">
         <Divider hidden fitted clearing/>
-        <Grid textAlign="center" verticalAlign="middle" inverted>
-          <Grid.Column width={10} className="rootLayout">
-            <Segment className="wtf" inverted>
-              <Grid textAlign="center">
-                <Grid.Row verticalAlign="middle">
-                  <Grid.Column width={4}>
-                    <Image
-                      centered
-                      src="./assets/images/flame_red_animated.gif"
-                    />
-                  </Grid.Column>
+        <Grid textAlign="center" inverted>
+          <Grid.Row verticalAlign="top">
+            <Grid.Column width={8} className="rootLayout">
+              <Grid textAlign="left">
+                <Grid.Row verticalAlign="top">
                   <Grid.Column width={12}>
                     <Header as="h1" attached="top" inverted>
                       W T F!
                     </Header>
-                    <Segment attached basic inverted>
-                      Let's solve a problem! Click the button below will begin
-                      the troubleshooting session. On the next screen describe
-                      the problem your having, and the timer will be shown.
-                    </Segment>
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row textAlign="center">
+                  <Message className="troubleshootPanelMessage"
+                           content="Need some insight? Start collecting clues in your scrapbook, and get help with your team!"/>
+                </Grid.Row>
+                <Grid.Row className="troubleshootPanelInputBox">
+                  <Grid.Column width={4}>
+                    <Image
+                      centered
+                      size="small"
+                      src="./assets/images/flame_red_animated.gif"
+                    />
+                  </Grid.Column>
+                  <Grid.Column width={8}>
+                    <TextArea
+                      className="troubleshootPanelTextbox"
+                      placeholder="What's the problem?"
+                    />
+                  </Grid.Column>
+                </Grid.Row>
+                <Grid.Row>
+                  <Grid.Column width={12}>
                     <Button onClick={this.onClickStartTroubleshooting}
                             size="big"
                             color="red"
                             animated="fade"
                             attached="bottom"
                     >
-                      <Button.Content visible>
-                        Start Troubleshooting...
-                      </Button.Content>
-                      <Button.Content hidden>
-                        click here to continue
-                      </Button.Content>
+                    <Button.Content visible>
+                      Start Troubleshooting...
+                    </Button.Content>
+                    <Button.Content hidden>
+                      click here to continue
+                    </Button.Content>
                     </Button>
                   </Grid.Column>
                 </Grid.Row>
               </Grid>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column width={6} className="rootLayout screenshot">
-            <Segment inverted>
-              <Image
-                fluid
-                className="screenshot"
-                label={{
-                  as: "a",
-                  color: "red",
-                  corner: "right",
-                  icon: "external"
-                }}
-                src="./assets/images/screenshot.png"
-                onClick={this.onClickScreenshot}
-              />
-            </Segment>
-          </Grid.Column>
+            </Grid.Column>
+            <Grid.Column width={6} className="rootLayout screenshot" textAlign="justified">
+              <Grid.Row>
+              <Segment inverted compact>
+                <Header as="h1" attached="top" icon inverted>
+                  {/* This is the icon to be switched to, right now it deletes the red "Start Troubleshooting" button though */}
+                  {/*<Icon name="camera" size="massive"*/}
+                        {/*className="screenshot"*/}
+                        {/*onClick={() => this.onClickScreenshot()}*/}
+                  {/*/>*/}
+                  Troubleshooting Scrapbook
+                </Header>
+                <Image
+                  fluid
+                  className="screenshot"
+                  label={{
+                    as: "a",
+                    color: "red",
+                    corner: "right",
+                    icon: "external"
+                  }}
+                  src="./assets/images/screenshot.png"
+                  onClick={this.onClickScreenshot}
+                />
+              </Segment>
+              </Grid.Row>
+            </Grid.Column>
+          </Grid.Row>
         </Grid>
       </div>
     );
