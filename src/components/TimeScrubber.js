@@ -27,12 +27,34 @@ export default class TimeScrubber extends Component {
   }
 
   fromTickToDate(tickIndex) {
+    let dateObj = this.fromTickToDateObj(tickIndex);
+    let dateStr = moment(dateObj).format("dddd, MMM Do, YYYY");
+    return dateStr;
+  }
+
+  fromTickToDateObj(tickIndex) {
     let dateObj = new Date();
     let offset = this.state.activeMax - tickIndex;
     dateObj.setDate(dateObj.getDate() - offset);
 
-    let dateStr = moment(dateObj).format("dddd, MMM Do, YYYY");
-    return dateStr;
+    return dateObj;
+  }
+
+  fromDateToTick(dateObj) {
+
+    let latestDate = new Date();
+
+    var start = moment(dateObj);
+    var end = moment(latestDate);
+    let ticks = end.diff(start, "days");
+
+    this.log("diff = "+ticks);
+
+    let offset = this.state.activeMax - ticks;
+
+    this.log("new tick = "+offset);
+
+    return offset;
   }
 
   log = msg => {
@@ -42,33 +64,39 @@ export default class TimeScrubber extends Component {
   componentWillReceiveProps = (nextProps) => {
     this.log("TimeScrubber:: componentWillReceiveProps");
 
-    this.log("activeSize = "+ nextProps.activeSize);
-    this.log("activeIndex =" + nextProps.activeIndex);
-    this.log("activeEntry = "+ nextProps.activeEntry);
+    this.log("activeDate : "+nextProps.updatedDate);
 
-    // if (nextProps.activeEntry) {
-    //
-    //   this.setState({
-    //     activeDate: nextProps.activeEntry.position,
-    //     activeTick: nextProps.activeIndex,
-    //     activeMax: nextProps.activeSize - 1,
-    //     taskName: nextProps.activeEntry.taskName,
-    //     taskDescription: nextProps.activeEntry.taskSummary
-    //   });
-    // }
+    //if change the active clicked record, then update scrub position
+
+    if (nextProps.updatedDate != null && this.lastUpdatedDate !== nextProps.updatedDate) {
+
+      this.lastUpdatedDate = nextProps.updatedDate;
+
+      let tick = this.fromDateToTick(nextProps.updatedDate);
+      let newDate = this.fromTickToDate(tick);
+
+      this.setState({
+        activeTick : tick,
+        activeDate : newDate
+      });
+    }
+
   };
 
   /// called when the range slider changes
   handleRangeChange = e => {
     console.log("[ConsoleTabs] range change -> " + e.target.value);
 
-    let newDate = this.fromTickToDate(e.target.value);
+    let newTick = e.target.value;
+    let newDate = this.fromTickToDate(newTick);
+    let newDateObj = this.fromTickToDateObj(newTick);
+
     this.setState({
-      activeDate: newDate,
-      activeTick: e.target.value
+      activeTick: newTick,
+      activeDate: newDate
     });
 
-    this.props.onChangeScrubPosition(e.target.value);
+    this.props.onChangeScrubPosition(newTick, newDateObj);
   };
 
   /// renders the time scrubber component of the console view

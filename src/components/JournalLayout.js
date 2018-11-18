@@ -60,8 +60,45 @@ export default class JournalLayout extends Component {
        updatedFlame : nextProps.updatedFlame
     });
 
+    if (nextProps.scrubToDate != null && this.lastScrubToDate !== nextProps.scrubToDate) {
+
+      this.lastScrubToDate = nextProps.scrubToDate;
+
+      let index = this.findIndexMatchingDate(nextProps.scrubToDate);
+
+      this.setState({
+        activeIndex: index,
+        activeJournalItem: this.state.allJournalItems[index]
+      });
+    }
+
   };
 
+  findIndexMatchingDate(selectedDateObj) {
+    let foundIndex = 0;
+
+    let selectedDay = moment(selectedDateObj).dayOfYear();
+
+    for (var i in this.state.allJournalItems) {
+      let journalItem = this.state.allJournalItems[i];
+
+      if (moment(journalItem.rawDate).dayOfYear() >= selectedDay) {
+         foundIndex = i;
+
+         break;
+      }
+    }
+
+    let lastIndex = this.state.allJournalItems.length - 1;
+    let lastJournalItem = this.state.allJournalItems[lastIndex];
+
+    if (moment(lastJournalItem.rawDate).dayOfYear() === selectedDay) {
+       foundIndex = lastIndex;
+    }
+
+    return foundIndex;
+
+  }
 
 
   /// performs a simple calculation for dynamic height of items, this
@@ -384,7 +421,7 @@ export default class JournalLayout extends Component {
   createJournalItem = (index, intention) => {
 
     let d = intention.position;
-    let dateObj = new Date(d[0], d[1], d[2], d[3], d[4], d[5]);
+    let dateObj = new Date(d[0], d[1]-1, d[2], d[3], d[4], d[5]);
 
     return {
       index: index,
@@ -395,7 +432,8 @@ export default class JournalLayout extends Component {
       taskSummary: intention.taskSummary,
       description: intention.description,
       finishStatus: intention.finishStatus,
-      position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a")
+      position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a"),
+      rawDate: dateObj
     };
   };
 
@@ -407,6 +445,7 @@ export default class JournalLayout extends Component {
       activeJournalItem: journalItem
     });
 
+    this.props.onChangeActiveDate(journalItem.rawDate);
     this.props.onFlameChange(journalItem.flameRating);
   };
 

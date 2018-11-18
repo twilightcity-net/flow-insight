@@ -27,6 +27,8 @@ export default class ConsoleLayout extends Component {
       flameRating: 0,
       activePanel: "profile",
       consoleIsCollapsed: 0,
+      updatedDate : null,
+      scrubToDate : null,
       workStatus : null,
       isWTFOpen : false
     };
@@ -284,8 +286,17 @@ export default class ConsoleLayout extends Component {
     });
   };
 
-  onChangeScrubPosition = (selectedIndex) => {
+  onChangeScrubPosition = (selectedIndex, selectedDate) => {
     this.log("onChangeScrubPosition:" + selectedIndex);
+    this.setState({
+      scrubToDate : selectedDate
+    });
+  };
+
+  onChangeActiveDate = (activeDateObj) => {
+     this.setState({
+       updatedDate : activeDateObj
+     });
   };
 
   /// renders the root console layout of the console view
@@ -337,9 +348,12 @@ export default class ConsoleLayout extends Component {
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
           <div id="wrapper" className="timeScrubber">
-            <TimeScrubber onChangeScrubPosition={this.onChangeScrubPosition}  />
+            <TimeScrubber onChangeScrubPosition={this.onChangeScrubPosition} updatedDate={this.state.updatedDate} />
           </div>
-          <ConsoleContent isWTFOpen={this.state.isWTFOpen} onStartTroubleshooting={this.onStartTroubleshooting} onStopTroubleshooting={this.onStopTroubleshooting} consoleIsCollapsed={this.state.consoleIsCollapsed} onXP={this.onXPCb} animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb} updatedFlame={this.state.flameRating}/>
+          <ConsoleContent isWTFOpen={this.state.isWTFOpen} onStartTroubleshooting={this.onStartTroubleshooting} onStopTroubleshooting={this.onStopTroubleshooting}
+                          consoleIsCollapsed={this.state.consoleIsCollapsed} onXP={this.onXPCb}
+                          scrubToDate={this.state.scrubToDate} onChangeActiveDate={this.onChangeActiveDate}
+                          animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb} updatedFlame={this.state.flameRating}/>
         </div>
 
         <div id="wrapper" className="consoleMenu">
