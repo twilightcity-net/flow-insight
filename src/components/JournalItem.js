@@ -49,12 +49,19 @@ export default class JournalItem extends Component {
 
     let finishIcon = "";
     if (this.props.finishStatus == 'done') {
-      finishIcon = <Icon name='check' className='doneGreenDark'/>;
+      finishIcon = <Icon name='check' className='doneGreenDark'/>
     } else if (this.props.finishStatus === 'aborted') {
-      finishIcon = <Icon name='close' className='doneRed'/>;
+      finishIcon = <Icon name='close' className='doneRed'/>
     } else {
-      finishIcon = <span><Icon link name='check' className='doneGreen' onClick={this.handleClickForDone}/>
-        <Icon link name='close' color='red' onClick={this.handleClickForAbort}/></span>
+      finishIcon = <span> <Popup trigger={<Icon link name='check' className='doneGreen' onClick={this.handleClickForDone}/>}
+                                 content={<div className='doneGreen'>Finish</div>}
+                                 inverted
+                                 hideOnScroll/>
+                          <Popup trigger={<Icon link name='close' color='red' onClick={this.handleClickForAbort}/>}
+                                 content={<div className='doneRed'>Abort</div>}
+                                 inverted
+                                 hideOnScroll/>
+                  </span>
     }
 
 
