@@ -6,7 +6,7 @@ import {
   Header,
   Image,
   Grid,
-  Segment
+  Segment, Input
 } from "semantic-ui-react";
 import {RendererEventFactory} from "../RendererEventFactory";
 
@@ -165,10 +165,19 @@ export default class TroubleshootPanelOriginal extends Component {
                       W T F!
                     </Header>
                     <Segment attached basic inverted>
-                      Let's solve a problem! Click the button below will begin
-                      the troubleshooting session. On the next screen describe
-                      the problem your having, and the timer will be shown.
+                      Need some Insight?  Describe your problem below, then start
+                      a troubleshooting session to collect clues in your scrapbook,
+                      and get help from your team!
                     </Segment>
+
+                    <Input
+                      id="problemStatement"
+                      className="intentionText"
+                      fluid
+                      inverted
+                      placeholder="What's the problem?"
+                    />
+
                     <Button onClick={this.onClickStartTroubleshooting}
                             size="big"
                             color="red"
@@ -179,7 +188,7 @@ export default class TroubleshootPanelOriginal extends Component {
                         Start Troubleshooting...
                       </Button.Content>
                       <Button.Content hidden>
-                        click here to continue
+                        WTF!
                       </Button.Content>
                     </Button>
                   </Grid.Column>
