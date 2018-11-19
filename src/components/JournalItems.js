@@ -21,6 +21,8 @@ export default class JournalItems extends Component {
       activeJournalItem: null
     };
 
+    document.onkeydown = this.handleKeyPress;
+
   }
 
 
@@ -121,7 +123,7 @@ export default class JournalItems extends Component {
         rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
         rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
       );
-    }
+    };
 
   componentDidMount() {
     this.log("componentDidMount");
@@ -178,6 +180,57 @@ export default class JournalItems extends Component {
     }
   };
 
+  handleKeyPress = e => {
+    this.log("key!!");
+    if (e.keyCode === 37) {
+      this.log("left");
+    }
+    if (e.keyCode === 38) {
+      this.log("up");
+      this.changeRowIndex('up');
+      e.preventDefault();
+    }
+    if (e.keyCode === 39) {
+      this.log("right");
+    }
+    if (e.keyCode === 40) {
+      this.log("down");
+      this.changeRowIndex('down');
+      e.preventDefault();
+    }
+  };
+
+  changeRowIndex = (direction) => {
+
+    if (this.state.activeJournalItem) {
+
+      let newIndex = this.state.activeJournalItem.index;
+      if (direction === 'up') {
+        newIndex = newIndex - 1;
+      } else if (direction === 'down') {
+        newIndex = new Number(newIndex) + 1;
+      }
+
+      if (newIndex < 0) {
+        newIndex = 0;
+      }
+
+      this.log("old index ="+newIndex);
+
+      if (newIndex > this.state.journalItems.length - 1) {
+        newIndex = this.state.journalItems.length - 1;
+      }
+
+      this.log("new index ="+newIndex);
+
+      let newActiveItem = this.state.journalItems[newIndex];
+      let rowObj = document.getElementById(newActiveItem.id);
+      this.onSetActiveRow(newActiveItem.id, rowObj, newActiveItem);
+
+    }
+
+  };
+
   /// renders the journal items component from array in the console view
   render() {
     return (
@@ -186,7 +239,7 @@ export default class JournalItems extends Component {
         className="journalItems"
         style={{height: this.props.height}}
       >
-        <Grid inverted>
+        <Grid inverted onKeyPress={this.handleKeyPress}>
           {this.state.journalItems.map(d =>
             <JournalItem
               key={d.id}

@@ -39,6 +39,8 @@ export default class JournalItem extends Component {
 
   };
 
+
+
   handleUpdateFinishStatus = (finishStatus) => {
     this.props.journalItem.finishStatus = finishStatus;
     this.props.onUpdateFinishStatus(this.props.journalItem, finishStatus);
