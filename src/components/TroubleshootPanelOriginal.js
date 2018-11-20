@@ -152,24 +152,17 @@ export default class TroubleshootPanelOriginal extends Component {
         <Grid textAlign="center" verticalAlign="middle" inverted>
           <Grid.Column width={10} className="rootLayout">
             <Segment className="wtf" inverted>
-              <Grid textAlign="center">
-                <Grid.Row verticalAlign="middle">
-                  <Grid.Column width={4}>
-                    <Image
-                      centered
-                      src="./assets/images/flame_red_animated.gif"
-                    />
-                  </Grid.Column>
-                  <Grid.Column width={12}>
+
                     <Header as="h1" attached="top" inverted>
                       W T F!
                     </Header>
                     <Segment attached basic inverted>
-                      Need some Insight?  Describe your problem below, then start
-                      a troubleshooting session to collect clues in your scrapbook,
-                      and get help from your team!
+                      Let's solve a problem!  Take a screenshot and describe the situation below.
+                      Once you start the troubleshooting session, a timer will begin on the next screen.
+                      Look for clues to collect in your scrapbook, and get help from your team!
                     </Segment>
 
+                    <Segment attached basic inverted>
                     <Input
                       id="problemStatement"
                       className="intentionText"
@@ -177,7 +170,7 @@ export default class TroubleshootPanelOriginal extends Component {
                       inverted
                       placeholder="What's the problem?"
                     />
-
+                    </Segment>
                     <Button onClick={this.onClickStartTroubleshooting}
                             size="big"
                             color="red"
@@ -191,9 +184,6 @@ export default class TroubleshootPanelOriginal extends Component {
                         WTF!
                       </Button.Content>
                     </Button>
-                  </Grid.Column>
-                </Grid.Row>
-              </Grid>
             </Segment>
           </Grid.Column>
           <Grid.Column width={6} className="rootLayout screenshot">
