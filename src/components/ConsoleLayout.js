@@ -353,7 +353,7 @@ export default class ConsoleLayout extends Component {
           <ConsoleContent isWTFOpen={this.state.isWTFOpen} onStartTroubleshooting={this.onStartTroubleshooting} onStopTroubleshooting={this.onStopTroubleshooting}
                           consoleIsCollapsed={this.state.consoleIsCollapsed} onXP={this.onXPCb}
                           scrubToDate={this.state.scrubToDate} onChangeActiveDate={this.onChangeActiveDate}
-                          animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb} updatedFlame={this.state.flameRating}/>
+                          animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb} updatedFlame={this.state.flameRating} onAdjustFlame={this.adjustFlameCb}/>
         </div>
 
         <div id="wrapper" className="consoleMenu">

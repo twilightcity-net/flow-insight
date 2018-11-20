@@ -57,7 +57,7 @@ export default class JournalLayout extends Component {
     this.lastOpenCloseState = nextProps.consoleIsCollapsed;
 
     this.setState({
-       updatedFlame : nextProps.updatedFlame
+      updatedFlame : nextProps.updatedFlame
     });
 
     if (nextProps.scrubToDate != null && this.lastScrubToDate !== nextProps.scrubToDate) {
@@ -442,11 +442,13 @@ export default class JournalLayout extends Component {
 
     this.setState({
        activeIndex: journalItem.index,
-      activeJournalItem: journalItem
+      activeJournalItem: journalItem,
+      updatedFlame: journalItem.flameRating
     });
 
-    this.props.onChangeActiveDate(journalItem.rawDate);
     this.props.onFlameChange(journalItem.flameRating);
+    this.props.onChangeActiveDate(journalItem.rawDate);
+
   };
 
   // onChangeScrubPosition = (selectedIndex) => {
@@ -463,7 +465,9 @@ export default class JournalLayout extends Component {
     return (
       <div id="component" className="journalLayout">
         <div id="wrapper" className="journalItems">
-          <JournalItems onChangeActiveEntry={this.onChangeActiveEntry} onFlameUpdate={this.onSaveFlameUpdates} onFinishEntry={this.onFinishEntry} updatedFlame={this.state.updatedFlame} activeIndex={this.state.activeIndex} allJournalItems={this.state.allJournalItems} height={this.calculateJournalItemsHeight()} />
+          <JournalItems onChangeActiveEntry={this.onChangeActiveEntry} onFlameUpdate={this.onSaveFlameUpdates} onFinishEntry={this.onFinishEntry}
+                        updatedFlame={this.state.updatedFlame} onAdjustFlame={this.props.onAdjustFlame}
+                        activeIndex={this.state.activeIndex} allJournalItems={this.state.allJournalItems} height={this.calculateJournalItemsHeight()} />
         </div>
         <div id="wrapper" className="journalEntry">
           <JournalEntry consoleIsCollapsed={this.props.consoleIsCollapsed} onAddEntry={this.onAddEntry} onAddTask={this.onAddTask} recentEntry={this.state.recentEntry} recentProjects={this.state.recentProjects} recentTasksByProjectId={this.state.recentTasksByProjectId}/>

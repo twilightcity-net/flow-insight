@@ -184,6 +184,7 @@ export default class JournalItems extends Component {
     this.log("key!!");
     if (e.keyCode === 37) {
       this.log("left");
+      this.props.onAdjustFlame(-1);
     }
     if (e.keyCode === 38) {
       this.log("up");
@@ -192,6 +193,7 @@ export default class JournalItems extends Component {
     }
     if (e.keyCode === 39) {
       this.log("right");
+      this.props.onAdjustFlame(1);
     }
     if (e.keyCode === 40) {
       this.log("down");
