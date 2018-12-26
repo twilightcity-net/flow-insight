@@ -52,7 +52,7 @@ export default class TroubleshootPanelOriginalOpen extends Component {
                   Solved!
                 </Button.Content>
                 <Button.Content hidden>
-                  click here to continue
+                  YAY!
                 </Button.Content>
               </Button>
             </Segment>

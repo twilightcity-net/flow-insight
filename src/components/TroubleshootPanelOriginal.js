@@ -144,6 +144,10 @@ export default class TroubleshootPanelOriginal extends Component {
   };
 
 
+
+
+
+
   /// renders the default troubleshoot component in the console view
   render() {
     return (
@@ -154,11 +158,11 @@ export default class TroubleshootPanelOriginal extends Component {
             <Segment className="wtf" inverted>
 
                     <Header as="h1" attached="top" inverted>
-                      W T F!
+                      Troubleshooting Scrapbook
                     </Header>
                     <Segment attached basic inverted>
                       Let's solve a problem!  Take a screenshot and describe the situation below.
-                      Once you start the troubleshooting session, a timer will begin on the next screen.
+                      Once you start the session, a timer will begin on the next screen.
                       Look for clues to collect in your scrapbook, and get help from your team!
                     </Segment>
 
@@ -181,7 +185,7 @@ export default class TroubleshootPanelOriginal extends Component {
                         Start Troubleshooting...
                       </Button.Content>
                       <Button.Content hidden>
-                        WTF!
+                        W T F ?!
                       </Button.Content>
                     </Button>
             </Segment>

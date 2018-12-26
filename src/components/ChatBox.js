@@ -50,7 +50,7 @@ export default class ChatBox extends Component {
           <Input
             ref="msg"
             id="troubleshootChatInput"
-            placeholder="What would you like to say?"
+            placeholder="What insights do you have?"
             inverted
             search
             selection
