@@ -86,7 +86,7 @@ export default class JournalEntry extends Component {
       currentProject = recentEntry.projectId;
     }
 
-    if (!currentProject && recentProjects.length > 0) {
+    if (!currentProject && recentProjects && recentProjects.length > 0) {
       currentProject = recentProjects[0].id;
     }
 
@@ -101,6 +101,10 @@ export default class JournalEntry extends Component {
 
   populateTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
     this.log("populateTasks");
+
+    if (!recentTasksByProjectId) {
+      return;
+    }
 
     let currentTasks = recentTasksByProjectId[currentProject];
 

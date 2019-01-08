@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import TimeScrubber from "./TimeScrubber";
-import TroubleshootPanelOriginal from "./TroubleshootPanelOriginal";
-import TroubleshootPanelOriginalOpen from "./TroubleshootPanelOriginalOpen";
+import TroubleshootSessionNew from "./TroubleshootSessionNew";
+import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
 
 const {remote} = window.require("electron");
 
@@ -69,12 +69,12 @@ export default class TroubleshootLayout extends Component {
     let wtfPanel = null;
 
     if (this.props.isWTFOpen) {
-      wtfPanel = <TroubleshootPanelOriginalOpen
+      wtfPanel = <TroubleshootSessionOpen
         height={this.calculateTroubleshootItemsHeight()}
         onStopTroubleshooting={this.onStopTroubleshooting}
       />
     } else {
-      wtfPanel = <TroubleshootPanelOriginal
+      wtfPanel = <TroubleshootSessionNew
         height={this.calculateTroubleshootItemsHeight()}
         onStartTroubleshooting={this.onStartTroubleshooting}
       />

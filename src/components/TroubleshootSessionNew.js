@@ -26,7 +26,7 @@ const path = window.require('path');
 //
 // this component is the tab panel wrapper for the console content
 //
-export default class TroubleshootPanelOriginal extends Component {
+export default class TroubleshootSessionNew extends Component {
   constructor(props) {
     super(props);
 
@@ -185,7 +185,7 @@ export default class TroubleshootPanelOriginal extends Component {
                         Start Troubleshooting...
                       </Button.Content>
                       <Button.Content hidden>
-                        W T F ?!
+                        Go!
                       </Button.Content>
                     </Button>
             </Segment>

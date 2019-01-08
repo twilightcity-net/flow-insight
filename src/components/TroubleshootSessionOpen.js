@@ -15,7 +15,7 @@ const electron = window.require('electron');
 //
 // this component is the tab panel wrapper for the console content
 //
-export default class TroubleshootPanelOriginalOpen extends Component {
+export default class TroubleshootSessionOpen extends Component {
   constructor(props) {
     super(props);
 
