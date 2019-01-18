@@ -22,6 +22,12 @@
     "7zip-bin-mac" "^1.0.1"
     "7zip-bin-win" "^2.1.1"
 
+"@babel/runtime@^7.1.2":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.2.0.tgz#b03e42eeddf5898e00646e4c840fa07ba8dcad7f"
+  dependencies:
+    regenerator-runtime "^0.12.0"
+
 "@gulp-sourcemaps/identity-map@1.X":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@gulp-sourcemaps/identity-map/-/identity-map-1.0.1.tgz#cfa23bc5840f9104ce32a65e74db7e7a974bbee1"
@@ -38,6 +44,13 @@
   dependencies:
     normalize-path "^2.0.1"
     through2 "^2.0.3"
+
+"@semantic-ui-react/event-stack@^3.0.1":
+  version "3.0.1"
+  resolved "https://registry.yarnpkg.com/@semantic-ui-react/event-stack/-/event-stack-3.0.1.tgz#41d0b095ac94cc5e1607a4fed4d0f8860d0d2e60"
+  dependencies:
+    exenv "^1.2.2"
+    prop-types "^15.6.2"
 
 "@slack/client@^3.14.0":
   version "3.14.1"
@@ -1149,7 +1162,7 @@ babel-register@^6.24.1, babel-register@^6.26.0:
     mkdirp "^0.5.1"
     source-map-support "^0.4.15"
 
-babel-runtime@6.26.0, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.25.0, babel-runtime@^6.26.0:
+babel-runtime@6.26.0, babel-runtime@^6.18.0, babel-runtime@^6.22.0, babel-runtime@^6.26.0:
   version "6.26.0"
   resolved "https://registry.yarnpkg.com/babel-runtime/-/babel-runtime-6.26.0.tgz#965c7058668e82b55d7bfe04ff2337bc8b5647fe"
   dependencies:
@@ -1855,9 +1868,9 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@^2.2.5:
-  version "2.2.5"
-  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.5.tgz#fb3801d453467649ef3603c7d61a02bd129bde6d"
+classnames@^2.2.6:
+  version "2.2.6"
+  resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
 
 clean-css@4.1.x:
   version "4.1.9"
@@ -3361,6 +3374,10 @@ execa@^0.8.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
+exenv@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+
 exit@0.1.2, exit@0.1.x:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
@@ -3756,17 +3773,18 @@ formidable@^1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.1.1.tgz#96b8886f7c3c3508b932d6bd70c4d3a88f35f1a9"
 
-formsy-react@^0.19.5:
-  version "0.19.5"
-  resolved "https://registry.yarnpkg.com/formsy-react/-/formsy-react-0.19.5.tgz#760a57ac0113442e3df4c309c3638dd92957e78e"
+formsy-react@^1.1.5:
+  version "1.1.5"
+  resolved "https://registry.yarnpkg.com/formsy-react/-/formsy-react-1.1.5.tgz#ee0911bb70712eb6fb9924d56fdb974a19006955"
   dependencies:
     form-data-to-object "^0.2.0"
+    prop-types "^15.5.10"
 
-formsy-semantic-ui-react@^0.2.12:
-  version "0.2.12"
-  resolved "https://registry.yarnpkg.com/formsy-semantic-ui-react/-/formsy-semantic-ui-react-0.2.12.tgz#c3009c210950d6c3162697b4ec124430c9d2becc"
+formsy-semantic-ui-react@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/formsy-semantic-ui-react/-/formsy-semantic-ui-react-0.3.3.tgz#763681f85e0be6bc4fbec835f44d367e3e77111d"
   dependencies:
-    prop-types "^15.5.8"
+    prop-types "^15.6.0"
 
 forwarded@~0.1.2:
   version "0.1.2"
@@ -4443,9 +4461,9 @@ hoek@4.x.x:
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/hoek/-/hoek-4.2.0.tgz#72d9d0754f7fe25ca2d01ad8f8f9a9449a89526d"
 
-hoist-non-react-statics@^2.3.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.3.1.tgz#343db84c6018c650778898240135a1420ee22ce0"
+hoist-non-react-statics@^2.5.0:
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
 
 home-or-tmp@^2.0.0:
   version "2.0.0"
@@ -4753,6 +4771,12 @@ interpret@^1.0.0:
 invariant@^2.2.1, invariant@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.2.tgz#9e1f56ac0acdb6bf303306f338be3b204ae60360"
+  dependencies:
+    loose-envify "^1.0.0"
+
+invariant@^2.2.4:
+  version "2.2.4"
+  resolved "https://registry.yarnpkg.com/invariant/-/invariant-2.2.4.tgz#610f3c92c9359ce1db616e538008d23ff35158e6"
   dependencies:
     loose-envify "^1.0.0"
 
@@ -5583,6 +5607,10 @@ jsx-ast-utils@^1.4.0, jsx-ast-utils@^1.4.1:
   version "1.4.1"
   resolved "https://registry.yarnpkg.com/jsx-ast-utils/-/jsx-ast-utils-1.4.1.tgz#3867213e8dd79bf1e8f2300c0cfc1efb182c0df1"
 
+keyboard-key@^1.0.2:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/keyboard-key/-/keyboard-key-1.0.4.tgz#52d8fa07b7e17757072aa22a67fb4ae85e4c46b0"
+
 keyboardevent-from-electron-accelerator@^0.7.0:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/keyboardevent-from-electron-accelerator/-/keyboardevent-from-electron-accelerator-0.7.1.tgz#aedafa5cc9a3a5f3f2b7c88b2ffd4057568118e7"
@@ -5985,6 +6013,10 @@ lodash@3.7.x:
 "lodash@>=3.5 <5", lodash@^4.12.0, lodash@^4.13.1, lodash@^4.14.0, lodash@^4.15.0, lodash@^4.17.2, lodash@^4.17.3, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.5.1:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+
+lodash@^4.17.11:
+  version "4.17.11"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz#b39ea6229ef607ecd89e2c8df12536891cac9b8d"
 
 lodash@~1.0.1:
   version "1.0.2"
@@ -7405,11 +7437,18 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.4, prop-types@^15.5.8, prop-types@^15.6.0:
+prop-types@^15.5.10, prop-types@^15.6.0:
   version "15.6.0"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.0.tgz#ceaf083022fc46b4a35f69e13ef75aed0d639856"
   dependencies:
     fbjs "^0.8.16"
+    loose-envify "^1.3.1"
+    object-assign "^4.1.1"
+
+prop-types@^15.6.1, prop-types@^15.6.2:
+  version "15.6.2"
+  resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.6.2.tgz#05d5ca77b4453e985d60fc7ff8c859094a497102"
+  dependencies:
     loose-envify "^1.3.1"
     object-assign "^4.1.1"
 
@@ -7558,7 +7597,16 @@ react-dev-utils@^4.1.0:
     strip-ansi "3.0.1"
     text-table "0.2.0"
 
-"react-dom@^15 || ^16", react-dom@^16.0.0:
+react-dom@16.7.0:
+  version "16.7.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.7.0.tgz#a17b2a7ca89ee7390bc1ed5eb81783c7461748b8"
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.12.0"
+
+"react-dom@^15 || ^16":
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.0.0.tgz#9cc3079c3dcd70d4c6e01b84aab2a7e34c303f58"
   dependencies:
@@ -7580,28 +7628,28 @@ react-error-overlay@^2.0.2:
     settle-promise "1.0.0"
     source-map "0.5.6"
 
-react-router-dom@^4.2.2:
-  version "4.2.2"
-  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.2.2.tgz#c8a81df3adc58bba8a76782e946cbd4eae649b8d"
+react-router-dom@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-4.3.1.tgz#4c2619fc24c4fa87c9fd18f4fb4a43fe63fbd5c6"
   dependencies:
     history "^4.7.2"
-    invariant "^2.2.2"
+    invariant "^2.2.4"
     loose-envify "^1.3.1"
-    prop-types "^15.5.4"
-    react-router "^4.2.0"
-    warning "^3.0.0"
+    prop-types "^15.6.1"
+    react-router "^4.3.1"
+    warning "^4.0.1"
 
-react-router@^4.2.0:
-  version "4.2.0"
-  resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.2.0.tgz#61f7b3e3770daeb24062dae3eedef1b054155986"
+react-router@^4.3.1:
+  version "4.3.1"
+  resolved "https://registry.yarnpkg.com/react-router/-/react-router-4.3.1.tgz#aada4aef14c809cb2e686b05cee4742234506c4e"
   dependencies:
     history "^4.7.2"
-    hoist-non-react-statics "^2.3.0"
-    invariant "^2.2.2"
+    hoist-non-react-statics "^2.5.0"
+    invariant "^2.2.4"
     loose-envify "^1.3.1"
     path-to-regexp "^1.7.0"
-    prop-types "^15.5.4"
-    warning "^3.0.0"
+    prop-types "^15.6.1"
+    warning "^4.0.1"
 
 react-scripts@^1.0.7:
   version "1.0.14"
@@ -7645,7 +7693,16 @@ react-scripts@^1.0.7:
   optionalDependencies:
     fsevents "1.1.2"
 
-"react@^15 || ^16", react@^16.0.0:
+react@16.7.0:
+  version "16.7.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-16.7.0.tgz#b674ec396b0a5715873b350446f7ea0802ab6381"
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+    prop-types "^15.6.2"
+    scheduler "^0.12.0"
+
+"react@^15 || ^16":
   version "16.0.0"
   resolved "https://registry.yarnpkg.com/react/-/react-16.0.0.tgz#ce7df8f1941b036f02b2cca9dbd0cb1f0e855e2d"
   dependencies:
@@ -7822,6 +7879,10 @@ regenerate@^1.2.1:
 regenerator-runtime@^0.11.0:
   version "0.11.0"
   resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.11.0.tgz#7e54fe5b5ccd5d6624ea6255c3473be090b802e1"
+
+regenerator-runtime@^0.12.0:
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/regenerator-runtime/-/regenerator-runtime-0.12.1.tgz#fa1a71544764c036f8c49b13a08b2594c9f8a0de"
 
 regenerator-transform@0.9.11:
   version "0.9.11"
@@ -8143,6 +8204,13 @@ sax@^1.2.1, sax@^1.2.4, sax@~1.2.1:
   version "1.2.4"
   resolved "https://registry.yarnpkg.com/sax/-/sax-1.2.4.tgz#2816234e2378bddc4e5354fab5caa895df7100d9"
 
+scheduler@^0.12.0:
+  version "0.12.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.12.0.tgz#8ab17699939c0aedc5a196a657743c496538647b"
+  dependencies:
+    loose-envify "^1.1.0"
+    object-assign "^4.1.1"
+
 schema-utils@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/schema-utils/-/schema-utils-0.3.0.tgz#f5877222ce3e931edae039f17eb3716e7137f8cf"
@@ -8159,20 +8227,23 @@ selfsigned@^1.9.1:
   dependencies:
     node-forge "0.6.33"
 
-semantic-ui-css@^2.2.12:
-  version "2.2.12"
-  resolved "https://registry.yarnpkg.com/semantic-ui-css/-/semantic-ui-css-2.2.12.tgz#afc462e5bb4f8a0dcfe3dca11274499a997490dd"
+semantic-ui-css@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/semantic-ui-css/-/semantic-ui-css-2.4.1.tgz#f5aea39fafb787cbd905ec724272a3f9cba9004a"
   dependencies:
     jquery x.*
 
-semantic-ui-react@^0.74.2:
-  version "0.74.2"
-  resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.74.2.tgz#0a55f6f22dd61780600664931813f302262c330d"
+semantic-ui-react@^0.84.0:
+  version "0.84.0"
+  resolved "https://registry.yarnpkg.com/semantic-ui-react/-/semantic-ui-react-0.84.0.tgz#43f908fd547b1e8b2b108675a93cd7d7460bcdbe"
   dependencies:
-    babel-runtime "^6.25.0"
-    classnames "^2.2.5"
-    lodash "^4.17.4"
-    prop-types "^15.5.10"
+    "@babel/runtime" "^7.1.2"
+    "@semantic-ui-react/event-stack" "^3.0.1"
+    classnames "^2.2.6"
+    keyboard-key "^1.0.2"
+    lodash "^4.17.11"
+    prop-types "^15.6.2"
+    shallowequal "^1.1.0"
 
 semver-diff@^2.0.0:
   version "2.1.0"
@@ -8297,6 +8368,10 @@ sha.js@^2.4.0, sha.js@^2.4.8, sha.js@~2.4.4:
   dependencies:
     inherits "^2.0.1"
     safe-buffer "^5.0.1"
+
+shallowequal@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/shallowequal/-/shallowequal-1.1.0.tgz#188d521de95b9087404fd4dcb68b13df0ae4e7f8"
 
 shasum@^1.0.0:
   version "1.0.2"
@@ -8907,6 +8982,10 @@ text-table@0.2.0, text-table@^0.2.0, text-table@~0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
 
+three@^0.100.0:
+  version "0.100.0"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.100.0.tgz#262841c0b7d88ebd62af73f28d9f578963b3aa00"
+
 throat@^3.0.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/throat/-/throat-3.2.0.tgz#50cb0670edbc40237b9e347d7e1f88e4620af836"
@@ -9483,6 +9562,12 @@ walker@~1.0.5:
 warning@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/warning/-/warning-3.0.0.tgz#32e5377cb572de4ab04753bdf8821c01ed605b7c"
+  dependencies:
+    loose-envify "^1.0.0"
+
+warning@^4.0.1:
+  version "4.0.2"
+  resolved "https://registry.yarnpkg.com/warning/-/warning-4.0.2.tgz#aa6876480872116fa3e11d434b0d0d8d91e44607"
   dependencies:
     loose-envify "^1.0.0"
 
