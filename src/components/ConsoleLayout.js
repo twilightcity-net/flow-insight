@@ -7,6 +7,7 @@ import ConsoleMenu from "./ConsoleMenu";
 import {DataStoreFactory} from "../DataStoreFactory";
 import TeamPanel from "./TeamPanel";
 import TimeScrubber from "./TimeScrubber";
+import Animated3DPanel from "./Animated3DPanel";
 
 const {remote} = window.require("electron");
 
@@ -302,6 +303,16 @@ export default class ConsoleLayout extends Component {
   /// renders the root console layout of the console view
   render() {
 
+    const animatedPanelContent = <Animated3DPanel
+      xpSummary={this.state.xpSummary}
+      flameRating={this.state.flameRating}
+      adjustFlameCb={this.adjustFlameCb}
+      loadStateCb={this.loadStateSidebarPanelCb}
+      saveStateCb={this.saveStateSidebarPanelCb}
+      width={this.state.sidebarPanelWidth}
+      opacity={this.state.sidebarPanelOpacity}
+      />;
+
     const spiritPanelContent = <SpiritPanel
       xpSummary={this.state.xpSummary}
       flameRating={this.state.flameRating}
@@ -326,7 +337,7 @@ export default class ConsoleLayout extends Component {
     let activePanel = null;
 
     if (this.state.activePanel === "profile") {
-      activePanel = spiritPanelContent;
+      activePanel = animatedPanelContent;
     } else if (this.state.activePanel === "messages" ) {
       activePanel = teamPanelContent;
     }
