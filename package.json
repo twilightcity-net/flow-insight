@@ -16,10 +16,8 @@
     "url": "https://github.com/dreamscale-io/torchie-desktop-release.git"
   },
   "scripts": {
-    "postinstall": "yarn dev",
     "prestage": "gulp prettier lint",
     "stage": "git add .",
-    "stage:push": "git push",
     "start": "react-scripts start",
     "dev:local": "concurrently \"yarn server\" \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:5000\"",
     "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=https://torchie.dreamscale.io\"",
@@ -148,7 +146,7 @@
       "eval": true
     },
     "output": {
-      "preamble": "/* Copyright © 2017 DreamScale Inc // Torchie // Author : 1-14x0r */",
+      "preamble": "/* Copyright © 2019 DreamScale Inc // Torchie // Author : Kara Marie Rawson <kara@dreamscale.i> */",
       "bracketize": true,
       "ecma": 6,
       "indent_level": 0,

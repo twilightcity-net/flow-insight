@@ -42,15 +42,17 @@ Note: hit `ctrl+c` to terminate the project.
 
 ### Updating Source Code ###
 
-1) run the following command in the terminal after making some file changes:
+1) Run the following command in the terminal after making some file changes:
 
 `yarn stage`
 
-2) then push your changes with:
+2) Commit your changes with this command: 
+
+`git commit -m 'some descriptive message'`
+
+3) Then push your changes with:
 
 `git push`
-
-Note: you can do it with one command `yarn stage:push`
 
 ### Publish Torchie Release ###
 
