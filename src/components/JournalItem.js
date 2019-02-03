@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import {Button, Divider, Grid, Image, Popup, Icon} from "semantic-ui-react";
+import { Button, Divider, Grid, Image, Popup, Icon } from "semantic-ui-react";
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
 
@@ -9,7 +9,6 @@ const electronLog = remote.require("electron-log");
 // this component is the individual journal item entered in by the user
 //
 export default class JournalItem extends Component {
-
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
@@ -36,44 +35,64 @@ export default class JournalItem extends Component {
     this.log("abort");
 
     this.handleUpdateFinishStatus("aborted");
-
   };
 
-
-
-  handleUpdateFinishStatus = (finishStatus) => {
+  handleUpdateFinishStatus = finishStatus => {
     this.props.journalItem.finishStatus = finishStatus;
     this.props.onUpdateFinishStatus(this.props.journalItem, finishStatus);
   };
 
   /// renders the component of the console view
   render() {
-
     let finishIcon = "";
-    if (this.props.finishStatus == 'done') {
-      finishIcon = <Icon name='check' className='doneGreenDark'/>
-    } else if (this.props.finishStatus === 'aborted') {
-      finishIcon = <Icon name='close' className='doneRed'/>
+    if (this.props.finishStatus == "done") {
+      finishIcon = <Icon name="check" className="doneGreenDark" />;
+    } else if (this.props.finishStatus === "aborted") {
+      finishIcon = <Icon name="close" className="doneRed" />;
     } else {
-      finishIcon = <span> <Popup trigger={<Icon link name='check' className='doneGreen' onClick={this.handleClickForDone}/>}
-                                 content={<div className='doneGreen'>Finish</div>}
-                                 inverted
-                                 hideOnScroll/>
-                          <Popup trigger={<Icon link name='close' color='red' onClick={this.handleClickForAbort}/>}
-                                 content={<div className='doneRed'>Abort</div>}
-                                 inverted
-                                 hideOnScroll/>
-                  </span>
+      finishIcon = (
+        <span>
+          {" "}
+          <Popup
+            trigger={
+              <Icon
+                link
+                name="check"
+                className="doneGreen"
+                onClick={this.handleClickForDone}
+              />
+            }
+            content={<div className="doneGreen">Finish</div>}
+            inverted
+            hideOnScroll
+          />
+          <Popup
+            trigger={
+              <Icon
+                link
+                name="close"
+                color="red"
+                onClick={this.handleClickForAbort}
+              />
+            }
+            content={<div className="doneRed">Abort</div>}
+            inverted
+            hideOnScroll
+          />
+        </span>
+      );
     }
-
 
     const projectCell = (
       <div className="chunkTitle">{this.props.projectName}</div>
     );
     const taskCell = <div className="chunkTitle">{this.props.taskName}</div>;
-    const chunkCell = <div className="chunkText">{this.props.description}
-      {finishIcon}
-    </div>;
+    const chunkCell = (
+      <div className="chunkText">
+        {this.props.description}
+        {finishIcon}
+      </div>
+    );
     const popupContent = (
       <div>
         <div>
@@ -82,15 +101,11 @@ export default class JournalItem extends Component {
         <div>
           <b>{this.props.taskName} </b>
         </div>
-        <div>
-          {this.props.taskSummary}
-        </div>
+        <div>{this.props.taskSummary}</div>
 
         <Divider />
         <div>
-          <span className="date">
-            {this.props.position}
-          </span>
+          <span className="date">{this.props.position}</span>
         </div>
       </div>
     );
@@ -98,15 +113,26 @@ export default class JournalItem extends Component {
     let flameBlock = "";
 
     if (this.props.flameRating > 0) {
-      flameBlock = <span className="yayFlame">{this.props.flameRating} <Image src="./assets/images/yay/16x16.png"  verticalAlign='top' /></span>;
+      flameBlock = (
+        <span className="yayFlame">
+          {this.props.flameRating}{" "}
+          <Image src="./assets/images/yay/16x16.png" verticalAlign="top" />
+        </span>
+      );
     } else if (this.props.flameRating < 0) {
-      flameBlock = <span className="wtfFlame">{Math.abs(this.props.flameRating)} <Image src="./assets/images/wtf/16x16.png"  verticalAlign='middle' /></span>;
+      flameBlock = (
+        <span className="wtfFlame">
+          {Math.abs(this.props.flameRating)}{" "}
+          <Image src="./assets/images/wtf/16x16.png" verticalAlign="middle" />
+        </span>
+      );
     }
 
     return (
-
-
-      <Grid.Row id={this.props.id} onClick={() => this.selectRow(this.props.id, this.props.journalItem)}>
+      <Grid.Row
+        id={this.props.id}
+        onClick={() => this.selectRow(this.props.id, this.props.journalItem)}
+      >
         <Grid.Column width={2}>
           <Popup
             trigger={projectCell}
@@ -126,13 +152,11 @@ export default class JournalItem extends Component {
             inverted
           />
         </Grid.Column>
-        <Grid.Column width={1} className="chunkTitle" >
+        <Grid.Column width={1} className="chunkTitle">
           {flameBlock}
         </Grid.Column>
 
-        <Grid.Column width={9}>
-          {chunkCell}
-        </Grid.Column>
+        <Grid.Column width={9}>{chunkCell}</Grid.Column>
       </Grid.Row>
     );
   }

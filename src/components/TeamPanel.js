@@ -1,12 +1,20 @@
-import React, {Component} from "react";
-import {Menu, Segment, Transition, Icon, Grid, Popup, Divider} from "semantic-ui-react";
-import {DataStoreFactory} from "../DataStoreFactory";
-import {RendererEventFactory} from "../RendererEventFactory";
+import React, { Component } from "react";
+import {
+  Menu,
+  Segment,
+  Transition,
+  Icon,
+  Grid,
+  Popup,
+  Divider
+} from "semantic-ui-react";
+import { DataStoreFactory } from "../DataStoreFactory";
+import { RendererEventFactory } from "../RendererEventFactory";
 import moment from "moment";
 import JournalItem from "./JournalItem";
 import TeamMember from "./TeamMember";
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
 
@@ -18,7 +26,7 @@ export default class TeamPanel extends Component {
     super(props);
 
     this.state = this.loadState();
-    this.state.me = {id: "", name: ""};
+    this.state.me = { id: "", name: "" };
     this.state.teamMembers = [];
     this.state.activeTeamMember = null;
 
@@ -31,7 +39,6 @@ export default class TeamPanel extends Component {
     // };
   }
 
-
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
@@ -39,19 +46,14 @@ export default class TeamPanel extends Component {
   componentDidMount = () => {
     this.log("Team Layout : componentDidMount");
 
-    this.props.teamStore.load(
-      null,
-      err => {
-        setTimeout(() => {
-          this.onStoreLoadCb(err);
-        }, this.activateWaitDelay);
-      });
+    this.props.teamStore.load(null, err => {
+      setTimeout(() => {
+        this.onStoreLoadCb(err);
+      }, this.activateWaitDelay);
+    });
   };
 
-
-
-
-  onStoreLoadCb = (err) => {
+  onStoreLoadCb = err => {
     this.log("Team Layout : onStoreLoadCb");
     if (err) {
       this.props.teamStore.dto = new this.props.teamStore.dtoClass({
@@ -60,7 +62,6 @@ export default class TeamPanel extends Component {
       });
       this.log("error:" + err);
     } else {
-
       let teamWithMembersDto = this.props.teamStore.dto;
 
       var membersList = [];
@@ -80,13 +81,11 @@ export default class TeamPanel extends Component {
         });
       }
 
-
       this.log("Success!");
     }
   };
 
   createMember = (index, teamMember) => {
-
     let d = teamMember.lastActivity;
     let lastActivity = null;
     if (d != null) {
@@ -98,10 +97,10 @@ export default class TeamPanel extends Component {
     let xpRequired = 0;
     if (teamMember.xpSummary) {
       level = teamMember.xpSummary.level;
-      xpRequired = teamMember.xpSummary.xpRequiredToLevel - teamMember.xpSummary.xpProgress;
+      xpRequired =
+        teamMember.xpSummary.xpRequiredToLevel -
+        teamMember.xpSummary.xpProgress;
     }
-
-
 
     return {
       id: teamMember.id,
@@ -120,25 +119,28 @@ export default class TeamPanel extends Component {
       spiritMessage: teamMember.spiritMessage,
       alarmDurationInSeconds: teamMember.alarmDurationInSeconds,
       lastActivity: lastActivity,
-      statusColor: this.toStatusColor(teamMember.activeStatus, teamMember.spiritStatus)
+      statusColor: this.toStatusColor(
+        teamMember.activeStatus,
+        teamMember.spiritStatus
+      )
     };
   };
 
   toStatusColor = (activeStatus, spiritStatus) => {
-    this.log("spirit status ="+spiritStatus);
+    this.log("spirit status =" + spiritStatus);
 
-    let statusColor = 'offlineColor';
-    if (activeStatus === 'Online') {
-      statusColor = 'onlineColor';
+    let statusColor = "offlineColor";
+    if (activeStatus === "Online") {
+      statusColor = "onlineColor";
     }
-    if (spiritStatus == 'WTF?!') {
-      statusColor = 'red';
+    if (spiritStatus == "WTF?!") {
+      statusColor = "red";
     }
 
     return statusColor;
   };
 
-  componentWillReceiveProps = (nextProps) => {
+  componentWillReceiveProps = nextProps => {
     let level = 0;
     let xpRequired = 0;
 
@@ -146,25 +148,32 @@ export default class TeamPanel extends Component {
 
     if (nextProps.xpSummary) {
       newMe.level = nextProps.xpSummary.level;
-      newMe.xpRequired = nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
+      newMe.xpRequired =
+        nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
     }
 
     if (nextProps.workStatus) {
       newMe.activeStatus = nextProps.workStatus.activeStatus;
-      newMe.statusColor= this.toStatusColor(nextProps.workStatus.activeStatus, nextProps.workStatus.alarmStatus);
+      newMe.statusColor = this.toStatusColor(
+        nextProps.workStatus.activeStatus,
+        nextProps.workStatus.alarmStatus
+      );
       newMe.activeTaskName = nextProps.workStatus.activeTaskName;
       newMe.activeTaskSummary = nextProps.workStatus.activeTaskSummary;
       newMe.workingOn = nextProps.workStatus.workingOn;
       newMe.spiritStatus = nextProps.workStatus.spiritStatus;
       newMe.spiritMessage = nextProps.workStatus.spiritMessage;
-      newMe.alarmDurationInSeconds = nextProps.workStatus.alarmDurationInSeconds;
-      newMe.statusColor = this.toStatusColor(nextProps.workStatus.activeStatus, nextProps.workStatus.spiritStatus)
+      newMe.alarmDurationInSeconds =
+        nextProps.workStatus.alarmDurationInSeconds;
+      newMe.statusColor = this.toStatusColor(
+        nextProps.workStatus.activeStatus,
+        nextProps.workStatus.spiritStatus
+      );
     }
 
     this.setState({
       me: newMe
     });
-
 
     if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
       //if it's now open, and used to be closed, need to reset the window
@@ -172,7 +181,6 @@ export default class TeamPanel extends Component {
     }
 
     this.lastOpenCloseState = nextProps.consoleIsCollapsed;
-
   };
 
   resetCb = () => {
@@ -183,13 +191,11 @@ export default class TeamPanel extends Component {
       }, this.activateWaitDelay);
     }
 
-    this.props.teamStore.load(
-      null,
-      err => {
-        setTimeout(() => {
-          this.onStoreLoadCb(err);
-        }, this.activateWaitDelay);
-      });
+    this.props.teamStore.load(null, err => {
+      setTimeout(() => {
+        this.onStoreLoadCb(err);
+      }, this.activateWaitDelay);
+    });
   };
 
   /// laods the stored state from parent or use default values
@@ -210,7 +216,6 @@ export default class TeamPanel extends Component {
     this.props.saveStateCb(state);
   }
 
-
   /// performs a simple calculation for dynamic height of panel
   calculateMenuHeight() {
     let heights = {
@@ -229,7 +234,7 @@ export default class TeamPanel extends Component {
   }
 
   /// updates display to show spirit content
-  handleTeamClick = (e, {name}) => {
+  handleTeamClick = (e, { name }) => {
     this.setState({
       activeItem: name,
       teamVisible: false,
@@ -248,20 +253,17 @@ export default class TeamPanel extends Component {
     this.setState({
       activeTeamMember: teamMember
     });
-
   };
 
   /// renders the console sidebar panel of the console view
   render() {
-
     const teamMembersContent = (
       <div>
         <Grid inverted>
-
           <TeamMember
             key={this.state.me.id}
             id={this.state.me.id}
-            shortName={"Me ("+this.state.me.shortName + ")"}
+            shortName={"Me (" + this.state.me.shortName + ")"}
             name={this.state.me.name}
             activeStatus={this.state.me.activeStatus}
             statusColor={this.state.me.statusColor}
@@ -278,8 +280,7 @@ export default class TeamPanel extends Component {
             activeTeamMember={this.state.activeTeamMember}
           />
 
-          {this.state.teamMembers.map(d =>
-
+          {this.state.teamMembers.map(d => (
             <TeamMember
               key={d.id}
               id={d.id}
@@ -299,8 +300,7 @@ export default class TeamPanel extends Component {
               teamMember={d}
               activeTeamMember={this.state.activeTeamMember}
             />
-
-          )}
+          ))}
         </Grid>
       </div>
     );
@@ -321,9 +321,8 @@ export default class TeamPanel extends Component {
               active={true}
               onClick={this.handleTeamClick}
             />
-
           </Menu>
-          <Segment inverted style={{height: this.calculateMenuHeight()}}>
+          <Segment inverted style={{ height: this.calculateMenuHeight() }}>
             <Transition
               visible={this.state.teamVisible}
               animation={this.state.animationType}

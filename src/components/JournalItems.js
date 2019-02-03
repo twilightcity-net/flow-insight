@@ -1,19 +1,16 @@
-import React, {Component} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
-
 
 //
 // this component is the tab panel wrapper for the console content
 //
 export default class JournalItems extends Component {
-
   constructor(props) {
-
     super(props);
 
     this.state = {
@@ -22,15 +19,13 @@ export default class JournalItems extends Component {
     };
 
     document.onkeydown = this.handleKeyPress;
-
   }
-
 
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
 
-  componentWillReceiveProps = (nextProps) => {
+  componentWillReceiveProps = nextProps => {
     this.log("JournalItems:: componentWillReceiveProps");
 
     let activeJournalItem = null;
@@ -41,11 +36,10 @@ export default class JournalItems extends Component {
         activeJournalItem.flameRating = 0;
       }
 
-      if ( activeJournalItem.flameRating !== nextProps.updatedFlame) {
+      if (activeJournalItem.flameRating !== nextProps.updatedFlame) {
         activeJournalItem.flameRating = nextProps.updatedFlame;
         this.saveDirtyFlames(this.props, activeJournalItem);
       }
-
     }
 
     this.clearActiveRows();
@@ -54,12 +48,9 @@ export default class JournalItems extends Component {
       journalItems: nextProps.allJournalItems,
       activeJournalItem: activeJournalItem
     });
-
   };
 
-
   saveDirtyFlames = (props, journalItemWithFlameUpdates) => {
-
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
@@ -68,9 +59,7 @@ export default class JournalItems extends Component {
       electronLog.info("saveDirtyFlames!!!!!");
       props.onFlameUpdate(journalItemWithFlameUpdates);
     }, 500);
-
   };
-
 
   scrollToBottomOrActive = () => {
     if (this.state.activeJournalItem) {
@@ -78,14 +67,17 @@ export default class JournalItems extends Component {
 
       let rowObj = document.getElementById(activeRowId);
 
-      if (rowObj && (this.isFirstActive() || !this.isElementInViewport(rowObj))) {
-        rowObj.scrollIntoView({behavior: "smooth"});
+      if (
+        rowObj &&
+        (this.isFirstActive() || !this.isElementInViewport(rowObj))
+      ) {
+        rowObj.scrollIntoView({ behavior: "smooth" });
       }
     }
 
     if (this.isLastActive()) {
       this.log("isLastActive");
-      this.messagesEnd.scrollIntoView({behavior: "smooth"});
+      this.messagesEnd.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -106,29 +98,30 @@ export default class JournalItems extends Component {
       activeIndex = this.state.activeJournalItem.index;
     }
 
-    this.log("activeIndex: "+activeIndex);
-    this.log("journalItemSize: "+this.state.journalItems.length);
+    this.log("activeIndex: " + activeIndex);
+    this.log("journalItemSize: " + this.state.journalItems.length);
 
-    return activeIndex === (this.state.journalItems.length - 1);
-
+    return activeIndex === this.state.journalItems.length - 1;
   }
 
-  isElementInViewport = (el) => {
+  isElementInViewport = el => {
+    var rect = el.getBoundingClientRect();
 
-      var rect = el.getBoundingClientRect();
-
-      return (
-        rect.top >= 0 &&
-        rect.left >= 0 &&
-        rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && /*or $(window).height() */
-        rect.right <= (window.innerWidth || document.documentElement.clientWidth) /*or $(window).width() */
-      );
-    };
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <=
+        (window.innerHeight ||
+          document.documentElement.clientHeight) /*or $(window).height() */ &&
+      rect.right <=
+        (window.innerWidth ||
+          document.documentElement.clientWidth) /*or $(window).width() */
+    );
+  };
 
   componentDidMount() {
     this.log("componentDidMount");
     this.scrollToBottomOrActive();
-
   }
 
   componentDidUpdate() {
@@ -139,10 +132,8 @@ export default class JournalItems extends Component {
   }
 
   updateActiveRow = () => {
-
     this.clearActiveRows();
     if (this.state.activeJournalItem) {
-
       let activeRowId = this.state.activeJournalItem.id;
 
       let rowObj = document.getElementById(activeRowId);
@@ -152,7 +143,6 @@ export default class JournalItems extends Component {
       }
     }
   };
-
 
   onSetActiveRow = (rowId, rowObj, journalItem) => {
     this.log("setActiveRow");
@@ -188,7 +178,7 @@ export default class JournalItems extends Component {
     }
     if (e.keyCode === 38) {
       this.log("up");
-      this.changeRowIndex('up');
+      this.changeRowIndex("up");
       e.preventDefault();
     }
     if (e.keyCode === 39) {
@@ -197,19 +187,17 @@ export default class JournalItems extends Component {
     }
     if (e.keyCode === 40) {
       this.log("down");
-      this.changeRowIndex('down');
+      this.changeRowIndex("down");
       e.preventDefault();
     }
   };
 
-  changeRowIndex = (direction) => {
-
+  changeRowIndex = direction => {
     if (this.state.activeJournalItem) {
-
       let newIndex = this.state.activeJournalItem.index;
-      if (direction === 'up') {
+      if (direction === "up") {
         newIndex = newIndex - 1;
-      } else if (direction === 'down') {
+      } else if (direction === "down") {
         newIndex = new Number(newIndex) + 1;
       }
 
@@ -217,20 +205,18 @@ export default class JournalItems extends Component {
         newIndex = 0;
       }
 
-      this.log("old index ="+newIndex);
+      this.log("old index =" + newIndex);
 
       if (newIndex > this.state.journalItems.length - 1) {
         newIndex = this.state.journalItems.length - 1;
       }
 
-      this.log("new index ="+newIndex);
+      this.log("new index =" + newIndex);
 
       let newActiveItem = this.state.journalItems[newIndex];
       let rowObj = document.getElementById(newActiveItem.id);
       this.onSetActiveRow(newActiveItem.id, rowObj, newActiveItem);
-
     }
-
   };
 
   /// renders the journal items component from array in the console view
@@ -239,10 +225,10 @@ export default class JournalItems extends Component {
       <div
         id="component"
         className="journalItems"
-        style={{height: this.props.height}}
+        style={{ height: this.props.height }}
       >
         <Grid inverted onKeyPress={this.handleKeyPress}>
-          {this.state.journalItems.map(d =>
+          {this.state.journalItems.map(d => (
             <JournalItem
               key={d.id}
               id={d.id}
@@ -257,15 +243,15 @@ export default class JournalItems extends Component {
               onSetActiveRow={this.onSetActiveRow}
               onUpdateFinishStatus={this.onUpdateFinishStatus}
             />
-          )}
+          ))}
         </Grid>
-        <div style={{float: "left", clear: "both"}}
-             ref={(el) => {
-               this.messagesEnd = el;
-             }}>
-        </div>
+        <div
+          style={{ float: "left", clear: "both" }}
+          ref={el => {
+            this.messagesEnd = el;
+          }}
+        />
       </div>
     );
   }
 }
-

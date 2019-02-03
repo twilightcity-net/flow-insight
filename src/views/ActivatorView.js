@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {DataStoreFactory} from "../DataStoreFactory";
-import {RendererEventFactory} from "../RendererEventFactory";
+import React, { Component } from "react";
+import { DataStoreFactory } from "../DataStoreFactory";
+import { RendererEventFactory } from "../RendererEventFactory";
 import {
   Button,
   Container,
@@ -12,7 +12,7 @@ import {
   Transition
 } from "semantic-ui-react";
 
-const {remote} = window.require("electron"),
+const { remote } = window.require("electron"),
   ActivationCodeDto = remote.require("./dto/ActivationCodeDto");
 
 const electronLog = remote.require("electron-log");
@@ -127,7 +127,7 @@ export default class ActivatorView extends Component {
     }, this.animationTime);
   }
 
-  handleChange = (e, {name, value}) => {
+  handleChange = (e, { name, value }) => {
     this.log("handleChange : " + value.length + " : " + value);
     /// reset the activate button if incorrect value present
     if (value.length > 32) {
@@ -220,7 +220,7 @@ export default class ActivatorView extends Component {
     const tokenContent = (
       <Container className="tokenContent">
         <Header as="h4" floated="left" inverted>
-          <Icon size="huge" circular inverted color="violet" name="signup"/>
+          <Icon size="huge" circular inverted color="violet" name="signup" />
         </Header>
         <Header as="h3" floated="left" inverted>
           <Header.Content>
@@ -231,7 +231,7 @@ export default class ActivatorView extends Component {
             </Header.Subheader>
           </Header.Content>
         </Header>
-        <Divider clearing/>
+        <Divider clearing />
         <Segment className="tokenKey" inverted>
           <Form onSubmit={this.handleSubmit} size="big" inverted>
             <Form.Group widths="equal" className="tokenKey">
@@ -244,7 +244,7 @@ export default class ActivatorView extends Component {
                 onChange={this.handleChange}
               />
             </Form.Group>
-            <Divider/>
+            <Divider />
             <Button
               type="submit"
               size="big"
@@ -277,7 +277,7 @@ export default class ActivatorView extends Component {
             </Header.Subheader>
           </Header.Content>
         </Header>
-        <Divider clearing/>
+        <Divider clearing />
         <Segment className="terms" inverted>
           <p>****** End-User License Agreement ******</p>
           <p>
@@ -359,7 +359,7 @@ export default class ActivatorView extends Component {
             Licensor and Licensee and supersedes any prior statements.
           </p>
         </Segment>
-        <Divider/>
+        <Divider />
         <Button
           onClick={this.handleTermsAndConditionsAccept}
           size="big"
@@ -372,8 +372,8 @@ export default class ActivatorView extends Component {
     const activatingContent = (
       <Container className="activatingContent">
         <Segment textAlign="center" inverted>
-          <Icon loading size="huge" name="spinner" color="violet"/>
-          <Divider clearing/>
+          <Icon loading size="huge" name="spinner" color="violet" />
+          <Divider clearing />
           <Header as="h3" floated="left" inverted>
             <Header.Content>
               Activating Torchie...
@@ -391,8 +391,8 @@ export default class ActivatorView extends Component {
     const successContent = (
       <Container className="successContent">
         <Segment textAlign="center" inverted>
-          <Icon size="huge" name="checkmark box" color="green"/>
-          <Divider clearing/>
+          <Icon size="huge" name="checkmark box" color="green" />
+          <Divider clearing />
           <Header as="h3" floated="left" inverted>
             <Header.Content>
               Successfully Activated =]
@@ -402,7 +402,7 @@ export default class ActivatorView extends Component {
             </Header.Content>
           </Header>
         </Segment>
-        <Divider clearing/>
+        <Divider clearing />
         <Container textAlign="center">
           <Button
             onClick={this.handleFinishedActivating}
@@ -417,8 +417,8 @@ export default class ActivatorView extends Component {
     const failedContent = (
       <Container className="failedContent">
         <Segment textAlign="center" inverted>
-          <Icon size="huge" name="warning circle" color="red"/>
-          <Divider clearing/>
+          <Icon size="huge" name="warning circle" color="red" />
+          <Divider clearing />
           <Header as="h3" floated="left" inverted>
             <Header.Content>
               Unable to Activate
@@ -428,7 +428,7 @@ export default class ActivatorView extends Component {
             </Header.Content>
           </Header>
         </Segment>
-        <Divider clearing/>
+        <Divider clearing />
         <Container textAlign="center">
           <Button onClick={this.handleErrorActivating} size="big" color="red">
             Try Again

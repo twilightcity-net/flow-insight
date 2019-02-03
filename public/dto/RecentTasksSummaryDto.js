@@ -17,7 +17,8 @@ module.exports = class RecentTasksSummaryDto {
   }
 
   isValid() {
-    if (this.recentProjects != null && this.recentProjects.length > 0) return true;
+    if (this.recentProjects != null && this.recentProjects.length > 0)
+      return true;
     return false;
   }
 };

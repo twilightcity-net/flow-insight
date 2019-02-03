@@ -5,10 +5,9 @@ import TroubleshootLayout from "./TroubleshootLayout";
 import FlowLayout from "./FlowLayout";
 import { Transition } from "semantic-ui-react";
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
-
 
 //
 // this component is the tab panel wrapper for the console content
@@ -110,7 +109,7 @@ export default class ConsoleContent extends Component {
     this.props.onXP();
   };
 
-  onFlameChangeCB = (flameRating) => {
+  onFlameChangeCB = flameRating => {
     if (!flameRating) {
       flameRating = 0;
     }
@@ -118,20 +117,29 @@ export default class ConsoleContent extends Component {
     this.props.onFlameChange(flameRating);
   };
 
-
   /// renders the content of the console view
   render() {
     const journalLayout = (
       <div id="wrapper" className="journalLayout">
-        <JournalLayout consoleIsCollapsed={this.props.consoleIsCollapsed} scrubToDate={this.props.scrubToDate} onXP={this.onXpCB}
-                       onFlameChange={this.onFlameChangeCB} onChangeActiveDate={this.props.onChangeActiveDate}
-                       onAdjustFlame={this.props.onAdjustFlame}
-                       updatedFlame={this.props.updatedFlame}/>
+        <JournalLayout
+          consoleIsCollapsed={this.props.consoleIsCollapsed}
+          scrubToDate={this.props.scrubToDate}
+          onXP={this.onXpCB}
+          onFlameChange={this.onFlameChangeCB}
+          onChangeActiveDate={this.props.onChangeActiveDate}
+          onAdjustFlame={this.props.onAdjustFlame}
+          updatedFlame={this.props.updatedFlame}
+        />
       </div>
     );
     const troubleshootLayout = (
       <div id="wrapper" className="troubleshootLayout">
-        <TroubleshootLayout isWTFOpen={this.props.isWTFOpen} onStartTroubleshooting={this.props.onStartTroubleshooting} onStopTroubleshooting={this.props.onStopTroubleshooting} consoleIsCollapsed={this.props.consoleIsCollapsed}/>
+        <TroubleshootLayout
+          isWTFOpen={this.props.isWTFOpen}
+          onStartTroubleshooting={this.props.onStartTroubleshooting}
+          onStopTroubleshooting={this.props.onStopTroubleshooting}
+          consoleIsCollapsed={this.props.consoleIsCollapsed}
+        />
       </div>
     );
     const flowLayout = (

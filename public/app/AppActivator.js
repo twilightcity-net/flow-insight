@@ -34,7 +34,10 @@ module.exports = class AppActivator {
     log.info("[AppActivator] saving api-key...");
     try {
       let accountActivationDto = new AccountActivationDto(arg);
-      global.App.AppSettings.configureApiKey(Util.getAppApi(), accountActivationDto.apiKey);
+      global.App.AppSettings.configureApiKey(
+        Util.getAppApi(),
+        accountActivationDto.apiKey
+      );
 
       let apiKey = global.App.AppSettings.getApiKey();
       if (accountActivationDto.apiKey !== apiKey) {

@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 // import { RendererEventFactory } from "../RendererEventFactory";
 import {
   Button,
@@ -6,23 +6,23 @@ import {
   Header,
   Image,
   Grid,
-  Segment, Input
+  Segment,
+  Input
 } from "semantic-ui-react";
-import {RendererEventFactory} from "../RendererEventFactory";
+import { RendererEventFactory } from "../RendererEventFactory";
 
-const electron = window.require('electron');
+const electron = window.require("electron");
 const desktopCapturer = electron.desktopCapturer;
 const electronScreen = electron.screen;
 const shell = electron.shell;
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
 
-
-const fs = window.require('fs');
-const os = window.require('os');
-const path = window.require('path');
+const fs = window.require("fs");
+const os = window.require("os");
+const path = window.require("path");
 //
 // this component is the tab panel wrapper for the console content
 //
@@ -52,7 +52,7 @@ export default class TroubleshootSessionNew extends Component {
         RendererEventFactory.Events.SCREENSHOT_READY_FOR_DISPLAY,
         this,
         (event, arg) => this.onScreenShotReadyForDisplay(event, arg)
-      ),
+      )
     };
   }
 
@@ -76,9 +76,8 @@ export default class TroubleshootSessionNew extends Component {
     electronLog.info("ready for display:" + screenPath);
 
     this.setState({
-      screenPath : "file://"+screenPath
+      screenPath: "file://" + screenPath
     });
-
   };
 
   onReadyForScreenShot = (event, arg) => {
@@ -86,13 +85,14 @@ export default class TroubleshootSessionNew extends Component {
     electronLog.info("ready for ss:" + arg);
 
     this.takeScreenShot(arg);
-
   };
 
   onClickStartTroubleshooting = () => {
     console.log("on click start troubleshooting");
 
-    this.props.onStartTroubleshooting("pass in [what's the problem] input contents");
+    this.props.onStartTroubleshooting(
+      "pass in [what's the problem] input contents"
+    );
   };
 
   onClickScreenshot = () => {
@@ -101,35 +101,32 @@ export default class TroubleshootSessionNew extends Component {
     this.events.prepareForScreenShot.dispatch(0, true);
   };
 
-  takeScreenShot = (screenPath) => {
+  takeScreenShot = screenPath => {
     let thumbSize = this.determineScreenShotSize();
-    let options = {types: ['screen'], thumbnailSize: thumbSize};
+    let options = { types: ["screen"], thumbnailSize: thumbSize };
 
     desktopCapturer.getSources(options, (error, sources) => {
       if (error) return console.log(error.message);
 
-      sources.forEach((source) => {
-
+      sources.forEach(source => {
         console.log("Saved!");
 
         console.log("Saved! : " + source.name);
-        if (source.name === 'Entire screen' || source.name === 'Screen 1') {
-
+        if (source.name === "Entire screen" || source.name === "Screen 1") {
           //const screenPath = path.join(os.tmpdir(), 'screenshot.png');
 
-          fs.writeFile(screenPath, source.thumbnail.toPNG(), (err) => {
+          fs.writeFile(screenPath, source.thumbnail.toPNG(), err => {
             if (err) return console.log(err.message);
 
             //shell.openExternal('file://' + screenPath);
-
 
             electronLog.info("saved");
             this.events.screenShotComplete.dispatch(screenPath, true);
 
             console.log("Saved to " + screenPath);
-          })
+          });
         }
-      })
+      });
     });
   };
 
@@ -140,54 +137,48 @@ export default class TroubleshootSessionNew extends Component {
     return {
       width: maxDimension * window.devicePixelRatio,
       height: maxDimension * window.devicePixelRatio
-    }
+    };
   };
-
-
-
-
-
 
   /// renders the default troubleshoot component in the console view
   render() {
     return (
       <div id="component" className="troubleshootPanelDefault">
-        <Divider hidden fitted clearing/>
+        <Divider hidden fitted clearing />
         <Grid textAlign="center" verticalAlign="middle" inverted>
           <Grid.Column width={10} className="rootLayout">
             <Segment className="wtf" inverted>
+              <Header as="h1" attached="top" inverted>
+                Troubleshooting Scrapbook
+              </Header>
+              <Segment attached basic inverted>
+                Let's solve a problem! Take a screenshot and describe the
+                situation below. Once you start the session, a timer will begin
+                on the next screen. Look for clues to collect in your scrapbook,
+                and get help from your team!
+              </Segment>
 
-                    <Header as="h1" attached="top" inverted>
-                      Troubleshooting Scrapbook
-                    </Header>
-                    <Segment attached basic inverted>
-                      Let's solve a problem!  Take a screenshot and describe the situation below.
-                      Once you start the session, a timer will begin on the next screen.
-                      Look for clues to collect in your scrapbook, and get help from your team!
-                    </Segment>
-
-                    <Segment attached basic inverted>
-                    <Input
-                      id="problemStatement"
-                      className="intentionText"
-                      fluid
-                      inverted
-                      placeholder="What's the problem?"
-                    />
-                    </Segment>
-                    <Button onClick={this.onClickStartTroubleshooting}
-                            size="big"
-                            color="red"
-                            animated="fade"
-                            attached="bottom"
-                    >
-                      <Button.Content visible>
-                        Start Troubleshooting...
-                      </Button.Content>
-                      <Button.Content hidden>
-                        Go!
-                      </Button.Content>
-                    </Button>
+              <Segment attached basic inverted>
+                <Input
+                  id="problemStatement"
+                  className="intentionText"
+                  fluid
+                  inverted
+                  placeholder="What's the problem?"
+                />
+              </Segment>
+              <Button
+                onClick={this.onClickStartTroubleshooting}
+                size="big"
+                color="red"
+                animated="fade"
+                attached="bottom"
+              >
+                <Button.Content visible>
+                  Start Troubleshooting...
+                </Button.Content>
+                <Button.Content hidden>Go!</Button.Content>
+              </Button>
             </Segment>
           </Grid.Column>
           <Grid.Column width={6} className="rootLayout screenshot">

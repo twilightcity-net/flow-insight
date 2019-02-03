@@ -37,5 +37,3 @@ module.exports = class TeamMemberWorkStatusDto {
     return false;
   }
 };
-
-

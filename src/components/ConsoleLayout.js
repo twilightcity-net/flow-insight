@@ -4,15 +4,14 @@ import ConsoleSidebar from "./ConsoleSidebar";
 import SpiritPanel from "./SpiritPanel";
 import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";
-import {DataStoreFactory} from "../DataStoreFactory";
+import { DataStoreFactory } from "../DataStoreFactory";
 import TeamPanel from "./TeamPanel";
 import TimeScrubber from "./TimeScrubber";
 import Animated3DPanel from "./Animated3DPanel";
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
-
 
 //
 // this component is the tab panel wrapper for the console content
@@ -28,10 +27,10 @@ export default class ConsoleLayout extends Component {
       flameRating: 0,
       activePanel: "profile",
       consoleIsCollapsed: 0,
-      updatedDate : null,
-      scrubToDate : null,
-      workStatus : null,
-      isWTFOpen : false
+      updatedDate: null,
+      scrubToDate: null,
+      workStatus: null,
+      isWTFOpen: false
     };
     this.animationTime = 700;
     this.events = {
@@ -63,16 +62,14 @@ export default class ConsoleLayout extends Component {
       DataStoreFactory.Stores.RESOLVE_YAY,
       this
     );
-
   }
 
   resetCb = (event, showHideFlag) => {
-      this.log("RESET!!" );
-      this.setState({
-        consoleIsCollapsed : showHideFlag
-      });
+    this.log("RESET!!");
+    this.setState({
+      consoleIsCollapsed: showHideFlag
+    });
   };
-
 
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
@@ -110,7 +107,7 @@ export default class ConsoleLayout extends Component {
   };
 
   /// click the flame button, which either tries to do a +1 or -1
-  adjustFlameCb = (flameDelta) => {
+  adjustFlameCb = flameDelta => {
     this.log("Flame change :" + flameDelta);
 
     let flameRating = this.state.flameRating + flameDelta;
@@ -128,12 +125,13 @@ export default class ConsoleLayout extends Component {
       flameRating = 0;
     }
 
-    this.log("Old/New Flame rating :" + this.state.flameRating + "/" + flameRating);
+    this.log(
+      "Old/New Flame rating :" + this.state.flameRating + "/" + flameRating
+    );
     this.setState({
-      flameRating : flameRating
+      flameRating: flameRating
     });
   };
-
 
   componentDidMount = () => {
     this.log("ConsoleLayout : componentDidMount");
@@ -143,21 +141,18 @@ export default class ConsoleLayout extends Component {
       this
     );
 
-    this.store.load(
-      null,
-      err => {
-        setTimeout(() => {
-          this.onStoreLoadCb(err);
-        }, this.activateWaitDelay);
-      });
+    this.store.load(null, err => {
+      setTimeout(() => {
+        this.onStoreLoadCb(err);
+      }, this.activateWaitDelay);
+    });
 
     setTimeout(() => {
       this.animateSidebarPanel(true);
     }, 500);
-
   };
 
-  onStoreLoadCb = (err) => {
+  onStoreLoadCb = err => {
     this.log("ConsoleLayout : onStoreLoadCb");
     if (err) {
       this.store.dto = new this.store.dtoClass({
@@ -166,17 +161,17 @@ export default class ConsoleLayout extends Component {
       });
       this.log("error:" + err);
     } else {
-
       let xpSummaryDto = this.store.dto;
 
       this.setState({
         xpSummary: xpSummaryDto,
         level: xpSummaryDto.level,
-        percentXP: Math.round((xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100),
+        percentXP: Math.round(
+          (xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100
+        ),
         totalXP: xpSummaryDto.totalXP,
         title: xpSummaryDto.title
       });
-
 
       this.log("Success!");
     }
@@ -186,49 +181,44 @@ export default class ConsoleLayout extends Component {
     this.refreshXP();
   };
 
-  onFlameChangeCb = (flameRating) => {
-    this.log("flame update: "+flameRating);
+  onFlameChangeCb = flameRating => {
+    this.log("flame update: " + flameRating);
 
     this.setState({
-      flameRating : flameRating
+      flameRating: flameRating
     });
   };
 
-  onStartTroubleshooting = (problemStatement) => {
-     this.log("start WTF");
+  onStartTroubleshooting = problemStatement => {
+    this.log("start WTF");
 
-     let wtfStatusInput = { problemStatement : problemStatement };
-     this.pushWtfStore.load(wtfStatusInput,
-       err => {
-             setTimeout(() => {
-               this.onPushWTFStatusCb(err);
-             }, this.activateWaitDelay);
-       }
-     );
+    let wtfStatusInput = { problemStatement: problemStatement };
+    this.pushWtfStore.load(wtfStatusInput, err => {
+      setTimeout(() => {
+        this.onPushWTFStatusCb(err);
+      }, this.activateWaitDelay);
+    });
 
     this.setState({
-      isWTFOpen : true
-    })
+      isWTFOpen: true
+    });
   };
 
   onStopTroubleshooting = () => {
     this.log("stop WTF");
 
-    this.resolveWithYayStore.load(null,
-      err => {
-        setTimeout(() => {
-          this.onResolveWTFStatusCb(err);
-        }, this.activateWaitDelay);
-      }
-    );
+    this.resolveWithYayStore.load(null, err => {
+      setTimeout(() => {
+        this.onResolveWTFStatusCb(err);
+      }, this.activateWaitDelay);
+    });
 
     this.setState({
-      isWTFOpen : false
-    })
-
+      isWTFOpen: false
+    });
   };
 
-  onPushWTFStatusCb = (err) => {
+  onPushWTFStatusCb = err => {
     this.log("ConsoleLayout : onPushWTFStatusCb");
     if (err) {
       this.pushWtfStore.dto = new this.pushWtfStore.dtoClass({
@@ -237,18 +227,17 @@ export default class ConsoleLayout extends Component {
       });
       this.log("error:" + err);
     } else {
-
       let teamMemberWorkStatusDto = this.pushWtfStore.dto;
 
       this.setState({
-        workStatus: teamMemberWorkStatusDto,
+        workStatus: teamMemberWorkStatusDto
       });
 
       this.log("Success!");
     }
   };
 
-  onResolveWTFStatusCb = (err) => {
+  onResolveWTFStatusCb = err => {
     this.log("ConsoleLayout : onResolveWTFStatusCb");
     if (err) {
       this.resolveWithYayStore.dto = new this.resolveWithYayStore.dtoClass({
@@ -257,11 +246,10 @@ export default class ConsoleLayout extends Component {
       });
       this.log("error:" + err);
     } else {
-
       let teamMemberWorkStatusDto = this.resolveWithYayStore.dto;
 
       this.setState({
-        workStatus: teamMemberWorkStatusDto,
+        workStatus: teamMemberWorkStatusDto
       });
 
       this.log("Success!");
@@ -270,75 +258,77 @@ export default class ConsoleLayout extends Component {
 
   refreshXP = () => {
     this.log("ConsoleSidebarPanel : refreshXP");
-    this.store.load(
-      null,
-      err => {
-        setTimeout(() => {
-          this.onStoreLoadCb(err);
-        }, this.activateWaitDelay);
-      });
+    this.store.load(null, err => {
+      setTimeout(() => {
+        this.onStoreLoadCb(err);
+      }, this.activateWaitDelay);
+    });
   };
 
-
-  changeActiveSidePanel = (activeSidePanel) => {
+  changeActiveSidePanel = activeSidePanel => {
     this.log("Changed panel! " + activeSidePanel);
     this.setState({
-       activePanel: activeSidePanel
+      activePanel: activeSidePanel
     });
   };
 
   onChangeScrubPosition = (selectedIndex, selectedDate) => {
     this.log("onChangeScrubPosition:" + selectedIndex);
     this.setState({
-      scrubToDate : selectedDate
+      scrubToDate: selectedDate
     });
   };
 
-  onChangeActiveDate = (activeDateObj) => {
-     this.setState({
-       updatedDate : activeDateObj
-     });
+  onChangeActiveDate = activeDateObj => {
+    this.setState({
+      updatedDate: activeDateObj
+    });
   };
 
   /// renders the root console layout of the console view
   render() {
+    const animatedPanelContent = (
+      <Animated3DPanel
+        xpSummary={this.state.xpSummary}
+        flameRating={this.state.flameRating}
+        adjustFlameCb={this.adjustFlameCb}
+        loadStateCb={this.loadStateSidebarPanelCb}
+        saveStateCb={this.saveStateSidebarPanelCb}
+        width={this.state.sidebarPanelWidth}
+        opacity={this.state.sidebarPanelOpacity}
+      />
+    );
 
-    const animatedPanelContent = <Animated3DPanel
-      xpSummary={this.state.xpSummary}
-      flameRating={this.state.flameRating}
-      adjustFlameCb={this.adjustFlameCb}
-      loadStateCb={this.loadStateSidebarPanelCb}
-      saveStateCb={this.saveStateSidebarPanelCb}
-      width={this.state.sidebarPanelWidth}
-      opacity={this.state.sidebarPanelOpacity}
-      />;
+    const spiritPanelContent = (
+      <SpiritPanel
+        xpSummary={this.state.xpSummary}
+        flameRating={this.state.flameRating}
+        adjustFlameCb={this.adjustFlameCb}
+        loadStateCb={this.loadStateSidebarPanelCb}
+        saveStateCb={this.saveStateSidebarPanelCb}
+        width={this.state.sidebarPanelWidth}
+        opacity={this.state.sidebarPanelOpacity}
+      />
+    );
 
-    const spiritPanelContent = <SpiritPanel
-      xpSummary={this.state.xpSummary}
-      flameRating={this.state.flameRating}
-      adjustFlameCb={this.adjustFlameCb}
-      loadStateCb={this.loadStateSidebarPanelCb}
-      saveStateCb={this.saveStateSidebarPanelCb}
-      width={this.state.sidebarPanelWidth}
-      opacity={this.state.sidebarPanelOpacity}
-    />;
-
-    const teamPanelContent = <TeamPanel
-      xpSummary={this.state.xpSummary}
-      width={this.state.sidebarPanelWidth}
-      opacity={this.state.sidebarPanelOpacity}
-      loadStateCb={this.loadStateSidebarPanelCb}
-      saveStateCb={this.saveStateSidebarPanelCb}
-      teamStore={this.teamStore}
-      consoleIsCollapsed={this.state.consoleIsCollapsed}
-      workStatus={this.state.workStatus}
-    />;
+    const teamPanelContent = (
+      <TeamPanel
+        xpSummary={this.state.xpSummary}
+        width={this.state.sidebarPanelWidth}
+        opacity={this.state.sidebarPanelOpacity}
+        loadStateCb={this.loadStateSidebarPanelCb}
+        saveStateCb={this.saveStateSidebarPanelCb}
+        teamStore={this.teamStore}
+        consoleIsCollapsed={this.state.consoleIsCollapsed}
+        workStatus={this.state.workStatus}
+      />
+    );
 
     let activePanel = null;
 
     if (this.state.activePanel === "profile") {
       activePanel = animatedPanelContent;
-    } else if (this.state.activePanel === "messages" ) {
+    } else if (this.state.activePanel === "messages") {
       activePanel = teamPanelContent;
     }
 
@@ -354,17 +344,31 @@ export default class ConsoleLayout extends Component {
     return (
       <div id="component" className="consoleLayout">
         <div id="wrapper" className="consoleSidebar">
-          <ConsoleSidebar onChangeActiveSidePanel={this.changeActiveSidePanel}/>
+          <ConsoleSidebar
+            onChangeActiveSidePanel={this.changeActiveSidePanel}
+          />
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
           <div id="wrapper" className="timeScrubber">
-            <TimeScrubber onChangeScrubPosition={this.onChangeScrubPosition} updatedDate={this.state.updatedDate} />
+            <TimeScrubber
+              onChangeScrubPosition={this.onChangeScrubPosition}
+              updatedDate={this.state.updatedDate}
+            />
           </div>
-          <ConsoleContent isWTFOpen={this.state.isWTFOpen} onStartTroubleshooting={this.onStartTroubleshooting} onStopTroubleshooting={this.onStopTroubleshooting}
-                          consoleIsCollapsed={this.state.consoleIsCollapsed} onXP={this.onXPCb}
-                          scrubToDate={this.state.scrubToDate} onChangeActiveDate={this.onChangeActiveDate}
-                          animationTime={this.animationTime} onFlameChange={this.onFlameChangeCb} updatedFlame={this.state.flameRating} onAdjustFlame={this.adjustFlameCb}/>
+          <ConsoleContent
+            isWTFOpen={this.state.isWTFOpen}
+            onStartTroubleshooting={this.onStartTroubleshooting}
+            onStopTroubleshooting={this.onStopTroubleshooting}
+            consoleIsCollapsed={this.state.consoleIsCollapsed}
+            onXP={this.onXPCb}
+            scrubToDate={this.state.scrubToDate}
+            onChangeActiveDate={this.onChangeActiveDate}
+            animationTime={this.animationTime}
+            onFlameChange={this.onFlameChangeCb}
+            updatedFlame={this.state.flameRating}
+            onAdjustFlame={this.adjustFlameCb}
+          />
         </div>
 
         <div id="wrapper" className="consoleMenu">

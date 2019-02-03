@@ -14,5 +14,3 @@ export class XPSummaryStore extends DataStore {
     this.loadRequestType = DataStore.RequestTypes.GET;
   }
 }
-
-

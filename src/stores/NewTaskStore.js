@@ -14,5 +14,3 @@ export class NewTaskStore extends DataStore {
     this.loadRequestType = DataStore.RequestTypes.POST;
   }
 }
-
-

@@ -1,38 +1,37 @@
 import { AccountActivationStore } from "./stores/AccountActivationStore";
-import {RecentJournalStore} from "./stores/RecentJournalStore";
-import {NewJournalEntryStore} from "./stores/NewJournalEntryStore";
-import {RecentTasksStore} from "./stores/RecentTasksStore";
-import {NewTaskStore} from "./stores/NewTaskStore";
-import {XPSummaryStore} from "./stores/XPSummaryStore";
-import {UpdatedFlameStore} from "./stores/UpdatedFlameStore";
-import {TeamWithMembersStore} from "./stores/TeamWithMembersStore";
-import {WTFStatusStore} from "./stores/WTFStatusStore";
-import {ResolveWithYayStore} from "./stores/ResolveWithYayStore";
-import {ResolveWithAbortStore} from "./stores/ResolveWithAbortStore";
-import {UpdatedFinishStore} from "./stores/UpdatedFinishStore";
+import { RecentJournalStore } from "./stores/RecentJournalStore";
+import { NewJournalEntryStore } from "./stores/NewJournalEntryStore";
+import { RecentTasksStore } from "./stores/RecentTasksStore";
+import { NewTaskStore } from "./stores/NewTaskStore";
+import { XPSummaryStore } from "./stores/XPSummaryStore";
+import { UpdatedFlameStore } from "./stores/UpdatedFlameStore";
+import { TeamWithMembersStore } from "./stores/TeamWithMembersStore";
+import { WTFStatusStore } from "./stores/WTFStatusStore";
+import { ResolveWithYayStore } from "./stores/ResolveWithYayStore";
+import { ResolveWithAbortStore } from "./stores/ResolveWithAbortStore";
+import { UpdatedFinishStore } from "./stores/UpdatedFinishStore";
 
 //
 // this class is used to manage DataClient requests for Stores
 //
 export class DataStoreFactory {
-
   static storesByName = {};
 
   static createStore(name, scope) {
-     return DataStoreFactory.findOrCreateStore(name, scope);
+    return DataStoreFactory.findOrCreateStore(name, scope);
   }
 
   static findOrCreateStore(name, scope) {
-     let storeFound = null;
+    let storeFound = null;
 
-     if (DataStoreFactory.storesByName[name] != null) {
-       storeFound = DataStoreFactory.storesByName[name];
-     } else {
-       storeFound = DataStoreFactory.initializeNewStore(name, scope);
-       DataStoreFactory.storesByName[name] = storeFound;
-     }
+    if (DataStoreFactory.storesByName[name] != null) {
+      storeFound = DataStoreFactory.storesByName[name];
+    } else {
+      storeFound = DataStoreFactory.initializeNewStore(name, scope);
+      DataStoreFactory.storesByName[name] = storeFound;
+    }
 
-     return storeFound;
+    return storeFound;
   }
 
   static initializeNewStore(name, scope) {
@@ -65,7 +64,6 @@ export class DataStoreFactory {
         return null;
     }
   }
-
 
   static get Stores() {
     return {

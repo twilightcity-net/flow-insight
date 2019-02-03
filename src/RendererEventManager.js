@@ -5,8 +5,8 @@ const { ipcRenderer, remote } = window.require("electron"),
  * events generated from the renderer. If there is an associated event in the main
  * process, then those callbacks will be envoked. The MainEvent property, async,
  * will fire a *-reply event back which is picked up by this classes reply function
- * 
- * ***NOTE***: if a callback is provided, then there MUST be an event created in the 
+ *
+ * ***NOTE***: if a callback is provided, then there MUST be an event created in the
  * main process or the renderer will hang
  */
 export class RendererEvent {
@@ -66,14 +66,14 @@ class EventException {
 }
 
 /*
- * This class is used as a helper class to store event names from 
+ * This class is used as a helper class to store event names from
  * ./public/EventManager. When adding a new event make sure to update
  * both files with the new event name. This class is also used to store
  * and register event handlers.
  */
 export class RendererEventManager {
   /*
-   * checks the sync return value for an exception. Required becuase the IPC 
+   * checks the sync return value for an exception. Required becuase the IPC
    * transport uncasts the object type, and well having all classes of type
    * object is fuckin' dumb stupid.
    */
@@ -137,7 +137,7 @@ export class RendererEventManager {
   }
 
   /*
-   * sets up listeners for callback events. Usually fired from main processes. However 
+   * sets up listeners for callback events. Usually fired from main processes. However
    * these can also be used to communicate between renderer processes. Async flag does
    * not effect these callbacks
    */

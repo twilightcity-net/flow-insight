@@ -14,4 +14,3 @@ export class ResolveWithYayStore extends DataStore {
     this.loadRequestType = DataStore.RequestTypes.POST;
   }
 }
-

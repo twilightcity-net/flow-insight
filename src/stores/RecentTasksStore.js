@@ -14,4 +14,3 @@ export class RecentTasksStore extends DataStore {
     this.loadRequestType = DataStore.RequestTypes.GET;
   }
 }
-

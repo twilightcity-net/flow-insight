@@ -66,7 +66,7 @@ module.exports = class AppLoader {
 
   /*
    * the event callback that is dispatched right after the loading window is shown
-   * @param {event} the event that was fired 
+   * @param {event} the event that was fired
    * @param {arg} the argument parameters to be pass with callback
    */
   onLoadingShowCb(event, arg) {
@@ -96,7 +96,7 @@ module.exports = class AppLoader {
 
   /*
    * event callback that is dispatched after console window is created
-   * @param {event} the event that was fired 
+   * @param {event} the event that was fired
    * @param {arg} the argument parameters to be pass with callback
    */
   onConsoleReadyCb(event, arg) {
@@ -113,7 +113,7 @@ module.exports = class AppLoader {
 
   /*
    * event callback that is dispatched after shortcuts are created
-   * @param {event} the event that was fired 
+   * @param {event} the event that was fired
    * @param {arg} the argument parameters to be pass with callback
    */
   onShortcutsCreatedCb(event, arg) {
@@ -130,7 +130,7 @@ module.exports = class AppLoader {
 
   /*
    * the main app loader event callback that is used to process the various stages
-   * @param {event} the event that was fired 
+   * @param {event} the event that was fired
    * @param {arg} the argument parameters to be pass with callback
    */
   onLoadCb(event, arg) {
@@ -155,7 +155,7 @@ module.exports = class AppLoader {
 
   /*
    * the string enum object of stage names to process
-   * @return {enum} array of stage name strings 
+   * @return {enum} array of stage name strings
    */
   getStages() {
     return {

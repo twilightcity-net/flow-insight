@@ -5,7 +5,7 @@ const { globalShortcut } = require("electron"),
   { EventManager } = require("./EventManager"),
   EventFactory = require("./EventFactory");
 
-/* 
+/*
  * an object class used to instantiate new shortcuts with events. These can
  * be global, a specific window, or within a local scope of a window (meaning
  * outside of this manager class -> quick and dirty) There is no current way
@@ -98,7 +98,7 @@ class ShortcutManager {
 
   /*
    *registers the shortcut with the manager. Any shortcut with the window property
-   * set is assumed to be only linked to that shortcut. currently we do not 
+   * set is assumed to be only linked to that shortcut. currently we do not
    * check to see if a shortcut has already be set.. will override
    * @param {shortcut} the shortcut to register with the manager
    * @return {shortcut} the shortcut object that was registered

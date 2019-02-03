@@ -6,8 +6,8 @@ const ViewManagerHelper = require("./ViewManagerHelper");
 
 module.exports = class WindowManagerHelper {
   /*
-	 * Enum subclass to store view names in
-	 */
+   * Enum subclass to store view names in
+   */
   static get WindowNames() {
     return {
       LOADING: "torchie-" + ViewManagerHelper.ViewNames.LOADING,
@@ -18,7 +18,7 @@ module.exports = class WindowManagerHelper {
   }
 
   /*
-   * Stuff that you need to add when making a new window. These are high 
+   * Stuff that you need to add when making a new window. These are high
    * level API calls for other classes to use.
    */
   static createWindowLoading() {

@@ -14,4 +14,3 @@ export class TeamWithMembersStore extends DataStore {
     this.loadRequestType = DataStore.RequestTypes.GET;
   }
 }
-

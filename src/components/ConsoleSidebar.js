@@ -20,7 +20,6 @@ export default class ConsoleSidebar extends Component {
         this
       )
     };
-
   }
 
   /// performs a simple calculation for dynamic height of menu
@@ -92,7 +91,7 @@ export default class ConsoleSidebar extends Component {
     this.selectItem("profile");
   };
 
-    /// renders the sidebar of the console view
+  /// renders the sidebar of the console view
   render() {
     const { activeItem } = this.state;
 

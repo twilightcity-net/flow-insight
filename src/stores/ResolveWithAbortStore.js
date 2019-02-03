@@ -14,4 +14,3 @@ export class ResolveWithAbortStore extends DataStore {
     this.loadRequestType = DataStore.RequestTypes.POST;
   }
 }
-

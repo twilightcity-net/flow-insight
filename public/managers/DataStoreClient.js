@@ -50,12 +50,11 @@ class DataClient {
 
   doRequest() {
     let url = global.App.api + this.urn;
-    log.info("[DataStoreClient] |> do "+this.type + " request -> " + url);
+    log.info("[DataStoreClient] |> do " + this.type + " request -> " + url);
     if (DataStoreClient.Types.POST === this.type) {
       this.doPost(url);
     } else if (DataStoreClient.Types.GET === this.type) {
       this.doGet(url);
-
     } else {
       log.error(
         "[DataStoreClient] └> Unknown Request Type -> " + this.type + " " + url
@@ -127,14 +126,14 @@ class DataClient {
         this.store.error = e.toString();
         log.error(
           "[DataStoreClient] |> Connection Error -> " +
-          this.type +
-          " " +
-          url +
-          " : " +
-          e +
-          "\n\n" +
-          e.stack +
-          "\n"
+            this.type +
+            " " +
+            url +
+            " : " +
+            e +
+            "\n\n" +
+            e.stack +
+            "\n"
         );
       } finally {
         log.info("[DataStoreClient] └> dispatch request callback -> " + url);
@@ -143,8 +142,6 @@ class DataClient {
     });
   }
 }
-
-
 
 //
 // class exports for browserify

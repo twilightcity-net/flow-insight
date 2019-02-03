@@ -2,14 +2,13 @@ import React, { Component } from "react";
 import TimeScrubber from "./TimeScrubber";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
-import {DataStoreFactory} from "../DataStoreFactory";
+import { DataStoreFactory } from "../DataStoreFactory";
 import moment from "moment";
-import {RendererEventFactory} from "../RendererEventFactory";
+import { RendererEventFactory } from "../RendererEventFactory";
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
-
 
 //
 // this component is the tab panel wrapper for the console content
@@ -28,7 +27,6 @@ export default class JournalLayout extends Component {
       allJournalItems: [],
       updatedFlame: null
     };
-
   }
 
   resetCb = () => {
@@ -44,11 +42,9 @@ export default class JournalLayout extends Component {
 
       this.props.onFlameChange(lastItem.flameRating);
     }
-
   };
 
-  componentWillReceiveProps = (nextProps) => {
-
+  componentWillReceiveProps = nextProps => {
     if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
       //if it's now open, and used to be closed, need to reset the window
       this.resetCb();
@@ -57,11 +53,13 @@ export default class JournalLayout extends Component {
     this.lastOpenCloseState = nextProps.consoleIsCollapsed;
 
     this.setState({
-      updatedFlame : nextProps.updatedFlame
+      updatedFlame: nextProps.updatedFlame
     });
 
-    if (nextProps.scrubToDate != null && this.lastScrubToDate !== nextProps.scrubToDate) {
-
+    if (
+      nextProps.scrubToDate != null &&
+      this.lastScrubToDate !== nextProps.scrubToDate
+    ) {
       this.lastScrubToDate = nextProps.scrubToDate;
 
       let index = this.findIndexMatchingDate(nextProps.scrubToDate);
@@ -71,7 +69,6 @@ export default class JournalLayout extends Component {
         activeJournalItem: this.state.allJournalItems[index]
       });
     }
-
   };
 
   findIndexMatchingDate(selectedDateObj) {
@@ -83,9 +80,9 @@ export default class JournalLayout extends Component {
       let journalItem = this.state.allJournalItems[i];
 
       if (moment(journalItem.rawDate).dayOfYear() >= selectedDay) {
-         foundIndex = i;
+        foundIndex = i;
 
-         break;
+        break;
       }
     }
 
@@ -93,13 +90,11 @@ export default class JournalLayout extends Component {
     let lastJournalItem = this.state.allJournalItems[lastIndex];
 
     if (moment(lastJournalItem.rawDate).dayOfYear() === selectedDay) {
-       foundIndex = lastIndex;
+      foundIndex = lastIndex;
     }
 
     return foundIndex;
-
   }
-
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
@@ -163,70 +158,66 @@ export default class JournalLayout extends Component {
       this
     );
 
-
-    this.store.load(
-      null,
-      err => {
-        setTimeout(() => {
-          this.onStoreLoadCb(err);
-        }, this.activateWaitDelay);
-      });
+    this.store.load(null, err => {
+      setTimeout(() => {
+        this.onStoreLoadCb(err);
+      }, this.activateWaitDelay);
+    });
   };
 
   onFinishEntry = (journalEntry, newStatus) => {
     this.log("Journal Layout : onFinishEntry");
 
-    let intentionFinishInput = { id: journalEntry.id, finishStatus: newStatus};
+    let intentionFinishInput = { id: journalEntry.id, finishStatus: newStatus };
 
-    this.updatedFinishStore.load(
-      intentionFinishInput,
-      err => {
-        setTimeout(() => {
-          this.onSaveFinishStatusCb(err);
-        }, this.activateWaitDelay);
-      }
-    );
+    this.updatedFinishStore.load(intentionFinishInput, err => {
+      setTimeout(() => {
+        this.onSaveFinishStatusCb(err);
+      }, this.activateWaitDelay);
+    });
   };
 
-  onAddEntry = (journalEntry) => {
-   this.log("Journal Layout : onAddEntry: "+journalEntry.projectId);
+  onAddEntry = journalEntry => {
+    this.log("Journal Layout : onAddEntry: " + journalEntry.projectId);
 
-    this.newJournalEntryStore.load(
-      journalEntry,
-      err => {
-        setTimeout(() => {
-          this.onSaveEntryCb(err);
-        }, this.activateWaitDelay);
-      }
-    );
+    this.newJournalEntryStore.load(journalEntry, err => {
+      setTimeout(() => {
+        this.onSaveEntryCb(err);
+      }, this.activateWaitDelay);
+    });
   };
 
   onAddTask = (projectId, taskName) => {
-    this.log("Journal Layout : onAddTask: "+projectId + ", "+taskName);
+    this.log("Journal Layout : onAddTask: " + projectId + ", " + taskName);
 
     let taskReference = { taskName };
-    this.newTaskStore.load(taskReference,
-      err => {
-        setTimeout(() => {
-          this.onSaveTaskReferenceCb(err);
-        }, this.activateWaitDelay);
-      })
-
+    this.newTaskStore.load(taskReference, err => {
+      setTimeout(() => {
+        this.onSaveTaskReferenceCb(err);
+      }, this.activateWaitDelay);
+    });
   };
 
-  onSaveFlameUpdates = (journalItem) => {
-    this.log("Journal Layout : onSaveFlameUpdates: "+journalItem.index + ", "+journalItem.flameRating);
+  onSaveFlameUpdates = journalItem => {
+    this.log(
+      "Journal Layout : onSaveFlameUpdates: " +
+        journalItem.index +
+        ", " +
+        journalItem.flameRating
+    );
 
-    let flameRatingInput = { id: journalItem.id, flameRating: journalItem.flameRating };
-    this.updatedFlameStore.load(flameRatingInput,
-      err => {
-        setTimeout(() => {
-          this.onSaveFlameCb(err);
-        }, this.activateWaitDelay);
-      })
+    let flameRatingInput = {
+      id: journalItem.id,
+      flameRating: journalItem.flameRating
+    };
+    this.updatedFlameStore.load(flameRatingInput, err => {
+      setTimeout(() => {
+        this.onSaveFlameCb(err);
+      }, this.activateWaitDelay);
+    });
   };
 
-  onSaveFlameCb = (err) => {
+  onSaveFlameCb = err => {
     this.log("Journal Layout : onSaveFlameCb");
     if (err) {
       this.updatedFlameStore.dto = new this.updatedFlameStore.dtoClass({
@@ -235,12 +226,11 @@ export default class JournalLayout extends Component {
       });
       this.log("error:" + err);
     } else {
-
       this.log("Success!!");
     }
   };
 
-  onSaveFinishStatusCb = (err) => {
+  onSaveFinishStatusCb = err => {
     this.log("Journal Layout : onSaveFinishStatusCb");
     if (err) {
       this.updatedFinishStore.dto = new this.updatedFinishStore.dtoClass({
@@ -249,13 +239,11 @@ export default class JournalLayout extends Component {
       });
       this.log("error:" + err);
     } else {
-
       this.log("Success!!");
     }
   };
 
-
-  onUpdateRecentTaskCb = (err) => {
+  onUpdateRecentTaskCb = err => {
     this.log("Journal Layout : onUpdateRecentTaskCb");
     if (err) {
       this.recentTasksStore.dto = new this.recentTasksStore.dtoClass({
@@ -266,7 +254,6 @@ export default class JournalLayout extends Component {
     } else {
       let recentTasksSummary = this.recentTasksStore.dto;
 
-
       this.setState({
         recentTasksByProjectId: recentTasksSummary.recentTasksByProjectId
       });
@@ -275,9 +262,7 @@ export default class JournalLayout extends Component {
     }
   };
 
-
-
-  onSaveTaskReferenceCb = (err) => {
+  onSaveTaskReferenceCb = err => {
     this.log("Journal Layout : onSaveTaskReferenceCb saving!");
     if (err) {
       this.newTaskStore.dto = new this.newTaskStore.dtoClass({
@@ -291,21 +276,21 @@ export default class JournalLayout extends Component {
       let activeTask = recentTasksSummary.activeTask;
       if (activeTask) {
         let recentEntry = {
-          projectId : activeTask.projectId,
-          taskId : activeTask.id,
+          projectId: activeTask.projectId,
+          taskId: activeTask.id,
           description: activeTask.summary
         };
 
         this.setState({
-           recentEntry: recentEntry,
-           recentTasksByProjectId: recentTasksSummary.recentTasksByProjectId
-        })
+          recentEntry: recentEntry,
+          recentTasksByProjectId: recentTasksSummary.recentTasksByProjectId
+        });
       }
 
       this.log("Success!!");
     }
   };
-  onSaveEntryCb = (err) => {
+  onSaveEntryCb = err => {
     this.log("Journal Layout : onSaveEntryCb saving!");
     if (err) {
       this.newJournalEntryStore.dto = new this.store.dtoClass({
@@ -318,25 +303,30 @@ export default class JournalLayout extends Component {
       this.log(JSON.stringify(savedEntry, null, 2));
 
       let recentEntry = {
-          projectId : savedEntry.projectId,
-          taskId : savedEntry.taskId,
-          description: savedEntry.description
-        };
+        projectId: savedEntry.projectId,
+        taskId: savedEntry.taskId,
+        description: savedEntry.description
+      };
 
       //create journal item from saved entry
       //set the active journal item and active index
 
-      let journalItem = this.createJournalItem(this.state.allJournalItems.length, savedEntry);
+      let journalItem = this.createJournalItem(
+        this.state.allJournalItems.length,
+        savedEntry
+      );
 
       if (this.state.allJournalItems.length > 0) {
-        let lastItem = this.state.allJournalItems[this.state.allJournalItems.length - 1];
+        let lastItem = this.state.allJournalItems[
+          this.state.allJournalItems.length - 1
+        ];
         if (!lastItem.finishStatus) {
           lastItem.finishStatus = "done";
         }
       }
 
       this.setState({
-        allJournalItems: [...this.state.allJournalItems,journalItem],
+        allJournalItems: [...this.state.allJournalItems, journalItem],
         activeJournalItem: journalItem,
         activeIndex: journalItem.index,
         recentEntry: recentEntry,
@@ -346,21 +336,19 @@ export default class JournalLayout extends Component {
       this.props.onFlameChange(0);
 
       this.log("Updating recent tasks!!");
-      this.recentTasksStore.load(null,
-        err => {
-          setTimeout(() => {
-            this.onUpdateRecentTaskCb(err);
-          }, this.activateWaitDelay);
-        });
+      this.recentTasksStore.load(null, err => {
+        setTimeout(() => {
+          this.onUpdateRecentTaskCb(err);
+        }, this.activateWaitDelay);
+      });
 
       this.props.onXP();
-
 
       this.log("Success!!");
     }
   };
 
-  onStoreLoadCb = (err) => {
+  onStoreLoadCb = err => {
     this.log("Journal Layout : onStoreLoadCb");
     if (err) {
       this.store.dto = new this.store.dtoClass({
@@ -369,19 +357,21 @@ export default class JournalLayout extends Component {
       });
       this.log("error:" + err);
     } else {
-
       let recentJournalDto = this.store.dto;
 
       let recentEntry = {};
 
       if (recentJournalDto.recentIntentions.length > 0) {
-         let latestIntention = recentJournalDto.recentIntentions[recentJournalDto.recentIntentions.length - 1];
+        let latestIntention =
+          recentJournalDto.recentIntentions[
+            recentJournalDto.recentIntentions.length - 1
+          ];
 
-         recentEntry = {
-           projectId : latestIntention.projectId,
-           taskId : latestIntention.taskId,
-           description: latestIntention.description
-         };
+        recentEntry = {
+          projectId: latestIntention.projectId,
+          taskId: latestIntention.taskId,
+          description: latestIntention.description
+        };
       }
 
       var journalItems = [];
@@ -419,9 +409,8 @@ export default class JournalLayout extends Component {
   };
 
   createJournalItem = (index, intention) => {
-
     let d = intention.position;
-    let dateObj = new Date(d[0], d[1]-1, d[2], d[3], d[4], d[5]);
+    let dateObj = new Date(d[0], d[1] - 1, d[2], d[3], d[4], d[5]);
 
     return {
       index: index,
@@ -438,17 +427,16 @@ export default class JournalLayout extends Component {
   };
 
   onChangeActiveEntry = (rowId, journalItem) => {
-    this.log("onChangeActiveEntry:" + rowId + ", "+ journalItem.index);
+    this.log("onChangeActiveEntry:" + rowId + ", " + journalItem.index);
 
     this.setState({
-       activeIndex: journalItem.index,
+      activeIndex: journalItem.index,
       activeJournalItem: journalItem,
       updatedFlame: journalItem.flameRating
     });
 
     this.props.onFlameChange(journalItem.flameRating);
     this.props.onChangeActiveDate(journalItem.rawDate);
-
   };
 
   // onChangeScrubPosition = (selectedIndex) => {
@@ -465,12 +453,26 @@ export default class JournalLayout extends Component {
     return (
       <div id="component" className="journalLayout">
         <div id="wrapper" className="journalItems">
-          <JournalItems onChangeActiveEntry={this.onChangeActiveEntry} onFlameUpdate={this.onSaveFlameUpdates} onFinishEntry={this.onFinishEntry}
-                        updatedFlame={this.state.updatedFlame} onAdjustFlame={this.props.onAdjustFlame}
-                        activeIndex={this.state.activeIndex} allJournalItems={this.state.allJournalItems} height={this.calculateJournalItemsHeight()} />
+          <JournalItems
+            onChangeActiveEntry={this.onChangeActiveEntry}
+            onFlameUpdate={this.onSaveFlameUpdates}
+            onFinishEntry={this.onFinishEntry}
+            updatedFlame={this.state.updatedFlame}
+            onAdjustFlame={this.props.onAdjustFlame}
+            activeIndex={this.state.activeIndex}
+            allJournalItems={this.state.allJournalItems}
+            height={this.calculateJournalItemsHeight()}
+          />
         </div>
         <div id="wrapper" className="journalEntry">
-          <JournalEntry consoleIsCollapsed={this.props.consoleIsCollapsed} onAddEntry={this.onAddEntry} onAddTask={this.onAddTask} recentEntry={this.state.recentEntry} recentProjects={this.state.recentProjects} recentTasksByProjectId={this.state.recentTasksByProjectId}/>
+          <JournalEntry
+            consoleIsCollapsed={this.props.consoleIsCollapsed}
+            onAddEntry={this.onAddEntry}
+            onAddTask={this.onAddTask}
+            recentEntry={this.state.recentEntry}
+            recentProjects={this.state.recentProjects}
+            recentTasksByProjectId={this.state.recentTasksByProjectId}
+          />
         </div>
       </div>
     );

@@ -14,4 +14,3 @@ export class WTFStatusStore extends DataStore {
     this.loadRequestType = DataStore.RequestTypes.POST;
   }
 }
-

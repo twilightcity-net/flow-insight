@@ -3,7 +3,7 @@ import TimeScrubber from "./TimeScrubber";
 import TroubleshootSessionNew from "./TroubleshootSessionNew";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
 
@@ -14,9 +14,8 @@ export default class TroubleshootLayout extends Component {
   constructor(props) {
     super(props);
 
-
     this.state = {
-        isWTFOpen : false
+      isWTFOpen: false
     };
   }
 
@@ -49,40 +48,38 @@ export default class TroubleshootLayout extends Component {
     );
   }
 
-
-
-  onStartTroubleshooting = (problemStatement) => {
+  onStartTroubleshooting = problemStatement => {
     this.log("onStartTroubleshooting");
     this.props.onStartTroubleshooting(problemStatement);
-
   };
 
   onStopTroubleshooting = () => {
     this.log("onStopTroubleshooting");
     this.props.onStopTroubleshooting();
-
   };
 
   /// renders the journal layout of the console view
   render() {
-
     let wtfPanel = null;
 
     if (this.props.isWTFOpen) {
-      wtfPanel = <TroubleshootSessionOpen
-        height={this.calculateTroubleshootItemsHeight()}
-        onStopTroubleshooting={this.onStopTroubleshooting}
-      />
+      wtfPanel = (
+        <TroubleshootSessionOpen
+          height={this.calculateTroubleshootItemsHeight()}
+          onStopTroubleshooting={this.onStopTroubleshooting}
+        />
+      );
     } else {
-      wtfPanel = <TroubleshootSessionNew
-        height={this.calculateTroubleshootItemsHeight()}
-        onStartTroubleshooting={this.onStartTroubleshooting}
-      />
+      wtfPanel = (
+        <TroubleshootSessionNew
+          height={this.calculateTroubleshootItemsHeight()}
+          onStartTroubleshooting={this.onStartTroubleshooting}
+        />
+      );
     }
 
     return (
       <div id="component" className="troubleshootLayout">
-
         <div id="wrapper" className="troubleshootPanelDefault">
           {wtfPanel}
         </div>

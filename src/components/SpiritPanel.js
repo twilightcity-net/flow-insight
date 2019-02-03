@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import {Image, Menu, Progress, Segment, Transition} from "semantic-ui-react";
+import { Image, Menu, Progress, Segment, Transition } from "semantic-ui-react";
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
 
@@ -12,7 +12,6 @@ export default class SpiritPanel extends Component {
   constructor(props) {
     super(props);
     this.state = this.loadState();
-
   }
 
   log = msg => {
@@ -38,8 +37,7 @@ export default class SpiritPanel extends Component {
     return state;
   }
 
-  componentWillReceiveProps = (nextProps) => {
-
+  componentWillReceiveProps = nextProps => {
     let xpSummaryDto = nextProps.xpSummary;
 
     let flameRating = nextProps.flameRating;
@@ -54,17 +52,17 @@ export default class SpiritPanel extends Component {
     if (xpSummaryDto) {
       this.setState({
         level: xpSummaryDto.level,
-        percentXP: Math.round((xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100),
+        percentXP: Math.round(
+          (xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100
+        ),
         totalXP: xpSummaryDto.totalXP,
-        remainingToLevel:  (xpSummaryDto.xpRequiredToLevel - xpSummaryDto.xpProgress),
+        remainingToLevel:
+          xpSummaryDto.xpRequiredToLevel - xpSummaryDto.xpProgress,
         title: xpSummaryDto.title,
         flameRating: flameString
       });
-
     }
-
   };
-
 
   /// stores this components state in the parents state
   saveState(state) {
@@ -73,19 +71,18 @@ export default class SpiritPanel extends Component {
 
   /// performs a simple calculation for dynamic height of panel
   calculateSpiritHeight() {
-
     let spiritHeight = this.calculateMenuHeight() - 150;
 
     if (spiritHeight > 200) {
       spiritHeight = 200;
     }
 
-    this.log("Spirit height = "+spiritHeight);
+    this.log("Spirit height = " + spiritHeight);
 
     return spiritHeight;
   }
 
-    /// performs a simple calculation for dynamic height of panel
+  /// performs a simple calculation for dynamic height of panel
   calculateMenuHeight() {
     let heights = {
       rootBorder: 4,
@@ -140,7 +137,7 @@ export default class SpiritPanel extends Component {
     this.props.adjustFlameCb(-1);
   };
 
-  handleClickForYay =() => {
+  handleClickForYay = () => {
     this.log("Yay!");
     this.props.adjustFlameCb(+1);
   };
@@ -152,42 +149,67 @@ export default class SpiritPanel extends Component {
     let spiritImage = "";
 
     if (this.state.flameRating >= 0) {
-      spiritImage = <Image height={this.calculateSpiritHeight()} centered src="./assets/images/spirit.png" />
+      spiritImage = (
+        <Image
+          height={this.calculateSpiritHeight()}
+          centered
+          src="./assets/images/spirit.png"
+        />
+      );
     } else if (this.state.flameRating < 0) {
-      spiritImage = <Image height={this.calculateSpiritHeight()} centered src="./assets/images/painSpirit.png" />;
+      spiritImage = (
+        <Image
+          height={this.calculateSpiritHeight()}
+          centered
+          src="./assets/images/painSpirit.png"
+        />
+      );
     }
 
     const spiritContent = (
       <div className="spiritContent">
         <div className="spiritBackground">
-        {spiritImage}
+          {spiritImage}
 
-        <div className="level">
-          <b>Level {this.state.level} </b>
+          <div className="level">
+            <b>Level {this.state.level} </b>
+          </div>
+          <div className="level">
+            <i>Torchie {this.state.title} </i>
+          </div>
+          <div>&nbsp;</div>
         </div>
-        <div className="level">
-          <i>Torchie {this.state.title} </i>
-        </div>
-        <div>&nbsp;</div>
-        </div>
-        <Progress size="small" percent={this.state.percentXP} color="violet" inverted progress>
+        <Progress
+          size="small"
+          percent={this.state.percentXP}
+          color="violet"
+          inverted
+          progress
+        >
           {this.state.remainingToLevel} XP remaining to Level
         </Progress>
 
-        <div className='ui fluid buttons'>
-            <button className='ui icon button rageButton' tabIndex='0' onClick={this.handleClickForRage}>
-              <Image centered src="./assets/images/wtf/24x24.png" />
-            </button>
+        <div className="ui fluid buttons">
+          <button
+            className="ui icon button rageButton"
+            tabIndex="0"
+            onClick={this.handleClickForRage}
+          >
+            <Image centered src="./assets/images/wtf/24x24.png" />
+          </button>
 
-            {/*<button className='ui label flameRating'>*/}
-              {/*{this.state.flameRating}*/}
-            {/*</button>*/}
+          {/*<button className='ui label flameRating'>*/}
+          {/*{this.state.flameRating}*/}
+          {/*</button>*/}
 
-            <button className='ui icon button yayButton' tabIndex='0' onClick={this.handleClickForYay}>
-              <Image centered src="./assets/images/yay/24x24.png" />
-            </button>
+          <button
+            className="ui icon button yayButton"
+            tabIndex="0"
+            onClick={this.handleClickForYay}
+          >
+            <Image centered src="./assets/images/yay/24x24.png" />
+          </button>
         </div>
-
       </div>
     );
     const badgesContent = (

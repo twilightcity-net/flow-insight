@@ -1,12 +1,21 @@
-import React, {Component} from "react"
-import {Button, Form, Header, Image, Input, Menu, Progress, Segment, Transition} from "semantic-ui-react";
-import * as THREE from 'three';
-const {remote} = window.require("electron");
+import React, { Component } from "react";
+import {
+  Button,
+  Form,
+  Header,
+  Image,
+  Input,
+  Menu,
+  Progress,
+  Segment,
+  Transition
+} from "semantic-ui-react";
+import * as THREE from "three";
+const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
 
 export default class Animated3DPanel extends Component {
-
   constructor(props) {
     super(props);
     this.state = this.loadState();
@@ -16,8 +25,7 @@ export default class Animated3DPanel extends Component {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
 
-  componentWillReceiveProps = (nextProps) => {
-
+  componentWillReceiveProps = nextProps => {
     let xpSummaryDto = nextProps.xpSummary;
 
     let flameRating = nextProps.flameRating;
@@ -32,28 +40,27 @@ export default class Animated3DPanel extends Component {
     if (xpSummaryDto) {
       this.setState({
         level: xpSummaryDto.level,
-        percentXP: Math.round((xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100),
+        percentXP: Math.round(
+          (xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100
+        ),
         totalXP: xpSummaryDto.totalXP,
-        remainingToLevel:  (xpSummaryDto.xpRequiredToLevel - xpSummaryDto.xpProgress),
+        remainingToLevel:
+          xpSummaryDto.xpRequiredToLevel - xpSummaryDto.xpProgress,
         title: xpSummaryDto.title,
         flameRating: flameString
       });
-
     }
-
   };
-
 
   /// performs a simple calculation for dynamic height of panel
   calculateSpiritHeight() {
-
     let spiritHeight = this.calculatePanelHeight() - 150;
 
     if (spiritHeight > 200) {
       spiritHeight = 200;
     }
 
-    this.log("Spirit height = "+spiritHeight);
+    this.log("Spirit height = " + spiritHeight);
 
     return spiritHeight;
   }
@@ -87,34 +94,29 @@ export default class Animated3DPanel extends Component {
   };
 
   componentDidMount = () => {
-      this.log("componentDidMount");
+    this.log("componentDidMount");
 
-      if ( this.mount) {
-        this.initScene();
-      }
+    if (this.mount) {
+      this.initScene();
+    }
   };
 
-  initScene =() => {
+  initScene = () => {
     const width = this.mount.clientWidth;
     const height = this.mount.clientHeight;
     //ADD SCENE
     this.scene = new THREE.Scene();
     //ADD CAMERA
-    this.camera = new THREE.PerspectiveCamera(
-      75,
-      width / height,
-      0.1,
-      1000
-    );
+    this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     this.camera.position.z = 4;
     //ADD RENDERER
     this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setClearColor('#130A00');
+    this.renderer.setClearColor("#130A00");
     this.renderer.setSize(width, height);
     this.mount.appendChild(this.renderer.domElement);
     //ADD CUBE
     var geometry = new THREE.BoxGeometry(1, 1, 1);
-    var material = new THREE.MeshBasicMaterial({ color: '#433F81' });
+    var material = new THREE.MeshBasicMaterial({ color: "#433F81" });
     this.cube = new THREE.Mesh(geometry, material);
     this.scene.add(this.cube);
 
@@ -127,12 +129,12 @@ export default class Animated3DPanel extends Component {
     this.props.adjustFlameCb(-1);
   };
 
-  handleClickForYay =() => {
+  handleClickForYay = () => {
     this.log("Yay!");
     this.props.adjustFlameCb(+1);
   };
 
-  componentWillUnmount(){
+  componentWillUnmount() {
     this.log("componentWillUnmount");
     if (this.mount) {
       this.cleanupScene();
@@ -165,7 +167,7 @@ export default class Animated3DPanel extends Component {
   };
 
   renderScene = () => {
-    this.renderer.render(this.scene, this.camera)
+    this.renderer.render(this.scene, this.camera);
   };
 
   /// performs a simple calculation for dynamic height of panel
@@ -204,7 +206,6 @@ export default class Animated3DPanel extends Component {
     return state;
   }
 
-
   /// renders the console sidebar panel of the console view
   render() {
     const { activeItem } = this.state;
@@ -212,15 +213,26 @@ export default class Animated3DPanel extends Component {
     let spiritImage = "";
 
     if (this.state.flameRating >= 0) {
-      spiritImage = <Image height={this.calculateSpiritHeight()} centered src="./assets/images/spirit.png" />
+      spiritImage = (
+        <Image
+          height={this.calculateSpiritHeight()}
+          centered
+          src="./assets/images/spirit.png"
+        />
+      );
     } else if (this.state.flameRating < 0) {
-      spiritImage = <Image height={this.calculateSpiritHeight()} centered src="./assets/images/painSpirit.png" />;
+      spiritImage = (
+        <Image
+          height={this.calculateSpiritHeight()}
+          centered
+          src="./assets/images/painSpirit.png"
+        />
+      );
     }
 
     // spiritImage = <div style={{ width: this.props.width -40, height: this.calculateSpiritHeight() }}
     //                    ref={(mount) => { this.mount = mount }}
     //               />;
-
 
     const spiritContent = (
       <div className="spiritContent">
@@ -235,12 +247,22 @@ export default class Animated3DPanel extends Component {
           </div>
           <div>&nbsp;</div>
         </div>
-        <Progress size="small" percent={this.state.percentXP} color="violet" inverted progress>
+        <Progress
+          size="small"
+          percent={this.state.percentXP}
+          color="violet"
+          inverted
+          progress
+        >
           {this.state.remainingToLevel} XP remaining to Level
         </Progress>
 
-        <div className='ui fluid buttons'>
-          <button className='ui icon button rageButton' tabIndex='0' onClick={this.handleClickForRage}>
+        <div className="ui fluid buttons">
+          <button
+            className="ui icon button rageButton"
+            tabIndex="0"
+            onClick={this.handleClickForRage}
+          >
             <Image centered src="./assets/images/wtf/24x24.png" />
           </button>
 
@@ -248,11 +270,14 @@ export default class Animated3DPanel extends Component {
           {/*{this.state.flameRating}*/}
           {/*</button>*/}
 
-          <button className='ui icon button yayButton' tabIndex='0' onClick={this.handleClickForYay}>
+          <button
+            className="ui icon button yayButton"
+            tabIndex="0"
+            onClick={this.handleClickForYay}
+          >
             <Image centered src="./assets/images/yay/24x24.png" />
           </button>
         </div>
-
       </div>
     );
     const badgesContent = (
@@ -302,7 +327,4 @@ export default class Animated3DPanel extends Component {
       </div>
     );
   }
-
 }
-
-

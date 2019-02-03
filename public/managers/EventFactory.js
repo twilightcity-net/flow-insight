@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   { EventManager, MainEvent } = require("./EventManager");
 
-/* 
+/*
  * a factory class used to create new events
  */
 module.exports = class EventFactory {

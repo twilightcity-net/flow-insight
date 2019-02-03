@@ -19,7 +19,15 @@ module.exports = class SlackManager {
         this,
         (event, message) => {
           const formattedMessage = {
-            text: `*Issue description*: ${message.issueDescription}\n*Reproduction steps*: ${message.reproductionSteps}\n*Expected results*: ${message.expectedResults}\n*Actual results*: ${message.actualResults}\n*Email*: ${message.email}`
+            text: `*Issue description*: ${
+              message.issueDescription
+            }\n*Reproduction steps*: ${
+              message.reproductionSteps
+            }\n*Expected results*: ${
+              message.expectedResults
+            }\n*Actual results*: ${message.actualResults}\n*Email*: ${
+              message.email
+            }`
           };
           SlackManager.sendBuggeryMessage(
             formattedMessage,

@@ -20,9 +20,8 @@ export default class JournalEntry extends Component {
       currentProjectValue: null,
       currentTaskValue: null,
       currentIntentionValue: "",
-      dreamModeActive: false,
+      dreamModeActive: false
     };
-
   }
 
   resetCb = () => {
@@ -114,7 +113,6 @@ export default class JournalEntry extends Component {
         text: currentTasks[i].name,
         value: currentTasks[i].id
       };
-
     }
 
     this.setState({
@@ -205,7 +203,6 @@ export default class JournalEntry extends Component {
 
   /// works the same as the click for create handler.. see above ^
   handleKeyPressForIntention = e => {
-
     if (e.charCode === 13) {
       this.log("Saving Intention! " + this.state.currentIntentionValue);
       this.saveJournalEntry();
@@ -227,7 +224,6 @@ export default class JournalEntry extends Component {
   };
 
   handleChangeForIntention = (e, { name, value }) => {
-
     this.setState({ currentIntentionValue: value });
   };
 
@@ -316,32 +312,32 @@ export default class JournalEntry extends Component {
                 </Grid.Column>
                 <Grid.Column width={11} id="createIntentionInput">
                   <div>
-                  {/*<Button attached='left' inverted basic icon toggle floated='left'*/}
-                          {/*active={this.state.dreamModeActive}*/}
-                          {/*onClick={this.handleDreamModeClick}>*/}
+                    {/*<Button attached='left' inverted basic icon toggle floated='left'*/}
+                    {/*active={this.state.dreamModeActive}*/}
+                    {/*onClick={this.handleDreamModeClick}>*/}
                     {/*<Icon name='cloud'/>*/}
-                  {/*</Button>*/}
-                  <Input
-                    id="intentionTextInput"
-                    className="intentionText"
-                    fluid
-                    inverted
-                    value={this.state.currentIntentionValue}
-                    onFocus={this.handleFocusForIntention}
-                    onBlur={this.handleBlurForInput}
-                    onKeyPress={this.handleKeyPressForIntention}
-                    onChange={this.handleChangeForIntention}
-                    action={
-                      <Button
-                        className="createIntention"
-                        icon="share"
-                        labelPosition="right"
-                        content="Create"
-                        onClick={this.handleClickForCreate}
-                      />
-                    }
-                    placeholder="What's your next Intention?"
-                  />
+                    {/*</Button>*/}
+                    <Input
+                      id="intentionTextInput"
+                      className="intentionText"
+                      fluid
+                      inverted
+                      value={this.state.currentIntentionValue}
+                      onFocus={this.handleFocusForIntention}
+                      onBlur={this.handleBlurForInput}
+                      onKeyPress={this.handleKeyPressForIntention}
+                      onChange={this.handleChangeForIntention}
+                      action={
+                        <Button
+                          className="createIntention"
+                          icon="share"
+                          labelPosition="right"
+                          content="Create"
+                          onClick={this.handleClickForCreate}
+                        />
+                      }
+                      placeholder="What's your next Intention?"
+                    />
                   </div>
                 </Grid.Column>
               </Grid.Row>

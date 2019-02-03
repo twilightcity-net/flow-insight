@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { Divider, Grid, Input, Popup, Segment } from "semantic-ui-react";
 import moment from "moment";
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 const electronLog = remote.require("electron-log");
-
 
 //
 // this component is the tab panel wrapper for the console content
@@ -41,18 +40,17 @@ export default class TimeScrubber extends Component {
   }
 
   fromDateToTick(dateObj) {
-
     let latestDate = new Date();
 
     var start = moment(dateObj);
     var end = moment(latestDate);
     let ticks = end.diff(start, "days");
 
-    this.log("diff = "+ticks);
+    this.log("diff = " + ticks);
 
     let offset = this.state.activeMax - ticks;
 
-    this.log("new tick = "+offset);
+    this.log("new tick = " + offset);
 
     return offset;
   }
@@ -61,26 +59,27 @@ export default class TimeScrubber extends Component {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
 
-  componentWillReceiveProps = (nextProps) => {
+  componentWillReceiveProps = nextProps => {
     this.log("TimeScrubber:: componentWillReceiveProps");
 
-    this.log("activeDate : "+nextProps.updatedDate);
+    this.log("activeDate : " + nextProps.updatedDate);
 
     //if change the active clicked record, then update scrub position
 
-    if (nextProps.updatedDate != null && this.lastUpdatedDate !== nextProps.updatedDate) {
-
+    if (
+      nextProps.updatedDate != null &&
+      this.lastUpdatedDate !== nextProps.updatedDate
+    ) {
       this.lastUpdatedDate = nextProps.updatedDate;
 
       let tick = this.fromDateToTick(nextProps.updatedDate);
       let newDate = this.fromTickToDate(tick);
 
       this.setState({
-        activeTick : tick,
-        activeDate : newDate
+        activeTick: tick,
+        activeDate: newDate
       });
     }
-
   };
 
   /// called when the range slider changes
@@ -116,19 +115,14 @@ export default class TimeScrubber extends Component {
                     max={this.state.activeMax}
                     onChange={this.handleRangeChange}
                   />
-
                 </Grid.Column>
 
                 <Grid.Column className="info">
                   <Popup
                     trigger={
                       <div>
-                        <div className="title">
-                          {this.state.nowShowing}
-                        </div>
-                        <div className="date">
-                          {this.state.activeDate}
-                        </div>
+                        <div className="title">{this.state.nowShowing}</div>
+                        <div className="date">{this.state.activeDate}</div>
                       </div>
                     }
                     className="timeScrubber"
@@ -141,9 +135,7 @@ export default class TimeScrubber extends Component {
                     <Popup.Content>
                       {this.state.showingDetails}
                       <Divider />
-                      <i className="date">
-                        {this.state.activeDate}
-                      </i>
+                      <i className="date">{this.state.activeDate}</i>
                     </Popup.Content>
                   </Popup>
                 </Grid.Column>

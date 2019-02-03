@@ -7,12 +7,10 @@ const electron = require("electron"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../managers/EventFactory"),
-{ EventManager } = require("../managers/EventManager");
-
-
+  { EventManager } = require("../managers/EventManager");
 
 /*
- * the main application window for UX. Suspose to slide in and out of 
+ * the main application window for UX. Suspose to slide in and out of
  * the top of the screen with a global hot key
  */
 module.exports = class ConsoleWindow {
@@ -23,7 +21,7 @@ module.exports = class ConsoleWindow {
     this.display = electron.screen.getPrimaryDisplay();
     this.bounds = this.display.workAreaSize;
 
-    log.info("width = "+this.bounds.width + ", "+this.bounds.height);
+    log.info("width = " + this.bounds.width + ", " + this.bounds.height);
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = false;
     this.window = new BrowserWindow({
@@ -42,7 +40,6 @@ module.exports = class ConsoleWindow {
       fullscreenable: false,
       toolbar: false,
       webPreferences: { toolbar: false, webSecurity: false }
-
     });
 
     if (isDev) {
@@ -94,7 +91,7 @@ module.exports = class ConsoleWindow {
       screenShotReadyForDisplay: EventFactory.createEvent(
         EventFactory.Types.SCREENSHOT_READY_FOR_DISPLAY,
         this
-      ),
+      )
     };
     this.state = 0;
     this.states = {
@@ -139,7 +136,6 @@ module.exports = class ConsoleWindow {
     setTimeout(() => {
       this.events.readyForScreenShot.dispatch(screenPath, true);
     }, 1000);
-
   }
 
   onScreenshotComplete(event, arg) {
@@ -150,7 +146,6 @@ module.exports = class ConsoleWindow {
     setTimeout(() => {
       this.events.screenShotReadyForDisplay.dispatch(arg, true);
     }, 100);
-
   }
 
   /*

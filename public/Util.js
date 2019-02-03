@@ -6,7 +6,7 @@ const { app, shell } = require("electron"),
   fs = require("fs"),
   os = require("os");
 
-/* 
+/*
  * general purpose global utility functions
  */
 module.exports = class Util {
@@ -101,23 +101,20 @@ module.exports = class Util {
   }
 
   static getConfiguredHotkeysOrDefault() {
-
-    let hotkeyConfPath = path.join( this.getFlowHomePath(), "hotkey.conf");
+    let hotkeyConfPath = path.join(this.getFlowHomePath(), "hotkey.conf");
 
     let defaultKey = "CommandOrControl+`";
     let activeHotkey = defaultKey;
 
     if (fs.existsSync(hotkeyConfPath)) {
-      activeHotkey = fs.readFileSync(hotkeyConfPath, 'utf8');
-
+      activeHotkey = fs.readFileSync(hotkeyConfPath, "utf8");
     } else {
       fs.mkdir(this.getFlowHomePath());
 
-
-      fs.writeFileSync(hotkeyConfPath, defaultKey, 'utf8');
+      fs.writeFileSync(hotkeyConfPath, defaultKey, "utf8");
     }
 
-    log.info("[Util] found hotkey config: "+activeHotkey);
+    log.info("[Util] found hotkey config: " + activeHotkey);
     return activeHotkey;
   }
 
@@ -126,13 +123,16 @@ module.exports = class Util {
   }
 
   static getScreenshotFolderPath() {
-    let screensFolder = path.join( this.getFlowHomePath(), "screenshots");
+    let screensFolder = path.join(this.getFlowHomePath(), "screenshots");
     fs.mkdir(screensFolder);
     return screensFolder;
   }
 
   static getLatestScreenshotPath() {
-    return path.join(this.getScreenshotFolderPath(), "screen_"+Math.random()+".png");
+    return path.join(
+      this.getScreenshotFolderPath(),
+      "screen_" + Math.random() + ".png"
+    );
   }
 
   static deleteSettings() {
