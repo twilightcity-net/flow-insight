@@ -16,11 +16,13 @@
     "url": "https://github.com/dreamscale-io/torchie-desktop-release.git"
   },
   "scripts": {
+    "postinstall": "yarn dev",
     "prestage": "gulp prettier lint",
     "stage": "git add .",
+    "stage:push": "git push",
     "start": "react-scripts start",
-    "dev": "concurrently \"yarn server\" \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:5000\"",
-    "dev:remote": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=https://torchie.dreamscale.io\"",
+    "dev:local": "concurrently \"yarn server\" \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:5000\"",
+    "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=https://torchie.dreamscale.io\"",
     "dev:sb": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:8080\"",
     "server": "node server/Server.js",
     "test": "cross-env ENV=test mocha test/SetupApi.js test/**/*Test.js --exit",
@@ -33,7 +35,7 @@
     "prerelease:publish": "yarn bundle",
     "release": "build --em.main=build/io.dreamscale.torchie.dat --publish=never",
     "release:publish": "build --em.main=build/io.dreamscale.torchie.dat --publish=always",
-    "prerelease:update:build:win": "yarn prerelease",
+    "prerelease:build:update": "yarn prerelease",
     "release:build:update": "gulp releaseBuildUpdate",
     "release:build:update:run": "gulp releaseBuildUpdate && npm run dev"
   },

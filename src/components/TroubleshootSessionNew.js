@@ -14,15 +14,10 @@ import { RendererEventFactory } from "../RendererEventFactory";
 const electron = window.require("electron");
 const desktopCapturer = electron.desktopCapturer;
 const electronScreen = electron.screen;
-const shell = electron.shell;
-
 const { remote } = window.require("electron");
-
 const electronLog = remote.require("electron-log");
-
 const fs = window.require("fs");
-const os = window.require("os");
-const path = window.require("path");
+
 //
 // this component is the tab panel wrapper for the console content
 //
@@ -113,12 +108,12 @@ export default class TroubleshootSessionNew extends Component {
 
         console.log("Saved! : " + source.name);
         if (source.name === "Entire screen" || source.name === "Screen 1") {
-          //const screenPath = path.join(os.tmpdir(), 'screenshot.png');
+          //const screenPath = window.require("path").join(window.require("os").tmpdir(), 'screenshot.png');
 
           fs.writeFile(screenPath, source.thumbnail.toPNG(), err => {
             if (err) return console.log(err.message);
 
-            //shell.openExternal('file://' + screenPath);
+            //electron.shell.openExternal('file://' + screenPath);
 
             electronLog.info("saved");
             this.events.screenShotComplete.dispatch(screenPath, true);
