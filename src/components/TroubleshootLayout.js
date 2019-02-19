@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TimeScrubber from "./TimeScrubber";
 import TroubleshootSessionNew from "./TroubleshootSessionNew";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
 
@@ -31,7 +30,6 @@ export default class TroubleshootLayout extends Component {
       consoleMenu: 28,
       contentMargin: 8,
       contentPadding: 8,
-      timeScrubber: 52,
       journalEntry: 50
     };
 
@@ -43,7 +41,6 @@ export default class TroubleshootLayout extends Component {
       heights.consoleMenu -
       heights.contentMargin -
       heights.contentPadding -
-      heights.timeScrubber -
       heights.journalEntry
     );
   }

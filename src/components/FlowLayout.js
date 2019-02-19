@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TimeScrubber from "./TimeScrubber";
 import FlowChunkChart from "./FlowChunkChart";
 import FlowChunkInfo from "./FlowChunkInfo";
 
@@ -19,7 +18,6 @@ export default class FlowLayout extends Component {
       consoleMenu: 28,
       contentMargin: 8,
       contentPadding: 8,
-      timeScrubber: 52,
       journalEntry: 50
     };
 
@@ -31,7 +29,6 @@ export default class FlowLayout extends Component {
       heights.consoleMenu -
       heights.contentMargin -
       heights.contentPadding -
-      heights.timeScrubber -
       heights.journalEntry
     );
   }

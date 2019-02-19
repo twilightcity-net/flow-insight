@@ -1,13 +1,20 @@
 import React, { Component } from "react";
-import { Image, Menu, Progress, Segment, Transition } from "semantic-ui-react";
-
+import {
+  Button,
+  Form,
+  Header,
+  Image,
+  Input,
+  Menu,
+  Progress,
+  Segment,
+  Transition
+} from "semantic-ui-react";
+import * as THREE from "three";
 const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
 
-//
-// this component is the tab panel wrapper for the console content
-//
 export default class SpiritPanel extends Component {
   constructor(props) {
     super(props);
@@ -17,25 +24,6 @@ export default class SpiritPanel extends Component {
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
-
-  /// laods the stored state from parent or use default values
-  loadState() {
-    let state = this.props.loadStateCb();
-    if (!state) {
-      return {
-        activeItem: "spirit",
-        spiritVisible: true,
-        badgesVisible: false,
-        animationType: "fly down",
-        animationDelay: 350,
-        level: 0,
-        percentXP: 99,
-        totalXP: 99999,
-        title: ""
-      };
-    }
-    return state;
-  }
 
   componentWillReceiveProps = nextProps => {
     let xpSummaryDto = nextProps.xpSummary;
@@ -64,14 +52,9 @@ export default class SpiritPanel extends Component {
     }
   };
 
-  /// stores this components state in the parents state
-  saveState(state) {
-    this.props.saveStateCb(state);
-  }
-
   /// performs a simple calculation for dynamic height of panel
   calculateSpiritHeight() {
-    let spiritHeight = this.calculateMenuHeight() - 150;
+    let spiritHeight = this.calculatePanelHeight() - 150;
 
     if (spiritHeight > 200) {
       spiritHeight = 200;
@@ -80,23 +63,6 @@ export default class SpiritPanel extends Component {
     this.log("Spirit height = " + spiritHeight);
 
     return spiritHeight;
-  }
-
-  /// performs a simple calculation for dynamic height of panel
-  calculateMenuHeight() {
-    let heights = {
-      rootBorder: 4,
-      contentMargin: 8,
-      contentHeader: 34,
-      bottomMenuHeight: 28
-    };
-    return (
-      window.innerHeight -
-      heights.rootBorder -
-      heights.contentMargin -
-      heights.contentHeader -
-      heights.bottomMenuHeight
-    );
   }
 
   /// updates display to show spirit content
@@ -127,10 +93,36 @@ export default class SpiritPanel extends Component {
     }, this.state.animationDelay);
   };
 
-  /// make sure we are saving the state when hiding component
-  componentWillUnmount() {
-    this.saveState(this.state);
-  }
+  componentDidMount = () => {
+    this.log("componentDidMount");
+
+    if (this.mount) {
+      this.initScene();
+    }
+  };
+
+  initScene = () => {
+    const width = this.mount.clientWidth;
+    const height = this.mount.clientHeight;
+    //ADD SCENE
+    this.scene = new THREE.Scene();
+    //ADD CAMERA
+    this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    this.camera.position.z = 4;
+    //ADD RENDERER
+    this.renderer = new THREE.WebGLRenderer({ antialias: true });
+    this.renderer.setClearColor("#130A00");
+    this.renderer.setSize(width, height);
+    this.mount.appendChild(this.renderer.domElement);
+    //ADD CUBE
+    var geometry = new THREE.BoxGeometry(1, 1, 1);
+    var material = new THREE.MeshBasicMaterial({ color: "#433F81" });
+    this.cube = new THREE.Mesh(geometry, material);
+    this.scene.add(this.cube);
+
+    this.log("start");
+    this.start();
+  };
 
   handleClickForRage = () => {
     this.log("Rage!");
@@ -141,6 +133,78 @@ export default class SpiritPanel extends Component {
     this.log("Yay!");
     this.props.adjustFlameCb(+1);
   };
+
+  componentWillUnmount() {
+    this.log("componentWillUnmount");
+    if (this.mount) {
+      this.cleanupScene();
+    }
+  }
+
+  cleanupScene = () => {
+    this.stop();
+    if (this.mount.contains(this.renderer.domElement)) {
+      this.mount.removeChild(this.renderer.domElement);
+    }
+  };
+
+  start = () => {
+    if (!this.frameId) {
+      this.log("starting");
+      this.frameId = requestAnimationFrame(this.animate);
+    }
+  };
+
+  stop = () => {
+    cancelAnimationFrame(this.frameId);
+  };
+
+  animate = () => {
+    this.cube.rotation.x += 0.01;
+    this.cube.rotation.y += 0.01;
+    this.renderScene();
+    this.frameId = window.requestAnimationFrame(this.animate);
+  };
+
+  renderScene = () => {
+    this.renderer.render(this.scene, this.camera);
+  };
+
+  /// performs a simple calculation for dynamic height of panel
+  calculatePanelHeight() {
+    let heights = {
+      rootBorder: 4,
+      contentMargin: 8,
+      contentHeader: 34,
+      bottomMenuHeight: 28
+    };
+    return (
+      window.innerHeight -
+      heights.rootBorder -
+      heights.contentMargin -
+      heights.contentHeader -
+      heights.bottomMenuHeight
+    );
+  }
+
+  /// laods the stored state from parent or use default values
+  loadState() {
+    let state = this.props.loadStateCb();
+    if (!state) {
+      return {
+        activeItem: "spirit",
+        spiritVisible: true,
+        badgesVisible: false,
+        animationType: "fly down",
+        animationDelay: 350,
+        level: 0,
+        percentXP: 99,
+        totalXP: 99999,
+        title: ""
+      };
+    }
+    return state;
+  }
 
   /// renders the console sidebar panel of the console view
   render() {
@@ -165,6 +229,10 @@ export default class SpiritPanel extends Component {
         />
       );
     }
+
+    // spiritImage = <div style={{ width: this.props.width -40, height: this.calculateSpiritHeight() }}
+    //                    ref={(mount) => { this.mount = mount }}
+    //               />;
 
     const spiritContent = (
       <div className="spiritContent">
@@ -237,7 +305,7 @@ export default class SpiritPanel extends Component {
               onClick={this.handleBadgesClick}
             />
           </Menu>
-          <Segment inverted style={{ height: this.calculateMenuHeight() }}>
+          <Segment inverted style={{ height: this.calculatePanelHeight() }}>
             <Transition
               visible={this.state.spiritVisible}
               animation={this.state.animationType}

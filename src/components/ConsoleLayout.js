@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import { RendererEventFactory } from "../RendererEventFactory";
 import ConsoleSidebar from "./ConsoleSidebar";
-import SpiritPanel from "./SpiritPanel";
 import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";
 import { DataStoreFactory } from "../DataStoreFactory";
 import TeamPanel from "./TeamPanel";
-import TimeScrubber from "./TimeScrubber";
-import Animated3DPanel from "./Animated3DPanel";
+import SpiritPanel from "./SpiritPanel";
 
 const { remote } = window.require("electron");
 
@@ -272,34 +270,9 @@ export default class ConsoleLayout extends Component {
     });
   };
 
-  onChangeScrubPosition = (selectedIndex, selectedDate) => {
-    this.log("onChangeScrubPosition:" + selectedIndex);
-    this.setState({
-      scrubToDate: selectedDate
-    });
-  };
-
-  onChangeActiveDate = activeDateObj => {
-    this.setState({
-      updatedDate: activeDateObj
-    });
-  };
-
   /// renders the root console layout of the console view
   render() {
     const animatedPanelContent = (
-      <Animated3DPanel
-        xpSummary={this.state.xpSummary}
-        flameRating={this.state.flameRating}
-        adjustFlameCb={this.adjustFlameCb}
-        loadStateCb={this.loadStateSidebarPanelCb}
-        saveStateCb={this.saveStateSidebarPanelCb}
-        width={this.state.sidebarPanelWidth}
-        opacity={this.state.sidebarPanelOpacity}
-      />
-    );
-
-    const spiritPanelContent = (
       <SpiritPanel
         xpSummary={this.state.xpSummary}
         flameRating={this.state.flameRating}
@@ -350,12 +323,6 @@ export default class ConsoleLayout extends Component {
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
-          <div id="wrapper" className="timeScrubber">
-            <TimeScrubber
-              onChangeScrubPosition={this.onChangeScrubPosition}
-              updatedDate={this.state.updatedDate}
-            />
-          </div>
           <ConsoleContent
             isWTFOpen={this.state.isWTFOpen}
             onStartTroubleshooting={this.onStartTroubleshooting}

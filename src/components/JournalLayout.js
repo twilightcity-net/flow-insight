@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TimeScrubber from "./TimeScrubber";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
 import { DataStoreFactory } from "../DataStoreFactory";
@@ -104,7 +103,6 @@ export default class JournalLayout extends Component {
       consoleMenu: 28,
       contentMargin: 8,
       contentPadding: 8,
-      timeScrubber: 52,
       journalEntry: 50
     };
 
@@ -116,7 +114,6 @@ export default class JournalLayout extends Component {
       heights.consoleMenu -
       heights.contentMargin -
       heights.contentPadding -
-      heights.timeScrubber -
       heights.journalEntry
     );
   }
@@ -438,15 +435,6 @@ export default class JournalLayout extends Component {
     this.props.onFlameChange(journalItem.flameRating);
     this.props.onChangeActiveDate(journalItem.rawDate);
   };
-
-  // onChangeScrubPosition = (selectedIndex) => {
-  //   this.log("onChangeScrubPosition:" + selectedIndex);
-  //   this.setState({
-  //     activeIndex: selectedIndex,
-  //     activeJournalItem: this.state.allJournalItems[selectedIndex]
-  //   });
-  //   this.props.onFlameChange(this.state.allJournalItems[selectedIndex].flameRating);
-  // };
 
   /// renders the journal layout of the console view
   render() {
