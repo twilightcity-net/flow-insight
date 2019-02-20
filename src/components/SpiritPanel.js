@@ -1,15 +1,5 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Form,
-  Header,
-  Image,
-  Input,
-  Menu,
-  Progress,
-  Segment,
-  Transition
-} from "semantic-ui-react";
+import { Image, Menu, Progress, Segment, Transition } from "semantic-ui-react";
 import * as THREE from "three";
 const { remote } = window.require("electron");
 

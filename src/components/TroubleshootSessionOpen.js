@@ -1,16 +1,6 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Divider,
-  Header,
-  Image,
-  Input,
-  Grid,
-  Segment
-} from "semantic-ui-react";
+import { Button, Divider, Grid, Segment } from "semantic-ui-react";
 import ChatBox from "./ChatBox";
-
-const electron = window.require("electron");
 
 //
 // this component is the tab panel wrapper for the console content

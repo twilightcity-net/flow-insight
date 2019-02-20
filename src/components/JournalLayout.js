@@ -3,7 +3,6 @@ import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
 import { DataStoreFactory } from "../DataStoreFactory";
 import moment from "moment";
-import { RendererEventFactory } from "../RendererEventFactory";
 
 const { remote } = window.require("electron");
 

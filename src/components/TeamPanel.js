@@ -1,17 +1,6 @@
 import React, { Component } from "react";
-import {
-  Menu,
-  Segment,
-  Transition,
-  Icon,
-  Grid,
-  Popup,
-  Divider
-} from "semantic-ui-react";
-import { DataStoreFactory } from "../DataStoreFactory";
-import { RendererEventFactory } from "../RendererEventFactory";
+import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import moment from "moment";
-import JournalItem from "./JournalItem";
 import TeamMember from "./TeamMember";
 
 const { remote } = window.require("electron");
@@ -133,7 +122,7 @@ export default class TeamPanel extends Component {
     if (activeStatus === "Online") {
       statusColor = "onlineColor";
     }
-    if (spiritStatus == "WTF?!") {
+    if (spiritStatus === "WTF?!") {
       statusColor = "red";
     }
 
@@ -141,9 +130,6 @@ export default class TeamPanel extends Component {
   };
 
   componentWillReceiveProps = nextProps => {
-    let level = 0;
-    let xpRequired = 0;
-
     let newMe = this.state.me;
 
     if (nextProps.xpSummary) {

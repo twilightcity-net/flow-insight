@@ -198,7 +198,7 @@ export default class JournalItems extends Component {
       if (direction === "up") {
         newIndex = newIndex - 1;
       } else if (direction === "down") {
-        newIndex = new Number(newIndex) + 1;
+        newIndex = newIndex + 1;
       }
 
       if (newIndex < 0) {

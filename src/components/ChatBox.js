@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { Button, Form, Header, Input, Segment } from "semantic-ui-react";
 
-const { remote } = window.require("electron");
-
-const electronLog = remote.require("electron-log");
-
 export default class ChatBox extends Component {
   constructor(props) {
     super(props);
@@ -32,11 +28,7 @@ export default class ChatBox extends Component {
     const { chats } = this.state;
     const renderMessages = chats.map(chat => {
       return (
-        <li
-          className={`chat ${
-            chat.username === chat.username ? "right" : "left"
-          }`}
-        >
+        <li className={`chat right`}>
           <p>
             {chat.username} : {chat.content}
           </p>

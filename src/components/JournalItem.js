@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import { Button, Divider, Grid, Image, Popup, Icon } from "semantic-ui-react";
+import { Divider, Grid, Image, Popup, Icon } from "semantic-ui-react";
 
 const { remote } = window.require("electron");
-
 const electronLog = remote.require("electron-log");
 
 //
@@ -45,7 +44,7 @@ export default class JournalItem extends Component {
   /// renders the component of the console view
   render() {
     let finishIcon = "";
-    if (this.props.finishStatus == "done") {
+    if (this.props.finishStatus === "done") {
       finishIcon = <Icon name="check" className="doneGreenDark" />;
     } else if (this.props.finishStatus === "aborted") {
       finishIcon = <Icon name="close" className="doneRed" />;

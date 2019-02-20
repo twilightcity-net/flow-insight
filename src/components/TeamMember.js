@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Divider, Grid, Icon, Image, Popup } from "semantic-ui-react";
+import { Divider, Grid, Icon, Popup } from "semantic-ui-react";
 
 const { remote } = window.require("electron");
 
