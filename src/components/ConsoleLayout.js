@@ -51,13 +51,13 @@ export default class ConsoleLayout extends Component {
       this
     );
 
-    this.pushWtfStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.PUSH_WTF,
+    this.newCircleStore = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.NEW_CIRCLE,
       this
     );
 
-    this.resolveWithYayStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.RESOLVE_YAY,
+    this.closeCircleStore = DataStoreFactory.createStore(
+      DataStoreFactory.Stores.CLOSE_CIRCLE,
       this
     );
   }
@@ -190,8 +190,8 @@ export default class ConsoleLayout extends Component {
   onStartTroubleshooting = problemStatement => {
     this.log("start WTF");
 
-    let wtfStatusInput = { problemStatement: problemStatement };
-    this.pushWtfStore.load(wtfStatusInput, err => {
+    let wtfStatusInput = { problemDescription: problemStatement };
+    this.newCircleStore.load(wtfStatusInput, err => {
       setTimeout(() => {
         this.onPushWTFStatusCb(err);
       }, this.activateWaitDelay);
@@ -205,7 +205,7 @@ export default class ConsoleLayout extends Component {
   onStopTroubleshooting = () => {
     this.log("stop WTF");
 
-    this.resolveWithYayStore.load(null, err => {
+    this.closeCircleStore.load(null, err => {
       setTimeout(() => {
         this.onResolveWTFStatusCb(err);
       }, this.activateWaitDelay);
@@ -219,16 +219,23 @@ export default class ConsoleLayout extends Component {
   onPushWTFStatusCb = err => {
     this.log("ConsoleLayout : onPushWTFStatusCb");
     if (err) {
-      this.pushWtfStore.dto = new this.pushWtfStore.dtoClass({
+      this.newCircleStore.dto = new this.newCircleStore.dtoClass({
         message: err,
         status: "FAILED"
       });
       this.log("error:" + err);
     } else {
-      let teamMemberWorkStatusDto = this.pushWtfStore.dto;
+
+      let circleDto = this.newCircleStore.dto;
+
+      let myWorkStatus = {
+        alarmDurationInSeconds : circleDto.durationInSeconds,
+        workingOn : circleDto.problemDescription,
+        alarmStatus : "WTF?!"
+      };
 
       this.setState({
-        workStatus: teamMemberWorkStatusDto
+        workStatus: myWorkStatus
       });
 
       this.log("Success!");
@@ -238,16 +245,23 @@ export default class ConsoleLayout extends Component {
   onResolveWTFStatusCb = err => {
     this.log("ConsoleLayout : onResolveWTFStatusCb");
     if (err) {
-      this.resolveWithYayStore.dto = new this.resolveWithYayStore.dtoClass({
+      this.closeCircleStore.dto = new this.closeCircleStore.dtoClass({
         message: err,
         status: "FAILED"
       });
       this.log("error:" + err);
     } else {
-      let teamMemberWorkStatusDto = this.resolveWithYayStore.dto;
+
+      let circleDto = this.closeCircleStore.dto;
+
+      let myWorkStatus = {
+        alarmDurationInSeconds : circleDto.durationInSeconds,
+        workingOn : circleDto.problemDescription,
+        alarmStatus : ""
+      };
 
       this.setState({
-        workStatus: teamMemberWorkStatusDto
+        workStatus: myWorkStatus
       });
 
       this.log("Success!");

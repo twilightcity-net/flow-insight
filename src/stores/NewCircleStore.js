@@ -1,16 +1,16 @@
 import { DataStore } from "./DataStore";
 
 const { remote } = window.require("electron"),
-  TeamMemberWorkStatusDto = remote.require("./dto/TeamMemberWorkStatusDto");
+  CircleDto = remote.require("./dto/CircleDto");
 
 //
 // this class is used to manage DataClient requests for Stores
 //
-export class ResolveWithYayStore extends DataStore {
+export class NewCircleStore extends DataStore {
   constructor(scope) {
     super(scope);
-    this.dtoClass = TeamMemberWorkStatusDto;
-    this.urn = "/spirit/status/yay";
+    this.dtoClass = CircleDto;
+    this.urn = "/circle";
     this.loadRequestType = DataStore.RequestTypes.POST;
   }
 }

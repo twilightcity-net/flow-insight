@@ -139,22 +139,13 @@ export default class TeamPanel extends Component {
     }
 
     if (nextProps.workStatus) {
-      newMe.activeStatus = nextProps.workStatus.activeStatus;
+      console.log("updated work status!" + nextProps.workStatus.alarmStatus);
       newMe.statusColor = this.toStatusColor(
-        nextProps.workStatus.activeStatus,
+        newMe.activeStatus,
         nextProps.workStatus.alarmStatus
       );
-      newMe.activeTaskName = nextProps.workStatus.activeTaskName;
-      newMe.activeTaskSummary = nextProps.workStatus.activeTaskSummary;
       newMe.workingOn = nextProps.workStatus.workingOn;
-      newMe.spiritStatus = nextProps.workStatus.spiritStatus;
-      newMe.spiritMessage = nextProps.workStatus.spiritMessage;
-      newMe.alarmDurationInSeconds =
-        nextProps.workStatus.alarmDurationInSeconds;
-      newMe.statusColor = this.toStatusColor(
-        nextProps.workStatus.activeStatus,
-        nextProps.workStatus.spiritStatus
-      );
+      newMe.alarmDurationInSeconds = nextProps.workStatus.alarmDurationInSeconds;
     }
 
     this.setState({

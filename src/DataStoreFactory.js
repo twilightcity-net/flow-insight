@@ -6,8 +6,8 @@ import { NewTaskStore } from "./stores/NewTaskStore";
 import { XPSummaryStore } from "./stores/XPSummaryStore";
 import { UpdatedFlameStore } from "./stores/UpdatedFlameStore";
 import { TeamWithMembersStore } from "./stores/TeamWithMembersStore";
-import { WTFStatusStore } from "./stores/WTFStatusStore";
-import { ResolveWithYayStore } from "./stores/ResolveWithYayStore";
+import { NewCircleStore } from "./stores/NewCircleStore";
+import { CloseCircleStore } from "./stores/CloseCircleStore";
 import { ResolveWithAbortStore } from "./stores/ResolveWithAbortStore";
 import { UpdatedFinishStore } from "./stores/UpdatedFinishStore";
 
@@ -54,10 +54,10 @@ export class DataStoreFactory {
         return new UpdatedFinishStore(scope);
       case DataStoreFactory.Stores.TEAM_WITH_MEMBERS:
         return new TeamWithMembersStore(scope);
-      case DataStoreFactory.Stores.PUSH_WTF:
-        return new WTFStatusStore(scope);
-      case DataStoreFactory.Stores.RESOLVE_YAY:
-        return new ResolveWithYayStore(scope);
+      case DataStoreFactory.Stores.NEW_CIRCLE:
+        return new NewCircleStore(scope);
+      case DataStoreFactory.Stores.CLOSE_CIRCLE:
+        return new CloseCircleStore(scope);
       case DataStoreFactory.Stores.RESOLVE_ABORT:
         return new ResolveWithAbortStore(scope);
       default:
@@ -75,8 +75,8 @@ export class DataStoreFactory {
       XP_SUMMARY: "xp-summary",
       UPDATED_FLAME: "updated-flame",
       TEAM_WITH_MEMBERS: "team-with-members",
-      PUSH_WTF: "push-wtf",
-      RESOLVE_YAY: "resolve-yay",
+      NEW_CIRCLE: "new-circle",
+      CLOSE_CIRCLE: "close-circle",
       RESOLVE_ABORT: "resolve-abort",
       UPDATED_FINISH: "updated-finish"
     };
