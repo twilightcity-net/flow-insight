@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button, Divider, Grid, Segment } from "semantic-ui-react";
-import ChatBox from "./ChatBox";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -28,10 +27,6 @@ export default class TroubleshootSessionOpen extends Component {
         <Grid textAlign="center" verticalAlign="middle" inverted>
           <Grid.Column width={6} className="rootLayout">
             <Segment className="wtf" inverted>
-              <div>
-                <ChatBox />
-              </div>
-
               <Button
                 onClick={this.onClickStopTroubleshooting}
                 size="big"

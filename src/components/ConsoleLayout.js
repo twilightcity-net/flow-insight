@@ -24,11 +24,7 @@ export default class ConsoleLayout extends Component {
       xpSummary: null,
       flameRating: 0,
       activePanel: "profile",
-      consoleIsCollapsed: 0,
-      updatedDate: null,
-      scrubToDate: null,
-      workStatus: null,
-      isWTFOpen: false
+      consoleIsCollapsed: 0
     };
     this.animationTime = 700;
     this.events = {
@@ -51,15 +47,6 @@ export default class ConsoleLayout extends Component {
       this
     );
 
-    this.newCircleStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.NEW_CIRCLE,
-      this
-    );
-
-    this.closeCircleStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.CLOSE_CIRCLE,
-      this
-    );
   }
 
   resetCb = (event, showHideFlag) => {
@@ -187,86 +174,6 @@ export default class ConsoleLayout extends Component {
     });
   };
 
-  onStartTroubleshooting = problemStatement => {
-    this.log("start WTF");
-
-    let wtfStatusInput = { problemDescription: problemStatement };
-    this.newCircleStore.load(wtfStatusInput, err => {
-      setTimeout(() => {
-        this.onPushWTFStatusCb(err);
-      }, this.activateWaitDelay);
-    });
-
-    this.setState({
-      isWTFOpen: true
-    });
-  };
-
-  onStopTroubleshooting = () => {
-    this.log("stop WTF");
-
-    this.closeCircleStore.load(null, err => {
-      setTimeout(() => {
-        this.onResolveWTFStatusCb(err);
-      }, this.activateWaitDelay);
-    });
-
-    this.setState({
-      isWTFOpen: false
-    });
-  };
-
-  onPushWTFStatusCb = err => {
-    this.log("ConsoleLayout : onPushWTFStatusCb");
-    if (err) {
-      this.newCircleStore.dto = new this.newCircleStore.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
-
-      let circleDto = this.newCircleStore.dto;
-
-      let myWorkStatus = {
-        alarmDurationInSeconds : circleDto.durationInSeconds,
-        workingOn : circleDto.problemDescription,
-        alarmStatus : "WTF?!"
-      };
-
-      this.setState({
-        workStatus: myWorkStatus
-      });
-
-      this.log("Success!");
-    }
-  };
-
-  onResolveWTFStatusCb = err => {
-    this.log("ConsoleLayout : onResolveWTFStatusCb");
-    if (err) {
-      this.closeCircleStore.dto = new this.closeCircleStore.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
-
-      let circleDto = this.closeCircleStore.dto;
-
-      let myWorkStatus = {
-        alarmDurationInSeconds : circleDto.durationInSeconds,
-        workingOn : circleDto.problemDescription,
-        alarmStatus : ""
-      };
-
-      this.setState({
-        workStatus: myWorkStatus
-      });
-
-      this.log("Success!");
-    }
-  };
 
   refreshXP = () => {
     this.log("ConsoleSidebarPanel : refreshXP");
@@ -307,7 +214,6 @@ export default class ConsoleLayout extends Component {
         saveStateCb={this.saveStateSidebarPanelCb}
         teamStore={this.teamStore}
         consoleIsCollapsed={this.state.consoleIsCollapsed}
-        workStatus={this.state.workStatus}
       />
     );
 
@@ -338,13 +244,8 @@ export default class ConsoleLayout extends Component {
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
           <ConsoleContent
-            isWTFOpen={this.state.isWTFOpen}
-            onStartTroubleshooting={this.onStartTroubleshooting}
-            onStopTroubleshooting={this.onStopTroubleshooting}
             consoleIsCollapsed={this.state.consoleIsCollapsed}
             onXP={this.onXPCb}
-            scrubToDate={this.state.scrubToDate}
-            onChangeActiveDate={this.onChangeActiveDate}
             animationTime={this.animationTime}
             onFlameChange={this.onFlameChangeCb}
             updatedFlame={this.state.flameRating}

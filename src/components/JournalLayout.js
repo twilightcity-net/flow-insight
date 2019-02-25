@@ -54,45 +54,8 @@ export default class JournalLayout extends Component {
       updatedFlame: nextProps.updatedFlame
     });
 
-    if (
-      nextProps.scrubToDate != null &&
-      this.lastScrubToDate !== nextProps.scrubToDate
-    ) {
-      this.lastScrubToDate = nextProps.scrubToDate;
-
-      let index = this.findIndexMatchingDate(nextProps.scrubToDate);
-
-      this.setState({
-        activeIndex: index,
-        activeJournalItem: this.state.allJournalItems[index]
-      });
-    }
   };
 
-  findIndexMatchingDate(selectedDateObj) {
-    let foundIndex = 0;
-
-    let selectedDay = moment(selectedDateObj).dayOfYear();
-
-    for (var i in this.state.allJournalItems) {
-      let journalItem = this.state.allJournalItems[i];
-
-      if (moment(journalItem.rawDate).dayOfYear() >= selectedDay) {
-        foundIndex = i;
-
-        break;
-      }
-    }
-
-    let lastIndex = this.state.allJournalItems.length - 1;
-    let lastJournalItem = this.state.allJournalItems[lastIndex];
-
-    if (moment(lastJournalItem.rawDate).dayOfYear() === selectedDay) {
-      foundIndex = lastIndex;
-    }
-
-    return foundIndex;
-  }
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height

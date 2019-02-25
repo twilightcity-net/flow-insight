@@ -19,13 +19,6 @@ export default class TeamPanel extends Component {
     this.state.teamMembers = [];
     this.state.activeTeamMember = null;
 
-    // this.events = {
-    //   consoleOpen: RendererEventFactory.createEvent(
-    //     RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-    //     this,
-    //     (event, arg) => this.resetCb(event, arg)
-    //   )
-    // };
   }
 
   log = msg => {
@@ -137,20 +130,6 @@ export default class TeamPanel extends Component {
       newMe.xpRequired =
         nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
     }
-
-    if (nextProps.workStatus) {
-      console.log("updated work status!" + nextProps.workStatus.alarmStatus);
-      newMe.statusColor = this.toStatusColor(
-        newMe.activeStatus,
-        nextProps.workStatus.alarmStatus
-      );
-      newMe.workingOn = nextProps.workStatus.workingOn;
-      newMe.alarmDurationInSeconds = nextProps.workStatus.alarmDurationInSeconds;
-    }
-
-    this.setState({
-      me: newMe
-    });
 
     if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
       //if it's now open, and used to be closed, need to reset the window

@@ -18,8 +18,7 @@ export default class JournalEntry extends Component {
       tasks: [],
       currentProjectValue: null,
       currentTaskValue: null,
-      currentIntentionValue: "",
-      dreamModeActive: false
+      currentIntentionValue: ""
     };
   }
 
@@ -259,12 +258,6 @@ export default class JournalEntry extends Component {
     document.getElementById("createIntentionInput").classList.remove("focused");
   };
 
-  handleDreamModeClick = () => {
-    this.setState({
-      dreamModeActive: !this.state.dreamModeActive
-    });
-  };
-
   /// renders the journal entry component of the console view
   render() {
     return (
@@ -311,11 +304,6 @@ export default class JournalEntry extends Component {
                 </Grid.Column>
                 <Grid.Column width={11} id="createIntentionInput">
                   <div>
-                    {/*<Button attached='left' inverted basic icon toggle floated='left'*/}
-                    {/*active={this.state.dreamModeActive}*/}
-                    {/*onClick={this.handleDreamModeClick}>*/}
-                    {/*<Icon name='cloud'/>*/}
-                    {/*</Button>*/}
                     <Input
                       id="intentionTextInput"
                       className="intentionText"
