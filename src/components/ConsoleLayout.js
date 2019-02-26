@@ -194,6 +194,10 @@ export default class ConsoleLayout extends Component {
     this.refreshXP();
   };
 
+  onUpdateMeCb = () => {
+    this.teamModel.refreshMe();
+  };
+
   onFlameChangeCb = flameRating => {
     this.log("flame update: " + flameRating);
 
@@ -277,6 +281,7 @@ export default class ConsoleLayout extends Component {
           <ConsoleContent
             consoleIsCollapsed={this.state.consoleIsCollapsed}
             onXP={this.onXPCb}
+            onUpdateMe={this.onUpdateMeCb}
             animationTime={this.animationTime}
             onFlameChange={this.onFlameChangeCb}
             updatedFlame={this.state.flameRating}

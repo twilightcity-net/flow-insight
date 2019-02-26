@@ -302,6 +302,7 @@ export default class JournalLayout extends Component {
       });
 
       this.props.onXP();
+      this.props.onUpdateMe();
 
       this.log("Success!!");
     }

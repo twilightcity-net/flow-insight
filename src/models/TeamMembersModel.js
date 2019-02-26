@@ -71,9 +71,6 @@ export class TeamMembersModel extends DataModel {
 
       this.me = this.createMember(0, statusOfMe);
 
-      if (this.teamMembers.length > 0) {
-        this.teamMembers[0] = this.me;
-      }
     }
     this.callbackOnUpdate.call(this.scope);
   };

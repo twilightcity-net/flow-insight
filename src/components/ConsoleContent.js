@@ -109,6 +109,11 @@ export default class ConsoleContent extends Component {
     this.props.onXP();
   };
 
+  onUpdateMeCB = () => {
+    this.props.onUpdateMe();
+  };
+
+
   onFlameChangeCB = flameRating => {
     if (!flameRating) {
       flameRating = 0;
@@ -125,6 +130,7 @@ export default class ConsoleContent extends Component {
           consoleIsCollapsed={this.props.consoleIsCollapsed}
           scrubToDate={this.props.scrubToDate}
           onXP={this.onXpCB}
+          onUpdateMe={this.onUpdateMeCB}
           onFlameChange={this.onFlameChangeCB}
           onChangeActiveDate={this.props.onChangeActiveDate}
           onAdjustFlame={this.props.onAdjustFlame}
