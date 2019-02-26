@@ -136,7 +136,6 @@ export class TeamMembersModel extends DataModel {
       activeCircleId = teamMember.activeCircle.id;
     }
 
-    console.log("short = "+teamMember.shortName);
 
     return {
       id: teamMember.id,
@@ -144,7 +143,7 @@ export class TeamMembersModel extends DataModel {
       name: teamMember.fullName,
       shortName: teamMember.shortName,
 
-      onlineStatus: teamMember.onlineStatus,
+      activeStatus: this.toActiveStatus(teamMember.onlineStatus, isAlarmTriggered),
       activeTaskName: teamMember.activeTaskName,
       activeTaskSummary: teamMember.activeTaskSummary,
       level: level,
@@ -162,6 +161,15 @@ export class TeamMembersModel extends DataModel {
         isAlarmTriggered
       )
     };
+  };
+
+  toActiveStatus = (onlineStatus, isAlarmTriggered) => {
+
+    let activeStatus = onlineStatus;
+    if (isAlarmTriggered === true) {
+      activeStatus = "Troubleshooting";
+    }
+    return activeStatus;
   };
 
   toStatusColor = (onlineStatus, isAlarmTriggered) => {

@@ -44,6 +44,11 @@ export default class TeamMember extends Component {
       );
     }
 
+    let intentionPrefix = "";
+    if (this.props.workingOn != null && !this.props.isAlarmTriggered) {
+      intentionPrefix = "Latest Intention:";
+    }
+
     let activeStatus = this.props.activeStatus;
     let alarmDetails = "";
 
@@ -83,19 +88,14 @@ export default class TeamMember extends Component {
                   </i>
                 </div>
                 <div>
-                  <b>{this.props.activeTaskName} </b>
+                  <b><span className="taskhighlight"> {this.props.activeTaskName} </span></b>
                 </div>
-                <div>{this.props.activeTaskSummary}</div>
-                <div>{this.props.workingOn}</div>
-                <div>
-                  <span className="alarm">{alarmDetails}</span>
-                </div>
+                <div> {this.props.activeTaskSummary}</div>
 
                 <Divider />
                 <div>
                   <span className="date">
-                    Torchie Level {this.props.level}&nbsp;&nbsp; (+
-                    {this.props.xpRequired} to go)
+                    <span className="highlight"><b>{intentionPrefix}</b></span> &nbsp;&nbsp; {this.props.workingOn}
                   </span>
                 </div>
               </div>

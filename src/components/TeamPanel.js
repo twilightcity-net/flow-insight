@@ -121,13 +121,14 @@ export default class TeamPanel extends Component {
           <TeamMember
             key={this.props.me.id}
             id={this.props.me.id}
-            shortName={"Me (" + this.props.me.shortName + ")"}
+            shortName={ this.props.me.shortName + " (you)"}
             name={this.props.me.name}
-            activeStatus={this.props.me.onlineStatus}
+            activeStatus={this.props.me.activeStatus}
             statusColor={this.props.me.statusColor}
-            activeTaskName={this.props.me.description}
+            activeTaskName={this.props.me.activeTaskName}
             activeTaskSummary={this.props.me.activeTaskSummary}
             workingOn={this.props.me.workingOn}
+            isAlarmTriggered={this.props.me.isAlarmTriggered}
             alarmDurationInSeconds={this.props.me.alarmDurationInSeconds}
             level={this.props.me.level}
             xpRequired={this.props.me.xpRequired}
@@ -142,11 +143,12 @@ export default class TeamPanel extends Component {
               id={d.id}
               shortName={d.shortName}
               name={d.name}
-              activeStatus={d.onlineStatus}
+              activeStatus={d.activeStatus}
               statusColor={d.statusColor}
-              activeTaskName={d.description}
+              activeTaskName={d.activeTaskName}
               activeTaskSummary={d.activeTaskSummary}
               workingOn={d.workingOn}
+              isAlarmTriggered={d.isAlarmTriggered}
               alarmDurationInSeconds={d.alarmDurationInSeconds}
               level={d.level}
               xpRequired={d.xpRequired}

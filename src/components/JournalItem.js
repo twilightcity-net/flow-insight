@@ -98,7 +98,7 @@ export default class JournalItem extends Component {
           <i>{this.props.projectName}</i>
         </div>
         <div>
-          <b>{this.props.taskName} </b>
+          <b><span className="taskhighlight"> {this.props.taskName} </span></b>
         </div>
         <div>{this.props.taskSummary}</div>
 
