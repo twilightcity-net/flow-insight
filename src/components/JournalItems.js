@@ -195,17 +195,17 @@ export default class JournalItems extends Component {
   changeRowIndex = direction => {
     if (this.state.activeJournalItem) {
       let newIndex = this.state.activeJournalItem.index;
+      this.log("old index =" + newIndex);
+
       if (direction === "up") {
         newIndex = newIndex - 1;
       } else if (direction === "down") {
-        newIndex = newIndex + 1;
+        newIndex = new Number(newIndex) + 1;
       }
 
       if (newIndex < 0) {
         newIndex = 0;
       }
-
-      this.log("old index =" + newIndex);
 
       if (newIndex > this.state.journalItems.length - 1) {
         newIndex = this.state.journalItems.length - 1;

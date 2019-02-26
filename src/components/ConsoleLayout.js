@@ -6,6 +6,7 @@ import ConsoleMenu from "./ConsoleMenu";
 import { DataStoreFactory } from "../DataStoreFactory";
 import TeamPanel from "./TeamPanel";
 import SpiritPanel from "./SpiritPanel";
+import {DataModelFactory} from "../models/DataModelFactory";
 
 const { remote } = window.require("electron");
 
@@ -24,7 +25,10 @@ export default class ConsoleLayout extends Component {
       xpSummary: null,
       flameRating: 0,
       activePanel: "profile",
-      consoleIsCollapsed: 0
+      consoleIsCollapsed: 0,
+      me: {},
+      teamMembers: [],
+      activeTeamMember: null
     };
     this.animationTime = 700;
     this.events = {
@@ -42,10 +46,11 @@ export default class ConsoleLayout extends Component {
       )
     };
 
-    this.teamStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.TEAM_WITH_MEMBERS,
-      this
-    );
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS,
+      this);
+
+    this.teamModel.registerCallbackOnUpdate(this.onTeamModelUpdateCb);
 
   }
 
@@ -54,6 +59,10 @@ export default class ConsoleLayout extends Component {
     this.setState({
       consoleIsCollapsed: showHideFlag
     });
+
+    if (showHideFlag == false) {
+      this.teamModel.refreshAll();
+    }
   };
 
   log = msg => {
@@ -132,9 +141,28 @@ export default class ConsoleLayout extends Component {
       }, this.activateWaitDelay);
     });
 
+    this.teamModel.refreshAll();
+
     setTimeout(() => {
       this.animateSidebarPanel(true);
     }, 500);
+  };
+
+  onTeamModelUpdateCb = () => {
+    this.log("ConsoleLayout : onTeamModelUpdateCb");
+    this.setState({
+      me: this.teamModel.me,
+      teamMembers: this.teamModel.teamMembers,
+      activeTeamMember: this.teamModel.activeTeamMember
+    });
+  };
+
+  onSetActiveMember = (id) => {
+    this.log("ConsoleLayout : onSetActiveMember");
+    this.teamModel.setActiveMember(id);
+    this.setState({
+        activeTeamMember: this.teamModel.activeTeamMember
+    });
   };
 
   onStoreLoadCb = err => {
@@ -212,7 +240,10 @@ export default class ConsoleLayout extends Component {
         opacity={this.state.sidebarPanelOpacity}
         loadStateCb={this.loadStateSidebarPanelCb}
         saveStateCb={this.saveStateSidebarPanelCb}
-        teamStore={this.teamStore}
+        me={this.state.me}
+        teamMembers={this.state.teamMembers}
+        activeTeamMember={this.state.activeTeamMember}
+        setActiveMember={this.onSetActiveMember}
         consoleIsCollapsed={this.state.consoleIsCollapsed}
       />
     );

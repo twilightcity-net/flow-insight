@@ -395,7 +395,6 @@ export default class JournalLayout extends Component {
     });
 
     this.props.onFlameChange(journalItem.flameRating);
-    this.props.onChangeActiveDate(journalItem.rawDate);
   };
 
   /// renders the journal layout of the console view

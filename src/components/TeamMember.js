@@ -28,7 +28,7 @@ export default class TeamMember extends Component {
   /// renders the component of the console view
   render() {
     let activeClass = "";
-    if (this.props.activeTeamMember === this.props.teamMember) {
+    if (this.props.activeTeamMember != null && this.props.activeTeamMember.id == this.props.teamMember.id) {
       activeClass = "active";
     }
 
@@ -47,13 +47,14 @@ export default class TeamMember extends Component {
     let activeStatus = this.props.activeStatus;
     let alarmDetails = "";
 
-    if (this.props.spiritStatus === "WTF?!") {
-      activeStatus =
-        this.props.spiritStatus +
-        " " +
-        this.formatAsDuration(this.props.alarmDurationInSeconds);
-      alarmDetails = this.props.spiritStatus + " " + this.props.spiritMessage;
-    }
+    //TODO alarm status from circle
+    // if (this.props.spiritStatus === "WTF?!") {
+    //   activeStatus =
+    //     this.props.spiritStatus +
+    //     " " +
+    //     this.formatAsDuration(this.props.alarmDurationInSeconds);
+    //   alarmDetails = this.props.spiritStatus + " " + this.props.spiritMessage;
+    // }
 
     return (
       <Grid.Row

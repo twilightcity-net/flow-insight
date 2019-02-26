@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import moment from "moment";
 import TeamMember from "./TeamMember";
+import {DataStoreFactory} from "../DataStoreFactory";
+import { DataModelFactory } from "../models/DataModelFactory";
 
 const { remote } = window.require("electron");
 
@@ -15,9 +17,6 @@ export default class TeamPanel extends Component {
     super(props);
 
     this.state = this.loadState();
-    this.state.me = { id: "", name: "" };
-    this.state.teamMembers = [];
-    this.state.activeTeamMember = null;
 
   }
 
@@ -28,102 +27,12 @@ export default class TeamPanel extends Component {
   componentDidMount = () => {
     this.log("Team Layout : componentDidMount");
 
-    this.props.teamStore.load(null, err => {
-      setTimeout(() => {
-        this.onStoreLoadCb(err);
-      }, this.activateWaitDelay);
-    });
+
   };
 
-  onStoreLoadCb = err => {
-    this.log("Team Layout : onStoreLoadCb");
-    if (err) {
-      this.props.teamStore.dto = new this.props.teamStore.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
-      let teamWithMembersDto = this.props.teamStore.dto;
-
-      var membersList = [];
-      var teamMembers = teamWithMembersDto.teamMembers;
-
-      for (var i in teamMembers) {
-        membersList[i] = this.createMember(i, teamMembers[i]);
-      }
-
-      if (teamWithMembersDto.me) {
-        let me = this.createMember(0, teamWithMembersDto.me);
-
-        this.setState({
-          me: me,
-          teamMembers: membersList,
-          activeTeamMember: me
-        });
-      }
-
-      this.log("Success!");
-    }
-  };
-
-  createMember = (index, teamMember) => {
-    let d = teamMember.lastActivity;
-    let lastActivity = null;
-    if (d != null) {
-      let dateObj = new Date(d[0], d[1], d[2], d[3], d[4], d[5]);
-      lastActivity = moment(dateObj).format("ddd, MMM Do 'YY, h:mm a");
-    }
-
-    let level = 0;
-    let xpRequired = 0;
-    if (teamMember.xpSummary) {
-      level = teamMember.xpSummary.level;
-      xpRequired =
-        teamMember.xpSummary.xpRequiredToLevel -
-        teamMember.xpSummary.xpProgress;
-    }
-
-    return {
-      id: teamMember.id,
-      email: teamMember.email,
-      name: teamMember.fullName,
-      shortName: teamMember.shortName,
-
-      activeStatus: teamMember.activeStatus,
-      activeTaskName: teamMember.activeTaskName,
-      activeTaskSummary: teamMember.activeTaskSummary,
-      level: level,
-      xpRequired: xpRequired,
-      mood: teamMember.moodRating,
-      workingOn: teamMember.workingOn,
-      spiritStatus: teamMember.spiritStatus,
-      spiritMessage: teamMember.spiritMessage,
-      alarmDurationInSeconds: teamMember.alarmDurationInSeconds,
-      lastActivity: lastActivity,
-      statusColor: this.toStatusColor(
-        teamMember.activeStatus,
-        teamMember.spiritStatus
-      )
-    };
-  };
-
-  toStatusColor = (activeStatus, spiritStatus) => {
-    this.log("spirit status =" + spiritStatus);
-
-    let statusColor = "offlineColor";
-    if (activeStatus === "Online") {
-      statusColor = "onlineColor";
-    }
-    if (spiritStatus === "WTF?!") {
-      statusColor = "red";
-    }
-
-    return statusColor;
-  };
 
   componentWillReceiveProps = nextProps => {
-    let newMe = this.state.me;
+    let newMe = nextProps.me;
 
     if (nextProps.xpSummary) {
       newMe.level = nextProps.xpSummary.level;
@@ -146,12 +55,6 @@ export default class TeamPanel extends Component {
         this.selectRow(this.state.me.id, this.state.me);
       }, this.activateWaitDelay);
     }
-
-    this.props.teamStore.load(null, err => {
-      setTimeout(() => {
-        this.onStoreLoadCb(err);
-      }, this.activateWaitDelay);
-    });
   };
 
   /// laods the stored state from parent or use default values
@@ -204,57 +107,52 @@ export default class TeamPanel extends Component {
   };
 
   selectRow = (id, teamMember) => {
-    this.log("Team member clicked!" + teamMember.name);
+    this.log("Team member clicked!" + teamMember.name + "id = "+id);
 
-    this.setState({
-      activeTeamMember: teamMember
-    });
+    this.props.setActiveMember(id);
   };
 
   /// renders the console sidebar panel of the console view
   render() {
+
     const teamMembersContent = (
       <div>
         <Grid inverted>
           <TeamMember
-            key={this.state.me.id}
-            id={this.state.me.id}
-            shortName={"Me (" + this.state.me.shortName + ")"}
-            name={this.state.me.name}
-            activeStatus={this.state.me.activeStatus}
-            statusColor={this.state.me.statusColor}
-            activeTaskName={this.state.me.description}
-            activeTaskSummary={this.state.me.activeTaskSummary}
-            workingOn={this.state.me.workingOn}
-            spiritStatus={this.state.me.spiritStatus}
-            spiritMessage={this.state.me.spiritMessage}
-            alarmDurationInSeconds={this.state.me.alarmDurationInSeconds}
-            level={this.state.me.level}
-            xpRequired={this.state.me.xpRequired}
+            key={this.props.me.id}
+            id={this.props.me.id}
+            shortName={"Me (" + this.props.me.shortName + ")"}
+            name={this.props.me.name}
+            activeStatus={this.props.me.onlineStatus}
+            statusColor={this.props.me.statusColor}
+            activeTaskName={this.props.me.description}
+            activeTaskSummary={this.props.me.activeTaskSummary}
+            workingOn={this.props.me.workingOn}
+            alarmDurationInSeconds={this.props.me.alarmDurationInSeconds}
+            level={this.props.me.level}
+            xpRequired={this.props.me.xpRequired}
             onSetActiveRow={this.selectRow}
-            teamMember={this.state.me}
-            activeTeamMember={this.state.activeTeamMember}
+            teamMember={this.props.me}
+            activeTeamMember={this.props.activeTeamMember}
           />
 
-          {this.state.teamMembers.map(d => (
+          {this.props.teamMembers.map(d => (
             <TeamMember
               key={d.id}
               id={d.id}
               shortName={d.shortName}
               name={d.name}
-              activeStatus={d.activeStatus}
+              activeStatus={d.onlineStatus}
               statusColor={d.statusColor}
               activeTaskName={d.description}
               activeTaskSummary={d.activeTaskSummary}
               workingOn={d.workingOn}
-              spiritStatus={d.spiritStatus}
-              spiritMessage={d.spiritMessage}
               alarmDurationInSeconds={d.alarmDurationInSeconds}
               level={d.level}
               xpRequired={d.xpRequired}
               onSetActiveRow={this.selectRow}
               teamMember={d}
-              activeTeamMember={this.state.activeTeamMember}
+              activeTeamMember={this.props.activeTeamMember}
             />
           ))}
         </Grid>
