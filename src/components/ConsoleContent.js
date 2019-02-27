@@ -140,7 +140,10 @@ export default class ConsoleContent extends Component {
     );
     const troubleshootLayout = (
       <div id="wrapper" className="troubleshootLayout">
-        <TroubleshootLayout />
+        <TroubleshootLayout
+          isAlarmTriggered={this.props.isAlarmTriggered}
+          activeCircle={this.props.activeCircle}
+        />
       </div>
     );
     const flowLayout = (

@@ -7,6 +7,7 @@ import { DataStoreFactory } from "../DataStoreFactory";
 import TeamPanel from "./TeamPanel";
 import SpiritPanel from "./SpiritPanel";
 import {DataModelFactory} from "../models/DataModelFactory";
+import TroubleshootLayout from "./TroubleshootLayout";
 
 const { remote } = window.require("electron");
 
@@ -51,6 +52,12 @@ export default class ConsoleLayout extends Component {
       this);
 
     this.teamModel.registerCallbackOnUpdate(this.onTeamModelUpdateCb);
+
+    this.activeCircleModel = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_CIRCLE,
+      this);
+
+    this.activeCircleModel.registerCallbackOnUpdate(this.onActiveCircleUpdateCb);
 
   }
 
@@ -142,6 +149,7 @@ export default class ConsoleLayout extends Component {
     });
 
     this.teamModel.refreshAll();
+    this.activeCircleModel.loadActiveCircle();
 
     setTimeout(() => {
       this.animateSidebarPanel(true);
@@ -155,6 +163,17 @@ export default class ConsoleLayout extends Component {
       teamMembers: this.teamModel.teamMembers,
       activeTeamMember: this.teamModel.activeTeamMember
     });
+  };
+
+  onActiveCircleUpdateCb = () => {
+    this.log("ConsoleLayout : onActiveCircleUpdateCb");
+    this.setState({
+      activeCircleId: this.activeCircleModel.activeCircleId,
+      activeCircle: this.activeCircleModel.activeCircle,
+      isAlarmTriggered: this.activeCircleModel.isAlarmTriggered
+    });
+
+    this.teamModel.refreshMe();
   };
 
   onSetActiveMember = (id) => {
@@ -286,6 +305,8 @@ export default class ConsoleLayout extends Component {
             onFlameChange={this.onFlameChangeCb}
             updatedFlame={this.state.flameRating}
             onAdjustFlame={this.adjustFlameCb}
+            isAlarmTriggered={this.state.isAlarmTriggered}
+            activeCircle={this.state.activeCircle}
           />
         </div>
 

@@ -131,8 +131,12 @@ export class TeamMembersModel extends DataModel {
       alarmStatusMessage = teamMember.activeCircle.problemDescription;
       alarmCircleName = teamMember.activeCircle.circleName;
       activeCircleId = teamMember.activeCircle.id;
-    }
 
+      for(var propt in teamMember.activeCircle){
+        console.log(propt + ': ' + teamMember.activeCircle[propt]);
+      }
+
+    }
 
     return {
       id: teamMember.id,

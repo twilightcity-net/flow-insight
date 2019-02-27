@@ -40,7 +40,7 @@ export class DataModel {
    */
   remoteFetch(remoteArgs, remoteUrn, loadRequestType, dtoClass, callback ) {
     if (this.callInProgress === true) {
-      callback(null, "Call already in progress");
+      callback(null, "DataModel - remoteFetch - Call already in progress");
     }
 
     this.callInProgress = true;
@@ -79,8 +79,10 @@ export class DataModel {
         for (var i in arg.data) {
           dtoResults[i] = new this.dtoClass(arg.data[i]);
         }
+      } else if (this.isEmpty(arg.data)) {
+          console.log("empty result")
       } else {
-        dtoResults = new this.dtoClass(arg.data);
+          dtoResults = new this.dtoClass(arg.data);
       }
 
       this.callInProgress = false;
@@ -88,6 +90,14 @@ export class DataModel {
     } else {
       this.callInProgress = false;
     }
+  }
+
+  isEmpty(data) {
+    let hasProps = true;
+    for (var prop in data) {
+       hasProps = false;
+     }
+     return hasProps;
   }
 
   /// enum class of all of http requests

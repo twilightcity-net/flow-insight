@@ -44,22 +44,30 @@ export default class TeamMember extends Component {
       );
     }
 
-    let intentionPrefix = "";
-    if (this.props.workingOn != null && !this.props.isAlarmTriggered) {
-      intentionPrefix = "Latest Intention:";
+    let memberNamePanel = "";
+    if (this.props.isAlarmTriggered) {
+       memberNamePanel = <span className={this.props.statusColor + " alarm"} >
+                            {this.props.shortName}
+                         </span>
+    } else {
+       memberNamePanel = <span className={this.props.statusColor}>
+                            {this.props.shortName}
+                          </span>
     }
 
-    let activeStatus = this.props.activeStatus;
-    let alarmDetails = "";
+    let workingDetails = "";
+    if (this.props.workingOn != null && !this.props.isAlarmTriggered) {
+      workingDetails = <span><span className="highlight"><b>Latest Intention:</b></span> &nbsp;&nbsp;{this.props.workingOn}</span>;
+    } else if (this.props.isAlarmTriggered) {
+      workingDetails = <span><span className="alarm"><b>WTF Alarm:</b></span> &nbsp;&nbsp;<span className="alarmDetails">{this.props.alarmStatusMessage}</span></span>;
+    }
 
-    //TODO alarm status from circle
-    // if (this.props.spiritStatus === "WTF?!") {
-    //   activeStatus =
-    //     this.props.spiritStatus +
-    //     " " +
-    //     this.formatAsDuration(this.props.alarmDurationInSeconds);
-    //   alarmDetails = this.props.spiritStatus + " " + this.props.spiritMessage;
-    // }
+    let taskTitle = "";
+    if (this.props.isAlarmTriggered) {
+      taskTitle = <span className="alarm"> {this.props.activeTaskName} </span>
+    } else {
+      taskTitle = <span className="taskhighlight"> {this.props.activeTaskName} </span>
+    }
 
     return (
       <Grid.Row
@@ -74,9 +82,7 @@ export default class TeamMember extends Component {
           <Popup
             trigger={
               <div className="memberText">
-                <span className={this.props.statusColor}>
-                  {this.props.shortName}
-                </span>
+                {memberNamePanel}
               </div>
             }
             className="chunkTitle"
@@ -84,18 +90,18 @@ export default class TeamMember extends Component {
               <div>
                 <div>
                   <i>
-                    {this.props.name} ( {activeStatus} )
+                    {this.props.name} ( {this.props.activeStatus} )
                   </i>
                 </div>
                 <div>
-                  <b><span className="taskhighlight"> {this.props.activeTaskName} </span></b>
+                  <b>{taskTitle}</b>
                 </div>
                 <div> {this.props.activeTaskSummary}</div>
 
                 <Divider />
                 <div>
                   <span className="date">
-                    <span className="highlight"><b>{intentionPrefix}</b></span> &nbsp;&nbsp; {this.props.workingOn}
+                    {workingDetails}
                   </span>
                 </div>
               </div>

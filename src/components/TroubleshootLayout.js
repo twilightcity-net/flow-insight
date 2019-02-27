@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TroubleshootSessionNew from "./TroubleshootSessionNew";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
+import {DataModelFactory} from "../models/DataModelFactory";
 
 const { remote } = window.require("electron");
 
@@ -13,9 +14,9 @@ export default class TroubleshootLayout extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      isWTFOpen: false
-    };
+    this.activeCircleModel = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_CIRCLE,
+      this);
   }
 
   log = msg => {
@@ -47,27 +48,28 @@ export default class TroubleshootLayout extends Component {
 
   onStartTroubleshooting = (problemStatement) => {
     this.log("onStartTroubleshooting");
-    this.setState({
-      isWTFOpen : true,
-    });
+
+    this.activeCircleModel.createCircle(problemStatement);
+
   };
 
   onStopTroubleshooting = () => {
     this.log("onStopTroubleshooting");
-    this.setState({
-      isWTFOpen : false,
-    });
+
+    this.activeCircleModel.closeActiveCircle();
   };
 
   /// renders the journal layout of the console view
   render() {
     let wtfPanel = null;
 
-    if (this.state.isWTFOpen) {
+    if (this.props.isAlarmTriggered) {
       wtfPanel = (
         <TroubleshootSessionOpen
           height={this.calculateTroubleshootItemsHeight()}
           onStopTroubleshooting={this.onStopTroubleshooting}
+          isAlarmTriggered={this.props.isAlarmTriggered}
+          activeCircle={this.props.activeCircle}
         />
       );
     } else {
@@ -75,6 +77,8 @@ export default class TroubleshootLayout extends Component {
         <TroubleshootSessionNew
           height={this.calculateTroubleshootItemsHeight()}
           onStartTroubleshooting={this.onStartTroubleshooting}
+          isAlarmTriggered={this.props.isAlarmTriggered}
+          activeCircle={this.props.activeCircle}
         />
       );
     }

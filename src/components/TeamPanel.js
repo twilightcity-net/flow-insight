@@ -130,6 +130,7 @@ export default class TeamPanel extends Component {
             workingOn={this.props.me.workingOn}
             isAlarmTriggered={this.props.me.isAlarmTriggered}
             alarmDurationInSeconds={this.props.me.alarmDurationInSeconds}
+            alarmStatusMessage={this.props.me.alarmStatusMessage}
             level={this.props.me.level}
             xpRequired={this.props.me.xpRequired}
             onSetActiveRow={this.selectRow}
@@ -150,6 +151,7 @@ export default class TeamPanel extends Component {
               workingOn={d.workingOn}
               isAlarmTriggered={d.isAlarmTriggered}
               alarmDurationInSeconds={d.alarmDurationInSeconds}
+              alarmStatusMessage={this.props.me.alarmStatusMessage}
               level={d.level}
               xpRequired={d.xpRequired}
               onSetActiveRow={this.selectRow}

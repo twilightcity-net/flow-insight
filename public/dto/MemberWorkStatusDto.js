@@ -16,7 +16,6 @@ module.exports = class MemberWorkStatusDto {
       this.activeCircle = json.activeCircle;
 
       this.onlineStatus = json.onlineStatus;
-
       this.activeTaskId = json.activeTaskId;
       this.activeTaskName = json.activeTaskName;
       this.activeTaskSummary = json.activeTaskSummary;

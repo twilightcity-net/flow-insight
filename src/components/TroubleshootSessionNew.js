@@ -26,7 +26,8 @@ export default class TroubleshootSessionNew extends Component {
     super(props);
 
     this.state = {
-      screenPath: "./assets/images/screenshot.png"
+      screenPath: "./assets/images/screenshot.png",
+      currentProblem: ""
     };
 
     this.events = {
@@ -82,12 +83,20 @@ export default class TroubleshootSessionNew extends Component {
     this.takeScreenShot(arg);
   };
 
-  onClickStartTroubleshooting = () => {
-    console.log("on click start troubleshooting");
+  handleChangeForProblem = (e, { name, value }) => {
+    this.setState({ currentProblem: value });
+  };
 
-    this.props.onStartTroubleshooting(
-      "pass in [what's the problem] input contents"
-    );
+  onClickStartTroubleshooting = () => {
+    console.log("start trouble"+this.state.currentProblem);
+
+    if (this.state.currentProblem != null && this.state.currentProblem.length > 0) {
+      console.log("HERE WE GO!");
+      this.props.onStartTroubleshooting(
+        this.state.currentProblem
+      );
+    }
+
   };
 
   onClickScreenshot = () => {
@@ -155,8 +164,10 @@ export default class TroubleshootSessionNew extends Component {
 
               <Segment attached basic inverted>
                 <Input
-                  id="problemStatement"
+                  id="problemDescription"
                   className="intentionText"
+                  value={this.state.currentProblem}
+                  onChange={this.handleChangeForProblem}
                   fluid
                   inverted
                   placeholder="What's the problem?"
