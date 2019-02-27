@@ -135,6 +135,7 @@ export default class ConsoleContent extends Component {
           onChangeActiveDate={this.props.onChangeActiveDate}
           onAdjustFlame={this.props.onAdjustFlame}
           updatedFlame={this.props.updatedFlame}
+          defaultJournal={this.props.defaultJournal}
         />
       </div>
     );

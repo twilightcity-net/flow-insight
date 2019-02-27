@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
-import { DataStoreFactory } from "../DataStoreFactory";
-import moment from "moment";
+import {DataModelFactory} from "../models/DataModelFactory";
+import {JournalModel} from "../models/JournalModel";
 
 const { remote } = window.require("electron");
 
@@ -25,34 +25,20 @@ export default class JournalLayout extends Component {
       allJournalItems: [],
       updatedFlame: null
     };
+
+    this.journalModel = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_JOURNAL,
+      this);
+
   }
-
-  resetCb = () => {
-    this.log("Reset CB!");
-
-    if (this.state.allJournalItems.length > 0) {
-      let lastItem = this.state.allJournalItems[this.state.activeSize - 1];
-
-      this.setState({
-        activeIndex: lastItem.index,
-        activeJournalItem: lastItem
-      });
-
-      this.props.onFlameChange(lastItem.flameRating);
-    }
-  };
 
   componentWillReceiveProps = nextProps => {
     if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
       //if it's now open, and used to be closed, need to reset the window
-      this.resetCb();
+      this.journalModel.resetActiveToLastJournalItem();
     }
 
     this.lastOpenCloseState = nextProps.consoleIsCollapsed;
-
-    this.setState({
-      updatedFlame: nextProps.updatedFlame
-    });
 
   };
 
@@ -87,75 +73,71 @@ export default class JournalLayout extends Component {
   componentDidMount = () => {
     this.log("Journal Layout : componentDidMount");
 
-    this.store = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.RECENT_JOURNAL,
-      this
-    );
+    this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE, this.onJournalHistoryUpdateCb);
+    this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.RECENT_TASKS_UPDATE, this.onJournalRecentTasksUpdateCb);
+    this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE, this.onJournalActiveItemUpdateCb);
 
-    this.newJournalEntryStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.NEW_JOURNAL_ENTRY,
-      this
-    );
 
-    this.recentTasksStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.RECENT_TASKS,
-      this
-    );
+    if (this.journalModel.isNeverLoaded()) {
+       this.journalModel.loadDefaultJournal();
+    } else {
+      this.onJournalRecentTasksUpdateCb();
+      this.onJournalHistoryUpdateCb();
+    }
+  };
 
-    this.newTaskStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.NEW_TASK,
-      this
-    );
+  componentWillUnmount = () => {
+    this.log("Journal Layout : componentWillUnmount");
 
-    this.updatedFlameStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.UPDATED_FLAME,
-      this
-    );
+    this.journalModel.unregisterAllListeners("journalLayout");
+  };
 
-    this.updatedFinishStore = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.UPDATED_FINISH,
-      this
-    );
-
-    this.store.load(null, err => {
-      setTimeout(() => {
-        this.onStoreLoadCb(err);
-      }, this.activateWaitDelay);
+  onJournalRecentTasksUpdateCb = () => {
+    this.setState({
+      recentProjects: this.journalModel.recentProjects,
+      recentTasksByProjectId: this.journalModel.recentTasksByProjectId,
+      recentEntry: this.journalModel.recentEntry
     });
   };
 
-  onFinishEntry = (journalEntry, newStatus) => {
+  onJournalHistoryUpdateCb = () => {
+    this.setState({
+      allJournalItems: this.journalModel.allJournalItems,
+      activeSize: this.journalModel.activeSize,
+      activeJournalItem: this.journalModel.activeJournalItem,
+      activeIndex: this.journalModel.activeIndex,
+      activeFlame: this.journalModel.activeFlame
+    });
+  };
+
+  onJournalActiveItemUpdateCb = () => {
+    this.setState({
+      activeJournalItem: this.journalModel.activeJournalItem,
+      activeIndex: this.journalModel.activeIndex,
+      activeFlame: this.journalModel.activeFlame
+    });
+  };
+
+
+  onFinishEntry = (journalEntry, finishStatus) => {
     this.log("Journal Layout : onFinishEntry");
 
-    let intentionFinishInput = { id: journalEntry.id, finishStatus: newStatus };
-
-    this.updatedFinishStore.load(intentionFinishInput, err => {
-      setTimeout(() => {
-        this.onSaveFinishStatusCb(err);
-      }, this.activateWaitDelay);
-    });
+    this.journalModel.finishIntention(journalEntry.id, finishStatus);
   };
 
   onAddEntry = journalEntry => {
     this.log("Journal Layout : onAddEntry: " + journalEntry.projectId);
 
-    this.newJournalEntryStore.load(journalEntry, err => {
-      setTimeout(() => {
-        this.onSaveEntryCb(err);
-      }, this.activateWaitDelay);
-    });
+    this.journalModel.addJournalEntry(journalEntry.projectId, journalEntry.taskId, journalEntry.description);
+
   };
 
   onAddTask = (projectId, taskName) => {
     this.log("Journal Layout : onAddTask: " + projectId + ", " + taskName);
 
-    let taskReference = { taskName };
-    this.newTaskStore.load(taskReference, err => {
-      setTimeout(() => {
-        this.onSaveTaskReferenceCb(err);
-      }, this.activateWaitDelay);
-    });
+    this.journalModel.addTaskRef(taskName);
   };
+
 
   onSaveFlameUpdates = journalItem => {
     this.log(
@@ -165,237 +147,15 @@ export default class JournalLayout extends Component {
         journalItem.flameRating
     );
 
-    let flameRatingInput = {
-      id: journalItem.id,
-      flameRating: journalItem.flameRating
-    };
-    this.updatedFlameStore.load(flameRatingInput, err => {
-      setTimeout(() => {
-        this.onSaveFlameCb(err);
-      }, this.activateWaitDelay);
-    });
-  };
+    this.journalModel.updateFlameRating(journalItem.id, journalItem.flameRating);
 
-  onSaveFlameCb = err => {
-    this.log("Journal Layout : onSaveFlameCb");
-    if (err) {
-      this.updatedFlameStore.dto = new this.updatedFlameStore.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
-      this.log("Success!!");
-    }
-  };
-
-  onSaveFinishStatusCb = err => {
-    this.log("Journal Layout : onSaveFinishStatusCb");
-    if (err) {
-      this.updatedFinishStore.dto = new this.updatedFinishStore.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
-      this.log("Success!!");
-    }
-  };
-
-  onUpdateRecentTaskCb = err => {
-    this.log("Journal Layout : onUpdateRecentTaskCb");
-    if (err) {
-      this.recentTasksStore.dto = new this.recentTasksStore.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
-      let recentTasksSummary = this.recentTasksStore.dto;
-
-      this.setState({
-        recentTasksByProjectId: recentTasksSummary.recentTasksByProjectId
-      });
-
-      this.log("Success!!");
-    }
-  };
-
-  onSaveTaskReferenceCb = err => {
-    this.log("Journal Layout : onSaveTaskReferenceCb saving!");
-    if (err) {
-      this.newTaskStore.dto = new this.newTaskStore.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
-      let recentTasksSummary = this.newTaskStore.dto;
-
-      let activeTask = recentTasksSummary.activeTask;
-      if (activeTask) {
-        let recentEntry = {
-          projectId: activeTask.projectId,
-          taskId: activeTask.id,
-          description: activeTask.summary
-        };
-
-        this.setState({
-          recentEntry: recentEntry,
-          recentTasksByProjectId: recentTasksSummary.recentTasksByProjectId
-        });
-      }
-
-      this.log("Success!!");
-    }
-  };
-  onSaveEntryCb = err => {
-    this.log("Journal Layout : onSaveEntryCb saving!");
-    if (err) {
-      this.newJournalEntryStore.dto = new this.store.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
-      let savedEntry = this.newJournalEntryStore.dto;
-      this.log(JSON.stringify(savedEntry, null, 2));
-
-      let recentEntry = {
-        projectId: savedEntry.projectId,
-        taskId: savedEntry.taskId,
-        description: savedEntry.description
-      };
-
-      //create journal item from saved entry
-      //set the active journal item and active index
-
-      let journalItem = this.createJournalItem(
-        this.state.allJournalItems.length,
-        savedEntry
-      );
-
-      if (this.state.allJournalItems.length > 0) {
-        let lastItem = this.state.allJournalItems[
-          this.state.allJournalItems.length - 1
-        ];
-        if (!lastItem.finishStatus) {
-          lastItem.finishStatus = "done";
-        }
-      }
-
-      this.setState({
-        allJournalItems: [...this.state.allJournalItems, journalItem],
-        activeJournalItem: journalItem,
-        activeIndex: journalItem.index,
-        recentEntry: recentEntry,
-        activeSize: this.state.allJournalItems.length + 1
-      });
-
-      this.props.onFlameChange(0);
-
-      this.log("Updating recent tasks!!");
-      this.recentTasksStore.load(null, err => {
-        setTimeout(() => {
-          this.onUpdateRecentTaskCb(err);
-        }, this.activateWaitDelay);
-      });
-
-      this.props.onXP();
-      this.props.onUpdateMe();
-
-      this.log("Success!!");
-    }
-  };
-
-  onStoreLoadCb = err => {
-    this.log("Journal Layout : onStoreLoadCb");
-    if (err) {
-      this.store.dto = new this.store.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.log("error:" + err);
-    } else {
-      let recentJournalDto = this.store.dto;
-
-      let recentEntry = {};
-
-      if (recentJournalDto.recentIntentions.length > 0) {
-        let latestIntention =
-          recentJournalDto.recentIntentions[
-            recentJournalDto.recentIntentions.length - 1
-          ];
-
-        recentEntry = {
-          projectId: latestIntention.projectId,
-          taskId: latestIntention.taskId,
-          description: latestIntention.description
-        };
-      }
-
-      var journalItems = [];
-      var intentions = recentJournalDto.recentIntentions;
-
-      for (var i in intentions) {
-        journalItems[i] = this.createJournalItem(i, intentions[i]);
-      }
-
-      let activeJournalItem = null;
-      let activeIndex = 0;
-
-      if (journalItems.length > 0) {
-        activeJournalItem = journalItems[journalItems.length - 1];
-        activeIndex = activeJournalItem.index;
-      }
-
-      this.setState({
-        allJournalItems: journalItems,
-        activeJournalItem: activeJournalItem,
-        activeIndex: activeIndex,
-        recentProjects: recentJournalDto.recentProjects,
-        recentTasksByProjectId: recentJournalDto.recentTasksByProjectId,
-        recentEntry: recentEntry,
-        intentions: recentJournalDto.recentIntentions,
-        activeSize: recentJournalDto.recentIntentions.length
-      });
-
-      if (activeJournalItem) {
-        this.props.onFlameChange(activeJournalItem.flameRating);
-      }
-
-      this.log("Success!");
-    }
-  };
-
-  createJournalItem = (index, intention) => {
-    let d = intention.position;
-    let dateObj = new Date(d[0], d[1] - 1, d[2], d[3], d[4], d[5]);
-
-    return {
-      index: index,
-      id: intention.id,
-      flameRating: intention.flameRating,
-      projectName: intention.projectName,
-      taskName: intention.taskName,
-      taskSummary: intention.taskSummary,
-      description: intention.description,
-      finishStatus: intention.finishStatus,
-      position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a"),
-      rawDate: dateObj
-    };
   };
 
   onChangeActiveEntry = (rowId, journalItem) => {
     this.log("onChangeActiveEntry:" + rowId + ", " + journalItem.index);
 
-    this.setState({
-      activeIndex: journalItem.index,
-      activeJournalItem: journalItem,
-      updatedFlame: journalItem.flameRating
-    });
+    this.journalModel.setActiveJournalItem(journalItem);
 
-    this.props.onFlameChange(journalItem.flameRating);
   };
 
   /// renders the journal layout of the console view

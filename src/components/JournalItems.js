@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
+import {DataModelFactory} from "../models/DataModelFactory";
+import {JournalModel} from "../models/JournalModel";
 
 const { remote } = window.require("electron");
 
@@ -18,6 +20,10 @@ export default class JournalItems extends Component {
       activeJournalItem: null
     };
 
+    this.journalModel = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_JOURNAL,
+      this);
+
     document.onkeydown = this.handleKeyPress;
   }
 
@@ -25,8 +31,18 @@ export default class JournalItems extends Component {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
 
+  componentDidMount() {
+    this.log("componentDidMount");
+
+    this.scrollToBottomOrActive();
+  }
+
+
   componentWillReceiveProps = nextProps => {
     this.log("JournalItems:: componentWillReceiveProps");
+
+    console.log("JournalItems: activeIndex "+nextProps.activeIndex);
+    console.log("JournalItems: journalItems "+nextProps.allJournalItems.length);
 
     let activeJournalItem = null;
 
@@ -119,10 +135,6 @@ export default class JournalItems extends Component {
     );
   };
 
-  componentDidMount() {
-    this.log("componentDidMount");
-    this.scrollToBottomOrActive();
-  }
 
   componentDidUpdate() {
     this.log("componentDidUpdate");

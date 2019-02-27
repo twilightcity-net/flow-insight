@@ -59,6 +59,7 @@ export default class ConsoleLayout extends Component {
 
     this.activeCircleModel.registerCallbackOnUpdate(this.onActiveCircleUpdateCb);
 
+
   }
 
   resetCb = (event, showHideFlag) => {
@@ -210,7 +211,7 @@ export default class ConsoleLayout extends Component {
   };
 
   onXPCb = () => {
-    this.refreshXP();
+    //this.refreshXP();
   };
 
   onUpdateMeCb = () => {
@@ -307,7 +308,9 @@ export default class ConsoleLayout extends Component {
             onAdjustFlame={this.adjustFlameCb}
             isAlarmTriggered={this.state.isAlarmTriggered}
             activeCircle={this.state.activeCircle}
+
           />
+
         </div>
 
         <div id="wrapper" className="consoleMenu">
