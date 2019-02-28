@@ -146,7 +146,7 @@ export default class ConsoleLayout extends Component {
   adjustFlameCb = flameDelta => {
     this.log("Flame change :" + flameDelta);
 
-    let flameRating = this.state.flameRating + flameDelta;
+    let flameRating = new Number(this.state.flameRating) + flameDelta;
     if (flameRating > 5) {
       flameRating = 5;
     } else if (flameRating < -5) {

@@ -118,6 +118,7 @@ export default class JournalLayout extends Component {
     });
 
     this.spiritModel.refreshXP();
+    this.spiritModel.resetFlame(this.journalModel.activeFlame);
     this.teamModel.refreshMe();
   };
 
@@ -131,12 +132,6 @@ export default class JournalLayout extends Component {
     this.spiritModel.resetFlame(this.journalModel.activeJournalItem.flameRating);
   };
 
-  onActiveFlameUpdate = () => {
-    this.setState({
-      updatedFlame: this.spiritModel.activeFlameRating
-    });
-  };
-
   onFinishEntry = (journalEntry, finishStatus) => {
     this.log("Journal Layout : onFinishEntry");
 
@@ -146,21 +141,9 @@ export default class JournalLayout extends Component {
   onChangeActiveEntry = (rowId, journalItem) => {
     this.log("onChangeActiveEntry:" + rowId + ", " + journalItem.index);
 
-
     this.journalModel.setActiveJournalItem(journalItem);
   };
 
-  onSaveFlameUpdates = journalItem => {
-    this.log(
-      "Journal Layout : onSaveFlameUpdates: " +
-      journalItem.index +
-      ", " +
-      journalItem.flameRating
-    );
-
-    this.journalModel.updateFlameRating(journalItem.id, journalItem.flameRating);
-
-  };
 
   /// renders the journal layout of the console view
   render() {

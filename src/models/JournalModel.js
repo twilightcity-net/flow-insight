@@ -148,12 +148,14 @@ export class JournalModel extends DataModel {
    * Update the finish status of an existing intention
    */
 
-  updateFlameRating = (intentionId, flameRating) => {
+  updateFlameRating = (journalItem, flameRating) => {
     console.log("JournalModel - Request - updateFlameRating");
 
-    let remoteUrn = "/journal/intention/"+intentionId+ "/transition/flame";
+    let remoteUrn = "/journal/intention/"+journalItem.id+ "/transition/flame";
     let loadRequestType = DataModel.RequestTypes.POST;
     let args = { flameRating: flameRating };
+
+    journalItem.flameRating = flameRating;
 
     this.remoteFetch(args, remoteUrn, loadRequestType, JournalEntryDto,
       (dtoResults, err) => {

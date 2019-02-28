@@ -39,9 +39,16 @@ export default class JournalItems extends Component {
   componentDidMount() {
     this.log("JournalItems : componentDidMount");
 
+    this.spiritModel.registerListener("journalItems", SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE, this.onDirtyFlameUpdate);
+
     this.scrollToBottomOrActive();
   }
 
+  componentWillUnmount() {
+    this.log("JournalItems : componentWillUnmount");
+
+    this.spiritModel.unregisterAllListeners("journalItems");
+  }
 
   componentWillReceiveProps = nextProps => {
     this.log("JournalItems:: componentWillReceiveProps");
@@ -56,10 +63,7 @@ export default class JournalItems extends Component {
       if (!activeJournalItem.flameRating) {
         activeJournalItem.flameRating = 0;
       }
-
     }
-
-    this.clearActiveRows();
 
     this.setState({
       journalItems: nextProps.allJournalItems,
@@ -67,14 +71,22 @@ export default class JournalItems extends Component {
     });
   };
 
-  saveDirtyFlames = (props, journalItemWithFlameUpdates) => {
+  onDirtyFlameUpdate = () => {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
 
+    let journalModel = this.journalModel;
+    let spiritModel = this.spiritModel;
+
+    let activeJournalItem = journalModel.activeJournalItem;
+
+
     this.timeout = setTimeout(function() {
-      electronLog.info("saveDirtyFlames!!!!!");
-      //props.onFlameUpdate(journalItemWithFlameUpdates);
+      console.log("saveDirtyFlames!!!!!");
+
+      journalModel.updateFlameRating(activeJournalItem, spiritModel.dirtyFlame);
+
     }, 500);
   };
 
@@ -140,35 +152,12 @@ export default class JournalItems extends Component {
   componentDidUpdate() {
     this.log("componentDidUpdate");
 
-    this.updateActiveRow();
     this.scrollToBottomOrActive();
   }
 
-  updateActiveRow = () => {
-    this.clearActiveRows();
-    if (this.state.activeJournalItem) {
-      let activeRowId = this.state.activeJournalItem.id;
-
-      let rowObj = document.getElementById(activeRowId);
-
-      if (rowObj) {
-        rowObj.classList.add("active");
-      }
-    }
-  };
-
   onSetActiveRow = (rowId, rowObj, journalItem) => {
-    console.log("setActiveRow!!");
 
-    this.clearActiveRows();
-
-    rowObj.classList.add("active");
-
-    this.setState({
-      activeJournalItem: journalItem
-    });
-
-    this.props.onChangeActiveEntry(rowId, journalItem);
+    this.journalModel.setActiveJournalItem(journalItem);
   };
 
   onUpdateFinishStatus = (journalItem, newStatus) => {
@@ -176,13 +165,6 @@ export default class JournalItems extends Component {
     this.props.onFinishEntry(journalItem, newStatus);
   };
 
-  clearActiveRows = () => {
-    console.log("CLEAR!!!! "+ this.state.activeJournalItem);
-    if (this.state.activeJournalItem) {
-      let rowObj = document.getElementById(this.state.activeJournalItem.id);
-      rowObj.classList.remove("active");
-    }
-  };
 
   handleKeyPress = e => {
     this.log("key!!");
@@ -233,8 +215,22 @@ export default class JournalItems extends Component {
     }
   };
 
+  isActive(id) {
+     return this.journalModel.activeJournalItem.id == id;
+  }
+
+  getEffectiveDirtyFlame(id) {
+    let dirtyFlame = null;
+    if (this.isActive(id)) {
+      dirtyFlame = this.spiritModel.dirtyFlame;
+    }
+
+    return dirtyFlame;
+  }
+
   /// renders the journal items component from array in the console view
   render() {
+
     return (
       <div
         id="component"
@@ -243,9 +239,12 @@ export default class JournalItems extends Component {
       >
         <Grid inverted onKeyPress={this.handleKeyPress}>
           {this.state.journalItems.map(d => (
+
             <JournalItem
               key={d.id}
               id={d.id}
+              isActive={this.isActive(d.id)}
+              dirtyFlame={this.getEffectiveDirtyFlame(d.id)}
               projectName={d.projectName}
               taskName={d.taskName}
               taskSummary={d.taskSummary}
