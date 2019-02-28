@@ -13,6 +13,7 @@ export default class JournalItem extends Component {
   };
 
   selectRow(rowId, journalItem) {
+    console.log("selectRow!!!");
     let rowObj = document.getElementById(rowId);
 
     this.props.onSetActiveRow(rowId, rowObj, journalItem);

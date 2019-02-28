@@ -11,12 +11,13 @@ export class ActiveCircleModel extends DataModel {
     this.activeCircle = null;
     this.isAlarmTriggered = false;
 
-    this.callbackOnUpdate = () => {}
   }
 
-  registerCallbackOnUpdate = (callback) => {
-     this.callbackOnUpdate = callback;
-  };
+  static get CallbackEvent() {
+    return {
+      CIRCLE_UPDATE: "circle-update"
+    };
+  }
 
   /**
    * Loads the active circle into context
@@ -89,7 +90,7 @@ export class ActiveCircleModel extends DataModel {
         this.activeCircle = null;
       }
     }
-    this.callbackOnUpdate.call(this.scope);
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
   };
 
   onCloseCircleCb = (circleDto, err) => {
@@ -103,7 +104,7 @@ export class ActiveCircleModel extends DataModel {
       this.activeCircle = null;
 
     }
-    this.callbackOnUpdate.call(this.scope);
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
   };
 
 }

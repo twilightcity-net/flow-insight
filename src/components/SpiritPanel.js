@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Image, Menu, Progress, Segment, Transition } from "semantic-ui-react";
 import * as THREE from "three";
+import {DataModelFactory} from "../models/DataModelFactory";
 const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
@@ -9,38 +10,14 @@ export default class SpiritPanel extends Component {
   constructor(props) {
     super(props);
     this.state = this.loadState();
+
+    this.spiritModel = DataModelFactory.createModel(DataModelFactory.Models.SPIRIT, this);
   }
 
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
 
-  componentWillReceiveProps = nextProps => {
-    let xpSummaryDto = nextProps.xpSummary;
-
-    let flameRating = nextProps.flameRating;
-
-    let flameString = "0";
-    if (flameRating > 0) {
-      flameString = "+" + flameRating;
-    } else if (flameRating < 0) {
-      flameString = flameRating;
-    }
-
-    if (xpSummaryDto) {
-      this.setState({
-        level: xpSummaryDto.level,
-        percentXP: Math.round(
-          (xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100
-        ),
-        totalXP: xpSummaryDto.totalXP,
-        remainingToLevel:
-          xpSummaryDto.xpRequiredToLevel - xpSummaryDto.xpProgress,
-        title: xpSummaryDto.title,
-        flameRating: flameString
-      });
-    }
-  };
 
   /// performs a simple calculation for dynamic height of panel
   calculateSpiritHeight() {
@@ -91,6 +68,22 @@ export default class SpiritPanel extends Component {
     }
   };
 
+  componentWillReceiveProps = nextProps => {
+
+    let flameRating = nextProps.flameRating;
+
+    let flameString = "0";
+    if (flameRating > 0) {
+      flameString = "+" + flameRating;
+    } else if (flameRating < 0) {
+      flameString = flameRating;
+    }
+
+    this.setState({
+      flameString: flameString
+    });
+  };
+
   initScene = () => {
     const width = this.mount.clientWidth;
     const height = this.mount.clientHeight;
@@ -116,12 +109,12 @@ export default class SpiritPanel extends Component {
 
   handleClickForRage = () => {
     this.log("Rage!");
-    this.props.adjustFlameCb(-1);
+    this.spiritModel.adjustFlame(-1);
   };
 
   handleClickForYay = () => {
     this.log("Yay!");
-    this.props.adjustFlameCb(+1);
+    this.spiritModel.adjustFlame(+1);
   };
 
   componentWillUnmount() {
@@ -202,7 +195,7 @@ export default class SpiritPanel extends Component {
 
     let spiritImage = "";
 
-    if (this.state.flameRating >= 0) {
+    if (this.state.flameString >= 0) {
       spiritImage = (
         <Image
           height={this.calculateSpiritHeight()}
@@ -210,7 +203,7 @@ export default class SpiritPanel extends Component {
           src="./assets/images/spirit.png"
         />
       );
-    } else if (this.state.flameRating < 0) {
+    } else if (this.state.flameString < 0) {
       spiritImage = (
         <Image
           height={this.calculateSpiritHeight()}
@@ -220,31 +213,27 @@ export default class SpiritPanel extends Component {
       );
     }
 
-    // spiritImage = <div style={{ width: this.props.width -40, height: this.calculateSpiritHeight() }}
-    //                    ref={(mount) => { this.mount = mount }}
-    //               />;
-
     const spiritContent = (
       <div className="spiritContent">
         <div className="spiritBackground">
           {spiritImage}
 
           <div className="level">
-            <b>Level {this.state.level} </b>
+            <b>Level {this.props.level} </b>
           </div>
           <div className="level">
-            <i>Torchie {this.state.title} </i>
+            <i>Torchie {this.props.title} </i>
           </div>
           <div>&nbsp;</div>
         </div>
         <Progress
           size="small"
-          percent={this.state.percentXP}
+          percent={this.props.percentXP}
           color="violet"
           inverted
           progress
         >
-          {this.state.remainingToLevel} XP remaining to Level
+          {this.props.remainingToLevel} XP remaining to Level
         </Progress>
 
         <div className="ui fluid buttons">
@@ -255,11 +244,9 @@ export default class SpiritPanel extends Component {
           >
             <Image centered src="./assets/images/wtf/24x24.png" />
           </button>
-
-          {/*<button className='ui label flameRating'>*/}
-          {/*{this.state.flameRating}*/}
-          {/*</button>*/}
-
+          <button className='ui label flameRating'>
+          {this.state.flameString}
+          </button>
           <button
             className="ui icon button yayButton"
             tabIndex="0"

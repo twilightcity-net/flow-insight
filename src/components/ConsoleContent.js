@@ -104,16 +104,6 @@ export default class ConsoleContent extends Component {
     }, this.animationTime);
   }
 
-  onXpCB = () => {
-    this.log("XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX");
-    this.props.onXP();
-  };
-
-  onUpdateMeCB = () => {
-    this.props.onUpdateMe();
-  };
-
-
   onFlameChangeCB = flameRating => {
     if (!flameRating) {
       flameRating = 0;
@@ -128,14 +118,6 @@ export default class ConsoleContent extends Component {
       <div id="wrapper" className="journalLayout">
         <JournalLayout
           consoleIsCollapsed={this.props.consoleIsCollapsed}
-          scrubToDate={this.props.scrubToDate}
-          onXP={this.onXpCB}
-          onUpdateMe={this.onUpdateMeCB}
-          onFlameChange={this.onFlameChangeCB}
-          onChangeActiveDate={this.props.onChangeActiveDate}
-          onAdjustFlame={this.props.onAdjustFlame}
-          updatedFlame={this.props.updatedFlame}
-          defaultJournal={this.props.defaultJournal}
         />
       </div>
     );

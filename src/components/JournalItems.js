@@ -3,6 +3,7 @@ import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
 import {DataModelFactory} from "../models/DataModelFactory";
 import {JournalModel} from "../models/JournalModel";
+import {SpiritModel} from "../models/SpiritModel";
 
 const { remote } = window.require("electron");
 
@@ -21,7 +22,11 @@ export default class JournalItems extends Component {
     };
 
     this.journalModel = DataModelFactory.createModel(
-      DataModelFactory.Models.ACTIVE_JOURNAL,
+      DataModelFactory.Models.JOURNAL,
+      this);
+
+    this.spiritModel = DataModelFactory.createModel(
+      DataModelFactory.Models.SPIRIT,
       this);
 
     document.onkeydown = this.handleKeyPress;
@@ -32,7 +37,7 @@ export default class JournalItems extends Component {
   };
 
   componentDidMount() {
-    this.log("componentDidMount");
+    this.log("JournalItems : componentDidMount");
 
     this.scrollToBottomOrActive();
   }
@@ -52,10 +57,6 @@ export default class JournalItems extends Component {
         activeJournalItem.flameRating = 0;
       }
 
-      if (activeJournalItem.flameRating !== nextProps.updatedFlame) {
-        activeJournalItem.flameRating = nextProps.updatedFlame;
-        this.saveDirtyFlames(this.props, activeJournalItem);
-      }
     }
 
     this.clearActiveRows();
@@ -73,7 +74,7 @@ export default class JournalItems extends Component {
 
     this.timeout = setTimeout(function() {
       electronLog.info("saveDirtyFlames!!!!!");
-      props.onFlameUpdate(journalItemWithFlameUpdates);
+      //props.onFlameUpdate(journalItemWithFlameUpdates);
     }, 500);
   };
 
@@ -157,7 +158,7 @@ export default class JournalItems extends Component {
   };
 
   onSetActiveRow = (rowId, rowObj, journalItem) => {
-    this.log("setActiveRow");
+    console.log("setActiveRow!!");
 
     this.clearActiveRows();
 
@@ -176,6 +177,7 @@ export default class JournalItems extends Component {
   };
 
   clearActiveRows = () => {
+    console.log("CLEAR!!!! "+ this.state.activeJournalItem);
     if (this.state.activeJournalItem) {
       let rowObj = document.getElementById(this.state.activeJournalItem.id);
       rowObj.classList.remove("active");
@@ -186,7 +188,7 @@ export default class JournalItems extends Component {
     this.log("key!!");
     if (e.keyCode === 37) {
       this.log("left");
-      this.props.onAdjustFlame(-1);
+      this.spiritModel.adjustFlame(-1);
     }
     if (e.keyCode === 38) {
       this.log("up");
@@ -195,7 +197,7 @@ export default class JournalItems extends Component {
     }
     if (e.keyCode === 39) {
       this.log("right");
-      this.props.onAdjustFlame(1);
+      this.spiritModel.adjustFlame(1);
     }
     if (e.keyCode === 40) {
       this.log("down");

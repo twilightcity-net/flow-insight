@@ -12,13 +12,16 @@ export class TeamMembersModel extends DataModel {
     this.me = {};
     this.teamMembers = [];
     this.activeTeamMember = null;
-    this.callbackOnUpdate = () => {}
 
   }
 
-  registerCallbackOnUpdate = (callback) => {
-     this.callbackOnUpdate = callback;
-  };
+  static get CallbackEvent() {
+    return {
+      MEMBERS_UPDATE: "members-update",
+      ACTIVE_MEMBER_UPDATE: "active-member-update"
+    };
+  }
+
 
   /**
    * Refresh all team members status, and callback when done
@@ -61,6 +64,8 @@ export class TeamMembersModel extends DataModel {
         }
       }
     }
+
+    this.notifyListeners(TeamMembersModel.CallbackEvent.ACTIVE_MEMBER_UPDATE);
   };
 
   onRefreshMeCb = (statusOfMe, err) => {
@@ -72,7 +77,7 @@ export class TeamMembersModel extends DataModel {
       this.me = this.createMember(0, statusOfMe);
 
     }
-    this.callbackOnUpdate.call(this.scope);
+    this.notifyListeners(TeamMembersModel.CallbackEvent.MEMBERS_UPDATE);
   };
 
 
@@ -98,7 +103,7 @@ export class TeamMembersModel extends DataModel {
     }
     console.log("Return callback!");
 
-    this.callbackOnUpdate.call(this.scope);
+    this.notifyListeners(TeamMembersModel.CallbackEvent.MEMBERS_UPDATE);
   };
 
   refreshActiveMember = () => {

@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
+import {DataModelFactory} from "../models/DataModelFactory";
 
 const { remote } = window.require("electron"),
   IntentionInputDto = remote.require("./dto/IntentionInputDto");
@@ -20,6 +21,11 @@ export default class JournalEntry extends Component {
       currentTaskValue: null,
       currentIntentionValue: ""
     };
+
+    this.journalModel = DataModelFactory.createModel(
+      DataModelFactory.Models.JOURNAL,
+      this);
+
   }
 
   resetCb = () => {
@@ -131,22 +137,14 @@ export default class JournalEntry extends Component {
     }
   };
 
+
+
   /// called when a new task is added from dropdown
-  handleAdditionForTask = (e, { value }) => {
-    this.log("handleAdditionForTask:" + value);
+  handleAdditionForTask = (e, { taskName }) => {
+    this.log("Journal Layout : handleAdditionForTask: "  + taskName);
 
-    this.props.onAddTask(this.state.currentProjectValue, value);
+    this.journalModel.addTaskRef(taskName);
 
-    //easiest thing to do would be to... call a CB hook in the parent on add that looks up or posts
-    //task to server and gets the id back, then resets the recent by project list with the new addition
-    //automatically included, but right now, I've got that all bundled together with the journal
-    //should these actually be separate calls?
-
-    //recentjournal dto.
-
-    // this.setState({
-    //   tasks: [{text: value, value}, ...this.state.tasks]
-    // });
   };
 
   /// called when a new project is added from dropdown
@@ -217,9 +215,12 @@ export default class JournalEntry extends Component {
       description: this.state.currentIntentionValue
     });
 
-    this.props.onAddEntry(journalEntry);
+    this.journalModel.addJournalEntry(journalEntry.projectId, journalEntry.taskId, journalEntry.description);
+
     this.setState({ currentIntentionValue: "" });
   };
+
+
 
   handleChangeForIntention = (e, { name, value }) => {
     this.setState({ currentIntentionValue: value });

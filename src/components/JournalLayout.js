@@ -27,7 +27,15 @@ export default class JournalLayout extends Component {
     };
 
     this.journalModel = DataModelFactory.createModel(
-      DataModelFactory.Models.ACTIVE_JOURNAL,
+      DataModelFactory.Models.JOURNAL,
+      this);
+
+    this.spiritModel = DataModelFactory.createModel(
+      DataModelFactory.Models.SPIRIT,
+      this);
+
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS,
       this);
 
   }
@@ -108,6 +116,9 @@ export default class JournalLayout extends Component {
       activeIndex: this.journalModel.activeIndex,
       activeFlame: this.journalModel.activeFlame
     });
+
+    this.spiritModel.refreshXP();
+    this.teamModel.refreshMe();
   };
 
   onJournalActiveItemUpdateCb = () => {
@@ -116,8 +127,15 @@ export default class JournalLayout extends Component {
       activeIndex: this.journalModel.activeIndex,
       activeFlame: this.journalModel.activeFlame
     });
+
+    this.spiritModel.resetFlame(this.journalModel.activeJournalItem.flameRating);
   };
 
+  onActiveFlameUpdate = () => {
+    this.setState({
+      updatedFlame: this.spiritModel.activeFlameRating
+    });
+  };
 
   onFinishEntry = (journalEntry, finishStatus) => {
     this.log("Journal Layout : onFinishEntry");
@@ -125,36 +143,22 @@ export default class JournalLayout extends Component {
     this.journalModel.finishIntention(journalEntry.id, finishStatus);
   };
 
-  onAddEntry = journalEntry => {
-    this.log("Journal Layout : onAddEntry: " + journalEntry.projectId);
+  onChangeActiveEntry = (rowId, journalItem) => {
+    this.log("onChangeActiveEntry:" + rowId + ", " + journalItem.index);
 
-    this.journalModel.addJournalEntry(journalEntry.projectId, journalEntry.taskId, journalEntry.description);
 
+    this.journalModel.setActiveJournalItem(journalItem);
   };
-
-  onAddTask = (projectId, taskName) => {
-    this.log("Journal Layout : onAddTask: " + projectId + ", " + taskName);
-
-    this.journalModel.addTaskRef(taskName);
-  };
-
 
   onSaveFlameUpdates = journalItem => {
     this.log(
       "Journal Layout : onSaveFlameUpdates: " +
-        journalItem.index +
-        ", " +
-        journalItem.flameRating
+      journalItem.index +
+      ", " +
+      journalItem.flameRating
     );
 
     this.journalModel.updateFlameRating(journalItem.id, journalItem.flameRating);
-
-  };
-
-  onChangeActiveEntry = (rowId, journalItem) => {
-    this.log("onChangeActiveEntry:" + rowId + ", " + journalItem.index);
-
-    this.journalModel.setActiveJournalItem(journalItem);
 
   };
 
@@ -165,10 +169,7 @@ export default class JournalLayout extends Component {
         <div id="wrapper" className="journalItems">
           <JournalItems
             onChangeActiveEntry={this.onChangeActiveEntry}
-            onFlameUpdate={this.onSaveFlameUpdates}
             onFinishEntry={this.onFinishEntry}
-            updatedFlame={this.state.updatedFlame}
-            onAdjustFlame={this.props.onAdjustFlame}
             activeIndex={this.state.activeIndex}
             allJournalItems={this.state.allJournalItems}
             height={this.calculateJournalItemsHeight()}
@@ -177,8 +178,6 @@ export default class JournalLayout extends Component {
         <div id="wrapper" className="journalEntry">
           <JournalEntry
             consoleIsCollapsed={this.props.consoleIsCollapsed}
-            onAddEntry={this.onAddEntry}
-            onAddTask={this.onAddTask}
             recentEntry={this.state.recentEntry}
             recentProjects={this.state.recentProjects}
             recentTasksByProjectId={this.state.recentTasksByProjectId}

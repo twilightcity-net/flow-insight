@@ -2,6 +2,7 @@
 import { TeamMembersModel } from "./TeamMembersModel";
 import { ActiveCircleModel } from "./ActiveCircleModel";
 import { JournalModel } from "./JournalModel";
+import { SpiritModel } from "./SpiritModel";
 
 //
 // this class is used to manage DataClient requests for Stores
@@ -32,8 +33,10 @@ export class DataModelFactory {
         return new TeamMembersModel(scope);
       case DataModelFactory.Models.ACTIVE_CIRCLE:
         return new ActiveCircleModel(scope);
-      case DataModelFactory.Models.ACTIVE_JOURNAL:
+      case DataModelFactory.Models.JOURNAL:
         return new JournalModel(scope);
+      case DataModelFactory.Models.SPIRIT:
+        return new SpiritModel(scope);
       default:
         return null;
     }
@@ -43,7 +46,8 @@ export class DataModelFactory {
     return {
       MEMBER_STATUS: "member-status",
       ACTIVE_CIRCLE: "active-circle",
-      ACTIVE_JOURNAL: "active-journal"
+      JOURNAL: "active-journal",
+      SPIRIT: "spirit"
     };
   }
 }
