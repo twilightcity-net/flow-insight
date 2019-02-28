@@ -34,6 +34,14 @@ export class JournalModel extends DataModel {
     this.altModelDelegate = new AltModelDelegate(this, this.altModelExtension);
 
     this.altModelDelegate.configureDelegateCall("loadDefaultJournal");
+    this.altModelDelegate.configureDelegateCall("resetActiveToLastJournalItem");
+    this.altModelDelegate.configureDelegateCall("setActiveJournalItem");
+
+    this.altModelDelegate.configureNoOp("finishIntention");
+    this.altModelDelegate.configureNoOp("updateFlameRating");
+    this.altModelDelegate.configureNoOp("addJournalEntry");
+    this.altModelDelegate.configureNoOp("addTaskRef");
+
 
   }
 
@@ -68,6 +76,9 @@ export class JournalModel extends DataModel {
        console.log("show default journal");
        this.isAltMemberSelected = false;
        this.altMemberId = null;
+
+       this.altModelDelegate.resetMemberSelection();
+       this.resetActiveToLastJournalItem();
 
        this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
        this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);

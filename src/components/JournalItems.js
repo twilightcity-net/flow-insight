@@ -51,7 +51,7 @@ export default class JournalItems extends Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    this.log("JournalItems:: componentWillReceiveProps");
+    console.log("JournalItems:: componentWillReceiveProps activeIndex"+ nextProps.activeIndex);
 
     let activeJournalItem = null;
 
@@ -209,7 +209,11 @@ export default class JournalItems extends Component {
   };
 
   isActive(id) {
-     return this.journalModel.activeJournalItem.id == id;
+    if ( this.state.activeJournalItem ) {
+      return this.state.activeJournalItem.id == id;
+    } else {
+      return false;
+    }
   }
 
   getEffectiveDirtyFlame(id) {

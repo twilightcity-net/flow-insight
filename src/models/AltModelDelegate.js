@@ -45,6 +45,16 @@ export class AltModelDelegate {
 
   }
 
+  /**
+   * Stubs out a function call in the primaryModel, when in altModel mode
+   * @param functionName
+   */
+  configureNoOp(functionName) {
+    console.log("no-op function: " +functionName);
+    this.noopIfAltMemberConfigured(this.primaryModel, functionName);
+
+  }
+
   delegateIfAltMemberConfigured = (primaryModel, method, altModel) => {
 
     var primaryMethod = primaryModel[method];
@@ -58,6 +68,21 @@ export class AltModelDelegate {
       }
     };
   };
+
+  noopIfAltMemberConfigured = (primaryModel, method) => {
+
+    var primaryMethod = primaryModel[method];
+
+    primaryModel[method] = function () {
+      if (this.altMemberId) {
+        //no-op
+      } else {
+        primaryMethod.apply(primaryModel, arguments);
+      }
+    };
+  };
+
+
 
   cascadeNotificationChains = (primaryModel, notifyMethod, altModel) => {
 

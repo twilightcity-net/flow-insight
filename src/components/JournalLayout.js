@@ -120,6 +120,8 @@ export default class JournalLayout extends Component {
       activeFlame: this.journalModel.getActiveScope().activeFlame
     });
 
+    console.log("onJournalHistoryUpdateCb - activeIndex = "+this.journalModel.getActiveScope().activeIndex);
+
     this.spiritModel.refreshXP();
     this.spiritModel.resetFlame(this.journalModel.getActiveScope().activeFlame);
     this.teamModel.refreshMe();
