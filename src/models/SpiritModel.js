@@ -1,8 +1,7 @@
-import {DataModel} from "./DataModel";
+import { DataModel } from "./DataModel";
 
 const { remote } = window.require("electron"),
   XPSummaryDto = remote.require("./dto/XPSummaryDto");
-
 
 export class SpiritModel extends DataModel {
   constructor(scope) {
@@ -37,18 +36,23 @@ export class SpiritModel extends DataModel {
     let remoteUrn = "/spirit/xp";
     let loadRequestType = DataModel.RequestTypes.GET;
 
-    this.remoteFetch(null, remoteUrn, loadRequestType, XPSummaryDto,
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      XPSummaryDto,
       (dtoResults, err) => {
         setTimeout(() => {
           this.onRefreshXPCb(dtoResults, err);
         }, DataModel.activeWaitDelay);
-      });
+      }
+    );
   };
 
   /**
    * Reinitializes the Torchie flame to a specified rating
    */
-  resetFlame = (cleanFlameRating) => {
+  resetFlame = cleanFlameRating => {
     console.log("SpiritModel - Request - resetFlame");
 
     this.isDirty = false;
@@ -62,16 +66,18 @@ export class SpiritModel extends DataModel {
   /**
    * Changes the active flame rating by pushing the +1/-1 flame buttons
    */
-  adjustFlame = (flameDelta) => {
+  adjustFlame = flameDelta => {
     console.log("SpiritModel - Request - adjustFlame");
 
     this.isDirty = true;
-    this.dirtyFlame = this.calculateNewRating(this.activeFlameRating, flameDelta);
+    this.dirtyFlame = this.calculateNewRating(
+      this.activeFlameRating,
+      flameDelta
+    );
     this.activeFlameRating = this.dirtyFlame;
 
     this.notifyListeners(SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE);
   };
-
 
   calculateNewRating = (currentFlame, flameDelta) => {
     console.log("Flame calculateNewRating :" + flameDelta);
@@ -94,25 +100,21 @@ export class SpiritModel extends DataModel {
     console.log("Old/New Flame rating :" + currentFlame + "/" + flameRating);
 
     return flameRating;
-
   };
-
 
   onRefreshXPCb = (xpSummaryDto, err) => {
     console.log("SpiritModel : onRefreshXPCb");
     if (err) {
       console.log("error:" + err);
     } else {
-
       this.xpSummary = xpSummaryDto;
       this.level = xpSummaryDto.level;
-      this.percentXP = Math.round((xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100);
+      this.percentXP = Math.round(
+        (xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100
+      );
       this.totalXP = xpSummaryDto.totalXP;
       this.title = xpSummaryDto.title;
-
     }
     this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);
   };
-
-
 }

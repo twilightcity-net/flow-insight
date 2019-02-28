@@ -88,15 +88,15 @@ export default class TroubleshootSessionNew extends Component {
   };
 
   onClickStartTroubleshooting = () => {
-    console.log("start trouble"+this.state.currentProblem);
+    console.log("start trouble" + this.state.currentProblem);
 
-    if (this.state.currentProblem != null && this.state.currentProblem.length > 0) {
+    if (
+      this.state.currentProblem != null &&
+      this.state.currentProblem.length > 0
+    ) {
       console.log("HERE WE GO!");
-      this.props.onStartTroubleshooting(
-        this.state.currentProblem
-      );
+      this.props.onStartTroubleshooting(this.state.currentProblem);
     }
-
   };
 
   onClickScreenshot = () => {

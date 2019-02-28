@@ -5,7 +5,6 @@ import { RendererEventFactory } from "../RendererEventFactory";
 // this base class is used for Stores
 //
 export class DataModel {
-
   static activeWaitDelay = 100;
 
   constructor(scope) {
@@ -47,15 +46,14 @@ export class DataModel {
    * because the references will become invalid
    * @param subscriber
    */
-  unregisterAllListeners = (subscriber) => {
-
+  unregisterAllListeners = subscriber => {
     for (var eventType in this.listenersByEventType) {
-       let eventListenersBySubscriber = this.listenersByEventType[eventType];
+      let eventListenersBySubscriber = this.listenersByEventType[eventType];
 
-       let callback = eventListenersBySubscriber[subscriber];
-       if (callback) {
-         eventListenersBySubscriber[subscriber] = null;
-       }
+      let callback = eventListenersBySubscriber[subscriber];
+      if (callback) {
+        eventListenersBySubscriber[subscriber] = null;
+      }
     }
   };
 
@@ -75,7 +73,6 @@ export class DataModel {
     }
   }
 
-
   /**
    * Makes a remote fetch call to populate the model, useing a shared event bus, so the calls must
    * essentially be synchronous, otherwise the fetch will return an error.
@@ -88,7 +85,7 @@ export class DataModel {
    * @param dtoClass
    * @param callback (dtoResults, error)
    */
-  remoteFetch(remoteArgs, remoteUrn, loadRequestType, dtoClass, callback ) {
+  remoteFetch(remoteArgs, remoteUrn, loadRequestType, dtoClass, callback) {
     if (this.callInProgress === true) {
       callback(null, "DataModel - remoteFetch - Call already in progress");
     }
@@ -112,7 +109,6 @@ export class DataModel {
     );
   }
 
-
   onLoadedCb(event, arg) {
     if (
       arg.name !== this.name ||
@@ -130,9 +126,9 @@ export class DataModel {
           dtoResults[i] = new this.dtoClass(arg.data[i]);
         }
       } else if (this.isEmpty(arg.data)) {
-          console.log("empty result")
+        console.log("empty result");
       } else {
-          dtoResults = new this.dtoClass(arg.data);
+        dtoResults = new this.dtoClass(arg.data);
       }
 
       this.callInProgress = false;
@@ -145,9 +141,9 @@ export class DataModel {
   isEmpty(data) {
     let hasProps = true;
     for (var prop in data) {
-       hasProps = false;
-     }
-     return hasProps;
+      hasProps = false;
+    }
+    return hasProps;
   }
 
   /// enum class of all of http requests

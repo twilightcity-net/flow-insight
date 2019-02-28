@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
-import {DataModelFactory} from "../models/DataModelFactory";
+import { DataModelFactory } from "../models/DataModelFactory";
 
 const { remote } = window.require("electron"),
   IntentionInputDto = remote.require("./dto/IntentionInputDto");
@@ -24,8 +24,8 @@ export default class JournalEntry extends Component {
 
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
-      this);
-
+      this
+    );
   }
 
   resetCb = () => {
@@ -137,7 +137,7 @@ export default class JournalEntry extends Component {
     }
   };
 
-/// called when a new task is added from dropdown
+  /// called when a new task is added from dropdown
   handleAdditionForTask = (e, { value }) => {
     this.log("handleAdditionForTask:" + value);
 
@@ -212,12 +212,14 @@ export default class JournalEntry extends Component {
       description: this.state.currentIntentionValue
     });
 
-    this.journalModel.addJournalEntry(journalEntry.projectId, journalEntry.taskId, journalEntry.description);
+    this.journalModel.addJournalEntry(
+      journalEntry.projectId,
+      journalEntry.taskId,
+      journalEntry.description
+    );
 
     this.setState({ currentIntentionValue: "" });
   };
-
-
 
   handleChangeForIntention = (e, { name, value }) => {
     this.setState({ currentIntentionValue: value });

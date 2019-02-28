@@ -94,7 +94,9 @@ export default class JournalItem extends Component {
           <i>{this.props.projectName}</i>
         </div>
         <div>
-          <b><span className="taskhighlight"> {this.props.taskName} </span></b>
+          <b>
+            <span className="taskhighlight"> {this.props.taskName} </span>
+          </b>
         </div>
         <div>{this.props.taskSummary}</div>
 
@@ -110,7 +112,7 @@ export default class JournalItem extends Component {
     let flameRating = this.props.flameRating;
 
     if (this.props.dirtyFlame != null) {
-       flameRating = this.props.dirtyFlame;
+      flameRating = this.props.dirtyFlame;
     }
 
     if (flameRating > 0) {
@@ -155,7 +157,6 @@ export default class JournalItem extends Component {
           />
         </Grid.Column>
         <Grid.Column width={1} className="chunkTitle">
-
           {flameBlock}
         </Grid.Column>
 

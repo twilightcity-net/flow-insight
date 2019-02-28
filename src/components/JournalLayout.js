@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
-import {DataModelFactory} from "../models/DataModelFactory";
-import {JournalModel} from "../models/JournalModel";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { JournalModel } from "../models/JournalModel";
 
 const { remote } = window.require("electron");
 
@@ -28,16 +28,18 @@ export default class JournalLayout extends Component {
 
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
-      this);
+      this
+    );
 
     this.spiritModel = DataModelFactory.createModel(
       DataModelFactory.Models.SPIRIT,
-      this);
+      this
+    );
 
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
-      this);
-
+      this
+    );
   }
 
   componentWillReceiveProps = nextProps => {
@@ -47,9 +49,7 @@ export default class JournalLayout extends Component {
     }
 
     this.lastOpenCloseState = nextProps.consoleIsCollapsed;
-
   };
-
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
@@ -81,13 +81,24 @@ export default class JournalLayout extends Component {
   componentDidMount = () => {
     this.log("Journal Layout : componentDidMount");
 
-    this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE, this.onJournalHistoryUpdateCb);
-    this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.RECENT_TASKS_UPDATE, this.onJournalRecentTasksUpdateCb);
-    this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE, this.onJournalActiveItemUpdateCb);
-
+    this.journalModel.registerListener(
+      "journalLayout",
+      JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE,
+      this.onJournalHistoryUpdateCb
+    );
+    this.journalModel.registerListener(
+      "journalLayout",
+      JournalModel.CallbackEvent.RECENT_TASKS_UPDATE,
+      this.onJournalRecentTasksUpdateCb
+    );
+    this.journalModel.registerListener(
+      "journalLayout",
+      JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE,
+      this.onJournalActiveItemUpdateCb
+    );
 
     if (this.journalModel.isNeverLoaded()) {
-       this.journalModel.loadDefaultJournal();
+      this.journalModel.loadDefaultJournal();
     } else {
       this.onJournalRecentTasksUpdateCb();
       this.onJournalHistoryUpdateCb();
@@ -129,7 +140,9 @@ export default class JournalLayout extends Component {
       activeFlame: this.journalModel.activeFlame
     });
 
-    this.spiritModel.resetFlame(this.journalModel.activeJournalItem.flameRating);
+    this.spiritModel.resetFlame(
+      this.journalModel.activeJournalItem.flameRating
+    );
   };
 
   onFinishEntry = (journalEntry, finishStatus) => {
