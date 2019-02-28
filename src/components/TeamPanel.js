@@ -27,7 +27,7 @@ export default class TeamPanel extends Component {
   componentDidMount = () => {
     this.log("Team Layout : componentDidMount");
 
-
+    this.teamModel = DataModelFactory.createModel(DataModelFactory.Models.MEMBER_STATUS, this);
   };
 
 
@@ -109,7 +109,7 @@ export default class TeamPanel extends Component {
   selectRow = (id, teamMember) => {
     this.log("Team member clicked!" + teamMember.name + "id = "+id);
 
-    this.props.setActiveMember(id);
+    this.teamModel.setActiveMember(id);
   };
 
   /// renders the console sidebar panel of the console view
