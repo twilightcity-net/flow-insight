@@ -105,34 +105,34 @@ export default class JournalLayout extends Component {
 
   onJournalRecentTasksUpdateCb = () => {
     this.setState({
-      recentProjects: this.journalModel.recentProjects,
-      recentTasksByProjectId: this.journalModel.recentTasksByProjectId,
-      recentEntry: this.journalModel.recentEntry
+      recentProjects: this.journalModel.getActiveScope().recentProjects,
+      recentTasksByProjectId: this.journalModel.getActiveScope().recentTasksByProjectId,
+      recentEntry: this.journalModel.getActiveScope().recentEntry
     });
   };
 
   onJournalHistoryUpdateCb = () => {
     this.setState({
-      allJournalItems: this.journalModel.allJournalItems,
-      activeSize: this.journalModel.activeSize,
-      activeJournalItem: this.journalModel.activeJournalItem,
-      activeIndex: this.journalModel.activeIndex,
-      activeFlame: this.journalModel.activeFlame
+      allJournalItems: this.journalModel.getActiveScope().allJournalItems,
+      activeSize: this.journalModel.getActiveScope().activeSize,
+      activeJournalItem: this.journalModel.getActiveScope().activeJournalItem,
+      activeIndex: this.journalModel.getActiveScope().activeIndex,
+      activeFlame: this.journalModel.getActiveScope().activeFlame
     });
 
     this.spiritModel.refreshXP();
-    this.spiritModel.resetFlame(this.journalModel.activeFlame);
+    this.spiritModel.resetFlame(this.journalModel.getActiveScope().activeFlame);
     this.teamModel.refreshMe();
   };
 
   onJournalActiveItemUpdateCb = () => {
     this.setState({
-      activeJournalItem: this.journalModel.activeJournalItem,
-      activeIndex: this.journalModel.activeIndex,
-      activeFlame: this.journalModel.activeFlame
+      activeJournalItem: this.journalModel.getActiveScope().activeJournalItem,
+      activeIndex: this.journalModel.getActiveScope().activeIndex,
+      activeFlame: this.journalModel.getActiveScope().activeFlame
     });
 
-    this.spiritModel.resetFlame(this.journalModel.activeJournalItem.flameRating);
+    this.spiritModel.resetFlame(this.journalModel.getActiveScope().activeJournalItem.flameRating);
   };
 
   onChangeMemberSelectionCb = () => {

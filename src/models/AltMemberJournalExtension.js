@@ -2,9 +2,7 @@ import {DataModel} from "./DataModel";
 import moment from "moment";
 
 const {remote} = window.require("electron"),
-  RecentJournalDto = remote.require("./dto/RecentJournalDto"),
-  JournalEntryDto = remote.require("./dto/JournalEntryDto"),
-  RecentTasksSummaryDto = remote.require("./dto/RecentTasksSummaryDto");
+  RecentJournalDto = remote.require("./dto/RecentJournalDto");
 
 
 export class AltMemberJournalExtension extends DataModel {
@@ -25,6 +23,26 @@ export class AltMemberJournalExtension extends DataModel {
 
     this.isInitialized = false;
 
+    this.altMemberId = null;
+
+  }
+
+  static get CallbackEvent() {
+    return {
+      ACTIVE_ITEM_UPDATE: "active-item-update",
+      JOURNAL_HISTORY_UPDATE: "journal-history-update"
+    };
+  }
+
+  setMemberSelection(memberId) {
+    this.altMemberId = memberId;
+  }
+
+  /**
+   * Retrieves true if this member is already loaded
+   */
+  isMemberLoaded(memberId) {
+    return (this.altMemberId != null && this.altMemberId === memberId);
   }
 
   /**
@@ -34,9 +52,13 @@ export class AltMemberJournalExtension extends DataModel {
    */
 
   loadDefaultJournal = () => {
-    console.log("JournalModel - Request - loadDefaultJournal");
-    let remoteUrn = "/journal";
+    console.log("AltMemberJournalExtension - Request - loadDefaultJournal");
+
+
+    let remoteUrn = "/journal?member="+this.altMemberId;
     let loadRequestType = DataModel.RequestTypes.GET;
+
+    console.log("AltMemberJournalExtension - "+remoteUrn);
 
     this.remoteFetch(null, remoteUrn, loadRequestType, RecentJournalDto,
       (dtoResults, err) => {
@@ -61,6 +83,7 @@ export class AltMemberJournalExtension extends DataModel {
       this.activeJournalItem = null;
     }
 
+    this.notifyListeners(AltMemberJournalExtension.CallbackEvent.ACTIVE_ITEM_UPDATE);
   };
 
   /**
@@ -72,24 +95,25 @@ export class AltMemberJournalExtension extends DataModel {
     this.activeJournalItem = journalItem;
     this.activeFlame = journalItem;
 
+    this.notifyListeners(AltMemberJournalExtension.CallbackEvent.ACTIVE_ITEM_UPDATE);
   };
 
 
   //////////// REMOTE CALLBACK HANDLERS  ////////////
 
   onLoadDefaultJournalCb = (defaultJournal, err) => {
-    console.log("JournalModel : onLoadDefaultJournalCb");
+    console.log("AltMemberJournalExtension : onLoadDefaultJournalCb");
     if (err) {
       console.log("error:" + err);
     } else {
       this.initFromDefaultJournal(defaultJournal);
     }
     this.isInitialized = true;
-
+    this.notifyListeners(AltMemberJournalExtension.CallbackEvent.JOURNAL_HISTORY_UPDATE);
   };
 
   initFromDefaultJournal = (defaultJournal) => {
-    console.log("JournalModel : initFromDefaultJournal");
+    console.log("AltMemberJournalExtension : initFromDefaultJournal");
 
     var journalItems = this.createJournalItems(defaultJournal.recentIntentions);
     let recentIntentionKeys = this.extractRecentIntentionKeys(defaultJournal.recentIntentions);
@@ -113,7 +137,7 @@ export class AltMemberJournalExtension extends DataModel {
     this.allIntentions = defaultJournal.recentIntentions;
     this.activeSize = defaultJournal.recentIntentions.length;
 
-    console.log("JournalModel : Loaded " + this.activeSize + " journal items!");
+    console.log("AltMemberJournalExtension : Loaded " + this.activeSize + " journal items!");
 
   };
 

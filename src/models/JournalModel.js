@@ -1,6 +1,7 @@
 import {DataModel} from "./DataModel";
 import moment from "moment";
 import {AltMemberJournalExtension} from "./AltMemberJournalExtension";
+import {AltModelDelegate} from "./AltModelDelegate";
 
 const {remote} = window.require("electron"),
   RecentJournalDto = remote.require("./dto/RecentJournalDto"),
@@ -28,7 +29,12 @@ export class JournalModel extends DataModel {
 
     this.isAltMemberSelected = false;
     this.altMemberId = null;
-    this.altMemberJournalExtension = new AltMemberJournalExtension(scope);
+
+    this.altModelExtension = new AltMemberJournalExtension(this.scope);
+    this.altModelDelegate = new AltModelDelegate(this, this.altModelExtension);
+
+    this.altModelDelegate.configureDelegateCall("loadDefaultJournal");
+
   }
 
   static get CallbackEvent() {
@@ -43,6 +49,13 @@ export class JournalModel extends DataModel {
     return this.isInitialized === false;
   };
 
+  getActiveScope = () => {
+     if (this.isAltMemberSelected) {
+       return this.altModelExtension;
+     } else {
+       return this;
+     }
+  };
 
   /**
    * Show an alt member's journal
@@ -55,12 +68,21 @@ export class JournalModel extends DataModel {
        console.log("show default journal");
        this.isAltMemberSelected = false;
        this.altMemberId = null;
+
+       this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
+       this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
+
      } else {
        console.log("show journal for member: "+memberId);
        this.isAltMemberSelected = true;
        this.altMemberId = memberId;
-     }
 
+       //should set the memberId on the object, then delegate the call
+
+       this.altModelExtension.setMemberSelection(memberId);
+       this.loadDefaultJournal();
+
+     }
   };
 
   /**
@@ -69,6 +91,8 @@ export class JournalModel extends DataModel {
   resetMemberSelection = () => {
      this.isAltMemberSelected = false;
      this.altMemberId = null;
+
+     this.altModelDelegate.resetMemberSelection();
   };
 
   /**
@@ -79,6 +103,7 @@ export class JournalModel extends DataModel {
 
   loadDefaultJournal = () => {
     console.log("JournalModel - Request - loadDefaultJournal");
+
     let remoteUrn = "/journal";
     let loadRequestType = DataModel.RequestTypes.GET;
 
