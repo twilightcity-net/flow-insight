@@ -3,6 +3,7 @@ import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
 import {DataModelFactory} from "../models/DataModelFactory";
 import {JournalModel} from "../models/JournalModel";
+import {TeamMembersModel} from "../models/TeamMembersModel";
 
 const { remote } = window.require("electron");
 
@@ -81,10 +82,11 @@ export default class JournalLayout extends Component {
   componentDidMount = () => {
     this.log("Journal Layout : componentDidMount");
 
+    this.teamModel.registerListener("journalLayout", TeamMembersModel.CallbackEvent.ACTIVE_MEMBER_UPDATE, this.onChangeMemberSelectionCb);
+
     this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE, this.onJournalHistoryUpdateCb);
     this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.RECENT_TASKS_UPDATE, this.onJournalRecentTasksUpdateCb);
     this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE, this.onJournalActiveItemUpdateCb);
-
 
     if (this.journalModel.isNeverLoaded()) {
        this.journalModel.loadDefaultJournal();
@@ -98,6 +100,7 @@ export default class JournalLayout extends Component {
     this.log("Journal Layout : componentWillUnmount");
 
     this.journalModel.unregisterAllListeners("journalLayout");
+    this.teamModel.unregisterAllListeners("journalLayout");
   };
 
   onJournalRecentTasksUpdateCb = () => {
@@ -130,6 +133,10 @@ export default class JournalLayout extends Component {
     });
 
     this.spiritModel.resetFlame(this.journalModel.activeJournalItem.flameRating);
+  };
+
+  onChangeMemberSelectionCb = () => {
+    this.journalModel.setMemberSelection(this.teamModel.me.id, this.teamModel.activeTeamMember.id);
   };
 
   onFinishEntry = (journalEntry, finishStatus) => {

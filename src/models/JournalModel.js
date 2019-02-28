@@ -1,5 +1,6 @@
 import {DataModel} from "./DataModel";
 import moment from "moment";
+import {AltMemberJournalExtension} from "./AltMemberJournalExtension";
 
 const {remote} = window.require("electron"),
   RecentJournalDto = remote.require("./dto/RecentJournalDto"),
@@ -24,6 +25,10 @@ export class JournalModel extends DataModel {
     this.recentEntry = {};
 
     this.isInitialized = false;
+
+    this.isAltMemberSelected = false;
+    this.altMemberId = null;
+    this.altMemberJournalExtension = new AltMemberJournalExtension(scope);
   }
 
   static get CallbackEvent() {
@@ -36,6 +41,34 @@ export class JournalModel extends DataModel {
 
   isNeverLoaded = () => {
     return this.isInitialized === false;
+  };
+
+
+  /**
+   * Show an alt member's journal
+   * @param meId
+   * @param memberId
+   */
+  setMemberSelection = (meId, memberId) => {
+    console.log("JournalModel - Request - setMemberSelection");
+     if (meId == memberId) {
+       console.log("show default journal");
+       this.isAltMemberSelected = false;
+       this.altMemberId = null;
+     } else {
+       console.log("show journal for member: "+memberId);
+       this.isAltMemberSelected = true;
+       this.altMemberId = memberId;
+     }
+
+  };
+
+  /**
+   * Restore the showing of the default journal
+   */
+  resetMemberSelection = () => {
+     this.isAltMemberSelected = false;
+     this.altMemberId = null;
   };
 
   /**

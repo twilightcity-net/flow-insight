@@ -53,9 +53,6 @@ export default class JournalItems extends Component {
   componentWillReceiveProps = nextProps => {
     this.log("JournalItems:: componentWillReceiveProps");
 
-    console.log("JournalItems: activeIndex "+nextProps.activeIndex);
-    console.log("JournalItems: journalItems "+nextProps.allJournalItems.length);
-
     let activeJournalItem = null;
 
     if (nextProps.allJournalItems.length > 0) {
@@ -126,10 +123,6 @@ export default class JournalItems extends Component {
     if (this.state.activeJournalItem) {
       activeIndex = this.state.activeJournalItem.index;
     }
-
-    this.log("activeIndex: " + activeIndex);
-    this.log("journalItemSize: " + this.state.journalItems.length);
-
     return activeIndex === this.state.journalItems.length - 1;
   }
 
