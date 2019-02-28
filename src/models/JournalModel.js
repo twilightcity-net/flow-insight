@@ -91,10 +91,10 @@ export class JournalModel extends DataModel {
    * Add a new task reference on the server, so intentions can be added for this task
    */
   addTaskRef = (taskName) => {
-    console.log("JournalModel - Request - addTaskRef");
+    console.log("JournalModel - Request - addTaskRef: "+taskName);
     let remoteUrn = "/journal/taskref";
     let loadRequestType = DataModel.RequestTypes.POST;
-    let args = { taskName };
+    let args = { taskName: taskName };
 
     this.remoteFetch(args, remoteUrn, loadRequestType, RecentTasksSummaryDto,
       (dtoResults, err) => {

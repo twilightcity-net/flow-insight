@@ -144,6 +144,11 @@ export default class JournalLayout extends Component {
     this.journalModel.setActiveJournalItem(journalItem);
   };
 
+  onAddTask = (projectId, taskName) => {
+    console.log("Journal Layout : onAddTask: " + projectId + ", " + taskName);
+
+    this.journalModel.addTaskRef(taskName);
+  };
 
   /// renders the journal layout of the console view
   render() {
@@ -161,6 +166,7 @@ export default class JournalLayout extends Component {
         <div id="wrapper" className="journalEntry">
           <JournalEntry
             consoleIsCollapsed={this.props.consoleIsCollapsed}
+            onAddTask={this.onAddTask}
             recentEntry={this.state.recentEntry}
             recentProjects={this.state.recentProjects}
             recentTasksByProjectId={this.state.recentTasksByProjectId}

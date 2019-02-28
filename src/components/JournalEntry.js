@@ -137,14 +137,11 @@ export default class JournalEntry extends Component {
     }
   };
 
+/// called when a new task is added from dropdown
+  handleAdditionForTask = (e, { value }) => {
+    this.log("handleAdditionForTask:" + value);
 
-
-  /// called when a new task is added from dropdown
-  handleAdditionForTask = (e, { taskName }) => {
-    this.log("Journal Layout : handleAdditionForTask: "  + taskName);
-
-    this.journalModel.addTaskRef(taskName);
-
+    this.props.onAddTask(this.state.currentProjectValue, value);
   };
 
   /// called when a new project is added from dropdown
