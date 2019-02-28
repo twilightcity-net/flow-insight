@@ -1,4 +1,4 @@
-import {DataModel} from "./DataModel";
+import { DataModel } from "./DataModel";
 
 const { remote } = window.require("electron"),
   MemberWorkStatusDto = remote.require("./dto/MemberWorkStatusDto");
@@ -12,7 +12,6 @@ export class TeamMembersModel extends DataModel {
     this.me = {};
     this.teamMembers = [];
     this.activeTeamMember = null;
-
   }
 
   static get CallbackEvent() {
@@ -21,7 +20,6 @@ export class TeamMembersModel extends DataModel {
       ACTIVE_MEMBER_UPDATE: "active-member-update"
     };
   }
-
 
   /**
    * Refresh all team members status, and callback when done
@@ -32,11 +30,17 @@ export class TeamMembersModel extends DataModel {
     let remoteUrn = "/status/team";
     let loadRequestType = DataModel.RequestTypes.GET;
 
-    this.remoteFetch(null, remoteUrn, loadRequestType, MemberWorkStatusDto, (dtoResults, err) => {
-      setTimeout(() => {
-        this.onRefreshAllCb(dtoResults, err);
-      }, DataModel.activeWaitDelay);
-    });
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      MemberWorkStatusDto,
+      (dtoResults, err) => {
+        setTimeout(() => {
+          this.onRefreshAllCb(dtoResults, err);
+        }, DataModel.activeWaitDelay);
+      }
+    );
   };
 
   /**
@@ -47,15 +51,21 @@ export class TeamMembersModel extends DataModel {
   refreshMe() {
     let remoteUrn = "/status/me";
     let loadRequestType = DataModel.RequestTypes.GET;
-    this.remoteFetch(null, remoteUrn, loadRequestType, MemberWorkStatusDto, (dtoResults, err) => {
-      setTimeout(() => {
-        this.onRefreshMeCb(dtoResults, err);
-      }, DataModel.activeWaitDelay);
-    });
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      MemberWorkStatusDto,
+      (dtoResults, err) => {
+        setTimeout(() => {
+          this.onRefreshMeCb(dtoResults, err);
+        }, DataModel.activeWaitDelay);
+      }
+    );
   }
 
-  setActiveMember = (memberId) => {
-    if (memberId == this.me.id) {
+  setActiveMember = memberId => {
+    if (memberId === this.me.id) {
       this.activeTeamMember = this.me;
     } else {
       for (var i in this.teamMembers) {
@@ -73,33 +83,28 @@ export class TeamMembersModel extends DataModel {
     if (err) {
       console.log("error:" + err);
     } else {
-
       this.me = this.createMember(0, statusOfMe);
-
     }
     this.notifyListeners(TeamMembersModel.CallbackEvent.MEMBERS_UPDATE);
   };
-
 
   onRefreshAllCb = (memberStatusDtos, err) => {
     console.log("TeamMembersModel : onRefreshAllCb" + memberStatusDtos);
     if (err) {
       console.log("error:" + err);
     } else {
-
       //transform into presentation objects
       this.teamMembers = [];
 
       for (var i in memberStatusDtos) {
-        if (i == 0) {
+        if (i === 0) {
           this.me = this.createMember(0, memberStatusDtos[0]);
         } else {
-          this.teamMembers[i-1] = this.createMember(i, memberStatusDtos[i]);
+          this.teamMembers[i - 1] = this.createMember(i, memberStatusDtos[i]);
         }
       }
 
       this.refreshActiveMember();
-
     }
     console.log("Return callback!");
 
@@ -108,14 +113,13 @@ export class TeamMembersModel extends DataModel {
 
   refreshActiveMember = () => {
     if (this.activeTeamMember == null) {
-       this.activeTeamMember = this.me;
+      this.activeTeamMember = this.me;
     } else {
-       this.setActiveMember(this.activeTeamMember.id);
+      this.setActiveMember(this.activeTeamMember.id);
     }
   };
 
   createMember = (index, teamMember) => {
-
     let level = 0;
     let xpRequired = 0;
     if (teamMember.xpSummary) {
@@ -137,10 +141,9 @@ export class TeamMembersModel extends DataModel {
       alarmCircleName = teamMember.activeCircle.circleName;
       activeCircleId = teamMember.activeCircle.id;
 
-      for(var propt in teamMember.activeCircle){
-        console.log(propt + ': ' + teamMember.activeCircle[propt]);
+      for (var propt in teamMember.activeCircle) {
+        console.log(propt + ": " + teamMember.activeCircle[propt]);
       }
-
     }
 
     return {
@@ -149,7 +152,10 @@ export class TeamMembersModel extends DataModel {
       name: teamMember.fullName,
       shortName: teamMember.shortName,
 
-      activeStatus: this.toActiveStatus(teamMember.onlineStatus, isAlarmTriggered),
+      activeStatus: this.toActiveStatus(
+        teamMember.onlineStatus,
+        isAlarmTriggered
+      ),
       activeTaskName: teamMember.activeTaskName,
       activeTaskSummary: teamMember.activeTaskSummary,
       level: level,
@@ -162,15 +168,11 @@ export class TeamMembersModel extends DataModel {
       alarmCircleName: alarmCircleName,
       activeCircleId: activeCircleId,
 
-      statusColor: this.toStatusColor(
-        teamMember.onlineStatus,
-        isAlarmTriggered
-      )
+      statusColor: this.toStatusColor(teamMember.onlineStatus, isAlarmTriggered)
     };
   };
 
   toActiveStatus = (onlineStatus, isAlarmTriggered) => {
-
     let activeStatus = onlineStatus;
     if (isAlarmTriggered === true) {
       activeStatus = "Troubleshooting";
@@ -179,7 +181,6 @@ export class TeamMembersModel extends DataModel {
   };
 
   toStatusColor = (onlineStatus, isAlarmTriggered) => {
-
     let statusColor = "offlineColor";
     if (onlineStatus === "Online") {
       statusColor = "onlineColor";
@@ -190,6 +191,4 @@ export class TeamMembersModel extends DataModel {
 
     return statusColor;
   };
-
-
 }

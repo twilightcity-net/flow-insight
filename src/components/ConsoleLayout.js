@@ -1,14 +1,14 @@
-import React, {Component} from "react";
-import {RendererEventFactory} from "../RendererEventFactory";
+import React, { Component } from "react";
+import { RendererEventFactory } from "../RendererEventFactory";
 import ConsoleSidebar from "./ConsoleSidebar";
 import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";
 import TeamPanel from "./TeamPanel";
 import SpiritPanel from "./SpiritPanel";
-import {DataModelFactory} from "../models/DataModelFactory";
-import {SpiritModel} from "../models/SpiritModel";
-import {ActiveCircleModel} from "../models/ActiveCircleModel";
-import {TeamMembersModel} from "../models/TeamMembersModel";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { SpiritModel } from "../models/SpiritModel";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
+import { TeamMembersModel } from "../models/TeamMembersModel";
 
 const { remote } = window.require("electron");
 
@@ -48,18 +48,50 @@ export default class ConsoleLayout extends Component {
       )
     };
 
-    this.teamModel = DataModelFactory.createModel(DataModelFactory.Models.MEMBER_STATUS, this);
-    this.teamModel.registerListener("consoleLayout", TeamMembersModel.CallbackEvent.MEMBERS_UPDATE, this.onTeamModelUpdateCb);
-    this.teamModel.registerListener("consoleLayout", TeamMembersModel.CallbackEvent.ACTIVE_MEMBER_UPDATE, this.onActiveMemberUpdateCb);
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS,
+      this
+    );
+    this.teamModel.registerListener(
+      "consoleLayout",
+      TeamMembersModel.CallbackEvent.MEMBERS_UPDATE,
+      this.onTeamModelUpdateCb
+    );
+    this.teamModel.registerListener(
+      "consoleLayout",
+      TeamMembersModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
+      this.onActiveMemberUpdateCb
+    );
 
+    this.activeCircleModel = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_CIRCLE,
+      this
+    );
+    this.activeCircleModel.registerListener(
+      "consoleLayout",
+      ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE,
+      this.onActiveCircleUpdateCb
+    );
 
-    this.activeCircleModel = DataModelFactory.createModel(DataModelFactory.Models.ACTIVE_CIRCLE, this);
-    this.activeCircleModel.registerListener("consoleLayout", ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE, this.onActiveCircleUpdateCb);
-
-    this.spiritModel = DataModelFactory.createModel(DataModelFactory.Models.SPIRIT, this);
-    this.spiritModel.registerListener("consoleLayout", SpiritModel.CallbackEvent.XP_UPDATE, this.onXPUpdate);
-    this.spiritModel.registerListener("consoleLayout", SpiritModel.CallbackEvent.RESET_FLAME, this.onActiveFlameUpdate);
-    this.spiritModel.registerListener("consoleLayout", SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE, this.onActiveFlameUpdate);
+    this.spiritModel = DataModelFactory.createModel(
+      DataModelFactory.Models.SPIRIT,
+      this
+    );
+    this.spiritModel.registerListener(
+      "consoleLayout",
+      SpiritModel.CallbackEvent.XP_UPDATE,
+      this.onXPUpdate
+    );
+    this.spiritModel.registerListener(
+      "consoleLayout",
+      SpiritModel.CallbackEvent.RESET_FLAME,
+      this.onActiveFlameUpdate
+    );
+    this.spiritModel.registerListener(
+      "consoleLayout",
+      SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE,
+      this.onActiveFlameUpdate
+    );
   }
 
   componentDidMount = () => {
@@ -73,7 +105,6 @@ export default class ConsoleLayout extends Component {
       this.animateSidebarPanel(true);
     }, 500);
   };
-
 
   componentWillUnmount = () => {
     this.log("ConsoleLayout : componentWillUnmount");
@@ -146,7 +177,7 @@ export default class ConsoleLayout extends Component {
   adjustFlameCb = flameDelta => {
     this.log("Flame change :" + flameDelta);
 
-    let flameRating = new Number(this.state.flameRating) + flameDelta;
+    let flameRating = Number(this.state.flameRating) + flameDelta;
     if (flameRating > 5) {
       flameRating = 5;
     } else if (flameRating < -5) {
@@ -179,11 +210,10 @@ export default class ConsoleLayout extends Component {
       consoleIsCollapsed: showHideFlag
     });
 
-    if (showHideFlag == false) {
+    if (showHideFlag === false) {
       this.teamModel.refreshAll();
     }
   };
-
 
   /// visually show the panel in the display
   animateSidebarPanel(show) {
@@ -216,9 +246,6 @@ export default class ConsoleLayout extends Component {
     return this.state.sidebarPanelState;
   };
 
-
-
-
   changeActiveSidePanel = activeSidePanel => {
     this.log("Changed panel! " + activeSidePanel);
     this.setState({
@@ -231,10 +258,10 @@ export default class ConsoleLayout extends Component {
     const animatedPanelContent = (
       <SpiritPanel
         xpSummary={this.state.xpSummary}
-        level= {this.state.level}
-        percentXP= {this.state.percentXP}
-        totalXP= {this.state.totalXP}
-        title= {this.state.title}
+        level={this.state.level}
+        percentXP={this.state.percentXP}
+        totalXP={this.state.totalXP}
+        title={this.state.title}
         flameRating={this.state.flameRating}
         loadStateCb={this.loadStateSidebarPanelCb}
         saveStateCb={this.saveStateSidebarPanelCb}
@@ -292,7 +319,6 @@ export default class ConsoleLayout extends Component {
             isAlarmTriggered={this.state.isAlarmTriggered}
             activeCircle={this.state.activeCircle}
           />
-
         </div>
 
         <div id="wrapper" className="consoleMenu">

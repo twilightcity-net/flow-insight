@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
 import {DataModelFactory} from "../models/DataModelFactory";
@@ -29,16 +29,18 @@ export default class JournalLayout extends Component {
 
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
-      this);
+      this
+    );
 
     this.spiritModel = DataModelFactory.createModel(
       DataModelFactory.Models.SPIRIT,
-      this);
+      this
+    );
 
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
-      this);
-
+      this
+    );
   }
 
   componentWillReceiveProps = nextProps => {
@@ -48,9 +50,7 @@ export default class JournalLayout extends Component {
     }
 
     this.lastOpenCloseState = nextProps.consoleIsCollapsed;
-
   };
-
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
@@ -84,12 +84,24 @@ export default class JournalLayout extends Component {
 
     this.teamModel.registerListener("journalLayout", TeamMembersModel.CallbackEvent.ACTIVE_MEMBER_UPDATE, this.onChangeMemberSelectionCb);
 
-    this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE, this.onJournalHistoryUpdateCb);
-    this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.RECENT_TASKS_UPDATE, this.onJournalRecentTasksUpdateCb);
-    this.journalModel.registerListener("journalLayout", JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE, this.onJournalActiveItemUpdateCb);
+    this.journalModel.registerListener(
+      "journalLayout",
+      JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE,
+      this.onJournalHistoryUpdateCb
+    );
+    this.journalModel.registerListener(
+      "journalLayout",
+      JournalModel.CallbackEvent.RECENT_TASKS_UPDATE,
+      this.onJournalRecentTasksUpdateCb
+    );
+    this.journalModel.registerListener(
+      "journalLayout",
+      JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE,
+      this.onJournalActiveItemUpdateCb
+    );
 
     if (this.journalModel.isNeverLoaded()) {
-       this.journalModel.loadDefaultJournal();
+      this.journalModel.loadDefaultJournal();
     } else {
       this.onJournalRecentTasksUpdateCb();
       this.onJournalHistoryUpdateCb();

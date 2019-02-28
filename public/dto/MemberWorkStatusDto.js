@@ -20,7 +20,6 @@ module.exports = class MemberWorkStatusDto {
       this.activeTaskName = json.activeTaskName;
       this.activeTaskSummary = json.activeTaskSummary;
       this.workingOn = json.workingOn;
-
     } catch (e) {
       throw new Error(
         "Unable to create dto 'MemberWorkStatusDto' : " + e.message

@@ -28,7 +28,10 @@ export default class TeamMember extends Component {
   /// renders the component of the console view
   render() {
     let activeClass = "";
-    if (this.props.activeTeamMember != null && this.props.activeTeamMember.id == this.props.teamMember.id) {
+    if (
+      this.props.activeTeamMember != null &&
+      this.props.activeTeamMember.id === this.props.teamMember.id
+    ) {
       activeClass = "active";
     }
 
@@ -46,27 +49,46 @@ export default class TeamMember extends Component {
 
     let memberNamePanel = "";
     if (this.props.isAlarmTriggered) {
-       memberNamePanel = <span className={this.props.statusColor + " alarm"} >
-                            {this.props.shortName}
-                         </span>
+      memberNamePanel = (
+        <span className={this.props.statusColor + " alarm"}>
+          {this.props.shortName}
+        </span>
+      );
     } else {
-       memberNamePanel = <span className={this.props.statusColor}>
-                            {this.props.shortName}
-                          </span>
+      memberNamePanel = (
+        <span className={this.props.statusColor}>{this.props.shortName}</span>
+      );
     }
 
     let workingDetails = "";
     if (this.props.workingOn != null && !this.props.isAlarmTriggered) {
-      workingDetails = <span><span className="highlight"><b>Latest Intention:</b></span> &nbsp;&nbsp;{this.props.workingOn}</span>;
+      workingDetails = (
+        <span>
+          <span className="highlight">
+            <b>Latest Intention:</b>
+          </span>{" "}
+          &nbsp;&nbsp;{this.props.workingOn}
+        </span>
+      );
     } else if (this.props.isAlarmTriggered) {
-      workingDetails = <span><span className="alarm"><b>WTF Alarm:</b></span> &nbsp;&nbsp;<span className="alarmDetails">{this.props.alarmStatusMessage}</span></span>;
+      workingDetails = (
+        <span>
+          <span className="alarm">
+            <b>WTF Alarm:</b>
+          </span>{" "}
+          &nbsp;&nbsp;
+          <span className="alarmDetails">{this.props.alarmStatusMessage}</span>
+        </span>
+      );
     }
 
     let taskTitle = "";
     if (this.props.isAlarmTriggered) {
-      taskTitle = <span className="alarm"> {this.props.activeTaskName} </span>
+      taskTitle = <span className="alarm"> {this.props.activeTaskName} </span>;
     } else {
-      taskTitle = <span className="taskhighlight"> {this.props.activeTaskName} </span>
+      taskTitle = (
+        <span className="taskhighlight"> {this.props.activeTaskName} </span>
+      );
     }
 
     return (
@@ -80,11 +102,7 @@ export default class TeamMember extends Component {
         <Grid.Column width={1}>{statusCircle}</Grid.Column>
         <Grid.Column width={12}>
           <Popup
-            trigger={
-              <div className="memberText">
-                {memberNamePanel}
-              </div>
-            }
+            trigger={<div className="memberText">{memberNamePanel}</div>}
             className="chunkTitle"
             content={
               <div>
@@ -100,9 +118,7 @@ export default class TeamMember extends Component {
 
                 <Divider />
                 <div>
-                  <span className="date">
-                    {workingDetails}
-                  </span>
+                  <span className="date">{workingDetails}</span>
                 </div>
               </div>
             }

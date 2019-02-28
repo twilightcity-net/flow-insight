@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import TroubleshootSessionNew from "./TroubleshootSessionNew";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
-import {DataModelFactory} from "../models/DataModelFactory";
+import { DataModelFactory } from "../models/DataModelFactory";
 
 const { remote } = window.require("electron");
 
@@ -16,7 +16,8 @@ export default class TroubleshootLayout extends Component {
 
     this.activeCircleModel = DataModelFactory.createModel(
       DataModelFactory.Models.ACTIVE_CIRCLE,
-      this);
+      this
+    );
   }
 
   log = msg => {
@@ -46,11 +47,10 @@ export default class TroubleshootLayout extends Component {
     );
   }
 
-  onStartTroubleshooting = (problemStatement) => {
+  onStartTroubleshooting = problemStatement => {
     this.log("onStartTroubleshooting");
 
     this.activeCircleModel.createCircle(problemStatement);
-
   };
 
   onStopTroubleshooting = () => {

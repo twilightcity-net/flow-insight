@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
-import moment from "moment";
 import TeamMember from "./TeamMember";
-import {DataStoreFactory} from "../DataStoreFactory";
 import { DataModelFactory } from "../models/DataModelFactory";
 
 const { remote } = window.require("electron");
@@ -17,7 +15,6 @@ export default class TeamPanel extends Component {
     super(props);
 
     this.state = this.loadState();
-
   }
 
   log = msg => {
@@ -27,9 +24,11 @@ export default class TeamPanel extends Component {
   componentDidMount = () => {
     this.log("Team Layout : componentDidMount");
 
-    this.teamModel = DataModelFactory.createModel(DataModelFactory.Models.MEMBER_STATUS, this);
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS,
+      this
+    );
   };
-
 
   componentWillReceiveProps = nextProps => {
     let newMe = nextProps.me;
@@ -107,21 +106,20 @@ export default class TeamPanel extends Component {
   };
 
   selectRow = (id, teamMember) => {
-    this.log("Team member clicked!" + teamMember.name + "id = "+id);
+    this.log("Team member clicked!" + teamMember.name + "id = " + id);
 
     this.teamModel.setActiveMember(id);
   };
 
   /// renders the console sidebar panel of the console view
   render() {
-
     const teamMembersContent = (
       <div>
         <Grid inverted>
           <TeamMember
             key={this.props.me.id}
             id={this.props.me.id}
-            shortName={ this.props.me.shortName + " (you)"}
+            shortName={this.props.me.shortName + " (you)"}
             name={this.props.me.name}
             activeStatus={this.props.me.activeStatus}
             statusColor={this.props.me.statusColor}

@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
-import {DataModelFactory} from "../models/DataModelFactory";
-import {JournalModel} from "../models/JournalModel";
-import {SpiritModel} from "../models/SpiritModel";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { SpiritModel } from "../models/SpiritModel";
 
 const { remote } = window.require("electron");
 
@@ -23,11 +22,13 @@ export default class JournalItems extends Component {
 
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
-      this);
+      this
+    );
 
     this.spiritModel = DataModelFactory.createModel(
       DataModelFactory.Models.SPIRIT,
-      this);
+      this
+    );
 
     document.onkeydown = this.handleKeyPress;
   }
@@ -39,7 +40,11 @@ export default class JournalItems extends Component {
   componentDidMount() {
     this.log("JournalItems : componentDidMount");
 
-    this.spiritModel.registerListener("journalItems", SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE, this.onDirtyFlameUpdate);
+    this.spiritModel.registerListener(
+      "journalItems",
+      SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE,
+      this.onDirtyFlameUpdate
+    );
 
     this.scrollToBottomOrActive();
   }
@@ -51,7 +56,12 @@ export default class JournalItems extends Component {
   }
 
   componentWillReceiveProps = nextProps => {
-    console.log("JournalItems:: componentWillReceiveProps activeIndex"+ nextProps.activeIndex);
+    this.log("JournalItems:: componentWillReceiveProps");
+
+    console.log("JournalItems: activeIndex " + nextProps.activeIndex);
+    console.log(
+      "JournalItems: journalItems " + nextProps.allJournalItems.length
+    );
 
     let activeJournalItem = null;
 
@@ -78,12 +88,10 @@ export default class JournalItems extends Component {
 
     let activeJournalItem = journalModel.activeJournalItem;
 
-
     this.timeout = setTimeout(function() {
       console.log("saveDirtyFlames!!!!!");
 
       journalModel.updateFlameRating(activeJournalItem, spiritModel.dirtyFlame);
-
     }, 500);
   };
 
@@ -123,6 +131,10 @@ export default class JournalItems extends Component {
     if (this.state.activeJournalItem) {
       activeIndex = this.state.activeJournalItem.index;
     }
+
+    this.log("activeIndex: " + activeIndex);
+    this.log("journalItemSize: " + this.state.journalItems.length);
+
     return activeIndex === this.state.journalItems.length - 1;
   }
 
@@ -141,7 +153,6 @@ export default class JournalItems extends Component {
     );
   };
 
-
   componentDidUpdate() {
     this.log("componentDidUpdate");
 
@@ -149,7 +160,6 @@ export default class JournalItems extends Component {
   }
 
   onSetActiveRow = (rowId, rowObj, journalItem) => {
-
     this.journalModel.setActiveJournalItem(journalItem);
   };
 
@@ -157,7 +167,6 @@ export default class JournalItems extends Component {
     this.log("onUpdateFinishStatus");
     this.props.onFinishEntry(journalItem, newStatus);
   };
-
 
   handleKeyPress = e => {
     this.log("key!!");
@@ -189,7 +198,7 @@ export default class JournalItems extends Component {
       if (direction === "up") {
         newIndex = newIndex - 1;
       } else if (direction === "down") {
-        newIndex = new Number(newIndex) + 1;
+        newIndex = Number(newIndex) + 1;
       }
 
       if (newIndex < 0) {
@@ -210,7 +219,7 @@ export default class JournalItems extends Component {
 
   isActive(id) {
     if ( this.state.activeJournalItem ) {
-      return this.state.activeJournalItem.id == id;
+      return this.state.activeJournalItem.id === id;
     } else {
       return false;
     }
@@ -227,7 +236,6 @@ export default class JournalItems extends Component {
 
   /// renders the journal items component from array in the console view
   render() {
-
     return (
       <div
         id="component"
@@ -236,7 +244,6 @@ export default class JournalItems extends Component {
       >
         <Grid inverted onKeyPress={this.handleKeyPress}>
           {this.state.journalItems.map(d => (
-
             <JournalItem
               key={d.id}
               id={d.id}

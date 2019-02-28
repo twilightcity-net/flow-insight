@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Image, Menu, Progress, Segment, Transition } from "semantic-ui-react";
 import * as THREE from "three";
-import {DataModelFactory} from "../models/DataModelFactory";
+import { DataModelFactory } from "../models/DataModelFactory";
 const { remote } = window.require("electron");
 
 const electronLog = remote.require("electron-log");
@@ -11,13 +11,15 @@ export default class SpiritPanel extends Component {
     super(props);
     this.state = this.loadState();
 
-    this.spiritModel = DataModelFactory.createModel(DataModelFactory.Models.SPIRIT, this);
+    this.spiritModel = DataModelFactory.createModel(
+      DataModelFactory.Models.SPIRIT,
+      this
+    );
   }
 
   log = msg => {
     electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
-
 
   /// performs a simple calculation for dynamic height of panel
   calculateSpiritHeight() {
@@ -69,7 +71,6 @@ export default class SpiritPanel extends Component {
   };
 
   componentWillReceiveProps = nextProps => {
-
     let flameRating = nextProps.flameRating;
 
     let flameString = "0";
