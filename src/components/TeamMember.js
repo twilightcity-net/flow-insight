@@ -50,8 +50,8 @@ export default class TeamMember extends Component {
     let memberNamePanel = "";
     if (this.props.isAlarmTriggered) {
       memberNamePanel = (
-        <span className={this.props.statusColor + " alarm"}>
-          {this.props.shortName}
+        <span className={this.props.statusColor}>
+          {this.props.shortName} <span className="alarm"> &nbsp;&nbsp; WTF?! {this.props.wtfTimer}</span>
         </span>
       );
     } else {

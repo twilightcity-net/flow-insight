@@ -1,4 +1,5 @@
 import { DataModel } from "./DataModel";
+import {WTFTimerExtension} from "./WTFTimerExtension";
 
 const { remote } = window.require("electron"),
   MemberWorkStatusDto = remote.require("./dto/MemberWorkStatusDto");
@@ -130,13 +131,13 @@ export class TeamMembersModel extends DataModel {
     }
 
     let isAlarmTriggered = false;
-    let alarmDurationInSeconds = 0;
+    let wtfTimer = null;
     let alarmStatusMessage = null;
     let alarmCircleName = null;
     let activeCircleId;
     if (teamMember.activeCircle) {
       isAlarmTriggered = true;
-      alarmDurationInSeconds = teamMember.activeCircle.durationInSeconds;
+      wtfTimer = WTFTimerExtension.formatWTFTimerInMinutes(teamMember.activeCircle.durationInSeconds);
       alarmStatusMessage = teamMember.activeCircle.problemDescription;
       alarmCircleName = teamMember.activeCircle.circleName;
       activeCircleId = teamMember.activeCircle.id;
@@ -163,7 +164,7 @@ export class TeamMembersModel extends DataModel {
       workingOn: teamMember.workingOn,
 
       isAlarmTriggered: isAlarmTriggered,
-      alarmDurationInSeconds: alarmDurationInSeconds,
+      wtfTimer: wtfTimer,
       alarmStatusMessage: alarmStatusMessage,
       alarmCircleName: alarmCircleName,
       activeCircleId: activeCircleId,

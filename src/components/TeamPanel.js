@@ -127,7 +127,7 @@ export default class TeamPanel extends Component {
             activeTaskSummary={this.props.me.activeTaskSummary}
             workingOn={this.props.me.workingOn}
             isAlarmTriggered={this.props.me.isAlarmTriggered}
-            alarmDurationInSeconds={this.props.me.alarmDurationInSeconds}
+            wtfTimer={this.props.me.wtfTimer}
             alarmStatusMessage={this.props.me.alarmStatusMessage}
             level={this.props.me.level}
             xpRequired={this.props.me.xpRequired}
@@ -148,7 +148,7 @@ export default class TeamPanel extends Component {
               activeTaskSummary={d.activeTaskSummary}
               workingOn={d.workingOn}
               isAlarmTriggered={d.isAlarmTriggered}
-              alarmDurationInSeconds={d.alarmDurationInSeconds}
+              wtfTimer={d.wtfTimer}
               alarmStatusMessage={this.props.me.alarmStatusMessage}
               level={d.level}
               xpRequired={d.xpRequired}

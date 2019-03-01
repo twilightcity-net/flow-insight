@@ -55,7 +55,7 @@ export class WTFTimerExtension extends DataModel {
   tick = () => {
     console.log("ticking...");
 
-    this.durationInSeconds = new Number(this.durationInSeconds) + 1;
+    this.durationInSeconds = Number(this.durationInSeconds) + 1;
     console.log(this.durationInSeconds);
     this.refreshFormattedTimers();
 
@@ -73,33 +73,49 @@ export class WTFTimerExtension extends DataModel {
 
     let totalSeconds = this.durationInSeconds;
 
+    this.wtfTimerInMinutes = WTFTimerExtension.formatWTFTimerInMinutes(totalSeconds);
+    this.wtfTimerInSeconds = WTFTimerExtension.formatWTFTimerInSeconds(totalSeconds);
+
+  };
+
+  static formatWTFTimerInMinutes = (totalSeconds) => {
     let hours = Math.floor(totalSeconds / 3600);
     totalSeconds %= 3600;
     let minutes = Math.floor(totalSeconds / 60);
     let seconds = totalSeconds % 60;
 
-    console.log("hours: "+hours + ", min: "+minutes + ", seconds: "+seconds);
-
-    this.wtfTimerInMinutes = "";
+    let wtfTimerInMinutes = "";
 
     if (hours > 0) {
-      this.wtfTimerInMinutes += this.zeroPad(hours) + "h ";
+      wtfTimerInMinutes += WTFTimerExtension.zeroPad(hours) + "h ";
     }
     if (minutes > 0) {
-      this.wtfTimerInMinutes += this.zeroPad(minutes) + "m ";
+      wtfTimerInMinutes += WTFTimerExtension.zeroPad(minutes) + "m ";
     }
 
-    this.wtfTimerInSeconds = "";
-
-    if (hours > 0) {
-      this.wtfTimerInSeconds += this.zeroPad(hours) + ":";
-    }
-    this.wtfTimerInSeconds += this.zeroPad(minutes) + ":";
-    this.wtfTimerInSeconds += this.zeroPad(seconds);
-
+    return wtfTimerInMinutes;
   };
 
-  zeroPad = (time) => {
+  static formatWTFTimerInSeconds = (totalSeconds) => {
+    let hours = Math.floor(totalSeconds / 3600);
+    totalSeconds %= 3600;
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds % 60;
+
+    let wtfTimerInSeconds = "";
+
+    if (hours > 0) {
+      wtfTimerInSeconds += WTFTimerExtension.zeroPad(hours) + ":";
+    }
+    wtfTimerInSeconds += WTFTimerExtension.zeroPad(minutes) + ":";
+    wtfTimerInSeconds += WTFTimerExtension.zeroPad(seconds);
+
+    return wtfTimerInSeconds;
+  };
+
+
+
+  static zeroPad = (time) => {
     let timeStr = "";
 
     if (time === 0) {
