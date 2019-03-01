@@ -146,7 +146,9 @@ export default class JournalLayout extends Component {
       activeFlame: this.journalModel.getActiveScope().activeFlame
     });
 
-    this.spiritModel.resetFlame(this.journalModel.getActiveScope().activeJournalItem.flameRating);
+    if (this.journalModel.getActiveScope().activeJournalItem != null) {
+      this.spiritModel.resetFlame(this.journalModel.getActiveScope().activeJournalItem.flameRating);
+    }
   };
 
   onChangeMemberSelectionCb = () => {

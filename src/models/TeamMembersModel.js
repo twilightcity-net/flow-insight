@@ -68,6 +68,7 @@ export class TeamMembersModel extends DataModel {
   setActiveMember = memberId => {
     if (memberId === this.me.id) {
       this.activeTeamMember = this.me;
+
     } else {
       for (var i in this.teamMembers) {
         if (this.teamMembers[i].id === memberId) {
@@ -85,6 +86,7 @@ export class TeamMembersModel extends DataModel {
       console.log("error:" + err);
     } else {
       this.me = this.createMember(0, statusOfMe);
+
     }
     this.notifyListeners(TeamMembersModel.CallbackEvent.MEMBERS_UPDATE);
   };
@@ -98,7 +100,7 @@ export class TeamMembersModel extends DataModel {
       this.teamMembers = [];
 
       for (var i in memberStatusDtos) {
-        if (i === 0) {
+        if (Number(i) === 0) {
           this.me = this.createMember(0, memberStatusDtos[0]);
         } else {
           this.teamMembers[i - 1] = this.createMember(i, memberStatusDtos[i]);
@@ -115,6 +117,7 @@ export class TeamMembersModel extends DataModel {
   refreshActiveMember = () => {
     if (this.activeTeamMember == null) {
       this.activeTeamMember = this.me;
+
     } else {
       this.setActiveMember(this.activeTeamMember.id);
     }

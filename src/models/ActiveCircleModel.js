@@ -296,6 +296,7 @@ export class ActiveCircleModel extends DataModel {
         this.activeCircleId = null;
         this.activeCircle = null;
         this.allFeedMessages = [];
+        this.wtfTimerExtension.stopTimer();
       }
     }
     this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);

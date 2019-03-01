@@ -41,6 +41,7 @@ export class WTFTimerExtension extends DataModel {
    */
   stopTimer = () => {
     this.running = false;
+    this.durationInSeconds = 0;
     console.log("clearing this.timer..."+this.timer);
     if (this.timer) {
       clearInterval(this.timer);
@@ -53,10 +54,8 @@ export class WTFTimerExtension extends DataModel {
    * Ticks the timer up one second, recalculates display values, and sends notifications
    */
   tick = () => {
-    console.log("ticking...");
 
     this.durationInSeconds = Number(this.durationInSeconds) + 1;
-    console.log(this.durationInSeconds);
     this.refreshFormattedTimers();
 
     if (this.durationInSeconds % 60 === 0) {
@@ -87,10 +86,10 @@ export class WTFTimerExtension extends DataModel {
     let wtfTimerInMinutes = "";
 
     if (hours > 0) {
-      wtfTimerInMinutes += WTFTimerExtension.zeroPad(hours) + "h ";
+      wtfTimerInMinutes += hours + "h ";
     }
     if (minutes > 0) {
-      wtfTimerInMinutes += WTFTimerExtension.zeroPad(minutes) + "m ";
+      wtfTimerInMinutes += minutes + "m ";
     }
 
     return wtfTimerInMinutes;

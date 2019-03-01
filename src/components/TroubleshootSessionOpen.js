@@ -38,7 +38,6 @@ export default class TroubleshootSessionOpen extends Component {
   };
 
   onTimerUpdate = () => {
-    console.log("TIMER UPDATE! "+this.activeCircleModel.getWTFTimerInSeconds());
      this.setState({
        formattedWTFTimer: this.activeCircleModel.getWTFTimerInSeconds()
      });

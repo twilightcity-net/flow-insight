@@ -132,6 +132,7 @@ export default class ConsoleLayout extends Component {
 
   onTeamModelUpdateCb = () => {
     this.log("ConsoleLayout : onTeamModelUpdateCb");
+    console.log("WTF TIMER "+this.teamModel.me.wtfTimer);
     this.setState({
       me: this.teamModel.me,
       teamMembers: this.teamModel.teamMembers,
@@ -205,12 +206,12 @@ export default class ConsoleLayout extends Component {
   };
 
   resetCb = (event, showHideFlag) => {
-    this.log("RESET!!");
+    console.log("RESET!!");
     this.setState({
       consoleIsCollapsed: showHideFlag
     });
 
-    if (showHideFlag === false) {
+    if (Boolean(showHideFlag) === false) {
       this.teamModel.refreshAll();
     }
   };

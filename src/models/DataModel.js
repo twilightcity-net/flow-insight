@@ -62,7 +62,6 @@ export class DataModel {
    * @param eventType
    */
   notifyListeners(eventType) {
-    console.log("NOTIFY = "+eventType);
     let eventListenersBySubscriber = this.listenersByEventType[eventType];
 
     for (var subscriber in eventListenersBySubscriber) {
