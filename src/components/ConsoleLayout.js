@@ -73,6 +73,15 @@ export default class ConsoleLayout extends Component {
       this.onActiveCircleUpdateCb
     );
 
+    this.activeCircleModel.registerListener(
+      "consoleLayout",
+      ActiveCircleModel.CallbackEvent.WTF_TIMER_MINUTES_UPDATE,
+      () => {
+        console.log("WTF_TIMER_MINUTES_UPDATE");
+        this.teamModel.refreshMe();
+      }
+    );
+
     this.spiritModel = DataModelFactory.createModel(
       DataModelFactory.Models.SPIRIT,
       this

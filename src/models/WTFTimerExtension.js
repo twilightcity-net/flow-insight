@@ -58,7 +58,7 @@ export class WTFTimerExtension extends DataModel {
     this.durationInSeconds = Number(this.durationInSeconds) + 1;
     this.refreshFormattedTimers();
 
-    if (this.durationInSeconds % 60 === 0) {
+    if (Number(this.durationInSeconds % 60) === 0) {
       this.notifyListeners(WTFTimerExtension.CallbackEvent.WTF_TIMER_MINUTES_UPDATE);
     }
 
