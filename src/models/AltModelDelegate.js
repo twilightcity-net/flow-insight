@@ -83,7 +83,6 @@ export class AltModelDelegate {
   };
 
 
-
   cascadeNotificationChains = (primaryModel, notifyMethod, altModel) => {
 
     var primaryMethod = primaryModel[notifyMethod];
@@ -94,6 +93,5 @@ export class AltModelDelegate {
       primaryMethod.apply(primaryModel, arguments);
     };
   };
-
 
 }

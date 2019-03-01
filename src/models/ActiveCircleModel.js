@@ -1,5 +1,6 @@
 import { DataModel } from "./DataModel";
-
+import {WTFTimerExtension} from "./WTFTimerExtension";
+import {AltModelDelegate} from "./AltModelDelegate";
 const { remote } = window.require("electron"),
   CircleDto = remote.require("./dto/CircleDto"),
   CircleKeyDto = remote.require("./dto/CircleKeyDto"),
@@ -11,13 +12,28 @@ export class ActiveCircleModel extends DataModel {
     this.activeCircleId = null;
     this.activeCircle = null;
     this.isAlarmTriggered = false;
+
+    //delegate cascades notifications
+    this.wtfTimerExtension = new WTFTimerExtension(scope);
+    this.altModelDelegate = new AltModelDelegate(this, this.wtfTimerExtension);
+
   }
 
   static get CallbackEvent() {
     return {
       CIRCLE_UPDATE: "circle-update",
       FEED_UPDATE: "feed-update",
+      WTF_TIMER_MINUTES_UPDATE: "wtf-timer-minutes-update",
+      WTF_TIMER_SECONDS_UPDATE: "wtf-timer-seconds-update"
     };
+  }
+
+  getWTFTimerInMinutes() {
+    return this.wtfTimerExtension.wtfTimerInMinutes;
+  }
+
+  getWTFTimerInSeconds() {
+    return this.wtfTimerExtension.wtfTimerInSeconds;
   }
 
   /**
@@ -271,6 +287,9 @@ export class ActiveCircleModel extends DataModel {
         this.activeCircleId = circleDto.id;
         this.activeCircle = circleDto;
         this.isAlarmTriggered = true;
+        this.wtfTimerExtension.startTimer(this.calculateTimer(circleDto));
+
+
       } else {
         console.log("ActiveCircleModel : onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;
@@ -291,6 +310,7 @@ export class ActiveCircleModel extends DataModel {
       this.activeCircleId = null;
       this.activeCircle = null;
       this.allFeedMessages = [];
+      this.wtfTimerExtension.stopTimer();
     }
     this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
   };
@@ -304,6 +324,7 @@ export class ActiveCircleModel extends DataModel {
       this.activeCircleId = null;
       this.activeCircle = null;
       this.allFeedMessages = [];
+      this.wtfTimerExtension.stopTimer();
     }
     this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
   };
@@ -316,6 +337,7 @@ export class ActiveCircleModel extends DataModel {
       this.activeCircleId = circleDto.id;
       this.activeCircle = circleDto;
       this.isAlarmTriggered = true;
+      this.wtfTimerExtension.startTimer(this.calculateTimer(circleDto));
     }
     this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
   };
@@ -350,4 +372,15 @@ export class ActiveCircleModel extends DataModel {
     this.notifyListeners(ActiveCircleModel.CallbackEvent.FEED_UPDATE);
   };
 
+  calculateTimer = (circleDto) => {
+
+    let startingSeconds = 0;
+
+    if (circleDto.durationInSeconds) {
+      startingSeconds += Number(circleDto.durationInSeconds);
+    }
+
+    return startingSeconds;
+
+  };
 }

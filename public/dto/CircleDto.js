@@ -12,6 +12,11 @@ module.exports = class CircleDto {
       this.members = json.members;
       this.onShelf = json.onShelf;
       this.publicKey = json.publicKey;
+
+      this.startTime = json.startTime;
+      this.endTime = json.endTime;
+      this.lastResumeTime = json.lastResumeTime;
+
     } catch (e) {
       throw new Error("Unable to create dto 'CircleDto' : " + e.message);
     }
