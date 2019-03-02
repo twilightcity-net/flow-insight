@@ -255,6 +255,8 @@ export default class JournalItems extends Component {
               description={d.description}
               flameRating={d.flameRating}
               finishStatus={d.finishStatus}
+              journalEntryType={d.journalEntryType}
+              circleId={d.circleId}
               position={d.position}
               journalItem={d}
               onSetActiveRow={this.onSetActiveRow}

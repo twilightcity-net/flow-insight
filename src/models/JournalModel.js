@@ -415,44 +415,46 @@ export class JournalModel extends DataModel {
     console.log("JournalModel : Loaded " + this.activeSize + " journal items!");
   };
 
-  extractRecentIntentionKeys = allIntentions => {
+  extractRecentIntentionKeys = allEntries => {
     let latestKeys = {};
 
-    if (allIntentions.length > 0) {
-      let latestIntention = allIntentions[allIntentions.length - 1];
+    if (allEntries.length > 0) {
+      let lastEntry = allEntries[allEntries.length - 1];
 
       latestKeys = {
-        projectId: latestIntention.projectId,
-        taskId: latestIntention.taskId,
-        description: latestIntention.description
+        projectId: lastEntry.projectId,
+        taskId: lastEntry.taskId,
+        description: lastEntry.description
       };
     }
     return latestKeys;
   };
 
-  createJournalItems = allIntentions => {
+  createJournalItems = allEntries => {
     let journalItems = [];
 
-    for (var i in allIntentions) {
-      journalItems[i] = this.createJournalItem(i, allIntentions[i]);
+    for (var i in allEntries) {
+      journalItems[i] = this.createJournalItem(i, allEntries[i]);
     }
 
     return journalItems;
   };
 
-  createJournalItem = (index, intention) => {
-    let d = intention.position;
+  createJournalItem = (index, journalEntry) => {
+    let d = journalEntry.position;
     let dateObj = new Date(d[0], d[1] - 1, d[2], d[3], d[4], d[5]);
 
     return {
       index: index,
-      id: intention.id,
-      flameRating: intention.flameRating,
-      projectName: intention.projectName,
-      taskName: intention.taskName,
-      taskSummary: intention.taskSummary,
-      description: intention.description,
-      finishStatus: intention.finishStatus,
+      id: journalEntry.id,
+      flameRating: journalEntry.flameRating,
+      projectName: journalEntry.projectName,
+      taskName: journalEntry.taskName,
+      taskSummary: journalEntry.taskSummary,
+      description: journalEntry.description,
+      finishStatus: journalEntry.finishStatus,
+      journalEntryType: journalEntry.journalEntryType,
+      circleId: journalEntry.circleId,
       position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a"),
       rawDate: dateObj
     };

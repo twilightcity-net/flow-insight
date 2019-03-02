@@ -86,10 +86,10 @@ export class WTFTimerExtension extends DataModel {
     let wtfTimerInMinutes = "";
 
     if (hours > 0) {
-      wtfTimerInMinutes += hours + "h ";
+      wtfTimerInMinutes += hours + "h";
     }
-    if (minutes > 0) {
-      wtfTimerInMinutes += minutes + "m ";
+    if (hours === 0 && minutes > 0) {
+      wtfTimerInMinutes += minutes + "m";
     }
 
     return wtfTimerInMinutes;

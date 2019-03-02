@@ -351,6 +351,17 @@
         font-style: italic;
       }
 
+      span.circleLink {
+        color: rgba(220, 0, 0, 0.96);
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      span.circleLink:hover {
+        color: rgba(255, 0, 0, 0.96);
+        text-decoration: underline;
+      }
+
       span.offlineColor {
         color: #999999;
       }
@@ -595,6 +606,16 @@
       #component.journalItems .ui.grid>.row .column:last-child {
         padding-right: 0px;
       }
+
+      #component.journalItems .ui.grid .row .alarm {
+        color: rgba(180, 0, 0, 0.96);
+        font-weight: 800;
+        font-style: italic;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       #component.journalItems .ui.grid .row .chunkTitle {
         font-weight: 800;
         color: rgba(21, 154, 20, 1);
@@ -604,8 +625,13 @@
         text-overflow: ellipsis; 
       }
 
+      #component.journalItems .ui.grid .row .alarmDetails {
+        font-weight: 400;
+        color: rgba(180, 0, 0, 0.96);
+      }
+
       #component.journalItems .ui.grid .row .wtfFlame {
-        color: rgba(160, 0, 0, 0.96);
+        color: rgba(180, 0, 0, 0.96);
         white-space: nowrap;
         overflow: hidden;
       }
@@ -789,7 +815,7 @@
       }
 
       .ui.popup.chunkTitle .alarmDetails, .ui.popup.timeScrubber .alarmDetails {
-        color: rgba(160, 0, 0, 0.96);
+        color: rgba(180, 0, 0, 0.96);
       }
 
       .ui.popup.chunkTitle .taskhighlight, .ui.popup.timeScrubber .taskhighlight {

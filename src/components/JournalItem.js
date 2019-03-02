@@ -32,6 +32,10 @@ export default class JournalItem extends Component {
     this.props.onUpdateFinishStatus(this.props.journalItem, finishStatus);
   };
 
+  gotoCircle = () => {
+    console.log("gotoCircle!!! "+this.props.circleId);
+  };
+
   /// renders the component of the console view
   render() {
     let finishIcon = "";
@@ -73,21 +77,50 @@ export default class JournalItem extends Component {
       );
     }
 
+    if (this.props.circleId) {
+      finishIcon = "";
+    }
+
     let active = "";
     if (this.props.isActive) {
       active = "active";
     }
 
+    let wtfPrefix = "";
+    let padding = "";
+    if (this.props.journalEntryType === "WTF") {
+      wtfPrefix = <span className="circleLink" onClick={this.gotoCircle}>WTF?</span>;
+      padding = <span>&nbsp;&nbsp;</span>;
+    }
+
+    let taskStyle = "chunkTitle";
+    if (this.props.circleId != null) {
+      taskStyle = " alarm";
+    }
+
+    let descriptionStyle = "chunkText";
+    if (this.props.circleId != null) {
+      descriptionStyle = " alarmDetails";
+    }
+
     const projectCell = (
-      <div className="chunkTitle">{this.props.projectName}</div>
+      <div className={taskStyle}>{this.props.projectName}</div>
     );
-    const taskCell = <div className="chunkTitle">{this.props.taskName}</div>;
+    const taskCell = <div className={taskStyle}>{this.props.taskName}</div>;
     const chunkCell = (
-      <div className="chunkText">
+      <div className={descriptionStyle}>
+        {wtfPrefix}{padding}
+
         {this.props.description}
         {finishIcon}
       </div>
     );
+
+    let popupStyle = "taskhighlight";
+    if (this.props.circleId != null) {
+      popupStyle = " alarm";
+    }
+
     const popupContent = (
       <div>
         <div>
@@ -95,7 +128,7 @@ export default class JournalItem extends Component {
         </div>
         <div>
           <b>
-            <span className="taskhighlight"> {this.props.taskName} </span>
+            <span className={popupStyle}> {this.props.taskName} </span>
           </b>
         </div>
         <div>{this.props.taskSummary}</div>
@@ -164,4 +197,6 @@ export default class JournalItem extends Component {
       </Grid.Row>
     );
   }
+
+
 }

@@ -4,6 +4,7 @@ import JournalEntry from "./JournalEntry";
 import {DataModelFactory} from "../models/DataModelFactory";
 import {JournalModel} from "../models/JournalModel";
 import {TeamMembersModel} from "../models/TeamMembersModel";
+import {ActiveCircleModel} from "../models/ActiveCircleModel";
 
 const { remote } = window.require("electron");
 
@@ -41,6 +42,11 @@ export default class JournalLayout extends Component {
       DataModelFactory.Models.MEMBER_STATUS,
       this
     );
+
+    this.activeCircleModel = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_CIRCLE,
+      this
+    )
   }
 
   componentWillReceiveProps = nextProps => {
@@ -113,6 +119,7 @@ export default class JournalLayout extends Component {
 
     this.journalModel.unregisterAllListeners("journalLayout");
     this.teamModel.unregisterAllListeners("journalLayout");
+    this.activeCircleModel.unregisterAllListeners("journalLayout")
   };
 
   onJournalRecentTasksUpdateCb = () => {
