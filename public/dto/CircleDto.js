@@ -9,6 +9,7 @@ module.exports = class CircleDto {
       this.circleName = json.circleName;
       this.problemDescription = json.problemDescription;
       this.durationInSeconds = json.durationInSeconds;
+      this.circleContext = json.circleContext;
       this.members = json.members;
       this.onShelf = json.onShelf;
       this.publicKey = json.publicKey;

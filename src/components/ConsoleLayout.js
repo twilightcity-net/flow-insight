@@ -101,6 +101,11 @@ export default class ConsoleLayout extends Component {
       SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE,
       this.onActiveFlameUpdate
     );
+
+    this.journalModel = DataModelFactory.createModel(
+      DataModelFactory.Models.JOURNAL,
+      this
+    );
   }
 
   componentDidMount = () => {
@@ -165,6 +170,7 @@ export default class ConsoleLayout extends Component {
     });
 
     this.teamModel.refreshMe();
+    this.journalModel.loadDefaultJournal();
   };
 
   onXPCb = () => {
