@@ -87,6 +87,7 @@ export default class JournalItem extends Component {
     }
 
     let wtfPrefix = "";
+    let wtfPopup = "";
     let padding = "";
     if (this.props.journalEntryType === "WTF") {
       wtfPrefix = (
@@ -94,18 +95,30 @@ export default class JournalItem extends Component {
           WTF?
         </span>
       );
+
+      if (this.props.finishStatus === "aborted" || this.props.finishStatus === "done") {
+        wtfPopup = <div>
+          <div>
+            <span className="alarm"> <i>Circle Closed</i></span>
+          </div>
+        </div>;
+      } else {
+        wtfPopup = <div>
+          <div>
+            <span className="alarm"> <i>Click to Join!</i></span>
+          </div>
+        </div>;
+      }
+
       padding = <span>&nbsp;&nbsp;</span>;
     }
 
-    let taskStyle = "chunkTitle";
-    if (this.props.circleId != null) {
-      taskStyle = " alarm";
-    }
 
+
+
+    let taskStyle = "chunkTitle";
     let descriptionStyle = "chunkText";
-    if (this.props.circleId != null) {
-      descriptionStyle = " alarmDetails";
-    }
+
 
     const projectCell = (
       <div className={taskStyle}>{this.props.projectName}</div>
@@ -113,18 +126,21 @@ export default class JournalItem extends Component {
     const taskCell = <div className={taskStyle}>{this.props.taskName}</div>;
     const chunkCell = (
       <div className={descriptionStyle}>
-        {wtfPrefix}
+        {padding}{padding}
+        <Popup
+          trigger={wtfPrefix}
+          content={wtfPopup}
+          position="top center"
+          inverted
+          hideOnScroll
+        />
+
         {padding}
 
         {this.props.description}
         {finishIcon}
       </div>
     );
-
-    let popupStyle = "taskhighlight";
-    if (this.props.circleId != null) {
-      popupStyle = " alarm";
-    }
 
     const popupContent = (
       <div>
@@ -133,7 +149,7 @@ export default class JournalItem extends Component {
         </div>
         <div>
           <b>
-            <span className={popupStyle}> {this.props.taskName} </span>
+            <span className="taskhighlight"> {this.props.taskName} </span>
           </b>
         </div>
         <div>{this.props.taskSummary}</div>
