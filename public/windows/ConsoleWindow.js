@@ -174,37 +174,12 @@ module.exports = class ConsoleWindow {
   showConsole() {
     log.info("[ConsoleWindow] show window -> " + this.name);
     this.state = this.states.SHOWING;
-    this.window.setPosition(0, Math.floor(-this.bounds.height / 2));
+    // this.window.setPosition(0, Math.floor(-this.bounds.height / 2));
+    this.window.setPosition(0, 0);
     this.window.show();
     this.window.focus();
-    this.animateShow(42, 14, this.window.getPosition()[1]);
-  }
-
-  /*
-   * animates the window of the console to show
-   */
-  animateShow(i, t, y) {
-    setTimeout(() => {
-      y += i;
-      if (i >= 30) {
-        i -= 3;
-      } else if (i <= 30 && i > 6) {
-        i -= 2;
-      } else if (i <= 6 && i > 1) {
-        i -= 1;
-      }
-      this.window.setPosition(0, y);
-      if (y <= 0) {
-        if (this.state === this.states.CANCEL) {
-          this.hideConsole();
-        } else {
-          this.animateShow(i, t, y);
-        }
-      } else {
-        this.window.setPosition(0, 0);
-        this.state = this.states.SHOWN;
-      }
-    }, t);
+    // this.animateShow(42, 14, this.window.getPosition()[1]);
+    this.state = this.states.SHOWN;
   }
 
   /*
@@ -214,36 +189,9 @@ module.exports = class ConsoleWindow {
   hideConsole() {
     log.info("[ConsoleWindow] hide window -> " + this.name);
     this.state = this.states.HIDING;
-    this.animateHide(1, 14, this.window.getPosition()[1]);
-  }
-
-  /*
-   * animates the window of the console to hide
-   */
-  animateHide(i, t, y) {
-    setTimeout(() => {
-      y -= i;
-      if (i >= 40) {
-        i += 5;
-      } else if (i <= 40 && i > 10) {
-        i += 4;
-      } else if (i <= 10 && i > 4) {
-        i += 3;
-      } else if (i <= 4 && i > 0) {
-        i += 2;
-      }
-      this.window.setPosition(0, y);
-      if (y >= -Math.floor(this.bounds.height / 2)) {
-        if (this.state === this.states.CANCEL) {
-          this.showConsole();
-        } else {
-          this.animateHide(i, t, y);
-        }
-      } else {
-        this.window.setPosition(0, Math.floor(-this.bounds.height / 2));
-        this.window.hide();
-        this.state = this.states.HIDDEN;
-      }
-    }, t);
+    // this.animateHide(1, 14, this.window.getPosition()[1]);
+    this.window.setPosition(0, 0);
+    this.window.hide();
+    this.state = this.states.HIDDEN;
   }
 };
