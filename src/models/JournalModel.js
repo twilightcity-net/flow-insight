@@ -231,14 +231,46 @@ export class JournalModel extends DataModel {
   };
 
   /**
-   * Update the finish status of an existing intention
+   * Update the finish status of an existing intention or WTF
    */
 
   updateFlameRating = (journalItem, flameRating) => {
-    console.log("JournalModel - Request - updateFlameRating");
 
+    if (journalItem.journalEntryType === "Intention" ) {
+       this.updateFlameRatingForIntention(journalItem, flameRating);
+
+    } else if (journalItem.journalEntryType === "WTF" ) {
+       this.updateFlameRatingForWTFCircle(journalItem, flameRating);
+    }
+
+  };
+
+  updateFlameRatingForIntention = (journalItem, flameRating) => {
+    console.log("JournalModel - Request - updateFlameRatingForIntention");
     let remoteUrn =
       "/journal/intention/" + journalItem.id + "/transition/flame";
+    let loadRequestType = DataModel.RequestTypes.POST;
+    let args = { flameRating: flameRating };
+
+    journalItem.flameRating = flameRating;
+
+    this.remoteFetch(
+      args,
+      remoteUrn,
+      loadRequestType,
+      JournalEntryDto,
+      (dtoResults, err) => {
+        setTimeout(() => {
+          this.onUpdateFlameRatingCb(dtoResults, err);
+        }, DataModel.activeWaitDelay);
+      }
+    );
+  };
+
+  updateFlameRatingForWTFCircle = (journalItem, flameRating) => {
+    console.log("JournalModel - Request - updateFlameRatingForWTFCircle");
+    let remoteUrn =
+      "/journal/wtf/" + journalItem.id + "/transition/flame";
     let loadRequestType = DataModel.RequestTypes.POST;
     let args = { flameRating: flameRating };
 
@@ -261,6 +293,7 @@ export class JournalModel extends DataModel {
    * Refresh recent task references for the journal drop down
    */
   refreshRecentTaskReferences = () => {
+
     console.log("JournalModel - Request - refreshTaskReferences");
 
     let remoteUrn = "/journal/taskref/recent";
