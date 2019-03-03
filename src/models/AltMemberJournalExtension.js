@@ -1,9 +1,8 @@
-import {DataModel} from "./DataModel";
+import { DataModel } from "./DataModel";
 import moment from "moment";
 
-const {remote} = window.require("electron"),
+const { remote } = window.require("electron"),
   RecentJournalDto = remote.require("./dto/RecentJournalDto");
-
 
 export class AltMemberJournalExtension extends DataModel {
   constructor(scope) {
@@ -24,7 +23,6 @@ export class AltMemberJournalExtension extends DataModel {
     this.isInitialized = false;
 
     this.altMemberId = null;
-
   }
 
   static get CallbackEvent() {
@@ -42,7 +40,7 @@ export class AltMemberJournalExtension extends DataModel {
    * Retrieves true if this member is already loaded
    */
   isMemberLoaded(memberId) {
-    return (this.altMemberId != null && this.altMemberId === memberId);
+    return this.altMemberId != null && this.altMemberId === memberId;
   }
 
   /**
@@ -54,18 +52,22 @@ export class AltMemberJournalExtension extends DataModel {
   loadDefaultJournal = () => {
     console.log("AltMemberJournalExtension - Request - loadDefaultJournal");
 
-
-    let remoteUrn = "/journal?member="+this.altMemberId;
+    let remoteUrn = "/journal?member=" + this.altMemberId;
     let loadRequestType = DataModel.RequestTypes.GET;
 
-    console.log("AltMemberJournalExtension - "+remoteUrn);
+    console.log("AltMemberJournalExtension - " + remoteUrn);
 
-    this.remoteFetch(null, remoteUrn, loadRequestType, RecentJournalDto,
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      RecentJournalDto,
       (dtoResults, err) => {
         setTimeout(() => {
           this.onLoadDefaultJournalCb(dtoResults, err);
         }, DataModel.activeWaitDelay);
-      });
+      }
+    );
   };
 
   /**
@@ -84,22 +86,25 @@ export class AltMemberJournalExtension extends DataModel {
       this.activeJournalItem = null;
     }
 
-    this.notifyListeners(AltMemberJournalExtension.CallbackEvent.ACTIVE_ITEM_UPDATE);
+    this.notifyListeners(
+      AltMemberJournalExtension.CallbackEvent.ACTIVE_ITEM_UPDATE
+    );
   };
 
   /**
    * Set the active selected item to a specific item in the journal
    * @param journalItem
    */
-  setActiveJournalItem = (journalItem) => {
+  setActiveJournalItem = journalItem => {
     console.log("AltMemberJournalExtension : setActiveJournalItem");
     this.activeIndex = journalItem.index;
     this.activeJournalItem = journalItem;
     this.activeFlame = journalItem;
 
-    this.notifyListeners(AltMemberJournalExtension.CallbackEvent.ACTIVE_ITEM_UPDATE);
+    this.notifyListeners(
+      AltMemberJournalExtension.CallbackEvent.ACTIVE_ITEM_UPDATE
+    );
   };
-
 
   //////////// REMOTE CALLBACK HANDLERS  ////////////
 
@@ -111,14 +116,18 @@ export class AltMemberJournalExtension extends DataModel {
       this.initFromDefaultJournal(defaultJournal);
     }
     this.isInitialized = true;
-    this.notifyListeners(AltMemberJournalExtension.CallbackEvent.JOURNAL_HISTORY_UPDATE);
+    this.notifyListeners(
+      AltMemberJournalExtension.CallbackEvent.JOURNAL_HISTORY_UPDATE
+    );
   };
 
-  initFromDefaultJournal = (defaultJournal) => {
+  initFromDefaultJournal = defaultJournal => {
     console.log("AltMemberJournalExtension : initFromDefaultJournal");
 
     var journalItems = this.createJournalItems(defaultJournal.recentIntentions);
-    let recentIntentionKeys = this.extractRecentIntentionKeys(defaultJournal.recentIntentions);
+    let recentIntentionKeys = this.extractRecentIntentionKeys(
+      defaultJournal.recentIntentions
+    );
 
     let activeJournalItem = null;
     let activeIndex = 0;
@@ -139,11 +148,14 @@ export class AltMemberJournalExtension extends DataModel {
     this.allIntentions = defaultJournal.recentIntentions;
     this.activeSize = defaultJournal.recentIntentions.length;
 
-    console.log("AltMemberJournalExtension : Loaded " + this.activeSize + " journal items!");
-
+    console.log(
+      "AltMemberJournalExtension : Loaded " +
+        this.activeSize +
+        " journal items!"
+    );
   };
 
-  extractRecentIntentionKeys = (allIntentions) => {
+  extractRecentIntentionKeys = allIntentions => {
     let latestKeys = {};
 
     if (allIntentions.length > 0) {
@@ -158,7 +170,7 @@ export class AltMemberJournalExtension extends DataModel {
     return latestKeys;
   };
 
-  createJournalItems = (allIntentions) => {
+  createJournalItems = allIntentions => {
     let journalItems = [];
 
     for (var i in allIntentions) {
@@ -185,6 +197,4 @@ export class AltMemberJournalExtension extends DataModel {
       rawDate: dateObj
     };
   };
-
-
 }

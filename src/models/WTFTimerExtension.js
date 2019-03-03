@@ -1,6 +1,6 @@
-import {DataModel} from "./DataModel";
+import { DataModel } from "./DataModel";
 
-const {remote} = window.require("electron");
+const { remote } = window.require("electron");
 
 export class WTFTimerExtension extends DataModel {
   constructor(scope) {
@@ -21,7 +21,7 @@ export class WTFTimerExtension extends DataModel {
     };
   }
 
-  startTimer = (durationInSeconds) => {
+  startTimer = durationInSeconds => {
     if (durationInSeconds) {
       this.durationInSeconds = durationInSeconds;
     }
@@ -33,7 +33,7 @@ export class WTFTimerExtension extends DataModel {
     }
 
     this.timer = setInterval(this.tick, 1000);
-    console.log("ticking..."+this.timer);
+    console.log("ticking..." + this.timer);
   };
 
   /**
@@ -42,42 +42,46 @@ export class WTFTimerExtension extends DataModel {
   stopTimer = () => {
     this.running = false;
     this.durationInSeconds = 0;
-    console.log("clearing this.timer..."+this.timer);
+    console.log("clearing this.timer..." + this.timer);
     if (this.timer) {
       clearInterval(this.timer);
       this.timer = null;
     }
-
   };
 
   /**
    * Ticks the timer up one second, recalculates display values, and sends notifications
    */
   tick = () => {
-
     this.durationInSeconds = Number(this.durationInSeconds) + 1;
     this.refreshFormattedTimers();
 
     if (Number(this.durationInSeconds % 60) === 0) {
-      this.notifyListeners(WTFTimerExtension.CallbackEvent.WTF_TIMER_MINUTES_UPDATE);
+      this.notifyListeners(
+        WTFTimerExtension.CallbackEvent.WTF_TIMER_MINUTES_UPDATE
+      );
     }
 
-    this.notifyListeners(WTFTimerExtension.CallbackEvent.WTF_TIMER_SECONDS_UPDATE);
+    this.notifyListeners(
+      WTFTimerExtension.CallbackEvent.WTF_TIMER_SECONDS_UPDATE
+    );
   };
 
   /**
    * After timer is ticked up one second, recalculate the WTF Timer display values
    */
   refreshFormattedTimers = () => {
-
     let totalSeconds = this.durationInSeconds;
 
-    this.wtfTimerInMinutes = WTFTimerExtension.formatWTFTimerInMinutes(totalSeconds);
-    this.wtfTimerInSeconds = WTFTimerExtension.formatWTFTimerInSeconds(totalSeconds);
-
+    this.wtfTimerInMinutes = WTFTimerExtension.formatWTFTimerInMinutes(
+      totalSeconds
+    );
+    this.wtfTimerInSeconds = WTFTimerExtension.formatWTFTimerInSeconds(
+      totalSeconds
+    );
   };
 
-  static formatWTFTimerInMinutes = (totalSeconds) => {
+  static formatWTFTimerInMinutes = totalSeconds => {
     let hours = Math.floor(totalSeconds / 3600);
     totalSeconds %= 3600;
     let minutes = Math.floor(totalSeconds / 60);
@@ -95,7 +99,7 @@ export class WTFTimerExtension extends DataModel {
     return wtfTimerInMinutes;
   };
 
-  static formatWTFTimerInSeconds = (totalSeconds) => {
+  static formatWTFTimerInSeconds = totalSeconds => {
     let hours = Math.floor(totalSeconds / 3600);
     totalSeconds %= 3600;
     let minutes = Math.floor(totalSeconds / 60);
@@ -112,9 +116,7 @@ export class WTFTimerExtension extends DataModel {
     return wtfTimerInSeconds;
   };
 
-
-
-  static zeroPad = (time) => {
+  static zeroPad = time => {
     let timeStr = "";
 
     if (time === 0) {
@@ -125,7 +127,5 @@ export class WTFTimerExtension extends DataModel {
       timeStr = time;
     }
     return timeStr;
-
   };
-
 }

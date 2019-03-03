@@ -16,7 +16,6 @@ module.exports = class CircleDto {
       this.startTime = json.startTime;
       this.endTime = json.endTime;
       this.lastResumeTime = json.lastResumeTime;
-
     } catch (e) {
       throw new Error("Unable to create dto 'CircleDto' : " + e.message);
     }

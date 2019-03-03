@@ -5,7 +5,6 @@ import { RendererEventFactory } from "../RendererEventFactory";
 // this base class is used for Stores
 //
 export class AltModelDelegate {
-
   constructor(primaryModel, altModel) {
     this.primaryModel = primaryModel;
     this.altModel = altModel;
@@ -13,7 +12,11 @@ export class AltModelDelegate {
     this.isAltMemberSelected = false;
     this.altMemberId = null;
 
-    this.cascadeNotificationChains(this.primaryModel, 'notifyListeners', this.altModel)
+    this.cascadeNotificationChains(
+      this.primaryModel,
+      "notifyListeners",
+      this.altModel
+    );
   }
 
   /**
@@ -21,10 +24,10 @@ export class AltModelDelegate {
    * @param memberId
    */
   setMemberSelection(memberId) {
-     this.isAltMemberSelected = true;
-     this.altMemberId = memberId;
+    this.isAltMemberSelected = true;
+    this.altMemberId = memberId;
 
-     this.altModel.setMemberSelection(memberId);
+    this.altModel.setMemberSelection(memberId);
   }
 
   /**
@@ -40,9 +43,12 @@ export class AltModelDelegate {
    * @param functionName
    */
   configureDelegateCall(functionName) {
-    console.log("delegate function: " +functionName);
-    this.delegateIfAltMemberConfigured(this.primaryModel, functionName, this.altModel);
-
+    console.log("delegate function: " + functionName);
+    this.delegateIfAltMemberConfigured(
+      this.primaryModel,
+      functionName,
+      this.altModel
+    );
   }
 
   /**
@@ -50,17 +56,15 @@ export class AltModelDelegate {
    * @param functionName
    */
   configureNoOp(functionName) {
-    console.log("no-op function: " +functionName);
+    console.log("no-op function: " + functionName);
     this.noopIfAltMemberConfigured(this.primaryModel, functionName);
-
   }
 
   delegateIfAltMemberConfigured = (primaryModel, method, altModel) => {
-
     var primaryMethod = primaryModel[method];
     var altMethod = altModel[method];
 
-    primaryModel[method] = function () {
+    primaryModel[method] = function() {
       if (this.altMemberId) {
         altMethod.apply(altModel, arguments);
       } else {
@@ -70,10 +74,9 @@ export class AltModelDelegate {
   };
 
   noopIfAltMemberConfigured = (primaryModel, method) => {
-
     var primaryMethod = primaryModel[method];
 
-    primaryModel[method] = function () {
+    primaryModel[method] = function() {
       if (this.altMemberId) {
         //no-op
       } else {
@@ -82,16 +85,13 @@ export class AltModelDelegate {
     };
   };
 
-
   cascadeNotificationChains = (primaryModel, notifyMethod, altModel) => {
-
     var primaryMethod = primaryModel[notifyMethod];
     var altMethod = altModel[notifyMethod];
 
-    altModel[notifyMethod] = function () {
+    altModel[notifyMethod] = function() {
       altMethod.apply(altModel, arguments);
       primaryMethod.apply(primaryModel, arguments);
     };
   };
-
 }

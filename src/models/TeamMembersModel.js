@@ -1,5 +1,5 @@
 import { DataModel } from "./DataModel";
-import {WTFTimerExtension} from "./WTFTimerExtension";
+import { WTFTimerExtension } from "./WTFTimerExtension";
 
 const { remote } = window.require("electron"),
   MemberWorkStatusDto = remote.require("./dto/MemberWorkStatusDto");
@@ -68,7 +68,6 @@ export class TeamMembersModel extends DataModel {
   setActiveMember = memberId => {
     if (memberId === this.me.id) {
       this.activeTeamMember = this.me;
-
     } else {
       for (var i in this.teamMembers) {
         if (this.teamMembers[i].id === memberId) {
@@ -86,7 +85,6 @@ export class TeamMembersModel extends DataModel {
       console.log("error:" + err);
     } else {
       this.me = this.createMember(0, statusOfMe);
-
     }
     this.notifyListeners(TeamMembersModel.CallbackEvent.MEMBERS_UPDATE);
   };
@@ -117,7 +115,6 @@ export class TeamMembersModel extends DataModel {
   refreshActiveMember = () => {
     if (this.activeTeamMember == null) {
       this.activeTeamMember = this.me;
-
     } else {
       this.setActiveMember(this.activeTeamMember.id);
     }
@@ -140,7 +137,9 @@ export class TeamMembersModel extends DataModel {
     let activeCircleId;
     if (teamMember.activeCircle) {
       isAlarmTriggered = true;
-      wtfTimer = WTFTimerExtension.formatWTFTimerInMinutes(teamMember.activeCircle.durationInSeconds);
+      wtfTimer = WTFTimerExtension.formatWTFTimerInMinutes(
+        teamMember.activeCircle.durationInSeconds
+      );
       alarmStatusMessage = teamMember.activeCircle.problemDescription;
       alarmCircleName = teamMember.activeCircle.circleName;
       activeCircleId = teamMember.activeCircle.id;

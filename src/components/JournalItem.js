@@ -33,7 +33,7 @@ export default class JournalItem extends Component {
   };
 
   gotoCircle = () => {
-    console.log("gotoCircle!!! "+this.props.circleId);
+    console.log("gotoCircle!!! " + this.props.circleId);
   };
 
   /// renders the component of the console view
@@ -89,7 +89,11 @@ export default class JournalItem extends Component {
     let wtfPrefix = "";
     let padding = "";
     if (this.props.journalEntryType === "WTF") {
-      wtfPrefix = <span className="circleLink" onClick={this.gotoCircle}>WTF?</span>;
+      wtfPrefix = (
+        <span className="circleLink" onClick={this.gotoCircle}>
+          WTF?
+        </span>
+      );
       padding = <span>&nbsp;&nbsp;</span>;
     }
 
@@ -109,7 +113,8 @@ export default class JournalItem extends Component {
     const taskCell = <div className={taskStyle}>{this.props.taskName}</div>;
     const chunkCell = (
       <div className={descriptionStyle}>
-        {wtfPrefix}{padding}
+        {wtfPrefix}
+        {padding}
 
         {this.props.description}
         {finishIcon}
@@ -197,6 +202,4 @@ export default class JournalItem extends Component {
       </Grid.Row>
     );
   }
-
-
 }

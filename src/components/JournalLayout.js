@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
-import {DataModelFactory} from "../models/DataModelFactory";
-import {JournalModel} from "../models/JournalModel";
-import {TeamMembersModel} from "../models/TeamMembersModel";
-import {ActiveCircleModel} from "../models/ActiveCircleModel";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { JournalModel } from "../models/JournalModel";
+import { TeamMembersModel } from "../models/TeamMembersModel";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
 
 const { remote } = window.require("electron");
 
@@ -46,7 +46,7 @@ export default class JournalLayout extends Component {
     this.activeCircleModel = DataModelFactory.createModel(
       DataModelFactory.Models.ACTIVE_CIRCLE,
       this
-    )
+    );
   }
 
   componentWillReceiveProps = nextProps => {
@@ -88,7 +88,11 @@ export default class JournalLayout extends Component {
   componentDidMount = () => {
     this.log("Journal Layout : componentDidMount");
 
-    this.teamModel.registerListener("journalLayout", TeamMembersModel.CallbackEvent.ACTIVE_MEMBER_UPDATE, this.onChangeMemberSelectionCb);
+    this.teamModel.registerListener(
+      "journalLayout",
+      TeamMembersModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
+      this.onChangeMemberSelectionCb
+    );
 
     this.journalModel.registerListener(
       "journalLayout",
@@ -119,13 +123,14 @@ export default class JournalLayout extends Component {
 
     this.journalModel.unregisterAllListeners("journalLayout");
     this.teamModel.unregisterAllListeners("journalLayout");
-    this.activeCircleModel.unregisterAllListeners("journalLayout")
+    this.activeCircleModel.unregisterAllListeners("journalLayout");
   };
 
   onJournalRecentTasksUpdateCb = () => {
     this.setState({
       recentProjects: this.journalModel.getActiveScope().recentProjects,
-      recentTasksByProjectId: this.journalModel.getActiveScope().recentTasksByProjectId,
+      recentTasksByProjectId: this.journalModel.getActiveScope()
+        .recentTasksByProjectId,
       recentEntry: this.journalModel.getActiveScope().recentEntry
     });
   };
@@ -139,7 +144,10 @@ export default class JournalLayout extends Component {
       activeFlame: this.journalModel.getActiveScope().activeFlame
     });
 
-    console.log("onJournalHistoryUpdateCb - activeIndex = "+this.journalModel.getActiveScope().activeIndex);
+    console.log(
+      "onJournalHistoryUpdateCb - activeIndex = " +
+        this.journalModel.getActiveScope().activeIndex
+    );
 
     this.spiritModel.refreshXP();
     this.spiritModel.resetFlame(this.journalModel.getActiveScope().activeFlame);
@@ -154,12 +162,17 @@ export default class JournalLayout extends Component {
     });
 
     if (this.journalModel.getActiveScope().activeJournalItem != null) {
-      this.spiritModel.resetFlame(this.journalModel.getActiveScope().activeJournalItem.flameRating);
+      this.spiritModel.resetFlame(
+        this.journalModel.getActiveScope().activeJournalItem.flameRating
+      );
     }
   };
 
   onChangeMemberSelectionCb = () => {
-    this.journalModel.setMemberSelection(this.teamModel.me.id, this.teamModel.activeTeamMember.id);
+    this.journalModel.setMemberSelection(
+      this.teamModel.me.id,
+      this.teamModel.activeTeamMember.id
+    );
   };
 
   onFinishEntry = (journalEntry, finishStatus) => {

@@ -1,7 +1,7 @@
 import { DataModel } from "./DataModel";
 import moment from "moment";
-import {AltMemberJournalExtension} from "./AltMemberJournalExtension";
-import {AltModelDelegate} from "./AltModelDelegate";
+import { AltMemberJournalExtension } from "./AltMemberJournalExtension";
+import { AltModelDelegate } from "./AltModelDelegate";
 
 const { remote } = window.require("electron"),
   RecentJournalDto = remote.require("./dto/RecentJournalDto"),
@@ -40,8 +40,6 @@ export class JournalModel extends DataModel {
     this.altModelDelegate.configureNoOp("updateFlameRating");
     this.altModelDelegate.configureNoOp("addJournalEntry");
     this.altModelDelegate.configureNoOp("addTaskRef");
-
-
   }
 
   static get CallbackEvent() {
@@ -57,11 +55,11 @@ export class JournalModel extends DataModel {
   };
 
   getActiveScope = () => {
-     if (this.isAltMemberSelected) {
-       return this.altModelExtension;
-     } else {
-       return this;
-     }
+    if (this.isAltMemberSelected) {
+      return this.altModelExtension;
+    } else {
+      return this;
+    }
   };
 
   /**
@@ -71,38 +69,36 @@ export class JournalModel extends DataModel {
    */
   setMemberSelection = (meId, memberId) => {
     console.log("JournalModel - Request - setMemberSelection");
-     if (meId == memberId) {
-       console.log("show default journal");
-       this.isAltMemberSelected = false;
-       this.altMemberId = null;
+    if (meId == memberId) {
+      console.log("show default journal");
+      this.isAltMemberSelected = false;
+      this.altMemberId = null;
 
-       this.altModelDelegate.resetMemberSelection();
-       this.resetActiveToLastJournalItem();
+      this.altModelDelegate.resetMemberSelection();
+      this.resetActiveToLastJournalItem();
 
-       this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
-       this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
+      this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
+      this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
+    } else {
+      console.log("show journal for member: " + memberId);
+      this.isAltMemberSelected = true;
+      this.altMemberId = memberId;
 
-     } else {
-       console.log("show journal for member: "+memberId);
-       this.isAltMemberSelected = true;
-       this.altMemberId = memberId;
+      //should set the memberId on the object, then delegate the call
 
-       //should set the memberId on the object, then delegate the call
-
-       this.altModelExtension.setMemberSelection(memberId);
-       this.loadDefaultJournal();
-
-     }
+      this.altModelExtension.setMemberSelection(memberId);
+      this.loadDefaultJournal();
+    }
   };
 
   /**
    * Restore the showing of the default journal
    */
   resetMemberSelection = () => {
-     this.isAltMemberSelected = false;
-     this.altMemberId = null;
+    this.isAltMemberSelected = false;
+    this.altMemberId = null;
 
-     this.altModelDelegate.resetMemberSelection();
+    this.altModelDelegate.resetMemberSelection();
   };
 
   /**

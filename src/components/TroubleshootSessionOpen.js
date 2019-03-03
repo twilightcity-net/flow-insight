@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { Button, Divider, Grid, Segment } from "semantic-ui-react";
-import {DataModelFactory} from "../models/DataModelFactory";
-import {TeamMembersModel} from "../models/TeamMembersModel";
-import {JournalModel} from "../models/JournalModel";
-import {ActiveCircleModel} from "../models/ActiveCircleModel";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { TeamMembersModel } from "../models/TeamMembersModel";
+import { JournalModel } from "../models/JournalModel";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -25,10 +25,13 @@ export default class TroubleshootSessionOpen extends Component {
 
   componentDidMount = () => {
     console.log("TroubleshootSessionOpen : componentDidMount");
-    this.activeCircleModel.registerListener("TroubleshootSessionOpen", ActiveCircleModel.CallbackEvent.WTF_TIMER_SECONDS_UPDATE, this.onTimerUpdate);
+    this.activeCircleModel.registerListener(
+      "TroubleshootSessionOpen",
+      ActiveCircleModel.CallbackEvent.WTF_TIMER_SECONDS_UPDATE,
+      this.onTimerUpdate
+    );
 
     this.onTimerUpdate();
-
   };
 
   componentWillUnmount = () => {
@@ -38,11 +41,10 @@ export default class TroubleshootSessionOpen extends Component {
   };
 
   onTimerUpdate = () => {
-     this.setState({
-       formattedWTFTimer: this.activeCircleModel.getWTFTimerInSeconds()
-     });
+    this.setState({
+      formattedWTFTimer: this.activeCircleModel.getWTFTimerInSeconds()
+    });
   };
-
 
   onClickStopTroubleshooting = () => {
     console.log("on click stop troubleshooting");
@@ -60,7 +62,6 @@ export default class TroubleshootSessionOpen extends Component {
             <Segment className="wtf" inverted>
               Hey there!
               {this.state.formattedWTFTimer}
-
               <Button
                 onClick={this.onClickStopTroubleshooting}
                 size="big"
@@ -74,7 +75,6 @@ export default class TroubleshootSessionOpen extends Component {
             </Segment>
           </Grid.Column>
           <Grid.Column width={6} className="rootLayout">
-
             <Segment inverted />
           </Grid.Column>
         </Grid>

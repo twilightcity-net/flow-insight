@@ -218,7 +218,7 @@ export default class JournalItems extends Component {
   };
 
   isActive(id) {
-    if ( this.state.activeJournalItem ) {
+    if (this.state.activeJournalItem) {
       return this.state.activeJournalItem.id === id;
     } else {
       return false;
