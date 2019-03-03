@@ -403,15 +403,20 @@ export class JournalModel extends DataModel {
   };
 
   updateFinishStatusOfLastJournalItem = () => {
-    //this is to be consistent with the server, which auto-updates the last item status
+    //this is to be consistent with the server, which auto-updates the last intention status
+    //need to skip over any WTFs
 
-    if (this.allJournalItems.length > 0) {
-      let lastItem = this.allJournalItems[this.allJournalItems.length - 1];
+    for (var i = this.allJournalItems.length - 1; i >= 0; --i) {
+       let lastItem = this.allJournalItems[i];
 
-      if (!lastItem.finishStatus) {
-        lastItem.finishStatus = "done";
-      }
+       if (lastItem.journalEntryType === "Intention") {
+         if (!lastItem.finishStatus) {
+           lastItem.finishStatus = "done";
+         }
+         break;
+       }
     }
+
   };
 
   initFromDefaultJournal = defaultJournal => {
