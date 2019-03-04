@@ -32,7 +32,6 @@ export class SpiritModel extends DataModel {
    * Refreshes the current XP from the server
    */
   refreshXP = () => {
-    console.log("SpiritModel - Request - refreshXP");
     let remoteUrn = "/spirit/xp";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -53,8 +52,6 @@ export class SpiritModel extends DataModel {
    * Reinitializes the Torchie flame to a specified rating
    */
   resetFlame = cleanFlameRating => {
-    console.log("SpiritModel - Request - resetFlame");
-
     this.isDirty = false;
     this.dirtyFlame = null;
     this.originalFlame = cleanFlameRating;
@@ -67,8 +64,6 @@ export class SpiritModel extends DataModel {
    * Changes the active flame rating by pushing the +1/-1 flame buttons
    */
   adjustFlame = flameDelta => {
-    console.log("SpiritModel - Request - adjustFlame");
-
     this.isDirty = true;
     this.dirtyFlame = this.calculateNewRating(
       this.activeFlameRating,
@@ -80,8 +75,6 @@ export class SpiritModel extends DataModel {
   };
 
   calculateNewRating = (currentFlame, flameDelta) => {
-    console.log("Flame calculateNewRating :" + flameDelta);
-
     let flameRating = currentFlame + flameDelta;
     if (flameRating > 5) {
       flameRating = 5;
@@ -96,14 +89,10 @@ export class SpiritModel extends DataModel {
     if (currentFlame < 0 && flameDelta > 0) {
       flameRating = 0;
     }
-
-    console.log("Old/New Flame rating :" + currentFlame + "/" + flameRating);
-
     return flameRating;
   };
 
   onRefreshXPCb = (xpSummaryDto, err) => {
-    console.log("SpiritModel : onRefreshXPCb");
     if (err) {
       console.log("error:" + err);
     } else {

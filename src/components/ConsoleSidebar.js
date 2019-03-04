@@ -11,7 +11,7 @@ export default class ConsoleSidebar extends Component {
     this.state = {
       activeItem: "",
       iconProfile: "heart outline",
-      iconMessages: "talk outline",
+      iconMessages: "user outline",
       iconNotifications: "bell outline"
     };
     this.events = {
@@ -40,7 +40,7 @@ export default class ConsoleSidebar extends Component {
     this.setState({
       activeItem: "",
       iconProfile: "heart outline",
-      iconMessages: "talk outline",
+      iconMessages: "user outline",
       iconNotifications: "bell outline"
     });
   }
@@ -55,7 +55,7 @@ export default class ConsoleSidebar extends Component {
     let state = {
       activeItem: name,
       iconProfile: "heart",
-      iconMessages: "talk",
+      iconMessages: "user",
       iconNotifications: "bell"
     };
     switch (name) {

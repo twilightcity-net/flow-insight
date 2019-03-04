@@ -68,9 +68,7 @@ export class JournalModel extends DataModel {
    * @param memberId
    */
   setMemberSelection = (meId, memberId) => {
-    console.log("JournalModel - Request - setMemberSelection");
     if (meId == memberId) {
-      console.log("show default journal");
       this.isAltMemberSelected = false;
       this.altMemberId = null;
 
@@ -80,7 +78,6 @@ export class JournalModel extends DataModel {
       this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
       this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
     } else {
-      console.log("show journal for member: " + memberId);
       this.isAltMemberSelected = true;
       this.altMemberId = memberId;
 
@@ -108,8 +105,6 @@ export class JournalModel extends DataModel {
    */
 
   loadDefaultJournal = () => {
-    console.log("JournalModel - Request - loadDefaultJournal");
-
     let remoteUrn = "/journal";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -160,7 +155,6 @@ export class JournalModel extends DataModel {
    * Add a new task reference on the server, so intentions can be added for this task
    */
   addTaskRef = taskName => {
-    console.log("JournalModel - Request - addTaskRef: " + taskName);
     let remoteUrn = "/journal/taskref";
     let loadRequestType = DataModel.RequestTypes.POST;
     let args = { taskName: taskName };
@@ -183,8 +177,6 @@ export class JournalModel extends DataModel {
    */
 
   addJournalEntry = (projectId, taskId, description) => {
-    console.log("JournalModel - Request - addTaskRef");
-
     let remoteUrn = "/journal/intention";
     let loadRequestType = DataModel.RequestTypes.POST;
     let args = {
@@ -211,8 +203,6 @@ export class JournalModel extends DataModel {
    */
 
   finishIntention = (intentionId, finishStatus) => {
-    console.log("JournalModel - Request - finishIntention");
-
     let remoteUrn = "/journal/intention/" + intentionId + "/transition/finish";
     let loadRequestType = DataModel.RequestTypes.POST;
     let args = { finishStatus: finishStatus };
@@ -235,18 +225,14 @@ export class JournalModel extends DataModel {
    */
 
   updateFlameRating = (journalItem, flameRating) => {
-
-    if (journalItem.journalEntryType === "Intention" ) {
-       this.updateFlameRatingForIntention(journalItem, flameRating);
-
-    } else if (journalItem.journalEntryType === "WTF" ) {
-       this.updateFlameRatingForWTFCircle(journalItem, flameRating);
+    if (journalItem.journalEntryType === "Intention") {
+      this.updateFlameRatingForIntention(journalItem, flameRating);
+    } else if (journalItem.journalEntryType === "WTF") {
+      this.updateFlameRatingForWTFCircle(journalItem, flameRating);
     }
-
   };
 
   updateFlameRatingForIntention = (journalItem, flameRating) => {
-    console.log("JournalModel - Request - updateFlameRatingForIntention");
     let remoteUrn =
       "/journal/intention/" + journalItem.id + "/transition/flame";
     let loadRequestType = DataModel.RequestTypes.POST;
@@ -268,9 +254,7 @@ export class JournalModel extends DataModel {
   };
 
   updateFlameRatingForWTFCircle = (journalItem, flameRating) => {
-    console.log("JournalModel - Request - updateFlameRatingForWTFCircle");
-    let remoteUrn =
-      "/journal/wtf/" + journalItem.id + "/transition/flame";
+    let remoteUrn = "/journal/wtf/" + journalItem.id + "/transition/flame";
     let loadRequestType = DataModel.RequestTypes.POST;
     let args = { flameRating: flameRating };
 
@@ -293,9 +277,6 @@ export class JournalModel extends DataModel {
    * Refresh recent task references for the journal drop down
    */
   refreshRecentTaskReferences = () => {
-
-    console.log("JournalModel - Request - refreshTaskReferences");
-
     let remoteUrn = "/journal/taskref/recent";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -315,7 +296,6 @@ export class JournalModel extends DataModel {
   //////////// REMOTE CALLBACK HANDLERS  ////////////
 
   onLoadDefaultJournalCb = (defaultJournal, err) => {
-    console.log("JournalModel : onLoadDefaultJournalCb");
     if (err) {
       console.log("error:" + err);
     } else {
@@ -328,7 +308,6 @@ export class JournalModel extends DataModel {
   };
 
   onAddTaskRefCb = (recentTasksSummary, err) => {
-    console.log("JournalModel : onAddTaskRefCb");
     if (err) {
       console.log("error:" + err);
     } else {
@@ -347,7 +326,6 @@ export class JournalModel extends DataModel {
   };
 
   onRefreshRecentTaskRefsCb = (recentTasksSummary, err) => {
-    console.log("JournalModel : onRefreshRecentTaskRefsCb");
     if (err) {
       console.log("error:" + err);
     } else {
@@ -357,7 +335,6 @@ export class JournalModel extends DataModel {
   };
 
   onAddJournalEntryCb = (savedEntry, err) => {
-    console.log("JournalModel : onAddJournalEntryCb");
     if (err) {
       console.log("error:" + err);
     } else {
@@ -389,14 +366,12 @@ export class JournalModel extends DataModel {
   };
 
   onFinishJournalEntryCb = (savedEntry, err) => {
-    console.log("JournalModel : onFinishJournalEntryCb");
     if (err) {
       console.log("error:" + err);
     }
   };
 
   onUpdateFlameRatingCb = (savedEntry, err) => {
-    console.log("JournalModel : onUpdateFlameRatingCb");
     if (err) {
       console.log("error:" + err);
     }
@@ -407,21 +382,18 @@ export class JournalModel extends DataModel {
     //need to skip over any WTFs
 
     for (var i = this.allJournalItems.length - 1; i >= 0; --i) {
-       let lastItem = this.allJournalItems[i];
+      let lastItem = this.allJournalItems[i];
 
-       if (lastItem.journalEntryType === "Intention") {
-         if (!lastItem.finishStatus) {
-           lastItem.finishStatus = "done";
-         }
-         break;
-       }
+      if (lastItem.journalEntryType === "Intention") {
+        if (!lastItem.finishStatus) {
+          lastItem.finishStatus = "done";
+        }
+        break;
+      }
     }
-
   };
 
   initFromDefaultJournal = defaultJournal => {
-    console.log("JournalModel : initFromDefaultJournal");
-
     var journalItems = this.createJournalItems(defaultJournal.recentIntentions);
     let recentIntentionKeys = this.extractRecentIntentionKeys(
       defaultJournal.recentIntentions
@@ -445,8 +417,6 @@ export class JournalModel extends DataModel {
 
     this.allIntentions = defaultJournal.recentIntentions;
     this.activeSize = defaultJournal.recentIntentions.length;
-
-    console.log("JournalModel : Loaded " + this.activeSize + " journal items!");
   };
 
   extractRecentIntentionKeys = allEntries => {

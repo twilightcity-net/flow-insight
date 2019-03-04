@@ -105,6 +105,7 @@ module.exports = class ConsoleWindow {
       pressedState: 0,
       delay: 350
     };
+    this.animateTimeMs = 500;
   }
 
   /*
@@ -174,12 +175,12 @@ module.exports = class ConsoleWindow {
   showConsole() {
     log.info("[ConsoleWindow] show window -> " + this.name);
     this.state = this.states.SHOWING;
-    // this.window.setPosition(0, Math.floor(-this.bounds.height / 2));
     this.window.setPosition(0, 0);
     this.window.show();
     this.window.focus();
-    // this.animateShow(42, 14, this.window.getPosition()[1]);
-    this.state = this.states.SHOWN;
+    setTimeout(() => {
+      this.state = this.states.SHOWN;
+    }, this.animateTimeMs);
   }
 
   /*
@@ -189,9 +190,9 @@ module.exports = class ConsoleWindow {
   hideConsole() {
     log.info("[ConsoleWindow] hide window -> " + this.name);
     this.state = this.states.HIDING;
-    // this.animateHide(1, 14, this.window.getPosition()[1]);
-    this.window.setPosition(0, 0);
-    this.window.hide();
-    this.state = this.states.HIDDEN;
+    setTimeout(() => {
+      this.window.hide();
+      this.state = this.states.HIDDEN;
+    }, this.animateTimeMs);
   }
 };

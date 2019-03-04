@@ -58,11 +58,6 @@ export default class JournalItems extends Component {
   componentWillReceiveProps = nextProps => {
     this.log("JournalItems:: componentWillReceiveProps");
 
-    console.log("JournalItems: activeIndex " + nextProps.activeIndex);
-    console.log(
-      "JournalItems: journalItems " + nextProps.allJournalItems.length
-    );
-
     let activeJournalItem = null;
 
     if (nextProps.allJournalItems.length > 0) {

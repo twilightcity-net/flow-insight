@@ -96,29 +96,38 @@ export default class JournalItem extends Component {
         </span>
       );
 
-      if (this.props.finishStatus === "aborted" || this.props.finishStatus === "done") {
-        wtfPopup = <div>
+      if (
+        this.props.finishStatus === "aborted" ||
+        this.props.finishStatus === "done"
+      ) {
+        wtfPopup = (
           <div>
-            <span className="alarm"> <i>Circle Closed</i></span>
+            <div>
+              <span className="alarm">
+                {" "}
+                <i>Circle Closed</i>
+              </span>
+            </div>
           </div>
-        </div>;
+        );
       } else {
-        wtfPopup = <div>
+        wtfPopup = (
           <div>
-            <span className="alarm"> <i>Click to Join!</i></span>
+            <div>
+              <span className="alarm">
+                {" "}
+                <i>Click to Join!</i>
+              </span>
+            </div>
           </div>
-        </div>;
+        );
       }
 
       padding = <span>&nbsp;&nbsp;</span>;
     }
 
-
-
-
     let taskStyle = "chunkTitle";
     let descriptionStyle = "chunkText";
-
 
     const projectCell = (
       <div className={taskStyle}>{this.props.projectName}</div>
@@ -126,7 +135,8 @@ export default class JournalItem extends Component {
     const taskCell = <div className={taskStyle}>{this.props.taskName}</div>;
     const chunkCell = (
       <div className={descriptionStyle}>
-        {padding}{padding}
+        {padding}
+        {padding}
         <Popup
           trigger={wtfPrefix}
           content={wtfPopup}

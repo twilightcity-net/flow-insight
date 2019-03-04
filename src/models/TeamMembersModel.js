@@ -80,7 +80,6 @@ export class TeamMembersModel extends DataModel {
   };
 
   onRefreshMeCb = (statusOfMe, err) => {
-    console.log("TeamMembersModel : onRefreshMeCb");
     if (err) {
       console.log("error:" + err);
     } else {
@@ -90,7 +89,6 @@ export class TeamMembersModel extends DataModel {
   };
 
   onRefreshAllCb = (memberStatusDtos, err) => {
-    console.log("TeamMembersModel : onRefreshAllCb" + memberStatusDtos);
     if (err) {
       console.log("error:" + err);
     } else {
@@ -107,8 +105,6 @@ export class TeamMembersModel extends DataModel {
 
       this.refreshActiveMember();
     }
-    console.log("Return callback!");
-
     this.notifyListeners(TeamMembersModel.CallbackEvent.MEMBERS_UPDATE);
   };
 
