@@ -125,9 +125,7 @@ export class DataModel {
         for (var i in arg.data) {
           dtoResults[i] = new this.dtoClass(arg.data[i]);
         }
-      } else if (this.isEmpty(arg.data)) {
-        console.log("empty result");
-      } else {
+      } else if (!UtilRenderer.isObjEmpty(arg.data)) {
         dtoResults = new this.dtoClass(arg.data);
       }
 
@@ -136,14 +134,6 @@ export class DataModel {
     } else {
       this.callInProgress = false;
     }
-  }
-
-  isEmpty(data) {
-    let hasProps = true;
-    for (var prop in data) {
-      hasProps = false;
-    }
-    return hasProps;
   }
 
   /// enum class of all of http requests
