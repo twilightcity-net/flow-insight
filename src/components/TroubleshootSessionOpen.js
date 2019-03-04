@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Button, Divider, Grid, Segment } from "semantic-ui-react";
 import { DataModelFactory } from "../models/DataModelFactory";
-import { TeamMembersModel } from "../models/TeamMembersModel";
-import { JournalModel } from "../models/JournalModel";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
 
 //

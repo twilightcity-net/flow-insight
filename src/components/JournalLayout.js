@@ -4,7 +4,6 @@ import JournalEntry from "./JournalEntry";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { JournalModel } from "../models/JournalModel";
 import { TeamMembersModel } from "../models/TeamMembersModel";
-import { ActiveCircleModel } from "../models/ActiveCircleModel";
 
 const { remote } = window.require("electron");
 

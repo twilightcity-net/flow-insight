@@ -1,6 +1,3 @@
-import UtilRenderer from "../UtilRenderer";
-import { RendererEventFactory } from "../RendererEventFactory";
-
 //
 // this base class is used for Stores
 //

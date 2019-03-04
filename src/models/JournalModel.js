@@ -68,7 +68,7 @@ export class JournalModel extends DataModel {
    * @param memberId
    */
   setMemberSelection = (meId, memberId) => {
-    if (meId == memberId) {
+    if (meId === memberId) {
       this.isAltMemberSelected = false;
       this.altMemberId = null;
 

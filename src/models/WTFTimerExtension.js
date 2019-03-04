@@ -1,7 +1,5 @@
 import { DataModel } from "./DataModel";
 
-const { remote } = window.require("electron");
-
 export class WTFTimerExtension extends DataModel {
   constructor(scope) {
     super(scope);
@@ -85,7 +83,6 @@ export class WTFTimerExtension extends DataModel {
     let hours = Math.floor(totalSeconds / 3600);
     totalSeconds %= 3600;
     let minutes = Math.floor(totalSeconds / 60);
-    let seconds = totalSeconds % 60;
 
     let wtfTimerInMinutes = "";
 
