@@ -33,6 +33,11 @@
     normalize-path "^2.0.1"
     through2 "^2.0.3"
 
+"@keyframes/core@^1.1.7":
+  version "1.1.7"
+  resolved "https://registry.yarnpkg.com/@keyframes/core/-/core-1.1.7.tgz#f1c104b018eaf5fb8d863c0ee460d0d522f3f7a7"
+  integrity sha512-MQJ8qzCYaWRcrflhhkGSgspWW4xlYd/SUcajzAzZ02o/8ghNhWSVE5gNWV+xMoKfIKASYKojLfAV5+WivBJNsw==
+
 "@semantic-ui-react/event-stack@^3.0.1":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@semantic-ui-react/event-stack/-/event-stack-3.0.1.tgz#41d0b095ac94cc5e1607a4fed4d0f8860d0d2e60"

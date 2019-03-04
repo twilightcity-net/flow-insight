@@ -43,7 +43,7 @@ module.exports = class ConsoleWindow {
     });
 
     if (isDev) {
-      this.window.webContents.openDevTools();
+      this.window.webContents.openDevTools({ mode: "undocked" });
 
       // Install React Dev Tools
       // const {default: installExtension, REACT_DEVELOPER_TOOLS} = require('electron-devtools-installer');
@@ -103,9 +103,9 @@ module.exports = class ConsoleWindow {
     };
     this.consoleShortcut = {
       pressedState: 0,
-      delay: 350
+      delay: 400
     };
-    this.animateTimeMs = 500;
+    this.animateTimeMs = 400;
   }
 
   /*

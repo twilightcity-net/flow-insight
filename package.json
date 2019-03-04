@@ -38,6 +38,7 @@
     "release:build:update:run": "gulp releaseBuildUpdate && npm run dev"
   },
   "dependencies": {
+    "@keyframes/core": "^1.1.7",
     "@slack/client": "^3.14.0",
     "@types/react": "^16.0.9",
     "asar": "^0.14.0",

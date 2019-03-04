@@ -86,8 +86,6 @@ export default class ConsoleSidebar extends Component {
   };
 
   componentDidMount = () => {
-    console.log("ConsoleSidebar : componentDidMount");
-
     this.selectItem("profile");
   };
 
