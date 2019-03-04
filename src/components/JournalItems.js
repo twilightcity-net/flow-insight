@@ -84,8 +84,6 @@ export default class JournalItems extends Component {
     let activeJournalItem = journalModel.activeJournalItem;
 
     this.timeout = setTimeout(function() {
-      console.log("saveDirtyFlames!!!!!");
-
       journalModel.updateFlameRating(activeJournalItem, spiritModel.dirtyFlame);
     }, 500);
   };
