@@ -38,8 +38,6 @@ export default class JournalItems extends Component {
   };
 
   componentDidMount() {
-    this.log("JournalItems : componentDidMount");
-
     this.spiritModel.registerListener(
       "journalItems",
       SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE,
@@ -50,14 +48,10 @@ export default class JournalItems extends Component {
   }
 
   componentWillUnmount() {
-    this.log("JournalItems : componentWillUnmount");
-
     this.spiritModel.unregisterAllListeners("journalItems");
   }
 
   componentWillReceiveProps = nextProps => {
-    this.log("JournalItems:: componentWillReceiveProps");
-
     let activeJournalItem = null;
 
     if (nextProps.allJournalItems.length > 0) {
@@ -125,8 +119,8 @@ export default class JournalItems extends Component {
       activeIndex = this.state.activeJournalItem.index;
     }
 
-    this.log("activeIndex: " + activeIndex);
-    this.log("journalItemSize: " + this.state.journalItems.length);
+    // this.log("activeIndex: " + activeIndex);
+    // this.log("journalItemSize: " + this.state.journalItems.length);
 
     return activeIndex === this.state.journalItems.length - 1;
   }
@@ -147,8 +141,6 @@ export default class JournalItems extends Component {
   };
 
   componentDidUpdate() {
-    this.log("componentDidUpdate");
-
     this.scrollToBottomOrActive();
   }
 

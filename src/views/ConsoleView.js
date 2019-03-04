@@ -19,10 +19,21 @@ export default class ConsoleView extends Component {
         this.onLoadCb
       )
     };
+    this.animateTimeMs = 500;
   }
 
   onLoadCb(event, arg) {
     console.log("[ConsoleView] event -> WINDOW_CONSOLE_SHOW_HIDE : " + arg);
+    if (arg === 0) {
+      //showing
+      this.animateShow();
+    }
+  }
+
+  animateShow() {
+    setTimeout(() => {
+      console.log("update");
+    }, 33);
   }
 
   /// renders the component in the view

@@ -44,8 +44,6 @@ export default class JournalEntry extends Component {
   };
 
   componentWillReceiveProps = nextProps => {
-    this.log("componentWillReceiveProps");
-
     this.populateProjects(nextProps.recentProjects);
 
     let defaultProject = this.initCurrentProject(
@@ -103,7 +101,7 @@ export default class JournalEntry extends Component {
   };
 
   populateTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
-    this.log("populateTasks");
+    this.log("populating tasks...");
 
     if (!recentTasksByProjectId) {
       return;
@@ -127,7 +125,7 @@ export default class JournalEntry extends Component {
       let currentTask = tasksForProject[0].value;
 
       if (recentEntry && recentEntry.projectId === currentProject) {
-        this.log("Populating recent default!");
+        this.log("Populating default entry");
         currentTask = recentEntry.taskId;
       }
 

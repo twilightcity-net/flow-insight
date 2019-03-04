@@ -28,9 +28,6 @@ export default class SpiritPanel extends Component {
     if (spiritHeight > 200) {
       spiritHeight = 200;
     }
-
-    this.log("Spirit height = " + spiritHeight);
-
     return spiritHeight;
   }
 
