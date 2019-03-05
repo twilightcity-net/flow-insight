@@ -119,6 +119,7 @@ export default class JournalLayout extends Component {
   };
 
   onJournalRecentTasksUpdateCb = () => {
+    console.log("Journal Layout : onJournalRecentTasksUpdateCb");
     this.setState({
       recentProjects: this.journalModel.getActiveScope().recentProjects,
       recentTasksByProjectId: this.journalModel.getActiveScope()
@@ -128,6 +129,7 @@ export default class JournalLayout extends Component {
   };
 
   onJournalHistoryUpdateCb = () => {
+    console.log("Journal Layout : onJournalHistoryUpdateCb");
     this.setState({
       allJournalItems: this.journalModel.getActiveScope().allJournalItems,
       activeSize: this.journalModel.getActiveScope().activeSize,
@@ -142,6 +144,7 @@ export default class JournalLayout extends Component {
   };
 
   onJournalActiveItemUpdateCb = () => {
+    console.log("Journal Layout : onJournalActiveItemUpdateCb");
     this.setState({
       activeJournalItem: this.journalModel.getActiveScope().activeJournalItem,
       activeIndex: this.journalModel.getActiveScope().activeIndex,
@@ -156,6 +159,7 @@ export default class JournalLayout extends Component {
   };
 
   onChangeMemberSelectionCb = () => {
+    console.log("Journal Layout : onChangeMemberSelectionCb");
     this.journalModel.setMemberSelection(
       this.teamModel.me.id,
       this.teamModel.activeTeamMember.id
@@ -195,11 +199,7 @@ export default class JournalLayout extends Component {
         </div>
         <div id="wrapper" className="journalEntry">
           <JournalEntry
-            consoleIsCollapsed={this.props.consoleIsCollapsed}
             onAddTask={this.onAddTask}
-            recentEntry={this.state.recentEntry}
-            recentProjects={this.state.recentProjects}
-            recentTasksByProjectId={this.state.recentTasksByProjectId}
           />
         </div>
       </div>

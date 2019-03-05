@@ -212,7 +212,6 @@ export default class ConsoleLayout extends Component {
     });
   };
 
-
   resetCb = (event, showHideFlag) => {
     this.setState({
       consoleIsCollapsed: showHideFlag

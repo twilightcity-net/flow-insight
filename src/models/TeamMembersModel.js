@@ -96,10 +96,15 @@ export class TeamMembersModel extends DataModel {
       this.teamMembers = [];
 
       for (var i in memberStatusDtos) {
-        if (Number(i) === 0) {
-          this.me = this.createMember(0, memberStatusDtos[0]);
-        } else {
-          this.teamMembers[i - 1] = this.createMember(i, memberStatusDtos[i]);
+        //TODO figure out why we've got nulls in the list?
+        let memberDto = memberStatusDtos[i];
+
+        if (memberDto != null) {
+          if (Number(i) === 0) {
+            this.me = this.createMember(0, memberDto);
+          } else {
+            this.teamMembers[i - 1] = this.createMember(i, memberDto);
+          }
         }
       }
 

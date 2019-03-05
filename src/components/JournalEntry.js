@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
 import { DataModelFactory } from "../models/DataModelFactory";
+import {JournalModel} from "../models/JournalModel";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -29,32 +30,41 @@ export default class JournalEntry extends Component {
     document.getElementById("intentionTextInput").focus();
   };
 
-
   componentDidMount = () => {
-    console.log("componentDidMount");
+    console.log("Journal Entry : componentDidMount");
+
+    this.journalModel.registerListener(
+      "journalEntry",
+      JournalModel.CallbackEvent.RECENT_TASKS_UPDATE,
+      this.onJournalRecentTasksUpdateCb
+    );
+
     this.resetCb();
   };
 
-  componentWillReceiveProps = nextProps => {
-    this.populateProjects(nextProps.recentProjects);
+  componentWillUnmount = () => {
+    console.log("Journal Entry : componentWillUnmount");
+
+    this.journalModel.unregisterAllListeners("journalEntry");
+  };
+
+  onJournalRecentTasksUpdateCb = () => {
+    console.log("Journal Entry : onJournalRecentTasksUpdateCb");
+
+    this.populateProjects(this.journalModel.getActiveScope().recentProjects);
 
     let defaultProject = this.initCurrentProject(
-      nextProps.recentProjects,
-      nextProps.recentEntry
+      this.journalModel.getActiveScope().recentProjects,
+      this.journalModel.getActiveScope().recentEntry
     );
     this.populateTasks(
       defaultProject,
-      nextProps.recentTasksByProjectId,
-      nextProps.recentEntry
+      this.journalModel.getActiveScope().recentTasksByProjectId,
+      this.journalModel.getActiveScope().recentEntry
     );
 
-    if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
-      //if it's now open, and used to be closed, need to reset the window
-      this.resetCb();
-    }
-
-    this.lastOpenCloseState = nextProps.consoleIsCollapsed;
   };
+
 
   populateProjects = recentProjects => {
     var projects = [];
@@ -71,6 +81,8 @@ export default class JournalEntry extends Component {
   };
 
   initCurrentProject = (recentProjects, recentEntry) => {
+
+    console.log("initCurrentProject = " + recentProjects);
     //set default project
 
     let currentProject = null;
