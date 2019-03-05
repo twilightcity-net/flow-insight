@@ -5,10 +5,6 @@ import { DataModelFactory } from "../models/DataModelFactory";
 import { JournalModel } from "../models/JournalModel";
 import { TeamMembersModel } from "../models/TeamMembersModel";
 
-const { remote } = window.require("electron");
-
-const electronLog = remote.require("electron-log");
-
 //
 // this component is the tab panel wrapper for the console content
 //
@@ -80,12 +76,9 @@ export default class JournalLayout extends Component {
     );
   }
 
-  log = msg => {
-    electronLog.info(`[${this.constructor.name}] ${msg}`);
-  };
 
   componentDidMount = () => {
-    this.log("Journal Layout : componentDidMount");
+    console.log("Journal Layout : componentDidMount");
 
     this.teamModel.registerListener(
       "journalLayout",
@@ -118,7 +111,7 @@ export default class JournalLayout extends Component {
   };
 
   componentWillUnmount = () => {
-    this.log("Journal Layout : componentWillUnmount");
+    console.log("Journal Layout : componentWillUnmount");
 
     this.journalModel.unregisterAllListeners("journalLayout");
     this.teamModel.unregisterAllListeners("journalLayout");
@@ -170,13 +163,13 @@ export default class JournalLayout extends Component {
   };
 
   onFinishEntry = (journalEntry, finishStatus) => {
-    this.log("Journal Layout : onFinishEntry");
+    console.log("Journal Layout : onFinishEntry");
 
     this.journalModel.finishIntention(journalEntry.id, finishStatus);
   };
 
   onChangeActiveEntry = (rowId, journalItem) => {
-    this.log("onChangeActiveEntry:" + rowId + ", " + journalItem.index);
+    console.log("onChangeActiveEntry:" + rowId + ", " + journalItem.index);
 
     this.journalModel.setActiveJournalItem(journalItem);
   };

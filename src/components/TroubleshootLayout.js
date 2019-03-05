@@ -3,10 +3,6 @@ import TroubleshootSessionNew from "./TroubleshootSessionNew";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
 import { DataModelFactory } from "../models/DataModelFactory";
 
-const { remote } = window.require("electron");
-
-const electronLog = remote.require("electron-log");
-
 //
 // this component is the tab panel wrapper for the console content
 //
@@ -19,10 +15,6 @@ export default class TroubleshootLayout extends Component {
       this
     );
   }
-
-  log = msg => {
-    electronLog.info(`[${this.constructor.name}] ${msg}`);
-  };
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
@@ -48,13 +40,13 @@ export default class TroubleshootLayout extends Component {
   }
 
   onStartTroubleshooting = problemStatement => {
-    this.log("onStartTroubleshooting");
+    console.log("onStartTroubleshooting");
 
     this.activeCircleModel.createCircle(problemStatement);
   };
 
   onStopTroubleshooting = () => {
-    this.log("onStopTroubleshooting");
+    console.log("onStopTroubleshooting");
 
     this.activeCircleModel.closeActiveCircle();
   };

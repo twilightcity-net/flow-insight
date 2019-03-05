@@ -2,9 +2,6 @@ import React, { Component } from "react";
 import { Image, Menu, Progress, Segment, Transition } from "semantic-ui-react";
 import * as THREE from "three";
 import { DataModelFactory } from "../models/DataModelFactory";
-const { remote } = window.require("electron");
-
-const electronLog = remote.require("electron-log");
 
 export default class SpiritPanel extends Component {
   constructor(props) {
@@ -17,9 +14,6 @@ export default class SpiritPanel extends Component {
     );
   }
 
-  log = msg => {
-    electronLog.info(`[${this.constructor.name}] ${msg}`);
-  };
 
   /// performs a simple calculation for dynamic height of panel
   calculateSpiritHeight() {
@@ -60,7 +54,7 @@ export default class SpiritPanel extends Component {
   };
 
   componentDidMount = () => {
-    this.log("componentDidMount");
+    console.log("componentDidMount");
 
     if (this.mount) {
       this.initScene();
@@ -101,22 +95,22 @@ export default class SpiritPanel extends Component {
     this.cube = new THREE.Mesh(geometry, material);
     this.scene.add(this.cube);
 
-    this.log("start");
+    console.log("start");
     this.start();
   };
 
   handleClickForRage = () => {
-    this.log("Rage!");
+    console.log("Rage!");
     this.spiritModel.adjustFlame(-1);
   };
 
   handleClickForYay = () => {
-    this.log("Yay!");
+    console.log("Yay!");
     this.spiritModel.adjustFlame(+1);
   };
 
   componentWillUnmount() {
-    this.log("componentWillUnmount");
+    console.log("componentWillUnmount");
     if (this.mount) {
       this.cleanupScene();
     }
@@ -131,7 +125,7 @@ export default class SpiritPanel extends Component {
 
   start = () => {
     if (!this.frameId) {
-      this.log("starting");
+      console.log("starting");
       this.frameId = requestAnimationFrame(this.animate);
     }
   };

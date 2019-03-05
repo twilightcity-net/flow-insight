@@ -2,11 +2,6 @@ import React, { Component } from "react";
 import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
 import { DataModelFactory } from "../models/DataModelFactory";
 
-const { remote } = window.require("electron"),
-  IntentionInputDto = remote.require("./dto/IntentionInputDto");
-
-const electronLog = remote.require("electron-log");
-
 //
 // this component is the tab panel wrapper for the console content
 //
@@ -29,17 +24,14 @@ export default class JournalEntry extends Component {
   }
 
   resetCb = () => {
-    this.log("JournalEntry:: Reset CB!");
+    console.log("JournalEntry:: Reset CB!");
 
     document.getElementById("intentionTextInput").focus();
   };
 
-  log = msg => {
-    electronLog.info(`[${this.constructor.name}] ${msg}`);
-  };
 
   componentDidMount = () => {
-    this.log("componentDidMount");
+    console.log("componentDidMount");
     this.resetCb();
   };
 
@@ -95,7 +87,7 @@ export default class JournalEntry extends Component {
       currentProjectValue: currentProject
     });
 
-    this.log("initProject = " + currentProject);
+    console.log("initProject = " + currentProject);
 
     return currentProject;
   };
@@ -121,7 +113,7 @@ export default class JournalEntry extends Component {
       let currentTask = tasksForProject[0].value;
 
       if (recentEntry && recentEntry.projectId === currentProject) {
-        this.log("Populating default entry");
+        console.log("Populating default entry");
         currentTask = recentEntry.taskId;
       }
 
@@ -134,7 +126,7 @@ export default class JournalEntry extends Component {
 
   /// called when a new task is added from dropdown
   handleAdditionForTask = (e, { value }) => {
-    this.log("handleAdditionForTask:" + value);
+    console.log("handleAdditionForTask:" + value);
 
     //setup temporary addition to the menu
 
@@ -163,7 +155,7 @@ export default class JournalEntry extends Component {
 
   /// called when a new project is added from dropdown
   handleAdditionForProject = (e, { value }) => {
-    this.log("handleAdditionForProject");
+    console.log("handleAdditionForProject");
     this.setState({
       projects: [{ text: value, value }, ...this.state.projects]
     });
@@ -171,7 +163,7 @@ export default class JournalEntry extends Component {
 
   /// called when a project is selected in dropdown
   handleChangeForProject = (e, { value }) => {
-    this.log("handleChangeForProject: " + value);
+    console.log("handleChangeForProject: " + value);
     this.setState({
       currentProjectValue: value
     });
@@ -186,18 +178,18 @@ export default class JournalEntry extends Component {
   /// called when a project is selected in dropdown
   handleKeyPressForProject = e => {
     if (e.key === "Enter") {
-      this.log("ENTER!");
+      console.log("ENTER!");
     }
   };
 
   /// called when a project is selected in dropdown
   handleKeyPressForTask = e => {
-    this.log("handleKeyPressForTask: ");
+    console.log("handleKeyPressForTask: ");
   };
 
   /// called when a task is selected in the dropdown
   handleChangeForTask = (e, { value }) => {
-    this.log("handleChangeForTask");
+    console.log("handleChangeForTask");
     this.setState({
       currentTaskValue: value
     });
@@ -206,7 +198,7 @@ export default class JournalEntry extends Component {
   /// called when the create task button is clicked on, it then shouold dispatch
   /// a new event that will update the rendered view
   handleClickForCreate = () => {
-    this.log("handleClickForCreate");
+    console.log("handleClickForCreate");
 
     this.saveJournalEntry();
   };
@@ -214,25 +206,19 @@ export default class JournalEntry extends Component {
   /// works the same as the click for create handler.. see above ^
   handleKeyPressForIntention = e => {
     if (e.charCode === 13) {
-      this.log("Saving Intention! " + this.state.currentIntentionValue);
+      console.log("Saving Intention! " + this.state.currentIntentionValue);
       this.saveJournalEntry();
     }
   };
 
   saveJournalEntry = () => {
-    this.log("active projectId: " + this.state.currentProjectValue);
-    this.log("active taskId: " + this.state.currentTaskValue);
-
-    let journalEntry = new IntentionInputDto({
-      projectId: this.state.currentProjectValue,
-      taskId: this.state.currentTaskValue,
-      description: this.state.currentIntentionValue
-    });
+    console.log("active projectId: " + this.state.currentProjectValue);
+    console.log("active taskId: " + this.state.currentTaskValue);
 
     this.journalModel.addJournalEntry(
-      journalEntry.projectId,
-      journalEntry.taskId,
-      journalEntry.description
+      this.state.currentProjectValue,
+      this.state.currentTaskValue,
+      this.state.currentIntentionValue
     );
 
     this.setState({ currentIntentionValue: "" });
@@ -244,7 +230,7 @@ export default class JournalEntry extends Component {
 
   /// highlight field border when element is focused on
   handleFocusForProject = e => {
-    this.log("handleFocusForProject");
+    console.log("handleFocusForProject");
     document.getElementById("selectProjectInput").classList.add("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
     document.getElementById("createIntentionInput").classList.remove("focused");
@@ -252,7 +238,7 @@ export default class JournalEntry extends Component {
 
   /// highlight field border when element is focused on
   handleFocusForTask = e => {
-    this.log("handleFocusForTask");
+    console.log("handleFocusForTask");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.add("focused");
     document.getElementById("createIntentionInput").classList.remove("focused");
@@ -260,7 +246,7 @@ export default class JournalEntry extends Component {
 
   /// highlight field border when element is focused on
   handleFocusForIntention = e => {
-    this.log("handleFocusForIntention");
+    console.log("handleFocusForIntention");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
     document.getElementById("createIntentionInput").classList.add("focused");
@@ -269,7 +255,7 @@ export default class JournalEntry extends Component {
   /// clear all of the highlights to the fields on any element blur.. called by all
   /// form element inputs
   handleBlurForInput = e => {
-    this.log("handleBlurForInput");
+    console.log("handleBlurForInput");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
     document.getElementById("createIntentionInput").classList.remove("focused");

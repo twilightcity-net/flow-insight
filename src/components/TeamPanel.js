@@ -3,10 +3,6 @@ import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import TeamMember from "./TeamMember";
 import { DataModelFactory } from "../models/DataModelFactory";
 
-const { remote } = window.require("electron");
-
-const electronLog = remote.require("electron-log");
-
 //
 // this component is the tab panel wrapper for the console content
 //
@@ -17,12 +13,8 @@ export default class TeamPanel extends Component {
     this.state = this.loadState();
   }
 
-  log = msg => {
-    electronLog.info(`[${this.constructor.name}] ${msg}`);
-  };
-
   componentDidMount = () => {
-    this.log("Team Layout : componentDidMount");
+    console.log("Team Layout : componentDidMount");
 
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
@@ -48,7 +40,7 @@ export default class TeamPanel extends Component {
   };
 
   resetCb = () => {
-    this.log("RESET TEAM PANEL!!!");
+    console.log("RESET TEAM PANEL!!!");
     if (this.state.me) {
       setTimeout(() => {
         this.selectRow(this.state.me.id, this.state.me);
@@ -106,7 +98,7 @@ export default class TeamPanel extends Component {
   };
 
   selectRow = (id, teamMember) => {
-    this.log("Team member clicked!" + teamMember.name + "id = " + id);
+    console.log("Team member clicked!" + teamMember.name + "id = " + id);
 
     this.teamModel.setActiveMember(id);
   };

@@ -1,17 +1,10 @@
 import React, { Component } from "react";
 import { Divider, Grid, Icon, Popup } from "semantic-ui-react";
 
-const { remote } = window.require("electron");
-
-const electronLog = remote.require("electron-log");
-
 //
 // this component is the individual journal item entered in by the user
 //
 export default class TeamMember extends Component {
-  log = msg => {
-    electronLog.info(`[${this.constructor.name}] ${msg}`);
-  };
 
   selectRow(rowId, teamMember) {
     let rowObj = document.getElementById(rowId);

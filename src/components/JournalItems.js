@@ -4,10 +4,6 @@ import JournalItem from "./JournalItem";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { SpiritModel } from "../models/SpiritModel";
 
-const { remote } = window.require("electron");
-
-const electronLog = remote.require("electron-log");
-
 //
 // this component is the tab panel wrapper for the console content
 //
@@ -32,10 +28,6 @@ export default class JournalItems extends Component {
 
     document.onkeydown = this.handleKeyPress;
   }
-
-  log = msg => {
-    electronLog.info(`[${this.constructor.name}] ${msg}`);
-  };
 
   componentDidMount() {
     this.spiritModel.registerListener(
@@ -97,7 +89,7 @@ export default class JournalItems extends Component {
     }
 
     if (this.isLastActive()) {
-      this.log("isLastActive");
+      console.log("isLastActive");
       this.messagesEnd.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -118,9 +110,6 @@ export default class JournalItems extends Component {
     if (this.state.activeJournalItem) {
       activeIndex = this.state.activeJournalItem.index;
     }
-
-    // this.log("activeIndex: " + activeIndex);
-    // this.log("journalItemSize: " + this.state.journalItems.length);
 
     return activeIndex === this.state.journalItems.length - 1;
   }
@@ -149,27 +138,27 @@ export default class JournalItems extends Component {
   };
 
   onUpdateFinishStatus = (journalItem, newStatus) => {
-    this.log("onUpdateFinishStatus");
+    console.log("onUpdateFinishStatus");
     this.props.onFinishEntry(journalItem, newStatus);
   };
 
   handleKeyPress = e => {
-    this.log("key!!");
+    console.log("key!!");
     if (e.keyCode === 37) {
-      this.log("left");
+      console.log("left");
       this.spiritModel.adjustFlame(-1);
     }
     if (e.keyCode === 38) {
-      this.log("up");
+      console.log("up");
       this.changeRowIndex("up");
       e.preventDefault();
     }
     if (e.keyCode === 39) {
-      this.log("right");
+      console.log("right");
       this.spiritModel.adjustFlame(1);
     }
     if (e.keyCode === 40) {
-      this.log("down");
+      console.log("down");
       this.changeRowIndex("down");
       e.preventDefault();
     }
@@ -178,7 +167,7 @@ export default class JournalItems extends Component {
   changeRowIndex = direction => {
     if (this.state.activeJournalItem) {
       let newIndex = this.state.activeJournalItem.index;
-      this.log("old index =" + newIndex);
+      console.log("old index =" + newIndex);
 
       if (direction === "up") {
         newIndex = newIndex - 1;
@@ -194,7 +183,7 @@ export default class JournalItems extends Component {
         newIndex = this.state.journalItems.length - 1;
       }
 
-      this.log("new index =" + newIndex);
+      console.log("new index =" + newIndex);
 
       let newActiveItem = this.state.journalItems[newIndex];
       let rowObj = document.getElementById(newActiveItem.id);

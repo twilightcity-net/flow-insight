@@ -14,8 +14,6 @@ import { RendererEventFactory } from "../RendererEventFactory";
 const electron = window.require("electron");
 const desktopCapturer = electron.desktopCapturer;
 const electronScreen = electron.screen;
-const { remote } = window.require("electron");
-const electronLog = remote.require("electron-log");
 const fs = window.require("fs");
 
 //
@@ -69,7 +67,7 @@ export default class TroubleshootSessionNew extends Component {
   // then want to make it so clicking "start troubleshooting" sets an alarm on the server that starts a counter
 
   onScreenShotReadyForDisplay = (event, screenPath) => {
-    electronLog.info("ready for display:" + screenPath);
+    console.info("ready for display:" + screenPath);
 
     this.setState({
       screenPath: "file://" + screenPath
@@ -78,7 +76,7 @@ export default class TroubleshootSessionNew extends Component {
 
   onReadyForScreenShot = (event, arg) => {
     console.log("ready for ss");
-    electronLog.info("ready for ss:" + arg);
+    console.info("ready for ss:" + arg);
 
     this.takeScreenShot(arg);
   };
@@ -124,7 +122,7 @@ export default class TroubleshootSessionNew extends Component {
 
             //electron.shell.openExternal('file://' + screenPath);
 
-            electronLog.info("saved");
+            console.info("saved");
             this.events.screenShotComplete.dispatch(screenPath, true);
 
             console.log("Saved to " + screenPath);

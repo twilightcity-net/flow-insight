@@ -10,10 +10,6 @@ import { SpiritModel } from "../models/SpiritModel";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { TeamMembersModel } from "../models/TeamMembersModel";
 
-const { remote } = window.require("electron");
-
-const electronLog = remote.require("electron-log");
-
 //
 // this component is the tab panel wrapper for the console content
 //
@@ -109,7 +105,7 @@ export default class ConsoleLayout extends Component {
   }
 
   componentDidMount = () => {
-    this.log("ConsoleLayout : componentDidMount");
+    console.log("ConsoleLayout : componentDidMount");
 
     this.teamModel.refreshAll();
     this.activeCircleModel.loadActiveCircle();
@@ -121,7 +117,7 @@ export default class ConsoleLayout extends Component {
   };
 
   componentWillUnmount = () => {
-    this.log("ConsoleLayout : componentWillUnmount");
+    console.log("ConsoleLayout : componentWillUnmount");
 
     this.teamModel.unregisterAllListeners("consoleLayout");
     this.activeCircleModel.unregisterAllListeners("consoleLayout");
@@ -145,7 +141,7 @@ export default class ConsoleLayout extends Component {
   };
 
   onTeamModelUpdateCb = () => {
-    this.log("ConsoleLayout : onTeamModelUpdateCb");
+    console.log("ConsoleLayout : onTeamModelUpdateCb");
     // console.log("WTF TIMER " + this.teamModel.me.wtfTimer);
     this.setState({
       me: this.teamModel.me,
@@ -155,14 +151,14 @@ export default class ConsoleLayout extends Component {
   };
 
   onActiveMemberUpdateCb = () => {
-    this.log("ConsoleLayout : onActiveMemberUpdateCb");
+    console.log("ConsoleLayout : onActiveMemberUpdateCb");
     this.setState({
       activeTeamMember: this.teamModel.activeTeamMember
     });
   };
 
   onActiveCircleUpdateCb = () => {
-    this.log("ConsoleLayout : onActiveCircleUpdateCb");
+    console.log("ConsoleLayout : onActiveCircleUpdateCb");
     this.setState({
       activeCircleId: this.activeCircleModel.activeCircleId,
       activeCircle: this.activeCircleModel.activeCircle,
@@ -182,7 +178,7 @@ export default class ConsoleLayout extends Component {
   };
 
   onFlameChangeCb = flameRating => {
-    this.log("flame update: " + flameRating);
+    console.log("flame update: " + flameRating);
 
     this.setState({
       flameRating: flameRating
@@ -191,7 +187,7 @@ export default class ConsoleLayout extends Component {
 
   /// click the flame button, which either tries to do a +1 or -1
   adjustFlameCb = flameDelta => {
-    this.log("Flame change :" + flameDelta);
+    console.log("Flame change :" + flameDelta);
 
     let flameRating = Number(this.state.flameRating) + flameDelta;
     if (flameRating > 5) {
@@ -208,7 +204,7 @@ export default class ConsoleLayout extends Component {
       flameRating = 0;
     }
 
-    this.log(
+    console.log(
       "Old/New Flame rating :" + this.state.flameRating + "/" + flameRating
     );
     this.setState({
@@ -216,9 +212,6 @@ export default class ConsoleLayout extends Component {
     });
   };
 
-  log = msg => {
-    electronLog.info(`[${this.constructor.name}] ${msg}`);
-  };
 
   resetCb = (event, showHideFlag) => {
     this.setState({
@@ -262,7 +255,7 @@ export default class ConsoleLayout extends Component {
   };
 
   changeActiveSidePanel = activeSidePanel => {
-    this.log("Changed panel! " + activeSidePanel);
+    console.log("Changed panel! " + activeSidePanel);
     this.setState({
       activePanel: activeSidePanel
     });
