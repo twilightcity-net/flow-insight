@@ -101,7 +101,7 @@ export default class JournalEntry extends Component {
   };
 
   populateTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
-    this.log("populating tasks...");
+    console.log("populating tasks...");
 
     if (!recentTasksByProjectId) {
       return;
@@ -117,10 +117,6 @@ export default class JournalEntry extends Component {
       };
     }
 
-    this.setState({
-      tasks: tasksForProject
-    });
-
     if (tasksForProject.length > 0) {
       let currentTask = tasksForProject[0].value;
 
@@ -130,6 +126,7 @@ export default class JournalEntry extends Component {
       }
 
       this.setState({
+        tasks: tasksForProject,
         currentTaskValue: currentTask
       });
     }
@@ -139,6 +136,28 @@ export default class JournalEntry extends Component {
   handleAdditionForTask = (e, { value }) => {
     this.log("handleAdditionForTask:" + value);
 
+    //setup temporary addition to the menu
+
+    let newTasks = this.state.tasks;
+
+    let searchIsFound = false;
+
+    for (var i in this.state.tasks) {
+      let task = this.state.tasks[i];
+      if (task.value === "search") {
+        searchIsFound = true;
+        break;
+      }
+    }
+
+    if (!searchIsFound) {
+      newTasks = [...this.state.tasks, {text:"Searching...", value:"search"}];
+    }
+
+    this.setState({
+      tasks: newTasks,
+      currentTaskValue: "search"
+    });
     this.props.onAddTask(this.state.currentProjectValue, value);
   };
 
