@@ -199,6 +199,7 @@ export default class JournalLayout extends Component {
         </div>
         <div id="wrapper" className="journalEntry">
           <JournalEntry
+            consoleIsCollapsed={this.props.consoleIsCollapsed}
             onAddTask={this.onAddTask}
           />
         </div>

@@ -42,6 +42,16 @@ export default class JournalEntry extends Component {
     this.resetCb();
   };
 
+  componentWillReceiveProps = nextProps => {
+
+    if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
+      //if it's now open, and used to be closed, need to reset the window
+      this.resetCb();
+    }
+
+    this.lastOpenCloseState = nextProps.consoleIsCollapsed;
+  };
+
   componentWillUnmount = () => {
     console.log("Journal Entry : componentWillUnmount");
 
