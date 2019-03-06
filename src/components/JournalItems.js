@@ -74,24 +74,6 @@ export default class JournalItems extends Component {
     this.journalModel.unregisterAllListeners("journalItems")
   }
 
-//   activeIndex={this.state.activeIndex}
-// allJournalItems={this.state.allJournalItems}
-
-  // componentWillReceiveProps = nextProps => {
-  //   let activeJournalItem = null;
-  //
-  //   if (nextProps.allJournalItems.length > 0) {
-  //     activeJournalItem = nextProps.allJournalItems[nextProps.activeIndex];
-  //     if (!activeJournalItem.flameRating) {
-  //       activeJournalItem.flameRating = 0;
-  //     }
-  //   }
-  //
-  //   this.setState({
-  //     journalItems: nextProps.allJournalItems,
-  //     activeJournalItem: activeJournalItem
-  //   });
-  // };
 
   onDirtyFlameUpdate = () => {
     console.log("JournalItems: onDirtyFlameUpdate " + this.journalModel.getActiveScope().activeJournalItem.flameRating);
@@ -180,22 +162,17 @@ export default class JournalItems extends Component {
   };
 
   handleKeyPress = e => {
-    console.log("key!!");
     if (e.keyCode === 37) {
-      console.log("left");
       this.spiritModel.adjustFlame(-1);
     }
     if (e.keyCode === 38) {
-      console.log("up");
       this.changeRowIndex("up");
       e.preventDefault();
     }
     if (e.keyCode === 39) {
-      console.log("right");
       this.spiritModel.adjustFlame(1);
     }
     if (e.keyCode === 40) {
-      console.log("down");
       this.changeRowIndex("down");
       e.preventDefault();
     }
@@ -204,7 +181,6 @@ export default class JournalItems extends Component {
   changeRowIndex = direction => {
     if (this.state.activeJournalItem) {
       let newIndex = this.state.activeJournalItem.index;
-      console.log("old index =" + newIndex);
 
       if (direction === "up") {
         newIndex = newIndex - 1;
@@ -219,9 +195,7 @@ export default class JournalItems extends Component {
       if (newIndex > this.state.journalItems.length - 1) {
         newIndex = this.state.journalItems.length - 1;
       }
-
-      console.log("new index =" + newIndex);
-
+      
       let newActiveItem = this.state.journalItems[newIndex];
       let rowObj = document.getElementById(newActiveItem.id);
       this.onSetActiveRow(newActiveItem.id, rowObj, newActiveItem);
