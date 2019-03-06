@@ -52,10 +52,15 @@ export class SpiritModel extends DataModel {
    * Reinitializes the Torchie flame to a specified rating
    */
   resetFlame = cleanFlameRating => {
+    let initFlame = 0;
+    if (cleanFlameRating) {
+      initFlame = cleanFlameRating;
+    }
+
     this.isDirty = false;
     this.dirtyFlame = null;
-    this.originalFlame = cleanFlameRating;
-    this.activeFlameRating = cleanFlameRating;
+    this.originalFlame = initFlame;
+    this.activeFlameRating = initFlame;
 
     this.notifyListeners(SpiritModel.CallbackEvent.RESET_FLAME);
   };
@@ -75,7 +80,14 @@ export class SpiritModel extends DataModel {
   };
 
   calculateNewRating = (currentFlame, flameDelta) => {
-    let flameRating = currentFlame + flameDelta;
+    let flameRating = 0;
+    if (currentFlame) {
+      flameRating = Number(currentFlame);
+    }
+    if (flameDelta) {
+      flameRating = flameRating + Number(flameDelta);
+    }
+
     if (flameRating > 5) {
       flameRating = 5;
     } else if (flameRating < -5) {

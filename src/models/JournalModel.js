@@ -238,7 +238,7 @@ export class JournalModel extends DataModel {
     let loadRequestType = DataModel.RequestTypes.POST;
     let args = { flameRating: flameRating };
 
-    journalItem.flameRating = flameRating;
+    journalItem.flameRating = Number(flameRating);
 
     this.remoteFetch(
       args,
@@ -258,7 +258,7 @@ export class JournalModel extends DataModel {
     let loadRequestType = DataModel.RequestTypes.POST;
     let args = { flameRating: flameRating };
 
-    journalItem.flameRating = flameRating;
+    journalItem.flameRating = Number(flameRating);
 
     this.remoteFetch(
       args,
@@ -357,7 +357,7 @@ export class JournalModel extends DataModel {
 
       this.activeIndex = journalItem.index;
       this.activeJournalItem = journalItem;
-      this.activeFlame = journalItem;
+      this.activeFlame = journalItem.flameRating;
 
       this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
 
@@ -448,10 +448,15 @@ export class JournalModel extends DataModel {
     let d = journalEntry.position;
     let dateObj = new Date(d[0], d[1] - 1, d[2], d[3], d[4], d[5]);
 
+    let flameRating = Number(0);
+    if (journalEntry.flameRating != null) {
+      flameRating = Number(journalEntry.flameRating);
+    }
+
     return {
       index: index,
       id: journalEntry.id,
-      flameRating: journalEntry.flameRating,
+      flameRating: flameRating,
       projectName: journalEntry.projectName,
       taskName: journalEntry.taskName,
       taskSummary: journalEntry.taskSummary,

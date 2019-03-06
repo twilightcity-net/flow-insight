@@ -3,6 +3,7 @@ import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { SpiritModel } from "../models/SpiritModel";
+import {JournalModel} from "../models/JournalModel";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -30,6 +31,18 @@ export default class JournalItems extends Component {
   }
 
   componentDidMount() {
+    this.journalModel.registerListener(
+      "journalItems",
+      JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE,
+      this.onJournalHistoryUpdate
+    );
+
+    this.journalModel.registerListener(
+      "journalItems",
+      JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE,
+      this.onActiveItemUpdate
+    );
+
     this.spiritModel.registerListener(
       "journalItems",
       SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE,
@@ -39,27 +52,51 @@ export default class JournalItems extends Component {
     this.scrollToBottomOrActive();
   }
 
-  componentWillUnmount() {
-    this.spiritModel.unregisterAllListeners("journalItems");
-  }
-
-  componentWillReceiveProps = nextProps => {
-    let activeJournalItem = null;
-
-    if (nextProps.allJournalItems.length > 0) {
-      activeJournalItem = nextProps.allJournalItems[nextProps.activeIndex];
-      if (!activeJournalItem.flameRating) {
-        activeJournalItem.flameRating = 0;
-      }
-    }
+  onJournalHistoryUpdate = () => {
 
     this.setState({
-      journalItems: nextProps.allJournalItems,
-      activeJournalItem: activeJournalItem
+      journalItems: this.journalModel.getActiveScope().allJournalItems,
+      activeJournalItem: this.journalModel.getActiveScope().activeJournalItem
+    });
+
+  };
+
+  onActiveItemUpdate = () => {
+    console.log("JournalItems: onActiveItemUpdate flame " + this.journalModel.getActiveScope().activeJournalItem.flameRating);
+
+    this.setState({
+      activeJournalItem: this.journalModel.getActiveScope().activeJournalItem
     });
   };
 
+  componentWillUnmount() {
+    this.spiritModel.unregisterAllListeners("journalItems");
+    this.journalModel.unregisterAllListeners("journalItems")
+  }
+
+//   activeIndex={this.state.activeIndex}
+// allJournalItems={this.state.allJournalItems}
+
+  // componentWillReceiveProps = nextProps => {
+  //   let activeJournalItem = null;
+  //
+  //   if (nextProps.allJournalItems.length > 0) {
+  //     activeJournalItem = nextProps.allJournalItems[nextProps.activeIndex];
+  //     if (!activeJournalItem.flameRating) {
+  //       activeJournalItem.flameRating = 0;
+  //     }
+  //   }
+  //
+  //   this.setState({
+  //     journalItems: nextProps.allJournalItems,
+  //     activeJournalItem: activeJournalItem
+  //   });
+  // };
+
   onDirtyFlameUpdate = () => {
+    console.log("JournalItems: onDirtyFlameUpdate " + this.journalModel.getActiveScope().activeJournalItem.flameRating);
+
+
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
@@ -67,7 +104,7 @@ export default class JournalItems extends Component {
     let journalModel = this.journalModel;
     let spiritModel = this.spiritModel;
 
-    let activeJournalItem = journalModel.activeJournalItem;
+    let activeJournalItem = journalModel.getActiveScope().activeJournalItem;
 
     this.timeout = setTimeout(function() {
       journalModel.updateFlameRating(activeJournalItem, spiritModel.dirtyFlame);

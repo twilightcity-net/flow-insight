@@ -192,8 +192,6 @@ export default class JournalLayout extends Component {
           <JournalItems
             onChangeActiveEntry={this.onChangeActiveEntry}
             onFinishEntry={this.onFinishEntry}
-            activeIndex={this.state.activeIndex}
-            allJournalItems={this.state.allJournalItems}
             height={this.calculateJournalItemsHeight()}
           />
         </div>
