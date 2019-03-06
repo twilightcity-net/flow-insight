@@ -128,17 +128,19 @@ export default class ConsoleLayout extends Component {
 
   onXPUpdate = () => {
     this.setState({
-      xpSummary: this.spiritModel.xpSummary,
-      level: this.spiritModel.level,
-      percentXP: this.spiritModel.percentXP,
-      totalXP: this.spiritModel.totalXP,
-      title: this.spiritModel.title
+      torchieOwner: this.spiritModel.getActiveScope().torchieOwner,
+      xpSummary: this.spiritModel.getActiveScope().xpSummary,
+      level: this.spiritModel.getActiveScope().level,
+      percentXP: this.spiritModel.getActiveScope().percentXP,
+      totalXP: this.spiritModel.getActiveScope().totalXP,
+      remainingToLevel: this.spiritModel.getActiveScope().remainingToLevel,
+      title: this.spiritModel.getActiveScope().title
     });
   };
 
   onActiveFlameUpdate = () => {
     this.setState({
-      flameRating: this.spiritModel.activeFlameRating
+      flameRating: this.spiritModel.getActiveScope().activeFlameRating
     });
   };
 
@@ -243,13 +245,23 @@ export default class ConsoleLayout extends Component {
     });
   };
 
+  getTorchieName = () => {
+    let torchieName = "";
+    if (this.state.activeTeamMember) {
+      torchieName = this.state.activeTeamMember.shortName;
+    }
+    return torchieName;
+  };
+
   /// renders the root console layout of the console view
   render() {
     const animatedPanelContent = (
       <SpiritPanel
+        torchieOwner={this.getTorchieName()}
         xpSummary={this.state.xpSummary}
         level={this.state.level}
         percentXP={this.state.percentXP}
+        remainingToLevel={this.state.remainingToLevel}
         totalXP={this.state.totalXP}
         title={this.state.title}
         flameRating={this.state.flameRating}

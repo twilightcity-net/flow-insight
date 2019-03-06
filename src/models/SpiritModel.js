@@ -1,4 +1,6 @@
 import { DataModel } from "./DataModel";
+import {AltModelDelegate} from "./AltModelDelegate";
+import {AltMemberSpiritExtension} from "./AltMemberSpiritExtension";
 
 const { remote } = window.require("electron"),
   XPSummaryDto = remote.require("./dto/XPSummaryDto");
@@ -10,17 +12,27 @@ export class SpiritModel extends DataModel {
     this.isInitialized = false;
 
     this.xpSummary = null;
-
-    this.xpSummary = null;
     this.level = 0;
     this.percentXP = 99;
     this.totalXP = 99999;
     this.title = "";
+    this.remainingToLevel = 0;
 
     this.isDirty = false;
     this.dirtyFlame = 0;
     this.originalFlame = 0;
     this.activeFlameRating = 0;
+
+    this.isAltMemberSelected = false;
+    this.altMemberId = null;
+
+    this.altModelExtension = new AltMemberSpiritExtension(this.scope);
+    this.altModelDelegate = new AltModelDelegate(this, this.altModelExtension);
+
+    this.altModelDelegate.configureDelegateCall("refreshXP");
+    this.altModelDelegate.configureDelegateCall("resetFlame");
+
+    this.altModelDelegate.configureNoOp("adjustFlame");
   }
 
   static get CallbackEvent() {
@@ -36,9 +48,45 @@ export class SpiritModel extends DataModel {
   };
 
   /**
+   * Show an alt member's spirit
+   * @param meId
+   * @param memberId
+   */
+  setMemberSelection = (meId, memberId) => {
+    if (meId === memberId) {
+      this.isAltMemberSelected = false;
+      this.altMemberId = null;
+
+      this.altModelDelegate.resetMemberSelection();
+      this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);
+    } else {
+      this.isAltMemberSelected = true;
+      this.altMemberId = memberId;
+
+      //should set the memberId on the object, then delegate the call
+
+      this.altModelExtension.setMemberSelection(memberId);
+      this.refreshXP();
+    }
+  };
+
+  setDependentModel(teamModel) {
+    this.altModelExtension.setDependentModel(teamModel);
+  }
+
+  getActiveScope = () => {
+    if (this.isAltMemberSelected) {
+      return this.altModelExtension;
+    } else {
+      return this;
+    }
+  };
+
+  /**
    * Refreshes the current XP from the server
    */
   refreshXP = () => {
+
     let remoteUrn = "/spirit/xp";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -122,6 +170,8 @@ export class SpiritModel extends DataModel {
       );
       this.totalXP = xpSummaryDto.totalXP;
       this.title = xpSummaryDto.title;
+      this.remainingToLevel = xpSummaryDto.xpRequiredToLevel;
+
     }
     this.isInitialized = true;
     this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);

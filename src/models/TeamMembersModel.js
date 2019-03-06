@@ -53,6 +53,24 @@ export class TeamMembersModel extends DataModel {
   };
 
   /**
+   * Retrieve a specific members summary
+   * @param memberId
+   */
+  getMemberStatus = (memberId) => {
+    let memberStatus = null;
+
+    for (var i in this.teamMembers) {
+      let member = this.teamMembers[i];
+      if (member.id === memberId) {
+        memberStatus = member;
+        break;
+      }
+    }
+
+    return memberStatus;
+  };
+
+  /**
    * Refresh status of self, and callback when done
    * @param callWhenDone
    */
@@ -173,8 +191,8 @@ export class TeamMembersModel extends DataModel {
       activeTaskSummary: teamMember.activeTaskSummary,
       level: level,
       xpRequired: xpRequired,
+      xpSummary: teamMember.xpSummary,
       workingOn: teamMember.workingOn,
-
       isAlarmTriggered: isAlarmTriggered,
       wtfTimer: wtfTimer,
       alarmStatusMessage: alarmStatusMessage,

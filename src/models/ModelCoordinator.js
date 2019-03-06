@@ -20,18 +20,22 @@ export class ModelCoordinator {
     this.spiritModel = DataModelFactory.createModel(DataModelFactory.Models.SPIRIT, this);
     this.activeCircle = DataModelFactory.createModel(DataModelFactory.Models.ACTIVE_CIRCLE, this);
 
+    this.spiritModel.setDependentModel(this.teamModel);
+
+    //event wirings
+
     this.onActiveCircleUpdateMe();
     this.onJournalEntryUpdateMeAndXP();
-
+    this.onJournalUpdateResetSpiritFlame();
 
     this.onChangeActiveRowResetSpiritFlame();
+    this.onTeamMemberChangeActiveScopeForAllModels();
+
+    this.onWTFTimerUpdateRefreshTeamMemberTimers();
 
     //TODO refactor this one out
     //    this.onDirtySpiritFlameUpdateActiveRow();
 
-    this.onTeamMemberChangeActiveScopeForAllModels();
-
-    this.onWTFTimerUpdateRefreshTeamMemberTimers();
   };
 
   unregisterModelWirings = () => {
@@ -60,6 +64,18 @@ export class ModelCoordinator {
       });
   }
 
+  onJournalUpdateResetSpiritFlame() {
+    this.journalModel.registerListener(this.name, JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE,
+      () => {
+        console.log("ModelCoordinator Event Fired: onJournalUpdateResetSpiritFlame");
+
+        if (this.journalModel.getActiveScope().activeJournalItem != null) {
+          let activeFlame = this.journalModel.getActiveScope().activeJournalItem.flameRating;
+          this.spiritModel.resetFlame(activeFlame);
+        }
+      });
+  }
+
   onChangeActiveRowResetSpiritFlame() {
      this.journalModel.registerListener(this.name, JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE,
        () => {
@@ -80,7 +96,13 @@ export class ModelCoordinator {
            this.teamModel.me.id,
            this.teamModel.activeTeamMember.id
          );
+
+         this.spiritModel.setMemberSelection(
+           this.teamModel.me.id,
+           this.teamModel.activeTeamMember.id
+         );
        });
+
   }
 
   onWTFTimerUpdateRefreshTeamMemberTimers() {
@@ -93,6 +115,7 @@ export class ModelCoordinator {
     );
 
   }
+
 
 
 }

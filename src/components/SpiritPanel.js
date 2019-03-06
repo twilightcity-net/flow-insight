@@ -208,6 +208,10 @@ export default class SpiritPanel extends Component {
     const spiritContent = (
       <div className="spiritContent">
         <div className="spiritBackground">
+          <div className="level">
+            <b>{this.props.torchieOwner}'s Torchie </b>
+          </div>
+
           {spiritImage}
 
           <div className="level">
