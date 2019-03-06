@@ -10,6 +10,9 @@ const { remote } = window.require("electron"),
 export class TeamMembersModel extends DataModel {
   constructor(scope) {
     super(scope);
+
+    this.isInitialized = false;
+
     this.me = {};
     this.teamMembers = [];
     this.activeTeamMember = null;
@@ -21,6 +24,11 @@ export class TeamMembersModel extends DataModel {
       ACTIVE_MEMBER_UPDATE: "active-member-update"
     };
   }
+
+  isNeverLoaded = () => {
+    return this.isInitialized === false;
+  };
+
 
   /**
    * Refresh all team members status, and callback when done
@@ -110,6 +118,7 @@ export class TeamMembersModel extends DataModel {
 
       this.refreshActiveMember();
     }
+    this.isInitialized = true;
     this.notifyListeners(TeamMembersModel.CallbackEvent.MEMBERS_UPDATE);
   };
 

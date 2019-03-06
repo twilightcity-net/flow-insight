@@ -9,6 +9,7 @@ import { DataModelFactory } from "../models/DataModelFactory";
 import { SpiritModel } from "../models/SpiritModel";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { TeamMembersModel } from "../models/TeamMembersModel";
+import {ModelCoordinator} from "../models/ModelCoordinator";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -69,15 +70,6 @@ export default class ConsoleLayout extends Component {
       this.onActiveCircleUpdateCb
     );
 
-    this.activeCircleModel.registerListener(
-      "consoleLayout",
-      ActiveCircleModel.CallbackEvent.WTF_TIMER_MINUTES_UPDATE,
-      () => {
-        console.log("WTF_TIMER_MINUTES_UPDATE");
-        this.teamModel.refreshMe();
-      }
-    );
-
     this.spiritModel = DataModelFactory.createModel(
       DataModelFactory.Models.SPIRIT,
       this
@@ -98,18 +90,26 @@ export default class ConsoleLayout extends Component {
       this.onActiveFlameUpdate
     );
 
-    this.journalModel = DataModelFactory.createModel(
-      DataModelFactory.Models.JOURNAL,
-      this
-    );
+
   }
 
   componentDidMount = () => {
     console.log("ConsoleLayout : componentDidMount");
 
-    this.teamModel.refreshAll();
-    this.activeCircleModel.loadActiveCircle();
-    this.spiritModel.refreshXP();
+    this.modelCoordinator = new ModelCoordinator();
+    this.modelCoordinator.wireModelsTogether();
+
+    if (this.teamModel.isNeverLoaded()) {
+      this.teamModel.refreshAll();
+    }
+
+    if (this.activeCircleModel.isNeverLoaded()) {
+      this.activeCircleModel.loadActiveCircle();
+    }
+
+    if (this.spiritModel.isNeverLoaded()) {
+      this.spiritModel.refreshXP();
+    }
 
     setTimeout(() => {
       this.animateSidebarPanel(true);
@@ -118,6 +118,8 @@ export default class ConsoleLayout extends Component {
 
   componentWillUnmount = () => {
     console.log("ConsoleLayout : componentWillUnmount");
+
+    this.modelCoordinator.unregisterModelWirings();
 
     this.teamModel.unregisterAllListeners("consoleLayout");
     this.activeCircleModel.unregisterAllListeners("consoleLayout");
@@ -157,25 +159,6 @@ export default class ConsoleLayout extends Component {
     });
   };
 
-  onActiveCircleUpdateCb = () => {
-    console.log("ConsoleLayout : onActiveCircleUpdateCb");
-    this.setState({
-      activeCircleId: this.activeCircleModel.activeCircleId,
-      activeCircle: this.activeCircleModel.activeCircle,
-      isAlarmTriggered: this.activeCircleModel.isAlarmTriggered
-    });
-
-    this.teamModel.refreshMe();
-    this.journalModel.loadDefaultJournal();
-  };
-
-  onXPCb = () => {
-    //this.refreshXP();
-  };
-
-  onUpdateMeCb = () => {
-    this.teamModel.refreshMe();
-  };
 
   onFlameChangeCb = flameRating => {
     console.log("flame update: " + flameRating);

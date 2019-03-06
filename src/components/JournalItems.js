@@ -30,7 +30,11 @@ export default class JournalItems extends Component {
     document.onkeydown = this.handleKeyPress;
   }
 
+
+
   componentDidMount() {
+
+
     this.journalModel.registerListener(
       "journalItems",
       JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE,
@@ -49,11 +53,16 @@ export default class JournalItems extends Component {
       this.onDirtyFlameUpdate
     );
 
+    if (this.journalModel.isNeverLoaded()) {
+      this.journalModel.loadDefaultJournal();
+    } else {
+      this.onJournalHistoryUpdate();
+    }
+
     this.scrollToBottomOrActive();
   }
 
   onJournalHistoryUpdate = () => {
-
     this.setState({
       journalItems: this.journalModel.getActiveScope().allJournalItems,
       activeJournalItem: this.journalModel.getActiveScope().activeJournalItem

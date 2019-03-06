@@ -6,6 +6,9 @@ const { remote } = window.require("electron"),
 export class SpiritModel extends DataModel {
   constructor(scope) {
     super(scope);
+
+    this.isInitialized = false;
+
     this.xpSummary = null;
 
     this.xpSummary = null;
@@ -27,6 +30,10 @@ export class SpiritModel extends DataModel {
       DIRTY_FLAME_UPDATE: "spirit-dirty-flame"
     };
   }
+
+  isNeverLoaded = () => {
+    return this.isInitialized === false;
+  };
 
   /**
    * Refreshes the current XP from the server
@@ -116,6 +123,7 @@ export class SpiritModel extends DataModel {
       this.totalXP = xpSummaryDto.totalXP;
       this.title = xpSummaryDto.title;
     }
+    this.isInitialized = true;
     this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);
   };
 }

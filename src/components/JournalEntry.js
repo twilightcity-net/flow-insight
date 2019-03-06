@@ -39,6 +39,8 @@ export default class JournalEntry extends Component {
       this.onJournalRecentTasksUpdateCb
     );
 
+    this.onJournalRecentTasksUpdateCb();
+
     this.resetCb();
   };
 

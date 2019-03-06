@@ -46,7 +46,8 @@ export class JournalModel extends DataModel {
     return {
       ACTIVE_ITEM_UPDATE: "active-item-update",
       RECENT_TASKS_UPDATE: "recent-tasks-update",
-      JOURNAL_HISTORY_UPDATE: "journal-history-update"
+      JOURNAL_HISTORY_UPDATE: "journal-history-update",
+      NEW_JOURNAL_ITEM_ADDED: "journal-item-added"
     };
   }
 
@@ -359,6 +360,7 @@ export class JournalModel extends DataModel {
       this.activeJournalItem = journalItem;
       this.activeFlame = journalItem.flameRating;
 
+      this.notifyListeners(JournalModel.CallbackEvent.NEW_JOURNAL_ITEM_ADDED);
       this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
 
       this.refreshRecentTaskReferences();

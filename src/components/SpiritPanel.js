@@ -236,9 +236,9 @@ export default class SpiritPanel extends Component {
           >
             <Image centered src="./assets/images/wtf/24x24.png" />
           </button>
-          {/*<button className='ui label flameRating'>*/}
-          {/*{this.state.flameString}*/}
-          {/*</button>*/}
+          <button className='ui label flameRating'>
+          {this.state.flameString}
+          </button>
           <button
             className="ui icon button yayButton"
             tabIndex="0"

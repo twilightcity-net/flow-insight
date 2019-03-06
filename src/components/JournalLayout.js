@@ -12,16 +12,16 @@ export default class JournalLayout extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      recentProjects: [],
-      recentTasksByProjectId: [],
-      recentEntry: {},
-      activeIndex: 0,
-      activeSize: 0,
-      activeJournalItem: null,
-      allJournalItems: [],
-      updatedFlame: null
-    };
+    // this.state = {
+    //   recentProjects: [],
+    //   recentTasksByProjectId: [],
+    //   recentEntry: {},
+    //   activeIndex: 0,
+    //   activeSize: 0,
+    //   activeJournalItem: null,
+    //   allJournalItems: [],
+    //   updatedFlame: null
+    // };
 
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
@@ -80,11 +80,6 @@ export default class JournalLayout extends Component {
   componentDidMount = () => {
     console.log("Journal Layout : componentDidMount");
 
-    this.teamModel.registerListener(
-      "journalLayout",
-      TeamMembersModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
-      this.onChangeMemberSelectionCb
-    );
 
     this.journalModel.registerListener(
       "journalLayout",
@@ -105,6 +100,7 @@ export default class JournalLayout extends Component {
     if (this.journalModel.isNeverLoaded()) {
       this.journalModel.loadDefaultJournal();
     } else {
+      console.log("Rerfresh from existing journal");
       this.onJournalRecentTasksUpdateCb();
       this.onJournalHistoryUpdateCb();
     }
@@ -120,6 +116,9 @@ export default class JournalLayout extends Component {
 
   onJournalRecentTasksUpdateCb = () => {
     console.log("Journal Layout : onJournalRecentTasksUpdateCb");
+
+    console.log("recent projects: "+this.journalModel.getActiveScope().recentProjects);
+
     this.setState({
       recentProjects: this.journalModel.getActiveScope().recentProjects,
       recentTasksByProjectId: this.journalModel.getActiveScope()
@@ -138,9 +137,6 @@ export default class JournalLayout extends Component {
       activeFlame: this.journalModel.getActiveScope().activeFlame
     });
 
-    this.spiritModel.refreshXP();
-    this.spiritModel.resetFlame(this.journalModel.getActiveScope().activeFlame);
-    this.teamModel.refreshMe();
   };
 
   onJournalActiveItemUpdateCb = () => {
@@ -150,20 +146,6 @@ export default class JournalLayout extends Component {
       activeIndex: this.journalModel.getActiveScope().activeIndex,
       activeFlame: this.journalModel.getActiveScope().activeFlame
     });
-
-    if (this.journalModel.getActiveScope().activeJournalItem != null) {
-      this.spiritModel.resetFlame(
-        this.journalModel.getActiveScope().activeJournalItem.flameRating
-      );
-    }
-  };
-
-  onChangeMemberSelectionCb = () => {
-    console.log("Journal Layout : onChangeMemberSelectionCb");
-    this.journalModel.setMemberSelection(
-      this.teamModel.me.id,
-      this.teamModel.activeTeamMember.id
-    );
   };
 
   onFinishEntry = (journalEntry, finishStatus) => {
