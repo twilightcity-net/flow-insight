@@ -17,8 +17,6 @@ export class AltMemberSpiritExtension extends DataModel {
     this.activeFlameRating = 0;
     this.remainingToLevel = 0;
 
-    this.isInitialized = false;
-
     this.altMemberId = null;
     this.teamModel = null;
   }

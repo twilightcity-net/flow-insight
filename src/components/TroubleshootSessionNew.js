@@ -76,8 +76,11 @@ export default class TroubleshootSessionNew extends Component {
 
   onCircleUpdate = () => {
     console.log("TroubleshootSessionNew : onCircleUpdate");
+
     this.setState({
-      activeCircle: this.activeCircleModel.activeCircle
+      activeCircle: this.activeCircleModel.getActiveScope().activeCircle,
+      circleName: this.activeCircleModel.getActiveScope().circleName,
+      circleOwner: this.activeCircleModel.getActiveScope().getCircleOwner()
     });
   };
 
@@ -182,7 +185,7 @@ export default class TroubleshootSessionNew extends Component {
           <Grid.Column width={10} className="rootLayout">
             <Segment className="wtf" inverted>
               <Header as="h1" attached="top" inverted>
-                Troubleshooting Scrapbook
+                {this.state.circleOwner}'s Troubleshooting Scrapbook
               </Header>
               <Segment attached basic inverted>
                 Let's solve a problem! Take a screenshot and describe the

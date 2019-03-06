@@ -21,6 +21,7 @@ export class ModelCoordinator {
     this.activeCircle = DataModelFactory.createModel(DataModelFactory.Models.ACTIVE_CIRCLE, this);
 
     this.spiritModel.setDependentModel(this.teamModel);
+    this.activeCircle.setDependentModel(this.teamModel);
 
     //event wirings
 
@@ -98,6 +99,11 @@ export class ModelCoordinator {
          );
 
          this.spiritModel.setMemberSelection(
+           this.teamModel.me.id,
+           this.teamModel.activeTeamMember.id
+         );
+
+         this.activeCircle.setMemberSelection(
            this.teamModel.me.id,
            this.teamModel.activeTeamMember.id
          );

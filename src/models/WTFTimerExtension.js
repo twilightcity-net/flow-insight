@@ -40,6 +40,8 @@ export class WTFTimerExtension extends DataModel {
   stopTimer = () => {
     this.running = false;
     this.durationInSeconds = 0;
+    this.wtfTimerInMinutes = "";
+    this.wtfTimerInSeconds = "00:00";
     // console.log("clearing this.timer..." + this.timer);
     if (this.timer) {
       clearInterval(this.timer);

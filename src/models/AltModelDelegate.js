@@ -62,11 +62,14 @@ export class AltModelDelegate {
     var altMethod = altModel[method];
 
     primaryModel[method] = function() {
+      var returnValue = null;
       if (this.altMemberId) {
-        altMethod.apply(altModel, arguments);
+        returnValue = altMethod.apply(altModel, arguments);
       } else {
-        primaryMethod.apply(primaryModel, arguments);
+        returnValue = primaryMethod.apply(primaryModel, arguments);
       }
+
+      return returnValue;
     };
   };
 

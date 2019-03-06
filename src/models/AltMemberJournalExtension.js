@@ -1,5 +1,6 @@
 import { DataModel } from "./DataModel";
 import moment from "moment";
+import {JournalModel} from "./JournalModel";
 
 const { remote } = window.require("electron"),
   RecentJournalDto = remote.require("./dto/RecentJournalDto");
@@ -23,13 +24,6 @@ export class AltMemberJournalExtension extends DataModel {
     this.isInitialized = false;
 
     this.altMemberId = null;
-  }
-
-  static get CallbackEvent() {
-    return {
-      ACTIVE_ITEM_UPDATE: "active-item-update",
-      JOURNAL_HISTORY_UPDATE: "journal-history-update"
-    };
   }
 
   setMemberSelection(memberId) {
@@ -87,7 +81,7 @@ export class AltMemberJournalExtension extends DataModel {
     }
 
     this.notifyListeners(
-      AltMemberJournalExtension.CallbackEvent.ACTIVE_ITEM_UPDATE
+      JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE
     );
   };
 
@@ -102,7 +96,7 @@ export class AltMemberJournalExtension extends DataModel {
     this.activeFlame = journalItem;
 
     this.notifyListeners(
-      AltMemberJournalExtension.CallbackEvent.ACTIVE_ITEM_UPDATE
+      JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE
     );
   };
 
@@ -117,7 +111,7 @@ export class AltMemberJournalExtension extends DataModel {
     }
     this.isInitialized = true;
     this.notifyListeners(
-      AltMemberJournalExtension.CallbackEvent.JOURNAL_HISTORY_UPDATE
+      JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE
     );
   };
 

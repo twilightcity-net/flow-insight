@@ -59,11 +59,15 @@ export class TeamMembersModel extends DataModel {
   getMemberStatus = (memberId) => {
     let memberStatus = null;
 
-    for (var i in this.teamMembers) {
-      let member = this.teamMembers[i];
-      if (member.id === memberId) {
-        memberStatus = member;
-        break;
+    if (memberId === this.me.id) {
+      memberStatus = this.me;
+    } else {
+      for (var i in this.teamMembers) {
+        let member = this.teamMembers[i];
+        if (member.id === memberId) {
+          memberStatus = member;
+          break;
+        }
       }
     }
 
@@ -172,9 +176,6 @@ export class TeamMembersModel extends DataModel {
       alarmCircleName = teamMember.activeCircle.circleName;
       activeCircleId = teamMember.activeCircle.id;
 
-      for (var propt in teamMember.activeCircle) {
-        console.log(propt + ": " + teamMember.activeCircle[propt]);
-      }
     }
 
     return {
@@ -198,7 +199,7 @@ export class TeamMembersModel extends DataModel {
       alarmStatusMessage: alarmStatusMessage,
       alarmCircleName: alarmCircleName,
       activeCircleId: activeCircleId,
-
+      activeCircle: teamMember.activeCircle,
       statusColor: this.toStatusColor(teamMember.onlineStatus, isAlarmTriggered)
     };
   };

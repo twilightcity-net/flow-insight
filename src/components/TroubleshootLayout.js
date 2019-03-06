@@ -44,7 +44,7 @@ export default class TroubleshootLayout extends Component {
   onActiveCircleUpdateCb = () => {
      console.log("TroubleshootLayout: onActiveCircleUpdateCb");
      this.setState({
-       isAlarmTriggered : this.activeCircleModel.isAlarmTriggered
+       isAlarmTriggered : this.activeCircleModel.getActiveScope().isAlarmTriggered
      });
   };
 

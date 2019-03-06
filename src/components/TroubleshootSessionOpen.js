@@ -47,15 +47,28 @@ export default class TroubleshootSessionOpen extends Component {
 
   onCircleUpdate = () => {
     console.log("TroubleshootSessionOpen : onCircleUpdate");
+
+    let activeCircle = this.activeCircleModel.getActiveScope().activeCircle;
+    let circleName = this.activeCircleModel.getActiveScope().circleName;
+
+    let circleOwner = this.activeCircleModel.getActiveScope().getCircleOwner();
+
+    console.log("CIRCLE OWNER ME2 : "+circleOwner);
+
+    let formattedTime = this.activeCircleModel.getActiveScope().getWTFTimerInSeconds();
     this.setState({
-      formattedWTFTimer: "00:00",
-      activeCircle: this.activeCircleModel.activeCircle
+      formattedWTFTimer: formattedTime,
+      activeCircle: activeCircle,
+      circleName: circleName,
+      circleOwner: circleOwner
     });
   };
 
+
+
   onTimerUpdate = () => {
     this.setState({
-      formattedWTFTimer: this.activeCircleModel.getWTFTimerInSeconds()
+      formattedWTFTimer: this.activeCircleModel.getActiveScope().getWTFTimerInSeconds()
     });
   };
 
@@ -73,8 +86,15 @@ export default class TroubleshootSessionOpen extends Component {
         <Grid textAlign="center" verticalAlign="middle" inverted>
           <Grid.Column width={6} className="rootLayout">
             <Segment className="wtf" inverted>
-              Hey there!
+              <div>
+              Circle: {this.state.circleName}
+              </div>
+              <div>
+                Owner: {this.state.circleOwner}
+              </div>
+              <div>
               {this.state.formattedWTFTimer}
+              </div>
               <Button
                 onClick={this.onClickStopTroubleshooting}
                 size="big"
