@@ -9,6 +9,8 @@ const { remote } = window.require("electron"),
 export class ActiveCircleModel extends DataModel {
   constructor(scope) {
     super(scope);
+    this.isInitialized = false;
+
     this.activeCircleId = null;
     this.activeCircle = null;
     this.isAlarmTriggered = false;
@@ -27,6 +29,10 @@ export class ActiveCircleModel extends DataModel {
     };
   }
 
+  isNeverLoaded = () => {
+    return this.isInitialized === false;
+  };
+
   getWTFTimerInMinutes() {
     return this.wtfTimerExtension.wtfTimerInMinutes;
   }
@@ -40,6 +46,7 @@ export class ActiveCircleModel extends DataModel {
    */
   loadActiveCircle = () => {
     console.log("ActiveCircleModel - Request - loadActiveCircle");
+
     let remoteUrn = "/circle/active";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -299,6 +306,7 @@ export class ActiveCircleModel extends DataModel {
         this.wtfTimerExtension.stopTimer();
       }
     }
+    this.isInitialized = true;
     this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
   };
 

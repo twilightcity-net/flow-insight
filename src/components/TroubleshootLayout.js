@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import TroubleshootSessionNew from "./TroubleshootSessionNew";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
 import { DataModelFactory } from "../models/DataModelFactory";
+import {ActiveCircleModel} from "../models/ActiveCircleModel";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -10,11 +11,42 @@ export default class TroubleshootLayout extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      isAlarmTriggered: false
+    };
+
     this.activeCircleModel = DataModelFactory.createModel(
       DataModelFactory.Models.ACTIVE_CIRCLE,
       this
     );
   }
+
+  componentDidMount() {
+
+    this.activeCircleModel.registerListener(
+      "troubleshootLayout",
+      ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE,
+      this.onActiveCircleUpdateCb
+    );
+
+    if (this.activeCircleModel.isNeverLoaded()) {
+      this.activeCircleModel.loadActiveCircle();
+    } else {
+      this.onActiveCircleUpdateCb();
+    }
+
+  }
+
+  componentWillUnmount() {
+    this.activeCircleModel.unregisterAllListeners("troubleshootLayout");
+  }
+
+  onActiveCircleUpdateCb = () => {
+     console.log("TroubleshootLayout: onActiveCircleUpdateCb");
+     this.setState({isAlarmTriggered : this.activeCircleModel.isAlarmTriggered})
+  };
+
+
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
@@ -55,13 +87,11 @@ export default class TroubleshootLayout extends Component {
   render() {
     let wtfPanel = null;
 
-    if (this.props.isAlarmTriggered) {
+    if (this.state.isAlarmTriggered) {
       wtfPanel = (
         <TroubleshootSessionOpen
           height={this.calculateTroubleshootItemsHeight()}
           onStopTroubleshooting={this.onStopTroubleshooting}
-          isAlarmTriggered={this.props.isAlarmTriggered}
-          activeCircle={this.props.activeCircle}
         />
       );
     } else {
@@ -69,8 +99,6 @@ export default class TroubleshootLayout extends Component {
         <TroubleshootSessionNew
           height={this.calculateTroubleshootItemsHeight()}
           onStartTroubleshooting={this.onStartTroubleshooting}
-          isAlarmTriggered={this.props.isAlarmTriggered}
-          activeCircle={this.props.activeCircle}
         />
       );
     }

@@ -320,11 +320,8 @@ export default class ConsoleLayout extends Component {
           <ConsoleContent
             consoleIsCollapsed={this.state.consoleIsCollapsed}
             onFlameChange={this.onFlameChangeCb}
-            updatedFlame={this.state.flameRating}
             onAdjustFlame={this.adjustFlameCb}
             animationTime={this.animationTime}
-            isAlarmTriggered={this.state.isAlarmTriggered}
-            activeCircle={this.state.activeCircle}
           />
         </div>
 

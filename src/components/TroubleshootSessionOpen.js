@@ -29,6 +29,13 @@ export default class TroubleshootSessionOpen extends Component {
       this.onTimerUpdate
     );
 
+    this.activeCircleModel.registerListener(
+      "TroubleshootSessionOpen",
+      ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE,
+      this.onCircleUpdate
+    );
+
+    this.onCircleUpdate();
     this.onTimerUpdate();
   };
 
@@ -36,6 +43,14 @@ export default class TroubleshootSessionOpen extends Component {
     console.log("TroubleshootSessionOpen : componentWillUnmount");
 
     this.activeCircleModel.unregisterAllListeners("TroubleshootSessionOpen");
+  };
+
+  onCircleUpdate = () => {
+    console.log("TroubleshootSessionOpen : onCircleUpdate");
+    this.setState({
+      formattedWTFTimer: "00:00",
+      activeCircle: this.activeCircleModel.activeCircle
+    });
   };
 
   onTimerUpdate = () => {

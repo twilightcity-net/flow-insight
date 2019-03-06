@@ -10,6 +10,8 @@ import {
   Input
 } from "semantic-ui-react";
 import { RendererEventFactory } from "../RendererEventFactory";
+import {ActiveCircleModel} from "../models/ActiveCircleModel";
+import {DataModelFactory} from "../models/DataModelFactory";
 
 const electron = window.require("electron");
 const desktopCapturer = electron.desktopCapturer;
@@ -48,7 +50,36 @@ export default class TroubleshootSessionNew extends Component {
         (event, arg) => this.onScreenShotReadyForDisplay(event, arg)
       )
     };
+
+    this.activeCircleModel = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_CIRCLE,
+      this
+    );
   }
+
+  componentDidMount = () => {
+    console.log("TroubleshootSessionNew : componentDidMount");
+    this.activeCircleModel.registerListener(
+      "TroubleshootSessionNew",
+      ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE,
+      this.onCircleUpdate
+    );
+
+    this.onCircleUpdate();
+  };
+
+  componentWillUnmount = () => {
+    console.log("TroubleshootSessionNew : componentWillUnmount");
+
+    this.activeCircleModel.unregisterAllListeners("TroubleshootSessionNew");
+  };
+
+  onCircleUpdate = () => {
+    console.log("TroubleshootSessionNew : onCircleUpdate");
+    this.setState({
+      activeCircle: this.activeCircleModel.activeCircle
+    });
+  };
 
   //so the thing we want to do, is everytime the console opens, before it automatically opens,
   //there's an async call made to capture a screenshot, and write it to .flow/latest_capture.png
