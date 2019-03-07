@@ -30,11 +30,13 @@ export default class TeamMember extends Component {
 
     let statusCircle = "";
 
+    let online = false;
     if (this.props.statusColor === "offlineColor") {
       statusCircle = (
         <Icon className={this.props.statusColor} name="circle outline" />
       );
     } else {
+      online = true;
       statusCircle = (
         <Icon link className={this.props.statusColor} name="circle" />
       );
@@ -42,15 +44,29 @@ export default class TeamMember extends Component {
 
     let memberNamePanel = "";
     if (this.props.isAlarmTriggered) {
-      memberNamePanel = (
-        <span className={this.props.statusColor}>
+      console.log()
+      if (online) {
+        memberNamePanel = (
+          <span className={this.props.statusColor}>
           {this.props.shortName}{" "}
-          <span className="alarm">
+            <span className="alarm">
             {" "}
-            &nbsp;&nbsp; WTF?&nbsp;&nbsp; {this.props.wtfTimer}
+              &nbsp;&nbsp; WTF?&nbsp;&nbsp; {this.props.wtfTimer}
           </span>
         </span>
-      );
+        );
+      } else {
+        memberNamePanel = (
+          <span className={this.props.statusColor}>
+          {this.props.shortName}{" "}
+            <span className="alarmDim">
+            {" "}
+              &nbsp;&nbsp; WTF?&nbsp;&nbsp; {this.props.wtfTimer}
+          </span>
+        </span>
+        );
+      }
+
     } else {
       memberNamePanel = (
         <span className={this.props.statusColor}>{this.props.shortName}</span>

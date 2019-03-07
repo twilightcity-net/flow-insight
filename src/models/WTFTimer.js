@@ -44,7 +44,6 @@ export class WTFTimer extends DataModel {
     }
 
     this.intervalTicker = setInterval(this.tick, 1000);
-    console.log("ticking..." + this.intervalTicker);
   };
 
   /**
@@ -79,25 +78,10 @@ export class WTFTimer extends DataModel {
     return new Date(d[0], d[1] - 1, d[2], d[3], d[4], d[5]);
   }
 
-//   private Long calculateEffectiveDuration(CircleDto circleDto) {
-//   LocalDateTime startTimer = circleDto.getStartTime();
-//
-//   if (circleDto.getLastResumeTime() != null) {
-//   startTimer = circleDto.getLastResumeTime();
-// }
-//
-// long seconds = startTimer.until( timeService.now(), ChronoUnit.SECONDS);
-// seconds += circleDto.getDurationInSeconds();
-//
-// return seconds;
-// }
-//
-
   /**
    * Ticks the intervalTicker up one second, recalculates display values, and sends notifications
    */
   tick = () => {
-    console.log("tick...");
     this.durationInSeconds = Number(this.durationInSeconds) + 1;
     this.refreshFormattedTimers();
 

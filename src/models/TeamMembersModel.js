@@ -217,7 +217,7 @@ export class TeamMembersModel extends DataModel {
     if (onlineStatus === "Online") {
       statusColor = "onlineColor";
     }
-    if (isAlarmTriggered === true) {
+    if (isAlarmTriggered === true && onlineStatus === "Online") {
       statusColor = "red";
     }
 
