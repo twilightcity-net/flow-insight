@@ -37,6 +37,7 @@ export class ModelCoordinator {
 
     this.onWTFTimerUpdateRefreshTeamMemberTimers();
 
+
     //TODO refactor this one out
     //    this.onDirtySpiritFlameUpdateActiveRow();
 

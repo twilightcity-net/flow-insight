@@ -22,7 +22,6 @@ export class WTFTimer extends DataModel {
     };
   }
 
-
   setDependentModel(circleModel) {
     this.circleModel = circleModel;
   }

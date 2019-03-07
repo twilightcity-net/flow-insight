@@ -15,13 +15,19 @@ export default class JournalEntry extends Component {
       tasks: [],
       currentProjectValue: null,
       currentTaskValue: null,
-      currentIntentionValue: ""
+      currentIntentionValue: "",
+      disableControls: false
     };
 
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
       this
     );
+
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS,
+      this
+    )
   }
 
   resetCb = () => {
@@ -74,6 +80,16 @@ export default class JournalEntry extends Component {
       this.journalModel.getActiveScope().recentTasksByProjectId,
       this.journalModel.getActiveScope().recentEntry
     );
+
+    if (this.teamModel.isMeActive()) {
+       this.setState({
+         disableControls: false
+       });
+    } else {
+      this.setState({
+        disableControls: true
+      });
+    }
 
   };
 
@@ -287,6 +303,7 @@ export default class JournalEntry extends Component {
 
   /// renders the journal entry component of the console view
   render() {
+
     return (
       <div id="component" className="journalEntry">
         <Segment.Group>
@@ -294,7 +311,7 @@ export default class JournalEntry extends Component {
             <Grid columns="equal" divided inverted>
               <Grid.Row stretched>
                 <Grid.Column width={2} id="selectProjectInput">
-                  <Dropdown
+                  <Dropdown disabled={this.state.disableControls}
                     className="projectId"
                     id="journalEntryProjectId"
                     placeholder="Choose Project"
@@ -311,7 +328,7 @@ export default class JournalEntry extends Component {
                   />
                 </Grid.Column>
                 <Grid.Column width={3} id="selectTaskInput">
-                  <Dropdown
+                  <Dropdown  disabled={this.state.disableControls}
                     id="journalEntryTaskId"
                     className="chunkId"
                     options={this.state.tasks}
@@ -331,7 +348,7 @@ export default class JournalEntry extends Component {
                 </Grid.Column>
                 <Grid.Column width={11} id="createIntentionInput">
                   <div>
-                    <Input
+                    <Input disabled={this.state.disableControls}
                       id="intentionTextInput"
                       className="intentionText"
                       fluid

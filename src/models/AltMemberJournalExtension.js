@@ -110,9 +110,8 @@ export class AltMemberJournalExtension extends DataModel {
       this.initFromDefaultJournal(defaultJournal);
     }
     this.isInitialized = true;
-    this.notifyListeners(
-      JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE
-    );
+    this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
+    this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
   };
 
   initFromDefaultJournal = defaultJournal => {

@@ -29,6 +29,18 @@ export class TeamMembersModel extends DataModel {
     return this.isInitialized === false;
   };
 
+  isMeActive = () => {
+    let meActive = true;
+    if (this.activeTeamMember != null && this.me != null) {
+      if (this.activeTeamMember.id !== this.me.id) {
+        meActive = false;
+      }
+    }
+    console.log("ISMEACTIVE: "+meActive);
+    return meActive;
+
+  };
+
 
   /**
    * Refresh all team members status, and callback when done
