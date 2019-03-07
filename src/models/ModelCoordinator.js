@@ -3,6 +3,7 @@ import { ActiveCircleModel } from "./ActiveCircleModel";
 import { JournalModel } from "./JournalModel";
 import { SpiritModel } from "./SpiritModel";
 import {DataModelFactory} from "./DataModelFactory";
+import {WTFTimer} from "./WTFTimer";
 
 //
 // this class is used to manage DataClient requests for Stores
@@ -19,9 +20,11 @@ export class ModelCoordinator {
     this.teamModel = DataModelFactory.createModel(DataModelFactory.Models.MEMBER_STATUS, this);
     this.spiritModel = DataModelFactory.createModel(DataModelFactory.Models.SPIRIT, this);
     this.activeCircle = DataModelFactory.createModel(DataModelFactory.Models.ACTIVE_CIRCLE, this);
+    this.wtfTimer = DataModelFactory.createModel(DataModelFactory.Models.WTF_TIMER, this);
 
     this.spiritModel.setDependentModel(this.teamModel);
     this.activeCircle.setDependentModel(this.teamModel);
+    this.wtfTimer.setDependentModel(this.activeCircle);
 
     //event wirings
 
@@ -51,6 +54,7 @@ export class ModelCoordinator {
        () => {
           console.log("ModelCoordinator Event Fired: onActiveCircleUpdateMe");
           this.teamModel.refreshMe();
+          this.wtfTimer.resetTimer();
        });
   }
 
@@ -112,8 +116,8 @@ export class ModelCoordinator {
   }
 
   onWTFTimerUpdateRefreshTeamMemberTimers() {
-    this.activeCircle.registerListener(this.name,
-      ActiveCircleModel.CallbackEvent.WTF_TIMER_MINUTES_UPDATE,
+    this.wtfTimer.registerListener(this.name,
+      WTFTimer.CallbackEvent.WTF_TIMER_MINUTES_UPDATE,
       () => {
         console.log("ModelCoordinator Event Fired: onWTFTimerUpdateRefreshTeamMemberTimers");
         this.teamModel.refreshMe();

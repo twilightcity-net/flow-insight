@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button, Divider, Grid, Segment } from "semantic-ui-react";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
+import {WTFTimer} from "../models/WTFTimer";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -19,13 +20,18 @@ export default class TroubleshootSessionOpen extends Component {
       DataModelFactory.Models.ACTIVE_CIRCLE,
       this
     );
+
+    this.wtfTimer = DataModelFactory.createModel(
+      DataModelFactory.Models.WTF_TIMER,
+      this
+    );
   }
 
   componentDidMount = () => {
     console.log("TroubleshootSessionOpen : componentDidMount");
-    this.activeCircleModel.registerListener(
+    this.wtfTimer.registerListener(
       "TroubleshootSessionOpen",
-      ActiveCircleModel.CallbackEvent.WTF_TIMER_SECONDS_UPDATE,
+      WTFTimer.CallbackEvent.WTF_TIMER_SECONDS_UPDATE,
       this.onTimerUpdate
     );
 
@@ -37,12 +43,15 @@ export default class TroubleshootSessionOpen extends Component {
 
     this.onCircleUpdate();
     this.onTimerUpdate();
+    this.wtfTimer.startTimer();
   };
 
   componentWillUnmount = () => {
     console.log("TroubleshootSessionOpen : componentWillUnmount");
 
+    this.wtfTimer.stopTimer();
     this.activeCircleModel.unregisterAllListeners("TroubleshootSessionOpen");
+    this.wtfTimer.unregisterAllListeners("TroubleshootSessionOpen")
   };
 
   onCircleUpdate = () => {
@@ -55,7 +64,7 @@ export default class TroubleshootSessionOpen extends Component {
 
     console.log("CIRCLE OWNER ME2 : "+circleOwner);
 
-    let formattedTime = this.activeCircleModel.getActiveScope().getWTFTimerInSeconds();
+    let formattedTime = this.wtfTimer.wtfTimerInSeconds;
     this.setState({
       formattedWTFTimer: formattedTime,
       activeCircle: activeCircle,
@@ -68,7 +77,7 @@ export default class TroubleshootSessionOpen extends Component {
 
   onTimerUpdate = () => {
     this.setState({
-      formattedWTFTimer: this.activeCircleModel.getActiveScope().getWTFTimerInSeconds()
+      formattedWTFTimer: this.wtfTimer.wtfTimerInSeconds
     });
   };
 

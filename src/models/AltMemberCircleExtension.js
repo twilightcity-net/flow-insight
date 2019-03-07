@@ -1,7 +1,5 @@
 import { DataModel } from "./DataModel";
 import {ActiveCircleModel} from "./ActiveCircleModel";
-import {WTFTimerExtension} from "./WTFTimerExtension";
-import {AltModelDelegate} from "./AltModelDelegate";
 const { remote } = window.require("electron"),
   CircleKeyDto = remote.require("./dto/CircleKeyDto"),
   FeedMessageDto = remote.require("./dto/FeedMessageDto");
@@ -17,10 +15,6 @@ export class AltMemberCircleExtension extends DataModel {
     this.problemDescription = "";
     this.circleName = "";
 
-    //delegate cascades notifications for the timer
-    this.wtfTimerExtension = new WTFTimerExtension(scope);
-    this.timerDelegate = new AltModelDelegate(this, this.wtfTimerExtension);
-
     this.altMemberId = null;
   }
 
@@ -29,24 +23,12 @@ export class AltMemberCircleExtension extends DataModel {
     this.activeCircleId = null;
     this.activeCircle = null;
     this.isAlarmTriggered = false;
-    this.wtfTimerExtension.stopTimer();
   }
-
-  stopEvents = () => {
-    this.wtfTimerExtension.stopTimer();
-  };
 
   setDependentModel(teamModel) {
     this.teamModel = teamModel;
   }
 
-  getWTFTimerInMinutes = () => {
-    return this.wtfTimerExtension.wtfTimerInMinutes;
-  };
-
-  getWTFTimerInSeconds = () => {
-    return this.wtfTimerExtension.wtfTimerInSeconds;
-  };
 
   getCircleOwner = () => {
     return this.teamModel.getMemberStatus(this.altMemberId).shortName;
@@ -76,7 +58,6 @@ export class AltMemberCircleExtension extends DataModel {
        this.isAlarmTriggered = true;
        this.problemDescription = activeCircle.problemDescription;
        this.circleName = activeCircle.circleName;
-       this.wtfTimerExtension.startTimer(this.calculateTimer(activeCircle));
 
     } else {
        this.activeCircleId = null;
@@ -84,7 +65,6 @@ export class AltMemberCircleExtension extends DataModel {
        this.isAlarmTriggered = false;
        this.problemDescription = "";
        this.circleName = "";
-       this.wtfTimerExtension.stopTimer();
     }
 
     this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
@@ -191,14 +171,12 @@ export class AltMemberCircleExtension extends DataModel {
         this.activeCircleId = circleDto.id;
         this.activeCircle = circleDto;
         this.isAlarmTriggered = true;
-        this.wtfTimerExtension.startTimer(this.calculateTimer(circleDto));
       } else {
         console.log("AltModelCircleExtension : onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;
         this.activeCircleId = null;
         this.activeCircle = null;
         this.allFeedMessages = [];
-        this.wtfTimerExtension.stopTimer();
       }
     }
     this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
@@ -224,13 +202,4 @@ export class AltMemberCircleExtension extends DataModel {
     this.notifyListeners(ActiveCircleModel.CallbackEvent.FEED_UPDATE);
   };
 
-  calculateTimer = circleDto => {
-    let startingSeconds = 0;
-
-    if (circleDto.durationInSeconds) {
-      startingSeconds += Number(circleDto.durationInSeconds);
-    }
-
-    return startingSeconds;
-  };
 }
