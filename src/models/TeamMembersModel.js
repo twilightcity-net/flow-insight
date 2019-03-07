@@ -107,6 +107,11 @@ export class TeamMembersModel extends DataModel {
     );
   }
 
+  resetActiveMemberToMe() {
+     this.setActiveMember(this.me.id);
+  }
+
+
   setActiveMember = memberId => {
     if (memberId === this.me.id) {
       this.activeTeamMember = this.me;

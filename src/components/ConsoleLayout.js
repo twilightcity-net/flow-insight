@@ -218,6 +218,8 @@ export default class ConsoleLayout extends Component {
         });
       }, 0);
     } else {
+      this.teamModel.resetActiveMemberToMe();
+
       this.setState({
         sidebarPanelWidth: 0,
         sidebarPanelOpacity: 0
