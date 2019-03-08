@@ -152,6 +152,7 @@ export class JournalModel extends DataModel {
     this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
   };
 
+
   /**
    * Add a new task reference on the server, so intentions can be added for this task
    */

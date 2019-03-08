@@ -71,8 +71,6 @@ export default class JournalItems extends Component {
   };
 
   onActiveItemUpdate = () => {
-    console.log("JournalItems: onActiveItemUpdate flame " + this.journalModel.getActiveScope().activeJournalItem.flameRating);
-
     this.setState({
       activeJournalItem: this.journalModel.getActiveScope().activeJournalItem
     });
@@ -85,20 +83,20 @@ export default class JournalItems extends Component {
 
 
   onDirtyFlameUpdate = () => {
-    console.log("JournalItems: onDirtyFlameUpdate " + this.journalModel.getActiveScope().activeJournalItem.flameRating);
-
+    console.log("JournalItems: onDirtyFlameUpdate");
 
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
 
-    let journalModel = this.journalModel;
-    let spiritModel = this.spiritModel;
+    let journalModel = this.journalModel.getActiveScope();
+    let spiritModel = this.spiritModel.getActiveScope();
 
-    let activeJournalItem = journalModel.getActiveScope().activeJournalItem;
+    let activeJournalItem = journalModel.activeJournalItem;
+    let dirtyFlame = spiritModel.dirtyFlame;
 
     this.timeout = setTimeout(function() {
-      journalModel.updateFlameRating(activeJournalItem, spiritModel.dirtyFlame);
+      journalModel.updateFlameRating(activeJournalItem, dirtyFlame);
     }, 500);
   };
 
@@ -204,7 +202,12 @@ export default class JournalItems extends Component {
       if (newIndex > this.state.journalItems.length - 1) {
         newIndex = this.state.journalItems.length - 1;
       }
-      
+
+      if (this.spiritModel.getActiveScope().isDirty) {
+        let oldJournalItem =  this.state.activeJournalItem;
+        oldJournalItem.flameRating = this.spiritModel.getActiveScope().dirtyFlame;
+      }
+
       let newActiveItem = this.state.journalItems[newIndex];
       let rowObj = document.getElementById(newActiveItem.id);
       this.onSetActiveRow(newActiveItem.id, rowObj, newActiveItem);
@@ -222,7 +225,7 @@ export default class JournalItems extends Component {
   getEffectiveDirtyFlame(id) {
     let dirtyFlame = null;
     if (this.isActive(id)) {
-      dirtyFlame = this.spiritModel.dirtyFlame;
+      dirtyFlame = this.spiritModel.getActiveScope().dirtyFlame;
     }
 
     return dirtyFlame;
