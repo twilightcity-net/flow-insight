@@ -43,8 +43,6 @@ module.exports = class AppSettings {
     log.info("[AppSettings] flow home path -> " + flowHome);
 
     fs.mkdir(flowHome);
-    fs.writeFile(flowHome + "/api.key", apiKey);
-
     fs.writeFile(
       flowHome + "/settings.json",
       '{ "apiUrl" : "' + apiUrl + '", "apiKey" : "' + apiKey + '" }'
