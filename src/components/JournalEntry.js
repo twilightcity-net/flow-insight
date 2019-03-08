@@ -119,10 +119,6 @@ export default class JournalEntry extends Component {
       currentProject = recentEntry.projectId;
     }
 
-    if (!currentProject && recentProjects && recentProjects.length > 0) {
-      currentProject = recentProjects[0].id;
-    }
-
     this.setState({
       currentProjectValue: currentProject
     });
@@ -149,19 +145,19 @@ export default class JournalEntry extends Component {
       };
     }
 
+    let currentTask = null;
     if (tasksForProject.length > 0) {
-      let currentTask = tasksForProject[0].value;
 
       if (recentEntry && recentEntry.projectId === currentProject) {
         console.log("Populating default entry");
         currentTask = recentEntry.taskId;
       }
-
-      this.setState({
-        tasks: tasksForProject,
-        currentTaskValue: currentTask
-      });
     }
+
+    this.setState({
+      tasks: tasksForProject,
+      currentTaskValue: currentTask
+    });
   };
 
   /// called when a new task is added from dropdown
