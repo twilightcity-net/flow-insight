@@ -3,7 +3,7 @@ import {AltModelDelegate} from "./AltModelDelegate";
 import {AltMemberSpiritExtension} from "./AltMemberSpiritExtension";
 
 const { remote } = window.require("electron"),
-  XPSummaryDto = remote.require("./dto/XPSummaryDto");
+  SpiritDto = remote.require("./dto/SpiritDto");
 
 export class SpiritModel extends DataModel {
   constructor(scope) {
@@ -87,14 +87,14 @@ export class SpiritModel extends DataModel {
    */
   refreshXP = () => {
 
-    let remoteUrn = "/spirit/xp";
+    let remoteUrn = "/spirit/me";
     let loadRequestType = DataModel.RequestTypes.GET;
 
     this.remoteFetch(
       null,
       remoteUrn,
       loadRequestType,
-      XPSummaryDto,
+      SpiritDto,
       (dtoResults, err) => {
         setTimeout(() => {
           this.onRefreshXPCb(dtoResults, err);
@@ -159,18 +159,18 @@ export class SpiritModel extends DataModel {
     return flameRating;
   };
 
-  onRefreshXPCb = (xpSummaryDto, err) => {
+  onRefreshXPCb = (spiritDto, err) => {
     if (err) {
       console.log("error:" + err);
     } else {
-      this.xpSummary = xpSummaryDto;
-      this.level = xpSummaryDto.level;
+      this.xpSummary = spiritDto.xpSummary;
+      this.level = this.xpSummary .level;
       this.percentXP = Math.round(
-        (xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100
+        (this.xpSummary.xpProgress / this.xpSummary.xpRequiredToLevel) * 100
       );
-      this.totalXP = xpSummaryDto.totalXP;
-      this.title = xpSummaryDto.title;
-      this.remainingToLevel = xpSummaryDto.xpRequiredToLevel;
+      this.totalXP = this.xpSummary.totalXP;
+      this.title = this.xpSummary.title;
+      this.remainingToLevel = this.xpSummary.xpRequiredToLevel;
 
     }
     this.isInitialized = true;
