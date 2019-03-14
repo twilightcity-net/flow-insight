@@ -3,7 +3,8 @@ import {AltModelDelegate} from "./AltModelDelegate";
 import {AltMemberSpiritExtension} from "./AltMemberSpiritExtension";
 
 const { remote } = window.require("electron"),
-  SpiritDto = remote.require("./dto/SpiritDto");
+  SpiritDto = remote.require("./dto/SpiritDto"),
+  ActiveLinksNetworkDto = remote.require("./dto/ActiveLinksNetworkDto");
 
 export class SpiritModel extends DataModel {
   constructor(scope) {
@@ -12,6 +13,8 @@ export class SpiritModel extends DataModel {
     this.isInitialized = false;
 
     this.xpSummary = null;
+    this.activeSpiritLinks = null;
+    this.spiritId = null;
     this.level = 0;
     this.percentXP = 99;
     this.totalXP = 99999;
@@ -80,6 +83,48 @@ export class SpiritModel extends DataModel {
     } else {
       return this;
     }
+  };
+
+  linkThisTorchie = (spiritId) => {
+    console.log("SpiritModel - Request - linkThisTorchie: "+spiritId);
+
+    let remoteUrn = "/spirit/"+spiritId+"/transition/link";
+    let loadRequestType = DataModel.RequestTypes.POST;
+
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      ActiveLinksNetworkDto,
+      (dtoResults, err) => {
+        setTimeout(() => {
+          this.onLinkCb(dtoResults, err);
+        }, DataModel.activeWaitDelay);
+      }
+    );
+  };
+
+  unlink = (spiritId) => {
+      console.log("SpiritModel - Request - unlink: "+spiritId);
+
+      let remoteUrn = "/spirit/me/transition/unlink";
+      let loadRequestType = DataModel.RequestTypes.POST;
+
+      if (this.isAltMemberSelected) {
+        remoteUrn = "/spirit/"+spiritId+"/transition/unlink";
+      }
+
+      this.remoteFetch(
+        null,
+        remoteUrn,
+        loadRequestType,
+        ActiveLinksNetworkDto,
+        (dtoResults, err) => {
+          setTimeout(() => {
+            this.onUnlinkCb(dtoResults, err);
+          }, DataModel.activeWaitDelay);
+        }
+      );
   };
 
   /**
@@ -159,11 +204,56 @@ export class SpiritModel extends DataModel {
     return flameRating;
   };
 
+  onLinkCb = (activeLinksNetworkDto, err) => {
+    if (err) {
+      console.log("error:" + err);
+    } else {
+      if (activeLinksNetworkDto) {
+        this.activeSpiritLinks = activeLinksNetworkDto.spiritLinks;
+      } else {
+        this.activeSpiritLinks = [];
+      }
+
+    }
+
+    if (this.isAltMemberSelected) {
+      this.altModelExtension.refreshXP();
+    } else {
+      this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);
+    }
+
+  };
+
+  onUnlinkCb = (activeLinksNetworkDto, err) => {
+    if (err) {
+      console.log("error:" + err);
+    } else {
+      if (activeLinksNetworkDto) {
+        this.activeSpiritLinks = activeLinksNetworkDto.spiritLinks;
+      } else {
+        this.activeSpiritLinks = [];
+      }
+
+    }
+
+    if (this.isAltMemberSelected) {
+      this.altModelExtension.refreshXP();
+    } else {
+      this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);
+    }
+  };
+
   onRefreshXPCb = (spiritDto, err) => {
     if (err) {
       console.log("error:" + err);
     } else {
       this.xpSummary = spiritDto.xpSummary;
+      if (spiritDto.activeSpiritLinks) {
+        this.activeSpiritLinks = spiritDto.activeSpiritLinks.spiritLinks;
+      } else {
+        this.activeSpiritLinks = [];
+      }
+      this.spiritId = spiritDto.spiritId;
       this.level = this.xpSummary .level;
       this.percentXP = Math.round(
         (this.xpSummary.xpProgress / this.xpSummary.xpRequiredToLevel) * 100

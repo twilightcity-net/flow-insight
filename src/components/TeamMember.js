@@ -104,6 +104,8 @@ export default class TeamMember extends Component {
       );
     }
 
+    let linkStatusIcon = <Icon link name="linkify" className="chainStatus" />;
+
     return (
       <Grid.Row
         className={activeClass}
@@ -123,6 +125,7 @@ export default class TeamMember extends Component {
                   <i>
                     {this.props.name} ( {this.props.activeStatus} )
                   </i>
+                  {linkStatusIcon}
                 </div>
                 <div>
                   <b>{taskTitle}</b>

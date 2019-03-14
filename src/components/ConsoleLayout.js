@@ -27,7 +27,8 @@ export default class ConsoleLayout extends Component {
       consoleIsCollapsed: 0,
       me: {},
       teamMembers: [],
-      activeTeamMember: null
+      activeTeamMember: null,
+      isMe: false
     };
     this.animationTime = 700;
     this.events = {
@@ -129,7 +130,9 @@ export default class ConsoleLayout extends Component {
   onXPUpdate = () => {
     this.setState({
       torchieOwner: this.spiritModel.getActiveScope().torchieOwner,
+      spiritId: this.spiritModel.getActiveScope().spiritId,
       xpSummary: this.spiritModel.getActiveScope().xpSummary,
+      activeSpiritLinks: this.spiritModel.getActiveScope().activeSpiritLinks,
       level: this.spiritModel.getActiveScope().level,
       percentXP: this.spiritModel.getActiveScope().percentXP,
       totalXP: this.spiritModel.getActiveScope().totalXP,
@@ -148,6 +151,7 @@ export default class ConsoleLayout extends Component {
     console.log("ConsoleLayout : onTeamModelUpdateCb");
     // console.log("WTF TIMER " + this.teamModel.me.wtfTimer);
     this.setState({
+      isMe: this.teamModel.isMeActive(),
       me: this.teamModel.me,
       teamMembers: this.teamModel.teamMembers,
       activeTeamMember: this.teamModel.activeTeamMember
@@ -157,6 +161,7 @@ export default class ConsoleLayout extends Component {
   onActiveMemberUpdateCb = () => {
     console.log("ConsoleLayout : onActiveMemberUpdateCb");
     this.setState({
+      isMe: this.teamModel.isMeActive(),
       activeTeamMember: this.teamModel.activeTeamMember
     });
   };
@@ -259,8 +264,12 @@ export default class ConsoleLayout extends Component {
   render() {
     const animatedPanelContent = (
       <SpiritPanel
+        me={this.state.me}
+        isMe={this.state.isMe}
         torchieOwner={this.getTorchieName()}
+        spiritId={this.state.spiritId}
         xpSummary={this.state.xpSummary}
+        activeSpiritLinks={this.state.activeSpiritLinks}
         level={this.state.level}
         percentXP={this.state.percentXP}
         remainingToLevel={this.state.remainingToLevel}

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Image, Menu, Progress, Segment, Transition } from "semantic-ui-react";
+import {Icon, Button, Image, Menu, Progress, Segment, Transition, Popup} from "semantic-ui-react";
 import * as THREE from "three";
 import { DataModelFactory } from "../models/DataModelFactory";
 
@@ -181,9 +181,91 @@ export default class SpiritPanel extends Component {
     return state;
   }
 
+  handleClickForChainLink = () => {
+    console.log("Link this Torchie!" + this.spiritModel);
+    this.spiritModel.linkThisTorchie(this.props.spiritId);
+  };
+
+  handleClickForChainUnlink = () => {
+     console.log("Unlink!" + this.spiritModel);
+
+    this.spiritModel.unlink(this.props.spiritId);
+  };
+
+  isLinkedToMe = () => {
+    let linkedToMe = false;
+    if (this.hasActiveLinks()) {
+
+      let spiritLink = null;
+      for (var i in this.props.activeSpiritLinks) {
+        spiritLink = this.props.activeSpiritLinks[i];
+
+        if (spiritLink.friendSpiritId == this.props.me.id) {
+          linkedToMe = true;
+          break;
+        }
+      }
+    }
+    return linkedToMe;
+  };
+
+  hasActiveLinks = () => {
+    return this.props.activeSpiritLinks != null && this.props.activeSpiritLinks.length > 0;
+  };
+
   /// renders the console sidebar panel of the console view
   render() {
     const { activeItem } = this.state;
+
+    let linkIcon =
+      <Popup
+        trigger={
+          <Icon link name="linkify" className="chainLink" onClick={this.handleClickForChainLink}/>
+        }
+        content={<div className="tooltipPurple">Link this Torchie!</div>}
+        inverted
+        hideOnScroll
+        position="bottom left"
+      />;
+
+    let unlinkIcon =
+      <Popup
+        trigger={
+          <Icon link name="unlinkify" className="chainUnlink" onClick={this.handleClickForChainUnlink}/>
+        }
+        content={<div className="tooltipRed">Break Links</div>}
+        inverted
+        hideOnScroll
+        position="bottom left"
+      />;
+
+    let busyLinkIcon =
+      <Popup
+        trigger={
+          <Icon link name="gg" className="chainLink"/>
+        }
+        content={<div className="tooltipRed">Busy <i>(Already Linked)</i></div>}
+        inverted
+        hideOnScroll
+        position="bottom left"
+      />;
+
+    let activeLinkIcon = "";
+    if (this.props.isMe) {
+      if (this.hasActiveLinks()) {
+         //there's at least one spirit link, so show the unlink icon
+        activeLinkIcon = unlinkIcon;
+      }
+      //if my torchie isn't linked, don't show any icon
+    } else {
+      if (this.isLinkedToMe()) {
+        activeLinkIcon = unlinkIcon;
+      } else if (this.hasActiveLinks()) {
+        activeLinkIcon = busyLinkIcon;
+      } else {
+        activeLinkIcon = linkIcon;
+      }
+    }
 
     let spiritImage = "";
 
@@ -194,6 +276,7 @@ export default class SpiritPanel extends Component {
           centered
           src="./assets/images/spirit.png"
         />
+
       );
     } else if (this.state.flameString < 0) {
       spiritImage = (
@@ -210,6 +293,8 @@ export default class SpiritPanel extends Component {
         <div className="spiritBackground">
           <div className="level">
             <b>{this.props.torchieOwner}'s Torchie </b>
+            {activeLinkIcon}
+
           </div>
 
           {spiritImage}
@@ -240,9 +325,9 @@ export default class SpiritPanel extends Component {
           >
             <Image centered src="./assets/images/wtf/24x24.png" />
           </button>
-          <button className='ui label flameRating'>
-          {this.state.flameString}
-          </button>
+          {/*<button className='ui label flameRating'>*/}
+          {/*{this.state.flameString}*/}
+          {/*</button>*/}
           <button
             className="ui icon button yayButton"
             tabIndex="0"
@@ -268,7 +353,7 @@ export default class SpiritPanel extends Component {
         <Segment.Group>
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
-              name="spirit"
+              name="torchie"
               active={activeItem === "spirit"}
               onClick={this.handleSpiritClick}
             />

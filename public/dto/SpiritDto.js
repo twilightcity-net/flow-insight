@@ -6,6 +6,7 @@ module.exports = class SpiritDto {
     try {
       if (typeof json === "string") json = JSON.parse(json);
 
+      this.spiritId = json.spiritId;
       this.xpSummary = json.xpSummary;
       this.activeSpiritLinks = json.activeSpiritLinks;
     } catch (e) {
