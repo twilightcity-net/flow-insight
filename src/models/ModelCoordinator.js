@@ -28,7 +28,9 @@ export class ModelCoordinator {
 
     //event wirings
 
-    this.onActiveCircleUpdateMe();
+    this.onMyCircleUpdateMe();
+    this.onActiveCircleUpdateTimer();
+
     this.onJournalEntryUpdateMeAndXP();
     this.onJournalUpdateResetSpiritFlame();
 
@@ -50,12 +52,19 @@ export class ModelCoordinator {
     this.activeCircle.unregisterAllListeners(this.name);
   };
 
-  onActiveCircleUpdateMe() {
-     this.activeCircle.registerListener(this.name, ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE,
+  onActiveCircleUpdateTimer() {
+    this.activeCircle.registerListener(this.name, ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
+      () => {
+        console.log("ModelCoordinator Event Fired: onActiveCircleUpdateTimer");
+        this.wtfTimer.resetTimer();
+      });
+  }
+
+  onMyCircleUpdateMe() {
+     this.activeCircle.registerListener(this.name, ActiveCircleModel.CallbackEvent.MY_CIRCLE_UPDATE,
        () => {
           console.log("ModelCoordinator Event Fired: onActiveCircleUpdateMe");
           this.teamModel.refreshMe();
-          this.wtfTimer.resetTimer();
        });
   }
 

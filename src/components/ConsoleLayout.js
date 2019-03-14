@@ -66,7 +66,7 @@ export default class ConsoleLayout extends Component {
     );
     this.activeCircleModel.registerListener(
       "consoleLayout",
-      ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE,
+      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
       this.onActiveCircleUpdateCb
     );
 

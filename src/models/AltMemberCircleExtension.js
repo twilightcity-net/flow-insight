@@ -67,7 +67,7 @@ export class AltMemberCircleExtension extends DataModel {
        this.circleName = "";
     }
 
-    this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
 
   };
 
@@ -179,7 +179,7 @@ export class AltMemberCircleExtension extends DataModel {
         this.allFeedMessages = [];
       }
     }
-    this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
   };
 
   onGetAllMessagesForCircleFeedCb = (feedMessageDtos, err) => {

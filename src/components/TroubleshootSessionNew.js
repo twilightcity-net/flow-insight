@@ -61,7 +61,7 @@ export default class TroubleshootSessionNew extends Component {
     console.log("TroubleshootSessionNew : componentDidMount");
     this.activeCircleModel.registerListener(
       "TroubleshootSessionNew",
-      ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE,
+      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
       this.onCircleUpdate
     );
 

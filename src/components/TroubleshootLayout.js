@@ -25,7 +25,7 @@ export default class TroubleshootLayout extends Component {
 
     this.activeCircleModel.registerListener(
       "troubleshootLayout",
-      ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE,
+      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
       this.onActiveCircleUpdateCb
     );
 

@@ -39,7 +39,8 @@ export class ActiveCircleModel extends DataModel {
 
   static get CallbackEvent() {
     return {
-      CIRCLE_UPDATE: "circle-update",
+      MY_CIRCLE_UPDATE: "my-circle",
+      ACTIVE_CIRCLE_UPDATE: "active-circle-update",
       FEED_UPDATE: "feed-update"
     };
   }
@@ -54,13 +55,18 @@ export class ActiveCircleModel extends DataModel {
    * @param memberId
    */
   setMemberSelection = (meId, memberId) => {
+    let oldSelectionIsAltMember = this.isAltMemberSelected;
 
     if (meId === memberId) {
       this.isAltMemberSelected = false;
       this.altMemberId = null;
       this.altModelDelegate.resetMemberSelection();
 
-      this.loadActiveCircle();
+      //don't let this cascade updates if nothing is actually changing
+      if (oldSelectionIsAltMember) {
+        this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
+      }
+
     } else {
       this.isAltMemberSelected = true;
       this.altMemberId = memberId;
@@ -130,7 +136,7 @@ export class ActiveCircleModel extends DataModel {
       CircleDto,
       (dtoResults, err) => {
         setTimeout(() => {
-          this.onActiveCircleCb(dtoResults, err);
+          this.onCreateCircleCb(dtoResults, err);
         }, DataModel.activeWaitDelay);
       }
     );
@@ -336,6 +342,8 @@ export class ActiveCircleModel extends DataModel {
 
   onActiveCircleCb = (circleDto, err) => {
     console.log("ActiveCircleModel : onActiveCircleCb");
+    let oldCircle = this.activeCircleId;
+
     if (err) {
       console.log("error:" + err);
     } else {
@@ -363,7 +371,46 @@ export class ActiveCircleModel extends DataModel {
       }
     }
     this.isInitialized = true;
-    this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
+
+    if (oldCircle !== this.activeCircleId) {
+      this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
+    }
+  };
+
+
+  onCreateCircleCb = (circleDto, err) => {
+    console.log("ActiveCircleModel : onCreateCircleCb");
+
+    if (err) {
+      console.log("error:" + err);
+    } else {
+      if (circleDto) {
+        console.log(
+          "ActiveCircleModel : onActiveCircleCb - configuring Circle: " +
+          circleDto
+        );
+        this.activeCircleId = circleDto.id;
+        this.activeCircle = circleDto;
+        this.isAlarmTriggered = true;
+        this.problemDescription = circleDto.problemDescription;
+        this.circleName = circleDto.circleName;
+
+
+      } else {
+        console.log("ActiveCircleModel : onActiveCircleCb - no circle found");
+        this.isAlarmTriggered = false;
+        this.activeCircleId = null;
+        this.activeCircle = null;
+        this.allFeedMessages = [];
+        this.problemDescription = "";
+        this.circleName = "";
+
+      }
+    }
+
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.MY_CIRCLE_UPDATE);
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
+
   };
 
   onCloseCircleCb = (circleDto, err) => {
@@ -376,7 +423,8 @@ export class ActiveCircleModel extends DataModel {
       this.activeCircle = null;
       this.allFeedMessages = [];
     }
-    this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.MY_CIRCLE_UPDATE);
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
   };
 
   onShelveCircleWithDoItLaterCb = (circleDto, err) => {
@@ -389,7 +437,9 @@ export class ActiveCircleModel extends DataModel {
       this.activeCircle = null;
       this.allFeedMessages = [];
     }
-    this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
+
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.MY_CIRCLE_UPDATE);
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
   };
 
   onResumeCircleCb = (circleDto, err) => {
@@ -401,7 +451,8 @@ export class ActiveCircleModel extends DataModel {
       this.activeCircle = circleDto;
       this.isAlarmTriggered = true;
     }
-    this.notifyListeners(ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE);
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.MY_CIRCLE_UPDATE);
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
   };
 
   onGetAllMessagesForCircleFeedCb = (feedMessageDtos, err) => {

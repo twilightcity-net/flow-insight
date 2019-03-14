@@ -37,7 +37,7 @@ export default class TroubleshootSessionOpen extends Component {
 
     this.activeCircleModel.registerListener(
       "TroubleshootSessionOpen",
-      ActiveCircleModel.CallbackEvent.CIRCLE_UPDATE,
+      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
       this.onCircleUpdate
     );
 

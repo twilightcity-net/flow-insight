@@ -20,6 +20,7 @@ export class TeamMembersModel extends DataModel {
 
   static get CallbackEvent() {
     return {
+      ME_UPDATE: "me-update",
       MEMBERS_UPDATE: "members-update",
       ACTIVE_MEMBER_UPDATE: "active-member-update"
     };
@@ -48,6 +49,7 @@ export class TeamMembersModel extends DataModel {
    */
 
   refreshAll = () => {
+    console.log("TeamMembersModel - Request - refreshAll");
     let remoteUrn = "/status/team";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -92,6 +94,7 @@ export class TeamMembersModel extends DataModel {
    */
 
   refreshMe() {
+    console.log("TeamMembersModel - Request - refreshMe");
     let remoteUrn = "/status/me";
     let loadRequestType = DataModel.RequestTypes.GET;
     this.remoteFetch(
@@ -128,7 +131,7 @@ export class TeamMembersModel extends DataModel {
 
   onRefreshMeCb = (statusOfMe, err) => {
     if (err) {
-      console.log("error:" + err);
+      console.log("onRefreshMeCb error:" + err);
     } else {
       this.me = this.createMember(0, statusOfMe);
     }
@@ -137,7 +140,7 @@ export class TeamMembersModel extends DataModel {
 
   onRefreshAllCb = (memberStatusDtos, err) => {
     if (err) {
-      console.log("error:" + err);
+      console.log("onRefreshAllCb error:" + err);
     } else {
       //transform into presentation objects
       this.teamMembers = [];

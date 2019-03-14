@@ -27,7 +27,10 @@ export class WTFTimer extends DataModel {
   }
 
   resetTimer() {
+
     this.durationInSeconds = this.calculateTimer(this.circleModel.getActiveScope().activeCircle);
+    console.log("WTFTimer: resetTimer"+this.durationInSeconds);
+
     this.refreshFormattedTimers();
   }
 
