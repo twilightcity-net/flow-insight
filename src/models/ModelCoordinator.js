@@ -22,7 +22,6 @@ export class ModelCoordinator {
     this.activeCircle = DataModelFactory.createModel(DataModelFactory.Models.ACTIVE_CIRCLE, this);
     this.wtfTimer = DataModelFactory.createModel(DataModelFactory.Models.WTF_TIMER, this);
 
-    this.spiritModel.setDependentModel(this.teamModel);
     this.activeCircle.setDependentModel(this.teamModel);
     this.wtfTimer.setDependentModel(this.activeCircle);
 

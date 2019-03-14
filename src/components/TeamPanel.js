@@ -11,16 +11,18 @@ export default class TeamPanel extends Component {
     super(props);
 
     this.state = this.loadState();
-  }
 
-  componentDidMount = () => {
-    console.log("Team Layout : componentDidMount");
+    this.spiritModel = DataModelFactory.createModel(
+      DataModelFactory.Models.SPIRIT,
+      this
+    );
 
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
       this
     );
-  };
+
+  }
 
   componentWillReceiveProps = nextProps => {
     let newMe = nextProps.me;
@@ -103,6 +105,10 @@ export default class TeamPanel extends Component {
     this.teamModel.setActiveMember(id);
   };
 
+  isLinked = (memberId) => {
+     return this.spiritModel.isLinked(memberId);
+  };
+
   /// renders the console sidebar panel of the console view
   render() {
     const teamMembersContent = (
@@ -111,6 +117,7 @@ export default class TeamPanel extends Component {
           <TeamMember
             key={this.props.me.id}
             id={this.props.me.id}
+            isLinked={this.isLinked(this.props.me.id)}
             shortName={this.props.me.shortName + " (you)"}
             name={this.props.me.name}
             activeStatus={this.props.me.activeStatus}
@@ -132,6 +139,7 @@ export default class TeamPanel extends Component {
             <TeamMember
               key={d.id}
               id={d.id}
+              isLinked={this.isLinked(d.id)}
               shortName={d.shortName}
               name={d.name}
               activeStatus={d.activeStatus}

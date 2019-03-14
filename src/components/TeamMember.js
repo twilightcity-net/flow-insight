@@ -104,7 +104,10 @@ export default class TeamMember extends Component {
       );
     }
 
-    let linkStatusIcon = <Icon link name="linkify" className="chainStatus" />;
+    let linkStatusIcon = "";
+    if (this.props.isLinked == true) {
+      linkStatusIcon = <Icon link name="linkify" className="chainStatus" />;
+    }
 
     return (
       <Grid.Row

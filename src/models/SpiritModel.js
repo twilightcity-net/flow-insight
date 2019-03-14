@@ -13,7 +13,7 @@ export class SpiritModel extends DataModel {
     this.isInitialized = false;
 
     this.xpSummary = null;
-    this.activeSpiritLinks = null;
+    this.activeSpiritLinks = [];
     this.spiritId = null;
     this.level = 0;
     this.percentXP = 99;
@@ -73,9 +73,23 @@ export class SpiritModel extends DataModel {
     }
   };
 
-  setDependentModel(teamModel) {
-    this.altModelExtension.setDependentModel(teamModel);
-  }
+  isLinked = (spiritId) => {
+    let linked = false;
+    if (spiritId !== this.spiritId) {
+      for (var i in this.activeSpiritLinks) {
+        let spiritLink = this.activeSpiritLinks[i];
+        if (spiritLink.friendSpiritId === spiritId) {
+           linked = true;
+           break;
+        }
+      }
+    } else if (this.activeSpiritLinks.length > 0) {
+      linked = true;
+    }
+
+    return linked;
+  };
+
 
   getActiveScope = () => {
     if (this.isAltMemberSelected) {

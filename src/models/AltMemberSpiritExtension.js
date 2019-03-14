@@ -24,12 +24,8 @@ export class AltMemberSpiritExtension extends DataModel {
     this.remainingToLevel = 0;
 
     this.altMemberId = null;
-    this.teamModel = null;
   }
 
-  setDependentModel(teamModel) {
-    this.teamModel = teamModel;
-  }
 
   setMemberSelection(memberId) {
     this.altMemberId = memberId;
@@ -61,21 +57,6 @@ export class AltMemberSpiritExtension extends DataModel {
         }, DataModel.activeWaitDelay);
       }
     );
-    //
-    // let memberStatus = this.teamModel.getMemberStatus(this.altMemberId);
-    //
-    // let xpSummaryDto = memberStatus.xpSummary;
-    //
-    // this.xpSummary = xpSummaryDto;
-    // this.level = xpSummaryDto.level;
-    // this.percentXP = Math.round(
-    //   (xpSummaryDto.xpProgress / xpSummaryDto.xpRequiredToLevel) * 100
-    // );
-    // this.totalXP = xpSummaryDto.totalXP;
-    // this.title = xpSummaryDto.title;
-    // this.remainingToLevel = xpSummaryDto.xpRequiredToLevel;
-    //
-    // this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);
   };
 
   onRefreshFriendSpiritCb = (spiritDto, err) => {
