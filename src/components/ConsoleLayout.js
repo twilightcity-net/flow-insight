@@ -10,6 +10,8 @@ import { SpiritModel } from "../models/SpiritModel";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { TeamMembersModel } from "../models/TeamMembersModel";
 import {ModelCoordinator} from "../models/ModelCoordinator";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import {SidePanelViewController} from "../perspective/SidePanelViewController";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -31,14 +33,10 @@ export default class ConsoleLayout extends Component {
       isMe: false
     };
     this.animationTime = 700;
+
+    this.sidePanelController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.SIDE_PANEL, this);
+
     this.events = {
-      sidebarPanel: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
-        this,
-        (event, arg) => {
-          this.animateSidebarPanel(arg.show);
-        }
-      ),
       consoleOpen: RendererEventFactory.createEvent(
         RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
         this,
@@ -90,8 +88,6 @@ export default class ConsoleLayout extends Component {
       SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE,
       this.onActiveFlameUpdate
     );
-
-
   }
 
   componentDidMount = () => {
@@ -112,8 +108,10 @@ export default class ConsoleLayout extends Component {
       this.spiritModel.refreshXP();
     }
 
+    this.sidePanelController.listenForRefresh("ConsoleLayout", this.onRefreshActivePerspective);
+
     setTimeout(() => {
-      this.animateSidebarPanel(true);
+      this.onRefreshActivePerspective();
     }, 500);
   };
 
@@ -125,6 +123,8 @@ export default class ConsoleLayout extends Component {
     this.teamModel.unregisterAllListeners("consoleLayout");
     this.activeCircleModel.unregisterAllListeners("consoleLayout");
     this.spiritModel.unregisterAllListeners("consoleLayout");
+
+    this.sidePanelController.unregisterAllListeners("ConsoleLayout");
   };
 
   onXPUpdate = () => {
@@ -212,10 +212,14 @@ export default class ConsoleLayout extends Component {
     }
   };
 
-  /// visually show the panel in the display
-  animateSidebarPanel(show) {
+  onRefreshActivePerspective = () => {
+    console.log("ConsoleLayout - onRefreshActivePerspective: "+this.sidePanelController.show);
+    let show = this.sidePanelController.show;
     if (show) {
-      this.setState({ sidebarPanelVisible: true });
+      this.setState({
+        sidebarPanelVisible: true,
+        activePanel: this.sidePanelController.activeMenuSelection
+      });
       setTimeout(() => {
         this.setState({
           sidebarPanelWidth: 300,
@@ -230,11 +234,13 @@ export default class ConsoleLayout extends Component {
         sidebarPanelOpacity: 0
       });
       setTimeout(() => {
-        this.setState({ sidebarPanelVisible: false });
+        this.setState({
+          sidebarPanelVisible: false,
+          activePanel: this.sidePanelController.activeMenuSelection});
       }, 420);
     }
-  }
-
+  };
+ 
   /// store child component for future reloading
   saveStateSidebarPanelCb = state => {
     this.setState({ sidebarPanelState: state });
@@ -243,13 +249,6 @@ export default class ConsoleLayout extends Component {
   /// load the child components state from this state
   loadStateSidebarPanelCb = () => {
     return this.state.sidebarPanelState;
-  };
-
-  changeActiveSidePanel = activeSidePanel => {
-    console.log("Changed panel! " + activeSidePanel);
-    this.setState({
-      activePanel: activeSidePanel
-    });
   };
 
   getTorchieName = () => {
@@ -299,9 +298,9 @@ export default class ConsoleLayout extends Component {
 
     let activePanel = null;
 
-    if (this.state.activePanel === "profile") {
+    if (this.state.activePanel === SidePanelViewController.MenuSelection.PROFILE) {
       activePanel = animatedPanelContent;
-    } else if (this.state.activePanel === "messages") {
+    } else if (this.state.activePanel === SidePanelViewController.MenuSelection.MESSAGES) {
       activePanel = teamPanelContent;
     }
 
@@ -317,9 +316,7 @@ export default class ConsoleLayout extends Component {
     return (
       <div id="component" className="consoleLayout">
         <div id="wrapper" className="consoleSidebar">
-          <ConsoleSidebar
-            onChangeActiveSidePanel={this.changeActiveSidePanel}
-          />
+          <ConsoleSidebar />
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">

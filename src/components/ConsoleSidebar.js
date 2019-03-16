@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import { RendererEventFactory } from "../RendererEventFactory";
 import { Icon, Label, Menu } from "semantic-ui-react";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import {SidePanelViewController} from "../perspective/SidePanelViewController";
 
 //
 // this component is the sidebar to the console. This animates a slide.
@@ -8,19 +9,63 @@ import { Icon, Label, Menu } from "semantic-ui-react";
 export default class ConsoleSidebar extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       activeItem: "",
       iconProfile: "heart outline",
       iconMessages: "user outline",
       iconNotifications: "bell outline"
     };
-    this.events = {
-      sidebarPanel: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
-        this
-      )
-    };
+
+    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.SIDE_PANEL);
+
   }
+
+  componentDidMount = () => {
+    this.myController.listenForRefresh("ConsoleSidebar", this.onRefreshActivePerspective);
+    this.onRefreshActivePerspective();
+  };
+
+  componentWillUnmount = () => {
+    this.myController.unregisterAllListeners("ConsoleSidebar");
+  };
+
+  onRefreshActivePerspective = () => {
+    console.log("ConsoleSidebar - onRefreshActivePerspective!");
+
+    let activeMenuItem = this.myController.activeMenuSelection;
+
+    let state = {
+      activeItem: activeMenuItem,
+      iconProfile: "heart",
+      iconMessages: "user",
+      iconNotifications: "bell"
+    };
+    switch (activeMenuItem) {
+      case SidePanelViewController.MenuSelection.PROFILE:
+        state.iconMessages += " outline";
+        state.iconNotifications += " outline";
+        break;
+      case SidePanelViewController.MenuSelection.MESSAGES:
+        state.iconProfile += " outline";
+        state.iconNotifications += " outline";
+        break;
+      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
+        state.iconProfile += " outline";
+        state.iconMessages += " outline";
+        break;
+      case SidePanelViewController.MenuSelection.NONE:
+        state.iconProfile += " outline";
+        state.iconMessages += " outline";
+        state.iconNotifications += " outline";
+        break;
+
+      default:
+        break;
+    }
+    this.setState(state);
+
+  };
 
   /// performs a simple calculation for dynamic height of menu
   calculateMenuHeight() {
@@ -32,50 +77,17 @@ export default class ConsoleSidebar extends Component {
     return window.innerHeight - heights.rootBorder - heights.bottomMenuHeight;
   }
 
-  deselectItem(name) {
-    this.events.sidebarPanel.dispatch({
-      content: name,
-      show: 0
-    });
-    this.setState({
-      activeItem: "",
-      iconProfile: "heart outline",
-      iconMessages: "user outline",
-      iconNotifications: "bell outline"
-    });
-  }
+  deselectItem = (name) => {
 
-  selectItem(name) {
-    this.props.onChangeActiveSidePanel(name);
+    this.myController.hidePanel();
 
-    this.events.sidebarPanel.dispatch({
-      content: name,
-      show: 1
-    });
-    let state = {
-      activeItem: name,
-      iconProfile: "heart",
-      iconMessages: "user",
-      iconNotifications: "bell"
-    };
-    switch (name) {
-      case "profile":
-        state.iconMessages += " outline";
-        state.iconNotifications += " outline";
-        break;
-      case "messages":
-        state.iconProfile += " outline";
-        state.iconNotifications += " outline";
-        break;
-      case "notifications":
-        state.iconProfile += " outline";
-        state.iconMessages += " outline";
-        break;
-      default:
-        break;
-    }
-    this.setState(state);
-  }
+  };
+
+  selectItem = (name) => {
+
+    this.myController.showPanel(name);
+
+  };
 
   handleItemClick = (e, { name }) => {
     if (this.state.activeItem === name) {
@@ -85,9 +97,7 @@ export default class ConsoleSidebar extends Component {
     }
   };
 
-  componentDidMount = () => {
-    this.selectItem("profile");
-  };
+
 
   /// renders the sidebar of the console view
   render() {
@@ -103,7 +113,7 @@ export default class ConsoleSidebar extends Component {
         >
           <Menu.Item
             name="profile"
-            active={activeItem === "profile"}
+            active={activeItem === SidePanelViewController.MenuSelection.PROFILE}
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconProfile}>
@@ -116,7 +126,7 @@ export default class ConsoleSidebar extends Component {
           </Menu.Item>
           <Menu.Item
             name="messages"
-            active={activeItem === "messages"}
+            active={activeItem === SidePanelViewController.MenuSelection.MESSAGES}
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconMessages}>
@@ -129,7 +139,7 @@ export default class ConsoleSidebar extends Component {
           </Menu.Item>
           <Menu.Item
             name="notifications"
-            active={activeItem === "notifications"}
+            active={activeItem === SidePanelViewController.MenuSelection.NOTIFICATIONS}
             onClick={this.handleItemClick}
             disabled
           >

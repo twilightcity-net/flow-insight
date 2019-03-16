@@ -4,6 +4,7 @@ import JournalLayout from "./JournalLayout";
 import TroubleshootLayout from "./TroubleshootLayout";
 import FlowLayout from "./FlowLayout";
 import { Transition } from "semantic-ui-react";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
 
 
 //
@@ -23,17 +24,22 @@ export default class ConsoleContent extends Component {
       animationTypeTroubleshoot: "fly left",
       animationTypeFlow: "fly left"
     };
+
+    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.MAIN_PANEL_CONTENT, this);
+
     this.events = {
-      consoleMenuChange: RendererEventFactory.createEvent(
+      consoleMainPanelChange: RendererEventFactory.createEvent(
         RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
         this,
-        this.onConsoleMenuChangeCb
+        this.onConsoleMainPanelChangeCb
       )
     };
   }
 
+
+
   // dispatched when the console menu changes from user clicks
-  onConsoleMenuChangeCb(event, arg) {
+  onConsoleMainPanelChangeCb(event, arg) {
     if (this.isAnimating) return;
     this.isAnimating = true;
     let newLayout = arg.new,
