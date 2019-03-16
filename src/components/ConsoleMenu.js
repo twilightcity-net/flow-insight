@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { RendererEventFactory } from "../RendererEventFactory";
 import { Icon, Menu, Popup } from "semantic-ui-react";
+import {MainPanelViewController} from "../perspective/MainPanelViewController";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -11,7 +13,7 @@ export default class ConsoleMenu extends Component {
     this.isChanging = false;
     this.animationTime = this.props.animationTime + 50;
     this.state = {
-      activeItem: "journal",
+      activeItem: MainPanelViewController.MenuSelection.JOURNAL,
       isOnline: true,
       pingTime: 0,
       server: "identifying...",
@@ -33,7 +35,26 @@ export default class ConsoleMenu extends Component {
         this.onHeartbeatCb
       )
     };
+    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.MAIN_PANEL, this);
+
   }
+
+  componentDidMount = () => {
+    this.myController.listenForRefresh("ConsoleMenu", this, this.onRefreshActivePerspective);
+    this.onRefreshActivePerspective();
+  };
+
+  componentWillUnmount = () => {
+    this.myController.unregisterAllListeners("ConsoleMenu");
+  };
+
+
+  onRefreshActivePerspective = () => {
+    console.log("ConsoleMenu - onRefreshActivePerspective!");
+
+    let activeMenuItem = this.myController.activeMenuSelection;
+    this.setState({ activeItem: activeMenuItem });
+  };
 
   onHeartbeatCb(event, arg) {
     console.log(arg);
@@ -48,11 +69,14 @@ export default class ConsoleMenu extends Component {
   handleMenuClick = (e, { name }) => {
     if (this.isChanging || this.state.activeItem === name) return;
     this.isChanging = true;
+
     this.events.consoleMenuChange.dispatch({
       old: this.state.activeItem,
       new: name
     });
-    this.setState({ activeItem: name });
+``
+    this.myController.changeActivePanel(this.state.activeItem, name);
+
     setTimeout(() => {
       this.isChanging = false;
     }, this.animationTime);
@@ -117,36 +141,36 @@ export default class ConsoleMenu extends Component {
             inverted
           />
           <Menu.Item
-            name="journal"
+            name={MainPanelViewController.MenuSelection.JOURNAL}
             color="violet"
-            active={activeItem === "journal"}
+            active={activeItem === MainPanelViewController.MenuSelection.JOURNAL}
             onClick={this.handleMenuClick}
           >
             <Icon name="book" size="large" />
             Journal
           </Menu.Item>
           <Menu.Item
-            name="troubleshoot"
+            name={MainPanelViewController.MenuSelection.TROUBLESHOOT}
             color="violet"
-            active={activeItem === "troubleshoot"}
+            active={activeItem === MainPanelViewController.MenuSelection.TROUBLESHOOT}
             onClick={this.handleMenuClick}
           >
             <Icon name="lightning" size="large" />
             Troubleshoot
           </Menu.Item>
           <Menu.Item
-            name="flow"
+            name={MainPanelViewController.MenuSelection.FLOW}
             color="violet"
-            active={activeItem === "flow"}
+            active={activeItem === MainPanelViewController.MenuSelection.FLOW}
             onClick={this.handleMenuClick}
           >
             <Icon name="random" size="large" />
             Flow
           </Menu.Item>
           <Menu.Item
-            name="projects"
+            name={MainPanelViewController.MenuSelection.PROJECTS}
             color="violet"
-            active={activeItem === "projects"}
+            active={activeItem === MainPanelViewController.MenuSelection.PROJECTS}
             onClick={this.handleMenuClick}
             disabled
           >
@@ -154,9 +178,9 @@ export default class ConsoleMenu extends Component {
             Projects
           </Menu.Item>
           <Menu.Item
-            name="circles"
+            name={MainPanelViewController.MenuSelection.CIRCLES}
             color="violet"
-            active={activeItem === "circles"}
+            active={activeItem === MainPanelViewController.MenuSelection.CIRCLES}
             onClick={this.handleMenuClick}
             disabled
           >

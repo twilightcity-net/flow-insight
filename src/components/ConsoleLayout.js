@@ -108,7 +108,7 @@ export default class ConsoleLayout extends Component {
       this.spiritModel.refreshXP();
     }
 
-    this.sidePanelController.listenForRefresh("ConsoleLayout", this.onRefreshActivePerspective);
+    this.sidePanelController.listenForRefresh("ConsoleLayout", this, this.onRefreshActivePerspective);
 
     setTimeout(() => {
       this.onRefreshActivePerspective();

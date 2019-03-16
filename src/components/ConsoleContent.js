@@ -25,8 +25,6 @@ export default class ConsoleContent extends Component {
       animationTypeFlow: "fly left"
     };
 
-    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.MAIN_PANEL_CONTENT, this);
-
     this.events = {
       consoleMainPanelChange: RendererEventFactory.createEvent(
         RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
@@ -34,12 +32,25 @@ export default class ConsoleContent extends Component {
         this.onConsoleMainPanelChangeCb
       )
     };
+
+    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.MAIN_PANEL, this);
+
   }
+
+  componentDidMount = () => {
+    this.myController.listenForRefresh("ConsoleContent", this, this.onRefreshActivePerspective);
+
+  };
+
+  componentWillUnmount = () => {
+    this.myController.unregisterAllListeners("ConsoleContent");
+  };
 
 
 
   // dispatched when the console menu changes from user clicks
   onConsoleMainPanelChangeCb(event, arg) {
+    console.log("YOOOOO!!!! onConsoleMainPanelChangeCb");
     if (this.isAnimating) return;
     this.isAnimating = true;
     let newLayout = arg.new,
@@ -61,7 +72,39 @@ export default class ConsoleContent extends Component {
     }
   }
 
+  // dispatched when the console menu changes from user clicks
+  onRefreshActivePerspective () {
+    //TODO should be able to use this instead of the method above, but it causes glitching, why?
+
+    console.log("ConsoleContent: onRefreshActivePerspective ");
+    // if (this.isAnimating) return;
+    // this.isAnimating = true;
+    // let newLayout = this.myController.activeMenuSelection,
+    //   oldLayout = this.myController.oldMenuSelection,
+    //   state = this.getAnimationState(oldLayout, newLayout);
+    // //this.setState(state);
+    // switch (newLayout) {
+    //   case "journal":
+    //     state.journalVisible = true;
+    //     this.animateContentFromState(state);
+    //     break;
+    //   case "troubleshoot":
+    //     state.troubleshootVisible = true;
+    //     this.animateContentFromState(state);
+    //     break;
+    //   case "flow":
+    //     state.flowVisible = true;
+    //     this.animateContentFromState(state);
+    //     break;
+    //   default:
+    //     break;
+    // }
+  }
+
   getAnimationState(oldLayout, newLayout) {
+
+    console.log("getAnimationState - "+ oldLayout + " to "+newLayout);
+
     let state = {
       activeLayout: newLayout,
       journalVisible: false,

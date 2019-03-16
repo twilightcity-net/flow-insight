@@ -6,18 +6,30 @@ export class MainPanelViewController extends ActiveViewController {
   constructor(scope) {
     super(scope);
 
-    this.activeMenuItem = "journal";
+    this.oldMenuSelection = null;
+    this.activeMenuSelection = null;
+
+    this.resetDefaultMenuSelection();
   }
 
-  changeActiveMenuItem(menuItem) {
-     this.activeMenuItem = menuItem;
+  changeActivePanel(oldState, newState) {
+     this.oldMenuSelection = oldState;
+     this.activeMenuSelection = newState;
+    this.notifyRefresh()
   }
 
-  static get MenuItem() {
+  resetDefaultMenuSelection() {
+    this.activeMenuSelection = MainPanelViewController.MenuSelection.JOURNAL;
+  }
+
+
+  static get MenuSelection() {
     return {
       JOURNAL: "journal",
       TROUBLESHOOT: "troubleshoot",
-      FLOW: "flow"
+      FLOW: "flow",
+      PROJECTS: "projects",
+      CIRCLES: "circles"
     };
   }
 }

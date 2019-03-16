@@ -11,8 +11,8 @@ export class ActiveViewController {
     this.listenersByEventType = [];
   }
 
-  listenForRefresh = (subscriber, callback) => {
-     this.registerListener(subscriber, "perspective-update", callback);
+  listenForRefresh = (subscriber, scope, callback) => {
+     this.registerListener(subscriber, "perspective-update", scope, callback);
   };
 
   notifyRefresh = () => {
@@ -22,7 +22,7 @@ export class ActiveViewController {
   /**
    * Register a callback for a particular Model event type
    */
-  registerListener = (subscriber, eventType, callback) => {
+  registerListener = (subscriber, eventType, scope, callback) => {
     console.log("REGISTER: "+ subscriber + ":" + eventType);
     let eventListeners = this.listenersByEventType[eventType];
 
@@ -30,7 +30,7 @@ export class ActiveViewController {
       eventListeners = [];
       this.listenersByEventType[eventType] = eventListeners;
     }
-
+    callback.bind(scope);
     eventListeners[subscriber] = callback;
   };
 
@@ -65,7 +65,7 @@ export class ActiveViewController {
       console.log("NOTIFY: "+ subscriber + ":" + eventType);
 
       if (callback) {
-        callback.call(this.scope);
+        callback();
       }
     }
   };

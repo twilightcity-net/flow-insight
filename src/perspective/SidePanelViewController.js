@@ -22,14 +22,6 @@ export class SidePanelViewController extends ActiveViewController {
     this.notifyRefresh()
   }
 
-  togglePanel() {
-    if (this.show) {
-      this.hidePanel();
-    } else {
-      this.showPanel();
-    }
-  }
-
   showPanel(selection) {
     this.show = true;
     this.activeMenuSelection = selection;

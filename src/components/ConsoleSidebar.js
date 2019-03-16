@@ -22,7 +22,7 @@ export default class ConsoleSidebar extends Component {
   }
 
   componentDidMount = () => {
-    this.myController.listenForRefresh("ConsoleSidebar", this.onRefreshActivePerspective);
+    this.myController.listenForRefresh("ConsoleSidebar", this, this.onRefreshActivePerspective);
     this.onRefreshActivePerspective();
   };
 
