@@ -1,5 +1,6 @@
 
 import {ActiveViewController} from "./ActiveViewController";
+import {RendererEventFactory} from "../RendererEventFactory";
 
 
 export class MainPanelViewController extends ActiveViewController {
@@ -10,12 +11,40 @@ export class MainPanelViewController extends ActiveViewController {
     this.activeMenuSelection = null;
 
     this.resetDefaultMenuSelection();
+
+    this.mainContentPanelNotify = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
+      this);
+
+    this.mainContentPanelListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
+      this);
+
+    this.mainMenuListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
+      this);
+  }
+
+  configureMainContentListener(scope, callback) {
+    this.mainContentPanelListener.updateCallback(scope, callback);
+  }
+
+  configureMainMenuListener(scope, callback) {
+    this.mainMenuListener.updateCallback(scope, callback);
   }
 
   changeActivePanel(oldState, newState) {
      this.oldMenuSelection = oldState;
      this.activeMenuSelection = newState;
-    this.notifyRefresh()
+    this.fireNotifyEvent(oldState, newState);
+  }
+
+  fireNotifyEvent(oldState, newState) {
+    this.mainContentPanelNotify.dispatch({
+      old: oldState,
+      new: newState
+    });
+
   }
 
   resetDefaultMenuSelection() {

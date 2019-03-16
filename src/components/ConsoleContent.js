@@ -25,80 +25,47 @@ export default class ConsoleContent extends Component {
       animationTypeFlow: "fly left"
     };
 
-    this.events = {
-      consoleMainPanelChange: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
-        this,
-        this.onConsoleMainPanelChangeCb
-      )
-    };
-
     this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.MAIN_PANEL, this);
 
   }
 
   componentDidMount = () => {
-    this.myController.listenForRefresh("ConsoleContent", this, this.onRefreshActivePerspective);
+    this.myController.configureMainContentListener(this, this.onRefreshActivePerspective);
 
   };
 
   componentWillUnmount = () => {
-    this.myController.unregisterAllListeners("ConsoleContent");
+    this.myController.configureMainContentListener(this, null);
   };
 
 
-
   // dispatched when the console menu changes from user clicks
-  onConsoleMainPanelChangeCb(event, arg) {
-    console.log("YOOOOO!!!! onConsoleMainPanelChangeCb");
+  onRefreshActivePerspective (event, arg) {
+    //TODO should be able to use this instead of the method above, but it causes glitching, why?
+
+    console.log("ConsoleContent: onRefreshActivePerspective "+arg.old + ":" + arg.new);
     if (this.isAnimating) return;
     this.isAnimating = true;
-    let newLayout = arg.new,
-      oldLayout = arg.old,
+    let newLayout = this.myController.activeMenuSelection,
+      oldLayout = this.myController.oldMenuSelection,
       state = this.getAnimationState(oldLayout, newLayout);
     this.setState(state);
     switch (newLayout) {
       case "journal":
-        this.animateContentFromState({ journalVisible: true });
+        state.journalVisible = true;
+        this.animateContentFromState(state);
         break;
       case "troubleshoot":
-        this.animateContentFromState({ troubleshootVisible: true });
+        state.troubleshootVisible = true;
+        this.animateContentFromState(state);
         break;
       case "flow":
-        this.animateContentFromState({ flowVisible: true });
+        state.flowVisible = true;
+        this.animateContentFromState(state);
         break;
       default:
         break;
     }
-  }
-
-  // dispatched when the console menu changes from user clicks
-  onRefreshActivePerspective () {
-    //TODO should be able to use this instead of the method above, but it causes glitching, why?
-
-    console.log("ConsoleContent: onRefreshActivePerspective ");
-    // if (this.isAnimating) return;
-    // this.isAnimating = true;
-    // let newLayout = this.myController.activeMenuSelection,
-    //   oldLayout = this.myController.oldMenuSelection,
-    //   state = this.getAnimationState(oldLayout, newLayout);
-    // //this.setState(state);
-    // switch (newLayout) {
-    //   case "journal":
-    //     state.journalVisible = true;
-    //     this.animateContentFromState(state);
-    //     break;
-    //   case "troubleshoot":
-    //     state.troubleshootVisible = true;
-    //     this.animateContentFromState(state);
-    //     break;
-    //   case "flow":
-    //     state.flowVisible = true;
-    //     this.animateContentFromState(state);
-    //     break;
-    //   default:
-    //     break;
-    // }
   }
 
   getAnimationState(oldLayout, newLayout) {

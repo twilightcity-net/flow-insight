@@ -25,10 +25,6 @@ export default class ConsoleMenu extends Component {
         RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
         this
       ),
-      consoleMenuChange: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
-        this
-      ),
       heartbeat: RendererEventFactory.createEvent(
         RendererEventFactory.Events.APP_HEARTBEAT,
         this,
@@ -40,12 +36,13 @@ export default class ConsoleMenu extends Component {
   }
 
   componentDidMount = () => {
-    this.myController.listenForRefresh("ConsoleMenu", this, this.onRefreshActivePerspective);
+    this.myController.configureMainMenuListener(this, this.onRefreshActivePerspective);
     this.onRefreshActivePerspective();
+
   };
 
   componentWillUnmount = () => {
-    this.myController.unregisterAllListeners("ConsoleMenu");
+    this.myController.configureMainMenuListener(this, null);
   };
 
 
@@ -70,11 +67,6 @@ export default class ConsoleMenu extends Component {
     if (this.isChanging || this.state.activeItem === name) return;
     this.isChanging = true;
 
-    this.events.consoleMenuChange.dispatch({
-      old: this.state.activeItem,
-      new: name
-    });
-``
     this.myController.changeActivePanel(this.state.activeItem, name);
 
     setTimeout(() => {

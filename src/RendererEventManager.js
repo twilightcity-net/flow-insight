@@ -14,11 +14,21 @@ export class RendererEvent {
     this.type = eventType;
     this.scope = scope;
     this.callback = callback ? callback.bind(scope) : callback;
+
     this.reply = reply;
     this.returnValue = null;
     this.replyReturnValue = null;
-    RendererEventManager.listenForCallback(this);
-    RendererEventManager.listenForReply(this);
+    this.callbackWrapperFunction = RendererEventManager.listenForCallback(this);
+    this.replyWrapperFunction = RendererEventManager.listenForReply(this);
+
+  }
+
+  updateCallback(scope, callback) {
+    RendererEventManager.removeListeners(this);
+
+    this.scope = scope;
+    this.callback = callback ? callback.bind(scope) : callback;
+    this.callbackWrapperFunction = RendererEventManager.listenForCallback(this);
   }
 
   dispatch(arg, noEcho, isSync) {
@@ -107,14 +117,15 @@ export class RendererEventManager {
     log.info(
       "[RendererEventManager] listening for reply -> " + event.type + "-reply"
     );
-    ipcRenderer.on(event.type + "-reply", (_event, _arg) => {
+
+    let wrapperFunction = (_event, _arg) => {
       event.replyReturnValue = null;
       try {
         log.info(
           "[RendererEventManager] event reply -> " +
-            event.type +
-            "-reply : " +
-            _arg
+          event.type +
+          "-reply : " +
+          _arg
         );
         event.replyReturnValue = event.reply(_event, _arg);
       } catch (error) {
@@ -124,16 +135,29 @@ export class RendererEventManager {
         );
         log.error(
           "[RendererEventManager] " +
-            event.replyReturnValue.toString() +
-            "\n\n" +
-            event.replyReturnValue.stack +
-            "\n"
+          event.replyReturnValue.toString() +
+          "\n\n" +
+          event.replyReturnValue.stack +
+          "\n"
         );
         console.error(event.replyReturnValue.toString());
       } finally {
         return event;
       }
-    });
+    };
+    ipcRenderer.on(event.type + "-reply", wrapperFunction);
+    return wrapperFunction;
+  }
+
+  static removeListeners(event) {
+    log.info("[RendererEventManager] removing listeners for callback -> " + event.type);
+    if (event.callbackWrapperFunction) {
+      ipcRenderer.removeListener(event.type, event.callbackWrapperFunction);
+    }
+
+    if (event.replyWrapperFunction) {
+      ipcRenderer.removeListener(event.type, event.replyWrapperFunction);
+    }
   }
 
   /*
@@ -144,30 +168,34 @@ export class RendererEventManager {
   static listenForCallback(event) {
     if (!event.callback) return;
     log.info("[RendererEventManager] listening for callback -> " + event.type);
-    ipcRenderer.on(event.type, (_event, _arg) => {
+
+     let wrapperFunction = (_event, _arg) => {
       event.returnValue = null;
       try {
         log.info(
           "[RendererEventManager] event callback -> " +
-            event.type +
-            " : " +
-            _arg
+          event.type +
+          " : " +
+          _arg
         );
         event.returnValue = event.callback(_event, _arg);
       } catch (error) {
         event.returnValue = RendererEventManager.createEventError(error, event);
         log.error(
           "[RendererEventManager] " +
-            event.returnValue.toString() +
-            "\n\n" +
-            event.returnValue.stack +
-            "\n"
+          event.returnValue.toString() +
+          "\n\n" +
+          event.returnValue.stack +
+          "\n"
         );
         console.error(event.returnValue.toString());
       } finally {
         return event;
       }
-    });
+    };
+
+    ipcRenderer.on(event.type, wrapperFunction);
+    return wrapperFunction;
   }
 
   /// dispatches an event on the associated channel with the event. renderer events
