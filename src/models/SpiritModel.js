@@ -274,7 +274,7 @@ export class SpiritModel extends DataModel {
       );
       this.totalXP = this.xpSummary.totalXP;
       this.title = this.xpSummary.title;
-      this.remainingToLevel = this.xpSummary.xpRequiredToLevel;
+      this.remainingToLevel = this.xpSummary.xpRequiredToLevel - this.xpSummary.xpProgress;
 
     }
     this.isInitialized = true;
