@@ -22,15 +22,15 @@ export default class ConsoleSidebar extends Component {
   }
 
   componentDidMount = () => {
-    this.myController.listenForRefresh("ConsoleSidebar", this, this.onRefreshActivePerspective);
+    this.myController.configureMenuListener(this, this.onRefreshActivePerspective);
     this.onRefreshActivePerspective();
   };
 
   componentWillUnmount = () => {
-    this.myController.unregisterAllListeners("ConsoleSidebar");
+    this.myController.configureMenuListener(this, null);
   };
 
-  onRefreshActivePerspective = () => {
+  onRefreshActivePerspective () {
     console.log("ConsoleSidebar - onRefreshActivePerspective!");
 
     let activeMenuItem = this.myController.activeMenuSelection;
@@ -65,7 +65,7 @@ export default class ConsoleSidebar extends Component {
     }
     this.setState(state);
 
-  };
+  }
 
   /// performs a simple calculation for dynamic height of menu
   calculateMenuHeight() {
@@ -112,7 +112,7 @@ export default class ConsoleSidebar extends Component {
           style={{ height: this.calculateMenuHeight() }}
         >
           <Menu.Item
-            name="profile"
+            name={SidePanelViewController.MenuSelection.PROFILE}
             active={activeItem === SidePanelViewController.MenuSelection.PROFILE}
             onClick={this.handleItemClick}
           >
@@ -125,7 +125,7 @@ export default class ConsoleSidebar extends Component {
             </Icon>
           </Menu.Item>
           <Menu.Item
-            name="messages"
+            name={SidePanelViewController.MenuSelection.MESSAGES}
             active={activeItem === SidePanelViewController.MenuSelection.MESSAGES}
             onClick={this.handleItemClick}
           >
@@ -138,7 +138,7 @@ export default class ConsoleSidebar extends Component {
             </Icon>
           </Menu.Item>
           <Menu.Item
-            name="notifications"
+            name={SidePanelViewController.MenuSelection.NOTIFICATIONS}
             active={activeItem === SidePanelViewController.MenuSelection.NOTIFICATIONS}
             onClick={this.handleItemClick}
             disabled

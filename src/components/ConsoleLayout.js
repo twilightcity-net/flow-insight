@@ -25,7 +25,7 @@ export default class ConsoleLayout extends Component {
       sidebarPanelOpacity: 0,
       xpSummary: null,
       flameRating: 0,
-      activePanel: "profile",
+      activePanel: SidePanelViewController.MenuSelection.PROFILE,
       consoleIsCollapsed: 0,
       me: {},
       teamMembers: [],
@@ -108,7 +108,7 @@ export default class ConsoleLayout extends Component {
       this.spiritModel.refreshXP();
     }
 
-    this.sidePanelController.listenForRefresh("ConsoleLayout", this, this.onRefreshActivePerspective);
+    this.sidePanelController.configureContentListener(this, this.onRefreshActivePerspective);
 
     setTimeout(() => {
       this.onRefreshActivePerspective();
@@ -124,7 +124,7 @@ export default class ConsoleLayout extends Component {
     this.activeCircleModel.unregisterAllListeners("consoleLayout");
     this.spiritModel.unregisterAllListeners("consoleLayout");
 
-    this.sidePanelController.unregisterAllListeners("ConsoleLayout");
+    this.sidePanelController.configureContentListener(this, this.onRefreshActivePerspective);
   };
 
   onXPUpdate = () => {
@@ -212,7 +212,7 @@ export default class ConsoleLayout extends Component {
     }
   };
 
-  onRefreshActivePerspective = () => {
+  onRefreshActivePerspective () {
     console.log("ConsoleLayout - onRefreshActivePerspective: "+this.sidePanelController.show);
     let show = this.sidePanelController.show;
     if (show) {
@@ -239,7 +239,7 @@ export default class ConsoleLayout extends Component {
           activePanel: this.sidePanelController.activeMenuSelection});
       }, 420);
     }
-  };
+  }
 
   /// store child component for future reloading
   saveStateSidebarPanelCb = state => {

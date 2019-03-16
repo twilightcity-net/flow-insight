@@ -30,12 +30,12 @@ export default class ConsoleContent extends Component {
   }
 
   componentDidMount = () => {
-    this.myController.configureMainContentListener(this, this.onRefreshActivePerspective);
+    this.myController.configureContentListener(this, this.onRefreshActivePerspective);
 
   };
 
   componentWillUnmount = () => {
-    this.myController.configureMainContentListener(this, null);
+    this.myController.configureContentListener(this, null);
   };
 
 

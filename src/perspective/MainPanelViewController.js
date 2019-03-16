@@ -8,43 +8,39 @@ export class MainPanelViewController extends ActiveViewController {
     super(scope);
 
     this.oldMenuSelection = null;
-    this.activeMenuSelection = null;
+    this.activeMenuSelection = MainPanelViewController.MenuSelection.JOURNAL;
 
     this.resetDefaultMenuSelection();
 
-    this.mainContentPanelNotify = RendererEventFactory.createEvent(
+    this.mainPanelChangeNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
       this);
 
-    this.mainContentPanelListener = RendererEventFactory.createEvent(
+    this.contentPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
       this);
 
-    this.mainMenuListener = RendererEventFactory.createEvent(
+    this.menuListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
       this);
   }
 
-  configureMainContentListener(scope, callback) {
-    this.mainContentPanelListener.updateCallback(scope, callback);
+  configureContentListener(scope, callback) {
+    this.contentPanelListener.updateCallback(scope, callback);
   }
 
-  configureMainMenuListener(scope, callback) {
-    this.mainMenuListener.updateCallback(scope, callback);
+  configureMenuListener(scope, callback) {
+    this.menuListener.updateCallback(scope, callback);
   }
 
   changeActivePanel(oldState, newState) {
      this.oldMenuSelection = oldState;
      this.activeMenuSelection = newState;
-    this.fireNotifyEvent(oldState, newState);
+    this.fireNotifyEvent();
   }
 
-  fireNotifyEvent(oldState, newState) {
-    this.mainContentPanelNotify.dispatch({
-      old: oldState,
-      new: newState
-    });
-
+  fireNotifyEvent() {
+    this.mainPanelChangeNotifier.dispatch({});
   }
 
   resetDefaultMenuSelection() {

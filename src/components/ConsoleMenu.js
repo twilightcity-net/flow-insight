@@ -36,13 +36,13 @@ export default class ConsoleMenu extends Component {
   }
 
   componentDidMount = () => {
-    this.myController.configureMainMenuListener(this, this.onRefreshActivePerspective);
+    this.myController.configureMenuListener(this, this.onRefreshActivePerspective);
     this.onRefreshActivePerspective();
 
   };
 
   componentWillUnmount = () => {
-    this.myController.configureMainMenuListener(this, null);
+    this.myController.configureMenuListener(this, null);
   };
 
 

@@ -1,5 +1,6 @@
 
 import {ActiveViewController} from "./ActiveViewController";
+import {RendererEventFactory} from "../RendererEventFactory";
 
 
 export class SidePanelViewController extends ActiveViewController {
@@ -7,49 +8,52 @@ export class SidePanelViewController extends ActiveViewController {
     super(scope);
 
     this.show = true;
-    this.activeMenuSelection = null;
-    this.activeSubmenuSelection = null;
+    this.activeMenuSelection = SidePanelViewController.MenuSelection.PROFILE;
+    this.activeSubmenuSelection = SidePanelViewController.SubmenuSelection.SPIRIT;
 
-    this.resetDefaultVisibility();
-    this.resetDefaultMenu();
-    this.resetDefaultSubmenu();
+    this.sidePanelChangeNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
+      this);
 
+    this.contentPanelListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
+      this);
+
+    this.menuListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
+      this);
+
+  }
+
+  configureContentListener(scope, callback) {
+    this.contentPanelListener.updateCallback(scope, callback);
+  }
+
+  configureMenuListener(scope, callback) {
+    this.menuListener.updateCallback(scope, callback);
+  }
+
+  fireNotifyEvent() {
+    this.sidePanelChangeNotifier.dispatch({});
   }
 
   hidePanel() {
     this.show = false;
     this.activeMenuSelection = SidePanelViewController.MenuSelection.NONE;
-    this.notifyRefresh()
+    this.fireNotifyEvent()
   }
 
   showPanel(selection) {
     this.show = true;
     this.activeMenuSelection = selection;
-    this.notifyRefresh()
+    this.fireNotifyEvent()
   }
 
-  changeActiveMenuItem(menuItem) {
-     this.activeMenuSelection = menuItem;
-     this.resetDefaultSubmenu();
-    this.notifyRefresh()
-  }
-
-  changeActiveSubmenuItem(submenuItem) {
+  changeActiveSubmenuPanel(submenuItem) {
     this.activeSubmenuSelection = submenuItem;
-    this.notifyRefresh()
+    this.fireNotifyEvent()
   }
 
-  resetDefaultVisibility() {
-    this.show = true;
-  }
-
-  resetDefaultMenu() {
-    this.activeMenuSelection = SidePanelViewController.MenuSelection.PROFILE;
-  }
-
-  resetDefaultSubmenu() {
-    this.activeSubmenuSelection = SidePanelViewController.SubmenuSelection.SPIRIT;
-  }
 
   static get MenuSelection() {
     return {
