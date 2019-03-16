@@ -1,10 +1,20 @@
 import React, { Component } from "react";
 import { Divider, Grid, Icon, Popup } from "semantic-ui-react";
+import {DataModelFactory} from "../models/DataModelFactory";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import {SidePanelViewController} from "../perspective/SidePanelViewController";
 
 //
 // this component is the individual journal item entered in by the user
 //
 export default class TeamMember extends Component {
+
+  constructor(props) {
+    super(props);
+
+    this.sidePanelController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.SIDE_PANEL, this);
+
+  }
 
   selectRow(rowId, teamMember) {
     let rowObj = document.getElementById(rowId);
@@ -17,6 +27,10 @@ export default class TeamMember extends Component {
 
     return minutes + " minutes";
   }
+
+  navToProfile = () => {
+    this.sidePanelController.showPanel(SidePanelViewController.MenuSelection.PROFILE);
+  };
 
   /// renders the component of the console view
   render() {
@@ -33,12 +47,12 @@ export default class TeamMember extends Component {
     let online = false;
     if (this.props.statusColor === "offlineColor") {
       statusCircle = (
-        <Icon className={this.props.statusColor} name="circle outline" />
+        <Icon link className={this.props.statusColor} name="circle outline" onClick={this.navToProfile}/>
       );
     } else {
       online = true;
       statusCircle = (
-        <Icon link className={this.props.statusColor} name="circle" />
+        <Icon link className={this.props.statusColor} name="circle" onClick={this.navToProfile}/>
       );
     }
 

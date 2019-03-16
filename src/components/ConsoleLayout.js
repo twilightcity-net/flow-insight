@@ -240,7 +240,7 @@ export default class ConsoleLayout extends Component {
       }, 420);
     }
   };
- 
+
   /// store child component for future reloading
   saveStateSidebarPanelCb = state => {
     this.setState({ sidebarPanelState: state });
