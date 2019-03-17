@@ -3,7 +3,7 @@ import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { JournalModel } from "../models/JournalModel";
-import { TeamMembersModel } from "../models/TeamMembersModel";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -12,24 +12,8 @@ export default class JournalLayout extends Component {
   constructor(props) {
     super(props);
 
-    // this.state = {
-    //   recentProjects: [],
-    //   recentTasksByProjectId: [],
-    //   recentEntry: {},
-    //   activeIndex: 0,
-    //   activeSize: 0,
-    //   activeJournalItem: null,
-    //   allJournalItems: [],
-    //   updatedFlame: null
-    // };
-
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
-      this
-    );
-
-    this.spiritModel = DataModelFactory.createModel(
-      DataModelFactory.Models.SPIRIT,
       this
     );
 
@@ -42,16 +26,19 @@ export default class JournalLayout extends Component {
       DataModelFactory.Models.ACTIVE_CIRCLE,
       this
     );
+
+    this.consoleController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.CONSOLE_PANEL, this);
+
   }
 
-  componentWillReceiveProps = nextProps => {
-    if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
-      //if it's now open, and used to be closed, need to reset the window
-      this.journalModel.resetActiveToLastJournalItem();
+  resetCb() {
+    if (this.consoleController.consoleIsCollapsed) {
+      console.log("RESET JOURNAL ITEM!!!");
+      setTimeout(() => {
+        this.journalModel.resetActiveToLastJournalItem();
+      }, 200);
     }
-
-    this.lastOpenCloseState = nextProps.consoleIsCollapsed;
-  };
+  }
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
@@ -80,6 +67,7 @@ export default class JournalLayout extends Component {
   componentDidMount = () => {
     console.log("Journal Layout : componentDidMount");
 
+    this.consoleController.configureJournalLayoutListener(this, this.resetCb);
 
     this.journalModel.registerListener(
       "journalLayout",
@@ -112,6 +100,7 @@ export default class JournalLayout extends Component {
     this.journalModel.unregisterAllListeners("journalLayout");
     this.teamModel.unregisterAllListeners("journalLayout");
     this.activeCircleModel.unregisterAllListeners("journalLayout");
+    this.consoleController.configureJournalLayoutListener(this, null);
   };
 
   onJournalRecentTasksUpdateCb = () => {
@@ -179,7 +168,6 @@ export default class JournalLayout extends Component {
         </div>
         <div id="wrapper" className="journalEntry">
           <JournalEntry
-            consoleIsCollapsed={this.props.consoleIsCollapsed}
             onAddTask={this.onAddTask}
           />
         </div>

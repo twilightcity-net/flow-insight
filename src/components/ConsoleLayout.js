@@ -35,14 +35,7 @@ export default class ConsoleLayout extends Component {
     this.animationTime = 700;
 
     this.sidePanelController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.SIDE_PANEL, this);
-
-    this.events = {
-      consoleOpen: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-        this,
-        (event, arg) => this.resetCb(event, arg)
-      )
-    };
+    this.consoleController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.CONSOLE_PANEL, this);
 
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
@@ -109,6 +102,7 @@ export default class ConsoleLayout extends Component {
     }
 
     this.sidePanelController.configureContentListener(this, this.onRefreshActivePerspective);
+    this.consoleController.configureConsoleLayoutListener(this, this.resetCb);
 
     setTimeout(() => {
       this.onRefreshActivePerspective();
@@ -124,7 +118,8 @@ export default class ConsoleLayout extends Component {
     this.activeCircleModel.unregisterAllListeners("consoleLayout");
     this.spiritModel.unregisterAllListeners("consoleLayout");
 
-    this.sidePanelController.configureContentListener(this, this.onRefreshActivePerspective);
+    this.sidePanelController.configureContentListener(this, null);
+    this.consoleController.configureConsoleLayoutListener(this, null);
   };
 
   onXPUpdate = () => {
@@ -202,7 +197,7 @@ export default class ConsoleLayout extends Component {
     });
   };
 
-  resetCb = (event, showHideFlag) => {
+  resetCb (event, showHideFlag) {
     this.setState({
       consoleIsCollapsed: showHideFlag
     });
@@ -210,7 +205,7 @@ export default class ConsoleLayout extends Component {
     if (Boolean(showHideFlag) === false) {
       this.teamModel.refreshAll();
     }
-  };
+  }
 
   onRefreshActivePerspective () {
     console.log("ConsoleLayout - onRefreshActivePerspective: "+this.sidePanelController.show);
@@ -292,7 +287,6 @@ export default class ConsoleLayout extends Component {
         me={this.state.me}
         teamMembers={this.state.teamMembers}
         activeTeamMember={this.state.activeTeamMember}
-        consoleIsCollapsed={this.state.consoleIsCollapsed}
       />
     );
 
@@ -321,7 +315,6 @@ export default class ConsoleLayout extends Component {
         {this.state.sidebarPanelVisible && sidebarPanel}
         <div id="wrapper" className="consoleContent">
           <ConsoleContent
-            consoleIsCollapsed={this.state.consoleIsCollapsed}
             onFlameChange={this.onFlameChangeCb}
             onAdjustFlame={this.adjustFlameCb}
             animationTime={this.animationTime}

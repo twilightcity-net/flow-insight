@@ -125,7 +125,7 @@ export default class ConsoleContent extends Component {
   render() {
     const journalLayout = (
       <div id="wrapper" className="journalLayout">
-        <JournalLayout consoleIsCollapsed={this.props.consoleIsCollapsed} />
+        <JournalLayout />
       </div>
     );
     const troubleshootLayout = (

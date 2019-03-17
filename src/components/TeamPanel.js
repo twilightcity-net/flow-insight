@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import TeamMember from "./TeamMember";
 import { DataModelFactory } from "../models/DataModelFactory";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -22,7 +23,17 @@ export default class TeamPanel extends Component {
       this
     );
 
+    this.consoleController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.CONSOLE_PANEL, this);
+
   }
+
+  componentDidMount = () => {
+    this.consoleController.configureTeamPanelListener(this, this.resetCb);
+  };
+
+  componentWillUnmount = () => {
+    this.consoleController.configureTeamPanelListener(this, null);
+  };
 
   componentWillReceiveProps = nextProps => {
     let newMe = nextProps.me;
@@ -33,22 +44,18 @@ export default class TeamPanel extends Component {
         nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
     }
 
-    if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
-      //if it's now open, and used to be closed, need to reset the window
-      this.resetCb();
-    }
-
-    this.lastOpenCloseState = nextProps.consoleIsCollapsed;
   };
 
-  resetCb = () => {
-    console.log("RESET TEAM PANEL!!!");
-    if (this.state.me) {
-      setTimeout(() => {
-        this.selectRow(this.state.me.id, this.state.me);
-      }, this.activateWaitDelay);
+  resetCb() {
+    if (this.consoleController.consoleIsCollapsed) {
+      console.log("RESET TEAM PANEL!!!");
+      if (this.props.me) {
+        setTimeout(() => {
+          this.selectRow(this.props.me.id, this.props.me);
+        }, 200);
+      }
     }
-  };
+  }
 
   /// laods the stored state from parent or use default values
   loadState() {

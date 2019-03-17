@@ -1,6 +1,7 @@
 
 import {SidePanelViewController} from "./SidePanelViewController";
 import {MainPanelViewController} from "./MainPanelViewController";
+import {ConsoleViewController} from "./ConsoleViewController";
 
 
 export class ActiveViewControllerFactory {
@@ -29,7 +30,8 @@ export class ActiveViewControllerFactory {
         return new SidePanelViewController(scope);
       case ActiveViewControllerFactory.Views.MAIN_PANEL:
         return new MainPanelViewController(scope);
-
+      case ActiveViewControllerFactory.Views.CONSOLE_PANEL:
+        return new ConsoleViewController(scope);
       default:
         return null;
     }
@@ -38,7 +40,8 @@ export class ActiveViewControllerFactory {
   static get Views() {
     return {
       SIDE_PANEL: "side-panel",
-      MAIN_PANEL: "main-panel"
+      MAIN_PANEL: "main-panel",
+      CONSOLE_PANEL: "console-panel"
     };
   }
 

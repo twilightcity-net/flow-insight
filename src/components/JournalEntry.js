@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
 import { DataModelFactory } from "../models/DataModelFactory";
 import {JournalModel} from "../models/JournalModel";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -27,14 +28,24 @@ export default class JournalEntry extends Component {
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
       this
-    )
+    );
+
+    this.consoleController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.CONSOLE_PANEL, this);
+
   }
 
-  resetCb = () => {
-    console.log("JournalEntry:: Reset CB!");
+  resetOnConsoleOpen() {
+    if (!this.consoleController.consoleIsCollapsed) {
+      console.log("RESET JOURNAL ENTRY FOCUS!!!");
+      setTimeout(() => {
+        this.resetFocus();
+      }, 200);
+    }
+  }
 
+  resetFocus() {
     document.getElementById("intentionTextInput").focus();
-  };
+  }
 
   componentDidMount = () => {
     console.log("Journal Entry : componentDidMount");
@@ -45,25 +56,16 @@ export default class JournalEntry extends Component {
       this.onJournalRecentTasksUpdateCb
     );
 
+    this.consoleController.configureJournalEntryListener(this, this.resetOnConsoleOpen);
     this.onJournalRecentTasksUpdateCb();
-
-    this.resetCb();
-  };
-
-  componentWillReceiveProps = nextProps => {
-
-    if (this.lastOpenCloseState === 1 && nextProps.consoleIsCollapsed === 0) {
-      //if it's now open, and used to be closed, need to reset the window
-      this.resetCb();
-    }
-
-    this.lastOpenCloseState = nextProps.consoleIsCollapsed;
+    this.resetFocus();
   };
 
   componentWillUnmount = () => {
     console.log("Journal Entry : componentWillUnmount");
 
     this.journalModel.unregisterAllListeners("journalEntry");
+    this.consoleController.configureJournalEntryListener(this, null);
   };
 
   onJournalRecentTasksUpdateCb = () => {

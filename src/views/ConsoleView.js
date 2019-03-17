@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import Keyframes from "@keyframes/core";
 import { RendererEventFactory } from "../RendererEventFactory";
 import ConsoleLayout from "../components/ConsoleLayout";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
 
 //
 // This View will contain logic to inject the various tabs of the
@@ -13,13 +14,9 @@ export default class ConsoleView extends Component {
   /// Activates animation according
   constructor(props) {
     super(props);
-    this.events = {
-      load: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-        this,
-        this.onLoadCb
-      )
-    };
+
+    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.CONSOLE_PANEL, this);
+
     let root = document.getElementById("root");
     root.style.transform = "translate(0px," + window.innerHeight * -1 + "px)";
     root.style.opacity = "0";
@@ -47,6 +44,14 @@ export default class ConsoleView extends Component {
       }
     });
   }
+
+  componentDidMount = () => {
+    this.myController.configureConsoleViewListener(this, this.onLoadCb);
+  };
+
+  componentWillUnmount = () => {
+    this.myController.configureConsoleViewListener(this, null);
+  };
 
   onLoadCb(event, arg) {
     console.log("[ConsoleView] event -> WINDOW_CONSOLE_SHOW_HIDE : " + arg);

@@ -21,10 +21,6 @@ export default class ConsoleMenu extends Component {
     };
     this.isOnline = true;
     this.events = {
-      hideConsole: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-        this
-      ),
       heartbeat: RendererEventFactory.createEvent(
         RendererEventFactory.Events.APP_HEARTBEAT,
         this,
@@ -32,7 +28,6 @@ export default class ConsoleMenu extends Component {
       )
     };
     this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.MAIN_PANEL, this);
-
   }
 
   componentDidMount = () => {
