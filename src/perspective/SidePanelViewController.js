@@ -15,6 +15,11 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
       this);
 
+    this.spiritPanelChangeNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_SPIRIT_PANEL,
+      this);
+
+
     this.contentPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
       this);
@@ -23,6 +28,9 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
       this);
 
+    this.spiritPanelListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_SPIRIT_PANEL,
+      this);
   }
 
   configureContentListener(scope, callback) {
@@ -33,25 +41,33 @@ export class SidePanelViewController extends ActiveViewController {
     this.menuListener.updateCallback(scope, callback);
   }
 
-  fireNotifyEvent() {
+  configureSpiritPanelListener(scope, callback) {
+    this.spiritPanelListener.updateCallback(scope, callback);
+  }
+
+  fireSidePanelNotifyEvent() {
     this.sidePanelChangeNotifier.dispatch({});
+  }
+
+  fireSpiritPanelNotifyEvent() {
+    this.spiritPanelChangeNotifier.dispatch({});
   }
 
   hidePanel() {
     this.show = false;
     this.activeMenuSelection = SidePanelViewController.MenuSelection.NONE;
-    this.fireNotifyEvent()
+    this.fireSidePanelNotifyEvent()
   }
 
   showPanel(selection) {
     this.show = true;
     this.activeMenuSelection = selection;
-    this.fireNotifyEvent()
+    this.fireSidePanelNotifyEvent()
   }
 
   changeActiveSubmenuPanel(submenuItem) {
     this.activeSubmenuSelection = submenuItem;
-    this.fireNotifyEvent()
+    this.fireSpiritPanelNotifyEvent();
   }
 
 

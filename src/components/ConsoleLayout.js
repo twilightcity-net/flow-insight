@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { RendererEventFactory } from "../RendererEventFactory";
 import ConsoleSidebar from "./ConsoleSidebar";
 import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";

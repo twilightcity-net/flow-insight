@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import {Icon, Button, Image, Menu, Progress, Segment, Transition, Popup} from "semantic-ui-react";
 import * as THREE from "three";
 import { DataModelFactory } from "../models/DataModelFactory";
+import {SidePanelViewController} from "../perspective/SidePanelViewController";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
 
 export default class SpiritPanel extends Component {
   constructor(props) {
@@ -12,8 +14,9 @@ export default class SpiritPanel extends Component {
       DataModelFactory.Models.SPIRIT,
       this
     );
-  }
 
+    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.SIDE_PANEL);
+  }
 
   /// performs a simple calculation for dynamic height of panel
   calculateSpiritHeight() {
@@ -25,10 +28,9 @@ export default class SpiritPanel extends Component {
     return spiritHeight;
   }
 
-  /// updates display to show spirit content
-  handleSpiritClick = (e, { name }) => {
+  openSpiritPanel() {
     this.setState({
-      activeItem: name,
+      activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
       spiritVisible: false,
       badgesVisible: false
     });
@@ -37,12 +39,11 @@ export default class SpiritPanel extends Component {
         spiritVisible: true
       });
     }, this.state.animationDelay);
-  };
+  }
 
-  /// updates the display to show the badges content
-  handleBadgesClick = (e, { name }) => {
+  openBadgesPanel() {
     this.setState({
-      activeItem: name,
+      activeItem: SidePanelViewController.SubmenuSelection.BADGES,
       spiritVisible: false,
       badgesVisible: false
     });
@@ -51,6 +52,16 @@ export default class SpiritPanel extends Component {
         badgesVisible: true
       });
     }, this.state.animationDelay);
+  }
+
+  /// updates display to show spirit content
+  handleSpiritClick = (e, { name }) => {
+    this.myController.changeActiveSubmenuPanel(name);
+  };
+
+  /// updates the display to show the badges content
+  handleBadgesClick = (e, { name }) => {
+    this.myController.changeActiveSubmenuPanel(name);
   };
 
   componentDidMount = () => {
@@ -59,7 +70,22 @@ export default class SpiritPanel extends Component {
     if (this.mount) {
       this.initScene();
     }
+
+    this.myController.configureSpiritPanelListener(this, this.onRefreshActivePerspective);
   };
+
+  onRefreshActivePerspective () {
+    console.log("SpiritPanel - onRefreshActivePerspective!");
+
+    let activeMenuItem = this.myController.activeSubmenuSelection;
+
+    if (activeMenuItem === SidePanelViewController.SubmenuSelection.SPIRIT) {
+      this.openSpiritPanel()
+    } else {
+      this.openBadgesPanel();
+    }
+  }
+
 
   componentWillReceiveProps = nextProps => {
     let flameRating = nextProps.flameRating;
@@ -111,6 +137,7 @@ export default class SpiritPanel extends Component {
 
   componentWillUnmount() {
     console.log("componentWillUnmount");
+    this.myController.configureSpiritPanelListener(this, null);
     if (this.mount) {
       this.cleanupScene();
     }
@@ -167,7 +194,7 @@ export default class SpiritPanel extends Component {
     let state = this.props.loadStateCb();
     if (!state) {
       return {
-        activeItem: "spirit",
+        activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
         spiritVisible: true,
         badgesVisible: false,
         animationType: "fly down",
@@ -353,13 +380,13 @@ export default class SpiritPanel extends Component {
         <Segment.Group>
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
-              name="torchie"
-              active={activeItem === "spirit"}
+              name={SidePanelViewController.SubmenuSelection.SPIRIT}
+              active={activeItem === SidePanelViewController.SubmenuSelection.SPIRIT}
               onClick={this.handleSpiritClick}
             />
             <Menu.Item
-              name="badges"
-              active={activeItem === "badges"}
+              name={SidePanelViewController.SubmenuSelection.BADGES}
+              active={activeItem === SidePanelViewController.SubmenuSelection.BADGES}
               onClick={this.handleBadgesClick}
             />
           </Menu>

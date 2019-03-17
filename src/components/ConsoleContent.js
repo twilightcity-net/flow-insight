@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { RendererEventFactory } from "../RendererEventFactory";
 import JournalLayout from "./JournalLayout";
 import TroubleshootLayout from "./TroubleshootLayout";
 import FlowLayout from "./FlowLayout";
@@ -112,14 +111,6 @@ export default class ConsoleContent extends Component {
       this.isAnimating = false;
     }, this.animationTime);
   }
-
-  onFlameChangeCB = flameRating => {
-    if (!flameRating) {
-      flameRating = 0;
-    }
-
-    this.props.onFlameChange(flameRating);
-  };
 
   /// renders the content of the console view
   render() {
