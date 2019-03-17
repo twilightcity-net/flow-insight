@@ -465,6 +465,7 @@ export class JournalModel extends DataModel {
       taskSummary: journalEntry.taskSummary,
       description: journalEntry.description,
       finishStatus: journalEntry.finishStatus,
+      linked: journalEntry.linked? Boolean(journalEntry.linked): false,
       journalEntryType: journalEntry.journalEntryType,
       circleId: journalEntry.circleId,
       position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a"),

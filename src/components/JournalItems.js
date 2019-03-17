@@ -246,6 +246,7 @@ export default class JournalItems extends Component {
               id={d.id}
               isActive={this.isActive(d.id)}
               dirtyFlame={this.getEffectiveDirtyFlame(d.id)}
+              linked={d.linked}
               projectName={d.projectName}
               taskName={d.taskName}
               taskSummary={d.taskSummary}

@@ -120,13 +120,18 @@ export default class JournalItem extends Component {
       padding = <span>&nbsp;&nbsp;</span>;
     }
 
+    let linkedBlock = "";
+    if (this.props.linked) {
+      linkedBlock = <Icon name="linkify" className="journalLink"/>
+    }
+
     let taskStyle = "chunkTitle";
     let descriptionStyle = "chunkText";
 
     const projectCell = (
       <div className={taskStyle}>{this.props.projectName}</div>
     );
-    const taskCell = <div className={taskStyle}>{this.props.taskName}</div>;
+    const taskCell = <div className={taskStyle}>{this.props.taskName}{linkedBlock}</div>;
     const chunkCell = (
       <div className={descriptionStyle}>
         {padding}
@@ -188,6 +193,8 @@ export default class JournalItem extends Component {
         </span>
       );
     }
+
+
 
     return (
       <Grid.Row

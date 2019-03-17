@@ -186,6 +186,7 @@ export class AltMemberJournalExtension extends DataModel {
       taskSummary: intention.taskSummary,
       description: intention.description,
       finishStatus: intention.finishStatus,
+      linked: intention.linked? Boolean(intention.linked): false,
       position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a"),
       rawDate: dateObj
     };

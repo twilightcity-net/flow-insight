@@ -17,6 +17,7 @@ module.exports = class JournalEntryDto {
       this.finishStatus = json.finishStatus;
       this.journalEntryType = json.journalEntryType;
       this.circleId = json.circleId;
+      this.linked = json.linked;
     } catch (e) {
       throw new Error("Unable to create dto 'JournalEntryDto' : " + e.message);
     }
