@@ -73,6 +73,10 @@ export class SpiritModel extends DataModel {
     }
   };
 
+  hasLinks() {
+    return this.activeSpiritLinks.length > 0;
+  }
+
   isLinked = (spiritId) => {
     let linked = false;
     if (spiritId !== this.spiritId) {

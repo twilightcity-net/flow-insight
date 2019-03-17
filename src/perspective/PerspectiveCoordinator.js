@@ -1,14 +1,14 @@
-import { TeamMembersModel } from "./TeamMembersModel";
-import { ActiveCircleModel } from "./ActiveCircleModel";
-import { JournalModel } from "./JournalModel";
-import { SpiritModel } from "./SpiritModel";
-import {DataModelFactory} from "./DataModelFactory";
-import {WTFTimer} from "./WTFTimer";
+import { TeamMembersModel } from "../models/TeamMembersModel";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
+import { JournalModel } from "../models/JournalModel";
+import {DataModelFactory} from "../models/DataModelFactory";
+import {WTFTimer} from "../models/WTFTimer";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
 
 //
 // this class is used to manage DataClient requests for Stores
 //
-export class ModelCoordinator {
+export class PerspectiveCoordinator {
 
   constructor(scope) {
     this.name = this.constructor.name;
@@ -16,6 +16,7 @@ export class ModelCoordinator {
   }
 
   wireModelsTogether = () => {
+
     this.journalModel = DataModelFactory.createModel(DataModelFactory.Models.JOURNAL, this);
     this.teamModel = DataModelFactory.createModel(DataModelFactory.Models.MEMBER_STATUS, this);
     this.spiritModel = DataModelFactory.createModel(DataModelFactory.Models.SPIRIT, this);
@@ -25,7 +26,11 @@ export class ModelCoordinator {
     this.activeCircle.setDependentModel(this.teamModel);
     this.wtfTimer.setDependentModel(this.activeCircle);
 
-    //event wirings
+    this.consoleController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.CONSOLE_PANEL);
+    this.consoleController.configureModelUpdateListener(this, this.onConsoleOpenUpdateModels);
+
+
+    //model event wirings
 
     this.onMyCircleUpdateMe();
     this.onActiveCircleUpdateTimer();
@@ -37,6 +42,7 @@ export class ModelCoordinator {
     this.onTeamMemberChangeActiveScopeForAllModels();
 
     this.onWTFTimerUpdateRefreshTeamMemberTimers();
+
 
 
     //TODO refactor this one out
@@ -135,6 +141,16 @@ export class ModelCoordinator {
 
   }
 
+  onConsoleOpenUpdateModels() {
+    console.log("ModelCoordinator Event Fired: onConsoleOpenUpdateModels");
+    if (!this.consoleController.consoleIsCollapsed) {
+      if (this.spiritModel.hasLinks()) {
+        this.journalModel.loadDefaultJournal();
+      }
+    }
+
+
+  }
 
 
 }

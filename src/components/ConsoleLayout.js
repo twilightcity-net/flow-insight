@@ -8,7 +8,7 @@ import { DataModelFactory } from "../models/DataModelFactory";
 import { SpiritModel } from "../models/SpiritModel";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { TeamMembersModel } from "../models/TeamMembersModel";
-import {ModelCoordinator} from "../models/ModelCoordinator";
+import {PerspectiveCoordinator} from "../perspective/PerspectiveCoordinator";
 import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
 import {SidePanelViewController} from "../perspective/SidePanelViewController";
 
@@ -85,8 +85,8 @@ export default class ConsoleLayout extends Component {
   componentDidMount = () => {
     console.log("ConsoleLayout : componentDidMount");
 
-    this.modelCoordinator = new ModelCoordinator();
-    this.modelCoordinator.wireModelsTogether();
+    this.perspectiveCoordinator = new PerspectiveCoordinator(this);
+    this.perspectiveCoordinator.wireModelsTogether();
 
     if (this.teamModel.isNeverLoaded()) {
       this.teamModel.refreshAll();
@@ -111,7 +111,7 @@ export default class ConsoleLayout extends Component {
   componentWillUnmount = () => {
     console.log("ConsoleLayout : componentWillUnmount");
 
-    this.modelCoordinator.unregisterModelWirings();
+    this.perspectiveCoordinator.unregisterModelWirings();
 
     this.teamModel.unregisterAllListeners("consoleLayout");
     this.activeCircleModel.unregisterAllListeners("consoleLayout");

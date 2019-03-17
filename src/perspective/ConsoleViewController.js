@@ -29,6 +29,11 @@ export class ConsoleViewController extends ActiveViewController {
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
       this);
 
+    this.modelUpdateListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
+      this);
+
+
     this.myListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
       this,
@@ -54,6 +59,10 @@ export class ConsoleViewController extends ActiveViewController {
 
   configureJournalEntryListener(scope, callback) {
     this.journalEntryListener.updateCallback(scope, callback);
+  }
+
+  configureModelUpdateListener(scope, callback) {
+    this.modelUpdateListener.updateCallback(scope, callback);
   }
 
   onUpdateState (event, showHideFlag) {

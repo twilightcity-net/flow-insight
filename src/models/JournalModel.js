@@ -425,7 +425,7 @@ export class JournalModel extends DataModel {
   extractRecentIntentionKeys = allEntries => {
     let latestKeys = {};
 
-    if (allEntries.length > 0) {
+    if (allEntries != null && allEntries.length > 0) {
       let lastEntry = allEntries[allEntries.length - 1];
 
       latestKeys = {
