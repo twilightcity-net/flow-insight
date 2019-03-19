@@ -3,8 +3,7 @@ import JournalLayout from "./JournalLayout";
 import TroubleshootLayout from "./TroubleshootLayout";
 import FlowLayout from "./FlowLayout";
 import { Transition } from "semantic-ui-react";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
-
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -24,25 +23,30 @@ export default class ConsoleContent extends Component {
       animationTypeFlow: "fly left"
     };
 
-    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.MAIN_PANEL, this);
-
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.MAIN_PANEL,
+      this
+    );
   }
 
   componentDidMount = () => {
-    this.myController.configureContentListener(this, this.onRefreshActivePerspective);
-
+    this.myController.configureContentListener(
+      this,
+      this.onRefreshActivePerspective
+    );
   };
 
   componentWillUnmount = () => {
     this.myController.configureContentListener(this, null);
   };
 
-
   // dispatched when the console menu changes from user clicks
-  onRefreshActivePerspective (event, arg) {
+  onRefreshActivePerspective(event, arg) {
     //TODO should be able to use this instead of the method above, but it causes glitching, why?
 
-    console.log("ConsoleContent: onRefreshActivePerspective "+arg.old + ":" + arg.new);
+    console.log(
+      "ConsoleContent: onRefreshActivePerspective " + arg.old + ":" + arg.new
+    );
     if (this.isAnimating) return;
     this.isAnimating = true;
     let newLayout = this.myController.activeMenuSelection,
@@ -68,8 +72,7 @@ export default class ConsoleContent extends Component {
   }
 
   getAnimationState(oldLayout, newLayout) {
-
-    console.log("getAnimationState - "+ oldLayout + " to "+newLayout);
+    console.log("getAnimationState - " + oldLayout + " to " + newLayout);
 
     let state = {
       activeLayout: newLayout,
@@ -121,8 +124,7 @@ export default class ConsoleContent extends Component {
     );
     const troubleshootLayout = (
       <div id="wrapper" className="troubleshootLayout">
-        <TroubleshootLayout
-        />
+        <TroubleshootLayout />
       </div>
     );
     const flowLayout = (

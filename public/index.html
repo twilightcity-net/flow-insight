@@ -221,10 +221,24 @@
       #component.consoleSidebarPanel .spiritContent .level {
         text-align: center;
         background-color: rgba(19, 10, 0, 1);
+        overflow: auto;
       }
-
+      #component.consoleSidebarPanel .spiritContent .level .infoTitle {
+        float: left;
+        padding-left: 8px;
+        text-align: left;
+      }
+      #component.consoleSidebarPanel .spiritContent .level .infoLevel {
+        float: right;
+        padding-right: 8px;
+        text-align: right;
+      }
       #component.consoleSidebarPanel .spiritContent .ui.progress {
         margin-top: 8px;
+        top: -6px;
+        margin-left: 6px;
+        margin-right: 6px;
+        margin-bottom: 0px;
       }
       #component.consoleSidebarPanel .spiritContent .ui.progress .bar {
         background-color: rgba(100, 53, 201, 0.96);
@@ -239,6 +253,8 @@
         transition: background, color .840s ease-out;
         background: rgba(72, 72, 72, 0.96);
         color: red;
+        padding-top: 4px;
+        padding-bottom: 6px;
       }
 
       #component.consoleSidebarPanel .spiritContent .flameRating {
@@ -256,6 +272,8 @@
         transition: background, color .840s ease-out;
         background: rgba(72, 72, 72, 0.96);
         color: purple;
+        padding-top: 4px;
+        padding-bottom: 6px;
       }
 
       #component.consoleSidebarPanel .spiritContent .yayButton:hover {

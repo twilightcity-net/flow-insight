@@ -20,7 +20,6 @@ export class RendererEvent {
     this.replyReturnValue = null;
     this.callbackWrapperFunction = RendererEventManager.listenForCallback(this);
     this.replyWrapperFunction = RendererEventManager.listenForReply(this);
-
   }
 
   updateCallback(scope, callback) {
@@ -123,9 +122,9 @@ export class RendererEventManager {
       try {
         log.info(
           "[RendererEventManager] event reply -> " +
-          event.type +
-          "-reply : " +
-          _arg
+            event.type +
+            "-reply : " +
+            _arg
         );
         event.replyReturnValue = event.reply(_event, _arg);
       } catch (error) {
@@ -135,10 +134,10 @@ export class RendererEventManager {
         );
         log.error(
           "[RendererEventManager] " +
-          event.replyReturnValue.toString() +
-          "\n\n" +
-          event.replyReturnValue.stack +
-          "\n"
+            event.replyReturnValue.toString() +
+            "\n\n" +
+            event.replyReturnValue.stack +
+            "\n"
         );
         console.error(event.replyReturnValue.toString());
       } finally {
@@ -150,7 +149,9 @@ export class RendererEventManager {
   }
 
   static removeListeners(event) {
-    log.info("[RendererEventManager] removing listeners for callback -> " + event.type);
+    log.info(
+      "[RendererEventManager] removing listeners for callback -> " + event.type
+    );
     if (event.callbackWrapperFunction) {
       ipcRenderer.removeListener(event.type, event.callbackWrapperFunction);
     }
@@ -169,24 +170,24 @@ export class RendererEventManager {
     if (!event.callback) return;
     log.info("[RendererEventManager] listening for callback -> " + event.type);
 
-     let wrapperFunction = (_event, _arg) => {
+    let wrapperFunction = (_event, _arg) => {
       event.returnValue = null;
       try {
         log.info(
           "[RendererEventManager] event callback -> " +
-          event.type +
-          " : " +
-          _arg
+            event.type +
+            " : " +
+            _arg
         );
         event.returnValue = event.callback(_event, _arg);
       } catch (error) {
         event.returnValue = RendererEventManager.createEventError(error, event);
         log.error(
           "[RendererEventManager] " +
-          event.returnValue.toString() +
-          "\n\n" +
-          event.returnValue.stack +
-          "\n"
+            event.returnValue.toString() +
+            "\n\n" +
+            event.returnValue.stack +
+            "\n"
         );
         console.error(event.returnValue.toString());
       } finally {

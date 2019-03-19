@@ -8,9 +8,9 @@ import { DataModelFactory } from "../models/DataModelFactory";
 import { SpiritModel } from "../models/SpiritModel";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { TeamMembersModel } from "../models/TeamMembersModel";
-import {PerspectiveCoordinator} from "../perspective/PerspectiveCoordinator";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
-import {SidePanelViewController} from "../perspective/SidePanelViewController";
+import { PerspectiveCoordinator } from "../perspective/PerspectiveCoordinator";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../perspective/SidePanelViewController";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -33,8 +33,14 @@ export default class ConsoleLayout extends Component {
     };
     this.animationTime = 700;
 
-    this.sidePanelController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.SIDE_PANEL, this);
-    this.consoleController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.CONSOLE_PANEL, this);
+    this.sidePanelController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL,
+      this
+    );
+    this.consoleController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
+      this
+    );
 
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
@@ -100,7 +106,10 @@ export default class ConsoleLayout extends Component {
       this.spiritModel.refreshXP();
     }
 
-    this.sidePanelController.configureContentListener(this, this.onRefreshActivePerspective);
+    this.sidePanelController.configureContentListener(
+      this,
+      this.onRefreshActivePerspective
+    );
     this.consoleController.configureConsoleLayoutListener(this, this.resetCb);
 
     setTimeout(() => {
@@ -160,7 +169,6 @@ export default class ConsoleLayout extends Component {
     });
   };
 
-
   onFlameChangeCb = flameRating => {
     console.log("flame update: " + flameRating);
 
@@ -196,7 +204,7 @@ export default class ConsoleLayout extends Component {
     });
   };
 
-  resetCb (event, showHideFlag) {
+  resetCb(event, showHideFlag) {
     this.setState({
       consoleIsCollapsed: showHideFlag
     });
@@ -206,8 +214,11 @@ export default class ConsoleLayout extends Component {
     }
   }
 
-  onRefreshActivePerspective () {
-    console.log("ConsoleLayout - onRefreshActivePerspective: "+this.sidePanelController.show);
+  onRefreshActivePerspective() {
+    console.log(
+      "ConsoleLayout - onRefreshActivePerspective: " +
+        this.sidePanelController.show
+    );
     let show = this.sidePanelController.show;
     if (show) {
       this.setState({
@@ -230,7 +241,8 @@ export default class ConsoleLayout extends Component {
       setTimeout(() => {
         this.setState({
           sidebarPanelVisible: false,
-          activePanel: this.sidePanelController.activeMenuSelection});
+          activePanel: this.sidePanelController.activeMenuSelection
+        });
       }, 420);
     }
   }
@@ -291,9 +303,13 @@ export default class ConsoleLayout extends Component {
 
     let activePanel = null;
 
-    if (this.state.activePanel === SidePanelViewController.MenuSelection.PROFILE) {
+    if (
+      this.state.activePanel === SidePanelViewController.MenuSelection.PROFILE
+    ) {
       activePanel = animatedPanelContent;
-    } else if (this.state.activePanel === SidePanelViewController.MenuSelection.MESSAGES) {
+    } else if (
+      this.state.activePanel === SidePanelViewController.MenuSelection.MESSAGES
+    ) {
       activePanel = teamPanelContent;
     }
 

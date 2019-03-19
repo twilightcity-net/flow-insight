@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Divider, Grid, Segment } from "semantic-ui-react";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
-import {WTFTimer} from "../models/WTFTimer";
+import { WTFTimer } from "../models/WTFTimer";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -51,7 +51,7 @@ export default class TroubleshootSessionOpen extends Component {
 
     this.wtfTimer.stopTimer();
     this.activeCircleModel.unregisterAllListeners("TroubleshootSessionOpen");
-    this.wtfTimer.unregisterAllListeners("TroubleshootSessionOpen")
+    this.wtfTimer.unregisterAllListeners("TroubleshootSessionOpen");
   };
 
   onCircleUpdate = () => {
@@ -62,7 +62,7 @@ export default class TroubleshootSessionOpen extends Component {
 
     let circleOwner = this.activeCircleModel.getActiveScope().getCircleOwner();
 
-    console.log("CIRCLE OWNER ME2 : "+circleOwner);
+    console.log("CIRCLE OWNER ME2 : " + circleOwner);
 
     let formattedTime = this.wtfTimer.wtfTimerInSeconds;
     this.setState({
@@ -72,8 +72,6 @@ export default class TroubleshootSessionOpen extends Component {
       circleOwner: circleOwner
     });
   };
-
-
 
   onTimerUpdate = () => {
     this.setState({
@@ -95,15 +93,9 @@ export default class TroubleshootSessionOpen extends Component {
         <Grid textAlign="center" verticalAlign="middle" inverted>
           <Grid.Column width={6} className="rootLayout">
             <Segment className="wtf" inverted>
-              <div>
-              Circle: {this.state.circleName}
-              </div>
-              <div>
-                Owner: {this.state.circleOwner}
-              </div>
-              <div>
-              {this.state.formattedWTFTimer}
-              </div>
+              <div>Circle: {this.state.circleName}</div>
+              <div>Owner: {this.state.circleOwner}</div>
+              <div>{this.state.formattedWTFTimer}</div>
               <Button
                 onClick={this.onClickStopTroubleshooting}
                 size="big"

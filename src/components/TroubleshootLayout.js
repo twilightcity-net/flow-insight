@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import TroubleshootSessionNew from "./TroubleshootSessionNew";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
 import { DataModelFactory } from "../models/DataModelFactory";
-import {ActiveCircleModel} from "../models/ActiveCircleModel";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -22,7 +22,6 @@ export default class TroubleshootLayout extends Component {
   }
 
   componentDidMount() {
-
     this.activeCircleModel.registerListener(
       "troubleshootLayout",
       ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
@@ -34,7 +33,6 @@ export default class TroubleshootLayout extends Component {
     } else {
       this.onActiveCircleUpdateCb();
     }
-
   }
 
   componentWillUnmount() {
@@ -42,13 +40,11 @@ export default class TroubleshootLayout extends Component {
   }
 
   onActiveCircleUpdateCb = () => {
-     console.log("TroubleshootLayout: onActiveCircleUpdateCb");
-     this.setState({
-       isAlarmTriggered : this.activeCircleModel.getActiveScope().isAlarmTriggered
-     });
+    console.log("TroubleshootLayout: onActiveCircleUpdateCb");
+    this.setState({
+      isAlarmTriggered: this.activeCircleModel.getActiveScope().isAlarmTriggered
+    });
   };
-
-
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height

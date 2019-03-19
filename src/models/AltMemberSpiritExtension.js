@@ -1,5 +1,5 @@
 import { DataModel } from "./DataModel";
-import {SpiritModel} from "./SpiritModel";
+import { SpiritModel } from "./SpiritModel";
 
 const { remote } = window.require("electron"),
   SpiritDto = remote.require("./dto/SpiritDto");
@@ -26,7 +26,6 @@ export class AltMemberSpiritExtension extends DataModel {
     this.altMemberId = null;
   }
 
-
   setMemberSelection(memberId) {
     this.altMemberId = memberId;
   }
@@ -42,8 +41,7 @@ export class AltMemberSpiritExtension extends DataModel {
    * Refreshes the current XP from the latest member status
    */
   refreshXP = () => {
-
-    let remoteUrn = "/spirit/"+this.altMemberId;
+    let remoteUrn = "/spirit/" + this.altMemberId;
     let loadRequestType = DataModel.RequestTypes.GET;
 
     this.remoteFetch(
@@ -70,14 +68,14 @@ export class AltMemberSpiritExtension extends DataModel {
         this.activeSpiritLinks = [];
       }
       this.spiritId = spiritDto.spiritId;
-      this.level = this.xpSummary .level;
+      this.level = this.xpSummary.level;
       this.percentXP = Math.round(
         (this.xpSummary.xpProgress / this.xpSummary.xpRequiredToLevel) * 100
       );
       this.totalXP = this.xpSummary.totalXP;
       this.title = this.xpSummary.title;
-      this.remainingToLevel = this.xpSummary.xpRequiredToLevel - this.xpSummary.xpProgress;
-
+      this.remainingToLevel =
+        this.xpSummary.xpRequiredToLevel - this.xpSummary.xpProgress;
     }
     this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);
   };
@@ -98,6 +96,4 @@ export class AltMemberSpiritExtension extends DataModel {
 
     this.notifyListeners(SpiritModel.CallbackEvent.RESET_FLAME);
   };
-
-
 }

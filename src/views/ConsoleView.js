@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Keyframes from "@keyframes/core";
 import { RendererEventFactory } from "../RendererEventFactory";
 import ConsoleLayout from "../components/ConsoleLayout";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 //
 // This View will contain logic to inject the various tabs of the
@@ -15,7 +15,10 @@ export default class ConsoleView extends Component {
   constructor(props) {
     super(props);
 
-    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.CONSOLE_PANEL, this);
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
+      this
+    );
 
     let root = document.getElementById("root");
     root.style.transform = "translate(0px," + window.innerHeight * -1 + "px)";

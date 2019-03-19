@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import TeamMember from "./TeamMember";
 import { DataModelFactory } from "../models/DataModelFactory";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -23,8 +23,10 @@ export default class TeamPanel extends Component {
       this
     );
 
-    this.consoleController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.CONSOLE_PANEL, this);
-
+    this.consoleController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
+      this
+    );
   }
 
   componentDidMount = () => {
@@ -43,7 +45,6 @@ export default class TeamPanel extends Component {
       newMe.xpRequired =
         nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
     }
-
   };
 
   resetCb() {
@@ -112,8 +113,8 @@ export default class TeamPanel extends Component {
     this.teamModel.setActiveMember(id);
   };
 
-  isLinked = (memberId) => {
-     return this.spiritModel.isLinked(memberId);
+  isLinked = memberId => {
+    return this.spiritModel.isLinked(memberId);
   };
 
   /// renders the console sidebar panel of the console view

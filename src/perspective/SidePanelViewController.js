@@ -1,7 +1,5 @@
-
-import {ActiveViewController} from "./ActiveViewController";
-import {RendererEventFactory} from "../RendererEventFactory";
-
+import { ActiveViewController } from "./ActiveViewController";
+import { RendererEventFactory } from "../RendererEventFactory";
 
 export class SidePanelViewController extends ActiveViewController {
   constructor(scope) {
@@ -9,28 +7,33 @@ export class SidePanelViewController extends ActiveViewController {
 
     this.show = true;
     this.activeMenuSelection = SidePanelViewController.MenuSelection.PROFILE;
-    this.activeSubmenuSelection = SidePanelViewController.SubmenuSelection.SPIRIT;
+    this.activeSubmenuSelection =
+      SidePanelViewController.SubmenuSelection.SPIRIT;
 
     this.sidePanelChangeNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
-      this);
+      this
+    );
 
     this.spiritPanelChangeNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SPIRIT_PANEL,
-      this);
-
+      this
+    );
 
     this.contentPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
-      this);
+      this
+    );
 
     this.menuListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
-      this);
+      this
+    );
 
     this.spiritPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SPIRIT_PANEL,
-      this);
+      this
+    );
   }
 
   configureContentListener(scope, callback) {
@@ -56,20 +59,19 @@ export class SidePanelViewController extends ActiveViewController {
   hidePanel() {
     this.show = false;
     this.activeMenuSelection = SidePanelViewController.MenuSelection.NONE;
-    this.fireSidePanelNotifyEvent()
+    this.fireSidePanelNotifyEvent();
   }
 
   showPanel(selection) {
     this.show = true;
     this.activeMenuSelection = selection;
-    this.fireSidePanelNotifyEvent()
+    this.fireSidePanelNotifyEvent();
   }
 
   changeActiveSubmenuPanel(submenuItem) {
     this.activeSubmenuSelection = submenuItem;
     this.fireSpiritPanelNotifyEvent();
   }
-
 
   static get MenuSelection() {
     return {
@@ -86,5 +88,4 @@ export class SidePanelViewController extends ActiveViewController {
       BADGES: "badges"
     };
   }
-
 }

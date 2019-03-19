@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import { Divider, Grid, Icon, Popup } from "semantic-ui-react";
-import {DataModelFactory} from "../models/DataModelFactory";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
-import {SidePanelViewController} from "../perspective/SidePanelViewController";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../perspective/SidePanelViewController";
 
 //
 // this component is the individual journal item entered in by the user
 //
 export default class TeamMember extends Component {
-
   constructor(props) {
     super(props);
 
-    this.sidePanelController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.SIDE_PANEL, this);
-
+    this.sidePanelController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL,
+      this
+    );
   }
 
   selectRow(rowId, teamMember) {
@@ -29,7 +30,9 @@ export default class TeamMember extends Component {
   }
 
   navToProfile = () => {
-    this.sidePanelController.showPanel(SidePanelViewController.MenuSelection.PROFILE);
+    this.sidePanelController.showPanel(
+      SidePanelViewController.MenuSelection.PROFILE
+    );
   };
 
   /// renders the component of the console view
@@ -47,40 +50,49 @@ export default class TeamMember extends Component {
     let online = false;
     if (this.props.statusColor === "offlineColor") {
       statusCircle = (
-        <Icon link className={this.props.statusColor} name="circle outline" onClick={this.navToProfile}/>
+        <Icon
+          link
+          className={this.props.statusColor}
+          name="circle outline"
+          onClick={this.navToProfile}
+        />
       );
     } else {
       online = true;
       statusCircle = (
-        <Icon link className={this.props.statusColor} name="circle" onClick={this.navToProfile}/>
+        <Icon
+          link
+          className={this.props.statusColor}
+          name="circle"
+          onClick={this.navToProfile}
+        />
       );
     }
 
     let memberNamePanel = "";
     if (this.props.isAlarmTriggered) {
-      console.log()
+      console.log();
       if (online) {
         memberNamePanel = (
           <span className={this.props.statusColor}>
-          {this.props.shortName}{" "}
+            {this.props.shortName}{" "}
             <span className="alarm">
-            {" "}
+              {" "}
               &nbsp;&nbsp; WTF?&nbsp;&nbsp; {this.props.wtfTimer}
+            </span>
           </span>
-        </span>
         );
       } else {
         memberNamePanel = (
           <span className={this.props.statusColor}>
-          {this.props.shortName}{" "}
+            {this.props.shortName}{" "}
             <span className="alarmDim">
-            {" "}
+              {" "}
               &nbsp;&nbsp; WTF?&nbsp;&nbsp; {this.props.wtfTimer}
+            </span>
           </span>
-        </span>
         );
       }
-
     } else {
       memberNamePanel = (
         <span className={this.props.statusColor}>{this.props.shortName}</span>

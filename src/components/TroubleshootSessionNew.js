@@ -10,8 +10,8 @@ import {
   Input
 } from "semantic-ui-react";
 import { RendererEventFactory } from "../RendererEventFactory";
-import {ActiveCircleModel} from "../models/ActiveCircleModel";
-import {DataModelFactory} from "../models/DataModelFactory";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
+import { DataModelFactory } from "../models/DataModelFactory";
 
 const electron = window.require("electron");
 const desktopCapturer = electron.desktopCapturer;

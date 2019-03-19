@@ -1,8 +1,6 @@
-
-import {SidePanelViewController} from "./SidePanelViewController";
-import {MainPanelViewController} from "./MainPanelViewController";
-import {ConsoleViewController} from "./ConsoleViewController";
-
+import { SidePanelViewController } from "./SidePanelViewController";
+import { MainPanelViewController } from "./MainPanelViewController";
+import { ConsoleViewController } from "./ConsoleViewController";
 
 export class ActiveViewControllerFactory {
   static viewsByName = {};
@@ -17,7 +15,10 @@ export class ActiveViewControllerFactory {
     if (ActiveViewControllerFactory.viewsByName[name] != null) {
       storeFound = ActiveViewControllerFactory.viewsByName[name];
     } else {
-      storeFound = ActiveViewControllerFactory.initializeNewViewController(name, scope);
+      storeFound = ActiveViewControllerFactory.initializeNewViewController(
+        name,
+        scope
+      );
       ActiveViewControllerFactory.viewsByName[name] = storeFound;
     }
 
@@ -44,5 +45,4 @@ export class ActiveViewControllerFactory {
       CONSOLE_PANEL: "console-panel"
     };
   }
-
 }

@@ -1,9 +1,18 @@
 import React, { Component } from "react";
-import {Icon, Button, Image, Menu, Progress, Segment, Transition, Popup} from "semantic-ui-react";
+import {
+  Icon,
+  Button,
+  Image,
+  Menu,
+  Progress,
+  Segment,
+  Transition,
+  Popup
+} from "semantic-ui-react";
 import * as THREE from "three";
 import { DataModelFactory } from "../models/DataModelFactory";
-import {SidePanelViewController} from "../perspective/SidePanelViewController";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../perspective/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 export default class SpiritPanel extends Component {
   constructor(props) {
@@ -15,15 +24,18 @@ export default class SpiritPanel extends Component {
       this
     );
 
-    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.SIDE_PANEL);
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL
+    );
+    console.log(this.props.xpSummary);
   }
 
   /// performs a simple calculation for dynamic height of panel
   calculateSpiritHeight() {
-    let spiritHeight = this.calculatePanelHeight() - 150;
+    let spiritHeight = this.calculatePanelHeight() - 100;
 
-    if (spiritHeight > 200) {
-      spiritHeight = 200;
+    if (spiritHeight > 250) {
+      spiritHeight = 250;
     }
     return spiritHeight;
   }
@@ -71,21 +83,23 @@ export default class SpiritPanel extends Component {
       this.initScene();
     }
 
-    this.myController.configureSpiritPanelListener(this, this.onRefreshActivePerspective);
+    this.myController.configureSpiritPanelListener(
+      this,
+      this.onRefreshActivePerspective
+    );
   };
 
-  onRefreshActivePerspective () {
+  onRefreshActivePerspective() {
     console.log("SpiritPanel - onRefreshActivePerspective!");
 
     let activeMenuItem = this.myController.activeSubmenuSelection;
 
     if (activeMenuItem === SidePanelViewController.SubmenuSelection.SPIRIT) {
-      this.openSpiritPanel()
+      this.openSpiritPanel();
     } else {
       this.openBadgesPanel();
     }
   }
-
 
   componentWillReceiveProps = nextProps => {
     let flameRating = nextProps.flameRating;
@@ -214,7 +228,7 @@ export default class SpiritPanel extends Component {
   };
 
   handleClickForChainUnlink = () => {
-     console.log("Unlink!" + this.spiritModel);
+    console.log("Unlink!" + this.spiritModel);
 
     this.spiritModel.unlink(this.props.spiritId);
   };
@@ -222,7 +236,6 @@ export default class SpiritPanel extends Component {
   isLinkedToMe = () => {
     let linkedToMe = false;
     if (this.hasActiveLinks()) {
-
       let spiritLink = null;
       for (var i in this.props.activeSpiritLinks) {
         spiritLink = this.props.activeSpiritLinks[i];
@@ -237,50 +250,68 @@ export default class SpiritPanel extends Component {
   };
 
   hasActiveLinks = () => {
-    return this.props.activeSpiritLinks != null && this.props.activeSpiritLinks.length > 0;
+    return (
+      this.props.activeSpiritLinks != null &&
+      this.props.activeSpiritLinks.length > 0
+    );
   };
 
   /// renders the console sidebar panel of the console view
   render() {
     const { activeItem } = this.state;
 
-    let linkIcon =
+    let linkIcon = (
       <Popup
         trigger={
-          <Icon link name="linkify" className="chainLink" onClick={this.handleClickForChainLink}/>
+          <Icon
+            link
+            name="linkify"
+            className="chainLink"
+            onClick={this.handleClickForChainLink}
+          />
         }
         content={<div className="tooltipPurple">Link this Torchie!</div>}
         inverted
         hideOnScroll
         position="bottom left"
-      />;
+      />
+    );
 
-    let unlinkIcon =
+    let unlinkIcon = (
       <Popup
         trigger={
-          <Icon link name="unlinkify" className="chainUnlink" onClick={this.handleClickForChainUnlink}/>
+          <Icon
+            link
+            name="unlinkify"
+            className="chainUnlink"
+            onClick={this.handleClickForChainUnlink}
+          />
         }
         content={<div className="tooltipRed">Break Links</div>}
         inverted
         hideOnScroll
         position="bottom left"
-      />;
+      />
+    );
 
-    let busyLinkIcon =
+    let busyLinkIcon = (
       <Popup
-        trigger={
-          <Icon link name="gg" className="chainLink"/>
+        trigger={<Icon link name="gg" className="chainLink" />}
+        content={
+          <div className="tooltipRed">
+            Busy <i>(Already Linked)</i>
+          </div>
         }
-        content={<div className="tooltipRed">Busy <i>(Already Linked)</i></div>}
         inverted
         hideOnScroll
         position="bottom left"
-      />;
+      />
+    );
 
     let activeLinkIcon = "";
     if (this.props.isMe) {
       if (this.hasActiveLinks()) {
-         //there's at least one spirit link, so show the unlink icon
+        //there's at least one spirit link, so show the unlink icon
         activeLinkIcon = unlinkIcon;
       }
       //if my torchie isn't linked, don't show any icon
@@ -303,7 +334,6 @@ export default class SpiritPanel extends Component {
           centered
           src="./assets/images/spirit.png"
         />
-
       );
     } else if (this.state.flameString < 0) {
       spiritImage = (
@@ -319,32 +349,42 @@ export default class SpiritPanel extends Component {
       <div className="spiritContent">
         <div className="spiritBackground">
           <div className="level">
-            <b>{this.props.torchieOwner}'s Torchie </b>
+            <b>{this.props.torchieOwner}'s Spirit</b>
             {activeLinkIcon}
-
           </div>
 
           {spiritImage}
 
           <div className="level">
-            <b>Level {this.props.level} </b>
+            <div className="infoTitle">Torchie {this.props.title}</div>
+            <div className="infoLevel">Level {this.props.level}</div>
           </div>
-          <div className="level">
-            <i>Torchie {this.props.title} </i>
-          </div>
-          <div>&nbsp;</div>
-        </div>
-        <Progress
-          size="small"
-          percent={this.props.percentXP}
-          color="violet"
-          inverted
-          progress
-        >
-          {this.props.remainingToLevel} XP remaining to Level
-        </Progress>
 
-        <div className="ui fluid buttons">
+          <Popup
+            trigger={
+              <Progress
+                size="small"
+                percent={this.props.percentXP}
+                color="violet"
+                inverted
+                progress
+              />
+            }
+            content={
+              <div className="xpCount">
+                Total XP:{" "}
+                <i>
+                  {this.props.xpSummary.totalXP} /{" "}
+                  {this.props.xpSummary.xpRequiredToLevel}
+                </i>
+              </div>
+            }
+            inverted
+            hideOnScroll
+            position="top left"
+          />
+        </div>
+        <div className="ui two bottom attached buttons">
           <button
             className="ui icon button rageButton"
             tabIndex="0"
@@ -352,12 +392,9 @@ export default class SpiritPanel extends Component {
           >
             <Image centered src="./assets/images/wtf/24x24.png" />
           </button>
-          {/*<button className='ui label flameRating'>*/}
-          {/*{this.state.flameString}*/}
-          {/*</button>*/}
           <button
             className="ui icon button yayButton"
-            tabIndex="0"
+            tabIndex="1"
             onClick={this.handleClickForYay}
           >
             <Image centered src="./assets/images/yay/24x24.png" />
@@ -381,12 +418,16 @@ export default class SpiritPanel extends Component {
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
               name={SidePanelViewController.SubmenuSelection.SPIRIT}
-              active={activeItem === SidePanelViewController.SubmenuSelection.SPIRIT}
+              active={
+                activeItem === SidePanelViewController.SubmenuSelection.SPIRIT
+              }
               onClick={this.handleSpiritClick}
             />
             <Menu.Item
               name={SidePanelViewController.SubmenuSelection.BADGES}
-              active={activeItem === SidePanelViewController.SubmenuSelection.BADGES}
+              active={
+                activeItem === SidePanelViewController.SubmenuSelection.BADGES
+              }
               onClick={this.handleBadgesClick}
             />
           </Menu>

@@ -32,7 +32,7 @@ export class DataModelFactory {
       case DataModelFactory.Models.MEMBER_STATUS:
         return new TeamMembersModel(scope);
       case DataModelFactory.Models.ACTIVE_CIRCLE:
-      return new ActiveCircleModel(scope);
+        return new ActiveCircleModel(scope);
       case DataModelFactory.Models.WTF_TIMER:
         return new WTFTimer(scope);
       case DataModelFactory.Models.JOURNAL:

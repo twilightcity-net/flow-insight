@@ -37,11 +37,9 @@ export class TeamMembersModel extends DataModel {
         meActive = false;
       }
     }
-    console.log("ISMEACTIVE: "+meActive);
+    console.log("ISMEACTIVE: " + meActive);
     return meActive;
-
   };
-
 
   /**
    * Refresh all team members status, and callback when done
@@ -70,7 +68,7 @@ export class TeamMembersModel extends DataModel {
    * Retrieve a specific members summary
    * @param memberId
    */
-  getMemberStatus = (memberId) => {
+  getMemberStatus = memberId => {
     let memberStatus = null;
 
     if (memberId === this.me.id) {
@@ -111,9 +109,8 @@ export class TeamMembersModel extends DataModel {
   }
 
   resetActiveMemberToMe() {
-     this.setActiveMember(this.me.id);
+    this.setActiveMember(this.me.id);
   }
-
 
   setActiveMember = memberId => {
     if (memberId === this.me.id) {
@@ -195,7 +192,6 @@ export class TeamMembersModel extends DataModel {
       alarmStatusMessage = teamMember.activeCircle.problemDescription;
       alarmCircleName = teamMember.activeCircle.circleName;
       activeCircleId = teamMember.activeCircle.id;
-
     }
 
     return {

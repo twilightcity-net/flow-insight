@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Icon, Label, Menu } from "semantic-ui-react";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
-import {SidePanelViewController} from "../perspective/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../perspective/SidePanelViewController";
 
 //
 // this component is the sidebar to the console. This animates a slide.
@@ -17,12 +17,16 @@ export default class ConsoleSidebar extends Component {
       iconNotifications: "bell outline"
     };
 
-    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.SIDE_PANEL);
-
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL
+    );
   }
 
   componentDidMount = () => {
-    this.myController.configureMenuListener(this, this.onRefreshActivePerspective);
+    this.myController.configureMenuListener(
+      this,
+      this.onRefreshActivePerspective
+    );
     this.onRefreshActivePerspective();
   };
 
@@ -30,7 +34,7 @@ export default class ConsoleSidebar extends Component {
     this.myController.configureMenuListener(this, null);
   };
 
-  onRefreshActivePerspective () {
+  onRefreshActivePerspective() {
     console.log("ConsoleSidebar - onRefreshActivePerspective!");
 
     let activeMenuItem = this.myController.activeMenuSelection;
@@ -64,7 +68,6 @@ export default class ConsoleSidebar extends Component {
         break;
     }
     this.setState(state);
-
   }
 
   /// performs a simple calculation for dynamic height of menu
@@ -77,16 +80,12 @@ export default class ConsoleSidebar extends Component {
     return window.innerHeight - heights.rootBorder - heights.bottomMenuHeight;
   }
 
-  deselectItem = (name) => {
-
+  deselectItem = name => {
     this.myController.hidePanel();
-
   };
 
-  selectItem = (name) => {
-
+  selectItem = name => {
     this.myController.showPanel(name);
-
   };
 
   handleItemClick = (e, { name }) => {
@@ -96,8 +95,6 @@ export default class ConsoleSidebar extends Component {
       this.selectItem(name);
     }
   };
-
-
 
   /// renders the sidebar of the console view
   render() {
@@ -113,7 +110,9 @@ export default class ConsoleSidebar extends Component {
         >
           <Menu.Item
             name={SidePanelViewController.MenuSelection.PROFILE}
-            active={activeItem === SidePanelViewController.MenuSelection.PROFILE}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.PROFILE
+            }
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconProfile}>
@@ -126,7 +125,9 @@ export default class ConsoleSidebar extends Component {
           </Menu.Item>
           <Menu.Item
             name={SidePanelViewController.MenuSelection.MESSAGES}
-            active={activeItem === SidePanelViewController.MenuSelection.MESSAGES}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.MESSAGES
+            }
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconMessages}>
@@ -139,7 +140,9 @@ export default class ConsoleSidebar extends Component {
           </Menu.Item>
           <Menu.Item
             name={SidePanelViewController.MenuSelection.NOTIFICATIONS}
-            active={activeItem === SidePanelViewController.MenuSelection.NOTIFICATIONS}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.NOTIFICATIONS
+            }
             onClick={this.handleItemClick}
             disabled
           >

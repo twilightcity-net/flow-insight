@@ -1,6 +1,6 @@
 import { DataModel } from "./DataModel";
-import {AltModelDelegate} from "./AltModelDelegate";
-import {AltMemberSpiritExtension} from "./AltMemberSpiritExtension";
+import { AltModelDelegate } from "./AltModelDelegate";
+import { AltMemberSpiritExtension } from "./AltMemberSpiritExtension";
 
 const { remote } = window.require("electron"),
   SpiritDto = remote.require("./dto/SpiritDto"),
@@ -77,14 +77,14 @@ export class SpiritModel extends DataModel {
     return this.activeSpiritLinks.length > 0;
   }
 
-  isLinked = (spiritId) => {
+  isLinked = spiritId => {
     let linked = false;
     if (spiritId !== this.spiritId) {
       for (var i in this.activeSpiritLinks) {
         let spiritLink = this.activeSpiritLinks[i];
         if (spiritLink.friendSpiritId === spiritId) {
-           linked = true;
-           break;
+          linked = true;
+          break;
         }
       }
     } else if (this.activeSpiritLinks.length > 0) {
@@ -94,7 +94,6 @@ export class SpiritModel extends DataModel {
     return linked;
   };
 
-
   getActiveScope = () => {
     if (this.isAltMemberSelected) {
       return this.altModelExtension;
@@ -103,10 +102,10 @@ export class SpiritModel extends DataModel {
     }
   };
 
-  linkThisTorchie = (spiritId) => {
-    console.log("SpiritModel - Request - linkThisTorchie: "+spiritId);
+  linkThisTorchie = spiritId => {
+    console.log("SpiritModel - Request - linkThisTorchie: " + spiritId);
 
-    let remoteUrn = "/spirit/"+spiritId+"/transition/link";
+    let remoteUrn = "/spirit/" + spiritId + "/transition/link";
     let loadRequestType = DataModel.RequestTypes.POST;
 
     this.remoteFetch(
@@ -122,34 +121,33 @@ export class SpiritModel extends DataModel {
     );
   };
 
-  unlink = (spiritId) => {
-      console.log("SpiritModel - Request - unlink: "+spiritId);
+  unlink = spiritId => {
+    console.log("SpiritModel - Request - unlink: " + spiritId);
 
-      let remoteUrn = "/spirit/me/transition/unlink";
-      let loadRequestType = DataModel.RequestTypes.POST;
+    let remoteUrn = "/spirit/me/transition/unlink";
+    let loadRequestType = DataModel.RequestTypes.POST;
 
-      if (this.isAltMemberSelected) {
-        remoteUrn = "/spirit/"+spiritId+"/transition/unlink";
+    if (this.isAltMemberSelected) {
+      remoteUrn = "/spirit/" + spiritId + "/transition/unlink";
+    }
+
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      ActiveLinksNetworkDto,
+      (dtoResults, err) => {
+        setTimeout(() => {
+          this.onUnlinkCb(dtoResults, err);
+        }, DataModel.activeWaitDelay);
       }
-
-      this.remoteFetch(
-        null,
-        remoteUrn,
-        loadRequestType,
-        ActiveLinksNetworkDto,
-        (dtoResults, err) => {
-          setTimeout(() => {
-            this.onUnlinkCb(dtoResults, err);
-          }, DataModel.activeWaitDelay);
-        }
-      );
+    );
   };
 
   /**
    * Refreshes the current XP from the server
    */
   refreshXP = () => {
-
     let remoteUrn = "/spirit/me";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -231,7 +229,6 @@ export class SpiritModel extends DataModel {
       } else {
         this.activeSpiritLinks = [];
       }
-
     }
 
     if (this.isAltMemberSelected) {
@@ -239,7 +236,6 @@ export class SpiritModel extends DataModel {
     } else {
       this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);
     }
-
   };
 
   onUnlinkCb = (activeLinksNetworkDto, err) => {
@@ -251,7 +247,6 @@ export class SpiritModel extends DataModel {
       } else {
         this.activeSpiritLinks = [];
       }
-
     }
 
     if (this.isAltMemberSelected) {
@@ -272,14 +267,14 @@ export class SpiritModel extends DataModel {
         this.activeSpiritLinks = [];
       }
       this.spiritId = spiritDto.spiritId;
-      this.level = this.xpSummary .level;
+      this.level = this.xpSummary.level;
       this.percentXP = Math.round(
         (this.xpSummary.xpProgress / this.xpSummary.xpRequiredToLevel) * 100
       );
       this.totalXP = this.xpSummary.totalXP;
       this.title = this.xpSummary.title;
-      this.remainingToLevel = this.xpSummary.xpRequiredToLevel - this.xpSummary.xpProgress;
-
+      this.remainingToLevel =
+        this.xpSummary.xpRequiredToLevel - this.xpSummary.xpProgress;
     }
     this.isInitialized = true;
     this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);

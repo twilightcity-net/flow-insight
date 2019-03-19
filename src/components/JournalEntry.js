@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
 import { DataModelFactory } from "../models/DataModelFactory";
-import {JournalModel} from "../models/JournalModel";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import { JournalModel } from "../models/JournalModel";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -30,8 +30,10 @@ export default class JournalEntry extends Component {
       this
     );
 
-    this.consoleController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.CONSOLE_PANEL, this);
-
+    this.consoleController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
+      this
+    );
   }
 
   resetOnConsoleOpen() {
@@ -56,7 +58,10 @@ export default class JournalEntry extends Component {
       this.onJournalRecentTasksUpdateCb
     );
 
-    this.consoleController.configureJournalEntryListener(this, this.resetOnConsoleOpen);
+    this.consoleController.configureJournalEntryListener(
+      this,
+      this.resetOnConsoleOpen
+    );
     this.onJournalRecentTasksUpdateCb();
     this.resetFocus();
   };
@@ -84,17 +89,15 @@ export default class JournalEntry extends Component {
     );
 
     if (this.teamModel.isMeActive()) {
-       this.setState({
-         disableControls: false
-       });
+      this.setState({
+        disableControls: false
+      });
     } else {
       this.setState({
         disableControls: true
       });
     }
-
   };
-
 
   populateProjects = recentProjects => {
     var projects = [];
@@ -111,7 +114,6 @@ export default class JournalEntry extends Component {
   };
 
   initCurrentProject = (recentProjects, recentEntry) => {
-
     console.log("initCurrentProject = " + recentProjects);
     //set default project
 
@@ -149,7 +151,6 @@ export default class JournalEntry extends Component {
 
     let currentTask = null;
     if (tasksForProject.length > 0) {
-
       if (recentEntry && recentEntry.projectId === currentProject) {
         console.log("Populating default entry");
         currentTask = recentEntry.taskId;
@@ -181,7 +182,10 @@ export default class JournalEntry extends Component {
     }
 
     if (!searchIsFound) {
-      newTasks = [...this.state.tasks, {text:"Searching...", value:"search"}];
+      newTasks = [
+        ...this.state.tasks,
+        { text: "Searching...", value: "search" }
+      ];
     }
 
     this.setState({
@@ -301,7 +305,6 @@ export default class JournalEntry extends Component {
 
   /// renders the journal entry component of the console view
   render() {
-
     return (
       <div id="component" className="journalEntry">
         <Segment.Group>
@@ -309,7 +312,8 @@ export default class JournalEntry extends Component {
             <Grid columns="equal" divided inverted>
               <Grid.Row stretched>
                 <Grid.Column width={2} id="selectProjectInput">
-                  <Dropdown disabled={this.state.disableControls}
+                  <Dropdown
+                    disabled={this.state.disableControls}
                     className="projectId"
                     id="journalEntryProjectId"
                     placeholder="Choose Project"
@@ -326,7 +330,8 @@ export default class JournalEntry extends Component {
                   />
                 </Grid.Column>
                 <Grid.Column width={3} id="selectTaskInput">
-                  <Dropdown  disabled={this.state.disableControls}
+                  <Dropdown
+                    disabled={this.state.disableControls}
                     id="journalEntryTaskId"
                     className="chunkId"
                     options={this.state.tasks}
@@ -346,7 +351,8 @@ export default class JournalEntry extends Component {
                 </Grid.Column>
                 <Grid.Column width={11} id="createIntentionInput">
                   <div>
-                    <Input disabled={this.state.disableControls}
+                    <Input
+                      disabled={this.state.disableControls}
                       id="intentionTextInput"
                       className="intentionText"
                       fluid

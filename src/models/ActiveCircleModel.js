@@ -1,6 +1,6 @@
 import { DataModel } from "./DataModel";
 import { AltModelDelegate } from "./AltModelDelegate";
-import {AltMemberCircleExtension} from "./AltMemberCircleExtension";
+import { AltMemberCircleExtension } from "./AltMemberCircleExtension";
 const { remote } = window.require("electron"),
   CircleDto = remote.require("./dto/CircleDto"),
   CircleKeyDto = remote.require("./dto/CircleKeyDto"),
@@ -27,14 +27,15 @@ export class ActiveCircleModel extends DataModel {
     this.altModelDelegate.configureDelegateCall("getKey");
     this.altModelDelegate.configureDelegateCall("postChatMessageToFeed");
     this.altModelDelegate.configureDelegateCall("getAllMessagesForCircleFeed");
-     this.altModelDelegate.configureDelegateCall("getCircleOwner");
+    this.altModelDelegate.configureDelegateCall("getCircleOwner");
 
     this.altModelDelegate.configureNoOp("createCircle");
     this.altModelDelegate.configureNoOp("closeActiveCircle");
     this.altModelDelegate.configureNoOp("postScreenshotReferenceToCircleFeed");
     this.altModelDelegate.configureNoOp("shelveCircleWithDoItLater");
-    this.altModelDelegate.configureNoOp("resumeAnExistingCircleFromDoItLaterShelf");
-
+    this.altModelDelegate.configureNoOp(
+      "resumeAnExistingCircleFromDoItLaterShelf"
+    );
   }
 
   static get CallbackEvent() {
@@ -64,9 +65,10 @@ export class ActiveCircleModel extends DataModel {
 
       //don't let this cascade updates if nothing is actually changing
       if (oldSelectionIsAltMember) {
-        this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
+        this.notifyListeners(
+          ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE
+        );
       }
-
     } else {
       this.isAltMemberSelected = true;
       this.altMemberId = memberId;
@@ -92,10 +94,9 @@ export class ActiveCircleModel extends DataModel {
   };
 
   getCircleOwner = () => {
+    console.log("CIRCLE OWNER ME : " + this.teamModel.me["shortName"]);
 
-    console.log("CIRCLE OWNER ME : "+this.teamModel.me['shortName']);
-
-    return this.teamModel.me['shortName'];
+    return this.teamModel.me["shortName"];
   };
 
   /**
@@ -357,8 +358,6 @@ export class ActiveCircleModel extends DataModel {
         this.isAlarmTriggered = true;
         this.problemDescription = circleDto.problemDescription;
         this.circleName = circleDto.circleName;
-
-
       } else {
         console.log("ActiveCircleModel : onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;
@@ -367,16 +366,16 @@ export class ActiveCircleModel extends DataModel {
         this.allFeedMessages = [];
         this.problemDescription = "";
         this.circleName = "";
-
       }
     }
     this.isInitialized = true;
 
     if (oldCircle !== this.activeCircleId) {
-      this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
+      this.notifyListeners(
+        ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE
+      );
     }
   };
-
 
   onCreateCircleCb = (circleDto, err) => {
     console.log("ActiveCircleModel : onCreateCircleCb");
@@ -387,15 +386,13 @@ export class ActiveCircleModel extends DataModel {
       if (circleDto) {
         console.log(
           "ActiveCircleModel : onActiveCircleCb - configuring Circle: " +
-          circleDto
+            circleDto
         );
         this.activeCircleId = circleDto.id;
         this.activeCircle = circleDto;
         this.isAlarmTriggered = true;
         this.problemDescription = circleDto.problemDescription;
         this.circleName = circleDto.circleName;
-
-
       } else {
         console.log("ActiveCircleModel : onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;
@@ -404,13 +401,11 @@ export class ActiveCircleModel extends DataModel {
         this.allFeedMessages = [];
         this.problemDescription = "";
         this.circleName = "";
-
       }
     }
 
     this.notifyListeners(ActiveCircleModel.CallbackEvent.MY_CIRCLE_UPDATE);
     this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
-
   };
 
   onCloseCircleCb = (circleDto, err) => {
@@ -484,5 +479,4 @@ export class ActiveCircleModel extends DataModel {
     }
     this.notifyListeners(ActiveCircleModel.CallbackEvent.FEED_UPDATE);
   };
-
 }

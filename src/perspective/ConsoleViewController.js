@@ -1,7 +1,5 @@
-
-import {ActiveViewController} from "./ActiveViewController";
-import {RendererEventFactory} from "../RendererEventFactory";
-
+import { ActiveViewController } from "./ActiveViewController";
+import { RendererEventFactory } from "../RendererEventFactory";
 
 export class ConsoleViewController extends ActiveViewController {
   constructor(scope) {
@@ -11,28 +9,33 @@ export class ConsoleViewController extends ActiveViewController {
 
     this.consoleLayoutlListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-      this);
+      this
+    );
 
     this.consoleViewListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-      this);
+      this
+    );
 
     this.teamPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-      this);
+      this
+    );
 
     this.journalLayoutListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-      this);
+      this
+    );
 
     this.journalEntryListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-      this);
+      this
+    );
 
     this.modelUpdateListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-      this);
-
+      this
+    );
 
     this.myListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
@@ -65,8 +68,7 @@ export class ConsoleViewController extends ActiveViewController {
     this.modelUpdateListener.updateCallback(scope, callback);
   }
 
-  onUpdateState (event, showHideFlag) {
+  onUpdateState(event, showHideFlag) {
     this.consoleIsCollapsed = showHideFlag;
   }
-
 }

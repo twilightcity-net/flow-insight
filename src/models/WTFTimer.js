@@ -27,9 +27,10 @@ export class WTFTimer extends DataModel {
   }
 
   resetTimer() {
-
-    this.durationInSeconds = this.calculateTimer(this.circleModel.getActiveScope().activeCircle);
-    console.log("WTFTimer: resetTimer"+this.durationInSeconds);
+    this.durationInSeconds = this.calculateTimer(
+      this.circleModel.getActiveScope().activeCircle
+    );
+    console.log("WTFTimer: resetTimer" + this.durationInSeconds);
 
     this.refreshFormattedTimers();
   }
@@ -38,7 +39,6 @@ export class WTFTimer extends DataModel {
    * Starts the intervalTicker ticking
    */
   startTimer = () => {
-
     this.running = true;
 
     if (this.intervalTicker) {
@@ -59,7 +59,6 @@ export class WTFTimer extends DataModel {
       this.intervalTicker = null;
     }
   };
-
 
   calculateTimer = circleDto => {
     let startingSeconds = 0;
@@ -88,14 +87,10 @@ export class WTFTimer extends DataModel {
     this.refreshFormattedTimers();
 
     if (Number(this.durationInSeconds % 60) === 0) {
-      this.notifyListeners(
-        WTFTimer.CallbackEvent.WTF_TIMER_MINUTES_UPDATE
-      );
+      this.notifyListeners(WTFTimer.CallbackEvent.WTF_TIMER_MINUTES_UPDATE);
     }
 
-    this.notifyListeners(
-      WTFTimer.CallbackEvent.WTF_TIMER_SECONDS_UPDATE
-    );
+    this.notifyListeners(WTFTimer.CallbackEvent.WTF_TIMER_SECONDS_UPDATE);
   };
 
   /**
@@ -104,12 +99,8 @@ export class WTFTimer extends DataModel {
   refreshFormattedTimers = () => {
     let totalSeconds = this.durationInSeconds;
 
-    this.wtfTimerInMinutes = WTFTimer.formatWTFTimerInMinutes(
-      totalSeconds
-    );
-    this.wtfTimerInSeconds = WTFTimer.formatWTFTimerInSeconds(
-      totalSeconds
-    );
+    this.wtfTimerInMinutes = WTFTimer.formatWTFTimerInMinutes(totalSeconds);
+    this.wtfTimerInSeconds = WTFTimer.formatWTFTimerInSeconds(totalSeconds);
   };
 
   static formatWTFTimerInMinutes = totalSeconds => {

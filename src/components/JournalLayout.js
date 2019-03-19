@@ -3,7 +3,7 @@ import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { JournalModel } from "../models/JournalModel";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -27,8 +27,10 @@ export default class JournalLayout extends Component {
       this
     );
 
-    this.consoleController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.CONSOLE_PANEL, this);
-
+    this.consoleController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
+      this
+    );
   }
 
   resetCb() {
@@ -62,7 +64,6 @@ export default class JournalLayout extends Component {
       heights.journalEntry
     );
   }
-
 
   componentDidMount = () => {
     console.log("Journal Layout : componentDidMount");
@@ -106,7 +107,9 @@ export default class JournalLayout extends Component {
   onJournalRecentTasksUpdateCb = () => {
     console.log("Journal Layout : onJournalRecentTasksUpdateCb");
 
-    console.log("recent projects: "+this.journalModel.getActiveScope().recentProjects);
+    console.log(
+      "recent projects: " + this.journalModel.getActiveScope().recentProjects
+    );
 
     this.setState({
       recentProjects: this.journalModel.getActiveScope().recentProjects,
@@ -125,7 +128,6 @@ export default class JournalLayout extends Component {
       activeIndex: this.journalModel.getActiveScope().activeIndex,
       activeFlame: this.journalModel.getActiveScope().activeFlame
     });
-
   };
 
   onJournalActiveItemUpdateCb = () => {
@@ -167,9 +169,7 @@ export default class JournalLayout extends Component {
           />
         </div>
         <div id="wrapper" className="journalEntry">
-          <JournalEntry
-            onAddTask={this.onAddTask}
-          />
+          <JournalEntry onAddTask={this.onAddTask} />
         </div>
       </div>
     );

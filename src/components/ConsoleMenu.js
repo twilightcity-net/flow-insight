@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { RendererEventFactory } from "../RendererEventFactory";
 import { Icon, Menu, Popup } from "semantic-ui-react";
-import {MainPanelViewController} from "../perspective/MainPanelViewController";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import { MainPanelViewController } from "../perspective/MainPanelViewController";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -27,19 +27,23 @@ export default class ConsoleMenu extends Component {
         this.onHeartbeatCb
       )
     };
-    this.myController = ActiveViewControllerFactory.createViewController(ActiveViewControllerFactory.Views.MAIN_PANEL, this);
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.MAIN_PANEL,
+      this
+    );
   }
 
   componentDidMount = () => {
-    this.myController.configureMenuListener(this, this.onRefreshActivePerspective);
+    this.myController.configureMenuListener(
+      this,
+      this.onRefreshActivePerspective
+    );
     this.onRefreshActivePerspective();
-
   };
 
   componentWillUnmount = () => {
     this.myController.configureMenuListener(this, null);
   };
-
 
   onRefreshActivePerspective = () => {
     console.log("ConsoleMenu - onRefreshActivePerspective!");
@@ -130,7 +134,9 @@ export default class ConsoleMenu extends Component {
           <Menu.Item
             name={MainPanelViewController.MenuSelection.JOURNAL}
             color="violet"
-            active={activeItem === MainPanelViewController.MenuSelection.JOURNAL}
+            active={
+              activeItem === MainPanelViewController.MenuSelection.JOURNAL
+            }
             onClick={this.handleMenuClick}
           >
             <Icon name="book" size="large" />
@@ -139,7 +145,9 @@ export default class ConsoleMenu extends Component {
           <Menu.Item
             name={MainPanelViewController.MenuSelection.TROUBLESHOOT}
             color="violet"
-            active={activeItem === MainPanelViewController.MenuSelection.TROUBLESHOOT}
+            active={
+              activeItem === MainPanelViewController.MenuSelection.TROUBLESHOOT
+            }
             onClick={this.handleMenuClick}
           >
             <Icon name="lightning" size="large" />
@@ -157,7 +165,9 @@ export default class ConsoleMenu extends Component {
           <Menu.Item
             name={MainPanelViewController.MenuSelection.PROJECTS}
             color="violet"
-            active={activeItem === MainPanelViewController.MenuSelection.PROJECTS}
+            active={
+              activeItem === MainPanelViewController.MenuSelection.PROJECTS
+            }
             onClick={this.handleMenuClick}
             disabled
           >
@@ -167,7 +177,9 @@ export default class ConsoleMenu extends Component {
           <Menu.Item
             name={MainPanelViewController.MenuSelection.CIRCLES}
             color="violet"
-            active={activeItem === MainPanelViewController.MenuSelection.CIRCLES}
+            active={
+              activeItem === MainPanelViewController.MenuSelection.CIRCLES
+            }
             onClick={this.handleMenuClick}
             disabled
           >

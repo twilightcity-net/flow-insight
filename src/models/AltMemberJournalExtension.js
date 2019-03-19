@@ -1,6 +1,6 @@
 import { DataModel } from "./DataModel";
 import moment from "moment";
-import {JournalModel} from "./JournalModel";
+import { JournalModel } from "./JournalModel";
 
 const { remote } = window.require("electron"),
   RecentJournalDto = remote.require("./dto/RecentJournalDto");
@@ -80,9 +80,7 @@ export class AltMemberJournalExtension extends DataModel {
       this.activeJournalItem = null;
     }
 
-    this.notifyListeners(
-      JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE
-    );
+    this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
   };
 
   /**
@@ -95,9 +93,7 @@ export class AltMemberJournalExtension extends DataModel {
     this.activeJournalItem = journalItem;
     this.activeFlame = journalItem;
 
-    this.notifyListeners(
-      JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE
-    );
+    this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
   };
 
   //////////// REMOTE CALLBACK HANDLERS  ////////////
@@ -186,7 +182,7 @@ export class AltMemberJournalExtension extends DataModel {
       taskSummary: intention.taskSummary,
       description: intention.description,
       finishStatus: intention.finishStatus,
-      linked: intention.linked? Boolean(intention.linked): false,
+      linked: intention.linked ? Boolean(intention.linked) : false,
       position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a"),
       rawDate: dateObj
     };

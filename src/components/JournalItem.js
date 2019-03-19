@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { Divider, Grid, Image, Popup, Icon } from "semantic-ui-react";
 
-
 // this component is the individual journal item entered in by the user
 //
 export default class JournalItem extends Component {
-
   selectRow(rowId, journalItem) {
     console.log("selectRow!!!");
     let rowObj = document.getElementById(rowId);
@@ -122,7 +120,7 @@ export default class JournalItem extends Component {
 
     let linkedBlock = "";
     if (this.props.linked) {
-      linkedBlock = <Icon name="linkify" className="journalLink"/>
+      linkedBlock = <Icon name="linkify" className="journalLink" />;
     }
 
     let taskStyle = "chunkTitle";
@@ -131,7 +129,12 @@ export default class JournalItem extends Component {
     const projectCell = (
       <div className={taskStyle}>{this.props.projectName}</div>
     );
-    const taskCell = <div className={taskStyle}>{this.props.taskName}{linkedBlock}</div>;
+    const taskCell = (
+      <div className={taskStyle}>
+        {this.props.taskName}
+        {linkedBlock}
+      </div>
+    );
     const chunkCell = (
       <div className={descriptionStyle}>
         {padding}
@@ -193,8 +196,6 @@ export default class JournalItem extends Component {
         </span>
       );
     }
-
-
 
     return (
       <Grid.Row

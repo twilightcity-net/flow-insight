@@ -3,7 +3,7 @@ import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { SpiritModel } from "../models/SpiritModel";
-import {JournalModel} from "../models/JournalModel";
+import { JournalModel } from "../models/JournalModel";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -30,11 +30,7 @@ export default class JournalItems extends Component {
     document.onkeydown = this.handleKeyPress;
   }
 
-
-
   componentDidMount() {
-
-
     this.journalModel.registerListener(
       "journalItems",
       JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE,
@@ -67,7 +63,6 @@ export default class JournalItems extends Component {
       journalItems: this.journalModel.getActiveScope().allJournalItems,
       activeJournalItem: this.journalModel.getActiveScope().activeJournalItem
     });
-
   };
 
   onActiveItemUpdate = () => {
@@ -78,9 +73,8 @@ export default class JournalItems extends Component {
 
   componentWillUnmount() {
     this.spiritModel.unregisterAllListeners("journalItems");
-    this.journalModel.unregisterAllListeners("journalItems")
+    this.journalModel.unregisterAllListeners("journalItems");
   }
-
 
   onDirtyFlameUpdate = () => {
     console.log("JournalItems: onDirtyFlameUpdate");
@@ -204,7 +198,7 @@ export default class JournalItems extends Component {
       }
 
       if (this.spiritModel.getActiveScope().isDirty) {
-        let oldJournalItem =  this.state.activeJournalItem;
+        let oldJournalItem = this.state.activeJournalItem;
         oldJournalItem.flameRating = this.spiritModel.getActiveScope().dirtyFlame;
       }
 
