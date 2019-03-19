@@ -374,7 +374,7 @@ export default class SpiritPanel extends Component {
               <div className="xpCount">
                 Total XP:{" "}
                 <i>
-                  {this.props.xpSummary.totalXP} /{" "}
+                  {this.props.xpSummary.totalXP} /
                   {this.props.xpSummary.xpRequiredToLevel}
                 </i>
               </div>
