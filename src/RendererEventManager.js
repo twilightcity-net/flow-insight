@@ -18,6 +18,11 @@ export class RendererEvent {
     this.reply = reply;
     this.returnValue = null;
     this.replyReturnValue = null;
+
+    this.registerEvents();
+  }
+
+  registerEvents() {
     this.callbackWrapperFunction = RendererEventManager.listenForCallback(this);
     this.replyWrapperFunction = RendererEventManager.listenForReply(this);
   }
@@ -29,6 +34,8 @@ export class RendererEvent {
     this.callback = callback ? callback.bind(scope) : callback;
     this.callbackWrapperFunction = RendererEventManager.listenForCallback(this);
   }
+
+
 
   dispatch(arg, noEcho, isSync) {
     return RendererEventManager.dispatch(this, arg, noEcho, isSync);

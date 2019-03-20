@@ -10,9 +10,9 @@ export class SpiritModel extends DataModel {
   constructor(scope) {
     super(scope);
 
-    this.isInitialized = false;
+    this.name = "[SpiritModel]";
 
-    this.xpSummary = null;
+    this.xpSummary = {};
     this.activeSpiritLinks = [];
     this.spiritId = null;
     this.level = 0;
@@ -46,9 +46,6 @@ export class SpiritModel extends DataModel {
     };
   }
 
-  isNeverLoaded = () => {
-    return this.isInitialized === false;
-  };
 
   /**
    * Show an alt member's spirit
@@ -103,7 +100,7 @@ export class SpiritModel extends DataModel {
   };
 
   linkThisTorchie = spiritId => {
-    console.log("SpiritModel - Request - linkThisTorchie: " + spiritId);
+    console.log(this.name + " - Request - linkThisTorchie: " + spiritId);
 
     let remoteUrn = "/spirit/" + spiritId + "/transition/link";
     let loadRequestType = DataModel.RequestTypes.POST;
@@ -122,7 +119,7 @@ export class SpiritModel extends DataModel {
   };
 
   unlink = spiritId => {
-    console.log("SpiritModel - Request - unlink: " + spiritId);
+    console.log(this.name + " - Request - unlink: " + spiritId);
 
     let remoteUrn = "/spirit/me/transition/unlink";
     let loadRequestType = DataModel.RequestTypes.POST;
@@ -148,6 +145,8 @@ export class SpiritModel extends DataModel {
    * Refreshes the current XP from the server
    */
   refreshXP = () => {
+    console.log(this.name + " - Request - refreshXP");
+
     let remoteUrn = "/spirit/me";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -168,6 +167,7 @@ export class SpiritModel extends DataModel {
    * Reinitializes the Torchie flame to a specified rating
    */
   resetFlame = cleanFlameRating => {
+    console.log(this.name + " - Request - resetFlame");
     let initFlame = 0;
     if (cleanFlameRating) {
       initFlame = cleanFlameRating;
@@ -240,7 +240,7 @@ export class SpiritModel extends DataModel {
 
   onUnlinkCb = (activeLinksNetworkDto, err) => {
     if (err) {
-      console.log("error:" + err);
+      console.log(this.name + " - error:" + err);
     } else {
       if (activeLinksNetworkDto) {
         this.activeSpiritLinks = activeLinksNetworkDto.spiritLinks;
@@ -258,7 +258,7 @@ export class SpiritModel extends DataModel {
 
   onRefreshXPCb = (spiritDto, err) => {
     if (err) {
-      console.log("error:" + err);
+      console.log(this.name + " - error:" + err);
     } else {
       this.xpSummary = spiritDto.xpSummary;
       if (spiritDto.activeSpiritLinks) {

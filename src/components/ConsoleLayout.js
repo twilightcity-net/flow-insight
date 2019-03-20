@@ -7,10 +7,11 @@ import SpiritPanel from "./SpiritPanel";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { SpiritModel } from "../models/SpiritModel";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
-import { TeamMembersModel } from "../models/TeamMembersModel";
-import { PerspectiveCoordinator } from "../perspective/PerspectiveCoordinator";
+import { TeamModel } from "../models/TeamModel";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 import { SidePanelViewController } from "../perspective/SidePanelViewController";
+import {ModelCoordinator} from "../models/ModelCoordinator";
+import {PerspectiveController} from "../perspective/PerspectiveController";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -18,27 +19,25 @@ import { SidePanelViewController } from "../perspective/SidePanelViewController"
 export default class ConsoleLayout extends Component {
   constructor(props) {
     super(props);
+    this.name = "[ConsoleLayout]";
     this.state = {
       sidebarPanelVisible: false,
       sidebarPanelWidth: 0,
       sidebarPanelOpacity: 0,
-      xpSummary: null,
+      xpSummary: {},
+      totalXP: 0,
       flameRating: 0,
       activePanel: SidePanelViewController.MenuSelection.PROFILE,
       consoleIsCollapsed: 0,
-      me: {},
+      me: { shortName: "Me", id: "id"},
       teamMembers: [],
-      activeTeamMember: null,
-      isMe: false
+      activeTeamMember: { shortName: "Me", id: "id"},
+      isMe: true
     };
     this.animationTime = 700;
 
     this.sidePanelController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL,
-      this
-    );
-    this.consoleController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
       this
     );
 
@@ -48,12 +47,12 @@ export default class ConsoleLayout extends Component {
     );
     this.teamModel.registerListener(
       "consoleLayout",
-      TeamMembersModel.CallbackEvent.MEMBERS_UPDATE,
+      TeamModel.CallbackEvent.MEMBERS_UPDATE,
       this.onTeamModelUpdateCb
     );
     this.teamModel.registerListener(
       "consoleLayout",
-      TeamMembersModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
+      TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
       this.onActiveMemberUpdateCb
     );
 
@@ -89,45 +88,26 @@ export default class ConsoleLayout extends Component {
   }
 
   componentDidMount = () => {
-    console.log("ConsoleLayout : componentDidMount");
+    console.log(this.name + " - componentDidMount");
 
-    this.perspectiveCoordinator = new PerspectiveCoordinator(this);
-    this.perspectiveCoordinator.wireModelsTogether();
-
-    if (this.teamModel.isNeverLoaded()) {
-      this.teamModel.refreshAll();
-    }
-
-    if (this.activeCircleModel.isNeverLoaded()) {
-      this.activeCircleModel.loadActiveCircle();
-    }
-
-    if (this.spiritModel.isNeverLoaded()) {
-      this.spiritModel.refreshXP();
-    }
+    ModelCoordinator.init(this);
+    PerspectiveController.init(this);
 
     this.sidePanelController.configureContentListener(
       this,
       this.onRefreshActivePerspective
     );
-    this.consoleController.configureConsoleLayoutListener(this, this.resetCb);
-
-    setTimeout(() => {
-      this.onRefreshActivePerspective();
-    }, 500);
+    this.onRefreshActivePerspective();
   };
 
   componentWillUnmount = () => {
-    console.log("ConsoleLayout : componentWillUnmount");
-
-    this.perspectiveCoordinator.unregisterModelWirings();
+    console.log(this.name + " - componentWillUnmount");
 
     this.teamModel.unregisterAllListeners("consoleLayout");
     this.activeCircleModel.unregisterAllListeners("consoleLayout");
     this.spiritModel.unregisterAllListeners("consoleLayout");
 
     this.sidePanelController.configureContentListener(this, null);
-    this.consoleController.configureConsoleLayoutListener(this, null);
   };
 
   onXPUpdate = () => {
@@ -151,7 +131,7 @@ export default class ConsoleLayout extends Component {
   };
 
   onTeamModelUpdateCb = () => {
-    console.log("ConsoleLayout : onTeamModelUpdateCb");
+    console.log(this.name + " - onTeamModelUpdateCb");
     // console.log("WTF TIMER " + this.teamModel.me.wtfTimer);
     this.setState({
       isMe: this.teamModel.isMeActive(),
@@ -162,7 +142,7 @@ export default class ConsoleLayout extends Component {
   };
 
   onActiveMemberUpdateCb = () => {
-    console.log("ConsoleLayout : onActiveMemberUpdateCb");
+    console.log(this.name + " - onActiveMemberUpdateCb");
     this.setState({
       isMe: this.teamModel.isMeActive(),
       activeTeamMember: this.teamModel.activeTeamMember
@@ -170,7 +150,7 @@ export default class ConsoleLayout extends Component {
   };
 
   onFlameChangeCb = flameRating => {
-    console.log("flame update: " + flameRating);
+    console.log(this.name + " - onFlameChangeCb: " + flameRating);
 
     this.setState({
       flameRating: flameRating
@@ -179,7 +159,7 @@ export default class ConsoleLayout extends Component {
 
   /// click the flame button, which either tries to do a +1 or -1
   adjustFlameCb = flameDelta => {
-    console.log("Flame change :" + flameDelta);
+    console.log(this.name + " - Flame change: " + flameDelta);
 
     let flameRating = Number(this.state.flameRating) + flameDelta;
     if (flameRating > 5) {
@@ -196,29 +176,14 @@ export default class ConsoleLayout extends Component {
       flameRating = 0;
     }
 
-    console.log(
-      "Old/New Flame rating :" + this.state.flameRating + "/" + flameRating
-    );
+    console.log(this.name + " - adjustFlameCb, Old/New Flame rating: " + this.state.flameRating + "/" + flameRating);
     this.setState({
       flameRating: flameRating
     });
   };
 
-  resetCb(event, showHideFlag) {
-    this.setState({
-      consoleIsCollapsed: showHideFlag
-    });
-
-    if (Boolean(showHideFlag) === false) {
-      this.teamModel.refreshAll();
-    }
-  }
-
   onRefreshActivePerspective() {
-    console.log(
-      "ConsoleLayout - onRefreshActivePerspective: " +
-        this.sidePanelController.show
-    );
+    console.log(this.name + " - onRefreshActivePerspective: " +this.sidePanelController.show);
     let show = this.sidePanelController.show;
     if (show) {
       this.setState({
@@ -232,7 +197,6 @@ export default class ConsoleLayout extends Component {
         });
       }, 0);
     } else {
-      this.teamModel.resetActiveMemberToMe();
 
       this.setState({
         sidebarPanelWidth: 0,
@@ -258,7 +222,7 @@ export default class ConsoleLayout extends Component {
   };
 
   getTorchieName = () => {
-    let torchieName = "";
+    let torchieName = "Member";
     if (this.state.activeTeamMember) {
       torchieName = this.state.activeTeamMember.shortName;
     }

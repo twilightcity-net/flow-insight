@@ -1,9 +1,10 @@
 import { DataModel } from "./DataModel";
-import moment from "moment";
 
 export class WTFTimer extends DataModel {
   constructor(scope) {
     super(scope);
+    this.name = "[WTFTimer]";
+
     this.durationInSeconds = 0;
 
     this.wtfTimerInMinutes = "";
@@ -30,7 +31,7 @@ export class WTFTimer extends DataModel {
     this.durationInSeconds = this.calculateTimer(
       this.circleModel.getActiveScope().activeCircle
     );
-    console.log("WTFTimer: resetTimer" + this.durationInSeconds);
+    console.log(this.name + " - resetTimer: " + this.durationInSeconds);
 
     this.refreshFormattedTimers();
   }

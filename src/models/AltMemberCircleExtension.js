@@ -8,6 +8,8 @@ export class AltMemberCircleExtension extends DataModel {
   constructor(scope) {
     super(scope);
 
+    this.name = "[AltMemberCircleExtension]";
+
     this.activeCircleId = null;
     this.activeCircle = null;
     this.isAlarmTriggered = false;
@@ -44,7 +46,7 @@ export class AltMemberCircleExtension extends DataModel {
    * Loads the active circle into context
    */
   loadActiveCircle = () => {
-    console.log("AltModelCircleExtension - Request - loadActiveCircle");
+    console.log(this.name + " - Request - loadActiveCircle");
 
     let memberStatus = this.teamModel.getMemberStatus(this.altMemberId);
     let activeCircle = memberStatus.activeCircle;
@@ -73,8 +75,8 @@ export class AltMemberCircleExtension extends DataModel {
    */
 
   getKey = callback => {
-    console.log(
-      "AltModelCircleExtension - Request - getKey, Context: activeCircleId " +
+    console.log(this.name +
+      " - Request - getKey, Context: activeCircleId " +
         this.activeCircleId
     );
     if (this.activeCircleId == null) {
@@ -104,7 +106,7 @@ export class AltMemberCircleExtension extends DataModel {
   postChatMessageToFeed = chatMessage => {
     let args = { chatMessage: chatMessage };
     console.log(
-      "AltModelCircleExtension - Request - postChatMessageToFeed, args: " + args
+      this.name + " - Request - postChatMessageToFeed, args: " + args
     );
 
     if (this.activeCircleId == null) {
@@ -132,7 +134,7 @@ export class AltMemberCircleExtension extends DataModel {
    */
   getAllMessagesForCircleFeed = () => {
     console.log(
-      "AltModelCircleExtension - Request - getAllMessagesForCircleFeed"
+      this.name + " - Request - getAllMessagesForCircleFeed"
     );
     let remoteUrn = "/circle/" + this.activeCircleId + "/feed";
     let loadRequestType = DataModel.RequestTypes.GET;
@@ -157,13 +159,12 @@ export class AltMemberCircleExtension extends DataModel {
   //////////// REMOTE CALLBACK HANDLERS  ////////////
 
   onActiveCircleCb = (circleDto, err) => {
-    console.log("AltModelCircleExtension : onActiveCircleCb");
+    console.log(this.name + " - onActiveCircleCb");
     if (err) {
       console.log("error:" + err);
     } else {
       if (circleDto) {
-        console.log(
-          "AltModelCircleExtension : onActiveCircleCb - configuring Circle: " +
+        console.log(this.name + " - onActiveCircleCb - configuring Circle: " +
             circleDto
         );
         this.activeCircleId = circleDto.id;
@@ -171,7 +172,7 @@ export class AltMemberCircleExtension extends DataModel {
         this.isAlarmTriggered = true;
       } else {
         console.log(
-          "AltModelCircleExtension : onActiveCircleCb - no circle found"
+          this.name + " - onActiveCircleCb - no circle found"
         );
         this.isAlarmTriggered = false;
         this.activeCircleId = null;
@@ -183,9 +184,9 @@ export class AltMemberCircleExtension extends DataModel {
   };
 
   onGetAllMessagesForCircleFeedCb = (feedMessageDtos, err) => {
-    console.log("AltModelCircleExtension : onGetAllMessagesForCircleFeedCb");
+    console.log(this.name + " - onGetAllMessagesForCircleFeedCb");
     if (err) {
-      console.log("error:" + err);
+      console.log(this.name + " - error:" + err);
     } else {
       this.allFeedMessages = feedMessageDtos;
     }
@@ -193,9 +194,9 @@ export class AltMemberCircleExtension extends DataModel {
   };
 
   onPostChatMessageToFeedCb = (feedMessageDto, err) => {
-    console.log("AltModelCircleExtension : onPostChatMessageToFeedCb");
+    console.log(this.name + " - onPostChatMessageToFeedCb");
     if (err) {
-      console.log("error:" + err);
+      console.log(this.name + " - error:" + err);
     } else {
       this.allFeedMessages = [...this.allFeedMessages, feedMessageDto];
     }

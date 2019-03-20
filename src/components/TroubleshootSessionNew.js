@@ -24,10 +24,14 @@ const fs = window.require("fs");
 export default class TroubleshootSessionNew extends Component {
   constructor(props) {
     super(props);
+    this.name = "[TroubleshootSessionNew]";
 
     this.state = {
       screenPath: "./assets/images/screenshot.png",
-      currentProblem: ""
+      currentProblem: "",
+      activeCircle: null,
+      circleName: null,
+      circleOwner: "Me"
     };
 
     this.events = {
@@ -58,7 +62,7 @@ export default class TroubleshootSessionNew extends Component {
   }
 
   componentDidMount = () => {
-    console.log("TroubleshootSessionNew : componentDidMount");
+    console.log(this.name + " - componentDidMount");
     this.activeCircleModel.registerListener(
       "TroubleshootSessionNew",
       ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
@@ -69,13 +73,13 @@ export default class TroubleshootSessionNew extends Component {
   };
 
   componentWillUnmount = () => {
-    console.log("TroubleshootSessionNew : componentWillUnmount");
+    console.log(this.name + " - componentWillUnmount");
 
     this.activeCircleModel.unregisterAllListeners("TroubleshootSessionNew");
   };
 
   onCircleUpdate = () => {
-    console.log("TroubleshootSessionNew : onCircleUpdate");
+    console.log(this.name + " - onCircleUpdate");
 
     this.setState({
       activeCircle: this.activeCircleModel.getActiveScope().activeCircle,

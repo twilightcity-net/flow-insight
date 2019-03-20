@@ -11,6 +11,7 @@ export default class JournalEntry extends Component {
   constructor(props) {
     super(props);
 
+    this.name = "[JournalEntry]";
     this.state = {
       projects: [],
       tasks: [],
@@ -38,7 +39,7 @@ export default class JournalEntry extends Component {
 
   resetOnConsoleOpen() {
     if (!this.consoleController.consoleIsCollapsed) {
-      console.log("RESET JOURNAL ENTRY FOCUS!!!");
+      console.log(this.name + " - resetOnConsoleOpen");
       setTimeout(() => {
         this.resetFocus();
       }, 200);
@@ -50,7 +51,7 @@ export default class JournalEntry extends Component {
   }
 
   componentDidMount = () => {
-    console.log("Journal Entry : componentDidMount");
+    console.log(this.name + " - componentDidMount");
 
     this.journalModel.registerListener(
       "journalEntry",
@@ -62,44 +63,52 @@ export default class JournalEntry extends Component {
       this,
       this.resetOnConsoleOpen
     );
-    this.onJournalRecentTasksUpdateCb();
     this.resetFocus();
+
+    this.onJournalRecentTasksUpdateCb();
   };
 
   componentWillUnmount = () => {
-    console.log("Journal Entry : componentWillUnmount");
+    console.log(this.name +" - componentWillUnmount");
 
     this.journalModel.unregisterAllListeners("journalEntry");
     this.consoleController.configureJournalEntryListener(this, null);
   };
 
   onJournalRecentTasksUpdateCb = () => {
-    console.log("Journal Entry : onJournalRecentTasksUpdateCb");
+    console.log(this.name +" - onJournalRecentTasksUpdateCb");
 
-    this.populateProjects(this.journalModel.getActiveScope().recentProjects);
+    let projectList = this.getProjectList(this.journalModel.getActiveScope().recentProjects);
 
-    let defaultProject = this.initCurrentProject(
+    let currentProject = this.getCurrentProject(
       this.journalModel.getActiveScope().recentProjects,
       this.journalModel.getActiveScope().recentEntry
     );
-    this.populateTasks(
-      defaultProject,
+
+    console.log(this.name + " - currentProjectSelected = "+currentProject);
+    
+    let currentTasks = this.getCurrentTasks(
+      currentProject,
       this.journalModel.getActiveScope().recentTasksByProjectId,
       this.journalModel.getActiveScope().recentEntry
     );
 
-    if (this.teamModel.isMeActive()) {
-      this.setState({
-        disableControls: false
-      });
-    } else {
-      this.setState({
-        disableControls: true
-      });
+    let disableControls = false;
+    if (!this.teamModel.isMeActive()) {
+      disableControls = true;
     }
+
+    this.setState({
+       projects: projectList,
+       currentProjectValue: currentProject,
+       tasks: currentTasks.tasks,
+       currentTaskValue: currentTasks.currentTaskValue,
+       disableControls: disableControls
+    });
+
   };
 
-  populateProjects = recentProjects => {
+  getProjectList = recentProjects => {
     var projects = [];
     for (var i in recentProjects) {
       projects[i] = {
@@ -108,35 +117,22 @@ export default class JournalEntry extends Component {
       };
     }
 
-    this.setState({
-      projects: projects
-    });
+    return projects;
   };
 
-  initCurrentProject = (recentProjects, recentEntry) => {
-    console.log("initCurrentProject = " + recentProjects);
-    //set default project
-
+  getCurrentProject = (recentProjects, recentEntry) => {
     let currentProject = null;
 
     if (recentEntry) {
       currentProject = recentEntry.projectId;
     }
 
-    this.setState({
-      currentProjectValue: currentProject
-    });
-
-    console.log("initProject = " + currentProject);
-
     return currentProject;
   };
 
-  populateTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
-    console.log("populating tasks...");
-
-    if (!recentTasksByProjectId) {
-      return;
+  getCurrentTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
+    if (!currentProject || !recentTasksByProjectId) {
+      return { tasks: [], currentTaskValue: null};
     }
 
     let currentTasks = recentTasksByProjectId[currentProject];
@@ -152,20 +148,20 @@ export default class JournalEntry extends Component {
     let currentTask = null;
     if (tasksForProject.length > 0) {
       if (recentEntry && recentEntry.projectId === currentProject) {
-        console.log("Populating default entry");
         currentTask = recentEntry.taskId;
       }
     }
 
-    this.setState({
+    return {
       tasks: tasksForProject,
       currentTaskValue: currentTask
-    });
+    };
+
   };
 
   /// called when a new task is added from dropdown
   handleAdditionForTask = (e, { value }) => {
-    console.log("handleAdditionForTask:" + value);
+    console.log(this.name + " - handleAdditionForTask:" + value);
 
     //setup temporary addition to the menu
 
@@ -195,26 +191,24 @@ export default class JournalEntry extends Component {
     this.props.onAddTask(this.state.currentProjectValue, value);
   };
 
-  /// called when a new project is added from dropdown
-  handleAdditionForProject = (e, { value }) => {
-    console.log("handleAdditionForProject");
-    this.setState({
-      projects: [{ text: value, value }, ...this.state.projects]
-    });
-  };
-
   /// called when a project is selected in dropdown
   handleChangeForProject = (e, { value }) => {
-    console.log("handleChangeForProject: " + value);
+    console.log(this.name + " - handleChangeForProject: " + value);
+
+    let currentProject = value;
+
+    let currentTasks = this.getCurrentTasks(
+      currentProject,
+      this.journalModel.getActiveScope().recentTasksByProjectId,
+      this.journalModel.getActiveScope().recentEntry
+    );
+
     this.setState({
-      currentProjectValue: value
+      currentProjectValue: value,
+      tasks: currentTasks.tasks,
+      currentTaskValue: currentTasks.currentTaskValue
     });
 
-    this.populateTasks(
-      value,
-      this.props.recentTasksByProjectId,
-      this.props.recentEntry
-    );
   };
 
   /// called when a project is selected in dropdown
@@ -226,12 +220,12 @@ export default class JournalEntry extends Component {
 
   /// called when a project is selected in dropdown
   handleKeyPressForTask = e => {
-    console.log("handleKeyPressForTask: ");
+    //console.log("handleKeyPressForTask: ");
   };
 
   /// called when a task is selected in the dropdown
   handleChangeForTask = (e, { value }) => {
-    console.log("handleChangeForTask");
+    //console.log("handleChangeForTask");
     this.setState({
       currentTaskValue: value
     });
@@ -240,7 +234,7 @@ export default class JournalEntry extends Component {
   /// called when the create task button is clicked on, it then shouold dispatch
   /// a new event that will update the rendered view
   handleClickForCreate = () => {
-    console.log("handleClickForCreate");
+    //console.log("handleClickForCreate");
 
     this.saveJournalEntry();
   };
@@ -248,14 +242,12 @@ export default class JournalEntry extends Component {
   /// works the same as the click for create handler.. see above ^
   handleKeyPressForIntention = e => {
     if (e.charCode === 13) {
-      console.log("Saving Intention! " + this.state.currentIntentionValue);
+      console.log(this.name + " - Saving Intention! " + this.state.currentIntentionValue);
       this.saveJournalEntry();
     }
   };
 
   saveJournalEntry = () => {
-    console.log("active projectId: " + this.state.currentProjectValue);
-    console.log("active taskId: " + this.state.currentTaskValue);
 
     this.journalModel.addJournalEntry(
       this.state.currentProjectValue,
@@ -272,7 +264,7 @@ export default class JournalEntry extends Component {
 
   /// highlight field border when element is focused on
   handleFocusForProject = e => {
-    console.log("handleFocusForProject");
+    console.log(this.name + " - handleFocusForProject");
     document.getElementById("selectProjectInput").classList.add("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
     document.getElementById("createIntentionInput").classList.remove("focused");
@@ -280,7 +272,7 @@ export default class JournalEntry extends Component {
 
   /// highlight field border when element is focused on
   handleFocusForTask = e => {
-    console.log("handleFocusForTask");
+    console.log(this.name + " - handleFocusForTask");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.add("focused");
     document.getElementById("createIntentionInput").classList.remove("focused");
@@ -288,7 +280,7 @@ export default class JournalEntry extends Component {
 
   /// highlight field border when element is focused on
   handleFocusForIntention = e => {
-    console.log("handleFocusForIntention");
+    console.log(this.name + " - handleFocusForIntention");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
     document.getElementById("createIntentionInput").classList.add("focused");
@@ -297,7 +289,7 @@ export default class JournalEntry extends Component {
   /// clear all of the highlights to the fields on any element blur.. called by all
   /// form element inputs
   handleBlurForInput = e => {
-    console.log("handleBlurForInput");
+    console.log(this.name + " - handleBlurForInput");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
     document.getElementById("createIntentionInput").classList.remove("focused");

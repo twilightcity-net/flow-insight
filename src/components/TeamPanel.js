@@ -11,6 +11,7 @@ export default class TeamPanel extends Component {
   constructor(props) {
     super(props);
 
+    this.name = "[TeamPanel]";
     this.state = this.loadState();
 
     this.spiritModel = DataModelFactory.createModel(
@@ -22,20 +23,7 @@ export default class TeamPanel extends Component {
       DataModelFactory.Models.MEMBER_STATUS,
       this
     );
-
-    this.consoleController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
-      this
-    );
   }
-
-  componentDidMount = () => {
-    this.consoleController.configureTeamPanelListener(this, this.resetCb);
-  };
-
-  componentWillUnmount = () => {
-    this.consoleController.configureTeamPanelListener(this, null);
-  };
 
   componentWillReceiveProps = nextProps => {
     let newMe = nextProps.me;
@@ -46,17 +34,6 @@ export default class TeamPanel extends Component {
         nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
     }
   };
-
-  resetCb() {
-    if (this.consoleController.consoleIsCollapsed) {
-      console.log("RESET TEAM PANEL!!!");
-      if (this.props.me) {
-        setTimeout(() => {
-          this.selectRow(this.props.me.id, this.props.me);
-        }, 200);
-      }
-    }
-  }
 
   /// laods the stored state from parent or use default values
   loadState() {
@@ -108,7 +85,7 @@ export default class TeamPanel extends Component {
   };
 
   selectRow = (id, teamMember) => {
-    console.log("Team member clicked!" + teamMember.name + "id = " + id);
+    console.log(this.name + " - Team member clicked!" + teamMember.name + "id = " + id);
 
     this.teamModel.setActiveMember(id);
   };

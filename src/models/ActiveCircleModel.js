@@ -9,6 +9,8 @@ const { remote } = window.require("electron"),
 export class ActiveCircleModel extends DataModel {
   constructor(scope) {
     super(scope);
+    this.name = "[ActiveCircleModel]";
+
     this.isInitialized = false;
 
     this.activeCircleId = null;
@@ -94,16 +96,20 @@ export class ActiveCircleModel extends DataModel {
   };
 
   getCircleOwner = () => {
-    console.log("CIRCLE OWNER ME : " + this.teamModel.me["shortName"]);
+    let member = "Member";
 
-    return this.teamModel.me["shortName"];
+    if (this.teamModel) {
+      member = this.teamModel.me["shortName"];
+    }
+
+    return member;
   };
 
   /**
    * Loads the active circle into context
    */
   loadActiveCircle = () => {
-    console.log("ActiveCircleModel - Request - loadActiveCircle");
+    console.log(this.name + " - Request - loadActiveCircle");
 
     let remoteUrn = "/circle/active";
     let loadRequestType = DataModel.RequestTypes.GET;
@@ -125,8 +131,10 @@ export class ActiveCircleModel extends DataModel {
    * Creates a new troubleshooting circle on the server
    */
   createCircle = problemDescription => {
+    if (!this.isInitialized) return;
+
     let args = { problemDescription: problemDescription };
-    console.log("ActiveCircleModel - Request - createCircle, args: " + args);
+    console.log(this.name + " - Request - createCircle, args: " + args);
     let remoteUrn = "/circle";
     let loadRequestType = DataModel.RequestTypes.POST;
 
@@ -147,8 +155,9 @@ export class ActiveCircleModel extends DataModel {
    * Closes the active circle on the server
    */
   closeActiveCircle = () => {
-    console.log(
-      "ActiveCircleModel - Request - closeActiveCircle, Context: activeCircleId " +
+    if (!this.isInitialized) return;
+
+    console.log(this.name + " - Request - closeActiveCircle, Context: activeCircleId " +
         this.activeCircleId
     );
     if (this.activeCircleId == null) {
@@ -176,10 +185,9 @@ export class ActiveCircleModel extends DataModel {
    */
 
   getKey = callback => {
-    console.log(
-      "ActiveCircleModel - Request - getKey, Context: activeCircleId " +
-        this.activeCircleId
-    );
+    if (!this.isInitialized) return;
+
+    console.log(this.name + " - Request - getKey, Context: activeCircleId " +this.activeCircleId);
     if (this.activeCircleId == null) {
       return;
     }
@@ -205,10 +213,10 @@ export class ActiveCircleModel extends DataModel {
    * @param chatMessage
    */
   postChatMessageToFeed = chatMessage => {
+    if (!this.isInitialized) return;
+
     let args = { chatMessage: chatMessage };
-    console.log(
-      "ActiveCircleModel - Request - postChatMessageToFeed, args: " + args
-    );
+    console.log(this.name + " - Request - postChatMessageToFeed, args: " + args);
 
     if (this.activeCircleId == null) {
       return;
@@ -236,11 +244,10 @@ export class ActiveCircleModel extends DataModel {
    * @param filePath
    */
   postScreenshotReferenceToCircleFeed = (fileName, filePath) => {
+    if (!this.isInitialized) return;
+
     let args = { fileName: fileName, filePath: filePath };
-    console.log(
-      "ActiveCircleModel - Request - postScreenshotReferenceToCircleFeed, args: " +
-        args
-    );
+    console.log(this.name + " - Request - postScreenshotReferenceToCircleFeed, args: " + args);
 
     if (this.activeCircleId == null) {
       return;
@@ -266,7 +273,9 @@ export class ActiveCircleModel extends DataModel {
    * Retrieve all messages for the feed
    */
   getAllMessagesForCircleFeed = () => {
-    console.log("ActiveCircleModel - Request - getAllMessagesForCircleFeed");
+    if (!this.isInitialized) return;
+
+    console.log(this.name + " - Request - getAllMessagesForCircleFeed");
     let remoteUrn = "/circle/" + this.activeCircleId + "/feed";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -291,8 +300,9 @@ export class ActiveCircleModel extends DataModel {
    * Shelves the active circle with "Do It Later"
    */
   shelveCircleWithDoItLater = () => {
-    console.log(
-      "ActiveCircleModel - Request - shelveCircleWithDoItLater, Context: activeCircleId " +
+    if (!this.isInitialized) return;
+
+    console.log(this.name + " - Request - shelveCircleWithDoItLater, Context: activeCircleId " +
         this.activeCircleId
     );
     if (this.activeCircleId == null) {
@@ -319,9 +329,10 @@ export class ActiveCircleModel extends DataModel {
    * Resume an existing circle from the Do It Later shelf
    */
   resumeAnExistingCircleFromDoItLaterShelf = () => {
+    if (!this.isInitialized) return;
+
     console.log(
-      "ActiveCircleModel - Request - resumeAnExistingCircleFromDoItLaterShelf"
-    );
+      this.name + " - Request - resumeAnExistingCircleFromDoItLaterShelf");
 
     let remoteUrn = "/circle/" + this.activeCircleId + "/transition/resume";
     let loadRequestType = DataModel.RequestTypes.POST;
@@ -342,16 +353,15 @@ export class ActiveCircleModel extends DataModel {
   //////////// REMOTE CALLBACK HANDLERS  ////////////
 
   onActiveCircleCb = (circleDto, err) => {
-    console.log("ActiveCircleModel : onActiveCircleCb");
+    console.log(this.name + " - onActiveCircleCb");
     let oldCircle = this.activeCircleId;
 
     if (err) {
       console.log("error:" + err);
     } else {
       if (circleDto) {
-        console.log(
-          "ActiveCircleModel : onActiveCircleCb - configuring Circle: " +
-            circleDto
+        console.log(this.name + " - onActiveCircleCb - configuring Circle: " +
+            circleDto.circleName
         );
         this.activeCircleId = circleDto.id;
         this.activeCircle = circleDto;
@@ -359,7 +369,7 @@ export class ActiveCircleModel extends DataModel {
         this.problemDescription = circleDto.problemDescription;
         this.circleName = circleDto.circleName;
       } else {
-        console.log("ActiveCircleModel : onActiveCircleCb - no circle found");
+        console.log(this.name + " - onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;
         this.activeCircleId = null;
         this.activeCircle = null;
@@ -378,14 +388,13 @@ export class ActiveCircleModel extends DataModel {
   };
 
   onCreateCircleCb = (circleDto, err) => {
-    console.log("ActiveCircleModel : onCreateCircleCb");
+    console.log(this.name + " - onCreateCircleCb");
 
     if (err) {
       console.log("error:" + err);
     } else {
       if (circleDto) {
-        console.log(
-          "ActiveCircleModel : onActiveCircleCb - configuring Circle: " +
+        console.log(this.name + " - onActiveCircleCb - configuring Circle: " +
             circleDto
         );
         this.activeCircleId = circleDto.id;
@@ -394,7 +403,7 @@ export class ActiveCircleModel extends DataModel {
         this.problemDescription = circleDto.problemDescription;
         this.circleName = circleDto.circleName;
       } else {
-        console.log("ActiveCircleModel : onActiveCircleCb - no circle found");
+        console.log(this.name + " - onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;
         this.activeCircleId = null;
         this.activeCircle = null;
@@ -409,9 +418,9 @@ export class ActiveCircleModel extends DataModel {
   };
 
   onCloseCircleCb = (circleDto, err) => {
-    console.log("ActiveCircleModel : onCloseCircleCb");
+    console.log(this.name + " - onCloseCircleCb");
     if (err) {
-      console.log("error:" + err);
+      console.log(this.name + " - error:" + err);
     } else {
       this.isAlarmTriggered = false;
       this.activeCircleId = null;
@@ -423,9 +432,9 @@ export class ActiveCircleModel extends DataModel {
   };
 
   onShelveCircleWithDoItLaterCb = (circleDto, err) => {
-    console.log("ActiveCircleModel : onShelveCircleWithDoItLaterCb");
+    console.log(this.name + " - onShelveCircleWithDoItLaterCb");
     if (err) {
-      console.log("error:" + err);
+      console.log(this.name + " - error:" + err);
     } else {
       this.isAlarmTriggered = false;
       this.activeCircleId = null;
@@ -438,9 +447,9 @@ export class ActiveCircleModel extends DataModel {
   };
 
   onResumeCircleCb = (circleDto, err) => {
-    console.log("ActiveCircleModel : onResumeCircleCb");
+    console.log(this.name + " - onResumeCircleCb");
     if (err) {
-      console.log("error:" + err);
+      console.log(this.name + " - error:" + err);
     } else {
       this.activeCircleId = circleDto.id;
       this.activeCircle = circleDto;
@@ -451,9 +460,9 @@ export class ActiveCircleModel extends DataModel {
   };
 
   onGetAllMessagesForCircleFeedCb = (feedMessageDtos, err) => {
-    console.log("ActiveCircleModel : onGetAllMessagesForCircleFeedCb");
+    console.log(this.name + " - onGetAllMessagesForCircleFeedCb");
     if (err) {
-      console.log("error:" + err);
+      console.log(this.name + " - error:" + err);
     } else {
       this.allFeedMessages = feedMessageDtos;
     }
@@ -461,9 +470,9 @@ export class ActiveCircleModel extends DataModel {
   };
 
   onPostChatMessageToFeedCb = (feedMessageDto, err) => {
-    console.log("ActiveCircleModel : onPostChatMessageToFeedCb");
+    console.log(this.name + " - onPostChatMessageToFeedCb");
     if (err) {
-      console.log("error:" + err);
+      console.log(this.name + " - error:" + err);
     } else {
       this.allFeedMessages = [...this.allFeedMessages, feedMessageDto];
     }
@@ -471,9 +480,9 @@ export class ActiveCircleModel extends DataModel {
   };
 
   onPostScreenshotReferenceToFeedCb = (feedMessageDto, err) => {
-    console.log("ActiveCircleModel : onPostScreenshotReferenceToFeedCb");
+    console.log(this.name + " - onPostScreenshotReferenceToFeedCb");
     if (err) {
-      console.log("error:" + err);
+      console.log(this.name + " - error:" + err);
     } else {
       this.allFeedMessages = [...this.allFeedMessages, feedMessageDto];
     }

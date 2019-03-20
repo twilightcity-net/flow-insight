@@ -11,6 +11,8 @@ export default class TroubleshootLayout extends Component {
   constructor(props) {
     super(props);
 
+    this.name = "[TroubleshootLayout]";
+
     this.state = {
       isAlarmTriggered: false
     };
@@ -28,11 +30,7 @@ export default class TroubleshootLayout extends Component {
       this.onActiveCircleUpdateCb
     );
 
-    if (this.activeCircleModel.isNeverLoaded()) {
-      this.activeCircleModel.loadActiveCircle();
-    } else {
-      this.onActiveCircleUpdateCb();
-    }
+    this.onActiveCircleUpdateCb();
   }
 
   componentWillUnmount() {
@@ -40,7 +38,7 @@ export default class TroubleshootLayout extends Component {
   }
 
   onActiveCircleUpdateCb = () => {
-    console.log("TroubleshootLayout: onActiveCircleUpdateCb");
+    console.log(this.name + " - onActiveCircleUpdateCb");
     this.setState({
       isAlarmTriggered: this.activeCircleModel.getActiveScope().isAlarmTriggered
     });
@@ -70,13 +68,13 @@ export default class TroubleshootLayout extends Component {
   }
 
   onStartTroubleshooting = problemStatement => {
-    console.log("onStartTroubleshooting");
+    console.log(this.name + "onStartTroubleshooting");
 
     this.activeCircleModel.createCircle(problemStatement);
   };
 
   onStopTroubleshooting = () => {
-    console.log("onStopTroubleshooting");
+    console.log(this.name + "onStopTroubleshooting");
 
     this.activeCircleModel.closeActiveCircle();
   };

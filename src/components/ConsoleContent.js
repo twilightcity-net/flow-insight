@@ -41,12 +41,8 @@ export default class ConsoleContent extends Component {
   };
 
   // dispatched when the console menu changes from user clicks
-  onRefreshActivePerspective(event, arg) {
-    //TODO should be able to use this instead of the method above, but it causes glitching, why?
+  onRefreshActivePerspective() {
 
-    console.log(
-      "ConsoleContent: onRefreshActivePerspective " + arg.old + ":" + arg.new
-    );
     if (this.isAnimating) return;
     this.isAnimating = true;
     let newLayout = this.myController.activeMenuSelection,

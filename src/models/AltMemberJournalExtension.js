@@ -8,6 +8,7 @@ const { remote } = window.require("electron"),
 export class AltMemberJournalExtension extends DataModel {
   constructor(scope) {
     super(scope);
+    this.name = "[AltMemberJournalExtension]";
 
     this.allJournalItems = [];
     this.allIntentions = [];
@@ -19,7 +20,7 @@ export class AltMemberJournalExtension extends DataModel {
 
     this.recentProjects = [];
     this.recentTasksByProjectId = [];
-    this.recentEntry = {};
+    this.recentEntry = null;
 
     this.isInitialized = false;
 
@@ -44,12 +45,10 @@ export class AltMemberJournalExtension extends DataModel {
    */
 
   loadDefaultJournal = () => {
-    console.log("AltMemberJournalExtension - Request - loadDefaultJournal");
+    console.log(this.name + " - Request - loadDefaultJournal");
 
     let remoteUrn = "/journal?member=" + this.altMemberId;
     let loadRequestType = DataModel.RequestTypes.GET;
-
-    console.log("AltMemberJournalExtension - " + remoteUrn);
 
     this.remoteFetch(
       null,
@@ -68,7 +67,7 @@ export class AltMemberJournalExtension extends DataModel {
    * Reset the active selected item to the last item in the journal
    */
   resetActiveToLastJournalItem = () => {
-    console.log("AltMemberJournalExtension : resetActiveToLastJournalItem");
+    console.log(this.name + " - resetActiveToLastJournalItem");
     if (this.allJournalItems.length > 0) {
       let lastItem = this.allJournalItems[this.allJournalItems.length - 1];
 
@@ -78,6 +77,7 @@ export class AltMemberJournalExtension extends DataModel {
     } else {
       this.activeIndex = 0;
       this.activeJournalItem = null;
+      this.recentEntry = null;
     }
 
     this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
@@ -88,7 +88,7 @@ export class AltMemberJournalExtension extends DataModel {
    * @param journalItem
    */
   setActiveJournalItem = journalItem => {
-    console.log("AltMemberJournalExtension : setActiveJournalItem");
+    console.log(this.name + " - setActiveJournalItem");
     this.activeIndex = journalItem.index;
     this.activeJournalItem = journalItem;
     this.activeFlame = journalItem;
@@ -99,19 +99,22 @@ export class AltMemberJournalExtension extends DataModel {
   //////////// REMOTE CALLBACK HANDLERS  ////////////
 
   onLoadDefaultJournalCb = (defaultJournal, err) => {
-    console.log("AltMemberJournalExtension : onLoadDefaultJournalCb");
+    console.log(this.name + " - onLoadDefaultJournalCb");
     if (err) {
       console.log("error:" + err);
     } else {
       this.initFromDefaultJournal(defaultJournal);
     }
+
+    this.resetActiveToLastJournalItem();
     this.isInitialized = true;
+
     this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
     this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
   };
 
   initFromDefaultJournal = defaultJournal => {
-    console.log("AltMemberJournalExtension : initFromDefaultJournal");
+    console.log(this.name + " - initFromDefaultJournal");
 
     var journalItems = this.createJournalItems(defaultJournal.recentIntentions);
     let recentIntentionKeys = this.extractRecentIntentionKeys(
@@ -137,8 +140,7 @@ export class AltMemberJournalExtension extends DataModel {
     this.allIntentions = defaultJournal.recentIntentions;
     this.activeSize = defaultJournal.recentIntentions.length;
 
-    console.log(
-      "AltMemberJournalExtension : Loaded " +
+    console.log(this.name + " - Loaded " +
         this.activeSize +
         " journal items!"
     );

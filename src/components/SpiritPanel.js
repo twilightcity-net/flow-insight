@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import {
   Icon,
-  Button,
   Image,
   Menu,
   Progress,
@@ -9,7 +8,6 @@ import {
   Transition,
   Popup
 } from "semantic-ui-react";
-import * as THREE from "three";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { SidePanelViewController } from "../perspective/SidePanelViewController";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
@@ -18,6 +16,7 @@ export default class SpiritPanel extends Component {
   constructor(props) {
     super(props);
     this.state = this.loadState();
+    this.name = "[SpiritPanel]";
 
     this.spiritModel = DataModelFactory.createModel(
       DataModelFactory.Models.SPIRIT,
@@ -27,7 +26,6 @@ export default class SpiritPanel extends Component {
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
-    console.log(this.props.xpSummary);
   }
 
   /// performs a simple calculation for dynamic height of panel
@@ -77,11 +75,7 @@ export default class SpiritPanel extends Component {
   };
 
   componentDidMount = () => {
-    console.log("componentDidMount");
-
-    if (this.mount) {
-      this.initScene();
-    }
+    console.log(this.name + " - componentDidMount");
 
     this.myController.configureSpiritPanelListener(
       this,
@@ -90,7 +84,7 @@ export default class SpiritPanel extends Component {
   };
 
   onRefreshActivePerspective() {
-    console.log("SpiritPanel - onRefreshActivePerspective!");
+    console.log(this.name + " - onRefreshActivePerspective!");
 
     let activeMenuItem = this.myController.activeSubmenuSelection;
 
@@ -116,75 +110,21 @@ export default class SpiritPanel extends Component {
     });
   };
 
-  initScene = () => {
-    const width = this.mount.clientWidth;
-    const height = this.mount.clientHeight;
-    //ADD SCENE
-    this.scene = new THREE.Scene();
-    //ADD CAMERA
-    this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
-    this.camera.position.z = 4;
-    //ADD RENDERER
-    this.renderer = new THREE.WebGLRenderer({ antialias: true });
-    this.renderer.setClearColor("#130A00");
-    this.renderer.setSize(width, height);
-    this.mount.appendChild(this.renderer.domElement);
-    //ADD CUBE
-    var geometry = new THREE.BoxGeometry(1, 1, 1);
-    var material = new THREE.MeshBasicMaterial({ color: "#433F81" });
-    this.cube = new THREE.Mesh(geometry, material);
-    this.scene.add(this.cube);
-
-    console.log("start");
-    this.start();
-  };
-
   handleClickForRage = () => {
-    console.log("Rage!");
+    console.log(this.name + "Rage!");
     this.spiritModel.adjustFlame(-1);
   };
 
   handleClickForYay = () => {
-    console.log("Yay!");
+    console.log(this.name + "Yay!");
     this.spiritModel.adjustFlame(+1);
   };
 
   componentWillUnmount() {
-    console.log("componentWillUnmount");
+    console.log(this.name + " - componentWillUnmount");
     this.myController.configureSpiritPanelListener(this, null);
-    if (this.mount) {
-      this.cleanupScene();
-    }
   }
 
-  cleanupScene = () => {
-    this.stop();
-    if (this.mount.contains(this.renderer.domElement)) {
-      this.mount.removeChild(this.renderer.domElement);
-    }
-  };
-
-  start = () => {
-    if (!this.frameId) {
-      console.log("starting");
-      this.frameId = requestAnimationFrame(this.animate);
-    }
-  };
-
-  stop = () => {
-    cancelAnimationFrame(this.frameId);
-  };
-
-  animate = () => {
-    this.cube.rotation.x += 0.01;
-    this.cube.rotation.y += 0.01;
-    this.renderScene();
-    this.frameId = window.requestAnimationFrame(this.animate);
-  };
-
-  renderScene = () => {
-    this.renderer.render(this.scene, this.camera);
-  };
 
   /// performs a simple calculation for dynamic height of panel
   calculatePanelHeight() {
@@ -223,12 +163,12 @@ export default class SpiritPanel extends Component {
   }
 
   handleClickForChainLink = () => {
-    console.log("Link this Torchie!" + this.spiritModel);
+    console.log(this.name+ " - Link this Torchie!");
     this.spiritModel.linkThisTorchie(this.props.spiritId);
   };
 
   handleClickForChainUnlink = () => {
-    console.log("Unlink!" + this.spiritModel);
+    console.log(this.name+ " - Unlink!");
 
     this.spiritModel.unlink(this.props.spiritId);
   };

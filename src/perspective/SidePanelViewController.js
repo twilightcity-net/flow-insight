@@ -30,10 +30,16 @@ export class SidePanelViewController extends ActiveViewController {
       this
     );
 
+    this.perspectiveControllerListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
+      this
+    );
+
     this.spiritPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SPIRIT_PANEL,
       this
     );
+
   }
 
   configureContentListener(scope, callback) {
@@ -48,12 +54,20 @@ export class SidePanelViewController extends ActiveViewController {
     this.spiritPanelListener.updateCallback(scope, callback);
   }
 
+  configurePerspectiveControllerListener(scope, callback) {
+    this.perspectiveControllerListener.updateCallback(scope, callback);
+  }
+
   fireSidePanelNotifyEvent() {
     this.sidePanelChangeNotifier.dispatch({});
   }
 
   fireSpiritPanelNotifyEvent() {
     this.spiritPanelChangeNotifier.dispatch({});
+  }
+
+  isVisible() {
+    return this.show;
   }
 
   hidePanel() {

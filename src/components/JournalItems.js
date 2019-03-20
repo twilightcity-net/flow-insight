@@ -12,6 +12,8 @@ export default class JournalItems extends Component {
   constructor(props) {
     super(props);
 
+    this.name = "[JournalItems]";
+
     this.state = {
       journalItems: [],
       activeJournalItem: null
@@ -49,13 +51,7 @@ export default class JournalItems extends Component {
       this.onDirtyFlameUpdate
     );
 
-    if (this.journalModel.isNeverLoaded()) {
-      this.journalModel.loadDefaultJournal();
-    } else {
-      this.onJournalHistoryUpdate();
-    }
-
-    this.scrollToBottomOrActive();
+    this.onJournalHistoryUpdate();
   }
 
   onJournalHistoryUpdate = () => {
@@ -63,6 +59,7 @@ export default class JournalItems extends Component {
       journalItems: this.journalModel.getActiveScope().allJournalItems,
       activeJournalItem: this.journalModel.getActiveScope().activeJournalItem
     });
+    this.scrollToBottomOrActive();
   };
 
   onActiveItemUpdate = () => {
@@ -77,7 +74,7 @@ export default class JournalItems extends Component {
   }
 
   onDirtyFlameUpdate = () => {
-    console.log("JournalItems: onDirtyFlameUpdate");
+    console.log(this.name + " - onDirtyFlameUpdate");
 
     if (this.timeout) {
       clearTimeout(this.timeout);
@@ -109,7 +106,7 @@ export default class JournalItems extends Component {
     }
 
     if (this.isLastActive()) {
-      console.log("isLastActive");
+      console.log(this.name + " - isLastActive");
       this.messagesEnd.scrollIntoView({ behavior: "smooth" });
     }
   };
@@ -158,7 +155,7 @@ export default class JournalItems extends Component {
   };
 
   onUpdateFinishStatus = (journalItem, newStatus) => {
-    console.log("onUpdateFinishStatus");
+    console.log(this.name + " - onUpdateFinishStatus");
     this.props.onFinishEntry(journalItem, newStatus);
   };
 

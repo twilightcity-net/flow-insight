@@ -5,7 +5,7 @@ export class ConsoleViewController extends ActiveViewController {
   constructor(scope) {
     super(scope);
 
-    this.consoleIsCollapsed = false;
+    this.consoleIsCollapsed = true;
 
     this.consoleLayoutlListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Keyframes from "@keyframes/core";
-import { RendererEventFactory } from "../RendererEventFactory";
 import ConsoleLayout from "../components/ConsoleLayout";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 

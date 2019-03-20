@@ -7,9 +7,11 @@ const { remote } = window.require("electron"),
 //
 // this class is used to manage DataClient requests for Stores
 //
-export class TeamMembersModel extends DataModel {
+export class TeamModel extends DataModel {
   constructor(scope) {
     super(scope);
+
+    this.name = "[TeamModel]";
 
     this.isInitialized = false;
 
@@ -26,10 +28,6 @@ export class TeamMembersModel extends DataModel {
     };
   }
 
-  isNeverLoaded = () => {
-    return this.isInitialized === false;
-  };
-
   isMeActive = () => {
     let meActive = true;
     if (this.activeTeamMember != null && this.me != null) {
@@ -37,7 +35,6 @@ export class TeamMembersModel extends DataModel {
         meActive = false;
       }
     }
-    console.log("ISMEACTIVE: " + meActive);
     return meActive;
   };
 
@@ -47,7 +44,7 @@ export class TeamMembersModel extends DataModel {
    */
 
   refreshAll = () => {
-    console.log("TeamMembersModel - Request - refreshAll");
+    console.log(this.name + " - Request - refreshAll");
     let remoteUrn = "/status/team";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -92,7 +89,7 @@ export class TeamMembersModel extends DataModel {
    */
 
   refreshMe() {
-    console.log("TeamMembersModel - Request - refreshMe");
+    console.log(this.name + " - Request - refreshMe");
     let remoteUrn = "/status/me";
     let loadRequestType = DataModel.RequestTypes.GET;
     this.remoteFetch(
@@ -123,21 +120,21 @@ export class TeamMembersModel extends DataModel {
       }
     }
 
-    this.notifyListeners(TeamMembersModel.CallbackEvent.ACTIVE_MEMBER_UPDATE);
+    this.notifyListeners(TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE);
   };
 
   onRefreshMeCb = (statusOfMe, err) => {
     if (err) {
-      console.log("onRefreshMeCb error:" + err);
+      console.log(this.name + " - onRefreshMeCb error:" + err);
     } else {
       this.me = this.createMember(0, statusOfMe);
     }
-    this.notifyListeners(TeamMembersModel.CallbackEvent.MEMBERS_UPDATE);
+    this.notifyListeners(TeamModel.CallbackEvent.MEMBERS_UPDATE);
   };
 
   onRefreshAllCb = (memberStatusDtos, err) => {
     if (err) {
-      console.log("onRefreshAllCb error:" + err);
+      console.log(this.name + " - onRefreshAllCb error:" + err);
     } else {
       //transform into presentation objects
       this.teamMembers = [];
@@ -158,7 +155,7 @@ export class TeamMembersModel extends DataModel {
       this.refreshActiveMember();
     }
     this.isInitialized = true;
-    this.notifyListeners(TeamMembersModel.CallbackEvent.MEMBERS_UPDATE);
+    this.notifyListeners(TeamModel.CallbackEvent.MEMBERS_UPDATE);
   };
 
   refreshActiveMember = () => {

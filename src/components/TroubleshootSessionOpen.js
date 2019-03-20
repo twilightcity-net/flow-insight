@@ -10,6 +10,7 @@ import { WTFTimer } from "../models/WTFTimer";
 export default class TroubleshootSessionOpen extends Component {
   constructor(props) {
     super(props);
+    this.name = "[TroubleshootSessionOpen]";
 
     this.state = {
       chatInputValue: "",
@@ -28,7 +29,7 @@ export default class TroubleshootSessionOpen extends Component {
   }
 
   componentDidMount = () => {
-    console.log("TroubleshootSessionOpen : componentDidMount");
+    console.log(this.name + " - componentDidMount");
     this.wtfTimer.registerListener(
       "TroubleshootSessionOpen",
       WTFTimer.CallbackEvent.WTF_TIMER_SECONDS_UPDATE,
@@ -47,7 +48,7 @@ export default class TroubleshootSessionOpen extends Component {
   };
 
   componentWillUnmount = () => {
-    console.log("TroubleshootSessionOpen : componentWillUnmount");
+    console.log(this.name + " - componentWillUnmount");
 
     this.wtfTimer.stopTimer();
     this.activeCircleModel.unregisterAllListeners("TroubleshootSessionOpen");
@@ -55,14 +56,12 @@ export default class TroubleshootSessionOpen extends Component {
   };
 
   onCircleUpdate = () => {
-    console.log("TroubleshootSessionOpen : onCircleUpdate");
+    console.log(this.name + " - onCircleUpdate");
 
     let activeCircle = this.activeCircleModel.getActiveScope().activeCircle;
     let circleName = this.activeCircleModel.getActiveScope().circleName;
 
     let circleOwner = this.activeCircleModel.getActiveScope().getCircleOwner();
-
-    console.log("CIRCLE OWNER ME2 : " + circleOwner);
 
     let formattedTime = this.wtfTimer.wtfTimerInSeconds;
     this.setState({
@@ -80,7 +79,7 @@ export default class TroubleshootSessionOpen extends Component {
   };
 
   onClickStopTroubleshooting = () => {
-    console.log("on click stop troubleshooting");
+    console.log(this.name + " - on click stop troubleshooting");
 
     this.props.onStopTroubleshooting();
   };

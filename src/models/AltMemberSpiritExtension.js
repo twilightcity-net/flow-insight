@@ -8,6 +8,8 @@ export class AltMemberSpiritExtension extends DataModel {
   constructor(scope) {
     super(scope);
 
+    this.name = "[AltMemberSpiritExtension]";
+
     this.xpSummary = null;
     this.activeSpiritLinks = null;
     this.spiritId = null;
@@ -41,6 +43,8 @@ export class AltMemberSpiritExtension extends DataModel {
    * Refreshes the current XP from the latest member status
    */
   refreshXP = () => {
+    console.log(this.name + " - Request refreshXP");
+
     let remoteUrn = "/spirit/" + this.altMemberId;
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -59,7 +63,7 @@ export class AltMemberSpiritExtension extends DataModel {
 
   onRefreshFriendSpiritCb = (spiritDto, err) => {
     if (err) {
-      console.log("error:" + err);
+      console.log(this.name + " - error:" + err);
     } else {
       this.xpSummary = spiritDto.xpSummary;
       if (spiritDto.activeSpiritLinks) {
@@ -84,6 +88,7 @@ export class AltMemberSpiritExtension extends DataModel {
    * Reinitializes the Torchie flame to a specified rating
    */
   resetFlame = cleanFlameRating => {
+    console.log(this.name + " - Request resetFlame");
     let initFlame = 0;
     if (cleanFlameRating) {
       initFlame = cleanFlameRating;

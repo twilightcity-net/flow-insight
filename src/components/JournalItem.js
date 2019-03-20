@@ -4,8 +4,14 @@ import { Divider, Grid, Image, Popup, Icon } from "semantic-ui-react";
 // this component is the individual journal item entered in by the user
 //
 export default class JournalItem extends Component {
+  constructor(props) {
+    super(props);
+
+    this.name = "[JournalItem]";
+  }
+
   selectRow(rowId, journalItem) {
-    console.log("selectRow!!!");
+    console.log(this.name + " - selectRow!!!");
     let rowObj = document.getElementById(rowId);
 
     this.props.onSetActiveRow(rowId, rowObj, journalItem);
@@ -25,7 +31,7 @@ export default class JournalItem extends Component {
   };
 
   gotoCircle = () => {
-    console.log("gotoCircle!!! " + this.props.circleId);
+    console.log(this.name + " - gotoCircle!!! " + this.props.circleId);
   };
 
   /// renders the component of the console view

@@ -1,4 +1,4 @@
-import { TeamMembersModel } from "./TeamMembersModel";
+import { TeamModel } from "./TeamModel";
 import { ActiveCircleModel } from "./ActiveCircleModel";
 import { JournalModel } from "./JournalModel";
 import { SpiritModel } from "./SpiritModel";
@@ -30,7 +30,7 @@ export class DataModelFactory {
   static initializeNewModel(name, scope) {
     switch (name) {
       case DataModelFactory.Models.MEMBER_STATUS:
-        return new TeamMembersModel(scope);
+        return new TeamModel(scope);
       case DataModelFactory.Models.ACTIVE_CIRCLE:
         return new ActiveCircleModel(scope);
       case DataModelFactory.Models.WTF_TIMER:

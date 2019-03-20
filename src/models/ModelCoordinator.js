@@ -1,20 +1,29 @@
-import { TeamMembersModel } from "../models/TeamMembersModel";
+import { TeamModel } from "../models/TeamModel";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { JournalModel } from "../models/JournalModel";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { WTFTimer } from "../models/WTFTimer";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
-//
-// this class is used to manage DataClient requests for Stores
-//
-export class PerspectiveCoordinator {
+/**
+ * This class is used to coordinate models across all the events
+ */
+export class ModelCoordinator {
   constructor(scope) {
-    this.name = this.constructor.name;
+    this.name = "[ModelCoordinator]";
     this.scope = scope;
   }
 
-  wireModelsTogether = () => {
+  static instance;
+
+  static init(scope) {
+    if (!ModelCoordinator.instance) {
+      ModelCoordinator.instance = new ModelCoordinator(scope);
+      ModelCoordinator.instance.wireModelsTogether();
+    }
+  }
+
+   wireModelsTogether = () => {
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
       this
@@ -39,30 +48,37 @@ export class PerspectiveCoordinator {
     this.activeCircle.setDependentModel(this.teamModel);
     this.wtfTimer.setDependentModel(this.activeCircle);
 
-    this.consoleController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.CONSOLE_PANEL
-    );
-    this.consoleController.configureModelUpdateListener(
-      this,
-      this.onConsoleOpenUpdateModels
-    );
 
-    //model event wirings
-
-    this.onMyCircleUpdateMe();
-    this.onActiveCircleUpdateTimer();
-
-    this.onJournalEntryUpdateMeAndXP();
-    this.onJournalUpdateResetSpiritFlame();
-
-    this.onChangeActiveRowResetSpiritFlame();
-    this.onTeamMemberChangeActiveScopeForAllModels();
-
-    this.onWTFTimerUpdateRefreshTeamMemberTimers();
+    this.loadDefaultModels();
+    this.wireTogetherModelsAfterInitialLoad();
 
     //TODO refactor this one out
     //    this.onDirtySpiritFlameUpdateActiveRow();
   };
+
+  loadDefaultModels() {
+     this.journalModel.loadDefaultJournal();
+     this.activeCircle.loadActiveCircle();
+     this.spiritModel.refreshXP();
+     this.teamModel.refreshAll();
+  }
+
+  wireTogetherModelsAfterInitialLoad() {
+
+    setTimeout(() => {
+      this.onMyCircleUpdateMe();
+      this.onActiveCircleUpdateTimer();
+
+      this.onJournalEntryUpdateMeAndXP();
+      this.onJournalUpdateResetSpiritFlame();
+
+      this.onChangeActiveRowResetSpiritFlame();
+      this.onTeamMemberChangeActiveScopeForAllModels();
+
+      this.onWTFTimerUpdateRefreshTeamMemberTimers();
+    }, 1000);
+
+  }
 
   unregisterModelWirings = () => {
     this.journalModel.unregisterAllListeners(this.name);
@@ -147,7 +163,7 @@ export class PerspectiveCoordinator {
   onTeamMemberChangeActiveScopeForAllModels() {
     this.teamModel.registerListener(
       this.name,
-      TeamMembersModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
+      TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
       () => {
         console.log(
           "ModelCoordinator Event Fired: onTeamMemberChangeActiveScopeForAllModels"
@@ -183,12 +199,5 @@ export class PerspectiveCoordinator {
     );
   }
 
-  onConsoleOpenUpdateModels() {
-    console.log("ModelCoordinator Event Fired: onConsoleOpenUpdateModels");
-    if (!this.consoleController.consoleIsCollapsed) {
-      if (this.spiritModel.hasLinks()) {
-        this.journalModel.loadDefaultJournal();
-      }
-    }
-  }
+
 }

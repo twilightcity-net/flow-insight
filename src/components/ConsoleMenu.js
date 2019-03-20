@@ -10,6 +10,8 @@ import { ActiveViewControllerFactory } from "../perspective/ActiveViewController
 export default class ConsoleMenu extends Component {
   constructor(props) {
     super(props);
+    this.name = "[ConsoleMenu]";
+
     this.isChanging = false;
     this.animationTime = this.props.animationTime + 50;
     this.state = {
@@ -38,7 +40,6 @@ export default class ConsoleMenu extends Component {
       this,
       this.onRefreshActivePerspective
     );
-    this.onRefreshActivePerspective();
   };
 
   componentWillUnmount = () => {
@@ -46,7 +47,7 @@ export default class ConsoleMenu extends Component {
   };
 
   onRefreshActivePerspective = () => {
-    console.log("ConsoleMenu - onRefreshActivePerspective!");
+    console.log(this.name + " - onRefreshActivePerspective!");
 
     let activeMenuItem = this.myController.activeMenuSelection;
     this.setState({ activeItem: activeMenuItem });
@@ -74,16 +75,16 @@ export default class ConsoleMenu extends Component {
   };
 
   handleHideClick = (e, { name }) => {
-    console.log("[ConsoleMenu] open hide window");
+    console.log(this.name + " - open hide window");
     this.events.hideConsole.dispatch(0, true);
   };
 
   handleUndockClick = (e, { name }) => {
-    console.log("[ConsoleMenu] open undock window");
+    console.log(this.name + " - open undock window");
   };
 
   handleSettingsClick = (e, { name }) => {
-    console.log("[ConsoleMenu] open settings window");
+    console.log(this.name + " - open settings window");
   };
 
   /// renders the menu component of the console view

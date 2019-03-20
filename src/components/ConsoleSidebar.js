@@ -9,10 +9,11 @@ import { SidePanelViewController } from "../perspective/SidePanelViewController"
 export default class ConsoleSidebar extends Component {
   constructor(props) {
     super(props);
+    this.name = "[ConsoleSidebar]";
 
     this.state = {
-      activeItem: "",
-      iconProfile: "heart outline",
+      activeItem: SidePanelViewController.MenuSelection.PROFILE,
+      iconProfile: "heart",
       iconMessages: "user outline",
       iconNotifications: "bell outline"
     };
@@ -27,7 +28,6 @@ export default class ConsoleSidebar extends Component {
       this,
       this.onRefreshActivePerspective
     );
-    this.onRefreshActivePerspective();
   };
 
   componentWillUnmount = () => {
@@ -35,7 +35,7 @@ export default class ConsoleSidebar extends Component {
   };
 
   onRefreshActivePerspective() {
-    console.log("ConsoleSidebar - onRefreshActivePerspective!");
+    console.log(this.name + " - onRefreshActivePerspective!");
 
     let activeMenuItem = this.myController.activeMenuSelection;
 
