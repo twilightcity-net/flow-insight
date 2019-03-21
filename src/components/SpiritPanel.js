@@ -11,6 +11,7 @@ import {
 import { DataModelFactory } from "../models/DataModelFactory";
 import { SidePanelViewController } from "../perspective/SidePanelViewController";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import TeamMember from "./TeamMember";
 
 export default class SpiritPanel extends Component {
   constructor(props) {
@@ -96,6 +97,8 @@ export default class SpiritPanel extends Component {
   }
 
   componentWillReceiveProps = nextProps => {
+
+
     let flameRating = nextProps.flameRating;
 
     let flameString = "0";
@@ -217,6 +220,18 @@ export default class SpiritPanel extends Component {
       />
     );
 
+    let linksContent = "";
+
+    if (this.hasActiveLinks()) {
+      linksContent = this.props.activeSpiritLinks.map(d => (
+        <div key={d.friendSpiritId}>{d.name}</div>
+      ));
+
+      linksContent = <div><div className="tooltipRed">Break Links</div>{linksContent}</div>;
+    }
+
+
+
     let unlinkIcon = (
       <Popup
         trigger={
@@ -227,7 +242,7 @@ export default class SpiritPanel extends Component {
             onClick={this.handleClickForChainUnlink}
           />
         }
-        content={<div className="tooltipRed">Break Links</div>}
+        content= {linksContent}
         inverted
         hideOnScroll
         position="bottom left"
@@ -314,8 +329,7 @@ export default class SpiritPanel extends Component {
               <div className="xpCount">
                 Total XP:{" "}
                 <i>
-                  {this.props.xpSummary.totalXP} /
-                  {this.props.xpSummary.xpRequiredToLevel}
+                  {this.props.totalXP}
                 </i>
               </div>
             }

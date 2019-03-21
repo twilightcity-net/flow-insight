@@ -14,6 +14,7 @@ export class SpiritModel extends DataModel {
 
     this.xpSummary = {};
     this.activeSpiritLinks = [];
+    this.namesOfSpiritLinks = [];
     this.spiritId = null;
     this.level = 0;
     this.percentXP = 99;
@@ -263,9 +264,13 @@ export class SpiritModel extends DataModel {
       this.xpSummary = spiritDto.xpSummary;
       if (spiritDto.activeSpiritLinks) {
         this.activeSpiritLinks = spiritDto.activeSpiritLinks.spiritLinks;
+        this.namesOfSpiritLinks = this.convertToNameList(spiritDto.activeSpiritLinks.spiritLinks);
       } else {
         this.activeSpiritLinks = [];
+        this.namesOfSpiritLinks = []
       }
+
+
       this.spiritId = spiritDto.spiritId;
       this.level = this.xpSummary.level;
       this.percentXP = Math.round(
@@ -279,4 +284,15 @@ export class SpiritModel extends DataModel {
     this.isInitialized = true;
     this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);
   };
+
+
+  convertToNameList(spiritLinks) {
+    let nameList = [];
+
+    for (var i in spiritLinks) {
+      nameList[i] = spiritLinks[i].name;
+    }
+
+    return nameList;
+  }
 }
