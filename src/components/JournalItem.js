@@ -41,7 +41,7 @@ export default class JournalItem extends Component {
       finishIcon = <Icon name="check" className="doneGreenDark" />;
     } else if (this.props.finishStatus === "aborted") {
       finishIcon = <Icon name="close" className="doneRed" />;
-    } else {
+    } else if (this.props.isMyJournal) {
       finishIcon = (
         <span>
           {" "}

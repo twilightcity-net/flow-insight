@@ -235,6 +235,7 @@ export default class JournalItems extends Component {
             <JournalItem
               key={d.id}
               id={d.id}
+              isMyJournal={!this.journalModel.isAltMemberSelected}
               isActive={this.isActive(d.id)}
               dirtyFlame={this.getEffectiveDirtyFlame(d.id)}
               linked={d.linked}
