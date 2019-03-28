@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import JournalHeader from "./JournalHeader";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
 import { DataModelFactory } from "../models/DataModelFactory";
@@ -26,6 +27,7 @@ export default class JournalLayout extends Component {
       consoleMenu: 28,
       contentMargin: 8,
       contentPadding: 8,
+      journalHeader: 53,
       journalEntry: 50
     };
 
@@ -37,8 +39,13 @@ export default class JournalLayout extends Component {
       heights.consoleMenu -
       heights.contentMargin -
       heights.contentPadding -
+      heights.journalHeader -
       heights.journalEntry
     );
+  }
+
+  calculateJournalHeaderHeight() {
+    return 47;
   }
 
   onFinishEntry = (journalEntry, finishStatus) => {
@@ -65,6 +72,9 @@ export default class JournalLayout extends Component {
   render() {
     return (
       <div id="component" className="journalLayout">
+        <div id="wrapper" className="journalHeader">
+          <JournalHeader height={this.calculateJournalHeaderHeight()} />
+        </div>
         <div id="wrapper" className="journalItems">
           <JournalItems
             onChangeActiveEntry={this.onChangeActiveEntry}
