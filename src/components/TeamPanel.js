@@ -85,7 +85,9 @@ export default class TeamPanel extends Component {
   };
 
   selectRow = (id, teamMember) => {
-    console.log(this.name + " - Team member clicked!" + teamMember.name + "id = " + id);
+    console.log(
+      this.name + " - Team member clicked!" + teamMember.name + "id = " + id
+    );
 
     this.teamModel.setActiveMember(id);
   };

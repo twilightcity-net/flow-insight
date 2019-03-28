@@ -69,24 +69,26 @@ export default class JournalEntry extends Component {
   };
 
   componentWillUnmount = () => {
-    console.log(this.name +" - componentWillUnmount");
+    console.log(this.name + " - componentWillUnmount");
 
     this.journalModel.unregisterAllListeners("journalEntry");
     this.consoleController.configureJournalEntryListener(this, null);
   };
 
   onJournalRecentTasksUpdateCb = () => {
-    console.log(this.name +" - onJournalRecentTasksUpdateCb");
+    console.log(this.name + " - onJournalRecentTasksUpdateCb");
 
-    let projectList = this.getProjectList(this.journalModel.getActiveScope().recentProjects);
+    let projectList = this.getProjectList(
+      this.journalModel.getActiveScope().recentProjects
+    );
 
     let currentProject = this.getCurrentProject(
       this.journalModel.getActiveScope().recentProjects,
       this.journalModel.getActiveScope().recentEntry
     );
 
-    console.log(this.name + " - currentProjectSelected = "+currentProject);
-    
+    console.log(this.name + " - currentProjectSelected = " + currentProject);
+
     let currentTasks = this.getCurrentTasks(
       currentProject,
       this.journalModel.getActiveScope().recentTasksByProjectId,
@@ -99,13 +101,12 @@ export default class JournalEntry extends Component {
     }
 
     this.setState({
-       projects: projectList,
-       currentProjectValue: currentProject,
-       tasks: currentTasks.tasks,
-       currentTaskValue: currentTasks.currentTaskValue,
-       disableControls: disableControls
+      projects: projectList,
+      currentProjectValue: currentProject,
+      tasks: currentTasks.tasks,
+      currentTaskValue: currentTasks.currentTaskValue,
+      disableControls: disableControls
     });
-
   };
 
   getProjectList = recentProjects => {
@@ -132,7 +133,7 @@ export default class JournalEntry extends Component {
 
   getCurrentTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
     if (!currentProject || !recentTasksByProjectId) {
-      return { tasks: [], currentTaskValue: null};
+      return { tasks: [], currentTaskValue: null };
     }
 
     let currentTasks = recentTasksByProjectId[currentProject];
@@ -156,7 +157,6 @@ export default class JournalEntry extends Component {
       tasks: tasksForProject,
       currentTaskValue: currentTask
     };
-
   };
 
   /// called when a new task is added from dropdown
@@ -208,7 +208,6 @@ export default class JournalEntry extends Component {
       tasks: currentTasks.tasks,
       currentTaskValue: currentTasks.currentTaskValue
     });
-
   };
 
   /// called when a project is selected in dropdown
@@ -242,13 +241,14 @@ export default class JournalEntry extends Component {
   /// works the same as the click for create handler.. see above ^
   handleKeyPressForIntention = e => {
     if (e.charCode === 13) {
-      console.log(this.name + " - Saving Intention! " + this.state.currentIntentionValue);
+      console.log(
+        this.name + " - Saving Intention! " + this.state.currentIntentionValue
+      );
       this.saveJournalEntry();
     }
   };
 
   saveJournalEntry = () => {
-
     this.journalModel.addJournalEntry(
       this.state.currentProjectValue,
       this.state.currentTaskValue,

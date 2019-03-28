@@ -140,10 +140,7 @@ export class AltMemberJournalExtension extends DataModel {
     this.allIntentions = defaultJournal.recentIntentions;
     this.activeSize = defaultJournal.recentIntentions.length;
 
-    console.log(this.name + " - Loaded " +
-        this.activeSize +
-        " journal items!"
-    );
+    console.log(this.name + " - Loaded " + this.activeSize + " journal items!");
   };
 
   extractRecentIntentionKeys = allIntentions => {

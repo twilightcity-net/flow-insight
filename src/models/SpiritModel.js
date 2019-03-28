@@ -47,7 +47,6 @@ export class SpiritModel extends DataModel {
     };
   }
 
-
   /**
    * Show an alt member's spirit
    * @param meId
@@ -264,12 +263,13 @@ export class SpiritModel extends DataModel {
       this.xpSummary = spiritDto.xpSummary;
       if (spiritDto.activeSpiritLinks) {
         this.activeSpiritLinks = spiritDto.activeSpiritLinks.spiritLinks;
-        this.namesOfSpiritLinks = this.convertToNameList(spiritDto.activeSpiritLinks.spiritLinks);
+        this.namesOfSpiritLinks = this.convertToNameList(
+          spiritDto.activeSpiritLinks.spiritLinks
+        );
       } else {
         this.activeSpiritLinks = [];
-        this.namesOfSpiritLinks = []
+        this.namesOfSpiritLinks = [];
       }
-
 
       this.spiritId = spiritDto.spiritId;
       this.level = this.xpSummary.level;
@@ -284,7 +284,6 @@ export class SpiritModel extends DataModel {
     this.isInitialized = true;
     this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);
   };
-
 
   convertToNameList(spiritLinks) {
     let nameList = [];

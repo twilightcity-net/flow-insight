@@ -10,8 +10,8 @@ import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { TeamModel } from "../models/TeamModel";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 import { SidePanelViewController } from "../perspective/SidePanelViewController";
-import {ModelCoordinator} from "../models/ModelCoordinator";
-import {PerspectiveController} from "../perspective/PerspectiveController";
+import { ModelCoordinator } from "../models/ModelCoordinator";
+import { PerspectiveController } from "../perspective/PerspectiveController";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -29,9 +29,9 @@ export default class ConsoleLayout extends Component {
       flameRating: 0,
       activePanel: SidePanelViewController.MenuSelection.PROFILE,
       consoleIsCollapsed: 0,
-      me: { shortName: "Me", id: "id"},
+      me: { shortName: "Me", id: "id" },
       teamMembers: [],
-      activeTeamMember: { shortName: "Me", id: "id"},
+      activeTeamMember: { shortName: "Me", id: "id" },
       isMe: true
     };
     this.animationTime = 700;
@@ -176,14 +176,24 @@ export default class ConsoleLayout extends Component {
       flameRating = 0;
     }
 
-    console.log(this.name + " - adjustFlameCb, Old/New Flame rating: " + this.state.flameRating + "/" + flameRating);
+    console.log(
+      this.name +
+        " - adjustFlameCb, Old/New Flame rating: " +
+        this.state.flameRating +
+        "/" +
+        flameRating
+    );
     this.setState({
       flameRating: flameRating
     });
   };
 
   onRefreshActivePerspective() {
-    console.log(this.name + " - onRefreshActivePerspective: " +this.sidePanelController.show);
+    console.log(
+      this.name +
+        " - onRefreshActivePerspective: " +
+        this.sidePanelController.show
+    );
     let show = this.sidePanelController.show;
     if (show) {
       this.setState({
@@ -197,7 +207,6 @@ export default class ConsoleLayout extends Component {
         });
       }, 0);
     } else {
-
       this.setState({
         sidebarPanelWidth: 0,
         sidebarPanelOpacity: 0

@@ -157,7 +157,9 @@ export class ActiveCircleModel extends DataModel {
   closeActiveCircle = () => {
     if (!this.isInitialized) return;
 
-    console.log(this.name + " - Request - closeActiveCircle, Context: activeCircleId " +
+    console.log(
+      this.name +
+        " - Request - closeActiveCircle, Context: activeCircleId " +
         this.activeCircleId
     );
     if (this.activeCircleId == null) {
@@ -187,7 +189,11 @@ export class ActiveCircleModel extends DataModel {
   getKey = callback => {
     if (!this.isInitialized) return;
 
-    console.log(this.name + " - Request - getKey, Context: activeCircleId " +this.activeCircleId);
+    console.log(
+      this.name +
+        " - Request - getKey, Context: activeCircleId " +
+        this.activeCircleId
+    );
     if (this.activeCircleId == null) {
       return;
     }
@@ -216,7 +222,9 @@ export class ActiveCircleModel extends DataModel {
     if (!this.isInitialized) return;
 
     let args = { chatMessage: chatMessage };
-    console.log(this.name + " - Request - postChatMessageToFeed, args: " + args);
+    console.log(
+      this.name + " - Request - postChatMessageToFeed, args: " + args
+    );
 
     if (this.activeCircleId == null) {
       return;
@@ -247,7 +255,11 @@ export class ActiveCircleModel extends DataModel {
     if (!this.isInitialized) return;
 
     let args = { fileName: fileName, filePath: filePath };
-    console.log(this.name + " - Request - postScreenshotReferenceToCircleFeed, args: " + args);
+    console.log(
+      this.name +
+        " - Request - postScreenshotReferenceToCircleFeed, args: " +
+        args
+    );
 
     if (this.activeCircleId == null) {
       return;
@@ -302,7 +314,9 @@ export class ActiveCircleModel extends DataModel {
   shelveCircleWithDoItLater = () => {
     if (!this.isInitialized) return;
 
-    console.log(this.name + " - Request - shelveCircleWithDoItLater, Context: activeCircleId " +
+    console.log(
+      this.name +
+        " - Request - shelveCircleWithDoItLater, Context: activeCircleId " +
         this.activeCircleId
     );
     if (this.activeCircleId == null) {
@@ -332,7 +346,8 @@ export class ActiveCircleModel extends DataModel {
     if (!this.isInitialized) return;
 
     console.log(
-      this.name + " - Request - resumeAnExistingCircleFromDoItLaterShelf");
+      this.name + " - Request - resumeAnExistingCircleFromDoItLaterShelf"
+    );
 
     let remoteUrn = "/circle/" + this.activeCircleId + "/transition/resume";
     let loadRequestType = DataModel.RequestTypes.POST;
@@ -360,7 +375,9 @@ export class ActiveCircleModel extends DataModel {
       console.log("error:" + err);
     } else {
       if (circleDto) {
-        console.log(this.name + " - onActiveCircleCb - configuring Circle: " +
+        console.log(
+          this.name +
+            " - onActiveCircleCb - configuring Circle: " +
             circleDto.circleName
         );
         this.activeCircleId = circleDto.id;
@@ -394,8 +411,8 @@ export class ActiveCircleModel extends DataModel {
       console.log("error:" + err);
     } else {
       if (circleDto) {
-        console.log(this.name + " - onActiveCircleCb - configuring Circle: " +
-            circleDto
+        console.log(
+          this.name + " - onActiveCircleCb - configuring Circle: " + circleDto
         );
         this.activeCircleId = circleDto.id;
         this.activeCircle = circleDto;

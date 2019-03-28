@@ -42,7 +42,6 @@ export default class ConsoleContent extends Component {
 
   // dispatched when the console menu changes from user clicks
   onRefreshActivePerspective() {
-
     if (this.isAnimating) return;
     this.isAnimating = true;
     let newLayout = this.myController.activeMenuSelection,

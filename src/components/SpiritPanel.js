@@ -97,8 +97,6 @@ export default class SpiritPanel extends Component {
   }
 
   componentWillReceiveProps = nextProps => {
-
-
     let flameRating = nextProps.flameRating;
 
     let flameString = "0";
@@ -127,7 +125,6 @@ export default class SpiritPanel extends Component {
     console.log(this.name + " - componentWillUnmount");
     this.myController.configureSpiritPanelListener(this, null);
   }
-
 
   /// performs a simple calculation for dynamic height of panel
   calculatePanelHeight() {
@@ -166,12 +163,12 @@ export default class SpiritPanel extends Component {
   }
 
   handleClickForChainLink = () => {
-    console.log(this.name+ " - Link this Torchie!");
+    console.log(this.name + " - Link this Torchie!");
     this.spiritModel.linkThisTorchie(this.props.spiritId);
   };
 
   handleClickForChainUnlink = () => {
-    console.log(this.name+ " - Unlink!");
+    console.log(this.name + " - Unlink!");
 
     this.spiritModel.unlink(this.props.spiritId);
   };
@@ -227,10 +224,13 @@ export default class SpiritPanel extends Component {
         <div key={d.friendSpiritId}>{d.name}</div>
       ));
 
-      linksContent = <div><div className="tooltipRed">Break Links</div>{linksContent}</div>;
+      linksContent = (
+        <div>
+          <div className="tooltipRed">Break Links</div>
+          {linksContent}
+        </div>
+      );
     }
-
-
 
     let unlinkIcon = (
       <Popup
@@ -242,7 +242,7 @@ export default class SpiritPanel extends Component {
             onClick={this.handleClickForChainUnlink}
           />
         }
-        content= {linksContent}
+        content={linksContent}
         inverted
         hideOnScroll
         position="bottom left"
@@ -327,10 +327,7 @@ export default class SpiritPanel extends Component {
             }
             content={
               <div className="xpCount">
-                Total XP:{" "}
-                <i>
-                  {this.props.totalXP}
-                </i>
+                Total XP: <i>{this.props.totalXP}</i>
               </div>
             }
             inverted

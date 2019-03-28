@@ -23,7 +23,7 @@ export class ModelCoordinator {
     }
   }
 
-   wireModelsTogether = () => {
+  wireModelsTogether = () => {
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
       this
@@ -48,7 +48,6 @@ export class ModelCoordinator {
     this.activeCircle.setDependentModel(this.teamModel);
     this.wtfTimer.setDependentModel(this.activeCircle);
 
-
     this.loadDefaultModels();
     this.wireTogetherModelsAfterInitialLoad();
 
@@ -57,14 +56,13 @@ export class ModelCoordinator {
   };
 
   loadDefaultModels() {
-     this.journalModel.loadDefaultJournal();
-     this.activeCircle.loadActiveCircle();
-     this.spiritModel.refreshXP();
-     this.teamModel.refreshAll();
+    this.journalModel.loadDefaultJournal();
+    this.activeCircle.loadActiveCircle();
+    this.spiritModel.refreshXP();
+    this.teamModel.refreshAll();
   }
 
   wireTogetherModelsAfterInitialLoad() {
-
     setTimeout(() => {
       this.onMyCircleUpdateMe();
       this.onActiveCircleUpdateTimer();
@@ -77,7 +75,6 @@ export class ModelCoordinator {
 
       this.onWTFTimerUpdateRefreshTeamMemberTimers();
     }, 1000);
-
   }
 
   unregisterModelWirings = () => {
@@ -198,6 +195,4 @@ export class ModelCoordinator {
       }
     );
   }
-
-
 }

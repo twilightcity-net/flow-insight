@@ -39,7 +39,6 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_SPIRIT_PANEL,
       this
     );
-
   }
 
   configureContentListener(scope, callback) {

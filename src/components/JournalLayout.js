@@ -16,7 +16,6 @@ export default class JournalLayout extends Component {
       DataModelFactory.Models.JOURNAL,
       this
     );
-
   }
 
   /// performs a simple calculation for dynamic height of items, this
@@ -49,7 +48,9 @@ export default class JournalLayout extends Component {
   };
 
   onChangeActiveEntry = (rowId, journalItem) => {
-    console.log(this.name + " - onChangeActiveEntry:" + rowId + ", " + journalItem.index);
+    console.log(
+      this.name + " - onChangeActiveEntry:" + rowId + ", " + journalItem.index
+    );
 
     this.journalModel.setActiveJournalItem(journalItem);
   };

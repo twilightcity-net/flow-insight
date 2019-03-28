@@ -75,8 +75,9 @@ export class AltMemberCircleExtension extends DataModel {
    */
 
   getKey = callback => {
-    console.log(this.name +
-      " - Request - getKey, Context: activeCircleId " +
+    console.log(
+      this.name +
+        " - Request - getKey, Context: activeCircleId " +
         this.activeCircleId
     );
     if (this.activeCircleId == null) {
@@ -133,9 +134,7 @@ export class AltMemberCircleExtension extends DataModel {
    * Retrieve all messages for the feed
    */
   getAllMessagesForCircleFeed = () => {
-    console.log(
-      this.name + " - Request - getAllMessagesForCircleFeed"
-    );
+    console.log(this.name + " - Request - getAllMessagesForCircleFeed");
     let remoteUrn = "/circle/" + this.activeCircleId + "/feed";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -164,16 +163,14 @@ export class AltMemberCircleExtension extends DataModel {
       console.log("error:" + err);
     } else {
       if (circleDto) {
-        console.log(this.name + " - onActiveCircleCb - configuring Circle: " +
-            circleDto
+        console.log(
+          this.name + " - onActiveCircleCb - configuring Circle: " + circleDto
         );
         this.activeCircleId = circleDto.id;
         this.activeCircle = circleDto;
         this.isAlarmTriggered = true;
       } else {
-        console.log(
-          this.name + " - onActiveCircleCb - no circle found"
-        );
+        console.log(this.name + " - onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;
         this.activeCircleId = null;
         this.activeCircle = null;

@@ -51,8 +51,6 @@ export class PerspectiveController {
     this.configureConsoleOpenCloseModelUpdateEvents();
 
     this.configureSidePanelCloseEvent();
-
-
   };
 
   configureSidePanelCloseEvent() {
@@ -70,9 +68,11 @@ export class PerspectiveController {
   }
 
   onCloseSidePanelResetMemberSelection() {
-    console.log(this.name + " - Event Fired: onCloseSidePanelResetMemberSelection");
+    console.log(
+      this.name + " - Event Fired: onCloseSidePanelResetMemberSelection"
+    );
     if (!this.sidePanelController.isVisible()) {
-       this.teamModel.resetActiveMemberToMe();
+      this.teamModel.resetActiveMemberToMe();
     }
   }
 
@@ -82,15 +82,11 @@ export class PerspectiveController {
       if (this.spiritModel.hasLinks()) {
         this.journalModel.loadDefaultJournal();
       }
-
     } else {
-
       setTimeout(() => {
         this.teamModel.resetActiveMemberToMe();
         this.teamModel.refreshAll();
       }, 400);
-
     }
   }
-
 }

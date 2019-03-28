@@ -35,8 +35,6 @@ export class RendererEvent {
     this.callbackWrapperFunction = RendererEventManager.listenForCallback(this);
   }
 
-
-
   dispatch(arg, noEcho, isSync) {
     return RendererEventManager.dispatch(this, arg, noEcho, isSync);
   }
