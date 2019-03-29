@@ -31,10 +31,13 @@ feed.on("ready", function() {
 
 // wait for the feed to update before setting up a stream to list on.
 feed.update(function() {
-  console.log("feed length : ", feed.length);
+  console.log("[ FEED ] length : ", feed.length);
 
   // create the stream to listen on for events.
-  var stream = feed.createReadStream({ start: feed.length, live: true });
+  var stream = feed.createReadStream({
+    tail: true, // sets `start` to `feed.length`
+    live: true // set to true to keep reading forever
+  });
   stream.on("data", function(data) {
     console.log("[ FEED ] stream : ", feed.length, data);
   });
