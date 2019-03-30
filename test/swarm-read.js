@@ -39,6 +39,15 @@ feed.update(function() {
     live: true // set to true to keep reading forever
   });
   stream.on("data", function(data) {
-    console.log("[ FEED ] stream : ", feed.length, data);
+    console.log(
+      "[ STREAM ] size = %d | ping = %s : data =",
+      feed.length,
+      calcPing(data.timestamp),
+      data
+    );
   });
 });
+
+function calcPing(startTime) {
+  return Date.now() - startTime;
+}
