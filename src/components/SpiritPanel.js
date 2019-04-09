@@ -34,10 +34,10 @@ export default class SpiritPanel extends Component {
 
     /// performs a simple calculation for dynamic height of panel
     calculateSpiritHeight() {
-        let spiritHeight = this.calculatePanelHeight() - 84;
+        let spiritHeight = this.calculatePanelHeight() - 35;
 
-        if (spiritHeight > 266) {
-            spiritHeight = 266;
+        if (spiritHeight > 315) {
+            spiritHeight = 315;
         }
         return spiritHeight;
     }
