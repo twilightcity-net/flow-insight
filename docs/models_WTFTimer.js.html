@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>models/WTFTimer.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">models/WTFTimer.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { DataModel } from "./DataModel";
+
+export class WTFTimer extends DataModel {
+  constructor(scope) {
+    super(scope);
+    this.name = "[WTFTimer]";
+
+    this.durationInSeconds = 0;
+
+    this.wtfTimerInMinutes = "";
+    this.wtfTimerInSeconds = "00:00";
+
+    this.running = false;
+    this.intervalTicker = null;
+
+    this.circleModel = null;
+  }
+
+  static get CallbackEvent() {
+    return {
+      WTF_TIMER_MINUTES_UPDATE: "wtf-timer-minutes-update",
+      WTF_TIMER_SECONDS_UPDATE: "wtf-timer-seconds-update"
+    };
+  }
+
+  setDependentModel(circleModel) {
+    this.circleModel = circleModel;
+  }
+
+  resetTimer() {
+    this.durationInSeconds = this.calculateTimer(
+      this.circleModel.getActiveScope().activeCircle
+    );
+    console.log(this.name + " - resetTimer: " + this.durationInSeconds);
+
+    this.refreshFormattedTimers();
+  }
+
+  /**
+   * Starts the intervalTicker ticking
+   */
+  startTimer = () => {
+    this.running = true;
+
+    if (this.intervalTicker) {
+      clearInterval(this.intervalTicker);
+    }
+
+    this.intervalTicker = setInterval(this.tick, 1000);
+  };
+
+  /**
+   * Stop the intervalTicker so it no longer ticks
+   */
+  stopTimer = () => {
+    this.running = false;
+    // console.log("clearing this.intervalTicker..." + this.intervalTicker);
+    if (this.intervalTicker) {
+      clearInterval(this.intervalTicker);
+      this.intervalTicker = null;
+    }
+  };
+
+  calculateTimer = circleDto => {
+    let startingSeconds = 0;
+
+    if (circleDto &amp;&amp; circleDto.durationInSeconds) {
+      startingSeconds = circleDto.durationInSeconds;
+    }
+
+    return startingSeconds;
+  };
+
+  getUTCNow() {
+    var now = new Date();
+    return new Date(now.getTime() + now.getTimezoneOffset() * 60000);
+  }
+
+  convertToDate(d) {
+    return new Date(d[0], d[1] - 1, d[2], d[3], d[4], d[5]);
+  }
+
+  /**
+   * Ticks the intervalTicker up one second, recalculates display values, and sends notifications
+   */
+  tick = () => {
+    this.durationInSeconds = Number(this.durationInSeconds) + 1;
+    this.refreshFormattedTimers();
+
+    if (Number(this.durationInSeconds % 60) === 0) {
+      this.notifyListeners(WTFTimer.CallbackEvent.WTF_TIMER_MINUTES_UPDATE);
+    }
+
+    this.notifyListeners(WTFTimer.CallbackEvent.WTF_TIMER_SECONDS_UPDATE);
+  };
+
+  /**
+   * After intervalTicker is ticked up one second, recalculate the WTF Timer display values
+   */
+  refreshFormattedTimers = () => {
+    let totalSeconds = this.durationInSeconds;
+
+    this.wtfTimerInMinutes = WTFTimer.formatWTFTimerInMinutes(totalSeconds);
+    this.wtfTimerInSeconds = WTFTimer.formatWTFTimerInSeconds(totalSeconds);
+  };
+
+  static formatWTFTimerInMinutes = totalSeconds => {
+    let hours = Math.floor(totalSeconds / 3600);
+    totalSeconds %= 3600;
+    let minutes = Math.floor(totalSeconds / 60);
+
+    let wtfTimerInMinutes = "";
+
+    if (hours > 0) {
+      wtfTimerInMinutes += hours + "h";
+    }
+    if (hours === 0 &amp;&amp; minutes > 0) {
+      wtfTimerInMinutes += minutes + "m";
+    }
+
+    return wtfTimerInMinutes;
+  };
+
+  static formatWTFTimerInSeconds = totalSeconds => {
+    let hours = Math.floor(totalSeconds / 3600);
+    totalSeconds %= 3600;
+    let minutes = Math.floor(totalSeconds / 60);
+    let seconds = totalSeconds % 60;
+
+    let wtfTimerInSeconds = "";
+
+    if (hours > 0) {
+      wtfTimerInSeconds += WTFTimer.zeroPad(hours) + ":";
+    }
+    wtfTimerInSeconds += WTFTimer.zeroPad(minutes) + ":";
+    wtfTimerInSeconds += WTFTimer.zeroPad(seconds);
+
+    return wtfTimerInSeconds;
+  };
+
+  static zeroPad = time => {
+    let timeStr = "";
+
+    if (time === 0) {
+      timeStr = "00";
+    } else if (time > 0 &amp;&amp; time &lt; 10) {
+      timeStr = "0" + time;
+    } else {
+      timeStr = time;
+    }
+    return timeStr;
+  };
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Thu Apr 11 2019 20:44:00 GMT-0400 (Eastern Daylight Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

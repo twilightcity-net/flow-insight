@@ -19,9 +19,6 @@ const { app, dialog, Menu } = require("electron"),
   AppHeartbeat = require("./AppHeartbeat"),
   AppLogin = require("./AppLogin");
 
-//
-// our main application class that is stored at global.App
-//
 module.exports = class App {
   constructor() {
     if (isDev) Util.setDevUserDataDir();

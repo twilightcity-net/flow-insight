@@ -1,6 +1,7 @@
 const { Menu, Tray } = require("electron"),
   log = require("electron-log"),
-  Util = require("../Util");
+  Util = require("../Util"),
+  WindowManagerHelper = require("../managers/WindowManagerHelper");
 
 /*
  * This class is used to init the Application tray
@@ -23,7 +24,9 @@ module.exports = class AppTray extends Tray {
         label: "Report Bug",
         click() {
           log.info("[AppMenu] open report bug window");
-          WindowManagerHelper.createWindowBugReport();
+          setTimeout(() => {
+            WindowManagerHelper.createWindowBugReport();
+          });
         }
       },
       { type: "separator" },

@@ -34,6 +34,20 @@ To run the project using the local development mock api, use:
 
 Note: hit `ctrl+c` to terminate the project.
 
+### Code Documentation
+
+This project uses the module jsdoc to generate a static html API website that outlines all of our modules, classes, and functions. You can find documentation help and examples at the following links:
+
+- https://github.com/jsdoc3/jsdoc
+- http://usejsdoc.org/index.html
+
+To generate the static html documentation, run the following command:
+`yarn docs`
+
+* please note that you may need to prefix `sudo` or `su`
+
+Documentation files will be exported to ~/torchie-desktop/docs.
+
 ### Package & Release Torchie ###
 
 1) Run the following command in the terminal:
