@@ -25,7 +25,8 @@ class DataStoreClient {
   /// enum class of all of http requests
   static get Types() {
     return {
-      POST: "post"
+      POST: "post",
+      GET: "get"
     };
   }
 }
@@ -41,17 +42,19 @@ class DataClient {
     this.type = store.requestType;
     this.callback = callback;
     this.timeout = {
-      response: 10000,
-      deadline: 60000
+      response: 9000,
+      deadline: 20000
     };
     this.retry = 3;
   }
 
   doRequest() {
     let url = global.App.api + this.urn;
-    log.info("[DataStoreClient] |> do request -> " + url);
+    log.info("[DataStoreClient] |> do " + this.type + " request -> " + url);
     if (DataStoreClient.Types.POST === this.type) {
       this.doPost(url);
+    } else if (DataStoreClient.Types.GET === this.type) {
+      this.doGet(url);
     } else {
       log.error(
         "[DataStoreClient] └> Unknown Request Type -> " + this.type + " " + url
@@ -89,9 +92,47 @@ class DataClient {
             " " +
             url +
             " : " +
-            err +
+            e +
             "\n\n" +
-            err.stack +
+            e.stack +
+            "\n"
+        );
+      } finally {
+        log.info("[DataStoreClient] └> dispatch request callback -> " + url);
+        this.callback(this.store);
+      }
+    });
+  }
+
+  doGet(url) {
+    let req = request
+      .get(url)
+      .retry(this.retry)
+      .timeout(this.timeout)
+      .send(this.store.dto)
+      .set("Content-Type", "application/json");
+
+    if (global.App.ApiKey) {
+      req.set("X-API-Key", global.App.ApiKey);
+    }
+
+    req.end((err, res) => {
+      log.info("[DataStoreClient] |> request complete -> " + url);
+      this.store.timestamp = new Date().getTime();
+      try {
+        if (err) throw new Error(err);
+        this.store.data = res.body;
+      } catch (e) {
+        this.store.error = e.toString();
+        log.error(
+          "[DataStoreClient] |> Connection Error -> " +
+            this.type +
+            " " +
+            url +
+            " : " +
+            e +
+            "\n\n" +
+            e.stack +
             "\n"
         );
       } finally {

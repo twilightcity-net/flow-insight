@@ -6,10 +6,11 @@ const electron = require("electron"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
-  EventFactory = require("../managers/EventFactory");
+  EventFactory = require("../managers/EventFactory"),
+  { EventManager } = require("../managers/EventManager");
 
 /*
- * the main application window for UX. Suspose to slide in and out of 
+ * the main application window for UX. Suspose to slide in and out of
  * the top of the screen with a global hot key
  */
 module.exports = class ConsoleWindow {
@@ -19,14 +20,16 @@ module.exports = class ConsoleWindow {
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
     this.display = electron.screen.getPrimaryDisplay();
     this.bounds = this.display.workAreaSize;
+
+    log.info("width = " + this.bounds.width + ", " + this.bounds.height);
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = false;
     this.window = new BrowserWindow({
       name: this.name,
       width: this.bounds.width,
-      height: this.bounds.height / 2,
+      height: Math.floor(this.bounds.height / 2),
       x: 0,
-      y: -this.bounds.height / 2,
+      y: Math.floor(-this.bounds.height / 2),
       show: false,
       frame: false,
       movable: false,
@@ -36,8 +39,23 @@ module.exports = class ConsoleWindow {
       icon: this.icon,
       fullscreenable: false,
       toolbar: false,
-      webPreferences: { toolbar: false }
+      webPreferences: { toolbar: false, webSecurity: false }
     });
+
+    if (isDev) {
+      this.window.webContents.openDevTools({ mode: "undocked" });
+
+      // Install React Dev Tools
+      // const {default: installExtension, REACT_DEVELOPER_TOOLS} = require('electron-devtools-installer');
+      //
+      // installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
+      //   console.log(`Added Extension:  ${name}`);
+      // })
+      // .catch((err) => {
+      //   console.log('An error occurred: ', err);
+      // });
+    }
+
     this.window.name = this.name;
     this.window.setMenu(null);
     this.window.on("ready-to-show", () => this.onReadyToShowCb());
@@ -55,6 +73,24 @@ module.exports = class ConsoleWindow {
         EventFactory.Types.WINDOW_BLUR,
         this,
         (event, arg) => this.onBlurWindowCb(event, arg)
+      ),
+      prepareForScreenShot: EventFactory.createEvent(
+        EventFactory.Types.PREPARE_FOR_SCREENSHOT,
+        this,
+        (event, arg) => this.onPrepareForScreenshot(event, arg)
+      ),
+      readyForScreenShot: EventFactory.createEvent(
+        EventFactory.Types.READY_FOR_SCREENSHOT,
+        this
+      ),
+      screenShotComplete: EventFactory.createEvent(
+        EventFactory.Types.SCREENSHOT_COMPLETE,
+        this,
+        (event, arg) => this.onScreenshotComplete(event, arg)
+      ),
+      screenShotReadyForDisplay: EventFactory.createEvent(
+        EventFactory.Types.SCREENSHOT_READY_FOR_DISPLAY,
+        this
       )
     };
     this.state = 0;
@@ -67,8 +103,9 @@ module.exports = class ConsoleWindow {
     };
     this.consoleShortcut = {
       pressedState: 0,
-      delay: 350
+      delay: 400
     };
+    this.animateTimeMs = 400;
   }
 
   /*
@@ -86,6 +123,30 @@ module.exports = class ConsoleWindow {
     log.info("[ConsoleWindow] blur window -> " + arg.sender.name);
     if (isDev) return;
     this.hideConsole();
+  }
+
+  onPrepareForScreenshot(event, arg) {
+    log.info("[ConsoleWindow] onPrepareForScreenshot");
+
+    this.hideConsole();
+
+    log.info("hidden!");
+
+    let screenPath = Util.getLatestScreenshotPath();
+
+    setTimeout(() => {
+      this.events.readyForScreenShot.dispatch(screenPath, true);
+    }, 1000);
+  }
+
+  onScreenshotComplete(event, arg) {
+    log.info("[ConsoleWindow] onScreenshotComplete");
+
+    this.showConsole();
+
+    setTimeout(() => {
+      this.events.screenShotReadyForDisplay.dispatch(arg, true);
+    }, 100);
   }
 
   /*
@@ -114,37 +175,12 @@ module.exports = class ConsoleWindow {
   showConsole() {
     log.info("[ConsoleWindow] show window -> " + this.name);
     this.state = this.states.SHOWING;
-    this.window.setPosition(0, Math.floor(-this.bounds.height / 2));
+    this.window.setPosition(0, 0);
     this.window.show();
     this.window.focus();
-    this.animateShow(42, 14, this.window.getPosition()[1]);
-  }
-
-  /*
-   * animates the window of the console to show
-   */
-  animateShow(i, t, y) {
     setTimeout(() => {
-      y += i;
-      if (i >= 30) {
-        i -= 3;
-      } else if (i <= 30 && i > 6) {
-        i -= 2;
-      } else if (i <= 6 && i > 1) {
-        i -= 1;
-      }
-      this.window.setPosition(0, y);
-      if (y <= 0) {
-        if (this.state === this.states.CANCEL) {
-          this.hideConsole();
-        } else {
-          this.animateShow(i, t, y);
-        }
-      } else {
-        this.window.setPosition(0, 0);
-        this.state = this.states.SHOWN;
-      }
-    }, t);
+      this.state = this.states.SHOWN;
+    }, this.animateTimeMs);
   }
 
   /*
@@ -154,36 +190,9 @@ module.exports = class ConsoleWindow {
   hideConsole() {
     log.info("[ConsoleWindow] hide window -> " + this.name);
     this.state = this.states.HIDING;
-    this.animateHide(1, 14, this.window.getPosition()[1]);
-  }
-
-  /*
-   * animates the window of the console to hide
-   */
-  animateHide(i, t, y) {
     setTimeout(() => {
-      y -= i;
-      if (i >= 40) {
-        i += 5;
-      } else if (i <= 40 && i > 10) {
-        i += 4;
-      } else if (i <= 10 && i > 4) {
-        i += 3;
-      } else if (i <= 4 && i > 0) {
-        i += 2;
-      }
-      this.window.setPosition(0, y);
-      if (y >= -this.bounds.height / 2) {
-        if (this.state === this.states.CANCEL) {
-          this.showConsole();
-        } else {
-          this.animateHide(i, t, y);
-        }
-      } else {
-        this.window.setPosition(0, Math.floor(-this.bounds.height / 2));
-        this.window.hide();
-        this.state = this.states.HIDDEN;
-      }
-    }, t);
+      this.window.hide();
+      this.state = this.states.HIDDEN;
+    }, this.animateTimeMs);
   }
 };

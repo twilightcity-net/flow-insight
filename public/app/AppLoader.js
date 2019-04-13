@@ -6,7 +6,8 @@ const log = require("electron-log"),
   EventFactory = require("../managers/EventFactory"),
   { ShortcutManager } = require("../managers/ShortcutManager"),
   AppMenu = require("./AppMenu"),
-  AppTray = require("./AppTray");
+  AppTray = require("./AppTray"),
+  AppLogin = require("./AppLogin");
 
 /*
  * This class is used to init the Application loading
@@ -19,7 +20,7 @@ const log = require("electron-log"),
 module.exports = class AppLoader {
   constructor() {
     log.info("[AppLoader] created -> okay");
-    this.eventTimerMs = 250;
+    this.eventTimerMs = 500;
     this.currentStage = 1;
     this.stages = this.getStages();
     this.events = {
@@ -27,6 +28,15 @@ module.exports = class AppLoader {
         EventFactory.Types.WINDOW_LOADING_SHOWN,
         this,
         (event, arg) => this.onLoadingShowCb()
+      ),
+      login: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_LOADING_LOGIN,
+        this,
+        (event, arg) => this.onLoadingLoginCb()
+      ),
+      loginFailed: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_LOADING_LOGIN_FAILED,
+        this
       ),
       consoleReady: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_READY,
@@ -56,10 +66,23 @@ module.exports = class AppLoader {
 
   /*
    * the event callback that is dispatched right after the loading window is shown
-   * @param {event} the event that was fired 
+   * @param {event} the event that was fired
    * @param {arg} the argument parameters to be pass with callback
    */
   onLoadingShowCb(event, arg) {
+    setTimeout((event, arg) => {
+      this.events.load.dispatch({
+        load: this.stages.LOGIN,
+        value: this.incrementStage(),
+        total: this.getTotalStages(),
+        label: "talking to llamas...",
+        text: "Torchie Login..."
+      });
+    }, this.eventTimerMs);
+  }
+
+  /// called after loading window is shown.
+  onLoadingLoginCb(event, arg) {
     setTimeout((event, arg) => {
       this.events.load.dispatch({
         load: this.stages.CONSOLE,
@@ -73,7 +96,7 @@ module.exports = class AppLoader {
 
   /*
    * event callback that is dispatched after console window is created
-   * @param {event} the event that was fired 
+   * @param {event} the event that was fired
    * @param {arg} the argument parameters to be pass with callback
    */
   onConsoleReadyCb(event, arg) {
@@ -90,7 +113,7 @@ module.exports = class AppLoader {
 
   /*
    * event callback that is dispatched after shortcuts are created
-   * @param {event} the event that was fired 
+   * @param {event} the event that was fired
    * @param {arg} the argument parameters to be pass with callback
    */
   onShortcutsCreatedCb(event, arg) {
@@ -102,16 +125,19 @@ module.exports = class AppLoader {
         label: "matrix activated",
         text: "Ready!"
       });
-    }, this.eventTimerMs * 2);
+    }, this.eventTimerMs);
   }
 
   /*
    * the main app loader event callback that is used to process the various stages
-   * @param {event} the event that was fired 
+   * @param {event} the event that was fired
    * @param {arg} the argument parameters to be pass with callback
    */
   onLoadCb(event, arg) {
     switch (arg.load) {
+      case this.stages.LOGIN:
+        this.processLogin();
+        break;
       case this.stages.CONSOLE:
         this.createConsole();
         break;
@@ -129,10 +155,11 @@ module.exports = class AppLoader {
 
   /*
    * the string enum object of stage names to process
-   * @return {enum} array of stage name strings 
+   * @return {enum} array of stage name strings
    */
   getStages() {
     return {
+      LOGIN: "login",
       CONSOLE: "console",
       SHORTCUTS: "shortcuts",
       FINISHED: "finished"
@@ -167,6 +194,22 @@ module.exports = class AppLoader {
     }
   }
 
+  /// called from the laod event for login
+  processLogin() {
+    log.info("[AppLoader] process login");
+    AppLogin.doLogin(store => {
+      if (AppLogin.isValid()) {
+        log.info("[AppLoader] valid login -> dispatch next load event");
+        global.App.isOnline = true;
+        global.App.isLoggedIn = true;
+        this.events.login.dispatch();
+      } else {
+        log.info("[AppLoader] failed login -> dispatch status to login event");
+        this.events.loginFailed.dispatch(store.data);
+      }
+    });
+  }
+
   /*
    * creates the console window to the application
    */
@@ -199,6 +242,7 @@ module.exports = class AppLoader {
     log.info("[AppLoader] finished : okay");
     setTimeout(() => {
       global.App.WindowManager.closeWindow(this.loadingWindow, true);
+      global.App.AppHeartbeat.start();
     }, this.eventTimerMs * 2);
   }
 };

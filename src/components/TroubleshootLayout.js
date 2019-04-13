@@ -1,16 +1,48 @@
 import React, { Component } from "react";
-import TimeScrubber from "./TimeScrubber";
-import TroubleshootPanelDefault from "./TroubleshootPanelDefault";
-import TroubleshootItems from "./TroubleshootItems";
-import TroubleshootEntry from "./TroubleshootEntry";
+import TroubleshootSessionNew from "./TroubleshootSessionNew";
+import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
 
 //
 // this component is the tab panel wrapper for the console content
 //
 export default class TroubleshootLayout extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+
+    this.name = "[TroubleshootLayout]";
+
+    this.state = {
+      isAlarmTriggered: false
+    };
+
+    this.activeCircleModel = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_CIRCLE,
+      this
+    );
+  }
+
+  componentDidMount() {
+    this.activeCircleModel.registerListener(
+      "troubleshootLayout",
+      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
+      this.onActiveCircleUpdateCb
+    );
+
+    this.onActiveCircleUpdateCb();
+  }
+
+  componentWillUnmount() {
+    this.activeCircleModel.unregisterAllListeners("troubleshootLayout");
+  }
+
+  onActiveCircleUpdateCb = () => {
+    console.log(this.name + " - onActiveCircleUpdateCb");
+    this.setState({
+      isAlarmTriggered: this.activeCircleModel.getActiveScope().isAlarmTriggered
+    });
+  };
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
@@ -20,7 +52,6 @@ export default class TroubleshootLayout extends Component {
       consoleMenu: 28,
       contentMargin: 8,
       contentPadding: 8,
-      timeScrubber: 52,
       journalEntry: 50
     };
 
@@ -32,35 +63,47 @@ export default class TroubleshootLayout extends Component {
       heights.consoleMenu -
       heights.contentMargin -
       heights.contentPadding -
-      heights.timeScrubber -
       heights.journalEntry
     );
   }
 
+  onStartTroubleshooting = problemStatement => {
+    console.log(this.name + "onStartTroubleshooting");
+
+    this.activeCircleModel.createCircle(problemStatement);
+  };
+
+  onStopTroubleshooting = () => {
+    console.log(this.name + "onStopTroubleshooting");
+
+    this.activeCircleModel.closeActiveCircle();
+  };
+
   /// renders the journal layout of the console view
   render() {
-    const troubleshootPanelSegmentItems = (
-      <div id="wrapper" className="troubleshootItems">
-        <TroubleshootItems height={this.calculateTroubleshootItemsHeight()} />
-      </div>
-    );
-    const troubleshootPanelSegmentEntry = (
-      <div id="wrapper" className="journalEntry">
-        <TroubleshootEntry />
-      </div>
-    );
+    let wtfPanel = null;
+
+    if (this.state.isAlarmTriggered) {
+      wtfPanel = (
+        <TroubleshootSessionOpen
+          height={this.calculateTroubleshootItemsHeight()}
+          onStopTroubleshooting={this.onStopTroubleshooting}
+        />
+      );
+    } else {
+      wtfPanel = (
+        <TroubleshootSessionNew
+          height={this.calculateTroubleshootItemsHeight()}
+          onStartTroubleshooting={this.onStartTroubleshooting}
+        />
+      );
+    }
+
     return (
       <div id="component" className="troubleshootLayout">
-        <div id="wrapper" className="timeScrubber">
-          <TimeScrubber />
-        </div>
         <div id="wrapper" className="troubleshootPanelDefault">
-          <TroubleshootPanelDefault
-            height={this.calculateTroubleshootItemsHeight()}
-          />
+          {wtfPanel}
         </div>
-        {false && troubleshootPanelSegmentItems}
-        {false && troubleshootPanelSegmentEntry}
       </div>
     );
   }

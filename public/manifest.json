@@ -1,6 +1,6 @@
 {
-  "short_name": "MetaOS",
-  "name": "MetaOS Desktop Application",
+  "short_name": "Torchie",
+  "name": "Torchie Desktop Application",
   "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#000000",

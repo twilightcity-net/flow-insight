@@ -6,7 +6,7 @@ const IncomingWebhook = require("@slack/client").IncomingWebhook,
 
 /*
  * This is a high level management class for Slack Integration. This
- * class uses the @mr.meeseeks bot to send messages to #metaos_buggery
+ * class uses the @mr.meeseeks bot to send messages to #torchie_buggery
  */
 module.exports = class SlackManager {
   constructor() {
@@ -19,7 +19,15 @@ module.exports = class SlackManager {
         this,
         (event, message) => {
           const formattedMessage = {
-            text: `*Issue description*: ${message.issueDescription}\n*Reproduction steps*: ${message.reproductionSteps}\n*Expected results*: ${message.expectedResults}\n*Actual results*: ${message.actualResults}\n*Email*: ${message.email}`
+            text: `*Issue description*: ${
+              message.issueDescription
+            }\n*Reproduction steps*: ${
+              message.reproductionSteps
+            }\n*Expected results*: ${
+              message.expectedResults
+            }\n*Actual results*: ${message.actualResults}\n*Email*: ${
+              message.email
+            }`
           };
           SlackManager.sendBuggeryMessage(
             formattedMessage,
@@ -41,10 +49,10 @@ module.exports = class SlackManager {
   }
 
   /*
-   * Sends a message with @mr.meeseeks into #metaos_buggery
+   * Sends a message with @mr.meeseeks into #torchie_buggery
    */
   static sendBuggeryMessage(message, callback) {
-    log.info("[SlackManager] send bug report -> #metaos_buggery");
+    log.info("[SlackManager] send bug report -> #torchie_buggery");
     const msgJson = JSON.stringify(message);
     log.info(`[SlackManager] message=${msgJson}`);
     let url = this.getBuggeryURL();

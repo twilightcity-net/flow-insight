@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   { EventManager, MainEvent } = require("./EventManager");
 
-/* 
+/*
  * a factory class used to create new events
  */
 module.exports = class EventFactory {
@@ -19,11 +19,15 @@ module.exports = class EventFactory {
    * of possible events that can be dispatched by the Manager.
    */
   static get Types() {
-    let prefix = "metaos-ipc-";
+    let prefix = "torchie-ipc-";
     return {
+      APP_QUIT: prefix + "app-quit",
+      APP_HEARTBEAT: prefix + "app-heartbeat",
       WINDOW_FOCUS: prefix + "window-focus",
       WINDOW_BLUR: prefix + "window-blur",
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
+      WINDOW_LOADING_LOGIN: prefix + "window-loading-login",
+      WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
       WINDOW_CONSOLE_READY: prefix + "window-console-ready",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
@@ -34,7 +38,11 @@ module.exports = class EventFactory {
       SHORTCUTS_RECIEVED: prefix + "shortcuts-recieved",
       SUBMIT_BUG_REPORT: prefix + "bugreport-submitted",
       DATASTORE_LOAD: prefix + "datastore-load",
-      DATASTORE_LOADED: prefix + "datastore-loaded"
+      DATASTORE_LOADED: prefix + "datastore-loaded",
+      PREPARE_FOR_SCREENSHOT: prefix + "prepare-for-screenshot",
+      READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",
+      SCREENSHOT_COMPLETE: prefix + "screenshot-complete",
+      SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display"
     };
   }
 };

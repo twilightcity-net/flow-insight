@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>src/models/TeamModel.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/models/TeamModel.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { DataModel } from "./DataModel";
+import { WTFTimer } from "./WTFTimer";
+
+const { remote } = window.require("electron"),
+  MemberWorkStatusDto = remote.require("./dto/MemberWorkStatusDto");
+
+//
+// this class is used to manage DataClient requests for Stores
+//
+export class TeamModel extends DataModel {
+  constructor(scope) {
+    super(scope);
+
+    this.name = "[TeamModel]";
+
+    this.isInitialized = false;
+
+    this.me = {};
+    this.teamMembers = [];
+    this.activeTeamMember = null;
+  }
+
+  static get CallbackEvent() {
+    return {
+      ME_UPDATE: "me-update",
+      MEMBERS_UPDATE: "members-update",
+      ACTIVE_MEMBER_UPDATE: "active-member-update"
+    };
+  }
+
+  isMeActive = () => {
+    let meActive = true;
+    if (this.activeTeamMember != null &amp;&amp; this.me != null) {
+      if (this.activeTeamMember.id !== this.me.id) {
+        meActive = false;
+      }
+    }
+    return meActive;
+  };
+
+  /**
+   * Refresh all team members status, and callback when done
+   * @param callWhenDone
+   */
+
+  refreshAll = () => {
+    console.log(this.name + " - Request - refreshAll");
+    let remoteUrn = "/status/team";
+    let loadRequestType = DataModel.RequestTypes.GET;
+
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      MemberWorkStatusDto,
+      (dtoResults, err) => {
+        setTimeout(() => {
+          this.onRefreshAllCb(dtoResults, err);
+        }, DataModel.activeWaitDelay);
+      }
+    );
+  };
+
+  /**
+   * Retrieve a specific members summary
+   * @param memberId
+   */
+  getMemberStatus = memberId => {
+    let memberStatus = null;
+
+    if (memberId === this.me.id) {
+      memberStatus = this.me;
+    } else {
+      for (var i in this.teamMembers) {
+        let member = this.teamMembers[i];
+        if (member.id === memberId) {
+          memberStatus = member;
+          break;
+        }
+      }
+    }
+
+    return memberStatus;
+  };
+
+  /**
+   * Refresh status of self, and callback when done
+   * @param callWhenDone
+   */
+
+  refreshMe() {
+    console.log(this.name + " - Request - refreshMe");
+    let remoteUrn = "/status/me";
+    let loadRequestType = DataModel.RequestTypes.GET;
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      MemberWorkStatusDto,
+      (dtoResults, err) => {
+        setTimeout(() => {
+          this.onRefreshMeCb(dtoResults, err);
+        }, DataModel.activeWaitDelay);
+      }
+    );
+  }
+
+  resetActiveMemberToMe() {
+    this.setActiveMember(this.me.id);
+  }
+
+  setActiveMember = memberId => {
+    if (memberId === this.me.id) {
+      this.activeTeamMember = this.me;
+    } else {
+      for (var i in this.teamMembers) {
+        if (this.teamMembers[i].id === memberId) {
+          this.activeTeamMember = this.teamMembers[i];
+        }
+      }
+    }
+
+    this.notifyListeners(TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE);
+  };
+
+  onRefreshMeCb = (statusOfMe, err) => {
+    if (err) {
+      console.log(this.name + " - onRefreshMeCb error:" + err);
+    } else {
+      this.me = this.createMember(0, statusOfMe);
+    }
+    this.notifyListeners(TeamModel.CallbackEvent.MEMBERS_UPDATE);
+  };
+
+  onRefreshAllCb = (memberStatusDtos, err) => {
+    if (err) {
+      console.log(this.name + " - onRefreshAllCb error:" + err);
+    } else {
+      //transform into presentation objects
+      this.teamMembers = [];
+
+      for (var i in memberStatusDtos) {
+        //TODO figure out why we've got nulls in the list?
+        let memberDto = memberStatusDtos[i];
+
+        if (memberDto != null) {
+          if (Number(i) === 0) {
+            this.me = this.createMember(0, memberDto);
+          } else {
+            this.teamMembers[i - 1] = this.createMember(i, memberDto);
+          }
+        }
+      }
+
+      this.refreshActiveMember();
+    }
+    this.isInitialized = true;
+    this.notifyListeners(TeamModel.CallbackEvent.MEMBERS_UPDATE);
+  };
+
+  refreshActiveMember = () => {
+    if (this.activeTeamMember == null) {
+      this.activeTeamMember = this.me;
+    } else {
+      this.setActiveMember(this.activeTeamMember.id);
+    }
+  };
+
+  createMember = (index, teamMember) => {
+    let level = 0;
+    let xpRequired = 0;
+    if (teamMember.xpSummary) {
+      level = teamMember.xpSummary.level;
+      xpRequired =
+        teamMember.xpSummary.xpRequiredToLevel -
+        teamMember.xpSummary.xpProgress;
+    }
+
+    let isAlarmTriggered = false;
+    let wtfTimer = null;
+    let alarmStatusMessage = null;
+    let alarmCircleName = null;
+    let activeCircleId;
+    if (teamMember.activeCircle) {
+      isAlarmTriggered = true;
+      wtfTimer = WTFTimer.formatWTFTimerInMinutes(
+        teamMember.activeCircle.durationInSeconds
+      );
+      alarmStatusMessage = teamMember.activeCircle.problemDescription;
+      alarmCircleName = teamMember.activeCircle.circleName;
+      activeCircleId = teamMember.activeCircle.id;
+    }
+
+    return {
+      id: teamMember.id,
+      email: teamMember.email,
+      name: teamMember.fullName,
+      shortName: teamMember.shortName,
+
+      activeStatus: this.toActiveStatus(
+        teamMember.onlineStatus,
+        isAlarmTriggered
+      ),
+      activeTaskName: teamMember.activeTaskName,
+      activeTaskSummary: teamMember.activeTaskSummary,
+      level: level,
+      xpRequired: xpRequired,
+      xpSummary: teamMember.xpSummary,
+      workingOn: teamMember.workingOn,
+      isAlarmTriggered: isAlarmTriggered,
+      wtfTimer: wtfTimer,
+      alarmStatusMessage: alarmStatusMessage,
+      alarmCircleName: alarmCircleName,
+      activeCircleId: activeCircleId,
+      activeCircle: teamMember.activeCircle,
+      statusColor: this.toStatusColor(teamMember.onlineStatus, isAlarmTriggered)
+    };
+  };
+
+  toActiveStatus = (onlineStatus, isAlarmTriggered) => {
+    let activeStatus = onlineStatus;
+    if (isAlarmTriggered === true) {
+      activeStatus = "Troubleshooting";
+    }
+    return activeStatus;
+  };
+
+  toStatusColor = (onlineStatus, isAlarmTriggered) => {
+    let statusColor = "offlineColor";
+    if (onlineStatus === "Online") {
+      statusColor = "onlineColor";
+    }
+    if (isAlarmTriggered === true &amp;&amp; onlineStatus === "Online") {
+      statusColor = "red";
+    }
+
+    return statusColor;
+  };
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 04:22:05 GMT-0400 (Eastern Daylight Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

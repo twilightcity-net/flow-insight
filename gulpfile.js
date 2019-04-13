@@ -1,10 +1,15 @@
 const gulp = require("gulp");
 const package = require("./package.json");
+const taskPrettier = require("./gulp/tasks/prettier");
+const taskLint = require("./gulp/tasks/lint");
+const taskBrowserify = require("./gulp/tasks/browserify");
+const taskUglify = require("./gulp/tasks/uglify");
+const taskClean = require("./gulp/tasks/clean");
 
 const OsTypeToTargetMap = {
   Darwin: {
     distDir: "./dist/mac/resources",
-    releaseAsarFile: "dist/mac/MetaOS.app/Contents/Resources/app.asar"
+    releaseAsarFile: "dist/mac/Torchie.app/Contents/Resources/app.asar"
   },
   Linux: {
     distDir: "./dist/win-unpacked/resources",
@@ -17,14 +22,14 @@ const OsTypeToTargetMap = {
 };
 
 function getTask(name) {
-  return require("./gulp/tasks/" + name)();
+  return require("./gulp/tasks/" + name);
 }
 
-gulp.task("prettier", getTask("prettier"));
-gulp.task("lint", getTask("lint"));
-gulp.task("browserify", getTask("browserify"));
-gulp.task("uglify", getTask("uglify"));
-gulp.task("clean", getTask("clean"));
+gulp.task("prettier", taskPrettier());
+gulp.task("lint", taskLint());
+gulp.task("browserify", taskBrowserify());
+gulp.task("uglify", taskUglify());
+gulp.task("clean", taskClean());
 
 gulp.task("releaseBuildUpdate", function(cb) {
   const fs = require("fs-extra");

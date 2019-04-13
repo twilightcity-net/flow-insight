@@ -14,7 +14,7 @@
 /build
 /data
 /dist
-metaos-desktop-v*.tgz
+torchie-desktop-v*.tgz
 
 # misc
 .DS_Store
@@ -23,7 +23,7 @@ metaos-desktop-v*.tgz
 .env.test.local
 .env.production.local
 electron-builder.env
-MetaOS-desktop.iml
+torchie-desktop.iml
 /.vscode
 
 *debug.*log*
@@ -33,6 +33,6 @@ yarn-error.log*
 .yarnclean
 .idea
 .vscode/
-MetaOS-desktop.iml
+torchie-desktop.iml
 
 .jshintrc

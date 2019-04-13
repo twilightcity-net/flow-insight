@@ -1,9 +1,7 @@
 import React, { Component } from "react";
-import { RendererEventFactory } from "../RendererEventFactory";
+import Keyframes from "@keyframes/core";
 import ConsoleLayout from "../components/ConsoleLayout";
-
-const { remote } = window.require("electron"),
-  log = remote.require("electron-log");
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 //
 // This View will contain logic to inject the various tabs of the
@@ -15,79 +13,63 @@ export default class ConsoleView extends Component {
   /// Activates animation according
   constructor(props) {
     super(props);
-    this.events = {
-      load: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-        this,
-        this.onLoadCb
-      )
-    };
+
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
+      this
+    );
+
+    let root = document.getElementById("root");
+    root.style.transform = "translate(0px," + window.innerHeight * -1 + "px)";
+    root.style.opacity = "0";
+    this.keyframes = new Keyframes(root);
+    Keyframes.define({
+      name: "console-slidein",
+      from: {
+        transform: "translate(0px," + window.innerHeight * -1 + "px)",
+        opacity: "0"
+      },
+      to: {
+        transform: "translate(0px,0px)",
+        opacity: "1"
+      }
+    });
+    Keyframes.define({
+      name: "console-slideout",
+      from: {
+        transform: "translate(0px,0px)",
+        opacity: "1"
+      },
+      to: {
+        transform: "translate(0px," + window.innerHeight * -1 + "px)",
+        opacity: "0"
+      }
+    });
   }
+
+  componentDidMount = () => {
+    this.myController.configureConsoleViewListener(this, this.onLoadCb);
+  };
+
+  componentWillUnmount = () => {
+    this.myController.configureConsoleViewListener(this, null);
+  };
 
   onLoadCb(event, arg) {
-    log.info("[ConsoleView] event -> WINDOW_CONSOLE_SHOW_HIDE : " + arg);
-    let root = document.getElementById("root");
+    console.log("[ConsoleView] event -> WINDOW_CONSOLE_SHOW_HIDE : " + arg);
     if (arg === 0) {
-      this.setTransparency(root, 0);
-      this.animateShow(root, 20, 14, 0);
-    } else {
-      this.setTransparency(root, 0.96);
-      this.animateHide(root, 20, 14, 0.96);
+      this.keyframes.play({
+        name: "console-slidein",
+        duration: ".4s",
+        timingFunction: "ease"
+      });
+    } else if (arg === 1) {
+      this.keyframes.play({
+        name: "console-slideout",
+        duration: ".4s",
+        timingFunction: "ease"
+      });
     }
-  }
-
-  /// animates the window being shown
-  /// @param {dom} the dom element that is the root of the document
-  /// @param {integer} the amount to increment the animation by
-  /// @param {integer} the amount of time to step the animation by
-  /// @param {float} a float value of the current opacity. (circular ref.)
-  animateShow(root, i, t, o) {
-    setTimeout(() => {
-      if (o > 0 && o < 0.16) {
-        o = Math.round((o + i * 0.001) * 100) / 100;
-      } else if (o >= 0.16 && o < 0.5) {
-        o = Math.round((o + i * 0.002) * 100) / 100;
-      } else {
-        o = Math.round((o + i * 0.004) * 100) / 100;
-      }
-      this.setTransparency(root, o);
-      if (o < 0.96) {
-        this.animateShow(root, i, t, o);
-      } else {
-        this.setTransparency(root, 0.96);
-      }
-    }, t);
-  }
-
-  /// animates the window being hidden
-  /// @param {dom} the dom element that is the root of the document
-  /// @param {integer} the amount to increment the animation by
-  /// @param {integer} the amount of time to step the animation by
-  /// @param {float} a float value of the current opacity. (circular ref.)
-  animateHide(root, i, t, o) {
-    setTimeout(() => {
-      if (o > 0.6 && o < 0.96) {
-        o = Math.round((o - i * 0.001) * 100) / 100;
-      } else if (o > 0.44 && o <= 0.6) {
-        o = Math.round((o - i * 0.002) * 100) / 100;
-      } else {
-        o = Math.round((o - i * 0.004) * 100) / 100;
-      }
-      this.setTransparency(root, o);
-      if (o > 0) {
-        this.animateHide(root, i, t, o);
-      } else {
-        this.setTransparency(root, 0);
-      }
-    }, t);
-  }
-
-  /// sets the transparency of a dom object
-  /// @param {dom} the dom object to apply this to
-  /// @param {value} the amount to set the trans. to
-  setTransparency(obj, value) {
-    obj.style.background = "rgba(0, 0, 0, " + value + ")";
-    obj.style.opacity = value + "";
   }
 
   /// renders the component in the view

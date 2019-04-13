@@ -6,6 +6,10 @@ export default class UtilRenderer {
     return date.toLocaleTimeString() + " " + date.toLocaleDateString();
   }
 
+  static isObjEmpty(obj) {
+    return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
+
   static getGuid() {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)

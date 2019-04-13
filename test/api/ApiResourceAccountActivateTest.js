@@ -2,7 +2,7 @@ const assert = require("assert");
 const chai = require("chai");
 const request = require("superagent");
 const Util = require("../UtilTest");
-const ActivationTokenDto = require("../../public/dto/ActivationTokenDto");
+const ActivationCodeDto = require("../../public/dto/ActivationCodeDto");
 const AccountActivationDto = require("../../public/dto/AccountActivationDto");
 
 //globals
@@ -19,8 +19,8 @@ describe("API Resource : /account ", function() {
     let email = "kara@dreamscale.io";
     let key = "FASFD423fsfd32d2322d";
     let token = "abcd12345678";
-    let dtoReq = new ActivationTokenDto({
-      activationToken: token
+    let dtoReq = new ActivationCodeDto({
+      activationCode: token
     });
     let dtoRes = new AccountActivationDto({
       status: status,

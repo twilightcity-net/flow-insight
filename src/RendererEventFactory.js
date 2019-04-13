@@ -17,18 +17,26 @@ export class RendererEventFactory {
 
   ///static enum subclass to store event names
   static get Events() {
-    let prefix = "metaos-ipc-";
+    let prefix = "torchie-ipc-";
     return {
+      APP_QUIT: prefix + "app-quit",
+      APP_HEARTBEAT: prefix + "app-heartbeat",
       APPLOADER_LOAD: prefix + "apploader-load",
+      WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
       VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel",
+      VIEW_CONSOLE_SPIRIT_PANEL: prefix + "view-console-spirit-panel",
       VIEW_CONSOLE_MENU_CHANGE: prefix + "view-console-menu-change",
       SUBMIT_BUG_REPORT: prefix + "bugreport-submitted",
       APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",
       APPACTIVATOR_ACTIVATION_SAVED: prefix + "appactivator-activation-saved",
       DATASTORE_LOAD: prefix + "datastore-load",
-      DATASTORE_LOADED: prefix + "datastore-loaded"
+      DATASTORE_LOADED: prefix + "datastore-loaded",
+      PREPARE_FOR_SCREENSHOT: prefix + "prepare-for-screenshot",
+      READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",
+      SCREENSHOT_COMPLETE: prefix + "screenshot-complete",
+      SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display"
     };
   }
 }

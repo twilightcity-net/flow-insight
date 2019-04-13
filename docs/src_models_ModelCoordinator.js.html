@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>src/models/ModelCoordinator.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/models/ModelCoordinator.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { TeamModel } from "../models/TeamModel";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
+import { JournalModel } from "../models/JournalModel";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { WTFTimer } from "../models/WTFTimer";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+
+/**
+ * This class is used to coordinate models across all the events
+ */
+export class ModelCoordinator {
+  constructor(scope) {
+    this.name = "[ModelCoordinator]";
+    this.scope = scope;
+  }
+
+  static instance;
+
+  static init(scope) {
+    if (!ModelCoordinator.instance) {
+      ModelCoordinator.instance = new ModelCoordinator(scope);
+      ModelCoordinator.instance.wireModelsTogether();
+    }
+  }
+
+  wireModelsTogether = () => {
+    this.journalModel = DataModelFactory.createModel(
+      DataModelFactory.Models.JOURNAL,
+      this
+    );
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS,
+      this
+    );
+    this.spiritModel = DataModelFactory.createModel(
+      DataModelFactory.Models.SPIRIT,
+      this
+    );
+    this.activeCircle = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_CIRCLE,
+      this
+    );
+    this.wtfTimer = DataModelFactory.createModel(
+      DataModelFactory.Models.WTF_TIMER,
+      this
+    );
+
+    this.activeCircle.setDependentModel(this.teamModel);
+    this.wtfTimer.setDependentModel(this.activeCircle);
+
+    this.loadDefaultModels();
+    this.wireTogetherModelsAfterInitialLoad();
+
+    //TODO refactor this one out
+    //    this.onDirtySpiritFlameUpdateActiveRow();
+  };
+
+  loadDefaultModels() {
+    this.journalModel.loadDefaultJournal();
+    this.activeCircle.loadActiveCircle();
+    this.spiritModel.refreshXP();
+    this.teamModel.refreshAll();
+  }
+
+  wireTogetherModelsAfterInitialLoad() {
+    setTimeout(() => {
+      this.onMyCircleUpdateMe();
+      this.onActiveCircleUpdateTimer();
+
+      this.onJournalEntryUpdateMeAndXP();
+      this.onJournalUpdateResetSpiritFlame();
+
+      this.onChangeActiveRowResetSpiritFlame();
+      this.onTeamMemberChangeActiveScopeForAllModels();
+
+      this.onWTFTimerUpdateRefreshTeamMemberTimers();
+    }, 1000);
+  }
+
+  unregisterModelWirings = () => {
+    this.journalModel.unregisterAllListeners(this.name);
+    this.teamModel.unregisterAllListeners(this.name);
+    this.spiritModel.unregisterAllListeners(this.name);
+    this.activeCircle.unregisterAllListeners(this.name);
+  };
+
+  onActiveCircleUpdateTimer() {
+    this.activeCircle.registerListener(
+      this.name,
+      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
+      () => {
+        console.log("ModelCoordinator Event Fired: onActiveCircleUpdateTimer");
+        this.wtfTimer.resetTimer();
+      }
+    );
+  }
+
+  onMyCircleUpdateMe() {
+    this.activeCircle.registerListener(
+      this.name,
+      ActiveCircleModel.CallbackEvent.MY_CIRCLE_UPDATE,
+      () => {
+        console.log("ModelCoordinator Event Fired: onActiveCircleUpdateMe");
+        this.teamModel.refreshMe();
+      }
+    );
+  }
+
+  onJournalEntryUpdateMeAndXP() {
+    this.journalModel.registerListener(
+      this.name,
+      JournalModel.CallbackEvent.NEW_JOURNAL_ITEM_ADDED,
+      () => {
+        console.log(
+          "ModelCoordinator Event Fired: onJournalEntryUpdateMeAndXP"
+        );
+
+        this.teamModel.refreshMe();
+        this.spiritModel.refreshXP();
+      }
+    );
+  }
+
+  onJournalUpdateResetSpiritFlame() {
+    this.journalModel.registerListener(
+      this.name,
+      JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE,
+      () => {
+        console.log(
+          "ModelCoordinator Event Fired: onJournalUpdateResetSpiritFlame"
+        );
+
+        if (this.journalModel.getActiveScope().activeJournalItem != null) {
+          let activeFlame = this.journalModel.getActiveScope().activeJournalItem
+            .flameRating;
+          this.spiritModel.resetFlame(activeFlame);
+        }
+      }
+    );
+  }
+
+  onChangeActiveRowResetSpiritFlame() {
+    this.journalModel.registerListener(
+      this.name,
+      JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE,
+      () => {
+        console.log(
+          "ModelCoordinator Event Fired: onChangeActiveRowResetSpiritFlame"
+        );
+
+        if (this.journalModel.getActiveScope().activeJournalItem != null) {
+          let activeFlame = this.journalModel.getActiveScope().activeJournalItem
+            .flameRating;
+          this.spiritModel.resetFlame(activeFlame);
+        }
+      }
+    );
+  }
+
+  onTeamMemberChangeActiveScopeForAllModels() {
+    this.teamModel.registerListener(
+      this.name,
+      TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
+      () => {
+        console.log(
+          "ModelCoordinator Event Fired: onTeamMemberChangeActiveScopeForAllModels"
+        );
+        this.journalModel.setMemberSelection(
+          this.teamModel.me.id,
+          this.teamModel.activeTeamMember.id
+        );
+
+        this.spiritModel.setMemberSelection(
+          this.teamModel.me.id,
+          this.teamModel.activeTeamMember.id
+        );
+
+        this.activeCircle.setMemberSelection(
+          this.teamModel.me.id,
+          this.teamModel.activeTeamMember.id
+        );
+      }
+    );
+  }
+
+  onWTFTimerUpdateRefreshTeamMemberTimers() {
+    this.wtfTimer.registerListener(
+      this.name,
+      WTFTimer.CallbackEvent.WTF_TIMER_MINUTES_UPDATE,
+      () => {
+        console.log(
+          "ModelCoordinator Event Fired: onWTFTimerUpdateRefreshTeamMemberTimers"
+        );
+        this.teamModel.refreshMe();
+      }
+    );
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 04:22:05 GMT-0400 (Eastern Daylight Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

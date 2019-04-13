@@ -1,15 +1,23 @@
 import React, { Component } from "react";
-import TimeScrubber from "./TimeScrubber";
+import JournalHeader from "./JournalHeader";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
+import { DataModelFactory } from "../models/DataModelFactory";
 
 //
 // this component is the tab panel wrapper for the console content
 //
 export default class JournalLayout extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+
+    this.name = "[JournalLayout]";
+
+    this.journalModel = DataModelFactory.createModel(
+      DataModelFactory.Models.JOURNAL,
+      this
+    );
+  }
 
   /// performs a simple calculation for dynamic height of items, this
   /// is becuase there will be a slight variation in the screen height
@@ -19,7 +27,7 @@ export default class JournalLayout extends Component {
       consoleMenu: 28,
       contentMargin: 8,
       contentPadding: 8,
-      timeScrubber: 52,
+      journalHeader: 53,
       journalEntry: 50
     };
 
@@ -31,23 +39,51 @@ export default class JournalLayout extends Component {
       heights.consoleMenu -
       heights.contentMargin -
       heights.contentPadding -
-      heights.timeScrubber -
+      heights.journalHeader -
       heights.journalEntry
     );
   }
+
+  calculateJournalHeaderHeight() {
+    return 47;
+  }
+
+  onFinishEntry = (journalEntry, finishStatus) => {
+    console.log(this.name + " - onFinishEntry");
+
+    this.journalModel.finishIntention(journalEntry.id, finishStatus);
+  };
+
+  onChangeActiveEntry = (rowId, journalItem) => {
+    console.log(
+      this.name + " - onChangeActiveEntry:" + rowId + ", " + journalItem.index
+    );
+
+    this.journalModel.setActiveJournalItem(journalItem);
+  };
+
+  onAddTask = (projectId, taskName) => {
+    console.log(this.name + " - onAddTask: " + projectId + ", " + taskName);
+
+    this.journalModel.addTaskRef(taskName);
+  };
 
   /// renders the journal layout of the console view
   render() {
     return (
       <div id="component" className="journalLayout">
-        <div id="wrapper" className="timeScrubber">
-          <TimeScrubber />
+        <div id="wrapper" className="journalHeader">
+          <JournalHeader height={this.calculateJournalHeaderHeight()} />
         </div>
         <div id="wrapper" className="journalItems">
-          <JournalItems height={this.calculateJournalItemsHeight()} />
+          <JournalItems
+            onChangeActiveEntry={this.onChangeActiveEntry}
+            onFinishEntry={this.onFinishEntry}
+            height={this.calculateJournalItemsHeight()}
+          />
         </div>
         <div id="wrapper" className="journalEntry">
-          <JournalEntry />
+          <JournalEntry onAddTask={this.onAddTask} />
         </div>
       </div>
     );

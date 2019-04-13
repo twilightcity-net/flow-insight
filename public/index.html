@@ -5,50 +5,70 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="theme-color" content="#000000">
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json">
-    <title>MetaOS</title>
+    <title>Torchie</title>
     <style>
       /* 
        * GLOBAL 
        */
-      @keyframes fadein {
-        from { 
-          background: rgba(255, 255, 255, 0.0);
-          opacity: 0; 
-        }
-        to { 
-          background: rgba(255, 255, 255, 0.96);
-          opacity: 0.2; 
-        }
-      }
       div#root {
         cursor: default !important;
         height: 100%;
-        background: rgba(255, 255, 255, 0.96);
-        animation: fadein 0.420s;
-        box-sizing: border-box; 
-        border-top: 1px solid rgba(36, 36, 36, 0.96);
-        border-left: 1px solid rgba(36, 36, 36, 0.96);
-        border-right: 1px solid rgba(67, 67, 67, 0.96);
-        border-bottom: 1px solid rgba(67, 67, 67, 0.96);
+        background: none !important;
+        opacity: 1;
+        box-sizing: border-box;
+        border-top: 1px solid rgba(36, 36, 36, 1);
+        border-left: 1px solid rgba(36, 36, 36, 1);
+        border-right: 1px solid rgba(67, 67, 67, 1);
+        border-bottom: 1px solid rgba(67, 67, 67, 1);
       }
       a,.ui.button {
         cursor: default !important;
       }
       html, body.console {
-          background: rgba(255, 255, 255, 0);
+          background: none;
+          opacity: 1;
       }
       body {
         overflow: hidden;
       }
+
+      canvas {
+        outline: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0); /* mobile webkit */
+      }
       
+      /* 
+       * VIEW: CONSOLE 
+       */
+      #view.console {
+        background: #000000;
+        height: 100%;
+      }
+
       /* 
        * VIEW: LOADING 
        */
       #view.loading {
-        margin-top: 4px;
+        background: #1b1c1d;
+        height: 100%;
+      }
+      #view.loading .icon {
+        margin: auto;
+        margin-top: 52px;
+        font-size: 32px;
+      }
+      #view.loading .loginFailed .icon {
+        font-size: 64px;
+      }
+      #view.loading .ui.header .sub.header{
+        font-style: italic;
+      }
+      #view.loading .progress .bar {
+        background-color: #6435c9;
       }
       #view.loading .progress .label {
         text-align: right !important;
+        font-style: italic;
         opacity: 0.5;
         padding-right: 5px;
         padding-top: 2px;
@@ -132,23 +152,23 @@
       #component.consoleLayout #wrapper.consoleSidebar {
         float: left;
         position: relative;
-        padding: 0px 0px 0px 0px;
+        padding: 0 0 0 0;
       }
       #component.consoleLayout #wrapper.consoleSidebarPanel {
         float: left;
         position: relative;
         transition: width 0.420s;
-        width: 0px;
+        width: 0;
 
       }
       #component.consoleLayout #wrapper.consoleContent {
         padding: 4px;
         position: relative;
         overflow: hidden;
-        left: 0px;
+        left: 0;
       }
       #component.consoleLayout #wrapper.consoleMenu {
-        padding: 0px 0px;
+        padding: 0 0;
         position: relative;
         float: left;
         width: 100%;
@@ -199,8 +219,31 @@
         border-top-left-radius: 4px;
       }
 
+      #component.consoleSidebarPanel .spiritContent div.spiritBackground {
+        background-color: rgba(19, 10, 0, 1);
+      }
+
+      #component.consoleSidebarPanel .spiritContent .level {
+        text-align: center;
+        background-color: rgba(19, 10, 0, 1);
+        overflow: auto;
+      }
+      #component.consoleSidebarPanel .spiritContent .level .infoTitle {
+        float: left;
+        padding-left: 8px;
+        text-align: left;
+      }
+      #component.consoleSidebarPanel .spiritContent .level .infoLevel {
+        float: right;
+        padding-right: 8px;
+        text-align: right;
+      }
       #component.consoleSidebarPanel .spiritContent .ui.progress {
         margin-top: 8px;
+        top: -6px;
+        margin-left: 6px;
+        margin-right: 6px;
+        margin-bottom: 0;
       }
       #component.consoleSidebarPanel .spiritContent .ui.progress .bar {
         background-color: rgba(100, 53, 201, 0.96);
@@ -211,6 +254,39 @@
         white-space: nowrap;
       }
 
+      #component.consoleSidebarPanel .spiritContent .rageButton {
+        transition: background, color .840s ease-out;
+        background: rgba(72, 72, 72, 0.96);
+        color: red;
+        padding-top: 4px;
+        padding-bottom: 6px;
+      }
+
+      #component.consoleSidebarPanel .spiritContent .flameRating {
+        background: rgba(222, 222, 222, 0.96);
+        color: rgba(100, 100, 100, 0.96);
+      }
+
+
+      #component.consoleSidebarPanel .spiritContent .rageButton:hover {
+        background: rgba(100, 100, 100, 0.96);
+      }
+
+
+      #component.consoleSidebarPanel .spiritContent .yayButton {
+        transition: background, color .840s ease-out;
+        background: rgba(72, 72, 72, 0.96);
+        color: purple;
+        padding-top: 4px;
+        padding-bottom: 6px;
+      }
+
+      #component.consoleSidebarPanel .spiritContent .yayButton:hover {
+        background: rgba(100, 100, 100, 0.96);
+      }
+
+
+
       /* 
        * COMPONENT: CONSOLE-MENU 
        */
@@ -219,11 +295,11 @@
         border-radius: 0;
         font-size: 12px;
         min-height: 28px;
-        margin: 0 0px;
+        margin: 0 0;
       }
       #component.consoleMenu .ui.menu .item {
         transition: background 0.420s ease-out;
-        padding: 0px 12px 0px 10px;
+        padding: 0 12px 0 10px;
         border-radius: 0;
       }
       #component.consoleMenu .ui.menu .item.disabled,
@@ -254,8 +330,125 @@
         padding-right: 6px;
       }
       #component.consoleMenu .right.menu .item i {
-        margin-right: 0px;
+        margin-right: 0;
       }
+      /*
+       * COMPONENT: TEAM-PANEL
+       */
+
+      i.doneGreen.check.icon {
+        color: rgba(27, 175, 26, 0.96);
+      }
+
+      i.doneGreenDark.check.icon {
+        color: rgba(27, 130, 26, 0.96);
+      }
+
+      div.doneGreen {
+        color: rgba(27, 175, 26, 0.96);
+      }
+
+      div.doneRed {
+        color: rgba(255, 0, 0, 0.96);
+      }
+
+      div.tooltipPurple {
+        color: rgba(160, 130, 250, 1);
+      }
+
+      div.tooltipRed {
+        color: rgba(160, 0, 0, 0.96);
+      }
+
+
+      i.doneRed.close.icon {
+        color: rgba(160, 0, 0, 0.96);
+      }
+
+      i.onlineColor.circle.link.icon {
+        color: rgba(140, 110, 250, 1);
+      }
+
+      i.offlineColor.circle.outline.icon {
+        color: #999999;
+      }
+
+      i.alarmColor.circle.link.icon {
+        color: red;
+      }
+
+      i.chainStatus {
+        float: right;
+      }
+
+      i.journalLink {
+
+      }
+
+
+      i.chainLink {
+        position:absolute;
+        right: 20px;
+        z-index:1;
+      }
+
+      i.chainUnlink {
+        position:absolute;
+        right: 20px;
+        z-index:1;
+      }
+
+
+      span.alarm {
+        color: red;
+        font-style: italic;
+      }
+
+      span.alarmDim {
+        color: darkred;
+        font-style: italic;
+      }
+
+      span.circleLink {
+        color: rgba(220, 0, 0, 0.96);
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      span.circleLink:hover {
+        color: rgba(255, 0, 0, 0.96);
+        text-decoration: underline;
+      }
+
+      span.offlineColor {
+        color: #999999;
+      }
+
+      #component.teamPanel .ui.grid {
+        margin: 0px 0;
+      }
+
+      #component.teamPanel .ui.grid>.row:last-child {
+        border-bottom: none;
+      }
+      #component.teamPanel .ui.grid>.row:hover {
+        background: rgba(40, 40, 40, 0.96);
+      }
+
+      #component.teamPanel .ui.grid>.active {
+        background: rgba(50, 50, 51, 0.96);
+        font-weight: bold;
+      }
+      #component .teamPanel > div > div.ui.inverted.segment > div {
+        height: 100%;
+        overflow-y: scroll;
+      }
+
+      #component.teamPanel .ui.grid .row .memberText {
+        font-weight: 400;
+        color: #cccccc;
+      }
+
 
       /* 
        * COMPONENT: TROUBLESHOOT-LAYOUT 
@@ -273,8 +466,18 @@
       /* 
        * COMPONENT: TROUBLESHOOT-PANEL-DEFAULT 
        */
+      #component.troubleshootPanelDefault .ui.grid{
+        margin-bottom: -2rem;
+      }
       #component.troubleshootPanelDefault .ui.grid .column.rootLayout {
         padding-top: 0;
+        padding-bottom: 0;
+      }
+      #component.troubleshootPanelDefault .ui.grid .column.rootLayout.screenshot {
+        padding-right: 1rem;
+      }
+      #component.troubleshootPanelDefault .ui.grid > .row {
+        padding-bottom: 0;
       }
       #component.troubleshootPanelDefault .ui.button {
         cursor: pointer !important;
@@ -285,10 +488,8 @@
       #component.troubleshootPanelDefault .ui.image.screenshot .ui.corner .icon
       {
         cursor: pointer !important;
+        padding-bottom: 0;
       }
-
-
-
 
 
       #component.troubleshootPanelDefault .ui.dropdown .default.text {
@@ -343,18 +544,90 @@
         background: red;
         color: rgba(255, 255, 255, 0.96);
       }
+      #component.troubleshootPanelDefault .ui.grid > .row.troubleshootPanelTextbox {
+        /*padding-bottom: 10px;*/
+        padding-top: 0;
+      }
+      #component.troubleshootPanelDefault .troubleshootPanelTextbox {
+        width: 100%;
+        height: 100%;
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+        border: 1px solid rgba(74, 74, 74, 0.96);
+      }
+      #component.troubleshootPanelDefault .troubleshootPanelMessage {
+        height: 100%;
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+        padding: 0 0 0 2rem;
+      }
+      .troubleshootPanelTextbox::-webkit-input-placeholder {
+        padding-left: 1%;
+        padding-top: 1%;
+        text-align: left;
+      }
+      .troubleshootPanelTextbox:-moz-placeholder { /* Firefox 18- */
+        padding-left: 1%;
+        padding-top: 1%;
+        text-align: left;
+      }
+      .troubleshootPanelTextbox::-moz-placeholder {  /* Firefox 19+ */
+        padding-left: 1%;
+        padding-top: 1%;
+        text-align: left;
+      }
+      .troubleshootPanelTextbox:-ms-input-placeholder {
+        padding-left: 1%;
+        padding-top: 1%;
+        text-align: left;
+      }
 
+      #component.headerBar .headerTitle {
+        text-align: left;
+        font-weight: 400;
+        font-size: 20pt;
+      }
 
+      #troubleshootChatInput {
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        border: 1px solid rgba(74, 74, 74, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+      }
 
+      #chatMessages{
+        overflow-y: scroll;
+        overflow-x: hidden;
+      }
+
+      #chatMessages > ul > li {
+        list-style-type: none;
+      }
+
+      div .ui.inverted.segment.troubleshootChatBox {
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+        border: 1px solid rgba(74, 74, 74, 0.96);
+      }
+
+      /* 
+       * COMPONENT: JOURNAL-HEADER 
+       */
+      #component.journalHeader {
+        margin-top: 6px;
+      }
 
       /* 
        * COMPONENT: JOURNAL-LAYOUT 
        */
       #component.journalLayout .ui.segments {
-        margin: 0px;
+        margin: 0;
       }
       #component.journalLayout #wrapper.journalItems {
-        margin: 0px;
+        margin: 0;
         padding: 4px 1px;
       }
 
@@ -366,7 +639,7 @@
         overflow-x: hidden;
       }
       #component.journalItems .ui.grid {
-        margin: 0px 0;
+        margin: 0 0;
       }
       #component.journalItems .ui.grid>.row {
         transition: background 0.6s ease-out;
@@ -379,19 +652,34 @@
         border-bottom: none;
       }
       #component.journalItems .ui.grid>.row:hover {
-        background: rgba(27, 28, 29, 0.96);
+        background: rgba(40, 40, 40, 0.96);
       }
+
+      #component.journalItems .ui.grid>.active {
+        background: rgba(50, 50, 51, 0.96);
+      }
+
       #component.journalItems .ui.grid>.row .column:first-child {
-        padding-left: 0px;
+        padding-left: 0;
         left: 14px;
       }
       #component.journalItems .ui.grid>.row .column:nth-child(2) {
-        padding-left: 0px;
+        padding-left: 0;
         left: 10px;
       }
       #component.journalItems .ui.grid>.row .column:last-child {
-        padding-right: 0px;
+        padding-right: 0;
       }
+
+      #component.journalItems .ui.grid .row .alarm {
+        color: rgba(180, 0, 0, 0.96);
+        font-weight: 800;
+        font-style: italic;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
       #component.journalItems .ui.grid .row .chunkTitle {
         font-weight: 800;
         color: rgba(21, 154, 20, 1);
@@ -400,6 +688,28 @@
         overflow: hidden;
         text-overflow: ellipsis; 
       }
+
+      #component.journalItems .ui.grid .row .alarmDetails {
+        font-weight: 400;
+        color: rgba(180, 0, 0, 0.96);
+      }
+
+      #component.journalItems .ui.grid .row .wtfFlame {
+        color: rgba(180, 0, 0, 0.96);
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      #component.journalItems .ui.grid .row .yayFlame {
+        color: rgba(140, 110, 250, 0.96);
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      #component.journalItems .ui.grid .row div i {
+        float: right;
+      }
+
       #component.journalItems .ui.grid .row .chunkText {
         font-weight: 400;
         color: #cccccc;
@@ -435,10 +745,10 @@
        * COMPONENT: TIME-SCRUBBER 
        */
       #component.timeScrubber .ui.grid .row {
-        padding: 3px 0px;
+        padding: 3px 0;
       }
       #component.timeScrubber .ui.grid .column.scrubber {
-        padding: 2px 8px 0px 16px;
+        padding: 2px 8px 0 16px;
       }
       #component.timeScrubber .ui.grid .column.info div {
         font-style: italic;
@@ -463,7 +773,7 @@
         padding: 4px;
       }
       #component.journalEntry .ui.grid .column {
-        padding: 0px 5px 0px 14px;
+        padding: 0 5px 0 14px;
       }
       #component.journalEntry .ui.grid .column:nth-child(2) {
         padding: 0px 5px 0px 4px;
@@ -473,7 +783,7 @@
       }
       #component.journalEntry .ui.dropdown .default.text {
         font-style: italic;
-        color: rgba(60, 60, 60, 0.96);
+        color: rgba(222, 222, 222, 0.96);
       }
       #component.journalEntry .ui.dropdown {
         transition: border 0.840s ease-out;
@@ -504,7 +814,7 @@
       #component.journalEntry .ui.selection.dropdown .menu>.item {
         transition: background, color 0.420s ease-out;
         border-top: 1px solid rgba(72, 72, 72, 0.96);
-        color: rgba(74, 74, 74, 0.96);
+        color: rgba(100, 100, 100, 0.96);
       }
       #component.journalEntry .ui.selection.dropdown .menu>.item:last-child {
         border-bottom: 1px solid rgba(72, 72, 72, 0.96);
@@ -518,31 +828,31 @@
         background:rgba(100, 53, 201, 0.96);
         color: rgba(255, 255, 255, 0.96);
       }
-      #component.journalEntry .ui.input.taskText input {
+      #component.journalEntry .ui.input.intentionText input {
         transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);
         border: 1px solid rgba(74, 74, 74, 0.96);
-        border-right-width: 0px;
+        border-right-width: 0;
         color: rgba(241, 241, 241, 0.96);
       }
-      #component.journalEntry .ui.input.taskText input:focus {
+      #component.journalEntry .ui.input.intentionText input:focus {
         border: 1px solid rgba(100, 53, 201, 0.96);
-        border-right-width: 0px;
+        border-right-width: 0;
       }
-      #component.journalEntry .ui.input.taskText input::placeholder {
+      #component.journalEntry .ui.input.intentionText input::placeholder {
         font-style: italic;
-        color: rgba(74, 74, 74, 0.96)
+        color: rgba(100, 100, 100, 0.96)
       }
-      #component.journalEntry .ui.input.taskText .ui.button {
+      #component.journalEntry .ui.input.intentionText .ui.button {
         transition: background, color .840s ease-out;
         background: rgba(72, 72, 72, 0.96);
         color: rgba(187, 187, 187, 0.96);
         border: none;
       }
-      #component.journalEntry .column .ui.input.taskText .ui.button {
+      #component.journalEntry .column .ui.input.intentionText .ui.button {
         transition: background .840s ease-out;
       }
-      #component.journalEntry .column.focused .ui.input.taskText .ui.button {
+      #component.journalEntry .column.focused .ui.input.intentionText .ui.button {
         background: rgba(100, 53, 201, 0.96);
         color: rgba(241, 241, 241, 0.96);
         border: none;
@@ -559,6 +869,23 @@
         font-style: italic;
         font-size: 12px;
       }
+
+      .ui.popup.chunkTitle .highlight, .ui.popup.timeScrubber .highlight{
+        color: rgba(160, 140, 250, 0.96);
+      }
+
+      .ui.popup.chunkTitle .alarm, .ui.popup.timeScrubber .alarm {
+        color: red;
+      }
+
+      .ui.popup.chunkTitle .alarmDetails, .ui.popup.timeScrubber .alarmDetails {
+        color: rgba(180, 0, 0, 0.96);
+      }
+
+      .ui.popup.chunkTitle .taskhighlight, .ui.popup.timeScrubber .taskhighlight {
+        color: rgba(27, 175, 26, 0.96)
+      }
+
       .ui.popup.bottom:before {
         top: -6px !important;
         border-left: 1px solid #7b7b7b !important;

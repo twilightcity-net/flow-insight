@@ -1,9 +1,9 @@
 import React, { Component } from "react";
-import { RendererEventFactory } from "../RendererEventFactory";
 import JournalLayout from "./JournalLayout";
 import TroubleshootLayout from "./TroubleshootLayout";
 import FlowLayout from "./FlowLayout";
 import { Transition } from "semantic-ui-react";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -14,40 +14,52 @@ export default class ConsoleContent extends Component {
     this.isAnimating = false;
     this.animationTime = Math.floor(this.props.animationTime / 2);
     this.state = {
-      activeLayout: "troubleshoot",
-      journalVisible: false,
-      troubleshootVisible: true,
+      activeLayout: "journal",
+      journalVisible: true,
+      troubleshootVisible: false,
       flowVisible: false,
       animationTypeJournal: "fly right",
       animationTypeTroubleshoot: "fly left",
       animationTypeFlow: "fly left"
     };
-    this.events = {
-      consoleMenuChange: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
-        this,
-        this.onConsoleMenuChangeCb
-      )
-    };
+
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.MAIN_PANEL,
+      this
+    );
   }
 
+  componentDidMount = () => {
+    this.myController.configureContentListener(
+      this,
+      this.onRefreshActivePerspective
+    );
+  };
+
+  componentWillUnmount = () => {
+    this.myController.configureContentListener(this, null);
+  };
+
   // dispatched when the console menu changes from user clicks
-  onConsoleMenuChangeCb(event, arg) {
+  onRefreshActivePerspective() {
     if (this.isAnimating) return;
     this.isAnimating = true;
-    let newLayout = arg.new,
-      oldLayout = arg.old,
+    let newLayout = this.myController.activeMenuSelection,
+      oldLayout = this.myController.oldMenuSelection,
       state = this.getAnimationState(oldLayout, newLayout);
     this.setState(state);
     switch (newLayout) {
       case "journal":
-        this.animateContentFromState({ journalVisible: true });
+        state.journalVisible = true;
+        this.animateContentFromState(state);
         break;
       case "troubleshoot":
-        this.animateContentFromState({ troubleshootVisible: true });
+        state.troubleshootVisible = true;
+        this.animateContentFromState(state);
         break;
       case "flow":
-        this.animateContentFromState({ flowVisible: true });
+        state.flowVisible = true;
+        this.animateContentFromState(state);
         break;
       default:
         break;
@@ -55,6 +67,8 @@ export default class ConsoleContent extends Component {
   }
 
   getAnimationState(oldLayout, newLayout) {
+    console.log("getAnimationState - " + oldLayout + " to " + newLayout);
+
     let state = {
       activeLayout: newLayout,
       journalVisible: false,

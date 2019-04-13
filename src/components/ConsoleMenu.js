@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { RendererEventFactory } from "../RendererEventFactory";
 import { Icon, Menu, Popup } from "semantic-ui-react";
+import { MainPanelViewController } from "../perspective/MainPanelViewController";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -8,75 +10,122 @@ import { Icon, Menu, Popup } from "semantic-ui-react";
 export default class ConsoleMenu extends Component {
   constructor(props) {
     super(props);
+    this.name = "[ConsoleMenu]";
+
     this.isChanging = false;
     this.animationTime = this.props.animationTime + 50;
     this.state = {
-      activeItem: "troubleshoot"
+      activeItem: MainPanelViewController.MenuSelection.JOURNAL,
+      isOnline: true,
+      pingTime: 0,
+      server: "identifying...",
+      errorMsg: ""
     };
+    this.isOnline = true;
     this.events = {
-      hideConsole: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-        this
-      ),
-      consoleMenuChange: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
-        this
+      heartbeat: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.APP_HEARTBEAT,
+        this,
+        this.onHeartbeatCb
       )
     };
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.MAIN_PANEL,
+      this
+    );
+  }
+
+  componentDidMount = () => {
+    this.myController.configureMenuListener(
+      this,
+      this.onRefreshActivePerspective
+    );
+  };
+
+  componentWillUnmount = () => {
+    this.myController.configureMenuListener(this, null);
+  };
+
+  onRefreshActivePerspective = () => {
+    console.log(this.name + " - onRefreshActivePerspective!");
+
+    let activeMenuItem = this.myController.activeMenuSelection;
+    this.setState({ activeItem: activeMenuItem });
+  };
+
+  onHeartbeatCb(event, arg) {
+    console.log(arg);
+    this.setState({
+      isOnline: arg.isOnline,
+      pingTime: arg.pingTime,
+      server: arg.server,
+      errorMsg: arg.message
+    });
   }
 
   handleMenuClick = (e, { name }) => {
     if (this.isChanging || this.state.activeItem === name) return;
     this.isChanging = true;
-    this.events.consoleMenuChange.dispatch({
-      old: this.state.activeItem,
-      new: name
-    });
-    this.setState({ activeItem: name });
+
+    this.myController.changeActivePanel(this.state.activeItem, name);
+
     setTimeout(() => {
       this.isChanging = false;
     }, this.animationTime);
   };
 
   handleHideClick = (e, { name }) => {
-    console.log("[ConsoleMenu] open hide window");
+    console.log(this.name + " - open hide window");
     this.events.hideConsole.dispatch(0, true);
   };
 
   handleUndockClick = (e, { name }) => {
-    console.log("[ConsoleMenu] open undock window");
+    console.log(this.name + " - open undock window");
   };
 
   handleSettingsClick = (e, { name }) => {
-    console.log("[ConsoleMenu] open settings window");
+    console.log(this.name + " - open settings window");
   };
 
   /// renders the menu component of the console view
   render() {
-    const { activeItem } = this.state;
-    const networkMenuItem = (
-      <Menu.Item header className="networkConnect">
-        <Icon name="signal" color="green" />
+    const { activeItem, isOnline, pingTime, server, errorMsg } = this.state;
+    const networkConnectMenuItem = (
+      <Menu.Item
+        header
+        className={isOnline ? "networkConnect" : "networkConnectError"}
+      >
+        <Icon
+          name={isOnline ? "signal" : "remove circle"}
+          color={isOnline ? "green" : "red"}
+        />
       </Menu.Item>
     );
     const popupContent = (
       <div>
         <div>
-          <i>node.torchie.dreamscale.io</i>
+          <i>{server}</i>
         </div>
         <div>
-          <i>ping:</i>
+          <i>ping: </i>
           <b>
-            <i>135ms</i>
+            <i>{pingTime <= 0 ? "calculating..." : pingTime + "ms"}</i>
           </b>
         </div>
+        {!isOnline && (
+          <div className="errorMsg">
+            <i style={{ color: "red" }}>
+              <b>{errorMsg}</b>
+            </i>
+          </div>
+        )}
       </div>
     );
     return (
       <div id="component" className="consoleMenu">
         <Menu size="tiny" inverted>
           <Popup
-            trigger={networkMenuItem}
+            trigger={networkConnectMenuItem}
             className="chunkTitle"
             content={popupContent}
             position="top left"
@@ -84,36 +133,42 @@ export default class ConsoleMenu extends Component {
             inverted
           />
           <Menu.Item
-            name="journal"
+            name={MainPanelViewController.MenuSelection.JOURNAL}
             color="violet"
-            active={activeItem === "journal"}
+            active={
+              activeItem === MainPanelViewController.MenuSelection.JOURNAL
+            }
             onClick={this.handleMenuClick}
           >
             <Icon name="book" size="large" />
             Journal
           </Menu.Item>
           <Menu.Item
-            name="troubleshoot"
+            name={MainPanelViewController.MenuSelection.TROUBLESHOOT}
             color="violet"
-            active={activeItem === "troubleshoot"}
+            active={
+              activeItem === MainPanelViewController.MenuSelection.TROUBLESHOOT
+            }
             onClick={this.handleMenuClick}
           >
             <Icon name="lightning" size="large" />
             Troubleshoot
           </Menu.Item>
           <Menu.Item
-            name="flow"
+            name={MainPanelViewController.MenuSelection.FLOW}
             color="violet"
-            active={activeItem === "flow"}
+            active={activeItem === MainPanelViewController.MenuSelection.FLOW}
             onClick={this.handleMenuClick}
           >
             <Icon name="random" size="large" />
             Flow
           </Menu.Item>
           <Menu.Item
-            name="projects"
+            name={MainPanelViewController.MenuSelection.PROJECTS}
             color="violet"
-            active={activeItem === "projects"}
+            active={
+              activeItem === MainPanelViewController.MenuSelection.PROJECTS
+            }
             onClick={this.handleMenuClick}
             disabled
           >
@@ -121,9 +176,11 @@ export default class ConsoleMenu extends Component {
             Projects
           </Menu.Item>
           <Menu.Item
-            name="circles"
+            name={MainPanelViewController.MenuSelection.CIRCLES}
             color="violet"
-            active={activeItem === "circles"}
+            active={
+              activeItem === MainPanelViewController.MenuSelection.CIRCLES
+            }
             onClick={this.handleMenuClick}
             disabled
           >

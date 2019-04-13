@@ -1,22 +1,30 @@
 const { app, shell } = require("electron"),
   isDev = require("electron-is-dev"),
+  log = require("electron-log"),
   path = require("path"),
-  util = require("util");
+  util = require("util"),
+  fs = require("fs"),
+  os = require("os");
 
-/* 
+/**
  * general purpose global utility functions
+ * @class Util
+ * @type {module.Util}
  */
 module.exports = class Util {
-  /*
+  /**
    * static linking to internal nodejs util exports
    * @https://nodejs.org/api/util.html#util_util
+   * @returns {module:util}
    */
   static get node() {
     return util;
   }
 
-  /*
+  /**
    * shortcut helper link to a baked util.inspect
+   * @param object
+   * @returns {string}
    */
   static inspect(object) {
     return util.inspect(object, {
@@ -28,8 +36,10 @@ module.exports = class Util {
       breakLength: 80
     });
   }
-  /*
-   * returns the applications name
+
+  /**
+   * the applications name
+   * @returns {string}
    */
   static getAppName() {
     return app.getName();
@@ -37,7 +47,7 @@ module.exports = class Util {
 
   /// gets the api url to use
   static getAppApi() {
-    let url = "https://ds-htmflow.herokuapp.com";
+    let url = "https://torchie.dreamscale.io";
     if (isDev) {
       process.argv.forEach(function(val, index, array) {
         if (val.toLowerCase().startsWith("server=")) {
@@ -48,28 +58,35 @@ module.exports = class Util {
     return url;
   }
 
-  /*
-   * gets the root applciation icon
+  /**
+   * the root applciation icon
+   * @param name
+   * @returns {string}
    */
   static getAppIcon(name) {
     // TODO: This is wrong.  It should take account of the platform; see AppTray.js.  Its code ought to be extracted into here
     return path.join(__dirname, "assets/icons/" + name);
   }
 
-  /*
+  /**
    * gets the root app page
+   * @returns {string}
    */
   static getAppRootDir() {
     return __dirname;
   }
 
-  /// gets the user data for app
+  /**
+   * gets the user data for app
+   * @returns {string}
+   */
   static getAppUserDataDir() {
     return app.getPath("userData");
   }
 
-  /*
+  /**
    * gets the base path for the asset resouces
+   * @returns {string}
    */
   static getAssetsDir() {
     if (isDev) {
@@ -78,52 +95,155 @@ module.exports = class Util {
     return path.join(app.getAppPath(), __dirname, "assets");
   }
 
-  /*
+  /**
    * gets the path of a specific asset. must provide qualifying location
+   * @param asset
+   * @returns {string}
    */
   static getAssetPath(asset) {
     return path.join(Util.getAssetsDir(), asset);
   }
 
-  /// sets the user data directory for dev mode
+  /**
+   * sets the user data directory for dev mode
+   */
   static setDevUserDataDir() {
     let filePath = path.join(app.getAppPath(), "data");
     console.log("*** DEVELOPMENT MODE [" + filePath + "] ***");
     app.setPath("userData", filePath);
   }
 
-  /// gets the user data directory for dev mode
-  static getDevSettingsPath() {
-    return path.join(app.getPath("userData"), "Settings");
+  /**
+   * gets our hot key configuration file
+   * @returns {string}
+   */
+  static getConfiguredHotkeysOrDefault() {
+    let hotkeyConfPath = path.join(this.getFlowHomePath(), "hotkey.conf");
+
+    let defaultKey = "CommandOrControl+`";
+    let activeHotkey = defaultKey;
+
+    if (fs.existsSync(hotkeyConfPath)) {
+      activeHotkey = fs.readFileSync(hotkeyConfPath, "utf8");
+    } else {
+      fs.mkdir(this.getFlowHomePath());
+
+      fs.writeFileSync(hotkeyConfPath, defaultKey, "utf8");
+    }
+
+    log.info("[Util] found hotkey config: " + activeHotkey);
+    return activeHotkey;
   }
 
-  /*
+  /**
+   * gets the path of our .flow directory that torchie and our plugins share
+   * @returns {string}
+   */
+  static getFlowHomePath() {
+    return path.join(os.homedir(), ".flow");
+  }
+
+  /**
+   * returns the file path to the settings file that electron stores as JSON
+   * @returns {string}
+   */
+  static getAppSettingsPath() {
+    return path.join(Util.getFlowHomePath(), "settings.json");
+  }
+
+  /**
+   * returns the api key file thats is stored in the .flow directory.
+   * @todo this needs to be encrypted, plugin need to be updated too
+   * @returns {string}
+   */
+  static getApiKeyPath() {
+    return path.join(Util.getFlowHomePath(), "api.key");
+  }
+
+  /**
+   * the path where we store our screenshots
+   * @returns {string}
+   */
+  static getScreenshotFolderPath() {
+    let screensFolder = path.join(this.getFlowHomePath(), "screenshots");
+    fs.mkdir(screensFolder);
+    return screensFolder;
+  }
+
+  /**
+   * used to generate a new screenshot path
+   * @returns {string}
+   */
+  static getLatestScreenshotPath() {
+    return path.join(
+      this.getScreenshotFolderPath(),
+      "screen_" + Math.random() + ".png"
+    );
+  }
+
+  /**
    * sets the applications tray into memory
+   * @param tray
    */
   static setAppTray(tray) {
     app.tray = tray;
   }
 
+  /**
+   * gets the application tray object
+   * @returns {*}
+   */
   static getAppTray() {
     return app.tray;
   }
 
-  /*
-   * opens external default os browser window with url
+  /**
+   * opens external default os browser window with url.
+   * @todo this should use the opn-cli util which is cross platform
+   * @param url
    */
   static openExternalBrowser(url) {
     shell.openExternal(url);
   }
 
-  /*
+  /**
    * gets the local time and date as a string
+   * @param date
+   * @returns {string}
    */
   static getDateTimeString(date) {
     return date.toLocaleTimeString() + " " + date.toLocaleDateString();
   }
 
-  /*
-   * store some tokens for the subway
+  /**
+   * returns a new unique random GUID with a random number generator
+   * @returns {string}
+   */
+  static getGuid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return (
+      s4() +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      s4() +
+      s4()
+    );
+  }
+
+  /**
+   * stores slack tokens into an array matrix for encoding purposes
+   * @returns {{"0": string[], "1": string[], "2": string[], "3": string[], "4": string[], "5": string[], "6": string[], "7": string[], "8": string[]}}
    */
   static get tokens() {
     return {
@@ -139,16 +259,15 @@ module.exports = class Util {
     };
   }
 
-  /*
+  /**
    * use our MTA card to get tokens
+   * @param id
+   * @returns {*}
    */
   static getToken(id) {
     return this.tokens[id];
   }
 
-  /*
-   * our MTA cards
-   */
   static get tokenA() {
     return this.getToken(0);
   }

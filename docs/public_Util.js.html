@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>public/Util.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">public/Util.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const { app, shell } = require("electron"),
+  isDev = require("electron-is-dev"),
+  log = require("electron-log"),
+  path = require("path"),
+  util = require("util"),
+  fs = require("fs"),
+  os = require("os");
+
+/**
+ * general purpose global utility functions
+ * @class Util
+ * @type {module.Util}
+ */
+module.exports = class Util {
+  /**
+   * static linking to internal nodejs util exports
+   * @https://nodejs.org/api/util.html#util_util
+   * @returns {module:util}
+   */
+  static get node() {
+    return util;
+  }
+
+  /**
+   * shortcut helper link to a baked util.inspect
+   * @param object
+   * @returns {string}
+   */
+  static inspect(object) {
+    return util.inspect(object, {
+      showHidden: true,
+      depth: null,
+      colors: true,
+      showProxy: true,
+      maxArrayLength: null,
+      breakLength: 80
+    });
+  }
+
+  /**
+   * the applications name
+   * @returns {string}
+   */
+  static getAppName() {
+    return app.getName();
+  }
+
+  /// gets the api url to use
+  static getAppApi() {
+    let url = "https://torchie.dreamscale.io";
+    if (isDev) {
+      process.argv.forEach(function(val, index, array) {
+        if (val.toLowerCase().startsWith("server=")) {
+          url = val.toLowerCase().substring(7);
+        }
+      });
+    }
+    return url;
+  }
+
+  /**
+   * the root applciation icon
+   * @param name
+   * @returns {string}
+   */
+  static getAppIcon(name) {
+    // TODO: This is wrong.  It should take account of the platform; see AppTray.js.  Its code ought to be extracted into here
+    return path.join(__dirname, "assets/icons/" + name);
+  }
+
+  /**
+   * gets the root app page
+   * @returns {string}
+   */
+  static getAppRootDir() {
+    return __dirname;
+  }
+
+  /**
+   * gets the user data for app
+   * @returns {string}
+   */
+  static getAppUserDataDir() {
+    return app.getPath("userData");
+  }
+
+  /**
+   * gets the base path for the asset resouces
+   * @returns {string}
+   */
+  static getAssetsDir() {
+    if (isDev) {
+      return path.join(__dirname, "assets");
+    }
+    return path.join(app.getAppPath(), __dirname, "assets");
+  }
+
+  /**
+   * gets the path of a specific asset. must provide qualifying location
+   * @param asset
+   * @returns {string}
+   */
+  static getAssetPath(asset) {
+    return path.join(Util.getAssetsDir(), asset);
+  }
+
+  /**
+   * sets the user data directory for dev mode
+   */
+  static setDevUserDataDir() {
+    let filePath = path.join(app.getAppPath(), "data");
+    console.log("*** DEVELOPMENT MODE [" + filePath + "] ***");
+    app.setPath("userData", filePath);
+  }
+
+  /**
+   * gets our hot key configuration file
+   * @returns {string}
+   */
+  static getConfiguredHotkeysOrDefault() {
+    let hotkeyConfPath = path.join(this.getFlowHomePath(), "hotkey.conf");
+
+    let defaultKey = "CommandOrControl+`";
+    let activeHotkey = defaultKey;
+
+    if (fs.existsSync(hotkeyConfPath)) {
+      activeHotkey = fs.readFileSync(hotkeyConfPath, "utf8");
+    } else {
+      fs.mkdir(this.getFlowHomePath());
+
+      fs.writeFileSync(hotkeyConfPath, defaultKey, "utf8");
+    }
+
+    log.info("[Util] found hotkey config: " + activeHotkey);
+    return activeHotkey;
+  }
+
+  /**
+   * gets the path of our .flow directory that torchie and our plugins share
+   * @returns {string}
+   */
+  static getFlowHomePath() {
+    return path.join(os.homedir(), ".flow");
+  }
+
+  /**
+   * returns the file path to the settings file that electron stores as JSON
+   * @returns {string}
+   */
+  static getAppSettingsPath() {
+    return path.join(Util.getFlowHomePath(), "settings.json");
+  }
+
+  /**
+   * returns the api key file thats is stored in the .flow directory.
+   * @todo this needs to be encrypted, plugin need to be updated too
+   * @returns {string}
+   */
+  static getApiKeyPath() {
+    return path.join(Util.getFlowHomePath(), "api.key");
+  }
+
+  /**
+   * the path where we store our screenshots
+   * @returns {string}
+   */
+  static getScreenshotFolderPath() {
+    let screensFolder = path.join(this.getFlowHomePath(), "screenshots");
+    fs.mkdir(screensFolder);
+    return screensFolder;
+  }
+
+  /**
+   * used to generate a new screenshot path
+   * @returns {string}
+   */
+  static getLatestScreenshotPath() {
+    return path.join(
+      this.getScreenshotFolderPath(),
+      "screen_" + Math.random() + ".png"
+    );
+  }
+
+  /**
+   * sets the applications tray into memory
+   * @param tray
+   */
+  static setAppTray(tray) {
+    app.tray = tray;
+  }
+
+  /**
+   * gets the application tray object
+   * @returns {*}
+   */
+  static getAppTray() {
+    return app.tray;
+  }
+
+  /**
+   * opens external default os browser window with url.
+   * @todo this should use the opn-cli util which is cross platform
+   * @param url
+   */
+  static openExternalBrowser(url) {
+    shell.openExternal(url);
+  }
+
+  /**
+   * gets the local time and date as a string
+   * @param date
+   * @returns {string}
+   */
+  static getDateTimeString(date) {
+    return date.toLocaleTimeString() + " " + date.toLocaleDateString();
+  }
+
+  /**
+   * returns a new unique random GUID with a random number generator
+   * @returns {string}
+   */
+  static getGuid() {
+    function s4() {
+      return Math.floor((1 + Math.random()) * 0x10000)
+        .toString(16)
+        .substring(1);
+    }
+    return (
+      s4() +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      "-" +
+      s4() +
+      s4() +
+      s4()
+    );
+  }
+
+  /**
+   * stores slack tokens into an array matrix for encoding purposes
+   * @returns {{"0": string[], "1": string[], "2": string[], "3": string[], "4": string[], "5": string[], "6": string[], "7": string[], "8": string[]}}
+   */
+  static get tokens() {
+    return {
+      0: ["a", "H", "R", "0", "c", "H", "M", "="],
+      1: ["a", "G", "9", "v", "a", "3", "M", "="],
+      2: ["c", "2", "x", "h", "Y", "2", "s", "="],
+      3: ["Y", "2", "9", "t"],
+      4: ["c", "2", "V", "y", "d", "m", "l", "j", "Z", "X", "M", "="],
+      5: ["u", "n", "s", "Q", "w", "K", "s", "Z", "A", "u", "a", "P"],
+      6: ["x", "S", "s", "C", "j", "j", "1", "E", "8", "7", "y", "s"],
+      7: ["Y", "R", "G", "P", "N", "7", "F", "7", "B"],
+      8: ["Z", "6", "9", "M", "R", "S", "G", "0", "T"]
+    };
+  }
+
+  /**
+   * use our MTA card to get tokens
+   * @param id
+   * @returns {*}
+   */
+  static getToken(id) {
+    return this.tokens[id];
+  }
+
+  static get tokenA() {
+    return this.getToken(0);
+  }
+  static get tokenB() {
+    return this.getToken(1);
+  }
+  static get tokenC() {
+    return this.getToken(2);
+  }
+  static get tokenD() {
+    return this.getToken(3);
+  }
+  static get tokenE() {
+    return this.getToken(4);
+  }
+  static get tokenF() {
+    return this.getToken(5);
+  }
+  static get tokenG() {
+    return this.getToken(6);
+  }
+  static get tokenH() {
+    return this.getToken(7);
+  }
+  static get tokenI() {
+    return this.getToken(8);
+  }
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 04:22:05 GMT-0400 (Eastern Daylight Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

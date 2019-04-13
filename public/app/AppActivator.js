@@ -1,16 +1,19 @@
-const { dialog } = require("electron"),
+let { dialog } = require("electron"),
   log = require("electron-log"),
   App = require("./App"),
+  Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../managers/EventFactory"),
   AccountActivationDto = require("../dto/AccountActivationDto");
 
-//
-// class that is used to activate the application
-//
+/**
+ * class that is used to activate the application
+ * @class AppActivator
+ * @type {module.App}
+ */
 module.exports = class AppActivator {
   constructor() {
-    log.info("[AppActivator] created -> okay");
+    log.info("[AppActivator] created okay");
     this.app = App;
     this.events = {
       saveActivation: EventFactory.createEvent(
@@ -29,11 +32,21 @@ module.exports = class AppActivator {
     };
   }
 
+  /**
+   * callback function that is called when the activator fires the save event
+   * @param event
+   * @param arg
+   */
   onActivatorSaveCb(event, arg) {
     log.info("[AppActivator] saving api-key...");
     try {
       let accountActivationDto = new AccountActivationDto(arg);
-      global.App.AppSettings.setApiKey(accountActivationDto.apiKey);
+      global.App.AppSettings.save(
+        Util.getAppApi(),
+        accountActivationDto.apiKey
+      );
+
+      log.info("[AppActivator] verify api key...");
       let apiKey = global.App.AppSettings.getApiKey();
       if (accountActivationDto.apiKey !== apiKey) {
         throw new Error("Unable to save api-key");
@@ -41,20 +54,21 @@ module.exports = class AppActivator {
       this.events.activationSaved.dispatch();
     } catch (err) {
       log.error("[AppActivator] Unable to save api-key : " + err);
-      global.App.AppSettings.deleteSettings();
       this.events.closeActivator.dispatch(-1);
       dialog.showErrorBox("Torchie", "[FATAL] Unable to save api-key");
       process.exit(1);
     }
   }
 
-  /// starts the app loader
+  /**
+   * starts the app loader
+   */
   start() {
     log.info("[AppActivator] show activator");
     this.activatorWindow = WindowManagerHelper.createWindowActivator();
   }
 
-  /*
+  /**
    * called when AppLoader is completed
    */
   finished() {

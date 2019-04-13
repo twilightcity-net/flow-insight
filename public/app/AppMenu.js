@@ -5,10 +5,10 @@ const { Menu } = require("electron"),
 
 const helpSubmenu = [
   {
-    label: "MetaOS - Learn More",
+    label: "Torchie - Learn More",
     click() {
-      log.info("[AppMenu] open browser-> http://www.openmastery.org/");
-      Util.openExternalBrowser("http://www.openmastery.org/");
+      log.info("[AppMenu] open browser-> http://www.dreamscale.io/");
+      Util.openExternalBrowser("http://www.dreamscale.io/");
     }
   },
   {
@@ -17,12 +17,21 @@ const helpSubmenu = [
       log.info("[AppMenu] open report bug window");
       WindowManagerHelper.createWindowBugReport();
     }
+  },
+  {
+    label: "Deactivate Torchie",
+    click() {
+      log.info("[AppMenu] deactivate and reset Torchie");
+      Util.deleteSettings();
+    }
   }
 ];
 
 class AppMenuException extends Error {
   constructor(
-    msg = `Could not build the app menu for this platform (${process.platform})`,
+    msg = `Could not build the app menu for this platform (${
+      process.platform
+    })`,
     ...params
   ) {
     super(msg, ...params);
@@ -80,7 +89,7 @@ module.exports = class AppMenu extends Menu {
   getTemplateForMacOS() {
     return [
       {
-        label: Util.getAppName(),
+        label: "Torchie",
         submenu: [
           { role: "about" },
           { type: "separator" },
@@ -91,6 +100,26 @@ module.exports = class AppMenu extends Menu {
           { role: "unhide" },
           { type: "separator" },
           { role: "quit" }
+        ]
+      },
+      {
+        label: "Edit",
+        submenu: [
+          { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+          {
+            label: "Redo",
+            accelerator: "Shift+CmdOrCtrl+Z",
+            selector: "redo:"
+          },
+          { type: "separator" },
+          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
+          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
+          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+          {
+            label: "Select All",
+            accelerator: "CmdOrCtrl+A",
+            selector: "selectAll:"
+          }
         ]
       },
       {
