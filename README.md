@@ -76,6 +76,8 @@ Documentation files will be exported to ~/torchie-desktop/docs.
 
 https://github.com/settings/tokens
 
+GitHub personal access token is required. You can generate by going to https://github.com/settings/tokens/new. The access token should have the repo scope/permission. Define GH_TOKEN environment variable.
+
 3) Run the following command in the terminal:
 
 `yarn release:publish`

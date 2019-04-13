@@ -17,10 +17,17 @@ const { remote } = window.require("electron"),
 
 const electronLog = remote.require("electron-log");
 
-//
-// This view class is used to activate the application
-//
+/**
+ * This view class is used to activate the application
+ * @class ActivatorView
+ * @extends Component
+ */
 export default class ActivatorView extends Component {
+  /**
+   * creates a new Activator view for the Activator Window
+   * @constructor
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.animationTime = 500;
@@ -32,7 +39,8 @@ export default class ActivatorView extends Component {
       tokenKeyVisible: true,
       termsVisible: false,
       activatingVisible: false,
-      successVisible: false
+      successVisible: false,
+      failedVisible: false
     };
     this.store = DataStoreFactory.createStore(
       DataStoreFactory.Stores.ACCOUNT_ACTIVATION,
@@ -70,8 +78,11 @@ export default class ActivatorView extends Component {
     if (input) input.focus();
   }
 
-  processApiKey() {
-    this.log("processApiKey: " + this.tokenKeyValue);
+  /**
+   * processes the activation code by loading into a DataStore for API. calls store.load()
+   */
+  processActivationCode() {
+    this.log("process activation code: " + this.tokenKeyValue);
     this.store.load(
       new ActivationCodeDto({
         activationCode: this.tokenKeyValue
@@ -185,7 +196,7 @@ export default class ActivatorView extends Component {
         activatingVisible: true
       });
       setTimeout(() => {
-        this.processApiKey();
+        this.processActivationCode();
       }, this.animationTime * 2);
     }, this.animationTime);
   };

@@ -1,7 +1,6 @@
-const { app } = require("electron"),
+let { app } = require("electron"),
   settings = require("electron-settings"),
   log = require("electron-log"),
-  isDev = require("electron-is-dev"),
   fs = require("fs"),
   crypto = require("crypto-js"),
   Util = require("../Util");
@@ -9,24 +8,31 @@ const { app } = require("electron"),
 /**
  * Application class used to manage our settings stores in ~/.flow
  * @class AppSettings
- * @type {module.AppSettings}
+ * @type {module.App.AppSettings}
  */
 module.exports = class AppSettings {
+  /**
+   * Represent a group of Settings
+   * @constructor
+   */
   constructor() {
-    if (isDev) {
-      let devPath = Util.getDevSettingsPath();
-      log.info("[AppSettings] set dev path -> " + devPath);
-      settings.setPath(devPath);
-    }
+    let flowPath = this.getOrCreateFlowHomeDir();
+    let path = Util.getAppSettingsPath();
+    log.info("[AppSettings] set paths", flowPath, path);
+    settings.setPath(path);
     this.path = settings.file();
     this.keyToken = "70rCh13 L0v3";
     log.info("[AppSettings] load settings -> " + this.path);
   }
 
-  /// verifies that the settings file exists
+  /**
+   * Verifies the path of the settings
+   * @returns {boolean}
+   */
   check() {
-    log.info("[AppSettings] check path -> " + this.path);
-    if (fs.existsSync(this.path)) {
+    let path = Util.getAppSettingsPath();
+    log.info("[AppSettings] check path -> " + path);
+    if (fs.existsSync(path)) {
       log.info("[AppSettings] has settings -> true");
       return true;
     }
@@ -34,24 +40,48 @@ module.exports = class AppSettings {
     return false;
   }
 
-  /// sets and encrypts the api key that is set by the activator
-  configureApiKey(apiUrl, apiKey) {
-    log.info("[AppSettings] save api key");
-    log.info("save url: " + apiUrl);
-    let cipher = crypto.AES.encrypt(apiKey, this.keyToken).toString();
-    settings.set(AppSettings.Keys.APP_API_KEY, cipher);
+  /**
+   * sets and encrypts the api key that is set by the activator
+   * @param apiUrl
+   * @param apiKey
+   */
+  save(apiUrl, apiKey) {
+    apiKey = crypto.AES.encrypt(apiKey, this.keyToken).toString();
 
-    let flowHome = Util.getFlowHomePath();
-    log.info("[AppSettings] flow home path -> " + flowHome);
-
-    fs.mkdir(flowHome);
-    fs.writeFile(
-      flowHome + "/settings.json",
-      '{ "apiUrl" : "' + apiUrl + '", "apiKey" : "' + apiKey + '" }'
-    );
+    log.info("[AppSettings] save api key and url", apiUrl, apiKey);
+    settings.set(AppSettings.Keys.APP_API_URL, apiUrl);
+    settings.set(AppSettings.Keys.APP_API_KEY, apiKey);
+    this.exportApiKey();
   }
 
-  /// decrypts and returns the stored api key in settings
+  /**
+   * exports the decrypted api key to a file that the application activator creates.
+   * @param callback
+   */
+  exportApiKey(callback) {
+    let path = Util.getApiKeyPath();
+
+    log.info("[AppSettings] write api key file", path);
+    fs.writeFileSync(path, this.getApiKey());
+  }
+
+  /**
+   * gets the .flow directory in the users directory, or creates it if it doesn't exist
+   * @returns {*}
+   */
+  getOrCreateFlowHomeDir() {
+    let path = Util.getFlowHomePath();
+    if (!fs.exists(path)) {
+      log.info("[AppSettings] create flow home directory", path);
+      fs.mkdir(path);
+    }
+    return path;
+  }
+
+  /**
+   * decrypts and returns the stored api key in settings
+   * @returns {string|null}
+   */
   getApiKey() {
     log.info("[AppSettings] get api key");
     let key = settings.get(AppSettings.Keys.APP_API_KEY);
@@ -62,19 +92,15 @@ module.exports = class AppSettings {
     return null;
   }
 
-  deleteSettings() {
-    log.info("[AppSettings] delete settings");
-    if (this.check()) {
-      fs.unlinkSync(this.path, err => {
-        throw err;
-      });
-    }
-  }
-
-  /// enum map of possible settings key pairs
+  /**
+   * enum map of possible settings key pairs
+   * @returns {{APP_API_KEY: string}}
+   * @constructor
+   */
   static get Keys() {
     return {
-      APP_API_KEY: "app.api.key"
+      APP_API_URL: "apiUrl",
+      APP_API_KEY: "apiKey"
     };
   }
 };

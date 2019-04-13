@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>PerspectiveController - Documentation</title>
+    <title>public/app/AppActivator.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,133 +29,98 @@
 
 <div id="main">
     
-    <h1 class="page-title">PerspectiveController</h1>
+    <h1 class="page-title">public/app/AppActivator.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-        PerspectiveController
-        </h2>
-        
-            <div class="class-description">This class is used to coordinate views across all the perspective change events</div>
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>let { dialog } = require("electron"),
+  log = require("electron-log"),
+  isDev = require("electron-is-dev"),
+  App = require("./App"),
+  Util = require("../Util"),
+  WindowManagerHelper = require("../managers/WindowManagerHelper"),
+  EventFactory = require("../managers/EventFactory"),
+  AccountActivationDto = require("../dto/AccountActivationDto");
 
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
+/**
+ * class that is used to activate the application
+ * @class AppActivator
+ * @type {module.App}
+ */
+module.exports = class AppActivator {
+  constructor() {
+    log.info("[AppActivator] created okay");
+    this.app = App;
+    this.events = {
+      saveActivation: EventFactory.createEvent(
+        EventFactory.Types.APPACTIVATOR_SAVE_ACTIVATION,
+        this,
+        (event, arg) => this.onActivatorSaveCb(event, arg)
+      ),
+      activationSaved: EventFactory.createEvent(
+        EventFactory.Types.APPACTIVATOR_ACTIVATION_SAVED,
+        this
+      ),
+      closeActivator: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_ACTIVATOR_CLOSE,
+        this
+      )
+    };
+  }
 
-    
-    <h2>Constructor</h2>
-    
+  /**
+   * callback function that is called when the activator fires the save event
+   * @param event
+   * @param arg
+   */
+  onActivatorSaveCb(event, arg) {
+    log.info("[AppActivator] saving api-key...");
+    try {
+      let accountActivationDto = new AccountActivationDto(arg);
+      global.App.AppSettings.save(
+        Util.getAppApi(),
+        accountActivationDto.apiKey
+      );
 
-    <h4 class="name" id="PerspectiveController"><span class="type-signature"></span>new PerspectiveController<span class="signature">()</span><span class="type-signature"></span></h4>
+      log.info("[AppActivator] verify api key...");
+      let apiKey = global.App.AppSettings.getApiKey();
+      if (accountActivationDto.apiKey !== apiKey) {
+        throw new Error("Unable to save api-key");
+      }
+      this.events.activationSaved.dispatch();
+    } catch (err) {
+      log.error("[AppActivator] Unable to save api-key : " + err);
+      this.events.closeActivator.dispatch(-1);
+      dialog.showErrorBox("Torchie", "[FATAL] Unable to save api-key");
+      process.exit(1);
+    }
+  }
 
-    
+  /**
+   * starts the app loader
+   */
+  start() {
+    log.info("[AppActivator] show activator");
+    this.activatorWindow = WindowManagerHelper.createWindowActivator();
+  }
 
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_perspective_PerspectiveController.js.html">src/perspective/PerspectiveController.js</a>, <a href="src_perspective_PerspectiveController.js.html#line7">line 7</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+  /**
+   * called when AppLoader is completed
+   */
+  finished() {
+    log.info("[AppActivator] finished : okay");
+    global.App.WindowManager.closeWindow(this.activatorWindow, true);
+  }
+};
+</code></pre>
+        </article>
+    </section>
 
 
 

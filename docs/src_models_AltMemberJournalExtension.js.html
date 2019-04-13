@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>src/models/AltMemberJournalExtension.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/models/AltMemberJournalExtension.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { DataModel } from "./DataModel";
+import moment from "moment";
+import { JournalModel } from "./JournalModel";
+
+const { remote } = window.require("electron"),
+  RecentJournalDto = remote.require("./dto/RecentJournalDto");
+
+export class AltMemberJournalExtension extends DataModel {
+  constructor(scope) {
+    super(scope);
+    this.name = "[AltMemberJournalExtension]";
+
+    this.allJournalItems = [];
+    this.allIntentions = [];
+    this.activeSize = 0;
+
+    this.activeJournalItem = null;
+    this.activeIndex = 0;
+    this.activeFlame = 0;
+
+    this.recentProjects = [];
+    this.recentTasksByProjectId = [];
+    this.recentEntry = null;
+
+    this.isInitialized = false;
+
+    this.altMemberId = null;
+  }
+
+  setMemberSelection(memberId) {
+    this.altMemberId = memberId;
+  }
+
+  /**
+   * Retrieves true if this member is already loaded
+   */
+  isMemberLoaded(memberId) {
+    return this.altMemberId != null &amp;&amp; this.altMemberId === memberId;
+  }
+
+  /**
+   * Loads the most recent Journal with X number of entries,
+   * which should ultimately be a configurable setting
+   * but hardcoded on the server for now
+   */
+
+  loadDefaultJournal = () => {
+    console.log(this.name + " - Request - loadDefaultJournal");
+
+    let remoteUrn = "/journal?member=" + this.altMemberId;
+    let loadRequestType = DataModel.RequestTypes.GET;
+
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      RecentJournalDto,
+      (dtoResults, err) => {
+        setTimeout(() => {
+          this.onLoadDefaultJournalCb(dtoResults, err);
+        }, DataModel.activeWaitDelay);
+      }
+    );
+  };
+
+  /**
+   * Reset the active selected item to the last item in the journal
+   */
+  resetActiveToLastJournalItem = () => {
+    console.log(this.name + " - resetActiveToLastJournalItem");
+    if (this.allJournalItems.length > 0) {
+      let lastItem = this.allJournalItems[this.allJournalItems.length - 1];
+
+      this.activeJournalItem = lastItem;
+      this.activeIndex = lastItem.index;
+      this.activeFlame = lastItem.flameRating;
+    } else {
+      this.activeIndex = 0;
+      this.activeJournalItem = null;
+      this.recentEntry = null;
+    }
+
+    this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
+  };
+
+  /**
+   * Set the active selected item to a specific item in the journal
+   * @param journalItem
+   */
+  setActiveJournalItem = journalItem => {
+    console.log(this.name + " - setActiveJournalItem");
+    this.activeIndex = journalItem.index;
+    this.activeJournalItem = journalItem;
+    this.activeFlame = journalItem;
+
+    this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
+  };
+
+  //////////// REMOTE CALLBACK HANDLERS  ////////////
+
+  onLoadDefaultJournalCb = (defaultJournal, err) => {
+    console.log(this.name + " - onLoadDefaultJournalCb");
+    if (err) {
+      console.log("error:" + err);
+    } else {
+      this.initFromDefaultJournal(defaultJournal);
+    }
+
+    this.resetActiveToLastJournalItem();
+    this.isInitialized = true;
+
+    this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
+    this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
+  };
+
+  initFromDefaultJournal = defaultJournal => {
+    console.log(this.name + " - initFromDefaultJournal");
+
+    var journalItems = this.createJournalItems(defaultJournal.recentIntentions);
+    let recentIntentionKeys = this.extractRecentIntentionKeys(
+      defaultJournal.recentIntentions
+    );
+
+    let activeJournalItem = null;
+    let activeIndex = 0;
+
+    if (journalItems.length > 0) {
+      activeJournalItem = journalItems[journalItems.length - 1];
+      activeIndex = activeJournalItem.index;
+    }
+
+    this.allJournalItems = journalItems;
+    this.activeJournalItem = activeJournalItem;
+    this.activeIndex = activeIndex;
+
+    this.recentProjects = defaultJournal.recentProjects;
+    this.recentTasksByProjectId = defaultJournal.recentTasksByProjectId;
+    this.recentEntry = recentIntentionKeys;
+
+    this.allIntentions = defaultJournal.recentIntentions;
+    this.activeSize = defaultJournal.recentIntentions.length;
+
+    console.log(this.name + " - Loaded " + this.activeSize + " journal items!");
+  };
+
+  extractRecentIntentionKeys = allIntentions => {
+    let latestKeys = {};
+
+    if (allIntentions.length > 0) {
+      let latestIntention = allIntentions[allIntentions.length - 1];
+
+      latestKeys = {
+        projectId: latestIntention.projectId,
+        taskId: latestIntention.taskId,
+        description: latestIntention.description
+      };
+    }
+    return latestKeys;
+  };
+
+  createJournalItems = allIntentions => {
+    let journalItems = [];
+
+    for (var i in allIntentions) {
+      journalItems[i] = this.createJournalItem(i, allIntentions[i]);
+    }
+
+    return journalItems;
+  };
+
+  createJournalItem = (index, intention) => {
+    let d = intention.position;
+    let dateObj = new Date(d[0], d[1] - 1, d[2], d[3], d[4], d[5]);
+
+    return {
+      index: index,
+      id: intention.id,
+      flameRating: intention.flameRating,
+      projectName: intention.projectName,
+      taskName: intention.taskName,
+      taskSummary: intention.taskSummary,
+      description: intention.description,
+      finishStatus: intention.finishStatus,
+      linked: intention.linked ? Boolean(intention.linked) : false,
+      position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a"),
+      rawDate: dateObj
+    };
+  };
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 04:07:12 GMT-0400 (Eastern Daylight Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

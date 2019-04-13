@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>src/models/AltMemberCircleExtension.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/models/AltMemberCircleExtension.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { DataModel } from "./DataModel";
+import { ActiveCircleModel } from "./ActiveCircleModel";
+const { remote } = window.require("electron"),
+  CircleKeyDto = remote.require("./dto/CircleKeyDto"),
+  FeedMessageDto = remote.require("./dto/FeedMessageDto");
+
+export class AltMemberCircleExtension extends DataModel {
+  constructor(scope) {
+    super(scope);
+
+    this.name = "[AltMemberCircleExtension]";
+
+    this.activeCircleId = null;
+    this.activeCircle = null;
+    this.isAlarmTriggered = false;
+    this.allFeedMessages = [];
+    this.problemDescription = "";
+    this.circleName = "";
+
+    this.altMemberId = null;
+  }
+
+  setMemberSelection(memberId) {
+    this.altMemberId = memberId;
+    this.activeCircleId = null;
+    this.activeCircle = null;
+    this.isAlarmTriggered = false;
+  }
+
+  setDependentModel(teamModel) {
+    this.teamModel = teamModel;
+  }
+
+  getCircleOwner = () => {
+    return this.teamModel.getMemberStatus(this.altMemberId).shortName;
+  };
+
+  /**
+   * Retrieves true if this member is already loaded
+   */
+  isMemberLoaded(memberId) {
+    return this.altMemberId != null &amp;&amp; this.altMemberId === memberId;
+  }
+
+  /**
+   * Loads the active circle into context
+   */
+  loadActiveCircle = () => {
+    console.log(this.name + " - Request - loadActiveCircle");
+
+    let memberStatus = this.teamModel.getMemberStatus(this.altMemberId);
+    let activeCircle = memberStatus.activeCircle;
+
+    this.allFeedMessages = [];
+
+    if (activeCircle != null) {
+      this.activeCircleId = activeCircle.id;
+      this.activeCircle = activeCircle;
+      this.isAlarmTriggered = true;
+      this.problemDescription = activeCircle.problemDescription;
+      this.circleName = activeCircle.circleName;
+    } else {
+      this.activeCircleId = null;
+      this.activeCircle = null;
+      this.isAlarmTriggered = false;
+      this.problemDescription = "";
+      this.circleName = "";
+    }
+
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
+  };
+
+  /**
+   * Retrieves the private key for the circle
+   */
+
+  getKey = callback => {
+    console.log(
+      this.name +
+        " - Request - getKey, Context: activeCircleId " +
+        this.activeCircleId
+    );
+    if (this.activeCircleId == null) {
+      return;
+    }
+
+    let remoteUrn = "/circle/" + this.activeCircleId + "/key";
+    let loadRequestType = DataModel.RequestTypes.GET;
+
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      CircleKeyDto,
+      (keyResultsDto, err) => {
+        setTimeout(() => {
+          callback.call(this.scope, keyResultsDto.privateKey);
+        }, DataModel.activeWaitDelay);
+      }
+    );
+  };
+
+  /**
+   * Posts a chat message to the circle feed (by the current user)
+   * @param chatMessage
+   */
+  postChatMessageToFeed = chatMessage => {
+    let args = { chatMessage: chatMessage };
+    console.log(
+      this.name + " - Request - postChatMessageToFeed, args: " + args
+    );
+
+    if (this.activeCircleId == null) {
+      return;
+    }
+
+    let remoteUrn = "/circle/" + this.activeCircleId + "/feed/chat";
+    let loadRequestType = DataModel.RequestTypes.POST;
+
+    this.remoteFetch(
+      args,
+      remoteUrn,
+      loadRequestType,
+      FeedMessageDto,
+      (dtoResults, err) => {
+        setTimeout(() => {
+          this.onPostChatMessageToFeedCb(dtoResults, err);
+        }, DataModel.activeWaitDelay);
+      }
+    );
+  };
+
+  /**
+   * Retrieve all messages for the feed
+   */
+  getAllMessagesForCircleFeed = () => {
+    console.log(this.name + " - Request - getAllMessagesForCircleFeed");
+    let remoteUrn = "/circle/" + this.activeCircleId + "/feed";
+    let loadRequestType = DataModel.RequestTypes.GET;
+
+    if (this.activeCircleId == null) {
+      return;
+    }
+
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      FeedMessageDto,
+      (dtoResults, err) => {
+        setTimeout(() => {
+          this.onGetAllMessagesForCircleFeedCb(dtoResults, err);
+        }, DataModel.activeWaitDelay);
+      }
+    );
+  };
+
+  //////////// REMOTE CALLBACK HANDLERS  ////////////
+
+  onActiveCircleCb = (circleDto, err) => {
+    console.log(this.name + " - onActiveCircleCb");
+    if (err) {
+      console.log("error:" + err);
+    } else {
+      if (circleDto) {
+        console.log(
+          this.name + " - onActiveCircleCb - configuring Circle: " + circleDto
+        );
+        this.activeCircleId = circleDto.id;
+        this.activeCircle = circleDto;
+        this.isAlarmTriggered = true;
+      } else {
+        console.log(this.name + " - onActiveCircleCb - no circle found");
+        this.isAlarmTriggered = false;
+        this.activeCircleId = null;
+        this.activeCircle = null;
+        this.allFeedMessages = [];
+      }
+    }
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
+  };
+
+  onGetAllMessagesForCircleFeedCb = (feedMessageDtos, err) => {
+    console.log(this.name + " - onGetAllMessagesForCircleFeedCb");
+    if (err) {
+      console.log(this.name + " - error:" + err);
+    } else {
+      this.allFeedMessages = feedMessageDtos;
+    }
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.FEED_UPDATE);
+  };
+
+  onPostChatMessageToFeedCb = (feedMessageDto, err) => {
+    console.log(this.name + " - onPostChatMessageToFeedCb");
+    if (err) {
+      console.log(this.name + " - error:" + err);
+    } else {
+      this.allFeedMessages = [...this.allFeedMessages, feedMessageDto];
+    }
+    this.notifyListeners(ActiveCircleModel.CallbackEvent.FEED_UPDATE);
+  };
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sat Apr 13 2019 04:07:12 GMT-0400 (Eastern Daylight Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

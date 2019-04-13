@@ -2,13 +2,13 @@
   "name": "torchie-desktop",
   "productName": "Torchie",
   "description": "Torchie",
-  "version": "0.0.9",
+  "version": "0.1.0",
   "private": true,
   "author": {
     "name": "DreamScale.io",
     "email": "info@dreamscale.io"
   },
-  "copyright": "Copyright © 2017 Dreamscale Inc",
+  "copyright": "Copyright © 2019 Dreamscale.io",
   "homepage": "./",
   "main": "public/electron.js",
   "repository": {
