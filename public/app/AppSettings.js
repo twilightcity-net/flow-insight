@@ -6,9 +6,11 @@ const { app } = require("electron"),
   crypto = require("crypto-js"),
   Util = require("../Util");
 
-//
-// Application class that manages our settings
-//
+/**
+ * Application class used to manage our settings stores in ~/.flow
+ * @class AppSettings
+ * @type {module.AppSettings}
+ */
 module.exports = class AppSettings {
   constructor() {
     if (isDev) {
