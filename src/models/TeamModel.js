@@ -192,6 +192,7 @@ export class TeamModel extends DataModel {
     }
     this.isInitialized = true;
     this.notifyListeners(TeamModel.CallbackEvent.MEMBERS_UPDATE);
+    this.refreshTeamInfoAndKeys();
   };
 
   refreshActiveMember = () => {
