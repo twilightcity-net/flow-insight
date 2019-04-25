@@ -187,7 +187,6 @@ export class ActiveCircleModel extends DataModel {
     );
   };
 
-
   /**
    * Posts a chat message to the circle feed (by the current user)
    * @param chatMessage
@@ -341,7 +340,6 @@ export class ActiveCircleModel extends DataModel {
 
   //////////// REMOTE CALLBACK HANDLERS  ////////////
 
-
   onActiveCircleCb = (circleDto, err) => {
     console.log(this.name + " - onActiveCircleCb");
     let oldCircle = this.activeCircleId;
@@ -374,7 +372,6 @@ export class ActiveCircleModel extends DataModel {
         this.hypercoreFeedId = null;
         this.hypercorePublicKey = null;
         this.hypercoreSecretKey = null;
-
       }
     }
     this.isInitialized = true;
@@ -404,7 +401,6 @@ export class ActiveCircleModel extends DataModel {
         this.hypercoreFeedId = circleDto.hypercoreFeedId;
         this.hypercorePublicKey = circleDto.hypercorePublicKey;
         this.hypercoreSecretKey = circleDto.hypercoreSecretKey;
-
       } else {
         console.log(this.name + " - onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;

@@ -20,7 +20,6 @@ module.exports = class CircleDto {
       this.hypercoreFeedId = json.hypercoreFeedId;
       this.hypercorePublicKey = json.hypercorePublicKey;
       this.hypercoreSecretKey = json.hypercoreSecretKey;
-
     } catch (e) {
       throw new Error("Unable to create dto 'CircleDto' : " + e.message);
     }

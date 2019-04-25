@@ -3,9 +3,7 @@ import { WTFTimer } from "./WTFTimer";
 
 const { remote } = window.require("electron"),
   MemberWorkStatusDto = remote.require("./dto/MemberWorkStatusDto"),
-  TeamDto = remote.require("./dto/TeamDto")
-;
-
+  TeamDto = remote.require("./dto/TeamDto");
 //
 // this class is used to manage DataClient requests for Stores
 //
@@ -108,7 +106,6 @@ export class TeamModel extends DataModel {
       }
     );
   }
-
 
   /**
    * Refresh status of self, and callback when done

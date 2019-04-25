@@ -65,7 +65,6 @@ export class AltMemberCircleExtension extends DataModel {
       this.hypercoreFeedId = activeCircle.hypercoreFeedId;
       this.hypercorePublicKey = activeCircle.hypercorePublicKey;
       this.hypercoreSecretKey = activeCircle.hypercoreSecretKey;
-
     } else {
       this.activeCircleId = null;
       this.activeCircle = null;
@@ -79,8 +78,6 @@ export class AltMemberCircleExtension extends DataModel {
 
     this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
   };
-
-
 
   /**
    * Posts a chat message to the circle feed (by the current user)
@@ -138,7 +135,6 @@ export class AltMemberCircleExtension extends DataModel {
   };
 
   //////////// REMOTE CALLBACK HANDLERS  ////////////
-
 
   onGetAllMessagesForCircleFeedCb = (feedMessageDtos, err) => {
     console.log(this.name + " - onGetAllMessagesForCircleFeedCb");
