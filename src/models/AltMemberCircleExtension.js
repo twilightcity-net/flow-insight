@@ -1,7 +1,7 @@
 import { DataModel } from "./DataModel";
 import { ActiveCircleModel } from "./ActiveCircleModel";
 const { remote } = window.require("electron"),
-  CircleKeyDto = remote.require("./dto/CircleKeyDto"),
+  CircleKeysDto = remote.require("./dto/CircleKeysDto"),
   FeedMessageDto = remote.require("./dto/FeedMessageDto");
 
 export class AltMemberCircleExtension extends DataModel {
@@ -16,6 +16,9 @@ export class AltMemberCircleExtension extends DataModel {
     this.allFeedMessages = [];
     this.problemDescription = "";
     this.circleName = "";
+    this.hypercoreFeedId = null;
+    this.hypercorePublicKey = null;
+    this.hypercoreSecretKey = null;
 
     this.altMemberId = null;
   }
@@ -59,46 +62,25 @@ export class AltMemberCircleExtension extends DataModel {
       this.isAlarmTriggered = true;
       this.problemDescription = activeCircle.problemDescription;
       this.circleName = activeCircle.circleName;
+      this.hypercoreFeedId = activeCircle.hypercoreFeedId;
+      this.hypercorePublicKey = activeCircle.hypercorePublicKey;
+      this.hypercoreSecretKey = activeCircle.hypercoreSecretKey;
+
     } else {
       this.activeCircleId = null;
       this.activeCircle = null;
       this.isAlarmTriggered = false;
       this.problemDescription = "";
       this.circleName = "";
+      this.hypercoreFeedId = null;
+      this.hypercorePublicKey = null;
+      this.hypercoreSecretKey = null;
     }
 
     this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
   };
 
-  /**
-   * Retrieves the private key for the circle
-   */
 
-  getKey = callback => {
-    console.log(
-      this.name +
-        " - Request - getKey, Context: activeCircleId " +
-        this.activeCircleId
-    );
-    if (this.activeCircleId == null) {
-      return;
-    }
-
-    let remoteUrn = "/circle/" + this.activeCircleId + "/key";
-    let loadRequestType = DataModel.RequestTypes.GET;
-
-    this.remoteFetch(
-      null,
-      remoteUrn,
-      loadRequestType,
-      CircleKeyDto,
-      (keyResultsDto, err) => {
-        setTimeout(() => {
-          callback.call(this.scope, keyResultsDto.privateKey);
-        }, DataModel.activeWaitDelay);
-      }
-    );
-  };
 
   /**
    * Posts a chat message to the circle feed (by the current user)
@@ -157,28 +139,6 @@ export class AltMemberCircleExtension extends DataModel {
 
   //////////// REMOTE CALLBACK HANDLERS  ////////////
 
-  onActiveCircleCb = (circleDto, err) => {
-    console.log(this.name + " - onActiveCircleCb");
-    if (err) {
-      console.log("error:" + err);
-    } else {
-      if (circleDto) {
-        console.log(
-          this.name + " - onActiveCircleCb - configuring Circle: " + circleDto
-        );
-        this.activeCircleId = circleDto.id;
-        this.activeCircle = circleDto;
-        this.isAlarmTriggered = true;
-      } else {
-        console.log(this.name + " - onActiveCircleCb - no circle found");
-        this.isAlarmTriggered = false;
-        this.activeCircleId = null;
-        this.activeCircle = null;
-        this.allFeedMessages = [];
-      }
-    }
-    this.notifyListeners(ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE);
-  };
 
   onGetAllMessagesForCircleFeedCb = (feedMessageDtos, err) => {
     console.log(this.name + " - onGetAllMessagesForCircleFeedCb");

@@ -2,7 +2,9 @@ import { DataModel } from "./DataModel";
 import { WTFTimer } from "./WTFTimer";
 
 const { remote } = window.require("electron"),
-  MemberWorkStatusDto = remote.require("./dto/MemberWorkStatusDto");
+  MemberWorkStatusDto = remote.require("./dto/MemberWorkStatusDto"),
+  TeamDto = remote.require("./dto/TeamDto")
+;
 
 //
 // this class is used to manage DataClient requests for Stores
@@ -17,6 +19,7 @@ export class TeamModel extends DataModel {
 
     this.me = {};
     this.teamMembers = [];
+    this.team = null;
     this.activeTeamMember = null;
   }
 
@@ -24,7 +27,8 @@ export class TeamModel extends DataModel {
     return {
       ME_UPDATE: "me-update",
       MEMBERS_UPDATE: "members-update",
-      ACTIVE_MEMBER_UPDATE: "active-member-update"
+      ACTIVE_MEMBER_UPDATE: "active-member-update",
+      TEAM_KEYS_UPDATE: "team-keys-update"
     };
   }
 
@@ -88,6 +92,29 @@ export class TeamModel extends DataModel {
    * @param callWhenDone
    */
 
+  refreshTeamInfoAndKeys() {
+    console.log(this.name + " - Request - refreshTeamInfoAndKeys");
+    let remoteUrn = "/team";
+    let loadRequestType = DataModel.RequestTypes.GET;
+    this.remoteFetch(
+      null,
+      remoteUrn,
+      loadRequestType,
+      TeamDto,
+      (dtoResults, err) => {
+        setTimeout(() => {
+          this.onrefreshTeamInfoAndKeysCb(dtoResults, err);
+        }, DataModel.activeWaitDelay);
+      }
+    );
+  }
+
+
+  /**
+   * Refresh status of self, and callback when done
+   * @param callWhenDone
+   */
+
   refreshMe() {
     console.log(this.name + " - Request - refreshMe");
     let remoteUrn = "/status/me";
@@ -121,6 +148,15 @@ export class TeamModel extends DataModel {
     }
 
     this.notifyListeners(TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE);
+  };
+
+  onrefreshTeamInfoAndKeysCb = (teamDto, err) => {
+    if (err) {
+      console.log(this.name + " - onrefreshTeamInfoAndKeysCb error:" + err);
+    } else {
+      this.team = teamDto;
+    }
+    this.notifyListeners(TeamModel.CallbackEvent.TEAM_KEYS_UPDATE);
   };
 
   onRefreshMeCb = (statusOfMe, err) => {

@@ -12,11 +12,15 @@ module.exports = class CircleDto {
       this.circleContext = json.circleContext;
       this.members = json.members;
       this.onShelf = json.onShelf;
-      this.publicKey = json.publicKey;
 
       this.startTime = json.startTime;
       this.endTime = json.endTime;
       this.lastResumeTime = json.lastResumeTime;
+
+      this.hypercoreFeedId = json.hypercoreFeedId;
+      this.hypercorePublicKey = json.hypercorePublicKey;
+      this.hypercoreSecretKey = json.hypercoreSecretKey;
+
     } catch (e) {
       throw new Error("Unable to create dto 'CircleDto' : " + e.message);
     }

@@ -3,7 +3,7 @@ import { AltModelDelegate } from "./AltModelDelegate";
 import { AltMemberCircleExtension } from "./AltMemberCircleExtension";
 const { remote } = window.require("electron"),
   CircleDto = remote.require("./dto/CircleDto"),
-  CircleKeyDto = remote.require("./dto/CircleKeyDto"),
+  CircleKeysDto = remote.require("./dto/CircleKeysDto"),
   FeedMessageDto = remote.require("./dto/FeedMessageDto");
 
 export class ActiveCircleModel extends DataModel {
@@ -20,13 +20,17 @@ export class ActiveCircleModel extends DataModel {
     this.problemDescription = "";
     this.circleName = "";
 
+    this.hypercoreFeedId = null;
+    this.hypercorePublicKey = null;
+    this.hypercoreSecretKey = null;
+
     this.teamModel = null;
 
     this.altModelExtension = new AltMemberCircleExtension(this.scope);
     this.altModelDelegate = new AltModelDelegate(this, this.altModelExtension);
 
     this.altModelDelegate.configureDelegateCall("loadActiveCircle");
-    this.altModelDelegate.configureDelegateCall("getKey");
+    this.altModelDelegate.configureDelegateCall("refreshKeys");
     this.altModelDelegate.configureDelegateCall("postChatMessageToFeed");
     this.altModelDelegate.configureDelegateCall("getAllMessagesForCircleFeed");
     this.altModelDelegate.configureDelegateCall("getCircleOwner");
@@ -44,7 +48,8 @@ export class ActiveCircleModel extends DataModel {
     return {
       MY_CIRCLE_UPDATE: "my-circle",
       ACTIVE_CIRCLE_UPDATE: "active-circle-update",
-      FEED_UPDATE: "feed-update"
+      FEED_UPDATE: "feed-update",
+      REFRESH_KEYS_UPDATE: "refresh-keys-update"
     };
   }
 
@@ -182,37 +187,6 @@ export class ActiveCircleModel extends DataModel {
     );
   };
 
-  /**
-   * Retrieves the private key for the circle
-   */
-
-  getKey = callback => {
-    if (!this.isInitialized) return;
-
-    console.log(
-      this.name +
-        " - Request - getKey, Context: activeCircleId " +
-        this.activeCircleId
-    );
-    if (this.activeCircleId == null) {
-      return;
-    }
-
-    let remoteUrn = "/circle/" + this.activeCircleId + "/key";
-    let loadRequestType = DataModel.RequestTypes.GET;
-
-    this.remoteFetch(
-      null,
-      remoteUrn,
-      loadRequestType,
-      CircleKeyDto,
-      (keyResultsDto, err) => {
-        setTimeout(() => {
-          callback.call(this.scope, keyResultsDto.privateKey);
-        }, DataModel.activeWaitDelay);
-      }
-    );
-  };
 
   /**
    * Posts a chat message to the circle feed (by the current user)
@@ -367,6 +341,7 @@ export class ActiveCircleModel extends DataModel {
 
   //////////// REMOTE CALLBACK HANDLERS  ////////////
 
+
   onActiveCircleCb = (circleDto, err) => {
     console.log(this.name + " - onActiveCircleCb");
     let oldCircle = this.activeCircleId;
@@ -385,6 +360,9 @@ export class ActiveCircleModel extends DataModel {
         this.isAlarmTriggered = true;
         this.problemDescription = circleDto.problemDescription;
         this.circleName = circleDto.circleName;
+        this.hypercoreFeedId = circleDto.hypercoreFeedId;
+        this.hypercorePublicKey = circleDto.hypercorePublicKey;
+        this.hypercoreSecretKey = circleDto.hypercoreSecretKey;
       } else {
         console.log(this.name + " - onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;
@@ -393,6 +371,10 @@ export class ActiveCircleModel extends DataModel {
         this.allFeedMessages = [];
         this.problemDescription = "";
         this.circleName = "";
+        this.hypercoreFeedId = null;
+        this.hypercorePublicKey = null;
+        this.hypercoreSecretKey = null;
+
       }
     }
     this.isInitialized = true;
@@ -419,6 +401,10 @@ export class ActiveCircleModel extends DataModel {
         this.isAlarmTriggered = true;
         this.problemDescription = circleDto.problemDescription;
         this.circleName = circleDto.circleName;
+        this.hypercoreFeedId = circleDto.hypercoreFeedId;
+        this.hypercorePublicKey = circleDto.hypercorePublicKey;
+        this.hypercoreSecretKey = circleDto.hypercoreSecretKey;
+
       } else {
         console.log(this.name + " - onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;
@@ -427,6 +413,9 @@ export class ActiveCircleModel extends DataModel {
         this.allFeedMessages = [];
         this.problemDescription = "";
         this.circleName = "";
+        this.hypercoreFeedId = null;
+        this.hypercorePublicKey = null;
+        this.hypercoreSecretKey = null;
       }
     }
 
