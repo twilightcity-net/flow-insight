@@ -23,39 +23,9 @@ feed.on("ready", function() {
   // we need to join the swarm to be able to find other peers
   swarm = hyperdiscovery(feed, { live: true });
 
-  swarm.on("peer", peer => {
-    logPeerEvents(swarm, "peer", peer);
-  });
-  swarm.on("peer-banned", (peerAddress, details) => {
-    logPeerEvents(swarm, "peer-banned", peerAddress, details);
-  });
-  swarm.on("peer-rejected", (peerAddress, details) => {
-    logPeerEvents(swarm, "peer-rejected", peerAddress, details);
-  });
-  swarm.on("drop", peer => {
-    logPeerEvents(swarm, "drop", peer);
-  });
-  swarm.on("connecting", peer => {
-    logPeerEvents(swarm, "connecting", peer);
-  });
-  swarm.on("connect-failed", (peer, details) => {
-    logPeerEvents(swarm, "connect-failed", peer, details);
-  });
-
-  swarm.on("handshaking", (connection, info) => {
-    logSwarmEvents(swarm, "handshaking", connection, info);
-  });
-  swarm.on("handshake-timeout", (connection, info) => {
-    logSwarmEvents(swarm, "handshake-timeout", connection, info);
-  });
-  swarm.on("connection", (connection, info) => {
-    logSwarmEvents(swarm, "connection", connection, info);
-  });
-  swarm.on("connection-closed", (connection, info) => {
-    logSwarmEvents(swarm, "connection-closed", connection, info);
-  });
-  swarm.on("redundant-connection", (connection, info) => {
-    logSwarmEvents(swarm, "redundant-connection", connection, info);
+  // triggered when a peer connects
+  swarm.on("connection", function(peer, type) {
+    console.log("[ SWARM ] peer connection");
   });
 });
 
@@ -80,29 +50,4 @@ feed.update(function() {
 
 function calcPing(startTime) {
   return Date.now() - startTime;
-}
-
-function logPeerEvents(swarm, event, peer, details) {
-  console.log(
-    "[PEER] peer %s:%s | event=%s | (%s peers) | swarm=%s | (%s)",
-    peer.host,
-    peer.port,
-    event.toUpperCase() + (details ? "(" + JSON.stringify(details) + ")" : ""),
-    swarm.connections ? swarm.connections.length : null,
-    peer.discoveryKey ? peer.discoveryKey.toString("hex") : null,
-    peer.id ? peer.id.toString("hex") : null
-  );
-}
-
-function logSwarmEvents(swarm, event, connection, info) {
-  console.log(
-    "[SWARM] [%s] peer %s:%s | event=%s | (%s peers) | swarm=%s | connection=%s",
-    info.type ? info.type.toUpperCase() : null,
-    info.host,
-    info.port,
-    event.toUpperCase(),
-    swarm.connections ? swarm.connections.length : null,
-    connection.discoveryKey ? connection.discoveryKey.toString("hex") : null,
-    connection.id ? connection.id.toString("hex") : null
-  );
 }
