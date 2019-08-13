@@ -1,5 +1,6 @@
 const log = require("electron-log"),
-    EventFactory = require("./EventFactory");
+    EventFactory = require("./EventFactory"),
+    io = require('socket.io-client');
 
 /*
  * This class is used to manage the RealTime Flow server connection
@@ -17,7 +18,11 @@ module.exports = class RTFlowManager {
   }
 
   createConnection() {
-    log.info("[RTFlowManager] trying to connect to : " + global.App.rtFlowUrl)
-    this.events.rtConnected.dispatch();
+    log.info("[RTFlowManager] trying to connect to : " + global.App.rtFlowUrl);
+    var socket = io(global.App.rtFlowUrl);
+    socket.on('connect', () => {
+      log.info("[RTFlowManager] client connected to : " + global.App.rtFlowUrl);
+      this.events.rtConnected.dispatch();
+    });
   }
 };
