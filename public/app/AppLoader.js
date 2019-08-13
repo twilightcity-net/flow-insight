@@ -38,6 +38,11 @@ module.exports = class AppLoader {
         EventFactory.Types.WINDOW_LOADING_LOGIN_FAILED,
         this
       ),
+      rtConnected: EventFactory.createEvent(
+          EventFactory.Types.WINDOW_RT_FLOW_CONNECTED,
+          this,
+          (event, arg) => this.onConnectedRTFlowCb()
+      ),
       consoleReady: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_READY,
         this,
@@ -85,11 +90,25 @@ module.exports = class AppLoader {
   onLoadingLoginCb(event, arg) {
     setTimeout((event, arg) => {
       this.events.load.dispatch({
-        load: this.stages.CONSOLE,
+        load: this.stages.RTFLOW,
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "feeding lemmings...",
         text: "Creating Console..."
+      });
+    }, this.eventTimerMs);
+  }
+
+  // called after the app is successfully logged in
+  onConnectedRTFlowCb(event, arg) {
+    log.info("!!!!");
+    setTimeout((event, arg) => {
+      this.events.load.dispatch({
+        load: this.stages.CONSOLE,
+        value: this.incrementStage(),
+        total: this.getTotalStages(),
+        label: "dosing aliens...",
+        text: "Connection to RealTime Flow..."
       });
     }, this.eventTimerMs);
   }
@@ -138,6 +157,9 @@ module.exports = class AppLoader {
       case this.stages.LOGIN:
         this.processLogin();
         break;
+      case this.stages.RTFLOW:
+        this.connectRTFlow();
+        break;
       case this.stages.CONSOLE:
         this.createConsole();
         break;
@@ -160,6 +182,7 @@ module.exports = class AppLoader {
   getStages() {
     return {
       LOGIN: "login",
+      RTFLOW: "rtflow",
       CONSOLE: "console",
       SHORTCUTS: "shortcuts",
       FINISHED: "finished"
@@ -208,6 +231,19 @@ module.exports = class AppLoader {
         this.events.loginFailed.dispatch(store.data);
       }
     });
+  }
+
+  /*
+   * connect the Rt-Flow server
+   */
+  connectRTFlow() {
+    log.info("[AppLoader] connect rt-flow server");
+    this.events.rtConnected.dispatch();
+    // try {
+    //   WindowManagerHelper.createWindowConsole();
+    // } catch (error) {
+    //   App.handleError(error, true);
+    // }
   }
 
   /*

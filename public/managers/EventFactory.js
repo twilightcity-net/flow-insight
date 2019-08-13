@@ -28,6 +28,7 @@ module.exports = class EventFactory {
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
       WINDOW_LOADING_LOGIN: prefix + "window-loading-login",
       WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
+      WINDOW_RT_FLOW_CONNECTED: prefix + "window-rt-flow-connected",
       WINDOW_CONSOLE_READY: prefix + "window-console-ready",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
