@@ -93,22 +93,21 @@ module.exports = class AppLoader {
         load: this.stages.RTFLOW,
         value: this.incrementStage(),
         total: this.getTotalStages(),
-        label: "feeding lemmings...",
-        text: "Creating Console..."
+        label: "dosing aliens...",
+        text: "Connection to RealTime Flow..."
       });
     }, this.eventTimerMs);
   }
 
   // called after the app is successfully logged in
   onConnectedRTFlowCb(event, arg) {
-    log.info("!!!!");
     setTimeout((event, arg) => {
       this.events.load.dispatch({
         load: this.stages.CONSOLE,
         value: this.incrementStage(),
         total: this.getTotalStages(),
-        label: "dosing aliens...",
-        text: "Connection to RealTime Flow..."
+        label: "feeding lemmings...",
+        text: "Creating Console..."
       });
     }, this.eventTimerMs);
   }
@@ -238,12 +237,11 @@ module.exports = class AppLoader {
    */
   connectRTFlow() {
     log.info("[AppLoader] connect rt-flow server");
-    this.events.rtConnected.dispatch();
-    // try {
-    //   WindowManagerHelper.createWindowConsole();
-    // } catch (error) {
-    //   App.handleError(error, true);
-    // }
+    try {
+      global.App.RTFlowManager.createConnection();
+    } catch (error) {
+      App.handleError(error, true);
+    }
   }
 
   /*

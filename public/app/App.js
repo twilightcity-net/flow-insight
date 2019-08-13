@@ -6,6 +6,7 @@ const { app, dialog, Menu } = require("electron"),
   Logger = require("./AppLogger"),
   AppError = require("./AppError"),
   Util = require("../Util"),
+    RTFlowManager = require("../managers/RTFlowManager"),
   WindowManager = require("../managers/WindowManager"),
   { EventManager } = require("../managers/EventManager"),
   EventFactory = require("../managers/EventFactory"),
@@ -44,6 +45,7 @@ module.exports = class App {
   onReady() {
     global.App.api = Util.getAppApi();
     global.App.name = Util.getAppName();
+    global.App.rtFlowUrl = "https://ds-rt-flow.herokuapp.com"
     global.App.idleTime = 0;
     global.App.isOnline = false;
     global.App.isLoggedIn = false;
@@ -52,6 +54,7 @@ module.exports = class App {
     try {
       global.App.EventManager = new EventManager();
       global.App.WindowManager = new WindowManager();
+      global.App.RTFlowManager = new RTFlowManager();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.SlackManager = new SlackManager();
       global.App.AppUpdater = new AppUpdater();
