@@ -219,16 +219,15 @@ module.exports = class AppLoader {
   /// called from the laod event for login
   processLogin() {
     log.info("[AppLoader] process login");
-    AppLogin.doLogin(store => {
-      if (AppLogin.isValid()) {
+    AppLogin.doLogin((store) => {
+      let connectionStatus = AppLogin.getConnectionStatus();
+      console.log("!!!");
+      console.log(connectionStatus);
+      if (connectionStatus.isValid()) {
         log.info("[AppLoader] valid login -> dispatch next load event");
         global.App.isOnline = true;
         global.App.isLoggedIn = true;
-        console.log("!!!");
-        console.log(store.data);
-        global.App.memberId = "MEMBER_ID";
-        global.App.teamId = "TEAM_ID";
-        global.App.organizationId = "ORGANIZATION_ID";
+        global.App.connectionStatus = connectionStatus;
         this.events.login.dispatch();
       } else {
         log.info("[AppLoader] failed login -> dispatch status to login event");

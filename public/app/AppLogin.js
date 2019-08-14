@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   Util = require("../Util"),
   { DataClient } = require("../managers/DataStoreClient"),
-  SimpleStatusDto = require("../dto/SimpleStatusDto");
+  ConnectionStatusDto = require("../dto/ConnectionStatusDto");
 
 //
 // Application class that manages our settings
@@ -48,8 +48,8 @@ module.exports = class AppLogin {
   }
 
   /// checks to see if the login response is a valid login
-  static isValid() {
-    let loginStatus = new SimpleStatusDto(this.store.data);
-    return loginStatus.isValid();
+  static getConnectionStatus() {
+    let connectionStatus = new ConnectionStatusDto(this.store.data);
+    return connectionStatus;
   }
 };

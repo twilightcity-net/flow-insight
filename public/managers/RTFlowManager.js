@@ -26,7 +26,7 @@ module.exports = class RTFlowManager {
       this.events.rtConnected.dispatch();
     });
     socket.on("connect_error", error => {
-      console.log("@@@");
+      console.log("%%%");
       console.log("unable to connected");
       this.events.rtConnected.dispatch();
     });
