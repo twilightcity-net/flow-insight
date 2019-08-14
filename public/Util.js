@@ -61,7 +61,7 @@ module.exports = class Util {
   /// gets the url of the Real Time Flow Server. returns localhost if it is local
   static getAppRTFlowUrl() {
     let url = "https://ds-rt-flow.herokuapp.com";
-    if(isDev) {
+    if (isDev) {
       process.argv.forEach(function(val, index, array) {
         if (val.toLowerCase().startsWith("rtflow=")) {
           url = val.toLowerCase().substring(7);

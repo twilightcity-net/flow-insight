@@ -39,9 +39,9 @@ module.exports = class AppLoader {
         this
       ),
       rtConnected: EventFactory.createEvent(
-          EventFactory.Types.WINDOW_RT_FLOW_CONNECTED,
-          this,
-          (event, arg) => this.onConnectedRTFlowCb()
+        EventFactory.Types.WINDOW_RT_FLOW_CONNECTED,
+        this,
+        (event, arg) => this.onConnectedRTFlowCb()
       ),
       consoleReady: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_READY,
