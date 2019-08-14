@@ -20,9 +20,11 @@ module.exports = class RTFlowManager {
   createConnection() {
     log.info("[RTFlowManager] trying to connect to : " + global.App.rtFlowUrl);
     var socket = io(global.App.rtFlowUrl);
-    socket.on('connect', () => {
-      log.info("[RTFlowManager] client connected to : " + global.App.rtFlowUrl);
+    socket.on("connect", () => {
+      console.log("@@@")
+      console.log("client connected");
       this.events.rtConnected.dispatch();
     });
+
   }
 };

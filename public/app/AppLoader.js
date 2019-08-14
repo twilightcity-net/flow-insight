@@ -224,6 +224,11 @@ module.exports = class AppLoader {
         log.info("[AppLoader] valid login -> dispatch next load event");
         global.App.isOnline = true;
         global.App.isLoggedIn = true;
+        console.log("!!!");
+        console.log(store.data);
+        global.App.memberId = "MEMBER_ID";
+        global.App.teamId = "TEAM_ID";
+        global.App.organizationId = "ORGANIZATION_ID";
         this.events.login.dispatch();
       } else {
         log.info("[AppLoader] failed login -> dispatch status to login event");
