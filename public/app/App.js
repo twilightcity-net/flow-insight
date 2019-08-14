@@ -45,7 +45,7 @@ module.exports = class App {
   onReady() {
     global.App.api = Util.getAppApi();
     global.App.name = Util.getAppName();
-    global.App.rtFlowUrl = "https://ds-rt-flow.herokuapp.com";
+    global.App.rtFlowUrl = Util.getAppRTFlowUrl();
     global.App.idleTime = 0;
     global.App.isOnline = false;
     global.App.isLoggedIn = false;
