@@ -51,6 +51,7 @@ module.exports = class App {
     global.App.isLoggedIn = false;
     app.setName(global.App.name);
     log.info("[App] ready -> " + global.App.name + " : " + global.App.api);
+    log.info("[App] ready -> rt-flow : " + global.App.rtFlowUrl);
     try {
       global.App.EventManager = new EventManager();
       global.App.WindowManager = new WindowManager();

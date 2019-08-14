@@ -20,6 +20,7 @@
     "stage": "git add .",
     "start": "react-scripts start",
     "dev:local": "concurrently \"yarn server\" \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . SERVER=http://localhost:5000 RTFLOW=http://localhost:5050\"",
+    "dev:rt": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron . RTFLOW=http://localhost:5050\"",
     "dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "server": "node server/Server.js",
     "docs": "jsdoc public/electron.js --configure .jsdoc.json --verbose",
