@@ -7,6 +7,7 @@ module.exports = class ConnectionStatusDto {
       if (typeof json === "string") json = JSON.parse(json);
       this.message = json.message;
       this.status = json.status;
+      this.connectionId = json.connectionId;
       this.organizationId = json.organizationId;
       this.teamId= json.teamId;
       this.memberId = json.memberId;
