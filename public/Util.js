@@ -127,6 +127,14 @@ module.exports = class Util {
   }
 
   /**
+   * gets the users home directory based on which os they are using
+   * @returns {string}
+   */
+  static getUserHomePath() {
+    return process.env[process.platform == "win32" ? "USERPROFILE" : "HOME"];
+  }
+
+  /**
    * gets our hot key configuration file
    * @returns {string}
    */

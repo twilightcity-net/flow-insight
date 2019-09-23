@@ -219,7 +219,7 @@ module.exports = class AppLoader {
   /// called from the laod event for login
   processLogin() {
     log.info("[AppLoader] process login");
-    AppLogin.doLogin((store) => {
+    AppLogin.doLogin(store => {
       let connectionStatus = AppLogin.getConnectionStatus();
       console.log("!!!");
       console.log(connectionStatus);

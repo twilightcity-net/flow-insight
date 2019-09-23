@@ -1,6 +1,9 @@
 const { app, dialog, Menu } = require("electron"),
+  fs = require("fs"),
+  path = require("path"),
   log = require("electron-log"),
   isDev = require("electron-is-dev"),
+  rootPath = require("electron-root-path").rootPath,
   platform = require("electron-platform"),
   cleanStack = require("clean-stack"),
   Logger = require("./AppLogger"),
@@ -32,6 +35,7 @@ module.exports = class App {
       willQuit: this.onWillQuit,
       crashed: this.onCrash
     };
+    this.setupCLI();
     this.isSecondInstance = app.makeSingleInstance(this.onSingleInstance);
     if (this.isSecondInstance) {
       log.info("[App] quit -> second instance");
@@ -157,6 +161,31 @@ module.exports = class App {
       process.exit(1);
     } else {
       dialog.showErrorBox("Torchie", error.toString());
+    }
+  }
+
+  /// sets up the command line interface so that we can call functions\
+  setupCLI() {
+    log.info("[App] setting up CLI");
+    if (platform.isDarwin) {
+      log.info("[App] detecting OS -> Mac...");
+      let bashProfile = ".bash_profile",
+        homePath = Util.getUserHomePath(),
+        filePath = path.join(homePath, bashProfile),
+        appPath = isDev
+          ? "/dist/mac/Torchie.app/Contents/MacOS"
+          : "/Applications/Torchie.app/Contents/MacOS",
+        torchiePath = isDev ? path.join(rootPath, appPath) : path.join(appPath),
+        cliPath = "\r\n### torchie-cli ###\r\nexport PATH=$PATH:" + torchiePath,
+        fileData = fs.readFileSync(filePath, "utf8");
+      if (!fileData.includes(cliPath)) {
+        log.info("[App] append .bash_profile -> " + torchiePath);
+        fs.appendFileSync(filePath, cliPath);
+      }
+    } else if (platform.isWin32) {
+      log.info("[App] detecting OS -> Windows...");
+    } else {
+      log.info("[App] detecting OS -> Linux...");
     }
   }
 

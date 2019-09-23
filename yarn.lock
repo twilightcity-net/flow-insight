@@ -3660,6 +3660,11 @@ electron-publish@19.56.0:
     fs-extra-p "^4.5.0"
     mime "^2.2.0"
 
+electron-root-path@^1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/electron-root-path/-/electron-root-path-1.0.9.tgz#0e50fae5b32d1ebb2c3f6417cfe46b0642e4c241"
+  integrity sha512-THxJfNqN2Cz56z/eMskdpz6vaZ7nIOAU/82Ia5VWhfk/4uWY/nCI+6xRYUcKsiI1fu7Y6/SxRejaqSBmvlh9bw==
+
 electron-settings@^3.1.4:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/electron-settings/-/electron-settings-3.2.0.tgz#01461e153f95b6f18adbe0c360c70898eb0f43c3"
