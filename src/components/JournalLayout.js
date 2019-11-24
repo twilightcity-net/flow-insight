@@ -73,7 +73,10 @@ export default class JournalLayout extends Component {
     return (
       <div id="component" className="journalLayout">
         <div id="wrapper" className="journalHeader">
-          <JournalHeader height={this.calculateJournalHeaderHeight()} />
+          <JournalHeader
+            height={this.calculateJournalHeaderHeight()}
+            member={this.journalModel.altMemberName}
+          />
         </div>
         <div id="wrapper" className="journalItems">
           <JournalItems

@@ -6,6 +6,7 @@ const { app, dialog, Menu } = require("electron"),
   rootPath = require("electron-root-path").rootPath,
   platform = require("electron-platform"),
   cleanStack = require("clean-stack"),
+  args = require("yargs"),
   Logger = require("./AppLogger"),
   AppError = require("./AppError"),
   Util = require("../Util"),
@@ -39,9 +40,25 @@ module.exports = class App {
     this.isSecondInstance = app.makeSingleInstance(this.onSingleInstance);
     if (this.isSecondInstance) {
       log.info("[App] quit -> second instance");
+
+      //TODO need to implement a check for args
+
+      //TODO need to implement a CLIManager that works with yarv
+
       this.quit();
     } else {
-      this.start();
+      if (isDev) {
+        this.start();
+      } else if (Util.checkIfCalledFromCLI(process.argv)) {
+        if (rootPath.startsWith("/Applications")) {
+          log.error("Please pass 'Torchie' a command or argument.");
+          process.exit(0);
+        } else {
+          this.start();
+        }
+      } else {
+        this.start();
+      }
     }
   }
 
@@ -166,16 +183,18 @@ module.exports = class App {
 
   /// sets up the command line interface so that we can call functions\
   setupCLI() {
-    log.info("[App] setting up CLI");
+    log.info("[App] setting up CLI -> " + rootPath);
     if (platform.isDarwin) {
       log.info("[App] detecting OS -> Mac...");
       let bashProfile = ".bash_profile",
         homePath = Util.getUserHomePath(),
         filePath = path.join(homePath, bashProfile),
-        appPath = isDev
-          ? "/dist/mac/Torchie.app/Contents/MacOS"
-          : "/Applications/Torchie.app/Contents/MacOS",
-        torchiePath = isDev ? path.join(rootPath, appPath) : path.join(appPath),
+        appPath = !rootPath.startsWith("/Applications")
+          ? !rootPath.endsWith("Torchie.app")
+            ? "/dist/mac/Torchie.app/Contents/MacOS"
+            : "/Contents/MacOS"
+          : "/Contents/MacOS",
+        torchiePath = path.join(rootPath, appPath),
         cliPath = "\r\n### torchie-cli ###\r\nexport PATH=$PATH:" + torchiePath,
         fileData = fs.readFileSync(filePath, "utf8");
       if (!fileData.includes(cliPath)) {

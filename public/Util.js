@@ -157,6 +157,18 @@ module.exports = class Util {
   }
 
   /**
+   * checks to see if we started the app from the command line
+   * @param args
+   * @returns {boolean}
+   */
+  static checkIfCalledFromCLI(args) {
+    if (args && args.length > 1) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
    * gets the path of our .flow directory that torchie and our plugins share
    * @returns {string}
    */

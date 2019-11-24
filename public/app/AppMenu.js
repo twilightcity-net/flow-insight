@@ -29,9 +29,7 @@ const helpSubmenu = [
 
 class AppMenuException extends Error {
   constructor(
-    msg = `Could not build the app menu for this platform (${
-      process.platform
-    })`,
+    msg = `Could not build the app menu for this platform (${process.platform})`,
     ...params
   ) {
     super(msg, ...params);

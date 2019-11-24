@@ -20,7 +20,7 @@ export default class JournalItems extends Component {
         style={{ height: this.props.height }}
       >
         <Segment inverted>
-          @Torchie: "What's the next step on your Journey?"
+          <h2>{this.props.member}'s Torchie Journal</h2>
         </Segment>
       </div>
     );
