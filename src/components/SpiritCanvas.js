@@ -2,20 +2,30 @@ import React, { Component } from "react";
 import * as BABYLON from "babylonjs";
 import "babylonjs-gui";
 
+const { remote } = window.require("electron");
+
 export default class SpiritCanvas extends Component {
   constructor(props) {
     super(props);
+    this.state = {
+      render3D: remote.getGlobal("App").render3D
+    };
     this.spirit = props.spirit;
   }
 
   componentDidMount() {
     this.canvasEl = this.getCanvasEl();
-    this.engine = new BABYLON.Engine(this.canvasEl, true, {
-      preserveDrawingBuffer: true,
-      stencil: true
-    });
-    this.scene = this.createScene();
-    this.runScene();
+    console.log(this.state);
+    if (this.state.render3D) {
+      this.engine = new BABYLON.Engine(this.canvasEl, true, {
+        preserveDrawingBuffer: true,
+        stencil: true
+      });
+      this.scene = this.createScene();
+      this.runScene();
+    } else {
+      // TODO
+    }
   }
 
   createScene() {

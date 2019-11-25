@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TroubleshootHeader from "./TroubleshootHeader";
 import TroubleshootSessionNew from "./TroubleshootSessionNew";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
 import { DataModelFactory } from "../models/DataModelFactory";
@@ -14,7 +15,8 @@ export default class TroubleshootLayout extends Component {
     this.name = "[TroubleshootLayout]";
 
     this.state = {
-      isAlarmTriggered: false
+      isAlarmTriggered: false,
+      memberName: "Zoe"
     };
 
     this.activeCircleModel = DataModelFactory.createModel(
@@ -81,7 +83,8 @@ export default class TroubleshootLayout extends Component {
 
   /// renders the journal layout of the console view
   render() {
-    let wtfPanel = null;
+    let wtfPanel = null,
+      wtfHeader = <TroubleshootHeader member={this.state.memberName} />;
 
     if (this.state.isAlarmTriggered) {
       wtfPanel = (
@@ -101,6 +104,9 @@ export default class TroubleshootLayout extends Component {
 
     return (
       <div id="component" className="troubleshootLayout">
+        <div id="wrapper" className="troubleshootHeaderDefault">
+          {wtfHeader}
+        </div>
         <div id="wrapper" className="troubleshootPanelDefault">
           {wtfPanel}
         </div>

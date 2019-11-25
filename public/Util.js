@@ -71,6 +71,21 @@ module.exports = class Util {
     return url;
   }
 
+  /// gets a startup environmental flag to tell the system to run 3d modeor not
+  /// this should be false for now until we figure out what the fuck we are doin'
+  /// also kinda need an artist to make this all work
+  static getRender3D() {
+    let flag = false;
+    if (isDev) {
+      process.argv.forEach(function(val, index, array) {
+        if (val.toLowerCase().startsWith("render3d=")) {
+          flag = val.toLowerCase().substring(9);
+        }
+      });
+    }
+    return flag;
+  }
+
   /**
    * the root applciation icon
    * @param name

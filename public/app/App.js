@@ -67,12 +67,14 @@ module.exports = class App {
     global.App.api = Util.getAppApi();
     global.App.name = Util.getAppName();
     global.App.rtFlowUrl = Util.getAppRTFlowUrl();
+    global.App.render3D = Util.getRender3D();
     global.App.idleTime = 0;
     global.App.isOnline = false;
     global.App.isLoggedIn = false;
     app.setName(global.App.name);
     log.info("[App] ready -> " + global.App.name + " : " + global.App.api);
     log.info("[App] ready -> rt-flow : " + global.App.rtFlowUrl);
+    log.info("[App] ready -> render3D : " + global.App.render3D);
     try {
       global.App.EventManager = new EventManager();
       global.App.WindowManager = new WindowManager();
