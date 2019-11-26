@@ -23,7 +23,7 @@ export default class SpiritCanvas extends Component {
       this.scene = this.createScene();
       this.runScene();
     } else {
-      // TODO
+      this.paintTorchieHappy();
     }
   }
 
@@ -203,6 +203,16 @@ export default class SpiritCanvas extends Component {
     this.engine.runRenderLoop(() => {
       this.scene.render();
     });
+  }
+
+  paintTorchieHappy() {
+    let image = new Image();
+    image.onload = () => {
+      this.getCanvasEl()
+        .getContext("2d")
+        .drawImage(image, 0, 0);
+    };
+    image.src = "./assets/images/spirit.png";
   }
 
   getCanvasEl() {
