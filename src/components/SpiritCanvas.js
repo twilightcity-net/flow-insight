@@ -15,8 +15,7 @@ export default class SpiritCanvas extends Component {
 
   componentDidMount() {
     this.canvasEl = this.getCanvasEl();
-    console.log(this.state);
-    if (this.state.render3D) {
+    if (this.state.render3D === "true") {
       this.engine = new BABYLON.Engine(this.canvasEl, true, {
         preserveDrawingBuffer: true,
         stencil: true
