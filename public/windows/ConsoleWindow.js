@@ -121,8 +121,8 @@ module.exports = class ConsoleWindow {
    */
   onBlurWindowCb(event, arg) {
     log.info("[ConsoleWindow] blur window -> " + arg.sender.name);
-    if (isDev) return;
-    this.hideConsole();
+    // // if (isDev) return;
+    // this.hideConsole();
   }
 
   onPrepareForScreenshot(event, arg) {

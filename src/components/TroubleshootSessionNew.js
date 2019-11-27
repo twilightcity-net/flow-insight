@@ -187,40 +187,19 @@ export default class TroubleshootSessionNew extends Component {
         <Divider hidden fitted clearing />
         <Grid textAlign="center" verticalAlign="middle" inverted>
           <Grid.Column width={10} className="rootLayout">
-            <Segment className="wtf" inverted>
-              <Header as="h1" attached="top" inverted>
-                {this.state.circleOwner}'s Troubleshooting Scrapbook
-              </Header>
-              <Segment attached basic inverted>
-                Let's solve a problem! Take a screenshot and describe the
-                situation below. Once you start the session, a timer will begin
-                on the next screen. Look for clues to collect in your scrapbook,
-                and get help from your team!
-              </Segment>
-
-              <Segment attached basic inverted>
-                <Input
-                  id="problemDescription"
-                  className="intentionText"
-                  value={this.state.currentProblem}
-                  onChange={this.handleChangeForProblem}
-                  fluid
-                  inverted
-                  placeholder="What's the problem?"
-                />
-              </Segment>
+            <Segment className="wtf" inverted padded={"very"}>
               <Button
                 onClick={this.onClickStartTroubleshooting}
-                size="big"
+                size="massive"
                 color="red"
                 animated="fade"
-                attached="bottom"
               >
-                <Button.Content visible>
-                  Start Troubleshooting...
-                </Button.Content>
-                <Button.Content hidden>Go!</Button.Content>
+                <Button.Content visible>WTF?! 💣</Button.Content>
+                <Button.Content hidden>👉 &nbsp;START!</Button.Content>
               </Button>
+              <Segment inverted size={"huge"}>
+                <b>Start a Troubleshooting Session</b>
+              </Segment>
             </Segment>
           </Grid.Column>
           <Grid.Column width={6} className="rootLayout screenshot">

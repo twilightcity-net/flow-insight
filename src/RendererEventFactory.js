@@ -22,6 +22,7 @@ export class RendererEventFactory {
       APP_QUIT: prefix + "app-quit",
       APP_HEARTBEAT: prefix + "app-heartbeat",
       APPLOADER_LOAD: prefix + "apploader-load",
+      APP_LOADED: prefix + "app-loaded",
       WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",

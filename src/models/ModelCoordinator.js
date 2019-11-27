@@ -4,6 +4,7 @@ import { JournalModel } from "../models/JournalModel";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { WTFTimer } from "../models/WTFTimer";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import { RendererEventFactory } from "../RendererEventFactory";
 
 /**
  * This class is used to coordinate models across all the events
@@ -49,7 +50,7 @@ export class ModelCoordinator {
     this.wtfTimer.setDependentModel(this.activeCircle);
 
     this.loadDefaultModels();
-    this.wireTogetherModelsAfterInitialLoad();
+    this.updateModels();
 
     //TODO refactor this one out
     //    this.onDirtySpiritFlameUpdateActiveRow();
@@ -62,19 +63,18 @@ export class ModelCoordinator {
     this.teamModel.refreshAll();
   }
 
-  wireTogetherModelsAfterInitialLoad() {
-    setTimeout(() => {
-      this.onMyCircleUpdateMe();
-      this.onActiveCircleUpdateTimer();
+  updateModels() {
+    console.log("[ModelCoordinator] update all models");
+    this.onMyCircleUpdateMe();
+    this.onActiveCircleUpdateTimer();
 
-      this.onJournalEntryUpdateMeAndXP();
-      this.onJournalUpdateResetSpiritFlame();
+    this.onJournalEntryUpdateMeAndXP();
+    this.onJournalUpdateResetSpiritFlame();
 
-      this.onChangeActiveRowResetSpiritFlame();
-      this.onTeamMemberChangeActiveScopeForAllModels();
+    this.onChangeActiveRowResetSpiritFlame();
+    this.onTeamMemberChangeActiveScopeForAllModels();
 
-      this.onWTFTimerUpdateRefreshTeamMemberTimers();
-    }, 1000);
+    this.onWTFTimerUpdateRefreshTeamMemberTimers();
   }
 
   unregisterModelWirings = () => {
@@ -89,7 +89,9 @@ export class ModelCoordinator {
       this.name,
       ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
       () => {
-        console.log("ModelCoordinator Event Fired: onActiveCircleUpdateTimer");
+        console.log(
+          "[ModelCoordinator] Event Fired: onActiveCircleUpdateTimer"
+        );
         this.wtfTimer.resetTimer();
       }
     );
@@ -100,7 +102,7 @@ export class ModelCoordinator {
       this.name,
       ActiveCircleModel.CallbackEvent.MY_CIRCLE_UPDATE,
       () => {
-        console.log("ModelCoordinator Event Fired: onActiveCircleUpdateMe");
+        console.log("[ModelCoordinator] Event Fired: onActiveCircleUpdateMe");
         this.teamModel.refreshMe();
       }
     );
@@ -112,7 +114,7 @@ export class ModelCoordinator {
       JournalModel.CallbackEvent.NEW_JOURNAL_ITEM_ADDED,
       () => {
         console.log(
-          "ModelCoordinator Event Fired: onJournalEntryUpdateMeAndXP"
+          "[ModelCoordinator] Event Fired: onJournalEntryUpdateMeAndXP"
         );
 
         this.teamModel.refreshMe();
@@ -127,7 +129,7 @@ export class ModelCoordinator {
       JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE,
       () => {
         console.log(
-          "ModelCoordinator Event Fired: onJournalUpdateResetSpiritFlame"
+          "[ModelCoordinator] Event Fired: onJournalUpdateResetSpiritFlame"
         );
 
         if (this.journalModel.getActiveScope().activeJournalItem != null) {
@@ -145,7 +147,7 @@ export class ModelCoordinator {
       JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE,
       () => {
         console.log(
-          "ModelCoordinator Event Fired: onChangeActiveRowResetSpiritFlame"
+          "[ModelCoordinator] Event Fired: onChangeActiveRowResetSpiritFlame"
         );
 
         if (this.journalModel.getActiveScope().activeJournalItem != null) {
@@ -163,7 +165,7 @@ export class ModelCoordinator {
       TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
       () => {
         console.log(
-          "ModelCoordinator Event Fired: onTeamMemberChangeActiveScopeForAllModels"
+          "[ModelCoordinator] Event Fired: onTeamMemberChangeActiveScopeForAllModels"
         );
         this.journalModel.setMemberSelection(
           this.teamModel.me.id,
@@ -189,7 +191,7 @@ export class ModelCoordinator {
       WTFTimer.CallbackEvent.WTF_TIMER_MINUTES_UPDATE,
       () => {
         console.log(
-          "ModelCoordinator Event Fired: onWTFTimerUpdateRefreshTeamMemberTimers"
+          "[ModelCoordinator] Event Fired: onWTFTimerUpdateRefreshTeamMemberTimers"
         );
         this.teamModel.refreshMe();
       }

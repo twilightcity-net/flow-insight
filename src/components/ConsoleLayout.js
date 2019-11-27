@@ -90,8 +90,8 @@ export default class ConsoleLayout extends Component {
   componentDidMount = () => {
     console.log(this.name + " - componentDidMount");
 
-    ModelCoordinator.init(this);
-    PerspectiveController.init(this);
+    // ModelCoordinator.init(this);
+    // PerspectiveController.init(this);
 
     this.sidePanelController.configureContentListener(
       this,

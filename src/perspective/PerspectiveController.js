@@ -83,6 +83,9 @@ export class PerspectiveController {
         this.journalModel.loadDefaultJournal();
       }
     } else {
+      /// TODO this should be migrated over to a realtime team stream of events.
+      /// create teamUpdateEvent
+
       setTimeout(() => {
         this.teamModel.resetActiveMemberToMe();
         this.teamModel.refreshAll();
