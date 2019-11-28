@@ -10,8 +10,8 @@ import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { TeamModel } from "../models/TeamModel";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 import { SidePanelViewController } from "../perspective/SidePanelViewController";
-import { ModelCoordinator } from "../models/ModelCoordinator";
-import { PerspectiveController } from "../perspective/PerspectiveController";
+// import { ModelCoordinator } from "../models/ModelCoordinator";
+// import { PerspectiveController } from "../perspective/PerspectiveController";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -90,6 +90,7 @@ export default class ConsoleLayout extends Component {
   componentDidMount = () => {
     console.log(this.name + " - componentDidMount");
 
+    /// FIXME :: move this to a global render event for init
     // ModelCoordinator.init(this);
     // PerspectiveController.init(this);
 

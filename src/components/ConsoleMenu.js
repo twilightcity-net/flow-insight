@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { RendererEventFactory } from "../RendererEventFactory";
 import { Icon, Menu, Popup } from "semantic-ui-react";
 import { MainPanelViewController } from "../perspective/MainPanelViewController";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
@@ -22,13 +21,16 @@ export default class ConsoleMenu extends Component {
       errorMsg: ""
     };
     this.isOnline = true;
-    this.events = {
-      heartbeat: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.APP_HEARTBEAT,
-        this,
-        this.onHeartbeatCb
-      )
-    };
+
+    // FIXME :: needs to be managed by coordinator
+    // this.events = {
+    //   heartbeat: RendererEventFactory.createEvent(
+    //     RendererEventFactory.Events.APP_HEARTBEAT,
+    //     this,
+    //     this.onHeartbeatCb
+    //   )
+    // };
+
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.MAIN_PANEL,
       this
@@ -53,15 +55,16 @@ export default class ConsoleMenu extends Component {
     this.setState({ activeItem: activeMenuItem });
   };
 
-  onHeartbeatCb(event, arg) {
-    console.log("[ConsoleMenu] update state onHeartbeatCb");
-    this.setState({
-      isOnline: arg.isOnline,
-      pingTime: arg.pingTime,
-      server: arg.server,
-      errorMsg: arg.message
-    });
-  }
+  // FIXME :: broken needs to be managed ny coordinator
+  // onHeartbeatCb(event, arg) {
+  //   console.log("[ConsoleMenu] update state onHeartbeatCb");
+  //   this.setState({
+  //     isOnline: arg.isOnline,
+  //     pingTime: arg.pingTime,
+  //     server: arg.server,
+  //     errorMsg: arg.message
+  //   });
+  // }
 
   handleMenuClick = (e, { name }) => {
     if (this.isChanging || this.state.activeItem === name) return;
@@ -76,6 +79,8 @@ export default class ConsoleMenu extends Component {
 
   handleHideClick = (e, { name }) => {
     console.log(this.name + " - open hide window");
+
+    // FIXME :: this should actually call an event.. move to controller?
     this.events.hideConsole.dispatch(0, true);
   };
 

@@ -37,14 +37,14 @@ export default class JournalEntry extends Component {
     );
   }
 
-  resetOnConsoleOpen() {
-    if (!this.consoleController.consoleIsCollapsed) {
-      console.log(this.name + " - resetOnConsoleOpen");
-      setTimeout(() => {
-        this.resetFocus();
-      }, 200);
-    }
-  }
+  // resetOnConsoleOpen() {
+  //   if (!this.consoleController.consoleIsCollapsed) {
+  //     console.log(this.name + " - resetOnConsoleOpen");
+  //     setTimeout(() => {
+  //       this.resetFocus();
+  //     }, 200);
+  //   }
+  // }
 
   resetFocus() {
     document.getElementById("intentionTextInput").focus();
@@ -59,10 +59,10 @@ export default class JournalEntry extends Component {
       this.onJournalRecentTasksUpdateCb
     );
 
-    this.consoleController.configureJournalEntryListener(
-      this,
-      this.resetOnConsoleOpen
-    );
+    // this.consoleController.configureJournalEntryListener(
+    //   this,
+    //   this.resetOnConsoleOpen
+    // );
     this.resetFocus();
 
     this.onJournalRecentTasksUpdateCb();

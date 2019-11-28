@@ -118,14 +118,14 @@ export class RendererEventManager {
    */
   static listenForReply(event) {
     if (!event.reply) return;
-    log.info(
+    console.log(
       "[RendererEventManager] listening for reply -> " + event.type + "-reply"
     );
 
     let wrapperFunction = (_event, _arg) => {
       event.replyReturnValue = null;
       try {
-        log.info(
+        console.log(
           "[RendererEventManager] event reply -> " +
             event.type +
             "-reply : " +
@@ -154,7 +154,7 @@ export class RendererEventManager {
   }
 
   static removeListeners(event) {
-    log.info(
+    console.log(
       "[RendererEventManager] removing listeners for callback -> " + event.type
     );
     if (event.callbackWrapperFunction) {
@@ -173,12 +173,14 @@ export class RendererEventManager {
    */
   static listenForCallback(event) {
     if (!event.callback) return;
-    log.info("[RendererEventManager] listening for callback -> " + event.type);
+    console.log(
+      "[RendererEventManager] listening for callback -> " + event.type
+    );
 
     let wrapperFunction = (_event, _arg) => {
       event.returnValue = null;
       try {
-        log.info(
+        console.log(
           "[RendererEventManager] event callback -> " +
             event.type +
             " : " +
@@ -212,12 +214,12 @@ export class RendererEventManager {
   /// ref => https://github.com/electron/electron/blob/master/docs/api/ipc-renderer.md
   static dispatch(event, arg, noEcho, isSync) {
     event.returnValue = null;
-    log.info(
+    console.log(
       "[RendererEventManager] dispatch event -> " + event.type + " : " + arg
     );
     try {
       if (noEcho && isSync) {
-        log.info(
+        console.log(
           "[RendererEventManager] |> send sync event -> " +
             event.type +
             " : " +
@@ -225,7 +227,7 @@ export class RendererEventManager {
         );
         event.returnValue = ipcRenderer.sendSync(event.type, arg);
         RendererEventManager.checkEventForError(event);
-        log.info(
+        console.log(
           "[RendererEventManager] └> callback -> " +
             event.type +
             " : " +
@@ -233,12 +235,12 @@ export class RendererEventManager {
         );
         event.returnValue = event.callback(event, event.returnValue);
       } else if (noEcho) {
-        log.info(
+        console.log(
           "[RendererEventManager] └> send event -> " + event.type + " : " + arg
         );
         ipcRenderer.send(event.type, arg);
       } else {
-        log.info(
+        console.log(
           "[RendererEventManager] └> send echo event -> " +
             event.type +
             " : " +

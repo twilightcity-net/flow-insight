@@ -1,14 +1,6 @@
 import React, { Component } from "react";
 // import { RendererEventFactory } from "../RendererEventFactory";
-import {
-  Button,
-  Divider,
-  Header,
-  Image,
-  Grid,
-  Segment,
-  Input
-} from "semantic-ui-react";
+import { Button, Divider, Image, Grid, Segment } from "semantic-ui-react";
 import { RendererEventFactory } from "../RendererEventFactory";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { DataModelFactory } from "../models/DataModelFactory";
@@ -194,8 +186,12 @@ export default class TroubleshootSessionNew extends Component {
                 color="red"
                 animated="fade"
               >
-                <Button.Content visible>WTF?! 💣</Button.Content>
-                <Button.Content hidden>👉 &nbsp;START!</Button.Content>
+                <Button.Content visible>
+                  &nbsp;&nbsp;&nbsp; WTF?!&nbsp;&nbsp;&nbsp;
+                </Button.Content>
+                <Button.Content hidden>
+                  &nbsp;&nbsp;&nbsp;START!&nbsp;&nbsp;&nbsp;
+                </Button.Content>
               </Button>
               <Segment inverted size={"huge"}>
                 <b>Start a Troubleshooting Session</b>

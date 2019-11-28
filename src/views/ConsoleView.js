@@ -13,7 +13,7 @@ export default class ConsoleView extends Component {
   /// Activates animation according
   constructor(props) {
     super(props);
-
+    this.name = "[ConsoleView]";
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.CONSOLE_PANEL,
       this
@@ -48,6 +48,7 @@ export default class ConsoleView extends Component {
   }
 
   componentDidMount = () => {
+    console.log(this.name + " did mount");
     this.myController.configureConsoleViewListener(this, this.onLoadCb);
   };
 

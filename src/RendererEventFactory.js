@@ -1,8 +1,5 @@
 import { RendererEvent } from "./RendererEventManager";
 
-const { remote } = window.require("electron"),
-  log = remote.require("electron-log");
-
 //
 //This class is used as a helper class to store event names from
 //  * ./public/EventManager. When adding a new event make sure to update
@@ -10,7 +7,7 @@ const { remote } = window.require("electron"),
 //
 export class RendererEventFactory {
   static createEvent(type, ...args) {
-    log.info("[RendererEventFactory] create event -> " + type);
+    console.log("[RendererEventFactory] create event -> " + type);
     let event = new RendererEvent(type, ...args);
     return event;
   }

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Divider, Grid, Icon, Popup } from "semantic-ui-react";
-import { DataModelFactory } from "../models/DataModelFactory";
+// import { DataModelFactory } from "../models/DataModelFactory";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 import { SidePanelViewController } from "../perspective/SidePanelViewController";
 
@@ -131,7 +131,7 @@ export default class TeamMember extends Component {
     }
 
     let linkStatusIcon = "";
-    if (this.props.isLinked == true) {
+    if (this.props.isLinked === true) {
       linkStatusIcon = <Icon link name="linkify" className="chainStatus" />;
     }
 

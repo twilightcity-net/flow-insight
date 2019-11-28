@@ -193,7 +193,7 @@ export default class SpiritPanel extends Component {
       for (var i in this.props.activeSpiritLinks) {
         spiritLink = this.props.activeSpiritLinks[i];
 
-        if (spiritLink.friendSpiritId == this.props.me.id) {
+        if (spiritLink.friendSpiritId === this.props.me.id) {
           linkedToMe = true;
           break;
         }
@@ -291,26 +291,6 @@ export default class SpiritPanel extends Component {
       } else {
         activeLinkIcon = linkIcon;
       }
-    }
-
-    let spiritImage = "";
-
-    if (this.state.flameString >= 0) {
-      spiritImage = (
-        <Image
-          height={this.calculateSpiritHeight()}
-          centered
-          src="./assets/images/spirit.png"
-        />
-      );
-    } else if (this.state.flameString < 0) {
-      spiritImage = (
-        <Image
-          height={this.calculateSpiritHeight()}
-          centered
-          src="./assets/images/painSpirit.png"
-        />
-      );
     }
 
     const spiritContent = (

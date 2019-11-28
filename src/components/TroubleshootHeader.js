@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Grid, Segment } from "semantic-ui-react";
+import { Segment } from "semantic-ui-react";
 
 //
 // this component is the tab panel wrapper for the console content
