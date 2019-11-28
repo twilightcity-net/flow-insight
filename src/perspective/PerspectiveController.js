@@ -76,16 +76,32 @@ export class PerspectiveController {
     }
   }
 
-  onConsoleOpenUpdateModels() {
-    console.log(this.name + " - Event Fired: onConsoleOpenUpdateModels");
-    if (!this.consoleController.consoleIsCollapsed) {
+  /**
+   * dynamically loads the model data when the console is open. uses the event int arg
+   * 1 is shown, 0 is hiden.. see CONSOLE_WINDOW_SHOW_HIDE event. the value represents
+   * the state of this window; not action
+   * @param event
+   * @param arg
+   */
+  onConsoleOpenUpdateModels(event, arg) {
+    console.log(
+      this.name +
+        " - Event Fired: onConsoleOpenUpdateModels -> " +
+        event +
+        " : " +
+        arg.toString()
+    );
+
+    if (arg === 1) {
+      //shown
       if (this.spiritModel.hasLinks()) {
         this.journalModel.loadDefaultJournal();
       }
     } else {
-      /// TODO this should be migrated over to a realtime team stream of events.
-      /// create teamUpdateEvent
-
+      /// TODO create an event console shown which will call this
+      // this is required so that the console sliding animation isn't wonky or laggy
+      // maybe create a console is shown (done animating) event to fire these..
+      // this would also throttle requests if thw console is opened and closed rapidly
       setTimeout(() => {
         this.teamModel.resetActiveMemberToMe();
         this.teamModel.refreshAll();

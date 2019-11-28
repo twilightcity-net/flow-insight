@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import Keyframes from "@keyframes/core";
 import ConsoleLayout from "../components/ConsoleLayout";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import { ModelCoordinator } from "../models/ModelCoordinator";
+import { PerspectiveController } from "../perspective/PerspectiveController";
 
 //
 // This View will contain logic to inject the various tabs of the
@@ -50,6 +52,8 @@ export default class ConsoleView extends Component {
   componentDidMount = () => {
     console.log(this.name + " did mount");
     this.myController.configureConsoleViewListener(this, this.onLoadCb);
+    ModelCoordinator.init(this);
+    PerspectiveController.init(this);
   };
 
   componentWillUnmount = () => {
