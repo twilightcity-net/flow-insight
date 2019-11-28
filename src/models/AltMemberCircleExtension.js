@@ -1,7 +1,7 @@
 import { DataModel } from "./DataModel";
 import { ActiveCircleModel } from "./ActiveCircleModel";
 const { remote } = window.require("electron"),
-  CircleKeysDto = remote.require("./dto/CircleKeysDto"),
+  // CircleKeysDto = remote.require("./dto/CircleKeysDto"),
   FeedMessageDto = remote.require("./dto/FeedMessageDto");
 
 export class AltMemberCircleExtension extends DataModel {

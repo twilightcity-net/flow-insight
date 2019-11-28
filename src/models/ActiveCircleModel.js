@@ -3,7 +3,7 @@ import { AltModelDelegate } from "./AltModelDelegate";
 import { AltMemberCircleExtension } from "./AltMemberCircleExtension";
 const { remote } = window.require("electron"),
   CircleDto = remote.require("./dto/CircleDto"),
-  CircleKeysDto = remote.require("./dto/CircleKeysDto"),
+  // CircleKeysDto = remote.require("./dto/CircleKeysDto"),
   FeedMessageDto = remote.require("./dto/FeedMessageDto");
 
 export class ActiveCircleModel extends DataModel {

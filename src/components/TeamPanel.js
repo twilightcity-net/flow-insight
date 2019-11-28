@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import TeamMember from "./TeamMember";
 import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+// import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content
