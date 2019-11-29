@@ -106,7 +106,6 @@ export default class LoadingView extends Component {
   };
 
   handleQuitAppBtn = () => {
-    console.log("quit application");
     this.events.quit.dispatch(0, true);
   };
 
