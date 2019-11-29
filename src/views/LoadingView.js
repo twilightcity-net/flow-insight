@@ -11,9 +11,6 @@ import {
   Segment
 } from "semantic-ui-react";
 
-const { remote } = window.require("electron"),
-  log = remote.require("electron-log");
-
 //
 // This view class is used to show application loading which consists of:
 //   1> checking for ner version to update
@@ -64,7 +61,7 @@ export default class LoadingView extends Component {
   }
 
   onLoadCb(event, arg) {
-    log.info("[LoadingView] event -> APPLOADER_LOAD : " + arg.load);
+    console.log("[LoadingView] event -> APPLOADER_LOAD : " + arg.load);
     this.setState(state => {
       this.updateHeaderText(arg.text);
       this.updateProgress(arg.value, arg.total, arg.label);
@@ -73,7 +70,7 @@ export default class LoadingView extends Component {
 
   ///called when the app loader login failes. updated gui
   onLoginFailedCb(event, arg) {
-    log.info(
+    console.log(
       "[LoadingView] event -> WINDOW_LOADING_LOGIN_FAILED : login failed"
     );
     setTimeout(() => {
