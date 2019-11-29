@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Icon, Menu, Popup } from "semantic-ui-react";
 import { MainPanelViewController } from "../perspective/MainPanelViewController";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import { RendererEventFactory } from "../RendererEventFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -23,13 +24,13 @@ export default class ConsoleMenu extends Component {
     this.isOnline = true;
 
     // FIXME :: needs to be managed by coordinator
-    // this.events = {
-    //   heartbeat: RendererEventFactory.createEvent(
-    //     RendererEventFactory.Events.APP_HEARTBEAT,
-    //     this,
-    //     this.onHeartbeatCb
-    //   )
-    // };
+    this.events = {
+      heartbeat: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.APP_HEARTBEAT,
+        this,
+        this.onHeartbeatCb
+      )
+    };
 
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.MAIN_PANEL,
@@ -56,15 +57,15 @@ export default class ConsoleMenu extends Component {
   };
 
   // FIXME :: broken needs to be managed ny coordinator
-  // onHeartbeatCb(event, arg) {
-  //   console.log("[ConsoleMenu] update state onHeartbeatCb");
-  //   this.setState({
-  //     isOnline: arg.isOnline,
-  //     pingTime: arg.pingTime,
-  //     server: arg.server,
-  //     errorMsg: arg.message
-  //   });
-  // }
+  onHeartbeatCb(event, arg) {
+    console.log("[ConsoleMenu] update state onHeartbeatCb");
+    this.setState({
+      isOnline: arg.isOnline,
+      pingTime: arg.pingTime,
+      server: arg.server,
+      errorMsg: arg.message
+    });
+  }
 
   handleMenuClick = (e, { name }) => {
     if (this.isChanging || this.state.activeItem === name) return;

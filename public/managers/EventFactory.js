@@ -1,12 +1,16 @@
 const log = require("electron-log"),
-  { EventManager, MainEvent } = require("./EventManager");
+  { MainEvent } = require("./EventManager");
 
-/*
+/**
  * a factory class used to create new events
+ * @type {EventFactory}
  */
 module.exports = class EventFactory {
-  /*
+  /**
    * creates and returns a new Event Object
+   * @param type
+   * @param args
+   * @returns {MainEvent}
    */
   static createEvent(type, ...args) {
     log.info("[EventFactory] create event -> " + type);
@@ -14,9 +18,10 @@ module.exports = class EventFactory {
     return event;
   }
 
-  /*
-   * static enum to store event types. These are basically the type
-   * of possible events that can be dispatched by the Manager.
+  /**
+   * static enum to store event types. These are basically the type of possible events that can be dispatched by the Manager.
+   * @returns {{WINDOW_LOADING_SHOWN: string, SCREENSHOT_READY_FOR_DISPLAY: string, WINDOW_RT_FLOW_CONNECTED: string, WINDOW_CONSOLE_READY: string, READY_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN: string, DATASTORE_LOAD: string, WINDOW_RT_FLOW_RECONNECTED: string, SHORTCUTS_RECIEVED: string, APP_HEARTBEAT: string, DATASTORE_LOADED: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, SHORTCUTS_CREATED: string, APPLOADER_LOAD: string, WINDOW_FOCUS: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, WINDOW_BLUR: string, SCREENSHOT_COMPLETE: string, WINDOW_CONSOLE_SHOW_HIDE: string, WINDOW_ACTIVATOR_CLOSE: string, SUBMIT_BUG_REPORT: string}}
+   * @constructor
    */
   static get Types() {
     let prefix = "torchie-ipc-";

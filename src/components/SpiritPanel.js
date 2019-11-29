@@ -93,8 +93,6 @@ export default class SpiritPanel extends Component {
       this,
       this.onRefreshActivePerspective
     );
-
-    console.log(this.spiritCanvas);
   };
 
   onRefreshActivePerspective() {
