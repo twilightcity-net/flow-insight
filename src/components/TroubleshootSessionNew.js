@@ -177,44 +177,24 @@ export default class TroubleshootSessionNew extends Component {
     return (
       <div id="component" className="troubleshootPanelDefault">
         <Divider hidden fitted clearing />
-        <Grid textAlign="center" verticalAlign="middle" inverted>
-          <Grid.Column width={10} className="rootLayout">
-            <Segment className="wtf" inverted padded={"very"}>
-              <Button
-                onClick={this.onClickStartTroubleshooting}
-                size="massive"
-                color="red"
-                animated="fade"
-              >
-                <Button.Content visible>
-                  &nbsp;&nbsp;&nbsp; WTF?!&nbsp;&nbsp;&nbsp;
-                </Button.Content>
-                <Button.Content hidden>
-                  &nbsp;&nbsp;&nbsp;START!&nbsp;&nbsp;&nbsp;
-                </Button.Content>
-              </Button>
-              <Segment inverted size={"huge"}>
-                <b>Start a Troubleshooting Session</b>
-              </Segment>
-            </Segment>
-          </Grid.Column>
-          <Grid.Column width={6} className="rootLayout screenshot">
-            <Segment inverted>
-              <Image
-                fluid
-                className="screenshot"
-                label={{
-                  as: "a",
-                  color: "red",
-                  corner: "right",
-                  icon: "external"
-                }}
-                src={this.state.screenPath}
-                onClick={this.onClickScreenshot}
-              />
-            </Segment>
-          </Grid.Column>
-        </Grid>
+        <Segment textAlign={"center"} className="wtf" inverted padded={"very"}>
+          <Button
+            onClick={this.onClickStartTroubleshooting}
+            size="massive"
+            color="red"
+            animated="fade"
+          >
+            <Button.Content visible>
+              &nbsp;&nbsp;&nbsp; WTF?!&nbsp;&nbsp;&nbsp;
+            </Button.Content>
+            <Button.Content hidden>
+              &nbsp;&nbsp;&nbsp;START!&nbsp;&nbsp;&nbsp;
+            </Button.Content>
+          </Button>
+          <Segment inverted size={"huge"}>
+            <b>Start a Troubleshooting Session</b>
+          </Segment>
+        </Segment>
       </div>
     );
   }
