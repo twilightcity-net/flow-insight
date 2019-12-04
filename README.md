@@ -34,6 +34,12 @@ To run the project using the local development mock api, use:
 
 Note: hit `ctrl+c` to terminate the project.
 
+### Updating Your Source Code From Repo ###
+
+1) Run the following command in the terminal after making some file changes:
+
+`yarn update`
+
 ### Code Documentation
 
 This project uses the module jsdoc to generate a static html API website that outlines all of our modules, classes, and functions. You can find documentation help and examples at the following links:
@@ -54,7 +60,7 @@ Documentation files will be exported to ~/torchie-desktop/docs.
 
 `yarn release`
 
-### Updating Source Code ###
+### Pushing Source Code To Repository ###
 
 1) Run the following command in the terminal after making some file changes:
 
