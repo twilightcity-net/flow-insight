@@ -16,6 +16,7 @@
     "url": "https://github.com/dreamscale-io/torchie-desktop-release.git"
   },
   "scripts": {
+    "update": "git fetch && git pull && yarn prestage",
     "prestage": "gulp prettier lint",
     "stage": "git add .",
     "start": "react-scripts start",
