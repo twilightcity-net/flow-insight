@@ -1,19 +1,20 @@
 /* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
- *        ____________ _____ ___ ___  ________ _____  ___  _     _____ _____ _____          *
+ *        ____________ _____ ___ ___  ________ _____  ___  _     _____ _____ _____           *
  *        |  _  \ ___ \  ___/ _ \|  \/  /  ___/  __ \/ _ \| |   |  ___|_   _|  _  |          *
  *        | | | | |_/ / |__/ /_\ \ .  . \ `--.| /  \/ /_\ \ |   | |__   | | | | | |          *
  *        | | | |    /|  __|  _  | |\/| |`--. \ |   |  _  | |   |  __|  | | | | | |          *
  *        | |/ /| |\ \| |__| | | | |  | /\__/ / \__/\ | | | |___| |_____| |_\ \_/ / 1-14x0r  *
- *        |___/ \_| \_\____|_| |_|_|  |_|____/ \____|_| |_|_____|____(_)___/ \___/  OCT.2017 *
+ *        |___/ \_| \_\____|_| |_|_|  |_|____/ \____|_| |_|_____|____(_)___/ \___/  JAN.2020 *
  *                                                                                           *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                                           *
  *   This document is a part of the source code and related artifacts                        *
- *   for Torchie owned by DreamScale Inc.:                                                    *
+ *   for Torchie Desktop Client, a subsidiary of the Dreamtalk Platform                      *
+ *   owned and operated by DreamScale Inc.:                                                  *
  *                                                                                           *
- *   http://dreamscale.io                                                                    *
+ *   https://dreamscale.io | https://dreamscale.love                                         *
  *                                                                                           *
- *   Copyright © 2019 DreamScale.io                                                        *
+ *   Copyright © 2020 DreamScale.io                                                          *
  *                                                                                           *
  *   Licensed under the GNU LESSER GENERAL PUBLIC LICENSE (LGPL), Version 3.0.               *
  *   You may not use this file except in compliance with this License, the                   *
@@ -25,8 +26,8 @@
  *   https://www.gnu.org/licenses/lgpl-3.0.en.html                                           *
  *                                                                                           *
  *   You may obtain a copy of the DreamScale.io License and EULA at:                         *
- *   https://dreamscale.io/licenses/torchie-license.txt                                       *
- *   https://dreamscale.io/licenses/torchie-eula.txt                                          *
+ *   https://dreamscale.io/licenses/torchie-license.txt                                      *
+ *   https://dreamscale.io/licenses/torchie-eula.txt                                         *
  *                                                                                           *
  *   Unless required by applicable law or agreed to in writing, software                     *
  *   distributed under the License is distributed on an "AS IS" BASIS,                       *

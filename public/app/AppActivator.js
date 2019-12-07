@@ -75,4 +75,11 @@ module.exports = class AppActivator {
     log.info("[AppActivator] finished : okay");
     global.App.WindowManager.closeWindow(this.activatorWindow, true);
   }
+
+  /**
+   * deactivates the Application
+   */
+  deactivate() {
+    // TODO add deactivate code in here
+  }
 };

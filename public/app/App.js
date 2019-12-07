@@ -1,4 +1,4 @@
-const { app, dialog, Menu } = require("electron"),
+const { app, dialog } = require("electron"),
   fs = require("fs"),
   path = require("path"),
   log = require("electron-log"),
@@ -6,7 +6,7 @@ const { app, dialog, Menu } = require("electron"),
   rootPath = require("electron-root-path").rootPath,
   platform = require("electron-platform"),
   cleanStack = require("clean-stack"),
-  args = require("yargs"),
+  argv = require("yargs").argv,
   Logger = require("./AppLogger"),
   AppError = require("./AppError"),
   Util = require("../Util"),
@@ -22,12 +22,14 @@ const { app, dialog, Menu } = require("electron"),
   AppActivator = require("./AppActivator"),
   AppLoader = require("./AppLoader"),
   AppHeartbeat = require("./AppHeartbeat"),
-  AppLogin = require("./AppLogin");
+  AppLogin = require("./AppLogin"),
+  AppController = require("../controllers/AppController");
 
 module.exports = class App {
   constructor() {
     if (isDev) Util.setDevUserDataDir();
     this.Logger = Logger.create();
+    this.myController = AppController.init(this);
     this.events = {
       ready: this.onReady,
       singleInstance: this.onSingleInstance,
@@ -37,6 +39,7 @@ module.exports = class App {
       crashed: this.onCrash
     };
     this.setupCLI();
+    this.processCLI();
     this.isSecondInstance = app.makeSingleInstance(this.onSingleInstance);
     if (this.isSecondInstance) {
       log.info("[App] quit -> second instance");
@@ -104,6 +107,18 @@ module.exports = class App {
         " => " +
         commandLine
     );
+  }
+
+  /// processes the system command line arguments.. nothing fance should go here
+  /// will need to build a more complex CLI processor when we have actual an
+  /// API that requires using args
+  processCLI() {
+    /// check for --activate argument which can only be 'new' for now.
+    /// this will remove the previous license key and prompt for a new key
+    if (argv.deactivate || argv.DEACTIVATE) {
+      console.log("deactivate!!!");
+      AppController.init(this);
+    }
   }
 
   /// idle the app if all windows are closed
