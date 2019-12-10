@@ -1,4 +1,5 @@
-const { app, dialog } = require("electron"),
+const GLOBAL_ = global,
+  { app, dialog } = require("electron"),
   fs = require("fs"),
   path = require("path"),
   log = require("electron-log"),
@@ -67,31 +68,31 @@ module.exports = class App {
 
   /// called by the app ready event -> called first after electron app loaded
   onReady() {
-    global.App.api = Util.getAppApi();
-    global.App.name = Util.getAppName();
-    global.App.rtFlowUrl = Util.getAppRTFlowUrl();
-    global.App.render3D = Util.getRender3D();
-    global.App.idleTime = 0;
-    global.App.isOnline = false;
-    global.App.isLoggedIn = false;
-    app.setName(global.App.name);
-    log.info("[App] ready -> " + global.App.name + " : " + global.App.api);
-    log.info("[App] ready -> rt-flow : " + global.App.rtFlowUrl);
-    log.info("[App] ready -> render3D : " + global.App.render3D);
+    GLOBAL_.App.api = Util.getAppApi();
+    GLOBAL_.App.name = Util.getAppName();
+    GLOBAL_.App.rtFlowUrl = Util.getAppRTFlowUrl();
+    GLOBAL_.App.render3D = Util.getRender3D();
+    GLOBAL_.App.idleTime = 0;
+    GLOBAL_.App.isOnline = false;
+    GLOBAL_.App.isLoggedIn = false;
+    app.setName(GLOBAL_.App.name);
+    log.info("[App] ready -> " + GLOBAL_.App.name + " : " + GLOBAL_.App.api);
+    log.info("[App] ready -> rt-flow : " + GLOBAL_.App.rtFlowUrl);
+    log.info("[App] ready -> render3D : " + GLOBAL_.App.render3D);
     try {
-      global.App.EventManager = new EventManager();
-      global.App.WindowManager = new WindowManager();
-      global.App.RTFlowManager = new RTFlowManager();
-      global.App.ShortcutManager = new ShortcutManager();
-      global.App.SlackManager = new SlackManager();
-      global.App.AppUpdater = new AppUpdater();
-      global.App.AppSettings = new AppSettings();
-      global.App.DataStoreManager = new DataStoreManager();
-      global.App.AppActivator = new AppActivator();
-      global.App.AppLoader = new AppLoader();
-      global.App.AppHeartbeat = new AppHeartbeat();
-      global.App.createQuitListener();
-      global.App.load();
+      GLOBAL_.App.EventManager = new EventManager();
+      GLOBAL_.App.WindowManager = new WindowManager();
+      GLOBAL_.App.RTFlowManager = new RTFlowManager();
+      GLOBAL_.App.ShortcutManager = new ShortcutManager();
+      GLOBAL_.App.SlackManager = new SlackManager();
+      GLOBAL_.App.AppUpdater = new AppUpdater();
+      GLOBAL_.App.AppSettings = new AppSettings();
+      GLOBAL_.App.DataStoreManager = new DataStoreManager();
+      GLOBAL_.App.AppActivator = new AppActivator();
+      GLOBAL_.App.AppLoader = new AppLoader();
+      GLOBAL_.App.AppHeartbeat = new AppHeartbeat();
+      GLOBAL_.App.createQuitListener();
+      GLOBAL_.App.load();
     } catch (error) {
       App.handleError(error, true);
     }
@@ -132,7 +133,7 @@ module.exports = class App {
 
     /// only logout if we are already logged in. This is used to
     /// bypass quiting during activation or loading
-    if (global.App.isLoggedIn) {
+    if (GLOBAL_.App.isLoggedIn) {
       event.preventDefault();
       AppLogin.doLogout(store => {
         log.info("[App] before quit -> logout complete : quit");
@@ -172,7 +173,7 @@ module.exports = class App {
     if (!(error instanceof AppError)) {
       error.stack = cleanStack(error.stack);
     }
-    if (global.App) {
+    if (GLOBAL_.App) {
       log.error(
         (fatal ? "[FATAL] " : "") +
           "[App] " +
@@ -239,12 +240,12 @@ module.exports = class App {
   /// called to start loading the application from AppLoader class
   load() {
     log.info("[App] checking for settings...");
-    if (global.App.AppSettings.check()) {
-      global.App.ApiKey = global.App.AppSettings.getApiKey();
-      global.App.AppLoader.load();
+    if (GLOBAL_.App.AppSettings.check()) {
+      GLOBAL_.App.ApiKey = GLOBAL_.App.AppSettings.getApiKey();
+      GLOBAL_.App.AppLoader.load();
     } else {
-      global.App.AppActivator.start();
-      global.App.AppLoader.createMenu();
+      GLOBAL_.App.AppActivator.start();
+      GLOBAL_.App.AppLoader.createMenu();
     }
   }
 
@@ -266,7 +267,7 @@ module.exports = class App {
       EventFactory.Types.APP_QUIT,
       this,
       (event, arg) => {
-        global.App.quit();
+        GLOBAL_.App.quit();
       }
     );
   }

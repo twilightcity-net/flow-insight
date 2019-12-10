@@ -20,9 +20,6 @@ class Shortcut {
    * @param {callback} the callback function to execute (optional)
    */
   constructor(name, accelerator, win, callback) {
-    log.info(
-      "[ShortcutManager] create shortcut -> " + name + " : " + accelerator
-    );
     this.name = name;
     this.accelerator = accelerator;
     this.window = win;
@@ -104,17 +101,22 @@ class ShortcutManager {
    * @return {shortcut} the shortcut object that was registered
    */
   static registerShortcut(shortcut) {
-    log.info("[ShortcutManager] |> register shortcut -> " + shortcut.name);
     if (!shortcut.window) {
       log.info(
-        "[ShortcutManager] |> create global shortcut -> " + shortcut.name
+        "[ShortcutManager] register global shortcut -> " +
+          shortcut.name +
+          " : '" +
+          shortcut.accelerator +
+          "'"
       );
     } else {
       log.info(
-        "[ShortcutManager] └> create window shortcut -> " +
+        "[ShortcutManager] register window shortcut -> " +
           shortcut.window.name +
           " : " +
-          shortcut.name
+          shortcut.name +
+          " : " +
+          shortcut.accelerator
       );
     }
     ShortcutManager.Shortcuts.push(shortcut);

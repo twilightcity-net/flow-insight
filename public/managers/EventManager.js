@@ -241,9 +241,6 @@ class EventManager {
    * @returns {*}
    */
   executeCallback(event, arg) {
-    log.info(
-      "[EventManager] |> execute callback -> " + event.type + " : " + arg
-    );
     try {
       if (event.callback) {
         return event.callback(event, arg);
@@ -260,9 +257,6 @@ class EventManager {
    * @returns {*}
    */
   executeReply(event, arg) {
-    log.info(
-      "[EventManager] execute reply -> " + event.type + "-reply : " + arg
-    );
     try {
       return event.reply(event, arg);
     } catch (e) {
@@ -277,7 +271,6 @@ class EventManager {
    * @returns {[]|Array}
    */
   static dispatch(eventType, arg) {
-    log.info("[EventManager] dispatch event -> " + eventType);
     let windows = global.App.WindowManager.windows,
       manager = global.App.EventManager,
       returnedEvents = [];
@@ -317,10 +310,8 @@ class EventManager {
   handleEvent(event, arg) {
     this.initReturnValues(event);
     try {
-      log.info("[EventManager] |> handle callback -> " + event.type);
       event.returnValues.callback = this.executeCallback(event, arg);
       if (event.reply) {
-        log.info("[EventManager] |> handle reply -> " + event.type + "-reply");
         event.returnValues.reply = this.executeReply(event, arg);
       }
     } catch (error) {
