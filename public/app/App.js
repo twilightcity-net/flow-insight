@@ -29,7 +29,7 @@ module.exports = class App {
   constructor() {
     if (isDev) Util.setDevUserDataDir();
     this.Logger = Logger.create();
-    this.myController = AppController.init(this);
+    this.myController = new AppController(app);
     this.events = {
       ready: this.onReady,
       singleInstance: this.onSingleInstance,

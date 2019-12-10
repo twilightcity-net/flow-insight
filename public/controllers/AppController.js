@@ -5,25 +5,16 @@ const BaseController = require("./BaseController");
  */
 module.exports = class AppController extends BaseController {
   constructor(scope) {
-    super("[AppController]", scope, AppController);
-    // AppController.instance = this;
+    super(scope, AppController);
   }
 
   /// links associated controller classes here
-  wireControllersTogether() {
-    super.wireControllersTogether();
-
-    // TODO add app controllers here
+  static wireControllersTogether() {
+    BaseController.wireControllersTo(AppController.instance);
   }
 
   /// configures application wide events here
-  configureEvents() {
-    super.configureEvents();
-
-    // TODO wire up app events here, call init event functions from here
-  }
-
-  test() {
-    super.test();
+  static configureEvents() {
+    BaseController.configureEventsFor(AppController.instance);
   }
 };

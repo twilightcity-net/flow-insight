@@ -168,10 +168,8 @@ class EventManager {
    * @param event the scope of this event callback
    */
   register(event) {
-    log.info("[EventManager] |> register event -> " + event.type);
     event = this.createListener(event);
     ipcMain.on(event.type, event.listener);
-    log.info("[EventManager] └> store event -> " + event.type);
     this.events.push(event);
   }
 

@@ -13,7 +13,6 @@ module.exports = class EventFactory {
    * @returns {MainEvent}
    */
   static createEvent(type, ...args) {
-    log.info("[EventFactory] create event -> " + type);
     let event = new MainEvent(type, ...args);
     return event;
   }
