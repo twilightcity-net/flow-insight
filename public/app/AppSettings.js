@@ -1,9 +1,9 @@
-let { app } = require("electron"),
-  settings = require("electron-settings"),
+let settings = require("electron-settings"),
   log = require("electron-log"),
   fs = require("fs"),
   crypto = require("crypto-js"),
-  Util = require("../Util");
+  Util = require("../Util"),
+  AppError = require("./AppError");
 
 /**
  * Application class used to manage our settings stores in ~/.flow
@@ -71,9 +71,11 @@ module.exports = class AppSettings {
    */
   getOrCreateFlowHomeDir() {
     let path = Util.getFlowHomePath();
-    if (!fs.exists(path)) {
-      log.info("[AppSettings] create flow home directory", path);
-      fs.mkdir(path);
+
+    try {
+      fs.accessSync(path, fs.constants.R_OK | fs.constants.W_OK);
+    } catch (err) {
+      fs.mkdirSync(path);
     }
     return path;
   }

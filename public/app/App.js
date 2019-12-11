@@ -162,41 +162,9 @@ module.exports = class App {
     );
   }
 
-  /// watch for errors on the application
-  errorWatcher() {
-    process.on("uncaughtException", error => App.handleError);
-    process.on("unhandledRejection", error => App.handleError);
-  }
-
-  /// process any errors thrown by the application
+  /// proxy method for AppError class handler
   static handleError(error, fatal) {
-    if (!(error instanceof AppError)) {
-      error.stack = cleanStack(error.stack);
-    }
-    if (GLOBAL_.App) {
-      log.error(
-        (fatal ? "[FATAL] " : "") +
-          "[App] " +
-          error.toString() +
-          "\n\n" +
-          error.stack +
-          "\n"
-      );
-    } else {
-      console.error(
-        (fatal ? "[FATAL] " : "") +
-          error.toString() +
-          "\n\n" +
-          error.stack +
-          "\n"
-      );
-    }
-    if (fatal) {
-      dialog.showErrorBox("Torchie", "[FATAL] " + error.toString());
-      process.exit(1);
-    } else {
-      dialog.showErrorBox("Torchie", error.toString());
-    }
+    AppError.handleError(error, fatal);
   }
 
   /// sets up the command line interface so that we can call functions\
@@ -229,7 +197,9 @@ module.exports = class App {
   /// used to start the app listeners which are dispatched by the apps events
   start() {
     log.info("[App] starting...");
-    this.errorWatcher();
+    // this.errorWatcher();
+    AppController.configureEvents();
+
     app.on("ready", this.events.ready);
     app.on("window-all-closed", this.events.windowAllClosed);
     app.on("quit", this.events.quit);
