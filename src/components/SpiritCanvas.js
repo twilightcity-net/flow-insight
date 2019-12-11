@@ -27,6 +27,10 @@ export default class SpiritCanvas extends Component {
     }
   }
 
+  componentWillReceiveProps = nextProps => {
+    this.updateTorchieImage(nextProps.flameString);
+  };
+
   createScene() {
     this.engine.enableOfflineSupport = false;
 
@@ -205,27 +209,24 @@ export default class SpiritCanvas extends Component {
     });
   }
 
-  /// FIXME :: this code needs to go into the spirit canvas to make it dynamnic
+  updateTorchieImage(flameString) {
 
-  // let spiritImage = "";
-  //
-  // if (this.state.flameString >= 0) {
-  //   spiritImage = (
-  //     <Image
-  //       height={this.calculateSpiritHeight()}
-  //       centered
-  //       src="./assets/images/spirit.png"
-  //     />
-  //   );
-  // } else if (this.state.flameString < 0) {
-  //   spiritImage = (
-  //     <Image
-  //       height={this.calculateSpiritHeight()}
-  //       centered
-  //       src="./assets/images/painSpirit.png"
-  //     />
-  //   );
-  // }
+    let spiritImage = "";
+
+    if (flameString >= 0) {
+      spiritImage = "./assets/images/spirit.png";
+    } else if (flameString < 0) {
+      spiritImage = "./assets/images/painSpirit.png";
+    }
+
+    let image = new Image();
+    image.onload = () => {
+      this.getCanvasEl()
+        .getContext("2d")
+        .drawImage(image, 0, 0);
+    };
+    image.src = spiritImage;
+  }
 
   paintTorchieHappy() {
     let image = new Image();

@@ -300,6 +300,7 @@ export default class SpiritPanel extends Component {
           </div>
 
           <SpiritCanvas
+            flameString={this.state.flameString}
             spirit={this.spiritModel}
             width={this.calculateSpiritWidth()}
             height={this.calculateSpiritHeight()}
