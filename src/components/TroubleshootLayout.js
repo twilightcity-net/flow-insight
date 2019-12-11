@@ -15,13 +15,16 @@ export default class TroubleshootLayout extends Component {
     this.name = "[TroubleshootLayout]";
 
     this.state = {
-      isAlarmTriggered: false,
-      memberName: "Zoe"
+      isAlarmTriggered: false
     };
 
     this.activeCircleModel = DataModelFactory.createModel(
       DataModelFactory.Models.ACTIVE_CIRCLE,
       this
+    );
+
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS
     );
   }
 
@@ -84,7 +87,7 @@ export default class TroubleshootLayout extends Component {
   /// renders the journal layout of the console view
   render() {
     let wtfPanel = null,
-      wtfHeader = <TroubleshootHeader member={this.state.memberName} />;
+      wtfHeader = <TroubleshootHeader member={this.teamModel.getActiveTeamMemberShortName()} />;
 
     if (this.state.isAlarmTriggered) {
       wtfPanel = (

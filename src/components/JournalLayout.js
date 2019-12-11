@@ -17,6 +17,10 @@ export default class JournalLayout extends Component {
       DataModelFactory.Models.JOURNAL,
       this
     );
+
+    this.teamModel = DataModelFactory.createModel(
+       DataModelFactory.Models.MEMBER_STATUS
+    );
   }
 
   /// performs a simple calculation for dynamic height of items, this
@@ -75,7 +79,7 @@ export default class JournalLayout extends Component {
         <div id="wrapper" className="journalHeader">
           <JournalHeader
             height={this.calculateJournalHeaderHeight()}
-            member={this.journalModel.altMemberName}
+            member={this.teamModel.getActiveTeamMemberShortName()}
           />
         </div>
         <div id="wrapper" className="journalItems">

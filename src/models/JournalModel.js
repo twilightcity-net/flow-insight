@@ -29,9 +29,6 @@ export class JournalModel extends DataModel {
     this.isAltMemberSelected = false;
     this.altMemberId = null;
 
-    //TODO need to load this when calling setMemember()
-    this.altMemberName = "Zoe";
-
     this.altModelExtension = new AltMemberJournalExtension(this.scope);
     this.altModelDelegate = new AltModelDelegate(this, this.altModelExtension);
 

@@ -30,6 +30,18 @@ export class TeamModel extends DataModel {
     };
   }
 
+  getActiveTeamMemberShortName = () => {
+    let shortName = "";
+
+    if (this.activeTeamMember != null) {
+      shortName = this.activeTeamMember.shortName;
+    } else if (this.me != null) {
+      shortName = this.me.shortName;
+    }
+
+    return shortName;
+  };
+
   isMeActive = () => {
     let meActive = true;
     if (this.activeTeamMember != null && this.me != null) {
