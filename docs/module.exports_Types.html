@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>src/models/AltModelDelegate.js - Documentation</title>
+    <title>Types - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,116 +29,156 @@
 
 <div id="main">
     
-    <h1 class="page-title">src/models/AltModelDelegate.js</h1>
+    <h1 class="page-title">Types</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>//
-// this base class is used for Stores
-//
-export class AltModelDelegate {
-  constructor(primaryModel, altModel) {
-    this.primaryModel = primaryModel;
-    this.altModel = altModel;
+        <h2>
+            <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span>
+        
+        Types
+        </h2>
+        
+    
+</header>
 
-    this.isAltMemberSelected = false;
-    this.altMemberId = null;
+<article>
+    <div class="container-overview">
+    
+        
+<div class="section-method">
 
-    this.cascadeNotificationChains(
-      this.primaryModel,
-      "notifyListeners",
-      this.altModel
-    );
-  }
+    
 
-  /**
-   * Delegates calls for the
-   * @param memberId
-   */
-  setMemberSelection(memberId) {
-    this.isAltMemberSelected = true;
-    this.altMemberId = memberId;
+    <h4 class="name" id="Types"><span class="type-signature"></span>new Types<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
 
-    this.altModel.setMemberSelection(memberId);
-  }
+    
 
-  /**
-   * Resets the delegate to revert to the original method
-   */
-  resetMemberSelection() {
-    this.isAltMemberSelected = false;
-    this.altMemberId = null;
-  }
 
-  /**
-   * Configures a function for delegation from primaryModel, to the altModel
-   * @param functionName
-   */
-  configureDelegateCall(functionName) {
-    console.log("delegate function: " + functionName);
-    this.delegateIfAltMemberConfigured(
-      this.primaryModel,
-      functionName,
-      this.altModel
-    );
-  }
 
-  /**
-   * Stubs out a function call in the primaryModel, when in altModel mode
-   * @param functionName
-   */
-  configureNoOp(functionName) {
-    console.log("no-op function: " + functionName);
-    this.noopIfAltMemberConfigured(this.primaryModel, functionName);
-  }
+<div class="description">
+    static enum to store event types. These are basically the type of possible events that can be dispatched by the Manager.
+</div>
 
-  delegateIfAltMemberConfigured = (primaryModel, method, altModel) => {
-    var primaryMethod = primaryModel[method];
-    var altMethod = altModel[method];
 
-    primaryModel[method] = function() {
-      var returnValue = null;
-      if (this.altMemberId) {
-        returnValue = altMethod.apply(altModel, arguments);
-      } else {
-        returnValue = primaryMethod.apply(primaryModel, arguments);
-      }
 
-      return returnValue;
-    };
-  };
 
-  noopIfAltMemberConfigured = (primaryModel, method) => {
-    var primaryMethod = primaryModel[method];
 
-    primaryModel[method] = function() {
-      if (this.altMemberId) {
-        //no-op
-      } else {
-        primaryMethod.apply(primaryModel, arguments);
-      }
-    };
-  };
+<dl class="details">
 
-  cascadeNotificationChains = (primaryModel, notifyMethod, altModel) => {
-    var primaryMethod = primaryModel[notifyMethod];
-    var altMethod = altModel[notifyMethod];
+    
 
-    altModel[notifyMethod] = function() {
-      altMethod.apply(altModel, arguments);
-      primaryMethod.apply(primaryModel, arguments);
-    };
-  };
-}
-</code></pre>
-        </article>
-    </section>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_managers_EventFactory.js.html">public/managers/EventFactory.js</a>, <a href="public_managers_EventFactory.js.html#line25">line 25</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="section-returns">
+<h5>Returns:</h5>
+
+        
+
+<dl class="param-type">
+    <dt>
+        Type:
+    </dt>
+    <dd>
+        
+<span class="param-type"><code>Object</code></span>
+
+
+    </dd>
+</dl>
+
+
+    
+</div>
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

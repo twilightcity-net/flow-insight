@@ -1,12 +1,11 @@
 const GLOBAL_ = global,
-  { app, dialog } = require("electron"),
+  { app } = require("electron"),
   fs = require("fs"),
   path = require("path"),
   log = require("electron-log"),
   isDev = require("electron-is-dev"),
   rootPath = require("electron-root-path").rootPath,
   platform = require("electron-platform"),
-  cleanStack = require("clean-stack"),
   argv = require("yargs").argv,
   Logger = require("./AppLogger"),
   AppError = require("./AppError"),
@@ -76,6 +75,7 @@ module.exports = class App {
     GLOBAL_.App.isOnline = false;
     GLOBAL_.App.isLoggedIn = false;
     app.setName(GLOBAL_.App.name);
+
     log.info("[App] ready -> " + GLOBAL_.App.name + " : " + GLOBAL_.App.api);
     log.info("[App] ready -> rt-flow : " + GLOBAL_.App.rtFlowUrl);
     log.info("[App] ready -> render3D : " + GLOBAL_.App.render3D);

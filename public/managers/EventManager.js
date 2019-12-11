@@ -28,7 +28,7 @@ class MainEvent {
   /**
    * fires the event associated with the event's channel.
    * @param arg
-   * @returns {[]|[]}
+   * @returns {Array}
    */
   dispatch(arg) {
     return EventManager.dispatch(this.type, arg);
@@ -268,7 +268,7 @@ class EventManager {
    * called to execute the event callback within main process threads
    * @param eventType
    * @param arg
-   * @returns {[]|Array}
+   * @returns {Array}
    */
   static dispatch(eventType, arg) {
     let windows = global.App.WindowManager.windows,
