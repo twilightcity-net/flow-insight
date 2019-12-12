@@ -233,8 +233,6 @@ export default class JournalEntry extends Component {
   /// called when the create task button is clicked on, it then shouold dispatch
   /// a new event that will update the rendered view
   handleClickForCreate = () => {
-    //console.log("handleClickForCreate");
-
     this.saveJournalEntry();
   };
 
@@ -249,13 +247,17 @@ export default class JournalEntry extends Component {
   };
 
   saveJournalEntry = () => {
-    this.journalModel.addJournalEntry(
-      this.state.currentProjectValue,
-      this.state.currentTaskValue,
-      this.state.currentIntentionValue
-    );
 
-    this.setState({ currentIntentionValue: "" });
+    if (this.state.currentIntentionValue.length >= 1) {
+      this.journalModel.addJournalEntry(
+        this.state.currentProjectValue,
+        this.state.currentTaskValue,
+        this.state.currentIntentionValue
+      );
+
+      this.setState({ currentIntentionValue: "" });
+    }
+
   };
 
   handleChangeForIntention = (e, { name, value }) => {
