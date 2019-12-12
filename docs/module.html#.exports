@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventCallbackException.html">EventCallbackException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventEchoException.html">EventEchoException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.html">EventManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.dispatch">dispatch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.unregister">unregister</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#createListener">createListener</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeCallback">executeCallback</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeReply">executeReply</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#handleEvent">handleEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initReturnValues">initReturnValues</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSender">initSender</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSonar">initSonar</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#register">register</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.Events.html">Events</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MainEvent.html">MainEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#dispatch">dispatch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#check">check</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#connectRTFlow">connectRTFlow</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConsole">createConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createEvent">createEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createMenu">createMenu</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createShortcuts">createShortcuts</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#deactivate">deactivate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#exportApiKey">exportApiKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKey">getApiKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKeyPath">getApiKeyPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppIcon">getAppIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppName">getAppName</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppRootDir">getAppRootDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppSettingsPath">getAppSettingsPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppTray">getAppTray</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppUserDataDir">getAppUserDataDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetPath">getAssetPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetsDir">getAssetsDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConfiguredHotkeysOrDefault">getConfiguredHotkeysOrDefault</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getDateTimeString">getDateTimeString</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getFlowHomePath">getFlowHomePath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getGuid">getGuid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getToken">getToken</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConnectedRTFlowCb">onConnectedRTFlowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleReadyCb">onConsoleReadyCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleShowHideCb">onConsoleShowHideCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadCb">onLoadCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingLoginCb">onLoadingLoginCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingShowCb">onLoadingShowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onPrepareForScreenshot">onPrepareForScreenshot</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onReadyToShowCb">onReadyToShowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onScreenshotComplete">onScreenshotComplete</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onShortcutsCreatedCb">onShortcutsCreatedCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#openExternalBrowser">openExternalBrowser</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#processLogin">processLogin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#save">save</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setAppTray">setAppTray</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setDevUserDataDir">setDevUserDataDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#showConsole">showConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#start">start</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#unwireEvents">unwireEvents</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Types.html">Types</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PerspectiveController.html#onConsoleOpenUpdateModels">onConsoleOpenUpdateModels</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AltModelDelegate.html">AltModelDelegate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureDelegateCall">configureDelegateCall</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureNoOp">configureNoOp</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#resetMemberSelection">resetMemberSelection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#setMemberSelection">setMemberSelection</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventCallbackException.html">EventCallbackException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventEchoException.html">EventEchoException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.html">EventManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.dispatch">dispatch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.unregister">unregister</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#createListener">createListener</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeCallback">executeCallback</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeReply">executeReply</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#handleEvent">handleEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initReturnValues">initReturnValues</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSender">initSender</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSonar">initSonar</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#register">register</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.Events.html">Events</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MainEvent.html">MainEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#dispatch">dispatch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#.init">init</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#loadDefaultModels">loadDefaultModels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onActiveCircleUpdateTimer">onActiveCircleUpdateTimer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onChangeActiveRowResetSpiritFlame">onChangeActiveRowResetSpiritFlame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalEntryUpdateMeAndXP">onJournalEntryUpdateMeAndXP</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalUpdateResetSpiritFlame">onJournalUpdateResetSpiritFlame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onMyCircleUpdateMe">onMyCircleUpdateMe</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onTeamMemberChangeActiveScopeForAllModels">onTeamMemberChangeActiveScopeForAllModels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onWTFTimerUpdateRefreshTeamMemberTimers">onWTFTimerUpdateRefreshTeamMemberTimers</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#updateModels">updateModels</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#check">check</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#connectRTFlow">connectRTFlow</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConsole">createConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createEvent">createEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createMenu">createMenu</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createShortcuts">createShortcuts</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#deactivate">deactivate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#exportApiKey">exportApiKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKey">getApiKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKeyPath">getApiKeyPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppIcon">getAppIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppName">getAppName</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppRootDir">getAppRootDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppSettingsPath">getAppSettingsPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppTray">getAppTray</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppUserDataDir">getAppUserDataDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetPath">getAssetPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetsDir">getAssetsDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConfiguredHotkeysOrDefault">getConfiguredHotkeysOrDefault</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getDateTimeString">getDateTimeString</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getFlowHomePath">getFlowHomePath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getGuid">getGuid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getToken">getToken</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConnectedRTFlowCb">onConnectedRTFlowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleReadyCb">onConsoleReadyCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleShowHideCb">onConsoleShowHideCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadCb">onLoadCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingLoginCb">onLoadingLoginCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingShowCb">onLoadingShowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onPrepareForScreenshot">onPrepareForScreenshot</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onReadyToShowCb">onReadyToShowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onScreenshotComplete">onScreenshotComplete</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onShortcutsCreatedCb">onShortcutsCreatedCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#openExternalBrowser">openExternalBrowser</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#processLogin">processLogin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#save">save</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setAppTray">setAppTray</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setDevUserDataDir">setDevUserDataDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#showConsole">showConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#start">start</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#unwireEvents">unwireEvents</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Types.html">Types</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PerspectiveController.html#onConsoleOpenUpdateModels">onConsoleOpenUpdateModels</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li>
 </nav>
 
 <div id="main">
@@ -4127,7 +4127,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line180">line 180</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -5015,7 +5015,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line149">line 149</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -5571,7 +5571,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line120">line 120</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -5655,7 +5655,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line113">line 113</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -5738,7 +5738,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line138">line 138</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -6634,7 +6634,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line167">line 167</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line156">line 156</a>
     </li></ul></dd>
     
 
@@ -11001,7 +11001,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line180">line 180</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -11889,7 +11889,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line149">line 149</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -12445,7 +12445,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line120">line 120</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -12529,7 +12529,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line113">line 113</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -12612,7 +12612,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line138">line 138</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -13508,7 +13508,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line167">line 167</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line156">line 156</a>
     </li></ul></dd>
     
 
@@ -17828,7 +17828,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line180">line 180</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -18716,7 +18716,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line149">line 149</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -19272,7 +19272,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line120">line 120</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -19356,7 +19356,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line113">line 113</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -19439,7 +19439,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line138">line 138</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -20335,7 +20335,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line167">line 167</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line156">line 156</a>
     </li></ul></dd>
     
 
@@ -24655,7 +24655,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line180">line 180</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -25543,7 +25543,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line149">line 149</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -26099,7 +26099,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line120">line 120</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -26183,7 +26183,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line113">line 113</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -26266,7 +26266,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line138">line 138</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -27162,7 +27162,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line167">line 167</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line156">line 156</a>
     </li></ul></dd>
     
 
@@ -27613,7 +27613,7 @@ the top of the screen with a global hot key</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line20">line 20</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line19">line 19</a>
     </li></ul></dd>
     
 
@@ -31487,7 +31487,7 @@ the top of the screen with a global hot key</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line180">line 180</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line169">line 169</a>
     </li></ul></dd>
     
 
@@ -32375,7 +32375,7 @@ the top of the screen with a global hot key</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line149">line 149</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line138">line 138</a>
     </li></ul></dd>
     
 
@@ -32931,7 +32931,7 @@ the top of the screen with a global hot key</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line120">line 120</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -33015,7 +33015,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line113">line 113</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line103">line 103</a>
     </li></ul></dd>
     
 
@@ -33098,7 +33098,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line138">line 138</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line127">line 127</a>
     </li></ul></dd>
     
 
@@ -33994,7 +33994,7 @@ app loading - CALLBACK
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line167">line 167</a>
+        <a href="public_windows_ConsoleWindow.js.html">public/windows/ConsoleWindow.js</a>, <a href="public_windows_ConsoleWindow.js.html#line156">line 156</a>
     </li></ul></dd>
     
 
@@ -34380,7 +34380,7 @@ circuit for listeners
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Dec 11 2019 17:27:30 GMT-0600 (Central Standard Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Wed Dec 11 2019 19:17:15 GMT-0600 (Central Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

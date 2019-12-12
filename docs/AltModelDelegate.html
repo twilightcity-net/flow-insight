@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Events - Documentation</title>
+    <title>AltModelDelegate - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">Events</h1>
+    <h1 class="page-title">AltModelDelegate</h1>
     
 
     
@@ -42,10 +42,10 @@
 <header>
     
         <h2>
-            <span class="ancestors"><a href="EventManager.html">EventManager</a>.</span>
-        
-        Events
+        AltModelDelegate
         </h2>
+        
+            <div class="class-description">this class is used for switching active member and alternate member models</div>
         
     
 </header>
@@ -57,15 +57,121 @@
 <div class="section-method">
 
     
+    <h2>Constructor</h2>
+    
 
-    <h4 class="name" id="Events"><span class="type-signature"></span>new Events<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+    <h4 class="name" id="AltModelDelegate"><span class="type-signature"></span>new AltModelDelegate<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_models_AltModelDelegate.js.html">src/models/AltModelDelegate.js</a>, <a href="src_models_AltModelDelegate.js.html#line5">line 5</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="AltModelDelegate.html">AltModelDelegate</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="configureDelegateCall"><span class="type-signature"></span>configureDelegateCall<span class="signature">(functionName)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Static array containing all of our events the app uses
+    Configures a function for delegation from primaryModel, to the altModel
 </div>
 
 
@@ -101,7 +207,267 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_EventManager.js.html">public/managers/EventManager.js</a>, <a href="public_managers_EventManager.js.html#line113">line 113</a>
+        <a href="src_models_AltModelDelegate.js.html">src/models/AltModelDelegate.js</a>, <a href="src_models_AltModelDelegate.js.html#line42">line 42</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>functionName</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="configureNoOp"><span class="type-signature"></span>configureNoOp<span class="signature">(functionName)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Stubs out a function call in the primaryModel, when in altModel mode
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_models_AltModelDelegate.js.html">src/models/AltModelDelegate.js</a>, <a href="src_models_AltModelDelegate.js.html#line55">line 55</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>functionName</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="resetMemberSelection"><span class="type-signature"></span>resetMemberSelection<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Resets the delegate to revert to the original method
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_models_AltModelDelegate.js.html">src/models/AltModelDelegate.js</a>, <a href="src_models_AltModelDelegate.js.html#line33">line 33</a>
     </li></ul></dd>
     
 
@@ -132,45 +498,140 @@
 
 
 
-<div class="section-returns">
-<h5>Returns:</h5>
 
+
+</div>
         
+            
+<div class="section-method">
 
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>*</code></span>
+    
+
+    <h4 class="name" id="setMemberSelection"><span class="type-signature"></span>setMemberSelection<span class="signature">(memberId)</span><span class="type-signature"></span></h4>
+
+    
 
 
-    </dd>
+
+<div class="description">
+    Delegates calls for the
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_models_AltModelDelegate.js.html">src/models/AltModelDelegate.js</a>, <a href="src_models_AltModelDelegate.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
 </dl>
 
 
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
     
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>memberId</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </div>
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
+        
     
 
     
