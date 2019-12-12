@@ -2,7 +2,8 @@ const GLOBAL_ = global,
   { dialog } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
-  cleanStack = require("clean-stack");
+  cleanStack = require("clean-stack"),
+  stackTrace = require("stack-trace");
 
 /*
  * Base Exception class for app, all other errors should extend this
@@ -17,7 +18,11 @@ module.exports = class AppError extends Error {
 
   static handleError(error, fatal) {
     if (!(error instanceof AppError)) {
-      error.stack = cleanStack(error.stack);
+      if (error.stack === "undefined" || null || "") {
+        error.stack = stackTrace.get();
+      } else {
+        error.stack = cleanStack(error.stack);
+      }
     }
     if (GLOBAL_.App) {
       log.error(

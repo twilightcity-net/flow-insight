@@ -3,8 +3,6 @@ import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { JournalModel } from "../models/JournalModel";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { WTFTimer } from "../models/WTFTimer";
-import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
-import { RendererEventFactory } from "../RendererEventFactory";
 
 /**
  * This class is used to coordinate models across all the events

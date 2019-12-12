@@ -46,7 +46,11 @@ module.exports = class RTFlowManager {
           " SOCKET => connection_error : " +
           error
       );
-      AppError.handleError(error, true);
+      if (error.message === "timeout") {
+        AppError.handleError(error, false);
+      } else {
+        AppError.handleError(error, true);
+      }
     });
     socket.on("connect_timeout", timeout => {
       log.info(

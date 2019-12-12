@@ -1,4 +1,5 @@
 const { ipcMain } = require("electron"),
+  chalk = require("chalk"),
   log = require("electron-log"),
   App = require("../app/App"),
   AppError = require("../app/AppError");
@@ -155,7 +156,13 @@ class EventManager {
           new Error("Event arg is missing in arg")
         );
       }
-      log.info("[EventManager] sonar echo -> " + _arg.type + " : " + _arg.arg);
+      log.info(
+        chalk.cyanBright("[EventManager]") +
+          " sonar echo -> " +
+          _arg.type +
+          " : " +
+          _arg.arg
+      );
       EventManager.dispatch(_arg.type, _arg.arg);
     });
   }
@@ -182,7 +189,7 @@ class EventManager {
   createListener(event) {
     event.listener = (_event, _arg) => {
       log.info(
-        "[EventManager] |> renderer event -> " + event.type + " : " + _arg
+        chalk.cyan("[EventManager]") + " renderer event -> " + event.type
       );
       try {
         let value = global.App.EventManager.executeCallback(event, _arg);
@@ -274,29 +281,34 @@ class EventManager {
     let windows = global.App.WindowManager.windows,
       manager = global.App.EventManager,
       returnedEvents = [];
+
     for (var j = 0; j < windows.length; j++) {
       windows[j].window.webContents.send(eventType, arg);
     }
-    log.info(
-      "[EventManager] |> dispatched {" +
-        windows.length +
-        "} window events -> " +
-        eventType
-    );
+
     for (var i = 0; i < manager.events.length; i++) {
       if (manager.events[i].type === eventType) {
         returnedEvents.push(manager.handleEvent(manager.events[i], arg));
       }
     }
     if (returnedEvents.length === 0) {
-      log.info("[EventManager] └> no events found -> " + eventType);
+      log.info(
+        chalk.cyan("[EventManager]") + " └> no events found -> " + eventType
+      );
       return [];
     }
+    log.info(
+      chalk.cyanBright("[EventManager]") +
+        " dispatch {" +
+        returnedEvents.length +
+        "} events : " +
+        eventType
+    );
     return returnedEvents;
   }
 
   /**
-   * handles the event dispatching by envoking the callback and reply functions
+   * handles the event dispatching by evoking the callback and reply functions
    * @param event
    * @param arg
    * @returns {*}
