@@ -95,6 +95,20 @@ module.exports = class App {
       GLOBAL_.App.load();
     } catch (error) {
       App.handleError(error, true);
+    } finally {
+      if (isDev) {
+        const {
+          default: installExtension,
+          REACT_DEVELOPER_TOOLS
+        } = require("electron-devtools-installer");
+        installExtension(REACT_DEVELOPER_TOOLS)
+          .then(name => {
+            log.info("[App] ready -> dev tools : " + name);
+          })
+          .catch(err => {
+            AppError.handleError(err, false);
+          });
+      }
     }
   }
 

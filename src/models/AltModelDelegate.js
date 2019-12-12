@@ -1,6 +1,6 @@
-//
-// this base class is used for Stores
-//
+/**
+ * this class is used for switching active member and alternate member models
+ */
 export class AltModelDelegate {
   constructor(primaryModel, altModel) {
     this.primaryModel = primaryModel;

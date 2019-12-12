@@ -17,6 +17,10 @@ export class ModelCoordinator {
 
   static instance;
 
+  /**
+   * does the initial setup and wires the model controllers together
+   * @param scope - this is the scope to call functions within
+   */
   static init(scope) {
     if (!ModelCoordinator.instance) {
       ModelCoordinator.instance = new ModelCoordinator(scope);
@@ -24,6 +28,9 @@ export class ModelCoordinator {
     }
   }
 
+  /**
+   * wires the models together in the local static scope
+   */
   wireModelsTogether = () => {
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
@@ -56,6 +63,9 @@ export class ModelCoordinator {
     //    this.onDirtySpiritFlameUpdateActiveRow();
   };
 
+  /**
+   * loads the default models for the stores
+   */
   loadDefaultModels() {
     this.journalModel.loadDefaultJournal();
     this.activeCircle.loadActiveCircle();
@@ -63,6 +73,9 @@ export class ModelCoordinator {
     this.teamModel.refreshAll();
   }
 
+  /**
+   * updates necessary models
+   */
   updateModels() {
     console.log("[ModelCoordinator] update all models");
     this.onMyCircleUpdateMe();
@@ -77,6 +90,9 @@ export class ModelCoordinator {
     this.onWTFTimerUpdateRefreshTeamMemberTimers();
   }
 
+  /**
+   * removed references to the models and call backs for memory leaking
+   */
   unregisterModelWirings = () => {
     this.journalModel.unregisterAllListeners(this.name);
     this.teamModel.unregisterAllListeners(this.name);
@@ -84,6 +100,9 @@ export class ModelCoordinator {
     this.activeCircle.unregisterAllListeners(this.name);
   };
 
+  /**
+   * updates the timer for the active circles for wtf sessions
+   */
   onActiveCircleUpdateTimer() {
     this.activeCircle.registerListener(
       this.name,
@@ -97,6 +116,9 @@ export class ModelCoordinator {
     );
   }
 
+  /**
+   * updates the users information when they are selected as the active user
+   */
   onMyCircleUpdateMe() {
     this.activeCircle.registerListener(
       this.name,
@@ -108,6 +130,9 @@ export class ModelCoordinator {
     );
   }
 
+  /**
+   * updates the users xp and journal entry models when creating a new model
+   */
   onJournalEntryUpdateMeAndXP() {
     this.journalModel.registerListener(
       this.name,
@@ -123,6 +148,9 @@ export class ModelCoordinator {
     );
   }
 
+  /**
+   * sets the spirit flame intensity
+   */
   onJournalUpdateResetSpiritFlame() {
     this.journalModel.registerListener(
       this.name,
@@ -141,6 +169,9 @@ export class ModelCoordinator {
     );
   }
 
+  /**
+   * changes the spirit flame intensity on the individual journal items
+   */
   onChangeActiveRowResetSpiritFlame() {
     this.journalModel.registerListener(
       this.name,
@@ -159,6 +190,9 @@ export class ModelCoordinator {
     );
   }
 
+  /**
+   * changes the models with the selected users information stored in dreamtalk
+   */
   onTeamMemberChangeActiveScopeForAllModels() {
     this.teamModel.registerListener(
       this.name,
@@ -185,6 +219,9 @@ export class ModelCoordinator {
     );
   }
 
+  /**
+   * update wtf timers
+   */
   onWTFTimerUpdateRefreshTeamMemberTimers() {
     this.wtfTimer.registerListener(
       this.name,

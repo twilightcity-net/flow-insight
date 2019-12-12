@@ -51,14 +51,6 @@ module.exports = class AppHeartbeat {
       this.dto.idleTime = global.App.idleTime;
       this.dto.deltaTime = new Date().getTime() - this.previousDeltaTime;
 
-      log.info(
-        chalk.green("[AppHeartbeat]") +
-          " pulse -> iMs:" +
-          this.dto.idleTime +
-          " | dMs:" +
-          this.dto.deltaTime
-      );
-
       /// build our heartbeat request, no retries
       let req = request
         .post(this.url)
@@ -77,10 +69,10 @@ module.exports = class AppHeartbeat {
       req.end((err, res) => {
         this.pingTime = new Date().getTime() - this.previousDeltaTime;
         log.info(
-          chalk.green("[AppHeartbeat]") +
-            " └> pulse complete ->  ping:" +
+          chalk.greenBright("[AppHeartbeat]") +
+            " ping [" +
             this.pingTime +
-            "ms"
+            "ms]"
         );
 
         try {

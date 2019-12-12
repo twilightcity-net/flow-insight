@@ -12,12 +12,6 @@ class DataStoreClient {
   }
 
   makeStoreRequest(store, callback) {
-    log.info(
-      "[DataStoreClient] make store request -> " +
-        store.requestType +
-        " : " +
-        store.name
-    );
     let client = new DataClient(store, callback);
     client.doRequest();
   }
@@ -36,7 +30,6 @@ class DataStoreClient {
 //
 class DataClient {
   constructor(store, callback) {
-    log.info("[DataStoreClient] |> create data client");
     this.store = store;
     this.urn = store.urn;
     this.type = store.requestType;
@@ -50,7 +43,14 @@ class DataClient {
 
   doRequest() {
     let url = global.App.api + this.urn;
-    log.info("[DataStoreClient] |> do " + this.type + " request -> " + url);
+    log.info(
+      "[DataStoreClient] [" +
+        this.type.toUpperCase() +
+        "] " +
+        this.store.name +
+        " " +
+        url
+    );
     if (DataStoreClient.Types.POST === this.type) {
       this.doPost(url);
     } else if (DataStoreClient.Types.GET === this.type) {
@@ -79,7 +79,6 @@ class DataClient {
     }
 
     req.end((err, res) => {
-      log.info("[DataStoreClient] |> request complete -> " + url);
       this.store.timestamp = new Date().getTime();
       try {
         if (err) throw new Error(err);
@@ -98,7 +97,6 @@ class DataClient {
             "\n"
         );
       } finally {
-        log.info("[DataStoreClient] └> dispatch request callback -> " + url);
         this.callback(this.store);
       }
     });
@@ -117,7 +115,6 @@ class DataClient {
     }
 
     req.end((err, res) => {
-      log.info("[DataStoreClient] |> request complete -> " + url);
       this.store.timestamp = new Date().getTime();
       try {
         if (err) throw new Error(err);
@@ -136,7 +133,6 @@ class DataClient {
             "\n"
         );
       } finally {
-        log.info("[DataStoreClient] └> dispatch request callback -> " + url);
         this.callback(this.store);
       }
     });

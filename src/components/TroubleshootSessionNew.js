@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-// import { RendererEventFactory } from "../RendererEventFactory";
-import { Button, Divider, Image, Grid, Segment } from "semantic-ui-react";
+import { Button, Divider, Segment } from "semantic-ui-react";
 import { RendererEventFactory } from "../RendererEventFactory";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { DataModelFactory } from "../models/DataModelFactory";

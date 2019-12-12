@@ -1,4 +1,6 @@
 const log = require("electron-log"),
+  chalk = require("chalk"),
+  AppError = require("../app/AppError"),
   EventFactory = require("./EventFactory"),
   io = require("socket.io-client");
 
@@ -29,55 +31,84 @@ module.exports = class RTFlowManager {
       "&organizationId=" +
       global.App.connectionStatus.organizationId;
 
-    log.info("[RTFlowManager] trying to connect -> " + url);
+    log.info(chalk.green("[RTFlowManager]") + " trying to connect -> " + url);
     let socket = io(url);
 
     socket.on("connect", () => {
-      log.info("[RTFlowManager] SOCKET => connect : " + socket.id);
+      log.info(
+        chalk.green("[RTFlowManager]") + " SOCKET => connect : " + socket.id
+      );
       this.events.rtConnected.dispatch();
     });
     socket.on("connect_error", error => {
-      log.info("[RTFlowManager] SOCKET => connection_error : " + error);
-
-      // TODO add in error handling
-      App.handleError(error, true);
-
-      // this.events.rtConnected.dispatch();
+      log.error(
+        chalk.green("[RTFlowManager]") +
+          " SOCKET => connection_error : " +
+          error
+      );
+      AppError.handleError(error, true);
     });
     socket.on("connect_timeout", timeout => {
-      log.info("[RTFlowManager] SOCKET => connection_timeout : " + timeout);
+      log.info(
+        chalk.green("[RTFlowManager]") +
+          " SOCKET => connection_timeout : " +
+          timeout
+      );
     });
     socket.on("error", error => {
-      log.info("[RTFlowManager] SOCKET => error : " + error);
+      log.info(chalk.green("[RTFlowManager]") + " SOCKET => error : " + error);
     });
     socket.on("disconnect", reason => {
-      log.info(`[RTFlowManager] SOCKET => reason : ${reason}`);
+      log.info(
+        chalk.green("[RTFlowManager]") + " SOCKET => reason : " + reason
+      );
     });
     socket.on("reconnect", attemptNumber => {
-      log.info("[RTFlowManager] SOCKET => reconnect : " + attemptNumber);
+      log.info(
+        chalk.green("[RTFlowManager]") +
+          " SOCKET => reconnect : " +
+          attemptNumber
+      );
     });
     socket.on("reconnect_attempt", attemptNumber => {
       log.info(
-        "[RTFlowManager] SOCKET => reconnect_attempt : " + attemptNumber
+        chalk.green("[RTFlowManager]") +
+          " SOCKET => reconnect_attempt : " +
+          attemptNumber
       );
     });
     socket.on("reconnecting", attemptNumber => {
-      log.info("[RTFlowManager] SOCKET => reconnecting : " + attemptNumber);
+      log.info(
+        chalk.green("[RTFlowManager]") +
+          " SOCKET => reconnecting : " +
+          attemptNumber
+      );
     });
     socket.on("reconnect_error", error => {
-      log.info("[RTFlowManager] SOCKET => reconnect_error : " + error);
+      log.info(
+        chalk.red("[RTFlowManager]") + " SOCKET => reconnect_error : " + error
+      );
     });
     socket.on("reconnect_failed", () => {
-      log.info("[RTFlowManager] SOCKET => reconnect_failed");
+      log.info(chalk.green("[RTFlowManager]") + " SOCKET => reconnect_failed");
     });
     socket.on("ping", () => {
-      log.info("[RTFlowManager] SOCKET => PING");
+      // log.info("[RTFlowManager] SOCKET => PING");
     });
     socket.on("pong", latency => {
-      log.info("[RTFlowManager] SOCKET => PONG -> " + latency + "ms");
+      log.info(
+        chalk.greenBright("[RTFlowManager]") +
+          " Socket Ping [" +
+          latency +
+          "ms]"
+      );
     });
     socket.on("send_message", data => {
-      log.info("[RTFlowManager] SOCKET => client sent message : " + data);
+      log.info(
+        chalk.green("[RTFlowManager]") +
+          " SOCKET => client sent message : " +
+          data
+      );
     });
   }
 };

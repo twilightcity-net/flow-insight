@@ -56,6 +56,7 @@
     "create-react-class": "^15.6.2",
     "crypto-js": "^3.1.9-1",
     "electron-debug": "^1.4.0",
+    "electron-devtools-installer": "^2.2.4",
     "electron-is-dev": "^0.3.0",
     "electron-log": "^2.2.6",
     "electron-platform": "^1.2.0",

@@ -40,6 +40,27 @@ Note: hit `ctrl+c` to terminate the project.
 
 `yarn update`
 
+### Install React Development Tools ###
+
+1) Run the application using 
+
+`yarn dev`
+
+2) Wait for the app to load, and open the chrome dev window for the console window
+
+3) copy paste the follow javascript code into your console window, and press enter to execute
+
+    `const {default: installExtension, REACT_DEVELOPER_TOOLS} = require("electron-devtools-installer");
+    installExtension(REACT_DEVELOPER_TOOLS)
+    .then((name) => { 
+        console.log("Added Extension: " + name);
+     })
+    .catch((err) => {
+        console.log("An error occurred: " + err);
+     });`
+
+4) Done. Yay. Have cake.
+
 ### Code Documentation
 
 This project uses the module jsdoc to generate a static html API website that outlines all of our modules, classes, and functions. You can find documentation help and examples at the following links:

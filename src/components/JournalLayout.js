@@ -19,7 +19,7 @@ export default class JournalLayout extends Component {
     );
 
     this.teamModel = DataModelFactory.createModel(
-       DataModelFactory.Models.MEMBER_STATUS
+      DataModelFactory.Models.MEMBER_STATUS
     );
   }
 

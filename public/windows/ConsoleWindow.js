@@ -1,19 +1,21 @@
 const electron = require("electron"),
   { BrowserWindow } = require("electron"),
-  path = require("path"),
   isDev = require("electron-is-dev"),
   log = require("electron-log"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
-  EventFactory = require("../managers/EventFactory"),
-  { EventManager } = require("../managers/EventManager");
+  EventFactory = require("../managers/EventFactory");
 
-/*
+/**
  * the main application window for UX. Suspose to slide in and out of
  * the top of the screen with a global hot key
+ * @type {ConsoleWindow}
  */
 module.exports = class ConsoleWindow {
+  /**
+   * create a new console window
+   */
   constructor() {
     this.name = WindowManagerHelper.WindowNames.CONSOLE;
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
@@ -42,18 +44,9 @@ module.exports = class ConsoleWindow {
       webPreferences: { toolbar: false, webSecurity: false }
     });
 
+    /// if dev mode then show debug tools. Install react tools
     if (isDev) {
       this.window.webContents.openDevTools({ mode: "undocked" });
-
-      // Install React Dev Tools
-      // const {default: installExtension, REACT_DEVELOPER_TOOLS} = require('electron-devtools-installer');
-      //
-      // installExtension(REACT_DEVELOPER_TOOLS).then((name) => {
-      //   console.log(`Added Extension:  ${name}`);
-      // })
-      // .catch((err) => {
-      //   console.log('An error occurred: ', err);
-      // });
     }
 
     this.window.name = this.name;
@@ -68,11 +61,6 @@ module.exports = class ConsoleWindow {
         EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE,
         this,
         (event, arg) => this.onConsoleShowHideCb(event, arg)
-      ),
-      blurWindow: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_BLUR,
-        this,
-        (event, arg) => this.onBlurWindowCb(event, arg)
       ),
       prepareForScreenShot: EventFactory.createEvent(
         EventFactory.Types.PREPARE_FOR_SCREENSHOT,
@@ -108,26 +96,18 @@ module.exports = class ConsoleWindow {
     this.animateTimeMs = 400;
   }
 
-  /*
+  /**
    * electron window event emitted when the window is ready to be show.. during
-   * app loading
+   * app loading - CALLBACK
    */
   onReadyToShowCb() {
     this.events.ready.dispatch();
   }
 
-  /*
-   * event callback dispatched when the console window looses focus.. hide it
+  /**
+   * pre-screenshot handler
    */
-  onBlurWindowCb(event, arg) {
-    log.info("[ConsoleWindow] blur window -> " + arg.sender.name);
-    // // if (isDev) return;
-    // this.hideConsole();
-  }
-
-  onPrepareForScreenshot(event, arg) {
-    log.info("[ConsoleWindow] onPrepareForScreenshot");
-
+  onPrepareForScreenshot() {
     this.hideConsole();
 
     log.info("hidden!");
@@ -139,9 +119,12 @@ module.exports = class ConsoleWindow {
     }, 1000);
   }
 
+  /**
+   * notified when the screenshow is complete, then dispatches an event to display ss and console
+   * @param event
+   * @param arg
+   */
   onScreenshotComplete(event, arg) {
-    log.info("[ConsoleWindow] onScreenshotComplete");
-
     this.showConsole();
 
     setTimeout(() => {
@@ -149,11 +132,10 @@ module.exports = class ConsoleWindow {
     }, 100);
   }
 
-  /*
-   * event dispatched from global shortcut callback. in charge of showing or hiding
-   * the console window.
+  /**
+   * event dispatched from global shortcut callback. in charge of showing or hiding the console window.
    */
-  onConsoleShowHideCb(event, arg) {
+  onConsoleShowHideCb() {
     if (
       this.state === this.states.SHOWING ||
       this.state === this.states.HIDING
@@ -168,12 +150,10 @@ module.exports = class ConsoleWindow {
     }
   }
 
-  /*
+  /**
    * shows the console window and returns the state of shown
-   * @return {int} the current state of the window
    */
   showConsole() {
-    log.info("[ConsoleWindow] show window -> " + this.name);
     this.state = this.states.SHOWING;
     this.window.setPosition(0, 0);
     this.window.show();
@@ -183,12 +163,10 @@ module.exports = class ConsoleWindow {
     }, this.animateTimeMs);
   }
 
-  /*
+  /**
    * hides the console window and returns the state to hidden
-   * @return {int} the current state of the window
    */
   hideConsole() {
-    log.info("[ConsoleWindow] hide window -> " + this.name);
     this.state = this.states.HIDING;
     setTimeout(() => {
       this.window.hide();

@@ -87,7 +87,11 @@ export default class TroubleshootLayout extends Component {
   /// renders the journal layout of the console view
   render() {
     let wtfPanel = null,
-      wtfHeader = <TroubleshootHeader member={this.teamModel.getActiveTeamMemberShortName()} />;
+      wtfHeader = (
+        <TroubleshootHeader
+          member={this.teamModel.getActiveTeamMemberShortName()}
+        />
+      );
 
     if (this.state.isAlarmTriggered) {
       wtfPanel = (

@@ -210,7 +210,6 @@ export default class SpiritCanvas extends Component {
   }
 
   updateTorchieImage(flameString) {
-
     let spiritImage = "";
 
     if (flameString >= 0) {

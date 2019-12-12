@@ -292,12 +292,6 @@ class EventManager {
       log.info("[EventManager] └> no events found -> " + eventType);
       return [];
     }
-    log.info(
-      "[EventManager] └> handled {" +
-        returnedEvents.length +
-        "} events -> " +
-        eventType
-    );
     return returnedEvents;
   }
 

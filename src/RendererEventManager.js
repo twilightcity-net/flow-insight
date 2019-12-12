@@ -118,9 +118,6 @@ export class RendererEventManager {
    */
   static listenForReply(event) {
     if (!event.reply) return;
-    console.log(
-      "[RendererEventManager] listening for reply -> " + event.type + "-reply"
-    );
 
     let wrapperFunction = (_event, _arg) => {
       event.replyReturnValue = null;
@@ -173,19 +170,10 @@ export class RendererEventManager {
    */
   static listenForCallback(event) {
     if (!event.callback) return;
-    console.log(
-      "[RendererEventManager] listening for callback -> " + event.type
-    );
 
     let wrapperFunction = (_event, _arg) => {
       event.returnValue = null;
       try {
-        console.log(
-          "[RendererEventManager] event callback -> " +
-            event.type +
-            " : " +
-            _arg
-        );
         event.returnValue = event.callback(_event, _arg);
       } catch (error) {
         event.returnValue = RendererEventManager.createEventError(error, event);

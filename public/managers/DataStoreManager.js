@@ -22,9 +22,6 @@ module.exports = class DataStoreManager {
   }
 
   onDataStoreLoadCb(event, arg) {
-    log.info(
-      "[DataStoreManager] data store load -> " + arg.name + " : " + arg.guid
-    );
     let store = arg;
     this.client.makeStoreRequest(store, store => {
       this.events.dataStoreLoaded.dispatch(store);

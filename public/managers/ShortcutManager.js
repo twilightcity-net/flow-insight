@@ -27,11 +27,8 @@ class Shortcut {
     ShortcutManager.registerShortcut(this);
     globalShortcut.register(this.accelerator, () => {
       if (global.App.ShortcutManager.enabled) {
-        log.info("[ShortcutManager] global shortcut -> system event recieved");
         EventManager.dispatch(EventFactory.Types.SHORTCUTS_RECIEVED, this);
         this.callback();
-      } else {
-        log.info("[ShortcutManager] global shortcut -> disabled in manager");
       }
     });
   }
