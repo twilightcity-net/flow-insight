@@ -16,7 +16,7 @@ module.exports = class RTFlowManager {
         EventFactory.Types.WINDOW_RT_FLOW_CONNECTED,
         this
       )
-    };
+    }; /**/
   }
 
   createConnection() {

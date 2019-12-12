@@ -176,7 +176,12 @@ module.exports = class App {
     );
   }
 
-  /// proxy method for AppError class handler
+  /**
+   * proxy method for AppError class handler
+   * @param error - the error that was thrown
+   * @param fatal - shut down the app or not
+   * @deprecated - should use AppError.handleError(err,fatal)
+   */
   static handleError(error, fatal) {
     AppError.handleError(error, fatal);
   }

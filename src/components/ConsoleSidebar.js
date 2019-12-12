@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Icon, Label, Menu } from "semantic-ui-react";
+import { Icon, Divider, Menu } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 import { SidePanelViewController } from "../perspective/SidePanelViewController";
 
@@ -102,6 +102,7 @@ export default class ConsoleSidebar extends Component {
 
     return (
       <div id="component" className="consoleSidebar">
+        {/*<Divider clearing />*/}
         <Menu
           inverted
           icon
@@ -116,11 +117,9 @@ export default class ConsoleSidebar extends Component {
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconProfile}>
-              {false && (
-                <Label color="red" floating size="mini">
-                  !
-                </Label>
-              )}
+              {/*<Label color="red" floating size="mini">*/}
+              {/*  !*/}
+              {/*</Label>*/}
             </Icon>
           </Menu.Item>
           <Menu.Item
@@ -131,11 +130,9 @@ export default class ConsoleSidebar extends Component {
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconMessages}>
-              {false && (
-                <Label color="red" floating size="mini">
-                  7
-                </Label>
-              )}
+              {/*<Label color="red" floating size="mini">*/}
+              {/*  7*/}
+              {/*</Label>*/}
             </Icon>
           </Menu.Item>
           <Menu.Item
@@ -147,11 +144,9 @@ export default class ConsoleSidebar extends Component {
             disabled
           >
             <Icon name={this.state.iconNotifications}>
-              {false && (
-                <Label color="red" floating size="mini">
-                  23
-                </Label>
-              )}
+              {/*<Label color="red" floating size="mini">*/}
+              {/*  23*/}
+              {/*</Label>*/}
             </Icon>
           </Menu.Item>
         </Menu>
