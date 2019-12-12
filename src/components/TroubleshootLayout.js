@@ -72,10 +72,10 @@ export default class TroubleshootLayout extends Component {
     );
   }
 
-  onStartTroubleshooting = problemStatement => {
+  onStartTroubleshooting = () => {
     console.log(this.name + "onStartTroubleshooting");
 
-    this.activeCircleModel.createCircle(problemStatement);
+    this.activeCircleModel.createCircle();
   };
 
   onStopTroubleshooting = () => {

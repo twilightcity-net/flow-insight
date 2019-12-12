@@ -135,10 +135,10 @@ export class ActiveCircleModel extends DataModel {
   /**
    * Creates a new troubleshooting circle on the server
    */
-  createCircle = problemDescription => {
+  createCircle = () => {
     if (!this.isInitialized) return;
 
-    let args = { problemDescription: problemDescription };
+    let args = { problemDescription: "[Start WTF]" };
     console.log(this.name + " - Request - createCircle, args: " + args);
     let remoteUrn = "/circle";
     let loadRequestType = DataModel.RequestTypes.POST;

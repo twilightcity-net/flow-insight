@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Button, Divider, Segment } from "semantic-ui-react";
-import { RendererEventFactory } from "../RendererEventFactory";
-import { ActiveCircleModel } from "../models/ActiveCircleModel";
-import { DataModelFactory } from "../models/DataModelFactory";
+import React, {Component} from "react";
+import {Button, Divider, Segment} from "semantic-ui-react";
+import {RendererEventFactory} from "../RendererEventFactory";
+import {ActiveCircleModel} from "../models/ActiveCircleModel";
+import {DataModelFactory} from "../models/DataModelFactory";
 
 const electron = window.require("electron");
 const desktopCapturer = electron.desktopCapturer;
@@ -19,7 +19,6 @@ export default class TroubleshootSessionNew extends Component {
 
     this.state = {
       screenPath: "./assets/images/screenshot.png",
-      currentProblem: "",
       activeCircle: null,
       circleName: null,
       circleOwner: "Me"
@@ -110,20 +109,10 @@ export default class TroubleshootSessionNew extends Component {
     this.takeScreenShot(arg);
   };
 
-  handleChangeForProblem = (e, { name, value }) => {
-    this.setState({ currentProblem: value });
-  };
-
   onClickStartTroubleshooting = () => {
-    console.log("start trouble" + this.state.currentProblem);
+    console.log("start troubleshooting");
 
-    if (
-      this.state.currentProblem != null &&
-      this.state.currentProblem.length > 0
-    ) {
-      console.log("HERE WE GO!");
-      this.props.onStartTroubleshooting(this.state.currentProblem);
-    }
+    this.props.onStartTroubleshooting();
   };
 
   onClickScreenshot = () => {
@@ -134,7 +123,7 @@ export default class TroubleshootSessionNew extends Component {
 
   takeScreenShot = screenPath => {
     let thumbSize = this.determineScreenShotSize();
-    let options = { types: ["screen"], thumbnailSize: thumbSize };
+    let options = {types: ["screen"], thumbnailSize: thumbSize};
 
     desktopCapturer.getSources(options, (error, sources) => {
       if (error) return console.log(error.message);
@@ -175,7 +164,7 @@ export default class TroubleshootSessionNew extends Component {
   render() {
     return (
       <div id="component" className="troubleshootPanelDefault">
-        <Divider hidden fitted clearing />
+        <Divider hidden fitted clearing/>
         <Segment textAlign={"center"} className="wtf" inverted padded={"very"}>
           <Button
             onClick={this.onClickStartTroubleshooting}
