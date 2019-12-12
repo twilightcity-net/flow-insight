@@ -4,7 +4,8 @@ const { app, shell } = require("electron"),
   path = require("path"),
   util = require("util"),
   fs = require("fs"),
-  os = require("os");
+  os = require("os"),
+  chalkAnimation = require("chalk-animation");
 
 /**
  * general purpose global utility functions
