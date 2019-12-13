@@ -2,7 +2,7 @@
   "name": "torchie-desktop",
   "productName": "Torchie",
   "description": "Torchie desktop application and cli utility",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "private": true,
   "author": {
     "name": "DreamScale.io",
