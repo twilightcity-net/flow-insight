@@ -128,7 +128,11 @@ export default class ConsoleContent extends Component {
       </div>
     );
     return (
-      <div id="component" className="consoleContent">
+      <div
+        id="component"
+        className="consoleContent"
+        style={{ height: this.props.height }}
+      >
         <Transition
           visible={this.state.journalVisible}
           animation={this.state.animationTypeJournal}

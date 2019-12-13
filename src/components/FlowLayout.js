@@ -1,24 +1,31 @@
 import React, { Component } from "react";
-import FlowChunkChart from "./FlowChunkChart";
-import FlowChunkInfo from "./FlowChunkInfo";
+import FlowChunkHeader from "./FlowChunkHeader";
+import FlowContent from "./FlowContent";
+import { DataModelFactory } from "../models/DataModelFactory";
 
 //
 // this component is the tab panel wrapper for the console content
 //
 export default class FlowLayout extends Component {
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+
+    this.name = "[FlowLayout]";
+
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS
+    );
+  }
 
   /// performs a simple calculation for dynamic height of items, this
-  /// is becuase there will be a slight variation in the screen height
+  /// is because there will be a slight variation in the screen height
   calculateJournalItemsHeight() {
     let heights = {
       rootBorder: 2,
       consoleMenu: 28,
       contentMargin: 8,
       contentPadding: 8,
-      journalEntry: 50
+      contentArea: 89
     };
 
     /// subtract the root element's height from total window height that is
@@ -29,19 +36,21 @@ export default class FlowLayout extends Component {
       heights.consoleMenu -
       heights.contentMargin -
       heights.contentPadding -
-      heights.journalEntry
+      heights.contentArea
     );
   }
 
   /// renders the journal layout of the console view
   render() {
     return (
-      <div id="component" className="journalLayout">
-        <div id="wrapper" className="troubleshootItems">
-          <FlowChunkChart height={this.calculateJournalItemsHeight()} />
+      <div id="component" className="flowLayout">
+        <div id="wrapper" className="flowHeader">
+          <FlowChunkHeader
+            member={this.teamModel.getActiveTeamMemberShortName()}
+          />
         </div>
-        <div id="wrapper" className="journalEntry">
-          <FlowChunkInfo />
+        <div id="wrapper" className="flowContent">
+          <FlowContent height={this.calculateJournalItemsHeight()} />
         </div>
       </div>
     );

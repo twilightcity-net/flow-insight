@@ -20,7 +20,7 @@ export default class JournalItems extends Component {
         style={{ height: this.props.height }}
       >
         <Segment inverted>
-          <h2>{this.props.member}'s Torchie Journal</h2>
+          <h3>{this.props.member}'s Torchie Journal</h3>
         </Segment>
       </div>
     );

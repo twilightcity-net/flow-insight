@@ -42,11 +42,10 @@ export default class SpiritPanel extends Component {
 
   /// performs a simple calculation for dynamic height of panel
   calculateSpiritHeight() {
-    let spiritHeight = this.calculatePanelHeight() - 35;
-
-    if (spiritHeight > 315) {
-      spiritHeight = 315;
-    }
+    let panelHeight = this.calculatePanelHeight();
+    let spiritHeight = panelHeight - 124;
+    console.log(panelHeight);
+    console.log(spiritHeight);
     return spiritHeight;
   }
 
@@ -142,7 +141,7 @@ export default class SpiritPanel extends Component {
     let heights = {
       rootBorder: 4,
       contentMargin: 8,
-      contentHeader: 34,
+      contentHeader: 32,
       bottomMenuHeight: 28
     };
     return (

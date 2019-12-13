@@ -162,10 +162,13 @@
 
       }
       #component.consoleLayout #wrapper.consoleContent {
-        padding: 4px;
+        padding: 3px 4px 4px 3px;
         position: relative;
         overflow: hidden;
         left: 0;
+      }
+      #component.consoleLayout #wrapper.consoleContent #wrapper.journalLayout {
+        padding: 5px 0 0 0;
       }
       #component.consoleLayout #wrapper.consoleMenu {
         padding: 0 0;
@@ -206,7 +209,7 @@
         width: 0px;
         opacity: 0;
         transition: width 0.420s, opacity 0.35s ease-in;
-        padding: 2px 0 4px 4px;
+        padding: 2px 0 4px 3px;
         overflow: hidden;
       }
       #component.consoleSidebarPanel .ui.menu .item {
@@ -614,13 +617,6 @@
       }
 
       /* 
-       * COMPONENT: JOURNAL-HEADER 
-       */
-      #component.journalHeader {
-        margin-top: 6px;
-      }
-
-      /* 
        * COMPONENT: JOURNAL-LAYOUT 
        */
       #component.journalLayout .ui.segments {
@@ -629,6 +625,14 @@
       #component.journalLayout #wrapper.journalItems {
         margin: 0;
         padding: 4px 1px;
+      }
+
+      /*
+       * COMPONENT: FLOW-LAYOUT
+       */
+      #component.flowLayout #component.flowContent {
+        color: white;
+        padding: 24px;
       }
 
       /* 

@@ -1,8 +1,8 @@
-import React, {Component} from "react";
-import {Button, Divider, Segment} from "semantic-ui-react";
-import {RendererEventFactory} from "../RendererEventFactory";
-import {ActiveCircleModel} from "../models/ActiveCircleModel";
-import {DataModelFactory} from "../models/DataModelFactory";
+import React, { Component } from "react";
+import { Button, Divider, Segment } from "semantic-ui-react";
+import { RendererEventFactory } from "../RendererEventFactory";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
+import { DataModelFactory } from "../models/DataModelFactory";
 
 const electron = window.require("electron");
 const desktopCapturer = electron.desktopCapturer;
@@ -123,7 +123,7 @@ export default class TroubleshootSessionNew extends Component {
 
   takeScreenShot = screenPath => {
     let thumbSize = this.determineScreenShotSize();
-    let options = {types: ["screen"], thumbnailSize: thumbSize};
+    let options = { types: ["screen"], thumbnailSize: thumbSize };
 
     desktopCapturer.getSources(options, (error, sources) => {
       if (error) return console.log(error.message);
@@ -164,7 +164,7 @@ export default class TroubleshootSessionNew extends Component {
   render() {
     return (
       <div id="component" className="troubleshootPanelDefault">
-        <Divider hidden fitted clearing/>
+        <Divider hidden fitted clearing />
         <Segment textAlign={"center"} className="wtf" inverted padded={"very"}>
           <Button
             onClick={this.onClickStartTroubleshooting}

@@ -31,7 +31,7 @@ export default class JournalLayout extends Component {
       consoleMenu: 28,
       contentMargin: 8,
       contentPadding: 8,
-      journalHeader: 53,
+      journalHeader: 45,
       journalEntry: 50
     };
 
@@ -46,10 +46,6 @@ export default class JournalLayout extends Component {
       heights.journalHeader -
       heights.journalEntry
     );
-  }
-
-  calculateJournalHeaderHeight() {
-    return 47;
   }
 
   onFinishEntry = (journalEntry, finishStatus) => {
@@ -78,7 +74,6 @@ export default class JournalLayout extends Component {
       <div id="component" className="journalLayout">
         <div id="wrapper" className="journalHeader">
           <JournalHeader
-            height={this.calculateJournalHeaderHeight()}
             member={this.teamModel.getActiveTeamMemberShortName()}
           />
         </div>

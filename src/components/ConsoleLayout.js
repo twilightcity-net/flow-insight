@@ -198,7 +198,7 @@ export default class ConsoleLayout extends Component {
       setTimeout(() => {
         this.setState({
           sidebarPanelWidth: 300,
-          sidebarPanelOpacity: 0.96
+          sidebarPanelOpacity: 1
         });
       }, 0);
     } else {
@@ -232,6 +232,23 @@ export default class ConsoleLayout extends Component {
     }
     return torchieName;
   };
+
+  calculateConsoleContentHeight() {
+    let heights = {
+      rootBorder: 2,
+      consoleMenu: 28,
+      contentContentSlug: 7
+    };
+
+    /// subtract the root element's height from total window height that is
+    /// half of the clients screen height
+    return (
+      window.innerHeight -
+      heights.rootBorder -
+      heights.consoleMenu -
+      heights.contentContentSlug
+    );
+  }
 
   /// renders the root console layout of the console view
   render() {
@@ -301,6 +318,7 @@ export default class ConsoleLayout extends Component {
             onFlameChange={this.onFlameChangeCb}
             onAdjustFlame={this.adjustFlameCb}
             animationTime={this.animationTime}
+            height={this.calculateConsoleContentHeight()}
           />
         </div>
 
