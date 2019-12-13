@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>MainEvent - Documentation</title>
+    <title>src/components/ConsoleLayout.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,668 +29,350 @@
 
 <div id="main">
     
-    <h1 class="page-title">MainEvent</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        MainEvent
-        </h2>
-        
-            <div class="class-description">an object class used to instantiate new event with callbacks.</div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="MainEvent"><span class="type-signature"></span>new MainEvent<span class="signature">(type, scope, callback, reply, async)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_EventManager.js.html">public/managers/EventManager.js</a>, <a href="public_managers_EventManager.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                the name of the event to listen on
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>scope</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                parent object that created the event
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                the function to dispatch
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>reply</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                the reply function to dispatch
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>async</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                true to send an async message back
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="add"><span class="type-signature"></span>add<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    link stuff with EventManager, and init
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_EventManager.js.html">public/managers/EventManager.js</a>, <a href="public_managers_EventManager.js.html#line41">line 41</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="destroy"><span class="type-signature"></span>destroy<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    removes and clears the object from memory. warning, not reversible
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_EventManager.js.html">public/managers/EventManager.js</a>, <a href="public_managers_EventManager.js.html#line57">line 57</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="dispatch"><span class="type-signature"></span>dispatch<span class="signature">(arg)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-
-
-
-<div class="description">
-    fires the event associated with the event's channel.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_EventManager.js.html">public/managers/EventManager.js</a>, <a href="public_managers_EventManager.js.html#line34">line 34</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>arg</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>Array</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    removes the event from the hive
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_EventManager.js.html">public/managers/EventManager.js</a>, <a href="public_managers_EventManager.js.html#line50">line 50</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">src/components/ConsoleLayout.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import ConsoleSidebar from "./ConsoleSidebar";
+import ConsoleContent from "./ConsoleContent";
+import ConsoleMenu from "./ConsoleMenu";
+import TeamPanel from "./TeamPanel";
+import SpiritPanel from "./SpiritPanel";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { SpiritModel } from "../models/SpiritModel";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
+import { TeamModel } from "../models/TeamModel";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../perspective/SidePanelViewController";
+
+/**
+ * this component is the tab panel wrapper for the console content
+ */
+export default class ConsoleLayout extends Component {
+  constructor(props) {
+    super(props);
+    this.name = "[ConsoleLayout]";
+    this.state = {
+      sidebarPanelVisible: false,
+      sidebarPanelWidth: 0,
+      sidebarPanelOpacity: 0,
+      xpSummary: {},
+      totalXP: 0,
+      flameRating: 0,
+      activePanel: SidePanelViewController.MenuSelection.PROFILE,
+      consoleIsCollapsed: 0,
+      me: { shortName: "Me", id: "id" },
+      teamMembers: [],
+      activeTeamMember: { shortName: "Me", id: "id" },
+      isMe: true
+    };
+    this.animationTime = 555;
+
+    this.sidePanelController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL,
+      this
+    );
+
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS,
+      this
+    );
+    this.teamModel.registerListener(
+      "consoleLayout",
+      TeamModel.CallbackEvent.MEMBERS_UPDATE,
+      this.onTeamModelUpdateCb
+    );
+    this.teamModel.registerListener(
+      "consoleLayout",
+      TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
+      this.onActiveMemberUpdateCb
+    );
+
+    this.activeCircleModel = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_CIRCLE,
+      this
+    );
+    this.activeCircleModel.registerListener(
+      "consoleLayout",
+      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
+      this.onActiveCircleUpdateCb
+    );
+
+    this.spiritModel = DataModelFactory.createModel(
+      DataModelFactory.Models.SPIRIT,
+      this
+    );
+    this.spiritModel.registerListener(
+      "consoleLayout",
+      SpiritModel.CallbackEvent.XP_UPDATE,
+      this.onXPUpdate
+    );
+    this.spiritModel.registerListener(
+      "consoleLayout",
+      SpiritModel.CallbackEvent.RESET_FLAME,
+      this.onActiveFlameUpdate
+    );
+    this.spiritModel.registerListener(
+      "consoleLayout",
+      SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE,
+      this.onActiveFlameUpdate
+    );
+  }
+
+  componentDidMount = () => {
+    console.log(this.name + " - componentDidMount");
+
+    this.sidePanelController.configureContentListener(
+      this,
+      this.onRefreshActivePerspective
+    );
+    this.onRefreshActivePerspective();
+  };
+
+  componentWillUnmount = () => {
+    console.log(this.name + " - componentWillUnmount");
+
+    this.teamModel.unregisterAllListeners("consoleLayout");
+    this.activeCircleModel.unregisterAllListeners("consoleLayout");
+    this.spiritModel.unregisterAllListeners("consoleLayout");
+
+    this.sidePanelController.configureContentListener(this, null);
+  };
+
+  onXPUpdate = () => {
+    this.setState({
+      torchieOwner: this.spiritModel.getActiveScope().torchieOwner,
+      spiritId: this.spiritModel.getActiveScope().spiritId,
+      xpSummary: this.spiritModel.getActiveScope().xpSummary,
+      activeSpiritLinks: this.spiritModel.getActiveScope().activeSpiritLinks,
+      level: this.spiritModel.getActiveScope().level,
+      percentXP: this.spiritModel.getActiveScope().percentXP,
+      totalXP: this.spiritModel.getActiveScope().totalXP,
+      remainingToLevel: this.spiritModel.getActiveScope().remainingToLevel,
+      title: this.spiritModel.getActiveScope().title
+    });
+  };
+
+  onActiveFlameUpdate = () => {
+    this.setState({
+      flameRating: this.spiritModel.getActiveScope().activeFlameRating
+    });
+  };
+
+  onTeamModelUpdateCb = () => {
+    console.log(this.name + " - onTeamModelUpdateCb");
+    // console.log("WTF TIMER " + this.teamModel.me.wtfTimer);
+    this.setState({
+      isMe: this.teamModel.isMeActive(),
+      me: this.teamModel.me,
+      teamMembers: this.teamModel.teamMembers,
+      activeTeamMember: this.teamModel.activeTeamMember
+    });
+  };
+
+  onActiveMemberUpdateCb = () => {
+    console.log(this.name + " - onActiveMemberUpdateCb");
+    this.setState({
+      isMe: this.teamModel.isMeActive(),
+      activeTeamMember: this.teamModel.activeTeamMember
+    });
+  };
+
+  onFlameChangeCb = flameRating => {
+    console.log(this.name + " - onFlameChangeCb: " + flameRating);
+
+    this.setState({
+      flameRating: flameRating
+    });
+  };
+
+  /// click the flame button, which either tries to do a +1 or -1
+  adjustFlameCb = flameDelta => {
+    console.log(this.name + " - Flame change: " + flameDelta);
+
+    let flameRating = Number(this.state.flameRating) + flameDelta;
+    if (flameRating > 5) {
+      flameRating = 5;
+    } else if (flameRating &lt; -5) {
+      flameRating = -5;
+    }
+
+    if (this.state.flameRating > 0 &amp;&amp; flameDelta &lt; 0) {
+      flameRating = 0;
+    }
+
+    if (this.state.flameRating &lt; 0 &amp;&amp; flameDelta > 0) {
+      flameRating = 0;
+    }
+
+    console.log(
+      this.name +
+        " - adjustFlameCb, Old/New Flame rating: " +
+        this.state.flameRating +
+        "/" +
+        flameRating
+    );
+    this.setState({
+      flameRating: flameRating
+    });
+  };
+
+  onRefreshActivePerspective() {
+    console.log(
+      this.name +
+        " - onRefreshActivePerspective: " +
+        this.sidePanelController.show
+    );
+    let show = this.sidePanelController.show;
+    if (show) {
+      this.setState({
+        sidebarPanelVisible: true,
+        activePanel: this.sidePanelController.activeMenuSelection
+      });
+      setTimeout(() => {
+        this.setState({
+          sidebarPanelWidth: 300,
+          sidebarPanelOpacity: 1
+        });
+      }, 0);
+    } else {
+      this.setState({
+        sidebarPanelWidth: 0,
+        sidebarPanelOpacity: 0
+      });
+      setTimeout(() => {
+        this.setState({
+          sidebarPanelVisible: false,
+          activePanel: this.sidePanelController.activeMenuSelection
+        });
+      }, 420);
+    }
+  }
+
+  /// store child component for future reloading
+  saveStateSidebarPanelCb = state => {
+    this.setState({ sidebarPanelState: state });
+  };
+
+  /// load the child components state from this state
+  loadStateSidebarPanelCb = () => {
+    return this.state.sidebarPanelState;
+  };
+
+  getTorchieName = () => {
+    let torchieName = "Member";
+    if (this.state.activeTeamMember) {
+      torchieName = this.state.activeTeamMember.shortName;
+    }
+    return torchieName;
+  };
+
+  calculateConsoleContentHeight() {
+    let heights = {
+      rootBorder: 2,
+      consoleMenu: 28,
+      contentContentSlug: 7
+    };
+
+    /// subtract the root element's height from total window height that is
+    /// half of the clients screen height
+    return (
+      window.innerHeight -
+      heights.rootBorder -
+      heights.consoleMenu -
+      heights.contentContentSlug
+    );
+  }
+
+  /// renders the root console layout of the console view
+  render() {
+    const animatedPanelContent = (
+      &lt;SpiritPanel
+        me={this.state.me}
+        isMe={this.state.isMe}
+        torchieOwner={this.getTorchieName()}
+        spiritId={this.state.spiritId}
+        xpSummary={this.state.xpSummary}
+        activeSpiritLinks={this.state.activeSpiritLinks}
+        level={this.state.level}
+        percentXP={this.state.percentXP}
+        remainingToLevel={this.state.remainingToLevel}
+        totalXP={this.state.totalXP}
+        title={this.state.title}
+        flameRating={this.state.flameRating}
+        loadStateCb={this.loadStateSidebarPanelCb}
+        saveStateCb={this.saveStateSidebarPanelCb}
+        width={this.state.sidebarPanelWidth}
+        opacity={this.state.sidebarPanelOpacity}
+      />
+    );
+
+    const teamPanelContent = (
+      &lt;TeamPanel
+        xpSummary={this.state.xpSummary}
+        width={this.state.sidebarPanelWidth}
+        opacity={this.state.sidebarPanelOpacity}
+        loadStateCb={this.loadStateSidebarPanelCb}
+        saveStateCb={this.saveStateSidebarPanelCb}
+        me={this.state.me}
+        teamMembers={this.state.teamMembers}
+        activeTeamMember={this.state.activeTeamMember}
+      />
+    );
+
+    let activePanel = null;
+
+    if (
+      this.state.activePanel === SidePanelViewController.MenuSelection.PROFILE
+    ) {
+      activePanel = animatedPanelContent;
+    } else if (
+      this.state.activePanel === SidePanelViewController.MenuSelection.MESSAGES
+    ) {
+      activePanel = teamPanelContent;
+    }
+
+    const sidebarPanel = (
+      &lt;div
+        id="wrapper"
+        className="consoleSidebarPanel"
+        style={{ width: this.state.sidebarPanelWidth }}
+      >
+        {activePanel}
+      &lt;/div>
+    );
+    return (
+      &lt;div id="component" className="consoleLayout">
+        &lt;div id="wrapper" className="consoleSidebar">
+          &lt;ConsoleSidebar />
+        &lt;/div>
+        {this.state.sidebarPanelVisible &amp;&amp; sidebarPanel}
+        &lt;div id="wrapper" className="consoleContent">
+          &lt;ConsoleContent
+            onFlameChange={this.onFlameChangeCb}
+            onAdjustFlame={this.adjustFlameCb}
+            animationTime={this.animationTime}
+            height={this.calculateConsoleContentHeight()}
+          />
+        &lt;/div>
+
+        &lt;div id="wrapper" className="consoleMenu">
+          &lt;ConsoleMenu animationTime={this.animationTime} />
+        &lt;/div>
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
