@@ -44,8 +44,6 @@ export default class SpiritPanel extends Component {
   calculateSpiritHeight() {
     let panelHeight = this.calculatePanelHeight();
     let spiritHeight = panelHeight - 124;
-    console.log(panelHeight);
-    console.log(spiritHeight);
     return spiritHeight;
   }
 
@@ -298,13 +296,6 @@ export default class SpiritPanel extends Component {
             {activeLinkIcon}
           </div>
 
-          <SpiritCanvas
-            flameString={this.state.flameString}
-            spirit={this.spiritModel}
-            width={this.calculateSpiritWidth()}
-            height={this.calculateSpiritHeight()}
-          />
-
           <div className="level">
             <div className="infoTitle">Torchie {this.props.title}</div>
             <div className="infoLevel">Level {this.props.level}</div>
@@ -330,6 +321,14 @@ export default class SpiritPanel extends Component {
             position="top left"
           />
         </div>
+
+        <SpiritCanvas
+          flameString={this.state.flameString}
+          spirit={this.spiritModel}
+          width={this.calculateSpiritWidth()}
+          height={this.calculateSpiritHeight()}
+        />
+
         <div className="ui two bottom attached buttons">
           <button
             className="ui icon button rageButton"

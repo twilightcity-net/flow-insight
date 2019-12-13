@@ -20,7 +20,10 @@ export default class TroubleshootHeader extends Component {
         style={{ height: this.props.height }}
       >
         <Segment inverted>
-          <h3>{this.props.member}'s WTF Session</h3>
+          {/*<h3>{this.props.member}'s WTF Session</h3>*/}
+          <h3>
+            <i>Would You Like to Begin Troubleshooting?</i>
+          </h3>
         </Segment>
       </div>
     );

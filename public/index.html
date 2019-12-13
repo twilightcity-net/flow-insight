@@ -16,7 +16,7 @@
         background: none !important;
         opacity: 1;
         box-sizing: border-box;
-        border-top: 1px solid rgba(36, 36, 36, 1);
+        border-top: 1px solid rgba(62, 62, 62, 1);
         border-left: 1px solid rgba(36, 36, 36, 1);
         border-right: 1px solid rgba(67, 67, 67, 1);
         border-bottom: 1px solid rgba(67, 67, 67, 1);
@@ -162,13 +162,9 @@
 
       }
       #component.consoleLayout #wrapper.consoleContent {
-        padding: 3px 4px 4px 3px;
         position: relative;
         overflow: hidden;
         left: 0;
-      }
-      #component.consoleLayout #wrapper.consoleContent #wrapper.journalLayout {
-        padding: 5px 0 0 0;
       }
       #component.consoleLayout #wrapper.consoleMenu {
         padding: 0 0;
@@ -460,10 +456,8 @@
         margin: 0px;
         padding: 4px 1px;
       }
-
-      #component.troubleshootLayout #wrapper.troubleshootPanelDefault {
-        margin: 0px;
-        padding: 21px 9px 0 9px;
+      #component.troubleshootLayout #component.troubleshootPanelDefault .ui.segment {
+        margin:0px;
       }
 
       /* 
@@ -486,6 +480,58 @@
         cursor: pointer !important;
         transition: background-color 1s ease-out;
       }
+
+
+
+
+      /*
+       * TROUBLESHOOT - WTF-BUTTON
+       */
+      @keyframes shadow-pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(234, 0, 0, 0.222);
+          background: rgba(255, 19, 19, 1);
+          font-size: 4.26em;
+          line-height: 3.25em;
+
+        }
+        100% {
+          box-shadow: 0 0 0 1.112em rgba(222, 222, 222, 0.01);
+          background: rgba(250, 0, 0, .92);
+          font-size: 4.20em;
+          line-height: 3.3em;
+        }
+      }
+
+      .wtf-button-massive {
+        margin: auto;
+        font-style: oblique;
+        width: 202px;
+        height: 202px;
+        font-size: 4.20em;
+        text-transform: uppercase;
+        letter-spacing: 9px;
+        line-height: 202px;
+        padding-left: 2px;
+        font-weight: bolder;
+        color: #fff;
+        text-align: center;
+        background: rgba(255, 0, 0, 0.88);
+        border-radius: 50%;
+        border-top: 4px solid #af0000;
+        animation: shadow-pulse 1s infinite;
+        border-left: 4px solid #af0000;
+        border-bottom: 4px solid #900000;
+        border-right: 4px solid #960000;
+        cursor: pointer !important;
+      }
+      #component.troubleshootPanelDefault .ui.segment.wtf-button-desc {
+        background: transparent;
+        font-size: 2em;
+        font-style: italic;
+        line-height: 48px;
+      }
+      
       #component.troubleshootPanelDefault .ui.image.screenshot,
       #component.troubleshootPanelDefault .ui.image.screenshot .ui.corner,
       #component.troubleshootPanelDefault .ui.image.screenshot .ui.corner .icon
@@ -493,8 +539,6 @@
         cursor: pointer !important;
         padding-bottom: 0;
       }
-
-
       #component.troubleshootPanelDefault .ui.dropdown .default.text {
         font-style: italic;
         color: rgba(60, 60, 60, 0.96);

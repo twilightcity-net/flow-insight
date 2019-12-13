@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Divider, Segment } from "semantic-ui-react";
+import { Button, Divider, Segment, Transition } from "semantic-ui-react";
 import { RendererEventFactory } from "../RendererEventFactory";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { DataModelFactory } from "../models/DataModelFactory";
@@ -9,10 +9,14 @@ const desktopCapturer = electron.desktopCapturer;
 const electronScreen = electron.screen;
 const fs = window.require("fs");
 
-//
-// this component is the tab panel wrapper for the console content
-//
+/**
+ * this component is the tab panel wrapper for the console content
+ */
 export default class TroubleshootSessionNew extends Component {
+  /**
+   * the constructor function that is called when creating a new TroubleshootSession
+   * @param props - properties that are passed in from the troubleshoot layout
+   */
   constructor(props) {
     super(props);
     this.name = "[TroubleshootSessionNew]";
@@ -51,6 +55,9 @@ export default class TroubleshootSessionNew extends Component {
     );
   }
 
+  /**
+   * called when the component first mounts
+   */
   componentDidMount = () => {
     console.log(this.name + " - componentDidMount");
     this.activeCircleModel.registerListener(
@@ -62,12 +69,18 @@ export default class TroubleshootSessionNew extends Component {
     this.onCircleUpdate();
   };
 
+  /**
+   * called when the component is hidden
+   */
   componentWillUnmount = () => {
     console.log(this.name + " - componentWillUnmount");
 
     this.activeCircleModel.unregisterAllListeners("TroubleshootSessionNew");
   };
 
+  /**
+   * local scoped callback that is called when the active circle needs updating
+   */
   onCircleUpdate = () => {
     console.log(this.name + " - onCircleUpdate");
 
@@ -102,6 +115,11 @@ export default class TroubleshootSessionNew extends Component {
     });
   };
 
+  /**
+   * called when the console is ready to take a screen shot.
+   * @param event
+   * @param arg
+   */
   onReadyForScreenShot = (event, arg) => {
     console.log("ready for ss");
     console.info("ready for ss:" + arg);
@@ -109,18 +127,29 @@ export default class TroubleshootSessionNew extends Component {
     this.takeScreenShot(arg);
   };
 
+  /**
+   * click handler for the wtf button. starts a session through a prop ref
+   */
   onClickStartTroubleshooting = () => {
     console.log("start troubleshooting");
 
     this.props.onStartTroubleshooting();
   };
 
+  /**
+   * csllback for when the screenshot is clicked on
+   * @deprecated
+   */
   onClickScreenshot = () => {
     console.log("screenshot clicked on");
 
     this.events.prepareForScreenShot.dispatch(0, true);
   };
 
+  /**
+   * capture the screen
+   * @param screenPath
+   */
   takeScreenShot = screenPath => {
     let thumbSize = this.determineScreenShotSize();
     let options = { types: ["screen"], thumbnailSize: thumbSize };
@@ -134,6 +163,8 @@ export default class TroubleshootSessionNew extends Component {
         console.log("Saved! : " + source.name);
         if (source.name === "Entire screen" || source.name === "Screen 1") {
           //const screenPath = window.require("path").join(window.require("os").tmpdir(), 'screenshot.png');
+
+          // FIXME: this should be handled by the main process, potential security issue
 
           fs.writeFile(screenPath, source.thumbnail.toPNG(), err => {
             if (err) return console.log(err.message);
@@ -150,6 +181,10 @@ export default class TroubleshootSessionNew extends Component {
     });
   };
 
+  /**
+   * figured out the size of the screen to take a screen shot
+   * @returns {{width: number, height: number}}
+   */
   determineScreenShotSize = () => {
     const screenSize = electronScreen.getPrimaryDisplay().workAreaSize;
     const maxDimension = Math.max(screenSize.width, screenSize.height);
@@ -160,27 +195,37 @@ export default class TroubleshootSessionNew extends Component {
     };
   };
 
-  /// renders the default troubleshoot component in the console view
+  /**
+   * renders the default troubleshoot component in the console view
+   * @returns {*}
+   */
   render() {
     return (
       <div id="component" className="troubleshootPanelDefault">
         <Divider hidden fitted clearing />
         <Segment textAlign={"center"} className="wtf" inverted padded={"very"}>
-          <Button
+          <div
+            className="wtf-button-massive"
             onClick={this.onClickStartTroubleshooting}
-            size="massive"
-            color="red"
-            animated="fade"
           >
-            <Button.Content visible>
-              &nbsp;&nbsp;&nbsp; WTF?!&nbsp;&nbsp;&nbsp;
-            </Button.Content>
-            <Button.Content hidden>
-              &nbsp;&nbsp;&nbsp;START!&nbsp;&nbsp;&nbsp;
-            </Button.Content>
-          </Button>
-          <Segment inverted size={"huge"}>
-            <b>Start a Troubleshooting Session</b>
+            WTF!
+          </div>
+          {/*<Button*/}
+          {/*  onClick={this.onClickStartTroubleshooting}*/}
+          {/*  size="massive"*/}
+          {/*  color="red"*/}
+          {/*  animated="fade"*/}
+          {/*  className="reallyfuckingbig"*/}
+          {/*>*/}
+          {/*  <Button.Content visible>*/}
+          {/*    &nbsp;&nbsp;&nbsp; WTF?!&nbsp;&nbsp;&nbsp;*/}
+          {/*  </Button.Content>*/}
+          {/*  <Button.Content hidden>*/}
+          {/*    &nbsp;&nbsp;&nbsp;HELP!&nbsp;&nbsp;&nbsp;*/}
+          {/*  </Button.Content>*/}
+          {/*</Button>*/}
+          <Segment inverted size={"huge"} className="wtf-button-desc">
+            <b>Start A Troubleshooting Session?</b>
           </Segment>
         </Segment>
       </div>

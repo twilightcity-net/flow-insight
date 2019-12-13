@@ -247,7 +247,6 @@ export default class JournalEntry extends Component {
   };
 
   saveJournalEntry = () => {
-
     if (this.state.currentIntentionValue.length >= 1) {
       this.journalModel.addJournalEntry(
         this.state.currentProjectValue,
@@ -257,7 +256,6 @@ export default class JournalEntry extends Component {
 
       this.setState({ currentIntentionValue: "" });
     }
-
   };
 
   handleChangeForIntention = (e, { name, value }) => {
