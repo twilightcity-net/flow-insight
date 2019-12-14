@@ -16,7 +16,7 @@ export default class FlowHeader extends Component {
     return (
       <div
         id="component"
-        className="troubleshootHeader"
+        className="flowHeader"
         style={{ height: this.props.height }}
       >
         <Segment inverted>

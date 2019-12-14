@@ -17,7 +17,7 @@ export default class JournalItems extends Component {
       <div
         id="component"
         className="journalHeader"
-        style={{ height: this.props.height }}
+        // style={{ height: this.props.height }}
       >
         <Segment inverted>
           <h3>{this.props.member}'s Torchie Journal</h3>

@@ -1,12 +1,19 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import FlowHeader from "./FlowHeader";
 import FlowContent from "./FlowContent";
-import { DataModelFactory } from "../models/DataModelFactory";
+import {DataModelFactory} from "../models/DataModelFactory";
 
-//
-// this component is the tab panel wrapper for the console content
-//
+/**
+ * this component is the tab panel wrapper for the console content
+ * @author ZoeDreams
+ * @copyright DreamScale, Inc. 2020©®™√
+ */
 export default class FlowLayout extends Component {
+
+  /**
+   *
+   * @param props
+   */
   constructor(props) {
     super(props);
 
@@ -17,9 +24,12 @@ export default class FlowLayout extends Component {
     );
   }
 
-  /// performs a simple calculation for dynamic height of items, this
-  /// is because there will be a slight variation in the screen height
-  calculateJournalItemsHeight() {
+  /**
+   * performs a simple calculation for dynamic height of items, this is because there will be a slight variation in the
+   * screen height
+   * @returns {number} - the number to set the style height attribute at
+   */
+  calculateFlowHeight() {
     let heights = {
       rootBorder: 2,
       consoleMenu: 28,
@@ -28,8 +38,9 @@ export default class FlowLayout extends Component {
       contentArea: 89
     };
 
-    /// subtract the root element's height from total window height that is
-    /// half of the clients screen height
+    /*
+     subtract the root element's height from total window height that is half of the clients screen height
+     */
     return (
       window.innerHeight -
       heights.rootBorder -
@@ -40,15 +51,18 @@ export default class FlowLayout extends Component {
     );
   }
 
-  /// renders the journal layout of the console view
+  /**
+   * renders the journal layout of the console view
+   * @returns {*} - the rendered components JSX
+   */
   render() {
     return (
       <div id="component" className="flowLayout">
         <div id="wrapper" className="flowHeader">
-          <FlowHeader member={this.teamModel.getActiveTeamMemberShortName()} />
+          <FlowHeader member={this.teamModel.getActiveTeamMemberShortName()}/>
         </div>
         <div id="wrapper" className="flowContent">
-          <FlowContent height={this.calculateJournalItemsHeight()} />
+          <FlowContent height={this.calculateFlowHeight()}/>
         </div>
       </div>
     );

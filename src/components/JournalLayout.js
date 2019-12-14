@@ -31,7 +31,7 @@ export default class JournalLayout extends Component {
       consoleMenu: 28,
       contentMargin: 8,
       contentPadding: 8,
-      journalHeader: 45,
+      journalHeader: 54,
       journalEntry: 50
     };
 
