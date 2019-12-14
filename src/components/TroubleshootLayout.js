@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import TroubleshootHeader from "./TroubleshootHeader";
-import TroubleshootSessionNew from "./TroubleshootSessionNew";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
+import TroubleshootStart from "./TroubleshootStart";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -87,33 +87,38 @@ export default class TroubleshootLayout extends Component {
   /// renders the journal layout of the console view
   render() {
     let wtfPanel = null,
+      wtfHeader = null;
+    if (this.state.isAlarmTriggered) {
       wtfHeader = (
         <TroubleshootHeader
           member={this.teamModel.getActiveTeamMemberShortName()}
         />
       );
+    }
 
-    if (this.state.isAlarmTriggered) {
+    if (!this.state.isAlarmTriggered) {
+      wtfPanel = (
+        <TroubleshootStart
+          height={this.calculateTroubleshootItemsHeight()}
+          onStartTroubleshooting={this.onStartTroubleshooting}
+        />
+      );
+    } else {
       wtfPanel = (
         <TroubleshootSessionOpen
           height={this.calculateTroubleshootItemsHeight()}
           onStopTroubleshooting={this.onStopTroubleshooting}
         />
       );
-    } else {
-      wtfPanel = (
-        <TroubleshootSessionNew
-          height={this.calculateTroubleshootItemsHeight()}
-          onStartTroubleshooting={this.onStartTroubleshooting}
-        />
-      );
     }
 
     return (
       <div id="component" className="troubleshootLayout">
-        <div id="wrapper" className="troubleshootHeaderDefault">
-          {wtfHeader}
-        </div>
+        {this.state.isAlarmTriggered && (
+          <div id="wrapper" className="troubleshootHeaderDefault">
+            {wtfHeader}
+          </div>
+        )}
         <div id="wrapper" className="troubleshootPanelDefault">
           {wtfPanel}
         </div>

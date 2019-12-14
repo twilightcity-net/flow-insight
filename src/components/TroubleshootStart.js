@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Divider, Segment, Transition } from "semantic-ui-react";
+import { Divider, Segment } from "semantic-ui-react";
 import { RendererEventFactory } from "../RendererEventFactory";
 import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import { DataModelFactory } from "../models/DataModelFactory";
@@ -12,7 +12,7 @@ const fs = window.require("fs");
 /**
  * this component is the tab panel wrapper for the console content
  */
-export default class TroubleshootSessionNew extends Component {
+export default class TroubleshootStart extends Component {
   /**
    * the constructor function that is called when creating a new TroubleshootSession
    * @param props - properties that are passed in from the troubleshoot layout
@@ -202,8 +202,13 @@ export default class TroubleshootSessionNew extends Component {
   render() {
     return (
       <div id="component" className="troubleshootPanelDefault">
-        <Divider hidden fitted clearing />
-        <Segment textAlign={"center"} className="wtf" inverted padded={"very"}>
+        {/*<Divider hidden fitted clearing />*/}
+        <Segment
+          textAlign={"center"}
+          className="wtf-panel-start"
+          inverted
+          padded={"very"}
+        >
           <div
             className="wtf-button-massive"
             onClick={this.onClickStartTroubleshooting}

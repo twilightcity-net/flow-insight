@@ -11,6 +11,9 @@ export class WTFTimer extends DataModel {
     this.wtfTimerInSeconds = "00:00";
 
     this.running = false;
+
+    // TODO this should be static referenced so we only ever have just one ticker
+
     this.intervalTicker = null;
 
     this.circleModel = null;

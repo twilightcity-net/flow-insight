@@ -482,23 +482,43 @@
       }
 
 
-
+      /**
+       * WTF-PANEL-START
+       */
+      #component.troubleshootPanelDefault .wtf-panel-start {
+        /*padding-top:px;*/
+      }
 
       /*
        * TROUBLESHOOT - WTF-BUTTON
        */
       @keyframes shadow-pulse {
         0% {
-          box-shadow: 0 0 0 0 rgba(234, 0, 0, 0.222);
+          box-shadow: 0 0 0 0 rgba(234, 0, 0, 0.111);
+          background: rgba(211, 22, 22, 1);
+          font-size: 4em;
+          line-height: 3.4em;
+
+        }
+        100% {
+          box-shadow: 0 0 0 1.112em rgba(27, 28, 29, 0);
+          background: rgba(250, 0, 0, 0.92);
+          font-size: 3.9em;
+          line-height: 3.5em;
+        }
+      }
+      @keyframes shadow-pulse-hover {
+        0% {
+          box-shadow: 0 0 0 0 rgba(234, 0, 0, 0.333);
           background: rgba(255, 19, 19, 1);
-          font-size: 4.26em;
+          font-size: 4.20em;
           line-height: 3.25em;
 
         }
         100% {
           box-shadow: 0 0 0 1.112em rgba(222, 222, 222, 0.01);
           background: rgba(250, 0, 0, .92);
-          font-size: 4.20em;
+          font-size: 4.10em;
           line-height: 3.3em;
         }
       }
@@ -519,11 +539,14 @@
         background: rgba(255, 0, 0, 0.88);
         border-radius: 50%;
         border-top: 4px solid #af0000;
-        animation: shadow-pulse 1s infinite;
         border-left: 4px solid #af0000;
         border-bottom: 4px solid #900000;
         border-right: 4px solid #960000;
+        animation: shadow-pulse 2s infinite;
         cursor: pointer !important;
+      }
+      .wtf-button-massive:hover {
+        animation: shadow-pulse-hover 0.777s infinite;
       }
       #component.troubleshootPanelDefault .ui.segment.wtf-button-desc {
         background: transparent;
