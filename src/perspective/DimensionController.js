@@ -36,7 +36,7 @@ export class DimensionController {
       border: 2,
       margin: 24,
       padding: 8,
-      header: 54,
+      header: 51,
       content: 0,
       menu: 28
     };
@@ -54,9 +54,9 @@ export class DimensionController {
   static getJournalItemsPanelHeight() {
     let heights = {
       border: 2,
-      margin: 8,
-      padding: 8,
-      header: 54,
+      margin: 13,
+      padding: 16,
+      header: 51,
       items: 50,
       menu: 28
     };
@@ -75,7 +75,7 @@ export class DimensionController {
     let heights = {
       window: window.innerHeight,
       border: 2,
-      margin: 6,
+      margin: 8,
       header: 34,
       canvas: 0,
       menu: 28
