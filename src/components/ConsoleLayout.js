@@ -1,20 +1,26 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import ConsoleSidebar from "./ConsoleSidebar";
 import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";
 import TeamPanel from "./TeamPanel";
 import SpiritPanel from "./SpiritPanel";
-import { DataModelFactory } from "../models/DataModelFactory";
-import { SpiritModel } from "../models/SpiritModel";
-import { ActiveCircleModel } from "../models/ActiveCircleModel";
-import { TeamModel } from "../models/TeamModel";
-import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
-import { SidePanelViewController } from "../perspective/SidePanelViewController";
+import {DataModelFactory} from "../models/DataModelFactory";
+import {SpiritModel} from "../models/SpiritModel";
+import {ActiveCircleModel} from "../models/ActiveCircleModel";
+import {TeamModel} from "../models/TeamModel";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import {SidePanelViewController} from "../perspective/SidePanelViewController";
+import {DimensionController} from "../perspective/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class ConsoleLayout extends Component {
+
+  /**
+   * the costructor for the root console layout. This calls other child layouts
+   * @param props - the properties of the component to render
+   */
   constructor(props) {
     super(props);
     this.name = "[ConsoleLayout]";
@@ -27,18 +33,19 @@ export default class ConsoleLayout extends Component {
       flameRating: 0,
       activePanel: SidePanelViewController.MenuSelection.PROFILE,
       consoleIsCollapsed: 0,
-      me: { shortName: "Me", id: "id" },
+      me: {shortName: "Me", id: "id"},
       teamMembers: [],
-      activeTeamMember: { shortName: "Me", id: "id" },
+      activeTeamMember: {shortName: "Me", id: "id"},
       isMe: true
     };
     this.animationTime = 555;
+
+    // TODO move this stuff into the controller class
 
     this.sidePanelController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL,
       this
     );
-
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
       this
@@ -53,7 +60,6 @@ export default class ConsoleLayout extends Component {
       TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
       this.onActiveMemberUpdateCb
     );
-
     this.activeCircleModel = DataModelFactory.createModel(
       DataModelFactory.Models.ACTIVE_CIRCLE,
       this
@@ -85,6 +91,9 @@ export default class ConsoleLayout extends Component {
     );
   }
 
+  /**
+   * called right after when the component is finished rendering
+   */
   componentDidMount = () => {
     console.log(this.name + " - componentDidMount");
 
@@ -95,6 +104,9 @@ export default class ConsoleLayout extends Component {
     this.onRefreshActivePerspective();
   };
 
+  /**
+   * called right before when the component will unmount
+   */
   componentWillUnmount = () => {
     console.log(this.name + " - componentWillUnmount");
 
@@ -105,6 +117,9 @@ export default class ConsoleLayout extends Component {
     this.sidePanelController.configureContentListener(this, null);
   };
 
+  /**
+   * the event callback handler for when the xp's user changes
+   */
   onXPUpdate = () => {
     this.setState({
       torchieOwner: this.spiritModel.getActiveScope().torchieOwner,
@@ -119,12 +134,18 @@ export default class ConsoleLayout extends Component {
     });
   };
 
+  /**
+   * the event callback handler for when the flame rating changes on the gui
+   */
   onActiveFlameUpdate = () => {
     this.setState({
       flameRating: this.spiritModel.getActiveScope().activeFlameRating
     });
   };
 
+  /**
+   * the event callback handler for when the TeamModel updates
+   */
   onTeamModelUpdateCb = () => {
     console.log(this.name + " - onTeamModelUpdateCb");
     // console.log("WTF TIMER " + this.teamModel.me.wtfTimer);
@@ -136,6 +157,9 @@ export default class ConsoleLayout extends Component {
     });
   };
 
+  /**
+   * callback handler function for when the active memmber model updates
+   */
   onActiveMemberUpdateCb = () => {
     console.log(this.name + " - onActiveMemberUpdateCb");
     this.setState({
@@ -144,6 +168,10 @@ export default class ConsoleLayout extends Component {
     });
   };
 
+  /**
+   * the callback handler for when the flame rating changes
+   * @param flameRating - the intensity of the flame to change
+   */
   onFlameChangeCb = flameRating => {
     console.log(this.name + " - onFlameChangeCb: " + flameRating);
 
@@ -152,14 +180,18 @@ export default class ConsoleLayout extends Component {
     });
   };
 
-  /// click the flame button, which either tries to do a +1 or -1
-  adjustFlameCb = flameDelta => {
+  /**
+   * click the flame button, which either tries to do a +1 or -1
+   * @param flameDelta - the amount of the flame to change
+   */
+  adjustFlameCb = (flameDelta) => {
     console.log(this.name + " - Flame change: " + flameDelta);
 
     let flameRating = Number(this.state.flameRating) + flameDelta;
     if (flameRating > 5) {
       flameRating = 5;
-    } else if (flameRating < -5) {
+    }
+    else if (flameRating < -5) {
       flameRating = -5;
     }
 
@@ -173,21 +205,24 @@ export default class ConsoleLayout extends Component {
 
     console.log(
       this.name +
-        " - adjustFlameCb, Old/New Flame rating: " +
-        this.state.flameRating +
-        "/" +
-        flameRating
+      " - adjustFlameCb, Old/New Flame rating: " +
+      this.state.flameRating +
+      "/" +
+      flameRating
     );
     this.setState({
       flameRating: flameRating
     });
   };
 
+  /**
+   * called when refreshing the active perspective window
+   */
   onRefreshActivePerspective() {
     console.log(
       this.name +
-        " - onRefreshActivePerspective: " +
-        this.sidePanelController.show
+      " - onRefreshActivePerspective: " +
+      this.sidePanelController.show
     );
     let show = this.sidePanelController.show;
     if (show) {
@@ -201,7 +236,8 @@ export default class ConsoleLayout extends Component {
           sidebarPanelOpacity: 1
         });
       }, 0);
-    } else {
+    }
+    else {
       this.setState({
         sidebarPanelWidth: 0,
         sidebarPanelOpacity: 0
@@ -215,16 +251,26 @@ export default class ConsoleLayout extends Component {
     }
   }
 
-  /// store child component for future reloading
-  saveStateSidebarPanelCb = state => {
-    this.setState({ sidebarPanelState: state });
+  /**
+   * store child component for future reloading
+   * @param state - the current state of the object
+   */
+  saveStateSidebarPanelCb = (state) => {
+    this.setState({sidebarPanelState: state});
   };
 
-  /// load the child components state from this state
+  /**
+   *  load the child components state from this state
+   * @returns {*}
+   */
   loadStateSidebarPanelCb = () => {
     return this.state.sidebarPanelState;
   };
 
+  /**
+   * the name of the users torchie spirit
+   * @returns {string}
+   */
   getTorchieName = () => {
     let torchieName = "Member";
     if (this.state.activeTeamMember) {
@@ -233,25 +279,13 @@ export default class ConsoleLayout extends Component {
     return torchieName;
   };
 
-  // calculateConsoleContentHeight() {
-  //   let heights = {
-  //     rootBorder: 2,
-  //     consoleMenu: 28,
-  //     contentContentSlug: 7
-  //   };
-  //
-  //   /// subtract the root element's height from total window height that is
-  //   /// half of the clients screen height
-  //   return (
-  //     window.innerHeight -
-  //     heights.rootBorder -
-  //     heights.consoleMenu -
-  //     heights.contentContentSlug
-  //   );
-  // }
-
-  /// renders the root console layout of the console view
+  /**
+   * renders the root console layout of the console view
+   * @returns {*} - the JSX to render
+   */
   render() {
+
+    /// the spirit panel that gets displayed in the side panel
     const spiritPanelContent = (
       <SpiritPanel
         me={this.state.me}
@@ -273,6 +307,7 @@ export default class ConsoleLayout extends Component {
       />
     );
 
+    /// the team panel that gets displayed to the user
     const teamPanelContent = (
       <TeamPanel
         xpSummary={this.state.xpSummary}
@@ -286,44 +321,49 @@ export default class ConsoleLayout extends Component {
       />
     );
 
+    /// logic that controls how the side panel is displayed
     let activePanel = null;
-
     if (
       this.state.activePanel === SidePanelViewController.MenuSelection.PROFILE
     ) {
       activePanel = spiritPanelContent;
-    } else if (
+    }
+    else if (
       this.state.activePanel === SidePanelViewController.MenuSelection.MESSAGES
     ) {
       activePanel = teamPanelContent;
     }
 
+    /// the wrapping panel that renders the side panel
     const sidebarPanel = (
       <div
         id="wrapper"
         className="consoleSidebarPanel"
-        style={{ width: this.state.sidebarPanelWidth }}
+        style={{width: this.state.sidebarPanelWidth}}
       >
         {activePanel}
       </div>
     );
+
+    /// glue the sidebar to the comtent and the bottom memu bar
     return (
       <div id="component" className="consoleLayout">
         <div id="wrapper" className="consoleSidebar">
-          <ConsoleSidebar />
+          <ConsoleSidebar/>
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
-        <div id="wrapper" className="consoleContent">
+        <div id="wrapper"
+             className="consoleContent"
+             style={{ height: DimensionController.getHeightFor(this) }}
+        >
           <ConsoleContent
             onFlameChange={this.onFlameChangeCb}
             onAdjustFlame={this.adjustFlameCb}
             animationTime={this.animationTime}
-            // height={this.calculateConsoleContentHeight()}
           />
         </div>
-
         <div id="wrapper" className="consoleMenu">
-          <ConsoleMenu animationTime={this.animationTime} />
+          <ConsoleMenu animationTime={this.animationTime}/>
         </div>
       </div>
     );

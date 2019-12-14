@@ -162,22 +162,6 @@ export default class SpiritPanel extends Component {
   }
 
   /**
-   * performs a simple calculation for dynamic width of panel
-   * @returns {number} returns the exact pixel number to set the width of canvas to
-   */
-  calculatePanelWidth() {
-    return DimensionController.getWidthFor(this);
-  }
-
-  /**
-   * performs a simple calculation for dynamic height of panel
-   * @returns {number} returns the exact pixel number to set the height to
-   */
-  calculatePanelHeight = () => {
-    return DimensionController.getHeightFor(this);
-  };
-
-  /**
    * laods the stored state from parent or use default values
    * @returns {{totalXP: number, animationDelay: number, level: number, activeItem: string, badgesVisible: boolean, spiritVisible: boolean, title: string, percentXP: number, animationType: string}|*}
    */
@@ -364,15 +348,15 @@ export default class SpiritPanel extends Component {
             }
             inverted
             hideOnScroll
-            position="top left"
+            position="bottom left"
           />
         </div>
 
         <SpiritCanvas
           flameString={this.state.flameString}
           spirit={this.spiritModel}
-          width={DimensionController.getWidthFor(this)}
-          height={DimensionController.getHeightFor(this)}
+          width={222}
+          height={222}
           render3d={this.render3d}
         />
 
@@ -425,7 +409,6 @@ export default class SpiritPanel extends Component {
           </Menu>
           <Segment
             inverted
-            style={{ height: DimensionController.getHeightFor(this) }}
           >
             <Transition
               visible={this.state.spiritVisible}

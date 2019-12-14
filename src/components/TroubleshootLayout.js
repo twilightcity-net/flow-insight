@@ -1,28 +1,29 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import TroubleshootHeader from "./TroubleshootHeader";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
-import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveCircleModel } from "../models/ActiveCircleModel";
+import {DataModelFactory} from "../models/DataModelFactory";
+import {ActiveCircleModel} from "../models/ActiveCircleModel";
 import TroubleshootStart from "./TroubleshootStart";
 
-//
-// this component is the tab panel wrapper for the console content
-//
+/**
+ * this component is the tab panel wrapper for the console content
+ * @author ZoeDreams
+ */
 export default class TroubleshootLayout extends Component {
   constructor(props) {
     super(props);
-
     this.name = "[TroubleshootLayout]";
+
+    // TODO move this into the controller class
+
 
     this.state = {
       isAlarmTriggered: false
     };
-
     this.activeCircleModel = DataModelFactory.createModel(
       DataModelFactory.Models.ACTIVE_CIRCLE,
       this
     );
-
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS
     );
@@ -42,6 +43,8 @@ export default class TroubleshootLayout extends Component {
     this.activeCircleModel.unregisterAllListeners("troubleshootLayout");
   }
 
+  // TODO move the model and stuff to there own controller
+
   onActiveCircleUpdateCb = () => {
     console.log(this.name + " - onActiveCircleUpdateCb");
     this.setState({
@@ -49,29 +52,7 @@ export default class TroubleshootLayout extends Component {
     });
   };
 
-  /// performs a simple calculation for dynamic height of items, this
-  /// is becuase there will be a slight variation in the screen height
-  calculateTroubleshootItemsHeight() {
-    let heights = {
-      rootBorder: 2,
-      consoleMenu: 28,
-      contentMargin: 8,
-      contentPadding: 8,
-      journalEntry: 50
-    };
-
-    /// subtract the root element's height from total window height that is
-    /// half of the clients screen height
-    return (
-      window.innerHeight -
-      heights.rootBorder -
-      heights.consoleMenu -
-      heights.contentMargin -
-      heights.contentPadding -
-      heights.journalEntry
-    );
-  }
-
+  // TODO move these functions to controller
   onStartTroubleshooting = () => {
     console.log(this.name + "onStartTroubleshooting");
 
@@ -84,7 +65,10 @@ export default class TroubleshootLayout extends Component {
     this.activeCircleModel.closeActiveCircle();
   };
 
-  /// renders the journal layout of the console view
+  /**
+   * renders the journal layout of the console view
+   * @returns {*} - the JSX to render
+   */
   render() {
     let wtfPanel = null,
       wtfHeader = null;
@@ -96,17 +80,18 @@ export default class TroubleshootLayout extends Component {
       );
     }
 
+    // TODO move these handlers into there own controller class
+
     if (!this.state.isAlarmTriggered) {
       wtfPanel = (
         <TroubleshootStart
-          height={this.calculateTroubleshootItemsHeight()}
           onStartTroubleshooting={this.onStartTroubleshooting}
         />
       );
-    } else {
+    }
+    else {
       wtfPanel = (
         <TroubleshootSessionOpen
-          height={this.calculateTroubleshootItemsHeight()}
           onStopTroubleshooting={this.onStopTroubleshooting}
         />
       );

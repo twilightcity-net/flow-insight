@@ -1,6 +1,7 @@
 import SpiritPanel from "../components/SpiritPanel";
 import JournalItems from "../components/JournalItems";
 import FlowContent from "../components/FlowContent";
+import ConsoleLayout from "../components/ConsoleLayout";
 
 /**
  * generic controller that handles calculations for dynamic fluid heights of
@@ -36,7 +37,7 @@ export class DimensionController {
       border: 2,
       margin: 24,
       padding: 8,
-      header: 54,
+      header: 51,
       content: 0,
       menu: 28
     };
@@ -54,10 +55,10 @@ export class DimensionController {
   static getJournalItemsPanelHeight() {
     let heights = {
       border: 2,
-      margin: 8,
-      padding: 8,
-      header: 54,
-      items: 50,
+      margin: 12,
+      padding: 12,
+      header: 51,
+      entry: 50,
       menu: 28
     };
     return (
@@ -66,7 +67,7 @@ export class DimensionController {
       heights.margin -
       heights.padding -
       heights.header -
-      heights.items -
+      heights.entry -
       heights.menu
     );
   }
@@ -75,7 +76,7 @@ export class DimensionController {
     let heights = {
       window: window.innerHeight,
       border: 2,
-      margin: 6,
+      margin: 8,
       header: 34,
       canvas: 0,
       menu: 28
@@ -87,6 +88,21 @@ export class DimensionController {
       heights.header -
       heights.canvas -
       heights.menu
+    );
+  }
+
+  static getConsoleLayoutHeight() {
+    let heights = {
+      window: window.innerHeight,
+      border: 0,
+      margin: 8,
+      header: 22
+    };
+    return (
+      heights.window -
+      heights.border -
+      heights.margin -
+      heights.header
     );
   }
 
@@ -108,10 +124,15 @@ export class DimensionController {
   static getHeightFor(component) {
     if (component.name === "[" + SpiritPanel.name + "]") {
       return DimensionController.getSpiritPanelHeight();
-    } else if (component.name === "[" + JournalItems.name + "]") {
+    }
+    else if (component.name === "[" + JournalItems.name + "]") {
       return DimensionController.getJournalItemsPanelHeight();
-    } else if (component.name === "[" + FlowContent.name + "]") {
+    }
+    else if (component.name === "[" + FlowContent.name + "]") {
       return DimensionController.getFlowPanelHeight();
+    }
+    else if (component.name === "[" + ConsoleLayout.name + "]") {
+      return DimensionController.getConsoleLayoutHeight();
     }
     return DimensionController.getDefaultConsoleSidebarPanelHeight();
   }

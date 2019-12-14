@@ -4,6 +4,7 @@ import TroubleshootLayout from "./TroubleshootLayout";
 import FlowLayout from "./FlowLayout";
 import { Transition } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import {DimensionController} from "../perspective/DimensionController";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -11,6 +12,7 @@ import { ActiveViewControllerFactory } from "../perspective/ActiveViewController
 export default class ConsoleContent extends Component {
   constructor(props) {
     super(props);
+    this.name = "[" + ConsoleContent.name + "]";
     this.isAnimating = false;
     this.animationTime = Math.floor(this.props.animationTime / 2);
     this.state = {
@@ -131,7 +133,6 @@ export default class ConsoleContent extends Component {
       <div
         id="component"
         className="consoleContent"
-        style={{ height: this.props.height }}
       >
         <Transition
           visible={this.state.journalVisible}
