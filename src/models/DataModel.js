@@ -1,12 +1,24 @@
 import UtilRenderer from "../UtilRenderer";
 import { RendererEventFactory } from "../RendererEventFactory";
 
-//
-// this base class is used for Stores
-//
+/**
+ * this base class is used by object models that retrieve data from
+ * corresponding DataStores in the main process of the application
+ */
 export class DataModel {
+  /**
+   * this is a hardcoded buffer using an async setTimeout function. This
+   * is helpful when adjusting for animation buffering and lag. This is
+   * the amount of milliseconds to delay the async callback
+   * @type {number}
+   */
   static activeWaitDelay = 100;
 
+  /**
+   * builds the datamodel based on the child's calling call. this is the
+   * scope to execute the model within
+   * @param scope
+   */
   constructor(scope) {
     this.name = this.constructor.name;
     this.scope = scope;
@@ -29,6 +41,9 @@ export class DataModel {
 
   /**
    * Register a callback for a particular Model event type
+   * @param subscriber - the function whichs wishes to be notified in event of
+   * @param eventType - the namespace channel name of the event to be notified by
+   * @param callback - the function to execute when notified
    */
   registerListener = (subscriber, eventType, callback) => {
     let eventListeners = this.listenersByEventType[eventType];
@@ -114,6 +129,11 @@ export class DataModel {
     );
   }
 
+  /**
+   * event callback for the load event of the data model
+   * @param event - the event name that is notified from
+   * @param arg - the data returned by the event circuit
+   */
   onLoadedCb(event, arg) {
     if (
       arg.name !== this.name ||
@@ -141,7 +161,11 @@ export class DataModel {
     }
   }
 
-  /// enum class of all of http requests
+  /**
+   * enum class of all of http requests
+   * @returns {{POST: string, GET: string}}
+   * @constructor - static constructor for the possible types of requests
+   */
   static get RequestTypes() {
     return {
       POST: "post",

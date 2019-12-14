@@ -208,24 +208,10 @@ export default class TroubleshootSessionNew extends Component {
             className="wtf-button-massive"
             onClick={this.onClickStartTroubleshooting}
           >
-            WTF!
+            WTF?
           </div>
-          {/*<Button*/}
-          {/*  onClick={this.onClickStartTroubleshooting}*/}
-          {/*  size="massive"*/}
-          {/*  color="red"*/}
-          {/*  animated="fade"*/}
-          {/*  className="reallyfuckingbig"*/}
-          {/*>*/}
-          {/*  <Button.Content visible>*/}
-          {/*    &nbsp;&nbsp;&nbsp; WTF?!&nbsp;&nbsp;&nbsp;*/}
-          {/*  </Button.Content>*/}
-          {/*  <Button.Content hidden>*/}
-          {/*    &nbsp;&nbsp;&nbsp;HELP!&nbsp;&nbsp;&nbsp;*/}
-          {/*  </Button.Content>*/}
-          {/*</Button>*/}
           <Segment inverted size={"huge"} className="wtf-button-desc">
-            <b>Start A Troubleshooting Session?</b>
+            <b>Start A Troubleshooting Session!</b>
           </Segment>
         </Segment>
       </div>
