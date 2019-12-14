@@ -4,11 +4,11 @@ import { Segment } from "semantic-ui-react";
 //
 // this component is the tab panel wrapper for the console content
 //
-export default class FlowChunkHeader extends Component {
+export default class FlowHeader extends Component {
   constructor(props) {
     super(props);
 
-    this.name = "[FlowChunkHeader]";
+    this.name = "[FlowHeader]";
   }
 
   /// renders the journal items component from array in the console view

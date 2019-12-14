@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import FlowChunkHeader from "./FlowChunkHeader";
+import FlowHeader from "./FlowHeader";
 import FlowContent from "./FlowContent";
 import { DataModelFactory } from "../models/DataModelFactory";
 
@@ -45,9 +45,7 @@ export default class FlowLayout extends Component {
     return (
       <div id="component" className="flowLayout">
         <div id="wrapper" className="flowHeader">
-          <FlowChunkHeader
-            member={this.teamModel.getActiveTeamMemberShortName()}
-          />
+          <FlowHeader member={this.teamModel.getActiveTeamMemberShortName()} />
         </div>
         <div id="wrapper" className="flowContent">
           <FlowContent height={this.calculateJournalItemsHeight()} />

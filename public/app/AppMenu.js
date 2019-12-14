@@ -7,8 +7,8 @@ const helpSubmenu = [
   {
     label: "Torchie - Learn More",
     click() {
-      log.info("[AppMenu] open browser-> http://www.dreamscale.io/");
-      Util.openExternalBrowser("http://www.dreamscale.io/");
+      log.info("[AppMenu] open browser-> http://www.dreamscale.love/");
+      Util.openExternalBrowser("http://www.dreamscale.love/");
     }
   },
   {

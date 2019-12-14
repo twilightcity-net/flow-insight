@@ -252,7 +252,7 @@ export default class ConsoleLayout extends Component {
 
   /// renders the root console layout of the console view
   render() {
-    const animatedPanelContent = (
+    const spiritPanelContent = (
       <SpiritPanel
         me={this.state.me}
         isMe={this.state.isMe}
@@ -291,7 +291,7 @@ export default class ConsoleLayout extends Component {
     if (
       this.state.activePanel === SidePanelViewController.MenuSelection.PROFILE
     ) {
-      activePanel = animatedPanelContent;
+      activePanel = spiritPanelContent;
     } else if (
       this.state.activePanel === SidePanelViewController.MenuSelection.MESSAGES
     ) {
