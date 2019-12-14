@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Types - Documentation</title>
+    <title>src/perspective/DimensionController.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,156 +29,140 @@
 
 <div id="main">
     
-    <h1 class="page-title">Types</h1>
+    <h1 class="page-title">src/perspective/DimensionController.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-            <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span>
-        
-        Types
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="Types"><span class="type-signature"></span>new Types<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    static enum to store event types. These are basically the type of possible events that can be dispatched by the Manager.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_EventFactory.js.html">public/managers/EventFactory.js</a>, <a href="public_managers_EventFactory.js.html#line25">line 25</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>Object</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import SpiritPanel from "../components/SpiritPanel";
+import JournalItems from "../components/JournalItems";
+import FlowContent from "../components/FlowContent";
+
+/**
+ * generic controller that handles calculations for dynamic fluid heights of
+ * the different resolution aspect ratios
+ */
+export class DimensionController {
+
+  /**
+   * the static property to store this class into for reference
+   */
+  static instance;
+
+  /**
+   * Contains the logig to properly set the component heights of various view layouts
+   * @param scope - the scope to determine the dimenational properties to of components
+   */
+  constructor(scope) {
+    this.name = "[DimensionController]";
+    this.scope = scope;
+  }
+
+  /**
+   * builds the class into the static property instance
+   * @param scope - the scope to build the instance into
+   */
+  static init(scope) {
+    if (!DimensionController.instance) {
+      DimensionController.instance = new DimensionController(scope);
+    }
+  }
+
+  static getFlowPanelHeight() {
+    let heights = {
+      border: 2,
+      margin: 24,
+      padding: 8,
+      header: 54,
+      content: 0,
+      menu: 28,
+    };
+    return (
+      window.innerHeight -
+      heights.border -
+      heights.margin -
+      heights.padding -
+      heights.header -
+      heights.content -
+      heights.menu
+    );
+  }
+
+  static getJournalItemsPanelHeight() {
+    let heights = {
+      border: 2,
+      margin: 8,
+      padding: 8,
+      header: 54,
+      items: 50,
+      menu: 28,
+    };
+    return (
+      window.innerHeight -
+      heights.border -
+      heights.margin -
+      heights.padding -
+      heights.header -
+      heights.items -
+      heights.menu
+    );
+  }
+
+  static getSpiritPanelHeight() {
+    let heights = {
+      window: window.innerHeight,
+      border: 2,
+      margin: 6,
+      header: 34,
+      canvas: 0,
+      menu: 28
+    };
+    return (
+      heights.window -
+      heights.border -
+      heights.margin -
+      heights.header -
+      heights.canvas -
+      heights.menu
+    );
+  }
+
+  static getDefaultConsoleSidebarPanelWidth() {
+    return window.innerWidth;
+  }
+
+  static getDefaultConsoleSidebarPanelHeight() {
+    return window.innerHeight;
+  }
+
+  static getWidthFor(component) {
+    if (component.name === "[" + SpiritPanel.name + "]") {
+      return DimensionController.getSpiritPanelHeight();
+    }
+    return DimensionController.getDefaultConsoleSidebarPanelWidth();
+  }
+
+  static getHeightFor(component) {
+    if (component.name === "[" + SpiritPanel.name + "]") {
+      return DimensionController.getSpiritPanelHeight();
+    }
+    else if (component.name === "[" + JournalItems.name + "]") {
+      return DimensionController.getJournalItemsPanelHeight();
+    }
+    else if (component.name === "[" + FlowContent.name + "]") {
+      return DimensionController.getFlowPanelHeight();
+    }
+    return DimensionController.getDefaultConsoleSidebarPanelHeight();
+  }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
@@ -188,7 +172,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Dec 14 2019 02:42:49 GMT-0600 (Central Standard Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Dec 14 2019 02:42:48 GMT-0600 (Central Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

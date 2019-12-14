@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Types - Documentation</title>
+    <title>src/components/SpiritPanel.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,156 +29,466 @@
 
 <div id="main">
     
-    <h1 class="page-title">Types</h1>
+    <h1 class="page-title">src/components/SpiritPanel.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-            <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span>
-        
-        Types
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="Types"><span class="type-signature"></span>new Types<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    static enum to store event types. These are basically the type of possible events that can be dispatched by the Manager.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_EventFactory.js.html">public/managers/EventFactory.js</a>, <a href="public_managers_EventFactory.js.html#line25">line 25</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>Object</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, {Component} from "react";
+import {Icon, Image, Menu, Popup, Progress, Segment, Transition} from "semantic-ui-react";
+import {DataModelFactory} from "../models/DataModelFactory";
+import {SidePanelViewController} from "../perspective/SidePanelViewController";
+import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import SpiritCanvas from "./SpiritCanvas";
+import {DimensionController} from "../perspective/DimensionController";
+
+
+/**
+ * this class is responsible for storing the users avatar, soul, inventory,
+ * and accessories. Currently this only uses a simple canvas but will use
+ * an embedded unity3d instance
+ */
+export default class SpiritPanel extends Component {
+
+  /**
+   * the constructor function which is used to build the spirit panel
+   * @param props - these are the components properties
+   */
+  constructor(props) {
+    super(props);
+    this.state = this.loadState();
+    this.name = "[SpiritPanel]";
+    this.render3d = false;
+
+    this.spiritModel = DataModelFactory.createModel(
+      DataModelFactory.Models.SPIRIT,
+      this
+    );
+
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL
+    );
+  }
+
+  /**
+   * thew function that is called to open and display the badges panel in the side
+   */
+  openSpiritPanel() {
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
+      spiritVisible: false,
+      badgesVisible: false
+    });
+    setTimeout(() => {
+      this.setState({
+        spiritVisible: true
+      });
+    }, this.state.animationDelay);
+  }
+
+  /**
+   * the function that is called to open and display the badges panel in the side
+   */
+  openBadgesPanel() {
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.BADGES,
+      spiritVisible: false,
+      badgesVisible: false
+    });
+    setTimeout(() => {
+      this.setState({
+        badgesVisible: true
+      });
+    }, this.state.animationDelay);
+  }
+
+  /**
+   * updates display to show spirit content
+   * @param e - the menu event that was dispatched
+   * @param name - the name of the menu that was clicked
+   */
+  handleSpiritClick = (e, {name}) => {
+    this.myController.changeActiveSubmenuPanel(name);
+  };
+
+  /**
+   * updates the display to show the badges content
+   * @param e - the menu event that was dispatched
+   * @param name - the name of the menu that was clicked
+   */
+  handleBadgesClick = (e, {name}) => {
+    this.myController.changeActiveSubmenuPanel(name);
+  };
+
+  /**
+   * called after the component mounds and then notifies the perspective
+   * controller to refresh the view
+   */
+  componentDidMount = () => {
+    console.log(this.name + " - componentDidMount");
+
+    this.myController.configureSpiritPanelListener(
+      this,
+      this.onRefreshActivePerspective
+    );
+  };
+
+  /**
+   * event listener that is notified when the perspective changes views
+   */
+  onRefreshActivePerspective() {
+    console.log(this.name + " - onRefreshActivePerspective!");
+
+    let activeMenuItem = this.myController.activeSubmenuSelection;
+
+    if (activeMenuItem === SidePanelViewController.SubmenuSelection.SPIRIT) {
+      this.openSpiritPanel();
+    }
+    else {
+      this.openBadgesPanel();
+    }
+  }
+
+  /**
+   * called right before the component gets passed its properties
+   * @param nextProps - the next propertiers to change from the previous
+   */
+  componentWillReceiveProps = (nextProps) => {
+    let flameRating = nextProps.flameRating;
+
+    let flameString = "0";
+    if (flameRating > 0) {
+      flameString = "+" + flameRating;
+    }
+    else if (flameRating &lt; 0) {
+      flameString = flameRating;
+    }
+
+    this.setState({
+      flameString: flameString
+    });
+  };
+
+  /**
+   * handles the rage button press
+   */
+  handleClickForRage = () => {
+    console.log(this.name + "Rage!");
+    this.spiritModel.adjustFlame(-1);
+  };
+
+  /**
+   * handles the yay button press
+   */
+  handleClickForYay = () => {
+    console.log(this.name + "Yay!");
+    this.spiritModel.adjustFlame(+1);
+  };
+
+  /**
+   * called right before the component will mount. This will clear the listeners callback
+   */
+  componentWillUnmount() {
+    console.log(this.name + " - componentWillUnmount");
+    this.myController.configureSpiritPanelListener(this, null);
+  }
+
+  /**
+   * performs a simple calculation for dynamic width of panel
+   * @returns {number} returns the exact pixel number to set the width of canvas to
+   */
+  calculatePanelWidth() {
+    return DimensionController.getWidthFor(this);
+  }
+
+  /**
+   * performs a simple calculation for dynamic height of panel
+   * @returns {number} returns the exact pixel number to set the height to
+   */
+  calculatePanelHeight = () => {
+    return DimensionController.getHeightFor(this);
+  }
+
+  /**
+   * laods the stored state from parent or use default values
+   * @returns {{totalXP: number, animationDelay: number, level: number, activeItem: string, badgesVisible: boolean, spiritVisible: boolean, title: string, percentXP: number, animationType: string}|*}
+   */
+  loadState() {
+    let state = this.props.loadStateCb();
+    if (!state) {
+      return {
+        activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
+        spiritVisible: true,
+        badgesVisible: false,
+        animationType: "fly down",
+        animationDelay: 350,
+        level: 0,
+        percentXP: 99,
+        totalXP: 99999,
+        title: ""
+      };
+    }
+    return state;
+  }
+
+  /**
+   * handles clicking to link a spirit
+   */
+  handleClickForChainLink = () => {
+    console.log(this.name + " - Link this Torchie!");
+    this.spiritModel.linkThisTorchie(this.props.spiritId);
+  };
+
+  /**
+   * handles user spirit unlinking
+   */
+  handleClickForChainUnlink = () => {
+    console.log(this.name + " - Unlink!");
+
+    this.spiritModel.unlink(this.props.spiritId);
+  };
+
+  /**
+   * checks to see if the spirit is linked to us
+   * @returns {boolean}
+   */
+  isLinkedToMe = () => {
+    let linkedToMe = false;
+    if (this.hasActiveLinks()) {
+      let spiritLink = null;
+      for (var i in this.props.activeSpiritLinks) {
+        spiritLink = this.props.activeSpiritLinks[i];
+
+        if (spiritLink.friendSpiritId === this.props.me.id) {
+          linkedToMe = true;
+          break;
+        }
+      }
+    }
+    return linkedToMe;
+  };
+
+  /**
+   * checks to see if the Spirit has active links or not
+   * @returns {boolean|boolean}
+   */
+  hasActiveLinks = () => {
+    return (
+      this.props.activeSpiritLinks != null &amp;&amp;
+      this.props.activeSpiritLinks.length > 0
+    );
+  };
+
+  /**
+   * renders the console sidebar panel of the console view
+   * @returns {*}
+   */
+  render() {
+    const {activeItem} = this.state;
+
+    let linkIcon = (
+      &lt;Popup
+        trigger={
+          &lt;Icon
+            link
+            name="linkify"
+            className="chainLink"
+            onClick={this.handleClickForChainLink}
+          />
+        }
+        content={&lt;div className="tooltipPurple">Link this Torchie!&lt;/div>}
+        inverted
+        hideOnScroll
+        position="top left"
+      />
+    );
+
+    let linksContent = "";
+
+    if (this.hasActiveLinks()) {
+      linksContent = this.props.activeSpiritLinks.map(d => (
+        &lt;div key={d.friendSpiritId}>{d.name}&lt;/div>
+      ));
+
+      linksContent = (
+        &lt;div>
+          &lt;div className="tooltipRed">Break Links&lt;/div>
+          {linksContent}
+        &lt;/div>
+      );
+    }
+
+    let unlinkIcon = (
+      &lt;Popup
+        trigger={
+          &lt;Icon
+            link
+            name="unlinkify"
+            className="chainUnlink"
+            onClick={this.handleClickForChainUnlink}
+          />
+        }
+        content={linksContent}
+        inverted
+        hideOnScroll
+        position="bottom left"
+      />
+    );
+
+    let busyLinkIcon = (
+      &lt;Popup
+        trigger={&lt;Icon link name="gg" className="chainLink"/>}
+        content={
+          &lt;div className="tooltipRed">
+            Busy &lt;i>(Already Linked)&lt;/i>
+          &lt;/div>
+        }
+        inverted
+        hideOnScroll
+        position="bottom left"
+      />
+    );
+
+    let activeLinkIcon = "";
+    if (this.props.isMe) {
+      if (this.hasActiveLinks()) {
+        //there's at least one spirit link, so show the unlink icon
+        activeLinkIcon = unlinkIcon;
+      }
+      //if my torchie isn't linked, don't show any icon
+    }
+    else {
+      if (this.isLinkedToMe()) {
+        activeLinkIcon = unlinkIcon;
+      }
+      else if (this.hasActiveLinks()) {
+        activeLinkIcon = busyLinkIcon;
+      }
+      else {
+        activeLinkIcon = linkIcon;
+      }
+    }
+
+    const spiritContent = (
+      &lt;div className="spiritContent">
+        &lt;div className="spiritBackground">
+          &lt;div className="level">
+            &lt;b>{this.props.torchieOwner}'s Spirit&lt;/b>
+            {activeLinkIcon}
+          &lt;/div>
+
+          &lt;div className="level">
+            &lt;div className="infoTitle">Torchie {this.props.title}&lt;/div>
+            &lt;div className="infoLevel">Level {this.props.level}&lt;/div>
+          &lt;/div>
+
+          &lt;Popup
+            trigger={
+              &lt;Progress
+                size="small"
+                percent={this.props.percentXP}
+                color="violet"
+                inverted
+                progress
+              />
+            }
+            content={
+              &lt;div className="xpCount">
+                Total XP: &lt;i>{this.props.totalXP}&lt;/i>
+              &lt;/div>
+            }
+            inverted
+            hideOnScroll
+            position="top left"
+          />
+        &lt;/div>
+
+        &lt;SpiritCanvas
+          flameString={this.state.flameString}
+          spirit={this.spiritModel}
+          width={DimensionController.getWidthFor(this)}
+          height={DimensionController.getHeightFor(this)}
+          render3d={this.render3d}
+        />
+
+        &lt;div className="ui two bottom attached buttons">
+          &lt;button
+            className="ui icon button rageButton"
+            tabIndex="0"
+            onClick={this.handleClickForRage}
+          >
+            &lt;Image centered src="./assets/images/wtf/24x24.png"/>
+          &lt;/button>
+          &lt;button
+            className="ui icon button yayButton"
+            tabIndex="1"
+            onClick={this.handleClickForYay}
+          >
+            &lt;Image centered src="./assets/images/yay/24x24.png"/>
+          &lt;/button>
+        &lt;/div>
+      &lt;/div>
+    );
+    const badgesContent = (
+      &lt;div className="badgesContent">No Badges Earned :(&lt;/div>
+    );
+    return (
+      &lt;div
+        id="component"
+        className="consoleSidebarPanel"
+        style={{
+          width: this.props.width,
+          opacity: this.props.opacity
+        }}
+      >
+        &lt;Segment.Group>
+          &lt;Menu size="mini" inverted pointing secondary>
+            &lt;Menu.Item
+              name={SidePanelViewController.SubmenuSelection.SPIRIT}
+              active={
+                activeItem === SidePanelViewController.SubmenuSelection.SPIRIT
+              }
+              onClick={this.handleSpiritClick}
+            />
+            &lt;Menu.Item
+              name={SidePanelViewController.SubmenuSelection.BADGES}
+              active={
+                activeItem === SidePanelViewController.SubmenuSelection.BADGES
+              }
+              onClick={this.handleBadgesClick}
+            />
+          &lt;/Menu>
+          &lt;Segment inverted style={{height: DimensionController.getHeightFor(this)}}>
+            &lt;Transition
+              visible={this.state.spiritVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              {spiritContent}
+            &lt;/Transition>
+            &lt;Transition
+              visible={this.state.badgesVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              {badgesContent}
+            &lt;/Transition>
+          &lt;/Segment>
+        &lt;/Segment.Group>
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
@@ -188,7 +498,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Dec 14 2019 02:42:49 GMT-0600 (Central Standard Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Dec 14 2019 02:42:48 GMT-0600 (Central Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

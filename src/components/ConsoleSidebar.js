@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Icon, Divider, Menu } from "semantic-ui-react";
+import { Icon, Menu } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 import { SidePanelViewController } from "../perspective/SidePanelViewController";
 

@@ -12,12 +12,23 @@ import { DataModelFactory } from "../models/DataModelFactory";
 import { SidePanelViewController } from "../perspective/SidePanelViewController";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 import SpiritCanvas from "./SpiritCanvas";
+import { DimensionController } from "../perspective/DimensionController";
 
+/**
+ * this class is responsible for storing the users avatar, soul, inventory,
+ * and accessories. Currently this only uses a simple canvas but will use
+ * an embedded unity3d instance
+ */
 export default class SpiritPanel extends Component {
+  /**
+   * the constructor function which is used to build the spirit panel
+   * @param props - these are the components properties
+   */
   constructor(props) {
     super(props);
     this.state = this.loadState();
     this.name = "[SpiritPanel]";
+    this.render3d = false;
 
     this.spiritModel = DataModelFactory.createModel(
       DataModelFactory.Models.SPIRIT,
@@ -29,23 +40,9 @@ export default class SpiritPanel extends Component {
     );
   }
 
-  /// performs a simple calculation for dynamic width of panel
-  /// make height and width the same
-  calculateSpiritWidth() {
-    let spiritWidth = this.calculatePanelHeight() - 84;
-
-    // if (spiritWidth > 266) {
-    //   spiritWidth = 266;
-    // }
-    return spiritWidth;
-  }
-
-  /// performs a simple calculation for dynamic height of panel
-  calculateSpiritHeight() {
-    let spiritHeight = this.calculatePanelHeight() - 124;
-    return spiritHeight;
-  }
-
+  /**
+   * thew function that is called to open and display the badges panel in the side
+   */
   openSpiritPanel() {
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
@@ -59,6 +56,9 @@ export default class SpiritPanel extends Component {
     }, this.state.animationDelay);
   }
 
+  /**
+   * the function that is called to open and display the badges panel in the side
+   */
   openBadgesPanel() {
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.BADGES,
@@ -72,16 +72,28 @@ export default class SpiritPanel extends Component {
     }, this.state.animationDelay);
   }
 
-  /// updates display to show spirit content
+  /**
+   * updates display to show spirit content
+   * @param e - the menu event that was dispatched
+   * @param name - the name of the menu that was clicked
+   */
   handleSpiritClick = (e, { name }) => {
     this.myController.changeActiveSubmenuPanel(name);
   };
 
-  /// updates the display to show the badges content
+  /**
+   * updates the display to show the badges content
+   * @param e - the menu event that was dispatched
+   * @param name - the name of the menu that was clicked
+   */
   handleBadgesClick = (e, { name }) => {
     this.myController.changeActiveSubmenuPanel(name);
   };
 
+  /**
+   * called after the component mounds and then notifies the perspective
+   * controller to refresh the view
+   */
   componentDidMount = () => {
     console.log(this.name + " - componentDidMount");
 
@@ -91,6 +103,9 @@ export default class SpiritPanel extends Component {
     );
   };
 
+  /**
+   * event listener that is notified when the perspective changes views
+   */
   onRefreshActivePerspective() {
     console.log(this.name + " - onRefreshActivePerspective!");
 
@@ -103,6 +118,10 @@ export default class SpiritPanel extends Component {
     }
   }
 
+  /**
+   * called right before the component gets passed its properties
+   * @param nextProps - the next propertiers to change from the previous
+   */
   componentWillReceiveProps = nextProps => {
     let flameRating = nextProps.flameRating;
 
@@ -118,39 +137,50 @@ export default class SpiritPanel extends Component {
     });
   };
 
+  /**
+   * handles the rage button press
+   */
   handleClickForRage = () => {
     console.log(this.name + "Rage!");
     this.spiritModel.adjustFlame(-1);
   };
 
+  /**
+   * handles the yay button press
+   */
   handleClickForYay = () => {
     console.log(this.name + "Yay!");
     this.spiritModel.adjustFlame(+1);
   };
 
+  /**
+   * called right before the component will mount. This will clear the listeners callback
+   */
   componentWillUnmount() {
     console.log(this.name + " - componentWillUnmount");
     this.myController.configureSpiritPanelListener(this, null);
   }
 
-  /// performs a simple calculation for dynamic height of panel
-  calculatePanelHeight() {
-    let heights = {
-      rootBorder: 4,
-      contentMargin: 8,
-      contentHeader: 32,
-      bottomMenuHeight: 28
-    };
-    return (
-      window.innerHeight -
-      heights.rootBorder -
-      heights.contentMargin -
-      heights.contentHeader -
-      heights.bottomMenuHeight
-    );
+  /**
+   * performs a simple calculation for dynamic width of panel
+   * @returns {number} returns the exact pixel number to set the width of canvas to
+   */
+  calculatePanelWidth() {
+    return DimensionController.getWidthFor(this);
   }
 
-  /// laods the stored state from parent or use default values
+  /**
+   * performs a simple calculation for dynamic height of panel
+   * @returns {number} returns the exact pixel number to set the height to
+   */
+  calculatePanelHeight = () => {
+    return DimensionController.getHeightFor(this);
+  };
+
+  /**
+   * laods the stored state from parent or use default values
+   * @returns {{totalXP: number, animationDelay: number, level: number, activeItem: string, badgesVisible: boolean, spiritVisible: boolean, title: string, percentXP: number, animationType: string}|*}
+   */
   loadState() {
     let state = this.props.loadStateCb();
     if (!state) {
@@ -169,17 +199,27 @@ export default class SpiritPanel extends Component {
     return state;
   }
 
+  /**
+   * handles clicking to link a spirit
+   */
   handleClickForChainLink = () => {
     console.log(this.name + " - Link this Torchie!");
     this.spiritModel.linkThisTorchie(this.props.spiritId);
   };
 
+  /**
+   * handles user spirit unlinking
+   */
   handleClickForChainUnlink = () => {
     console.log(this.name + " - Unlink!");
 
     this.spiritModel.unlink(this.props.spiritId);
   };
 
+  /**
+   * checks to see if the spirit is linked to us
+   * @returns {boolean}
+   */
   isLinkedToMe = () => {
     let linkedToMe = false;
     if (this.hasActiveLinks()) {
@@ -196,6 +236,10 @@ export default class SpiritPanel extends Component {
     return linkedToMe;
   };
 
+  /**
+   * checks to see if the Spirit has active links or not
+   * @returns {boolean|boolean}
+   */
   hasActiveLinks = () => {
     return (
       this.props.activeSpiritLinks != null &&
@@ -203,7 +247,10 @@ export default class SpiritPanel extends Component {
     );
   };
 
-  /// renders the console sidebar panel of the console view
+  /**
+   * renders the console sidebar panel of the console view
+   * @returns {*}
+   */
   render() {
     const { activeItem } = this.state;
 
@@ -220,7 +267,7 @@ export default class SpiritPanel extends Component {
         content={<div className="tooltipPurple">Link this Torchie!</div>}
         inverted
         hideOnScroll
-        position="bottom left"
+        position="top left"
       />
     );
 
@@ -324,8 +371,9 @@ export default class SpiritPanel extends Component {
         <SpiritCanvas
           flameString={this.state.flameString}
           spirit={this.spiritModel}
-          width={this.calculateSpiritWidth()}
-          height={this.calculateSpiritHeight()}
+          width={DimensionController.getWidthFor(this)}
+          height={DimensionController.getHeightFor(this)}
+          render3d={this.render3d}
         />
 
         <div className="ui two bottom attached buttons">
@@ -375,7 +423,10 @@ export default class SpiritPanel extends Component {
               onClick={this.handleBadgesClick}
             />
           </Menu>
-          <Segment inverted style={{ height: this.calculatePanelHeight() }}>
+          <Segment
+            inverted
+            style={{ height: DimensionController.getHeightFor(this) }}
+          >
             <Transition
               visible={this.state.spiritVisible}
               animation={this.state.animationType}

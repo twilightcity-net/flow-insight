@@ -23,31 +23,6 @@ export default class JournalLayout extends Component {
     );
   }
 
-  /// performs a simple calculation for dynamic height of items, this
-  /// is becuase there will be a slight variation in the screen height
-  calculateJournalItemsHeight() {
-    let heights = {
-      rootBorder: 2,
-      consoleMenu: 28,
-      contentMargin: 8,
-      contentPadding: 8,
-      journalHeader: 54,
-      journalEntry: 50
-    };
-
-    /// subtract the root element's height from total window height that is
-    /// half of the clients screen height
-    return (
-      window.innerHeight -
-      heights.rootBorder -
-      heights.consoleMenu -
-      heights.contentMargin -
-      heights.contentPadding -
-      heights.journalHeader -
-      heights.journalEntry
-    );
-  }
-
   onFinishEntry = (journalEntry, finishStatus) => {
     console.log(this.name + " - onFinishEntry");
 
@@ -62,13 +37,21 @@ export default class JournalLayout extends Component {
     this.journalModel.setActiveJournalItem(journalItem);
   };
 
+  /**
+   * callback listener for the AddTask event which creates  new journal entry
+   * @param projectId - the id of the project the task will be added to
+   * @param taskName - the name of the task to be entered into the journal
+   */
   onAddTask = (projectId, taskName) => {
     console.log(this.name + " - onAddTask: " + projectId + ", " + taskName);
 
     this.journalModel.addTaskRef(taskName);
   };
 
-  /// renders the journal layout of the console view
+  /**
+   * renders the journal layout of the console view
+   * @returns {*} - returns the JSX for this component
+   */
   render() {
     return (
       <div id="component" className="journalLayout">
@@ -81,7 +64,6 @@ export default class JournalLayout extends Component {
           <JournalItems
             onChangeActiveEntry={this.onChangeActiveEntry}
             onFinishEntry={this.onFinishEntry}
-            height={this.calculateJournalItemsHeight()}
           />
         </div>
         <div id="wrapper" className="journalEntry">

@@ -4,6 +4,7 @@ import ConsoleLayout from "../components/ConsoleLayout";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 import { ModelCoordinator } from "../models/ModelCoordinator";
 import { PerspectiveController } from "../perspective/PerspectiveController";
+import { DimensionController } from "../perspective/DimensionController";
 
 //
 // This View will contain logic to inject the various tabs of the
@@ -54,6 +55,7 @@ export default class ConsoleView extends Component {
     this.myController.configureConsoleViewListener(this, this.onLoadCb);
     ModelCoordinator.init(this);
     PerspectiveController.init(this);
+    DimensionController.init(this);
   };
 
   componentWillUnmount = () => {

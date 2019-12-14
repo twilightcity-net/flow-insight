@@ -99,6 +99,7 @@ export class PerspectiveController {
       }
     } else {
       /// TODO create an event console shown which will call this
+
       // this is required so that the console sliding animation isn't wonky or laggy
       // maybe create a console is shown (done animating) event to fire these..
       // this would also throttle requests if thw console is opened and closed rapidly

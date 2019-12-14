@@ -1,5 +1,5 @@
-const { app, BrowserWindow } = require("electron"),
-  debug = require("electron-debug")({ showDevTools: false }),
+const GLOBAL_ = global,
+  { app } = require("electron"),
   path = require("path"),
   isDev = require("electron-is-dev"),
   log = require("electron-log"),
@@ -94,12 +94,17 @@ module.exports = class WindowManager {
    */
   getWindowViewURL(viewName) {
     if (isDev) {
-      return "http://localhost:3000?" + viewName;
+      return (
+        "http://localhost:3000?view=" +
+        viewName +
+        "&render3d=" +
+        GLOBAL_.App.render3D
+      );
     }
     let filePath = `${path.join(
       app.getAppPath(),
       Util.getAppRootDir(),
-      "/index.html?" + viewName
+      "/index.html?view=" + viewName + "&render3d=" + GLOBAL_.App.render3D
     )}`;
     return "file://" + filePath;
   }

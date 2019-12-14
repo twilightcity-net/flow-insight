@@ -4,6 +4,7 @@ import JournalItem from "./JournalItem";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { SpiritModel } from "../models/SpiritModel";
 import { JournalModel } from "../models/JournalModel";
+import { DimensionController } from "../perspective/DimensionController";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -228,7 +229,7 @@ export default class JournalItems extends Component {
       <div
         id="component"
         className="journalItems"
-        style={{ height: this.props.height }}
+        style={{ height: DimensionController.getHeightFor(this) }}
       >
         <Grid inverted onKeyPress={this.handleKeyPress}>
           {this.state.journalItems.map(d => (

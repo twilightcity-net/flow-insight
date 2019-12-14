@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import FlowHeader from "./FlowHeader";
 import FlowContent from "./FlowContent";
-import {DataModelFactory} from "../models/DataModelFactory";
+import { DataModelFactory } from "../models/DataModelFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -9,7 +9,6 @@ import {DataModelFactory} from "../models/DataModelFactory";
  * @copyright DreamScale, Inc. 2020©®™√
  */
 export default class FlowLayout extends Component {
-
   /**
    *
    * @param props
@@ -59,10 +58,10 @@ export default class FlowLayout extends Component {
     return (
       <div id="component" className="flowLayout">
         <div id="wrapper" className="flowHeader">
-          <FlowHeader member={this.teamModel.getActiveTeamMemberShortName()}/>
+          <FlowHeader member={this.teamModel.getActiveTeamMemberShortName()} />
         </div>
         <div id="wrapper" className="flowContent">
-          <FlowContent height={this.calculateFlowHeight()}/>
+          <FlowContent height={this.calculateFlowHeight()} />
         </div>
       </div>
     );

@@ -1,19 +1,17 @@
 import React, { Component } from "react";
 
-const { remote } = window.require("electron");
-
 export default class SpiritCanvas extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      render3D: remote.getGlobal("App").render3D
-    };
+    this.render3d = props.render3d;
     this.spirit = props.spirit;
+    this.height = props.height;
+    this.width = props.width;
   }
 
   componentDidMount() {
     this.canvasEl = this.getCanvasEl();
-    if (this.state.render3D === "true") {
+    if (this.render3D === "true") {
       // TODO implement unity3d models and scene into this element
     } else {
       this.paintTorchieHappy();
