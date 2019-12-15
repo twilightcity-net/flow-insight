@@ -72,12 +72,28 @@ export class DimensionController {
     );
   }
 
+  static getSpiritPanelWidth() {
+    let widths = {
+      window: window.innerWidth,
+      border: 2,
+      margin: 0,
+      padding: 0,
+      content: 500
+    };
+    return (
+      widths.window -
+      widths.border -
+        widths.margin -
+        widths.padding -
+        widths.content
+    );
+  }
+
   static getSpiritPanelHeight() {
     let heights = {
       window: window.innerHeight,
       border: 2,
-      margin: 8,
-      header: 34,
+      margin: 20,
       canvas: 0,
       menu: 28
     };
@@ -85,7 +101,6 @@ export class DimensionController {
       heights.window -
       heights.border -
       heights.margin -
-      heights.header -
       heights.canvas -
       heights.menu
     );
@@ -116,7 +131,7 @@ export class DimensionController {
 
   static getWidthFor(component) {
     if (component.name === "[" + SpiritPanel.name + "]") {
-      return DimensionController.getSpiritPanelHeight();
+      return DimensionController.getSpiritPanelWidth();
     }
     return DimensionController.getDefaultConsoleSidebarPanelWidth();
   }

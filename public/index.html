@@ -141,10 +141,6 @@
         font-style: italic;
         color: rgba(74, 74, 74, 0.96)
       }
-      #view.activator button {
-        cursor: pointer !important;
-      }
-
 
       /* 
        * COMPONENT: CONSOLE-LAYOUT 
@@ -152,14 +148,18 @@
       #component.consoleLayout #wrapper.consoleSidebar {
         float: left;
         position: relative;
-        padding: 0 0 0 0;
       }
       #component.consoleLayout #wrapper.consoleSidebarPanel {
         float: left;
         position: relative;
         transition: width 0.420s;
         width: 0;
-
+        overflow: hidden;
+        margin-top: 0px;
+      }
+      #component.consoleLayout #wrapper.consoleSidebarPanel .ui.menu{
+        padding-top: 0.6em;
+        padding-left: 0.5em;
       }
       #component.consoleLayout #wrapper.consoleContent {
         position: relative;
@@ -188,10 +188,8 @@
         border-radius: 0;
         padding-left: 6px;
         padding-right: 6px;
-        cursor: pointer !important;
       }
       #component.consoleSidebar .ui.menu .item.disabled {
-        cursor: default !important;
       }
       #component.consoleSidebar .ui.menu .item:last-child {
         border-bottom: 1px solid rgba(43, 43, 43, 0.96);;
@@ -205,21 +203,25 @@
       /* 
        * COMPONENT: CONSOLE-SIDEBAR-PANEL
        */
+
       #component.consoleSidebarPanel {
         width: 0px;
         opacity: 0;
         transition: width 0.420s, opacity 0.35s ease-in;
-        padding: 3px 1px 3px 3px;
+        /*padding: 3px 1px 3px 3px;*/
         overflow: hidden;
+        border-right: 1px solid rgba(41,41,41,1);
+        border-left: 1px solid rgba(41,41,41,1);
+        border-bottom: 1px solid rgba(41,41,41,1);
       }
-      #component.consoleSidebarPanel .ui.menu .item {
-        cursor: pointer !important;
+      #component.consoleSidebarPanel .ui.segments:not(.horizontal)>.segment:last-child {
+        border-radius: 0px !important;
       }
       #component.consoleSidebarPanel .ui.menu {
         background: rgba(26, 27, 28, 1);
         margin: 0;
-        border-top-right-radius: 0.5em;
-        border-top-left-radius: 0.5em;
+        /*border-top-right-radius: 0.5em;*/
+        /*border-top-left-radius: 0.5em;*/
       }
 
       #component.consoleSidebarPanel .spiritContent div.spiritBackground {
@@ -305,19 +307,10 @@
         padding: 0 12px 0 10px;
         border-radius: 0;
       }
-      #component.consoleMenu .ui.menu .item.disabled,
-      #component.consoleMenu .ui.menu .menu.right .item.disabled {
-        cursor: default !important;
-      }
-      #component.consoleMenu .ui.menu .item,
-      #component.consoleMenu .ui.menu .menu.right .item {
-        cursor: pointer !important;
-      }
       #component.consoleMenu .ui.menu .item:first-child {
         padding-left: 5px;
         padding-right: 4px;
         border-top: 1px solid rgba(42, 42, 42, 0.96);
-        cursor: default !important;
       }
       #component.consoleMenu .ui.menu .item .icon {
         font-size: 14px;
@@ -415,7 +408,6 @@
       span.circleLink {
         color: rgba(220, 0, 0, 0.96);
         font-weight: 800;
-        cursor: pointer;
       }
 
       span.circleLink:hover {
@@ -481,7 +473,6 @@
         padding-bottom: 0;
       }
       #component.troubleshootPanelDefault .ui.button {
-        cursor: pointer !important;
         transition: background-color 1s ease-out;
       }
 
@@ -548,7 +539,6 @@
         border-bottom: 4px solid #900000;
         border-right: 4px solid #960000;
         animation: shadow-pulse 2s infinite;
-        cursor: pointer !important;
       }
       .wtf-button-massive:hover {
         animation: shadow-pulse-hover 0.777s infinite;
@@ -564,7 +554,6 @@
       #component.troubleshootPanelDefault .ui.image.screenshot .ui.corner,
       #component.troubleshootPanelDefault .ui.image.screenshot .ui.corner .icon
       {
-        cursor: pointer !important;
         padding-bottom: 0;
       }
       #component.troubleshootPanelDefault .ui.dropdown .default.text {
@@ -827,7 +816,6 @@
       #component.journalItems::-webkit-scrollbar
       {
         width: 10px;
-        cursor: pointer;
         background-color: rgba(20, 20, 20, 0.96);
         border-radius: 4px;
         box-shadow: inset 0 0 10px rgba(10, 10, 10, 0.96);

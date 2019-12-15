@@ -232,7 +232,7 @@ export default class ConsoleLayout extends Component {
       });
       setTimeout(() => {
         this.setState({
-          sidebarPanelWidth: 300,
+          sidebarPanelWidth: "23em",
           sidebarPanelOpacity: 1
         });
       }, 0);
@@ -303,6 +303,7 @@ export default class ConsoleLayout extends Component {
         loadStateCb={this.loadStateSidebarPanelCb}
         saveStateCb={this.saveStateSidebarPanelCb}
         width={this.state.sidebarPanelWidth}
+        height = {DimensionController.getHeightFor(this)}
         opacity={this.state.sidebarPanelOpacity}
       />
     );
@@ -339,7 +340,10 @@ export default class ConsoleLayout extends Component {
       <div
         id="wrapper"
         className="consoleSidebarPanel"
-        style={{width: this.state.sidebarPanelWidth}}
+        style={{
+          width: this.state.sidebarPanelWidth,
+          height: DimensionController.getHeightFor(this)
+        }}
       >
         {activePanel}
       </div>
