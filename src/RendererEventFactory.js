@@ -1,18 +1,28 @@
 import { RendererEvent } from "./RendererEventManager";
 
-//
-//This class is used as a helper class to store event names from
-//  * ./public/EventManager. When adding a new event make sure to update
-// the other file if you wish to listen to the events
-//
+/**
+ * This class is used as a helper class to store event names from
+ * ./public/EventManager. When adding a new event make sure to update
+ * the other file if you wish to listen to the events
+ */
 export class RendererEventFactory {
+  /**
+   * creates te event from the factory to use
+   * @param type
+   * @param args
+   * @returns {RendererEvent}
+   */
   static createEvent(type, ...args) {
     console.log("[RendererEventFactory] create event -> " + type);
     let event = new RendererEvent(type, ...args);
     return event;
   }
 
-  ///static enum subclass to store event names
+  /**
+   * static enum subclass to store event names
+   * @returns {{SCREENSHOT_READY_FOR_DISPLAY: string, READY_FOR_SCREENSHOT: string, DATASTORE_LOAD: string, VIEW_CONSOLE_SPIRIT_PANEL: string, APP_HEARTBEAT: string, DATASTORE_LOADED: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, VIEW_CONSOLE_MENU_CHANGE: string, APPACTIVATOR_SAVE_ACTIVATION: string, APPLOADER_LOAD: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, VIEW_CONSOLE_SIDEBAR_PANEL: string, SCREENSHOT_COMPLETE: string, WINDOW_CONSOLE_SHOW_HIDE: string, WINDOW_ACTIVATOR_CLOSE: string, APP_LOADED: string, SUBMIT_BUG_REPORT: string}}
+   * @constructor
+   */
   static get Events() {
     let prefix = "torchie-ipc-";
     return {

@@ -104,7 +104,7 @@ export class DataModel {
     if (this.callInProgress === true) {
       callback(
         null,
-        "DataModel - remoteFetch - Call already in progress - " + remoteUrn
+        "[DataModel] remoteFetch -> Call already in progress : " + remoteUrn
       );
     }
 
@@ -114,7 +114,7 @@ export class DataModel {
     this.callback = callback;
     this.timestamp = new Date().getTime();
 
-    console.log("Dispatching call: " + loadRequestType + " " + remoteUrn);
+    console.log("[DataModel] call -> " + loadRequestType + " : " + remoteUrn);
     this.events.load.dispatch(
       {
         name: this.name,

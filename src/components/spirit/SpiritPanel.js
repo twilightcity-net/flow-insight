@@ -328,7 +328,7 @@ export default class SpiritPanel extends Component {
 
           <div className="level">
             <div className="infoTitle">
-              <b>{this.props.torchieOwner}</b>∑ <i>({this.props.title})</i>
+              <b>{this.props.torchieOwner}</b> <i>({this.props.title})</i>
             </div>
             <div className="infoLevel">Level {this.props.level}</div>
           </div>
