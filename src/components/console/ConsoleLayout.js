@@ -323,7 +323,10 @@ export default class ConsoleLayout extends Component {
       />
     );
 
-    /// logic that controls how the side panel is displayed
+    /**
+     * logic that controls how the side panel is displayed
+     * @type {null}
+     */
     let activePanel = null;
     if (
       this.state.activePanel === SidePanelViewController.MenuSelection.PROFILE
@@ -351,7 +354,9 @@ export default class ConsoleLayout extends Component {
       </div>
     );
 
-    /// glue the sidebar to the comtent and the bottom memu bar
+    /**
+     * glue the sidebar to the comtent and the bottom memu bar
+     */
     return (
       <div id="component" className="consoleLayout">
         <div id="wrapper" className="consoleSidebar">

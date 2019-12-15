@@ -1,7 +1,6 @@
-const { ipcRenderer, remote } = window.require("electron"),
-  log = remote.require("electron-log");
+const { ipcRenderer } = window.require("electron");
 
-/*
+/**
  * events generated from the renderer. If there is an associated event in the main
  * process, then those callbacks will be envoked. The MainEvent property, async,
  * will fire a *-reply event back which is picked up by this classes reply function
@@ -40,7 +39,7 @@ export class RendererEvent {
   }
 }
 
-/*
+/**
  * generalize event exception class. others should extend this
  */
 class EventException {
@@ -52,8 +51,9 @@ class EventException {
     this.message = error.msg;
   }
 
-  /*
+  /**
    * returns the error in string format
+   * @returns {string}
    */
   toString() {
     return (
@@ -69,8 +69,9 @@ class EventException {
     );
   }
 
-  /*
+  /**
    * gets the localized date time string for error reporting
+   * @returns {string}
    */
   getDateTimeString() {
     return (
@@ -79,17 +80,18 @@ class EventException {
   }
 }
 
-/*
+/**
  * This class is used as a helper class to store event names from
  * ./public/EventManager. When adding a new event make sure to update
  * both files with the new event name. This class is also used to store
  * and register event handlers.
  */
 export class RendererEventManager {
-  /*
+  /**
    * checks the sync return value for an exception. Required becuase the IPC
    * transport uncasts the object type, and well having all classes of type
    * object is fuckin' dumb stupid.
+   * @param event
    */
   static checkEventForError(event) {
     if (!event.returnValue) {
@@ -100,8 +102,11 @@ export class RendererEventManager {
     }
   }
 
-  /*
+  /**
    * helper function to create an EventException used for logging and debug
+   * @param error
+   * @param event
+   * @returns {EventException}
    */
   static createEventError(error, event) {
     error.name = "EventException";
@@ -111,10 +116,12 @@ export class RendererEventManager {
     return new EventException(error);
   }
 
-  /*
+  /**
    * sets up listeners for reply events. If there are more then one main process
    * events listening, then each one of those events will send an async reply, unless
    * the async flag is set on the mainevent
+   * @param event
+   * @returns {wrapperFunction}
    */
   static listenForReply(event) {
     if (!event.reply) return;
@@ -134,7 +141,7 @@ export class RendererEventManager {
           error,
           event
         );
-        log.error(
+        console.error(
           "[RendererEventManager] " +
             event.replyReturnValue.toString() +
             "\n\n" +
@@ -150,6 +157,10 @@ export class RendererEventManager {
     return wrapperFunction;
   }
 
+  /**
+   * removes listeners from this event handler
+   * @param event
+   */
   static removeListeners(event) {
     console.log(
       "[RendererEventManager] removing listeners for callback -> " + event.type
@@ -163,10 +174,12 @@ export class RendererEventManager {
     }
   }
 
-  /*
-   * sets up listeners for callback events. Usually fired from main processes. However
+  /**
+   * ets up listeners for callback events. Usually fired from main processes. However
    * these can also be used to communicate between renderer processes. Async flag does
    * not effect these callbacks
+   * @param event
+   * @returns {wrapperFunction}
    */
   static listenForCallback(event) {
     if (!event.callback) return;
@@ -177,7 +190,7 @@ export class RendererEventManager {
         event.returnValue = event.callback(_event, _arg);
       } catch (error) {
         event.returnValue = RendererEventManager.createEventError(error, event);
-        log.error(
+        console.error(
           "[RendererEventManager] " +
             event.returnValue.toString() +
             "\n\n" +
@@ -194,12 +207,19 @@ export class RendererEventManager {
     return wrapperFunction;
   }
 
-  /// dispatches an event on the associated channel with the event. renderer events
-  /// will be echo'd in the main event manager, so that we can supper inter-renderer
-  /// communication. Only use isSync if you understand how this will block the call stack.
-  /// Note: Sending a synchronous message will block the whole renderer process,
-  /// unless you know what you are doing you should never use it.
-  /// ref => https://github.com/electron/electron/blob/master/docs/api/ipc-renderer.md
+  /**
+   * dispatches an event on the associated channel with the event. renderer events
+   * will be echo'd in the main event manager, so that we can supper inter-renderer
+   * communication. Only use isSync if you understand how this will block the call stack.
+   * Note: Sending a synchronous message will block the whole renderer process,
+   * unless you know what you are doing you should never use it.
+   * ref => https://github.com/electron/electron/blob/master/docs/api/ipc-renderer.md
+   * @param event
+   * @param arg
+   * @param noEcho
+   * @param isSync
+   * @returns {*}
+   */
   static dispatch(event, arg, noEcho, isSync) {
     event.returnValue = null;
     console.log(
@@ -208,37 +228,31 @@ export class RendererEventManager {
     try {
       if (noEcho && isSync) {
         console.log(
-          "[RendererEventManager] |> send sync event -> " +
+          "[RendererEventManager] dispatch event -> " +
             event.type +
-            " : " +
+            "[SYNC] : " +
             arg
         );
         event.returnValue = ipcRenderer.sendSync(event.type, arg);
         RendererEventManager.checkEventForError(event);
-        console.log(
-          "[RendererEventManager] └> callback -> " +
-            event.type +
-            " : " +
-            event.returnValue
-        );
         event.returnValue = event.callback(event, event.returnValue);
       } else if (noEcho) {
         console.log(
-          "[RendererEventManager] └> send event -> " + event.type + " : " + arg
+          "[RendererEventManager] dispatch event -> " + event.type + " : " + arg
         );
         ipcRenderer.send(event.type, arg);
       } else {
         console.log(
-          "[RendererEventManager] └> send echo event -> " +
+          "[RendererEventManager] dispatch event -> " +
             event.type +
-            " : " +
+            "[ECHO] : " +
             arg
         );
         ipcRenderer.send("echo-event", { type: event.type, arg: arg });
       }
     } catch (error) {
       event.returnValue = error;
-      log.error(
+      console.error(
         "[RendererEventManager] └> " +
           error.toString() +
           "\n\n" +
