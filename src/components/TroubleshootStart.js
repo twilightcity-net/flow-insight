@@ -8,7 +8,6 @@ import { DataModelFactory } from "../models/DataModelFactory";
  * @author ZoeDreams
  */
 export default class TroubleshootStart extends Component {
-
   /**
    * the constructor function that is called when creating a new TroubleshootSession
    * @param props - properties that are passed in from the troubleshoot layout

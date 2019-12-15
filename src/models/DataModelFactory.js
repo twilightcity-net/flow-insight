@@ -1,14 +1,13 @@
-import {TeamModel} from "./TeamModel";
-import {ActiveCircleModel} from "./ActiveCircleModel";
-import {JournalModel} from "./JournalModel";
-import {SpiritModel} from "./SpiritModel";
-import {WTFTimer} from "./WTFTimer";
+import { TeamModel } from "./TeamModel";
+import { ActiveCircleModel } from "./ActiveCircleModel";
+import { JournalModel } from "./JournalModel";
+import { SpiritModel } from "./SpiritModel";
+import { WTFTimer } from "./WTFTimer";
 
 /**
  * this class is used to manage DataClient requests for Stores
  */
 export class DataModelFactory {
-
   /**
    * an object that stores a list of models by keys
    * @type {{}}
@@ -51,8 +50,7 @@ export class DataModelFactory {
 
     if (DataModelFactory.modelsByName[name] != null) {
       storeFound = DataModelFactory.modelsByName[name];
-    }
-    else {
+    } else {
       storeFound = DataModelFactory.initializeNewModel(name, scope);
       DataModelFactory.modelsByName[name] = storeFound;
     }

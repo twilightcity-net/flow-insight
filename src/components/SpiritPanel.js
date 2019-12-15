@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
   Icon,
   Image,
@@ -8,12 +8,11 @@ import {
   Segment,
   Transition
 } from "semantic-ui-react";
-import {DataModelFactory} from "../models/DataModelFactory";
-import {SidePanelViewController} from "../perspective/SidePanelViewController";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { SidePanelViewController } from "../perspective/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 import SpiritCanvas from "./SpiritCanvas";
-import {DimensionController} from "../perspective/DimensionController";
-
+import { DimensionController } from "../perspective/DimensionController";
 
 /**
  * this class is responsible for storing the users avatar, soul, inventory,
@@ -78,7 +77,7 @@ export default class SpiritPanel extends Component {
    * @param e - the menu event that was dispatched
    * @param name - the name of the menu that was clicked
    */
-  handleSpiritClick = (e, {name}) => {
+  handleSpiritClick = (e, { name }) => {
     this.myController.changeActiveSubmenuPanel(name);
   };
 
@@ -87,7 +86,7 @@ export default class SpiritPanel extends Component {
    * @param e - the menu event that was dispatched
    * @param name - the name of the menu that was clicked
    */
-  handleBadgesClick = (e, {name}) => {
+  handleBadgesClick = (e, { name }) => {
     this.myController.changeActiveSubmenuPanel(name);
   };
 
@@ -114,8 +113,7 @@ export default class SpiritPanel extends Component {
 
     if (activeMenuItem === SidePanelViewController.SubmenuSelection.SPIRIT) {
       this.openSpiritPanel();
-    }
-    else {
+    } else {
       this.openBadgesPanel();
     }
   }
@@ -130,8 +128,7 @@ export default class SpiritPanel extends Component {
     let flameString = "0";
     if (flameRating > 0) {
       flameString = "+" + flameRating;
-    }
-    else if (flameRating < 0) {
+    } else if (flameRating < 0) {
       flameString = flameRating;
     }
 
@@ -239,7 +236,7 @@ export default class SpiritPanel extends Component {
    * @returns {*}
    */
   render() {
-    const {activeItem} = this.state;
+    const { activeItem } = this.state;
 
     let linkIcon = (
       <Popup
@@ -292,7 +289,7 @@ export default class SpiritPanel extends Component {
 
     let busyLinkIcon = (
       <Popup
-        trigger={<Icon link name="gg" className="chainLink"/>}
+        trigger={<Icon link name="gg" className="chainLink" />}
         content={
           <div className="tooltipRed">
             Busy <i>(Already Linked)</i>
@@ -311,23 +308,18 @@ export default class SpiritPanel extends Component {
         activeLinkIcon = unlinkIcon;
       }
       //if my torchie isn't linked, don't show any icon
-    }
-    else {
+    } else {
       if (this.isLinkedToMe()) {
         activeLinkIcon = unlinkIcon;
-      }
-      else if (this.hasActiveLinks()) {
+      } else if (this.hasActiveLinks()) {
         activeLinkIcon = busyLinkIcon;
-      }
-      else {
+      } else {
         activeLinkIcon = linkIcon;
       }
     }
 
     const spiritContent = (
-      <div className="spiritContent"
-           style={{height : this.props.height - 64}}
-      >
+      <div className="spiritContent" style={{ height: this.props.height - 64 }}>
         <div className="spiritBackground">
           <div className="level">
             <b>{this.props.torchieOwner}'s Spirit</b>
@@ -374,14 +366,14 @@ export default class SpiritPanel extends Component {
             tabIndex="0"
             onClick={this.handleClickForRage}
           >
-            <Image centered src="./assets/images/wtf/24x24.png"/>
+            <Image centered src="./assets/images/wtf/24x24.png" />
           </button>
           <button
             className="ui icon button yayButton"
             tabIndex="1"
             onClick={this.handleClickForYay}
           >
-            <Image centered src="./assets/images/yay/24x24.png"/>
+            <Image centered src="./assets/images/yay/24x24.png" />
           </button>
         </div>
       </div>
@@ -418,10 +410,7 @@ export default class SpiritPanel extends Component {
               color={"violet"}
             />
           </Menu>
-          <Segment
-            inverted
-            className={"spiritContentWrapper"}
-          >
+          <Segment inverted className={"spiritContentWrapper"}>
             <Transition
               visible={this.state.spiritVisible}
               animation={this.state.animationType}

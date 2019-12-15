@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Types - Documentation</title>
+    <title>src/index.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,156 +29,32 @@
 
 <div id="main">
     
-    <h1 class="page-title">Types</h1>
+    <h1 class="page-title">src/index.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-            <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span>
-        
-        Types
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="Types"><span class="type-signature"></span>new Types<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    static enum to store event types. These are basically the type of possible events that can be dispatched by the Manager.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_EventFactory.js.html">public/managers/EventFactory.js</a>, <a href="public_managers_EventFactory.js.html#line25">line 25</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>Object</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React from "react";
+import ReactDOM from "react-dom";
+import ViewManager from "./ViewManager";
+import "semantic-ui-css/semantic.min.css";
+
+/**
+ * the root of the render view. This is used to route window content to the
+ * associated views
+ * @type {HTMLElement}
+ * @private
+ */
+const ROOT_ = document.getElementById("root");
+ReactDOM.render(&lt;ViewManager />, ROOT_);
+</code></pre>
+        </article>
+    </section>
 
 
 

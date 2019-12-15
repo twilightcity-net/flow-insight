@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import TroubleshootHeader from "./TroubleshootHeader";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
-import {DataModelFactory} from "../models/DataModelFactory";
-import {ActiveCircleModel} from "../models/ActiveCircleModel";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
 import TroubleshootStart from "./TroubleshootStart";
 
 /**
@@ -15,7 +15,6 @@ export default class TroubleshootLayout extends Component {
     this.name = "[TroubleshootLayout]";
 
     // TODO move this into the controller class
-
 
     this.state = {
       isAlarmTriggered: false
@@ -88,8 +87,7 @@ export default class TroubleshootLayout extends Component {
           onStartTroubleshooting={this.onStartTroubleshooting}
         />
       );
-    }
-    else {
+    } else {
       wtfPanel = (
         <TroubleshootSessionOpen
           onStopTroubleshooting={this.onStopTroubleshooting}

@@ -4,7 +4,7 @@ import TroubleshootLayout from "./TroubleshootLayout";
 import FlowLayout from "./FlowLayout";
 import { Transition } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
-import {DimensionController} from "../perspective/DimensionController";
+import { DimensionController } from "../perspective/DimensionController";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -130,10 +130,7 @@ export default class ConsoleContent extends Component {
       </div>
     );
     return (
-      <div
-        id="component"
-        className="consoleContent"
-      >
+      <div id="component" className="consoleContent">
         <Transition
           visible={this.state.journalVisible}
           animation={this.state.animationTypeJournal}

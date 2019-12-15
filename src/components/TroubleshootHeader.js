@@ -5,7 +5,6 @@ import { Segment } from "semantic-ui-react";
  * this component is the tab panel wrapper for the console content
  */
 export default class TroubleshootHeader extends Component {
-
   /**
    * the constructor function that builds the component
    * @param props - the properties of the component
@@ -21,14 +20,9 @@ export default class TroubleshootHeader extends Component {
    */
   render() {
     return (
-      <div
-        id="component"
-        className="troubleshootHeader"
-      >
+      <div id="component" className="troubleshootHeader">
         <Segment inverted>
-          <h3>
-            {this.props.member}'s Journal
-          </h3>
+          <h3>{this.props.member}'s Journal</h3>
         </Segment>
       </div>
     );

@@ -10,4 +10,4 @@ import "semantic-ui-css/semantic.min.css";
  * @private
  */
 const ROOT_ = document.getElementById("root");
-ReactDOM.render(<ViewManager/>, ROOT_);
+ReactDOM.render(<ViewManager />, ROOT_);

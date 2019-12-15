@@ -1,8 +1,10 @@
-import {RendererEventFactory} from "./RendererEventFactory";
+import { RendererEventFactory } from "./RendererEventFactory";
 
 // FIXME this is a security issue, should be handled in the main process
 
-const {remote, ipcRenderer, desktopCapturer, electron} = window.require("electron");
+const { remote, ipcRenderer, desktopCapturer, electron } = window.require(
+  "electron"
+);
 const log = remote.require("electron-log");
 const electronScreen = electron.screen;
 const fs = window.require("fs");
@@ -18,8 +20,7 @@ export class ScreenShotManager {
     this.enabled = false;
     this.state = {
       screenPath: "./assets/images/screenshot.png"
-    }
-
+    };
 
     ipcRenderer.on("ping", (event, screenPath) => {
       this.captureScreenShot(screenPath);
@@ -82,7 +83,6 @@ export class ScreenShotManager {
     });
   };
 
-
   /**
    * so if take screenshot is pressed, first close the window (renderer to main) main says, okay window is closed,
    * now renderer, take a screenshot (main to renderer) renderer says, okay screenshot is saved, now put screen shot
@@ -97,7 +97,7 @@ export class ScreenShotManager {
     let thumbSize = this.determineScreenShotSize();
 
     log.info("captureScreenShotAsync2");
-    let options = {types: ["screen"], thumbnailSize: thumbSize};
+    let options = { types: ["screen"], thumbnailSize: thumbSize };
 
     log.info("captureScreenShotAsync3");
 
@@ -125,7 +125,7 @@ export class ScreenShotManager {
    * capture the screen
    * @param screenPath - the path to save the screne to
    */
-  takeScreenShot = (screenPath) => {
+  takeScreenShot = screenPath => {
     let thumbSize = this.determineScreenShotSize();
     let options = { types: ["screen"], thumbnailSize: thumbSize };
 
@@ -183,5 +183,5 @@ export class ScreenShotManager {
       width: maxDimension * window.devicePixelRatio,
       height: maxDimension * window.devicePixelRatio
     };
-  }
-};
+  };
+}

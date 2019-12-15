@@ -1,22 +1,21 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import ConsoleSidebar from "./ConsoleSidebar";
 import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";
 import TeamPanel from "./TeamPanel";
 import SpiritPanel from "./SpiritPanel";
-import {DataModelFactory} from "../models/DataModelFactory";
-import {SpiritModel} from "../models/SpiritModel";
-import {ActiveCircleModel} from "../models/ActiveCircleModel";
-import {TeamModel} from "../models/TeamModel";
-import {ActiveViewControllerFactory} from "../perspective/ActiveViewControllerFactory";
-import {SidePanelViewController} from "../perspective/SidePanelViewController";
-import {DimensionController} from "../perspective/DimensionController";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { SpiritModel } from "../models/SpiritModel";
+import { ActiveCircleModel } from "../models/ActiveCircleModel";
+import { TeamModel } from "../models/TeamModel";
+import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../perspective/SidePanelViewController";
+import { DimensionController } from "../perspective/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class ConsoleLayout extends Component {
-
   /**
    * the costructor for the root console layout. This calls other child layouts
    * @param props - the properties of the component to render
@@ -33,9 +32,9 @@ export default class ConsoleLayout extends Component {
       flameRating: 0,
       activePanel: SidePanelViewController.MenuSelection.PROFILE,
       consoleIsCollapsed: 0,
-      me: {shortName: "Me", id: "id"},
+      me: { shortName: "Me", id: "id" },
       teamMembers: [],
-      activeTeamMember: {shortName: "Me", id: "id"},
+      activeTeamMember: { shortName: "Me", id: "id" },
       isMe: true
     };
     this.animationTime = 555;
@@ -184,14 +183,13 @@ export default class ConsoleLayout extends Component {
    * click the flame button, which either tries to do a +1 or -1
    * @param flameDelta - the amount of the flame to change
    */
-  adjustFlameCb = (flameDelta) => {
+  adjustFlameCb = flameDelta => {
     console.log(this.name + " - Flame change: " + flameDelta);
 
     let flameRating = Number(this.state.flameRating) + flameDelta;
     if (flameRating > 5) {
       flameRating = 5;
-    }
-    else if (flameRating < -5) {
+    } else if (flameRating < -5) {
       flameRating = -5;
     }
 
@@ -205,10 +203,10 @@ export default class ConsoleLayout extends Component {
 
     console.log(
       this.name +
-      " - adjustFlameCb, Old/New Flame rating: " +
-      this.state.flameRating +
-      "/" +
-      flameRating
+        " - adjustFlameCb, Old/New Flame rating: " +
+        this.state.flameRating +
+        "/" +
+        flameRating
     );
     this.setState({
       flameRating: flameRating
@@ -221,8 +219,8 @@ export default class ConsoleLayout extends Component {
   onRefreshActivePerspective() {
     console.log(
       this.name +
-      " - onRefreshActivePerspective: " +
-      this.sidePanelController.show
+        " - onRefreshActivePerspective: " +
+        this.sidePanelController.show
     );
     let show = this.sidePanelController.show;
     if (show) {
@@ -236,8 +234,7 @@ export default class ConsoleLayout extends Component {
           sidebarPanelOpacity: 1
         });
       }, 0);
-    }
-    else {
+    } else {
       this.setState({
         sidebarPanelWidth: 0,
         sidebarPanelOpacity: 0
@@ -255,8 +252,8 @@ export default class ConsoleLayout extends Component {
    * store child component for future reloading
    * @param state - the current state of the object
    */
-  saveStateSidebarPanelCb = (state) => {
-    this.setState({sidebarPanelState: state});
+  saveStateSidebarPanelCb = state => {
+    this.setState({ sidebarPanelState: state });
   };
 
   /**
@@ -284,7 +281,6 @@ export default class ConsoleLayout extends Component {
    * @returns {*} - the JSX to render
    */
   render() {
-
     /// the spirit panel that gets displayed in the side panel
     const spiritPanelContent = (
       <SpiritPanel
@@ -303,7 +299,7 @@ export default class ConsoleLayout extends Component {
         loadStateCb={this.loadStateSidebarPanelCb}
         saveStateCb={this.saveStateSidebarPanelCb}
         width={this.state.sidebarPanelWidth}
-        height = {DimensionController.getHeightFor(this)}
+        height={DimensionController.getHeightFor(this)}
         opacity={this.state.sidebarPanelOpacity}
       />
     );
@@ -328,8 +324,7 @@ export default class ConsoleLayout extends Component {
       this.state.activePanel === SidePanelViewController.MenuSelection.PROFILE
     ) {
       activePanel = spiritPanelContent;
-    }
-    else if (
+    } else if (
       this.state.activePanel === SidePanelViewController.MenuSelection.MESSAGES
     ) {
       activePanel = teamPanelContent;
@@ -353,12 +348,13 @@ export default class ConsoleLayout extends Component {
     return (
       <div id="component" className="consoleLayout">
         <div id="wrapper" className="consoleSidebar">
-          <ConsoleSidebar/>
+          <ConsoleSidebar />
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
-        <div id="wrapper"
-             className="consoleContent"
-             style={{ height: DimensionController.getHeightFor(this) }}
+        <div
+          id="wrapper"
+          className="consoleContent"
+          style={{ height: DimensionController.getHeightFor(this) }}
         >
           <ConsoleContent
             onFlameChange={this.onFlameChangeCb}
@@ -367,7 +363,7 @@ export default class ConsoleLayout extends Component {
           />
         </div>
         <div id="wrapper" className="consoleMenu">
-          <ConsoleMenu animationTime={this.animationTime}/>
+          <ConsoleMenu animationTime={this.animationTime} />
         </div>
       </div>
     );

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Types - Documentation</title>
+    <title>src/models/DataModelFactory.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,156 +29,102 @@
 
 <div id="main">
     
-    <h1 class="page-title">Types</h1>
+    <h1 class="page-title">src/models/DataModelFactory.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-            <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span>
-        
-        Types
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="Types"><span class="type-signature"></span>new Types<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    static enum to store event types. These are basically the type of possible events that can be dispatched by the Manager.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_EventFactory.js.html">public/managers/EventFactory.js</a>, <a href="public_managers_EventFactory.js.html#line25">line 25</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>Object</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import { TeamModel } from "./TeamModel";
+import { ActiveCircleModel } from "./ActiveCircleModel";
+import { JournalModel } from "./JournalModel";
+import { SpiritModel } from "./SpiritModel";
+import { WTFTimer } from "./WTFTimer";
+
+/**
+ * this class is used to manage DataClient requests for Stores
+ */
+export class DataModelFactory {
+  /**
+   * an object that stores a list of models by keys
+   * @type {{}}
+   */
+  static modelsByName = {};
+
+  /**
+   * the possible DataModels to lookup
+   * @returns {{MEMBER_STATUS: string, ACTIVE_CIRCLE: string, JOURNAL: string, WTF_TIMER: string, SPIRIT: string}}
+   * @constructor
+   */
+  static get Models() {
+    return {
+      MEMBER_STATUS: "member-status",
+      ACTIVE_CIRCLE: "active-circle",
+      JOURNAL: "active-journal",
+      SPIRIT: "spirit",
+      WTF_TIMER: "wtf-intervalTicker"
+    };
+  }
+
+  /**
+   * creates a new model
+   * @param name - the name of the model to create
+   * @param scope - the scope of the model to create in
+   * @returns {null} - returns the DataModel class of object
+   */
+  static createModel(name, scope) {
+    return DataModelFactory.findOrCreateModel(name, scope);
+  }
+
+  /**
+   * looks for an instance of the DataModel in the local memory, or creates a new instance
+   * @param name - the name of the model to look up
+   * @param scope - the scope of the model to look up in
+   * @returns {*} - returns existing instance of the model or a new instance
+   */
+  static findOrCreateModel(name, scope) {
+    let storeFound = null;
+
+    if (DataModelFactory.modelsByName[name] != null) {
+      storeFound = DataModelFactory.modelsByName[name];
+    } else {
+      storeFound = DataModelFactory.initializeNewModel(name, scope);
+      DataModelFactory.modelsByName[name] = storeFound;
+    }
+
+    return storeFound;
+  }
+
+  /**
+   * initializes the new model based on the name and the scope
+   * @param name - the name of the model to reference
+   * @param scope - the scope of the execution
+   * @returns {TeamModel|SpiritModel|JournalModel|null|WTFTimer|ActiveCircleModel}
+   */
+  static initializeNewModel(name, scope) {
+    switch (name) {
+      case DataModelFactory.Models.MEMBER_STATUS:
+        return new TeamModel(scope);
+      case DataModelFactory.Models.ACTIVE_CIRCLE:
+        return new ActiveCircleModel(scope);
+      case DataModelFactory.Models.WTF_TIMER:
+        return new WTFTimer(scope);
+      case DataModelFactory.Models.JOURNAL:
+        return new JournalModel(scope);
+      case DataModelFactory.Models.SPIRIT:
+        return new SpiritModel(scope);
+      default:
+        return null;
+    }
+  }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
