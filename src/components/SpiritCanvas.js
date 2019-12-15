@@ -45,7 +45,7 @@ export default class SpiritCanvas extends Component {
     image.onload = () => {
       this.getCanvasEl()
         .getContext("2d")
-        .drawImage(image, 0, 0);
+        .drawImage(image, 0, 0, this.props.width, this.props.height);
     };
     image.src = "./assets/images/spirit.png";
   }

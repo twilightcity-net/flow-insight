@@ -14,6 +14,7 @@ import { DimensionController } from "../perspective/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the console content
+ * @author ZoeDreams
  */
 export default class ConsoleLayout extends Component {
   /**
@@ -281,7 +282,9 @@ export default class ConsoleLayout extends Component {
    * @returns {*} - the JSX to render
    */
   render() {
-    /// the spirit panel that gets displayed in the side panel
+    /**
+     * the spirit panel that gets displayed in the side panel
+     */
     const spiritPanelContent = (
       <SpiritPanel
         me={this.state.me}
@@ -304,7 +307,9 @@ export default class ConsoleLayout extends Component {
       />
     );
 
-    /// the team panel that gets displayed to the user
+    /**
+     * the team panel that gets displayed to the user
+     */
     const teamPanelContent = (
       <TeamPanel
         xpSummary={this.state.xpSummary}
@@ -330,7 +335,9 @@ export default class ConsoleLayout extends Component {
       activePanel = teamPanelContent;
     }
 
-    /// the wrapping panel that renders the side panel
+    /**
+     * the wrapping panel that renders the side panel
+     */
     const sidebarPanel = (
       <div
         id="wrapper"

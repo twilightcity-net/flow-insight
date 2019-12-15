@@ -72,20 +72,28 @@ export class DimensionController {
     );
   }
 
+  static getSpiritCanvasWidth() {
+    return window.innerWidth / (100 / 23) - 27;
+  }
+
   static getSpiritPanelWidth() {
-    let widths = {
-      window: window.innerWidth,
+    return window.innerWidth / (100 / 23);
+  }
+
+  static getSpiritCanvasHeight() {
+    let heights = {
+      window: window.innerHeight,
       border: 2,
-      margin: 0,
-      padding: 0,
-      content: 500
+      margin: 20,
+      canvas: 108,
+      menu: 28
     };
     return (
-      widths.window -
-      widths.border -
-      widths.margin -
-      widths.padding -
-      widths.content
+      heights.window -
+      heights.border -
+      heights.margin -
+      heights.canvas -
+      heights.menu
     );
   }
 

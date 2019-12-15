@@ -321,13 +321,15 @@ export default class SpiritPanel extends Component {
     const spiritContent = (
       <div className="spiritContent" style={{ height: this.props.height - 64 }}>
         <div className="spiritBackground">
-          <div className="level">
-            <b>{this.props.torchieOwner}'s Spirit</b>
+          <div className="level" align={"left"}>
+            <b></b>
             {activeLinkIcon}
           </div>
 
           <div className="level">
-            <div className="infoTitle">Torchie {this.props.title}</div>
+            <div className="infoTitle">
+              {this.props.torchieOwner} <i>({this.props.title})</i>
+            </div>
             <div className="infoLevel">Level {this.props.level}</div>
           </div>
 
@@ -348,15 +350,15 @@ export default class SpiritPanel extends Component {
             }
             inverted
             hideOnScroll
-            position="bottom left"
+            position="bottom right"
           />
         </div>
 
         <SpiritCanvas
           flameString={this.state.flameString}
           spirit={this.spiritModel}
-          width={222}
-          height={222}
+          width={DimensionController.getSpiritCanvasWidth()}
+          height={DimensionController.getSpiritCanvasHeight()}
           render3d={this.render3d}
         />
 
