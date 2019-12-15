@@ -8,11 +8,11 @@ import {
   Segment,
   Transition
 } from "semantic-ui-react";
-import { DataModelFactory } from "../models/DataModelFactory";
-import { SidePanelViewController } from "../perspective/SidePanelViewController";
-import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import { DataModelFactory } from "../../models/DataModelFactory";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import SpiritCanvas from "./SpiritCanvas";
-import { DimensionController } from "../perspective/DimensionController";
+import { DimensionController } from "../../controllers/DimensionController";
 
 /**
  * this class is responsible for storing the users avatar, soul, inventory,
@@ -328,7 +328,7 @@ export default class SpiritPanel extends Component {
 
           <div className="level">
             <div className="infoTitle">
-              {this.props.torchieOwner} <i>({this.props.title})</i>
+              <b>{this.props.torchieOwner}</b>∑ <i>({this.props.title})</i>
             </div>
             <div className="infoLevel">Level {this.props.level}</div>
           </div>

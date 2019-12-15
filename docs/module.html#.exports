@@ -24,7 +24,7 @@
 <label for="nav-trigger" class="overlay"></label>
 
 <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520returns%2520the%2520classes%2520constructor%2520function%2520to%2520render%2520dynamically.html">- returns the classes constructor function to render dynamically</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520static%2520constructor%2520for%2520the%2520possible%2520types%2520of%2520requests.html">- static constructor for the possible types of requests</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AltModelDelegate.html">AltModelDelegate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureDelegateCall">configureDelegateCall</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureNoOp">configureNoOp</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#resetMemberSelection">resetMemberSelection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#setMemberSelection">setMemberSelection</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataModel.html">DataModel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModel.html#notifyListeners">notifyListeners</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModel.html#onLoadedCb">onLoadedCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModel.html#remoteFetch">remoteFetch</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataModelFactory.html">DataModelFactory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModelFactory.html#.createModel">createModel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModelFactory.html#.findOrCreateModel">findOrCreateModel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModelFactory.html#.initializeNewModel">initializeNewModel</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataModelFactory.Models.html">Models</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DimensionController.html">DimensionController</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.init">init</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventCallbackException.html">EventCallbackException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventEchoException.html">EventEchoException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.html">EventManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.dispatch">dispatch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.unregister">unregister</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#createListener">createListener</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeCallback">executeCallback</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeReply">executeReply</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#handleEvent">handleEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initReturnValues">initReturnValues</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSender">initSender</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSonar">initSonar</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#register">register</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.Events.html">Events</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MainEvent.html">MainEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#dispatch">dispatch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#.init">init</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#loadDefaultModels">loadDefaultModels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onActiveCircleUpdateTimer">onActiveCircleUpdateTimer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onChangeActiveRowResetSpiritFlame">onChangeActiveRowResetSpiritFlame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalEntryUpdateMeAndXP">onJournalEntryUpdateMeAndXP</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalUpdateResetSpiritFlame">onJournalUpdateResetSpiritFlame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onMyCircleUpdateMe">onMyCircleUpdateMe</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onTeamMemberChangeActiveScopeForAllModels">onTeamMemberChangeActiveScopeForAllModels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onWTFTimerUpdateRefreshTeamMemberTimers">onWTFTimerUpdateRefreshTeamMemberTimers</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#updateModels">updateModels</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#check">check</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#connectRTFlow">connectRTFlow</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConsole">createConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createEvent">createEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createMenu">createMenu</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createShortcuts">createShortcuts</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#deactivate">deactivate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#exportApiKey">exportApiKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKey">getApiKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKeyPath">getApiKeyPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppIcon">getAppIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppName">getAppName</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppRootDir">getAppRootDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppSettingsPath">getAppSettingsPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppTray">getAppTray</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppUserDataDir">getAppUserDataDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetPath">getAssetPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetsDir">getAssetsDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConfiguredHotkeysOrDefault">getConfiguredHotkeysOrDefault</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getDateTimeString">getDateTimeString</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getFlowHomePath">getFlowHomePath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getGuid">getGuid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getToken">getToken</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConnectedRTFlowCb">onConnectedRTFlowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleReadyCb">onConsoleReadyCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleShowHideCb">onConsoleShowHideCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadCb">onLoadCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingLoginCb">onLoadingLoginCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingShowCb">onLoadingShowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onPrepareForScreenshot">onPrepareForScreenshot</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onReadyToShowCb">onReadyToShowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onScreenshotComplete">onScreenshotComplete</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onShortcutsCreatedCb">onShortcutsCreatedCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#openExternalBrowser">openExternalBrowser</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#processLogin">processLogin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#save">save</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setAppTray">setAppTray</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setDevUserDataDir">setDevUserDataDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#showConsole">showConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#start">start</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#unwireEvents">unwireEvents</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Types.html">Types</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PerspectiveController.html#onConsoleOpenUpdateModels">onConsoleOpenUpdateModels</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScreenShotManager.html">ScreenShotManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScreenShotManager.html#captureScreenShot">captureScreenShot</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Views.html">Views</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#calculateFlowHeight">calculateFlowHeight</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#openBadgesPanel">openBadgesPanel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#openSpiritPanel">openSpiritPanel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520returns%2520the%2520classes%2520constructor%2520function%2520to%2520render%2520dynamically.html">- returns the classes constructor function to render dynamically</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520static%2520constructor%2520for%2520the%2520possible%2520types%2520of%2520requests.html">- static constructor for the possible types of requests</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AltModelDelegate.html">AltModelDelegate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureDelegateCall">configureDelegateCall</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureNoOp">configureNoOp</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#resetMemberSelection">resetMemberSelection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#setMemberSelection">setMemberSelection</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataModel.html">DataModel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModel.html#notifyListeners">notifyListeners</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModel.html#onLoadedCb">onLoadedCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModel.html#remoteFetch">remoteFetch</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataModelFactory.html">DataModelFactory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModelFactory.html#.createModel">createModel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModelFactory.html#.findOrCreateModel">findOrCreateModel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModelFactory.html#.initializeNewModel">initializeNewModel</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataModelFactory.Models.html">Models</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DimensionController.html">DimensionController</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.init">init</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventCallbackException.html">EventCallbackException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventEchoException.html">EventEchoException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.html">EventManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.dispatch">dispatch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.unregister">unregister</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#createListener">createListener</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeCallback">executeCallback</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeReply">executeReply</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#handleEvent">handleEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initReturnValues">initReturnValues</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSender">initSender</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSonar">initSonar</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#register">register</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.Events.html">Events</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MainEvent.html">MainEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#dispatch">dispatch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#.init">init</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#loadDefaultModels">loadDefaultModels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onActiveCircleUpdateTimer">onActiveCircleUpdateTimer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onChangeActiveRowResetSpiritFlame">onChangeActiveRowResetSpiritFlame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalEntryUpdateMeAndXP">onJournalEntryUpdateMeAndXP</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalUpdateResetSpiritFlame">onJournalUpdateResetSpiritFlame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onMyCircleUpdateMe">onMyCircleUpdateMe</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onTeamMemberChangeActiveScopeForAllModels">onTeamMemberChangeActiveScopeForAllModels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onWTFTimerUpdateRefreshTeamMemberTimers">onWTFTimerUpdateRefreshTeamMemberTimers</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#updateModels">updateModels</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#check">check</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#connectToTalk">connectToTalk</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConsole">createConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createEvent">createEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createMenu">createMenu</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createShortcuts">createShortcuts</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#deactivate">deactivate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#exportApiKey">exportApiKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKey">getApiKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKeyPath">getApiKeyPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppIcon">getAppIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppName">getAppName</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppRootDir">getAppRootDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppSettingsPath">getAppSettingsPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppTray">getAppTray</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppUserDataDir">getAppUserDataDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetPath">getAssetPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetsDir">getAssetsDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConfiguredHotkeysOrDefault">getConfiguredHotkeysOrDefault</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getDateTimeString">getDateTimeString</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getFlowHomePath">getFlowHomePath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getGuid">getGuid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getToken">getToken</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConnectedTalkCb">onConnectedTalkCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleReadyCb">onConsoleReadyCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleShowHideCb">onConsoleShowHideCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadCb">onLoadCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingLoginCb">onLoadingLoginCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingShowCb">onLoadingShowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onPrepareForScreenshot">onPrepareForScreenshot</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onReadyToShowCb">onReadyToShowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onScreenshotComplete">onScreenshotComplete</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onShortcutsCreatedCb">onShortcutsCreatedCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#openExternalBrowser">openExternalBrowser</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#processLogin">processLogin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#save">save</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setAppTray">setAppTray</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setDevUserDataDir">setDevUserDataDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#showConsole">showConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#start">start</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#unwireEvents">unwireEvents</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Types.html">Types</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PerspectiveController.html#onConsoleOpenUpdateModels">onConsoleOpenUpdateModels</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScreenShotManager.html">ScreenShotManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScreenShotManager.html#captureScreenShot">captureScreenShot</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Views.html">Views</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#calculateFlowHeight">calculateFlowHeight</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#openBadgesPanel">openBadgesPanel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#openSpiritPanel">openSpiritPanel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
 </nav>
 
 <div id="main">
@@ -358,7 +358,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -422,7 +422,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -679,7 +679,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -807,7 +807,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -1383,7 +1383,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -1511,7 +1511,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -1575,7 +1575,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -1831,7 +1831,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -1895,7 +1895,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -1959,7 +1959,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -2023,7 +2023,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -2456,7 +2456,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -6478,7 +6478,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -9050,7 +9050,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -9114,7 +9114,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -9371,7 +9371,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -9499,7 +9499,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -10075,7 +10075,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -10203,7 +10203,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -10267,7 +10267,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -10523,7 +10523,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -10587,7 +10587,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -10651,7 +10651,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -10715,7 +10715,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -11148,7 +11148,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -15170,7 +15170,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -17695,7 +17695,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -17759,7 +17759,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -18016,7 +18016,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -18144,7 +18144,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -18720,7 +18720,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -18848,7 +18848,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -18912,7 +18912,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -19168,7 +19168,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -19232,7 +19232,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -19296,7 +19296,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -19360,7 +19360,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -19793,7 +19793,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -23815,7 +23815,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -26340,7 +26340,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -26404,7 +26404,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -26661,7 +26661,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -26789,7 +26789,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -27365,7 +27365,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -27493,7 +27493,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -27557,7 +27557,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -27813,7 +27813,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -27877,7 +27877,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -27941,7 +27941,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -28005,7 +28005,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -28438,7 +28438,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -32460,7 +32460,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -34990,7 +34990,7 @@ the top of the screen with a global hot key</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -35054,7 +35054,7 @@ the top of the screen with a global hot key</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -35311,7 +35311,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -35439,7 +35439,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -36015,7 +36015,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -36143,7 +36143,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -36207,7 +36207,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -36463,7 +36463,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -36527,7 +36527,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -36591,7 +36591,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -36655,7 +36655,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -37088,7 +37088,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -41110,7 +41110,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -43636,7 +43636,7 @@ helper class ViewManagerHelper that is used to store the names of the views.</di
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -43700,7 +43700,7 @@ helper class ViewManagerHelper that is used to store the names of the views.</di
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -43957,7 +43957,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -44085,7 +44085,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -44661,7 +44661,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -44789,7 +44789,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -44853,7 +44853,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -45109,7 +45109,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -45173,7 +45173,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -45237,7 +45237,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -45301,7 +45301,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -45734,7 +45734,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -49756,7 +49756,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -52170,6 +52170,13 @@ circuit for listeners
     
 
     
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>ZoeDreams</li>
+        </ul>
+    </dd>
+    
 
     
 
@@ -52180,7 +52187,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line23">line 23</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -52332,7 +52339,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -52396,7 +52403,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -52653,7 +52660,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -52781,7 +52788,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -53357,7 +53364,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -53485,7 +53492,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -53549,7 +53556,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -53805,7 +53812,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -53869,7 +53876,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -53933,7 +53940,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -53997,7 +54004,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -54430,7 +54437,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -58452,7 +58459,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -61028,7 +61035,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -61092,7 +61099,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -61349,7 +61356,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -61477,7 +61484,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -62053,7 +62060,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -62181,7 +62188,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -62245,7 +62252,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -62501,7 +62508,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -62565,7 +62572,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -62629,7 +62636,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -62693,7 +62700,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -63126,7 +63133,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -67148,7 +67155,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -69730,7 +69737,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -69794,7 +69801,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -70051,7 +70058,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -70179,7 +70186,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -70755,7 +70762,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -70883,7 +70890,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -70947,7 +70954,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -71203,7 +71210,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -71267,7 +71274,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -71331,7 +71338,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -71395,7 +71402,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -71828,7 +71835,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -75850,7 +75857,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -78426,7 +78433,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -78490,7 +78497,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -78747,7 +78754,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -78875,7 +78882,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -79451,7 +79458,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -79579,7 +79586,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -79643,7 +79650,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -79899,7 +79906,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -79963,7 +79970,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -80027,7 +80034,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -80091,7 +80098,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -80524,7 +80531,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -84546,7 +84553,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -87124,7 +87131,7 @@ an embedded unity3d instance</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -87188,7 +87195,7 @@ an embedded unity3d instance</div>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -87445,7 +87452,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -87573,7 +87580,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -88149,7 +88156,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -88277,7 +88284,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -88341,7 +88348,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -88597,7 +88604,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -88661,7 +88668,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -88725,7 +88732,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -88789,7 +88796,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -89222,7 +89229,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -93244,7 +93251,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -95820,7 +95827,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -95884,7 +95891,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -96141,7 +96148,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -96269,7 +96276,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -96845,7 +96852,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -96973,7 +96980,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -97037,7 +97044,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -97293,7 +97300,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -97357,7 +97364,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -97421,7 +97428,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -97485,7 +97492,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -97918,7 +97925,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -101940,7 +101947,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -104472,7 +104479,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -104536,7 +104543,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -104793,7 +104800,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -104921,7 +104928,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -105497,7 +105504,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -105625,7 +105632,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -105689,7 +105696,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -105945,7 +105952,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -106009,7 +106016,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -106073,7 +106080,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -106137,7 +106144,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -106570,7 +106577,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -110592,7 +110599,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -113175,7 +113182,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line186">line 186</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line187">line 187</a>
     </li></ul></dd>
     
 
@@ -113239,7 +113246,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line96">line 96</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line97">line 97</a>
     </li></ul></dd>
     
 
@@ -113496,7 +113503,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line109">line 109</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -113624,7 +113631,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line271">line 271</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line272">line 272</a>
     </li></ul></dd>
     
 
@@ -114200,7 +114207,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line263">line 263</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -114328,7 +114335,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line139">line 139</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line140">line 140</a>
     </li></ul></dd>
     
 
@@ -114392,7 +114399,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line162">line 162</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line163">line 163</a>
     </li></ul></dd>
     
 
@@ -114648,7 +114655,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line174">line 174</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line175">line 175</a>
     </li></ul></dd>
     
 
@@ -114712,7 +114719,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line148">line 148</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -114776,7 +114783,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line122">line 122</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line123">line 123</a>
     </li></ul></dd>
     
 
@@ -114840,7 +114847,7 @@ controller to refresh the view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line255">line 255</a>
+        <a href="src_components_ConsoleLayout.js.html">src/components/ConsoleLayout.js</a>, <a href="src_components_ConsoleLayout.js.html#line256">line 256</a>
     </li></ul></dd>
     
 
@@ -115273,7 +115280,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="connectRTFlow"><span class="type-signature"></span>connectRTFlow<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="connectToTalk"><span class="type-signature"></span>connectToTalk<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -119295,7 +119302,7 @@ controller to refresh the view
 
     
 
-    <h4 class="name" id="onConnectedRTFlowCb"><span class="type-signature"></span>onConnectedRTFlowCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="onConnectedTalkCb"><span class="type-signature"></span>onConnectedTalkCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
 
     
 
@@ -121655,7 +121662,7 @@ circuit for listeners
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sun Dec 15 2019 00:27:33 GMT-0600 (Central Standard Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sun Dec 15 2019 01:44:52 GMT-0600 (Central Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

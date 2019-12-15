@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import Keyframes from "@keyframes/core";
-import ConsoleLayout from "../components/ConsoleLayout";
-import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import ConsoleLayout from "../components/console/ConsoleLayout";
+import { ActiveViewControllerFactory } from "../controllers/ActiveViewControllerFactory";
 import { ModelCoordinator } from "../models/ModelCoordinator";
-import { PerspectiveController } from "../perspective/PerspectiveController";
-import { DimensionController } from "../perspective/DimensionController";
+import { PerspectiveController } from "../controllers/PerspectiveController";
+import { DimensionController } from "../controllers/DimensionController";
 
 //
 // This View will contain logic to inject the various tabs of the

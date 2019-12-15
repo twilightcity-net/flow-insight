@@ -1,10 +1,9 @@
 import React, { Component } from "react";
-import JournalLayout from "./JournalLayout";
-import TroubleshootLayout from "./TroubleshootLayout";
-import FlowLayout from "./FlowLayout";
+import JournalLayout from "../journal/JournalLayout";
+import TroubleshootLayout from "../troubleshoot/TroubleshootLayout";
+import FlowLayout from "../flow/FlowLayout";
 import { Transition } from "semantic-ui-react";
-import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
-import { DimensionController } from "../perspective/DimensionController";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 
 //
 // this component is the tab panel wrapper for the console content

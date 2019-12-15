@@ -2,15 +2,15 @@ import React, { Component } from "react";
 import ConsoleSidebar from "./ConsoleSidebar";
 import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";
-import TeamPanel from "./TeamPanel";
-import SpiritPanel from "./SpiritPanel";
-import { DataModelFactory } from "../models/DataModelFactory";
-import { SpiritModel } from "../models/SpiritModel";
-import { ActiveCircleModel } from "../models/ActiveCircleModel";
-import { TeamModel } from "../models/TeamModel";
-import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
-import { SidePanelViewController } from "../perspective/SidePanelViewController";
-import { DimensionController } from "../perspective/DimensionController";
+import TeamPanel from "../team/TeamPanel";
+import SpiritPanel from "../spirit/SpiritPanel";
+import { DataModelFactory } from "../../models/DataModelFactory";
+import { SpiritModel } from "../../models/SpiritModel";
+import { ActiveCircleModel } from "../../models/ActiveCircleModel";
+import { TeamModel } from "../../models/TeamModel";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { DimensionController } from "../../controllers/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the console content

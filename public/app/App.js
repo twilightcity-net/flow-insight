@@ -10,7 +10,7 @@ const GLOBAL_ = global,
   Logger = require("./AppLogger"),
   AppError = require("./AppError"),
   Util = require("../Util"),
-  RTFlowManager = require("../managers/RTFlowManager"),
+  TalkManager = require("../managers/TalkManager"),
   WindowManager = require("../managers/WindowManager"),
   { EventManager } = require("../managers/EventManager"),
   EventFactory = require("../managers/EventFactory"),
@@ -69,7 +69,7 @@ module.exports = class App {
   onReady() {
     GLOBAL_.App.api = Util.getAppApi();
     GLOBAL_.App.name = Util.getAppName();
-    GLOBAL_.App.rtFlowUrl = Util.getAppRTFlowUrl();
+    GLOBAL_.App.talkUrl = Util.getAppTalkUrl();
     GLOBAL_.App.render3D = Util.getRender3D();
     GLOBAL_.App.idleTime = 0;
     GLOBAL_.App.isOnline = false;
@@ -77,12 +77,12 @@ module.exports = class App {
     app.setName(GLOBAL_.App.name);
 
     log.info("[App] ready -> " + GLOBAL_.App.name + " : " + GLOBAL_.App.api);
-    log.info("[App] ready -> rt-flow : " + GLOBAL_.App.rtFlowUrl);
+    log.info("[App] ready -> talk : " + GLOBAL_.App.talkUrl);
     log.info("[App] ready -> render3D : " + GLOBAL_.App.render3D);
     try {
       GLOBAL_.App.EventManager = new EventManager();
       GLOBAL_.App.WindowManager = new WindowManager();
-      GLOBAL_.App.RTFlowManager = new RTFlowManager();
+      GLOBAL_.App.TalkManager = new TalkManager();
       GLOBAL_.App.ShortcutManager = new ShortcutManager();
       GLOBAL_.App.SlackManager = new SlackManager();
       GLOBAL_.App.AppUpdater = new AppUpdater();

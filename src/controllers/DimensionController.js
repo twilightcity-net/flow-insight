@@ -1,7 +1,7 @@
-import SpiritPanel from "../components/SpiritPanel";
-import JournalItems from "../components/JournalItems";
-import FlowContent from "../components/FlowContent";
-import ConsoleLayout from "../components/ConsoleLayout";
+import SpiritPanel from "../components/spirit/SpiritPanel";
+import JournalItems from "../components/journal/JournalItems";
+import FlowContent from "../components/flow/FlowContent";
+import ConsoleLayout from "../components/console/ConsoleLayout";
 
 /**
  * generic controller that handles calculations for dynamic fluid heights of

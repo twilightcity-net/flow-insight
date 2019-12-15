@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Icon, Menu } from "semantic-ui-react";
-import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
-import { SidePanelViewController } from "../perspective/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
 
 //
 // this component is the sidebar to the console. This animates a slide.

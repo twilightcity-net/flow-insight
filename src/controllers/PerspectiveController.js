@@ -1,5 +1,5 @@
 import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from ".//ActiveViewControllerFactory";
 
 /**
  * This class is used to coordinate views across all the perspective change events

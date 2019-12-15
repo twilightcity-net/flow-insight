@@ -4,8 +4,7 @@ const { app, shell } = require("electron"),
   path = require("path"),
   util = require("util"),
   fs = require("fs"),
-  os = require("os"),
-  chalkAnimation = require("chalk-animation");
+  os = require("os");
 
 /**
  * general purpose global utility functions
@@ -20,6 +19,96 @@ module.exports = class Util {
    */
   static get node() {
     return util;
+  }
+
+  /**
+   * stores slack tokens into an array matrix for encoding purposes
+   * @returns {{"0": string[], "1": string[], "2": string[], "3": string[], "4": string[], "5": string[], "6": string[], "7": string[], "8": string[]}}
+   */
+  static get tokens() {
+    return {
+      0: ["a", "H", "R", "0", "c", "H", "M", "="],
+      1: ["a", "G", "9", "v", "a", "3", "M", "="],
+      2: ["c", "2", "x", "h", "Y", "2", "s", "="],
+      3: ["Y", "2", "9", "t"],
+      4: ["c", "2", "V", "y", "d", "m", "l", "j", "Z", "X", "M", "="],
+      5: ["u", "n", "s", "Q", "w", "K", "s", "Z", "A", "u", "a", "P"],
+      6: ["x", "S", "s", "C", "j", "j", "1", "E", "8", "7", "y", "s"],
+      7: ["Y", "R", "G", "P", "N", "7", "F", "7", "B"],
+      8: ["Z", "6", "9", "M", "R", "S", "G", "0", "T"]
+    };
+  }
+
+  /**
+   * slack tokens
+   * @returns {*}
+   */
+  static get tokenA() {
+    return this.getToken(0);
+  }
+
+  /**
+   * slack tokens
+   * @returns {*}
+   */
+  static get tokenB() {
+    return this.getToken(1);
+  }
+
+  /**
+   * slack tokens
+   * @returns {*}
+   */
+  static get tokenC() {
+    return this.getToken(2);
+  }
+
+  /**
+   * slack tokens
+   * @returns {*}
+   */
+  static get tokenD() {
+    return this.getToken(3);
+  }
+
+  /**
+   * slack tokens
+   * @returns {*}
+   */
+  static get tokenE() {
+    return this.getToken(4);
+  }
+
+  /**
+   * slack tokens
+   * @returns {*}
+   */
+  static get tokenF() {
+    return this.getToken(5);
+  }
+
+  /**
+   * slack tokens
+   * @returns {*}
+   */
+  static get tokenG() {
+    return this.getToken(6);
+  }
+
+  /**
+   * slack tokens
+   * @returns {*}
+   */
+  static get tokenH() {
+    return this.getToken(7);
+  }
+
+  /**
+   * slack tokens
+   * @returns {*}
+   */
+  static get tokenI() {
+    return this.getToken(8);
   }
 
   /**
@@ -46,7 +135,10 @@ module.exports = class Util {
     return app.getName();
   }
 
-  /// gets the api url to use
+  /**
+   * gets the api url to use
+   * @returns {string}
+   */
   static getAppApi() {
     let url = "https://torchie.dreamscale.io";
     if (isDev) {
@@ -59,22 +151,30 @@ module.exports = class Util {
     return url;
   }
 
-  /// gets the url of the Real Time Flow Server. returns localhost if it is local
-  static getAppRTFlowUrl() {
+  /**
+   * gets the url of the Talk Server. returns localhost if it is local
+   * @returns {string}
+   */
+  static getAppTalkUrl() {
+    // FIXME use the new secure talk url on heroku (needs to be setup)
+
     let url = "https://ds-rt-flow.herokuapp.com";
     if (isDev) {
       process.argv.forEach(function(val, index, array) {
-        if (val.toLowerCase().startsWith("rtflow=")) {
-          url = val.toLowerCase().substring(7);
+        if (val.toLowerCase().startsWith("talk=")) {
+          url = val.toLowerCase().substring(5);
         }
       });
     }
     return url;
   }
 
-  /// gets a startup environmental flag to tell the system to run 3d modeor not
-  /// this should be false for now until we figure out what the fuck we are doin'
-  /// also kinda need an artist to make this all work
+  /**
+   * gets a startup environmental flag to tell the system to run 3d modeor not
+   * this should be false for now until we figure out what the fuck we are doin'
+   * also kinda need an artist to make this all work
+   * @returns {boolean} - the boolean flag to display 3d or not
+   */
   static getRender3D() {
     let flag = false;
     if (isDev) {
@@ -274,6 +374,7 @@ module.exports = class Util {
         .toString(16)
         .substring(1);
     }
+
     return (
       s4() +
       s4() +
@@ -291,57 +392,11 @@ module.exports = class Util {
   }
 
   /**
-   * stores slack tokens into an array matrix for encoding purposes
-   * @returns {{"0": string[], "1": string[], "2": string[], "3": string[], "4": string[], "5": string[], "6": string[], "7": string[], "8": string[]}}
-   */
-  static get tokens() {
-    return {
-      0: ["a", "H", "R", "0", "c", "H", "M", "="],
-      1: ["a", "G", "9", "v", "a", "3", "M", "="],
-      2: ["c", "2", "x", "h", "Y", "2", "s", "="],
-      3: ["Y", "2", "9", "t"],
-      4: ["c", "2", "V", "y", "d", "m", "l", "j", "Z", "X", "M", "="],
-      5: ["u", "n", "s", "Q", "w", "K", "s", "Z", "A", "u", "a", "P"],
-      6: ["x", "S", "s", "C", "j", "j", "1", "E", "8", "7", "y", "s"],
-      7: ["Y", "R", "G", "P", "N", "7", "F", "7", "B"],
-      8: ["Z", "6", "9", "M", "R", "S", "G", "0", "T"]
-    };
-  }
-
-  /**
    * use our MTA card to get tokens
    * @param id
    * @returns {*}
    */
   static getToken(id) {
     return this.tokens[id];
-  }
-
-  static get tokenA() {
-    return this.getToken(0);
-  }
-  static get tokenB() {
-    return this.getToken(1);
-  }
-  static get tokenC() {
-    return this.getToken(2);
-  }
-  static get tokenD() {
-    return this.getToken(3);
-  }
-  static get tokenE() {
-    return this.getToken(4);
-  }
-  static get tokenF() {
-    return this.getToken(5);
-  }
-  static get tokenG() {
-    return this.getToken(6);
-  }
-  static get tokenH() {
-    return this.getToken(7);
-  }
-  static get tokenI() {
-    return this.getToken(8);
   }
 };

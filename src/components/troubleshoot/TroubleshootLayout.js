@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import TroubleshootHeader from "./TroubleshootHeader";
 import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
-import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveCircleModel } from "../models/ActiveCircleModel";
+import { DataModelFactory } from "../../models/DataModelFactory";
+import { ActiveCircleModel } from "../../models/ActiveCircleModel";
 import TroubleshootStart from "./TroubleshootStart";
 
 /**

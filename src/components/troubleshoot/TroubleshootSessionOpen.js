@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Button, Divider, Grid, Segment } from "semantic-ui-react";
-import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveCircleModel } from "../models/ActiveCircleModel";
-import { WTFTimer } from "../models/WTFTimer";
+import { DataModelFactory } from "../../models/DataModelFactory";
+import { ActiveCircleModel } from "../../models/ActiveCircleModel";
+import { WTFTimer } from "../../models/WTFTimer";
 
 //
 // this component is the tab panel wrapper for the console content

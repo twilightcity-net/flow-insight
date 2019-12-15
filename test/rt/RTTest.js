@@ -1,4 +1,4 @@
-const RTManager = require("../../public/managers/RTFlowManager");
+const RTManager = require("../../public/managers/TalkManager");
 
 function testRT() {
   let rt = new RTManager();

@@ -5,6 +5,7 @@ const log = require("electron-log"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../managers/EventFactory"),
   { ShortcutManager } = require("../managers/ShortcutManager"),
+  AppError = require("./AppError"),
   AppMenu = require("./AppMenu"),
   AppTray = require("./AppTray"),
   AppLogin = require("./AppLogin");
@@ -52,10 +53,10 @@ module.exports = class AppLoader {
         EventFactory.Types.WINDOW_LOADING_LOGIN_FAILED,
         this
       ),
-      rtConnected: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_RT_FLOW_CONNECTED,
+      talkConnected: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_TALK_CONNECTED,
         this,
-        (event, arg) => this.onConnectedRTFlowCb()
+        (event, arg) => this.onConnectedTalkCb()
       ),
       consoleReady: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_READY,
@@ -84,7 +85,7 @@ module.exports = class AppLoader {
     this.events.shown.remove();
     this.events.login.remove();
     this.events.loginFailed.remove();
-    this.events.rtConnected.remove();
+    this.events.talkConnected.remove();
     this.events.consoleReady.remove();
     this.events.shortcutsCreated.remove();
     this.events.load.remove();
@@ -125,11 +126,11 @@ module.exports = class AppLoader {
   onLoadingLoginCb(event, arg) {
     setTimeout((event, arg) => {
       this.events.load.dispatch({
-        load: this.stages.RTFLOW,
+        load: this.stages.TALK,
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "dosing aliens...",
-        text: "Connection to RealTime Flow..."
+        text: "Connecting to Talk..."
       });
     }, this.eventTimerMs);
   }
@@ -139,7 +140,7 @@ module.exports = class AppLoader {
    * @param event
    * @param arg
    */
-  onConnectedRTFlowCb(event, arg) {
+  onConnectedTalkCb(event, arg) {
     setTimeout((event, arg) => {
       this.events.load.dispatch({
         load: this.stages.CONSOLE,
@@ -195,8 +196,8 @@ module.exports = class AppLoader {
       case this.stages.LOGIN:
         this.processLogin();
         break;
-      case this.stages.RTFLOW:
-        this.connectRTFlow();
+      case this.stages.TALK:
+        this.connectToTalk();
         break;
       case this.stages.CONSOLE:
         this.createConsole();
@@ -220,7 +221,7 @@ module.exports = class AppLoader {
   getStages() {
     return {
       LOGIN: "login",
-      RTFLOW: "rtflow",
+      TALK: "talk",
       CONSOLE: "console",
       SHORTCUTS: "shortcuts",
       FINISHED: "finished"
@@ -277,14 +278,14 @@ module.exports = class AppLoader {
   }
 
   /**
-   * connect the Rt-Flow server
+   * connect to talk service
    */
-  connectRTFlow() {
-    log.info("[AppLoader] connect rt-flow server");
+  connectToTalk() {
+    log.info("[AppLoader] connect to talk server");
     try {
-      global.App.RTFlowManager.createConnection();
+      global.App.TalkManager.createConnection();
     } catch (error) {
-      App.handleError(error, true);
+      AppError.handleError(error, true);
     }
   }
 
@@ -296,7 +297,7 @@ module.exports = class AppLoader {
     try {
       WindowManagerHelper.createWindowConsole();
     } catch (error) {
-      App.handleError(error, true);
+      AppError.handleError(error, true);
     }
   }
 
@@ -309,7 +310,7 @@ module.exports = class AppLoader {
       global.App.Shortcuts = ShortcutManager.createGlobalShortcuts();
       this.events.shortcutsCreated.dispatch();
     } catch (error) {
-      App.handleError(error, true);
+      AppError.handleError(error, true);
     }
   }
 

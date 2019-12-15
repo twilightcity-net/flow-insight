@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Segment } from "semantic-ui-react";
-import { ActiveCircleModel } from "../models/ActiveCircleModel";
-import { DataModelFactory } from "../models/DataModelFactory";
+import { ActiveCircleModel } from "../../models/ActiveCircleModel";
+import { DataModelFactory } from "../../models/DataModelFactory";
 
 /**
  * this component is the tab panel wrapper for the console content

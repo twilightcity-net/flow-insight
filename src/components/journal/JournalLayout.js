@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import JournalHeader from "./JournalHeader";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
-import { DataModelFactory } from "../models/DataModelFactory";
+import { DataModelFactory } from "../../models/DataModelFactory";
 
 //
 // this component is the tab panel wrapper for the console content
