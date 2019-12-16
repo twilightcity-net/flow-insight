@@ -1,4 +1,4 @@
-import { RendererEventFactory } from "./RendererEventFactory";
+import { RendererEventFactory } from "../events/RendererEventFactory";
 
 // FIXME this is a security issue, should be handled in the main process
 
@@ -14,9 +14,9 @@ const fs = window.require("fs");
  * Since this capability has to be called from the renderer process, it works by listening for events
  * from the main process, then triggering the screenshot capture, saving to a file
  */
-export class ScreenShotManager {
+export class ScreenshotController {
   constructor() {
-    log.info("[ScreenShotManager] created -> okay");
+    log.info("[ScreenshotController] created -> okay");
     this.enabled = false;
     this.state = {
       screenPath: "./assets/images/screenshot.png"
@@ -92,7 +92,7 @@ export class ScreenShotManager {
    * @param screenPath - the path to save the screenshot to
    */
   captureScreenShot(screenPath) {
-    log.info("[ScreenShotManager] capturing new screenshot async");
+    log.info("[ScreenshotController] capturing new screenshot async");
 
     let thumbSize = this.determineScreenShotSize();
 

@@ -1,14 +1,14 @@
 {
   "name": "torchie-desktop",
   "productName": "Torchie",
-  "description": "Torchie desktop application and cli utility",
-  "version": "0.3.1",
+  "description": "Torchie desktop client w/ gridtime. Copyright ® 2020 - DreamsScale, Inc.",
+  "version": "0.3.2",
   "private": true,
   "author": {
-    "name": "DreamScale.io",
-    "email": "info@dreamscale.io"
+    "name": "DreamScale, Inc.",
+    "email": "code@dreamscale.io"
   },
-  "copyright": "Copyright © 2019 Dreamscale.io",
+  "copyright": "Copyright © 2020 - DreamScale, Inc.",
   "homepage": "./",
   "main": "public/electron.js",
   "repository": {

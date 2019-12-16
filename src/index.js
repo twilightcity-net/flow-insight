@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import ViewManager from "./ViewManager";
+import ViewManager from "./views/ViewManager";
 import "semantic-ui-css/semantic.min.css";
 
 /**

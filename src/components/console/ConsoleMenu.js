@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Icon, Menu, Popup } from "semantic-ui-react";
 import { MainPanelViewController } from "../../controllers/MainPanelViewController";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import { RendererEventFactory } from "../../RendererEventFactory";
+import { RendererEventFactory } from "../../events/RendererEventFactory";
 
 //
 // this component is the tab panel wrapper for the console content

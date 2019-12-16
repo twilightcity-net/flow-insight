@@ -1,5 +1,5 @@
 import { ActiveViewController } from "./ActiveViewController";
-import { RendererEventFactory } from "../RendererEventFactory";
+import { RendererEventFactory } from "../events/RendererEventFactory";
 
 export class ConsoleViewController extends ActiveViewController {
   constructor(scope) {

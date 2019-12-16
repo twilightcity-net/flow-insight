@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import queryString from "query-string";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import LoadingView from "./views/LoadingView";
-import ActivatorView from "./views/ActivatorView";
-import ConsoleView from "./views/ConsoleView";
-import BugReportView from "./views/BugReportView";
+import LoadingView from "./LoadingView";
+import ActivatorView from "./ActivatorView";
+import ConsoleView from "./ConsoleView";
+import BugReportView from "./BugReportView";
 
 /**
  * This class is used to manage the rendering of views in windows. There is a

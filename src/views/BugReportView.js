@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Button, Label, Segment } from "semantic-ui-react";
 import { Form, Input, TextArea } from "formsy-semantic-ui-react";
-import { RendererEventFactory } from "../RendererEventFactory";
+import { RendererEventFactory } from "../events/RendererEventFactory";
 
 const { remote } = window.require("electron");
 const electronLog = remote.require("electron-log");

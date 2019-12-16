@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import { DataStoreFactory } from "../DataStoreFactory";
-import { RendererEventFactory } from "../RendererEventFactory";
+import { DataStoreFactory } from "../stores/DataStoreFactory";
+import { RendererEventFactory } from "../events/RendererEventFactory";
 import {
   Button,
   Container,
