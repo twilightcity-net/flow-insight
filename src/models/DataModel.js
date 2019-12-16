@@ -1,5 +1,5 @@
 import UtilRenderer from "../UtilRenderer";
-import { RendererEventFactory } from "../RendererEventFactory";
+import { RendererEventFactory } from "../events/RendererEventFactory";
 
 /**
  * this base class is used by object models that retrieve data from

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { RendererEventFactory } from "../RendererEventFactory";
+import { RendererEventFactory } from "../events/RendererEventFactory";
 import {
   Button,
   Container,

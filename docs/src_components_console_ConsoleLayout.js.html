@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>src/components/console/ConsoleLayout.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520returns%2520the%2520classes%2520constructor%2520function%2520to%2520render%2520dynamically.html">- returns the classes constructor function to render dynamically</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520static%2520constructor%2520for%2520the%2520possible%2520types%2520of%2520requests.html">- static constructor for the possible types of requests</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AltModelDelegate.html">AltModelDelegate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureDelegateCall">configureDelegateCall</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureNoOp">configureNoOp</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#resetMemberSelection">resetMemberSelection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#setMemberSelection">setMemberSelection</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataModel.html">DataModel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModel.html#notifyListeners">notifyListeners</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModel.html#onLoadedCb">onLoadedCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModel.html#remoteFetch">remoteFetch</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataModelFactory.html">DataModelFactory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModelFactory.html#.createModel">createModel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModelFactory.html#.findOrCreateModel">findOrCreateModel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DataModelFactory.html#.initializeNewModel">initializeNewModel</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataModelFactory.Models.html">Models</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataStoreFactory.html">DataStoreFactory</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DimensionController.html">DimensionController</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.init">init</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventCallbackException.html">EventCallbackException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventEchoException.html">EventEchoException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventException.html">EventException</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventException.html#getDateTimeString">getDateTimeString</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventException.html#toString">toString</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.html">EventManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.dispatch">dispatch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.unregister">unregister</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#createListener">createListener</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeCallback">executeCallback</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeReply">executeReply</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#handleEvent">handleEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initReturnValues">initReturnValues</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSender">initSender</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSonar">initSonar</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#register">register</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.Events.html">Events</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MainEvent.html">MainEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#destroy">destroy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#dispatch">dispatch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#.init">init</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#loadDefaultModels">loadDefaultModels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onActiveCircleUpdateTimer">onActiveCircleUpdateTimer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onChangeActiveRowResetSpiritFlame">onChangeActiveRowResetSpiritFlame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalEntryUpdateMeAndXP">onJournalEntryUpdateMeAndXP</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalUpdateResetSpiritFlame">onJournalUpdateResetSpiritFlame</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onMyCircleUpdateMe">onMyCircleUpdateMe</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onTeamMemberChangeActiveScopeForAllModels">onTeamMemberChangeActiveScopeForAllModels</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onWTFTimerUpdateRefreshTeamMemberTimers">onWTFTimerUpdateRefreshTeamMemberTimers</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#updateModels">updateModels</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#check">check</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#connectToTalk">connectToTalk</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConnection">createConnection</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConsole">createConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createEvent">createEvent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createMenu">createMenu</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createShortcuts">createShortcuts</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#deactivate">deactivate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#exportApiKey">exportApiKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKey">getApiKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKeyPath">getApiKeyPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppApi">getAppApi</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppIcon">getAppIcon</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppName">getAppName</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppRootDir">getAppRootDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppSettingsPath">getAppSettingsPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppTalkUrl">getAppTalkUrl</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppTray">getAppTray</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppUserDataDir">getAppUserDataDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetPath">getAssetPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetsDir">getAssetsDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConfiguredHotkeysOrDefault">getConfiguredHotkeysOrDefault</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getDateTimeString">getDateTimeString</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getFlowHomePath">getFlowHomePath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getGuid">getGuid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRender3D">getRender3D</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getToken">getToken</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConnectedTalkCb">onConnectedTalkCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleReadyCb">onConsoleReadyCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleShowHideCb">onConsoleShowHideCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadCb">onLoadCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingLoginCb">onLoadingLoginCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingShowCb">onLoadingShowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onPrepareForScreenshot">onPrepareForScreenshot</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onReadyToShowCb">onReadyToShowCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onScreenshotComplete">onScreenshotComplete</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onShortcutsCreatedCb">onShortcutsCreatedCb</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#openExternalBrowser">openExternalBrowser</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#processLogin">processLogin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#save">save</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setAppTray">setAppTray</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setDevUserDataDir">setDevUserDataDir</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#showConsole">showConsole</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#start">start</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#unwireEvents">unwireEvents</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Types.html">Types</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PerspectiveController.html#onConsoleOpenUpdateModels">onConsoleOpenUpdateModels</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererEvent.html">RendererEvent</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererEventFactory.html">RendererEventFactory</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventFactory.html#.createEvent">createEvent</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererEventFactory.Events.html">Events</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererEventManager.html">RendererEventManager</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.checkEventForError">checkEventForError</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.createEventError">createEventError</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.dispatch">dispatch</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.listenForCallback">listenForCallback</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.listenForReply">listenForReply</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.removeListeners">removeListeners</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScreenshotController.html">ScreenshotController</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScreenshotController.html#captureScreenShot">captureScreenShot</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Views.html">Views</a></span></li><li class="nav-heading"><a href="global.html">Globals</a></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#calculateFlowHeight">calculateFlowHeight</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidMount">componentDidMount</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCanvasEl">getCanvasEl</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#openBadgesPanel">openBadgesPanel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#openSpiritPanel">openSpiritPanel</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#updateTorchieImage">updateTorchieImage</a></span></li><li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">src/components/console/ConsoleLayout.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import ConsoleSidebar from "./ConsoleSidebar";
+import ConsoleContent from "./ConsoleContent";
+import ConsoleMenu from "./ConsoleMenu";
+import TeamPanel from "../team/TeamPanel";
+import SpiritPanel from "../spirit/SpiritPanel";
+import { DataModelFactory } from "../../models/DataModelFactory";
+import { SpiritModel } from "../../models/SpiritModel";
+import { ActiveCircleModel } from "../../models/ActiveCircleModel";
+import { TeamModel } from "../../models/TeamModel";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { DimensionController } from "../../controllers/DimensionController";
+
+/**
+ * this component is the tab panel wrapper for the console content
+ * @author ZoeDreams
+ */
+export default class ConsoleLayout extends Component {
+  /**
+   * the costructor for the root console layout. This calls other child layouts
+   * @param props - the properties of the component to render
+   */
+  constructor(props) {
+    super(props);
+    this.name = "[ConsoleLayout]";
+    this.state = {
+      sidebarPanelVisible: false,
+      sidebarPanelWidth: 0,
+      sidebarPanelOpacity: 0,
+      xpSummary: {},
+      totalXP: 0,
+      flameRating: 0,
+      activePanel: SidePanelViewController.MenuSelection.PROFILE,
+      consoleIsCollapsed: 0,
+      me: { shortName: "Me", id: "id" },
+      teamMembers: [],
+      activeTeamMember: { shortName: "Me", id: "id" },
+      isMe: true
+    };
+    this.animationTime = 555;
+
+    // TODO move this stuff into the controller class
+
+    this.sidePanelController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL,
+      this
+    );
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS,
+      this
+    );
+    this.teamModel.registerListener(
+      "consoleLayout",
+      TeamModel.CallbackEvent.MEMBERS_UPDATE,
+      this.onTeamModelUpdateCb
+    );
+    this.teamModel.registerListener(
+      "consoleLayout",
+      TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
+      this.onActiveMemberUpdateCb
+    );
+    this.activeCircleModel = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_CIRCLE,
+      this
+    );
+    this.activeCircleModel.registerListener(
+      "consoleLayout",
+      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
+      this.onActiveCircleUpdateCb
+    );
+
+    this.spiritModel = DataModelFactory.createModel(
+      DataModelFactory.Models.SPIRIT,
+      this
+    );
+    this.spiritModel.registerListener(
+      "consoleLayout",
+      SpiritModel.CallbackEvent.XP_UPDATE,
+      this.onXPUpdate
+    );
+    this.spiritModel.registerListener(
+      "consoleLayout",
+      SpiritModel.CallbackEvent.RESET_FLAME,
+      this.onActiveFlameUpdate
+    );
+    this.spiritModel.registerListener(
+      "consoleLayout",
+      SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE,
+      this.onActiveFlameUpdate
+    );
+  }
+
+  /**
+   * called right after when the component is finished rendering
+   */
+  componentDidMount = () => {
+    console.log(this.name + " - componentDidMount");
+
+    this.sidePanelController.configureContentListener(
+      this,
+      this.onRefreshActivePerspective
+    );
+    this.onRefreshActivePerspective();
+  };
+
+  /**
+   * called right before when the component will unmount
+   */
+  componentWillUnmount = () => {
+    console.log(this.name + " - componentWillUnmount");
+
+    this.teamModel.unregisterAllListeners("consoleLayout");
+    this.activeCircleModel.unregisterAllListeners("consoleLayout");
+    this.spiritModel.unregisterAllListeners("consoleLayout");
+
+    this.sidePanelController.configureContentListener(this, null);
+  };
+
+  /**
+   * the event callback handler for when the xp's user changes
+   */
+  onXPUpdate = () => {
+    this.setState({
+      torchieOwner: this.spiritModel.getActiveScope().torchieOwner,
+      spiritId: this.spiritModel.getActiveScope().spiritId,
+      xpSummary: this.spiritModel.getActiveScope().xpSummary,
+      activeSpiritLinks: this.spiritModel.getActiveScope().activeSpiritLinks,
+      level: this.spiritModel.getActiveScope().level,
+      percentXP: this.spiritModel.getActiveScope().percentXP,
+      totalXP: this.spiritModel.getActiveScope().totalXP,
+      remainingToLevel: this.spiritModel.getActiveScope().remainingToLevel,
+      title: this.spiritModel.getActiveScope().title
+    });
+  };
+
+  /**
+   * the event callback handler for when the flame rating changes on the gui
+   */
+  onActiveFlameUpdate = () => {
+    this.setState({
+      flameRating: this.spiritModel.getActiveScope().activeFlameRating
+    });
+  };
+
+  /**
+   * the event callback handler for when the TeamModel updates
+   */
+  onTeamModelUpdateCb = () => {
+    console.log(this.name + " - onTeamModelUpdateCb");
+    // console.log("WTF TIMER " + this.teamModel.me.wtfTimer);
+    this.setState({
+      isMe: this.teamModel.isMeActive(),
+      me: this.teamModel.me,
+      teamMembers: this.teamModel.teamMembers,
+      activeTeamMember: this.teamModel.activeTeamMember
+    });
+  };
+
+  /**
+   * callback handler function for when the active memmber model updates
+   */
+  onActiveMemberUpdateCb = () => {
+    console.log(this.name + " - onActiveMemberUpdateCb");
+    this.setState({
+      isMe: this.teamModel.isMeActive(),
+      activeTeamMember: this.teamModel.activeTeamMember
+    });
+  };
+
+  /**
+   * the callback handler for when the flame rating changes
+   * @param flameRating - the intensity of the flame to change
+   */
+  onFlameChangeCb = flameRating => {
+    console.log(this.name + " - onFlameChangeCb: " + flameRating);
+
+    this.setState({
+      flameRating: flameRating
+    });
+  };
+
+  /**
+   * click the flame button, which either tries to do a +1 or -1
+   * @param flameDelta - the amount of the flame to change
+   */
+  adjustFlameCb = flameDelta => {
+    console.log(this.name + " - Flame change: " + flameDelta);
+
+    let flameRating = Number(this.state.flameRating) + flameDelta;
+    if (flameRating > 5) {
+      flameRating = 5;
+    } else if (flameRating &lt; -5) {
+      flameRating = -5;
+    }
+
+    if (this.state.flameRating > 0 &amp;&amp; flameDelta &lt; 0) {
+      flameRating = 0;
+    }
+
+    if (this.state.flameRating &lt; 0 &amp;&amp; flameDelta > 0) {
+      flameRating = 0;
+    }
+
+    console.log(
+      this.name +
+        " - adjustFlameCb, Old/New Flame rating: " +
+        this.state.flameRating +
+        "/" +
+        flameRating
+    );
+    this.setState({
+      flameRating: flameRating
+    });
+  };
+
+  /**
+   * called when refreshing the active perspective window
+   */
+  onRefreshActivePerspective() {
+    console.log(
+      this.name +
+        " - onRefreshActivePerspective: " +
+        this.sidePanelController.show
+    );
+    let show = this.sidePanelController.show;
+    if (show) {
+      this.setState({
+        sidebarPanelVisible: true,
+        activePanel: this.sidePanelController.activeMenuSelection
+      });
+      setTimeout(() => {
+        this.setState({
+          sidebarPanelWidth: "23em",
+          sidebarPanelOpacity: 1
+        });
+      }, 0);
+    } else {
+      this.setState({
+        sidebarPanelWidth: 0,
+        sidebarPanelOpacity: 0
+      });
+      setTimeout(() => {
+        this.setState({
+          sidebarPanelVisible: false,
+          activePanel: this.sidePanelController.activeMenuSelection
+        });
+      }, 420);
+    }
+  }
+
+  /**
+   * store child component for future reloading
+   * @param state - the current state of the object
+   */
+  saveStateSidebarPanelCb = state => {
+    this.setState({ sidebarPanelState: state });
+  };
+
+  /**
+   *  load the child components state from this state
+   * @returns {*}
+   */
+  loadStateSidebarPanelCb = () => {
+    return this.state.sidebarPanelState;
+  };
+
+  /**
+   * the name of the users torchie spirit
+   * @returns {string}
+   */
+  getTorchieName = () => {
+    let torchieName = "Member";
+    if (this.state.activeTeamMember) {
+      torchieName = this.state.activeTeamMember.shortName;
+    }
+    return torchieName;
+  };
+
+  /**
+   * renders the root console layout of the console view
+   * @returns {*} - the JSX to render
+   */
+  render() {
+    /**
+     * the spirit panel that gets displayed in the side panel
+     */
+    const spiritPanelContent = (
+      &lt;SpiritPanel
+        me={this.state.me}
+        isMe={this.state.isMe}
+        torchieOwner={this.getTorchieName()}
+        spiritId={this.state.spiritId}
+        xpSummary={this.state.xpSummary}
+        activeSpiritLinks={this.state.activeSpiritLinks}
+        level={this.state.level}
+        percentXP={this.state.percentXP}
+        remainingToLevel={this.state.remainingToLevel}
+        totalXP={this.state.totalXP}
+        title={this.state.title}
+        flameRating={this.state.flameRating}
+        loadStateCb={this.loadStateSidebarPanelCb}
+        saveStateCb={this.saveStateSidebarPanelCb}
+        width={this.state.sidebarPanelWidth}
+        height={DimensionController.getHeightFor(this)}
+        opacity={this.state.sidebarPanelOpacity}
+      />
+    );
+
+    /**
+     * the team panel that gets displayed to the user
+     */
+    const teamPanelContent = (
+      &lt;TeamPanel
+        xpSummary={this.state.xpSummary}
+        width={this.state.sidebarPanelWidth}
+        opacity={this.state.sidebarPanelOpacity}
+        loadStateCb={this.loadStateSidebarPanelCb}
+        saveStateCb={this.saveStateSidebarPanelCb}
+        me={this.state.me}
+        teamMembers={this.state.teamMembers}
+        activeTeamMember={this.state.activeTeamMember}
+      />
+    );
+
+    /**
+     * logic that controls how the side panel is displayed
+     * @type {null}
+     */
+    let activePanel = null;
+    if (
+      this.state.activePanel === SidePanelViewController.MenuSelection.PROFILE
+    ) {
+      activePanel = spiritPanelContent;
+    } else if (
+      this.state.activePanel === SidePanelViewController.MenuSelection.MESSAGES
+    ) {
+      activePanel = teamPanelContent;
+    }
+
+    /**
+     * the wrapping panel that renders the side panel
+     */
+    const sidebarPanel = (
+      &lt;div
+        id="wrapper"
+        className="consoleSidebarPanel"
+        style={{
+          width: this.state.sidebarPanelWidth,
+          height: DimensionController.getHeightFor(this)
+        }}
+      >
+        {activePanel}
+      &lt;/div>
+    );
+
+    /**
+     * glue the sidebar to the comtent and the bottom memu bar
+     */
+    return (
+      &lt;div id="component" className="consoleLayout">
+        &lt;div id="wrapper" className="consoleSidebar">
+          &lt;ConsoleSidebar />
+        &lt;/div>
+        {this.state.sidebarPanelVisible &amp;&amp; sidebarPanel}
+        &lt;div
+          id="wrapper"
+          className="consoleContent"
+          style={{ height: DimensionController.getHeightFor(this) }}
+        >
+          &lt;ConsoleContent
+            onFlameChange={this.onFlameChangeCb}
+            onAdjustFlame={this.adjustFlameCb}
+            animationTime={this.animationTime}
+          />
+        &lt;/div>
+        &lt;div id="wrapper" className="consoleMenu">
+          &lt;ConsoleMenu animationTime={this.animationTime} />
+        &lt;/div>
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sun Dec 15 2019 18:19:29 GMT-0600 (Central Standard Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

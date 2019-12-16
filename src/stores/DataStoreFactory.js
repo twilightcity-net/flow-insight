@@ -1,4 +1,4 @@
-import { AccountActivationStore } from "./stores/AccountActivationStore";
+import { AccountActivationStore } from "./AccountActivationStore";
 
 /**
  * this class is used to manage DataClient requests for Stores
