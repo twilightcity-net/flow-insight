@@ -1,14 +1,13 @@
-import {SidePanelViewController} from "./SidePanelViewController";
-import {MainPanelViewController} from "./MainPanelViewController";
-import {ConsoleViewController} from "./ConsoleViewController";
-import {TroubleshootController} from "./TroubleshootController";
+import { SidePanelViewController } from "./SidePanelViewController";
+import { MainPanelViewController } from "./MainPanelViewController";
+import { ConsoleViewController } from "./ConsoleViewController";
+import { TroubleshootController } from "./TroubleshootController";
 
 /**
  * generates view controllers for components
  * @author ZoeDreams
  */
 export class ActiveViewControllerFactory {
-
   /**
    * an array of views store as a cluttered object list in memory
    * @type {{}}
@@ -49,8 +48,7 @@ export class ActiveViewControllerFactory {
     let storeFound = null;
     if (ActiveViewControllerFactory.viewsByName[name] != null) {
       storeFound = ActiveViewControllerFactory.viewsByName[name];
-    }
-    else {
+    } else {
       storeFound = ActiveViewControllerFactory.initializeNewViewController(
         name,
         scope

@@ -1,9 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import TroubleshootHeader from "./TroubleshootHeader";
 import TroubleshootOpen from "./TroubleshootOpen";
-import {ActiveCircleModel} from "../../models/ActiveCircleModel";
+import { ActiveCircleModel } from "../../models/ActiveCircleModel";
 import TroubleshootStart from "./TroubleshootStart";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -27,7 +27,6 @@ export default class TroubleshootLayout extends Component {
   }
 
   componentDidMount() {
-
     // TODO this should be moved over into the controller
 
     this.myController.activeCircleModel.registerListener(
@@ -46,7 +45,8 @@ export default class TroubleshootLayout extends Component {
   onActiveCircleUpdateCb = () => {
     console.log(this.name + " - onActiveCircleUpdateCb");
     this.setState({
-      isAlarmTriggered: this.myController.activeCircleModel.getActiveScope().isAlarmTriggered
+      isAlarmTriggered: this.myController.activeCircleModel.getActiveScope()
+        .isAlarmTriggered
     });
   };
 

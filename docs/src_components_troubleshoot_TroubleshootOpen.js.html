@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>src/components/troubleshoot/TroubleshootLayout.js - Documentation</title>
+    <title>src/components/troubleshoot/TroubleshootOpen.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">src/components/troubleshoot/TroubleshootLayout.js</h1>
+    <h1 class="page-title">src/components/troubleshoot/TroubleshootOpen.js</h1>
     
 
     
@@ -40,98 +40,243 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, {Component} from "react";
-import TroubleshootHeader from "./TroubleshootHeader";
-import TroubleshootOpen from "./TroubleshootOpen";
+import {Feed, Icon, Divider, Grid, Segment, Button} from "semantic-ui-react";
+import {DataModelFactory} from "../../models/DataModelFactory";
 import {ActiveCircleModel} from "../../models/ActiveCircleModel";
-import TroubleshootStart from "./TroubleshootStart";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+import {WTFTimer} from "../../models/WTFTimer";
 
 /**
  * this component is the tab panel wrapper for the console content
- * @author ZoeDreams
  */
-export default class TroubleshootLayout extends Component {
+export default class TroubleshootOpen extends Component {
+
+  /**
+   * the constructor, duh
+   * @param props
+   */
   constructor(props) {
     super(props);
-    this.name = "[TroubleshootLayout]";
-
-    // TODO move this into the controller class
+    this.name = "[TroubleshootOpen]";
 
     this.state = {
-      isAlarmTriggered: false
+      chatInputValue: "",
+      formattedWTFTimer: "00:00"
     };
-    this.myController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
+
+    this.activeCircleModel = DataModelFactory.createModel(
+      DataModelFactory.Models.ACTIVE_CIRCLE,
       this
     );
-    this.myController.wireTogetherModels(this);
+
+    this.wtfTimer = DataModelFactory.createModel(
+      DataModelFactory.Models.WTF_TIMER,
+      this
+    );
   }
 
-  componentDidMount() {
-
-    // TODO this should be moved over into the controller
-
-    this.myController.activeCircleModel.registerListener(
-      "troubleshootLayout",
-      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
-      this.onActiveCircleUpdateCb
+  componentDidMount = () => {
+    console.log(this.name + " - componentDidMount");
+    this.wtfTimer.registerListener(
+      "TroubleshootOpen",
+      WTFTimer.CallbackEvent.WTF_TIMER_SECONDS_UPDATE,
+      this.onTimerUpdate
     );
 
-    this.onActiveCircleUpdateCb();
-  }
+    this.activeCircleModel.registerListener(
+      "TroubleshootOpen",
+      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
+      this.onCircleUpdate
+    );
 
-  componentWillUnmount() {
-    this.myController.unregisterListeners();
-  }
+    this.onCircleUpdate();
+    this.onTimerUpdate();
+    this.wtfTimer.startTimer();
+  };
 
-  onActiveCircleUpdateCb = () => {
-    console.log(this.name + " - onActiveCircleUpdateCb");
-    this.setState({
-      isAlarmTriggered: this.myController.activeCircleModel.getActiveScope().isAlarmTriggered
-    });
+  componentWillUnmount = () => {
+    console.log(this.name + " - componentWillUnmount");
+
+    this.wtfTimer.stopTimer();
+    this.activeCircleModel.unregisterAllListeners("TroubleshootOpen");
+    this.wtfTimer.unregisterAllListeners("TroubleshootOpen");
   };
 
   /**
-   * renders the journal layout of the console view
-   * @returns {*} - the JSX to render
+   * when the cir4ucle updates
+   */
+  onCircleUpdate = () => {
+    console.log(this.name + " - onCircleUpdate");
+
+    let activeCircle = this.activeCircleModel.getActiveScope().activeCircle;
+    let circleName = this.activeCircleModel.getActiveScope().circleName;
+
+    let circleOwner = this.activeCircleModel.getActiveScope().getCircleOwner();
+
+    let formattedTime = this.wtfTimer.wtfTimerInSeconds;
+    this.setState({
+      formattedWTFTimer: formattedTime,
+      activeCircle: activeCircle,
+      circleName: circleName,
+      circleOwner: circleOwner
+    });
+  };
+
+  onTimerUpdate = () => {
+    this.setState({
+      formattedWTFTimer: this.wtfTimer.wtfTimerInSeconds
+    });
+  };
+
+  onClickStopTroubleshooting = () => {
+    console.log(this.name + " - on click stop troubleshooting");
+
+    this.props.onStopTroubleshooting();
+  };
+
+  /**
+   * renders the default troubleshoot component in the console view
    */
   render() {
-    let wtfPanel = null,
-      wtfHeader = null;
-    if (this.state.isAlarmTriggered) {
-      wtfHeader = (
-        &lt;TroubleshootHeader
-          member={this.myController.teamModel.getActiveTeamMemberShortName()}
-        />
-      );
-    }
 
-    // TODO move these handlers into there own controller class
+    let feedEvents = [{
+      user: "Arty Starr",
+      type: "chat",
+      labelImg: "/images/avatar/small/elliot.jpg",
+      dateStr: "1 Hour Ago",
+      likes: 4
+    }]
 
-    if (!this.state.isAlarmTriggered) {
-      wtfPanel = (
-        &lt;TroubleshootStart
-          onStartTroubleshooting={this.myController.onStartTroubleshooting}
-        />
-      );
-    } else {
-      wtfPanel = (
-        &lt;TroubleshootOpen
-          onStopTroubleshooting={this.myController.onStopTroubleshooting}
-        />
-      );
-    }
+    let feedPanel = (
+      &lt;Feed>
+        &lt;Feed.Event>
+          &lt;Feed.Label>
+            &lt;img src={feedEvents[0].labelImg} alt={"alt"}/>
+          &lt;/Feed.Label>
+          &lt;Feed.Content>
+            &lt;Feed.Summary>
+              &lt;Feed.User>{feedEvents[0].user}&lt;/Feed.User> joined the sess.
+              &lt;Feed.Date>{feedEvents[0].dateStr}&lt;/Feed.Date>
+            &lt;/Feed.Summary>
+            &lt;Feed.Meta>
+              &lt;Feed.Like>
+                &lt;Icon name='like'/>{feedEvents[0].likes} Likes
+              &lt;/Feed.Like>
+            &lt;/Feed.Meta>
+          &lt;/Feed.Content>
+        &lt;/Feed.Event>
+
+        &lt;Feed.Event>
+          &lt;Feed.Label image='/images/avatar/small/helen.jpg' alt={"alt"}/>
+          &lt;Feed.Content>
+            &lt;Feed.Summary>
+              &lt;a>Helen Troy&lt;/a> added &lt;a>2 new illustrations&lt;/a>
+              &lt;Feed.Date>4 days ago&lt;/Feed.Date>
+            &lt;/Feed.Summary>
+            &lt;Feed.Extra images>
+              &lt;a>
+                &lt;img src='/images/wireframe/image.png' alt={"alt"}/>
+              &lt;/a>
+              &lt;a>
+                &lt;img src='/images/wireframe/image.png' alt={"alt"}/>
+              &lt;/a>
+            &lt;/Feed.Extra>
+            &lt;Feed.Meta>
+              &lt;Feed.Like>
+                &lt;Icon name='like'/>1 Like
+              &lt;/Feed.Like>
+            &lt;/Feed.Meta>
+          &lt;/Feed.Content>
+        &lt;/Feed.Event>
+
+        &lt;Feed.Event>
+          &lt;Feed.Label image='/images/avatar/small/jenny.jpg' alt={"alt"}/>
+          &lt;Feed.Content>
+            &lt;Feed.Summary
+              date='2 Days Ago'
+              user='Jenny Hess'
+              content='add you as a friend'
+            />
+            &lt;Feed.Meta>
+              &lt;Feed.Like>
+                &lt;Icon name='like'/>8 Likes
+              &lt;/Feed.Like>
+            &lt;/Feed.Meta>
+          &lt;/Feed.Content>
+        &lt;/Feed.Event>
+
+        &lt;Feed.Event>
+          &lt;Feed.Label image='/images/avatar/small/joe.jpg' alt={"alt"}/>
+          &lt;Feed.Content>
+            &lt;Feed.Summary>
+              &lt;a>Joe Henderson&lt;/a> posted on his page
+              &lt;Feed.Date>3 days ago&lt;/Feed.Date>
+            &lt;/Feed.Summary>
+            &lt;Feed.Extra text>
+              Ours is a life of constant reruns. We're always circling back to where
+              we'd we started, then starting all over again. Even if we don't run
+              extra laps that day, we surely will come back for more of the same
+              another day soon.
+            &lt;/Feed.Extra>
+            &lt;Feed.Meta>
+              &lt;Feed.Like>
+                &lt;Icon name='like'/>5 Likes
+              &lt;/Feed.Like>
+            &lt;/Feed.Meta>
+          &lt;/Feed.Content>
+        &lt;/Feed.Event>
+
+        &lt;Feed.Event>
+          &lt;Feed.Label image='/images/avatar/small/justen.jpg' alt={"alt"}/>
+          &lt;Feed.Content>
+            &lt;Feed.Summary>
+              &lt;a>Justen Kitsune&lt;/a> added &lt;a>2 new photos&lt;/a> of you
+              &lt;Feed.Date>4 days ago&lt;/Feed.Date>
+            &lt;/Feed.Summary>
+            &lt;Feed.Extra images>
+              &lt;a>
+                &lt;img src='/images/wireframe/image.png' alt={"alt"}/>
+              &lt;/a>
+              &lt;a>
+                &lt;img src='/images/wireframe/image.png' alt={"alt"}/>
+              &lt;/a>
+            &lt;/Feed.Extra>
+            &lt;Feed.Meta>
+              &lt;Feed.Like>
+                &lt;Icon name='like'/>
+                41 Likes
+              &lt;/Feed.Like>
+            &lt;/Feed.Meta>
+          &lt;/Feed.Content>
+        &lt;/Feed.Event>
+      &lt;/Feed>
+    )
 
     return (
-      &lt;div id="component" className="troubleshootLayout">
-        {this.state.isAlarmTriggered &amp;&amp; (
-          &lt;div id="wrapper" className="troubleshootHeaderDefault">
-            {wtfHeader}
-          &lt;/div>
-        )}
-        &lt;div id="wrapper" className="troubleshootPanelDefault">
-          {wtfPanel}
-        &lt;/div>
+      &lt;div id="component" className="troubleshootPanelOpenDefault">
+        {/*{feedPanel}*/}
+        &lt;Divider hidden fitted clearing/>
+        &lt;Grid textAlign="center" verticalAlign="middle" inverted>
+          &lt;Grid.Column width={6} className="rootLayout">
+            &lt;Segment className="wtf" inverted>
+              &lt;div>Circle: {this.state.circleName}&lt;/div>
+              &lt;div>Owner: {this.state.circleOwner}&lt;/div>
+              &lt;div>{this.state.formattedWTFTimer}&lt;/div>
+              &lt;Button
+                onClick={this.onClickStopTroubleshooting}
+                size="big"
+                color="purple"
+                animated="fade"
+                attached="bottom"
+              >
+                &lt;Button.Content visible>Solved!&lt;/Button.Content>
+                &lt;Button.Content hidden>YAY!&lt;/Button.Content>
+              &lt;/Button>
+            &lt;/Segment>
+          &lt;/Grid.Column>
+          &lt;Grid.Column width={6} className="rootLayout">
+            &lt;Segment inverted/>
+          &lt;/Grid.Column>
+        &lt;/Grid>
       &lt;/div>
     );
   }

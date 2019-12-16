@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>src/components/troubleshoot/TroubleshootLayout.js - Documentation</title>
+    <title>src/controllers/ActiveViewControllerFactory.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">src/components/troubleshoot/TroubleshootLayout.js</h1>
+    <h1 class="page-title">src/controllers/ActiveViewControllerFactory.js</h1>
     
 
     
@@ -39,101 +39,87 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import React, {Component} from "react";
-import TroubleshootHeader from "./TroubleshootHeader";
-import TroubleshootOpen from "./TroubleshootOpen";
-import {ActiveCircleModel} from "../../models/ActiveCircleModel";
-import TroubleshootStart from "./TroubleshootStart";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+            <pre class="prettyprint source linenums"><code>import {SidePanelViewController} from "./SidePanelViewController";
+import {MainPanelViewController} from "./MainPanelViewController";
+import {ConsoleViewController} from "./ConsoleViewController";
+import {TroubleshootController} from "./TroubleshootController";
 
 /**
- * this component is the tab panel wrapper for the console content
+ * generates view controllers for components
  * @author ZoeDreams
  */
-export default class TroubleshootLayout extends Component {
-  constructor(props) {
-    super(props);
-    this.name = "[TroubleshootLayout]";
-
-    // TODO move this into the controller class
-
-    this.state = {
-      isAlarmTriggered: false
-    };
-    this.myController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
-      this
-    );
-    this.myController.wireTogetherModels(this);
-  }
-
-  componentDidMount() {
-
-    // TODO this should be moved over into the controller
-
-    this.myController.activeCircleModel.registerListener(
-      "troubleshootLayout",
-      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
-      this.onActiveCircleUpdateCb
-    );
-
-    this.onActiveCircleUpdateCb();
-  }
-
-  componentWillUnmount() {
-    this.myController.unregisterListeners();
-  }
-
-  onActiveCircleUpdateCb = () => {
-    console.log(this.name + " - onActiveCircleUpdateCb");
-    this.setState({
-      isAlarmTriggered: this.myController.activeCircleModel.getActiveScope().isAlarmTriggered
-    });
-  };
+export class ActiveViewControllerFactory {
 
   /**
-   * renders the journal layout of the console view
-   * @returns {*} - the JSX to render
+   * an array of views store as a cluttered object list in memory
+   * @type {{}}
    */
-  render() {
-    let wtfPanel = null,
-      wtfHeader = null;
-    if (this.state.isAlarmTriggered) {
-      wtfHeader = (
-        &lt;TroubleshootHeader
-          member={this.myController.teamModel.getActiveTeamMemberShortName()}
-        />
-      );
+  static viewsByName = {};
+
+  /**
+   * the views of the gui that have controllers
+   * @returns {{TROUBLE_PANEL: string, MAIN_PANEL: string, CONSOLE_PANEL: string, SIDE_PANEL: string}}
+   * @constructor
+   */
+  static get Views() {
+    return {
+      TROUBLE_PANEL: "trouble-panel",
+      SIDE_PANEL: "side-panel",
+      MAIN_PANEL: "main-panel",
+      CONSOLE_PANEL: "console-panel"
+    };
+  }
+
+  /**
+   * helper function to create a new view controller
+   * @param name - the name of the controller to load
+   * @param scope - the given scope
+   * @returns {*} - the controller instance
+   */
+  static createViewController(name, scope) {
+    return ActiveViewControllerFactory.findOrCreateViewController(name, scope);
+  }
+
+  /**
+   * looks up the controller in a static array of this class
+   * @param name
+   * @param scope
+   * @returns {*}
+   */
+  static findOrCreateViewController(name, scope) {
+    let storeFound = null;
+    if (ActiveViewControllerFactory.viewsByName[name] != null) {
+      storeFound = ActiveViewControllerFactory.viewsByName[name];
     }
-
-    // TODO move these handlers into there own controller class
-
-    if (!this.state.isAlarmTriggered) {
-      wtfPanel = (
-        &lt;TroubleshootStart
-          onStartTroubleshooting={this.myController.onStartTroubleshooting}
-        />
+    else {
+      storeFound = ActiveViewControllerFactory.initializeNewViewController(
+        name,
+        scope
       );
-    } else {
-      wtfPanel = (
-        &lt;TroubleshootOpen
-          onStopTroubleshooting={this.myController.onStopTroubleshooting}
-        />
-      );
+      ActiveViewControllerFactory.viewsByName[name] = storeFound;
     }
+    return storeFound;
+  }
 
-    return (
-      &lt;div id="component" className="troubleshootLayout">
-        {this.state.isAlarmTriggered &amp;&amp; (
-          &lt;div id="wrapper" className="troubleshootHeaderDefault">
-            {wtfHeader}
-          &lt;/div>
-        )}
-        &lt;div id="wrapper" className="troubleshootPanelDefault">
-          {wtfPanel}
-        &lt;/div>
-      &lt;/div>
-    );
+  /**
+   * creates a new initialized controller with the given scope
+   * @param name - the name of the controller
+   * @param scope - the given scope to create in
+   * @returns {ConsoleViewController|TroubleshootController|MainPanelViewController|null|SidePanelViewController}
+   */
+  static initializeNewViewController(name, scope) {
+    switch (name) {
+      case ActiveViewControllerFactory.Views.TROUBLE_PANEL:
+        return new TroubleshootController(scope);
+      case ActiveViewControllerFactory.Views.SIDE_PANEL:
+        return new SidePanelViewController(scope);
+      case ActiveViewControllerFactory.Views.MAIN_PANEL:
+        return new MainPanelViewController(scope);
+      case ActiveViewControllerFactory.Views.CONSOLE_PANEL:
+        return new ConsoleViewController(scope);
+      default:
+        return null;
+    }
   }
 }
 </code></pre>
