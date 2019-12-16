@@ -1,5 +1,5 @@
 const GLOBAL_ = global,
-  { app } = require("electron"),
+  {app} = require("electron"),
   fs = require("fs"),
   path = require("path"),
   log = require("electron-log"),
@@ -12,9 +12,9 @@ const GLOBAL_ = global,
   Util = require("../Util"),
   TalkManager = require("../managers/TalkManager"),
   WindowManager = require("../managers/WindowManager"),
-  { EventManager } = require("../managers/EventManager"),
+  {EventManager} = require("../managers/EventManager"),
   EventFactory = require("../managers/EventFactory"),
-  { ShortcutManager } = require("../managers/ShortcutManager"),
+  {ShortcutManager} = require("../managers/ShortcutManager"),
   SlackManager = require("../managers/SlackManager"),
   AppUpdater = require("./AppUpdater"),
   AppSettings = require("./AppSettings"),
@@ -49,17 +49,21 @@ module.exports = class App {
       //TODO need to implement a CLIManager that works with yarv
 
       this.quit();
-    } else {
+    }
+    else {
       if (isDev) {
         this.start();
-      } else if (Util.checkIfCalledFromCLI(process.argv)) {
+      }
+      else if (Util.checkIfCalledFromCLI(process.argv)) {
         if (rootPath.startsWith("/Applications")) {
           log.error("Please pass 'Torchie' a command or argument.");
           process.exit(0);
-        } else {
+        }
+        else {
           this.start();
         }
-      } else {
+      }
+      else {
         this.start();
       }
     }
@@ -93,21 +97,23 @@ module.exports = class App {
       GLOBAL_.App.AppHeartbeat = new AppHeartbeat();
       GLOBAL_.App.createQuitListener();
       GLOBAL_.App.load();
-    } catch (error) {
+    }
+    catch (error) {
       App.handleError(error, true);
-    } finally {
+    }
+    finally {
       if (isDev) {
         const {
           default: installExtension,
           REACT_DEVELOPER_TOOLS
         } = require("electron-devtools-installer");
         installExtension(REACT_DEVELOPER_TOOLS)
-          .then(name => {
-            log.info("[App] ready -> dev tools : " + name);
-          })
-          .catch(err => {
-            AppError.handleError(err, false);
-          });
+        .then(name => {
+          log.info("[App] ready -> dev tools : " + name);
+        })
+        .catch(err => {
+          AppError.handleError(err, false);
+        });
       }
     }
   }
@@ -118,9 +124,9 @@ module.exports = class App {
   onSingleInstance(commandLine, workingDirectory) {
     log.warn(
       "[App] second instance detected -> " +
-        workingDirectory +
-        " => " +
-        commandLine
+      workingDirectory +
+      " => " +
+      commandLine
     );
   }
 
@@ -206,9 +212,11 @@ module.exports = class App {
         log.info("[App] append .bash_profile -> " + torchiePath);
         fs.appendFileSync(filePath, cliPath);
       }
-    } else if (platform.isWin32) {
+    }
+    else if (platform.isWin32) {
       log.info("[App] detecting OS -> Windows...");
-    } else {
+    }
+    else {
       log.info("[App] detecting OS -> Linux...");
     }
   }
@@ -232,7 +240,8 @@ module.exports = class App {
     if (GLOBAL_.App.AppSettings.check()) {
       GLOBAL_.App.ApiKey = GLOBAL_.App.AppSettings.getApiKey();
       GLOBAL_.App.AppLoader.load();
-    } else {
+    }
+    else {
       GLOBAL_.App.AppActivator.start();
       GLOBAL_.App.AppLoader.createMenu();
     }

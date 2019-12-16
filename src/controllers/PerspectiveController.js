@@ -1,5 +1,5 @@
 import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveViewControllerFactory } from ".//ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
 
 /**
  * This class is used to coordinate views across all the perspective change events
@@ -31,6 +31,11 @@ export class PerspectiveController {
 
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
+      this
+    );
+
+    this.troublePanelController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
       this
     );
 

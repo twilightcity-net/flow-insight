@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import TroubleshootHeader from "./TroubleshootHeader";
-import TroubleshootSessionOpen from "./TroubleshootSessionOpen";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { ActiveCircleModel } from "../../models/ActiveCircleModel";
+import TroubleshootOpen from "./TroubleshootOpen";
+import {ActiveCircleModel} from "../../models/ActiveCircleModel";
 import TroubleshootStart from "./TroubleshootStart";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -19,17 +19,18 @@ export default class TroubleshootLayout extends Component {
     this.state = {
       isAlarmTriggered: false
     };
-    this.activeCircleModel = DataModelFactory.createModel(
-      DataModelFactory.Models.ACTIVE_CIRCLE,
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
       this
     );
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS
-    );
+    this.myController.wireTogetherModels(this);
   }
 
   componentDidMount() {
-    this.activeCircleModel.registerListener(
+
+    // TODO this should be moved over into the controller
+
+    this.myController.activeCircleModel.registerListener(
       "troubleshootLayout",
       ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
       this.onActiveCircleUpdateCb
@@ -39,30 +40,14 @@ export default class TroubleshootLayout extends Component {
   }
 
   componentWillUnmount() {
-    this.activeCircleModel.unregisterAllListeners("troubleshootLayout");
+    this.myController.unregisterListeners();
   }
-
-  // TODO move the model and stuff to there own controller
 
   onActiveCircleUpdateCb = () => {
     console.log(this.name + " - onActiveCircleUpdateCb");
     this.setState({
-      isAlarmTriggered: this.activeCircleModel.getActiveScope().isAlarmTriggered
+      isAlarmTriggered: this.myController.activeCircleModel.getActiveScope().isAlarmTriggered
     });
-  };
-
-  // TODO move these functions to controller
-
-  onStartTroubleshooting = () => {
-    console.log(this.name + "onStartTroubleshooting");
-
-    this.activeCircleModel.createCircle();
-  };
-
-  onStopTroubleshooting = () => {
-    console.log(this.name + "onStopTroubleshooting");
-
-    this.activeCircleModel.closeActiveCircle();
   };
 
   /**
@@ -75,7 +60,7 @@ export default class TroubleshootLayout extends Component {
     if (this.state.isAlarmTriggered) {
       wtfHeader = (
         <TroubleshootHeader
-          member={this.teamModel.getActiveTeamMemberShortName()}
+          member={this.myController.teamModel.getActiveTeamMemberShortName()}
         />
       );
     }
@@ -85,13 +70,13 @@ export default class TroubleshootLayout extends Component {
     if (!this.state.isAlarmTriggered) {
       wtfPanel = (
         <TroubleshootStart
-          onStartTroubleshooting={this.onStartTroubleshooting}
+          onStartTroubleshooting={this.myController.onStartTroubleshooting}
         />
       );
     } else {
       wtfPanel = (
-        <TroubleshootSessionOpen
-          onStopTroubleshooting={this.onStopTroubleshooting}
+        <TroubleshootOpen
+          onStopTroubleshooting={this.myController.onStopTroubleshooting}
         />
       );
     }

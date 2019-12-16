@@ -164,7 +164,7 @@ export class ActiveCircleModel extends DataModel {
 
     console.log(
       this.name +
-        " - Request - closeActiveCircle, Context: activeCircleId " +
+        " - Request - `closeActiveCircle`, Context: activeCircleId " +
         this.activeCircleId
     );
     if (this.activeCircleId == null) {

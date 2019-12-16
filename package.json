@@ -66,6 +66,7 @@
     "electron-updater": "^4.2.0",
     "formsy-react": "^1.1.5",
     "formsy-semantic-ui-react": "^0.3.3",
+    "honeycomb-beeline": "^1.8.6",
     "hypercore": "^6.25.2",
     "hyperdiscovery": "^8.0.0",
     "minami": "^1.2.3",
@@ -182,7 +183,10 @@
   },
   "build": {
     "appId": "io.dreamscale.torchie.desktop",
-    "files": ["build/**/*", "package.json"],
+    "files": [
+      "build/**/*",
+      "package.json"
+    ],
     "directories": {
       "buildResources": "resources"
     },
