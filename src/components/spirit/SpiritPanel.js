@@ -381,7 +381,9 @@ export default class SpiritPanel extends Component {
       </div>
     );
     const badgesContent = (
-      <div className="badgesContent" style={{ height: this.props.height - 64 }}>No Badges Earned :(</div>
+      <div className="badgesContent" style={{ height: this.props.height - 64 }}>
+        No Badges Earned :(
+      </div>
     );
     return (
       <div

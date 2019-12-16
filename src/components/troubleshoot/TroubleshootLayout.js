@@ -52,6 +52,7 @@ export default class TroubleshootLayout extends Component {
   };
 
   // TODO move these functions to controller
+
   onStartTroubleshooting = () => {
     console.log(this.name + "onStartTroubleshooting");
 

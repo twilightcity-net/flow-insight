@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Segment } from "semantic-ui-react";
 import { ActiveCircleModel } from "../../models/ActiveCircleModel";
 import { DataModelFactory } from "../../models/DataModelFactory";
+import { DimensionController } from "../../controllers/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -14,7 +15,7 @@ export default class TroubleshootStart extends Component {
    */
   constructor(props) {
     super(props);
-    this.name = "[TroubleshootSessionNew]";
+    this.name = "[TroubleshootStart]";
 
     this.state = {
       activeCircle: null,
@@ -85,6 +86,9 @@ export default class TroubleshootStart extends Component {
           className="wtf-panel-start"
           inverted
           padded={"very"}
+          style={{
+            height: DimensionController.getHeightFor(this)
+          }}
         >
           <div
             className="wtf-button-massive"

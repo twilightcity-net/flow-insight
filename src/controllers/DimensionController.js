@@ -2,6 +2,7 @@ import SpiritPanel from "../components/spirit/SpiritPanel";
 import JournalItems from "../components/journal/JournalItems";
 import FlowContent from "../components/flow/FlowContent";
 import ConsoleLayout from "../components/console/ConsoleLayout";
+import TroubleshootStart from "../components/troubleshoot/TroubleshootStart";
 
 /**
  * generic controller that handles calculations for dynamic fluid heights of
@@ -124,6 +125,16 @@ export class DimensionController {
     return heights.window - heights.border - heights.margin - heights.header;
   }
 
+  static getTroubleshootContentHeight() {
+    let heights = {
+      window: window.innerHeight,
+      border: 2,
+      margin: 18,
+      header: 22
+    };
+    return heights.window - heights.border - heights.margin - heights.header;
+  }
+
   static getDefaultConsoleSidebarPanelWidth() {
     return window.innerWidth;
   }
@@ -148,6 +159,8 @@ export class DimensionController {
       return DimensionController.getFlowPanelHeight();
     } else if (component.name === "[" + ConsoleLayout.name + "]") {
       return DimensionController.getConsoleLayoutHeight();
+    } else if (component.name === "[" + TroubleshootStart.name + "]") {
+      return DimensionController.getTroubleshootContentHeight();
     }
     return DimensionController.getDefaultConsoleSidebarPanelHeight();
   }
