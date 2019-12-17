@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { JournalModel } from "../../models/JournalModel";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import React, {Component} from "react";
+import {Button, Dropdown, Grid, Input, Segment} from "semantic-ui-react";
+import {DataModelFactory} from "../../models/DataModelFactory";
+import {JournalModel} from "../../models/JournalModel";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
 
-//
-// this component is the tab panel wrapper for the console content
-//
+/**
+ * this component is the tab panel wrapper for the console content
+ */
 export default class JournalEntry extends Component {
   constructor(props) {
     super(props);
@@ -37,15 +37,6 @@ export default class JournalEntry extends Component {
     );
   }
 
-  // resetOnConsoleOpen() {
-  //   if (!this.consoleController.consoleIsCollapsed) {
-  //     console.log(this.name + " - resetOnConsoleOpen");
-  //     setTimeout(() => {
-  //       this.resetFocus();
-  //     }, 200);
-  //   }
-  // }
-
   resetFocus() {
     document.getElementById("intentionTextInput").focus();
   }
@@ -59,10 +50,6 @@ export default class JournalEntry extends Component {
       this.onJournalRecentTasksUpdateCb
     );
 
-    // this.consoleController.configureJournalEntryListener(
-    //   this,
-    //   this.resetOnConsoleOpen
-    // );
     this.resetFocus();
 
     this.onJournalRecentTasksUpdateCb();
@@ -133,7 +120,7 @@ export default class JournalEntry extends Component {
 
   getCurrentTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
     if (!currentProject || !recentTasksByProjectId) {
-      return { tasks: [], currentTaskValue: null };
+      return {tasks: [], currentTaskValue: null};
     }
 
     let currentTasks = recentTasksByProjectId[currentProject];
@@ -160,7 +147,7 @@ export default class JournalEntry extends Component {
   };
 
   /// called when a new task is added from dropdown
-  handleAdditionForTask = (e, { value }) => {
+  handleAdditionForTask = (e, {value}) => {
     console.log(this.name + " - handleAdditionForTask:" + value);
 
     //setup temporary addition to the menu
@@ -180,7 +167,7 @@ export default class JournalEntry extends Component {
     if (!searchIsFound) {
       newTasks = [
         ...this.state.tasks,
-        { text: "Searching...", value: "search" }
+        {text: "Searching...", value: "search"}
       ];
     }
 
@@ -192,7 +179,7 @@ export default class JournalEntry extends Component {
   };
 
   /// called when a project is selected in dropdown
-  handleChangeForProject = (e, { value }) => {
+  handleChangeForProject = (e, {value}) => {
     console.log(this.name + " - handleChangeForProject: " + value);
 
     let currentProject = value;
@@ -223,7 +210,7 @@ export default class JournalEntry extends Component {
   };
 
   /// called when a task is selected in the dropdown
-  handleChangeForTask = (e, { value }) => {
+  handleChangeForTask = (e, {value}) => {
     //console.log("handleChangeForTask");
     this.setState({
       currentTaskValue: value
@@ -254,12 +241,12 @@ export default class JournalEntry extends Component {
         this.state.currentIntentionValue
       );
 
-      this.setState({ currentIntentionValue: "" });
+      this.setState({currentIntentionValue: ""});
     }
   };
 
-  handleChangeForIntention = (e, { name, value }) => {
-    this.setState({ currentIntentionValue: value });
+  handleChangeForIntention = (e, {name, value}) => {
+    this.setState({currentIntentionValue: value});
   };
 
   /// highlight field border when element is focused on

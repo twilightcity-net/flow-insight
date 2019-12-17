@@ -71,12 +71,14 @@ export default class TroubleshootLayout extends Component {
       wtfPanel = (
         <TroubleshootStart
           onStartTroubleshooting={this.myController.onStartTroubleshooting}
+          controller={this.myController}
         />
       );
     } else {
       wtfPanel = (
         <TroubleshootOpen
           onStopTroubleshooting={this.myController.onStopTroubleshooting}
+          controller={this.myController}
         />
       );
     }

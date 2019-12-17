@@ -16,6 +16,8 @@ export default class TroubleshootStart extends Component {
   constructor(props) {
     super(props);
     this.name = "[TroubleshootStart]";
+    console.log(props);
+    this.myController = props.controller;
 
     this.state = {
       activeCircle: null,
@@ -66,15 +68,6 @@ export default class TroubleshootStart extends Component {
   };
 
   /**
-   * click handler for the wtf button. starts a session through a prop ref
-   */
-  onClickStartTroubleshooting = () => {
-    console.log("start troubleshooting");
-
-    this.props.onStartTroubleshooting();
-  };
-
-  /**
    * renders the default troubleshoot component in the console view
    * @returns {*}
    */
@@ -92,7 +85,7 @@ export default class TroubleshootStart extends Component {
         >
           <div
             className="wtf-button-massive"
-            onClick={this.onClickStartTroubleshooting}
+            onClick={this.myController.onStartTroubleshooting}
           >
             WTF?
           </div>

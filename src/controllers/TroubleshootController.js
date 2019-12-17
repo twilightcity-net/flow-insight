@@ -1,6 +1,5 @@
 import { ActiveViewController } from "./ActiveViewController";
 import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveCircleModel } from "../models/ActiveCircleModel";
 
 export class TroubleshootController extends ActiveViewController {
   constructor(scope) {
