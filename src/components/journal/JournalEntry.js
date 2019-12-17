@@ -267,7 +267,7 @@ export default class JournalEntry extends Component {
 
   /// highlight field border when element is focused on
   handleFocusForIntention = e => {
-    console.log(this.name + " - handleFocusForIntention");
+    console.log(this.name + " - handleFocusForInput");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
     document.getElementById("createIntentionInput").classList.add("focused");

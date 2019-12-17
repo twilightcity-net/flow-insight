@@ -4,6 +4,7 @@ import TroubleshootOpen from "./TroubleshootOpen";
 import { ActiveCircleModel } from "../../models/ActiveCircleModel";
 import TroubleshootStart from "./TroubleshootStart";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import BrowserHeader from "../browser/BrowserHeader";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -55,15 +56,7 @@ export default class TroubleshootLayout extends Component {
    * @returns {*} - the JSX to render
    */
   render() {
-    let wtfPanel = null,
-      wtfHeader = null;
-    if (this.state.isAlarmTriggered) {
-      wtfHeader = (
-        <TroubleshootHeader
-          member={this.myController.teamModel.getActiveTeamMemberShortName()}
-        />
-      );
-    }
+    let wtfPanel;
 
     // TODO move these handlers into there own controller class
 
@@ -86,8 +79,10 @@ export default class TroubleshootLayout extends Component {
     return (
       <div id="component" className="troubleshootLayout">
         {this.state.isAlarmTriggered && (
-          <div id="wrapper" className="troubleshootHeaderDefault">
-            {wtfHeader}
+          <div id="wrapper" className="browserHeader">
+            <BrowserHeader
+              member={this.myController.teamModel.getActiveTeamMemberShortName()}
+            />
           </div>
         )}
         <div id="wrapper" className="troubleshootPanelDefault">

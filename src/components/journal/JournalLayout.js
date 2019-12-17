@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import JournalHeader from "./JournalHeader";
+import BrowserHeader from "../browser/BrowserHeader";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
 import { DataModelFactory } from "../../models/DataModelFactory";
 
-//
-// this component is the tab panel wrapper for the console content
-//
+/**
+ * this component is the tab panel wrapper for the console content
+ */
 export default class JournalLayout extends Component {
   constructor(props) {
     super(props);
@@ -55,8 +55,8 @@ export default class JournalLayout extends Component {
   render() {
     return (
       <div id="component" className="journalLayout">
-        <div id="wrapper" className="journalHeader">
-          <JournalHeader
+        <div id="wrapper" className="browserHeader">
+          <BrowserHeader
             member={this.teamModel.getActiveTeamMemberShortName()}
           />
         </div>

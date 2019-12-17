@@ -363,6 +363,7 @@ export default class ConsoleLayout extends Component {
           <ConsoleSidebar />
         </div>
         {this.state.sidebarPanelVisible && sidebarPanel}
+
         <div
           id="wrapper"
           className="consoleContent"

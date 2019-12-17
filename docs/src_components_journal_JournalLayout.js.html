@@ -40,7 +40,7 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import JournalHeader from "./JournalHeader";
+import BrowserHeader from "./BrowserHeader";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
 import { DataModelFactory } from "../../models/DataModelFactory";
@@ -97,7 +97,7 @@ export default class JournalLayout extends Component {
     return (
       &lt;div id="component" className="journalLayout">
         &lt;div id="wrapper" className="journalHeader">
-          &lt;JournalHeader
+          &lt;BrowserHeader
             member={this.teamModel.getActiveTeamMemberShortName()}
           />
         &lt;/div>

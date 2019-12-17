@@ -4,7 +4,6 @@ import { DataModelFactory } from "../models/DataModelFactory";
 export class TroubleshootController extends ActiveViewController {
   constructor(scope) {
     super(scope);
-    console.log("###created new controller###");
   }
 
   wireTogetherModels(scope) {

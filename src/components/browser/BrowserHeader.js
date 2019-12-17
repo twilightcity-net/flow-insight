@@ -1,10 +1,10 @@
 import React, {Component} from "react";
-import {Segment, Breadcrumb, Input, Button, Icon} from "semantic-ui-react";
+import {Segment, Input, Button, Icon} from "semantic-ui-react";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
-export default class JournalItems extends Component {
+export default class BrowserHeader extends Component {
 
   /**
    * the constructor for the array of journal items to display
@@ -12,7 +12,7 @@ export default class JournalItems extends Component {
    */
   constructor(props) {
     super(props);
-    this.name = "[JournalHeader]";
+    this.name = "[BrowserHeader]";
     this.state = {
       disableControls: false
     };
@@ -22,9 +22,9 @@ export default class JournalItems extends Component {
    * highlight field border when element is focused on
    * @param e
    */
-  handleFocusForIntention = e => {
-    console.log(this.name + " - handleFocusForIntention");
-    document.getElementById("createIntentionInput").classList.add("focused");
+  handleFocusForInput = e => {
+    console.log(this.name + " - handleFocusForInput");
+    document.getElementById("browserInput").classList.add("focused");
     document.getElementById("browserGoInput").classList.add("focused");
   };
 
@@ -35,7 +35,7 @@ export default class JournalItems extends Component {
    */
   handleBlurForInput = e => {
     console.log(this.name + " - handleBlurForInput");
-    document.getElementById("createIntentionInput").classList.remove("focused");
+    document.getElementById("browserInput").classList.remove("focused");
     document.getElementById("browserGoInput").classList.remove("focused");
   };
 
@@ -45,23 +45,22 @@ export default class JournalItems extends Component {
    */
   render() {
     return (
-      <div id="component" className="journalHeader">
+      <div id="component" className="browserHeader">
         <Segment inverted>
           <div>
             <Input
               disabled={this.state.disableControls}
-              // disabled={true}
-              id="intentionTextInput"
-              className="intentionText"
+              id="browserInput"
+              className="browserText"
               fluid
               inverted
-              value={"talk://journal/" + this.props.member}
+              value={"//Journal/" + this.props.member}
               // value={this.state.currentIntentionValue}
-              onFocus={this.handleFocusForIntention}
+              onFocus={this.handleFocusForInput}
               onBlur={this.handleBlurForInput}
               // onKeyPress={this.handleKeyPressForIntention}
               // onChange={this.handleChangeForIntention}
-              placeholder={"talk://journal/" + this.props.member}
+              placeholder={"//Journal/" + this.props.member}
             >
               <Button animated='vertical'>
                 <Button.Content hidden>Back</Button.Content>
