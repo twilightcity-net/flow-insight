@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Breadcrumb, Segment} from "semantic-ui-react";
+import { Breadcrumb, Segment } from "semantic-ui-react";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -20,14 +20,14 @@ export default class TroubleshootHeader extends Component {
    */
   render() {
     const sections = [
-      { key: 'circle', content: 'Circle', link: true },
-      { key: 'wtf', content: "WTF", link: true },
-      { key: 'user', content: this.props.member, active: true }
-    ]
+      { key: "circle", content: "Circle", link: true },
+      { key: "wtf", content: "WTF", link: true },
+      { key: "user", content: this.props.member, active: true }
+    ];
     return (
       <div id="component" className="troubleshootHeader">
         <Segment inverted>
-          <Breadcrumb divider='/' sections={sections} />
+          <Breadcrumb divider="/" sections={sections} />
         </Segment>
       </div>
     );

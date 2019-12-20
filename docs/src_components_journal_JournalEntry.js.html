@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>src/models/AltMemberJournalExtension.js - Documentation</title>
+    <title>src/components/journal/JournalEntry.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">src/models/AltMemberJournalExtension.js</h1>
+    <h1 class="page-title">src/components/journal/JournalEntry.js</h1>
     
 
     
@@ -39,194 +39,432 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { DataModel } from "./DataModel";
-import moment from "moment";
-import { JournalModel } from "./JournalModel";
+            <pre class="prettyprint source linenums"><code>import React, {Component} from "react";
+import {Button, Dropdown, Grid, Input, Segment} from "semantic-ui-react";
+import {DataModelFactory} from "../../models/DataModelFactory";
+import {JournalModel} from "../../models/JournalModel";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
 
-const { remote } = window.require("electron"),
-  RecentJournalDto = remote.require("./dto/RecentJournalDto");
+/**
+ * this component is the tab panel wrapper for the console content
+ */
+export default class JournalEntry extends Component {
+  constructor(props) {
+    super(props);
 
-export class AltMemberJournalExtension extends DataModel {
-  constructor(scope) {
-    super(scope);
-    this.name = "[AltMemberJournalExtension]";
+    this.name = "[JournalEntry]";
+    this.state = {
+      projects: [],
+      tasks: [],
+      currentProjectValue: null,
+      currentTaskValue: null,
+      currentIntentionValue: "",
+      disableControls: false
+    };
 
-    this.allJournalItems = [];
-    this.allIntentions = [];
-    this.activeSize = 0;
-
-    this.activeJournalItem = null;
-    this.activeIndex = 0;
-    this.activeFlame = 0;
-
-    this.recentProjects = [];
-    this.recentTasksByProjectId = [];
-    this.recentEntry = null;
-
-    this.isInitialized = false;
-
-    this.altMemberId = null;
-  }
-
-  setMemberSelection(memberId) {
-    this.altMemberId = memberId;
-  }
-
-  /**
-   * Retrieves true if this member is already loaded
-   */
-  isMemberLoaded(memberId) {
-    return this.altMemberId != null &amp;&amp; this.altMemberId === memberId;
-  }
-
-  /**
-   * Loads the most recent Journal with X number of entries,
-   * which should ultimately be a configurable setting
-   * but hardcoded on the server for now
-   */
-
-  loadDefaultJournal = () => {
-    console.log(this.name + " - Request - loadDefaultJournal");
-
-    let remoteUrn = "/journal?member=" + this.altMemberId;
-    let loadRequestType = DataModel.RequestTypes.GET;
-
-    this.remoteFetch(
-      null,
-      remoteUrn,
-      loadRequestType,
-      RecentJournalDto,
-      (dtoResults, err) => {
-        setTimeout(() => {
-          this.onLoadDefaultJournalCb(dtoResults, err);
-        }, DataModel.activeWaitDelay);
-      }
-    );
-  };
-
-  /**
-   * Reset the active selected item to the last item in the journal
-   */
-  resetActiveToLastJournalItem = () => {
-    console.log(this.name + " - resetActiveToLastJournalItem");
-    if (this.allJournalItems.length > 0) {
-      let lastItem = this.allJournalItems[this.allJournalItems.length - 1];
-
-      this.activeJournalItem = lastItem;
-      this.activeIndex = lastItem.index;
-      this.activeFlame = lastItem.flameRating;
-    } else {
-      this.activeIndex = 0;
-      this.activeJournalItem = null;
-      this.recentEntry = null;
-    }
-
-    this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
-  };
-
-  /**
-   * Set the active selected item to a specific item in the journal
-   * @param journalItem
-   */
-  setActiveJournalItem = journalItem => {
-    console.log(this.name + " - setActiveJournalItem");
-    this.activeIndex = journalItem.index;
-    this.activeJournalItem = journalItem;
-    this.activeFlame = journalItem;
-
-    this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
-  };
-
-  //////////// REMOTE CALLBACK HANDLERS  ////////////
-
-  onLoadDefaultJournalCb = (defaultJournal, err) => {
-    console.log(this.name + " - onLoadDefaultJournalCb");
-    if (err) {
-      console.log("error:" + err);
-    } else {
-      this.initFromDefaultJournal(defaultJournal);
-    }
-
-    this.resetActiveToLastJournalItem();
-    this.isInitialized = true;
-
-    this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
-    this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
-  };
-
-  initFromDefaultJournal = defaultJournal => {
-    console.log(this.name + " - initFromDefaultJournal");
-
-    var journalItems = this.createJournalItems(defaultJournal.recentIntentions);
-    let recentIntentionKeys = this.extractRecentIntentionKeys(
-      defaultJournal.recentIntentions
+    this.journalModel = DataModelFactory.createModel(
+      DataModelFactory.Models.JOURNAL,
+      this
     );
 
-    let activeJournalItem = null;
-    let activeIndex = 0;
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS,
+      this
+    );
 
-    if (journalItems.length > 0) {
-      activeJournalItem = journalItems[journalItems.length - 1];
-      activeIndex = activeJournalItem.index;
-    }
+    this.consoleController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
+      this
+    );
+  }
 
-    this.allJournalItems = journalItems;
-    this.activeJournalItem = activeJournalItem;
-    this.activeIndex = activeIndex;
+  /**
+   * resets the focus of this component
+   */
+  resetFocus() {
+    document.getElementById("intentionTextInput").focus();
+  }
 
-    this.recentProjects = defaultJournal.recentProjects;
-    this.recentTasksByProjectId = defaultJournal.recentTasksByProjectId;
-    this.recentEntry = recentIntentionKeys;
-
-    this.allIntentions = defaultJournal.recentIntentions;
-    this.activeSize = defaultJournal.recentIntentions.length;
-
-    console.log(this.name + " - Loaded " + this.activeSize + " journal items!");
+  /**
+   * called when removing the component from the view
+   */
+  componentDidMount = () => {
+    this.journalModel.registerListener(
+      "journalEntry",
+      JournalModel.CallbackEvent.RECENT_TASKS_UPDATE,
+      this.onJournalRecentTasksUpdateCb
+    );
+    this.resetFocus();
+    this.onJournalRecentTasksUpdateCb();
   };
 
-  extractRecentIntentionKeys = allIntentions => {
-    let latestKeys = {};
+  /**
+   * called when the component mounts
+   */
+  componentWillUnmount = () => {
+    this.journalModel.unregisterAllListeners("journalEntry");
+    this.consoleController.configureJournalEntryListener(this, null);
+  };
 
-    if (allIntentions.length > 0) {
-      let latestIntention = allIntentions[allIntentions.length - 1];
+  /**
+   * handles the event when notified of a change to one or more recent tasks
+   */
+  onJournalRecentTasksUpdateCb = () => {
+    let projectList = this.getProjectList(
+      this.journalModel.getActiveScope().recentProjects
+    );
 
-      latestKeys = {
-        projectId: latestIntention.projectId,
-        taskId: latestIntention.taskId,
-        description: latestIntention.description
+    let currentProject = this.getCurrentProject(
+      this.journalModel.getActiveScope().recentProjects,
+      this.journalModel.getActiveScope().recentEntry
+    );
+    let currentTasks = this.getCurrentTasks(
+      currentProject,
+      this.journalModel.getActiveScope().recentTasksByProjectId,
+      this.journalModel.getActiveScope().recentEntry
+    );
+    let disableControls = false;
+    if (!this.teamModel.isMeActive()) {
+      disableControls = true;
+    }
+    this.setState({
+      projects: projectList,
+      currentProjectValue: currentProject,
+      tasks: currentTasks.tasks,
+      currentTaskValue: currentTasks.currentTaskValue,
+      disableControls: disableControls
+    });
+  };
+
+  /**
+   * gets the project list for the drop down in the gui
+   * @param recentProjects
+   * @returns {*}
+   */
+  getProjectList = recentProjects => {
+    var projects = [];
+    for (var i in recentProjects) {
+      projects[i] = {
+        text: recentProjects[i].name,
+        value: recentProjects[i].id
       };
     }
-    return latestKeys;
+
+    return projects;
   };
 
-  createJournalItems = allIntentions => {
-    let journalItems = [];
+  /**
+   * gets the current project in the journal
+   * @param recentProjects
+   * @param recentEntry
+   * @returns {null}
+   */
+  getCurrentProject = (recentProjects, recentEntry) => {
+    let currentProject = null;
 
-    for (var i in allIntentions) {
-      journalItems[i] = this.createJournalItem(i, allIntentions[i]);
+    if (recentEntry) {
+      currentProject = recentEntry.projectId;
     }
 
-    return journalItems;
+    return currentProject;
   };
 
-  createJournalItem = (index, intention) => {
-    let d = intention.position;
-    let dateObj = new Date(d[0], d[1] - 1, d[2], d[3], d[4], d[5]);
+  /**
+   * gets the current task in the journal
+   * @param currentProject
+   * @param recentTasksByProjectId
+   * @param recentEntry
+   * @returns {{currentTaskValue: null, tasks: {*}}}
+   */
+  getCurrentTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
+    if (!currentProject || !recentTasksByProjectId) {
+      return {tasks: [], currentTaskValue: null};
+    }
+
+    let currentTasks = recentTasksByProjectId[currentProject];
+
+    var tasksForProject = [];
+    for (var i in currentTasks) {
+      tasksForProject[i] = {
+        text: currentTasks[i].name,
+        value: currentTasks[i].id
+      };
+    }
+
+    let currentTask = null;
+    if (tasksForProject.length > 0) {
+      if (recentEntry &amp;&amp; recentEntry.projectId === currentProject) {
+        currentTask = recentEntry.taskId;
+      }
+    }
 
     return {
-      index: index,
-      id: intention.id,
-      flameRating: intention.flameRating,
-      projectName: intention.projectName,
-      taskName: intention.taskName,
-      taskSummary: intention.taskSummary,
-      description: intention.description,
-      finishStatus: intention.finishStatus,
-      linked: intention.linked ? Boolean(intention.linked) : false,
-      position: moment(dateObj).format("ddd, MMM Do 'YY, h:mm a"),
-      rawDate: dateObj
+      tasks: tasksForProject,
+      currentTaskValue: currentTask
     };
   };
+
+  /**
+   * called when a new task is added from dropdown
+   * @param e
+   * @param value
+   */
+  handleAdditionForTask = (e, {value}) => {
+    console.log(this.name + " - handleAdditionForTask:" + value);
+
+    //setup temporary addition to the menu
+
+    let newTasks = this.state.tasks;
+
+    let searchIsFound = false;
+
+    for (var i in this.state.tasks) {
+      let task = this.state.tasks[i];
+      if (task.value === "search") {
+        searchIsFound = true;
+        break;
+      }
+    }
+
+    if (!searchIsFound) {
+      newTasks = [
+        ...this.state.tasks,
+        {text: "Searching...", value: "search"}
+      ];
+    }
+
+    this.setState({
+      tasks: newTasks,
+      currentTaskValue: "search"
+    });
+    this.props.onAddTask(this.state.currentProjectValue, value);
+  };
+
+  /**
+   * called when a project is selected in dropdown
+   * @param e
+   * @param value
+   */
+  handleChangeForProject = (e, {value}) => {
+    console.log(this.name + " - handleChangeForProject: " + value);
+
+    let currentProject = value;
+
+    let currentTasks = this.getCurrentTasks(
+      currentProject,
+      this.journalModel.getActiveScope().recentTasksByProjectId,
+      this.journalModel.getActiveScope().recentEntry
+    );
+
+    this.setState({
+      currentProjectValue: value,
+      tasks: currentTasks.tasks,
+      currentTaskValue: currentTasks.currentTaskValue
+    });
+  };
+
+  /**
+   * called when a project is selected in dropdown
+   * @param e
+   */
+  handleKeyPressForProject = e => {
+    if (e.key === "Enter") {
+      console.log("ENTER!");
+    }
+  };
+
+  /**
+   * called when a project is selected in dropdown
+   * @param e
+   */
+  handleKeyPressForTask = e => {
+    //console.log("handleKeyPressForTask: ");
+  };
+
+  /**
+   *  called when a task is selected in the dropdown
+   * @param e
+   * @param value
+   */
+  handleChangeForTask = (e, {value}) => {
+    //console.log("handleChangeForTask");
+    this.setState({
+      currentTaskValue: value
+    });
+  };
+
+  /**
+   * called when the create task button is clicked on, it then shouold dispatch
+   * a new event that will update the rendered view
+   */
+  handleClickForCreate = () => {
+    this.saveJournalEntry();
+  };
+
+  /**
+   * works the same as the click for create handler.. see above ^
+   * @param e
+   */
+  handleKeyPressForIntention = e => {
+    if (e.charCode === 13) {
+      console.log(
+        this.name + " - Saving Intention! " + this.state.currentIntentionValue
+      );
+      this.saveJournalEntry();
+    }
+  };
+
+  /**
+   * saves the journal entry from the callback event
+   */
+  saveJournalEntry = () => {
+    if (this.state.currentIntentionValue.length >= 1) {
+      this.journalModel.addJournalEntry(
+        this.state.currentProjectValue,
+        this.state.currentTaskValue,
+        this.state.currentIntentionValue
+      );
+
+      this.setState({currentIntentionValue: ""});
+    }
+  };
+
+  /**
+   * handles the event that is notified on change of an entry in one of tbe inputs
+   * @param e
+   * @param name
+   * @param value
+   */
+  handleChangeForIntention = (e, {name, value}) => {
+    this.setState({currentIntentionValue: value});
+  };
+
+  /**
+   * highlight field border when element is focused on
+   * @param e
+   */
+  handleFocusForProject = e => {
+    console.log(this.name + " - handleFocusForProject");
+    document.getElementById("selectProjectInput").classList.add("focused");
+    document.getElementById("selectTaskInput").classList.remove("focused");
+    document.getElementById("createIntentionInput").classList.remove("focused");
+  };
+
+  /**
+   * highlight field border when element is focused on
+   * @param e
+   */
+  handleFocusForTask = e => {
+    console.log(this.name + " - handleFocusForTask");
+    document.getElementById("selectProjectInput").classList.remove("focused");
+    document.getElementById("selectTaskInput").classList.add("focused");
+    document.getElementById("createIntentionInput").classList.remove("focused");
+  };
+
+  /**
+   * highlight field border when element is focused on
+   * @param e
+   */
+  handleFocusForIntention = e => {
+    console.log(this.name + " - handleFocusForInput");
+    document.getElementById("selectProjectInput").classList.remove("focused");
+    document.getElementById("selectTaskInput").classList.remove("focused");
+    document.getElementById("createIntentionInput").classList.add("focused");
+  };
+
+  /**
+   * clear all of the highlights to the fields on any element blur.. called by all form element inputs
+   * @param e
+   */
+  handleBlurForInput = e => {
+    console.log(this.name + " - handleBlurForInput");
+    document.getElementById("selectProjectInput").classList.remove("focused");
+    document.getElementById("selectTaskInput").classList.remove("focused");
+    document.getElementById("createIntentionInput").classList.remove("focused");
+  };
+
+  /**
+   * renders the journal entry component of the console view
+   * @returns {*}
+   */
+  render() {
+    return (
+      &lt;div id="component" className="journalEntry">
+        &lt;Segment.Group>
+          &lt;Segment inverted>
+            &lt;Grid columns="equal" divided inverted>
+              &lt;Grid.Row stretched>
+                &lt;Grid.Column width={2} id="selectProjectInput">
+                  &lt;Dropdown
+                    disabled={this.state.disableControls}
+                    className="projectId"
+                    id="journalEntryProjectId"
+                    placeholder="Choose Project"
+                    selection
+                    search
+                    options={this.state.projects}
+                    fluid
+                    upward
+                    value={this.state.currentProjectValue}
+                    onFocus={this.handleFocusForProject}
+                    onBlur={this.handleBlurForInput}
+                    onChange={this.handleChangeForProject}
+                    onKeyPress={this.handleKeyPressForProject}
+                  />
+                &lt;/Grid.Column>
+                &lt;Grid.Column width={3} id="selectTaskInput">
+                  &lt;Dropdown
+                    disabled={this.state.disableControls}
+                    id="journalEntryTaskId"
+                    className="chunkId"
+                    options={this.state.tasks}
+                    placeholder="Choose Task"
+                    search
+                    selection
+                    fluid
+                    upward
+                    allowAdditions
+                    value={this.state.currentTaskValue}
+                    onFocus={this.handleFocusForTask}
+                    onBlur={this.handleBlurForInput}
+                    onAddItem={this.handleAdditionForTask}
+                    onKeyPress={this.handleKeyPressForTask}
+                    onChange={this.handleChangeForTask}
+                  />
+                &lt;/Grid.Column>
+                &lt;Grid.Column width={11} id="createIntentionInput">
+                  &lt;div>
+                    &lt;Input
+                      disabled={this.state.disableControls}
+                      id="intentionTextInput"
+                      className="intentionText"
+                      fluid
+                      inverted
+                      value={this.state.currentIntentionValue}
+                      onFocus={this.handleFocusForIntention}
+                      onBlur={this.handleBlurForInput}
+                      onKeyPress={this.handleKeyPressForIntention}
+                      onChange={this.handleChangeForIntention}
+                      action={
+                        &lt;Button
+                          className="createIntention"
+                          icon="share"
+                          labelPosition="right"
+                          content="Create"
+                          onClick={this.handleClickForCreate}
+                        />
+                      }
+                      placeholder="What's your next Intention?"
+                    />
+                  &lt;/div>
+                &lt;/Grid.Column>
+              &lt;/Grid.Row>
+            &lt;/Grid>
+          &lt;/Segment>
+        &lt;/Segment.Group>
+      &lt;/div>
+    );
+  }
 }
 </code></pre>
         </article>

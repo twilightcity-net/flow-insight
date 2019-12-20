@@ -13,7 +13,7 @@ module.exports = class TalkManager {
   constructor() {
     log.info("[TalkManager] created -> okay");
     this.events = {
-      rtConnected: EventFactory.createEvent(
+      talkConnected: EventFactory.createEvent(
         EventFactory.Types.WINDOW_TALK_CONNECTED,
         this
       )
@@ -26,14 +26,8 @@ module.exports = class TalkManager {
   createConnection() {
     let url =
       global.App.talkUrl +
-      "?connectionId=" +
-      global.App.connectionStatus.connectionId +
-      "&memberId=" +
-      global.App.connectionStatus.memberId +
-      "&teamId=" +
-      global.App.connectionStatus.teamId +
-      "&organizationId=" +
-      global.App.connectionStatus.organizationId;
+      "?key="+
+        global.App.connectionStatus.connectionId;
 
     log.info(chalk.green("[TalkManager]") + " trying to connect -> " + url);
     let socket = io(url);
@@ -42,7 +36,7 @@ module.exports = class TalkManager {
       log.info(
         chalk.green("[TalkManager]") + " SOCKET => connect : " + socket.id
       );
-      this.events.rtConnected.dispatch();
+      this.events.talkConnected.dispatch();
     });
     socket.on("connect_error", error => {
       log.error(
@@ -102,12 +96,13 @@ module.exports = class TalkManager {
         chalk.greenBright("[TalkManager]") + " Socket Ping [" + latency + "ms]"
       );
     });
-    socket.on("send_message", data => {
+    socket.on("send_message", (data, fn) => {
       log.info(
         chalk.green("[TalkManager]") +
-          " SOCKET => client sent message : " +
-          data
+        " SOCKET => client sent message : " +
+        data
       );
+      fn(data); // important
     });
   }
 };

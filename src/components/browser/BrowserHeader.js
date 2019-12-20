@@ -1,11 +1,10 @@
-import React, {Component} from "react";
-import {Segment, Input, Button, Icon} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Segment, Input, Button, Icon, Dropdown } from "semantic-ui-react";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class BrowserHeader extends Component {
-
   /**
    * the constructor for the array of journal items to display
    * @param props - the components properties
@@ -23,7 +22,6 @@ export default class BrowserHeader extends Component {
    * @param e
    */
   handleFocusForInput = e => {
-    console.log(this.name + " - handleFocusForInput");
     document.getElementById("browserInput").classList.add("focused");
     document.getElementById("browserGoInput").classList.add("focused");
   };
@@ -34,7 +32,6 @@ export default class BrowserHeader extends Component {
    * @param e
    */
   handleBlurForInput = e => {
-    console.log(this.name + " - handleBlurForInput");
     document.getElementById("browserInput").classList.remove("focused");
     document.getElementById("browserGoInput").classList.remove("focused");
   };
@@ -44,6 +41,11 @@ export default class BrowserHeader extends Component {
    * @returns {*} - the JSX to render for the journal header
    */
   render() {
+    const options = [
+      { key: "edit", icon: "edit", text: "Edit Post", value: "edit" },
+      { key: "delete", icon: "delete", text: "Remove Post", value: "delete" },
+      { key: "hide", icon: "hide", text: "Hide Post", value: "hide" }
+    ];
     return (
       <div id="component" className="browserHeader">
         <Segment inverted>
@@ -54,39 +56,40 @@ export default class BrowserHeader extends Component {
               className="browserText"
               fluid
               inverted
-              value={"//Journal/" + this.props.member}
+              value={"/Journal/" + this.props.member}
               // value={this.state.currentIntentionValue}
               onFocus={this.handleFocusForInput}
               onBlur={this.handleBlurForInput}
               // onKeyPress={this.handleKeyPressForIntention}
               // onChange={this.handleChangeForIntention}
-              placeholder={"//Journal/" + this.props.member}
+              placeholder={"/Journal/" + this.props.member}
             >
-              <Button animated='vertical'>
+              <Button animated="vertical">
                 <Button.Content hidden>Back</Button.Content>
                 <Button.Content visible>
-                  <Icon name='backward'/>
+                  <Icon name="backward" />
                 </Button.Content>
               </Button>
-              <Button animated='vertical'>
+              <Button animated="vertical">
                 <Button.Content hidden>Forward</Button.Content>
                 <Button.Content visible>
-                  <Icon name='forward'/>
+                  <Icon name="forward" />
                 </Button.Content>
               </Button>
-              <input/>
-              <Button animated='vertical' className={"browserGo"} id={"browserGoInput"}>
-                <Button.Content hidden>Go ></Button.Content>
-                <Button.Content visible>
-                  <Icon name='share'/>
-                </Button.Content>
-              </Button>
-              <Button animated='vertical'>
-                <Button.Content hidden>Share</Button.Content>
-                <Button.Content visible>
-                  <Icon name='external share'/>
-                </Button.Content>
-              </Button>
+              <input />
+              <Button.Group
+                color="violet"
+                className={"browserGo"}
+                id={"browserGoInput"}
+              >
+                <Button>Save</Button>
+                <Dropdown
+                  className="button icon"
+                  floating
+                  options={options}
+                  trigger={<React.Fragment />}
+                />
+              </Button.Group>
             </Input>
           </div>
         </Segment>
