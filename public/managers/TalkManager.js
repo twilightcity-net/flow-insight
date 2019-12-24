@@ -96,13 +96,13 @@ module.exports = class TalkManager {
         chalk.greenBright("[TalkManager]") + " Socket Ping [" + latency + "ms]"
       );
     });
-    socket.on("send_message", (data, fn) => {
+    socket.on("message", (data, fn) => {
       log.info(
         chalk.green("[TalkManager]") +
         " SOCKET => client sent message : " +
         data
       );
-      fn(data); // important
+      fn ? fn(data) : []; // important
     });
   }
 };
