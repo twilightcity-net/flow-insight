@@ -3,7 +3,7 @@ const chalk = require("chalk");
 const log = require("electron-log");
 
 function testTalk() {
-  let url = "http://localhost:5000/?clientId=1234567890";
+  let url = "http://localhost:5000/?connectionId=1234567890";
   // let url = "http://ds-talk.herokuapp.com/?key=1234567890";
 
   log.info(chalk.green("[TalkManager]") + " trying to connect -> " + url);
