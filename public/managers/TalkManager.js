@@ -88,21 +88,38 @@ module.exports = class TalkManager {
     socket.on("reconnect_failed", () => {
       log.info(chalk.green("[TalkManager]") + " SOCKET => reconnect_failed");
     });
-    socket.on("ping", () => {
-      // log.info("[TalkManager] SOCKET => PING");
-    });
+    // socket.on("ping", () => {
+    //   // log.info("[TalkManager] SOCKET => PING");
+    // });
     socket.on("pong", latency => {
       log.info(
         chalk.greenBright("[TalkManager]") + " Socket Ping [" + latency + "ms]"
       );
     });
-    socket.on("message", (data, fn) => {
+    socket.on("message-client", (data, fn) => {
       log.info(
-        chalk.green("[TalkManager]") +
-        " SOCKET => client sent message : " +
+        chalk.cyan("[TalkManager]") + " client message : " +
         data
       );
-      fn ? fn(data) : []; // important
+      fn(data);
+    });
+    socket.on("message-room", (data) => {
+      log.info(
+        chalk.cyan("[TalkManager]") + " room message : " +
+        data
+      );
+    });
+    socket.on("join-room", (roomId, fn) => {
+      log.info(
+        chalk.blue("[TalkManager]") + " joined room '" + roomId + "'"
+      );
+      fn(roomId)
+    });
+    socket.on("leave-room", (roomId, fn) => {
+      log.info(
+        chalk.blue("[TalkManager]") + " left room '" + roomId + "'"
+      );
+      fn(roomId)
     });
   }
 };

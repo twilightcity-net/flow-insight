@@ -87,6 +87,12 @@ function testTalk() {
     );
     fn(roomId)
   });
+  talkClient.on("leave-room", (roomId, fn) => {
+    log.info(
+      chalk.blue("[TalkManager]") + " left room '" + roomId + "'"
+    );
+    fn(roomId)
+  });
 }
 
 testTalk();
