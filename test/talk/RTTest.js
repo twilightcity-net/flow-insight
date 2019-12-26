@@ -3,8 +3,9 @@ const chalk = require("chalk");
 const log = require("electron-log");
 
 function testTalk() {
-  let url = "http://localhost:5000/?connectionId=1234567890";
-  // let url = "http://ds-talk.herokuapp.com/?key=1234567890";
+  let connectionId = "1234567890";
+  let url = "http://localhost:5000/?connectionId=" + connectionId;
+  // let url = "http://ds-talk.herokuapp.com/?connectionId=" + connectionId;
 
   log.info(chalk.green("[TalkManager]") + " trying to connect -> " + url);
   let talkClient = io(url);
@@ -69,16 +70,22 @@ function testTalk() {
   });
   talkClient.on("message-client", (data, fn) => {
     log.info(
-      chalk.green("[TalkManager]") + " client message : " +
+      chalk.cyan("[TalkManager]") + " client message : " +
       data
     );
     fn(data);
   });
   talkClient.on("message-room", (data) => {
     log.info(
-      chalk.green("[TalkManager]") + " room message : " +
+      chalk.cyan("[TalkManager]") + " room message : " +
       data
     );
+  });
+  talkClient.on("join-room", (roomId, fn) => {
+    log.info(
+      chalk.blue("[TalkManager]") + " joined room '" + roomId + "'"
+    );
+    fn(roomId)
   });
 }
 
