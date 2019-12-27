@@ -4,6 +4,12 @@ Electron desktop application which provides dev workflow & team collaborative tr
 ### Install from Source ###
 The following will descrive how to install 'torchie' from source code, and run using @DreamScale production api "https://torchie.dreamscale.io".  
 
+Requirements:
+- Node v11.15.x
+- Xcode-CLI (`xcode-select --install`)
+- Yarn v1.2.x
+- Git w/ CLI
+
 0) Install git version control system from here:
 
 https://git-scm.com/downloads

@@ -24,88 +24,65 @@ module.exports = class TalkManager {
    * creates the connection to talk
    */
   createConnection() {
-    let url =
-      global.App.talkUrl + "?key=" + global.App.connectionStatus.connectionId;
+    let connectionId = global.App.connectionStatus.connectionId,
+      paramName = "?connectionId=",
+      url = global.App.talkUrl + paramName + connectionId;
 
-    log.info(chalk.green("[TalkManager]") + " trying to connect -> " + url);
+    log.info(chalk.green("[TalkManager]") + " connecting to -> " + url);
     let socket = io(url);
 
     socket.on("connect", () => {
-      log.info(
-        chalk.green("[TalkManager]") + " SOCKET => connect : " + socket.id
-      );
+      log.info(chalk.green("[TalkManager]") + " connect : " + connectionId + " -> " + socket.id);
       this.events.talkConnected.dispatch();
     });
     socket.on("connect_error", error => {
-      log.error(
-        chalk.green("[TalkManager]") + " SOCKET => connection_error : " + error
-      );
+      log.error(chalk.green("[TalkManager]") + " connection error : " + error);
       if (error.message === "timeout") {
         AppError.handleError(error, false);
-      } else {
+      }
+      else {
         AppError.handleError(error, true);
       }
     });
-    socket.on("connect_timeout", timeout => {
-      log.info(
-        chalk.green("[TalkManager]") +
-          " SOCKET => connection_timeout : " +
-          timeout
-      );
+    socket.on("connect_timeout", (timeout) => {
+      log.info(chalk.green("[TalkManager]") + " timeout : " + timeout);
     });
-    socket.on("error", error => {
-      log.info(chalk.green("[TalkManager]") + " SOCKET => error : " + error);
+    socket.on("error", (error) => {
+      log.info(chalk.green("[TalkManager]") + " error : " + error);
     });
-    socket.on("disconnect", reason => {
-      log.info(chalk.green("[TalkManager]") + " SOCKET => reason : " + reason);
+    socket.on("disconnect", (reason) => {
+      log.info(chalk.green("[TalkManager]") + " reason : " + reason);
     });
-    socket.on("reconnect", attemptNumber => {
-      log.info(
-        chalk.green("[TalkManager]") + " SOCKET => reconnect : " + attemptNumber
-      );
+    socket.on("reconnect", (attemptNumber) => {
+      log.info(chalk.green("[TalkManager]") + " reconnect " + attemptNumber);
     });
-    socket.on("reconnect_attempt", attemptNumber => {
-      log.info(
-        chalk.green("[TalkManager]") +
-          " SOCKET => reconnect_attempt : " +
-          attemptNumber
-      );
+    socket.on("reconnect_attempt", (attemptNumber) => {
+      log.info(chalk.green("[TalkManager]") + " reconnection attempt " + attemptNumber);
     });
-    socket.on("reconnecting", attemptNumber => {
-      log.info(
-        chalk.green("[TalkManager]") +
-          " SOCKET => reconnecting : " +
-          attemptNumber
-      );
+    socket.on("reconnecting", (attemptNumber) => {
+      log.info(chalk.green("[TalkManager]") + " reconnecting " + attemptNumber);
     });
     socket.on("reconnect_error", error => {
-      log.info(
-        chalk.red("[TalkManager]") + " SOCKET => reconnect_error : " + error
-      );
+      log.info(chalk.red("[TalkManager]") + " reconnection error : " + error);
     });
-    socket.on("reconnect_failed", () => {
-      log.info(chalk.green("[TalkManager]") + " SOCKET => reconnect_failed");
+    socket.on("reconnect_failed", (reason) => {
+      log.info(chalk.green("[TalkManager]") + " reconnection failed : " + reason);
     });
-    // socket.on("ping", () => {
-    //   // log.info("[TalkManager] SOCKET => PING");
-    // });
     socket.on("pong", latency => {
-      log.info(
-        chalk.greenBright("[TalkManager]") + " Socket Ping [" + latency + "ms]"
-      );
+      log.info(chalk.greenBright("[TalkManager]") + " latency " + latency + "ms");
     });
-    socket.on("message-client", (data, fn) => {
+    socket.on("message_client", (data, fn) => {
       log.info(chalk.cyan("[TalkManager]") + " client message : " + data);
       fn(data);
     });
-    socket.on("message-room", data => {
+    socket.on("message_room", data => {
       log.info(chalk.cyan("[TalkManager]") + " room message : " + data);
     });
-    socket.on("join-room", (roomId, fn) => {
+    socket.on("join_room", (roomId, fn) => {
       log.info(chalk.blue("[TalkManager]") + " joined room '" + roomId + "'");
       fn(roomId);
     });
-    socket.on("leave-room", (roomId, fn) => {
+    socket.on("leave_room", (roomId, fn) => {
       log.info(chalk.blue("[TalkManager]") + " left room '" + roomId + "'");
       fn(roomId);
     });
