@@ -2,7 +2,10 @@
   "name": "torchie-desktop",
   "productName": "Torchie",
   "description": "Torchie desktop client w/ gridtime. Copyright ® 2020 - DreamsScale, Inc.",
-  "version": "0.3.2",
+  "version": "0.3.3",
+  "engines": {
+    "node": "11.15.0"
+  },
   "private": true,
   "author": {
     "name": "DreamScale, Inc.",

@@ -32,44 +32,55 @@ module.exports = class TalkManager {
     let socket = io(url);
 
     socket.on("connect", () => {
-      log.info(chalk.green("[TalkManager]") + " connect : " + connectionId + " -> " + socket.id);
+      log.info(
+        chalk.green("[TalkManager]") +
+          " connect : " +
+          connectionId +
+          " -> " +
+          socket.id
+      );
       this.events.talkConnected.dispatch();
     });
     socket.on("connect_error", error => {
       log.error(chalk.green("[TalkManager]") + " connection error : " + error);
       if (error.message === "timeout") {
         AppError.handleError(error, false);
-      }
-      else {
+      } else {
         AppError.handleError(error, true);
       }
     });
-    socket.on("connect_timeout", (timeout) => {
+    socket.on("connect_timeout", timeout => {
       log.info(chalk.green("[TalkManager]") + " timeout : " + timeout);
     });
-    socket.on("error", (error) => {
+    socket.on("error", error => {
       log.info(chalk.green("[TalkManager]") + " error : " + error);
     });
-    socket.on("disconnect", (reason) => {
+    socket.on("disconnect", reason => {
       log.info(chalk.green("[TalkManager]") + " reason : " + reason);
     });
-    socket.on("reconnect", (attemptNumber) => {
+    socket.on("reconnect", attemptNumber => {
       log.info(chalk.green("[TalkManager]") + " reconnect " + attemptNumber);
     });
-    socket.on("reconnect_attempt", (attemptNumber) => {
-      log.info(chalk.green("[TalkManager]") + " reconnection attempt " + attemptNumber);
+    socket.on("reconnect_attempt", attemptNumber => {
+      log.info(
+        chalk.green("[TalkManager]") + " reconnection attempt " + attemptNumber
+      );
     });
-    socket.on("reconnecting", (attemptNumber) => {
+    socket.on("reconnecting", attemptNumber => {
       log.info(chalk.green("[TalkManager]") + " reconnecting " + attemptNumber);
     });
     socket.on("reconnect_error", error => {
       log.info(chalk.red("[TalkManager]") + " reconnection error : " + error);
     });
-    socket.on("reconnect_failed", (reason) => {
-      log.info(chalk.green("[TalkManager]") + " reconnection failed : " + reason);
+    socket.on("reconnect_failed", reason => {
+      log.info(
+        chalk.green("[TalkManager]") + " reconnection failed : " + reason
+      );
     });
     socket.on("pong", latency => {
-      log.info(chalk.greenBright("[TalkManager]") + " latency " + latency + "ms");
+      log.info(
+        chalk.greenBright("[TalkManager]") + " latency " + latency + "ms"
+      );
     });
     socket.on("message_client", (data, fn) => {
       log.info(chalk.cyan("[TalkManager]") + " client message : " + data);
