@@ -2,6 +2,7 @@ const GLOBAL_ = global,
   { dialog } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
+  chalk = require("chalk"),
   cleanStack = require("clean-stack"),
   stackTrace = require("stack-trace");
 
@@ -16,7 +17,7 @@ module.exports = class AppError extends Error {
     this.stack = cleanStack(this.stack);
   }
 
-  static handleError(error, fatal) {
+  static handleError(error, fatal, graceful, stacetrace) {
     if (!(error instanceof AppError)) {
       if (error.stack === "undefined" || null || "") {
         error.stack = stackTrace.get();
@@ -25,14 +26,23 @@ module.exports = class AppError extends Error {
       }
     }
     if (GLOBAL_.App) {
-      log.error(
-        (fatal ? "[FATAL] " : "") +
-          "[App] " +
+      if(stacetrace) {
+        log.error(
+          chalk.red((fatal ? "[FATAL] " : "") +
+          "[App] ") +
           error.toString() +
           "\n\n" +
           error.stack +
           "\n"
-      );
+        );
+      } else {
+        log.error(
+          chalk.red((fatal ? "[FATAL] " : "") +
+          "[App] ") +
+          error.toString()
+        );
+      }
+
     } else {
       console.error(
         (fatal ? "[FATAL] " : "") +
@@ -45,7 +55,7 @@ module.exports = class AppError extends Error {
     if (fatal) {
       dialog.showErrorBox("Torchie", "[FATAL] " + error.toString());
       process.exit(1);
-    } else {
+    } else if(!graceful){
       dialog.showErrorBox("Torchie", error.toString());
     }
   }
