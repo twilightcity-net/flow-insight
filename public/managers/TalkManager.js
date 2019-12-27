@@ -25,9 +25,7 @@ module.exports = class TalkManager {
    */
   createConnection() {
     let url =
-      global.App.talkUrl +
-      "?key="+
-        global.App.connectionStatus.connectionId;
+      global.App.talkUrl + "?key=" + global.App.connectionStatus.connectionId;
 
     log.info(chalk.green("[TalkManager]") + " trying to connect -> " + url);
     let socket = io(url);
@@ -97,29 +95,19 @@ module.exports = class TalkManager {
       );
     });
     socket.on("message-client", (data, fn) => {
-      log.info(
-        chalk.cyan("[TalkManager]") + " client message : " +
-        data
-      );
+      log.info(chalk.cyan("[TalkManager]") + " client message : " + data);
       fn(data);
     });
-    socket.on("message-room", (data) => {
-      log.info(
-        chalk.cyan("[TalkManager]") + " room message : " +
-        data
-      );
+    socket.on("message-room", data => {
+      log.info(chalk.cyan("[TalkManager]") + " room message : " + data);
     });
     socket.on("join-room", (roomId, fn) => {
-      log.info(
-        chalk.blue("[TalkManager]") + " joined room '" + roomId + "'"
-      );
-      fn(roomId)
+      log.info(chalk.blue("[TalkManager]") + " joined room '" + roomId + "'");
+      fn(roomId);
     });
     socket.on("leave-room", (roomId, fn) => {
-      log.info(
-        chalk.blue("[TalkManager]") + " left room '" + roomId + "'"
-      );
-      fn(roomId)
+      log.info(chalk.blue("[TalkManager]") + " left room '" + roomId + "'");
+      fn(roomId);
     });
   }
 };

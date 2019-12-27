@@ -23,8 +23,8 @@ function testTalk() {
   talkClient.on("connect_timeout", timeout => {
     log.info(
       chalk.green("[TalkManager]") +
-      " SOCKET => connection_timeout : " +
-      timeout
+        " SOCKET => connection_timeout : " +
+        timeout
     );
   });
   talkClient.on("error", error => {
@@ -41,15 +41,15 @@ function testTalk() {
   talkClient.on("reconnect_attempt", attemptNumber => {
     log.info(
       chalk.green("[TalkManager]") +
-      " SOCKET => reconnect_attempt : " +
-      attemptNumber
+        " SOCKET => reconnect_attempt : " +
+        attemptNumber
     );
   });
   talkClient.on("reconnecting", attemptNumber => {
     log.info(
       chalk.green("[TalkManager]") +
-      " SOCKET => reconnecting : " +
-      attemptNumber
+        " SOCKET => reconnecting : " +
+        attemptNumber
     );
   });
   talkClient.on("reconnect_error", error => {
@@ -69,29 +69,19 @@ function testTalk() {
     );
   });
   talkClient.on("message-client", (data, fn) => {
-    log.info(
-      chalk.cyan("[TalkManager]") + " client message : " +
-      data
-    );
+    log.info(chalk.cyan("[TalkManager]") + " client message : " + data);
     fn(data);
   });
-  talkClient.on("message-room", (data) => {
-    log.info(
-      chalk.cyan("[TalkManager]") + " room message : " +
-      data
-    );
+  talkClient.on("message-room", data => {
+    log.info(chalk.cyan("[TalkManager]") + " room message : " + data);
   });
   talkClient.on("join-room", (roomId, fn) => {
-    log.info(
-      chalk.blue("[TalkManager]") + " joined room '" + roomId + "'"
-    );
-    fn(roomId)
+    log.info(chalk.blue("[TalkManager]") + " joined room '" + roomId + "'");
+    fn(roomId);
   });
   talkClient.on("leave-room", (roomId, fn) => {
-    log.info(
-      chalk.blue("[TalkManager]") + " left room '" + roomId + "'"
-    );
-    fn(roomId)
+    log.info(chalk.blue("[TalkManager]") + " left room '" + roomId + "'");
+    fn(roomId);
   });
 }
 

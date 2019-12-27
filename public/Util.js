@@ -162,7 +162,7 @@ module.exports = class Util {
     if (isDev) {
       process.argv.forEach(function(val, index, array) {
         if (val.toLowerCase().startsWith("talk=")) {
-          return val.toLowerCase().substring(5);
+          url =  val.toLowerCase().substring(5);
         }
       });
     }
