@@ -29,7 +29,7 @@ module.exports = class TalkManager {
       paramName = "?connectionId=",
       url = global.App.talkUrl + paramName + connectionId;
 
-    log.info(chalk.green(this.name) + " connecting to -> " + url);
+    log.info(chalk.greenBright(this.name) + " connecting to -> " + url);
     let socket = io(url);
 
     this.createListeners(socket, connectionId);
@@ -37,53 +37,53 @@ module.exports = class TalkManager {
 
   createListeners(socket, connectionId) {
     socket.on(TalkManager.EventTypes.CONNECT, () => {
-      log.info(chalk.green(this.name) + " connect : " + connectionId + " -> " + socket.id);
+      log.info(chalk.greenBright(this.name) + " connect : " + connectionId + " -> " + socket.id);
       this.events.talkConnected.dispatch();
     });
     socket.on(TalkManager.EventTypes.CONNECT_ERROR, (error) => {
       AppError.handleError(error, false, true);
     });
     socket.on(TalkManager.EventTypes.DISCONNECT, (reason) => {
-      log.info(chalk.green(this.name) + " disconnected : " + reason);
+      log.info(chalk.greenBright(this.name) + " disconnected : " + reason);
     });
     socket.on(TalkManager.EventTypes.CONNECT_TIMEOUT, (timeout) => {
-      log.info(chalk.green(this.name) + " timeout : " + timeout);
+      log.info(chalk.greenBright(this.name) + " timeout : " + timeout);
     });
     socket.on(TalkManager.EventTypes.ERROR, (error) => {
-      log.info(chalk.green(this.name) + " error : " + error);
+      log.info(chalk.redBright(this.name) + " error : " + error);
     });
     socket.on(TalkManager.EventTypes.RECONNECT_ATTEMPT, (attempt) => {
       log.info(
-        chalk.green(this.name) + " attempt {" + attempt + "} to reconnecting..."
+        chalk.greenBright(this.name) + " attempt {" + attempt + "} to reconnecting..."
       );
     });
     socket.on(TalkManager.EventTypes.RECONNECT, (attempt) => {
-      log.info(chalk.green(this.name) + " reconnected {" + attempt + "} times : " + connectionId);
+      log.info(chalk.greenBright(this.name) + " reconnected {" + attempt + "} times : " + connectionId);
     });
     socket.on(TalkManager.EventTypes.RECONNECT_ERROR, (error) => {
-      log.info(chalk.red(this.name) + " reconnection error : " + error);
+      log.info(chalk.redBright(this.name) + " reconnection error : " + error);
     });
     socket.on(TalkManager.EventTypes.RECONNECT_FAILED, (reason) => {
       log.info(
-        chalk.green(this.name) + " reconnection failed : " + reason
+        chalk.redBright(this.name) + " reconnection failed : " + reason
       );
     });
     socket.on(TalkManager.EventTypes.PONG, (latency) => {
-      log.info(chalk.greenBright(this.name) + " latency " + latency + "ms");
+      log.info(chalk.green(this.name) + " latency " + latency + "ms");
     });
     socket.on(TalkManager.EventTypes.MESSAGE_CLIENT, (data, fn) => {
-      log.info(chalk.cyan(this.name) + " client message : " + data);
+      log.info(chalk.green(this.name) + " client message : " + data);
       fn(data);
     });
     socket.on(TalkManager.EventTypes.MESSAGE_ROOM, (data) => {
-      log.info(chalk.cyan(this.name) + " room message : " + data);
+      log.info(chalk.green(this.name) + " room message : " + data);
     });
     socket.on(TalkManager.EventTypes.JOIN_ROOM, (roomId, fn) => {
-      log.info(chalk.blue(this.name) + " joined room '" + roomId + "'");
+      log.info(chalk.greenBright(this.name) + " joined room '" + roomId + "'");
       fn(roomId);
     });
     socket.on(TalkManager.EventTypes.LEAVE_ROOM, (roomId, fn) => {
-      log.info(chalk.blue(this.name) + " left room '" + roomId + "'");
+      log.info(chalk.greenBright(this.name) + " left room '" + roomId + "'");
       fn(roomId);
     });
   }
