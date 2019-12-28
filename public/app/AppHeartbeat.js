@@ -69,7 +69,7 @@ module.exports = class AppHeartbeat {
       req.end((err, res) => {
         this.pingTime = new Date().getTime() - this.previousDeltaTime;
         log.info(
-          chalk.magentaBright("[AppHeartbeat]") +
+          chalk.yellowBright("[AppHeartbeat]") +
             " ping [" +
             this.pingTime +
             "ms]"

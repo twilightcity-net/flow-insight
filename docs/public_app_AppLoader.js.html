@@ -95,7 +95,7 @@ module.exports = class AppLoader {
         this
       ),
       talkConnected: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_TALK_CONNECTED,
+        EventFactory.Types.TALK_CONNECTED,
         this,
         (event, arg) => this.onConnectedTalkCb()
       ),

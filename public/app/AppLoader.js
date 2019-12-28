@@ -4,7 +4,7 @@ const log = require("electron-log"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../managers/EventFactory"),
-  { ShortcutManager } = require("../managers/ShortcutManager"),
+  {ShortcutManager} = require("../managers/ShortcutManager"),
   AppError = require("./AppError"),
   AppMenu = require("./AppMenu"),
   AppTray = require("./AppTray"),
@@ -54,7 +54,7 @@ module.exports = class AppLoader {
         this
       ),
       talkConnected: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_TALK_CONNECTED,
+        EventFactory.Types.TALK_CONNECTED,
         this,
         (event, arg) => this.onConnectedTalkCb()
       ),
@@ -251,7 +251,8 @@ module.exports = class AppLoader {
   createMenu() {
     if (platform.isDarwin) {
       AppMenu.setApplicationMenu(new AppMenu());
-    } else {
+    }
+    else {
       AppMenu.setApplicationMenu(null);
     }
   }
@@ -270,7 +271,8 @@ module.exports = class AppLoader {
         global.App.isLoggedIn = true;
         global.App.connectionStatus = connectionStatus;
         this.events.login.dispatch();
-      } else {
+      }
+      else {
         log.info("[AppLoader] failed login -> dispatch status to login event");
         this.events.loginFailed.dispatch(store.data);
       }
@@ -284,7 +286,8 @@ module.exports = class AppLoader {
     log.info("[AppLoader] connect to talk server");
     try {
       global.App.TalkManager.createConnection();
-    } catch (error) {
+    }
+    catch (error) {
       AppError.handleError(error, true);
     }
   }
@@ -296,7 +299,8 @@ module.exports = class AppLoader {
     log.info("[AppLoader] create console window");
     try {
       WindowManagerHelper.createWindowConsole();
-    } catch (error) {
+    }
+    catch (error) {
       AppError.handleError(error, true);
     }
   }
@@ -309,7 +313,8 @@ module.exports = class AppLoader {
     try {
       global.App.Shortcuts = ShortcutManager.createGlobalShortcuts();
       this.events.shortcutsCreated.dispatch();
-    } catch (error) {
+    }
+    catch (error) {
       AppError.handleError(error, true);
     }
   }

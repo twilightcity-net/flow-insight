@@ -15,7 +15,7 @@ module.exports = class TalkManager {
     this.name = "[TalkManager]";
     this.events = {
       talkConnected: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_TALK_CONNECTED,
+        EventFactory.Types.TALK_CONNECTED,
         this
       )
     };

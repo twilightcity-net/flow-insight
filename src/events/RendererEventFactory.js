@@ -24,7 +24,7 @@ export class RendererEventFactory {
    * @constructor
    */
   static get Events() {
-    let prefix = "torchie-ipc-";
+    let prefix = "ipc-";
     return {
       APP_QUIT: prefix + "app-quit",
       APP_HEARTBEAT: prefix + "app-heartbeat",
