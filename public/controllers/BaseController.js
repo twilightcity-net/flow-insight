@@ -23,7 +23,7 @@ module.exports = class BaseController {
   }
 
   /// for override
-  static configureEventsFor(clazz) {
+  static configEvents(clazz) {
     log.info(
       "[" + BaseController.name + "] configure events for -> " + clazz.name
     );

@@ -52,7 +52,7 @@ module.exports = class TalkController extends BaseController {
    * configures application wide events here
    */
   configureEvents() {
-    BaseController.configureEventsFor(TalkController.instance);
+    BaseController.configEvents(TalkController.instance);
     this.appHeartbeatListener = EventFactory.createEvent(
       EventFactory.Types.APP_HEARTBEAT,
       this,
@@ -143,6 +143,10 @@ module.exports = class TalkController extends BaseController {
   }
 
   onAppHeartbeat() {
-    console.log("$$$$$$$$$$");
+    let socket = global.App.TalkManager.socket;
+    if(!socket.connected) {
+      log.info(chalk.yellowBright("[AppHeartbeat]") + " reconnecting to Talk...");
+      socket.open();
+    }
   }
 };

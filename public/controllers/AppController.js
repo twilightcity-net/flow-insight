@@ -25,7 +25,7 @@ module.exports = class AppController extends BaseController {
    * configures application wide events here
    */
   static configureEvents() {
-    BaseController.configureEventsFor(AppController.instance);
+    BaseController.configEvents(AppController.instance);
     process.on("uncaughtException", error => {
       AppError.handleError(error, true);
     });

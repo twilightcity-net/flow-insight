@@ -11,13 +11,13 @@ const log = require("electron-log"),
 module.exports = class TalkManager {
   constructor() {
     this.name = "[TalkManager]";
-    this.myController = new TalkController();
   }
 
   /**
    * creates the connection to talk
    */
   createConnection() {
+    this.myController = new TalkController();
     this.connectionId = global.App.connectionStatus.connectionId;
     this.connnectionUrl = this.getConnectionUrl();
     this.connectionOpts = {
@@ -43,11 +43,5 @@ module.exports = class TalkManager {
    */
   getConnectionUrl() {
     return global.App.talkUrl + "?connectionId=" + this.connectionId;
-  }
-
-  retryConnection() {
-    if (!this.socket.connected) {
-      this.socket.open();
-    }
   }
 };
