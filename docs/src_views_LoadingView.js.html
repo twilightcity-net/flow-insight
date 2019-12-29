@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>EventEchoException - Documentation</title>
+    <title>src/views/LoadingView.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,133 +29,284 @@
 
 <div id="main">
     
-    <h1 class="page-title">EventEchoException</h1>
+    <h1 class="page-title">src/views/LoadingView.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-        EventEchoException
-        </h2>
-        
-            <div class="class-description">Exception class to throw errors in echo events</div>
-        
-    
-</header>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import { RendererEventFactory } from "../events/RendererEventFactory";
+import {
+  Button,
+  Container,
+  Divider,
+  Header,
+  Icon,
+  Progress,
+  Segment,
+  Transition
+} from "semantic-ui-react";
 
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
+//
+// This view class is used to show application loading which consists of:
+//   1> checking for ner version to update
+//   2> downloading update if there is one, auto restart
+//   3> load database file into memory
+//   4> read user configuration
+//   5> authenticate user API-Key if online
+//
+export default class LoadingView extends Component {
+  constructor(props) {
+    super(props);
+    this.animationTime = 500;
+    this.header = {
+      title: "Loading Torchie",
+      text: "Checking for new version...",
+      icon: "hand spock"
+    };
+    this.progress = {
+      color: "violet",
+      value: 0,
+      total: 4,
+      label: "Populating cats and synthesizers"
+    };
+    this.state = {
+      visible: true,
+      header: this.header,
+      progress: this.progress,
+      progressVisible: true,
+      loginFailedVisible: false,
+      loginFailedMsg: "",
+      talkFailedVisible: false,
+      talkFailedMsg: ""
+    };
+    this.events = {
+      load: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.APPLOADER_LOAD,
+        this,
+        this.onLoadCb
+      ),
+      loginFailed: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_LOADING_LOGIN_FAILED,
+        this,
+        this.onLoginFailedCb
+      ),
+      talkFailed: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_CONNECT_FAILED,
+        this,
+        this.onTalkFailedCb
+      ),
+      quit: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.APP_QUIT,
+        this
+      )
+    };
+  }
 
-    
-    <h2>Constructor</h2>
-    
+  /**
+   * event listener that is notified when the app view is reloaded or loaded with a new state
+   * @param event
+   * @param arg
+   */
+  onLoadCb(event, arg) {
+    console.log("[LoadingView] event -> APPLOADER_LOAD : " + arg.load);
+    this.setState(state => {
+      this.updateHeaderText(arg.text);
+      this.updateProgress(arg.value, arg.total, arg.label);
+    });
+  }
 
-    <h4 class="name" id="EventEchoException"><span class="type-signature"></span>new EventEchoException<span class="signature">()</span><span class="type-signature"></span></h4>
+  /**
+   * called when the app loader login fails. updated gui
+   * @param event
+   * @param arg
+   */
+  onLoginFailedCb(event, arg) {
+    console.log(
+      "[LoadingView] event -> WINDOW_LOADING_LOGIN_FAILED : login failed"
+    );
+    setTimeout(() => {
+      this.setState({
+        progressVisible: false,
+        loginFailedMsg: arg.message
+      });
+    }, this.animationTime * 3);
+    setTimeout(() => {
+      this.setState({
+        loginFailedVisible: true
+      });
+    }, this.animationTime * 4);
+  }
 
-    
+  /**
+   * called when the app loader talk fails. updated gui
+   * @param event
+   * @param arg
+   */
+  onTalkFailedCb(event, arg) {
+    console.log(arg);
+    console.error("[LoadingView] talk failed : " + event);
+    setTimeout(() => {
+      this.setState({
+        progressVisible: false,
+        talkFailedMsg: arg.message
+      });
+    }, this.animationTime * 3);
+    setTimeout(() => {
+      this.setState({
+        talkFailedVisible: true
+      });
+    }, this.animationTime * 4);
+  }
 
+  /**
+   * updates the header text to the loading view
+   * @param text
+   * @returns {{icon: string, text: string, title: string}}
+   */
+  updateHeaderText(text) {
+    this.header.text = text;
+    return this.header;
+  }
 
+  /**
+   * update the progress bar from the state of the event passed
+   * @param value
+   * @param total
+   * @param label
+   * @returns {{total: number, color: string, label: string, value: number}}
+   */
+  updateProgress(value, total, label) {
+    this.progress.value = value;
+    this.progress.total = total;
+    this.progress.label = label;
+    return this.progress;
+  }
 
+  /**
+   * toggles the view state to trigger animation on icon
+   */
+  onHideShow = () => {
+    this.setState({ visible: !this.state.visible });
+  };
 
+  handleQuitAppBtn = () => {
+    this.events.quit.dispatch(0, true);
+  };
 
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_EventManager.js.html">public/managers/EventManager.js</a>, <a href="public_managers_EventManager.js.html#line66">line 66</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+  /// renders the view into our root element of our window
+  render() {
+    const progressContent = (
+      &lt;Container textAlign="center">
+        &lt;Transition
+          visible={this.state.visible}
+          transitionOnMount
+          animation="scale"
+          duration={800}
+          onHide={this.onHideShow}
+          onShow={this.onHideShow}
+        >
+          &lt;Icon
+            size="huge"
+            circular
+            inverted
+            color="violet"
+            name={this.state.header.icon}
+          />
+        &lt;/Transition>
+        &lt;Header as="h2" inverted>
+          &lt;Header.Content>
+            {this.state.header.title}
+            &lt;Header.Subheader>{this.state.header.text}&lt;/Header.Subheader>
+          &lt;/Header.Content>
+        &lt;/Header>
+        &lt;Divider clearing />
+        &lt;Progress
+          color={this.state.progress.color}
+          value={this.state.progress.value}
+          total={this.state.progress.total}
+          progress="percent"
+          precision={0}
+          active
+          size="medium"
+          inverted
+        >
+          {this.state.progress.label}
+        &lt;/Progress>
+      &lt;/Container>
+    );
+    const loginFailedContent = (
+      &lt;Container textAlign="center" className="loginFailed">
+        &lt;Icon size="massive" name="warning circle" color="red" />
+        &lt;Header as="h2" inverted>
+          &lt;Header.Content>
+            Sorry, Authentication Error :(
+            &lt;Header.Subheader>{this.state.loginFailedMsg}&lt;/Header.Subheader>
+          &lt;/Header.Content>
+        &lt;/Header>
+        &lt;Divider clearing />
+        &lt;Container textAlign="center">
+          &lt;Button onClick={this.handleQuitAppBtn} size="big" color="red">
+            Quit Torchie
+          &lt;/Button>
+        &lt;/Container>
+      &lt;/Container>
+    );
+    const talkFailedContent = (
+      &lt;Container textAlign="center" className="talkFailed">
+        &lt;Icon size="massive" name="warning circle" color="red" />
+        &lt;Header as="h2" inverted>
+          &lt;Header.Content>
+            Sorry, Connection Offline :(
+            &lt;Header.Subheader>{this.state.talkFailedMsg}&lt;/Header.Subheader>
+          &lt;/Header.Content>
+        &lt;/Header>
+        &lt;Divider clearing />
+        &lt;Container textAlign="center">
+          &lt;Button onClick={this.handleQuitAppBtn} size="big" color="red">
+            Quit Torchie
+          &lt;/Button>
+        &lt;/Container>
+      &lt;/Container>
+    );
+    return (
+      &lt;Segment basic inverted>
+        &lt;Transition
+          visible={this.state.progressVisible}
+          animation="vertical flip"
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {progressContent}
+        &lt;/Transition>
+        &lt;Transition
+          visible={this.state.loginFailedVisible}
+          animation="vertical flip"
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {loginFailedContent}
+        &lt;/Transition>
+        &lt;Transition
+          visible={this.state.talkFailedVisible}
+          animation="vertical flip"
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {talkFailedContent}
+        &lt;/Transition>
+      &lt;/Segment>
+    );
+  }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 
@@ -165,7 +316,7 @@
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Dec 28 2019 23:58:47 GMT-0600 (Central Standard Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sat Dec 28 2019 23:58:46 GMT-0600 (Central Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

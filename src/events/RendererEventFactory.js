@@ -33,6 +33,8 @@ export class RendererEventFactory {
       WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
+      TALK_CONNECTED: prefix + "talk-connected",
+      TALK_CONNECT_FAILED: prefix + "talk-connect-failed",
       VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel",
       VIEW_CONSOLE_SPIRIT_PANEL: prefix + "view-console-spirit-panel",
       VIEW_CONSOLE_MENU_CHANGE: prefix + "view-console-menu-change",

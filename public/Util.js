@@ -160,7 +160,7 @@ module.exports = class Util {
 
     let url = "http://ds-talk.herokuapp.com";
     if (isDev) {
-      process.argv.forEach((val) => {
+      process.argv.forEach(val => {
         if (val.toLowerCase().startsWith("talk=")) {
           url = val.toLowerCase().substring(5);
         }

@@ -4,11 +4,11 @@ import {
   Button,
   Container,
   Divider,
-  Transition,
-  Icon,
   Header,
+  Icon,
   Progress,
-  Segment
+  Segment,
+  Transition
 } from "semantic-ui-react";
 
 //
@@ -40,7 +40,9 @@ export default class LoadingView extends Component {
       progress: this.progress,
       progressVisible: true,
       loginFailedVisible: false,
-      loginFailedMsg: ""
+      loginFailedMsg: "",
+      talkFailedVisible: false,
+      talkFailedMsg: ""
     };
     this.events = {
       load: RendererEventFactory.createEvent(
@@ -53,6 +55,11 @@ export default class LoadingView extends Component {
         this,
         this.onLoginFailedCb
       ),
+      talkFailed: RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_CONNECT_FAILED,
+        this,
+        this.onTalkFailedCb
+      ),
       quit: RendererEventFactory.createEvent(
         RendererEventFactory.Events.APP_QUIT,
         this
@@ -60,6 +67,11 @@ export default class LoadingView extends Component {
     };
   }
 
+  /**
+   * event listener that is notified when the app view is reloaded or loaded with a new state
+   * @param event
+   * @param arg
+   */
   onLoadCb(event, arg) {
     console.log("[LoadingView] event -> APPLOADER_LOAD : " + arg.load);
     this.setState(state => {
@@ -68,7 +80,11 @@ export default class LoadingView extends Component {
     });
   }
 
-  ///called when the app loader login failes. updated gui
+  /**
+   * called when the app loader login fails. updated gui
+   * @param event
+   * @param arg
+   */
   onLoginFailedCb(event, arg) {
     console.log(
       "[LoadingView] event -> WINDOW_LOADING_LOGIN_FAILED : login failed"
@@ -86,13 +102,44 @@ export default class LoadingView extends Component {
     }, this.animationTime * 4);
   }
 
-  /// updates the header text to the loading view
+  /**
+   * called when the app loader talk fails. updated gui
+   * @param event
+   * @param arg
+   */
+  onTalkFailedCb(event, arg) {
+    console.log(arg);
+    console.error("[LoadingView] talk failed : " + event);
+    setTimeout(() => {
+      this.setState({
+        progressVisible: false,
+        talkFailedMsg: arg.message
+      });
+    }, this.animationTime * 3);
+    setTimeout(() => {
+      this.setState({
+        talkFailedVisible: true
+      });
+    }, this.animationTime * 4);
+  }
+
+  /**
+   * updates the header text to the loading view
+   * @param text
+   * @returns {{icon: string, text: string, title: string}}
+   */
   updateHeaderText(text) {
     this.header.text = text;
     return this.header;
   }
 
-  /// update the progress bar from the state of the event passed
+  /**
+   * update the progress bar from the state of the event passed
+   * @param value
+   * @param total
+   * @param label
+   * @returns {{total: number, color: string, label: string, value: number}}
+   */
   updateProgress(value, total, label) {
     this.progress.value = value;
     this.progress.total = total;
@@ -100,7 +147,9 @@ export default class LoadingView extends Component {
     return this.progress;
   }
 
-  /// toggles the view state to trigger animation on icon
+  /**
+   * toggles the view state to trigger animation on icon
+   */
   onHideShow = () => {
     this.setState({ visible: !this.state.visible });
   };
@@ -155,8 +204,25 @@ export default class LoadingView extends Component {
         <Icon size="massive" name="warning circle" color="red" />
         <Header as="h2" inverted>
           <Header.Content>
-            Login Failed :(
+            Sorry, Authentication Error :(
             <Header.Subheader>{this.state.loginFailedMsg}</Header.Subheader>
+          </Header.Content>
+        </Header>
+        <Divider clearing />
+        <Container textAlign="center">
+          <Button onClick={this.handleQuitAppBtn} size="big" color="red">
+            Quit Torchie
+          </Button>
+        </Container>
+      </Container>
+    );
+    const talkFailedContent = (
+      <Container textAlign="center" className="talkFailed">
+        <Icon size="massive" name="warning circle" color="red" />
+        <Header as="h2" inverted>
+          <Header.Content>
+            Sorry, Connection Offline :(
+            <Header.Subheader>{this.state.talkFailedMsg}</Header.Subheader>
           </Header.Content>
         </Header>
         <Divider clearing />
@@ -184,6 +250,14 @@ export default class LoadingView extends Component {
           unmountOnHide
         >
           {loginFailedContent}
+        </Transition>
+        <Transition
+          visible={this.state.talkFailedVisible}
+          animation="vertical flip"
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {talkFailedContent}
         </Transition>
       </Segment>
     );

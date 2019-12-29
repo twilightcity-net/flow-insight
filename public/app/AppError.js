@@ -26,23 +26,19 @@ module.exports = class AppError extends Error {
       }
     }
     if (GLOBAL_.App) {
-      if(stacetrace) {
+      if (stacetrace) {
         log.error(
-          chalk.red((fatal ? "[FATAL] " : "") +
-          "[App] ") +
-          error.toString() +
-          "\n\n" +
-          error.stack +
-          "\n"
+          chalk.red((fatal ? "[FATAL] " : "") + "[App] ") +
+            error.toString() +
+            "\n\n" +
+            error.stack +
+            "\n"
         );
       } else {
         log.error(
-          chalk.red((fatal ? "[FATAL] " : "") +
-          "[App] ") +
-          error.toString()
+          chalk.red((fatal ? "[FATAL] " : "") + "[App] ") + error.toString()
         );
       }
-
     } else {
       console.error(
         (fatal ? "[FATAL] " : "") +
@@ -55,7 +51,7 @@ module.exports = class AppError extends Error {
     if (fatal) {
       dialog.showErrorBox("Torchie", "[FATAL] " + error.toString());
       process.exit(1);
-    } else if(!graceful){
+    } else if (!graceful) {
       dialog.showErrorBox("Torchie", error.toString());
     }
   }

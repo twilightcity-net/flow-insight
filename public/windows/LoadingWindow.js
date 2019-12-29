@@ -1,6 +1,7 @@
 const { BrowserWindow } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
+  isDev = require("electron-is-dev"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../managers/EventFactory"),
@@ -33,6 +34,12 @@ module.exports = class LoadingWindow {
       fullscreenable: false,
       webPreferences: { toolbar: false }
     });
+
+    /// if dev mode then show debug tools. Install react tools
+    // if (isDev) {
+    //   this.window.webContents.openDevTools({mode: "undocked"});
+    // }
+
     this.window.name = this.name;
     this.window.setMenu(null);
     this.window.on("show", () => this.onShowCb());
