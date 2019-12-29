@@ -66,6 +66,22 @@ module.exports = class TalkController extends BaseController {
       EventFactory.Types.TALK_CONNECT_FAILED,
       this
     );
+    this.talkMessageClientListener = EventFactory.createEvent(
+      EventFactory.Types.TALK_MESSAGE_CLIENT,
+      this
+    );
+    this.talkMessageRoomListener = EventFactory.createEvent(
+      EventFactory.Types.TALK_MESSAGE_ROOM,
+      this
+    );
+    this.talkJoinRoomListener = EventFactory.createEvent(
+      EventFactory.Types.TALK_JOIN_ROOM,
+      this
+    );
+    this.talkLeaveRoomListener = EventFactory.createEvent(
+      EventFactory.Types.TALK_LEAVE_ROOM,
+      this
+    );
   }
 
   /**
@@ -73,16 +89,16 @@ module.exports = class TalkController extends BaseController {
    * @param socket
    * @param connectionId
    */
-  configureListeners(socket, connectionId, name) {
+  configSocketListeners(socket, connectionId, name) {
     // TODO move this to the controller
 
     socket.on(TalkController.EventTypes.CONNECT, () => {
       log.info(
         chalk.greenBright(name) +
-          " connect : " +
-          connectionId +
-          " -> " +
-          socket.id
+        " connect : " +
+        connectionId +
+        " -> " +
+        socket.id
       );
       this.talkConnectedListener.dispatch();
     });
@@ -116,35 +132,48 @@ module.exports = class TalkController extends BaseController {
     socket.on(TalkController.EventTypes.RECONNECT, attempt => {
       log.info(
         chalk.greenBright(name) +
-          " reconnected {" +
-          attempt +
-          "} times : " +
-          connectionId
+        " reconnected {" +
+        attempt +
+        "} times : " +
+        connectionId
       );
     });
     socket.on(TalkController.EventTypes.PONG, latency => {
       log.info(chalk.green(name) + " latency " + latency + "ms");
     });
+
+  }
+
+  /**
+   * this function is used to connect the socket events for client and room messages into the event system
+   * @param socket
+   * @param name
+   */
+  wireSocketMessagesToEventCircuit(socket, name) {
     socket.on(TalkController.EventTypes.MESSAGE_CLIENT, (data, fn) => {
       log.info(chalk.green(name) + " client message : " + data);
-      fn(data);
+      this.talkMessageClientListener.dispatch(data);
+      fn();
     });
-    socket.on(TalkController.EventTypes.MESSAGE_ROOM, data => {
+    socket.on(TalkController.EventTypes.MESSAGE_ROOM, (data) => {
       log.info(chalk.green(name) + " room message : " + data);
+      this.talkMessageRoomListener.dispatch(data);
     });
     socket.on(TalkController.EventTypes.JOIN_ROOM, (roomId, fn) => {
       log.info(chalk.greenBright(name) + " joined room '" + roomId + "'");
+      this.talkJoinRoomListener.dispatch(roomId);
       fn(roomId);
     });
     socket.on(TalkController.EventTypes.LEAVE_ROOM, (roomId, fn) => {
       log.info(chalk.greenBright(name) + " left room '" + roomId + "'");
+      this.talkLeaveRoomListener.dispatch(roomId);
       fn(roomId);
     });
   }
 
   onAppHeartbeat() {
     let socket = global.App.TalkManager.socket;
-    if(!socket.connected) {
+    if (!socket.connected) {
       log.info(chalk.yellowBright("[AppHeartbeat]") + " reconnecting to Talk...");
       socket.open();
     }

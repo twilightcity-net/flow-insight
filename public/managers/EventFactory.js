@@ -6,6 +6,7 @@ const log = require("electron-log"),
  * @type {EventFactory}
  */
 module.exports = class EventFactory {
+
   /**
    * creates and returns a new Event Object
    * @param type
@@ -37,6 +38,10 @@ module.exports = class EventFactory {
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
       TALK_CONNECTED: prefix + "talk-connected",
       TALK_CONNECT_FAILED: prefix + "talk-connect-failed",
+      TALK_MESSAGE_CLIENT: prefix + "talk-message-client",
+      TALK_MESSAGE_ROOM: prefix + "talk-message-room",
+      TALK_JOIN_ROOM: prefix + "talk-join-room",
+      TALK_LEAVE_ROOM: prefix + "talk-leave-room",
       APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",
       APPACTIVATOR_ACTIVATION_SAVED: prefix + "appactivator-activation-saved",
       APPLOADER_LOAD: prefix + "apploader-load",

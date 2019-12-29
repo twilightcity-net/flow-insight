@@ -30,9 +30,13 @@ module.exports = class TalkManager {
       chalk.greenBright(this.name) + " connecting to -> " + this.connnectionUrl
     );
     this.socket = io(this.connnectionUrl, this.connectionOpts);
-    this.myController.configureListeners(
+    this.myController.configSocketListeners(
       this.socket,
       this.connectionId,
+      this.name
+    );
+    this.myController.wireSocketMessagesToEventCircuit(
+      this.socket,
       this.name
     );
   }
