@@ -35,10 +35,7 @@ module.exports = class TalkManager {
       this.connectionId,
       this.name
     );
-    this.myController.wireSocketMessagesToEventCircuit(
-      this.socket,
-      this.name
-    );
+    this.myController.wireSocketMessagesToEventCircuit(this.socket, this.name);
   }
 
   /**

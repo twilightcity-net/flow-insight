@@ -95,10 +95,10 @@ module.exports = class TalkController extends BaseController {
     socket.on(TalkController.EventTypes.CONNECT, () => {
       log.info(
         chalk.greenBright(name) +
-        " connect : " +
-        connectionId +
-        " -> " +
-        socket.id
+          " connect : " +
+          connectionId +
+          " -> " +
+          socket.id
       );
       this.talkConnectedListener.dispatch();
     });
@@ -132,16 +132,15 @@ module.exports = class TalkController extends BaseController {
     socket.on(TalkController.EventTypes.RECONNECT, attempt => {
       log.info(
         chalk.greenBright(name) +
-        " reconnected {" +
-        attempt +
-        "} times : " +
-        connectionId
+          " reconnected {" +
+          attempt +
+          "} times : " +
+          connectionId
       );
     });
     socket.on(TalkController.EventTypes.PONG, latency => {
       log.info(chalk.green(name) + " latency " + latency + "ms");
     });
-
   }
 
   /**
@@ -155,7 +154,7 @@ module.exports = class TalkController extends BaseController {
       this.talkMessageClientListener.dispatch(data);
       fn();
     });
-    socket.on(TalkController.EventTypes.MESSAGE_ROOM, (data) => {
+    socket.on(TalkController.EventTypes.MESSAGE_ROOM, data => {
       log.info(chalk.green(name) + " room message : " + data);
       this.talkMessageRoomListener.dispatch(data);
     });
@@ -174,7 +173,9 @@ module.exports = class TalkController extends BaseController {
   onAppHeartbeat() {
     let socket = global.App.TalkManager.socket;
     if (!socket.connected) {
-      log.info(chalk.yellowBright("[AppHeartbeat]") + " reconnecting to Talk...");
+      log.info(
+        chalk.yellowBright("[AppHeartbeat]") + " reconnecting to Talk..."
+      );
       socket.open();
     }
   }

@@ -6,7 +6,6 @@ const log = require("electron-log"),
  * @type {EventFactory}
  */
 module.exports = class EventFactory {
-
   /**
    * creates and returns a new Event Object
    * @param type
