@@ -1,4 +1,4 @@
-import {RendererEvent} from "./RendererEventManager";
+import { RendererEvent } from "./RendererEventManager";
 
 /**
  * This class is used as a helper class to store event names from
