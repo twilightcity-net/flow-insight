@@ -40,7 +40,6 @@ export class AltModelDelegate {
    * @param functionName
    */
   configureDelegateCall(functionName) {
-    console.log("delegate function: " + functionName);
     this.delegateIfAltMemberConfigured(
       this.primaryModel,
       functionName,
@@ -53,7 +52,6 @@ export class AltModelDelegate {
    * @param functionName
    */
   configureNoOp(functionName) {
-    console.log("no-op function: " + functionName);
     this.noopIfAltMemberConfigured(this.primaryModel, functionName);
   }
 

@@ -1,5 +1,4 @@
-const log = require("electron-log"),
-  { MainEvent } = require("./EventManager");
+const { MainEvent } = require("./EventManager");
 
 /**
  * a factory class used to create new events
