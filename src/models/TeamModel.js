@@ -58,7 +58,6 @@ export class TeamModel extends DataModel {
    */
 
   refreshAll = () => {
-    console.log(this.name + " - Request - refreshAll");
     let remoteUrn = "/status/team";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -103,7 +102,6 @@ export class TeamModel extends DataModel {
    */
 
   refreshTeamInfoAndKeys() {
-    console.log(this.name + " - Request - refreshTeamInfoAndKeys");
     let remoteUrn = "/team";
     let loadRequestType = DataModel.RequestTypes.GET;
     this.remoteFetch(
@@ -125,7 +123,6 @@ export class TeamModel extends DataModel {
    */
 
   refreshMe() {
-    console.log(this.name + " - Request - refreshMe");
     let remoteUrn = "/status/me";
     let loadRequestType = DataModel.RequestTypes.GET;
     this.remoteFetch(

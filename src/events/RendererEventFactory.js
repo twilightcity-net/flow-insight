@@ -1,4 +1,4 @@
-import { RendererEvent } from "./RendererEventManager";
+import {RendererEvent} from "./RendererEventManager";
 
 /**
  * This class is used as a helper class to store event names from
@@ -13,9 +13,7 @@ export class RendererEventFactory {
    * @returns {RendererEvent}
    */
   static createEvent(type, ...args) {
-    console.log("[RendererEventFactory] create event -> " + type);
-    let event = new RendererEvent(type, ...args);
-    return event;
+    return new RendererEvent(type, ...args);
   }
 
   /**
@@ -35,6 +33,10 @@ export class RendererEventFactory {
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
       TALK_CONNECTED: prefix + "talk-connected",
       TALK_CONNECT_FAILED: prefix + "talk-connect-failed",
+      TALK_MESSAGE_CLIENT: prefix + "talk-message-client",
+      TALK_MESSAGE_ROOM: prefix + "talk-message-room",
+      TALK_JOIN_ROOM: prefix + "talk-join-room",
+      TALK_LEAVE_ROOM: prefix + "talk-leave-room",
       VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel",
       VIEW_CONSOLE_SPIRIT_PANEL: prefix + "view-console-spirit-panel",
       VIEW_CONSOLE_MENU_CHANGE: prefix + "view-console-menu-change",

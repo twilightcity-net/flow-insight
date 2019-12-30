@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Icon, Menu, Popup } from "semantic-ui-react";
 import { MainPanelViewController } from "../../controllers/MainPanelViewController";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import { RendererEventFactory } from "../../events/RendererEventFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -11,9 +10,8 @@ export default class ConsoleMenu extends Component {
   constructor(props) {
     super(props);
     this.name = "[ConsoleMenu]";
-
     this.isChanging = false;
-    this.animationTime = this.props.animationTime + 50;
+    this.animationTime = props.animationTime + 50;
     this.state = {
       activeItem: MainPanelViewController.MenuSelection.JOURNAL,
       isOnline: true,
@@ -21,17 +19,6 @@ export default class ConsoleMenu extends Component {
       server: "identifying...",
       errorMsg: ""
     };
-    this.isOnline = true;
-
-    // FIXME :: needs to be managed by coordinator
-    this.events = {
-      heartbeat: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.APP_HEARTBEAT,
-        this,
-        this.onHeartbeatCb
-      )
-    };
-
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.MAIN_PANEL,
       this
@@ -43,22 +30,20 @@ export default class ConsoleMenu extends Component {
       this,
       this.onRefreshActivePerspective
     );
+    this.myController.configureHeartbeatListener(this, this.onHeartbeat);
   };
 
   componentWillUnmount = () => {
     this.myController.configureMenuListener(this, null);
+    this.myController.configureHeartbeatListener(this, null);
   };
 
   onRefreshActivePerspective = () => {
-    console.log(this.name + " - onRefreshActivePerspective!");
-
     let activeMenuItem = this.myController.activeMenuSelection;
     this.setState({ activeItem: activeMenuItem });
   };
 
-  // FIXME :: broken needs to be managed ny coordinator
-  onHeartbeatCb(event, arg) {
-    console.log("[ConsoleMenu] update state onHeartbeatCb");
+  onHeartbeat(event, arg) {
     this.setState({
       isOnline: arg.isOnline,
       pingTime: arg.pingTime,
@@ -67,7 +52,7 @@ export default class ConsoleMenu extends Component {
     });
   }
 
-  handleMenuClick = (e, { name }) => {
+  handleMenuClick = (e, name) => {
     if (this.isChanging || this.state.activeItem === name) return;
     this.isChanging = true;
 
@@ -78,20 +63,17 @@ export default class ConsoleMenu extends Component {
     }, this.animationTime);
   };
 
-  handleHideClick = (e, { name }) => {
-    console.log(this.name + " - open hide window");
-
-    // FIXME :: this should actually call an event.. move to controller?
-    this.events.hideConsole.dispatch(0, true);
+  handleHideClick = () => {
+    this.myController.hideConsoleWindow();
   };
 
-  handleUndockClick = (e, { name }) => {
-    console.log(this.name + " - open undock window");
-  };
+  // handleUndockClick = (e, { name }) => {
+  //   console.log(this.name + " - open undock window ");
+  // };
 
-  handleSettingsClick = (e, { name }) => {
-    console.log(this.name + " - open settings window");
-  };
+  // handleSettingsClick = (e, { name }) => {
+  //   console.log(this.name + " - open settings window");
+  // };
 
   /// renders the menu component of the console view
   render() {
@@ -197,16 +179,16 @@ export default class ConsoleMenu extends Component {
             <Menu.Item name="hide" onClick={this.handleHideClick}>
               <Icon name="toggle up" size="large" />
             </Menu.Item>
-            <Menu.Item name="undock" onClick={this.handleUndockClick} disabled>
-              <Icon name="window restore" size="large" />
-            </Menu.Item>
-            <Menu.Item
-              name="settings"
-              onClick={this.handleSettingsClick}
-              disabled
-            >
-              <Icon name="settings" size="large" />
-            </Menu.Item>
+            {/*<Menu.Item name="undock" onClick={this.handleUndockClick} disabled>*/}
+            {/*  <Icon name="window restore" size="large" />*/}
+            {/*</Menu.Item>*/}
+            {/*<Menu.Item*/}
+            {/*  name="settings"*/}
+            {/*  onClick={this.handleSettingsClick}*/}
+            {/*  disabled*/}
+            {/*>*/}
+            {/*  <Icon name="settings" size="large" />*/}
+            {/*</Menu.Item>*/}
           </Menu.Menu>
         </Menu>
       </div>

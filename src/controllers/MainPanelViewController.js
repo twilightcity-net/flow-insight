@@ -24,6 +24,14 @@ export class MainPanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
       this
     );
+    this.heartbeatListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.APP_HEARTBEAT,
+      this
+    );
+    this.showConsoleWindowNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
+      this
+    );
   }
 
   configureContentListener(scope, callback) {
@@ -32,6 +40,10 @@ export class MainPanelViewController extends ActiveViewController {
 
   configureMenuListener(scope, callback) {
     this.menuListener.updateCallback(scope, callback);
+  }
+
+  configureHeartbeatListener(scope, callback) {
+    this.heartbeatListener.updateCallback(scope, callback);
   }
 
   changeActivePanel(oldState, newState) {
@@ -44,6 +56,10 @@ export class MainPanelViewController extends ActiveViewController {
     this.mainPanelChangeNotifier.dispatch({});
   }
 
+  hideConsoleWindow() {
+    this.showConsoleWindowNotifier.dispatch(1);
+  }
+
   resetDefaultMenuSelection() {
     this.activeMenuSelection = MainPanelViewController.MenuSelection.JOURNAL;
   }
@@ -52,9 +68,7 @@ export class MainPanelViewController extends ActiveViewController {
     return {
       JOURNAL: "journal",
       TROUBLESHOOT: "troubleshoot",
-      FLOW: "flow",
-      PROJECTS: "projects",
-      CIRCLES: "circles"
+      FLOW: "flow"
     };
   }
 }
