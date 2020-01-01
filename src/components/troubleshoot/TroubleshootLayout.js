@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import TroubleshootHeader from "./TroubleshootHeader";
 import TroubleshootOpen from "./TroubleshootOpen";
 import { ActiveCircleModel } from "../../models/ActiveCircleModel";
 import TroubleshootStart from "./TroubleshootStart";

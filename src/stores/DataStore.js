@@ -1,9 +1,9 @@
-import UtilRenderer from "../UtilRenderer";
 import { RendererEventFactory } from "../events/RendererEventFactory";
+import UtilRenderer from "../UtilRenderer";
 
-//
-// this base class is used for Stores
-//
+/**
+ * his base class is used for Stores
+ */
 export class DataStore {
   constructor(scope) {
     this.name = this.constructor.name;

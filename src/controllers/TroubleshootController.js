@@ -2,10 +2,6 @@ import { ActiveViewController } from "./ActiveViewController";
 import { DataModelFactory } from "../models/DataModelFactory";
 
 export class TroubleshootController extends ActiveViewController {
-  constructor(scope) {
-    super(scope);
-  }
-
   wireTogetherModels(scope) {
     this.activeCircleModel = DataModelFactory.createModel(
       DataModelFactory.Models.ACTIVE_CIRCLE,

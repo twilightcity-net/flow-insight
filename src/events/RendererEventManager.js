@@ -124,17 +124,11 @@ export class RendererEventManager {
    * @returns {wrapperFunction}
    */
   static listenForReply(event) {
-    if (!event.reply) return;
+    if (!event.reply) return null;
 
     let wrapperFunction = (_event, _arg) => {
       event.replyReturnValue = null;
       try {
-        console.log(
-          "[RendererEventManager] event reply -> " +
-            event.type +
-            "-reply : " +
-            _arg
-        );
         event.replyReturnValue = event.reply(_event, _arg);
       } catch (error) {
         event.replyReturnValue = RendererEventManager.createEventError(
@@ -162,9 +156,6 @@ export class RendererEventManager {
    * @param event
    */
   static removeListeners(event) {
-    console.log(
-      "[RendererEventManager] removing listeners for callback -> " + event.type
-    );
     if (event.callbackWrapperFunction) {
       ipcRenderer.removeListener(event.type, event.callbackWrapperFunction);
     }
@@ -222,32 +213,14 @@ export class RendererEventManager {
    */
   static dispatch(event, arg, noEcho, isSync) {
     event.returnValue = null;
-    console.log(
-      "[RendererEventManager] dispatch event -> " + event.type + " : " + arg
-    );
     try {
       if (noEcho && isSync) {
-        console.log(
-          "[RendererEventManager] dispatch event -> " +
-            event.type +
-            "[SYNC] : " +
-            arg
-        );
         event.returnValue = ipcRenderer.sendSync(event.type, arg);
         RendererEventManager.checkEventForError(event);
         event.returnValue = event.callback(event, event.returnValue);
       } else if (noEcho) {
-        console.log(
-          "[RendererEventManager] dispatch event -> " + event.type + " : " + arg
-        );
         ipcRenderer.send(event.type, arg);
       } else {
-        console.log(
-          "[RendererEventManager] dispatch event -> " +
-            event.type +
-            "[ECHO] : " +
-            arg
-        );
         ipcRenderer.send("echo-event", { type: event.type, arg: arg });
       }
     } catch (error) {

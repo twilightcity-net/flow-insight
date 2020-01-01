@@ -26,11 +26,11 @@ export default class ConsoleMenu extends Component {
   }
 
   componentDidMount = () => {
+    this.myController.configureHeartbeatListener(this, this.onHeartbeat);
     this.myController.configureMenuListener(
       this,
       this.onRefreshActivePerspective
     );
-    this.myController.configureHeartbeatListener(this, this.onHeartbeat);
   };
 
   componentWillUnmount = () => {
@@ -40,6 +40,8 @@ export default class ConsoleMenu extends Component {
 
   onRefreshActivePerspective = () => {
     let activeMenuItem = this.myController.activeMenuSelection;
+    console.log(activeMenuItem);
+    console.log(this.name + " refresh active perspective : " + activeMenuItem);
     this.setState({ activeItem: activeMenuItem });
   };
 
@@ -52,7 +54,7 @@ export default class ConsoleMenu extends Component {
     });
   }
 
-  handleMenuClick = (e, name) => {
+  handleMenuClick = (e, {name}) => {
     if (this.isChanging || this.state.activeItem === name) return;
     this.isChanging = true;
 

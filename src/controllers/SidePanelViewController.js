@@ -90,6 +90,7 @@ export class SidePanelViewController extends ActiveViewController {
     return {
       PROFILE: "profile",
       MESSAGES: "messages",
+      CIRCUITS: "circuits",
       NOTIFICATIONS: "notifications",
       NONE: "none"
     };

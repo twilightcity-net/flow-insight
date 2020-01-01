@@ -6,7 +6,7 @@ const log = require("electron-log"),
 // class used to manage all of the DataStores and data loading / commit
 module.exports = class DataStoreManager {
   constructor() {
-    log.info("[DataStoreManager] created -> okay");
+    this.name = "[DataStoreManager]";
     this.client = new DataStoreClient();
     this.events = {
       dataStoreLoad: EventFactory.createEvent(

@@ -4,20 +4,23 @@ const GLOBAL_ = global,
   Util = require("../Util"),
   chalk = require("chalk"),
   cleanStack = require("clean-stack"),
-  stackTrace = require("stack-trace");
+  stackTrace = require("stack-trace"),
+  isDev = require("electron-is-dev");
 
-/*
+/**
  * Base Exception class for app, all other errors should extend this
+ * @type {AppError}
  */
 module.exports = class AppError extends Error {
-  constructor(...args) {
-    super(...args);
+  constructor(..._) {
+    super(..._);
     this.name = "AppError";
     this.date = new Date();
     this.stack = cleanStack(this.stack);
   }
 
   static handleError(error, fatal, graceful, stacetrace) {
+    if (isDev) graceful = true;
     if (!(error instanceof AppError)) {
       if (error.stack === "undefined" || null || "") {
         error.stack = stackTrace.get();

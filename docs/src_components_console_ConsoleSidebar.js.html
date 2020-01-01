@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>public/controllers/TalkController.js - Documentation</title>
+    <title>src/components/console/ConsoleSidebar.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">public/controllers/TalkController.js</h1>
+    <h1 class="page-title">src/components/console/ConsoleSidebar.js</h1>
     
 
     
@@ -39,188 +39,186 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const log = require("electron-log"),
-  chalk = require("chalk"),
-  BaseController = require("./BaseController"),
-  EventFactory = require("../managers/EventFactory");
+            <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import { Icon, Menu } from "semantic-ui-react";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
 
 /**
- * This class is used to coordinate controllers across the talk service
- * @type {AppController}
+ * this component is the sidebar to the console. This animates a slide.
  */
-module.exports = class TalkController extends BaseController {
-  /**
-   *
-   * @param scope - this is the wrapping scope to execute callbacks within
-   */
-  constructor(scope) {
-    super(scope, TalkController);
-    this.configureEvents();
-  }
+export default class ConsoleSidebar extends Component {
+  constructor(props) {
+    super(props);
+    this.name = "[ConsoleSidebar]";
 
-  /**
-   * general enum list of all of our possible talk events
-   * @returns {String}
-   * @constructor
-   */
-  static get EventTypes() {
-    return {
-      CONNECT: "connect",
-      CONNECT_ERROR: "connect_error",
-      DISCONNECT: "disconnect",
-      CONNECT_TIMEOUT: "connect_timeout",
-      ERROR: "error",
-      RECONNECT_ATTEMPT: "reconnect_attempt",
-      RECONNECT: "reconnect",
-      RECONNECT_ERROR: "reconnect_error",
-      RECONNECT_FAILED: "reconnect_failed",
-      PONG: "pong",
-      MESSAGE_CLIENT: "message_client",
-      MESSAGE_ROOM: "message_room",
-      JOIN_ROOM: "join_room",
-      LEAVE_ROOM: "leave_room"
+    this.state = {
+      activeItem: SidePanelViewController.MenuSelection.PROFILE,
+      iconProfile: "heart",
+      iconMessages: "user outline",
+      iconCircuit: "compass outline",
+      iconNotifications: "bell outline"
     };
+
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL
+    );
   }
 
-  /**
-   * links associated controller classes here
-   */
-  static wireControllersTogether() {
-    BaseController.wireControllersTo(TalkController.instance);
-  }
-
-  /**
-   * configures application wide events here
-   */
-  configureEvents() {
-    BaseController.configEvents(TalkController.instance);
-    this.appHeartbeatListener = EventFactory.createEvent(
-      EventFactory.Types.APP_HEARTBEAT,
+  componentDidMount = () => {
+    this.myController.configureMenuListener(
       this,
-      this.onAppHeartbeat
+      this.onRefreshActivePerspective
     );
-    this.talkConnectedListener = EventFactory.createEvent(
-      EventFactory.Types.TALK_CONNECTED,
-      this
-    );
-    this.talkConnectFailedListener = EventFactory.createEvent(
-      EventFactory.Types.TALK_CONNECT_FAILED,
-      this
-    );
-    this.talkMessageClientListener = EventFactory.createEvent(
-      EventFactory.Types.TALK_MESSAGE_CLIENT,
-      this
-    );
-    this.talkMessageRoomListener = EventFactory.createEvent(
-      EventFactory.Types.TALK_MESSAGE_ROOM,
-      this
-    );
-    this.talkJoinRoomListener = EventFactory.createEvent(
-      EventFactory.Types.TALK_JOIN_ROOM,
-      this
-    );
-    this.talkLeaveRoomListener = EventFactory.createEvent(
-      EventFactory.Types.TALK_LEAVE_ROOM,
-      this
-    );
-  }
+  };
 
-  /**
-   * creates the listeners for the manager. this should be moved into the controler
-   * @param socket
-   * @param connectionId
-   */
-  configSocketListeners(socket, connectionId, name) {
-    // TODO move this to the controller
+  componentWillUnmount = () => {
+    this.myController.configureMenuListener(this, null);
+  };
 
-    socket.on(TalkController.EventTypes.CONNECT, () => {
-      log.info(
-        chalk.greenBright(name) +
-          " connect : " +
-          connectionId +
-          " -> " +
-          socket.id
-      );
-      this.talkConnectedListener.dispatch();
-    });
-    socket.on(TalkController.EventTypes.RECONNECT_ATTEMPT, attempt => {
-      log.info(
-        chalk.green(name) + " attempt {" + attempt + "} to reconnecting..."
-      );
-    });
-    socket.on(TalkController.EventTypes.RECONNECT_ERROR, err => {
-      log.info(chalk.green(name) + " reconnection error : " + err);
-    });
-    socket.on(TalkController.EventTypes.RECONNECT_FAILED, () => {
-      log.info(chalk.greenBright(name) + " unable to reconnect ");
-      this.talkConnectFailedListener.dispatch({
-        message:
-          "Opps, The Talk service seems to be offline, please try again soon."
-      });
-    });
-    socket.on(TalkController.EventTypes.CONNECT_ERROR, err => {
-      log.info(chalk.green(name) + " connection error : " + err);
-    });
-    socket.on(TalkController.EventTypes.DISCONNECT, reason => {
-      log.info(chalk.greenBright(name) + " disconnected : " + reason);
-    });
-    socket.on(TalkController.EventTypes.CONNECT_TIMEOUT, timeout => {
-      log.info(chalk.greenBright(name) + " timeout : " + timeout);
-    });
-    socket.on(TalkController.EventTypes.ERROR, err => {
-      log.info(chalk.redBright(name) + " error : " + err);
-    });
-    socket.on(TalkController.EventTypes.RECONNECT, attempt => {
-      log.info(
-        chalk.greenBright(name) +
-          " reconnected {" +
-          attempt +
-          "} times : " +
-          connectionId
-      );
-    });
-    socket.on(TalkController.EventTypes.PONG, latency => {
-      log.info(chalk.green(name) + " latency " + latency + "ms");
-    });
-  }
-
-  /**
-   * this function is used to connect the socket events for client and room messages into the event system
-   * @param socket
-   * @param name
-   */
-  wireSocketMessagesToEventCircuit(socket, name) {
-    socket.on(TalkController.EventTypes.MESSAGE_CLIENT, (data, fn) => {
-      log.info(chalk.green(name) + " client message : " + data);
-      this.talkMessageClientListener.dispatch(data);
-      fn();
-    });
-    socket.on(TalkController.EventTypes.MESSAGE_ROOM, data => {
-      log.info(chalk.green(name) + " room message : " + data);
-      this.talkMessageRoomListener.dispatch(data);
-    });
-    socket.on(TalkController.EventTypes.JOIN_ROOM, (roomId, fn) => {
-      log.info(chalk.greenBright(name) + " joined room '" + roomId + "'");
-      this.talkJoinRoomListener.dispatch(roomId);
-      fn(roomId);
-    });
-    socket.on(TalkController.EventTypes.LEAVE_ROOM, (roomId, fn) => {
-      log.info(chalk.greenBright(name) + " left room '" + roomId + "'");
-      this.talkLeaveRoomListener.dispatch(roomId);
-      fn(roomId);
-    });
-  }
-
-  onAppHeartbeat() {
-    let socket = global.App.TalkManager.socket;
-    if (!socket.connected) {
-      log.info(
-        chalk.yellowBright("[AppHeartbeat]") + " reconnecting to Talk..."
-      );
-      socket.open();
+  onRefreshActivePerspective() {
+    let activeMenuItem = this.myController.activeMenuSelection;
+    let state = {
+      activeItem: activeMenuItem,
+      iconProfile: "heart",
+      iconMessages: "user",
+      iconNotifications: "bell",
+      iconCircuit: "compass"
+    };
+    let oStr = " outline";
+    switch (activeMenuItem) {
+      case SidePanelViewController.MenuSelection.PROFILE:
+        state.iconMessages += oStr;
+        state.iconNotifications += oStr;
+        state.iconCircuit += oStr;
+        break;
+      case SidePanelViewController.MenuSelection.MESSAGES:
+        state.iconProfile += oStr;
+        state.iconNotifications += oStr;
+        state.iconCircuit += oStr;
+        break;
+      case SidePanelViewController.MenuSelection.CIRCUITS:
+        state.iconProfile += oStr;
+        state.iconMessages += oStr;
+        state.iconNotifications += oStr;
+        break;
+      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
+        state.iconProfile += oStr;
+        state.iconMessages += oStr;
+        state.iconCircuit += oStr;
+        break;
+      case SidePanelViewController.MenuSelection.NONE:
+        state.iconProfile += oStr;
+        state.iconMessages += oStr;
+        state.iconCircuit += oStr;
+        state.iconNotifications += oStr;
+        break;
+      default:
+        break;
     }
+    this.setState(state);
   }
-};
+
+  /**
+   * performs a simple calculation for dynamic height of menu
+   */
+  calculateMenuHeight() {
+    let heights = {
+      rootBorder: 2,
+      bottomMenuHeight: 28
+    };
+
+    return window.innerHeight - heights.rootBorder - heights.bottomMenuHeight;
+  }
+
+  deselectItem = () => {
+    this.myController.hidePanel();
+  };
+
+  selectItem = name => {
+    this.myController.showPanel(name);
+  };
+
+  handleItemClick = (e, { name }) => {
+    if (this.state.activeItem === name) {
+      this.deselectItem(name);
+    } else {
+      this.selectItem(name);
+    }
+  };
+
+  /**
+   * renders the sidebar of the console view
+   */
+  render() {
+    const { activeItem } = this.state;
+
+    return (
+      &lt;div id="component" className="consoleSidebar">
+        &lt;Menu
+          inverted
+          icon
+          vertical
+          style={{ height: this.calculateMenuHeight() }}
+        >
+          &lt;Menu.Item
+            name={SidePanelViewController.MenuSelection.PROFILE}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.PROFILE
+            }
+            onClick={this.handleItemClick}
+          >
+            &lt;Icon name={this.state.iconProfile}>
+              {/*&lt;Label color="red" floating size="mini">*/}
+              {/*  !*/}
+              {/*&lt;/Label>*/}
+            &lt;/Icon>
+          &lt;/Menu.Item>
+          &lt;Menu.Item
+            name={SidePanelViewController.MenuSelection.MESSAGES}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.MESSAGES
+            }
+            onClick={this.handleItemClick}
+          >
+            &lt;Icon name={this.state.iconMessages}>
+              {/*&lt;Label color="red" floating size="mini">*/}
+              {/*  7*/}
+              {/*&lt;/Label>*/}
+            &lt;/Icon>
+          &lt;/Menu.Item>
+          &lt;Menu.Item
+            name={SidePanelViewController.MenuSelection.CIRCUITS}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.CIRCUITS
+            }
+            onClick={this.handleItemClick}
+          >
+            &lt;Icon name={this.state.iconCircuit}>
+              {/*&lt;Label color="red" floating size="mini">*/}
+              {/*  7*/}
+              {/*&lt;/Label>*/}
+            &lt;/Icon>
+          &lt;/Menu.Item>
+          &lt;Menu.Item
+            name={SidePanelViewController.MenuSelection.NOTIFICATIONS}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.NOTIFICATIONS
+            }
+            onClick={this.handleItemClick}
+            disabled
+          >
+            &lt;Icon name={this.state.iconNotifications}>
+              {/*&lt;Label color="red" floating size="mini">*/}
+              {/*  23*/}
+              {/*&lt;/Label>*/}
+            &lt;/Icon>
+          &lt;/Menu.Item>
+        &lt;/Menu>
+      &lt;/div>
+    );
+  }
+}
 </code></pre>
         </article>
     </section>

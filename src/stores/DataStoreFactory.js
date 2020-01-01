@@ -33,18 +33,7 @@ export class DataStoreFactory {
 
   static get Stores() {
     return {
-      ACCOUNT_ACTIVATION: "account-activation",
-      RECENT_JOURNAL: "recent-journal",
-      RECENT_TASKS: "recent-tasks",
-      NEW_JOURNAL_ENTRY: "new-journal-entry",
-      NEW_TASK: "new-task",
-      XP_SUMMARY: "xp-summary",
-      UPDATED_FLAME: "updated-flame",
-      TEAM_WITH_MEMBERS: "team-with-members",
-      NEW_CIRCLE: "new-circle",
-      CLOSE_CIRCLE: "close-circle",
-      RESOLVE_ABORT: "resolve-abort",
-      UPDATED_FINISH: "updated-finish"
+      ACCOUNT_ACTIVATION: "account-activation"
     };
   }
 }

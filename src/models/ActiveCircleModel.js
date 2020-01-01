@@ -114,8 +114,6 @@ export class ActiveCircleModel extends DataModel {
    * Loads the active circle into context
    */
   loadActiveCircle = () => {
-    console.log(this.name + " - Request - loadActiveCircle");
-
     let remoteUrn = "/circle/active";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -162,11 +160,6 @@ export class ActiveCircleModel extends DataModel {
   closeActiveCircle = () => {
     if (!this.isInitialized) return;
 
-    console.log(
-      this.name +
-        " - Request - `closeActiveCircle`, Context: activeCircleId " +
-        this.activeCircleId
-    );
     if (this.activeCircleId == null) {
       return;
     }
@@ -195,9 +188,6 @@ export class ActiveCircleModel extends DataModel {
     if (!this.isInitialized) return;
 
     let args = { chatMessage: chatMessage };
-    console.log(
-      this.name + " - Request - postChatMessageToFeed, args: " + args
-    );
 
     if (this.activeCircleId == null) {
       return;
@@ -228,11 +218,6 @@ export class ActiveCircleModel extends DataModel {
     if (!this.isInitialized) return;
 
     let args = { fileName: fileName, filePath: filePath };
-    console.log(
-      this.name +
-        " - Request - postScreenshotReferenceToCircleFeed, args: " +
-        args
-    );
 
     if (this.activeCircleId == null) {
       return;
@@ -259,8 +244,6 @@ export class ActiveCircleModel extends DataModel {
    */
   getAllMessagesForCircleFeed = () => {
     if (!this.isInitialized) return;
-
-    console.log(this.name + " - Request - getAllMessagesForCircleFeed");
     let remoteUrn = "/circle/" + this.activeCircleId + "/feed";
     let loadRequestType = DataModel.RequestTypes.GET;
 
@@ -287,11 +270,6 @@ export class ActiveCircleModel extends DataModel {
   shelveCircleWithDoItLater = () => {
     if (!this.isInitialized) return;
 
-    console.log(
-      this.name +
-        " - Request - shelveCircleWithDoItLater, Context: activeCircleId " +
-        this.activeCircleId
-    );
     if (this.activeCircleId == null) {
       return;
     }
@@ -318,10 +296,6 @@ export class ActiveCircleModel extends DataModel {
   resumeAnExistingCircleFromDoItLaterShelf = () => {
     if (!this.isInitialized) return;
 
-    console.log(
-      this.name + " - Request - resumeAnExistingCircleFromDoItLaterShelf"
-    );
-
     let remoteUrn = "/circle/" + this.activeCircleId + "/transition/resume";
     let loadRequestType = DataModel.RequestTypes.POST;
 
@@ -341,18 +315,12 @@ export class ActiveCircleModel extends DataModel {
   //////////// REMOTE CALLBACK HANDLERS  ////////////
 
   onActiveCircleCb = (circleDto, err) => {
-    console.log(this.name + " - onActiveCircleCb");
     let oldCircle = this.activeCircleId;
 
     if (err) {
       console.log("error:" + err);
     } else {
       if (circleDto) {
-        console.log(
-          this.name +
-            " - onActiveCircleCb - configuring Circle: " +
-            circleDto.circleName
-        );
         this.activeCircleId = circleDto.id;
         this.activeCircle = circleDto;
         this.isAlarmTriggered = true;
@@ -362,7 +330,6 @@ export class ActiveCircleModel extends DataModel {
         this.hypercorePublicKey = circleDto.hypercorePublicKey;
         this.hypercoreSecretKey = circleDto.hypercoreSecretKey;
       } else {
-        console.log(this.name + " - onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;
         this.activeCircleId = null;
         this.activeCircle = null;
@@ -384,15 +351,10 @@ export class ActiveCircleModel extends DataModel {
   };
 
   onCreateCircleCb = (circleDto, err) => {
-    console.log(this.name + " - onCreateCircleCb");
-
     if (err) {
       console.log("error:" + err);
     } else {
       if (circleDto) {
-        console.log(
-          this.name + " - onActiveCircleCb - configuring Circle: " + circleDto
-        );
         this.activeCircleId = circleDto.id;
         this.activeCircle = circleDto;
         this.isAlarmTriggered = true;
@@ -402,7 +364,6 @@ export class ActiveCircleModel extends DataModel {
         this.hypercorePublicKey = circleDto.hypercorePublicKey;
         this.hypercoreSecretKey = circleDto.hypercoreSecretKey;
       } else {
-        console.log(this.name + " - onActiveCircleCb - no circle found");
         this.isAlarmTriggered = false;
         this.activeCircleId = null;
         this.activeCircle = null;
