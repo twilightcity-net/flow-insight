@@ -156,7 +156,7 @@ module.exports = class TalkController extends BaseController {
     });
     socket.on(TalkController.EventTypes.MESSAGE_ROOM, data => {
       log.info(chalk.green(name) + " room message : " + data);
-      this.talkMessageRoomListener.dispatch( );
+      this.talkMessageRoomListener.dispatch();
     });
     socket.on(TalkController.EventTypes.JOIN_ROOM, (roomId, fn) => {
       log.info(chalk.greenBright(name) + " joined room '" + roomId + "'");

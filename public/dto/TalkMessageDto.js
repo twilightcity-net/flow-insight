@@ -2,7 +2,6 @@
  * Object that is recieved by the REST interface for talk
  */
 module.exports = class TalkMessageDto {
-
   /**
    * builds our most used dto from the json in the socket push
    * @param json
@@ -16,9 +15,8 @@ module.exports = class TalkMessageDto {
       this.messageType = json.messageType;
       this.metaProps = json.metaProps;
       this.jsonBody = json.jsonBody;
-    }
-    catch (e) {
+    } catch (e) {
       throw new Error("Unable to create json : " + e.message);
     }
   }
-}
+};

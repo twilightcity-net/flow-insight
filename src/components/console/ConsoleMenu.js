@@ -54,7 +54,7 @@ export default class ConsoleMenu extends Component {
     });
   }
 
-  handleMenuClick = (e, {name}) => {
+  handleMenuClick = (e, { name }) => {
     if (this.isChanging || this.state.activeItem === name) return;
     this.isChanging = true;
 

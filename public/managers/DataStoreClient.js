@@ -1,4 +1,4 @@
-const {dialog} = require("electron"),
+const { dialog } = require("electron"),
   log = require("electron-log"),
   request = require("superagent");
 
@@ -43,19 +43,17 @@ class DataClient {
     let url = global.App.api + this.urn;
     log.info(
       "[DataStoreClient] [" +
-      this.type.toUpperCase() +
-      "] " +
-      this.store.name +
-      " " +
-      url
+        this.type.toUpperCase() +
+        "] " +
+        this.store.name +
+        " " +
+        url
     );
     if (DataStoreClient.Types.POST === this.type) {
       this.doPost(url);
-    }
-    else if (DataStoreClient.Types.GET === this.type) {
+    } else if (DataStoreClient.Types.GET === this.type) {
       this.doGet(url);
-    }
-    else {
+    } else {
       log.error(
         "[DataStoreClient] └> Unknown Request Type -> " + this.type + " " + url
       );
@@ -68,11 +66,11 @@ class DataClient {
 
   doPost(url) {
     let req = request
-    .post(url)
-    .retry(this.retry)
-    .timeout(this.timeout)
-    .send(this.store.dto)
-    .set("Content-Type", "application/json");
+      .post(url)
+      .retry(this.retry)
+      .timeout(this.timeout)
+      .send(this.store.dto)
+      .set("Content-Type", "application/json");
 
     if (global.App.ApiKey) {
       req.set("X-API-Key", global.App.ApiKey);
@@ -83,22 +81,20 @@ class DataClient {
       try {
         if (err) throw new Error(err);
         this.store.data = res.body;
-      }
-      catch (e) {
+      } catch (e) {
         this.store.error = e.toString();
         log.error(
           "[DataStoreClient] |> Connection Error -> " +
-          this.type +
-          " " +
-          url +
-          " : " +
-          e +
-          "\n\n" +
-          e.stack +
-          "\n"
+            this.type +
+            " " +
+            url +
+            " : " +
+            e +
+            "\n\n" +
+            e.stack +
+            "\n"
         );
-      }
-      finally {
+      } finally {
         this.callback(this.store);
       }
     });
@@ -106,11 +102,11 @@ class DataClient {
 
   doGet(url) {
     let req = request
-    .get(url)
-    .retry(this.retry)
-    .timeout(this.timeout)
-    .send(this.store.dto)
-    .set("Content-Type", "application/json");
+      .get(url)
+      .retry(this.retry)
+      .timeout(this.timeout)
+      .send(this.store.dto)
+      .set("Content-Type", "application/json");
 
     if (global.App.ApiKey) {
       req.set("X-API-Key", global.App.ApiKey);
@@ -121,22 +117,20 @@ class DataClient {
       try {
         if (err) throw new Error(err);
         this.store.data = res.body;
-      }
-      catch (e) {
+      } catch (e) {
         this.store.error = e.toString();
         log.error(
           "[DataStoreClient] |> Connection Error -> " +
-          this.type +
-          " " +
-          url +
-          " : " +
-          e +
-          "\n\n" +
-          e.stack +
-          "\n"
+            this.type +
+            " " +
+            url +
+            " : " +
+            e +
+            "\n\n" +
+            e.stack +
+            "\n"
         );
-      }
-      finally {
+      } finally {
         this.callback(this.store);
       }
     });
