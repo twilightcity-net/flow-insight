@@ -160,52 +160,6 @@ export default class JournalItems extends Component {
     this.props.onFinishEntry(journalItem, newStatus);
   };
 
-  handleKeyPress = e => {
-    if (e.keyCode === 37) {
-      this.spiritModel.adjustFlame(-1);
-    }
-    if (e.keyCode === 38) {
-      this.changeRowIndex("up");
-      e.preventDefault();
-    }
-    if (e.keyCode === 39) {
-      this.spiritModel.adjustFlame(1);
-    }
-    if (e.keyCode === 40) {
-      this.changeRowIndex("down");
-      e.preventDefault();
-    }
-  };
-
-  changeRowIndex = direction => {
-    if (this.state.activeJournalItem) {
-      let newIndex = this.state.activeJournalItem.index;
-
-      if (direction === "up") {
-        newIndex = newIndex - 1;
-      } else if (direction === "down") {
-        newIndex = Number(newIndex) + 1;
-      }
-
-      if (newIndex < 0) {
-        newIndex = 0;
-      }
-
-      if (newIndex > this.state.journalItems.length - 1) {
-        newIndex = this.state.journalItems.length - 1;
-      }
-
-      if (this.spiritModel.getActiveScope().isDirty) {
-        let oldJournalItem = this.state.activeJournalItem;
-        oldJournalItem.flameRating = this.spiritModel.getActiveScope().dirtyFlame;
-      }
-
-      let newActiveItem = this.state.journalItems[newIndex];
-      let rowObj = document.getElementById(newActiveItem.id);
-      this.onSetActiveRow(newActiveItem.id, rowObj, newActiveItem);
-    }
-  };
-
   isActive(id) {
     if (this.state.activeJournalItem) {
       return this.state.activeJournalItem.id === id;
@@ -231,7 +185,7 @@ export default class JournalItems extends Component {
         className="journalItems"
         style={{ height: DimensionController.getHeightFor(this) }}
       >
-        <Grid inverted onKeyPress={this.handleKeyPress}>
+        <Grid inverted>
           {this.state.journalItems.map(d => (
             <JournalItem
               key={d.id}
