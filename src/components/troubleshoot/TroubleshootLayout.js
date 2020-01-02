@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import TroubleshootOpen from "./TroubleshootOpen";
-import {ActiveCircleModel} from "../../models/ActiveCircleModel";
+import { ActiveCircleModel } from "../../models/ActiveCircleModel";
 import TroubleshootStart from "./TroubleshootStart";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import BrowserHeader from "../browser/BrowserHeader";
 
 /**
@@ -51,9 +51,10 @@ export default class TroubleshootLayout extends Component {
   };
 
   getBrowserHeader = (scope, member) => {
-    let circleName = this.myController.activeCircleModel.getActiveScope().circleName;
-    if(circleName !== "") {
-       circleName = "/" + circleName;
+    let circleName = this.myController.activeCircleModel.getActiveScope()
+      .circleName;
+    if (circleName !== "") {
+      circleName = "/" + circleName;
     }
     return (
       <div id="wrapper" className="browserHeader">
@@ -64,7 +65,7 @@ export default class TroubleshootLayout extends Component {
         />
       </div>
     );
-  }
+  };
 
   /**
    * renders the journal layout of the console view
@@ -82,8 +83,7 @@ export default class TroubleshootLayout extends Component {
           ctlr={this.myController}
         />
       );
-    }
-    else {
+    } else {
       wtfPanel = (
         <TroubleshootOpen
           onStopTroubleshooting={this.myController.onStopTroubleshooting}
@@ -94,9 +94,10 @@ export default class TroubleshootLayout extends Component {
 
     return (
       <div id="component" className="troubleshootLayout">
-        {
-          this.getBrowserHeader(this, this.myController.teamModel.getActiveTeamMemberShortName())
-        }
+        {this.getBrowserHeader(
+          this,
+          this.myController.teamModel.getActiveTeamMemberShortName()
+        )}
         <div id="wrapper" className="troubleshootContent">
           {wtfPanel}
         </div>

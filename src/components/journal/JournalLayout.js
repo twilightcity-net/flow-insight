@@ -1,8 +1,8 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import BrowserHeader from "../browser/BrowserHeader";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
-import {DataModelFactory} from "../../models/DataModelFactory";
+import { DataModelFactory } from "../../models/DataModelFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -22,14 +22,22 @@ export default class JournalLayout extends Component {
 
   onFinishEntry = (journalEntry, finishStatus) => {
     console.log(
-      this.name + " finished journal entry status : " + journalEntry.id + " -> " + finishStatus
+      this.name +
+        " finished journal entry status : " +
+        journalEntry.id +
+        " -> " +
+        finishStatus
     );
     this.journalModel.finishIntention(journalEntry.id, finishStatus);
   };
 
   onChangeActiveEntry = (rowId, journalItem) => {
     console.log(
-      this.name + " - journal entry changed :" + rowId + " -> " + journalItem.index
+      this.name +
+        " - journal entry changed :" +
+        rowId +
+        " -> " +
+        journalItem.index
     );
     this.journalModel.setActiveJournalItem(journalItem);
   };
@@ -55,7 +63,7 @@ export default class JournalLayout extends Component {
         />
       </div>
     );
-  }
+  };
 
   /**
    * renders the journal layout of the console view
@@ -64,8 +72,10 @@ export default class JournalLayout extends Component {
   render() {
     return (
       <div id="component" className="journalLayout">
-
-        {this.getBrowserHeader(this, this.teamModel.getActiveTeamMemberShortName())}
+        {this.getBrowserHeader(
+          this,
+          this.teamModel.getActiveTeamMemberShortName()
+        )}
         <div id="wrapper" className="journalItems">
           <JournalItems
             onChangeActiveEntry={this.onChangeActiveEntry}
@@ -73,7 +83,7 @@ export default class JournalLayout extends Component {
           />
         </div>
         <div id="wrapper" className="journalEntry">
-          <JournalEntry onAddTask={this.onAddTask}/>
+          <JournalEntry onAddTask={this.onAddTask} />
         </div>
       </div>
     );
