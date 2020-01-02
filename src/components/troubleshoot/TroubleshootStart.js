@@ -17,7 +17,7 @@ export default class TroubleshootStart extends Component {
     super(props);
     this.name = "[TroubleshootStart]";
     console.log(props);
-    this.myController = props.controller;
+    this.myController = props.ctlr;
 
     this.state = {
       activeCircle: null,
@@ -73,7 +73,7 @@ export default class TroubleshootStart extends Component {
    */
   render() {
     return (
-      <div id="component" className="troubleshootPanelDefault">
+      <div id="component" className="troubleshootContent">
         <Segment
           textAlign={"center"}
           className="wtf-panel-start"

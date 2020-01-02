@@ -15,6 +15,7 @@ export default class TroubleshootOpen extends Component {
   constructor(props) {
     super(props);
     this.name = "[TroubleshootOpen]";
+    this.myController = props.ctlr;
 
     this.state = {
       chatInputValue: "",

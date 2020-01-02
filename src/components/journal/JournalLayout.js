@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import BrowserHeader from "../browser/BrowserHeader";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
-import { DataModelFactory } from "../../models/DataModelFactory";
+import {DataModelFactory} from "../../models/DataModelFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -10,30 +10,27 @@ import { DataModelFactory } from "../../models/DataModelFactory";
 export default class JournalLayout extends Component {
   constructor(props) {
     super(props);
-
     this.name = "[JournalLayout]";
-
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
       this
     );
-
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS
     );
   }
 
   onFinishEntry = (journalEntry, finishStatus) => {
-    console.log(this.name + " - onFinishEntry");
-
+    console.log(
+      this.name + " finished journal entry status : " + journalEntry.id + " -> " + finishStatus
+    );
     this.journalModel.finishIntention(journalEntry.id, finishStatus);
   };
 
   onChangeActiveEntry = (rowId, journalItem) => {
     console.log(
-      this.name + " - onChangeActiveEntry:" + rowId + ", " + journalItem.index
+      this.name + " - journal entry changed :" + rowId + " -> " + journalItem.index
     );
-
     this.journalModel.setActiveJournalItem(journalItem);
   };
 
@@ -48,6 +45,18 @@ export default class JournalLayout extends Component {
     this.journalModel.addTaskRef(taskName);
   };
 
+  getBrowserHeader = (scope, member) => {
+    return (
+      <div id="wrapper" className="browserHeader">
+        <BrowserHeader
+          scope={scope}
+          member={member}
+          location={"/Journal/" + member}
+        />
+      </div>
+    );
+  }
+
   /**
    * renders the journal layout of the console view
    * @returns {*} - returns the JSX for this component
@@ -55,11 +64,8 @@ export default class JournalLayout extends Component {
   render() {
     return (
       <div id="component" className="journalLayout">
-        <div id="wrapper" className="browserHeader">
-          <BrowserHeader
-            member={this.teamModel.getActiveTeamMemberShortName()}
-          />
-        </div>
+
+        {this.getBrowserHeader(this, this.teamModel.getActiveTeamMemberShortName())}
         <div id="wrapper" className="journalItems">
           <JournalItems
             onChangeActiveEntry={this.onChangeActiveEntry}
@@ -67,7 +73,7 @@ export default class JournalLayout extends Component {
           />
         </div>
         <div id="wrapper" className="journalEntry">
-          <JournalEntry onAddTask={this.onAddTask} />
+          <JournalEntry onAddTask={this.onAddTask}/>
         </div>
       </div>
     );
