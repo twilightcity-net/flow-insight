@@ -1,10 +1,10 @@
-import React, { Component } from "react";
-import { Grid } from "semantic-ui-react";
+import React, {Component} from "react";
+import {Grid} from "semantic-ui-react";
 import JournalItem from "./JournalItem";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { SpiritModel } from "../../models/SpiritModel";
-import { JournalModel } from "../../models/JournalModel";
-import { DimensionController } from "../../controllers/DimensionController";
+import {DataModelFactory} from "../../models/DataModelFactory";
+import {SpiritModel} from "../../models/SpiritModel";
+import {JournalModel} from "../../models/JournalModel";
+import {DimensionController} from "../../controllers/DimensionController";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -87,7 +87,7 @@ export default class JournalItems extends Component {
     let activeJournalItem = journalModel.activeJournalItem;
     let dirtyFlame = spiritModel.dirtyFlame;
 
-    this.timeout = setTimeout(function() {
+    this.timeout = setTimeout(function () {
       journalModel.updateFlameRating(activeJournalItem, dirtyFlame);
     }, 500);
   };
@@ -102,13 +102,13 @@ export default class JournalItems extends Component {
         rowObj &&
         (this.isFirstActive() || !this.isElementInViewport(rowObj))
       ) {
-        rowObj.scrollIntoView({ behavior: "smooth" });
+        rowObj.scrollIntoView({behavior: "smooth"});
       }
     }
 
     if (this.isLastActive()) {
       console.log(this.name + " - isLastActive");
-      this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+      this.messagesEnd.scrollIntoView({behavior: "smooth"});
     }
   };
 
@@ -139,11 +139,11 @@ export default class JournalItems extends Component {
       rect.top >= 0 &&
       rect.left >= 0 &&
       rect.bottom <=
-        (window.innerHeight ||
-          document.documentElement.clientHeight) /*or $(window).height() */ &&
+      (window.innerHeight ||
+        document.documentElement.clientHeight) /*or $(window).height() */ &&
       rect.right <=
-        (window.innerWidth ||
-          document.documentElement.clientWidth) /*or $(window).width() */
+      (window.innerWidth ||
+        document.documentElement.clientWidth) /*or $(window).width() */
     );
   };
 
@@ -163,7 +163,8 @@ export default class JournalItems extends Component {
   isActive(id) {
     if (this.state.activeJournalItem) {
       return this.state.activeJournalItem.id === id;
-    } else {
+    }
+    else {
       return false;
     }
   }
@@ -177,40 +178,44 @@ export default class JournalItems extends Component {
     return dirtyFlame;
   }
 
+  getJournalItems = (d) => {
+    return (
+      <JournalItem
+        key={d.id}
+        id={d.id}
+        isMyJournal={!this.journalModel.isAltMemberSelected}
+        isActive={this.isActive(d.id)}
+        dirtyFlame={this.getEffectiveDirtyFlame(d.id)}
+        linked={d.linked}
+        projectName={d.projectName}
+        taskName={d.taskName}
+        taskSummary={d.taskSummary}
+        description={d.description}
+        flameRating={d.flameRating}
+        finishStatus={d.finishStatus}
+        journalEntryType={d.journalEntryType}
+        circleId={d.circleId}
+        position={d.position}
+        journalItem={d}
+        onSetActiveRow={this.onSetActiveRow}
+        onUpdateFinishStatus={this.onUpdateFinishStatus}
+      />
+    );
+  }
+
   /// renders the journal items component from array in the console view
   render() {
     return (
       <div
         id="component"
         className="journalItems"
-        style={{ height: DimensionController.getHeightFor(this) }}
+        style={{height: DimensionController.getHeightFor(this)}}
       >
         <Grid inverted>
-          {this.state.journalItems.map(d => (
-            <JournalItem
-              key={d.id}
-              id={d.id}
-              isMyJournal={!this.journalModel.isAltMemberSelected}
-              isActive={this.isActive(d.id)}
-              dirtyFlame={this.getEffectiveDirtyFlame(d.id)}
-              linked={d.linked}
-              projectName={d.projectName}
-              taskName={d.taskName}
-              taskSummary={d.taskSummary}
-              description={d.description}
-              flameRating={d.flameRating}
-              finishStatus={d.finishStatus}
-              journalEntryType={d.journalEntryType}
-              circleId={d.circleId}
-              position={d.position}
-              journalItem={d}
-              onSetActiveRow={this.onSetActiveRow}
-              onUpdateFinishStatus={this.onUpdateFinishStatus}
-            />
-          ))}
+          {this.state.journalItems.map(this.getJournalItems)}
         </Grid>
         <div
-          style={{ float: "left", clear: "both" }}
+          style={{float: "left", clear: "both"}}
           ref={el => {
             this.messagesEnd = el;
           }}

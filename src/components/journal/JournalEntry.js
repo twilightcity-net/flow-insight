@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { JournalModel } from "../../models/JournalModel";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import React, {Component} from "react";
+import {Button, Dropdown, Grid, Input, Segment} from "semantic-ui-react";
+import {DataModelFactory} from "../../models/DataModelFactory";
+import {JournalModel} from "../../models/JournalModel";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -137,7 +137,7 @@ export default class JournalEntry extends Component {
    */
   getCurrentTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
     if (!currentProject || !recentTasksByProjectId) {
-      return { tasks: [], currentTaskValue: null };
+      return {tasks: [], currentTaskValue: null};
     }
 
     let currentTasks = recentTasksByProjectId[currentProject];
@@ -168,7 +168,7 @@ export default class JournalEntry extends Component {
    * @param e
    * @param value
    */
-  handleAdditionForTask = (e, { value }) => {
+  handleAdditionForTask = (e, {value}) => {
     console.log(this.name + " - handleAdditionForTask:" + value);
 
     //setup temporary addition to the menu
@@ -188,7 +188,7 @@ export default class JournalEntry extends Component {
     if (!searchIsFound) {
       newTasks = [
         ...this.state.tasks,
-        { text: "Searching...", value: "search" }
+        {text: "Searching...", value: "search"}
       ];
     }
 
@@ -204,7 +204,7 @@ export default class JournalEntry extends Component {
    * @param e
    * @param value
    */
-  handleChangeForProject = (e, { value }) => {
+  handleChangeForProject = (e, {value}) => {
     console.log(this.name + " - handleChangeForProject: " + value);
 
     let currentProject = value;
@@ -245,7 +245,7 @@ export default class JournalEntry extends Component {
    * @param e
    * @param value
    */
-  handleChangeForTask = (e, { value }) => {
+  handleChangeForTask = (e, {value}) => {
     //console.log("handleChangeForTask");
     this.setState({
       currentTaskValue: value
@@ -284,7 +284,7 @@ export default class JournalEntry extends Component {
         this.state.currentIntentionValue
       );
 
-      this.setState({ currentIntentionValue: "" });
+      this.setState({currentIntentionValue: ""});
     }
   };
 
@@ -294,8 +294,8 @@ export default class JournalEntry extends Component {
    * @param name
    * @param value
    */
-  handleChangeForIntention = (e, { name, value }) => {
-    this.setState({ currentIntentionValue: value });
+  handleChangeForIntention = (e, {name, value}) => {
+    this.setState({currentIntentionValue: value});
   };
 
   /**
@@ -342,6 +342,77 @@ export default class JournalEntry extends Component {
     document.getElementById("createIntentionInput").classList.remove("focused");
   };
 
+  getProjectDropdown() {
+    return (
+      <Dropdown
+        disabled={this.state.disableControls}
+        className="projectId"
+        id="journalEntryProjectId"
+        placeholder="Choose Project"
+        selection
+        search
+        options={this.state.projects}
+        fluid
+        upward
+        value={this.state.currentProjectValue}
+        onFocus={this.handleFocusForProject}
+        onBlur={this.handleBlurForInput}
+        onChange={this.handleChangeForProject}
+        onKeyPress={this.handleKeyPressForProject}
+      />
+    );
+  }
+
+  getTaskDropdown() {
+    return (
+      <Dropdown
+        disabled={this.state.disableControls}
+        id="journalEntryTaskId"
+        className="chunkId"
+        options={this.state.tasks}
+        placeholder="Choose Task"
+        search
+        selection
+        fluid
+        upward
+        allowAdditions
+        value={this.state.currentTaskValue}
+        onFocus={this.handleFocusForTask}
+        onBlur={this.handleBlurForInput}
+        onAddItem={this.handleAdditionForTask}
+        onKeyPress={this.handleKeyPressForTask}
+        onChange={this.handleChangeForTask}
+      />
+    );
+  }
+
+  getTextInput() {
+    return (
+      <Input
+        disabled={this.state.disableControls}
+        id="intentionTextInput"
+        className="intentionText"
+        fluid
+        inverted
+        value={this.state.currentIntentionValue}
+        onFocus={this.handleFocusForIntention}
+        onBlur={this.handleBlurForInput}
+        onKeyPress={this.handleKeyPressForIntention}
+        onChange={this.handleChangeForIntention}
+        action={
+          <Button
+            className="createIntention"
+            icon="share"
+            labelPosition="right"
+            content="Create"
+            onClick={this.handleClickForCreate}
+          />
+        }
+        placeholder="What's your next Intention?"
+      />
+    );
+  }
+
   /**
    * renders the journal entry component of the console view
    * @returns {*}
@@ -354,68 +425,13 @@ export default class JournalEntry extends Component {
             <Grid columns="equal" divided inverted>
               <Grid.Row stretched>
                 <Grid.Column width={2} id="selectProjectInput">
-                  <Dropdown
-                    disabled={this.state.disableControls}
-                    className="projectId"
-                    id="journalEntryProjectId"
-                    placeholder="Choose Project"
-                    selection
-                    search
-                    options={this.state.projects}
-                    fluid
-                    upward
-                    value={this.state.currentProjectValue}
-                    onFocus={this.handleFocusForProject}
-                    onBlur={this.handleBlurForInput}
-                    onChange={this.handleChangeForProject}
-                    onKeyPress={this.handleKeyPressForProject}
-                  />
+                  {this.getProjectDropdown()}
                 </Grid.Column>
-                <Grid.Column width={3} id="selectTaskInput">
-                  <Dropdown
-                    disabled={this.state.disableControls}
-                    id="journalEntryTaskId"
-                    className="chunkId"
-                    options={this.state.tasks}
-                    placeholder="Choose Task"
-                    search
-                    selection
-                    fluid
-                    upward
-                    allowAdditions
-                    value={this.state.currentTaskValue}
-                    onFocus={this.handleFocusForTask}
-                    onBlur={this.handleBlurForInput}
-                    onAddItem={this.handleAdditionForTask}
-                    onKeyPress={this.handleKeyPressForTask}
-                    onChange={this.handleChangeForTask}
-                  />
+                <Grid.Column width={2} id="selectTaskInput">
+                  {this.getTaskDropdown()}
                 </Grid.Column>
                 <Grid.Column width={11} id="createIntentionInput">
-                  <div>
-                    <Input
-                      disabled={this.state.disableControls}
-                      id="intentionTextInput"
-                      className="intentionText"
-                      fluid
-                      inverted
-                      value={this.state.currentIntentionValue}
-                      onFocus={this.handleFocusForIntention}
-                      onBlur={this.handleBlurForInput}
-                      onKeyPress={this.handleKeyPressForIntention}
-                      onChange={this.handleChangeForIntention}
-                      action={
-                        <Button
-                          className="createIntention"
-                          icon="share"
-                          labelPosition="right"
-                          content="Create"
-                          onClick={this.handleClickForCreate}
-                        />
-                      }
-                      placeholder="What's your next Intention?"
-                    />
-                  </div>
+                  {this.getTextInput()}
                 </Grid.Column>
               </Grid.Row>
             </Grid>
