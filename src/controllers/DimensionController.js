@@ -129,10 +129,11 @@ export class DimensionController {
     let heights = {
       window: window.innerHeight,
       border: 2,
-      margin: 18,
-      header: 22
+      margin: 8,
+      menu: 28,
+      header: 61
     };
-    return heights.window - heights.border - heights.margin - heights.header;
+    return heights.window - heights.border - heights.margin - heights.header - heights.menu;
   }
 
   static getDefaultConsoleSidebarPanelWidth() {
@@ -153,13 +154,17 @@ export class DimensionController {
   static getHeightFor(component) {
     if (component.name === "[" + SpiritPanel.name + "]") {
       return DimensionController.getSpiritPanelHeight();
-    } else if (component.name === "[" + JournalItems.name + "]") {
+    }
+    else if (component.name === "[" + JournalItems.name + "]") {
       return DimensionController.getJournalItemsPanelHeight();
-    } else if (component.name === "[" + FlowContent.name + "]") {
+    }
+    else if (component.name === "[" + FlowContent.name + "]") {
       return DimensionController.getFlowPanelHeight();
-    } else if (component.name === "[" + ConsoleLayout.name + "]") {
+    }
+    else if (component.name === "[" + ConsoleLayout.name + "]") {
       return DimensionController.getConsoleLayoutHeight();
-    } else if (component.name === "[" + TroubleshootStart.name + "]") {
+    }
+    else if (component.name === "[" + TroubleshootStart.name + "]") {
       return DimensionController.getTroubleshootContentHeight();
     }
     return DimensionController.getDefaultConsoleSidebarPanelHeight();
