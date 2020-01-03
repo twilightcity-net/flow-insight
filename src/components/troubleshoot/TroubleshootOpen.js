@@ -234,9 +234,6 @@ export default class TroubleshootOpen extends Component {
               </Button>
             </Segment>
           </Grid.Column>
-          <Grid.Column width={6} className="rootLayout">
-            <Segment inverted />
-          </Grid.Column>
         </Grid>
       </div>
     );

@@ -114,7 +114,6 @@
       #view.activator .ui.successContent .ui.divider {
         padding-top: 16px;
       }
-
       #view.activator .ui.failedContent {
         padding-top: 16px;
       }
@@ -127,7 +126,6 @@
       #view.activator .ui.failedContent .ui.divider {
         padding-top: 16px;
       }
-
       #view.activator .ui.input input {
         transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);
@@ -162,13 +160,11 @@
         padding-left: 0.5em;
       }
       #component.consoleLayout #wrapper.consoleContent {
-        position: relative;
         overflow: hidden;
+        position: relative;
         top: 0.420em;
-        left: 0.420em;
-      }
-      #component.consoleLayout #component.consoleContent {
-        margin-right: 0.9em;
+        padding-left: 0.420em;
+        padding-right: 0.420em;
       }
       #component.consoleLayout #wrapper.consoleMenu {
         padding: 0 0;
@@ -204,10 +200,9 @@
        * COMPONENT: CONSOLE-SIDEBAR-PANEL
        */
       #component.consoleSidebarPanel {
-        width: 0px;
+        width: 0;
         opacity: 0;
         transition: width 0.420s, opacity 0.35s ease-in;
-        /*padding: 3px 1px 3px 3px;*/
         overflow: hidden;
         border-right: 1px solid rgba(41,41,41,1);
         border-left: 1px solid rgba(41,41,41,1);
@@ -222,8 +217,6 @@
       #component.consoleSidebarPanel .ui.menu {
         background: rgba(26, 27, 28, 1);
         margin: 0;
-        /*border-top-right-radius: 0.5em;*/
-        /*border-top-left-radius: 0.5em;*/
       }
 
       #component.consoleSidebarPanel .spiritContent div.spiritBackground {
@@ -292,8 +285,6 @@
         background: rgba(100, 100, 100, 0.96);
       }
 
-
-
       /*
        * COMPONENT: CONSOLE-MENU
        */
@@ -330,94 +321,88 @@
       #component.consoleMenu .right.menu .item i {
         margin-right: 0;
       }
+
       /*
        * COMPONENT: TEAM-PANEL
        */
 
-      i.doneGreen.check.icon {
+      #component.teamPanel i.doneGreen.check.icon {
         color: rgba(27, 175, 26, 0.96);
       }
 
-      i.doneGreenDark.check.icon {
+      #component.teamPanel i.doneGreenDark.check.icon {
         color: rgba(27, 130, 26, 0.96);
       }
 
-      div.doneGreen {
+      #component.teamPanel div.doneGreen {
         color: rgba(27, 175, 26, 0.96);
       }
 
-      div.doneRed {
+      #component.teamPanel div.doneRed {
         color: rgba(255, 0, 0, 0.96);
       }
 
-      div.tooltipPurple {
+      #component.teamPanel div.tooltipPurple {
         color: rgba(160, 130, 250, 1);
       }
 
-      div.tooltipRed {
+      #component.teamPanel div.tooltipRed {
         color: rgba(160, 0, 0, 0.96);
       }
 
-
-      i.doneRed.close.icon {
+      #component.teamPanel i.doneRed.close.icon {
         color: rgba(160, 0, 0, 0.96);
       }
 
-      i.onlineColor.circle.link.icon {
+      #component.teamPanel i.onlineColor.circle.link.icon {
         color: rgba(140, 110, 250, 1);
       }
 
-      i.offlineColor.circle.outline.icon {
+      #component.teamPanel i.offlineColor.circle.outline.icon {
         color: #999999;
       }
 
-      i.alarmColor.circle.link.icon {
+      #component.teamPanel i.alarmColor.circle.link.icon {
         color: red;
       }
 
-      i.chainStatus {
+      #component.teamPanel i.chainStatus {
         float: right;
       }
 
-      i.journalLink {
-
-      }
-
-
-      i.chainLink {
+      #component.teamPanel i.chainLink {
         position:absolute;
         right: 20px;
         z-index:1;
       }
 
-      i.chainUnlink {
+      #component.teamPanel i.chainUnlink {
         position:absolute;
         right: 20px;
         z-index:1;
       }
 
-
-      span.alarm {
+      #component.teamPanel span.alarm {
         color: red;
         font-style: italic;
       }
 
-      span.alarmDim {
+      #component.teamPanel span.alarmDim {
         color: darkred;
         font-style: italic;
       }
 
-      span.circleLink {
+      #component.teamPanel span.circleLink {
         color: rgba(220, 0, 0, 0.96);
         font-weight: 800;
       }
 
-      span.circleLink:hover {
+      #component.teamPanel span.circleLink:hover {
         color: rgba(255, 0, 0, 0.96);
         text-decoration: underline;
       }
 
-      span.offlineColor {
+      #component.teamPanel span.offlineColor {
         color: #999999;
       }
 
@@ -444,18 +429,6 @@
       #component.teamPanel .ui.grid .row .memberText {
         font-weight: 400;
         color: #cccccc;
-      }
-
-
-      /*
-       * COMPONENT: TROUBLESHOOT-LAYOUT
-       */
-      #component.troubleshootLayout #wrapper.troubleshootItems {
-        margin: 0px;
-        padding: 4px 1px;
-      }
-      #component.troubleshootLayout #component.troubleshootContent .ui.segment {
-        margin:0px;
       }
 
       /*
@@ -536,9 +509,6 @@
         position: relative;
         overflow: hidden;
       }
-      #component.browserHeader {
-        top: 5px
-      }
       #component.browserHeader #browserGoInput .ui.button {
         border-top-left-radius: 0px;
         border-bottom-left-radius: 0px;
@@ -614,6 +584,9 @@
       /*
        * COMPONENT: JOURNAL-ITEMS
        */
+      #wrapper.journalItems {
+        padding-left: 0.420em;
+      }
       #component.journalItems {
         overflow-y: scroll;
         overflow-x: hidden;
