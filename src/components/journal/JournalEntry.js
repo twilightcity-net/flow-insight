@@ -424,7 +424,7 @@ export default class JournalEntry extends Component {
           <Segment inverted>
             <Grid columns="equal" divided inverted>
               <Grid.Row stretched>
-                <Grid.Column width={2} id="selectProjectInput">
+                <Grid.Column width={3} id="selectProjectInput">
                   {this.getProjectDropdown()}
                 </Grid.Column>
                 <Grid.Column width={2} id="selectTaskInput">

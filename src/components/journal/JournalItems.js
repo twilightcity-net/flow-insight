@@ -178,29 +178,31 @@ export default class JournalItems extends Component {
     return dirtyFlame;
   }
 
-  getJournalItems = (d) => {
-    return (
-      <JournalItem
-        key={d.id}
-        id={d.id}
-        isMyJournal={!this.journalModel.isAltMemberSelected}
-        isActive={this.isActive(d.id)}
-        dirtyFlame={this.getEffectiveDirtyFlame(d.id)}
-        linked={d.linked}
-        projectName={d.projectName}
-        taskName={d.taskName}
-        taskSummary={d.taskSummary}
-        description={d.description}
-        flameRating={d.flameRating}
-        finishStatus={d.finishStatus}
-        journalEntryType={d.journalEntryType}
-        circleId={d.circleId}
-        position={d.position}
-        journalItem={d}
-        onSetActiveRow={this.onSetActiveRow}
-        onUpdateFinishStatus={this.onUpdateFinishStatus}
-      />
-    );
+  getJournalItems() {
+    return this.state.journalItems.map((d) => {
+      return (
+        <JournalItem
+          key={d.id}
+          id={d.id}
+          isMyJournal={!this.journalModel.isAltMemberSelected}
+          isActive={this.isActive(d.id)}
+          dirtyFlame={this.getEffectiveDirtyFlame(d.id)}
+          linked={d.linked}
+          projectName={d.projectName}
+          taskName={d.taskName}
+          taskSummary={d.taskSummary}
+          description={d.description}
+          flameRating={d.flameRating}
+          finishStatus={d.finishStatus}
+          journalEntryType={d.journalEntryType}
+          circleId={d.circleId}
+          position={d.position}
+          journalItem={d}
+          onSetActiveRow={this.onSetActiveRow}
+          onUpdateFinishStatus={this.onUpdateFinishStatus}
+        />
+      )
+    });
   }
 
   /// renders the journal items component from array in the console view
@@ -212,7 +214,7 @@ export default class JournalItems extends Component {
         style={{height: DimensionController.getHeightFor(this)}}
       >
         <Grid inverted>
-          {this.state.journalItems.map(this.getJournalItems)}
+          {this.getJournalItems()}
         </Grid>
         <div
           style={{float: "left", clear: "both"}}
