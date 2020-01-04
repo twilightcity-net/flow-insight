@@ -238,7 +238,7 @@ export default class JournalItem extends Component {
         <Grid.Column width={9} className="chunkCell">
           {chunkCell}
         </Grid.Column>
-        <Grid.Column width={1} className="chunkTitle">
+        <Grid.Column width={2} className="chunkTitle">
           {flameBlock}
         </Grid.Column>
       </Grid.Row>

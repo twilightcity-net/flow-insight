@@ -503,16 +503,18 @@
       #wrapper.browserHeader {
         font-style: italic;
         position: relative;
-        overflow: hidden;
       }
-      #component.browserHeader #browserGoInput .ui.button {
+      #component.browserHeader #browserGoBtnCell {
+        padding-left: 0;
+      }
+      #component.browserHeader #browserGoBtnCell .ui.button {
         border-top-left-radius: 0px;
         border-bottom-left-radius: 0px;
       }
       #component.browserHeader .ui.segment {
         padding: .45em .5em .6em .75em;
       }
-      #component.browserHeader .ui.input.browserText input {
+      #component.browserHeader .ui.input.browserLocation input {
         transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);
         border: 1px solid rgba(74, 74, 74, 0.96);
@@ -521,17 +523,17 @@
         border-bottom-right-radius: 0px;
         color: rgba(241, 241, 241, 0.96);
       }
-      #component.browserHeader .ui.input.browserText input:focus {
+      #component.browserHeader .ui.input.browserLocation input:focus {
         border: 1px solid rgba(100, 53, 201, 0.96);
         border-right-width: 0;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
       }
-      #component.browserHeader .ui.input.browserText input::placeholder {
+      #component.browserHeader .ui.input.browserLocation input::placeholder {
         font-style: italic;
         color: rgba(100, 100, 100, 0.96)
       }
-      #component.browserHeader .ui.input.browserText .ui.button {
+      #component.browserHeader .ui.input.browserLocation .ui.button {
         transition: background, color .840s ease-out;
         background: rgba(72, 72, 72, 0.96);
         color: rgba(187, 187, 187, 0.96);
@@ -545,7 +547,7 @@
         padding-left: 23px;
         padding-right: 14px;
       }
-      #component.browserHeader .ui.input.browserText .ui.button.browserGo {
+      #component.browserHeader .ui.input.browserLocation .ui.button.browserGo {
         transition: background, color .840s ease-out;
         background: rgba(72, 72, 72, 0.96);
         border-top-left-radius: 0px;
@@ -561,6 +563,64 @@
         color: rgba(241, 241, 241, 0.96);
         border: none;
       }
+
+
+
+      #component.browserHeader .ui.dropdown {
+        min-width: 7em;
+      }
+      #component.browserHeader .ui.dropdown .default.text {
+        font-style: italic;
+        color: rgba(222, 222, 222, 0.96);
+      }
+      #component.browserHeader .ui.dropdown {
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        color: rgba(241, 241, 241, 0.96);
+        border: 1px solid rgba(74, 74, 74, 0.96);
+      }
+      #component.browserHeader .ui.dropdown input {
+        color: rgba(222, 222, 222, 0.96);
+      }
+      #component.browserHeader .ui.dropdown div.text {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 100%;
+      }
+      #component.browserHeader .ui.dropdown .menu {
+        transition: border 0.840s ease-out;
+        background: rgba(27, 28, 29, 0.96);
+        border-color: rgba(72, 72, 72, 0.96);
+      }
+      #component.browserHeader .column.focused .ui.dropdown {
+        border: 1px solid rgba(100, 53, 201, 0.96);
+      }
+      #component.browserHeader .column.focused .ui.dropdown .menu {
+        border: 1px solid rgba(100, 53, 201, 0.96);
+      }
+      #component.browserHeader .ui.selection.dropdown .menu>.item {
+        transition: background, color 0.420s ease-out;
+        border-top: 1px solid rgba(72, 72, 72, 0.96);
+        color: rgba(100, 100, 100, 0.96);
+      }
+      #component.browserHeader .ui.selection.dropdown .menu>.item:last-child {
+        border-bottom: 1px solid rgba(72, 72, 72, 0.96);
+      }
+      #component.browserHeader .ui.selection.dropdown .menu>.item:hover {
+        background: #2b2b2b;
+        font-weight: 800;
+        color: rgba(200, 200, 200, 0.96);
+      }
+      #component.browserHeader .ui.selection.dropdown .menu>.selected.item {
+        background:rgba(100, 53, 201, 0.96);
+        color: rgba(255, 255, 255, 0.96);
+      }
+
+
+
+
+
 
       /*
        * COMPONENT: FLOW-LAYOUT
@@ -721,6 +781,12 @@
       #component.journalEntry .ui.grid .column:nth-child(3) {
         padding: 0px 14px 0px 4px;
       }
+
+
+
+
+
+
       #component.journalEntry .ui.dropdown .default.text {
         font-style: italic;
         color: rgba(222, 222, 222, 0.96);
@@ -768,6 +834,15 @@
         background:rgba(100, 53, 201, 0.96);
         color: rgba(255, 255, 255, 0.96);
       }
+
+
+
+
+
+
+
+
+
       #component.journalEntry .ui.input.intentionText input {
         transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);

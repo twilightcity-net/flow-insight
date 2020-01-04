@@ -226,7 +226,7 @@ export default class JournalEntry extends Component {
    * called when a project is selected in dropdown
    * @param e
    */
-  handleKeyPressForProject = e => {
+  handleKeyPressForProject = (e) => {
     if (e.key === "Enter") {
       console.log("ENTER!");
     }
@@ -236,7 +236,7 @@ export default class JournalEntry extends Component {
    * called when a project is selected in dropdown
    * @param e
    */
-  handleKeyPressForTask = e => {
+  handleKeyPressForTask = (e) => {
     //console.log("handleKeyPressForTask: ");
   };
 
@@ -394,6 +394,7 @@ export default class JournalEntry extends Component {
         className="intentionText"
         fluid
         inverted
+        placeholder="What's your next Intention?"
         value={this.state.currentIntentionValue}
         onFocus={this.handleFocusForIntention}
         onBlur={this.handleBlurForInput}
@@ -408,7 +409,7 @@ export default class JournalEntry extends Component {
             onClick={this.handleClickForCreate}
           />
         }
-        placeholder="What's your next Intention?"
+
       />
     );
   }
