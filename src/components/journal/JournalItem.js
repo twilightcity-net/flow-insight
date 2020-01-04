@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {Divider, Grid, Icon, Image, Popup} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Divider, Grid, Icon, Image, Popup } from "semantic-ui-react";
 
 /**
  * this component is the individual journal item entered in by the user
@@ -41,12 +41,10 @@ export default class JournalItem extends Component {
   render() {
     let finishIcon = "";
     if (this.props.finishStatus === "done") {
-      finishIcon = <Icon name="check" className="doneGreenDark"/>;
-    }
-    else if (this.props.finishStatus === "aborted") {
-      finishIcon = <Icon name="close" className="doneRed"/>;
-    }
-    else if (this.props.isMyJournal) {
+      finishIcon = <Icon name="check" className="doneGreenDark" />;
+    } else if (this.props.finishStatus === "aborted") {
+      finishIcon = <Icon name="close" className="doneRed" />;
+    } else if (this.props.isMyJournal) {
       finishIcon = (
         <span>
           {" "}
@@ -113,8 +111,7 @@ export default class JournalItem extends Component {
             </div>
           </div>
         );
-      }
-      else {
+      } else {
         wtfPopup = (
           <div>
             <div>
@@ -132,7 +129,7 @@ export default class JournalItem extends Component {
 
     let linkedBlock = "";
     if (this.props.linked) {
-      linkedBlock = <Icon name="linkify" className="journalLink"/>;
+      linkedBlock = <Icon name="linkify" className="journalLink" />;
     }
 
     let taskStyle = "chunkTitle";
@@ -178,7 +175,7 @@ export default class JournalItem extends Component {
         </div>
         <div>{this.props.taskSummary}</div>
 
-        <Divider/>
+        <Divider />
         <div>
           <span className="date">{this.props.position}</span>
         </div>
@@ -197,15 +194,14 @@ export default class JournalItem extends Component {
       flameBlock = (
         <span className="yayFlame">
           {flameRating}{" "}
-          <Image src="./assets/images/yay/16x16.png" verticalAlign="top"/>
+          <Image src="./assets/images/yay/16x16.png" verticalAlign="top" />
         </span>
       );
-    }
-    else if (flameRating < 0) {
+    } else if (flameRating < 0) {
       flameBlock = (
         <span className="wtfFlame">
           {Math.abs(flameRating)}{" "}
-          <Image src="./assets/images/wtf/16x16.png" verticalAlign="middle"/>
+          <Image src="./assets/images/wtf/16x16.png" verticalAlign="middle" />
         </span>
       );
     }

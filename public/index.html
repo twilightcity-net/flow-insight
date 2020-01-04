@@ -507,14 +507,14 @@
       #component.browserHeader #browserGoBtnCell {
         padding-left: 0;
       }
-      #component.browserHeader #browserGoBtnCell .ui.button {
+      #component.browserHeader .ui.button.browserGo {
         border-top-left-radius: 0px;
         border-bottom-left-radius: 0px;
       }
       #component.browserHeader .ui.segment {
         padding: .45em .5em .6em .75em;
       }
-      #component.browserHeader .ui.input.browserLocation input {
+      #component.browserHeader .ui.input.browserInput input {
         transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);
         border: 1px solid rgba(74, 74, 74, 0.96);
@@ -523,80 +523,67 @@
         border-bottom-right-radius: 0px;
         color: rgba(241, 241, 241, 0.96);
       }
-      #component.browserHeader .ui.input.browserLocation input:focus {
+      #component.browserHeader .ui.input.browserInput input:focus {
         border: 1px solid rgba(100, 53, 201, 0.96);
         border-right-width: 0;
         border-top-right-radius: 0px;
         border-bottom-right-radius: 0px;
       }
-      #component.browserHeader .ui.input.browserLocation input::placeholder {
+      #component.browserHeader .ui.input.browserInput input::placeholder {
         font-style: italic;
         color: rgba(100, 100, 100, 0.96)
       }
-      #component.browserHeader .ui.input.browserLocation .ui.button {
-        transition: background, color .840s ease-out;
+      #component.browserHeader .ui.button.browserGo {
+        transition: background .840s ease-out !important;
+        transition: color .840s ease-out;
         background: rgba(72, 72, 72, 0.96);
         color: rgba(187, 187, 187, 0.96);
-        border: none;
-      }
-      #component.browserHeader .ui.button.browserBack,
-      #component.browserHeader .ui.button.browserForward {
-        margin:0;
-        padding: 0;
-        margin-right: 4px;
-        padding-left: 23px;
-        padding-right: 14px;
-      }
-      #component.browserHeader .ui.input.browserLocation .ui.button.browserGo {
-        transition: background, color .840s ease-out;
-        background: rgba(72, 72, 72, 0.96);
+        border:none;
         border-top-left-radius: 0px;
         border-bottom-left-radius: 0px;
+        padding-right: .6969em;
       }
-      #component.browserHeader .ui.input.browserText .ui.button.browserGo.focused {
+      #component.browserHeader .ui.button.browserGo.focused {
         transition: background, color .840s ease-out;
         background: rgba(100, 53, 201, 0.96);
       }
-      #component.browserHeader .ui.input.browserText .ui.button:hover {
+      #component.browserHeader .ui.button.browserGo:hover {
         transition: background, color .840s ease-out;
         background: rgba(100, 53, 201, 0.96);
         color: rgba(241, 241, 241, 0.96);
         border: none;
       }
-
-
-
-      #component.browserHeader .ui.dropdown {
+      #component.browserHeader .ui.dropdown.browserAction {
         min-width: 7em;
       }
-      #component.browserHeader .ui.dropdown .default.text {
+      #component.browserHeader .ui.dropdown.browserAction .default.text {
         font-style: italic;
-        color: rgba(222, 222, 222, 0.96);
+        color: rgba(100, 100, 100, 0.96);
       }
-      #component.browserHeader .ui.dropdown {
+      #component.browserHeader .ui.dropdown.browserAction {
         transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);
         color: rgba(241, 241, 241, 0.96);
         border: 1px solid rgba(74, 74, 74, 0.96);
       }
-      #component.browserHeader .ui.dropdown input {
-        color: rgba(222, 222, 222, 0.96);
+      #component.browserHeader .ui.visible.dropdown.browserAction div.text {
+        color: rgba(100, 100, 100, 0.96);
       }
-      #component.browserHeader .ui.dropdown div.text {
+      #component.browserHeader .ui.dropdown.browserAction div.text {
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
         width: 100%;
       }
-      #component.browserHeader .ui.dropdown .menu {
+      #component.browserHeader .ui.dropdown.browserAction .menu {
         transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);
         border-color: rgba(72, 72, 72, 0.96);
       }
-      #component.browserHeader .column.focused .ui.dropdown {
+      #component.browserHeader .ui.dropdown.browserAction.focused {
         border: 1px solid rgba(100, 53, 201, 0.96);
       }
-      #component.browserHeader .column.focused .ui.dropdown .menu {
+      #component.browserHeader .ui.dropdown.browserAction.focused .menu {
         border: 1px solid rgba(100, 53, 201, 0.96);
       }
       #component.browserHeader .ui.selection.dropdown .menu>.item {
@@ -616,11 +603,18 @@
         background:rgba(100, 53, 201, 0.96);
         color: rgba(255, 255, 255, 0.96);
       }
-
-
-
-
-
+      #component.browserHeader #browserActionCell {
+        padding-left: 0.610em;
+        padding-right: 0.420em;
+      }
+      #component.browserHeader #browserInputCell {
+        padding-left: 0.269em;
+        padding-right: 0.9em;
+      }
+      #component.browserHeader .row {
+        padding-top: .9em;
+        padding-bottom: .8em;
+      }
 
       /*
        * COMPONENT: FLOW-LAYOUT
@@ -781,12 +775,6 @@
       #component.journalEntry .ui.grid .column:nth-child(3) {
         padding: 0px 14px 0px 4px;
       }
-
-
-
-
-
-
       #component.journalEntry .ui.dropdown .default.text {
         font-style: italic;
         color: rgba(222, 222, 222, 0.96);
@@ -834,15 +822,6 @@
         background:rgba(100, 53, 201, 0.96);
         color: rgba(255, 255, 255, 0.96);
       }
-
-
-
-
-
-
-
-
-
       #component.journalEntry .ui.input.intentionText input {
         transition: border 0.840s ease-out;
         background: rgba(27, 28, 29, 0.96);

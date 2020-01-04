@@ -1,10 +1,10 @@
-import React, {Component} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
-import {DataModelFactory} from "../../models/DataModelFactory";
-import {SpiritModel} from "../../models/SpiritModel";
-import {JournalModel} from "../../models/JournalModel";
-import {DimensionController} from "../../controllers/DimensionController";
+import { DataModelFactory } from "../../models/DataModelFactory";
+import { SpiritModel } from "../../models/SpiritModel";
+import { JournalModel } from "../../models/JournalModel";
+import { DimensionController } from "../../controllers/DimensionController";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -87,7 +87,7 @@ export default class JournalItems extends Component {
     let activeJournalItem = journalModel.activeJournalItem;
     let dirtyFlame = spiritModel.dirtyFlame;
 
-    this.timeout = setTimeout(function () {
+    this.timeout = setTimeout(function() {
       journalModel.updateFlameRating(activeJournalItem, dirtyFlame);
     }, 500);
   };
@@ -102,13 +102,13 @@ export default class JournalItems extends Component {
         rowObj &&
         (this.isFirstActive() || !this.isElementInViewport(rowObj))
       ) {
-        rowObj.scrollIntoView({behavior: "smooth"});
+        rowObj.scrollIntoView({ behavior: "smooth" });
       }
     }
 
     if (this.isLastActive()) {
       console.log(this.name + " - isLastActive");
-      this.messagesEnd.scrollIntoView({behavior: "smooth"});
+      this.messagesEnd.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -139,11 +139,11 @@ export default class JournalItems extends Component {
       rect.top >= 0 &&
       rect.left >= 0 &&
       rect.bottom <=
-      (window.innerHeight ||
-        document.documentElement.clientHeight) /*or $(window).height() */ &&
+        (window.innerHeight ||
+          document.documentElement.clientHeight) /*or $(window).height() */ &&
       rect.right <=
-      (window.innerWidth ||
-        document.documentElement.clientWidth) /*or $(window).width() */
+        (window.innerWidth ||
+          document.documentElement.clientWidth) /*or $(window).width() */
     );
   };
 
@@ -163,8 +163,7 @@ export default class JournalItems extends Component {
   isActive(id) {
     if (this.state.activeJournalItem) {
       return this.state.activeJournalItem.id === id;
-    }
-    else {
+    } else {
       return false;
     }
   }
@@ -179,7 +178,7 @@ export default class JournalItems extends Component {
   }
 
   getJournalItems() {
-    return this.state.journalItems.map((d) => {
+    return this.state.journalItems.map(d => {
       return (
         <JournalItem
           key={d.id}
@@ -201,7 +200,7 @@ export default class JournalItems extends Component {
           onSetActiveRow={this.onSetActiveRow}
           onUpdateFinishStatus={this.onUpdateFinishStatus}
         />
-      )
+      );
     });
   }
 
@@ -211,13 +210,11 @@ export default class JournalItems extends Component {
       <div
         id="component"
         className="journalItems"
-        style={{height: DimensionController.getHeightFor(this)}}
+        style={{ height: DimensionController.getHeightFor(this) }}
       >
-        <Grid inverted>
-          {this.getJournalItems()}
-        </Grid>
+        <Grid inverted>{this.getJournalItems()}</Grid>
         <div
-          style={{float: "left", clear: "both"}}
+          style={{ float: "left", clear: "both" }}
           ref={el => {
             this.messagesEnd = el;
           }}

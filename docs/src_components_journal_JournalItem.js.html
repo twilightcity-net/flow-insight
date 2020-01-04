@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>public/app/App.js - Documentation</title>
+    <title>src/components/journal/JournalItem.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">public/app/App.js</h1>
+    <h1 class="page-title">src/components/journal/JournalItem.js</h1>
     
 
     
@@ -39,269 +39,253 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const GLOBAL_ = global,
-  { app } = require("electron"),
-  fs = require("fs"),
-  path = require("path"),
-  log = require("electron-log"),
-  isDev = require("electron-is-dev"),
-  rootPath = require("electron-root-path").rootPath,
-  platform = require("electron-platform"),
-  argv = require("yargs").argv,
-  Logger = require("./AppLogger"),
-  AppError = require("./AppError"),
-  Util = require("../Util"),
-  TalkManager = require("../managers/TalkManager"),
-  WindowManager = require("../managers/WindowManager"),
-  { EventManager } = require("../managers/EventManager"),
-  EventFactory = require("../managers/EventFactory"),
-  { ShortcutManager } = require("../managers/ShortcutManager"),
-  SlackManager = require("../managers/SlackManager"),
-  AppUpdater = require("./AppUpdater"),
-  AppSettings = require("./AppSettings"),
-  DataStoreManager = require("../managers/DataStoreManager"),
-  AppActivator = require("./AppActivator"),
-  AppLoader = require("./AppLoader"),
-  AppHeartbeat = require("./AppHeartbeat"),
-  AppLogin = require("./AppLogin"),
-  AppController = require("../controllers/AppController");
+            <pre class="prettyprint source linenums"><code>import React, {Component} from "react";
+import {Divider, Grid, Icon, Image, Popup} from "semantic-ui-react";
 
-module.exports = class App {
-  constructor() {
-    if (isDev) Util.setDevUserDataDir();
-    this.Logger = Logger.create();
-    this.myController = new AppController(app);
-    this.events = {
-      ready: this.onReady,
-      singleInstance: this.onSingleInstance,
-      windowAllClosed: this.onWindowAllClosed,
-      quit: this.onQuit,
-      willQuit: this.onWillQuit,
-      crashed: this.onCrash
-    };
-    this.setupCLI();
-    this.processCLI();
-    this.isSecondInstance = app.makeSingleInstance(this.onSingleInstance);
-    if (this.isSecondInstance) {
-      log.info("[App] quit -> second instance");
+/**
+ * this component is the individual journal item entered in by the user
+ */
 
-      //TODO need to implement a check for args
+// FIXME this component needs be have almost no logic because it is replicated in a map
 
-      //TODO need to implement a CLIManager that works with yarv
+export default class JournalItem extends Component {
+  constructor(props) {
+    super(props);
 
-      this.quit();
-    } else {
-      if (isDev) {
-        this.start();
-      } else if (Util.checkIfCalledFromCLI(process.argv)) {
-        if (rootPath.startsWith("/Applications")) {
-          log.error("Please pass 'Torchie' a command or argument.");
-          process.exit(0);
-        } else {
-          this.start();
-        }
-      } else {
-        this.start();
-      }
-    }
+    this.name = "[JournalItem]";
   }
 
-  /// called by the app ready event -> called first after electron app loaded
-  onReady() {
-    GLOBAL_.App.api = Util.getAppApi();
-    GLOBAL_.App.name = Util.getAppName();
-    GLOBAL_.App.talkUrl = Util.getAppTalkUrl();
-    GLOBAL_.App.render3D = Util.getRender3D();
-    GLOBAL_.App.idleTime = 0;
-    GLOBAL_.App.isOnline = false;
-    GLOBAL_.App.isLoggedIn = false;
-    app.setName(GLOBAL_.App.name);
+  selectRow(rowId, journalItem) {
+    let rowObj = document.getElementById(rowId);
 
-    log.info("[App] ready -> " + GLOBAL_.App.name + " : " + GLOBAL_.App.api);
-    log.info("[App] ready -> talk : " + GLOBAL_.App.talkUrl);
-    log.info("[App] ready -> render3D : " + GLOBAL_.App.render3D);
-    try {
-      GLOBAL_.App.EventManager = new EventManager();
-      GLOBAL_.App.WindowManager = new WindowManager();
-      GLOBAL_.App.TalkManager = new TalkManager();
-      GLOBAL_.App.ShortcutManager = new ShortcutManager();
-      GLOBAL_.App.SlackManager = new SlackManager();
-      GLOBAL_.App.AppUpdater = new AppUpdater();
-      GLOBAL_.App.AppSettings = new AppSettings();
-      GLOBAL_.App.DataStoreManager = new DataStoreManager();
-      GLOBAL_.App.AppActivator = new AppActivator();
-      GLOBAL_.App.AppLoader = new AppLoader();
-      GLOBAL_.App.AppHeartbeat = new AppHeartbeat();
-      GLOBAL_.App.createQuitListener();
-      GLOBAL_.App.load();
-    } catch (error) {
-      App.handleError(error, true);
-    } finally {
-      if (isDev) {
-        const {
-          default: installExtension,
-          REACT_DEVELOPER_TOOLS
-        } = require("electron-devtools-installer");
-        installExtension(REACT_DEVELOPER_TOOLS)
-          .then(name => {
-            log.info("[App] ready -> dev tools : " + name);
-          })
-          .catch(err => {
-            AppError.handleError(err, false);
-          });
-      }
-    }
+    this.props.onSetActiveRow(rowId, rowObj, journalItem);
   }
 
-  /// This listener is activate when someone tries to run the app again. This is also where
-  /// we would listen for any CLI commands or arguments... Such as Torchie task-new or
-  /// Torchie -quit
-  onSingleInstance(commandLine, workingDirectory) {
-    log.warn(
-      "[App] second instance detected -> " +
-        workingDirectory +
-        " => " +
-        commandLine
+  handleClickForDone = () => {
+    this.handleUpdateFinishStatus("done");
+  };
+
+  handleClickForAbort = () => {
+    this.handleUpdateFinishStatus("aborted");
+  };
+
+  handleUpdateFinishStatus = finishStatus => {
+    this.props.journalItem.finishStatus = finishStatus;
+    this.props.onUpdateFinishStatus(this.props.journalItem, finishStatus);
+  };
+
+  gotoCircle = () => {
+    console.log(this.name + " - gotoCircle!!! " + this.props.circleId);
+  };
+
+  /// renders the component of the console view
+  render() {
+    let finishIcon = "";
+    if (this.props.finishStatus === "done") {
+      finishIcon = &lt;Icon name="check" className="doneGreenDark"/>;
+    }
+    else if (this.props.finishStatus === "aborted") {
+      finishIcon = &lt;Icon name="close" className="doneRed"/>;
+    }
+    else if (this.props.isMyJournal) {
+      finishIcon = (
+        &lt;span>
+          {" "}
+          &lt;Popup
+            trigger={
+              &lt;Icon
+                link
+                name="check"
+                className="doneGreen"
+                onClick={this.handleClickForDone}
+              />
+            }
+            content={&lt;div className="doneGreen">Finish&lt;/div>}
+            inverted
+            hideOnScroll
+          />
+          &lt;Popup
+            trigger={
+              &lt;Icon
+                link
+                name="close"
+                color="red"
+                onClick={this.handleClickForAbort}
+              />
+            }
+            content={&lt;div className="doneRed">Abort&lt;/div>}
+            inverted
+            hideOnScroll
+          />
+        &lt;/span>
+      );
+    }
+
+    if (this.props.circleId) {
+      finishIcon = "";
+    }
+
+    let active = "";
+    if (this.props.isActive) {
+      active = "active";
+    }
+
+    let wtfPrefix = "";
+    let wtfPopup = "";
+    let padding = "";
+    if (this.props.journalEntryType === "WTF") {
+      wtfPrefix = (
+        &lt;span className="circleLink" onClick={this.gotoCircle}>
+          WTF?
+        &lt;/span>
+      );
+
+      if (
+        this.props.finishStatus === "aborted" ||
+        this.props.finishStatus === "done"
+      ) {
+        wtfPopup = (
+          &lt;div>
+            &lt;div>
+              &lt;span className="alarm">
+                {" "}
+                &lt;i>Circle Closed&lt;/i>
+              &lt;/span>
+            &lt;/div>
+          &lt;/div>
+        );
+      }
+      else {
+        wtfPopup = (
+          &lt;div>
+            &lt;div>
+              &lt;span className="alarm">
+                {" "}
+                &lt;i>Click to Join!&lt;/i>
+              &lt;/span>
+            &lt;/div>
+          &lt;/div>
+        );
+      }
+
+      padding = &lt;span>&amp;nbsp;&amp;nbsp;&lt;/span>;
+    }
+
+    let linkedBlock = "";
+    if (this.props.linked) {
+      linkedBlock = &lt;Icon name="linkify" className="journalLink"/>;
+    }
+
+    let taskStyle = "chunkTitle";
+    let descriptionStyle = "chunkText";
+
+    const projectCell = (
+      &lt;div className={taskStyle}>{this.props.projectName}&lt;/div>
+    );
+    const taskCell = (
+      &lt;div className={taskStyle}>
+        {this.props.taskName}
+        {linkedBlock}
+      &lt;/div>
+    );
+    const chunkCell = (
+      &lt;div className={descriptionStyle}>
+        {padding}
+        {padding}
+        &lt;Popup
+          trigger={wtfPrefix}
+          content={wtfPopup}
+          position="top center"
+          inverted
+          hideOnScroll
+        />
+
+        {padding}
+
+        {this.props.description}
+        {finishIcon}
+      &lt;/div>
+    );
+
+    const popupContent = (
+      &lt;div>
+        &lt;div>
+          &lt;i>{this.props.projectName}&lt;/i>
+        &lt;/div>
+        &lt;div>
+          &lt;b>
+            &lt;span className="taskhighlight"> {this.props.taskName} &lt;/span>
+          &lt;/b>
+        &lt;/div>
+        &lt;div>{this.props.taskSummary}&lt;/div>
+
+        &lt;Divider/>
+        &lt;div>
+          &lt;span className="date">{this.props.position}&lt;/span>
+        &lt;/div>
+      &lt;/div>
+    );
+
+    let flameBlock = "";
+
+    let flameRating = this.props.flameRating;
+
+    if (this.props.dirtyFlame != null) {
+      flameRating = this.props.dirtyFlame;
+    }
+
+    if (flameRating > 0) {
+      flameBlock = (
+        &lt;span className="yayFlame">
+          {flameRating}{" "}
+          &lt;Image src="./assets/images/yay/16x16.png" verticalAlign="top"/>
+        &lt;/span>
+      );
+    }
+    else if (flameRating &lt; 0) {
+      flameBlock = (
+        &lt;span className="wtfFlame">
+          {Math.abs(flameRating)}{" "}
+          &lt;Image src="./assets/images/wtf/16x16.png" verticalAlign="middle"/>
+        &lt;/span>
+      );
+    }
+
+    return (
+      &lt;Grid.Row
+        id={this.props.id}
+        className={active}
+        onClick={() => this.selectRow(this.props.id, this.props.journalItem)}
+      >
+        &lt;Grid.Column width={3}>
+          &lt;Popup
+            trigger={projectCell}
+            className="chunkTitle"
+            content={popupContent}
+            position="bottom left"
+            inverted
+            hideOnScroll
+          />
+        &lt;/Grid.Column>
+        &lt;Grid.Column width={2}>
+          &lt;Popup
+            trigger={taskCell}
+            className="chunkTitle"
+            content={popupContent}
+            position="bottom left"
+            inverted
+          />
+        &lt;/Grid.Column>
+        &lt;Grid.Column width={9} className="chunkCell">
+          {chunkCell}
+        &lt;/Grid.Column>
+        &lt;Grid.Column width={2} className="chunkTitle">
+          {flameBlock}
+        &lt;/Grid.Column>
+      &lt;/Grid.Row>
     );
   }
-
-  /// processes the system command line arguments.. nothing fance should go here
-  /// will need to build a more complex CLI processor when we have actual an
-  /// API that requires using args
-  processCLI() {
-    /// check for --activate argument which can only be 'new' for now.
-    /// this will remove the previous license key and prompt for a new key
-    if (argv.deactivate || argv.DEACTIVATE) {
-      console.log("deactivate!!!");
-      AppController.init(this);
-    }
-  }
-
-  /// idle the app if all windows are closed
-  onWindowAllClosed() {
-    log.info("[App] app idle : no windows");
-  }
-
-  /// called before windows are closed and is going to quit.
-  onWillQuit(event) {
-    log.info("[App] before quit -> attempt to logout application");
-
-    /// only logout if we are already logged in. This is used to
-    /// bypass quiting during activation or loading
-    if (GLOBAL_.App.isLoggedIn) {
-      event.preventDefault();
-      AppLogin.doLogout(store => {
-        log.info("[App] before quit -> logout complete : quit");
-        app.exit(0);
-      });
-
-      /// hard quit just to make sure we dont memory leak
-      setTimeout(() => {
-        log.info("[App] before quit -> logout timemout : quit");
-        app.exit(0);
-      }, 10000);
-    }
-  }
-
-  /// called when the application is quiting
-  onQuit(event, exitCode) {
-    log.info("[App] quitting -> exitCode : " + exitCode);
-  }
-
-  /// handles when the gpu crashes then quites if not already quit.
-  // TODO implement https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
-  onCrash(event, killed) {
-    App.handleError(
-      new AppError("WTF the GPU crashed : killed=" + killed),
-      true
-    );
-  }
-
-  /**
-   * proxy method for AppError class handler
-   * @param error - the error that was thrown
-   * @param fatal - shut down the app or not
-   * @deprecated - should use AppError.handleError(err,fatal)
-   */
-  static handleError(error, fatal) {
-    AppError.handleError(error, fatal);
-  }
-
-  /// sets up the command line interface so that we can call functions\
-  setupCLI() {
-    log.info("[App] setting up CLI -> " + rootPath);
-    if (platform.isDarwin) {
-      log.info("[App] detecting OS -> Mac...");
-      let bashProfile = ".bash_profile",
-        homePath = Util.getUserHomePath(),
-        filePath = path.join(homePath, bashProfile),
-        appPath = !rootPath.startsWith("/Applications")
-          ? !rootPath.endsWith("Torchie.app")
-            ? "/dist/mac/Torchie.app/Contents/MacOS"
-            : "/Contents/MacOS"
-          : "/Contents/MacOS",
-        torchiePath = path.join(rootPath, appPath),
-        cliPath = "\r\n### torchie-cli ###\r\nexport PATH=$PATH:" + torchiePath,
-        fileData = fs.readFileSync(filePath, "utf8");
-      if (!fileData.includes(cliPath)) {
-        log.info("[App] append .bash_profile -> " + torchiePath);
-        fs.appendFileSync(filePath, cliPath);
-      }
-    } else if (platform.isWin32) {
-      log.info("[App] detecting OS -> Windows...");
-    } else {
-      log.info("[App] detecting OS -> Linux...");
-    }
-  }
-
-  /// used to start the app listeners which are dispatched by the apps events
-  start() {
-    log.info("[App] starting...");
-    // this.errorWatcher();
-    AppController.configureEvents();
-
-    app.on("ready", this.events.ready);
-    app.on("window-all-closed", this.events.windowAllClosed);
-    app.on("quit", this.events.quit);
-    app.on("will-quit", this.events.willQuit);
-    app.on("gpu-process-crashed", this.events.crashed);
-  }
-
-  /// called to start loading the application from AppLoader class
-  load() {
-    log.info("[App] checking for settings...");
-    if (GLOBAL_.App.AppSettings.check()) {
-      GLOBAL_.App.ApiKey = GLOBAL_.App.AppSettings.getApiKey();
-      GLOBAL_.App.AppLoader.load();
-    } else {
-      GLOBAL_.App.AppActivator.start();
-      GLOBAL_.App.AppLoader.createMenu();
-    }
-  }
-
-  /// restarts the application if not in dev mode; uses hard quit to
-  /// bypass any of the quit events.
-  restart() {
-    if (!isDev) app.relaunch();
-    app.exit(0);
-  }
-
-  /// wrapper function to quit the application
-  quit() {
-    app.quit();
-  }
-
-  /// async way to quit the application from renderer
-  createQuitListener() {
-    this.events.quitListener = EventFactory.createEvent(
-      EventFactory.Types.APP_QUIT,
-      this,
-      (event, arg) => {
-        GLOBAL_.App.quit();
-      }
-    );
-  }
-};
+}
 </code></pre>
         </article>
     </section>

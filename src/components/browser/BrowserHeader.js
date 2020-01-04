@@ -1,5 +1,12 @@
-import React, {Component} from "react";
-import {Button, Dropdown, Grid, Icon, Input, Segment} from "semantic-ui-react";
+import React, { Component } from "react";
+import {
+  Button,
+  Dropdown,
+  Grid,
+  Icon,
+  Input,
+  Segment
+} from "semantic-ui-react";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -13,24 +20,28 @@ export default class BrowserHeader extends Component {
     super(props);
     this.name = "[BrowserHeader]";
     this.optionsActions = [
-      {key: 1, text: "Open", value: "Open"},
-      {key: 2, text: "Close", value: "Close"},
-      {key: 3, text: "Join", value: "Join"},
-      {key: 4, text: "Leave", value: "Leave"}
+      { key: 1, text: "Open", value: "Open" },
+      { key: 2, text: "Close", value: "Close" },
+      { key: 3, text: "Join", value: "Join" },
+      { key: 4, text: "Leave", value: "Leave" }
     ];
     this.state = {
-      currentActionValue: null,
       disableControls: false
     };
+  }
+
+  componentDidMount() {
+    console.log(this.props);
   }
 
   /**
    * highlight field border when element is focused on
    * @param e
    */
-  handleFocusForInput = (e) => {
+  handleFocus = e => {
+    document.getElementById("browserAction").classList.add("focused");
     document.getElementById("browserInput").classList.add("focused");
-    document.getElementById("browserGoBtn").classList.add("focused");
+    document.getElementById("browserGo").classList.add("focused");
   };
 
   /**
@@ -38,9 +49,10 @@ export default class BrowserHeader extends Component {
    * form element inputs
    * @param e
    */
-  handleBlurForInput = (e) => {
+  handleBlur = e => {
+    document.getElementById("browserAction").classList.remove("focused");
     document.getElementById("browserInput").classList.remove("focused");
-    document.getElementById("browserGoBtn").classList.remove("focused");
+    document.getElementById("browserGo").classList.remove("focused");
   };
 
   getLocation = () => {
@@ -48,14 +60,17 @@ export default class BrowserHeader extends Component {
   };
 
   /**
-   * called when a project is selected in dropdown
+   * works the same as the click for create handler.. see above ^
    * @param e
-   * @param value
    */
-  handleChangeForAction = (e, {value}) => {
-    this.setState({
-      currentActionValue: value
-    });
+  handleKeyPressForInput = e => {
+    if (e.charCode === 13) {
+      console.log("load this resource into view");
+    }
+  };
+
+  handleClickForGo = () => {
+    console.log("load this resource into view");
   };
 
   getActionDropdown() {
@@ -63,29 +78,14 @@ export default class BrowserHeader extends Component {
       <Dropdown
         disabled={this.state.disableControls}
         className="browserAction"
-        id="browserActionInput"
+        id="browserAction"
         placeholder="Choose Action"
         defaultValue={this.optionsActions[0].value}
         selection
         options={this.optionsActions}
-        onChange={this.handleChangeForAction}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
       />
-    );
-  }
-
-  getBrowserBackBtn() {
-    return (
-      <Button className="browserBack">
-        <Icon name="backward"/>
-      </Button>
-    );
-  }
-
-  getBrowserForwardBtn() {
-    return (
-      <Button className="browserForward">
-        <Icon name="forward"/>
-      </Button>
     );
   }
 
@@ -97,17 +97,19 @@ export default class BrowserHeader extends Component {
         className="browserInput"
         fluid
         inverted
-        value={this.getLocation()}
-        onFocus={this.handleFocusForInput}
-        onBlur={this.handleBlurForInput}
         placeholder={"Where do you want to go today?"}
+        value={this.props.location.toLowerCase()}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        onKeyPress={this.handleKeyPressForInput}
         action={
           <Button
             color="violet"
             className="browserGo"
-            id="browserGoBtn"
+            id="browserGo"
+            onClick={this.handleClickForGo}
           >
-            <Icon name="play"/>
+            <Icon name="play" />
           </Button>
         }
       />
@@ -125,16 +127,10 @@ export default class BrowserHeader extends Component {
           <Segment inverted>
             <Grid columns="equal" divided inverted>
               <Grid.Row stretched>
-                <Grid.Column width={1} id="browserBackCell">
-                  {this.getBrowserBackBtn()}
-                </Grid.Column>
-                <Grid.Column width={1} id="browserForwardCell">
-                  {this.getBrowserForwardBtn()}
-                </Grid.Column>
                 <Grid.Column width={2} id="browserActionCell">
                   {this.getActionDropdown()}
                 </Grid.Column>
-                <Grid.Column width={10} id="browserInputCell">
+                <Grid.Column width={14} id="browserInputCell">
                   {this.getBrowserInput()}
                 </Grid.Column>
               </Grid.Row>

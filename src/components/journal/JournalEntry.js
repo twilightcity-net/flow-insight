@@ -1,8 +1,8 @@
-import React, {Component} from "react";
-import {Button, Dropdown, Grid, Input, Segment} from "semantic-ui-react";
-import {DataModelFactory} from "../../models/DataModelFactory";
-import {JournalModel} from "../../models/JournalModel";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+import React, { Component } from "react";
+import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
+import { DataModelFactory } from "../../models/DataModelFactory";
+import { JournalModel } from "../../models/JournalModel";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -137,7 +137,7 @@ export default class JournalEntry extends Component {
    */
   getCurrentTasks = (currentProject, recentTasksByProjectId, recentEntry) => {
     if (!currentProject || !recentTasksByProjectId) {
-      return {tasks: [], currentTaskValue: null};
+      return { tasks: [], currentTaskValue: null };
     }
 
     let currentTasks = recentTasksByProjectId[currentProject];
@@ -168,7 +168,7 @@ export default class JournalEntry extends Component {
    * @param e
    * @param value
    */
-  handleAdditionForTask = (e, {value}) => {
+  handleAdditionForTask = (e, { value }) => {
     console.log(this.name + " - handleAdditionForTask:" + value);
 
     //setup temporary addition to the menu
@@ -188,7 +188,7 @@ export default class JournalEntry extends Component {
     if (!searchIsFound) {
       newTasks = [
         ...this.state.tasks,
-        {text: "Searching...", value: "search"}
+        { text: "Searching...", value: "search" }
       ];
     }
 
@@ -204,7 +204,7 @@ export default class JournalEntry extends Component {
    * @param e
    * @param value
    */
-  handleChangeForProject = (e, {value}) => {
+  handleChangeForProject = (e, { value }) => {
     console.log(this.name + " - handleChangeForProject: " + value);
 
     let currentProject = value;
@@ -226,7 +226,7 @@ export default class JournalEntry extends Component {
    * called when a project is selected in dropdown
    * @param e
    */
-  handleKeyPressForProject = (e) => {
+  handleKeyPressForProject = e => {
     if (e.key === "Enter") {
       console.log("ENTER!");
     }
@@ -236,7 +236,7 @@ export default class JournalEntry extends Component {
    * called when a project is selected in dropdown
    * @param e
    */
-  handleKeyPressForTask = (e) => {
+  handleKeyPressForTask = e => {
     //console.log("handleKeyPressForTask: ");
   };
 
@@ -245,7 +245,7 @@ export default class JournalEntry extends Component {
    * @param e
    * @param value
    */
-  handleChangeForTask = (e, {value}) => {
+  handleChangeForTask = (e, { value }) => {
     //console.log("handleChangeForTask");
     this.setState({
       currentTaskValue: value
@@ -284,7 +284,7 @@ export default class JournalEntry extends Component {
         this.state.currentIntentionValue
       );
 
-      this.setState({currentIntentionValue: ""});
+      this.setState({ currentIntentionValue: "" });
     }
   };
 
@@ -294,8 +294,8 @@ export default class JournalEntry extends Component {
    * @param name
    * @param value
    */
-  handleChangeForIntention = (e, {name, value}) => {
-    this.setState({currentIntentionValue: value});
+  handleChangeForIntention = (e, { name, value }) => {
+    this.setState({ currentIntentionValue: value });
   };
 
   /**
@@ -409,7 +409,6 @@ export default class JournalEntry extends Component {
             onClick={this.handleClickForCreate}
           />
         }
-
       />
     );
   }
