@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>public/dto/LearningCircuitWithMembersDto.js - Documentation</title>
+    <title>public/managers/DtoClientFactory.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">public/dto/LearningCircuitWithMembersDto.js</h1>
+    <h1 class="page-title">public/managers/DtoClientFactory.js</h1>
     
 
     
@@ -39,37 +39,149 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
- * This class stores the information about the learning circuit as well as the existing participating members
- * whom joined the circuit. This list of member will contain there status of the rooms. These
- * are dtos which will be pushed by the talk service into the client
+            <pre class="prettyprint source linenums"><code>const { dialog } = require("electron"),
+  log = require("electron-log"),
+  request = require("superagent");
+
+/**
+ * class used to manage all of the DataStores and data loading / commit
  */
-class LearningCircuitWithMembersDto {
-  constructor(json) {
-    try {
-      if (typeof json === "string") json = JSON.parse(json);
-      this.id = json.id;
-      this.circuitName = json.circuitName;
-      this.wtfTalkRoomId = json.wtfTalkRoomId;
-      this.retroTalkRoomId = json.retroTalkRoomId;
-      this.ownerId = json.ownerId;
-      this.moderatorId = json.moderatorId;
-      this.openTime = json.openTime;
-      this.closeTime = json.closeTime;
-      this.moderatorId = json.moderatorId;
-      this.lastOnHoldTime = json.lastOnHoldTime;
-      this.lastResumeTime = json.lastResumeTime;
-      this.secondsBeforeOnHold = json.secondsBeforeOnHold;
-      this.circuitMembers = json.circuitMembers;
-    } catch (e) {
-      throw new Error(
-        "Unable to create dto 'LearningCircuitWithMembersDto' : " + e.message
-      );
-    }
+class DtoClientFactory {
+  constructor() {
+    log.info("[DataStoreClient] created -> okay");
+  }
+
+  makeStoreRequest(store, callback) {
+    let client = new DtoClient(store, callback);
+    client.doRequest();
+  }
+
+  static get Types() {
+    return {
+      POST: "post",
+      GET: "get"
+    };
   }
 }
 
-module.exports = LearningCircuitWithMembersDto;
+/**
+ * class used to manage the client request
+ */
+class DtoClient {
+  constructor(store, callback) {
+    this.store = store;
+    this.urn = store.urn;
+    this.type = store.requestType;
+    this.callback = callback;
+    this.timeout = {
+      response: 9000,
+      deadline: 20000
+    };
+    this.retry = 3;
+  }
+
+  doRequest() {
+    let url = global.App.api + this.urn;
+    log.info(
+      "[DataStoreClient] [" +
+        this.type.toUpperCase() +
+        "] " +
+        this.store.name +
+        " " +
+        url
+    );
+    if (DtoClientFactory.Types.POST === this.type) {
+      this.doPost(url);
+    } else if (DtoClientFactory.Types.GET === this.type) {
+      this.doGet(url);
+    } else {
+      log.error(
+        "[DataStoreClient] └> Unknown Request Type -> " + this.type + " " + url
+      );
+      dialog.showErrorBox(
+        "Torchie",
+        "Unknown Request Type -> " + this.type + " " + url
+      );
+    }
+  }
+
+  doPost(url) {
+    let req = request
+      .post(url)
+      .retry(this.retry)
+      .timeout(this.timeout)
+      .send(this.store.dto)
+      .set("Content-Type", "application/json");
+
+    if (global.App.ApiKey) {
+      req.set("X-API-Key", global.App.ApiKey);
+    }
+
+    req.end((err, res) => {
+      this.store.timestamp = new Date().getTime();
+      try {
+        if (err) throw new Error(err);
+        this.store.data = res.body;
+      } catch (e) {
+        this.store.error = e.toString();
+        log.error(
+          "[DataStoreClient] |> Connection Error -> " +
+            this.type +
+            " " +
+            url +
+            " : " +
+            e +
+            "\n\n" +
+            e.stack +
+            "\n"
+        );
+      } finally {
+        this.callback(this.store);
+      }
+    });
+  }
+
+  doGet(url) {
+    let req = request
+      .get(url)
+      .retry(this.retry)
+      .timeout(this.timeout)
+      .send(this.store.dto)
+      .set("Content-Type", "application/json");
+
+    if (global.App.ApiKey) {
+      req.set("X-API-Key", global.App.ApiKey);
+    }
+
+    req.end((err, res) => {
+      this.store.timestamp = new Date().getTime();
+      try {
+        if (err) throw new Error(err);
+        this.store.data = res.body;
+      } catch (e) {
+        this.store.error = e.toString();
+        log.error(
+          "[DataStoreClient] |> Connection Error -> " +
+            this.type +
+            " " +
+            url +
+            " : " +
+            e +
+            "\n\n" +
+            e.stack +
+            "\n"
+        );
+      } finally {
+        this.callback(this.store);
+      }
+    });
+  }
+}
+
+module.exports = {
+  DataStoreClient: DtoClientFactory,
+  DataClient: DtoClient
+};
 </code></pre>
         </article>
     </section>

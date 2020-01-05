@@ -1,10 +1,11 @@
-const log = require("electron-log"),
-  { DataStoreClient } = require("./DataStoreClient"),
+const { DataStoreClient } = require("./DtoClientFactory"),
   EventFactory = require("../managers/EventFactory");
 
-//
-// class used to manage all of the DataStores and data loading / commit
-module.exports = class DataStoreManager {
+/**
+ * lass used to manage all of the DataStores and data loading / commit
+ * @type {DtoClientManager}
+ */
+module.exports = class DtoClientManager {
   constructor() {
     this.name = "[DataStoreManager]";
     this.client = new DataStoreClient();

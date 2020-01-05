@@ -1,6 +1,6 @@
 const log = require("electron-log"),
   Util = require("../Util"),
-  { DataClient } = require("../managers/DataStoreClient"),
+  { DataClient } = require("../managers/DtoClientFactory"),
   ConnectionStatusDto = require("../dto/ConnectionStatusDto");
 
 //

@@ -5,13 +5,13 @@ const { dialog } = require("electron"),
 /**
  * class used to manage all of the DataStores and data loading / commit
  */
-class DataStoreClient {
+class DtoClientFactory {
   constructor() {
     log.info("[DataStoreClient] created -> okay");
   }
 
   makeStoreRequest(store, callback) {
-    let client = new DataClient(store, callback);
+    let client = new DtoClient(store, callback);
     client.doRequest();
   }
 
@@ -26,7 +26,7 @@ class DataStoreClient {
 /**
  * class used to manage the client request
  */
-class DataClient {
+class DtoClient {
   constructor(store, callback) {
     this.store = store;
     this.urn = store.urn;
@@ -49,9 +49,9 @@ class DataClient {
         " " +
         url
     );
-    if (DataStoreClient.Types.POST === this.type) {
+    if (DtoClientFactory.Types.POST === this.type) {
       this.doPost(url);
-    } else if (DataStoreClient.Types.GET === this.type) {
+    } else if (DtoClientFactory.Types.GET === this.type) {
       this.doGet(url);
     } else {
       log.error(
@@ -138,6 +138,6 @@ class DataClient {
 }
 
 module.exports = {
-  DataStoreClient,
-  DataClient
+  DataStoreClient: DtoClientFactory,
+  DataClient: DtoClient
 };
