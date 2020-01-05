@@ -179,4 +179,12 @@ module.exports = class TalkController extends BaseController {
       socket.open();
     }
   }
+
+  /**
+   * this function makes a request to the TalkToClient interface on gridtime server. This will be
+   * worked into our existing data client and model system.
+   */
+  makeClientRequest() {
+    // TODO figure out how we plan on making these requests
+  }
 };

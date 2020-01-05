@@ -45,4 +45,32 @@ module.exports = class TalkManager {
   getConnectionUrl() {
     return global.App.talkUrl + "?connectionId=" + this.connectionId;
   }
+
+  /**
+   * gets all the talk message from a specific room
+   */
+  getAllTalkMessagesFromRoom() {
+    // TODO make get request to grid
+  }
+
+  /**
+   * publishs a chat message to a room with a talk message
+   */
+  publishChatToRoom() {
+    // TODO make post request to grid
+  }
+
+  /**
+   * publishes a snippet to a room with through a talk message
+   */
+  publishSnippetToRoom() {
+    // TODO make post request to grid
+  }
+
+  /**
+   * pubishes a screenshot to a room with a talk message
+   */
+  publishScreenshotToRoom() {
+    // TODO make post request to grid
+  }
 };
