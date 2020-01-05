@@ -10,12 +10,12 @@ module.exports = class DtoClientManager {
     this.name = "[DataStoreManager]";
     this.client = new DtoClientFactory();
     this.events = {
-      dataStoreLoad: EventFactory.createEvent(
+      dtoClientLoad: EventFactory.createEvent(
         EventFactory.Types.DATASTORE_LOAD,
         this,
         this.onDataStoreLoadCb
       ),
-      dataStoreLoaded: EventFactory.createEvent(
+      dtoClientLoaded: EventFactory.createEvent(
         EventFactory.Types.DATASTORE_LOADED,
         this
       )
@@ -25,7 +25,7 @@ module.exports = class DtoClientManager {
   onDataStoreLoadCb(event, arg) {
     let store = arg;
     this.client.makeStoreRequest(store, store => {
-      this.events.dataStoreLoaded.dispatch(store);
+      this.events.dtoClientLoaded.dispatch(store);
     });
   }
 };

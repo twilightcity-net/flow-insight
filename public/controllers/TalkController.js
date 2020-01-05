@@ -186,14 +186,14 @@ module.exports = class TalkController extends BaseController {
    * this function makes a request to the TalkToClient interface on gridtime server. This will be
    * worked into our existing data client and model system.
    */
-  makeClientRequest(context, dto, name, type, urn, callback) {
-    log.info(this.name + " do login -> setup DtoClient");
+  doClientRequest(context, dto, name, type, urn, callback) {
+    log.info(this.name + " do dto client request");
     this.store = {
-      context: context, //"AppLogin"
-      dto: dto, // {}
+      context: context,
+      dto: dto,
       guid: Util.getGuid(),
-      name: name, //"AppLoginStore"
-      requestType: type, //"post"
+      name: name,
+      requestType: type,
       timestamp: new Date().getTime(),
       urn: urn
     };
