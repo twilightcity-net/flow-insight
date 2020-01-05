@@ -1,4 +1,4 @@
-const { DataStoreClient } = require("./DtoClientFactory"),
+const { DtoClientFactory } = require("./DtoClientFactory"),
   EventFactory = require("../managers/EventFactory");
 
 /**
@@ -8,7 +8,7 @@ const { DataStoreClient } = require("./DtoClientFactory"),
 module.exports = class DtoClientManager {
   constructor() {
     this.name = "[DataStoreManager]";
-    this.client = new DataStoreClient();
+    this.client = new DtoClientFactory();
     this.events = {
       dataStoreLoad: EventFactory.createEvent(
         EventFactory.Types.DATASTORE_LOAD,

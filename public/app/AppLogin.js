@@ -1,6 +1,6 @@
 const log = require("electron-log"),
   Util = require("../Util"),
-  { DataClient } = require("../managers/DtoClientFactory"),
+  { DtoClient } = require("../managers/DtoClientFactory"),
   ConnectionStatusDto = require("../dto/ConnectionStatusDto");
 
 //
@@ -9,7 +9,7 @@ const log = require("electron-log"),
 module.exports = class AppLogin {
   /// general use function to login the app
   static doLogin(callback) {
-    log.info("[AppLogin] do login -> setup DataClient");
+    log.info("[AppLogin] do login -> setup DtoClient");
     this.callback = callback;
     this.urn = "/account/login";
     this.requestType = "post";
@@ -23,13 +23,13 @@ module.exports = class AppLogin {
       urn: this.urn
     };
     log.info("[AppLogin] login data client -> do request");
-    let client = new DataClient(this.store, this.callback);
+    let client = new DtoClient(this.store, this.callback);
     client.doRequest();
   }
 
   /// general use function to logout the app
   static doLogout(callback) {
-    log.info("[AppLogin] do logout -> setup DataClient");
+    log.info("[AppLogin] do logout -> setup DtoClient");
     this.callback = callback;
     this.urn = "/account/logout";
     this.requestType = "post";
@@ -43,7 +43,7 @@ module.exports = class AppLogin {
       urn: this.urn
     };
     log.info("[AppLogin] logout data client -> do request");
-    let client = new DataClient(this.store, this.callback);
+    let client = new DtoClient(this.store, this.callback);
     client.doRequest();
   }
 

@@ -5,7 +5,7 @@ const { remote } = window.require("electron"),
   MemberWorkStatusDto = remote.require("./dto/MemberWorkStatusDto"),
   TeamDto = remote.require("./dto/TeamDto");
 //
-// this class is used to manage DataClient requests for Stores
+// this class is used to manage DtoClient requests for Stores
 //
 export class TeamModel extends DataModel {
   constructor(scope) {

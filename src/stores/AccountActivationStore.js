@@ -4,7 +4,7 @@ const { remote } = window.require("electron"),
   AccountActivationDto = remote.require("./dto/AccountActivationDto");
 
 //
-// this class is used to manage DataClient requests for Stores
+// this class is used to manage DtoClient requests for Stores
 //
 export class AccountActivationStore extends DataStore {
   constructor(scope) {

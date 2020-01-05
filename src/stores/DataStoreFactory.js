@@ -1,7 +1,7 @@
 import { AccountActivationStore } from "./AccountActivationStore";
 
 /**
- * this class is used to manage DataClient requests for Stores
+ * this class is used to manage DtoClient requests for Stores
  */
 export class DataStoreFactory {
   static storesByName = {};

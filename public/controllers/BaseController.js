@@ -6,7 +6,7 @@ const log = require("electron-log"),
  */
 module.exports = class BaseController {
   constructor(scope, clazz) {
-    this.className = "[" + clazz.name + "]";
+    this.name = "[" + clazz.name + "]";
     this.scope = scope;
     this.guid = Util.getGuid();
     if (!clazz.instance) {

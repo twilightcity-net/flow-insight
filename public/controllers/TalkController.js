@@ -1,5 +1,7 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
+  Util = require("../Util"),
+  { DtoClient } = require("../managers/DtoClientFactory"),
   BaseController = require("./BaseController"),
   EventFactory = require("../managers/EventFactory");
 
@@ -184,7 +186,18 @@ module.exports = class TalkController extends BaseController {
    * this function makes a request to the TalkToClient interface on gridtime server. This will be
    * worked into our existing data client and model system.
    */
-  makeClientRequest() {
-    // TODO figure out how we plan on making these requests
+  makeClientRequest(context, dto, name, type, urn, callback) {
+    log.info(this.name + " do login -> setup DtoClient");
+    this.store = {
+      context: context, //"AppLogin"
+      dto: dto, // {}
+      guid: Util.getGuid(),
+      name: name, //"AppLoginStore"
+      requestType: type, //"post"
+      timestamp: new Date().getTime(),
+      urn: urn
+    };
+    let client = new DtoClient(this.store, callback);
+    client.doRequest();
   }
 };

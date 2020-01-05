@@ -7,7 +7,8 @@ const { dialog } = require("electron"),
  */
 class DtoClientFactory {
   constructor() {
-    log.info("[DataStoreClient] created -> okay");
+    this.name = "[DtoClientFactory]";
+    log.info(this.name + " created");
   }
 
   makeStoreRequest(store, callback) {
@@ -28,6 +29,7 @@ class DtoClientFactory {
  */
 class DtoClient {
   constructor(store, callback) {
+    this.name = "[DtoClient]";
     this.store = store;
     this.urn = store.urn;
     this.type = store.requestType;
@@ -42,7 +44,8 @@ class DtoClient {
   doRequest() {
     let url = global.App.api + this.urn;
     log.info(
-      "[DataStoreClient] [" +
+      this.name +
+        " [" +
         this.type.toUpperCase() +
         "] " +
         this.store.name +
@@ -55,10 +58,10 @@ class DtoClient {
       this.doGet(url);
     } else {
       log.error(
-        "[DataStoreClient] └> Unknown Request Type -> " + this.type + " " + url
+        this.name + " Unknown Request Type -> " + this.type + " " + url
       );
       dialog.showErrorBox(
-        "Torchie",
+        "Torchie Shell",
         "Unknown Request Type -> " + this.type + " " + url
       );
     }
@@ -84,7 +87,8 @@ class DtoClient {
       } catch (e) {
         this.store.error = e.toString();
         log.error(
-          "[DataStoreClient] |> Connection Error -> " +
+          this.name +
+            " Connection Error -> " +
             this.type +
             " " +
             url +
@@ -120,7 +124,8 @@ class DtoClient {
       } catch (e) {
         this.store.error = e.toString();
         log.error(
-          "[DataStoreClient] |> Connection Error -> " +
+          this.name +
+            " Connection Error -> " +
             this.type +
             " " +
             url +
@@ -138,6 +143,6 @@ class DtoClient {
 }
 
 module.exports = {
-  DataStoreClient: DtoClientFactory,
-  DataClient: DtoClient
+  DtoClientFactory: DtoClientFactory,
+  DtoClient: DtoClient
 };

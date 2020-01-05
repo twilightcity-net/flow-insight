@@ -5,7 +5,7 @@ import { SpiritModel } from "./SpiritModel";
 import { WTFTimer } from "./WTFTimer";
 
 /**
- * this class is used to manage DataClient requests for Stores
+ * this class is used to manage DtoClient requests for Stores
  */
 export class DataModelFactory {
   /**
