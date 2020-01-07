@@ -1,12 +1,14 @@
 import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
+import {PerspectiveController} from "./PerspectiveController";
+import {DataModelFactory} from "../models/DataModelFactory";
 
 export class MainPanelViewController extends ActiveViewController {
   constructor(scope) {
     super(scope);
 
     this.oldMenuSelection = null;
-    this.activeMenuSelection = MainPanelViewController.MenuSelection.JOURNAL;
+    this.activeMenuSelection = MainPanelViewController.MenuSelection.DEFAULT;
 
     this.resetDefaultMenuSelection();
 
@@ -49,11 +51,11 @@ export class MainPanelViewController extends ActiveViewController {
   changeActivePanel(oldState, newState) {
     this.oldMenuSelection = oldState;
     this.activeMenuSelection = newState;
-    this.fireNotifyEvent();
+    this.fireNotifyEvent(newState);
   }
 
-  fireNotifyEvent() {
-    this.mainPanelChangeNotifier.dispatch({});
+  fireNotifyEvent(state) {
+    this.mainPanelChangeNotifier.dispatch(state);
   }
 
   hideConsoleWindow() {
@@ -61,11 +63,12 @@ export class MainPanelViewController extends ActiveViewController {
   }
 
   resetDefaultMenuSelection() {
-    this.activeMenuSelection = MainPanelViewController.MenuSelection.JOURNAL;
+    this.activeMenuSelection = MainPanelViewController.MenuSelection.DEFAULT;
   }
 
   static get MenuSelection() {
     return {
+      DEFAULT: "journal",
       JOURNAL: "journal",
       TROUBLESHOOT: "troubleshoot",
       FLOW: "flow"

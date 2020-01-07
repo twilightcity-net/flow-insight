@@ -1,9 +1,11 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import JournalLayout from "../journal/JournalLayout";
 import TroubleshootLayout from "../troubleshoot/TroubleshootLayout";
 import FlowLayout from "../flow/FlowLayout";
-import { Transition } from "semantic-ui-react";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import {Transition} from "semantic-ui-react";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+import BrowserHeader from "../browser/BrowserHeader";
+import {DataModelFactory} from "../../models/DataModelFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -80,23 +82,28 @@ export default class ConsoleContent extends Component {
       state.animationTypeJournal = "fly right";
       state.animationTypeTroubleshoot = "fly right";
       state.animationTypeFlow = "fly left";
-    } else if (oldLayout === "flow" && newLayout === "journal") {
+    }
+    else if (oldLayout === "flow" && newLayout === "journal") {
       state.animationTypeJournal = "fly right";
       state.animationTypeTroubleshoot = "fly right";
       state.animationTypeFlow = "fly left";
-    } else if (oldLayout === "troubleshoot" && newLayout === "journal") {
+    }
+    else if (oldLayout === "troubleshoot" && newLayout === "journal") {
       state.animationTypeJournal = "fly right";
       state.animationTypeTroubleshoot = "fly left";
       state.animationTypeFlow = "fly right";
-    } else if (oldLayout === "troubleshoot" && newLayout === "flow") {
+    }
+    else if (oldLayout === "troubleshoot" && newLayout === "flow") {
       state.animationTypeJournal = "fly left";
       state.animationTypeTroubleshoot = "fly right";
       state.animationTypeFlow = "fly left";
-    } else if (oldLayout === "journal" && newLayout === "flow") {
+    }
+    else if (oldLayout === "journal" && newLayout === "flow") {
       state.animationTypeJournal = "fly right";
       state.animationTypeTroubleshoot = "fly right";
       state.animationTypeFlow = "fly left";
-    } else if (oldLayout === "journal" && newLayout === "troubleshoot") {
+    }
+    else if (oldLayout === "journal" && newLayout === "troubleshoot") {
       state.animationTypeJournal = "fly right";
       state.animationTypeTroubleshoot = "fly left";
       state.animationTypeFlow = "fly right";
@@ -111,25 +118,37 @@ export default class ConsoleContent extends Component {
     }, this.animationTime);
   }
 
-  /// renders the content of the console view
+  getBrowserHeader = (scope) => {
+    return (
+      <BrowserHeader scope={scope}/>
+    );
+  };
+
+  /**
+   * renders the content of the console view
+   * @returns {*}
+   */
   render() {
     const journalLayout = (
       <div id="wrapper" className="journalLayout">
-        <JournalLayout />
+        <JournalLayout/>
       </div>
     );
     const troubleshootLayout = (
       <div id="wrapper" className="troubleshootLayout">
-        <TroubleshootLayout />
+        <TroubleshootLayout/>
       </div>
     );
     const flowLayout = (
       <div id="wrapper" className="flowLayout">
-        <FlowLayout />
+        <FlowLayout/>
       </div>
     );
     return (
       <div id="component" className="consoleContent">
+        <div id="wrapper" className="browserHeader">
+          {this.getBrowserHeader(this)}
+        </div>
         <Transition
           visible={this.state.journalVisible}
           animation={this.state.animationTypeJournal}

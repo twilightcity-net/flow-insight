@@ -1233,7 +1233,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -1874,7 +1874,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -2130,7 +2130,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -2834,7 +2834,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -2898,7 +2898,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -3026,7 +3026,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -3346,7 +3346,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -13147,7 +13147,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -13788,7 +13788,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -14044,7 +14044,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -14748,7 +14748,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -14812,7 +14812,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -14940,7 +14940,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -15260,7 +15260,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -24954,7 +24954,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -25595,7 +25595,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -25851,7 +25851,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -26555,7 +26555,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -26619,7 +26619,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -26747,7 +26747,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -27067,7 +27067,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -36714,7 +36714,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -37355,7 +37355,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -37611,7 +37611,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -38315,7 +38315,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -38379,7 +38379,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -38507,7 +38507,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -38827,7 +38827,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -48521,7 +48521,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -49162,7 +49162,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -49418,7 +49418,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -50122,7 +50122,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -50186,7 +50186,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -50314,7 +50314,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -50634,7 +50634,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -60332,7 +60332,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -60973,7 +60973,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -61229,7 +61229,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -61933,7 +61933,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -61997,7 +61997,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -62125,7 +62125,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -62445,7 +62445,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -72092,7 +72092,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -72733,7 +72733,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -72989,7 +72989,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -73693,7 +73693,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -73757,7 +73757,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -73885,7 +73885,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -74205,7 +74205,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -83852,7 +83852,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -84493,7 +84493,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -84749,7 +84749,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -85453,7 +85453,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -85517,7 +85517,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -85645,7 +85645,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -85965,7 +85965,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -95617,7 +95617,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -96258,7 +96258,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -96514,7 +96514,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -97218,7 +97218,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -97282,7 +97282,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -97410,7 +97410,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -97730,7 +97730,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -106247,7 +106247,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line19">line 19</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -107428,7 +107428,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -108069,7 +108069,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -108325,7 +108325,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -109029,7 +109029,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -109093,7 +109093,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -109221,7 +109221,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -109541,7 +109541,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -119246,7 +119246,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -119887,7 +119887,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -120143,7 +120143,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -120847,7 +120847,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -120911,7 +120911,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -121039,7 +121039,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -121359,7 +121359,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -131006,7 +131006,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -131647,7 +131647,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -131903,7 +131903,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -132607,7 +132607,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -132671,7 +132671,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -132799,7 +132799,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -133119,7 +133119,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -142817,7 +142817,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -143458,7 +143458,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -143714,7 +143714,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -144418,7 +144418,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -144482,7 +144482,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -144610,7 +144610,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -144930,7 +144930,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -154634,7 +154634,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -155275,7 +155275,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -155531,7 +155531,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -156235,7 +156235,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -156299,7 +156299,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -156427,7 +156427,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -156747,7 +156747,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -166394,7 +166394,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -167035,7 +167035,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -167291,7 +167291,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -167995,7 +167995,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -168059,7 +168059,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -168187,7 +168187,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -168507,7 +168507,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -178154,7 +178154,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -178795,7 +178795,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -179051,7 +179051,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -179755,7 +179755,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -179819,7 +179819,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -179947,7 +179947,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -180267,7 +180267,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -188780,7 +188780,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line11">line 11</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line10">line 10</a>
     </li></ul></dd>
     
 
@@ -189914,7 +189914,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -190555,7 +190555,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -190811,7 +190811,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -191515,7 +191515,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -191579,7 +191579,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -191707,7 +191707,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -192027,7 +192027,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -201725,7 +201725,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -202366,7 +202366,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -202622,7 +202622,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -203326,7 +203326,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -203390,7 +203390,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -203518,7 +203518,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -203838,7 +203838,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -213538,7 +213538,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -214179,7 +214179,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -214435,7 +214435,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -215139,7 +215139,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -215203,7 +215203,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -215331,7 +215331,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -215651,7 +215651,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -225349,7 +225349,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -225990,7 +225990,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -226246,7 +226246,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -226950,7 +226950,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -227014,7 +227014,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -227142,7 +227142,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -227462,7 +227462,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -235982,7 +235982,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootLayout.js.html">src/components/troubleshoot/TroubleshootLayout.js</a>, <a href="src_components_troubleshoot_TroubleshootLayout.js.html#line13">line 13</a>
+        <a href="src_components_troubleshoot_TroubleshootLayout.js.html">src/components/troubleshoot/TroubleshootLayout.js</a>, <a href="src_components_troubleshoot_TroubleshootLayout.js.html#line12">line 12</a>
     </li></ul></dd>
     
 
@@ -237116,7 +237116,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -237757,7 +237757,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -238013,7 +238013,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -238717,7 +238717,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -238781,7 +238781,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -238909,7 +238909,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -239229,7 +239229,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -247746,7 +247746,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line19">line 19</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -248927,7 +248927,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -249568,7 +249568,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -249824,7 +249824,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -250528,7 +250528,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -250592,7 +250592,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -250720,7 +250720,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -251040,7 +251040,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -260745,7 +260745,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -261386,7 +261386,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -261642,7 +261642,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -262346,7 +262346,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -262410,7 +262410,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -262538,7 +262538,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -262858,7 +262858,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -272506,7 +272506,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line52">line 52</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line45">line 45</a>
     </li></ul></dd>
     
 
@@ -273147,7 +273147,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line41">line 41</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -273403,7 +273403,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line66">line 66</a>
+        <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -274107,7 +274107,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line50">line 50</a>
+        <a href="src_components_journal_JournalLayout.js.html">src/components/journal/JournalLayout.js</a>, <a href="src_components_journal_JournalLayout.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -274171,7 +274171,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line70">line 70</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line69">line 69</a>
     </li></ul></dd>
     
 
@@ -274299,7 +274299,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line99">line 99</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -274619,7 +274619,7 @@ a new event that will update the rendered view
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line90">line 90</a>
+        <a href="src_components_troubleshoot_TroubleshootOpen.js.html">src/components/troubleshoot/TroubleshootOpen.js</a>, <a href="src_components_troubleshoot_TroubleshootOpen.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -283072,7 +283072,7 @@ circuit for listeners
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Mon Jan 06 2020 22:08:02 GMT-0600 (Central Standard Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Jan 07 2020 10:54:45 GMT-0600 (Central Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

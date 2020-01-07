@@ -1,9 +1,9 @@
-import React, {Component} from "react";
-import {Button, Segment} from "semantic-ui-react";
-import {DataModelFactory} from "../../models/DataModelFactory";
-import {ActiveCircleModel} from "../../models/ActiveCircleModel";
-import {WTFTimer} from "../../models/WTFTimer";
-import {DimensionController} from "../../controllers/DimensionController";
+import React, { Component } from "react";
+import { Button, Segment } from "semantic-ui-react";
+import { DataModelFactory } from "../../models/DataModelFactory";
+import { ActiveCircleModel } from "../../models/ActiveCircleModel";
+import { WTFTimer } from "../../models/WTFTimer";
+import { DimensionController } from "../../controllers/DimensionController";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
 
@@ -130,9 +130,9 @@ export default class TroubleshootOpen extends Component {
       <div id="component" className="troubleshootSidebar">
         <Segment className="troubleshootSidebar" inverted>
           <Segment inverted>Troubleshoot Content</Segment>
-          room: {this.state.circleName} <br/>
-          owner: {this.state.circleOwner} <br/>
-          time: {this.state.formattedWTFTimer} <br/>
+          room: {this.state.circleName} <br />
+          owner: {this.state.circleOwner} <br />
+          time: {this.state.formattedWTFTimer} <br />
           <Button
             onClick={this.onClickStopTroubleshooting}
             size="big"

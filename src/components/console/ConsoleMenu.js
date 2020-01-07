@@ -13,7 +13,7 @@ export default class ConsoleMenu extends Component {
     this.isChanging = false;
     this.animationTime = props.animationTime + 50;
     this.state = {
-      activeItem: MainPanelViewController.MenuSelection.JOURNAL,
+      activeItem: MainPanelViewController.MenuSelection.DEFAULT,
       isOnline: true,
       pingTime: 0,
       server: "identifying...",
@@ -68,14 +68,6 @@ export default class ConsoleMenu extends Component {
   handleHideClick = () => {
     this.myController.hideConsoleWindow();
   };
-
-  // handleUndockClick = (e, { name }) => {
-  //   console.log(this.name + " - open undock window ");
-  // };
-
-  // handleSettingsClick = (e, { name }) => {
-  //   console.log(this.name + " - open settings window");
-  // };
 
   /// renders the menu component of the console view
   render() {
@@ -181,16 +173,6 @@ export default class ConsoleMenu extends Component {
             <Menu.Item name="hide" onClick={this.handleHideClick}>
               <Icon name="toggle up" size="large" />
             </Menu.Item>
-            {/*<Menu.Item name="undock" onClick={this.handleUndockClick} disabled>*/}
-            {/*  <Icon name="window restore" size="large" />*/}
-            {/*</Menu.Item>*/}
-            {/*<Menu.Item*/}
-            {/*  name="settings"*/}
-            {/*  onClick={this.handleSettingsClick}*/}
-            {/*  disabled*/}
-            {/*>*/}
-            {/*  <Icon name="settings" size="large" />*/}
-            {/*</Menu.Item>*/}
           </Menu.Menu>
         </Menu>
       </div>

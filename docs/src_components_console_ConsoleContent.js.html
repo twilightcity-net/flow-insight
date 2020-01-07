@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>src/controllers/PerspectiveController.js - Documentation</title>
+    <title>src/components/console/ConsoleContent.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">src/controllers/PerspectiveController.js</h1>
+    <h1 class="page-title">src/components/console/ConsoleContent.js</h1>
     
 
     
@@ -39,121 +39,191 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
+            <pre class="prettyprint source linenums"><code>import React, {Component} from "react";
+import JournalLayout from "../journal/JournalLayout";
+import TroubleshootLayout from "../troubleshoot/TroubleshootLayout";
+import FlowLayout from "../flow/FlowLayout";
+import {Transition} from "semantic-ui-react";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+import BrowserHeader from "../browser/BrowserHeader";
+import {DataModelFactory} from "../../models/DataModelFactory";
 
-/**
- * This class is used to coordinate views across all the perspective change events
- */
-export class PerspectiveController {
-  constructor(scope) {
-    this.name = "[PerspectiveController]";
-    this.scope = scope;
-  }
-
-  static instance;
-
-  static init(scope) {
-    if (!PerspectiveController.instance) {
-      PerspectiveController.instance = new PerspectiveController(scope);
-      PerspectiveController.instance.wireViewControllersTogether();
-    }
-  }
-
-  wireViewControllersTogether = () => {
-    this.journalModel = DataModelFactory.createModel(
-      DataModelFactory.Models.JOURNAL,
-      this
-    );
-    this.spiritModel = DataModelFactory.createModel(
-      DataModelFactory.Models.SPIRIT,
-      this
-    );
-
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS,
-      this
-    );
-
-    this.troublePanelController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
-      this
-    );
+//
+// this component is the tab panel wrapper for the console content
+//
+export default class ConsoleContent extends Component {
+  constructor(props) {
+    super(props);
+    this.name = "[" + ConsoleContent.name + "]";
+    this.isAnimating = false;
+    this.animationTime = Math.floor(this.props.animationTime / 2);
+    this.state = {
+      activeLayout: "journal",
+      journalVisible: true,
+      troubleshootVisible: false,
+      flowVisible: false,
+      animationTypeJournal: "fly right",
+      animationTypeTroubleshoot: "fly left",
+      animationTypeFlow: "fly left"
+    };
 
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.MAIN_PANEL,
       this
     );
 
-    this.sidePanelController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.SIDE_PANEL,
-      this
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS
     );
-    this.consoleController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
-      this
+  }
+
+  componentDidMount = () => {
+    this.myController.configureContentListener(
+      this,
+      this.onRefreshActivePerspective
     );
-
-    this.configureConsoleOpenCloseModelUpdateEvents();
-
-    this.configureSidePanelCloseEvent();
   };
 
-  configureSidePanelCloseEvent() {
-    this.sidePanelController.configurePerspectiveControllerListener(
-      this,
-      this.onCloseSidePanelResetMemberSelection
-    );
-  }
+  componentWillUnmount = () => {
+    this.myController.configureContentListener(this, null);
+  };
 
-  configureConsoleOpenCloseModelUpdateEvents() {
-    this.consoleController.configureModelUpdateListener(
-      this,
-      this.onConsoleOpenUpdateModels
-    );
-  }
-
-  onCloseSidePanelResetMemberSelection() {
-    console.log(
-      this.name + " - Event Fired: onCloseSidePanelResetMemberSelection"
-    );
-    if (!this.sidePanelController.isVisible()) {
-      this.teamModel.resetActiveMemberToMe();
+  // dispatched when the console menu changes from user clicks
+  onRefreshActivePerspective() {
+    if (this.isAnimating) return;
+    this.isAnimating = true;
+    let newLayout = this.myController.activeMenuSelection,
+      oldLayout = this.myController.oldMenuSelection,
+      state = this.getAnimationState(oldLayout, newLayout);
+    this.setState(state);
+    switch (newLayout) {
+      case "journal":
+        state.journalVisible = true;
+        this.animateContentFromState(state);
+        break;
+      case "troubleshoot":
+        state.troubleshootVisible = true;
+        this.animateContentFromState(state);
+        break;
+      case "flow":
+        state.flowVisible = true;
+        this.animateContentFromState(state);
+        break;
+      default:
+        break;
     }
   }
+
+  getAnimationState(oldLayout, newLayout) {
+    console.log("getAnimationState - " + oldLayout + " to " + newLayout);
+
+    let state = {
+      activeLayout: newLayout,
+      journalVisible: false,
+      troubleshootVisible: false,
+      flowVisible: false
+    };
+    if (oldLayout === "flow") {
+      state.animationTypeJournal = "fly right";
+      state.animationTypeTroubleshoot = "fly right";
+      state.animationTypeFlow = "fly left";
+    }
+    else if (oldLayout === "flow" &amp;&amp; newLayout === "journal") {
+      state.animationTypeJournal = "fly right";
+      state.animationTypeTroubleshoot = "fly right";
+      state.animationTypeFlow = "fly left";
+    }
+    else if (oldLayout === "troubleshoot" &amp;&amp; newLayout === "journal") {
+      state.animationTypeJournal = "fly right";
+      state.animationTypeTroubleshoot = "fly left";
+      state.animationTypeFlow = "fly right";
+    }
+    else if (oldLayout === "troubleshoot" &amp;&amp; newLayout === "flow") {
+      state.animationTypeJournal = "fly left";
+      state.animationTypeTroubleshoot = "fly right";
+      state.animationTypeFlow = "fly left";
+    }
+    else if (oldLayout === "journal" &amp;&amp; newLayout === "flow") {
+      state.animationTypeJournal = "fly right";
+      state.animationTypeTroubleshoot = "fly right";
+      state.animationTypeFlow = "fly left";
+    }
+    else if (oldLayout === "journal" &amp;&amp; newLayout === "troubleshoot") {
+      state.animationTypeJournal = "fly right";
+      state.animationTypeTroubleshoot = "fly left";
+      state.animationTypeFlow = "fly right";
+    }
+    return state;
+  }
+
+  animateContentFromState(state) {
+    setTimeout(() => {
+      this.setState(state);
+      this.isAnimating = false;
+    }, this.animationTime);
+  }
+
+  getBrowserHeader = (scope, member) => {
+    return (
+      &lt;BrowserHeader
+        scope={scope}
+        member={member}
+        location={"/Journal/" + member}
+      />
+    );
+  };
 
   /**
-   * dynamically loads the model data when the console is open. uses the event int arg
-   * 1 is shown, 0 is hiden.. see CONSOLE_WINDOW_SHOW_HIDE event. the value represents
-   * the state of this window; not action
-   * @param event
-   * @param arg
+   * renders the content of the console view
+   * @returns {*}
    */
-  onConsoleOpenUpdateModels(event, arg) {
-    console.log(
-      this.name +
-        " - Event Fired: onConsoleOpenUpdateModels -> " +
-        event +
-        " : " +
-        arg.toString()
+  render() {
+    const journalLayout = (
+      &lt;div id="wrapper" className="journalLayout">
+        &lt;JournalLayout/>
+      &lt;/div>
     );
-
-    if (arg === 1) {
-      //shown
-      if (this.spiritModel.hasLinks()) {
-        this.journalModel.loadDefaultJournal();
-      }
-    } else {
-      /// TODO create an event console shown which will call this
-
-      // this is required so that the console sliding animation isn't wonky or laggy
-      // maybe create a console is shown (done animating) event to fire these..
-      // this would also throttle requests if thw console is opened and closed rapidly
-      setTimeout(() => {
-        this.teamModel.resetActiveMemberToMe();
-        this.teamModel.refreshAll();
-      }, 400);
-    }
+    const troubleshootLayout = (
+      &lt;div id="wrapper" className="troubleshootLayout">
+        &lt;TroubleshootLayout/>
+      &lt;/div>
+    );
+    const flowLayout = (
+      &lt;div id="wrapper" className="flowLayout">
+        &lt;FlowLayout/>
+      &lt;/div>
+    );
+    return (
+      &lt;div id="component" className="consoleContent">
+        &lt;div id="wrapper" className="browserHeader">
+          {this.getBrowserHeader(this, "Zoe")}
+        &lt;/div>
+        &lt;Transition
+          visible={this.state.journalVisible}
+          animation={this.state.animationTypeJournal}
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {journalLayout}
+        &lt;/Transition>
+        &lt;Transition
+          visible={this.state.troubleshootVisible}
+          animation={this.state.animationTypeTroubleshoot}
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {troubleshootLayout}
+        &lt;/Transition>
+        &lt;Transition
+          visible={this.state.flowVisible}
+          animation={this.state.animationTypeFlow}
+          duration={this.animationTime}
+          unmountOnHide
+        >
+          {flowLayout}
+        &lt;/Transition>
+      &lt;/div>
+    );
   }
 }
 </code></pre>

@@ -1,5 +1,5 @@
-import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
+import {DataModelFactory} from "../models/DataModelFactory";
+import {ActiveViewControllerFactory} from "./ActiveViewControllerFactory";
 
 /**
  * This class is used to coordinate views across all the perspective change events
@@ -12,6 +12,10 @@ export class PerspectiveController {
 
   static instance;
 
+  /**
+   * static function used to initialize this con
+   * @param scope
+   */
   static init(scope) {
     if (!PerspectiveController.instance) {
       PerspectiveController.instance = new PerspectiveController(scope);
@@ -19,6 +23,9 @@ export class PerspectiveController {
     }
   }
 
+  /**
+   * links dependent controllers to this controllers scope
+   */
   wireViewControllersTogether = () => {
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
@@ -33,12 +40,6 @@ export class PerspectiveController {
       DataModelFactory.Models.MEMBER_STATUS,
       this
     );
-
-    this.troublePanelController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
-      this
-    );
-
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.MAIN_PANEL,
       this
@@ -52,12 +53,13 @@ export class PerspectiveController {
       ActiveViewControllerFactory.Views.CONSOLE_PANEL,
       this
     );
-
     this.configureConsoleOpenCloseModelUpdateEvents();
-
     this.configureSidePanelCloseEvent();
   };
 
+  /**
+   * callback function called when the sidebar panel is closed
+   */
   configureSidePanelCloseEvent() {
     this.sidePanelController.configurePerspectiveControllerListener(
       this,
@@ -65,6 +67,9 @@ export class PerspectiveController {
     );
   }
 
+  /**
+   * callback function used to update the console models when the console is opened
+   */
   configureConsoleOpenCloseModelUpdateEvents() {
     this.consoleController.configureModelUpdateListener(
       this,
@@ -72,6 +77,9 @@ export class PerspectiveController {
     );
   }
 
+  /**
+   * callback function that is called when the console sidebar panel is closed
+   */
   onCloseSidePanelResetMemberSelection() {
     console.log(
       this.name + " - Event Fired: onCloseSidePanelResetMemberSelection"
@@ -91,10 +99,10 @@ export class PerspectiveController {
   onConsoleOpenUpdateModels(event, arg) {
     console.log(
       this.name +
-        " - Event Fired: onConsoleOpenUpdateModels -> " +
-        event +
-        " : " +
-        arg.toString()
+      " - Event Fired: onConsoleOpenUpdateModels -> " +
+      event +
+      " : " +
+      arg.toString()
     );
 
     if (arg === 1) {
@@ -102,7 +110,8 @@ export class PerspectiveController {
       if (this.spiritModel.hasLinks()) {
         this.journalModel.loadDefaultJournal();
       }
-    } else {
+    }
+    else {
       /// TODO create an event console shown which will call this
 
       // this is required so that the console sliding animation isn't wonky or laggy

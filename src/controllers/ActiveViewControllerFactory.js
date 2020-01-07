@@ -1,7 +1,8 @@
-import { SidePanelViewController } from "./SidePanelViewController";
-import { MainPanelViewController } from "./MainPanelViewController";
-import { ConsoleViewController } from "./ConsoleViewController";
-import { TroubleshootController } from "./TroubleshootController";
+import {SidePanelViewController} from "./SidePanelViewController";
+import {MainPanelViewController} from "./MainPanelViewController";
+import {ConsoleViewController} from "./ConsoleViewController";
+import {TroubleshootController} from "./TroubleshootController";
+import {BrowserController} from "./BrowserController";
 
 /**
  * generates view controllers for components
@@ -24,7 +25,8 @@ export class ActiveViewControllerFactory {
       TROUBLE_PANEL: "trouble-panel",
       SIDE_PANEL: "side-panel",
       MAIN_PANEL: "main-panel",
-      CONSOLE_PANEL: "console-panel"
+      CONSOLE_PANEL: "console-panel",
+      BROWSER_PANEL: "browser-panel"
     };
   }
 
@@ -45,17 +47,18 @@ export class ActiveViewControllerFactory {
    * @returns {*}
    */
   static findOrCreateViewController(name, scope) {
-    let storeFound = null;
+    let ctlr;
     if (ActiveViewControllerFactory.viewsByName[name] != null) {
-      storeFound = ActiveViewControllerFactory.viewsByName[name];
-    } else {
-      storeFound = ActiveViewControllerFactory.initializeNewViewController(
+      ctlr = ActiveViewControllerFactory.viewsByName[name];
+    }
+    else {
+      ctlr = ActiveViewControllerFactory.initializeNewViewController(
         name,
         scope
       );
-      ActiveViewControllerFactory.viewsByName[name] = storeFound;
+      ActiveViewControllerFactory.viewsByName[name] = ctlr;
     }
-    return storeFound;
+    return ctlr;
   }
 
   /**
@@ -74,6 +77,8 @@ export class ActiveViewControllerFactory {
         return new MainPanelViewController(scope);
       case ActiveViewControllerFactory.Views.CONSOLE_PANEL:
         return new ConsoleViewController(scope);
+      case ActiveViewControllerFactory.Views.BROWSER_PANEL:
+        return new BrowserController(scope);
       default:
         return null;
     }
