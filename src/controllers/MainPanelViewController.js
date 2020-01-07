@@ -1,7 +1,7 @@
 import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
-import {PerspectiveController} from "./PerspectiveController";
-import {DataModelFactory} from "../models/DataModelFactory";
+import { PerspectiveController } from "./PerspectiveController";
+import { DataModelFactory } from "../models/DataModelFactory";
 
 export class MainPanelViewController extends ActiveViewController {
   constructor(scope) {

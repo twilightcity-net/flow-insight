@@ -1,8 +1,8 @@
-import {SidePanelViewController} from "./SidePanelViewController";
-import {MainPanelViewController} from "./MainPanelViewController";
-import {ConsoleViewController} from "./ConsoleViewController";
-import {TroubleshootController} from "./TroubleshootController";
-import {BrowserController} from "./BrowserController";
+import { SidePanelViewController } from "./SidePanelViewController";
+import { MainPanelViewController } from "./MainPanelViewController";
+import { ConsoleViewController } from "./ConsoleViewController";
+import { TroubleshootController } from "./TroubleshootController";
+import { BrowserController } from "./BrowserController";
 
 /**
  * generates view controllers for components
@@ -50,8 +50,7 @@ export class ActiveViewControllerFactory {
     let ctlr;
     if (ActiveViewControllerFactory.viewsByName[name] != null) {
       ctlr = ActiveViewControllerFactory.viewsByName[name];
-    }
-    else {
+    } else {
       ctlr = ActiveViewControllerFactory.initializeNewViewController(
         name,
         scope

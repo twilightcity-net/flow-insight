@@ -7,7 +7,6 @@ import FlowContent from "./FlowContent";
  * @copyright DreamScale, Inc. 2020©®™√
  */
 export default class FlowLayout extends Component {
-
   /**
    * builds the flow layout content.
    * @param props
@@ -25,7 +24,7 @@ export default class FlowLayout extends Component {
     return (
       <div id="component" className="flowLayout">
         <div id="wrapper" className="flowContent">
-          <FlowContent/>
+          <FlowContent />
         </div>
       </div>
     );

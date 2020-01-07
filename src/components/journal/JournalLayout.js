@@ -1,13 +1,12 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import JournalItems from "./JournalItems";
 import JournalEntry from "./JournalEntry";
-import {DataModelFactory} from "../../models/DataModelFactory";
+import { DataModelFactory } from "../../models/DataModelFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class JournalLayout extends Component {
-
   /**
    * builds the basic journal layout component
    * @param props
@@ -32,10 +31,10 @@ export default class JournalLayout extends Component {
   onFinishEntry = (journalEntry, finishStatus) => {
     console.log(
       this.name +
-      " finished journal entry status : " +
-      journalEntry.id +
-      " -> " +
-      finishStatus
+        " finished journal entry status : " +
+        journalEntry.id +
+        " -> " +
+        finishStatus
     );
     this.journalModel.finishIntention(journalEntry.id, finishStatus);
   };
@@ -48,10 +47,10 @@ export default class JournalLayout extends Component {
   onChangeActiveEntry = (rowId, journalItem) => {
     console.log(
       this.name +
-      " - journal entry changed :" +
-      rowId +
-      " -> " +
-      journalItem.index
+        " - journal entry changed :" +
+        rowId +
+        " -> " +
+        journalItem.index
     );
     this.journalModel.setActiveJournalItem(journalItem);
   };
@@ -81,7 +80,7 @@ export default class JournalLayout extends Component {
           />
         </div>
         <div id="wrapper" className="journalEntry">
-          <JournalEntry onAddTask={this.onAddTask}/>
+          <JournalEntry onAddTask={this.onAddTask} />
         </div>
       </div>
     );

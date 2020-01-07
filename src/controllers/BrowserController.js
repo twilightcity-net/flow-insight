@@ -1,5 +1,5 @@
 import { ActiveViewController } from "./ActiveViewController";
-import {RendererEventFactory} from "../events/RendererEventFactory";
+import { RendererEventFactory } from "../events/RendererEventFactory";
 
 export class BrowserController extends ActiveViewController {
   constructor(scope) {

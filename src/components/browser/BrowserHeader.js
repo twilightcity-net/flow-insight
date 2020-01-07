@@ -1,14 +1,20 @@
-import React, {Component} from "react";
-import {Button, Dropdown, Grid, Icon, Input, Segment} from "semantic-ui-react";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
-import {DataModelFactory} from "../../models/DataModelFactory";
-import {MainPanelViewController} from "../../controllers/MainPanelViewController";
+import React, { Component } from "react";
+import {
+  Button,
+  Dropdown,
+  Grid,
+  Icon,
+  Input,
+  Segment
+} from "semantic-ui-react";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { DataModelFactory } from "../../models/DataModelFactory";
+import { MainPanelViewController } from "../../controllers/MainPanelViewController";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class BrowserHeader extends Component {
-
   /**
    * the constructor for the array of journal items to display
    * @param props - the components properties
@@ -35,10 +41,10 @@ export default class BrowserHeader extends Component {
    */
   getOptions() {
     return [
-      {key: 1, text: "Open", value: "Open"},
-      {key: 2, text: "Close", value: "Close"},
-      {key: 3, text: "Join", value: "Join"},
-      {key: 4, text: "Leave", value: "Leave"}
+      { key: 1, text: "Open", value: "Open" },
+      { key: 2, text: "Close", value: "Close" },
+      { key: 3, text: "Join", value: "Join" },
+      { key: 4, text: "Leave", value: "Leave" }
     ];
   }
 
@@ -69,13 +75,13 @@ export default class BrowserHeader extends Component {
    * @param perspective
    */
   onActivePerspectiveChange = (event, perspective) => {
-    if(perspective === MainPanelViewController.MenuSelection.JOURNAL) {
+    if (perspective === MainPanelViewController.MenuSelection.JOURNAL) {
       this.setLocation(this.getJournalLocation());
-    }
-    else if(perspective === MainPanelViewController.MenuSelection.TROUBLESHOOT) {
+    } else if (
+      perspective === MainPanelViewController.MenuSelection.TROUBLESHOOT
+    ) {
       this.setLocation(this.getTroubleshootLocation());
-    }
-    else if(perspective === MainPanelViewController.MenuSelection.FLOW) {
+    } else if (perspective === MainPanelViewController.MenuSelection.FLOW) {
       this.setLocation(this.getFlowLocation());
     } else {
       this.setLocation("");
@@ -90,7 +96,7 @@ export default class BrowserHeader extends Component {
    */
   onShowConsoleWindow = (event, arg) => {
     console.log(this.name + " show console window : " + arg);
-    if(this.state.location === "") {
+    if (this.state.location === "") {
       this.setLocation(this.getDefaultLocation());
     }
   };
@@ -100,7 +106,7 @@ export default class BrowserHeader extends Component {
    * @param location
    */
   setLocation(location) {
-    this.setState({location: location});
+    this.setState({ location: location });
   }
 
   /**
@@ -131,7 +137,7 @@ export default class BrowserHeader extends Component {
    * highlight field border when element is focused on
    * @param e
    */
-  handleFocus = (e) => {
+  handleFocus = e => {
     document.getElementById("browserAction").classList.add("focused");
     document.getElementById("browserInput").classList.add("focused");
     document.getElementById("browserGo").classList.add("focused");
@@ -142,7 +148,7 @@ export default class BrowserHeader extends Component {
    * form element inputs
    * @param e
    */
-  handleBlur = (e) => {
+  handleBlur = e => {
     document.getElementById("browserAction").classList.remove("focused");
     document.getElementById("browserInput").classList.remove("focused");
     document.getElementById("browserGo").classList.remove("focused");
@@ -210,7 +216,7 @@ export default class BrowserHeader extends Component {
             id="browserGo"
             onClick={this.handleClickForGo}
           >
-            <Icon name="play"/>
+            <Icon name="play" />
           </Button>
         }
       />

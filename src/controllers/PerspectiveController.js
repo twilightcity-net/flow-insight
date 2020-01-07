@@ -1,5 +1,5 @@
-import {DataModelFactory} from "../models/DataModelFactory";
-import {ActiveViewControllerFactory} from "./ActiveViewControllerFactory";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
 
 /**
  * This class is used to coordinate views across all the perspective change events
@@ -99,10 +99,10 @@ export class PerspectiveController {
   onConsoleOpenUpdateModels(event, arg) {
     console.log(
       this.name +
-      " - Event Fired: onConsoleOpenUpdateModels -> " +
-      event +
-      " : " +
-      arg.toString()
+        " - Event Fired: onConsoleOpenUpdateModels -> " +
+        event +
+        " : " +
+        arg.toString()
     );
 
     if (arg === 1) {
@@ -110,8 +110,7 @@ export class PerspectiveController {
       if (this.spiritModel.hasLinks()) {
         this.journalModel.loadDefaultJournal();
       }
-    }
-    else {
+    } else {
       /// TODO create an event console shown which will call this
 
       // this is required so that the console sliding animation isn't wonky or laggy
