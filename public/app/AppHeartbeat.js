@@ -39,27 +39,30 @@ module.exports = class AppHeartbeat {
       this.pulse();
     }, this.intervalMs);
 
-    global.App.TalkManager.getAllTalkMessagesFromRoom("angry_teachers");
-    global.App.TalkManager.publishChatToRoom(
-      false,
-      "angry_teachers",
-      "hello from torchie client"
-    );
-    global.App.TalkManager.publishSnippetToRoom(
-      false,
-      "angry_teachers",
-      "test comment",
-      "edit_file",
-      "432",
-      "~/.bash_history",
-      "export=null"
-    );
-    global.App.TalkManager.publishScreenshotToRoom(
-      false,
-      "angry_teachers",
-      ".bash_history",
-      "~/.bash_history"
-    );
+    ////
+    //// TESTING : TalkToClient
+    ////
+    // global.App.TalkManager.getAllTalkMessagesFromRoom("angry_teachers");
+    // global.App.TalkManager.publishChatToRoom(
+    //   false,
+    //   "angry_teachers",
+    //   "hello from torchie client"
+    // );
+    // global.App.TalkManager.publishSnippetToRoom(
+    //   false,
+    //   "angry_teachers",
+    //   "test comment",
+    //   "edit_file",
+    //   "432",
+    //   "~/.bash_history",
+    //   "export=null"
+    // );
+    // global.App.TalkManager.publishScreenshotToRoom(
+    //   false,
+    //   "angry_teachers",
+    //   ".bash_history",
+    //   "~/.bash_history"
+    // );
   }
 
   stop() {
