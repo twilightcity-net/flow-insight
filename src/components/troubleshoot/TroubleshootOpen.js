@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Button, Segment } from "semantic-ui-react";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { ActiveCircleModel } from "../../models/ActiveCircleModel";
-import { WTFTimer } from "../../models/WTFTimer";
-import { DimensionController } from "../../controllers/DimensionController";
+import React, {Component} from "react";
+import {Button, Segment} from "semantic-ui-react";
+import {DataModelFactory} from "../../models/DataModelFactory";
+import {ActiveCircleModel} from "../../models/ActiveCircleModel";
+import {WTFTimer} from "../../models/WTFTimer";
+import {DimensionController} from "../../controllers/DimensionController";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
 
@@ -130,20 +130,18 @@ export default class TroubleshootOpen extends Component {
       <div id="component" className="troubleshootSidebar">
         <Segment className="troubleshootSidebar" inverted>
           <Segment inverted>Troubleshoot Content</Segment>
-          <Segment inverted>room: {this.state.circleName}</Segment>
-          <Segment inverted>owner: {this.state.circleOwner}</Segment>
-          <Segment inverted>time: {this.state.formattedWTFTimer}</Segment>
-          <Segment inverted>
-            <Button
-              onClick={this.onClickStopTroubleshooting}
-              size="big"
-              color="purple"
-              animated="fade"
-            >
-              <Button.Content visible>YAY!</Button.Content>
-              <Button.Content hidden>WTF Resolved!</Button.Content>
-            </Button>
-          </Segment>
+          room: {this.state.circleName} <br/>
+          owner: {this.state.circleOwner} <br/>
+          time: {this.state.formattedWTFTimer} <br/>
+          <Button
+            onClick={this.onClickStopTroubleshooting}
+            size="big"
+            color="purple"
+            animated="fade"
+          >
+            <Button.Content visible>YAY!</Button.Content>
+            <Button.Content hidden>WTF Resolved!</Button.Content>
+          </Button>
         </Segment>
       </div>
     );
@@ -161,9 +159,6 @@ export default class TroubleshootOpen extends Component {
           primaryMinSize={25}
           secondaryMinSize={25}
           secondaryInitialSize={40}
-          style={{
-            height: DimensionController.getHeightFor(this)
-          }}
         >
           <div>
             <div id="wrapper" className="troubleshootFeed">
