@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Segment } from "semantic-ui-react";
-import { DataModelFactory } from "../../models/DataModelFactory";
 import { DimensionController } from "../../controllers/DimensionController";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 

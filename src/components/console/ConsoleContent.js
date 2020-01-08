@@ -5,11 +5,10 @@ import FlowLayout from "../flow/FlowLayout";
 import { Transition } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import BrowserHeader from "../browser/BrowserHeader";
-import { DataModelFactory } from "../../models/DataModelFactory";
 
-//
-// this component is the tab panel wrapper for the console content
-//
+/**
+ * this component is the tab panel wrapper for the console content
+ */
 export default class ConsoleContent extends Component {
   constructor(props) {
     super(props);
