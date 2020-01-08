@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Segment } from "semantic-ui-react";
-import { ActiveCircleModel } from "../../models/ActiveCircleModel";
 import { DataModelFactory } from "../../models/DataModelFactory";
 import { DimensionController } from "../../controllers/DimensionController";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -16,56 +16,16 @@ export default class TroubleshootStart extends Component {
   constructor(props) {
     super(props);
     this.name = "[TroubleshootStart]";
-    console.log(props);
-    this.myController = props.ctlr;
-
     this.state = {
       activeCircle: null,
       circleName: null,
       circleOwner: "Me"
     };
-
-    this.activeCircleModel = DataModelFactory.createModel(
-      DataModelFactory.Models.ACTIVE_CIRCLE,
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
       this
     );
   }
-
-  /**
-   * called when the component first mounts
-   */
-  componentDidMount = () => {
-    console.log(this.name + " - componentDidMount");
-    this.activeCircleModel.registerListener(
-      "TroubleshootSessionNew",
-      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
-      this.onCircleUpdate
-    );
-
-    this.onCircleUpdate();
-  };
-
-  /**
-   * called when the component is hidden
-   */
-  componentWillUnmount = () => {
-    console.log(this.name + " - componentWillUnmount");
-
-    this.activeCircleModel.unregisterAllListeners("TroubleshootSessionNew");
-  };
-
-  /**
-   * local scoped callback that is called when the active circle needs updating
-   */
-  onCircleUpdate = () => {
-    console.log(this.name + " - onCircleUpdate");
-
-    this.setState({
-      activeCircle: this.activeCircleModel.getActiveScope().activeCircle,
-      circleName: this.activeCircleModel.getActiveScope().circleName,
-      circleOwner: this.activeCircleModel.getActiveScope().getCircleOwner()
-    });
-  };
 
   /**
    * renders the default troubleshoot component in the console view

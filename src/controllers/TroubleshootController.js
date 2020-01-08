@@ -3,27 +3,18 @@ import { DataModelFactory } from "../models/DataModelFactory";
 
 export class TroubleshootController extends ActiveViewController {
   wireTogetherModels(scope) {
-    this.activeCircleModel = DataModelFactory.createModel(
-      DataModelFactory.Models.ACTIVE_CIRCLE,
-      scope
-    );
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
       scope
     );
   }
 
-  unregisterListeners() {
-    this.activeCircleModel.unregisterAllListeners("troubleshootLayout");
-  }
 
-  onStartTroubleshooting = () => {
-    console.log(this.name + " onStartTroubleshooting");
-    this.activeCircleModel.createCircle();
+  startTroubshooting = () => {
+    console.log(this.name + " start troubleshooting");
   };
 
-  onStopTroubleshooting = () => {
-    console.log(this.name + " onStopTroubleshooting");
-    this.activeCircleModel.closeActiveCircle();
+  stopTroubleshooting = () => {
+    console.log(this.name + " stop troubleshooting");
   };
 }

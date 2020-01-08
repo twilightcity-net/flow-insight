@@ -1,16 +1,15 @@
 import React, { Component } from "react";
 import { Button, Segment } from "semantic-ui-react";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { ActiveCircleModel } from "../../models/ActiveCircleModel";
-import { WTFTimer } from "../../models/WTFTimer";
 import { DimensionController } from "../../controllers/DimensionController";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class TroubleshootOpen extends Component {
+
   /**
    * the constructor, duh
    * @param props
@@ -18,87 +17,18 @@ export default class TroubleshootOpen extends Component {
   constructor(props) {
     super(props);
     this.name = "[TroubleshootOpen]";
-    this.myController = props.ctlr;
-
-    this.state = {
-      chatInputValue: "",
-      formattedWTFTimer: "00:00"
-    };
-
-    this.activeCircleModel = DataModelFactory.createModel(
-      DataModelFactory.Models.ACTIVE_CIRCLE,
-      this
-    );
-
-    this.wtfTimer = DataModelFactory.createModel(
-      DataModelFactory.Models.WTF_TIMER,
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
       this
     );
   }
 
-  componentDidMount = () => {
-    console.log(this.name + " - componentDidMount");
-    this.wtfTimer.registerListener(
-      "TroubleshootOpen",
-      WTFTimer.CallbackEvent.WTF_TIMER_SECONDS_UPDATE,
-      this.onTimerUpdate
-    );
-
-    this.activeCircleModel.registerListener(
-      "TroubleshootOpen",
-      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
-      this.onCircleUpdate
-    );
-
-    this.onCircleUpdate();
-    this.onTimerUpdate();
-    this.wtfTimer.startTimer();
-  };
-
-  componentWillUnmount = () => {
-    console.log(this.name + " - componentWillUnmount");
-
-    this.wtfTimer.stopTimer();
-    this.activeCircleModel.unregisterAllListeners("TroubleshootOpen");
-    this.wtfTimer.unregisterAllListeners("TroubleshootOpen");
-  };
-
-  /**
-   * when the cir4ucle updates
-   */
-  onCircleUpdate = () => {
-    console.log(this.name + " - onCircleUpdate");
-
-    let activeCircle = this.activeCircleModel.getActiveScope().activeCircle;
-    let circleName = this.activeCircleModel.getActiveScope().circleName;
-
-    let circleOwner = this.activeCircleModel.getActiveScope().getCircleOwner();
-
-    let formattedTime = this.wtfTimer.wtfTimerInSeconds;
-    this.setState({
-      formattedWTFTimer: formattedTime,
-      activeCircle: activeCircle,
-      circleName: circleName,
-      circleOwner: circleOwner
-    });
-  };
-
-  /**
-   * used to store the wtf timer counter
-   */
-  onTimerUpdate = () => {
-    this.setState({
-      formattedWTFTimer: this.wtfTimer.wtfTimerInSeconds
-    });
-  };
-
   /**
    * callled when the solved button is clicked
    */
-  onClickStopTroubleshooting = () => {
+  onClickStopTroubleshoot = () => {
     console.log(this.name + " - on click stop troubleshooting");
-
-    this.props.onStopTroubleshooting();
+    this.myController.stopTroubleshooting();
   };
 
   /**
@@ -130,11 +60,11 @@ export default class TroubleshootOpen extends Component {
       <div id="component" className="troubleshootSidebar">
         <Segment className="troubleshootSidebar" inverted>
           <Segment inverted>Troubleshoot Content</Segment>
-          room: {this.state.circleName} <br />
-          owner: {this.state.circleOwner} <br />
-          time: {this.state.formattedWTFTimer} <br />
+          room: angry_teachers<br />
+          owner: zoe<br />
+          time: 00:00:00 <br />
           <Button
-            onClick={this.onClickStopTroubleshooting}
+            onClick={this.onClickStopTroubleshoot}
             size="big"
             color="purple"
             animated="fade"

@@ -1,8 +1,6 @@
 import { TeamModel } from "./TeamModel";
-import { ActiveCircleModel } from "./ActiveCircleModel";
 import { JournalModel } from "./JournalModel";
 import { SpiritModel } from "./SpiritModel";
-import { WTFTimer } from "./WTFTimer";
 
 /**
  * this class is used to manage DtoClient requests for Stores
@@ -22,10 +20,8 @@ export class DataModelFactory {
   static get Models() {
     return {
       MEMBER_STATUS: "member-status",
-      ACTIVE_CIRCLE: "active-circle",
       JOURNAL: "active-journal",
-      SPIRIT: "spirit",
-      WTF_TIMER: "wtf-intervalTicker"
+      SPIRIT: "spirit"
     };
   }
 
@@ -68,10 +64,6 @@ export class DataModelFactory {
     switch (name) {
       case DataModelFactory.Models.MEMBER_STATUS:
         return new TeamModel(scope);
-      case DataModelFactory.Models.ACTIVE_CIRCLE:
-        return new ActiveCircleModel(scope);
-      case DataModelFactory.Models.WTF_TIMER:
-        return new WTFTimer(scope);
       case DataModelFactory.Models.JOURNAL:
         return new JournalModel(scope);
       case DataModelFactory.Models.SPIRIT:

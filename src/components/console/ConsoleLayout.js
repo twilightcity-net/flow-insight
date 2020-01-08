@@ -6,7 +6,6 @@ import TeamPanel from "../team/TeamPanel";
 import SpiritPanel from "../spirit/SpiritPanel";
 import { DataModelFactory } from "../../models/DataModelFactory";
 import { SpiritModel } from "../../models/SpiritModel";
-import { ActiveCircleModel } from "../../models/ActiveCircleModel";
 import { TeamModel } from "../../models/TeamModel";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import { SidePanelViewController } from "../../controllers/SidePanelViewController";
@@ -63,11 +62,6 @@ export default class ConsoleLayout extends Component {
     this.activeCircleModel = DataModelFactory.createModel(
       DataModelFactory.Models.ACTIVE_CIRCLE,
       this
-    );
-    this.activeCircleModel.registerListener(
-      "consoleLayout",
-      ActiveCircleModel.CallbackEvent.ACTIVE_CIRCLE_UPDATE,
-      this.onActiveCircleUpdateCb
     );
 
     this.spiritModel = DataModelFactory.createModel(

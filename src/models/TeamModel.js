@@ -1,20 +1,17 @@
 import { DataModel } from "./DataModel";
-import { WTFTimer } from "./WTFTimer";
 
 const { remote } = window.require("electron"),
   MemberWorkStatusDto = remote.require("./dto/MemberWorkStatusDto"),
   TeamDto = remote.require("./dto/TeamDto");
-//
-// this class is used to manage DtoClient requests for Stores
-//
+
+/**
+ * this class is used to manage DtoClient requests for Stores
+ */
 export class TeamModel extends DataModel {
   constructor(scope) {
     super(scope);
-
     this.name = "[TeamModel]";
-
     this.isInitialized = false;
-
     this.me = {};
     this.teamMembers = [];
     this.team = null;
@@ -121,7 +118,6 @@ export class TeamModel extends DataModel {
    * Refresh status of self, and callback when done
    * @param callWhenDone
    */
-
   refreshMe() {
     let remoteUrn = "/status/me";
     let loadRequestType = DataModel.RequestTypes.GET;
@@ -152,7 +148,6 @@ export class TeamModel extends DataModel {
         }
       }
     }
-
     this.notifyListeners(TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE);
   };
 
@@ -178,13 +173,9 @@ export class TeamModel extends DataModel {
     if (err) {
       console.log(this.name + " - onRefreshAllCb error:" + err);
     } else {
-      //transform into presentation objects
       this.teamMembers = [];
-
       for (var i in memberStatusDtos) {
-        //TODO figure out why we've got nulls in the list?
         let memberDto = memberStatusDtos[i];
-
         if (memberDto != null) {
           if (Number(i) === 0) {
             this.me = this.createMember(0, memberDto);
@@ -218,22 +209,6 @@ export class TeamModel extends DataModel {
         teamMember.xpSummary.xpRequiredToLevel -
         teamMember.xpSummary.xpProgress;
     }
-
-    let isAlarmTriggered = false;
-    let wtfTimer = null;
-    let alarmStatusMessage = null;
-    let alarmCircleName = null;
-    let activeCircleId;
-    if (teamMember.activeCircle) {
-      isAlarmTriggered = true;
-      wtfTimer = WTFTimer.formatWTFTimerInMinutes(
-        teamMember.activeCircle.durationInSeconds
-      );
-      alarmStatusMessage = teamMember.activeCircle.problemDescription;
-      alarmCircleName = teamMember.activeCircle.circleName;
-      activeCircleId = teamMember.activeCircle.id;
-    }
-
     return {
       id: teamMember.id,
       email: teamMember.email,
@@ -241,8 +216,7 @@ export class TeamModel extends DataModel {
       shortName: teamMember.shortName,
 
       activeStatus: this.toActiveStatus(
-        teamMember.onlineStatus,
-        isAlarmTriggered
+        teamMember.onlineStatus
       ),
       activeTaskName: teamMember.activeTaskName,
       activeTaskSummary: teamMember.activeTaskSummary,
@@ -250,13 +224,7 @@ export class TeamModel extends DataModel {
       xpRequired: xpRequired,
       xpSummary: teamMember.xpSummary,
       workingOn: teamMember.workingOn,
-      isAlarmTriggered: isAlarmTriggered,
-      wtfTimer: wtfTimer,
-      alarmStatusMessage: alarmStatusMessage,
-      alarmCircleName: alarmCircleName,
-      activeCircleId: activeCircleId,
-      activeCircle: teamMember.activeCircle,
-      statusColor: this.toStatusColor(teamMember.onlineStatus, isAlarmTriggered)
+      statusColor: this.toStatusColor(teamMember.onlineStatus, false)
     };
   };
 
