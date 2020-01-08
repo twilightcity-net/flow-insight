@@ -108,7 +108,6 @@ export default class JournalEntry extends Component {
         value: recentProjects[i].id
       };
     }
-
     return projects;
   };
 
@@ -124,7 +123,6 @@ export default class JournalEntry extends Component {
     if (recentEntry) {
       currentProject = recentEntry.projectId;
     }
-
     return currentProject;
   };
 
@@ -139,9 +137,7 @@ export default class JournalEntry extends Component {
     if (!currentProject || !recentTasksByProjectId) {
       return { tasks: [], currentTaskValue: null };
     }
-
     let currentTasks = recentTasksByProjectId[currentProject];
-
     var tasksForProject = [];
     for (var i in currentTasks) {
       tasksForProject[i] = {
@@ -149,14 +145,12 @@ export default class JournalEntry extends Component {
         value: currentTasks[i].id
       };
     }
-
     let currentTask = null;
     if (tasksForProject.length > 0) {
       if (recentEntry && recentEntry.projectId === currentProject) {
         currentTask = recentEntry.taskId;
       }
     }
-
     return {
       tasks: tasksForProject,
       currentTaskValue: currentTask
@@ -174,9 +168,7 @@ export default class JournalEntry extends Component {
     //setup temporary addition to the menu
 
     let newTasks = this.state.tasks;
-
     let searchIsFound = false;
-
     for (var i in this.state.tasks) {
       let task = this.state.tasks[i];
       if (task.value === "search") {
@@ -184,14 +176,12 @@ export default class JournalEntry extends Component {
         break;
       }
     }
-
     if (!searchIsFound) {
       newTasks = [
         ...this.state.tasks,
         { text: "Searching...", value: "search" }
       ];
     }
-
     this.setState({
       tasks: newTasks,
       currentTaskValue: "search"

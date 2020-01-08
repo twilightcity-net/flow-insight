@@ -24,6 +24,10 @@ export class MainPanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
       this
     );
+    this.consoleBrowserLoadListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_LOAD,
+      this
+    );
     this.heartbeatListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.APP_HEARTBEAT,
       this
@@ -40,6 +44,10 @@ export class MainPanelViewController extends ActiveViewController {
 
   configureMenuListener(scope, callback) {
     this.menuListener.updateCallback(scope, callback);
+  }
+
+  configureConsoleBrowserLoadListener(scope, callback) {
+    this.consoleBrowserLoadListener.updateCallback(scope, callback);
   }
 
   configureHeartbeatListener(scope, callback) {

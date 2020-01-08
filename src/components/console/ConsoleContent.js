@@ -36,14 +36,20 @@ export default class ConsoleContent extends Component {
       this,
       this.onRefreshActivePerspective
     );
+    this.myController.configureConsoleBrowserLoadListener(
+      this,
+      this.onConsoleBrowserLoad
+    );
   };
 
   componentWillUnmount = () => {
     this.myController.configureContentListener(this, null);
   };
 
-  // dispatched when the console menu changes from user clicks
-  onRefreshActivePerspective() {
+  /**
+   * dispatched when the console menu changes from user clicks
+   */
+  onRefreshActivePerspective = () => {
     if (this.isAnimating) return;
     this.isAnimating = true;
     let newLayout = this.myController.activeMenuSelection,
@@ -66,7 +72,11 @@ export default class ConsoleContent extends Component {
       default:
         break;
     }
-  }
+  };
+
+  onConsoleBrowserLoad = (event, resource) => {
+    console.log(this.name + " resource content : " + JSON.stringify(resource));
+  };
 
   getAnimationState(oldLayout, newLayout) {
     console.log("getAnimationState - " + oldLayout + " to " + newLayout);

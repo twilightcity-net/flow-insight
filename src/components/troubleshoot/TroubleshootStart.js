@@ -26,6 +26,10 @@ export default class TroubleshootStart extends Component {
     );
   }
 
+  onStartTroubleshoot = () => {
+    return this.myController.startTroubleshooting();
+  };
+
   /**
    * renders the default troubleshoot component in the console view
    * @returns {*}
@@ -44,7 +48,7 @@ export default class TroubleshootStart extends Component {
         >
           <div
             className="wtf-button-massive"
-            onClick={this.myController.onStartTroubleshooting}
+            onClick={this.onStartTroubleshoot}
           >
             WTF?
           </div>

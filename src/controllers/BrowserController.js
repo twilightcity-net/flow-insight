@@ -11,6 +11,10 @@ export class BrowserController extends ActiveViewController {
    */
   constructor(scope) {
     super(scope);
+    this.consoleBrowserLoadNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_LOAD,
+      this
+    );
     this.mainPanelChangeListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
       this
@@ -19,6 +23,10 @@ export class BrowserController extends ActiveViewController {
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
       this
     );
+  }
+
+  dispatchLoadBrowserContent(resource) {
+    this.consoleBrowserLoadNotifier.dispatch(resource);
   }
 
   /**
@@ -38,4 +46,27 @@ export class BrowserController extends ActiveViewController {
   configureShowConsoleWindowListener(scope, callback) {
     this.showConsoleWindowListener.updateCallback(scope, callback);
   }
+
+  processCommand = command => {
+    console.log(this.name + " process the command : " + command);
+    try {
+      let cmd = command.split(" "),
+        action = cmd[0],
+        uri = cmd[1],
+        uriArr = uri.split("/"),
+        uriRoot = uriArr[1],
+        uriRes = uriArr[2],
+        uriChild = uriArr[3],
+        resource = {
+          action: action,
+          uri: uri,
+          root: uriRoot,
+          res: uriRes,
+          child: uriChild
+        };
+      this.dispatchLoadBrowserContent(resource);
+    } catch (e) {
+      console.log(e);
+    }
+  };
 }

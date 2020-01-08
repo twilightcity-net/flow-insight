@@ -33,6 +33,7 @@ module.exports = class EventFactory {
       WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
       WINDOW_CONSOLE_READY: prefix + "window-console-ready",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
+      WINDOW_CONSOLE_BROWSER_LOAD: prefix + "window-console-browser-load",
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
       TALK_CONNECTED: prefix + "talk-connected",
       TALK_CONNECT_FAILED: prefix + "talk-connect-failed",

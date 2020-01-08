@@ -24,7 +24,8 @@ export default class BrowserHeader extends Component {
     this.name = "[BrowserHeader]";
     this.state = {
       disableControls: false,
-      location: ""
+      location: "",
+      action: this.getOptions()[0].value
     };
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.BROWSER_PANEL,
@@ -160,7 +161,7 @@ export default class BrowserHeader extends Component {
    */
   handleKeyPressForInput = e => {
     if (e.charCode === 13) {
-      console.log("load this resource into view");
+      this.handleClickForGo();
     }
   };
 
@@ -169,6 +170,24 @@ export default class BrowserHeader extends Component {
    */
   handleClickForGo = () => {
     console.log("load this resource into view");
+    let uri = this.state.location.toLowerCase(),
+      action = this.state.action.toLowerCase(),
+      command = action + " " + uri;
+    this.myController.processCommand(command);
+  };
+
+  /**
+   * handles the event that is notified on change of an input link
+   * @param e
+   * @param name
+   * @param value
+   */
+  handleChangeForInput = (e, { value }) => {
+    this.setState({ location: value.toLowerCase() });
+  };
+
+  handleChangeForAction = (e, { value }) => {
+    this.setState({ action: value });
   };
 
   /**
@@ -183,11 +202,12 @@ export default class BrowserHeader extends Component {
         className="browserAction"
         id="browserAction"
         placeholder="Choose Action"
-        defaultValue={options[0].value}
         selection
         options={options}
+        value={this.state.action}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
+        onChange={this.handleChangeForAction}
       />
     );
   }
@@ -209,6 +229,7 @@ export default class BrowserHeader extends Component {
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onKeyPress={this.handleKeyPressForInput}
+        onChange={this.handleChangeForInput}
         action={
           <Button
             color="violet"
