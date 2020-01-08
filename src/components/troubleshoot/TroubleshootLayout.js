@@ -1,7 +1,7 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import TroubleshootOpen from "./TroubleshootOpen";
 import TroubleshootStart from "./TroubleshootStart";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -28,10 +28,9 @@ export default class TroubleshootLayout extends Component {
   render() {
     let wtfPanel;
     if (!this.state.isAlarmTriggered) {
-      wtfPanel = (<TroubleshootStart/>);
-    }
-    else {
-      wtfPanel = (<TroubleshootOpen/>);
+      wtfPanel = <TroubleshootStart />;
+    } else {
+      wtfPanel = <TroubleshootOpen />;
     }
 
     return (

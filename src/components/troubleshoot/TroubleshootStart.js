@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Segment } from "semantic-ui-react";
 import { DataModelFactory } from "../../models/DataModelFactory";
 import { DimensionController } from "../../controllers/DimensionController";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content

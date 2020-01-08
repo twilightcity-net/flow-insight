@@ -215,9 +215,7 @@ export class TeamModel extends DataModel {
       name: teamMember.fullName,
       shortName: teamMember.shortName,
 
-      activeStatus: this.toActiveStatus(
-        teamMember.onlineStatus
-      ),
+      activeStatus: this.toActiveStatus(teamMember.onlineStatus),
       activeTaskName: teamMember.activeTaskName,
       activeTaskSummary: teamMember.activeTaskSummary,
       level: level,

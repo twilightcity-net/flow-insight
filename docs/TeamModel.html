@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>public/managers/EventFactory.js - Documentation</title>
+    <title>TeamModel - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,76 +29,536 @@
 
 <div id="main">
     
-    <h1 class="page-title">public/managers/EventFactory.js</h1>
+    <h1 class="page-title">TeamModel</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const { MainEvent } = require("./EventManager");
+        <h2>
+        TeamModel
+        </h2>
+        
+            <div class="class-description">this class is used to manage DtoClient requests for Stores</div>
+        
+    
+</header>
 
-/**
- * a factory class used to create new events
- * @type {EventFactory}
- */
-module.exports = class EventFactory {
-  /**
-   * creates and returns a new Event Object
-   * @param type
-   * @param args
-   * @returns {MainEvent}
-   */
-  static createEvent(type, ...args) {
-    let event = new MainEvent(type, ...args);
-    return event;
-  }
+<article>
+    <div class="container-overview">
+    
+        
+<div class="section-method">
 
-  /**
-   * static enum to store event types. These are basically the type of possible events that can be dispatched by the Manager.
-   * @returns {{WINDOW_LOADING_SHOWN: string, SCREENSHOT_READY_FOR_DISPLAY: string, TALK_CONNECTED: string, WINDOW_CONSOLE_READY: string, READY_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN: string, DATASTORE_LOAD: string, TALK_RECONNECTED: string, SHORTCUTS_RECIEVED: string, APP_HEARTBEAT: string, DATASTORE_LOADED: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, SHORTCUTS_CREATED: string, APPLOADER_LOAD: string, WINDOW_FOCUS: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, WINDOW_BLUR: string, SCREENSHOT_COMPLETE: string, WINDOW_CONSOLE_SHOW_HIDE: string, WINDOW_ACTIVATOR_CLOSE: string, SUBMIT_BUG_REPORT: string}}
-   * @constructor
-   */
-  static get Types() {
-    let prefix = "ipc-";
-    return {
-      APP_QUIT: prefix + "app-quit",
-      APP_HEARTBEAT: prefix + "app-heartbeat",
-      WINDOW_FOCUS: prefix + "window-focus",
-      WINDOW_BLUR: prefix + "window-blur",
-      WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
-      WINDOW_LOADING_LOGIN: prefix + "window-loading-login",
-      WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
-      WINDOW_CONSOLE_READY: prefix + "window-console-ready",
-      WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
-      WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
-      TALK_CONNECTED: prefix + "talk-connected",
-      TALK_CONNECT_FAILED: prefix + "talk-connect-failed",
-      TALK_MESSAGE_CLIENT: prefix + "talk-message-client",
-      TALK_MESSAGE_ROOM: prefix + "talk-message-room",
-      TALK_JOIN_ROOM: prefix + "talk-join-room",
-      TALK_LEAVE_ROOM: prefix + "talk-leave-room",
-      APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",
-      APPACTIVATOR_ACTIVATION_SAVED: prefix + "appactivator-activation-saved",
-      APPLOADER_LOAD: prefix + "apploader-load",
-      SHORTCUTS_CREATED: prefix + "shortcuts-created",
-      SHORTCUTS_RECIEVED: prefix + "shortcuts-recieved",
-      SUBMIT_BUG_REPORT: prefix + "bugreport-submitted",
-      DATASTORE_LOAD: prefix + "datastore-load",
-      DATASTORE_LOADED: prefix + "datastore-loaded",
-      PREPARE_FOR_SCREENSHOT: prefix + "prepare-for-screenshot",
-      READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",
-      SCREENSHOT_COMPLETE: prefix + "screenshot-complete",
-      SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display"
-    };
-  }
-};
-</code></pre>
-        </article>
-    </section>
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="TeamModel"><span class="type-signature"></span>new TeamModel<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_models_TeamModel.js.html">src/models/TeamModel.js</a>, <a href="src_models_TeamModel.js.html#line11">line 11</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="TeamModel.html">TeamModel</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+     
+
+    
+
+    
+        <h3 class="subsection-title">Members</h3>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="getMemberStatus"><span class="type-signature"></span>getMemberStatus<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Retrieve a specific members summary
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_models_TeamModel.js.html">src/models/TeamModel.js</a>, <a href="src_models_TeamModel.js.html#line78">line 78</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="refreshAll"><span class="type-signature"></span>refreshAll<span class="type-signature"></span></h4>
+
+
+
+
+<div class="description">
+    Refresh all team members status, and callback when done
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_models_TeamModel.js.html">src/models/TeamModel.js</a>, <a href="src_models_TeamModel.js.html#line57">line 57</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+</div>
+
+        
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="refreshMe"><span class="type-signature"></span>refreshMe<span class="signature">(callWhenDone)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Refresh status of self, and callback when done
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_models_TeamModel.js.html">src/models/TeamModel.js</a>, <a href="src_models_TeamModel.js.html#line121">line 121</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callWhenDone</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="refreshTeamInfoAndKeys"><span class="type-signature"></span>refreshTeamInfoAndKeys<span class="signature">(callWhenDone)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Refresh status of self, and callback when done
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_models_TeamModel.js.html">src/models/TeamModel.js</a>, <a href="src_models_TeamModel.js.html#line101">line 101</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>callWhenDone</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -108,7 +568,7 @@ module.exports = class EventFactory {
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Jan 07 2020 19:23:34 GMT-0600 (Central Standard Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Tue Jan 07 2020 19:23:35 GMT-0600 (Central Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

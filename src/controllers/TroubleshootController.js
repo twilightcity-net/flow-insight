@@ -9,7 +9,6 @@ export class TroubleshootController extends ActiveViewController {
     );
   }
 
-
   startTroubshooting = () => {
     console.log(this.name + " start troubleshooting");
   };

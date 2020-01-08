@@ -3,13 +3,12 @@ import { Button, Segment } from "semantic-ui-react";
 import { DimensionController } from "../../controllers/DimensionController";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class TroubleshootOpen extends Component {
-
   /**
    * the constructor, duh
    * @param props
@@ -60,8 +59,10 @@ export default class TroubleshootOpen extends Component {
       <div id="component" className="troubleshootSidebar">
         <Segment className="troubleshootSidebar" inverted>
           <Segment inverted>Troubleshoot Content</Segment>
-          room: angry_teachers<br />
-          owner: zoe<br />
+          room: angry_teachers
+          <br />
+          owner: zoe
+          <br />
           time: 00:00:00 <br />
           <Button
             onClick={this.onClickStopTroubleshoot}

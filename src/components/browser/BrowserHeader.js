@@ -37,7 +37,7 @@ export default class BrowserHeader extends Component {
 
   /**
    * gets hardcoded array of actions used by the dropdown in the browser
-   * @returns {({text: string, value: string, key: number}|{text: string, value: string, key: number}|{text: string, value: string, key: number}|{text: string, value: string, key: number})[]}
+   * @returns {*}
    */
   getOptions() {
     return [
