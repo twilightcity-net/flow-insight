@@ -1,10 +1,12 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import Keyframes from "@keyframes/core";
 import ConsoleLayout from "../components/console/ConsoleLayout";
-import { ActiveViewControllerFactory } from "../controllers/ActiveViewControllerFactory";
-import { ModelCoordinator } from "../models/ModelCoordinator";
-import { PerspectiveController } from "../controllers/PerspectiveController";
-import { DimensionController } from "../controllers/DimensionController";
+import {ActiveViewControllerFactory} from "../controllers/ActiveViewControllerFactory";
+import {ModelCoordinator} from "../models/ModelCoordinator";
+import {PerspectiveController} from "../controllers/PerspectiveController";
+import {DimensionController} from "../controllers/DimensionController";
+import {CircuitClient} from "../clients/CircuitClient";
+import {TalkClient} from "../clients/TalkClient";
 
 //
 // This View will contain logic to inject the various tabs of the
@@ -53,6 +55,8 @@ export default class ConsoleView extends Component {
   componentDidMount = () => {
     console.log(this.name + " did mount");
     this.myController.configureConsoleViewListener(this, this.onLoadCb);
+    TalkClient.init(this);
+    CircuitClient.init(this);
     ModelCoordinator.init(this);
     PerspectiveController.init(this);
     DimensionController.init(this);
@@ -70,7 +74,8 @@ export default class ConsoleView extends Component {
         duration: ".4s",
         timingFunction: "ease"
       });
-    } else if (arg === 1) {
+    }
+    else if (arg === 1) {
       this.keyframes.play({
         name: "console-slideout",
         duration: ".4s",
@@ -83,7 +88,7 @@ export default class ConsoleView extends Component {
   render() {
     return (
       <div id="wrapper" className="console">
-        <ConsoleLayout />
+        <ConsoleLayout/>
       </div>
     );
   }
