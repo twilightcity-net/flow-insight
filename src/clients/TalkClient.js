@@ -1,7 +1,6 @@
-import {BaseClient} from "./BaseClient";
+import { BaseClient } from "./BaseClient";
 
 export class TalkClient extends BaseClient {
-
   constructor(scope) {
     super(scope, TalkClient.constructor.name);
   }
