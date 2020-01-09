@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>Events - Documentation</title>
+    <title>public/managers/CircuitClientManager.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,156 +29,212 @@
 
 <div id="main">
     
-    <h1 class="page-title">Events</h1>
+    <h1 class="page-title">public/managers/CircuitClientManager.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-            <span class="ancestors"><a href="RendererEventFactory.html">RendererEventFactory</a>.</span>
-        
-        Events
-        </h2>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="Events"><span class="type-signature"></span>new Events<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-
-    
-
-
-
-<div class="description">
-    static enum subclass to store event names
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_events_RendererEventFactory.js.html">src/events/RendererEventFactory.js</a>, <a href="src_events_RendererEventFactory.js.html#line24">line 24</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>Object</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const CircuitController = require("../controllers/CircuitController");
+
+/**
+ * managing class for the circuit rest client for grid, these are async
+ */
+class CircuitClientManager {
+  constructor() {
+    this.name = "[CircuitClientManager]";
+    this.myController = new CircuitController();
+  }
+
+  createLearningCircuit(circuitName, callback) {
+    let uri = circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf";
+    this.myController.doClientRequest(
+      "CircuitClient",
+      circuitName ? circuitName : {},
+      "createLearningCircuit",
+      "post",
+      uri,
+      dto => {
+        console.log(this.name + " create circuit for wtf: " + circuitName);
+        callback(dto);
+      }
+    );
+  }
+
+  startRetroForWTF(circuitName, callback) {
+    let uri = "/circuit/wtf/" + circuitName + "/retro";
+    this.myController.doClientRequest(
+      "CircuitClient",
+      circuitName,
+      "startRetroForWTF",
+      "post",
+      uri,
+      dto => {
+        console.log(this.name + " start retro for wtf: " + circuitName);
+        callback(dto);
+      }
+    );
+  }
+
+  joinExistingCircuit(circuitName, callback) {
+    let uri = "/circuit/wtf/" + circuitName + "/join";
+    this.myController.doClientRequest(
+      "CircuitClient",
+      circuitName,
+      "joinExistingCircuit",
+      "post",
+      uri,
+      dto => {
+        console.log(this.name + " join existing circuit : " + circuitName);
+        callback(dto);
+      }
+    );
+  }
+
+  leaveExistingCircuit(circuitName, callback) {
+    let uri = "/circuit/wtf/" + circuitName + "/leave";
+    this.myController.doClientRequest(
+      "CircuitClient",
+      circuitName,
+      "leaveExistingCircuit",
+      "post",
+      uri,
+      dto => {
+        console.log(this.name + " leave existing circuit : " + circuitName);
+        callback(dto);
+      }
+    );
+  }
+
+  closeExistingCircuit(circuitName, callback) {
+    let uri = "/circuit/wtf/" + circuitName + "/close";
+    this.myController.doClientRequest(
+      "CircuitClient",
+      circuitName,
+      "closeExistingCircuit",
+      "post",
+      uri,
+      dto => {
+        console.log(this.name + " close existing circuit : " + circuitName);
+        callback(dto);
+      }
+    );
+  }
+
+  putCircuitOnHoldWithDoItLater(circuitName, callback) {
+    let uri = "/circuit/wtf/" + circuitName + "/hold";
+    this.myController.doClientRequest(
+      "CircuitClient",
+      circuitName,
+      "putCircuitOnHoldWithDoItLater",
+      "post",
+      uri,
+      dto => {
+        console.log(this.name + " put circuit on hold : " + circuitName);
+        callback(dto);
+      }
+    );
+  }
+
+  resumeCircuit(circuitName, callback) {
+    let uri = "/circuit/wtf/" + circuitName + "/resume";
+    this.myController.doClientRequest(
+      "CircuitClient",
+      circuitName,
+      "resumeCircuit",
+      "post",
+      uri,
+      dto => {
+        console.log(this.name + " close existing circuit : " + circuitName);
+        callback(dto);
+      }
+    );
+  }
+
+  getCircuitWithMembers(circuitName, callback) {
+    let uri = "/circuit/wtf/" + circuitName;
+    this.myController.doClientRequest(
+      "CircuitClient",
+      circuitName,
+      "getCircuitWithMembers",
+      "get",
+      uri,
+      dto => {
+        console.log(this.name + " get circuit with members : " + circuitName);
+        callback(dto);
+      }
+    );
+  }
+
+  getActiveCircuit(callback) {
+    let uri = "/circuit/my/active";
+    this.myController.doClientRequest(
+      "CircuitClient",
+      {},
+      "getActiveCircuit",
+      "get",
+      uri,
+      dto => {
+        console.log(this.name + " get my active circuit");
+        callback(dto);
+      }
+    );
+  }
+
+  getAllMyDoItLaterCircuits(callback) {
+    let uri = "/circuit/my/holds";
+    this.myController.doClientRequest(
+      "CircuitClient",
+      {},
+      "getAllMyDoItLaterCircuits",
+      "get",
+      uri,
+      dto => {
+        console.log(this.name + " get do it later circuits" + dto);
+        callback(dto);
+      }
+    );
+  }
+
+  getAllMyParticipatingCircuits(callback) {
+    let uri = "/circuit/my/participating";
+    this.myController.doClientRequest(
+      "CircuitClient",
+      {},
+      "getAllMyParticipatingCircuits",
+      "get",
+      uri,
+      dto => {
+        console.log(this.name + " get my participating circuits" + dto);
+        callback(dto);
+      }
+    );
+  }
+
+  getAllParticipatingCircuitsForMember(memberId, callback) {
+    let uri = "/circuit/member/" + memberId;
+    this.myController.doClientRequest(
+      "CircuitClient",
+      memberId,
+      "getAllParticipatingCircuitsForMember",
+      "get",
+      uri,
+      dto => {
+        console.log(this.name + " get participating circuits for member" + dto);
+        callback(dto);
+      }
+    );
+  }
+}
+
+module.exports = CircuitClientManager;
+</code></pre>
+        </article>
+    </section>
 
 
 

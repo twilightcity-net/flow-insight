@@ -39,7 +39,6 @@ class TalkManager {
       this.name
     );
     this.myController.wireSocketMessagesToEventCircuit(this.socket, this.name);
-    // this.getAllTalkMessagesFromRoom("angry_teachers")
   }
 
   /**
@@ -51,37 +50,24 @@ class TalkManager {
   }
 
   /**
-   * gets all the talk message from a specific room, Uses our exiating dto store system
-   */
-  getAllTalkMessagesFromRoom(roomId) {
-    this.myController.doClientRequest(
-      "TalkToClient",
-      roomId,
-      "getAllTalkMessagesFromRoom",
-      "get",
-      "/talk/to/room/" + roomId,
-      dto => {
-        console.log(
-          this.name + " get all of the talk messages for room : " + roomId
-        );
-        console.log(dto);
-      }
-    );
-  }
-
-  /**
    * publish a chat message to a room with a talk message
+   * @param active
+   * @param roomId
+   * @param chatMessageStr
    */
-  publishChatToRoom(active, roomId, chatMessageStr) {
+  publishChatToRoom(active, roomId, chatMessageStr, callback) {
     let chatMessage = new ChatMessageInputDto({
-      chatMessage: chatMessageStr
-    });
+        chatMessage: chatMessageStr
+      }),
+      uri = active
+        ? "/talk/to/room/active/chat"
+        : "/talk/to/room/" + roomId + "/chat";
     this.myController.doClientRequest(
       "TalkToClient",
       chatMessage,
       "publishChatToRoom",
       "post",
-      "/talk/to/room/" + roomId + "/chat",
+      uri,
       dto => {
         console.log(
           this.name +
@@ -90,13 +76,20 @@ class TalkManager {
             " -> " +
             chatMessageStr
         );
-        console.log(dto);
+        callback(dto);
       }
     );
   }
 
   /**
    * publish a snippet to a room with through a talk message
+   * @param active
+   * @param roomId
+   * @param comment
+   * @param eventType
+   * @param position
+   * @param source
+   * @param snippet
    */
   publishSnippetToRoom(
     active,
@@ -105,44 +98,56 @@ class TalkManager {
     eventType,
     position,
     source,
-    snippet
+    snippet,
+    callback
   ) {
     let newSnippet = new NewSnippetEvent({
-      comment: comment,
-      eventType: eventType,
-      position: position,
-      source: source,
-      snippet: snippet
-    });
+        comment: comment,
+        eventType: eventType,
+        position: position,
+        source: source,
+        snippet: snippet
+      }),
+      uri = active
+        ? "/talk/to/room/active/snippet"
+        : "/talk/to/room/" + roomId + "/snippet";
     this.myController.doClientRequest(
       "TalkToClient",
       newSnippet,
       "publishSnippetToRoom",
       "post",
-      "/talk/to/room/" + roomId + "/snippet",
+      uri,
       dto => {
         console.log(
           this.name + " publish snippet message : " + roomId + " -> " + snippet
         );
-        console.log(dto);
+        callback(dto);
       }
     );
   }
 
   /**
    * publish screenshot to a room with a talk message
+   * @param active
+   * @param roomId
+   * @param fileName
+   * @param filePath
+   * @param callback
    */
-  publishScreenshotToRoom(active, roomId, fileName, filePath) {
+  publishScreenshotToRoom(active, roomId, fileName, filePath, callback) {
     let screenshotRef = new ScreenshotReferenceInputDto({
-      fileName: fileName,
-      filePath: filePath
-    });
+        fileName: fileName,
+        filePath: filePath
+      }),
+      uri = active
+        ? "/talk/to/room/active/screenshot"
+        : "/talk/to/room/" + roomId + "/screenshot";
     this.myController.doClientRequest(
       "TalkToClient",
       screenshotRef,
       "publishScreenshotToRoom",
       "post",
-      "/talk/to/room/" + roomId + "/screenshot",
+      uri,
       dto => {
         console.log(
           this.name +
@@ -151,7 +156,7 @@ class TalkManager {
             " -> " +
             screenshotRef.filePath
         );
-        console.log(dto);
+        callback(dto);
       }
     );
   }
