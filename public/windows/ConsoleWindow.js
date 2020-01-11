@@ -5,7 +5,7 @@ const electron = require("electron"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
-  EventFactory = require("../managers/EventFactory");
+  EventFactory = require("../events/EventFactory");
 
 /**
  * the main application window for UX. Suspose to slide in and out of

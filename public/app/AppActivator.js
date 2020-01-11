@@ -3,7 +3,7 @@ let { dialog } = require("electron"),
   App = require("./App"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
-  EventFactory = require("../managers/EventFactory"),
+  EventFactory = require("../events/EventFactory"),
   AccountActivationDto = require("../dto/AccountActivationDto");
 
 /**

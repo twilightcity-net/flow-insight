@@ -13,11 +13,9 @@ export class RendererEvent {
     this.type = eventType;
     this.scope = scope;
     this.callback = callback ? callback.bind(scope) : callback;
-
-    this.reply = reply;
+    this.reply = reply ? reply.bind(scope) : reply;
     this.returnValue = null;
     this.replyReturnValue = null;
-
     this.registerEvents();
   }
 

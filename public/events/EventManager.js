@@ -21,9 +21,9 @@ class MainEvent {
     this.type = type;
     this.scope = scope;
     this.callback = callback ? callback.bind(scope) : callback;
-    this.reply = reply;
+    this.reply = reply ? reply.bind(scope) : reply;
     this.async = async;
-    this.add();
+    this.construct();
   }
 
   /**
@@ -38,7 +38,7 @@ class MainEvent {
   /**
    * link stuff with EventManager, and init
    */
-  add() {
+  construct() {
     global.App.EventManager.initSender(this);
     global.App.EventManager.initReturnValues(this);
     global.App.EventManager.register(this);
@@ -54,7 +54,7 @@ class MainEvent {
   /**
    * removes and clears the object from memory. warning, not reversible
    */
-  destroy() {
+  destruct() {
     EventManager.destroy(this);
   }
 }
@@ -182,7 +182,9 @@ class EventManager {
 
   /**
    * creates the listener for renderer events, passes event and args. Any
-   * exception is caught, logged, and returned
+   * exception is caught, logged, and returned.
+   * NOTE: if an event is reply based it, must be async. if not we do not
+   * send an *-reply event back to the renderer. ~ZoeDreams
    * @param event
    * @returns {*}
    */
@@ -196,7 +198,10 @@ class EventManager {
         _event.returnValue = value;
         if (event.async) {
           log.info(
-            "[EventManager] |> reply event -> " + event.type + " : " + value
+            "[EventManager] |> reply event -> " +
+              event.type +
+              "-reply : " +
+              value
           );
           _event.sender.send(event.type + "-reply", value);
         }
@@ -211,8 +216,10 @@ class EventManager {
   }
 
   /**
-   *   removes an event from the global events registry. The event much match the pointer
-   *   to it. not by the name. Returns the event that was removed.
+   * removes an event from the global events registry. The event much match the pointer
+   * to it. not by the name. Returns the event that was removed.
+   * @param event
+   * @returns {*}
    */
   static unregister(event) {
     let manager = global.App.EventManager,
@@ -336,9 +343,8 @@ class EventManager {
           "\n"
       );
       App.handleError(error, false);
-    } finally {
-      return event;
     }
+    return event;
   }
 }
 

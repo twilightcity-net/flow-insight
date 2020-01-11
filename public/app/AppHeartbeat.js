@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   request = require("superagent"),
-  EventFactory = require("../managers/EventFactory"),
+  EventFactory = require("../events/EventFactory"),
   HeartbeatDto = require("../dto/HeartbeatDto"),
   SimpleStatusDto = require("../dto/SimpleStatusDto");
 

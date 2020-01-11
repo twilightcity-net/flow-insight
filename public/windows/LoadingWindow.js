@@ -4,7 +4,7 @@ const { BrowserWindow } = require("electron"),
   isDev = require("electron-is-dev"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
-  EventFactory = require("../managers/EventFactory"),
+  EventFactory = require("../events/EventFactory"),
   { ShortcutManager, Shortcut } = require("../managers/ShortcutManager");
 
 /*

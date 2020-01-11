@@ -3,7 +3,7 @@ const log = require("electron-log"),
   Util = require("../Util"),
   { DtoClient } = require("../managers/DtoClientFactory"),
   BaseController = require("./BaseController"),
-  EventFactory = require("../managers/EventFactory");
+  EventFactory = require("../events/EventFactory");
 
 /**
  * This class is used to coordinate controllers across the talk service

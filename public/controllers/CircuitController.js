@@ -1,20 +1,20 @@
 const log = require("electron-log"),
   BaseController = require("./BaseController"),
   Util = require("../Util"),
+  EventFactory = require("../events/EventFactory"),
   { DtoClient } = require("../managers/DtoClientFactory");
 
 /**
  * This class is used to coordinate controllers across the talk service
  * @type {AppController}
  */
-module.exports = class CircuitClientController extends BaseController {
+class CircuitController extends BaseController {
   /**
    *
    * @param scope - this is the wrapping scope to execute callbacks within
    */
   constructor(scope) {
-    super(scope, CircuitClientController);
-    this.configureEvents();
+    super(scope, CircuitController);
   }
 
   /**
@@ -44,22 +44,45 @@ module.exports = class CircuitClientController extends BaseController {
    * links associated controller classes here
    */
   static wireControllersTogether() {
-    BaseController.wireControllersTo(CircuitClientController.instance);
+    BaseController.wireControllersTo(CircuitController.instance);
   }
 
   /**
    * configures application wide events here
    */
   configureEvents() {
-    BaseController.configEvents(CircuitClientController.instance);
+    BaseController.configEvents(CircuitController.instance);
+    this.circuitClientEventListener = EventFactory.createEvent(
+      EventFactory.Types.CIRCUIT_CLIENT,
+      CircuitController.instance,
+      this.onCircuitClientEvent,
+      null,
+      true
+    );
+  }
+
+  /**
+   * notified when we get a circuit event
+   * @param event
+   * @param arg
+   * @returns {string}
+   */
+  onCircuitClientEvent(event, arg) {
+    log.info(this.name + " event received : " + JSON.stringify(arg));
+    return "hello callback in main process!";
   }
 
   /**
    * this function makes a request to the TalkToClient interface on gridtime server. This will be
    * worked into our existing data client and model system.
+   * @param context
+   * @param dto
+   * @param name
+   * @param type
+   * @param urn
+   * @param callback
    */
   doClientRequest(context, dto, name, type, urn, callback) {
-    log.info(this.name + " do dto client request");
     this.store = {
       context: context,
       dto: dto,
@@ -72,4 +95,6 @@ module.exports = class CircuitClientController extends BaseController {
     let client = new DtoClient(this.store, callback);
     client.doRequest();
   }
-};
+}
+
+module.exports = CircuitController;

@@ -2,7 +2,7 @@ const IncomingWebhook = require("@slack/client").IncomingWebhook,
   Notifier = require("node-notifier"),
   log = require("electron-log"),
   Util = require("../Util"),
-  EventFactory = require("./EventFactory");
+  EventFactory = require("../events/EventFactory");
 
 /*
  * This is a high level management class for Slack Integration. This

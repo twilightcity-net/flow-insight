@@ -1,5 +1,5 @@
 const { DtoClientFactory } = require("./DtoClientFactory"),
-  EventFactory = require("../managers/EventFactory");
+  EventFactory = require("../events/EventFactory");
 
 /**
  * lass used to manage all of the DataStores and data loading / commit

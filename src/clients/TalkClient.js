@@ -13,3 +13,6 @@ export class TalkClient extends BaseClient {
     }
   }
 }
+//publishChatToRoom
+//publishSnippetToRoom
+//publishScreenshotToRoom

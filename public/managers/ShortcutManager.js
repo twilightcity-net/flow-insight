@@ -2,8 +2,8 @@ const { globalShortcut } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   AppError = require("../app/AppError"),
-  { EventManager } = require("./EventManager"),
-  EventFactory = require("./EventFactory");
+  { EventManager } = require("../events/EventManager"),
+  EventFactory = require("../events/EventFactory");
 
 /*
  * an object class used to instantiate new shortcuts with events. These can

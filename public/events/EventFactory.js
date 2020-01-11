@@ -4,7 +4,7 @@ const { MainEvent } = require("./EventManager");
  * a factory class used to create new events
  * @type {EventFactory}
  */
-module.exports = class EventFactory {
+class EventFactory {
   /**
    * creates and returns a new Event Object
    * @param type
@@ -41,6 +41,7 @@ module.exports = class EventFactory {
       TALK_MESSAGE_ROOM: prefix + "talk-message-room",
       TALK_JOIN_ROOM: prefix + "talk-join-room",
       TALK_LEAVE_ROOM: prefix + "talk-leave-room",
+      CIRCUIT_CLIENT: prefix + "circuit-client",
       APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",
       APPACTIVATOR_ACTIVATION_SAVED: prefix + "appactivator-activation-saved",
       APPLOADER_LOAD: prefix + "apploader-load",
@@ -55,4 +56,6 @@ module.exports = class EventFactory {
       SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display"
     };
   }
-};
+}
+
+module.exports = EventFactory;

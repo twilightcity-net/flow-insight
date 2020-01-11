@@ -3,10 +3,11 @@ const CircuitController = require("../controllers/CircuitController");
 /**
  * managing class for the circuit rest client for grid, these are async
  */
-class CircuitClientManager {
+class CircuitManager {
   constructor() {
-    this.name = "[CircuitClientManager]";
+    this.name = "[CircuitManager]";
     this.myController = new CircuitController();
+    this.myController.configureEvents();
   }
 
   createLearningCircuit(circuitName, callback) {
@@ -190,4 +191,4 @@ class CircuitClientManager {
   }
 }
 
-module.exports = CircuitClientManager;
+module.exports = CircuitManager;
