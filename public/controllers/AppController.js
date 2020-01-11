@@ -12,6 +12,10 @@ module.exports = class AppController extends BaseController {
    */
   constructor(scope) {
     super(scope, AppController);
+    if (!AppController.instance) {
+      AppController.instance = this;
+      AppController.wireControllersTogether();
+    }
   }
 
   /**

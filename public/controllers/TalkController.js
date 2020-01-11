@@ -16,7 +16,11 @@ module.exports = class TalkController extends BaseController {
    */
   constructor(scope) {
     super(scope, TalkController);
-    this.configureEvents();
+    if (!TalkController.instance) {
+      TalkController.instance = this;
+      TalkController.wireControllersTogether();
+      this.configureEvents();
+    }
   }
 
   /**

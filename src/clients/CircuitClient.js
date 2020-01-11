@@ -59,7 +59,7 @@ export class CircuitClient extends BaseClient {
     console.log(
       "[" + CircuitClient.name + "] create learning circuit : " + circuitName
     );
-    RendererEventFactory.createEvent(
+    return RendererEventFactory.createEvent(
       RendererEventFactory.Events.CIRCUIT_CLIENT,
       this,
       null,

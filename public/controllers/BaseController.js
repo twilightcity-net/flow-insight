@@ -9,10 +9,6 @@ module.exports = class BaseController {
     this.name = "[" + clazz.name + "]";
     this.scope = scope;
     this.guid = Util.getGuid();
-    if (!clazz.instance) {
-      clazz.instance = clazz;
-      clazz.instance.wireControllersTogether();
-    }
   }
 
   /// for override

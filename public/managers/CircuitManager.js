@@ -6,7 +6,7 @@ const CircuitController = require("../controllers/CircuitController");
 class CircuitManager {
   constructor() {
     this.name = "[CircuitManager]";
-    this.myController = new CircuitController();
+    this.myController = new CircuitController(this);
     this.myController.configureEvents();
   }
 

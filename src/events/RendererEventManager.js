@@ -19,11 +19,19 @@ export class RendererEvent {
     this.registerEvents();
   }
 
+  /**
+   * registers the events listeners callback and reply functions
+   */
   registerEvents() {
     this.callbackWrapperFunction = RendererEventManager.listenForCallback(this);
     this.replyWrapperFunction = RendererEventManager.listenForReply(this);
   }
 
+  /**
+   * updates the listerner with a new function. pass null to remove from memory
+   * @param scope
+   * @param callback
+   */
   updateCallback(scope, callback) {
     RendererEventManager.removeListeners(this);
 
@@ -32,6 +40,13 @@ export class RendererEvent {
     this.callbackWrapperFunction = RendererEventManager.listenForCallback(this);
   }
 
+  /**
+   * fires the event so that the listeners are notified
+   * @param arg - the data passed
+   * @param noEcho - do not use sonar .. event piping
+   * @param isSync - must be set to true if using reply function
+   * @returns {*}
+   */
   dispatch(arg, noEcho, isSync) {
     return RendererEventManager.dispatch(this, arg, noEcho, isSync);
   }
@@ -200,7 +215,7 @@ export class RendererEventManager {
    * dispatches an event on the associated channel with the event. renderer events
    * will be echo'd in the main event manager, so that we can supper inter-renderer
    * communication. Only use isSync if you understand how this will block the call stack.
-   * Note: Sending a synchronous message will block the whole renderer process,
+   * NOTE: Sending a synchronous message will block the whole renderer process,
    * unless you know what you are doing you should never use it.
    * ref => https://github.com/electron/electron/blob/master/docs/api/ipc-renderer.md
    * @param event
@@ -231,8 +246,7 @@ export class RendererEventManager {
           "\n"
       );
       console.error(error.toString());
-    } finally {
-      return event;
     }
+    return event;
   }
 }

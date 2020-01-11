@@ -15,6 +15,10 @@ class CircuitController extends BaseController {
    */
   constructor(scope) {
     super(scope, CircuitController);
+    if (!CircuitController.instance) {
+      CircuitController.instance = this;
+      CircuitController.wireControllersTogether();
+    }
   }
 
   /**
@@ -54,7 +58,7 @@ class CircuitController extends BaseController {
     BaseController.configEvents(CircuitController.instance);
     this.circuitClientEventListener = EventFactory.createEvent(
       EventFactory.Types.CIRCUIT_CLIENT,
-      CircuitController.instance,
+      this.scope,
       this.onCircuitClientEvent,
       null,
       true
