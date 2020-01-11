@@ -11,14 +11,20 @@ module.exports = class BaseController {
     this.guid = Util.getGuid();
   }
 
-  /// for override
+  /**
+   * called for every controller automagically
+   * @param clazz
+   */
   static wireControllersTo(clazz) {
     log.info(
       "[" + BaseController.name + "] wire controllers to -> " + clazz.name
     );
   }
 
-  /// for override
+  /**
+   * called for every controller automagically
+   * @param clazz
+   */
   static configEvents(clazz) {
     log.info(
       "[" + BaseController.name + "] configure events for -> " + clazz.name

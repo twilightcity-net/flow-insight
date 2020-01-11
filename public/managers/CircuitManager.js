@@ -12,7 +12,7 @@ class CircuitManager {
 
   createLearningCircuit(circuitName, callback) {
     let uri = circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf";
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       circuitName ? circuitName : {},
       "createLearningCircuit",
@@ -27,7 +27,7 @@ class CircuitManager {
 
   startRetroForWTF(circuitName, callback) {
     let uri = "/circuit/wtf/" + circuitName + "/retro";
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       circuitName,
       "startRetroForWTF",
@@ -42,7 +42,7 @@ class CircuitManager {
 
   joinExistingCircuit(circuitName, callback) {
     let uri = "/circuit/wtf/" + circuitName + "/join";
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       circuitName,
       "joinExistingCircuit",
@@ -57,7 +57,7 @@ class CircuitManager {
 
   leaveExistingCircuit(circuitName, callback) {
     let uri = "/circuit/wtf/" + circuitName + "/leave";
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       circuitName,
       "leaveExistingCircuit",
@@ -72,7 +72,7 @@ class CircuitManager {
 
   closeExistingCircuit(circuitName, callback) {
     let uri = "/circuit/wtf/" + circuitName + "/close";
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       circuitName,
       "closeExistingCircuit",
@@ -87,7 +87,7 @@ class CircuitManager {
 
   putCircuitOnHoldWithDoItLater(circuitName, callback) {
     let uri = "/circuit/wtf/" + circuitName + "/hold";
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       circuitName,
       "putCircuitOnHoldWithDoItLater",
@@ -102,7 +102,7 @@ class CircuitManager {
 
   resumeCircuit(circuitName, callback) {
     let uri = "/circuit/wtf/" + circuitName + "/resume";
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       circuitName,
       "resumeCircuit",
@@ -117,7 +117,7 @@ class CircuitManager {
 
   getCircuitWithMembers(circuitName, callback) {
     let uri = "/circuit/wtf/" + circuitName;
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       circuitName,
       "getCircuitWithMembers",
@@ -132,7 +132,7 @@ class CircuitManager {
 
   getActiveCircuit(callback) {
     let uri = "/circuit/my/active";
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       {},
       "getActiveCircuit",
@@ -147,7 +147,7 @@ class CircuitManager {
 
   getAllMyDoItLaterCircuits(callback) {
     let uri = "/circuit/my/holds";
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       {},
       "getAllMyDoItLaterCircuits",
@@ -162,7 +162,7 @@ class CircuitManager {
 
   getAllMyParticipatingCircuits(callback) {
     let uri = "/circuit/my/participating";
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       {},
       "getAllMyParticipatingCircuits",
@@ -177,7 +177,7 @@ class CircuitManager {
 
   getAllParticipatingCircuitsForMember(memberId, callback) {
     let uri = "/circuit/member/" + memberId;
-    this.myController.doClientRequest(
+    CircuitController.doClientRequest(
       "CircuitClient",
       memberId,
       "getAllParticipatingCircuitsForMember",

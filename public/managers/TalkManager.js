@@ -20,7 +20,7 @@ class TalkManager {
    * creates the connection to talk
    */
   createConnection() {
-    this.myController = new TalkController();
+    this.myController = new TalkController(this);
     this.connectionId = global.App.connectionStatus.connectionId;
     this.connnectionUrl = this.getConnectionUrl();
     this.connectionOpts = {

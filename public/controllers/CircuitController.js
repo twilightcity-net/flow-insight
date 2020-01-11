@@ -2,7 +2,8 @@ const log = require("electron-log"),
   BaseController = require("./BaseController"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
-  { DtoClient } = require("../managers/DtoClientFactory");
+  {DtoClient} = require("../managers/DtoClientFactory"),
+  SimpleStatusDto = require("../dto/SimpleStatusDto");
 
 /**
  * This class is used to coordinate controllers across the talk service
@@ -73,7 +74,18 @@ class CircuitController extends BaseController {
    */
   onCircuitClientEvent(event, arg) {
     log.info(this.name + " event received : " + JSON.stringify(arg));
-    return "hello callback in main process!";
+    let circuitManager = CircuitController.instance.scope;
+    if (arg.type === CircuitController.EventTypes.CREATE_NAMED_CIRCUIT) {
+      circuitManager.createLearningCircuit(arg.arg, (dto) => {
+        return dto;
+      })
+    }
+    else {
+      return new SimpleStatusDto({
+        message: "unknown circuit client event type '" + arg.type + "'",
+        status: "IMVALID"
+      });
+    }
   }
 
   /**
@@ -86,8 +98,8 @@ class CircuitController extends BaseController {
    * @param urn
    * @param callback
    */
-  doClientRequest(context, dto, name, type, urn, callback) {
-    this.store = {
+  static doClientRequest(context, dto, name, type, urn, callback) {
+    let store = {
       context: context,
       dto: dto,
       guid: Util.getGuid(),
@@ -96,7 +108,7 @@ class CircuitController extends BaseController {
       timestamp: new Date().getTime(),
       urn: urn
     };
-    let client = new DtoClient(this.store, callback);
+    let client = new DtoClient(store, callback);
     client.doRequest();
   }
 }

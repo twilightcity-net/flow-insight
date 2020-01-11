@@ -39,7 +39,7 @@ export class CircuitClient extends BaseClient {
     //// TESTING ////
     /////////////////
 
-    CircuitClient.createLearningCircuit("angry_teachers", (event, arg) => {
+    CircuitClient.createLearningCircuitModel("angry_teachers", (event, arg) => {
       console.log(
         "[" + CircuitClient.name + "] learning circuit created : " + arg
       );
@@ -55,7 +55,7 @@ export class CircuitClient extends BaseClient {
    * @param circuitName
    * @param callback
    */
-  static createLearningCircuit(circuitName, callback) {
+  static createLearningCircuitModel(circuitName, callback) {
     console.log(
       "[" + CircuitClient.name + "] create learning circuit : " + circuitName
     );
