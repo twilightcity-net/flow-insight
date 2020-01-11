@@ -161,7 +161,7 @@ class EventManager {
           " sonar echo -> " +
           _arg.type +
           " : " +
-          _arg.arg
+          JSON.stringify(_arg.arg)
       );
       EventManager.dispatch(_arg.type, _arg.arg);
     });
@@ -201,7 +201,7 @@ class EventManager {
             "[EventManager] |> reply event -> " +
               event.type +
               "-reply : " +
-              value
+              JSON.stringify(value)
           );
           _event.sender.send(event.type + "-reply", value);
         }

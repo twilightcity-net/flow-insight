@@ -41,7 +41,10 @@ export class CircuitClient extends BaseClient {
 
     CircuitClient.createLearningCircuitModel("angry_teachers", (event, arg) => {
       console.log(
-        "[" + CircuitClient.name + "] learning circuit created : " + arg
+        "[" +
+          CircuitClient.name +
+          "] learning circuit created : " +
+          JSON.stringify(arg)
       );
     });
 
