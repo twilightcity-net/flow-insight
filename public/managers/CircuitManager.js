@@ -18,10 +18,7 @@ class CircuitManager {
       "createLearningCircuit",
       "post",
       uri,
-      dto => {
-        console.log(this.name + " create circuit for wtf: " + circuitName);
-        callback(dto);
-      }
+      callback
     );
   }
 
