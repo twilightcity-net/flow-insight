@@ -20,6 +20,7 @@ class CircuitManager {
       uri,
       callback
     );
+    return "hello from circuit manager";
   }
 
   startRetroForWTF(circuitName, callback) {

@@ -1,6 +1,6 @@
-import { BaseClient } from "./BaseClient";
-import { RendererEventFactory } from "../events/RendererEventFactory";
-import { RendererClientEvent } from "../events/RendererClientEvent";
+import {BaseClient} from "./BaseClient";
+import {RendererEventFactory} from "../events/RendererEventFactory";
+import {RendererClientEvent} from "../events/RendererClientEvent";
 
 export class CircuitClient extends BaseClient {
   constructor(scope) {
@@ -39,14 +39,28 @@ export class CircuitClient extends BaseClient {
     //// TESTING ////
     /////////////////
 
-    CircuitClient.createLearningCircuitModel("angry_teachers", (event, arg) => {
-      console.log(
-        "[" +
+    CircuitClient.createLearningCircuitModel(
+      "angry_teachers",
+      (event, arg) => {
+        console.log(event);
+        console.log(arg);
+        console.log(
+          "[" +
           CircuitClient.name +
-          "] learning circuit created : " +
+          "] callback -> learning circuit created : " +
           JSON.stringify(arg)
-      );
-    });
+        );
+      },
+      (event, arg) => {
+        console.log(event);
+        console.log(arg);
+        console.log(
+          "[" +
+          CircuitClient.name +
+          "] reply -> learning circuit created : " +
+          JSON.stringify(arg)
+        );
+      });
 
     /////////////////////
     //// END TESTING ////
@@ -58,15 +72,15 @@ export class CircuitClient extends BaseClient {
    * @param circuitName
    * @param callback
    */
-  static createLearningCircuitModel(circuitName, callback) {
+  static createLearningCircuitModel(circuitName, callback, reply) {
     console.log(
       "[" + CircuitClient.name + "] create learning circuit : " + circuitName
     );
     return RendererEventFactory.createEvent(
       RendererEventFactory.Events.CIRCUIT_CLIENT,
       this,
-      null,
-      callback
+      callback,
+      reply
     ).dispatch(
       new RendererClientEvent(CircuitClient.Events.CREATE_CIRCUIT, circuitName),
       true

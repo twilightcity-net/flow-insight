@@ -2,7 +2,7 @@ const log = require("electron-log"),
   BaseController = require("./BaseController"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
-  { DtoClient } = require("../managers/DtoClientFactory"),
+  {DtoClient} = require("../managers/DtoClientFactory"),
   SimpleStatusDto = require("../dto/SimpleStatusDto");
 
 /**
@@ -74,12 +74,13 @@ class CircuitController extends BaseController {
    */
   onCircuitClientEvent(event, arg) {
     log.info(this.name + " event received : " + JSON.stringify(arg));
-    let circuitManager = CircuitController.instance.scope;
     if (arg.type === CircuitController.EventTypes.CREATE_CIRCUIT) {
-      circuitManager.createLearningCircuit(arg.arg, dto => {
+      let circuitManager = CircuitController.instance.scope;
+      return circuitManager.createLearningCircuit(arg.arg, dto => {
         return dto;
       });
-    } else {
+    }
+    else {
       return new SimpleStatusDto({
         message: "unknown circuit client event type '" + arg.type + "'",
         status: "INVALID"
