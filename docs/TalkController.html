@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>public/managers/DtoClientFactory.js - Documentation</title>
+    <title>TalkController - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,133 +29,743 @@
 
 <div id="main">
     
-    <h1 class="page-title">public/managers/DtoClientFactory.js</h1>
+    <h1 class="page-title">TalkController</h1>
     
 
     
 
 
 
+
+<section>
+
+<header>
     
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const chalk = require("chalk"),
-  log = require("electron-log"),
-  request = require("superagent");
+        <h2>
+        TalkController
+        </h2>
+        
+            <div class="class-description">This class is used to coordinate controllers across the talk service</div>
+        
+    
+</header>
 
-/**
- * class used to manage all of the DataStores and data loading / commit
- */
-class DtoClientFactory {
-  constructor() {
-    this.name = "[DtoClientFactory]";
-    log.info(this.name + " created");
-  }
+<article>
+    <div class="container-overview">
+    
+        
+<div class="section-method">
 
-  makeStoreRequest(store, callback) {
-    let client = new DtoClient(store, callback);
-    client.doRequest();
-  }
+    
+    <h2>Constructor</h2>
+    
 
-  static get RequestTypes() {
-    return {
-      POST: "post",
-      GET: "get"
-    };
-  }
-}
+    <h4 class="name" id="TalkController"><span class="type-signature"></span>new TalkController<span class="signature">(scope)</span><span class="type-signature"></span></h4>
 
-/**
- * class used to manage the client request
- */
-class DtoClient {
-  constructor(store, callback) {
-    this.name = "[DtoClient]";
-    this.store = store;
-    this.urn = store.urn;
-    this.type = store.requestType;
-    this.callback = callback;
-    this.retry = 3;
-    this.timeout = {
-      response: 9000,
-      deadline: 20000
-    };
-  }
-
-  doRequest() {
-    let url = global.App.api + this.urn,
-      req = this.getRequest(url);
-
-    log.info(
-      chalk.magenta(this.name) +
-      " [" +
-      this.type.toUpperCase() +
-      "] " +
-      this.store.name +
-      " " +
-      url
-    );
-
-    if (!req) {
-      throw new Error("Unknown request type ; " + this.type);
-    }
-    else if (global.App.ApiKey) {
-      req.set("X-API-Key", global.App.ApiKey);
-    }
-
-    req.end((err, res) => {
-      this.store.timestamp = new Date().getTime();
-      try {
-        if (err) throw new Error(err);
-        this.store.data = res.body;
-      }
-      catch (e) {
-        this.store.error = e.toString();
-        log.error(
-          this.name +
-          " Connection Error -> " +
-          this.type +
-          " " +
-          url +
-          " : " +
-          e +
-          "\n\n" +
-          e.stack +
-          "\n"
-        );
-      }
-      finally {
-        this.callback(this.store);
-      }
-    });
+    
 
 
-  }
 
-  getRequest(url) {
-    return DtoClientFactory.RequestTypes.POST === this.type ?
-      request.post(url)
-             .retry(this.retry)
-             .timeout(this.timeout)
-             .send(this.store.dto)
-             .set("Content-Type", "application/json") :
-      DtoClientFactory.RequestTypes.GET === this.type ?
-        request.get(url)
-               .retry(this.retry)
-               .timeout(this.timeout)
-               .send(this.store.dto)
-               .set("Content-Type", "application/json") :
-        null;
-  }
-}
 
-module.exports = {
-  DtoClientFactory: DtoClientFactory,
-  DtoClient: DtoClient
-};
-</code></pre>
-        </article>
-    </section>
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_controllers_TalkController.js.html">public/controllers/TalkController.js</a>, <a href="public_controllers_TalkController.js.html#line17">line 17</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>scope</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                this is the wrapping scope to execute callbacks within
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+    
+    </div>
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="TalkController.EventTypes.html">EventTypes</a></dt>
+            <dd></dd>
+        </dl>
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".doClientRequest"><span class="type-signature">(static) </span>doClientRequest<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    this function makes a request to the TalkToClient interface on gridtime server. This will be
+worked into our existing data client and model system.
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_controllers_TalkController.js.html">public/controllers/TalkController.js</a>, <a href="public_controllers_TalkController.js.html#line193">line 193</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id=".wireControllersTogether"><span class="type-signature">(static) </span>wireControllersTogether<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    links associated controller classes here
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_controllers_TalkController.js.html">public/controllers/TalkController.js</a>, <a href="public_controllers_TalkController.js.html#line53">line 53</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="configSocketListeners"><span class="type-signature"></span>configSocketListeners<span class="signature">(socket, connectionId)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    creates the listeners for the manager. this should be moved into the controler
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_controllers_TalkController.js.html">public/controllers/TalkController.js</a>, <a href="public_controllers_TalkController.js.html#line98">line 98</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>socket</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>connectionId</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="configureEvents"><span class="type-signature"></span>configureEvents<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    configures application wide events here
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_controllers_TalkController.js.html">public/controllers/TalkController.js</a>, <a href="public_controllers_TalkController.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+            
+<div class="section-method">
+
+    
+
+    <h4 class="name" id="wireSocketMessagesToEventCircuit"><span class="type-signature"></span>wireSocketMessagesToEventCircuit<span class="signature">(socket, name)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    this function is used to connect the socket events for client and room messages into the event system
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_controllers_TalkController.js.html">public/controllers/TalkController.js</a>, <a href="public_controllers_TalkController.js.html#line157">line 157</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>socket</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">
+                
+                
+            </td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+        
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 
@@ -165,7 +775,7 @@ module.exports = {
 <br class="clear">
 
 <footer>
-    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sun Jan 12 2020 14:13:16 GMT-0600 (Central Standard Time) using the Minami theme.
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Sun Jan 12 2020 14:13:17 GMT-0600 (Central Standard Time) using the Minami theme.
 </footer>
 
 <script>prettyPrint();</script>

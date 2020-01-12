@@ -47,18 +47,17 @@ class DtoClient {
 
     log.info(
       chalk.magenta(this.name) +
-      " [" +
-      this.type.toUpperCase() +
-      "] " +
-      this.store.name +
-      " " +
-      url
+        " [" +
+        this.type.toUpperCase() +
+        "] " +
+        this.store.name +
+        " " +
+        url
     );
 
     if (!req) {
       throw new Error("Unknown request type ; " + this.type);
-    }
-    else if (global.App.ApiKey) {
+    } else if (global.App.ApiKey) {
       req.set("X-API-Key", global.App.ApiKey);
     }
 
@@ -67,44 +66,42 @@ class DtoClient {
       try {
         if (err) throw new Error(err);
         this.store.data = res.body;
-      }
-      catch (e) {
+      } catch (e) {
         this.store.error = e.toString();
         log.error(
           this.name +
-          " Connection Error -> " +
-          this.type +
-          " " +
-          url +
-          " : " +
-          e +
-          "\n\n" +
-          e.stack +
-          "\n"
+            " Connection Error -> " +
+            this.type +
+            " " +
+            url +
+            " : " +
+            e +
+            "\n\n" +
+            e.stack +
+            "\n"
         );
-      }
-      finally {
+      } finally {
         this.callback(this.store);
       }
     });
-
-
   }
 
   getRequest(url) {
-    return DtoClientFactory.RequestTypes.POST === this.type ?
-      request.post(url)
-             .retry(this.retry)
-             .timeout(this.timeout)
-             .send(this.store.dto)
-             .set("Content-Type", "application/json") :
-      DtoClientFactory.RequestTypes.GET === this.type ?
-        request.get(url)
-               .retry(this.retry)
-               .timeout(this.timeout)
-               .send(this.store.dto)
-               .set("Content-Type", "application/json") :
-        null;
+    return DtoClientFactory.RequestTypes.POST === this.type
+      ? request
+          .post(url)
+          .retry(this.retry)
+          .timeout(this.timeout)
+          .send(this.store.dto)
+          .set("Content-Type", "application/json")
+      : DtoClientFactory.RequestTypes.GET === this.type
+      ? request
+          .get(url)
+          .retry(this.retry)
+          .timeout(this.timeout)
+          .send(this.store.dto)
+          .set("Content-Type", "application/json")
+      : null;
   }
 }
 

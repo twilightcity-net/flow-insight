@@ -1,4 +1,4 @@
-const {ipcMain} = require("electron"),
+const { ipcMain } = require("electron"),
   chalk = require("chalk"),
   log = require("electron-log"),
   App = require("../app/App"),
@@ -121,7 +121,7 @@ class EventManager {
    */
   initSender(event) {
     event.sender = {
-      send: function (_eventType, _arg) {
+      send: function(_eventType, _arg) {
         global.App.EventManager.dispatch(_eventType, _arg);
       }
     };
@@ -158,10 +158,10 @@ class EventManager {
       }
       log.info(
         chalk.cyanBright("[EventManager]") +
-        " sonar echo -> " +
-        _arg.type +
-        " : " +
-        JSON.stringify(_arg.arg)
+          " sonar echo -> " +
+          _arg.type +
+          " : " +
+          JSON.stringify(_arg.arg)
       );
       EventManager.dispatch(_arg.type, _arg.arg);
     });
@@ -191,22 +191,26 @@ class EventManager {
   createListener(event) {
     event.listener = (_event, _arg) => {
       log.info(
-        chalk.cyan("[EventManager]") + " event : " + event.type + " -> " + JSON.stringify(_arg)
+        chalk.cyan("[EventManager]") +
+          " event : " +
+          event.type +
+          " -> " +
+          JSON.stringify(_arg)
       );
       try {
         let value = global.App.EventManager.executeCallback(event, _arg);
         _event.returnValue = value;
         if (event.async) {
           log.info(
-            chalk.cyan("[EventManager]") + " reply : " +
-            event.type +
-            "-reply -> " +
-            JSON.stringify(value)
+            chalk.cyan("[EventManager]") +
+              " reply : " +
+              event.type +
+              "-reply -> " +
+              JSON.stringify(value)
           );
           _event.sender.send(event.type + "-reply", value);
         }
-      }
-      catch (e) {
+      } catch (e) {
         log.error(
           "[EventManager] └> " + e.toString() + "\n\n" + e.stack + "\n"
         );
@@ -227,7 +231,12 @@ class EventManager {
       events = manager.events,
       index = events.indexOf(event);
     log.info(
-      chalk.cyan("[EventManager]") + " unregister event -> " + event.type + " @ [" + index + "]"
+      chalk.cyan("[EventManager]") +
+        " unregister event -> " +
+        event.type +
+        " @ [" +
+        index +
+        "]"
     );
     events.splice(index, 1);
     ipcMain.removeListener(event.type, event.listener);
@@ -260,8 +269,7 @@ class EventManager {
       if (event.callback) {
         return event.callback(event, arg);
       }
-    }
-    catch (e) {
+    } catch (e) {
       throw new EventCallbackException(event.type, e);
     }
   }
@@ -275,8 +283,7 @@ class EventManager {
   executeReply(event, arg) {
     try {
       return event.reply(event, arg);
-    }
-    catch (e) {
+    } catch (e) {
       throw new EventReplyException(event.type, e);
     }
   }
@@ -309,10 +316,10 @@ class EventManager {
     }
     log.info(
       chalk.cyanBright("[EventManager]") +
-      " dispatch {" +
-      returnedEvents.length +
-      "} events : " +
-      eventType
+        " dispatch {" +
+        returnedEvents.length +
+        "} events : " +
+        eventType
     );
     return returnedEvents;
   }
@@ -330,22 +337,20 @@ class EventManager {
       if (event.reply) {
         event.returnValues.reply = this.executeReply(event, arg);
       }
-    }
-    catch (error) {
+    } catch (error) {
       if (error instanceof EventCallbackException) {
         event.returnValues.callback = error;
-      }
-      else if (error instanceof EventReplyException) {
+      } else if (error instanceof EventReplyException) {
         event.returnValues.reply = error;
       }
       log.error(
         "[EventManager] └> { " +
-        error.event +
-        " } -> " +
-        error.toString() +
-        "\n\n" +
-        error.stack +
-        "\n"
+          error.event +
+          " } -> " +
+          error.toString() +
+          "\n\n" +
+          error.stack +
+          "\n"
       );
       App.handleError(error, false);
     }

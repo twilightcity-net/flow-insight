@@ -2,7 +2,7 @@ const log = require("electron-log"),
   BaseController = require("./BaseController"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
-  {DtoClient} = require("../managers/DtoClientFactory"),
+  { DtoClient } = require("../managers/DtoClientFactory"),
   SimpleStatusDto = require("../dto/SimpleStatusDto");
 
 /**
@@ -79,8 +79,7 @@ class CircuitController extends BaseController {
       return circuitManager.createLearningCircuit(arg.arg, dto => {
         return dto;
       });
-    }
-    else {
+    } else {
       return new SimpleStatusDto({
         message: "unknown circuit client event type '" + arg.type + "'",
         status: "INVALID"

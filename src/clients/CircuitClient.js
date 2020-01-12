@@ -1,6 +1,6 @@
-import {BaseClient} from "./BaseClient";
-import {RendererEventFactory} from "../events/RendererEventFactory";
-import {RendererClientEvent} from "../events/RendererClientEvent";
+import { BaseClient } from "./BaseClient";
+import { RendererEventFactory } from "../events/RendererEventFactory";
+import { RendererClientEvent } from "../events/RendererClientEvent";
 
 export class CircuitClient extends BaseClient {
   constructor(scope) {
@@ -46,9 +46,9 @@ export class CircuitClient extends BaseClient {
         console.log(arg);
         console.log(
           "[" +
-          CircuitClient.name +
-          "] callback -> learning circuit created : " +
-          JSON.stringify(arg)
+            CircuitClient.name +
+            "] callback -> learning circuit created : " +
+            JSON.stringify(arg)
         );
       },
       (event, arg) => {
@@ -56,11 +56,12 @@ export class CircuitClient extends BaseClient {
         console.log(arg);
         console.log(
           "[" +
-          CircuitClient.name +
-          "] reply -> learning circuit created : " +
-          JSON.stringify(arg)
+            CircuitClient.name +
+            "] reply -> learning circuit created : " +
+            JSON.stringify(arg)
         );
-      });
+      }
+    );
 
     /////////////////////
     //// END TESTING ////
