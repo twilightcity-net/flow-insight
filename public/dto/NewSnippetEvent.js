@@ -1,4 +1,4 @@
-d;
+
 /**
  * this class is used to send a snippet from our IDE plugin
  */
