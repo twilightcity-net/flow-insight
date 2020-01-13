@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   TalkController = require("../controllers/TalkController"),
-  ChatMessageInputDto = require("../dto/ChatMessageInputDto"),
+  ChatMessageInputDto = require("../dto/ChatMessageDetailsDto"),
   NewSnippetEvent = require("../dto/NewSnippetEvent"),
   ScreenshotReferenceInputDto = require("../dto/ScreenshotReferenceInputDto"),
   io = require("socket.io-client");

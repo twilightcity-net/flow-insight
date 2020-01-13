@@ -3,6 +3,8 @@ import { RendererEventFactory } from "../events/RendererEventFactory";
 import { RendererClientEvent } from "../events/RendererClientEvent";
 
 export class CircuitClient extends BaseClient {
+  static replies = new Map();
+
   constructor(scope) {
     super(scope, CircuitClient.constructor.name);
   }
@@ -41,24 +43,14 @@ export class CircuitClient extends BaseClient {
 
     CircuitClient.createLearningCircuitModel(
       "angry_teachers",
-      (event, arg) => {
-        console.log(event);
-        console.log(arg);
+      (_event, _arg) => {
+        console.log(_event);
+        console.log(_arg);
         console.log(
           "[" +
             CircuitClient.name +
             "] callback -> learning circuit created : " +
-            JSON.stringify(arg)
-        );
-      },
-      (event, arg) => {
-        console.log(event);
-        console.log(arg);
-        console.log(
-          "[" +
-            CircuitClient.name +
-            "] reply -> learning circuit created : " +
-            JSON.stringify(arg)
+            JSON.stringify(_arg)
         );
       }
     );
@@ -73,19 +65,32 @@ export class CircuitClient extends BaseClient {
    * @param circuitName
    * @param callback
    */
-  static createLearningCircuitModel(circuitName, callback, reply) {
+  static createLearningCircuitModel(circuitName, callback) {
     console.log(
       "[" + CircuitClient.name + "] create learning circuit : " + circuitName
     );
-    return RendererEventFactory.createEvent(
+
+    let event = new RendererClientEvent(
+      CircuitClient.Events.CREATE_CIRCUIT,
+      circuitName
+    );
+
+    RendererEventFactory.createEvent(
       RendererEventFactory.Events.CIRCUIT_CLIENT,
       this,
-      callback,
-      reply
-    ).dispatch(
-      new RendererClientEvent(CircuitClient.Events.CREATE_CIRCUIT, circuitName),
-      true
-    );
+      null,
+      (_event, _arg) => {
+        // TODO remove event from local array
+
+        callback(_event, _arg);
+      }
+    ).dispatch(event, true);
+
+    // TODO add event to local array for reply.
+
+    CircuitClient.replies.set(event.id, event);
+
+    return event;
   }
 
   startRetroForWTF(circuitName, callback) {}

@@ -1,8 +1,9 @@
 const log = require("electron-log"),
+  chalk = require("chalk"),
   BaseController = require("./BaseController"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
-  {DtoClient} = require("../managers/DtoClientFactory"),
+  { DtoClient } = require("../managers/DtoClientFactory"),
   SimpleStatusDto = require("../dto/SimpleStatusDto");
 
 /**
@@ -59,10 +60,9 @@ class CircuitController extends BaseController {
     BaseController.configEvents(CircuitController.instance);
     this.circuitClientEventListener = EventFactory.createEvent(
       EventFactory.Types.CIRCUIT_CLIENT,
-      this.scope,
+      this,
       this.onCircuitClientEvent,
-      null,
-      false
+      null
     );
   }
 
@@ -73,7 +73,7 @@ class CircuitController extends BaseController {
    * @returns {string}
    */
   onCircuitClientEvent(event, arg) {
-    log.info(this.name + " event received : " + JSON.stringify(arg));
+    log.info(chalk.green(this.name) + " event : " + JSON.stringify(arg));
     if (arg.type === CircuitController.EventTypes.CREATE_CIRCUIT) {
       let circuitName = arg.arg;
       this.doClientRequest(
@@ -83,13 +83,17 @@ class CircuitController extends BaseController {
         "post",
         circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf",
         dto => {
+          console.log(arg);
+          console.log(dto);
 
+          // TODO dispatch arg with dto
 
           return dto;
         }
       );
-    }
-    else {
+    } else {
+      // TODO dispatch error event
+
       return new SimpleStatusDto({
         message: "unknown circuit client event type '" + arg.type + "'",
         status: "INVALID"
