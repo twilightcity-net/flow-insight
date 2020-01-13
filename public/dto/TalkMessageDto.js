@@ -11,6 +11,7 @@ module.exports = class TalkMessageDto {
       if (typeof json === "string") json = JSON.parse(json);
       this.id = json.id;
       this.uri = json.uri;
+      this.nanoTime = json.nanoTime;
       this.messageTime = json.messageTime;
       this.messageType = json.messageType;
       this.metaProps = json.metaProps;

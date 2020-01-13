@@ -83,12 +83,8 @@ class CircuitController extends BaseController {
         "post",
         circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf",
         dto => {
-          console.log(arg);
-          console.log(dto);
-
-          // TODO dispatch arg with dto
-
-          return dto;
+          arg.dto = dto
+          return event.replyTo(arg);
         }
       );
     } else {
