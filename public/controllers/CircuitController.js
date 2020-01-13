@@ -2,7 +2,7 @@ const log = require("electron-log"),
   BaseController = require("./BaseController"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
-  { DtoClient } = require("../managers/DtoClientFactory"),
+  {DtoClient} = require("../managers/DtoClientFactory"),
   SimpleStatusDto = require("../dto/SimpleStatusDto");
 
 /**
@@ -62,7 +62,7 @@ class CircuitController extends BaseController {
       this.scope,
       this.onCircuitClientEvent,
       null,
-      true
+      false
     );
   }
 
@@ -75,11 +75,21 @@ class CircuitController extends BaseController {
   onCircuitClientEvent(event, arg) {
     log.info(this.name + " event received : " + JSON.stringify(arg));
     if (arg.type === CircuitController.EventTypes.CREATE_CIRCUIT) {
-      let circuitManager = CircuitController.instance.scope;
-      return circuitManager.createLearningCircuit(arg.arg, dto => {
-        return dto;
-      });
-    } else {
+      let circuitName = arg.arg;
+      this.doClientRequest(
+        "CircuitClient",
+        circuitName ? circuitName : {},
+        "createLearningCircuit",
+        "post",
+        circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf",
+        dto => {
+
+
+          return dto;
+        }
+      );
+    }
+    else {
       return new SimpleStatusDto({
         message: "unknown circuit client event type '" + arg.type + "'",
         status: "INVALID"
@@ -97,7 +107,7 @@ class CircuitController extends BaseController {
    * @param urn
    * @param callback
    */
-  static doClientRequest(context, dto, name, type, urn, callback) {
+  doClientRequest(context, dto, name, type, urn, callback) {
     let store = {
       context: context,
       dto: dto,

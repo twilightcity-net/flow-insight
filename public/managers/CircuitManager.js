@@ -11,16 +11,7 @@ class CircuitManager {
   }
 
   createLearningCircuit(circuitName, callback) {
-    let uri = circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf";
-    CircuitController.doClientRequest(
-      "CircuitClient",
-      circuitName ? circuitName : {},
-      "createLearningCircuit",
-      "post",
-      uri,
-      callback
-    );
-    return "hello from circuit manager";
+    return null;
   }
 
   startRetroForWTF(circuitName, callback) {
