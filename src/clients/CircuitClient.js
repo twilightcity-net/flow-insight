@@ -66,14 +66,14 @@ export class CircuitClient extends BaseClient {
     //// TESTING ////
     /////////////////
 
-    CircuitClient.createLearningCircuitModel("", this, lcModel => {
-      console.log(
-        "[" +
-          CircuitClient.name +
-          "] callback -> learning circuit created : " +
-          JSON.stringify(lcModel)
-      );
-    });
+    // CircuitClient.createLearningCircuitModel("", this, model => {
+    //   console.log(
+    //     "[" +
+    //       CircuitClient.name +
+    //       "] callback -> learning circuit created : " +
+    //       JSON.stringify(model)
+    //   );
+    // });
 
     /////////////////////
     //// END TESTING ////

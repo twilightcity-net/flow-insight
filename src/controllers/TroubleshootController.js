@@ -1,5 +1,6 @@
 import { ActiveViewController } from "./ActiveViewController";
 import { DataModelFactory } from "../models/DataModelFactory";
+import { CircuitClient } from "../clients/CircuitClient";
 
 export class TroubleshootController extends ActiveViewController {
   wireTogetherModels(scope) {
@@ -11,6 +12,9 @@ export class TroubleshootController extends ActiveViewController {
 
   startTroubleshooting = () => {
     console.log(this.name + " start troubleshooting");
+    CircuitClient.createLearningCircuitModel("angry_teachers", this, model => {
+      console.log(model);
+    });
   };
 
   stopTroubleshooting = () => {
