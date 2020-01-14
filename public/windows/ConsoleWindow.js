@@ -150,7 +150,7 @@ module.exports = class ConsoleWindow {
    */
   showConsole() {
     this.state = this.states.SHOWING;
-    this.window.setPosition(this.display.workArea.x, 26);
+    this.window.setPosition(this.display.workArea.x, this.display.workArea.y);
     this.window.show();
     this.window.focus();
     setTimeout(() => {
