@@ -75,22 +75,25 @@ class CircuitController extends BaseController {
   onCircuitClientEvent(event, arg) {
     log.info(chalk.green(this.name) + " event : " + JSON.stringify(arg));
     if (arg.type === CircuitController.EventTypes.CREATE_CIRCUIT) {
-      let circuitName = arg.args.circuitName;
-      this.doClientRequest(
-        "CircuitClient",
-        circuitName ? circuitName : {},
-        "createLearningCircuit",
-        "post",
-        circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf",
-        store => {
-          arg.dto = new LearningCircuitDto(store.data);
-          return event.replyTo(arg);
-        }
-      );
+      this.handleCreateCircuitEvent(event, arg);
     } else {
-      // TODO dispatch error event
       throw new Error("Unknown circuit client event type '" + arg.type + "'.");
     }
+  }
+
+  handleCreateCircuitEvent(event, arg) {
+    let circuitName = arg.args.circuitName;
+    this.doClientRequest(
+      "CircuitClient",
+      circuitName ? circuitName : {},
+      "createLearningCircuit",
+      "post",
+      circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf",
+      store => {
+        arg.dto = new LearningCircuitDto(store.data);
+        return event.replyTo(arg);
+      }
+    );
   }
 
   /**
