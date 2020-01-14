@@ -1,4 +1,4 @@
-const GLOBAL_ = global,
+const electron = require("electron"),
   { app } = require("electron"),
   path = require("path"),
   isDev = require("electron-is-dev"),
@@ -6,18 +6,23 @@ const GLOBAL_ = global,
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
   { ShortcutManager } = require("./ShortcutManager"),
+  AppSettings = require("../app/AppSettings"),
   WindowManagerHelper = require("./WindowManagerHelper"),
   LoadingWindow = require("../windows/LoadingWindow"),
   ActivatorWindow = require("../windows/ActivatorWindow"),
   ConsoleWindow = require("../windows/ConsoleWindow"),
   BugReportWindow = require("../windows/BugReportWindow");
 
-/*
+/**
  * This class is used to manage the view, state, and display of each
  * of our windows in our application. windows are stored in an array
  * and are dynamically loaded.
+ * @type {WindowManager}
  */
-module.exports = class WindowManager {
+class WindowManager {
+  /**
+   * builds the window manager in the global static scope
+   */
   constructor() {
     log.info("[WindowManager] created -> okay");
     this.windows = [];
@@ -43,26 +48,32 @@ module.exports = class WindowManager {
     };
   }
 
-  /*
+  /**
    * callback for native window focus event. Activates any shortcuts associated
    * to that window
+   * @param event
+   * @param arg
    */
   onFocusWindowCb(event, arg) {
     log.info("[WindowManager] focus window -> " + arg.sender.name);
     ShortcutManager.activateWindowShortcuts(arg.sender);
   }
 
-  /*
+  /**
    * callback for native window blur event. Deactivates any shortcuts associated
    * to that window
+   * @param event
+   * @param arg
    */
   onBlurWindowCb(event, arg) {
     log.info("[WindowManager] blur window -> " + arg.sender.name);
     ShortcutManager.deactivateWindowShortcuts(arg.sender);
   }
 
-  /*
+  /**
    * callback to handle our console shortcut event
+   * @param event
+   * @param arg
    */
   onShortcutsRecievedCb(event, arg) {
     log.info("[WindowManager] shortcut recieved -> shortcutsRecieved : " + arg);
@@ -77,8 +88,36 @@ module.exports = class WindowManager {
     }
   }
 
-  /*
+  /**
+   * helper function to get the arrauy of all displays in screen
+   * @returns {Electron.Display[]}
+   */
+  getDisplays() {
+    return electron.screen.getAllDisplays();
+  }
+
+  /**
+   * returns the stored display index or returns the primary if nothings is set,
+   * and updates the settings file. we assume the primary display is set to 0 for default
+   */
+  getDisplay() {
+    let displays = electron.screen.getAllDisplays();
+    let primaryDisplay = electron.screen.getPrimaryDisplay();
+    if (displays.length < 2) {
+      return primaryDisplay;
+    }
+    let defaultDisplay = global.App.AppSettings.getDisplayIndex();
+    if (defaultDisplay && defaultDisplay < displays.length) {
+      return displays[defaultDisplay];
+    }
+    global.App.AppSettings.setDisplayIndex(0);
+    return primaryDisplay;
+  }
+
+  /**
    * Gets the window from the global array of windows
+   * @param name
+   * @returns {null|*}
    */
   getWindow(name) {
     for (var i = this.windows.length - 1; i >= 0; i--) {
@@ -89,8 +128,10 @@ module.exports = class WindowManager {
     return null;
   }
 
-  /*
+  /**
    * Gets the url to load in the window based on a name of a view
+   * @param viewName
+   * @returns {string}
    */
   getWindowViewURL(viewName) {
     if (isDev) {
@@ -98,19 +139,20 @@ module.exports = class WindowManager {
         "http://localhost:3000?view=" +
         viewName +
         "&render3d=" +
-        GLOBAL_.App.render3D
+        global.App.render3D
       );
     }
     let filePath = `${path.join(
       app.getAppPath(),
       Util.getAppRootDir(),
-      "/index.html?view=" + viewName + "&render3d=" + GLOBAL_.App.render3D
+      "/index.html?view=" + viewName + "&render3d=" + global.App.render3D
     )}`;
     return "file://" + filePath;
   }
 
-  /*
+  /**
    * Loads a view into a window and creates its event handlers
+   * @param window
    */
   loadWindow(window) {
     log.info("[WindowManager] load window -> " + window.name);
@@ -120,8 +162,9 @@ module.exports = class WindowManager {
     });
   }
 
-  /*
+  /**
    * Opens a window based on its object reference
+   * @param window
    */
   openWindow(window) {
     log.info("[WindowManager] open window -> " + window.name);
@@ -129,9 +172,11 @@ module.exports = class WindowManager {
     window.window.focus();
   }
 
-  /*
+  /**
    * closes the window with and option to destroy the window from
    * Memory
+   * @param window
+   * @param destroy
    */
   closeWindow(window, destroy) {
     log.info("[WindowManager] hide window -> " + window.name);
@@ -143,10 +188,12 @@ module.exports = class WindowManager {
     }
   }
 
-  /*
+  /**
    * Hids the window, and removes it from the Array of windows. This
    * is needed so that we do not leak memory or waste local resources.
    * Window name are unique.. so only one per windows array
+   * @param window
+   * @returns {null|T[]}
    */
   destroyWindow(window) {
     log.info("[WindowManager] destroy window -> " + window.name);
@@ -160,10 +207,12 @@ module.exports = class WindowManager {
     return null;
   }
 
-  /*
+  /**
    * creates a new window based off the string name of the window.
    * After creating the window, it is added to a global array to
    * be reused.
+   * @param name
+   * @returns {*|null}
    */
   createWindow(name) {
     log.info("[WindowManager] create window -> " + name);
@@ -183,8 +232,9 @@ module.exports = class WindowManager {
     return window;
   }
 
-  /*
+  /**
    * Toggles open / close of windows withing our Array
+   * @param window
    */
   toggleWindow(window) {
     log.info("[WindowManager] toggle window -> " + window.name);
@@ -195,12 +245,15 @@ module.exports = class WindowManager {
     }
   }
 
-  /// This is a helper method that returns the class of a window
-  /// based on the literal string name of the class. A better way to do
-  /// is to figure out how to use some type of reflection with a
-  /// factory class.
-  ///
-  /// Need to add a new case for each window we wish to open
+  /**
+   * This is a helper method that returns the class of a window
+   * based on the literal string name of the class. A better way to do
+   * is to figure out how to use some type of reflection with a
+   * factory class.
+   * Need to add a new case for each window we wish to open
+   * @param name
+   * @returns {LoadingWindow|BugReportWindow|null|ActivatorWindow|ConsoleWindow}
+   */
   getWindowClassFromName(name) {
     switch (name) {
       case WindowManagerHelper.WindowNames.LOADING:
@@ -215,4 +268,6 @@ module.exports = class WindowManager {
         return null;
     }
   }
-};
+}
+
+module.exports = WindowManager;

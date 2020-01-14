@@ -20,10 +20,8 @@ module.exports = class ConsoleWindow {
     this.name = WindowManagerHelper.WindowNames.CONSOLE;
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
-    this.display = electron.screen.getPrimaryDisplay();
+    this.display = global.App.WindowManager.getDisplay();
     this.bounds = this.display.workAreaSize;
-
-    log.info("width = " + this.bounds.width + ", " + this.bounds.height);
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = false;
     this.window = new BrowserWindow({
@@ -109,11 +107,7 @@ module.exports = class ConsoleWindow {
    */
   onPrepareForScreenshot() {
     this.hideConsole();
-
-    log.info("hidden!");
-
     let screenPath = Util.getLatestScreenshotPath();
-
     setTimeout(() => {
       this.events.readyForScreenShot.dispatch(screenPath, true);
     }, 1000);
@@ -155,7 +149,7 @@ module.exports = class ConsoleWindow {
    */
   showConsole() {
     this.state = this.states.SHOWING;
-    this.window.setPosition(0, 0);
+    this.window.setPosition(this.display.workArea.x, 0);
     this.window.show();
     this.window.focus();
     setTimeout(() => {

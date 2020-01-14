@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>public/controllers/BaseController.js - Documentation</title>
+    <title>public/app/AppMenu.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,7 +29,7 @@
 
 <div id="main">
     
-    <h1 class="page-title">public/controllers/BaseController.js</h1>
+    <h1 class="page-title">public/app/AppMenu.js</h1>
     
 
     
@@ -39,39 +39,186 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const log = require("electron-log"),
-  Util = require("../Util");
+            <pre class="prettyprint source linenums"><code>const {Menu} = require("electron"),
+  log = require("electron-log"),
+  Util = require("../Util"),
+  WindowManagerHelper = require("../managers/WindowManagerHelper");
 
-/**
- * This class is used to coordinate controllers across the app classes
- */
-module.exports = class BaseController {
-  constructor(scope, clazz) {
-    this.name = "[" + clazz.name + "]";
-    this.scope = scope;
-    this.guid = Util.getGuid();
+const helpSubmenu = [
+  {
+    label: "Torchie - Learn More",
+    click() {
+      log.info("[AppMenu] open browser-> http://www.dreamscale.love/");
+      Util.openExternalBrowser("http://www.dreamscale.love/");
+    }
+  },
+  {
+    label: "Report bug",
+    click() {
+      log.info("[AppMenu] open report bug window");
+      WindowManagerHelper.createWindowBugReport();
+    }
+  },
+  {
+    label: "Deactivate Torchie",
+    click() {
+      log.info("[AppMenu] deactivate and reset Torchie");
+      Util.deleteSettings();
+    }
+  }
+];
+
+class AppMenuException extends Error {
+  constructor(
+    msg = `Could not build the app menu for this platform (${process.platform})`,
+    ...params
+  ) {
+    super(msg, ...params);
+    this.msg = msg;
+    log.error(`[AppMenu] ${msg}`);
+    this.platform = process.platform; // In case the catcher needs it
+  }
+}
+
+class AppMenu extends Menu {
+  constructor() {
+    super();
+    log.info("[AppMenu] create menu from template");
+    return Menu.buildFromTemplate(this.getTemplate());
+  }
+
+  getTemplate() {
+    switch (process.platform) {
+      case "darwin":
+        return this.getTemplateForMacOS();
+      case "win32":
+        return this.getTemplateForWindows();
+    }
+    // TODO: determine if there are any other platforms we ought to support; e.g. linux.  In the meantime, throw
+    throw new AppMenuException();
+  }
+
+  getTemplateForWindows() {
+    return [
+      {
+        label: "Edit",
+        submenu: [
+          {role: "undo"},
+          {role: "redo"},
+          {type: "separator"},
+          {role: "cut"},
+          {role: "copy"},
+          {role: "paste"},
+          {role: "pasteandmatchstyle"},
+          {role: "delete"},
+          {role: "selectall"}
+        ]
+      },
+      {
+        role: "window",
+        submenu: [
+          {role: "minimize"},
+          {role: "close"}]
+      },
+      {
+        role: "help",
+        submenu: helpSubmenu
+      }
+    ];
+  }
+
+  getTemplateForMacOS() {
+    return [
+      {
+        label: "Torchie",
+        submenu: [
+          {role: "about"},
+          {type: "separator"},
+          {role: "services", submenu: []},
+          {type: "separator"},
+          {role: "hide"},
+          {role: "hideothers"},
+          {role: "unhide"},
+          {type: "separator"},
+          {role: "quit"}
+        ]
+      },
+      {
+        label: "Edit",
+        submenu: [
+          {label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:"},
+          {
+            label: "Redo",
+            accelerator: "Shift+CmdOrCtrl+Z",
+            selector: "redo:"
+          },
+          {type: "separator"},
+          {label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:"},
+          {label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:"},
+          {label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:"},
+          {
+            label: "Select All",
+            accelerator: "CmdOrCtrl+A",
+            selector: "selectAll:"
+          }
+        ]
+      },
+      {
+        role: "window",
+        submenu: [
+          {
+            role: "displays",
+            label: "Displays",
+            submenu: this.getDisplaysSubmenu()
+          },
+          {type: "separator"},
+          {role: "close"},
+          {role: "minimize"},
+          {type: "separator"},
+          {role: "front"},
+          {type: "separator"}
+        ]
+      },
+      {
+        role: "help",
+        submenu: helpSubmenu
+      }
+    ];
   }
 
   /**
-   * called for every controller automagically
-   * @param clazz
+   * gets the app menu for displays in the window section
+   * @returns {*}
    */
-  static wireControllersTo(clazz) {
-    log.info(
-      "[" + BaseController.name + "] wire controllers to -> " + clazz.name
-    );
-  }
+  getDisplaysSubmenu() {
+    let displays = global.App.WindowManager.getDisplays(),
+      defaultDisplay = global.App.AppSettings.getDisplayIndex(),
+      arrLen = displays.length,
+      menuItems = [],
+      arrPos = 1,
+      label = "";
 
-  /**
-   * called for every controller automagically
-   * @param clazz
-   */
-  static configEvents(clazz) {
-    log.info(
-      "[" + BaseController.name + "] configure events for -> " + clazz.name
-    );
+    displays.forEach(display => {
+      label += "Display " + arrPos + " - " + display.size.width + " x " + display.size.height;
+      if (arrPos - 1 === defaultDisplay) {
+        label += " •";
+      }
+      menuItems.push({
+        label: label,
+        index: arrPos -1,
+        click: (event) => {
+          console.log(event);
+          global.App.AppSettings.setDisplayIndex(event.index);
+        }
+      });
+      arrPos += 1;
+      label = "";
+    })
+    return menuItems;
   }
-};
+}
+
+module.exports = AppMenu;
 </code></pre>
         </article>
     </section>

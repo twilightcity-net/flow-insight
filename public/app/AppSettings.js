@@ -21,6 +21,9 @@ module.exports = class AppSettings {
     log.info("[AppSettings] set paths", flowPath, path);
     settings.setPath(path);
     this.path = settings.file();
+
+    // TODO implement this to store the key https://stackoverflow.com/questions/6226189/how-to-convert-a-string-to-bytearray
+
     this.keyToken = "70rCh13 L0v3";
     log.info("[AppSettings] load settings -> " + this.path);
   }
@@ -94,6 +97,14 @@ module.exports = class AppSettings {
     return null;
   }
 
+  getDisplayIndex() {
+    return settings.get(AppSettings.Keys.DISPLAY_INDEX);
+  }
+
+  setDisplayIndex(index) {
+    settings.set(AppSettings.Keys.DISPLAY_INDEX, index);
+  }
+
   /**
    * enum map of possible settings key pairs
    * @returns {{APP_API_KEY: string}}
@@ -102,7 +113,8 @@ module.exports = class AppSettings {
   static get Keys() {
     return {
       APP_API_URL: "apiUrl",
-      APP_API_KEY: "apiKey"
+      APP_API_KEY: "apiKey",
+      DISPLAY_INDEX: "displayIndex"
     };
   }
 };

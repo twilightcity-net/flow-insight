@@ -39,7 +39,7 @@ class AppMenuException extends Error {
   }
 }
 
-module.exports = class AppMenu extends Menu {
+class AppMenu extends Menu {
   constructor() {
     super();
     log.info("[AppMenu] create menu from template");
@@ -123,10 +123,17 @@ module.exports = class AppMenu extends Menu {
       {
         role: "window",
         submenu: [
+          {
+            role: "displays",
+            label: "Displays",
+            submenu: this.getDisplaysSubmenu()
+          },
+          { type: "separator" },
           { role: "close" },
           { role: "minimize" },
           { type: "separator" },
-          { role: "front" }
+          { role: "front" },
+          { type: "separator" }
         ]
       },
       {
@@ -135,4 +142,43 @@ module.exports = class AppMenu extends Menu {
       }
     ];
   }
-};
+
+  /**
+   * gets the app menu for displays in the window section
+   * @returns {*}
+   */
+  getDisplaysSubmenu() {
+    let displays = global.App.WindowManager.getDisplays(),
+      defaultDisplay = global.App.AppSettings.getDisplayIndex(),
+      arrLen = displays.length,
+      menuItems = [],
+      arrPos = 1,
+      label = "";
+
+    displays.forEach(display => {
+      label +=
+        "Display " +
+        arrPos +
+        " - " +
+        display.size.width +
+        " x " +
+        display.size.height;
+      if (arrPos - 1 === defaultDisplay) {
+        label += " •";
+      }
+      menuItems.push({
+        label: label,
+        index: arrPos - 1,
+        click: event => {
+          console.log(event);
+          global.App.AppSettings.setDisplayIndex(event.index);
+        }
+      });
+      arrPos += 1;
+      label = "";
+    });
+    return menuItems;
+  }
+}
+
+module.exports = AppMenu;
