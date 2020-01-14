@@ -94,7 +94,6 @@
     "chai": "^4.1.2",
     "concurrently": "^4.1.0",
     "cross-env": "^5.0.1",
-    "dev-runner": "^0.0.3",
     "devtron": "^1.4.0",
     "electron": "^1.6.10",
     "electron-builder": "^21.2.0",
@@ -189,7 +188,10 @@
   },
   "build": {
     "appId": "io.dreamscale.torchie.shell",
-    "files": ["build/**/*", "package.json"],
+    "files": [
+      "build/**/*",
+      "package.json"
+    ],
     "directories": {
       "buildResources": "resources"
     },
