@@ -1,12 +1,33 @@
 import { BaseClient } from "./BaseClient";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 import { RendererClientEvent } from "../events/RendererClientEvent";
+import { LearningCircuitModel } from "../models/LearningCircuitModel";
 
+/**
+ * the client which is used to make circuit requests to gridtime. Basically we
+ * will use this class to fire an event which the main process listens for. On
+ * notification it will make a rest call to grid time. the response is the
+ * piped into the calling function to this client.
+ */
 export class CircuitClient extends BaseClient {
+  /**
+   * stores the event replies for client events
+   * @type {Map<any, any>}
+   */
   static replies = new Map();
 
+  /**
+   * builds the Client for a Circuit in Gridtime
+   * @param scope
+   */
   constructor(scope) {
     super(scope, CircuitClient.constructor.name);
+    this.event = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.CIRCUIT_CLIENT,
+      this,
+      null,
+      this.onCircuitEventReply
+    );
   }
 
   /**
@@ -32,6 +53,10 @@ export class CircuitClient extends BaseClient {
     };
   }
 
+  /**
+   * initializes the class in the current application context
+   * @param scope
+   */
   static init(scope) {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
@@ -41,19 +66,15 @@ export class CircuitClient extends BaseClient {
     //// TESTING ////
     /////////////////
 
-    CircuitClient.createLearningCircuitModel(
-      "",
-      (_event, _arg) => {
-        console.log(_event);
-        console.log(_arg);
-        console.log(
-          "[" +
-            CircuitClient.name +
-            "] callback -> learning circuit created : " +
-            JSON.stringify(_arg)
-        );
-      }
-    );
+    CircuitClient.createLearningCircuitModel("", this, arg => {
+      // console.log(
+      //   "[" +
+      //     CircuitClient.name +
+      //     "] callback -> learning circuit created : " +
+      //     JSON.stringify(model)
+      // );
+      console.log(arg);
+    });
 
     /////////////////////
     //// END TESTING ////
@@ -65,32 +86,55 @@ export class CircuitClient extends BaseClient {
    * @param circuitName
    * @param callback
    */
-  static createLearningCircuitModel(circuitName, callback) {
-    console.log(
-      "[" + CircuitClient.name + "] create learning circuit : " + circuitName
-    );
-
-    let event = new RendererClientEvent(
+  static createLearningCircuitModel(circuitName, scope, callback) {
+    let clientEvent = new RendererClientEvent(
       CircuitClient.Events.CREATE_CIRCUIT,
-      circuitName
-    );
-
-    RendererEventFactory.createEvent(
-      RendererEventFactory.Events.CIRCUIT_CLIENT,
-      this,
-      null,
-      (_event, _arg) => {
-        // TODO remove event from local array
-
-        callback(_event, _arg);
+      { circuitName: circuitName },
+      scope,
+      (event, arg) => {
+        let model = new LearningCircuitModel(arg.dto, scope);
+        callback(model);
       }
-    ).dispatch(event, true);
+    );
+    CircuitClient.instance.notifyCircuit(clientEvent);
+    return clientEvent;
+  }
 
-    // TODO add event to local array for reply.
+  /**
+   * the event callback used by the event manager. removes the event from
+   * the local map when its recieved the response from the main process. the
+   * call back is bound to the scope of what was pass into the api of this client
+   * @param event
+   * @param arg
+   */
+  onCircuitEventReply = (event, arg) => {
+    let clientEvent = CircuitClient.replies.get(arg.id);
+    console.log(
+      "[" +
+        CircuitClient.name +
+        "] reply {" +
+        CircuitClient.replies.size +
+        "} -> " +
+        JSON.stringify(arg)
+    );
+    if (clientEvent) {
+      CircuitClient.replies.delete(arg.id);
+    }
+    clientEvent.callback(event, arg);
+  };
 
-    CircuitClient.replies.set(event.id, event);
-
-    return event;
+  /**
+   * notifies the main process circuit that we4 have a new event to process. This
+   * function will add the client event and callback into a map to look up when
+   * this events reply is ready from the main prcess thread
+   * @param clientEvent
+   */
+  notifyCircuit(clientEvent) {
+    console.log(
+      "[" + CircuitClient.name + "] notify -> " + JSON.stringify(clientEvent)
+    );
+    CircuitClient.replies.set(clientEvent.id, clientEvent);
+    this.event.dispatch(clientEvent, true);
   }
 
   startRetroForWTF(circuitName, callback) {}

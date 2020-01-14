@@ -4,7 +4,7 @@ const log = require("electron-log"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
   { DtoClient } = require("../managers/DtoClientFactory"),
-  SimpleStatusDto = require("../dto/SimpleStatusDto");
+  LearningCircuitDto = require("../dto/LearningCircuitDto");
 
 /**
  * This class is used to coordinate controllers across the talk service
@@ -75,25 +75,21 @@ class CircuitController extends BaseController {
   onCircuitClientEvent(event, arg) {
     log.info(chalk.green(this.name) + " event : " + JSON.stringify(arg));
     if (arg.type === CircuitController.EventTypes.CREATE_CIRCUIT) {
-      let circuitName = arg.arg;
+      let circuitName = arg.arg.circuitName;
       this.doClientRequest(
         "CircuitClient",
         circuitName ? circuitName : {},
         "createLearningCircuit",
         "post",
         circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf",
-        dto => {
-          arg.dto = dto
+        store => {
+          arg.dto = new LearningCircuitDto(store.data);
           return event.replyTo(arg);
         }
       );
     } else {
       // TODO dispatch error event
-
-      return new SimpleStatusDto({
-        message: "unknown circuit client event type '" + arg.type + "'",
-        status: "INVALID"
-      });
+      throw new Error("Unknown circuit client event type '" + arg.type + "'.");
     }
   }
 
