@@ -84,7 +84,13 @@ class CircuitController extends BaseController {
     }
   }
 
-  handleCreateCircuitEvent(event, arg) {
+  /**
+   * processes the create circuit events for the listener. returns dto to callback
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleCreateCircuitEvent(event, arg, callback) {
     let circuitName = arg.args.circuitName;
     this.doClientRequest(
       "CircuitClient",
@@ -94,7 +100,13 @@ class CircuitController extends BaseController {
       circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf",
       store => {
         arg.dto = new LearningCircuitDto(store.data);
-        return event.replyTo(arg);
+        if (callback) {
+          return callback(arg.dto);
+        } else if (event) {
+          return event.replyTo(arg);
+        } else {
+          throw new Error("Invalid create circuit event");
+        }
       }
     );
   }

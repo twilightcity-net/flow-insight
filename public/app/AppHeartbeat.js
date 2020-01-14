@@ -5,10 +5,13 @@ const log = require("electron-log"),
   HeartbeatDto = require("../dto/HeartbeatDto"),
   SimpleStatusDto = require("../dto/SimpleStatusDto");
 
-//
-// Application class that manages our heartbeat
-//
-module.exports = class AppHeartbeat {
+/**
+ * Application class that manages our heartbeat
+ */
+class AppHeartbeat {
+  /**
+   * builds are heartbeat class and event
+   */
   constructor() {
     log.info("[AppHeartbeat] create heartbeat -> okay");
     this.intervalMs = 60000;
@@ -31,6 +34,9 @@ module.exports = class AppHeartbeat {
     };
   }
 
+  /**
+   * starts our heartbeat mechanism
+   */
   start() {
     log.info("[AppHeartbeat] start heartbeat -> interval : " + this.intervalMs);
     this.previousDeltaTime = new Date().getTime();
@@ -63,13 +69,22 @@ module.exports = class AppHeartbeat {
     //   ".bash_history",
     //   "~/.bash_history"
     // );
+    // global.App.CircuitManager.createLearningCircuit("angry_beavers", (dto) => {
+    //   console.log(dto);
+    // });
   }
 
+  /**
+   * stops our heartbeat state machine
+   */
   stop() {
     log.info("[AppHeartbeat] stop heartbeat -> okay");
     clearTimeout(this.interval);
   }
 
+  /**
+   * fires a heartbeat pulse into the application system framework
+   */
   pulse() {
     try {
       /// gets the calculated values for idle and delta time
@@ -128,4 +143,6 @@ module.exports = class AppHeartbeat {
       );
     }
   }
-};
+}
+
+module.exports = AppHeartbeat;
