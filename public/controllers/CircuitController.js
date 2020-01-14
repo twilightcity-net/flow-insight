@@ -74,10 +74,14 @@ class CircuitController extends BaseController {
    */
   onCircuitClientEvent(event, arg) {
     log.info(chalk.green(this.name) + " event : " + JSON.stringify(arg));
-    if (arg.type === CircuitController.EventTypes.CREATE_CIRCUIT) {
-      this.handleCreateCircuitEvent(event, arg);
-    } else {
-      throw new Error("Unknown circuit client event type '" + arg.type + "'.");
+    switch (arg.type) {
+      case CircuitController.EventTypes.CREATE_CIRCUIT:
+        this.handleCreateCircuitEvent(event, arg);
+        break;
+      default:
+        throw new Error(
+          "Unknown circuit client event type '" + arg.type + "'."
+        );
     }
   }
 
