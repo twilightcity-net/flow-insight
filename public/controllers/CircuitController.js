@@ -75,7 +75,7 @@ class CircuitController extends BaseController {
   onCircuitClientEvent(event, arg) {
     log.info(chalk.green(this.name) + " event : " + JSON.stringify(arg));
     if (arg.type === CircuitController.EventTypes.CREATE_CIRCUIT) {
-      let circuitName = arg.arg.circuitName;
+      let circuitName = arg.args.circuitName;
       this.doClientRequest(
         "CircuitClient",
         circuitName ? circuitName : {},

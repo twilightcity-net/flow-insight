@@ -66,14 +66,13 @@ export class CircuitClient extends BaseClient {
     //// TESTING ////
     /////////////////
 
-    CircuitClient.createLearningCircuitModel("", this, arg => {
-      // console.log(
-      //   "[" +
-      //     CircuitClient.name +
-      //     "] callback -> learning circuit created : " +
-      //     JSON.stringify(model)
-      // );
-      console.log(arg);
+    CircuitClient.createLearningCircuitModel("", this, lcModel => {
+      console.log(
+        "[" +
+          CircuitClient.name +
+          "] callback -> learning circuit created : " +
+          JSON.stringify(lcModel)
+      );
     });
 
     /////////////////////
@@ -114,8 +113,10 @@ export class CircuitClient extends BaseClient {
         CircuitClient.name +
         "] reply {" +
         CircuitClient.replies.size +
-        "} -> " +
-        JSON.stringify(arg)
+        "} : " +
+        arg.id +
+        " -> " +
+        arg.type
     );
     if (clientEvent) {
       CircuitClient.replies.delete(arg.id);
