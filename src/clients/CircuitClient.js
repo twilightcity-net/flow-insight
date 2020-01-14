@@ -38,7 +38,6 @@ export class CircuitClient extends BaseClient {
   static get Events() {
     return {
       CREATE_CIRCUIT: "create-circuit",
-      CREATE_NAMED_CIRCUIT: "create-named-circuit", //name
       START_RETRO: "start-retro", //name
       JOIN_CIRCUIT: "join-circuit", //name
       LEAVE_CIRCUIT: "leave-circuit", //name
@@ -61,23 +60,6 @@ export class CircuitClient extends BaseClient {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
     }
-
-    /////////////////
-    //// TESTING ////
-    /////////////////
-
-    // CircuitClient.createLearningCircuitModel("", this, model => {
-    //   console.log(
-    //     "[" +
-    //       CircuitClient.name +
-    //       "] callback -> learning circuit created : " +
-    //       JSON.stringify(model)
-    //   );
-    // });
-
-    /////////////////////
-    //// END TESTING ////
-    /////////////////////
   }
 
   /**

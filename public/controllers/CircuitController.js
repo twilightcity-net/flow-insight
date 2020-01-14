@@ -31,7 +31,6 @@ class CircuitController extends BaseController {
   static get EventTypes() {
     return {
       CREATE_CIRCUIT: "create-circuit",
-      CREATE_NAMED_CIRCUIT: "create-named-circuit", //name
       START_RETRO: "start-retro", //name
       JOIN_CIRCUIT: "join-circuit", //name
       LEAVE_CIRCUIT: "leave-circuit", //name
