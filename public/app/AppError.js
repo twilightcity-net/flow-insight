@@ -1,5 +1,4 @@
-const GLOBAL_ = global,
-  { dialog } = require("electron"),
+const { dialog } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   chalk = require("chalk"),
@@ -28,7 +27,7 @@ module.exports = class AppError extends Error {
         error.stack = cleanStack(error.stack);
       }
     }
-    if (GLOBAL_.App) {
+    if (global.App) {
       if (stacetrace) {
         log.error(
           chalk.red((fatal ? "[FATAL] " : "") + "[App] ") +

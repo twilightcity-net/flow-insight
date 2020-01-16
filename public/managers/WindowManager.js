@@ -24,7 +24,10 @@ class WindowManager {
    * builds the window manager in the global static scope
    */
   constructor() {
-    log.info("[WindowManager] created -> okay");
+    log.info(
+      "[WindowManager] created -> display : " +
+        JSON.stringify(this.getDisplay())
+    );
     this.windows = [];
     this.events = {
       focusWindow: EventFactory.createEvent(

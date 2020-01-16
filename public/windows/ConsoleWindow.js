@@ -38,7 +38,7 @@ module.exports = class ConsoleWindow {
       icon: this.icon,
       fullscreenable: false,
       toolbar: false,
-      webPreferences: { toolbar: false, webSecurity: false }
+      webPreferences: { zoomFactor: 1.0, toolbar: false, webSecurity: false }
     });
 
     /// if dev mode then show debug tools. Install react tools
@@ -154,12 +154,7 @@ module.exports = class ConsoleWindow {
    * shows the console window and returns the state of shown
    */
   showConsole() {
-    log.info(
-      "[" +
-        ConsoleWindow.name +
-        "] show console -> " +
-        JSON.stringify(this.display)
-    );
+    log.info("[ConsoleWindow] show console -> " + JSON.stringify(this.display));
     this.state = this.states.SHOWING;
     this.window.show();
     this.window.focus();

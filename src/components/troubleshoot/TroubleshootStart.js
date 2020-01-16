@@ -43,7 +43,9 @@ export default class TroubleshootStart extends Component {
           inverted
           padded={"very"}
           style={{
-            height: DimensionController.getHeightFor(this)
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.TROUBLESHOOT
+            )
           }}
         >
           <div

@@ -41,7 +41,9 @@ export default class TroubleshootOpen extends Component {
           className="troubleshootFeed"
           inverted
           style={{
-            height: DimensionController.getHeightFor(this)
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.TROUBLESHOOT
+            )
           }}
         >
           Troubleshoot Content Troubleshoot Open

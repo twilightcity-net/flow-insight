@@ -18,7 +18,7 @@ module.exports = class AppSettings {
   constructor() {
     let flowPath = this.getOrCreateFlowHomeDir();
     let path = Util.getAppSettingsPath();
-    log.info("[AppSettings] set paths", flowPath, path);
+    log.info("[AppSettings] set paths -> " + flowPath + " : " + path);
     settings.setPath(path);
     this.path = settings.file();
 

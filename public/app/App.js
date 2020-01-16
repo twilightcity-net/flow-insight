@@ -1,5 +1,4 @@
-const GLOBAL_ = global,
-  { app } = require("electron"),
+const { app } = require("electron"),
   fs = require("fs"),
   path = require("path"),
   log = require("electron-log"),
@@ -28,6 +27,7 @@ const GLOBAL_ = global,
 
 module.exports = class App {
   constructor() {
+    console.log("####");
     if (isDev) Util.setDevUserDataDir();
     this.Logger = Logger.create();
     this.myController = new AppController(app);
@@ -68,33 +68,33 @@ module.exports = class App {
 
   /// called by the app ready event -> called first after electron app loaded
   onReady() {
-    GLOBAL_.App.api = Util.getAppApi();
-    GLOBAL_.App.name = Util.getAppName();
-    GLOBAL_.App.talkUrl = Util.getAppTalkUrl();
-    GLOBAL_.App.render3D = Util.getRender3D();
-    GLOBAL_.App.idleTime = 0;
-    GLOBAL_.App.isOnline = false;
-    GLOBAL_.App.isLoggedIn = false;
-    app.setName(GLOBAL_.App.name);
+    global.App.api = Util.getAppApi();
+    global.App.name = Util.getAppName();
+    global.App.talkUrl = Util.getAppTalkUrl();
+    global.App.render3D = Util.getRender3D();
+    global.App.idleTime = 0;
+    global.App.isOnline = false;
+    global.App.isLoggedIn = false;
+    app.setName(global.App.name);
 
-    log.info("[App] ready -> " + GLOBAL_.App.name + " : " + GLOBAL_.App.api);
-    log.info("[App] ready -> talk : " + GLOBAL_.App.talkUrl);
-    log.info("[App] ready -> render3D : " + GLOBAL_.App.render3D);
+    log.info("[App] ready -> " + global.App.name + " : " + global.App.api);
+    log.info("[App] ready -> talk : " + global.App.talkUrl);
+    log.info("[App] ready -> render3D : " + global.App.render3D);
     try {
-      GLOBAL_.App.EventManager = new EventManager();
-      GLOBAL_.App.WindowManager = new WindowManager();
-      GLOBAL_.App.TalkManager = new TalkManager();
-      GLOBAL_.App.CircuitManager = new CircuitManager();
-      GLOBAL_.App.ShortcutManager = new ShortcutManager();
-      GLOBAL_.App.SlackManager = new SlackManager();
-      GLOBAL_.App.AppUpdater = new AppUpdater();
-      GLOBAL_.App.AppSettings = new AppSettings();
-      GLOBAL_.App.DataStoreManager = new DataStoreManager();
-      GLOBAL_.App.AppActivator = new AppActivator();
-      GLOBAL_.App.AppLoader = new AppLoader();
-      GLOBAL_.App.AppHeartbeat = new AppHeartbeat();
-      GLOBAL_.App.createQuitListener();
-      GLOBAL_.App.load();
+      global.App.EventManager = new EventManager();
+      global.App.AppSettings = new AppSettings();
+      global.App.WindowManager = new WindowManager();
+      global.App.TalkManager = new TalkManager();
+      global.App.CircuitManager = new CircuitManager();
+      global.App.ShortcutManager = new ShortcutManager();
+      global.App.SlackManager = new SlackManager();
+      global.App.AppUpdater = new AppUpdater();
+      global.App.DataStoreManager = new DataStoreManager();
+      global.App.AppActivator = new AppActivator();
+      global.App.AppLoader = new AppLoader();
+      global.App.AppHeartbeat = new AppHeartbeat();
+      global.App.createQuitListener();
+      global.App.load();
     } catch (error) {
       App.handleError(error, true);
     } finally {
@@ -149,7 +149,7 @@ module.exports = class App {
 
     /// only logout if we are already logged in. This is used to
     /// bypass quiting during activation or loading
-    if (GLOBAL_.App.isLoggedIn) {
+    if (global.App.isLoggedIn) {
       event.preventDefault();
       global.App.WindowManager.destroyAllWindows();
       global.App.TalkManager.disconnect();
@@ -232,12 +232,12 @@ module.exports = class App {
   /// called to start loading the application from AppLoader class
   load() {
     log.info("[App] checking for settings...");
-    if (GLOBAL_.App.AppSettings.check()) {
-      GLOBAL_.App.ApiKey = GLOBAL_.App.AppSettings.getApiKey();
-      GLOBAL_.App.AppLoader.load();
+    if (global.App.AppSettings.check()) {
+      global.App.ApiKey = global.App.AppSettings.getApiKey();
+      global.App.AppLoader.load();
     } else {
-      GLOBAL_.App.AppActivator.start();
-      GLOBAL_.App.AppLoader.createMenu();
+      global.App.AppActivator.start();
+      global.App.AppLoader.createMenu();
     }
   }
 
@@ -259,7 +259,7 @@ module.exports = class App {
       EventFactory.Types.APP_QUIT,
       this,
       (event, arg) => {
-        GLOBAL_.App.quit();
+        global.App.quit();
       }
     );
   }

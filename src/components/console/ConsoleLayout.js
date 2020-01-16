@@ -296,7 +296,9 @@ export default class ConsoleLayout extends Component {
         loadStateCb={this.loadStateSidebarPanelCb}
         saveStateCb={this.saveStateSidebarPanelCb}
         width={this.state.sidebarPanelWidth}
-        height={DimensionController.getHeightFor(this)}
+        height={DimensionController.getHeightFor(
+          DimensionController.Components.CONSOLE_LAYOUT
+        )}
         opacity={this.state.sidebarPanelOpacity}
       />
     );
@@ -341,7 +343,9 @@ export default class ConsoleLayout extends Component {
         className="consoleSidebarPanel"
         style={{
           width: this.state.sidebarPanelWidth,
-          height: DimensionController.getHeightFor(this)
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.CONSOLE_LAYOUT
+          )
         }}
       >
         {activePanel}
@@ -361,7 +365,11 @@ export default class ConsoleLayout extends Component {
         <div
           id="wrapper"
           className="consoleContent"
-          style={{ height: DimensionController.getHeightFor(this) }}
+          style={{
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.CONSOLE_LAYOUT
+            )
+          }}
         >
           <ConsoleContent
             onFlameChange={this.onFlameChangeCb}

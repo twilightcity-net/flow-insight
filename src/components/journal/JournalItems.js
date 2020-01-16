@@ -210,7 +210,11 @@ export default class JournalItems extends Component {
       <div
         id="component"
         className="journalItems"
-        style={{ height: DimensionController.getHeightFor(this) }}
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.JOURNAL_ITEMS
+          )
+        }}
       >
         <Grid inverted>{this.getJournalItems()}</Grid>
         <div
