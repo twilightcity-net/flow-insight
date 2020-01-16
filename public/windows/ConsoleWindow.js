@@ -21,15 +21,14 @@ module.exports = class ConsoleWindow {
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
     this.url = global.App.WindowManager.getWindowViewURL(this.view);
     this.display = global.App.WindowManager.getDisplay();
-    this.bounds = this.display.workAreaSize;
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = false;
     this.window = new BrowserWindow({
       name: this.name,
-      width: this.bounds.width,
-      height: Math.floor(this.bounds.height / 2),
+      width: this.display.workAreaSize.width,
+      height: Math.floor(this.display.workAreaSize.height / 2),
       x: 0,
-      y: Math.floor(-this.bounds.height / 2),
+      y: Math.floor(-this.display.workAreaSize.height / 2),
       show: false,
       frame: false,
       movable: false,
@@ -139,10 +138,16 @@ module.exports = class ConsoleWindow {
       return;
     }
     if (!this.window.isVisible()) {
+      this.updateConsole();
       this.showConsole();
     } else {
       this.hideConsole();
     }
+  }
+
+  updateConsole() {
+    this.display = global.App.WindowManager.getDisplay();
+    this.window.setPosition(this.display.workArea.x, this.display.workArea.y);
   }
 
   /**
@@ -155,9 +160,7 @@ module.exports = class ConsoleWindow {
         "] show console -> " +
         JSON.stringify(this.display)
     );
-    console.log(this.window);
     this.state = this.states.SHOWING;
-    this.window.setPosition(this.display.workArea.x, this.display.workArea.y);
     this.window.show();
     this.window.focus();
     setTimeout(() => {
