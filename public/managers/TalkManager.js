@@ -42,6 +42,13 @@ class TalkManager {
   }
 
   /**
+   * disconnects the socket from talk
+   */
+  disconnect() {
+    this.socket.disconnect();
+  }
+
+  /**
    * gets the connectioon url for the io service
    * @returns {string}
    */

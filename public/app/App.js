@@ -151,6 +151,8 @@ module.exports = class App {
     /// bypass quiting during activation or loading
     if (GLOBAL_.App.isLoggedIn) {
       event.preventDefault();
+      global.App.WindowManager.destroyAllWindows();
+      global.App.TalkManager.disconnect();
       AppLogin.doLogout(store => {
         log.info("[App] before quit -> logout complete : quit");
         app.exit(0);
@@ -220,7 +222,6 @@ module.exports = class App {
     log.info("[App] starting...");
     // this.errorWatcher();
     AppController.configureEvents();
-
     app.on("ready", this.events.ready);
     app.on("window-all-closed", this.events.windowAllClosed);
     app.on("quit", this.events.quit);

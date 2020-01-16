@@ -43,9 +43,9 @@ module.exports = class ConsoleWindow {
     });
 
     /// if dev mode then show debug tools. Install react tools
-    if (isDev) {
-      this.window.webContents.openDevTools({ mode: "undocked" });
-    }
+    // if (isDev) {
+    this.window.webContents.openDevTools({ mode: "undocked" });
+    // }
 
     this.window.name = this.name;
     this.window.setMenu(null);
@@ -149,6 +149,13 @@ module.exports = class ConsoleWindow {
    * shows the console window and returns the state of shown
    */
   showConsole() {
+    log.info(
+      "[" +
+        ConsoleWindow.name +
+        "] show console -> " +
+        JSON.stringify(this.display)
+    );
+    console.log(this.window);
     this.state = this.states.SHOWING;
     this.window.setPosition(this.display.workArea.x, this.display.workArea.y);
     this.window.show();

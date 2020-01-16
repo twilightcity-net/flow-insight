@@ -208,6 +208,19 @@ class WindowManager {
   }
 
   /**
+   * destroys all of the windows in the window manager after they are closed.
+   */
+  destroyAllWindows() {
+    log.info(
+      "[WindowManager] destroy all windows {" + this.windows.length + "]"
+    );
+    for (var i = this.windows.length - 1; i >= 0; i--) {
+      this.closeWindow(this.windows[i], true);
+    }
+    this.windows = [];
+  }
+
+  /**
    * creates a new window based off the string name of the window.
    * After creating the window, it is added to a global array to
    * be reused.

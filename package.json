@@ -42,7 +42,6 @@
     "prerelease": "yarn bundle",
     "prerelease:publish": "yarn bundle",
     "release": "electron-builder -c.extraMetadata.main=build/io.dreamscale.torchie.dat --publish=never",
-    "release:dev": "electron-builder start",
     "release:publish": "electron-builder -c.extraMetadata.main=build/io.dreamscale.torchie.dat --publish=always",
     "prerelease:build:update": "yarn prerelease",
     "release:build:update": "gulp releaseBuildUpdate",
@@ -188,10 +187,7 @@
   },
   "build": {
     "appId": "io.dreamscale.torchie.shell",
-    "files": [
-      "build/**/*",
-      "package.json"
-    ],
+    "files": ["build/**/*", "package.json"],
     "directories": {
       "buildResources": "resources"
     },

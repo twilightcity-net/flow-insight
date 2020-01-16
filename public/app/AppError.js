@@ -39,7 +39,11 @@ module.exports = class AppError extends Error {
         );
       } else {
         log.error(
-          chalk.red((fatal ? "[FATAL] " : "") + "[App] ") + error.toString()
+          chalk.red((fatal ? "[FATAL] " : "") + "[App] ") +
+            error.toString() +
+            "\n\n" +
+            error.stack +
+            "\n"
         );
       }
     } else {
