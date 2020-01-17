@@ -15,8 +15,6 @@ export class DimensionController {
   constructor(scope) {
     this.name = "[DimensionController]";
     this.scope = scope;
-    console.log("y" + window.innerHeight);
-    console.log("x" + window.innerWidth);
   }
 
   /**
