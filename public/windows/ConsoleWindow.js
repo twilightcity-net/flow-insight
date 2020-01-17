@@ -149,9 +149,16 @@ module.exports = class ConsoleWindow {
     }
   }
 
+  /**
+   * updates the console's size and position from the currently stored display
+   */
   updateConsole() {
     this.display = global.App.WindowManager.getDisplay();
     this.window.setPosition(this.display.workArea.x, this.display.workArea.y);
+    this.window.setSize(
+      this.display.workAreaSize.width,
+      Math.floor(this.display.workAreaSize.height / 2)
+    );
   }
 
   /**
