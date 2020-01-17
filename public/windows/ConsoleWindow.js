@@ -41,7 +41,7 @@ module.exports = class ConsoleWindow {
       webPreferences: { zoomFactor: 1.0, toolbar: false, webSecurity: false }
     });
 
-    /// if dev mode then show debug tools. Install react tools
+    // if dev mode then show debug tools. Install react tools
     // if (isDev) {
     this.window.webContents.openDevTools({ mode: "undocked" });
     // }
@@ -59,6 +59,10 @@ module.exports = class ConsoleWindow {
         EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE,
         this,
         (event, arg) => this.onConsoleShowHideCb(event, arg)
+      ),
+      consoleShown: EventFactory.createEvent(
+        EventFactory.Types.WINDOW_CONSOLE_SHOWN,
+        this
       ),
       prepareForScreenShot: EventFactory.createEvent(
         EventFactory.Types.PREPARE_FOR_SCREENSHOT,
@@ -129,7 +133,7 @@ module.exports = class ConsoleWindow {
   /**
    * event dispatched from global shortcut callback. in charge of showing or hiding the console window.
    */
-  onConsoleShowHideCb() {
+  onConsoleShowHideCb(event, arg) {
     if (
       this.state === this.states.SHOWING ||
       this.state === this.states.HIDING
@@ -160,6 +164,8 @@ module.exports = class ConsoleWindow {
     this.window.focus();
     setTimeout(() => {
       this.state = this.states.SHOWN;
+      log.info("[ConsoleWindow] console shown");
+      this.events.consoleShown.dispatch({});
     }, this.animateTimeMs);
   }
 

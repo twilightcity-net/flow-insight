@@ -100,13 +100,12 @@ export class PerspectiveController {
     console.log(
       this.name +
         " - Event Fired: onConsoleOpenUpdateModels -> " +
-        event +
         " : " +
         arg.toString()
     );
 
     if (arg === 1) {
-      //shown
+      console.log(this.name + " console shown : update models ");
       if (this.spiritModel.hasLinks()) {
         this.journalModel.loadDefaultJournal();
       }

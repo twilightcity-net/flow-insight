@@ -29,6 +29,7 @@ export class RendererEventFactory {
       APPLOADER_LOAD: prefix + "apploader-load",
       APP_LOADED: prefix + "app-loaded",
       WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
+      WINDOW_CONSOLE_SHOWN: prefix + "window-console-shown",
       WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
       WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
       WINDOW_CONSOLE_BROWSER_LOAD: prefix + "window-console-browser-load",

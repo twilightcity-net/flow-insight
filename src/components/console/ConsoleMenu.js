@@ -169,11 +169,11 @@ export default class ConsoleMenu extends Component {
             <Icon name="users" size="large" />
             Circles
           </Menu.Item>
-          <Menu.Menu position="right">
-            <Menu.Item name="hide" onClick={this.handleHideClick}>
-              <Icon name="toggle up" size="large" />
-            </Menu.Item>
-          </Menu.Menu>
+          {/*<Menu.Menu position="right">*/}
+          {/*  <Menu.Item name="hide" onClick={this.handleHideClick}>*/}
+          {/*    <Icon name="toggle up" size="large" />*/}
+          {/*  </Menu.Item>*/}
+          {/*</Menu.Menu>*/}
         </Menu>
       </div>
     );

@@ -18,12 +18,12 @@ export class ConsoleViewController extends ActiveViewController {
     );
 
     this.teamPanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
+      RendererEventFactory.Events.WINDOW_CONSOLE_SHOWN,
       this
     );
 
     this.journalLayoutListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
+      RendererEventFactory.Events.WINDOW_CONSOLE_SHOWN,
       this
     );
 
@@ -33,7 +33,7 @@ export class ConsoleViewController extends ActiveViewController {
     );
 
     this.modelUpdateListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
+      RendererEventFactory.Events.WINDOW_CONSOLE_SHOWN,
       this
     );
 
@@ -44,6 +44,7 @@ export class ConsoleViewController extends ActiveViewController {
     );
   }
 
+  //FIXME do we need???
   configureConsoleLayoutListener(scope, callback) {
     this.consoleLayoutlListener.updateCallback(scope, callback);
   }
