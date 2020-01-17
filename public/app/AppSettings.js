@@ -3,7 +3,8 @@ let settings = require("electron-settings"),
   fs = require("fs"),
   crypto = require("crypto-js"),
   Util = require("../Util"),
-  AppError = require("./AppError");
+  AppError = require("./AppError"),
+  { ShortcutManager } = require("../managers/ShortcutManager");
 
 /**
  * Application class used to manage our settings stores in ~/.flow
@@ -48,7 +49,7 @@ module.exports = class AppSettings {
    * @param apiUrl
    * @param apiKey
    */
-  save(apiUrl, apiKey) {
+  saveApiUrlKey(apiUrl, apiKey) {
     apiKey = crypto.AES.encrypt(apiKey, this.keyToken).toString();
 
     log.info("[AppSettings] save api key and url", apiUrl, apiKey);
@@ -97,12 +98,42 @@ module.exports = class AppSettings {
     return null;
   }
 
+  /**
+   * gets which display to show the console on
+   * @returns {any}
+   */
   getDisplayIndex() {
     return settings.get(AppSettings.Keys.DISPLAY_INDEX);
   }
 
+  /**
+   * stores which display we wish to show the console on
+   * @param index
+   */
   setDisplayIndex(index) {
     settings.set(AppSettings.Keys.DISPLAY_INDEX, index);
+  }
+
+  /**
+   * gets the hotkey accelerator string that represents the show console
+   * global shortcut
+   * @returns {any}
+   */
+  getConsoleShortcut() {
+    let shortcut = settings.get(AppSettings.Keys.CONSOLE_SHORTCUT);
+    if (!shortcut) {
+      shortcut = ShortcutManager.Accelerators.CONSOLE_SHORTCUT;
+      this.setConsoleShortcut(shortcut);
+    }
+    return shortcut;
+  }
+
+  /**
+   * stores the global shortcut for showing the console window
+   * @param shortcut
+   */
+  setConsoleShortcut(shortcut) {
+    settings.set(AppSettings.Keys.CONSOLE_SHORTCUT, shortcut);
   }
 
   /**
@@ -114,7 +145,8 @@ module.exports = class AppSettings {
     return {
       APP_API_URL: "apiUrl",
       APP_API_KEY: "apiKey",
-      DISPLAY_INDEX: "displayIndex"
+      DISPLAY_INDEX: "displayIndex",
+      CONSOLE_SHORTCUT: "shortcutConsole"
     };
   }
 };

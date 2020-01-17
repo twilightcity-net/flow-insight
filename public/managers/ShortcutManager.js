@@ -1,11 +1,10 @@
 const { globalShortcut } = require("electron"),
   log = require("electron-log"),
-  Util = require("../Util"),
   AppError = require("../app/AppError"),
   { EventManager } = require("../events/EventManager"),
   EventFactory = require("../events/EventFactory");
 
-/*
+/**
  * an object class used to instantiate new shortcuts with events. These can
  * be global, a specific window, or within a local scope of a window (meaning
  * outside of this manager class -> quick and dirty) There is no current way
@@ -13,7 +12,8 @@ const { globalShortcut } = require("electron"),
  * @ref {https://electronjs.org/docs/api/accelerator}
  */
 class Shortcut {
-  /*
+  /**
+   *
    * @param {name} the logical name of the shortcut
    * @param {accelerator} the shortcut to register with
    * @param {win} window to attach the shortcut; pass null to make global
@@ -34,8 +34,8 @@ class Shortcut {
   }
 }
 
-/*
- * baae error class for any specific type of shortcut
+/**
+ * base error class for any specific type of shortcut
  */
 class ShortcutError extends AppError {
   constructor(shortcut, ...args) {
@@ -45,7 +45,7 @@ class ShortcutError extends AppError {
   }
 }
 
-/*
+/**
  * This class is used to managed the shortcuts within the app. This class
  * basically just listens for shortcuts and fires associated events with
  * the listener.
@@ -63,15 +63,50 @@ class ShortcutManager {
     };
   }
 
-  /*
+  /**
+   * Static array containing all of our shortcuts the app uses
+   * @returns {}
+   * @constructor
+   */
+  static get Shortcuts() {
+    return global.App.ShortcutManager.shortcuts;
+  }
+
+  /**
+   * static enum to store shortcut names. These are basically the type
+   * of possible shortcuts that can be registered by the Manager.
+   * @returns {enum}
+   * @constructor
+   */
+  static get Names() {
+    let prefix = "torchie-shortcut-";
+    return {
+      GLOBAL_SHOW_HIDE_CONSOLE: prefix + "global-show-hide-console",
+      TEST_WINDOW: prefix + "test-window"
+    };
+  }
+
+  /**
+   * an enum array of shortcut strings which are formated to electron specification
+   * see => https://electronjs.org/docs/api/accelerator
+   * @returns {{CONSOLE_SHORTCUT: string}}
+   * @constructor
+   */
+  static get Accelerators() {
+    return {
+      CONSOLE_SHORTCUT: "CommandOrControl+`"
+    };
+  }
+
+  /**
    * creates global app shortcuts which are listening even if the app has
    * no windows focused
-   * @return {array} the array of predefined global shortcuts.. doesn't change
+   * @returns {{showHideConsole: Shortcut}}
    */
   static createGlobalShortcuts() {
     log.info("[ShortcutManager] create global shortcuts");
 
-    let configuredHotkey = Util.getConfiguredHotkeysOrDefault();
+    let configuredHotkey = global.App.AppSettings.getConsoleShortcut();
 
     let shortcuts = {
       showHideConsole: new Shortcut(
@@ -90,12 +125,12 @@ class ShortcutManager {
     return shortcuts;
   }
 
-  /*
-   *registers the shortcut with the manager. Any shortcut with the window property
+  /**
+   * registers the shortcut with the manager. Any shortcut with the window property
    * set is assumed to be only linked to that shortcut. currently we do not
    * check to see if a shortcut has already be set.. will override
-   * @param {shortcut} the shortcut to register with the manager
-   * @return {shortcut} the shortcut object that was registered
+   * @param shortcut
+   * @returns {{window}|*}
    */
   static registerShortcut(shortcut) {
     if (!shortcut.window) {
@@ -120,9 +155,9 @@ class ShortcutManager {
     return shortcut;
   }
 
-  /*
+  /**
    * activates any shortcut associated with window parameter
-   * @param {win} the window object with shortcuts registered to
+   * @param win
    */
   static activateWindowShortcuts(win) {
     log.info("[ShortcutManager] activate window shortcuts -> " + win.name);
@@ -141,9 +176,9 @@ class ShortcutManager {
     }
   }
 
-  /*
+  /**
    * deactivates any shortcut associated with window parameter
-   * @param {win} the window object with shortcuts registered to
+   * @param win
    */
   static deactivateWindowShortcuts(win) {
     log.info("[ShortcutManager] deactivate window shortcuts -> " + win.name);
@@ -158,27 +193,6 @@ class ShortcutManager {
         globalShortcut.unregister(ShortcutManager.Shortcuts[i].accelerator);
       }
     }
-  }
-
-  /*
-   * Static array containing all of our shortcuts the app uses
-   * @return {array} all of the currently register global and window shortcuts
-   */
-  static get Shortcuts() {
-    return global.App.ShortcutManager.shortcuts;
-  }
-
-  /*
-   * static enum to store shortcut names. These are basically the type
-   * of possible shortcuts that can be registered by the Manager.
-   * @return {list} an enum list of all of the shortcut names
-   */
-  static get Names() {
-    let prefix = "torchie-shortcut-";
-    return {
-      GLOBAL_SHOW_HIDE_CONSOLE: prefix + "global-show-hide-console",
-      TEST_WINDOW: prefix + "test-window"
-    };
   }
 }
 

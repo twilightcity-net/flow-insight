@@ -251,28 +251,6 @@ module.exports = class Util {
   }
 
   /**
-   * gets our hot key configuration file
-   * @returns {string}
-   */
-  static getConfiguredHotkeysOrDefault() {
-    let hotkeyConfPath = path.join(this.getFlowHomePath(), "hotkey.conf");
-
-    let defaultKey = "CommandOrControl+`";
-    let activeHotkey = defaultKey;
-
-    if (fs.existsSync(hotkeyConfPath)) {
-      activeHotkey = fs.readFileSync(hotkeyConfPath, "utf8");
-    } else {
-      fs.mkdir(this.getFlowHomePath());
-
-      fs.writeFileSync(hotkeyConfPath, defaultKey, "utf8");
-    }
-
-    log.info("[Util] found hotkey config: " + activeHotkey);
-    return activeHotkey;
-  }
-
-  /**
    * checks to see if we started the app from the command line
    * @param args
    * @returns {boolean}

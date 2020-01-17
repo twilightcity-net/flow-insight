@@ -71,6 +71,8 @@ class WindowManager {
   onBlurWindowCb(event, arg) {
     log.info("[WindowManager] blur window -> " + arg.sender.name);
     ShortcutManager.deactivateWindowShortcuts(arg.sender);
+    console.log(this);
+    // this.events.consoleShowHide.dispatch(1);
   }
 
   /**
@@ -246,19 +248,6 @@ class WindowManager {
     this.loadWindow(window);
     this.windows.push(window);
     return window;
-  }
-
-  /**
-   * Toggles open / close of windows withing our Array
-   * @param window
-   */
-  toggleWindow(window) {
-    log.info("[WindowManager] toggle window -> " + window.name);
-    if (!window.window.isVisible()) {
-      this.openWindow(window);
-    } else {
-      this.closeWindow(window);
-    }
   }
 
   /**
