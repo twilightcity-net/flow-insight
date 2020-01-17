@@ -32,7 +32,7 @@ export class MainPanelViewController extends ActiveViewController {
       RendererEventFactory.Events.APP_HEARTBEAT,
       this
     );
-    this.showConsoleWindowNotifier = RendererEventFactory.createEvent(
+    this.hideConsoleWindowNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
       this
     );
@@ -65,7 +65,7 @@ export class MainPanelViewController extends ActiveViewController {
   }
 
   hideConsoleWindow() {
-    this.showConsoleWindowNotifier.dispatch(1);
+    this.hideConsoleWindowNotifier.dispatch(1);
   }
 
   resetDefaultMenuSelection() {

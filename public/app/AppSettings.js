@@ -137,6 +137,27 @@ module.exports = class AppSettings {
   }
 
   /**
+   * gets the alternatate shortcut to display the console
+   * @returns {any}
+   */
+  getConsoleShortcutAlt() {
+    let shortcut = settings.get(AppSettings.Keys.CONSOLE_SHORTCUT_ALT);
+    if (!shortcut) {
+      shortcut = ShortcutManager.Accelerators.CONSOLE_SHORTCUT_ALT;
+      this.setConsoleShortcutAlt(shortcut);
+    }
+    return shortcut;
+  }
+
+  /**
+   * stores the global alt shortcut for showing the console window
+   * @param shortcut
+   */
+  setConsoleShortcutAlt(shortcut) {
+    settings.set(AppSettings.Keys.CONSOLE_SHORTCUT_ALT, shortcut);
+  }
+
+  /**
    * enum map of possible settings key pairs
    * @returns {{APP_API_KEY: string}}
    * @constructor
@@ -146,7 +167,8 @@ module.exports = class AppSettings {
       APP_API_URL: "apiUrl",
       APP_API_KEY: "apiKey",
       DISPLAY_INDEX: "displayIndex",
-      CONSOLE_SHORTCUT: "shortcutConsole"
+      CONSOLE_SHORTCUT: "shortcutConsole",
+      CONSOLE_SHORTCUT_ALT: "shortcutConsoleAlt"
     };
   }
 };

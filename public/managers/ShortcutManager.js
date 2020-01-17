@@ -94,7 +94,8 @@ class ShortcutManager {
    */
   static get Accelerators() {
     return {
-      CONSOLE_SHORTCUT: "CommandOrControl+`"
+      CONSOLE_SHORTCUT: "CommandOrControl+`",
+      CONSOLE_SHORTCUT_ALT: "Control+`"
     };
   }
 
@@ -106,7 +107,8 @@ class ShortcutManager {
   static createGlobalShortcuts() {
     log.info("[ShortcutManager] create global shortcuts");
 
-    let configuredHotkey = global.App.AppSettings.getConsoleShortcut();
+    let configuredHotkey = global.App.AppSettings.getConsoleShortcut(),
+      configuredAltHotkey = global.App.AppSettings.getConsoleShortcutAlt();
 
     let shortcuts = {
       showHideConsole: new Shortcut(
@@ -115,7 +117,17 @@ class ShortcutManager {
         null,
         () => {
           log.info(
-            "[ShortcutManager] recieved shortcut keypress -> GLOBAL_SHOW_HIDE_CONSOLE"
+            "[ShortcutManager] received shortcut keypress -> GLOBAL_SHOW_HIDE_CONSOLE"
+          );
+        }
+      ),
+      showHideConsoleAlt: new Shortcut(
+        this.Names.GLOBAL_SHOW_HIDE_CONSOLE,
+        configuredAltHotkey,
+        null,
+        () => {
+          log.info(
+            "[ShortcutManager] received shortcut.alt keypress-> GLOBAL_SHOW_HIDE_CONSOLE"
           );
         }
       )

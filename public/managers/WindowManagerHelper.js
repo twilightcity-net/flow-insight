@@ -1,12 +1,15 @@
 const ViewManagerHelper = require("./ViewManagerHelper");
-/*
+
+/**
  * Simpler helper function for the ViewManager used to store the
  * names of the applications various views
+ * @type {WindowManagerHelper}
  */
-
 module.exports = class WindowManagerHelper {
-  /*
+  /**
    * Enum subclass to store view names in
+   * @returns {enum}
+   * @constructor
    */
   static get WindowNames() {
     return {
@@ -17,25 +20,37 @@ module.exports = class WindowManagerHelper {
     };
   }
 
-  /*
-   * Stuff that you need to add when making a new window. These are high
-   * level API calls for other classes to use.
+  /**
+   * creates new loading window
+   * @returns {*}
    */
   static createWindowLoading() {
     let name = WindowManagerHelper.WindowNames.LOADING;
     return global.App.WindowManager.createWindow(name);
   }
 
+  /**
+   * creates new activator window
+   * @returns {*}
+   */
   static createWindowActivator() {
     let name = WindowManagerHelper.WindowNames.ACTIVATOR;
     return global.App.WindowManager.createWindow(name);
   }
 
+  /**
+   * creates new console window
+   * @returns {*}
+   */
   static createWindowConsole() {
     let name = WindowManagerHelper.WindowNames.CONSOLE;
     return global.App.WindowManager.createWindow(name);
   }
 
+  /**
+   * creates new bug report window
+   * @returns {*}
+   */
   static createWindowBugReport() {
     const name = WindowManagerHelper.WindowNames.BUGREPORT;
     return global.App.WindowManager.createWindow(name);

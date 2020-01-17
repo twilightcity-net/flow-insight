@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>CircuitManager - Documentation</title>
+    <title>public/managers/WindowManagerHelper.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,292 +29,77 @@
 
 <div id="main">
     
-    <h1 class="page-title">CircuitManager</h1>
+    <h1 class="page-title">public/managers/WindowManagerHelper.js</h1>
     
 
     
 
 
 
-
-<section>
-
-<header>
     
-        <h2>
-        CircuitManager
-        </h2>
-        
-            <div class="class-description">managing class for the circuit rest client for grid, these are async</div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="CircuitManager"><span class="type-signature"></span>new CircuitManager<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    builds the circuit manager for the global app scope
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_CircuitManager.js.html">public/managers/CircuitManager.js</a>, <a href="public_managers_CircuitManager.js.html#line10">line 10</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="createLearningCircuit"><span class="type-signature"></span>createLearningCircuit<span class="signature">(circuitName, callback)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    creates the learning circuit via remote call to gridtime
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_managers_CircuitManager.js.html">public/managers/CircuitManager.js</a>, <a href="public_managers_CircuitManager.js.html#line21">line 21</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>circuitName</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const ViewManagerHelper = require("./ViewManagerHelper");
+
+/**
+ * Simpler helper function for the ViewManager used to store the
+ * names of the applications various views
+ * @type {WindowManagerHelper}
+ */
+module.exports = class WindowManagerHelper {
+  /**
+   * Enum subclass to store view names in
+   * @returns {enum}
+   * @constructor
+   */
+  static get WindowNames() {
+    return {
+      LOADING: "torchie-" + ViewManagerHelper.ViewNames.LOADING,
+      ACTIVATOR: "torchie-" + ViewManagerHelper.ViewNames.ACTIVATOR,
+      CONSOLE: "torchie-" + ViewManagerHelper.ViewNames.CONSOLE,
+      BUGREPORT: "torchie-" + ViewManagerHelper.ViewNames.BUGREPORT
+    };
+  }
+
+  /**
+   * creates new loading window
+   * @returns {*}
+   */
+  static createWindowLoading() {
+    let name = WindowManagerHelper.WindowNames.LOADING;
+    return global.App.WindowManager.createWindow(name);
+  }
+
+  /**
+   * creates new activator window
+   * @returns {*}
+   */
+  static createWindowActivator() {
+    let name = WindowManagerHelper.WindowNames.ACTIVATOR;
+    return global.App.WindowManager.createWindow(name);
+  }
+
+  /**
+   * creates new console window
+   * @returns {*}
+   */
+  static createWindowConsole() {
+    let name = WindowManagerHelper.WindowNames.CONSOLE;
+    return global.App.WindowManager.createWindow(name);
+  }
+
+  /**
+   * creates new bug report window
+   * @returns {*}
+   */
+  static createWindowBugReport() {
+    const name = WindowManagerHelper.WindowNames.BUGREPORT;
+    return global.App.WindowManager.createWindow(name);
+  }
+};
+</code></pre>
+        </article>
+    </section>
 
 
 

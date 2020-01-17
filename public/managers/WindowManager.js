@@ -45,7 +45,7 @@ class WindowManager {
         this,
         (event, arg) => this.onShortcutsRecievedCb(event, arg)
       ),
-      consoleShowHide: EventFactory.createEvent(
+      hideConsole: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE
       )
     };
@@ -71,8 +71,12 @@ class WindowManager {
   onBlurWindowCb(event, arg) {
     log.info("[WindowManager] blur window -> " + arg.sender.name);
     ShortcutManager.deactivateWindowShortcuts(arg.sender);
-    console.log(this);
-    // this.events.consoleShowHide.dispatch(1);
+    console.log(arg.sender.name);
+    let windowName = arg.sender.name;
+    if (windowName === WindowManagerHelper.WindowNames.CONSOLE) {
+      console.log("@@@");
+      this.events.hideConsole.dispatch(1);
+    }
   }
 
   /**
@@ -89,7 +93,7 @@ class WindowManager {
       setTimeout(() => {
         win.consoleShortcut.pressedState = 0;
       }, win.consoleShortcut.delay);
-      this.events.consoleShowHide.dispatch(win.state);
+      this.events.hideConsole.dispatch(win.state);
     }
   }
 
