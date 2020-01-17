@@ -89,7 +89,7 @@ module.exports = class ConsoleWindow {
     };
     this.consoleShortcut = {
       pressedState: 0,
-      delay: 400
+      delay: 420
     };
     this.animateTimeMs = 400;
   }

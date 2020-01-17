@@ -74,25 +74,36 @@ class WindowManager {
     console.log(arg.sender.name);
     let windowName = arg.sender.name;
     if (windowName === WindowManagerHelper.WindowNames.CONSOLE) {
-      console.log("@@@");
-      this.events.hideConsole.dispatch(1);
+      this.handleHideConsoleEvent(1);
     }
   }
 
   /**
    * callback to handle our console shortcut event
    * @param event
-   * @param arg
+   * @param arg - the window event that dispatched the event
    */
   onShortcutsRecievedCb(event, arg) {
     log.info("[WindowManager] shortcut recieved -> shortcutsRecieved : " + arg);
     if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg.name) {
-      let win = this.getWindow(WindowManagerHelper.WindowNames.CONSOLE);
-      if (win.consoleShortcut.pressedState === 1) return;
-      win.consoleShortcut.pressedState = 1;
-      setTimeout(() => {
-        win.consoleShortcut.pressedState = 0;
-      }, win.consoleShortcut.delay);
+      this.handleHideConsoleEvent();
+    }
+  }
+
+  /**
+   * handles hiding the console window on shown event
+   * @param windowState
+   */
+  handleHideConsoleEvent(windowState) {
+    let win = this.getWindow(WindowManagerHelper.WindowNames.CONSOLE);
+    if (win.consoleShortcut.pressedState === 1) return;
+    win.consoleShortcut.pressedState = 1;
+    setTimeout(() => {
+      win.consoleShortcut.pressedState = 0;
+    }, win.consoleShortcut.delay);
+    if (windowState) {
+      this.events.hideConsole.dispatch(windowState);
+    } else {
       this.events.hideConsole.dispatch(win.state);
     }
   }

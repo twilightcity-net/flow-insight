@@ -1,7 +1,7 @@
 /**
- * this class stores the information associated with a learning circuit on the dreamtalk platform
- * See the CircuitMemberStatusWithMembersDto class to access the participant members of the learning
- * circuit.
+ * this class stores the information associated with a learning circuit on the
+ * dreamtalk platform See the CircuitMemberStatusWithMembersDto class to access
+ * the participant members of the learning circuit.
  */
 class LearningCircuitDto {
   constructor(json) {

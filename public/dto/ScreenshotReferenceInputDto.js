@@ -1,5 +1,6 @@
 /**
- * this class is used to send a screenshot reference (no binary) message to another client or room on our network
+ * this class is used to send a screenshot reference (no binary) message
+ * to another client or room on our network
  */
 class ScreenshotReferenceInputDto {
   constructor(json) {
