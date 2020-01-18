@@ -4,11 +4,12 @@ const log = require("electron-log");
 
 function testTalk() {
   let connectionId = "1234567890";
-  let url = "http://localhost:5000/?connectionId=" + connectionId;
-  // let url = "http://ds-talk.herokuapp.com/?connectionId=" + connectionId;
+  // let url = "http://localhost:5000/?connectionId=" + connectionId;
+  let url = "https://talk.dreamscale.io?connectionId=" + connectionId,
+    isSecure = true;
 
   log.info(chalk.green("[TalkManager]") + " trying to connect -> " + url);
-  let talkClient = io(url);
+  let talkClient = io.connect(url, { secure: isSecure });
 
   talkClient.on("connect", () => {
     log.info(

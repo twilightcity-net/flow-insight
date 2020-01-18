@@ -158,7 +158,7 @@ module.exports = class Util {
   static getAppTalkUrl() {
     // FIXME use the new secure talk url on heroku (needs to be setup)
 
-    let url = "http://ds-talk.herokuapp.com";
+    let url = "https://talk.dreamscale.io";
     if (isDev) {
       process.argv.forEach(val => {
         if (val.toLowerCase().startsWith("talk=")) {

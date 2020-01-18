@@ -25,9 +25,10 @@ class TalkManager {
     this.connnectionUrl = this.getConnectionUrl();
     this.connectionOpts = {
       reconnection: true,
-      reconnectionDelay: 3000,
-      reconnectionDelayMax: 3000,
-      reconnectionAttempts: 3
+      reconnectionDelay: 1000,
+      reconnectionDelayMax: 5000,
+      reconnectionAttempts: 3,
+      secure: true
     };
     log.info(
       chalk.greenBright(this.name) + " connecting to -> " + this.connnectionUrl
