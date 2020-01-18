@@ -42,9 +42,9 @@ module.exports = class ConsoleWindow {
     });
 
     // if dev mode then show debug tools. Install react tools
-    // if (isDev) {
-    this.window.webContents.openDevTools({ mode: "undocked" });
-    // }
+    if (isDev) {
+      this.window.webContents.openDevTools({ mode: "undocked" });
+    }
 
     this.window.name = this.name;
     this.window.setMenu(null);
