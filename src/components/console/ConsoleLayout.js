@@ -89,8 +89,6 @@ export default class ConsoleLayout extends Component {
    * called right after when the component is finished rendering
    */
   componentDidMount = () => {
-    console.log(this.name + " - componentDidMount");
-
     this.sidePanelController.configureContentListener(
       this,
       this.onRefreshActivePerspective
@@ -141,8 +139,6 @@ export default class ConsoleLayout extends Component {
    * the event callback handler for when the TeamModel updates
    */
   onTeamModelUpdateCb = () => {
-    console.log(this.name + " - onTeamModelUpdateCb");
-    // console.log("WTF TIMER " + this.teamModel.me.wtfTimer);
     this.setState({
       isMe: this.teamModel.isMeActive(),
       me: this.teamModel.me,
@@ -212,11 +208,6 @@ export default class ConsoleLayout extends Component {
    * called when refreshing the active perspective window
    */
   onRefreshActivePerspective() {
-    console.log(
-      this.name +
-        " - onRefreshActivePerspective: " +
-        this.sidePanelController.show
-    );
     let show = this.sidePanelController.show;
     if (show) {
       this.setState({

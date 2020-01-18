@@ -43,13 +43,9 @@ export class AltMemberJournalExtension extends DataModel {
    * which should ultimately be a configurable setting
    * but hardcoded on the server for now
    */
-
   loadDefaultJournal = () => {
-    console.log(this.name + " - Request - loadDefaultJournal");
-
     let remoteUrn = "/journal?member=" + this.altMemberId;
     let loadRequestType = DataModel.RequestTypes.GET;
-
     this.remoteFetch(
       null,
       remoteUrn,
@@ -96,10 +92,7 @@ export class AltMemberJournalExtension extends DataModel {
     this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
   };
 
-  //////////// REMOTE CALLBACK HANDLERS  ////////////
-
   onLoadDefaultJournalCb = (defaultJournal, err) => {
-    console.log(this.name + " - onLoadDefaultJournalCb");
     if (err) {
       console.log("error:" + err);
     } else {

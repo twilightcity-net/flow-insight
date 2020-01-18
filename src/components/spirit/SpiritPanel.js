@@ -95,8 +95,6 @@ export default class SpiritPanel extends Component {
    * controller to refresh the view
    */
   componentDidMount = () => {
-    console.log(this.name + " - componentDidMount");
-
     this.myController.configureSpiritPanelListener(
       this,
       this.onRefreshActivePerspective

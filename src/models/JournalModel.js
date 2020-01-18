@@ -102,8 +102,6 @@ export class JournalModel extends DataModel {
    */
 
   loadDefaultJournal = () => {
-    console.log(this.name + " - Request - loadDefaultJournal");
-
     let remoteUrn = "/journal";
     let loadRequestType = DataModel.RequestTypes.GET;
 

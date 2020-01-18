@@ -293,7 +293,6 @@ export default class JournalEntry extends Component {
    * @param e
    */
   handleFocusForProject = e => {
-    console.log(this.name + " - handleFocusForProject");
     document.getElementById("selectProjectInput").classList.add("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
     document.getElementById("createIntentionInput").classList.remove("focused");
@@ -304,7 +303,6 @@ export default class JournalEntry extends Component {
    * @param e
    */
   handleFocusForTask = e => {
-    console.log(this.name + " - handleFocusForTask");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.add("focused");
     document.getElementById("createIntentionInput").classList.remove("focused");
@@ -315,7 +313,6 @@ export default class JournalEntry extends Component {
    * @param e
    */
   handleFocusForIntention = e => {
-    console.log(this.name + " - handleFocusForInput");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
     document.getElementById("createIntentionInput").classList.add("focused");
@@ -326,7 +323,6 @@ export default class JournalEntry extends Component {
    * @param e
    */
   handleBlurForInput = e => {
-    console.log(this.name + " - handleBlurForInput");
     document.getElementById("selectProjectInput").classList.remove("focused");
     document.getElementById("selectTaskInput").classList.remove("focused");
     document.getElementById("createIntentionInput").classList.remove("focused");

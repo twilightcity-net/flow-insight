@@ -53,7 +53,6 @@ export default class ConsoleView extends Component {
   }
 
   componentDidMount = () => {
-    console.log(this.name + " did mount");
     this.myController.configureConsoleViewListener(this, this.onLoadCb);
     TalkClient.init(this);
     CircuitClient.init(this);

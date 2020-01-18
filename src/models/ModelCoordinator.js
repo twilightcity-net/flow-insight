@@ -57,7 +57,6 @@ export class ModelCoordinator {
    * updates necessary models
    */
   updateModels() {
-    console.log("[ModelCoordinator] update all models");
     this.onJournalEntryUpdateMeAndXP();
     this.onJournalUpdateResetSpiritFlame();
     this.onChangeActiveRowResetSpiritFlame();
@@ -98,10 +97,6 @@ export class ModelCoordinator {
       this.name,
       JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE,
       () => {
-        console.log(
-          "[ModelCoordinator] Event Fired: onJournalUpdateResetSpiritFlame"
-        );
-
         if (this.journalModel.getActiveScope().activeJournalItem != null) {
           let activeFlame = this.journalModel.getActiveScope().activeJournalItem
             .flameRating;

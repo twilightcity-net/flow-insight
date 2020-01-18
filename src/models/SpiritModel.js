@@ -145,11 +145,8 @@ export class SpiritModel extends DataModel {
    * Refreshes the current XP from the server
    */
   refreshXP = () => {
-    console.log(this.name + " - Request - refreshXP");
-
     let remoteUrn = "/spirit/me";
     let loadRequestType = DataModel.RequestTypes.GET;
-
     this.remoteFetch(
       null,
       remoteUrn,
@@ -167,7 +164,6 @@ export class SpiritModel extends DataModel {
    * Reinitializes the Torchie flame to a specified rating
    */
   resetFlame = cleanFlameRating => {
-    console.log(this.name + " - Request - resetFlame");
     let initFlame = 0;
     if (cleanFlameRating) {
       initFlame = cleanFlameRating;
