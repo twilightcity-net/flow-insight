@@ -5,7 +5,7 @@ const electron = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
-  { ShortcutManager } = require("./ShortcutManager"),
+  { ShortcutManager } = require("../managers/ShortcutManager"),
   AppSettings = require("../app/AppSettings"),
   WindowManagerHelper = require("./WindowManagerHelper"),
   LoadingWindow = require("../windows/LoadingWindow"),
@@ -29,6 +29,8 @@ class WindowManager {
         JSON.stringify(this.getDisplay())
     );
     this.windows = [];
+    this.lastFocusWindowName = null;
+    this.lastBlurWindowName = null;
     this.events = {
       focusWindow: EventFactory.createEvent(
         EventFactory.Types.WINDOW_FOCUS,
@@ -60,6 +62,7 @@ class WindowManager {
   onFocusWindowCb(event, arg) {
     log.info("[WindowManager] focus window -> " + arg.sender.name);
     ShortcutManager.activateWindowShortcuts(arg.sender);
+    global.App.WindowManager.lastFocusWindowName = arg.sender.name;
   }
 
   /**
@@ -70,10 +73,9 @@ class WindowManager {
    */
   onBlurWindowCb(event, arg) {
     log.info("[WindowManager] blur window -> " + arg.sender.name);
+    global.App.WindowManager.lastBlurWindowName = arg.sender.name;
     ShortcutManager.deactivateWindowShortcuts(arg.sender);
-    console.log(arg.sender.name);
-    let windowName = arg.sender.name;
-    if (windowName === WindowManagerHelper.WindowNames.CONSOLE) {
+    if (arg.sender.name === WindowManagerHelper.WindowNames.CONSOLE) {
       this.handleHideConsoleEvent(1);
     }
   }
@@ -84,9 +86,17 @@ class WindowManager {
    * @param arg - the window event that dispatched the event
    */
   onShortcutsRecievedCb(event, arg) {
-    log.info("[WindowManager] shortcut recieved -> shortcutsRecieved : " + arg);
     if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg.name) {
       this.handleHideConsoleEvent();
+    } else if (ShortcutManager.Names.GLOBAL_WINDOW_DEV_MODE === arg.name) {
+      log.info(
+        "[WindowManager] open dev mode -> " +
+          global.App.WindowManager.lastFocusWindowName
+      );
+      let win = this.getWindow(global.App.WindowManager.lastFocusWindowName);
+      if (win) {
+        win.window.webContents.openDevTools({ mode: "undocked" });
+      }
     }
   }
 

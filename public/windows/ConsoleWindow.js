@@ -1,6 +1,4 @@
-const electron = require("electron"),
-  { BrowserWindow } = require("electron"),
-  isDev = require("electron-is-dev"),
+const { BrowserWindow } = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
@@ -40,12 +38,6 @@ module.exports = class ConsoleWindow {
       toolbar: false,
       webPreferences: { zoomFactor: 1.0, toolbar: false, webSecurity: false }
     });
-
-    // if dev mode then show debug tools. Install react tools
-    if (isDev) {
-      this.window.webContents.openDevTools({ mode: "undocked" });
-    }
-
     this.window.name = this.name;
     this.window.setMenu(null);
     this.window.setAlwaysOnTop(true, "torn-off-menu");

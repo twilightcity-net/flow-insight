@@ -82,7 +82,7 @@ class ShortcutManager {
     let prefix = "torchie-shortcut-";
     return {
       GLOBAL_SHOW_HIDE_CONSOLE: prefix + "global-show-hide-console",
-      TEST_WINDOW: prefix + "test-window"
+      GLOBAL_WINDOW_DEV_MODE: prefix + "global-window-dev-mode"
     };
   }
 
@@ -95,7 +95,8 @@ class ShortcutManager {
   static get Accelerators() {
     return {
       CONSOLE_SHORTCUT: "CommandOrControl+`",
-      CONSOLE_SHORTCUT_ALT: "Control+`"
+      CONSOLE_SHORTCUT_ALT: "Control+`",
+      WINDOW_DEV_MODE: "CommandOrControl+Shift+I"
     };
   }
 
@@ -127,7 +128,17 @@ class ShortcutManager {
         null,
         () => {
           log.info(
-            "[ShortcutManager] received shortcut.alt keypress-> GLOBAL_SHOW_HIDE_CONSOLE"
+            "[ShortcutManager] received shortcut keypress-> GLOBAL_SHOW_HIDE_CONSOLE.alt"
+          );
+        }
+      ),
+      consoleDevMode: new Shortcut(
+        this.Names.GLOBAL_WINDOW_DEV_MODE,
+        ShortcutManager.Accelerators.WINDOW_DEV_MODE,
+        null,
+        () => {
+          log.info(
+            "[ShortcutManager] received shortcut-> GLOBAL_CONSOLE_DEV_MODE"
           );
         }
       )
