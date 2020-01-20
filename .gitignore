@@ -37,3 +37,4 @@ torchie-desktop.iml
 
 .jshintrc
 /tmp/
+!/torchie-shell.iml
