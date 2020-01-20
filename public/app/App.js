@@ -39,7 +39,6 @@ module.exports = class App {
       willQuit: this.onWillQuit,
       crashed: this.onCrash
     };
-    this.setupCLI();
     this.processCLI();
     this.isSecondInstance = app.makeSingleInstance(this.onSingleInstance);
     if (this.isSecondInstance) {
@@ -134,7 +133,7 @@ module.exports = class App {
     /// this will remove the previous license key and prompt for a new key
     if (argv.deactivate || argv.DEACTIVATE) {
       console.log("deactivate!!!");
-      AppController.init(this);
+      // AppController.init(this);
     }
   }
 
@@ -188,33 +187,6 @@ module.exports = class App {
    */
   static handleError(error, fatal) {
     AppError.handleError(error, fatal);
-  }
-
-  /// sets up the command line interface so that we can call functions\
-  setupCLI() {
-    log.info("[App] setting up CLI -> " + rootPath);
-    if (platform.isDarwin) {
-      log.info("[App] detecting OS -> Mac...");
-      let bashProfile = ".bash_profile",
-        homePath = Util.getUserHomePath(),
-        filePath = path.join(homePath, bashProfile),
-        appPath = !rootPath.startsWith("/Applications")
-          ? !rootPath.endsWith("Torchie.app")
-            ? "/dist/mac/Torchie.app/Contents/MacOS"
-            : "/Contents/MacOS"
-          : "/Contents/MacOS",
-        torchiePath = path.join(rootPath, appPath),
-        cliPath = "\r\n### torchie-cli ###\r\nexport PATH=$PATH:" + torchiePath,
-        fileData = fs.readFileSync(filePath, "utf8");
-      if (!fileData.includes(cliPath)) {
-        log.info("[App] append .bash_profile -> " + torchiePath);
-        fs.appendFileSync(filePath, cliPath);
-      }
-    } else if (platform.isWin32) {
-      log.info("[App] detecting OS -> Windows...");
-    } else {
-      log.info("[App] detecting OS -> Linux...");
-    }
   }
 
   /// used to start the app listeners which are dispatched by the apps events
