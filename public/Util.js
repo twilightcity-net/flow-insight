@@ -279,15 +279,6 @@ module.exports = class Util {
   }
 
   /**
-   * returns the api key file thats is stored in the .flow directory.
-   * @todo this needs to be encrypted, plugin need to be updated too
-   * @returns {string}
-   */
-  static getApiKeyPath() {
-    return path.join(Util.getFlowHomePath(), "api.key");
-  }
-
-  /**
    * the path where we store our screenshots
    * @returns {string}
    */
