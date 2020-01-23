@@ -26,7 +26,7 @@ const log = require("electron-log"),
 module.exports = class AppLoader {
   constructor() {
     log.info("[AppLoader] created -> okay");
-    this.eventTimerMs = 500;
+    this.eventTimerMs = 420;
     this.currentStage = 1;
     this.stages = this.getStages();
     this.wireUpEvents();
@@ -188,7 +188,19 @@ module.exports = class AppLoader {
         label: "matrix activated",
         text: "Ready!"
       });
-    }, this.eventTimerMs);
+    }, this.eventTimerMs * 2);
+  }
+
+  /**
+   * called when AppLoader is completed
+   */
+  onFinished() {
+    setTimeout(() => {
+      global.App.WindowManager.closeWindow(this.loadingWindow, true);
+      this.unwireEvents();
+      global.App.AppHeartbeat.start();
+      log.info("[AppLoader] finished loading -> okay");
+    }, this.eventTimerMs * 2);
   }
 
   /**
@@ -211,7 +223,7 @@ module.exports = class AppLoader {
         this.createShortcuts();
         break;
       case this.stages.FINISHED:
-        this.finished();
+        this.onFinished();
         break;
       default:
         log.warn("[AppLoader] unrecognized stage : " + arg.load);
@@ -317,18 +329,5 @@ module.exports = class AppLoader {
     } catch (error) {
       AppError.handleError(error, true);
     }
-  }
-
-  /**
-   * called when AppLoader is completed
-   */
-  finished() {
-    log.info("[AppLoader] finished : okay");
-    setTimeout(() => {
-      global.App.WindowManager.closeWindow(this.loadingWindow, true);
-      this.unwireEvents();
-      global.App.AppHeartbeat.start();
-      log.info("[AppLoader] finished : done");
-    }, this.eventTimerMs * 2);
   }
 };
