@@ -63,7 +63,7 @@ export class PerspectiveController {
   configureSidePanelCloseEvent() {
     this.sidePanelController.configurePerspectiveControllerListener(
       this,
-      this.onCloseSidePanelResetMemberSelection
+      this.onCloseSidePanelClose
     );
   }
 
@@ -80,10 +80,7 @@ export class PerspectiveController {
   /**
    * callback function that is called when the console sidebar panel is closed
    */
-  onCloseSidePanelResetMemberSelection() {
-    console.log(
-      this.name + " - Event Fired: onCloseSidePanelResetMemberSelection"
-    );
+  onCloseSidePanelClose() {
     if (!this.sidePanelController.isVisible()) {
       this.teamModel.resetActiveMemberToMe();
     }

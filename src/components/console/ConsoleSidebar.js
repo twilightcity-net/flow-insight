@@ -165,7 +165,6 @@ export default class ConsoleSidebar extends Component {
               activeItem === SidePanelViewController.MenuSelection.NOTIFICATIONS
             }
             onClick={this.handleItemClick}
-            disabled
           >
             <Icon name={this.state.iconNotifications}>
               {/*<Label color="red" floating size="mini">*/}

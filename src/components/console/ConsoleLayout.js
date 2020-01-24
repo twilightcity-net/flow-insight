@@ -263,14 +263,11 @@ export default class ConsoleLayout extends Component {
   };
 
   /**
-   * renders the root console layout of the console view
-   * @returns {*} - the JSX to render
+   * the spirit panel that gets displayed in the side panel
+   * @returns {*}
    */
-  render() {
-    /**
-     * the spirit panel that gets displayed in the side panel
-     */
-    const spiritPanelContent = (
+  getSpiritPanelContent = () => {
+    return (
       <SpiritPanel
         me={this.state.me}
         isMe={this.state.isMe}
@@ -293,11 +290,14 @@ export default class ConsoleLayout extends Component {
         opacity={this.state.sidebarPanelOpacity}
       />
     );
+  };
 
-    /**
-     * the team panel that gets displayed to the user
-     */
-    const teamPanelContent = (
+  /**
+   * the team panel that gets displayed to the user
+   * @returns {*}
+   */
+  getTeamPanelContent = () => {
+    return (
       <TeamPanel
         xpSummary={this.state.xpSummary}
         width={this.state.sidebarPanelWidth}
@@ -309,26 +309,10 @@ export default class ConsoleLayout extends Component {
         activeTeamMember={this.state.activeTeamMember}
       />
     );
+  };
 
-    /**
-     * logic that controls how the side panel is displayed
-     * @type {null}
-     */
-    let activePanel = null;
-    if (
-      this.state.activePanel === SidePanelViewController.MenuSelection.PROFILE
-    ) {
-      activePanel = spiritPanelContent;
-    } else if (
-      this.state.activePanel === SidePanelViewController.MenuSelection.MESSAGES
-    ) {
-      activePanel = teamPanelContent;
-    }
-
-    /**
-     * the wrapping panel that renders the side panel
-     */
-    const sidebarPanel = (
+  getSidebarPanelConent = () => {
+    return (
       <div
         id="wrapper"
         className="consoleSidebarPanel"
@@ -339,20 +323,31 @@ export default class ConsoleLayout extends Component {
           )
         }}
       >
-        {activePanel}
+        {this.getActivePanelContent()}
       </div>
     );
+  };
 
-    /**
-     * glue the sidebar to the comtent and the bottom memu bar
-     */
+  getActivePanelContent = () => {
+    switch (this.state.activePanel) {
+      case SidePanelViewController.MenuSelection.PROFILE:
+        return this.getSpiritPanelContent();
+      case SidePanelViewController.MenuSelection.MESSAGES:
+        return this.getTeamPanelContent();
+    }
+  };
+
+  /**
+   * renders the root console layout of the console view
+   * @returns {*} - the JSX to render
+   */
+  render() {
     return (
       <div id="component" className="consoleLayout">
         <div id="wrapper" className="consoleSidebar">
           <ConsoleSidebar />
         </div>
-        {this.state.sidebarPanelVisible && sidebarPanel}
-
+        {this.state.sidebarPanelVisible && this.getSidebarPanelConent()}
         <div
           id="wrapper"
           className="consoleContent"
