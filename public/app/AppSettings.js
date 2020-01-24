@@ -36,7 +36,7 @@ module.exports = class AppSettings {
   check() {
     let path = Util.getAppSettingsPath();
     log.info("[AppSettings] check path -> " + path);
-    if (fs.existsSync(path)) {
+    if (fs.existsSync(path) && this.verify()) {
       log.info("[AppSettings] has settings -> true");
       return true;
     }
@@ -49,24 +49,15 @@ module.exports = class AppSettings {
    * @param apiUrl
    * @param apiKey
    */
-  saveApiUrlKey(apiUrl, apiKey) {
+  save(apiUrl, apiKey) {
     apiKey = crypto.AES.encrypt(apiKey, this.keyToken).toString();
 
     log.info("[AppSettings] save api key and url", apiUrl, apiKey);
     settings.set(AppSettings.Keys.APP_API_URL, apiUrl);
     settings.set(AppSettings.Keys.APP_API_KEY, apiKey);
-    this.exportApiKey();
-  }
-
-  /**
-   * exports the decrypted api key to a file that the application activator creates.
-   * @param callback
-   */
-  exportApiKey(callback) {
-    let path = Util.getApiKeyPath();
-
-    log.info("[AppSettings] write api key file", path);
-    fs.writeFileSync(path, this.getApiKey());
+    this.setDisplayIndex(AppSettings.DefaultValues.DISPLAY_INDEX);
+    this.setConsoleShortcut(AppSettings.DefaultValues.CONSOLE_SHORTCUT);
+    this.setConsoleShortcutAlt(AppSettings.DefaultValues.CONSOLE_SHORTCUT_ALT);
   }
 
   /**
@@ -155,6 +146,34 @@ module.exports = class AppSettings {
    */
   setConsoleShortcutAlt(shortcut) {
     settings.set(AppSettings.Keys.CONSOLE_SHORTCUT_ALT, shortcut);
+  }
+
+  verify() {
+    let keys = Object.values(AppSettings.Keys),
+      len = keys.length,
+      i = 0;
+    for (i = 0; i < len; i++) {
+      if (!settings.has(keys[i])) {
+        log.info("[AppSettings] verify settings -> failed : " + keys[i]);
+        return false;
+      } else if (
+        keys[i] === AppSettings.Keys.APP_API_KEY &&
+        settings.get(AppSettings.Keys.APP_API_KEY).length !== 88
+      ) {
+        log.info("[AppSettings] verify api key -> failed : invalid");
+        return false;
+      }
+    }
+    log.info("[AppSettings] verify settings -> okay");
+    return true;
+  }
+
+  static get DefaultValues() {
+    return {
+      DISPLAY_INDEX: 0,
+      CONSOLE_SHORTCUT: ShortcutManager.Accelerators.CONSOLE_SHORTCUT,
+      CONSOLE_SHORTCUT_ALT: ShortcutManager.Accelerators.CONSOLE_SHORTCUT_ALT
+    };
   }
 
   /**
