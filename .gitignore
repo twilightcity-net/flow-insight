@@ -38,3 +38,4 @@ torchie-desktop.iml
 .jshintrc
 /tmp/
 !/torchie-shell.iml
+*torchie-shell.iml*
