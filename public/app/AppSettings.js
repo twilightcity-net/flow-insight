@@ -11,7 +11,10 @@ let settings = require("electron-settings"),
  * @class AppSettings
  * @type {module.App.AppSettings}
  */
-module.exports = class AppSettings {
+
+// FIXME the crypto is disabled as its not working with java to decode it
+
+class AppSettings {
   /**
    * Represent a group of Settings
    * @constructor
@@ -50,7 +53,7 @@ module.exports = class AppSettings {
    * @param apiKey
    */
   save(apiUrl, apiKey) {
-    apiKey = crypto.AES.encrypt(apiKey, this.keyToken).toString();
+    // let apiKeyCrypted = crypto.AES.encrypt(apiKey, this.keyToken).toString();
 
     log.info("[AppSettings] save api key and url", apiUrl, apiKey);
     settings.set(AppSettings.Keys.APP_API_URL, apiUrl);
@@ -82,11 +85,12 @@ module.exports = class AppSettings {
   getApiKey() {
     log.info("[AppSettings] get api key");
     let key = settings.get(AppSettings.Keys.APP_API_KEY);
-    if (key) {
-      let bytes = crypto.AES.decrypt(key, this.keyToken);
-      return bytes.toString(crypto.enc.Utf8);
-    }
-    return null;
+    return key;
+    // if (key) {
+    //   let bytes = crypto.AES.decrypt(key, this.keyToken);
+    //   return bytes.toString(crypto.enc.Utf8);
+    // }
+    // return null;
   }
 
   /**
@@ -190,4 +194,6 @@ module.exports = class AppSettings {
       CONSOLE_SHORTCUT_ALT: "shortcutConsoleAlt"
     };
   }
-};
+}
+
+module.exports = AppSettings;
