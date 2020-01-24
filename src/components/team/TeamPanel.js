@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import TeamMember from "./TeamMember";
 import { DataModelFactory } from "../../models/DataModelFactory";
+import {DimensionController} from "../../controllers/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -61,29 +62,6 @@ export default class TeamPanel extends Component {
    */
   saveState(state) {
     this.props.saveStateCb(state);
-  }
-
-  /**
-   * performs a simple calculation for dynamic height of panel
-   * @returns {number}
-   */
-
-  // FIXME this should use the DimensionController
-
-  calculateMenuHeight() {
-    let heights = {
-      rootBorder: 4,
-      contentMargin: 8,
-      contentHeader: 34,
-      bottomMenuHeight: 28
-    };
-    return (
-      window.innerHeight -
-      heights.rootBorder -
-      heights.contentMargin -
-      heights.contentHeader -
-      heights.bottomMenuHeight
-    );
   }
 
   /**
@@ -198,7 +176,7 @@ export default class TeamPanel extends Component {
               onClick={this.handleTeamClick}
             />
           </Menu>
-          <Segment inverted style={{ height: this.calculateMenuHeight() }}>
+          <Segment inverted style={{ height: DimensionController.getSidebarPanelHeight() }}>
             <Transition
               visible={this.state.teamVisible}
               animation={this.state.animationType}

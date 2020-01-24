@@ -28,7 +28,8 @@ export class DimensionController {
       JOURNAL_ITEMS: "[JournalItems]",
       FLOW_PANEL: "[FlowPanel]",
       CONSOLE_LAYOUT: "[ConsoleLayout]",
-      TROUBLESHOOT: "[Troubleshoot]"
+      TROUBLESHOOT: "[Troubleshoot]",
+      SIDEBAR_PANEL: "[SidebarPanel]"
     };
   }
 
@@ -128,6 +129,26 @@ export class DimensionController {
   }
 
   /**
+   * gets the circuits height dimension for canvas
+   * @returns {number}
+   */
+  static getSidebarPanelHeight() {
+    let heights = {
+      rootBorder: 4,
+      contentMargin: 8,
+      contentHeader: 34,
+      bottomMenuHeight: 28
+    };
+    return (
+      window.innerHeight -
+      heights.rootBorder -
+      heights.contentMargin -
+      heights.contentHeader -
+      heights.bottomMenuHeight
+    );
+  }
+
+  /**
    * gets the spirit panel height
    * @returns {number}
    */
@@ -215,6 +236,8 @@ export class DimensionController {
       return DimensionController.getConsoleLayoutHeight();
     } else if (component === DimensionController.Components.TROUBLESHOOT) {
       return DimensionController.getTroubleshootContentHeight();
+    } else if (component === DimensionController.Components.SIDEBAR_PANEL) {
+      return DimensionController.getSidebarPanelHeight();
     } else {
       throw new Error(
         "Unknown component " + component + " in DimensionController"
