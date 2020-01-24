@@ -2,29 +2,33 @@ import React, { Component } from "react";
 import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import TeamMember from "./TeamMember";
 import { DataModelFactory } from "../../models/DataModelFactory";
-// import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
-//
-// this component is the tab panel wrapper for the console content
-//
+/**
+ * this component is the tab panel wrapper for the console content
+ */
 export default class TeamPanel extends Component {
+  /**
+   * builds the team panel for the renderer
+   * @param props
+   */
   constructor(props) {
     super(props);
-
     this.name = "[TeamPanel]";
     this.state = this.loadState();
-
     this.spiritModel = DataModelFactory.createModel(
       DataModelFactory.Models.SPIRIT,
       this
     );
-
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
       this
     );
   }
 
+  /**
+   * called before updating
+   * @param nextProps
+   */
   componentWillReceiveProps = nextProps => {
     let newMe = nextProps.me;
 
@@ -35,7 +39,10 @@ export default class TeamPanel extends Component {
     }
   };
 
-  /// laods the stored state from parent or use default values
+  /**
+   * loads the stored state from parent or use default values
+   * @returns {{animationDelay: number, title: string, animationType: string}|*}
+   */
   loadState() {
     let state = this.props.loadStateCb();
     if (!state) {
@@ -48,12 +55,21 @@ export default class TeamPanel extends Component {
     return state;
   }
 
-  /// stores this components state in the parents state
+  /**
+   * stores this components state in the parents state
+   * @param state
+   */
   saveState(state) {
     this.props.saveStateCb(state);
   }
 
-  /// performs a simple calculation for dynamic height of panel
+  /**
+   * performs a simple calculation for dynamic height of panel
+   * @returns {number}
+   */
+
+  // FIXME this should use the DimensionController
+
   calculateMenuHeight() {
     let heights = {
       rootBorder: 4,
@@ -70,7 +86,11 @@ export default class TeamPanel extends Component {
     );
   }
 
-  /// updates display to show spirit content
+  /**
+   * updates display to show spirit content
+   * @param e
+   * @param name
+   */
   handleTeamClick = (e, { name }) => {
     this.setState({
       activeItem: name,
@@ -84,6 +104,11 @@ export default class TeamPanel extends Component {
     }, this.state.animationDelay);
   };
 
+  /**
+   * selects a team member in the list
+   * @param id
+   * @param teamMember
+   */
   selectRow = (id, teamMember) => {
     console.log(
       this.name + " - Team member clicked!" + teamMember.name + "id = " + id
@@ -92,11 +117,19 @@ export default class TeamPanel extends Component {
     this.teamModel.setActiveMember(id);
   };
 
+  /**
+   * determines if we are currently linked to another team member
+   * @param memberId
+   * @returns {boolean}
+   */
   isLinked = memberId => {
     return this.spiritModel.isLinked(memberId);
   };
 
-  /// renders the console sidebar panel of the console view
+  /**
+   * renders the console sidebar panel of the console view
+   * @returns {*}
+   */
   render() {
     const teamMembersContent = (
       <div>
