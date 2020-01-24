@@ -311,6 +311,10 @@ export default class ConsoleLayout extends Component {
     );
   };
 
+  /**
+   * gets the sidebar panel content
+   * @returns {*}
+   */
   getSidebarPanelConent = () => {
     return (
       <div
@@ -328,6 +332,12 @@ export default class ConsoleLayout extends Component {
     );
   };
 
+  // TODO use boolean to show content for transitions
+
+  /**
+   * gets the active panel we should display
+   * @returns {*}
+   */
   getActivePanelContent = () => {
     switch (this.state.activePanel) {
       case SidePanelViewController.MenuSelection.PROFILE:
@@ -338,34 +348,64 @@ export default class ConsoleLayout extends Component {
   };
 
   /**
+   * gets the main console content component
+   * @returns {*}
+   */
+  getConsoleContent = () => {
+    return (
+      <div
+        id="wrapper"
+        className="consoleContent"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.CONSOLE_LAYOUT
+          )
+        }}
+      >
+        <ConsoleContent
+          onFlameChange={this.onFlameChangeCb}
+          onAdjustFlame={this.adjustFlameCb}
+          animationTime={this.animationTime}
+        />
+      </div>
+    );
+  };
+
+  /**
+   * gets the sidebar to display in the console
+   * @returns {*}
+   */
+  getConsoleSidebar = () => {
+    return (
+      <div id="wrapper" className="consoleSidebar">
+        <ConsoleSidebar />
+      </div>
+    );
+  };
+
+  /**
+   * gets the console menu that is is rendered at the bottom of the screen
+   * @returns {*}
+   */
+  getConsoleMenu = () => {
+    return (
+      <div id="wrapper" className="consoleMenu">
+        <ConsoleMenu animationTime={this.animationTime} />
+      </div>
+    );
+  };
+
+  /**
    * renders the root console layout of the console view
    * @returns {*} - the JSX to render
    */
   render() {
     return (
       <div id="component" className="consoleLayout">
-        <div id="wrapper" className="consoleSidebar">
-          <ConsoleSidebar />
-        </div>
+        {this.getConsoleSidebar()}
         {this.state.sidebarPanelVisible && this.getSidebarPanelConent()}
-        <div
-          id="wrapper"
-          className="consoleContent"
-          style={{
-            height: DimensionController.getHeightFor(
-              DimensionController.Components.CONSOLE_LAYOUT
-            )
-          }}
-        >
-          <ConsoleContent
-            onFlameChange={this.onFlameChangeCb}
-            onAdjustFlame={this.adjustFlameCb}
-            animationTime={this.animationTime}
-          />
-        </div>
-        <div id="wrapper" className="consoleMenu">
-          <ConsoleMenu animationTime={this.animationTime} />
-        </div>
+        {this.getConsoleContent()}
+        {this.getConsoleMenu()}
       </div>
     );
   }
