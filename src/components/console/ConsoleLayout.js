@@ -1,15 +1,17 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import ConsoleSidebar from "./ConsoleSidebar";
 import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";
+import CircuitsPanel from "../circuits/CircuitsPanel";
+import NotificationsPanel from "../notifications/NotificationsPanel";
 import TeamPanel from "../team/TeamPanel";
 import SpiritPanel from "../spirit/SpiritPanel";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { SpiritModel } from "../../models/SpiritModel";
-import { TeamModel } from "../../models/TeamModel";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import { SidePanelViewController } from "../../controllers/SidePanelViewController";
-import { DimensionController } from "../../controllers/DimensionController";
+import {DataModelFactory} from "../../models/DataModelFactory";
+import {SpiritModel} from "../../models/SpiritModel";
+import {TeamModel} from "../../models/TeamModel";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+import {SidePanelViewController} from "../../controllers/SidePanelViewController";
+import {DimensionController} from "../../controllers/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -32,9 +34,9 @@ export default class ConsoleLayout extends Component {
       flameRating: 0,
       activePanel: SidePanelViewController.MenuSelection.PROFILE,
       consoleIsCollapsed: 0,
-      me: { shortName: "Me", id: "id" },
+      me: {shortName: "Me", id: "id"},
       teamMembers: [],
-      activeTeamMember: { shortName: "Me", id: "id" },
+      activeTeamMember: {shortName: "Me", id: "id"},
       isMe: true
     };
     this.animationTime = 555;
@@ -180,7 +182,8 @@ export default class ConsoleLayout extends Component {
     let flameRating = Number(this.state.flameRating) + flameDelta;
     if (flameRating > 5) {
       flameRating = 5;
-    } else if (flameRating < -5) {
+    }
+    else if (flameRating < -5) {
       flameRating = -5;
     }
 
@@ -194,10 +197,10 @@ export default class ConsoleLayout extends Component {
 
     console.log(
       this.name +
-        " - adjustFlameCb, Old/New Flame rating: " +
-        this.state.flameRating +
-        "/" +
-        flameRating
+      " - adjustFlameCb, Old/New Flame rating: " +
+      this.state.flameRating +
+      "/" +
+      flameRating
     );
     this.setState({
       flameRating: flameRating
@@ -220,7 +223,8 @@ export default class ConsoleLayout extends Component {
           sidebarPanelOpacity: 1
         });
       }, 0);
-    } else {
+    }
+    else {
       this.setState({
         sidebarPanelWidth: 0,
         sidebarPanelOpacity: 0
@@ -239,7 +243,7 @@ export default class ConsoleLayout extends Component {
    * @param state - the current state of the object
    */
   saveStateSidebarPanelCb = state => {
-    this.setState({ sidebarPanelState: state });
+    this.setState({sidebarPanelState: state});
   };
 
   /**
@@ -311,6 +315,29 @@ export default class ConsoleLayout extends Component {
     );
   };
 
+  getCircuitsContent = () => {
+    return (
+      <CircuitsPanel
+        width={this.state.sidebarPanelWidth}
+        opacity={this.state.sidebarPanelOpacity}
+        loadStateCb={this.loadStateSidebarPanelCb}
+        saveStateCb={this.saveStateSidebarPanelCb}
+      />
+    );
+  };
+
+  getNotificationsContent = () => {
+    return (
+      <NotificationsPanel
+        width={this.state.sidebarPanelWidth}
+        opacity={this.state.sidebarPanelOpacity}
+        loadStateCb={this.loadStateSidebarPanelCb}
+        saveStateCb={this.saveStateSidebarPanelCb}
+        me={this.state.me}
+      />
+    );
+  };
+
   /**
    * gets the sidebar panel content
    * @returns {*}
@@ -344,6 +371,10 @@ export default class ConsoleLayout extends Component {
         return this.getSpiritPanelContent();
       case SidePanelViewController.MenuSelection.MESSAGES:
         return this.getTeamPanelContent();
+      case SidePanelViewController.MenuSelection.CIRCUITS:
+        return this.getCircuitsContent();
+      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
+        return this.getNotificationsContent()
     }
   };
 
@@ -378,7 +409,7 @@ export default class ConsoleLayout extends Component {
   getConsoleSidebar = () => {
     return (
       <div id="wrapper" className="consoleSidebar">
-        <ConsoleSidebar />
+        <ConsoleSidebar/>
       </div>
     );
   };
@@ -390,7 +421,7 @@ export default class ConsoleLayout extends Component {
   getConsoleMenu = () => {
     return (
       <div id="wrapper" className="consoleMenu">
-        <ConsoleMenu animationTime={this.animationTime} />
+        <ConsoleMenu animationTime={this.animationTime}/>
       </div>
     );
   };
