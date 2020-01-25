@@ -94,8 +94,8 @@ class ShortcutManager {
    */
   static get Accelerators() {
     return {
-      CONSOLE_SHORTCUT: "CommandOrControl+`",
-      CONSOLE_SHORTCUT_ALT: "Control+`",
+      CONSOLE_SHORTCUT: "Control+`",
+      CONSOLE_SHORTCUT_ALT: "CommandOrControl+`",
       WINDOW_DEV_MODE: "CommandOrControl+Shift+I"
     };
   }
