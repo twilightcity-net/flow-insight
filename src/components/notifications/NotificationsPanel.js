@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {Menu, Segment, Transition} from "semantic-ui-react";
-import {DimensionController} from "../../controllers/DimensionController";
+import React, { Component } from "react";
+import { Menu, Segment, Transition } from "semantic-ui-react";
+import { DimensionController } from "../../controllers/DimensionController";
 // import { ActiveViewControllerFactory } from "../perspective/ActiveViewControllerFactory";
 
 //
@@ -77,7 +77,10 @@ export default class NotificationsPanel extends Component {
               onClick={this.handleTeamClick}
             />
           </Menu>
-          <Segment inverted style={{ height: DimensionController.getSidebarPanelHeight() }}>
+          <Segment
+            inverted
+            style={{ height: DimensionController.getSidebarPanelHeight() }}
+          >
             <Transition
               visible={this.state.teamVisible}
               animation={this.state.animationType}

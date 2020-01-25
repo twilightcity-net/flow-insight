@@ -1,6 +1,7 @@
-//
-// dto class for SimpleStatus
-//
+/**
+ * dto class for SimpleStatus
+ * @type {ConnectionStatusDto}
+ */
 module.exports = class ConnectionStatusDto {
   constructor(json) {
     try {

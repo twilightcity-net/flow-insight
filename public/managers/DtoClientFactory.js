@@ -6,16 +6,29 @@ const chalk = require("chalk"),
  * class used to manage all of the DataStores and data loading / commit
  */
 class DtoClientFactory {
+  /**
+   * builds the dto clients with a factory design pattern
+   */
   constructor() {
     this.name = "[DtoClientFactory]";
     log.info(this.name + " created");
   }
 
+  /**
+   * performs the http request on the store URI endpoint on gridtime
+   * @param store
+   * @param callback
+   */
   makeStoreRequest(store, callback) {
     let client = new DtoClient(store, callback);
     client.doRequest();
   }
 
+  /**
+   * the types of http requests we can make
+   * @returns {{POST: string, GET: string}}
+   * @constructor
+   */
   static get RequestTypes() {
     return {
       POST: "post",
@@ -41,6 +54,9 @@ class DtoClient {
     };
   }
 
+  /**
+   * performs the request on the dto client object
+   */
   doRequest() {
     let url = global.App.api + this.urn,
       req = this.getRequest(url);
@@ -86,6 +102,11 @@ class DtoClient {
     });
   }
 
+  /**
+   * gets the type of request. POST and GET are only supported
+   * @param url
+   * @returns {*}
+   */
   getRequest(url) {
     return DtoClientFactory.RequestTypes.POST === this.type
       ? request

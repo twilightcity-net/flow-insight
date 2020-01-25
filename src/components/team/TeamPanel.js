@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import TeamMember from "./TeamMember";
 import { DataModelFactory } from "../../models/DataModelFactory";
-import {DimensionController} from "../../controllers/DimensionController";
+import { DimensionController } from "../../controllers/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -176,7 +176,10 @@ export default class TeamPanel extends Component {
               onClick={this.handleTeamClick}
             />
           </Menu>
-          <Segment inverted style={{ height: DimensionController.getSidebarPanelHeight() }}>
+          <Segment
+            inverted
+            style={{ height: DimensionController.getSidebarPanelHeight() }}
+          >
             <Transition
               visible={this.state.teamVisible}
               animation={this.state.animationType}

@@ -3,11 +3,15 @@ const log = require("electron-log"),
   { DtoClient } = require("../managers/DtoClientFactory"),
   ConnectionStatusDto = require("../dto/ConnectionStatusDto");
 
-//
-// Application class that manages our settings
-//
+/**
+ * Application class that manages our settings
+ * @type {AppLogin}
+ */
 module.exports = class AppLogin {
-  /// general use function to login the app
+  /**
+   * general use function to login the app
+   * @param callback
+   */
   static doLogin(callback) {
     log.info("[AppLogin] do login -> setup DtoClient");
     this.callback = callback;
@@ -27,7 +31,10 @@ module.exports = class AppLogin {
     client.doRequest();
   }
 
-  /// general use function to logout the app
+  /**
+   * general use function to logout the app
+   * @param callback
+   */
   static doLogout(callback) {
     log.info("[AppLogin] do logout -> setup DtoClient");
     this.callback = callback;
@@ -47,9 +54,21 @@ module.exports = class AppLogin {
     client.doRequest();
   }
 
-  /// checks to see if the login response is a valid login
+  /**
+   * checks to see if the login response is a valid login
+   * @returns {ConnectionStatusDto}
+   */
   static getConnectionStatus() {
-    let connectionStatus = new ConnectionStatusDto(this.store.data);
-    return connectionStatus;
+    try {
+      let connectionStatus = new ConnectionStatusDto(this.store.data);
+      return connectionStatus;
+    } catch (e) {
+      log.error("[AppLogin] " + e);
+      let connectionStatus = new ConnectionStatusDto({
+        message: e.toString(),
+        status: "ERROR"
+      });
+      return connectionStatus;
+    }
   }
 };

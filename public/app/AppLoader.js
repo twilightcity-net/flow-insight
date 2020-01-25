@@ -16,12 +16,12 @@ const log = require("electron-log"),
 
 /**
  * This class is used to init the Application loading
- *
  * @property {loadingWindow} the window to be displayed
  * @property {eventTimerMs} the amount of milliseconds to wait between stages
  * @property {currentStage} the curren stage being processed
  * @property {stages} an enum list of stages to process
  * @property {events} the events and callbacks linked to this class
+ * @type {AppLoader}
  */
 module.exports = class AppLoader {
   constructor() {
@@ -279,17 +279,17 @@ module.exports = class AppLoader {
   processLogin() {
     log.info("[AppLoader] process login");
     AppLogin.doLogin(store => {
-      let connectionStatus = AppLogin.getConnectionStatus();
-      console.log(connectionStatus);
-      if (connectionStatus.isValid()) {
+      let status = AppLogin.getConnectionStatus();
+      console.log(status);
+      if (status.isValid()) {
         log.info("[AppLoader] valid login -> dispatch next load event");
         global.App.isOnline = true;
         global.App.isLoggedIn = true;
-        global.App.connectionStatus = connectionStatus;
-        this.events.login.dispatch();
+        global.App.connectionStatus = status;
+        this.events.login.dispatch(status);
       } else {
         log.info("[AppLoader] failed login -> dispatch status to login event");
-        this.events.loginFailed.dispatch(store.data);
+        this.events.loginFailed.dispatch(status);
       }
     });
   }

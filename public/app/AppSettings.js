@@ -14,7 +14,7 @@ let settings = require("electron-settings"),
 
 // FIXME the crypto is disabled as its not working with java to decode it
 
-class AppSettings {
+module.exports = class AppSettings {
   /**
    * Represent a group of Settings
    * @constructor
@@ -152,6 +152,10 @@ class AppSettings {
     settings.set(AppSettings.Keys.CONSOLE_SHORTCUT_ALT, shortcut);
   }
 
+  /**
+   * verifies the actual settings in the file are what they are
+   * @returns {boolean}
+   */
   verify() {
     let keys = Object.values(AppSettings.Keys),
       len = keys.length,
@@ -162,7 +166,7 @@ class AppSettings {
         return false;
       } else if (
         keys[i] === AppSettings.Keys.APP_API_KEY &&
-        settings.get(AppSettings.Keys.APP_API_KEY).length !== 88
+        settings.get(AppSettings.Keys.APP_API_KEY).length !== 32
       ) {
         log.info("[AppSettings] verify api key -> failed : invalid");
         return false;
@@ -172,6 +176,11 @@ class AppSettings {
     return true;
   }
 
+  /**
+   * gets the default valuees for the shortcuts
+   * @returns {{CONSOLE_SHORTCUT_ALT: (string), DISPLAY_INDEX: number, CONSOLE_SHORTCUT: string}}
+   * @constructor
+   */
   static get DefaultValues() {
     return {
       DISPLAY_INDEX: 0,
@@ -194,6 +203,4 @@ class AppSettings {
       CONSOLE_SHORTCUT_ALT: "shortcutConsoleAlt"
     };
   }
-}
-
-module.exports = AppSettings;
+};

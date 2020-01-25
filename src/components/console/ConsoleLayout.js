@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import ConsoleSidebar from "./ConsoleSidebar";
 import ConsoleContent from "./ConsoleContent";
 import ConsoleMenu from "./ConsoleMenu";
@@ -6,12 +6,12 @@ import CircuitsPanel from "../circuits/CircuitsPanel";
 import NotificationsPanel from "../notifications/NotificationsPanel";
 import TeamPanel from "../team/TeamPanel";
 import SpiritPanel from "../spirit/SpiritPanel";
-import {DataModelFactory} from "../../models/DataModelFactory";
-import {SpiritModel} from "../../models/SpiritModel";
-import {TeamModel} from "../../models/TeamModel";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
-import {SidePanelViewController} from "../../controllers/SidePanelViewController";
-import {DimensionController} from "../../controllers/DimensionController";
+import { DataModelFactory } from "../../models/DataModelFactory";
+import { SpiritModel } from "../../models/SpiritModel";
+import { TeamModel } from "../../models/TeamModel";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { DimensionController } from "../../controllers/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -34,9 +34,9 @@ export default class ConsoleLayout extends Component {
       flameRating: 0,
       activePanel: SidePanelViewController.MenuSelection.PROFILE,
       consoleIsCollapsed: 0,
-      me: {shortName: "Me", id: "id"},
+      me: { shortName: "Me", id: "id" },
       teamMembers: [],
-      activeTeamMember: {shortName: "Me", id: "id"},
+      activeTeamMember: { shortName: "Me", id: "id" },
       isMe: true
     };
     this.animationTime = 555;
@@ -182,8 +182,7 @@ export default class ConsoleLayout extends Component {
     let flameRating = Number(this.state.flameRating) + flameDelta;
     if (flameRating > 5) {
       flameRating = 5;
-    }
-    else if (flameRating < -5) {
+    } else if (flameRating < -5) {
       flameRating = -5;
     }
 
@@ -197,10 +196,10 @@ export default class ConsoleLayout extends Component {
 
     console.log(
       this.name +
-      " - adjustFlameCb, Old/New Flame rating: " +
-      this.state.flameRating +
-      "/" +
-      flameRating
+        " - adjustFlameCb, Old/New Flame rating: " +
+        this.state.flameRating +
+        "/" +
+        flameRating
     );
     this.setState({
       flameRating: flameRating
@@ -223,8 +222,7 @@ export default class ConsoleLayout extends Component {
           sidebarPanelOpacity: 1
         });
       }, 0);
-    }
-    else {
+    } else {
       this.setState({
         sidebarPanelWidth: 0,
         sidebarPanelOpacity: 0
@@ -243,7 +241,7 @@ export default class ConsoleLayout extends Component {
    * @param state - the current state of the object
    */
   saveStateSidebarPanelCb = state => {
-    this.setState({sidebarPanelState: state});
+    this.setState({ sidebarPanelState: state });
   };
 
   /**
@@ -374,7 +372,11 @@ export default class ConsoleLayout extends Component {
       case SidePanelViewController.MenuSelection.CIRCUITS:
         return this.getCircuitsContent();
       case SidePanelViewController.MenuSelection.NOTIFICATIONS:
-        return this.getNotificationsContent()
+        return this.getNotificationsContent();
+      default:
+        throw new Error(
+          "Unknown active panel '" + this.state.activePanel + "'"
+        );
     }
   };
 
@@ -409,7 +411,7 @@ export default class ConsoleLayout extends Component {
   getConsoleSidebar = () => {
     return (
       <div id="wrapper" className="consoleSidebar">
-        <ConsoleSidebar/>
+        <ConsoleSidebar />
       </div>
     );
   };
@@ -421,7 +423,7 @@ export default class ConsoleLayout extends Component {
   getConsoleMenu = () => {
     return (
       <div id="wrapper" className="consoleMenu">
-        <ConsoleMenu animationTime={this.animationTime}/>
+        <ConsoleMenu animationTime={this.animationTime} />
       </div>
     );
   };
