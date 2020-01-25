@@ -41,7 +41,7 @@ export class SidePanelViewController extends ActiveViewController {
     );
   }
 
-  configureContentListener(scope, callback) {
+  configureSidePanelContentListener(scope, callback) {
     this.contentPanelListener.updateCallback(scope, callback);
   }
 

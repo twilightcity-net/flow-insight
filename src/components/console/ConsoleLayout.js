@@ -91,7 +91,7 @@ export default class ConsoleLayout extends Component {
    * called right after when the component is finished rendering
    */
   componentDidMount = () => {
-    this.sidePanelController.configureContentListener(
+    this.sidePanelController.configureSidePanelContentListener(
       this,
       this.onRefreshActivePerspective
     );
@@ -108,7 +108,7 @@ export default class ConsoleLayout extends Component {
     this.activeCircleModel.unregisterAllListeners("consoleLayout");
     this.spiritModel.unregisterAllListeners("consoleLayout");
 
-    this.sidePanelController.configureContentListener(this, null);
+    this.sidePanelController.configureSidePanelContentListener(this, null);
   };
 
   /**
@@ -212,6 +212,7 @@ export default class ConsoleLayout extends Component {
   onRefreshActivePerspective() {
     let show = this.sidePanelController.show;
     if (show) {
+      console.log(this);
       this.setState({
         sidebarPanelVisible: true,
         activePanel: this.sidePanelController.activeMenuSelection
@@ -316,10 +317,14 @@ export default class ConsoleLayout extends Component {
   getCircuitsContent = () => {
     return (
       <CircuitsPanel
+        xpSummary={this.state.xpSummary}
         width={this.state.sidebarPanelWidth}
         opacity={this.state.sidebarPanelOpacity}
         loadStateCb={this.loadStateSidebarPanelCb}
         saveStateCb={this.saveStateSidebarPanelCb}
+        me={this.state.me}
+        teamMembers={this.state.teamMembers}
+        activeTeamMember={this.state.activeTeamMember}
       />
     );
   };
@@ -327,11 +332,14 @@ export default class ConsoleLayout extends Component {
   getNotificationsContent = () => {
     return (
       <NotificationsPanel
+        xpSummary={this.state.xpSummary}
         width={this.state.sidebarPanelWidth}
         opacity={this.state.sidebarPanelOpacity}
         loadStateCb={this.loadStateSidebarPanelCb}
         saveStateCb={this.saveStateSidebarPanelCb}
         me={this.state.me}
+        teamMembers={this.state.teamMembers}
+        activeTeamMember={this.state.activeTeamMember}
       />
     );
   };
