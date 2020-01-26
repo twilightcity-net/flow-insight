@@ -129,7 +129,27 @@ export class DimensionController {
   }
 
   /**
-   * gets the circuits height dimension for canvas
+   * gets the circuits height dimension for sidebar panel
+   * @returns {number}
+   */
+  static getCircuitsSidebarPanelHeight() {
+    let heights = {
+      rootBorder: 4,
+      contentMargin: 2,
+      contentHeader: 34,
+      bottomMenuHeight: 28
+    };
+    return (
+      window.innerHeight -
+      heights.rootBorder -
+      heights.contentMargin -
+      heights.contentHeader -
+      heights.bottomMenuHeight
+    );
+  }
+
+  /**
+   * gets the general relative height dimension for sidebar content panelm w/ extra padding
    * @returns {number}
    */
   static getSidebarPanelHeight() {

@@ -107,7 +107,7 @@ export default class SpiritPanel extends Component {
   onRefreshActivePerspective() {
     console.log(this.name + " - onRefreshActivePerspective!");
 
-    let activeMenuItem = this.myController.activeSubmenuSelection;
+    let activeMenuItem = this.myController.activeSpiritSubmenuSelection;
 
     if (activeMenuItem === SidePanelViewController.SubmenuSelection.SPIRIT) {
       this.openSpiritPanel();
@@ -170,8 +170,8 @@ export default class SpiritPanel extends Component {
         activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
         spiritVisible: true,
         badgesVisible: false,
-        animationType: "fly down",
-        animationDelay: 350,
+        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
+        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
         level: 0,
         percentXP: 99,
         totalXP: 99999,

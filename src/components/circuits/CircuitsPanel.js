@@ -1,11 +1,10 @@
-import React, {Component} from "react";
-import {Menu, Segment, Transition} from "semantic-ui-react";
-import {SidePanelViewController} from "../../controllers/SidePanelViewController";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
-import {DimensionController} from "../../controllers/DimensionController";
+import React, { Component } from "react";
+import { Menu, Segment, Transition } from "semantic-ui-react";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { DimensionController } from "../../controllers/DimensionController";
 
 export default class CircuitsPanel extends Component {
-
   constructor(props) {
     super(props);
     this.state = this.loadState();
@@ -24,8 +23,8 @@ export default class CircuitsPanel extends Component {
         activeCircuitVisible: true,
         participatingCircuitsVisible: false,
         doItLaterCircuitsVisible: false,
-        animationType: "fly down",
-        animationDelay: 350,
+        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
+        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
         title: ""
       };
     }
@@ -37,7 +36,7 @@ export default class CircuitsPanel extends Component {
       activeItem: SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT,
       activeCircuitVisible: false,
       participatingCircuitsVisible: false,
-      doItLaterCircuitsVisible: false,
+      doItLaterCircuitsVisible: false
     });
     setTimeout(() => {
       this.setState({
@@ -52,7 +51,7 @@ export default class CircuitsPanel extends Component {
         SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
       activeCircuitVisible: false,
       participatingCircuitsVisible: false,
-      doItLaterCircuitsVisible: false,
+      doItLaterCircuitsVisible: false
     });
     setTimeout(() => {
       this.setState({
@@ -63,11 +62,10 @@ export default class CircuitsPanel extends Component {
 
   openDoItLaterCircuitsPanel() {
     this.setState({
-      activeItem:
-      SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+      activeItem: SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS,
       activeCircuitVisible: false,
       participatingCircuitsVisible: false,
-      doItLaterCircuitsVisible: false,
+      doItLaterCircuitsVisible: false
     });
     setTimeout(() => {
       this.setState({
@@ -88,7 +86,7 @@ export default class CircuitsPanel extends Component {
   };
 
   onRefreshActivePerspective() {
-    switch (this.myController.activeSubmenuSelection) {
+    switch (this.myController.activeCircuitsSubmenuSelection) {
       case SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT:
         this.openActiveCircuitsPanel();
         break;
@@ -105,24 +103,33 @@ export default class CircuitsPanel extends Component {
 
   getActiveCircuitContent = () => {
     return (
-      <div className="activeCircuitsContent" style={{ height: DimensionController.getSidebarPanelHeight()}}>
-          Content
+      <div
+        className="activeCircuitsContent"
+        // style={{ height: DimensionController.getSidebarPanelHeight()}}
+      >
+        View Active Learning Circle Properties w/ Action Buttons on the bottom
       </div>
     );
   };
 
   getParticipatingCircuitsContent = () => {
     return (
-      <div className="participatingCircuitsContent" style={{ height: DimensionController.getSidebarPanelHeight()}}>
-          Content
+      <div
+        className="participatingCircuitsContent"
+        // style={{ height: DimensionController.getSidebarPanelHeight()}}
+      >
+        Participating Circuits List
       </div>
     );
   };
 
   getDoItLaterCircuitsContent = () => {
     return (
-      <div className="doItLaterCircuitsContent" style={{ height: DimensionController.getSidebarPanelHeight()}}>
-          Content
+      <div
+        className="doItLaterCircuitsContent"
+        // style={{ height: DimensionController.getSidebarPanelHeight( )}}
+      >
+        Do It Later Circuits List
       </div>
     );
   };
@@ -135,7 +142,9 @@ export default class CircuitsPanel extends Component {
         className="consoleSidebarPanel"
         style={{
           width: "100%",
-          height: DimensionController.getSidebarPanelHeight(),
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.CONSOLE_LAYOUT
+          ),
           opacity: 1
         }}
       >
@@ -173,7 +182,13 @@ export default class CircuitsPanel extends Component {
               color={"violet"}
             />
           </Menu>
-          <Segment inverted className={"circuitsContentWrapper"}>
+          <Segment
+            inverted
+            className={"circuitsContentWrapper"}
+            style={{
+              height: DimensionController.getCircuitsSidebarPanelHeight()
+            }}
+          >
             <Transition
               visible={this.state.activeCircuitVisible}
               animation={this.state.animationType}
