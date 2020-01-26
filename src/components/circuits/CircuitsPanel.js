@@ -1,53 +1,29 @@
 import React, { Component } from "react";
-import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
-import TeamMember from "../team/TeamMember";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { DimensionController } from "../../controllers/DimensionController";
+import { Menu, Segment, Transition } from "semantic-ui-react";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import {DimensionController} from "../../controllers/DimensionController";
 
-/**
- * this component is the tab panel wrapper for the console content
- */
 export default class CircuitsPanel extends Component {
-  /**
-   * builds the team panel for the renderer
-   * @param props
-   */
+
   constructor(props) {
     super(props);
-    this.name = "[TeamPanel]";
     this.state = this.loadState();
-    this.spiritModel = DataModelFactory.createModel(
-      DataModelFactory.Models.SPIRIT,
-      this
-    );
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS,
-      this
+    this.name = "[CircuitsPanel]";
+
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL
     );
   }
 
-  /**
-   * called before updating
-   * @param nextProps
-   */
-  componentWillReceiveProps = nextProps => {
-    let newMe = nextProps.me;
-
-    if (nextProps.xpSummary) {
-      newMe.level = nextProps.xpSummary.level;
-      newMe.xpRequired =
-        nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
-    }
-  };
-
-  /**
-   * loads the stored state from parent or use default values
-   * @returns {{animationDelay: number, title: string, animationType: string}|*}
-   */
   loadState() {
     let state = this.props.loadStateCb();
     if (!state) {
       return {
+        activeItem: SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT,
+        activeCircuitVisible: true,
+        participatingCircuuitsVisible: false,
+        doItLaterCircuuitsVisible: false,
         animationType: "fly down",
         animationDelay: 350,
         title: ""
@@ -56,137 +32,158 @@ export default class CircuitsPanel extends Component {
     return state;
   }
 
-  /**
-   * stores this components state in the parents state
-   * @param state
-   */
-  saveState(state) {
-    this.props.saveStateCb(state);
-  }
-
-  /**
-   * updates display to show spirit content
-   * @param e
-   * @param name
-   */
-  handleTeamClick = (e, { name }) => {
+  openActiveCircuitsPanel() {
     this.setState({
-      activeItem: name,
-      teamVisible: false,
-      addressBookVisible: false
+      activeItem: SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT,
+      activeCircuitVisible: false,
+      participatingCircuuitsVisible: false,
+      doItLaterCircuuitsVisible: false,
     });
     setTimeout(() => {
       this.setState({
-        teamVisible: true
+        spiritVisible: true
       });
     }, this.state.animationDelay);
+  }
+
+  openParticipatingCircuuitsPanel() {
+    this.setState({
+      activeItem:
+        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+      activeCircuitVisible: false,
+      participatingCircuuitsVisible: false,
+      doItLaterCircuuitsVisible: false,
+    });
+    setTimeout(() => {
+      this.setState({
+        badgesVisible: true
+      });
+    }, this.state.animationDelay);
+  }
+
+  openDoItLaterCircuitsPanel() {
+    this.setState({
+      activeItem:
+      SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+      activeCircuitVisible: false,
+      participatingCircuuitsVisible: false,
+      doItLaterCircuuitsVisible: false,
+    });
+    setTimeout(() => {
+      this.setState({
+        badgesVisible: true
+      });
+    }, this.state.animationDelay);
+  }
+
+  // TODO combine these handlers
+
+  handleActiveCircuitClick = (e, { name }) => {
+    this.myController.changeActiveCircuitsSubmenuPanel(name);
   };
 
-  /**
-   * selects a team member in the list
-   * @param id
-   * @param teamMember
-   */
-  selectRow = (id, teamMember) => {
-    console.log(
-      this.name + " - Team member clicked!" + teamMember.name + "id = " + id
+  handleParticipatingCircuitsClick = (e, { name }) => {
+    this.myController.changeActiveCircuitsSubmenuPanel(name);
+  };
+
+  handleDoItLaterCircuitsClick = (e, { name }) => {
+    this.myController.changeActiveCircuitsSubmenuPanel(name);
+  };
+
+  componentDidMount = () => {
+    this.myController.configureCircuitsPanelListener(
+      this,
+      this.onRefreshActivePerspective
     );
-
-    this.teamModel.setActiveMember(id);
   };
 
-  /**
-   * determines if we are currently linked to another team member
-   * @param memberId
-   * @returns {boolean}
-   */
-  isLinked = memberId => {
-    return this.spiritModel.isLinked(memberId);
-  };
+  onRefreshActivePerspective() {
+    switch (this.myController.activeSubmenuSelection) {
+      case SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT:
+        this.openActiveCircuitsPanel();
+        break;
+      case SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS:
+        this.openParticipatingCircuuitsPanel();
+        break;
+      case SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS:
+        this.openDoItLaterCircuitsPanel();
+        break;
+      default:
+        throw new Error("Unknown circuits panel menu item");
+    }
+  }
 
-  /**
-   * renders the console sidebar panel of the console view
-   * @returns {*}
-   */
-  render() {
-    const teamMembersContent = (
-      <div>
-        <Grid inverted>
-          <TeamMember
-            key={this.props.me.id}
-            id={this.props.me.id}
-            isLinked={this.isLinked(this.props.me.id)}
-            shortName={this.props.me.shortName + " (you)"}
-            name={this.props.me.name}
-            activeStatus={this.props.me.activeStatus}
-            statusColor={this.props.me.statusColor}
-            activeTaskName={this.props.me.activeTaskName}
-            activeTaskSummary={this.props.me.activeTaskSummary}
-            workingOn={this.props.me.workingOn}
-            isAlarmTriggered={this.props.me.isAlarmTriggered}
-            wtfTimer={this.props.me.wtfTimer}
-            alarmStatusMessage={this.props.me.alarmStatusMessage}
-            level={this.props.me.level}
-            xpRequired={this.props.me.xpRequired}
-            onSetActiveRow={this.selectRow}
-            teamMember={this.props.me}
-            activeTeamMember={this.props.activeTeamMember}
-          />
-
-          {this.props.teamMembers.map(d => (
-            <TeamMember
-              key={d.id}
-              id={d.id}
-              isLinked={this.isLinked(d.id)}
-              shortName={d.shortName}
-              name={d.name}
-              activeStatus={d.activeStatus}
-              statusColor={d.statusColor}
-              activeTaskName={d.activeTaskName}
-              activeTaskSummary={d.activeTaskSummary}
-              workingOn={d.workingOn}
-              isAlarmTriggered={d.isAlarmTriggered}
-              wtfTimer={d.wtfTimer}
-              alarmStatusMessage={this.props.me.alarmStatusMessage}
-              level={d.level}
-              xpRequired={d.xpRequired}
-              onSetActiveRow={this.selectRow}
-              teamMember={d}
-              activeTeamMember={this.props.activeTeamMember}
-            />
-          ))}
-        </Grid>
+  getActiveCircuitContent = () => {
+    return (
+      <div className="activeCircuitsContent" style={{ height: DimensionController.getSidebarPanelHeight()}}>
+        <Segment>
+          Content
+        </Segment>
       </div>
     );
+  };
 
+  getParticipatingCircuitsContent = () => {
+    return (
+      <div className="participatingCircuitsContent" style={{ height: DimensionController.getSidebarPanelHeight()}}>
+        <Segment>
+          Content
+        </Segment>
+      </div>
+    );
+  };
+
+  render() {
+    const { activeItem } = this.state;
     return (
       <div
         id="component"
-        className="consoleSidebarPanel teamPanel"
+        className="consoleSidebarPanel"
         style={{
-          width: this.props.width,
-          opacity: this.props.opacity
+          width: "100%",
+          height: DimensionController.getSidebarPanelHeight(),
+          opacity: 1
         }}
       >
         <Segment.Group>
-          <Menu size="mini" inverted pointing secondary>
+          <Menu size="mini" inverted secondary>
             <Menu.Item
-              name="team"
-              active={true}
-              onClick={this.handleTeamClick}
+              name={SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT}
+              active={
+                activeItem ===
+                SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT
+              }
+              onClick={this.handleActiveCircuitClick}
+              color={"violet"}
+            />
+            <Menu.Item
+              name={
+                SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS
+              }
+              active={
+                activeItem ===
+                SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS
+              }
+              onClick={this.handleParticipatingCircuitsClick}
+              color={"violet"}
             />
           </Menu>
-          <Segment
-            inverted
-            style={{ height: DimensionController.getSidebarPanelHeight() }}
-          >
+          <Segment inverted className={"circuitsContentWrapper"}>
             <Transition
-              visible={this.state.teamVisible}
+              visible={this.state.activeCircuitVisible}
               animation={this.state.animationType}
               duration={this.state.animationDelay}
               unmountOnHide
             >
-              {teamMembersContent}
+              {this.getActiveCircuitContent()}
+            </Transition>
+            <Transition
+              visible={this.state.participatingCircuuitsVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              {this.getParticipatingCircuitsContent()}
             </Transition>
           </Segment>
         </Segment.Group>

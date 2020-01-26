@@ -20,6 +20,11 @@ export class SidePanelViewController extends ActiveViewController {
       this
     );
 
+    this.circuitsPanelChangeNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUITS_PANEL,
+      this
+    );
+
     this.contentPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
       this
@@ -39,6 +44,11 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_SPIRIT_PANEL,
       this
     );
+
+    this.circuitsPanelListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUITS_PANEL,
+      this
+    );
   }
 
   configureSidePanelContentListener(scope, callback) {
@@ -53,6 +63,10 @@ export class SidePanelViewController extends ActiveViewController {
     this.spiritPanelListener.updateCallback(scope, callback);
   }
 
+  configureCircuitsPanelListener(scope, callback) {
+    this.circuitsPanelListener.updateCallback(scope, callback);
+  }
+
   configurePerspectiveControllerListener(scope, callback) {
     this.perspectiveControllerListener.updateCallback(scope, callback);
   }
@@ -63,6 +77,10 @@ export class SidePanelViewController extends ActiveViewController {
 
   fireSpiritPanelNotifyEvent() {
     this.spiritPanelChangeNotifier.dispatch({});
+  }
+
+  fireCircuitsPanelNotifyEvent() {
+    this.circuitsPanelChangeNotifier.dispatch({});
   }
 
   isVisible() {
@@ -81,9 +99,15 @@ export class SidePanelViewController extends ActiveViewController {
     this.fireSidePanelNotifyEvent();
   }
 
-  changeActiveSubmenuPanel(submenuItem) {
+  // TODO activeSubmenuSelection needs its own place in memory
+
+  changeActiveSpiritSubmenuPanel(submenuItem) {
     this.activeSubmenuSelection = submenuItem;
     this.fireSpiritPanelNotifyEvent();
+  }
+  changeActiveCircuitsSubmenuPanel(submenuItem) {
+    this.activeSubmenuSelection = submenuItem;
+    this.fireCircuitsPanelNotifyEvent();
   }
 
   static get MenuSelection() {
@@ -99,7 +123,10 @@ export class SidePanelViewController extends ActiveViewController {
   static get SubmenuSelection() {
     return {
       SPIRIT: "spirit",
-      BADGES: "badges"
+      BADGES: "badges",
+      ACTIVE_CIRCUIT: "active-circuit",
+      PARTICIPATING_CIRCUITS: "participating-circuits",
+      DO_IT_LATER_CIRCUITS: "do-it-later-circuits"
     };
   }
 }

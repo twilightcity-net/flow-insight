@@ -78,7 +78,7 @@ export default class SpiritPanel extends Component {
    * @param name - the name of the menu that was clicked
    */
   handleSpiritClick = (e, { name }) => {
-    this.myController.changeActiveSubmenuPanel(name);
+    this.myController.changeActiveSpiritSubmenuPanel(name);
   };
 
   /**
@@ -87,7 +87,7 @@ export default class SpiritPanel extends Component {
    * @param name - the name of the menu that was clicked
    */
   handleBadgesClick = (e, { name }) => {
-    this.myController.changeActiveSubmenuPanel(name);
+    this.myController.changeActiveSpiritSubmenuPanel(name);
   };
 
   /**

@@ -61,11 +61,6 @@ export default class ConsoleLayout extends Component {
       TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
       this.onActiveMemberUpdateCb
     );
-    this.activeCircleModel = DataModelFactory.createModel(
-      DataModelFactory.Models.ACTIVE_CIRCLE,
-      this
-    );
-
     this.spiritModel = DataModelFactory.createModel(
       DataModelFactory.Models.SPIRIT,
       this
@@ -88,7 +83,7 @@ export default class ConsoleLayout extends Component {
   }
 
   /**
-   * called right after when the component is finished rendering
+   * called right after when the component after it is finished rendering
    */
   componentDidMount = () => {
     this.sidePanelController.configureSidePanelContentListener(
@@ -102,12 +97,8 @@ export default class ConsoleLayout extends Component {
    * called right before when the component will unmount
    */
   componentWillUnmount = () => {
-    console.log(this.name + " - componentWillUnmount");
-
     this.teamModel.unregisterAllListeners("consoleLayout");
-    this.activeCircleModel.unregisterAllListeners("consoleLayout");
     this.spiritModel.unregisterAllListeners("consoleLayout");
-
     this.sidePanelController.configureSidePanelContentListener(this, null);
   };
 
@@ -153,7 +144,6 @@ export default class ConsoleLayout extends Component {
    * callback handler function for when the active memmber model updates
    */
   onActiveMemberUpdateCb = () => {
-    console.log(this.name + " - onActiveMemberUpdateCb");
     this.setState({
       isMe: this.teamModel.isMeActive(),
       activeTeamMember: this.teamModel.activeTeamMember
@@ -165,8 +155,6 @@ export default class ConsoleLayout extends Component {
    * @param flameRating - the intensity of the flame to change
    */
   onFlameChangeCb = flameRating => {
-    console.log(this.name + " - onFlameChangeCb: " + flameRating);
-
     this.setState({
       flameRating: flameRating
     });
@@ -185,22 +173,12 @@ export default class ConsoleLayout extends Component {
     } else if (flameRating < -5) {
       flameRating = -5;
     }
-
     if (this.state.flameRating > 0 && flameDelta < 0) {
       flameRating = 0;
     }
-
     if (this.state.flameRating < 0 && flameDelta > 0) {
       flameRating = 0;
     }
-
-    console.log(
-      this.name +
-        " - adjustFlameCb, Old/New Flame rating: " +
-        this.state.flameRating +
-        "/" +
-        flameRating
-    );
     this.setState({
       flameRating: flameRating
     });
@@ -212,7 +190,6 @@ export default class ConsoleLayout extends Component {
   onRefreshActivePerspective() {
     let show = this.sidePanelController.show;
     if (show) {
-      console.log(this);
       this.setState({
         sidebarPanelVisible: true,
         activePanel: this.sidePanelController.activeMenuSelection
