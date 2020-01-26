@@ -1,7 +1,7 @@
-import React, { Component } from "react";
-import { Menu, Segment, Transition } from "semantic-ui-react";
-import { SidePanelViewController } from "../../controllers/SidePanelViewController";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import React, {Component} from "react";
+import {Menu, Segment, Transition} from "semantic-ui-react";
+import {SidePanelViewController} from "../../controllers/SidePanelViewController";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
 import {DimensionController} from "../../controllers/DimensionController";
 
 export default class CircuitsPanel extends Component {
@@ -22,8 +22,8 @@ export default class CircuitsPanel extends Component {
       return {
         activeItem: SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT,
         activeCircuitVisible: true,
-        participatingCircuuitsVisible: false,
-        doItLaterCircuuitsVisible: false,
+        participatingCircuitsVisible: false,
+        doItLaterCircuitsVisible: false,
         animationType: "fly down",
         animationDelay: 350,
         title: ""
@@ -36,12 +36,12 @@ export default class CircuitsPanel extends Component {
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT,
       activeCircuitVisible: false,
-      participatingCircuuitsVisible: false,
-      doItLaterCircuuitsVisible: false,
+      participatingCircuitsVisible: false,
+      doItLaterCircuitsVisible: false,
     });
     setTimeout(() => {
       this.setState({
-        spiritVisible: true
+        activeCircuitVisible: true
       });
     }, this.state.animationDelay);
   }
@@ -51,12 +51,12 @@ export default class CircuitsPanel extends Component {
       activeItem:
         SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
       activeCircuitVisible: false,
-      participatingCircuuitsVisible: false,
-      doItLaterCircuuitsVisible: false,
+      participatingCircuitsVisible: false,
+      doItLaterCircuitsVisible: false,
     });
     setTimeout(() => {
       this.setState({
-        badgesVisible: true
+        participatingCircuitsVisible: true
       });
     }, this.state.animationDelay);
   }
@@ -66,27 +66,17 @@ export default class CircuitsPanel extends Component {
       activeItem:
       SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
       activeCircuitVisible: false,
-      participatingCircuuitsVisible: false,
-      doItLaterCircuuitsVisible: false,
+      participatingCircuitsVisible: false,
+      doItLaterCircuitsVisible: false,
     });
     setTimeout(() => {
       this.setState({
-        badgesVisible: true
+        doItLaterCircuitsVisible: true
       });
     }, this.state.animationDelay);
   }
 
-  // TODO combine these handlers
-
-  handleActiveCircuitClick = (e, { name }) => {
-    this.myController.changeActiveCircuitsSubmenuPanel(name);
-  };
-
-  handleParticipatingCircuitsClick = (e, { name }) => {
-    this.myController.changeActiveCircuitsSubmenuPanel(name);
-  };
-
-  handleDoItLaterCircuitsClick = (e, { name }) => {
+  handleCircuitSubmenuClick = (e, { name }) => {
     this.myController.changeActiveCircuitsSubmenuPanel(name);
   };
 
@@ -116,9 +106,7 @@ export default class CircuitsPanel extends Component {
   getActiveCircuitContent = () => {
     return (
       <div className="activeCircuitsContent" style={{ height: DimensionController.getSidebarPanelHeight()}}>
-        <Segment>
           Content
-        </Segment>
       </div>
     );
   };
@@ -126,9 +114,15 @@ export default class CircuitsPanel extends Component {
   getParticipatingCircuitsContent = () => {
     return (
       <div className="participatingCircuitsContent" style={{ height: DimensionController.getSidebarPanelHeight()}}>
-        <Segment>
           Content
-        </Segment>
+      </div>
+    );
+  };
+
+  getDoItLaterCircuitsContent = () => {
+    return (
+      <div className="doItLaterCircuitsContent" style={{ height: DimensionController.getSidebarPanelHeight()}}>
+          Content
       </div>
     );
   };
@@ -153,7 +147,7 @@ export default class CircuitsPanel extends Component {
                 activeItem ===
                 SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT
               }
-              onClick={this.handleActiveCircuitClick}
+              onClick={this.handleCircuitSubmenuClick}
               color={"violet"}
             />
             <Menu.Item
@@ -164,7 +158,18 @@ export default class CircuitsPanel extends Component {
                 activeItem ===
                 SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS
               }
-              onClick={this.handleParticipatingCircuitsClick}
+              onClick={this.handleCircuitSubmenuClick}
+              color={"violet"}
+            />
+            <Menu.Item
+              name={
+                SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS
+              }
+              active={
+                activeItem ===
+                SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS
+              }
+              onClick={this.handleCircuitSubmenuClick}
               color={"violet"}
             />
           </Menu>
@@ -178,12 +183,20 @@ export default class CircuitsPanel extends Component {
               {this.getActiveCircuitContent()}
             </Transition>
             <Transition
-              visible={this.state.participatingCircuuitsVisible}
+              visible={this.state.participatingCircuitsVisible}
               animation={this.state.animationType}
               duration={this.state.animationDelay}
               unmountOnHide
             >
               {this.getParticipatingCircuitsContent()}
+            </Transition>
+            <Transition
+              visible={this.state.doItLaterCircuitsVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              {this.getDoItLaterCircuitsContent()}
             </Transition>
           </Segment>
         </Segment.Group>

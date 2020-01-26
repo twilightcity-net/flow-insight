@@ -125,8 +125,8 @@ export class SidePanelViewController extends ActiveViewController {
       SPIRIT: "spirit",
       BADGES: "badges",
       ACTIVE_CIRCUIT: "active-circuit",
-      PARTICIPATING_CIRCUITS: "participating-circuits",
-      DO_IT_LATER_CIRCUITS: "do-it-later-circuits"
+      PARTICIPATING_CIRCUITS: "my-circuits",
+      DO_IT_LATER_CIRCUITS: "do-it-later"
     };
   }
 }
