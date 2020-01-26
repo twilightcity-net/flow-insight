@@ -26,6 +26,18 @@ class CircuitManager {
     );
   }
 
+  /**
+   * gets our active circuit the user is currently in
+   * @param callback
+   */
+  getActiveCircuit(callback) {
+    CircuitController.instance.handleGetMyCircuitEvent(
+      {},
+      {},
+      callback
+    );
+  }
+
   startRetroForWTF(circuitName, callback) {
     return null;
   }
@@ -51,10 +63,6 @@ class CircuitManager {
   }
 
   getCircuitWithMembers(circuitName, callback) {
-    return null;
-  }
-
-  getActiveCircuit(callback) {
     return null;
   }
 

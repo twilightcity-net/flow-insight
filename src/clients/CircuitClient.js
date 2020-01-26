@@ -8,6 +8,12 @@ import { LearningCircuitModel } from "../models/LearningCircuitModel";
  * will use this class to fire an event which the main process listens for. On
  * notification it will make a rest call to grid time. the response is the
  * piped into the calling function to this client.
+ *
+ * EXAMPLE:
+ *
+ * `CircuitClient.createLearningCircuitModel("angry_teachers", this, model => {
+ *     console.log(model);
+ *   });`
  */
 export class CircuitClient extends BaseClient {
   /**
@@ -28,6 +34,7 @@ export class CircuitClient extends BaseClient {
       null,
       this.onCircuitEventReply
     );
+    this.activeCircuit = null;
   }
 
   /**
@@ -59,6 +66,10 @@ export class CircuitClient extends BaseClient {
   static init(scope) {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
+      CircuitClient.getActiveCircuit(scope, model => {
+        this.activeCircuit = model;
+        console.log(this.activeCircuit);
+      })
     }
   }
 
@@ -71,6 +82,20 @@ export class CircuitClient extends BaseClient {
     let clientEvent = new RendererClientEvent(
       CircuitClient.Events.CREATE_CIRCUIT,
       { circuitName: circuitName },
+      scope,
+      (event, arg) => {
+        let model = new LearningCircuitModel(arg.dto, scope);
+        callback(model);
+      }
+    );
+    CircuitClient.instance.notifyCircuit(clientEvent);
+    return clientEvent;
+  }
+
+  static getActiveCircuit(scope, callback) {
+    let clientEvent = new RendererClientEvent(
+      CircuitClient.Events.GET_MY_CIRCUIT,
+      {},
       scope,
       (event, arg) => {
         let model = new LearningCircuitModel(arg.dto, scope);
@@ -107,7 +132,7 @@ export class CircuitClient extends BaseClient {
   };
 
   /**
-   * notifies the main process circuit that we4 have a new event to process. This
+   * notifies the main process circuit that we have a new event to process. This
    * function will add the client event and callback into a map to look up when
    * this events reply is ready from the main prcess thread
    * @param clientEvent
@@ -129,8 +154,6 @@ export class CircuitClient extends BaseClient {
   putCircuitOnHoldWithDoItLater(circuitName, callback) {}
 
   getCircuitWithMembers(circuitName, callback) {}
-
-  getActiveCircuit(callback) {}
 
   getAllMyDoItLaterCircuits(callback) {}
 

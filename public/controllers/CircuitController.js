@@ -77,6 +77,9 @@ class CircuitController extends BaseController {
       case CircuitController.EventTypes.CREATE_CIRCUIT:
         this.handleCreateCircuitEvent(event, arg);
         break;
+      case CircuitController.EventTypes.GET_MY_CIRCUIT:
+        this.handleGetMyCircuitEvent(event, arg);
+        break;
       default:
         throw new Error(
           "Unknown circuit client event type '" + arg.type + "'."
@@ -106,6 +109,26 @@ class CircuitController extends BaseController {
           return event.replyTo(arg);
         } else {
           throw new Error("Invalid create circuit event");
+        }
+      }
+    );
+  }
+
+  handleGetMyCircuitEvent(event, arg, callback) {
+    this.doClientRequest(
+      "CircuitClient",
+      {},
+      "getActiveCircuit",
+      "get",
+      "/circuit/my/active",
+      store => {
+        arg.dto = new LearningCircuitDto(store.data);
+        if (callback) {
+          return callback(arg.dto);
+        } else if (event) {
+          return event.replyTo(arg);
+        } else {
+          throw new Error("Invalid get active circuit event");
         }
       }
     );

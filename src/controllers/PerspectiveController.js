@@ -35,7 +35,6 @@ export class PerspectiveController {
       DataModelFactory.Models.SPIRIT,
       this
     );
-
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
       this
@@ -115,7 +114,7 @@ export class PerspectiveController {
       setTimeout(() => {
         this.teamModel.resetActiveMemberToMe();
         this.teamModel.refreshAll();
-      }, 400);
+      }, 420);
     }
   }
 }
