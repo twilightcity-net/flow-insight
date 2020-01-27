@@ -1,12 +1,11 @@
-import {TeamModel} from "../models/TeamModel";
-import {JournalModel} from "../models/JournalModel";
-import {DataModelFactory} from "../models/DataModelFactory";
+import { TeamModel } from "../models/TeamModel";
+import { JournalModel } from "../models/JournalModel";
+import { DataModelFactory } from "../models/DataModelFactory";
 
 /**
  * This class is used to coordinate models across all the events
  */
 export class ModelCoordinator {
-
   /**
    * the static refrence to the global instance
    */

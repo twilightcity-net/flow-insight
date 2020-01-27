@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>MainEvent - Documentation</title>
+    <title>src/views/ConsoleView.js - Documentation</title>
 
     <script src="scripts/prettify/prettify.js"></script>
     <script src="scripts/prettify/lang-css.js"></script>
@@ -29,823 +29,155 @@
 
 <div id="main">
     
-    <h1 class="page-title">MainEvent</h1>
-    
-
-    
-
-
-
-
-<section>
-
-<header>
-    
-        <h2>
-        MainEvent
-        </h2>
-        
-            <div class="class-description">an object class used to instantiate new event with callbacks.</div>
-        
-    
-</header>
-
-<article>
-    <div class="container-overview">
-    
-        
-<div class="section-method">
-
-    
-    <h2>Constructor</h2>
-    
-
-    <h4 class="name" id="MainEvent"><span class="type-signature"></span>new MainEvent<span class="signature">(type, scope, callback, reply, async)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    builds the main event class for ipc pipe events
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line19">line 19</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>type</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                the name of the event to listen on
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>scope</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                parent object that created the event
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>callback</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                the function to dispatch
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>reply</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                the reply function to dispatch
-                
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>async</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                true to send an async message back
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-    
-    </div>
-
-    
-
-    
-
-    
-
-     
-
-    
-
-    
-
-    
-        <h3 class="subsection-title">Methods</h3>
-
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="construct"><span class="type-signature"></span>construct<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    link stuff with EventManager, and init
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line50">line 50</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="destruct"><span class="type-signature"></span>destruct<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    removes and clears the object from memory. warning, not reversible
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line66">line 66</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="dispatch"><span class="type-signature"></span>dispatch<span class="signature">(arg)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-
-
-
-<div class="description">
-    fires the event associated with the event's channel.
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line34">line 34</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>arg</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>Array</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="remove"><span class="type-signature"></span>remove<span class="signature">()</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    removes the event from the hive
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line59">line 59</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</div>
-        
-            
-<div class="section-method">
-
-    
-
-    <h4 class="name" id="replyTo"><span class="type-signature"></span>replyTo<span class="signature">(arg)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-
-    
-
-
-
-<div class="description">
-    sends a reply event message through the event manager
-</div>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line43">line 43</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>arg</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">
-                
-                
-            </td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="section-returns">
-<h5>Returns:</h5>
-
-        
-
-<dl class="param-type">
-    <dt>
-        Type:
-    </dt>
-    <dd>
-        
-<span class="param-type"><code>Array</code></span>
-
-
-    </dd>
-</dl>
-
-
-    
-</div>
-
-
-
-</div>
-        
-    
-
-    
-
-    
-</article>
-
-</section>
+    <h1 class="page-title">src/views/ConsoleView.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import Keyframes from "@keyframes/core";
+import ConsoleLayout from "../components/console/ConsoleLayout";
+import { ActiveViewControllerFactory } from "../controllers/ActiveViewControllerFactory";
+import { ModelCoordinator } from "../models/ModelCoordinator";
+import { PerspectiveController } from "../controllers/PerspectiveController";
+import { DimensionController } from "../controllers/DimensionController";
+import { CircuitClient } from "../clients/CircuitClient";
+import { TalkClient } from "../clients/TalkClient";
+
+/**
+ * This View will contain logic to inject the various tabs of the
+ * console into the view. It will also manage the states of these
+ * views in an array.
+ */
+export default class ConsoleView extends Component {
+  /**
+   * the amount of time to animate the console view when opening the window
+   * @type {number}
+   */
+  static animationTime = 0.4;
+
+  /**
+   * this is the type of animation css class to use to slide the console in
+   * @type {string}
+   */
+  static animationTypeIn = "console-slidein";
+
+  /**
+   * this is the type of animation css class to use to slide the console out
+   * @type {string}
+   */
+  static animationTypeOut = "console-slideout";
+
+  /**
+   * the css scalar to apply the animation vector to
+   * @type {string}
+   */
+  static animationTiming = "ease";
+
+  /**
+   * the global animation states for the console window
+   * @returns {{HIDE_CONSOLE: number, SHOW_CONSOLE: number}}
+   */
+  static get ConsoleStates() {
+    return {
+      SHOW_CONSOLE: 0,
+      HIDE_CONSOLE: 1
+    };
+  }
+  /**
+   * sets up the event to listen for if the window is shown or hiden.
+   * Activates animation according
+   * @param props
+   */
+  constructor(props) {
+    super(props);
+    this.name = "[ConsoleView]";
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
+      this
+    );
+
+    let root = document.getElementById("root");
+    root.style.transform = "translate(0px," + window.innerHeight * -1 + "px)";
+    root.style.opacity = "0";
+    this.keyframes = new Keyframes(root);
+    Keyframes.define({
+      name: ConsoleView.animationTypeIn,
+      from: {
+        transform: "translate(0px," + window.innerHeight * -1 + "px)",
+        opacity: "0"
+      },
+      to: {
+        transform: "translate(0px,0px)",
+        opacity: "1"
+      }
+    });
+    Keyframes.define({
+      name: ConsoleView.animationTypeOut,
+      from: {
+        transform: "translate(0px,0px)",
+        opacity: "1"
+      },
+      to: {
+        transform: "translate(0px," + window.innerHeight * -1 + "px)",
+        opacity: "0"
+      }
+    });
+  }
+
+  componentDidMount = () => {
+    this.myController.configureConsoleViewListener(this, this.onLoadCb);
+    TalkClient.init(this);
+    CircuitClient.init(this);
+    ModelCoordinator.init(this);
+    PerspectiveController.init(this);
+    DimensionController.init(this);
+  };
+
+  componentWillUnmount = () => {
+    this.myController.configureConsoleViewListener(this, null);
+  };
+
+  /**
+   * called when this view is initially loaded. when arg = 1 the console is sliding in
+   * from a hidden state
+   * @param event
+   * @param arg
+   */
+  onLoadCb(event, arg) {
+    console.log("[ConsoleView] event -> WINDOW_CONSOLE_SHOW_HIDE : " + arg);
+    if (arg === ConsoleView.ConsoleStates.SHOW_CONSOLE) {
+      this.keyframes.play({
+        name: ConsoleView.animationTypeIn,
+        duration: ConsoleView.animationTime + "s",
+        timingFunction: ConsoleView.animationTiming
+      });
+    } else if (arg === ConsoleView.ConsoleStates.HIDE_CONSOLE) {
+      this.keyframes.play({
+        name: ConsoleView.animationTypeOut,
+        duration: ConsoleView.animationTime + "s",
+        timingFunction: ConsoleView.animationTiming
+      });
+    }
+  }
+
+  /// renders the component in the view
+  render() {
+    return (
+      &lt;div id="wrapper" className="console">
+        &lt;ConsoleLayout />
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
+        </article>
+    </section>
 
 
 

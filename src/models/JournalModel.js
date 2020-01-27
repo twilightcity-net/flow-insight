@@ -259,7 +259,8 @@ export class JournalModel extends DataModel {
    */
   updateFlameRatingForIntention = (journalItem, flameRating) => {
     console.log(this.name + " update flame rating for journal item");
-    let remoteUrn = "/journal/intention/" + journalItem.id + "/transition/flame";
+    let remoteUrn =
+      "/journal/intention/" + journalItem.id + "/transition/flame";
     let loadRequestType = DataModel.RequestTypes.POST;
     let args = { flameRating: flameRating };
     journalItem.flameRating = Number(flameRating);
