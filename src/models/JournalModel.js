@@ -88,8 +88,6 @@ export class JournalModel extends DataModel {
       this.isAltMemberSelected = true;
       this.altMemberId = memberId;
 
-      //should set the memberId on the object, then delegate the call
-
       this.altModelExtension.setMemberSelection(memberId);
       this.loadDefaultJournal();
     }
@@ -101,7 +99,6 @@ export class JournalModel extends DataModel {
   resetMemberSelection = () => {
     this.isAltMemberSelected = false;
     this.altMemberId = null;
-
     this.altModelDelegate.resetMemberSelection();
   };
 
@@ -130,8 +127,6 @@ export class JournalModel extends DataModel {
    * Reset the active selected item to the last item in the journal
    */
   resetActiveToLastJournalItem = () => {
-    console.log(this.name + " - Request - resetActiveToLastJournalItem");
-
     if (this.allJournalItems.length > 0) {
       let lastItem = this.allJournalItems[this.allJournalItems.length - 1];
 
@@ -142,7 +137,6 @@ export class JournalModel extends DataModel {
       this.activeIndex = 0;
       this.activeJournalItem = null;
     }
-
     this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
   };
 
@@ -154,7 +148,6 @@ export class JournalModel extends DataModel {
     this.activeIndex = journalItem.index;
     this.activeJournalItem = journalItem;
     this.activeFlame = journalItem;
-
     this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
   };
 

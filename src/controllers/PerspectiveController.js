@@ -97,14 +97,12 @@ export class PerspectiveController {
     console.log(this.name + " update models -> " + JSON.stringify(arg));
     switch (arg) {
       case ConsoleView.ConsoleStates.SHOW_CONSOLE:
-        console.log(this.name + " console shown -> update models ");
         this.teamModel.refreshAll();
         if (this.spiritModel.hasLinks()) {
           this.journalModel.loadDefaultJournal();
         }
         break;
       case ConsoleView.ConsoleStates.HIDE_CONSOLE:
-        console.log(this.name + " console hidden : switch to me w/ delay ");
         setTimeout(() => {
           this.teamModel.resetActiveMemberToMe();
         }, ConsoleView.animationTime * 1000);
