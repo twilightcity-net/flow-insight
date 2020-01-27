@@ -31,11 +31,7 @@ class CircuitManager {
    * @param callback
    */
   getActiveCircuit(callback) {
-    CircuitController.instance.handleGetMyCircuitEvent(
-      {},
-      {},
-      callback
-    );
+    CircuitController.instance.handleGetMyCircuitEvent({}, {}, callback);
   }
 
   startRetroForWTF(circuitName, callback) {

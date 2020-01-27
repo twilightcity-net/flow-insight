@@ -230,13 +230,11 @@ export default class SpiritPanel extends Component {
   };
 
   /**
-   * renders the console sidebar panel of the console view
+   * gets the basic link icon to link to other users
    * @returns {*}
    */
-  render() {
-    const { activeItem } = this.state;
-
-    let linkIcon = (
+  getLinkIcon = () => {
+    return (
       <Popup
         trigger={
           <Icon
@@ -252,23 +250,35 @@ export default class SpiritPanel extends Component {
         position="top left"
       />
     );
+  };
 
-    let linksContent = "";
-
+  /**
+   * gets the body of the link content for the tooltip
+   * @returns {string}
+   */
+  getLinksContent = () => {
+    let links = "";
     if (this.hasActiveLinks()) {
-      linksContent = this.props.activeSpiritLinks.map(d => (
+      links = this.props.activeSpiritLinks.map(d => (
         <div key={d.friendSpiritId}>{d.name}</div>
       ));
-
-      linksContent = (
+      links = (
         <div>
           <div className="tooltipRed">Break Links</div>
-          {linksContent}
+          {links}
         </div>
       );
     }
+    return links;
+  };
 
-    let unlinkIcon = (
+  /**
+   * gets the unlink icon for breaking links to other users
+   * @returns {*}
+   */
+  getUnlinkIcon = () => {
+    let linksContent = this.getLinksContent();
+    return (
       <Popup
         trigger={
           <Icon
@@ -284,8 +294,14 @@ export default class SpiritPanel extends Component {
         position="bottom left"
       />
     );
+  };
 
-    let busyLinkIcon = (
+  /**
+   * gets the busy icon for user linking
+   * @returns {*}
+   */
+  getBusyIcon = () => {
+    return (
       <Popup
         trigger={<Icon link name="gg" className="chainLink" />}
         content={
@@ -298,14 +314,30 @@ export default class SpiritPanel extends Component {
         position="bottom left"
       />
     );
+  };
 
-    let activeLinkIcon = "";
+  /**
+   * gets the badges content panel for the sidebar
+   * @returns {*}
+   */
+  getBadgesContent = () => {
+    return (
+      <div className="badgesContent" style={{ height: this.props.height - 64 }}>
+        Check back later :)
+      </div>
+    );
+  };
+
+  getSpiritTitle = () => {
+    let linkIcon = this.getLinkIcon(),
+      unlinkIcon = this.getUnlinkIcon(),
+      busyLinkIcon = this.getBusyIcon(),
+      activeLinkIcon = "";
+
     if (this.props.isMe) {
       if (this.hasActiveLinks()) {
-        //there's at least one spirit link, so show the unlink icon
         activeLinkIcon = unlinkIcon;
       }
-      //if my torchie isn't linked, don't show any icon
     } else {
       if (this.isLinkedToMe()) {
         activeLinkIcon = unlinkIcon;
@@ -316,49 +348,67 @@ export default class SpiritPanel extends Component {
       }
     }
 
-    const spiritContent = (
-      <div className="spiritContent" style={{ height: this.props.height - 64 }}>
-        <div className="spiritBackground">
-          <div className="level" align={"left"}>
-            <b></b>
+    return (
+      <div className="spiritTitle">
+        <div className="level">
+          <div className="infoTitle">
+            <b>{this.props.torchieOwner}</b>
             {activeLinkIcon}
           </div>
-
-          <div className="level">
-            <div className="infoTitle">
-              <b>{this.props.torchieOwner}</b> <i>({this.props.title})</i>
-            </div>
-            <div className="infoLevel">Level {this.props.level}</div>
+          <div className="infoLevel">
+            <b>Level {this.props.level} </b>
+            <br />
+            <i>({this.props.title})</i>
           </div>
-
-          <Popup
-            trigger={
-              <Progress
-                size="small"
-                percent={this.props.percentXP}
-                color="violet"
-                inverted
-                progress
-              />
-            }
-            content={
-              <div className="xpCount">
-                Total XP: <i>{this.props.totalXP}</i>
-              </div>
-            }
-            inverted
-            hideOnScroll
-            position="bottom right"
-          />
         </div>
 
-        <SpiritCanvas
-          flameString={this.state.flameString}
-          spirit={this.spiritModel}
-          width={DimensionController.getSpiritCanvasWidth()}
-          height={DimensionController.getSpiritCanvasHeight()}
-          render3d={this.render3d}
+        <Popup
+          trigger={
+            <Progress
+              size="small"
+              percent={this.props.percentXP}
+              color="violet"
+              inverted
+              progress
+            />
+          }
+          content={
+            <div className="xpCount">
+              Total XP: <i>{this.props.totalXP}</i>
+            </div>
+          }
+          inverted
+          hideOnScroll
+          position="bottom right"
         />
+      </div>
+    );
+  };
+
+  getSpiritCanvas = () => {
+    return (
+      <SpiritCanvas
+        flameString={this.state.flameString}
+        spirit={this.spiritModel}
+        width={DimensionController.getSpiritCanvasWidth()}
+        height={DimensionController.getSpiritCanvasHeight()}
+        render3d={this.render3d}
+      />
+    );
+  };
+
+  getSpiritContentHeight = () => {
+    return this.props.height - 64;
+  };
+
+  getSpiritContent = () => {
+    return (
+      <div
+        className="spiritContent"
+        style={{ height: this.getSpiritContentHeight() }}
+      >
+        {this.getSpiritTitle()}
+        {this.getSpiritCanvas()}
 
         <div className="ui two bottom attached buttons">
           <button
@@ -378,11 +428,17 @@ export default class SpiritPanel extends Component {
         </div>
       </div>
     );
-    const badgesContent = (
-      <div className="badgesContent" style={{ height: this.props.height - 64 }}>
-        No Badges Earned :(
-      </div>
-    );
+  };
+
+  /**
+   * renders the console sidebar panel of the console view
+   * @returns {*}
+   */
+  render() {
+    let { activeItem } = this.state;
+
+    const spiritContent = this.getSpiritContent();
+    const badgesContent = this.getBadgesContent();
     return (
       <div
         id="component"

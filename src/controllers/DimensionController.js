@@ -96,15 +96,10 @@ export class DimensionController {
    * @returns {number}
    */
   static getSpiritCanvasWidth() {
-    return window.innerWidth / (100 / 23) - 27;
-  }
-
-  /**
-   * gets the root panel height of the spirit canvas
-   * @returns {number}
-   */
-  static getSpiritPanelWidth() {
-    return window.innerWidth / (100 / 23);
+    let consoleSidebarWidthPixels = 29,
+      oneRem = window.innerWidth / 100,
+      relativeWidth = 20.7;
+    return oneRem * relativeWidth - consoleSidebarWidthPixels;
   }
 
   /**
@@ -116,6 +111,7 @@ export class DimensionController {
       window: window.innerHeight,
       border: 2,
       margin: 20,
+      title: 24,
       canvas: 108,
       menu: 28
     };
@@ -123,6 +119,7 @@ export class DimensionController {
       heights.window -
       heights.border -
       heights.margin -
+      heights.title -
       heights.canvas -
       heights.menu
     );
@@ -231,6 +228,8 @@ export class DimensionController {
   static getWindowInnerWidth() {
     return window.innerWidth;
   }
+
+  static getConsoleSidebarWidth() {}
 
   /**
    * gets the inner part of the window height

@@ -18,6 +18,7 @@ import { DimensionController } from "../../controllers/DimensionController";
  * @author ZoeDreams
  */
 export default class ConsoleLayout extends Component {
+  static sidebarWidth = "24em";
   /**
    * the costructor for the root console layout. This calls other child layouts
    * @param props - the properties of the component to render
@@ -196,7 +197,7 @@ export default class ConsoleLayout extends Component {
       });
       setTimeout(() => {
         this.setState({
-          sidebarPanelWidth: "23em",
+          sidebarPanelWidth: ConsoleLayout.sidebarWidth,
           sidebarPanelOpacity: 1
         });
       }, 0);
