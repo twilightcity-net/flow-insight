@@ -75,9 +75,9 @@ class WindowManager {
     log.info("[WindowManager] blur window -> " + arg.sender.name);
     global.App.WindowManager.lastBlurWindowName = arg.sender.name;
     ShortcutManager.deactivateWindowShortcuts(arg.sender);
-    // if (arg.sender.name === WindowManagerHelper.WindowNames.CONSOLE) {
-    //   this.handleHideConsoleEvent(1);
-    // }
+    if (arg.sender.name === WindowManagerHelper.WindowNames.CONSOLE) {
+      this.handleHideConsoleEvent(1);
+    }
   }
 
   /**
