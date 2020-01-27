@@ -108,21 +108,24 @@ class DtoClient {
    * @returns {*}
    */
   getRequest(url) {
-    return DtoClientFactory.RequestTypes.POST === this.type
-      ? request
+    switch (this.type) {
+      case DtoClientFactory.RequestTypes.POST:
+        return request
           .post(url)
           .retry(this.retry)
           .timeout(this.timeout)
           .send(this.store.dto)
-          .set("Content-Type", "application/json")
-      : DtoClientFactory.RequestTypes.GET === this.type
-      ? request
+          .set("Content-Type", "application/json");
+      case DtoClientFactory.RequestTypes.GET:
+        return request
           .get(url)
           .retry(this.retry)
           .timeout(this.timeout)
           .send(this.store.dto)
-          .set("Content-Type", "application/json")
-      : null;
+          .set("Content-Type", "application/json");
+      default:
+        throw new Error("Unknown request type '" + this.type + "'");
+    }
   }
 }
 
