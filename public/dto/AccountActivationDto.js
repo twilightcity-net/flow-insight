@@ -17,7 +17,6 @@ module.exports = class AccountActivationDto {
   }
 
   isValidToken() {
-    if (this.status === "VALID") return true;
-    return false;
+    return this.status === "VALID";
   }
 };
