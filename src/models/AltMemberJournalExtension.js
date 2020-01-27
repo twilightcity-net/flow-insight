@@ -63,7 +63,6 @@ export class AltMemberJournalExtension extends DataModel {
    * Reset the active selected item to the last item in the journal
    */
   resetActiveToLastJournalItem = () => {
-    console.log(this.name + " - resetActiveToLastJournalItem");
     if (this.allJournalItems.length > 0) {
       let lastItem = this.allJournalItems[this.allJournalItems.length - 1];
 

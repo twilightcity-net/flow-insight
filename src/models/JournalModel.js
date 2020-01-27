@@ -42,6 +42,11 @@ export class JournalModel extends DataModel {
     this.altModelDelegate.configureNoOp("addTaskRef");
   }
 
+  /**
+   * the possible types of callback events
+   * @returns {{ACTIVE_ITEM_UPDATE: string, NEW_JOURNAL_ITEM_ADDED: string, JOURNAL_HISTORY_UPDATE: string, RECENT_TASKS_UPDATE: string}}
+   * @constructor
+   */
   static get CallbackEvent() {
     return {
       ACTIVE_ITEM_UPDATE: "active-item-update",
@@ -51,6 +56,10 @@ export class JournalModel extends DataModel {
     };
   }
 
+  /**
+   * gets the active scope for a selected user
+   * @returns {AltMemberJournalExtension|JournalModel}
+   */
   getActiveScope = () => {
     if (this.isAltMemberSelected) {
       return this.altModelExtension;
@@ -65,6 +74,7 @@ export class JournalModel extends DataModel {
    * @param memberId
    */
   setMemberSelection = (meId, memberId) => {
+    console.log(this.name + " set member selection");
     if (meId === memberId) {
       this.isAltMemberSelected = false;
       this.altMemberId = null;
@@ -100,11 +110,9 @@ export class JournalModel extends DataModel {
    * which should ultimately be a configurable setting
    * but hardcoded on the server for now
    */
-
   loadDefaultJournal = () => {
     let remoteUrn = "/journal";
     let loadRequestType = DataModel.RequestTypes.GET;
-
     this.remoteFetch(
       null,
       remoteUrn,
@@ -152,13 +160,13 @@ export class JournalModel extends DataModel {
 
   /**
    * Add a new task reference on the server, so intentions can be added for this task
+   * @param taskName
    */
   addTaskRef = taskName => {
     console.log(this.name + " - Request - addTaskRef");
     let remoteUrn = "/journal/taskref";
     let loadRequestType = DataModel.RequestTypes.POST;
     let args = { taskName: taskName };
-
     this.remoteFetch(
       args,
       remoteUrn,
@@ -174,8 +182,10 @@ export class JournalModel extends DataModel {
 
   /**
    * Add a new Journal Entry to the Journal history
+   * @param projectId
+   * @param taskId
+   * @param description
    */
-
   addJournalEntry = (projectId, taskId, description) => {
     console.log(this.name + " - Request - addJournalEntry");
 
@@ -202,8 +212,9 @@ export class JournalModel extends DataModel {
 
   /**
    * Update the finish status of an existing intention
+   * @param intentionId
+   * @param finishStatus
    */
-
   finishIntention = (intentionId, finishStatus) => {
     console.log(this.name + " - Request - finishIntention");
 
@@ -226,8 +237,9 @@ export class JournalModel extends DataModel {
 
   /**
    * Update the finish status of an existing intention or WTF
+   * @param journalItem
+   * @param flameRating
    */
-
   updateFlameRating = (journalItem, flameRating) => {
     console.log(this.name + " - Request - updateFlameRating");
 
@@ -240,16 +252,17 @@ export class JournalModel extends DataModel {
     }
   };
 
+  /**
+   * updates the flame rating for the given intention
+   * @param journalItem
+   * @param flameRating
+   */
   updateFlameRatingForIntention = (journalItem, flameRating) => {
-    console.log(this.name + " - Request - updateFlameRatingForIntention");
-
-    let remoteUrn =
-      "/journal/intention/" + journalItem.id + "/transition/flame";
+    console.log(this.name + " update flame rating for journal item");
+    let remoteUrn = "/journal/intention/" + journalItem.id + "/transition/flame";
     let loadRequestType = DataModel.RequestTypes.POST;
     let args = { flameRating: flameRating };
-
     journalItem.flameRating = Number(flameRating);
-
     this.remoteFetch(
       args,
       remoteUrn,

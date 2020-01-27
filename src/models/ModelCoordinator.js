@@ -1,17 +1,25 @@
-import { TeamModel } from "../models/TeamModel";
-import { JournalModel } from "../models/JournalModel";
-import { DataModelFactory } from "../models/DataModelFactory";
+import {TeamModel} from "../models/TeamModel";
+import {JournalModel} from "../models/JournalModel";
+import {DataModelFactory} from "../models/DataModelFactory";
 
 /**
  * This class is used to coordinate models across all the events
  */
 export class ModelCoordinator {
+
+  /**
+   * the static refrence to the global instance
+   */
+  static instance;
+
+  /**
+   * builds the coordinator class with a given context scope
+   * @param scope - the scope to build the coordinator in
+   */
   constructor(scope) {
     this.name = "[ModelCoordinator]";
     this.scope = scope;
   }
-
-  static instance;
 
   /**
    * does the initial setup and wires the model controllers together
@@ -48,6 +56,7 @@ export class ModelCoordinator {
    * loads the default models for the stores
    */
   loadDefaultModels() {
+    console.log(this.name + " load default models");
     this.journalModel.loadDefaultJournal();
     this.spiritModel.refreshXP();
     this.teamModel.refreshAll();
@@ -57,6 +66,7 @@ export class ModelCoordinator {
    * updates necessary models
    */
   updateModels() {
+    console.log(this.name + " update models");
     this.onJournalEntryUpdateMeAndXP();
     this.onJournalUpdateResetSpiritFlame();
     this.onChangeActiveRowResetSpiritFlame();
@@ -67,6 +77,7 @@ export class ModelCoordinator {
    * removed references to the models and call backs for memory leaking
    */
   unregisterModelWirings = () => {
+    console.log(this.name + " unregister models");
     this.journalModel.unregisterAllListeners(this.name);
     this.teamModel.unregisterAllListeners(this.name);
     this.spiritModel.unregisterAllListeners(this.name);
@@ -80,9 +91,6 @@ export class ModelCoordinator {
       this.name,
       JournalModel.CallbackEvent.NEW_JOURNAL_ITEM_ADDED,
       () => {
-        console.log(
-          "[ModelCoordinator] Event Fired: onJournalEntryUpdateMeAndXP"
-        );
         this.teamModel.refreshMe();
         this.spiritModel.refreshXP();
       }
@@ -114,10 +122,6 @@ export class ModelCoordinator {
       this.name,
       JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE,
       () => {
-        console.log(
-          "[ModelCoordinator] Event Fired: onChangeActiveRowResetSpiritFlame"
-        );
-
         if (this.journalModel.getActiveScope().activeJournalItem != null) {
           let activeFlame = this.journalModel.getActiveScope().activeJournalItem
             .flameRating;
@@ -135,9 +139,6 @@ export class ModelCoordinator {
       this.name,
       TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
       () => {
-        console.log(
-          "[ModelCoordinator] Event Fired: onTeamMemberChangeActiveScopeForAllModels"
-        );
         this.journalModel.setMemberSelection(
           this.teamModel.me.id,
           this.teamModel.activeTeamMember.id

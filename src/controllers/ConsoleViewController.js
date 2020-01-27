@@ -33,7 +33,7 @@ export class ConsoleViewController extends ActiveViewController {
     );
 
     this.modelUpdateListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_SHOWN,
+      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
       this
     );
 

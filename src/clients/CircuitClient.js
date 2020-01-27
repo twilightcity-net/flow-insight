@@ -68,7 +68,6 @@ export class CircuitClient extends BaseClient {
       CircuitClient.instance = new CircuitClient(scope);
       CircuitClient.getActiveCircuit(scope, model => {
         this.activeCircuit = model;
-        console.log(this.activeCircuit);
       });
     }
   }

@@ -8,14 +8,51 @@ import { DimensionController } from "../controllers/DimensionController";
 import { CircuitClient } from "../clients/CircuitClient";
 import { TalkClient } from "../clients/TalkClient";
 
-//
-// This View will contain logic to inject the various tabs of the
-// console into the view. It will also manage the states of these
-// views in an array.
-//
+/**
+ * This View will contain logic to inject the various tabs of the
+ * console into the view. It will also manage the states of these
+ * views in an array.
+ */
 export default class ConsoleView extends Component {
-  /// sets up the event to listen for if the window is shown or hiden.
-  /// Activates animation according
+  /**
+   * the amount of time to animate the console view when opening the window
+   * @type {number}
+   */
+  static animationTime = 0.4;
+
+  /**
+   * this is the type of animation css class to use to slide the console in
+   * @type {string}
+   */
+  static animationTypeIn = "console-slidein";
+
+  /**
+   * this is the type of animation css class to use to slide the console out
+   * @type {string}
+   */
+  static animationTypeOut = "console-slideout";
+
+  /**
+   * the css scalar to apply the animation vector to
+   * @type {string}
+   */
+  static animationTiming = "ease";
+
+  /**
+   * the global animation states for the console window
+   * @returns {{HIDE_CONSOLE: number, SHOW_CONSOLE: number}}
+   */
+  static get ConsoleStates() {
+    return {
+      SHOW_CONSOLE: 0,
+      HIDE_CONSOLE: 1
+    };
+  }
+  /**
+   * sets up the event to listen for if the window is shown or hiden.
+   * Activates animation according
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.name = "[ConsoleView]";
@@ -29,7 +66,7 @@ export default class ConsoleView extends Component {
     root.style.opacity = "0";
     this.keyframes = new Keyframes(root);
     Keyframes.define({
-      name: "console-slidein",
+      name: ConsoleView.animationTypeIn,
       from: {
         transform: "translate(0px," + window.innerHeight * -1 + "px)",
         opacity: "0"
@@ -40,7 +77,7 @@ export default class ConsoleView extends Component {
       }
     });
     Keyframes.define({
-      name: "console-slideout",
+      name: ConsoleView.animationTypeOut,
       from: {
         transform: "translate(0px,0px)",
         opacity: "1"
@@ -65,19 +102,25 @@ export default class ConsoleView extends Component {
     this.myController.configureConsoleViewListener(this, null);
   };
 
+  /**
+   * called when this view is initially loaded. when arg = 1 the console is sliding in
+   * from a hidden state
+   * @param event
+   * @param arg
+   */
   onLoadCb(event, arg) {
     console.log("[ConsoleView] event -> WINDOW_CONSOLE_SHOW_HIDE : " + arg);
-    if (arg === 0) {
+    if (arg === ConsoleView.ConsoleStates.SHOW_CONSOLE) {
       this.keyframes.play({
-        name: "console-slidein",
-        duration: ".4s",
-        timingFunction: "ease"
+        name: ConsoleView.animationTypeIn,
+        duration: ConsoleView.animationTime + "s",
+        timingFunction: ConsoleView.animationTiming
       });
-    } else if (arg === 1) {
+    } else if (arg === ConsoleView.ConsoleStates.HIDE_CONSOLE) {
       this.keyframes.play({
-        name: "console-slideout",
-        duration: ".4s",
-        timingFunction: "ease"
+        name: ConsoleView.animationTypeOut,
+        duration: ConsoleView.animationTime + "s",
+        timingFunction: ConsoleView.animationTiming
       });
     }
   }

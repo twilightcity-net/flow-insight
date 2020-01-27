@@ -1,5 +1,6 @@
 import { DataModelFactory } from "../models/DataModelFactory";
 import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
+import ConsoleView from "../views/ConsoleView";
 
 /**
  * This class is used to coordinate views across all the perspective change events
@@ -93,28 +94,23 @@ export class PerspectiveController {
    * @param arg
    */
   onConsoleOpenUpdateModels(event, arg) {
-    console.log(
-      this.name +
-        " - Event Fired: onConsoleOpenUpdateModels -> " +
-        " : " +
-        arg.toString()
-    );
-
-    if (arg === 1) {
-      console.log(this.name + " console shown : update models ");
-      if (this.spiritModel.hasLinks()) {
-        this.journalModel.loadDefaultJournal();
-      }
-    } else {
-      /// TODO create an event console shown which will call this
-
-      // this is required so that the console sliding animation isn't wonky or laggy
-      // maybe create a console is shown (done animating) event to fire these..
-      // this would also throttle requests if thw console is opened and closed rapidly
-      setTimeout(() => {
-        this.teamModel.resetActiveMemberToMe();
+    console.log(this.name + " update models -> " + JSON.stringify(arg));
+    switch (arg) {
+      case ConsoleView.ConsoleStates.SHOW_CONSOLE:
+        console.log(this.name + " console shown -> update models ");
         this.teamModel.refreshAll();
-      }, 420);
+        if (this.spiritModel.hasLinks()) {
+          this.journalModel.loadDefaultJournal();
+        }
+        break;
+      case ConsoleView.ConsoleStates.HIDE_CONSOLE:
+        console.log(this.name + " console hidden : switch to me w/ delay ");
+        setTimeout(() => {
+          this.teamModel.resetActiveMemberToMe();
+        }, ConsoleView.animationTime * 1000);
+        break;
+      default:
+        throw new Error("Unknown console show hide argument '" + arg + "'");
     }
   }
 }
