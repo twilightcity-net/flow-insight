@@ -22,6 +22,8 @@ export class CircuitClient extends BaseClient {
    */
   static replies = new Map();
 
+  static activeCircuit = null;
+
   /**
    * builds the Client for a Circuit in Gridtime
    * @param scope
@@ -34,7 +36,6 @@ export class CircuitClient extends BaseClient {
       null,
       this.onCircuitEventReply
     );
-    this.activeCircuit = null;
   }
 
   /**
@@ -66,9 +67,7 @@ export class CircuitClient extends BaseClient {
   static init(scope) {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
-      CircuitClient.getActiveCircuit(scope, model => {
-        this.activeCircuit = model;
-      });
+      CircuitClient.getActiveCircuit()
     }
   }
 
@@ -95,10 +94,13 @@ export class CircuitClient extends BaseClient {
     let clientEvent = new RendererClientEvent(
       CircuitClient.Events.GET_MY_CIRCUIT,
       {},
-      scope,
+      scope ? scope : CircuitClient.instance.scope,
       (event, arg) => {
         let model = new LearningCircuitModel(arg.dto, scope);
-        callback(model);
+        CircuitClient.activeCircuit = model;
+        if(callback) {
+          callback(model);
+        }
       }
     );
     CircuitClient.instance.notifyCircuit(clientEvent);
