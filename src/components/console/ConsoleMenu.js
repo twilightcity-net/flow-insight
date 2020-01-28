@@ -48,7 +48,6 @@ export default class ConsoleMenu extends Component {
   };
 
   onHeartbeat(event, arg) {
-    console.log(arg);
     this.setState({
       isOnline: arg.isOnline,
       pingTime: arg.pingTime,

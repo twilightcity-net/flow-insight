@@ -122,10 +122,9 @@ export default class CircuitsPanel extends Component {
           <List.Item>
             <List.Content floated='right' verticalAlign="middle" className="circuitLabelTimer">
               <Label color='red' horizontal>
-                <Icon name='lightning'/> 5m
+                <Icon name='lightning'/>5m
               </Label>
             </List.Content>
-            <List.Icon name="compass outline" size=""/>
             <List.Content>
               <List.Header>
                 Circuit 1
@@ -133,132 +132,7 @@ export default class CircuitsPanel extends Component {
               Owner: Zoe Love
             </List.Content>
           </List.Item>
-          <List.Item>
-            <List.Content floated='right' verticalAlign="middle" className="circuitLabelTimer">
-              <Label color='red' horizontal>
-                <Icon name='lightning'/> 5m
-              </Label>
-            </List.Content>
-            <List.Icon name="compass outline" size="large"/>
-            <List.Content>
-              <List.Header>
-                Circuit 1
-              </List.Header>
-              Owner: Zoe Love
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content floated='right' verticalAlign="middle" className="circuitLabelTimer">
-              <Label color='red' horizontal>
-                <Icon name='lightning'/> 5m
-              </Label>
-            </List.Content>
-            <List.Icon name="compass outline" size="large"/>
-            <List.Content>
-              <List.Header>
-                Circuit 1
-              </List.Header>
-              Owner: Zoe Love
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content floated='right' verticalAlign="middle" className="circuitLabelTimer">
-              <Label color='red' horizontal>
-                <Icon name='lightning'/> 5m
-              </Label>
-            </List.Content>
-            <List.Icon name="compass outline" size="large"/>
-            <List.Content>
-              <List.Header>
-                Circuit 1
-              </List.Header>
-              Owner: Zoe Love
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content floated='right' verticalAlign="middle" className="circuitLabelTimer">
-              <Label color='red' horizontal>
-                <Icon name='lightning'/> 5m
-              </Label>
-            </List.Content>
-            <List.Icon name="compass outline" size="large"/>
-            <List.Content>
-              <List.Header>
-                Circuit 1
-              </List.Header>
-              Owner: Zoe Love
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content floated='right' verticalAlign="middle" className="circuitLabelTimer">
-              <Label color='red' horizontal>
-                <Icon name='lightning'/> 5m
-              </Label>
-            </List.Content>
-            <List.Icon name="compass outline" size="large"/>
-            <List.Content>
-              <List.Header>
-                Circuit 1
-              </List.Header>
-              Owner: Zoe Love
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content floated='right' verticalAlign="middle" className="circuitLabelTimer">
-              <Label color='red' horizontal>
-                <Icon name='lightning'/> 5m
-              </Label>
-            </List.Content>
-            <List.Icon name="compass outline" size="large"/>
-            <List.Content>
-              <List.Header>
-                Circuit 1
-              </List.Header>
-              Owner: Zoe Love
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content floated='right' verticalAlign="middle" className="circuitLabelTimer">
-              <Label color='red' horizontal>
-                <Icon name='lightning'/> 5m
-              </Label>
-            </List.Content>
-            <List.Icon name="compass outline" size="large"/>
-            <List.Content>
-              <List.Header>
-                Circuit 1
-              </List.Header>
-              Owner: Zoe Love
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content floated='right' verticalAlign="middle" className="circuitLabelTimer">
-              <Label color='red' horizontal>
-                <Icon name='lightning'/> 5m
-              </Label>
-            </List.Content>
-            <List.Icon name="compass outline" size="large"/>
-            <List.Content>
-              <List.Header>
-                Circuit 1
-              </List.Header>
-              Owner: Zoe Love
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content floated='right' verticalAlign="middle" className="circuitLabelTimer">
-              <Label color='red' horizontal>
-                <Icon name='lightning'/> 5m
-              </Label>
-            </List.Content>
-            <List.Icon name="compass outline" size="large"/>
-            <List.Content>
-              <List.Header>
-                Circuit 1
-              </List.Header>
-              Owner: Zoe Love
-            </List.Content>
-          </List.Item>
+
         </List>
       </div>
     );
