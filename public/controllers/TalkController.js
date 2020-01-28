@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   Util = require("../Util"),
-  { DtoClient } = require("../managers/DtoClientFactory"),
+  {DtoClient} = require("../managers/DtoClientFactory"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory");
 
@@ -64,6 +64,10 @@ class TalkController extends BaseController {
       this,
       this.onAppHeartbeat
     );
+    this.appPulseNotifier = EventFactory.createEvent(
+      EventFactory.Types.APP_PULSE,
+      this
+    );
     this.talkConnectedListener = EventFactory.createEvent(
       EventFactory.Types.TALK_CONNECTED,
       this
@@ -101,10 +105,10 @@ class TalkController extends BaseController {
     socket.on(TalkController.EventTypes.CONNECT, () => {
       log.info(
         chalk.greenBright(name) +
-          " connect : " +
-          connectionId +
-          " -> " +
-          socket.id
+        " connect : " +
+        connectionId +
+        " -> " +
+        socket.id
       );
       this.talkConnectedListener.dispatch();
     });
@@ -138,14 +142,18 @@ class TalkController extends BaseController {
     socket.on(TalkController.EventTypes.RECONNECT, attempt => {
       log.info(
         chalk.greenBright(name) +
-          " reconnected {" +
-          attempt +
-          "} times : " +
-          connectionId
+        " reconnected {" +
+        attempt +
+        "} times : " +
+        connectionId
       );
     });
     socket.on(TalkController.EventTypes.PONG, latency => {
       log.info(chalk.green(name) + " latency " + latency + "ms");
+      global.App.TalkManager.setLatency(latency);
+      this.appPulseNotifier.dispatch({
+        latencyTime: latency
+      });
     });
   }
 

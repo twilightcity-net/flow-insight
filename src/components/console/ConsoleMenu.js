@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Icon, Menu, Popup } from "semantic-ui-react";
+import {Divider, Icon, Menu, Popup} from "semantic-ui-react";
 import { MainPanelViewController } from "../../controllers/MainPanelViewController";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 
@@ -26,6 +26,7 @@ export default class ConsoleMenu extends Component {
   }
 
   componentDidMount = () => {
+    this.myController.configurePulseListener(this, this.onPulse);
     this.myController.configureHeartbeatListener(this, this.onHeartbeat);
     this.myController.configureMenuListener(
       this,
@@ -36,6 +37,7 @@ export default class ConsoleMenu extends Component {
   componentWillUnmount = () => {
     this.myController.configureMenuListener(this, null);
     this.myController.configureHeartbeatListener(this, null);
+    this.myController.configurePulseListener(this, null);
   };
 
   onRefreshActivePerspective = () => {
@@ -46,11 +48,20 @@ export default class ConsoleMenu extends Component {
   };
 
   onHeartbeat(event, arg) {
+    console.log(arg);
     this.setState({
       isOnline: arg.isOnline,
       pingTime: arg.pingTime,
+      latencyTime: arg.latencyTime,
+      talkUrl: arg.talkUrl,
       server: arg.server,
       errorMsg: arg.message
+    });
+  }
+
+  onPulse(event, arg) {
+    this.setState({
+      latencyTime: arg.latencyTime
     });
   }
 
@@ -69,9 +80,8 @@ export default class ConsoleMenu extends Component {
     this.myController.hideConsoleWindow();
   };
 
-  /// renders the menu component of the console view
   render() {
-    const { activeItem, isOnline, pingTime, server, errorMsg } = this.state;
+    const { activeItem, isOnline, pingTime, latencyTime, talkUrl, server, errorMsg } = this.state;
     const networkConnectMenuItem = (
       <Menu.Item
         header
@@ -92,6 +102,16 @@ export default class ConsoleMenu extends Component {
           <i>ping: </i>
           <b>
             <i>{pingTime <= 0 ? "calculating..." : pingTime + "ms"}</i>
+          </b>
+        </div>
+        <Divider/>
+        <div>
+          <i>{talkUrl}</i>
+        </div>
+        <div>
+          <i>latency: </i>
+          <b>
+            <i>{latencyTime <= 0 ? "calculating..." : latencyTime + "ms"}</i>
           </b>
         </div>
         {!isOnline && (

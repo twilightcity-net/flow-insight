@@ -157,13 +157,11 @@ module.exports = class ConsoleWindow {
    * shows the console window and returns the state of shown
    */
   showConsole() {
-    log.info("[ConsoleWindow] show console -> " + JSON.stringify(this.display));
     this.state = this.states.SHOWING;
     this.window.show();
     this.window.focus();
     setTimeout(() => {
       this.state = this.states.SHOWN;
-      log.info("[ConsoleWindow] console shown");
       this.events.consoleShown.dispatch({});
     }, this.animateTimeMs);
   }

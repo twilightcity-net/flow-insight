@@ -3,21 +3,24 @@ const log = require("electron-log"),
   request = require("superagent"),
   EventFactory = require("../events/EventFactory"),
   HeartbeatDto = require("../dto/HeartbeatDto"),
-  SimpleStatusDto = require("../dto/SimpleStatusDto");
+  SimpleStatusDto = require("../dto/SimpleStatusDto"),
+  TalkController = require("../controllers/TalkController");
 
 /**
  * Application class that manages our heartbeat
+ * @type {AppHeartbeat}
  */
-class AppHeartbeat {
+module.exports = class AppHeartbeat {
   /**
    * builds are heartbeat class and event
    */
   constructor() {
-    log.info("[AppHeartbeat] create heartbeat -> okay");
+    this.name = "[AppHeartbeat]";
+    log.info(this.name + " create heartbeat -> okay");
     this.intervalMs = 60000;
     this.timeout = {
-      response: 6000,
-      deadline: 9000
+      response: 9000,
+      deadline: 30000
     };
     this.dto = new HeartbeatDto({
       idleTime: 0,
@@ -38,7 +41,7 @@ class AppHeartbeat {
    * starts our heartbeat mechanism
    */
   start() {
-    log.info("[AppHeartbeat] start heartbeat -> interval : " + this.intervalMs);
+    log.info(this.name + " start heartbeat -> interval : " + this.intervalMs);
     this.previousDeltaTime = new Date().getTime();
     this.pulse();
     this.interval = setInterval(() => {
@@ -78,7 +81,7 @@ class AppHeartbeat {
    * stops our heartbeat state machine
    */
   stop() {
-    log.info("[AppHeartbeat] stop heartbeat -> okay");
+    log.info(this.name + " stop heartbeat -> okay");
     clearTimeout(this.interval);
   }
 
@@ -109,7 +112,7 @@ class AppHeartbeat {
       req.end((err, res) => {
         this.pingTime = new Date().getTime() - this.previousDeltaTime;
         log.info(
-          chalk.yellowBright("[AppHeartbeat]") +
+          chalk.greenBright(this.name) +
             " ping [" +
             this.pingTime +
             "ms]"
@@ -120,6 +123,7 @@ class AppHeartbeat {
           global.App.isOnline = true;
           dto = new SimpleStatusDto(res.body);
           dto.pingTime = this.pingTime;
+          dto.latencyTime = global.App.TalkManager.getLatency();
           dto.isOnline = dto.isValid();
         } catch (e) {
           global.App.isOnline = false;
@@ -128,10 +132,12 @@ class AppHeartbeat {
             status: "FAILED"
           });
           dto.pingTime = -1;
+          dto.latencyTime = global.App.TalkManager.getLatency();
           dto.isOnline = global.App.isOnline;
         } finally {
           if (dto) {
             dto.server = global.App.api;
+            dto.talkUrl = global.App.talkUrl;
             dto.isOnline = global.App.isOnline;
             this.events.heartbeat.dispatch(dto);
           }
@@ -139,10 +145,8 @@ class AppHeartbeat {
       });
     } catch (e) {
       log.error(
-        chalk.red("[AppHeartbeat]") + " " + e + "\n\n" + e.stack + "\n"
+        chalk.red(this.name) + " " + e + "\n\n" + e.stack + "\n"
       );
     }
   }
 }
-
-module.exports = AppHeartbeat;

@@ -40,6 +40,7 @@ class TalkManager {
       this.name
     );
     this.myController.wireSocketMessagesToEventCircuit(this.socket, this.name);
+    this.latency = 0;
   }
 
   /**
@@ -55,6 +56,14 @@ class TalkManager {
    */
   getConnectionUrl() {
     return global.App.talkUrl + "?connectionId=" + this.connectionId;
+  }
+
+  getLatency() {
+    return this.latency;
+  }
+
+  setLatency(latency) {
+    this.latency = latency;
   }
 
   /**

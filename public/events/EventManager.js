@@ -151,7 +151,7 @@ class EventManager {
    * initializes event sonar, which will reflect any echo event sent by main or renderer processes. usually for renderer
    */
   initSonar() {
-    log.info(chalk.cyan("[EventManager]") + " setup event sonar");
+    log.info("[EventManager] setup event sonar");
     ipcMain.on("echo-event", (_event, _arg) => {
       if (!_arg.type) {
         throw new EventEchoException(

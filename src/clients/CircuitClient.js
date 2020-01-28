@@ -67,7 +67,7 @@ export class CircuitClient extends BaseClient {
   static init(scope) {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
-      CircuitClient.getActiveCircuit()
+      CircuitClient.loadActiveCircuit()
     }
   }
 
@@ -90,7 +90,7 @@ export class CircuitClient extends BaseClient {
     return clientEvent;
   }
 
-  static getActiveCircuit(scope, callback) {
+  static loadActiveCircuit(scope, callback) {
     let clientEvent = new RendererClientEvent(
       CircuitClient.Events.GET_MY_CIRCUIT,
       {},

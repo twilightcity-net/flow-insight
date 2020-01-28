@@ -72,7 +72,7 @@ class CircuitController extends BaseController {
    * @returns {string}
    */
   onCircuitClientEvent(event, arg) {
-    log.info(chalk.green(this.name) + " event : " + JSON.stringify(arg));
+    log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
     switch (arg.type) {
       case CircuitController.EventTypes.CREATE_CIRCUIT:
         this.handleCreateCircuitEvent(event, arg);

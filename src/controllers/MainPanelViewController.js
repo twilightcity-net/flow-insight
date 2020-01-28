@@ -32,6 +32,10 @@ export class MainPanelViewController extends ActiveViewController {
       RendererEventFactory.Events.APP_HEARTBEAT,
       this
     );
+    this.pulseListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.APP_PULSE,
+      this
+    );
     this.hideConsoleWindowNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
       this
@@ -52,6 +56,10 @@ export class MainPanelViewController extends ActiveViewController {
 
   configureHeartbeatListener(scope, callback) {
     this.heartbeatListener.updateCallback(scope, callback);
+  }
+
+  configurePulseListener(scope, callback) {
+    this.pulseListener.updateCallback(scope, callback);
   }
 
   changeActivePanel(oldState, newState) {
