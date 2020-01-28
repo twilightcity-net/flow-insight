@@ -74,23 +74,22 @@ export class JournalModel extends DataModel {
    * @param memberId
    */
   setMemberSelection = (meId, memberId) => {
-    console.log(this.name + " set member selection");
     if (meId === memberId) {
+      console.log(this.name + " reset member selection to me -> " + memberId);
       this.isAltMemberSelected = false;
       this.altMemberId = null;
-
       this.altModelDelegate.resetMemberSelection();
       this.resetActiveToLastJournalItem();
-
       this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
       this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
-    } else {
-      this.isAltMemberSelected = true;
-      this.altMemberId = memberId;
-
-      this.altModelExtension.setMemberSelection(memberId);
-      this.loadDefaultJournal();
+      return;
     }
+
+    console.log(this.name + " set member selection to  -> " + memberId);
+    this.isAltMemberSelected = true;
+    this.altMemberId = memberId;
+    this.altModelExtension.setMemberSelection(memberId);
+    this.loadDefaultJournal();
   };
 
   /**
@@ -108,8 +107,9 @@ export class JournalModel extends DataModel {
    * but hardcoded on the server for now
    */
   loadDefaultJournal = () => {
-    let remoteUrn = "/journal";
-    let loadRequestType = DataModel.RequestTypes.GET;
+    let remoteUrn = "/journal",
+      loadRequestType = DataModel.RequestTypes.GET;
+
     this.remoteFetch(
       null,
       remoteUrn,
@@ -127,16 +127,17 @@ export class JournalModel extends DataModel {
    * Reset the active selected item to the last item in the journal
    */
   resetActiveToLastJournalItem = () => {
-    if (this.allJournalItems.length > 0) {
-      let lastItem = this.allJournalItems[this.allJournalItems.length - 1];
+    this.activeIndex = 0;
+    this.activeJournalItem = null;
 
-      this.activeJournalItem = lastItem;
-      this.activeIndex = lastItem.index;
-      this.activeFlame = lastItem.flameRating;
-    } else {
-      this.activeIndex = 0;
-      this.activeJournalItem = null;
+    if (this.allJournalItems.length > 0) {
+      this.activeJournalItem = this.allJournalItems[
+        this.allJournalItems.length - 1
+      ];
+      this.activeIndex = this.activeJournalItem.index;
+      this.activeFlame = this.activeJournalItem.flameRating;
     }
+
     this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
   };
 
@@ -148,6 +149,7 @@ export class JournalModel extends DataModel {
     this.activeIndex = journalItem.index;
     this.activeJournalItem = journalItem;
     this.activeFlame = journalItem;
+
     this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
   };
 
@@ -157,9 +159,11 @@ export class JournalModel extends DataModel {
    */
   addTaskRef = taskName => {
     console.log(this.name + " - Request - addTaskRef");
-    let remoteUrn = "/journal/taskref";
-    let loadRequestType = DataModel.RequestTypes.POST;
-    let args = { taskName: taskName };
+
+    let remoteUrn = "/journal/taskref",
+      loadRequestType = DataModel.RequestTypes.POST,
+      args = { taskName: taskName };
+
     this.remoteFetch(
       args,
       remoteUrn,
@@ -270,6 +274,11 @@ export class JournalModel extends DataModel {
     );
   };
 
+  /**
+   * updates the flame ratings for wtf circuits
+   * @param journalItem
+   * @param flameRating
+   */
   updateFlameRatingForWTFCircle = (journalItem, flameRating) => {
     let remoteUrn = "/journal/wtf/" + journalItem.id + "/transition/flame";
     let loadRequestType = DataModel.RequestTypes.POST;
@@ -312,8 +321,11 @@ export class JournalModel extends DataModel {
     );
   };
 
-  //////////// REMOTE CALLBACK HANDLERS  ////////////
-
+  /**
+   * called when we want to load the default user journal
+   * @param defaultJournal
+   * @param err
+   */
   onLoadDefaultJournalCb = (defaultJournal, err) => {
     if (err) {
       console.log(this.name + " - error:" + err);
@@ -326,6 +338,11 @@ export class JournalModel extends DataModel {
     this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
   };
 
+  /**
+   * called when we referecne a new intention
+   * @param recentTasksSummary
+   * @param err
+   */
   onAddTaskRefCb = (recentTasksSummary, err) => {
     if (err) {
       console.log(this.name + " - error:" + err);
@@ -344,6 +361,11 @@ export class JournalModel extends DataModel {
     this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
   };
 
+  /**
+   * called when we refresh an intention in our view
+   * @param recentTasksSummary
+   * @param err
+   */
   onRefreshRecentTaskRefsCb = (recentTasksSummary, err) => {
     if (err) {
       console.log(this.name + " - error:" + err);
@@ -353,54 +375,66 @@ export class JournalModel extends DataModel {
     this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
   };
 
+  /**
+   * callback for when we add a new journal entry
+   * @param savedEntry
+   * @param err
+   */
   onAddJournalEntryCb = (savedEntry, err) => {
     if (err) {
       console.log(this.name + " - error:" + err);
     } else {
       let recentEntry = {
-        projectId: savedEntry.projectId,
-        taskId: savedEntry.taskId,
-        description: savedEntry.description
-      };
-
-      let journalItem = this.createJournalItem(
-        this.allJournalItems.length,
-        savedEntry
-      );
+          projectId: savedEntry.projectId,
+          taskId: savedEntry.taskId,
+          description: savedEntry.description
+        },
+        journalItem = this.createJournalItem(
+          this.allJournalItems.length,
+          savedEntry
+        );
 
       this.updateFinishStatusOfLastJournalItem();
-
       this.allJournalItems = [...this.allJournalItems, journalItem];
       this.activeSize = this.allJournalItems.length;
       this.recentEntry = recentEntry;
-
       this.activeIndex = journalItem.index;
       this.activeJournalItem = journalItem;
       this.activeFlame = journalItem.flameRating;
-
       this.notifyListeners(JournalModel.CallbackEvent.NEW_JOURNAL_ITEM_ADDED);
       this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
-
       this.refreshRecentTaskReferences();
     }
   };
 
+  /**
+   * called when we finish creating a new journal entry
+   * @param savedEntry
+   * @param err
+   */
   onFinishJournalEntryCb = (savedEntry, err) => {
     if (err) {
       console.log(this.name + " - error:" + err);
     }
   };
 
+  /**
+   * callback for when we update a flame rating
+   * @param savedEntry
+   * @param err
+   */
   onUpdateFlameRatingCb = (savedEntry, err) => {
     if (err) {
       console.log(this.name + " - error:" + err);
     }
   };
 
+  /**
+   * callback for when we change the finish state of the last item in the journal
+   * NOTE: this is to be consistent with the server, which auto-updates the last intention status
+   * need to skip over any WTFs
+   */
   updateFinishStatusOfLastJournalItem = () => {
-    //this is to be consistent with the server, which auto-updates the last intention status
-    //need to skip over any WTFs
-
     for (var i = this.allJournalItems.length - 1; i >= 0; --i) {
       let lastItem = this.allJournalItems[i];
 
@@ -413,14 +447,17 @@ export class JournalModel extends DataModel {
     }
   };
 
+  /**
+   * initialize a new journal from a users existing journal as a template
+   * @param defaultJournal
+   */
   initFromDefaultJournal = defaultJournal => {
-    var journalItems = this.createJournalItems(defaultJournal.recentIntentions);
-    let recentIntentionKeys = this.extractRecentIntentionKeys(
-      defaultJournal.recentIntentions
-    );
-
-    let activeJournalItem = null;
-    let activeIndex = 0;
+    let journalItems = this.createJournalItems(defaultJournal.recentIntentions),
+      recentIntentionKeys = this.extractRecentIntentionKeys(
+        defaultJournal.recentIntentions
+      ),
+      activeJournalItem = null,
+      activeIndex = 0;
 
     if (journalItems.length > 0) {
       activeJournalItem = journalItems[journalItems.length - 1];
@@ -430,15 +467,18 @@ export class JournalModel extends DataModel {
     this.allJournalItems = journalItems;
     this.activeJournalItem = activeJournalItem;
     this.activeIndex = activeIndex;
-
     this.recentProjects = defaultJournal.recentProjects;
     this.recentTasksByProjectId = defaultJournal.recentTasksByProjectId;
     this.recentEntry = recentIntentionKeys;
-
     this.allIntentions = defaultJournal.recentIntentions;
     this.activeSize = defaultJournal.recentIntentions.length;
   };
 
+  /**
+   * get the recent entries keys for display
+   * @param allEntries
+   * @returns {{}}
+   */
   extractRecentIntentionKeys = allEntries => {
     let latestKeys = {};
 
@@ -454,6 +494,11 @@ export class JournalModel extends DataModel {
     return latestKeys;
   };
 
+  /**
+   * creates and array of journal items to display in the gui
+   * @param allEntries
+   * @returns {[]}
+   */
   createJournalItems = allEntries => {
     let journalItems = [];
 
@@ -464,11 +509,17 @@ export class JournalModel extends DataModel {
     return journalItems;
   };
 
+  /**
+   * creates a single journal item for the storage in the journal items array for the gui
+   * @param index
+   * @param journalEntry
+   * @returns {{journalEntryType: *, index: *, flameRating: number, description: *, taskSummary: *, rawDate: Date, finishStatus: string, taskName: *, id: *, circleId: *, position: string, projectName: *, linked: (boolean|boolean)}}
+   */
   createJournalItem = (index, journalEntry) => {
-    let d = journalEntry.position;
-    let dateObj = new Date(d[0], d[1] - 1, d[2], d[3], d[4], d[5]);
+    let d = journalEntry.position,
+      dateObj = new Date(d[0], d[1] - 1, d[2], d[3], d[4], d[5]),
+      flameRating = Number(0);
 
-    let flameRating = Number(0);
     if (journalEntry.flameRating != null) {
       flameRating = Number(journalEntry.flameRating);
     }
