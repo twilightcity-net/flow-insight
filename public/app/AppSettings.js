@@ -166,6 +166,7 @@ module.exports = class AppSettings {
         return false;
       } else if (
         keys[i] === AppSettings.Keys.APP_API_KEY &&
+        settings.get(AppSettings.Keys.APP_API_KEY) &&
         settings.get(AppSettings.Keys.APP_API_KEY).length !== 32
       ) {
         log.info("[AppSettings] verify api key -> failed : invalid");
