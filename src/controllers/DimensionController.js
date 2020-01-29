@@ -132,7 +132,7 @@ export class DimensionController {
   static getCircuitsSidebarPanelHeight() {
     let heights = {
       rootBorder: 4,
-      contentMargin: 2,
+      contentMargin: 1,
       contentHeader: 34,
       bottomMenuHeight: 28
     };
@@ -152,7 +152,7 @@ export class DimensionController {
   static getSidebarPanelHeight() {
     let heights = {
       rootBorder: 4,
-      contentMargin: 11,
+      contentMargin: 1,
       contentHeader: 34,
       bottomMenuHeight: 28
     };
