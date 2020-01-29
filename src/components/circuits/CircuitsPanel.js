@@ -124,7 +124,7 @@ export default class CircuitsPanel extends Component {
       <div
         className="participatingCircuitsContent"
         style={{
-          height:"100%"
+          height: "100%"
         }}
         // style={{ height: DimensionController.getSidebarPanelHeight()}}
       >
@@ -136,7 +136,6 @@ export default class CircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-
           <List.Item>
             <List.Content
               floated="right"

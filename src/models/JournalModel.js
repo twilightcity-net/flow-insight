@@ -497,7 +497,7 @@ export class JournalModel extends DataModel {
   /**
    * creates and array of journal items to display in the gui
    * @param allEntries
-   * @returns {[]}
+   * @returns {*}
    */
   createJournalItems = allEntries => {
     let journalItems = [];
