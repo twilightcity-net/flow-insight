@@ -56,7 +56,6 @@ export class SidePanelViewController extends ActiveViewController {
     return {
       SPIRIT: "spirit",
       BADGES: "badges",
-      ACTIVE_CIRCUIT: "active-circuit",
       PARTICIPATING_CIRCUITS: "my-circuits",
       DO_IT_LATER_CIRCUITS: "do-it-later-circuits"
     };

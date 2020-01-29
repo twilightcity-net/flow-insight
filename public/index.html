@@ -291,54 +291,55 @@
       #component.consoleSidebarPanel .participatingCircuitsContent {
         overflow-y: scroll;
       }
+      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .content .header {
+        font-size: 1rem;
+        line-height: 1rem;
+        padding-left: 0.210em;
+        color: rgba(211, 211, 211, 1);
+      }
+      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .content i.name {
+        font-weight: normal;
+        font-size: 1rem;
+        padding-left: 0.420em;
+        color: rgba(211, 211, 211, 1);
+      }
       #component.consoleSidebarPanel .participatingCircuitsContent .circuitLabelTimer {
-        margin-right: 0.420em;
+        margin-top: -0.420em;
         transform: translateY(50%);
       }
-      #component.consoleSidebarPanel .participatingCircuitsContent .circuitLabelTimer .ui.label {
+      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item.selected {
+        background: rgba(48, 48, 49, 1);
+      }
+      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item.selected .circuitLabelTimer .ui.label {
+        background: red !important;
+        color: white !important;
+      }
+      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .circuitLabelTimer .ui.label {
         padding: 0.420em 0.840em;
+        background: rgba(48, 48, 48, 1) !important;
+        border: none;
+        color: rgb(233, 233, 233) !important;
+        transition: background 0.420s ease-out;
+      }
+      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item:hover .circuitLabelTimer .ui.label.violet {
+        background: #6435c9 !important;
+      }
+      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item:hover .circuitLabelTimer .ui.label.red {
+        background: red !important;
       }
       #component.consoleSidebarPanel .participatingCircuitsContent .circuitLabelTimer i.lightning.icon {
         margin-right: 0.210em;
       }
       #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item {
-        padding: 0.420em 0;
-        transition: background 0.420s ease-out;
-        transition: padding 0.210s ease-out;
+        padding: 0.840em;
+        transition: background 0.840s ease-out, padding 0.210s ease-out;
       }
       #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item:hover {
-        padding-left: 0.420em;
+        padding-left: 1.260em;
         background: #242425;
       }
-      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .content .header {
-        font-size: 1.420rem;
-        line-height: 1.4200rem;
-      }
-      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .content .header i {
-        font-weight: normal;
-        font-size: 1rem;
-      }
-      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .content .description {
-        width: 100%;
-        display: -webkit-box;
-        max-width: 100%;
-        padding: 0.420rem;
-        padding-right: 0.840em;
-        height: 2.840rem;
-        font-size: 1rem;
-        line-height: 1.210rem;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-        text-overflow: ellipsis;
-      }
-      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .content .tags {
-        padding-top: 0.210em;
-        line-height: 1.840em;
-      }
-      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .content .tags .ui.label {
-        color: #ffffff;
-        background: rgb(70, 70, 70);
+      #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item.selected {
+        padding-left: 1.260em;
       }
 
       /*

@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   Icon,
   Label,
@@ -7,9 +7,9 @@ import {
   Segment,
   Transition
 } from "semantic-ui-react";
-import { SidePanelViewController } from "../../controllers/SidePanelViewController";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import { DimensionController } from "../../controllers/DimensionController";
+import {SidePanelViewController} from "../../controllers/SidePanelViewController";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
+import {DimensionController} from "../../controllers/DimensionController";
 
 export default class CircuitsPanel extends Component {
   constructor(props) {
@@ -26,9 +26,9 @@ export default class CircuitsPanel extends Component {
     let state = this.props.loadStateCb();
     if (!state) {
       return {
-        activeItem: SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT,
-        activeCircuitVisible: true,
-        participatingCircuitsVisible: false,
+        activeItem:
+        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+        participatingCircuitsVisible: true,
         doItLaterCircuitsVisible: false,
         animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
         animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
@@ -38,25 +38,10 @@ export default class CircuitsPanel extends Component {
     return state;
   }
 
-  openActiveCircuitsPanel() {
-    this.setState({
-      activeItem: SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT,
-      activeCircuitVisible: false,
-      participatingCircuitsVisible: false,
-      doItLaterCircuitsVisible: false
-    });
-    setTimeout(() => {
-      this.setState({
-        activeCircuitVisible: true
-      });
-    }, this.state.animationDelay);
-  }
-
   openParticipatingCircuuitsPanel() {
     this.setState({
       activeItem:
-        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
-      activeCircuitVisible: false,
+      SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
       participatingCircuitsVisible: false,
       doItLaterCircuitsVisible: false
     });
@@ -70,7 +55,6 @@ export default class CircuitsPanel extends Component {
   openDoItLaterCircuitsPanel() {
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS,
-      activeCircuitVisible: false,
       participatingCircuitsVisible: false,
       doItLaterCircuitsVisible: false
     });
@@ -81,7 +65,7 @@ export default class CircuitsPanel extends Component {
     }, this.state.animationDelay);
   }
 
-  handleCircuitSubmenuClick = (e, { name }) => {
+  handleCircuitSubmenuClick = (e, {name}) => {
     this.myController.changeActiveCircuitsSubmenuPanel(name);
   };
 
@@ -94,9 +78,6 @@ export default class CircuitsPanel extends Component {
 
   onRefreshActivePerspective() {
     switch (this.myController.activeCircuitsSubmenuSelection) {
-      case SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT:
-        this.openActiveCircuitsPanel();
-        break;
       case SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS:
         this.openParticipatingCircuuitsPanel();
         break;
@@ -108,17 +89,6 @@ export default class CircuitsPanel extends Component {
     }
   }
 
-  getActiveCircuitContent = () => {
-    return (
-      <div
-        className="activeCircuitsContent"
-        // style={{ height: DimensionController.getSidebarPanelHeight()}}
-      >
-        View Active Learning Circle Properties w/ Action Buttons on the bottom
-      </div>
-    );
-  };
-
   getParticipatingCircuitsContent = () => {
     return (
       <div
@@ -126,7 +96,6 @@ export default class CircuitsPanel extends Component {
         style={{
           height: "100%"
         }}
-        // style={{ height: DimensionController.getSidebarPanelHeight()}}
       >
         <List
           inverted
@@ -136,98 +105,49 @@ export default class CircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-          <List.Item>
-            <List.Content
-              floated="right"
-              verticalAlign="middle"
-              className="circuitLabelTimer"
-            >
-              <Label color="red">
-                <Icon name="lightning" /> 5 min
-              </Label>
-            </List.Content>
-            <List.Content>
-              <List.Header>Circuit 1</List.Header>
-              <i>Zoe Love</i>
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content
-              floated="right"
-              verticalAlign="middle"
-              className="circuitLabelTimer"
-            >
-              <Label color="red">
-                <Icon name="lightning" /> 5 min
-              </Label>
-            </List.Content>
-            <List.Content>
-              <List.Header>Circuit 1</List.Header>
-              <i>Zoe Love</i>
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content
-              floated="right"
-              verticalAlign="middle"
-              className="circuitLabelTimer"
-            >
-              <Label color="red">
-                <Icon name="lightning" /> 5 min
-              </Label>
-            </List.Content>
-            <List.Content>
-              <List.Header>Circuit 1</List.Header>
-              <i>Zoe Love</i>
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content
-              floated="right"
-              verticalAlign="middle"
-              className="circuitLabelTimer"
-            >
-              <Label color="red">
-                <Icon name="lightning" /> 5 min
-              </Label>
-            </List.Content>
-            <List.Content>
-              <List.Header>Circuit 1</List.Header>
-              <i>Zoe Love</i>
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content
-              floated="right"
-              verticalAlign="middle"
-              className="circuitLabelTimer"
-            >
-              <Label color="red">
-                <Icon name="lightning" /> 5 min
-              </Label>
-            </List.Content>
-            <List.Content>
-              <List.Header>Circuit 1</List.Header>
-              <i>Zoe Love</i>
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content
-              floated="right"
-              verticalAlign="middle"
-              className="circuitLabelTimer"
-            >
-              <Label color="red">
-                <Icon name="lightning" /> 5 min
-              </Label>
-            </List.Content>
-            <List.Content>
-              <List.Header>Circuit 1</List.Header>
-              <i>Zoe Love</i>
-            </List.Content>
-          </List.Item>
+          {this.getCircuitListItem(true, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
         </List>
       </div>
+    );
+  };
+
+  getCircuitListItem = (selected, name, time, retro) => {
+    let timerIcon = retro ? "balance scale" : "lightning",
+      timerColor = retro ? "violet" : "red",
+      className = selected ? "selected " + timerColor : timerColor;
+
+    return (
+      <List.Item className={className}>
+        <List.Content
+          floated="right"
+          verticalAlign="middle"
+          className="circuitLabelTimer"
+        >
+          <Label color={timerColor}>
+            <Icon name={timerIcon}/> {time}
+          </Label>
+        </List.Content>
+        <List.Content>
+          <List.Header>Some Circuit Name</List.Header>
+          <i className="name">({name})</i>
+        </List.Content>
+      </List.Item>
     );
   };
 
@@ -243,7 +163,7 @@ export default class CircuitsPanel extends Component {
   };
 
   render() {
-    const { activeItem } = this.state;
+    const {activeItem} = this.state;
     return (
       <div
         id="component"
@@ -258,14 +178,6 @@ export default class CircuitsPanel extends Component {
       >
         <Segment.Group>
           <Menu size="mini" inverted pointing secondary>
-            <Menu.Item
-              name={SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT}
-              active={
-                activeItem ===
-                SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT
-              }
-              onClick={this.handleCircuitSubmenuClick}
-            />
             <Menu.Item
               name={
                 SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS
@@ -294,14 +206,6 @@ export default class CircuitsPanel extends Component {
               height: DimensionController.getCircuitsSidebarPanelHeight()
             }}
           >
-            <Transition
-              visible={this.state.activeCircuitVisible}
-              animation={this.state.animationType}
-              duration={this.state.animationDelay}
-              unmountOnHide
-            >
-              {this.getActiveCircuitContent()}
-            </Transition>
             <Transition
               visible={this.state.participatingCircuitsVisible}
               animation={this.state.animationType}
