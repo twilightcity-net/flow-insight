@@ -148,11 +148,7 @@ export default class CircuitsPanel extends Component {
             </List.Content>
             <List.Content>
               <List.Header>Circuit 1</List.Header>
-              <div className="description">
-                <i>Zoe Love:</i> I'm having a problem figuriing out what to
-                write for a description. Please help me if you are able to.
-                Thank you :)
-              </div>
+              <i>Zoe Love</i>
             </List.Content>
           </List.Item>
           <List.Item>
@@ -167,11 +163,7 @@ export default class CircuitsPanel extends Component {
             </List.Content>
             <List.Content>
               <List.Header>Circuit 1</List.Header>
-              <div className="description">
-                <i>Zoe Love:</i> I'm having a problem figuriing out what to
-                write for a description. Please help me if you are able to.
-                Thank you :)
-              </div>
+              <i>Zoe Love</i>
             </List.Content>
           </List.Item>
           <List.Item>
@@ -186,11 +178,7 @@ export default class CircuitsPanel extends Component {
             </List.Content>
             <List.Content>
               <List.Header>Circuit 1</List.Header>
-              <div className="description">
-                <i>Zoe Love:</i> I'm having a problem figuriing out what to
-                write for a description. Please help me if you are able to.
-                Thank you :)
-              </div>
+              <i>Zoe Love</i>
             </List.Content>
           </List.Item>
           <List.Item>
@@ -205,11 +193,7 @@ export default class CircuitsPanel extends Component {
             </List.Content>
             <List.Content>
               <List.Header>Circuit 1</List.Header>
-              <div className="description">
-                <i>Zoe Love:</i> I'm having a problem figuriing out what to
-                write for a description. Please help me if you are able to.
-                Thank you :)
-              </div>
+              <i>Zoe Love</i>
             </List.Content>
           </List.Item>
           <List.Item>
@@ -224,11 +208,7 @@ export default class CircuitsPanel extends Component {
             </List.Content>
             <List.Content>
               <List.Header>Circuit 1</List.Header>
-              <div className="description">
-                <i>Zoe Love:</i> I'm having a problem figuriing out what to
-                write for a description. Please help me if you are able to.
-                Thank you :)
-              </div>
+              <i>Zoe Love</i>
             </List.Content>
           </List.Item>
           <List.Item>
@@ -243,68 +223,7 @@ export default class CircuitsPanel extends Component {
             </List.Content>
             <List.Content>
               <List.Header>Circuit 1</List.Header>
-              <div className="description">
-                <i>Zoe Love:</i> I'm having a problem figuriing out what to
-                write for a description. Please help me if you are able to.
-                Thank you :)
-              </div>
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content
-              floated="right"
-              verticalAlign="middle"
-              className="circuitLabelTimer"
-            >
-              <Label color="red">
-                <Icon name="lightning" /> 5 min
-              </Label>
-            </List.Content>
-            <List.Content>
-              <List.Header>Circuit 1</List.Header>
-              <div className="description">
-                <i>Zoe Love:</i> I'm having a problem figuriing out what to
-                write for a description. Please help me if you are able to.
-                Thank you :)
-              </div>
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content
-              floated="right"
-              verticalAlign="middle"
-              className="circuitLabelTimer"
-            >
-              <Label color="red">
-                <Icon name="lightning" /> 5 min
-              </Label>
-            </List.Content>
-            <List.Content>
-              <List.Header>Circuit 1</List.Header>
-              <div className="description">
-                <i>Zoe Love:</i> I'm having a problem figuriing out what to
-                write for a description. Please help me if you are able to.
-                Thank you :)
-              </div>
-            </List.Content>
-          </List.Item>
-          <List.Item>
-            <List.Content
-              floated="right"
-              verticalAlign="middle"
-              className="circuitLabelTimer"
-            >
-              <Label color="red">
-                <Icon name="lightning" /> 5 min
-              </Label>
-            </List.Content>
-            <List.Content>
-              <List.Header>Circuit 1</List.Header>
-              <div className="description">
-                <i>Zoe Love:</i> I'm having a problem figuriing out what to
-                write for a description. Please help me if you are able to.
-                Thank you :)
-              </div>
+              <i>Zoe Love</i>
             </List.Content>
           </List.Item>
         </List>
