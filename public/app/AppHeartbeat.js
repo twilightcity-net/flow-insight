@@ -112,10 +112,7 @@ module.exports = class AppHeartbeat {
       req.end((err, res) => {
         this.pingTime = new Date().getTime() - this.previousDeltaTime;
         log.info(
-          chalk.greenBright(this.name) +
-            " ping [" +
-            this.pingTime +
-            "ms]"
+          chalk.greenBright(this.name) + " ping [" + this.pingTime + "ms]"
         );
 
         try {
@@ -144,9 +141,7 @@ module.exports = class AppHeartbeat {
         }
       });
     } catch (e) {
-      log.error(
-        chalk.red(this.name) + " " + e + "\n\n" + e.stack + "\n"
-      );
+      log.error(chalk.red(this.name) + " " + e + "\n\n" + e.stack + "\n");
     }
   }
-}
+};

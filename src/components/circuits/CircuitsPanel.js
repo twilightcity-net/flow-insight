@@ -1,8 +1,15 @@
-import React, {Component} from "react";
-import {Icon, Label, List, Menu, Segment, Transition} from "semantic-ui-react";
-import {SidePanelViewController} from "../../controllers/SidePanelViewController";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
-import {DimensionController} from "../../controllers/DimensionController";
+import React, { Component } from "react";
+import {
+  Icon,
+  Label,
+  List,
+  Menu,
+  Segment,
+  Transition
+} from "semantic-ui-react";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { DimensionController } from "../../controllers/DimensionController";
 
 export default class CircuitsPanel extends Component {
   constructor(props) {
@@ -48,7 +55,7 @@ export default class CircuitsPanel extends Component {
   openParticipatingCircuuitsPanel() {
     this.setState({
       activeItem:
-      SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
       activeCircuitVisible: false,
       participatingCircuitsVisible: false,
       doItLaterCircuitsVisible: false
@@ -74,7 +81,7 @@ export default class CircuitsPanel extends Component {
     }, this.state.animationDelay);
   }
 
-  handleCircuitSubmenuClick = (e, {name}) => {
+  handleCircuitSubmenuClick = (e, { name }) => {
     this.myController.changeActiveCircuitsSubmenuPanel(name);
   };
 
@@ -116,23 +123,191 @@ export default class CircuitsPanel extends Component {
     return (
       <div
         className="participatingCircuitsContent"
+        style={{
+          height:"100%"
+        }}
         // style={{ height: DimensionController.getSidebarPanelHeight()}}
       >
-        <List inverted divided celled animated verticalAlign='middle' size="large">
+        <List
+          inverted
+          divided
+          celled
+          animated
+          verticalAlign="middle"
+          size="large"
+        >
+
           <List.Item>
-            <List.Content floated='right' verticalAlign="middle" className="circuitLabelTimer">
-              <Label color='red' horizontal>
-                <Icon name='lightning'/>5m
+            <List.Content
+              floated="right"
+              verticalAlign="middle"
+              className="circuitLabelTimer"
+            >
+              <Label color="red">
+                <Icon name="lightning" /> 5 min
               </Label>
             </List.Content>
             <List.Content>
-              <List.Header>
-                Circuit 1
-              </List.Header>
-              Owner: Zoe Love
+              <List.Header>Circuit 1</List.Header>
+              <div className="description">
+                <i>Zoe Love:</i> I'm having a problem figuriing out what to
+                write for a description. Please help me if you are able to.
+                Thank you :)
+              </div>
             </List.Content>
           </List.Item>
-
+          <List.Item>
+            <List.Content
+              floated="right"
+              verticalAlign="middle"
+              className="circuitLabelTimer"
+            >
+              <Label color="red">
+                <Icon name="lightning" /> 5 min
+              </Label>
+            </List.Content>
+            <List.Content>
+              <List.Header>Circuit 1</List.Header>
+              <div className="description">
+                <i>Zoe Love:</i> I'm having a problem figuriing out what to
+                write for a description. Please help me if you are able to.
+                Thank you :)
+              </div>
+            </List.Content>
+          </List.Item>
+          <List.Item>
+            <List.Content
+              floated="right"
+              verticalAlign="middle"
+              className="circuitLabelTimer"
+            >
+              <Label color="red">
+                <Icon name="lightning" /> 5 min
+              </Label>
+            </List.Content>
+            <List.Content>
+              <List.Header>Circuit 1</List.Header>
+              <div className="description">
+                <i>Zoe Love:</i> I'm having a problem figuriing out what to
+                write for a description. Please help me if you are able to.
+                Thank you :)
+              </div>
+            </List.Content>
+          </List.Item>
+          <List.Item>
+            <List.Content
+              floated="right"
+              verticalAlign="middle"
+              className="circuitLabelTimer"
+            >
+              <Label color="red">
+                <Icon name="lightning" /> 5 min
+              </Label>
+            </List.Content>
+            <List.Content>
+              <List.Header>Circuit 1</List.Header>
+              <div className="description">
+                <i>Zoe Love:</i> I'm having a problem figuriing out what to
+                write for a description. Please help me if you are able to.
+                Thank you :)
+              </div>
+            </List.Content>
+          </List.Item>
+          <List.Item>
+            <List.Content
+              floated="right"
+              verticalAlign="middle"
+              className="circuitLabelTimer"
+            >
+              <Label color="red">
+                <Icon name="lightning" /> 5 min
+              </Label>
+            </List.Content>
+            <List.Content>
+              <List.Header>Circuit 1</List.Header>
+              <div className="description">
+                <i>Zoe Love:</i> I'm having a problem figuriing out what to
+                write for a description. Please help me if you are able to.
+                Thank you :)
+              </div>
+            </List.Content>
+          </List.Item>
+          <List.Item>
+            <List.Content
+              floated="right"
+              verticalAlign="middle"
+              className="circuitLabelTimer"
+            >
+              <Label color="red">
+                <Icon name="lightning" /> 5 min
+              </Label>
+            </List.Content>
+            <List.Content>
+              <List.Header>Circuit 1</List.Header>
+              <div className="description">
+                <i>Zoe Love:</i> I'm having a problem figuriing out what to
+                write for a description. Please help me if you are able to.
+                Thank you :)
+              </div>
+            </List.Content>
+          </List.Item>
+          <List.Item>
+            <List.Content
+              floated="right"
+              verticalAlign="middle"
+              className="circuitLabelTimer"
+            >
+              <Label color="red">
+                <Icon name="lightning" /> 5 min
+              </Label>
+            </List.Content>
+            <List.Content>
+              <List.Header>Circuit 1</List.Header>
+              <div className="description">
+                <i>Zoe Love:</i> I'm having a problem figuriing out what to
+                write for a description. Please help me if you are able to.
+                Thank you :)
+              </div>
+            </List.Content>
+          </List.Item>
+          <List.Item>
+            <List.Content
+              floated="right"
+              verticalAlign="middle"
+              className="circuitLabelTimer"
+            >
+              <Label color="red">
+                <Icon name="lightning" /> 5 min
+              </Label>
+            </List.Content>
+            <List.Content>
+              <List.Header>Circuit 1</List.Header>
+              <div className="description">
+                <i>Zoe Love:</i> I'm having a problem figuriing out what to
+                write for a description. Please help me if you are able to.
+                Thank you :)
+              </div>
+            </List.Content>
+          </List.Item>
+          <List.Item>
+            <List.Content
+              floated="right"
+              verticalAlign="middle"
+              className="circuitLabelTimer"
+            >
+              <Label color="red">
+                <Icon name="lightning" /> 5 min
+              </Label>
+            </List.Content>
+            <List.Content>
+              <List.Header>Circuit 1</List.Header>
+              <div className="description">
+                <i>Zoe Love:</i> I'm having a problem figuriing out what to
+                write for a description. Please help me if you are able to.
+                Thank you :)
+              </div>
+            </List.Content>
+          </List.Item>
         </List>
       </div>
     );
@@ -150,11 +325,11 @@ export default class CircuitsPanel extends Component {
   };
 
   render() {
-    const {activeItem} = this.state;
+    const { activeItem } = this.state;
     return (
       <div
         id="component"
-        className="consoleSidebarPanel"
+        className="consoleSidebarPanel circuitsPanel"
         style={{
           width: "100%",
           height: DimensionController.getHeightFor(
@@ -164,7 +339,7 @@ export default class CircuitsPanel extends Component {
         }}
       >
         <Segment.Group>
-          <Menu size="mini" inverted secondary>
+          <Menu size="mini" inverted pointing secondary>
             <Menu.Item
               name={SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT}
               active={
@@ -172,7 +347,6 @@ export default class CircuitsPanel extends Component {
                 SidePanelViewController.SubmenuSelection.ACTIVE_CIRCUIT
               }
               onClick={this.handleCircuitSubmenuClick}
-              color={"violet"}
             />
             <Menu.Item
               name={
@@ -183,7 +357,6 @@ export default class CircuitsPanel extends Component {
                 SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS
               }
               onClick={this.handleCircuitSubmenuClick}
-              color={"violet"}
             />
             <Menu.Item
               name={
@@ -194,7 +367,6 @@ export default class CircuitsPanel extends Component {
                 SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS
               }
               onClick={this.handleCircuitSubmenuClick}
-              color={"violet"}
             />
           </Menu>
           <Segment

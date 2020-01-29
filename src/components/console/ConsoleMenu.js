@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import {Divider, Icon, Menu, Popup} from "semantic-ui-react";
+import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
 import { MainPanelViewController } from "../../controllers/MainPanelViewController";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 
@@ -80,7 +80,15 @@ export default class ConsoleMenu extends Component {
   };
 
   render() {
-    const { activeItem, isOnline, pingTime, latencyTime, talkUrl, server, errorMsg } = this.state;
+    const {
+      activeItem,
+      isOnline,
+      pingTime,
+      latencyTime,
+      talkUrl,
+      server,
+      errorMsg
+    } = this.state;
     const networkConnectMenuItem = (
       <Menu.Item
         header
@@ -103,7 +111,7 @@ export default class ConsoleMenu extends Component {
             <i>{pingTime <= 0 ? "calculating..." : pingTime + "ms"}</i>
           </b>
         </div>
-        <Divider/>
+        <Divider />
         <div>
           <i>{talkUrl}</i>
         </div>

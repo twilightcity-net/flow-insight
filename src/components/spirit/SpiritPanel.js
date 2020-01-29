@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {
   Icon,
   Image,
@@ -8,11 +8,11 @@ import {
   Segment,
   Transition
 } from "semantic-ui-react";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { SidePanelViewController } from "../../controllers/SidePanelViewController";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import {DataModelFactory} from "../../models/DataModelFactory";
+import {SidePanelViewController} from "../../controllers/SidePanelViewController";
+import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
 import SpiritCanvas from "./SpiritCanvas";
-import { DimensionController } from "../../controllers/DimensionController";
+import {DimensionController} from "../../controllers/DimensionController";
 
 /**
  * this class is responsible for storing the users avatar, soul, inventory,
@@ -77,7 +77,7 @@ export default class SpiritPanel extends Component {
    * @param e - the menu event that was dispatched
    * @param name - the name of the menu that was clicked
    */
-  handleSpiritClick = (e, { name }) => {
+  handleSpiritClick = (e, {name}) => {
     this.myController.changeActiveSpiritSubmenuPanel(name);
   };
 
@@ -86,7 +86,7 @@ export default class SpiritPanel extends Component {
    * @param e - the menu event that was dispatched
    * @param name - the name of the menu that was clicked
    */
-  handleBadgesClick = (e, { name }) => {
+  handleBadgesClick = (e, {name}) => {
     this.myController.changeActiveSpiritSubmenuPanel(name);
   };
 
@@ -111,7 +111,8 @@ export default class SpiritPanel extends Component {
 
     if (activeMenuItem === SidePanelViewController.SubmenuSelection.SPIRIT) {
       this.openSpiritPanel();
-    } else {
+    }
+    else {
       this.openBadgesPanel();
     }
   }
@@ -126,7 +127,8 @@ export default class SpiritPanel extends Component {
     let flameString = "0";
     if (flameRating > 0) {
       flameString = "+" + flameRating;
-    } else if (flameRating < 0) {
+    }
+    else if (flameRating < 0) {
       flameString = flameRating;
     }
 
@@ -303,7 +305,7 @@ export default class SpiritPanel extends Component {
   getBusyIcon = () => {
     return (
       <Popup
-        trigger={<Icon link name="gg" className="chainLink" />}
+        trigger={<Icon link name="gg" className="chainLink"/>}
         content={
           <div className="tooltipRed">
             Busy <i>(Already Linked)</i>
@@ -322,7 +324,7 @@ export default class SpiritPanel extends Component {
    */
   getBadgesContent = () => {
     return (
-      <div className="badgesContent" style={{ height: this.props.height - 64 }}>
+      <div className="badgesContent" style={{height: this.props.height - 61}}>
         Check back later :)
       </div>
     );
@@ -338,12 +340,15 @@ export default class SpiritPanel extends Component {
       if (this.hasActiveLinks()) {
         activeLinkIcon = unlinkIcon;
       }
-    } else {
+    }
+    else {
       if (this.isLinkedToMe()) {
         activeLinkIcon = unlinkIcon;
-      } else if (this.hasActiveLinks()) {
+      }
+      else if (this.hasActiveLinks()) {
         activeLinkIcon = busyLinkIcon;
-      } else {
+      }
+      else {
         activeLinkIcon = linkIcon;
       }
     }
@@ -357,7 +362,7 @@ export default class SpiritPanel extends Component {
           </div>
           <div className="infoLevel">
             <b>Level {this.props.level} </b>
-            <br />
+            <br/>
             <i>({this.props.title})</i>
           </div>
         </div>
@@ -398,34 +403,39 @@ export default class SpiritPanel extends Component {
   };
 
   getSpiritContentHeight = () => {
-    return this.props.height - 64;
+    return this.props.height - 61;
+  };
+
+  getSpiritButtons = () => {
+    return (
+      <div className="ui two bottom attached buttons">
+        <button
+          className="ui icon button rageButton"
+          tabIndex="0"
+          onClick={this.handleClickForRage}
+        >
+          <Image centered src="./assets/images/wtf/24x24.png"/>
+        </button>
+        <button
+          className="ui icon button yayButton"
+          tabIndex="1"
+          onClick={this.handleClickForYay}
+        >
+          <Image centered src="./assets/images/yay/24x24.png"/>
+        </button>
+      </div>
+    );
   };
 
   getSpiritContent = () => {
     return (
       <div
         className="spiritContent"
-        style={{ height: this.getSpiritContentHeight() }}
+        style={{height: this.getSpiritContentHeight()}}
       >
         {this.getSpiritTitle()}
         {this.getSpiritCanvas()}
-
-        <div className="ui two bottom attached buttons">
-          <button
-            className="ui icon button rageButton"
-            tabIndex="0"
-            onClick={this.handleClickForRage}
-          >
-            <Image centered src="./assets/images/wtf/24x24.png" />
-          </button>
-          <button
-            className="ui icon button yayButton"
-            tabIndex="1"
-            onClick={this.handleClickForYay}
-          >
-            <Image centered src="./assets/images/yay/24x24.png" />
-          </button>
-        </div>
+        {this.getSpiritButtons()}
       </div>
     );
   };
@@ -435,14 +445,14 @@ export default class SpiritPanel extends Component {
    * @returns {*}
    */
   render() {
-    let { activeItem } = this.state;
+    let {activeItem} = this.state;
 
     const spiritContent = this.getSpiritContent();
     const badgesContent = this.getBadgesContent();
     return (
       <div
         id="component"
-        className="consoleSidebarPanel"
+        className="consoleSidebarPanel spiritPanel"
         style={{
           width: "100%",
           height: this.props.height,
@@ -450,14 +460,13 @@ export default class SpiritPanel extends Component {
         }}
       >
         <Segment.Group>
-          <Menu size="mini" inverted secondary>
+          <Menu size="mini" inverted pointing secondary>
             <Menu.Item
               name={SidePanelViewController.SubmenuSelection.SPIRIT}
               active={
                 activeItem === SidePanelViewController.SubmenuSelection.SPIRIT
               }
               onClick={this.handleSpiritClick}
-              color={"violet"}
             />
             <Menu.Item
               name={SidePanelViewController.SubmenuSelection.BADGES}
@@ -465,7 +474,6 @@ export default class SpiritPanel extends Component {
                 activeItem === SidePanelViewController.SubmenuSelection.BADGES
               }
               onClick={this.handleBadgesClick}
-              color={"violet"}
             />
           </Menu>
           <Segment inverted className={"spiritContentWrapper"}>

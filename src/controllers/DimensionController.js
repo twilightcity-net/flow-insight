@@ -98,7 +98,7 @@ export class DimensionController {
   static getSpiritCanvasWidth() {
     let consoleSidebarWidthPixels = 29,
       oneRem = window.innerWidth / 100,
-      relativeWidth = 20.7;
+      relativeWidth = 20.2;
     return oneRem * relativeWidth - consoleSidebarWidthPixels;
   }
 
@@ -152,7 +152,7 @@ export class DimensionController {
   static getSidebarPanelHeight() {
     let heights = {
       rootBorder: 4,
-      contentMargin: 8,
+      contentMargin: 11,
       contentHeader: 34,
       bottomMenuHeight: 28
     };

@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   Util = require("../Util"),
-  {DtoClient} = require("../managers/DtoClientFactory"),
+  { DtoClient } = require("../managers/DtoClientFactory"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory");
 
@@ -105,10 +105,10 @@ class TalkController extends BaseController {
     socket.on(TalkController.EventTypes.CONNECT, () => {
       log.info(
         chalk.greenBright(name) +
-        " connect : " +
-        connectionId +
-        " -> " +
-        socket.id
+          " connect : " +
+          connectionId +
+          " -> " +
+          socket.id
       );
       this.talkConnectedListener.dispatch();
     });
@@ -142,10 +142,10 @@ class TalkController extends BaseController {
     socket.on(TalkController.EventTypes.RECONNECT, attempt => {
       log.info(
         chalk.greenBright(name) +
-        " reconnected {" +
-        attempt +
-        "} times : " +
-        connectionId
+          " reconnected {" +
+          attempt +
+          "} times : " +
+          connectionId
       );
     });
     socket.on(TalkController.EventTypes.PONG, latency => {

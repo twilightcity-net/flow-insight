@@ -22,6 +22,8 @@ export class CircuitClient extends BaseClient {
    */
   static replies = new Map();
 
+  static listeners = [];
+
   static activeCircuit = null;
 
   /**
@@ -29,7 +31,7 @@ export class CircuitClient extends BaseClient {
    * @param scope
    */
   constructor(scope) {
-    super(scope, CircuitClient.constructor.name);
+    super(scope, "[CircuitClient]");
     this.event = RendererEventFactory.createEvent(
       RendererEventFactory.Events.CIRCUIT_CLIENT,
       this,
@@ -67,7 +69,7 @@ export class CircuitClient extends BaseClient {
   static init(scope) {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
-      CircuitClient.loadActiveCircuit()
+      CircuitClient.loadActiveCircuit();
     }
   }
 
@@ -98,7 +100,7 @@ export class CircuitClient extends BaseClient {
       (event, arg) => {
         let model = new LearningCircuitModel(arg.dto, scope);
         CircuitClient.activeCircuit = model;
-        if(callback) {
+        if (callback) {
           callback(model);
         }
       }
@@ -146,6 +148,14 @@ export class CircuitClient extends BaseClient {
     this.event.dispatch(clientEvent, true);
   }
 
+  registerListener(clientEvent) {
+    console.log(
+      "[" + CircuitClient.name + "] notify -> " + JSON.stringify(clientEvent)
+    );
+    CircuitClient.listeners.push(clientEvent);
+  }
+
+  unregisterListener() {}
   startRetroForWTF(circuitName, callback) {}
 
   joinExistingCircuit(circuitName, callback) {}
