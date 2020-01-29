@@ -105,10 +105,10 @@ export default class CircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {this.getCircuitListItem(true, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
           {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
           {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.getCircuitListItem(true, "Zoe Love", "5 min", false)}
           {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
           {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
           {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
