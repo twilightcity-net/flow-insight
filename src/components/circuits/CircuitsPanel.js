@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import {
   Icon,
   Label,
@@ -7,9 +7,9 @@ import {
   Segment,
   Transition
 } from "semantic-ui-react";
-import {SidePanelViewController} from "../../controllers/SidePanelViewController";
-import {ActiveViewControllerFactory} from "../../controllers/ActiveViewControllerFactory";
-import {DimensionController} from "../../controllers/DimensionController";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { DimensionController } from "../../controllers/DimensionController";
 
 export default class CircuitsPanel extends Component {
   constructor(props) {
@@ -27,7 +27,7 @@ export default class CircuitsPanel extends Component {
     if (!state) {
       return {
         activeItem:
-        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+          SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
         participatingCircuitsVisible: true,
         doItLaterCircuitsVisible: false,
         animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
@@ -41,7 +41,7 @@ export default class CircuitsPanel extends Component {
   openParticipatingCircuuitsPanel() {
     this.setState({
       activeItem:
-      SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
       participatingCircuitsVisible: false,
       doItLaterCircuitsVisible: false
     });
@@ -65,7 +65,7 @@ export default class CircuitsPanel extends Component {
     }, this.state.animationDelay);
   }
 
-  handleCircuitSubmenuClick = (e, {name}) => {
+  handleCircuitSubmenuClick = (e, { name }) => {
     this.myController.changeActiveCircuitsSubmenuPanel(name);
   };
 
@@ -140,7 +140,7 @@ export default class CircuitsPanel extends Component {
           className="circuitLabelTimer"
         >
           <Label color={timerColor}>
-            <Icon name={timerIcon}/> {time}
+            <Icon name={timerIcon} /> {time}
           </Label>
         </List.Content>
         <List.Content>
@@ -163,7 +163,7 @@ export default class CircuitsPanel extends Component {
   };
 
   render() {
-    const {activeItem} = this.state;
+    const { activeItem } = this.state;
     return (
       <div
         id="component"
