@@ -1,5 +1,5 @@
 const gulp = require("gulp");
-const package = require("./package.json");
+const taskPretty = require("./gulp/tasks/pretty");
 const taskPrettier = require("./gulp/tasks/prettier");
 const taskLint = require("./gulp/tasks/lint");
 const taskBrowserify = require("./gulp/tasks/browserify");
@@ -25,6 +25,7 @@ function getTask(name) {
   return require("./gulp/tasks/" + name);
 }
 
+gulp.task("pretty", taskPretty());
 gulp.task("prettier", taskPrettier());
 gulp.task("lint", taskLint());
 gulp.task("browserify", taskBrowserify());

@@ -1,6 +1,5 @@
 const { app, shell } = require("electron"),
   isDev = require("electron-is-dev"),
-  log = require("electron-log"),
   path = require("path"),
   util = require("util"),
   fs = require("fs"),
