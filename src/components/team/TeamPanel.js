@@ -31,11 +31,17 @@ export default class TeamPanel extends Component {
     );
   }
 
+  /**
+   * called when we render the team panel into the gui
+   */
   componentDidMount = () => {
     this.myController.configureTeamPanelListener(this, this.onRefreshTeamPanel);
     this.onRefreshTeamPanel();
   };
 
+  /**
+   * called to refresh the team panel with new data
+   */
   onRefreshTeamPanel() {
     switch (this.myController.activeTeamSubmenuSelection) {
       case SidePanelViewController.SubmenuSelection.TEAM:
@@ -46,6 +52,9 @@ export default class TeamPanel extends Component {
     }
   }
 
+  /**
+   * called to display the team panel in the gui
+   */
   showTeamPanel() {
     this.teamModel.refreshAll();
     this.setState({
@@ -75,6 +84,10 @@ export default class TeamPanel extends Component {
     }
   };
 
+  /**
+   * called when removing the component from the gui. removes any associated listeners for
+   * memory management
+   */
   componentWillUnmount = () => {
     this.myController.configureTeamPanelListener(this, null);
   };
@@ -137,12 +150,8 @@ export default class TeamPanel extends Component {
     return this.spiritModel.isLinked(memberId);
   };
 
-  /**
-   * renders the console sidebar panel of the console view
-   * @returns {*}
-   */
-  render() {
-    const teamMembersContent = (
+  getTeamMembersContent = () => {
+    return (
       <div>
         <Grid inverted>
           <TeamMember
@@ -165,7 +174,6 @@ export default class TeamPanel extends Component {
             teamMember={this.props.me}
             activeTeamMember={this.props.activeTeamMember}
           />
-
           {this.props.teamMembers.map(d => (
             <TeamMember
               key={d.id}
@@ -191,7 +199,13 @@ export default class TeamPanel extends Component {
         </Grid>
       </div>
     );
+  };
 
+  /**
+   * renders the console sidebar panel of the console view
+   * @returns {*}
+   */
+  render() {
     return (
       <div
         id="component"
@@ -219,7 +233,7 @@ export default class TeamPanel extends Component {
               duration={this.state.animationDelay}
               unmountOnHide
             >
-              {teamMembersContent}
+              {this.getTeamMembersContent()}
             </Transition>
           </Segment>
         </Segment.Group>
