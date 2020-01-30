@@ -12,7 +12,7 @@ export default class ConsoleSidebar extends Component {
     this.name = "[ConsoleSidebar]";
 
     this.state = {
-      activeItem: SidePanelViewController.MenuSelection.PROFILE,
+      activeItem: SidePanelViewController.MenuSelection.SPIRIT,
       iconProfile: "heart",
       iconMessages: "user outline",
       iconCircuit: "compass outline",
@@ -46,7 +46,7 @@ export default class ConsoleSidebar extends Component {
     };
     let oStr = " outline";
     switch (activeMenuItem) {
-      case SidePanelViewController.MenuSelection.PROFILE:
+      case SidePanelViewController.MenuSelection.SPIRIT:
         state.iconMessages += oStr;
         state.iconNotifications += oStr;
         state.iconCircuit += oStr;
@@ -121,10 +121,8 @@ export default class ConsoleSidebar extends Component {
           style={{ height: this.calculateMenuHeight() }}
         >
           <Menu.Item
-            name={SidePanelViewController.MenuSelection.PROFILE}
-            active={
-              activeItem === SidePanelViewController.MenuSelection.PROFILE
-            }
+            name={SidePanelViewController.MenuSelection.SPIRIT}
+            active={activeItem === SidePanelViewController.MenuSelection.SPIRIT}
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconProfile}>

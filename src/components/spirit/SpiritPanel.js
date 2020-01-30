@@ -29,12 +29,10 @@ export default class SpiritPanel extends Component {
     this.state = this.loadState();
     this.name = "[SpiritPanel]";
     this.render3d = false;
-
     this.spiritModel = DataModelFactory.createModel(
       DataModelFactory.Models.SPIRIT,
       this
     );
-
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
@@ -43,7 +41,7 @@ export default class SpiritPanel extends Component {
   /**
    * thew function that is called to open and display the badges panel in the side
    */
-  openSpiritPanel() {
+  showSpiritPanel() {
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
       spiritVisible: false,
@@ -59,7 +57,7 @@ export default class SpiritPanel extends Component {
   /**
    * the function that is called to open and display the badges panel in the side
    */
-  openBadgesPanel() {
+  showBadgesPanel() {
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.BADGES,
       spiritVisible: false,
@@ -97,22 +95,28 @@ export default class SpiritPanel extends Component {
   componentDidMount = () => {
     this.myController.configureSpiritPanelListener(
       this,
-      this.onRefreshActivePerspective
+      this.onRefreshSpiritPanel
     );
+    this.onRefreshSpiritPanel();
   };
 
   /**
    * event listener that is notified when the perspective changes views
    */
-  onRefreshActivePerspective() {
-    console.log(this.name + " - onRefreshActivePerspective!");
-
-    let activeMenuItem = this.myController.activeSpiritSubmenuSelection;
-
-    if (activeMenuItem === SidePanelViewController.SubmenuSelection.SPIRIT) {
-      this.openSpiritPanel();
-    } else {
-      this.openBadgesPanel();
+  onRefreshSpiritPanel() {
+    switch (this.myController.activeSpiritSubmenuSelection) {
+      case SidePanelViewController.SubmenuSelection.SPIRIT:
+        this.showSpiritPanel();
+        break;
+      case SidePanelViewController.SubmenuSelection.BADGES:
+        this.showBadgesPanel();
+        break;
+      default:
+        throw new Error(
+          "Unknown spirit panel type '" +
+            this.myController.activeSpiritSubmenuSelection +
+            "'"
+        );
     }
   }
 
@@ -121,19 +125,21 @@ export default class SpiritPanel extends Component {
    * @param nextProps - the next propertiers to change from the previous
    */
   componentWillReceiveProps = nextProps => {
-    let flameRating = nextProps.flameRating;
-
-    let flameString = "0";
-    if (flameRating > 0) {
-      flameString = "+" + flameRating;
-    } else if (flameRating < 0) {
-      flameString = flameRating;
-    }
-
+    let flameString = this.getFlameString(nextProps.flameRating);
     this.setState({
       flameString: flameString
     });
   };
+
+  getFlameString(rating) {
+    let str = "0";
+    if (rating > 0) {
+      str = "+" + rating;
+    } else if (rating < 0) {
+      str = rating;
+    }
+    return str;
+  }
 
   /**
    * handles the rage button press
@@ -155,7 +161,6 @@ export default class SpiritPanel extends Component {
    * called right before the component will mount. This will clear the listeners callback
    */
   componentWillUnmount() {
-    console.log(this.name + " - componentWillUnmount");
     this.myController.configureSpiritPanelListener(this, null);
   }
 

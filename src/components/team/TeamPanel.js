@@ -3,6 +3,8 @@ import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import TeamMember from "./TeamMember";
 import { DataModelFactory } from "../../models/DataModelFactory";
 import { DimensionController } from "../../controllers/DimensionController";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -24,20 +26,57 @@ export default class TeamPanel extends Component {
       DataModelFactory.Models.MEMBER_STATUS,
       this
     );
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL
+    );
+  }
+
+  componentDidMount = () => {
+    this.myController.configureTeamPanelListener(this, this.onRefreshTeamPanel);
+    this.onRefreshTeamPanel();
+  };
+
+  onRefreshTeamPanel() {
+    switch (this.myController.activeTeamSubmenuSelection) {
+      case SidePanelViewController.SubmenuSelection.TEAM:
+        this.showTeamPanel();
+        break;
+      default:
+        throw new Error("Unknown team panel menu item");
+    }
+  }
+
+  showTeamPanel() {
+    this.teamModel.refreshAll();
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.TEAM,
+      teamVisible: false
+    });
+    setTimeout(() => {
+      this.setState({
+        teamVisible: true
+      });
+    }, this.state.animationDelay);
   }
 
   /**
    * called before updating
    * @param nextProps
    */
+
+  // FIXME does this actually do anything?
+
   componentWillReceiveProps = nextProps => {
     let newMe = nextProps.me;
-
     if (nextProps.xpSummary) {
       newMe.level = nextProps.xpSummary.level;
       newMe.xpRequired =
         nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
     }
+  };
+
+  componentWillUnmount = () => {
+    this.myController.configureTeamPanelListener(this, null);
   };
 
   /**
@@ -48,8 +87,11 @@ export default class TeamPanel extends Component {
     let state = this.props.loadStateCb();
     if (!state) {
       return {
-        animationType: "fly down",
-        animationDelay: 350,
+        activeItem: SidePanelViewController.SubmenuSelection.TEAM,
+        participatingCircuitsVisible: true,
+        doItLaterCircuitsVisible: false,
+        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
+        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
         title: ""
       };
     }
@@ -70,16 +112,7 @@ export default class TeamPanel extends Component {
    * @param name
    */
   handleTeamClick = (e, { name }) => {
-    this.setState({
-      activeItem: name,
-      teamVisible: false,
-      addressBookVisible: false
-    });
-    setTimeout(() => {
-      this.setState({
-        teamVisible: true
-      });
-    }, this.state.animationDelay);
+    this.myController.changeActiveTeamSubmenuPanel(name);
   };
 
   /**

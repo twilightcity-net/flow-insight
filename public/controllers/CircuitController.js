@@ -80,6 +80,9 @@ class CircuitController extends BaseController {
       case CircuitController.EventTypes.GET_MY_CIRCUIT:
         this.handleGetMyCircuitEvent(event, arg);
         break;
+      case CircuitController.EventTypes.GET_MY_CIRCUITS_JOINED:
+        this.handleGetMyCircuitsJoinedEvent(event, arg);
+        break;
       default:
         throw new Error(
           "Unknown circuit client event type '" + arg.type + "'."
@@ -129,6 +132,26 @@ class CircuitController extends BaseController {
           return event.replyTo(arg);
         } else {
           throw new Error("Invalid get active circuit event");
+        }
+      }
+    );
+  }
+
+  handleGetMyCircuitsJoinedEvent(event, arg, callback) {
+    this.doClientRequest(
+      "CircuitClient",
+      {},
+      "getAllMyParticipatingCircuits",
+      "get",
+      "/circuit/my/participating",
+      store => {
+        arg.dto = store.data;
+        if (callback) {
+          return callback(arg.dto);
+        } else if (event) {
+          return event.replyTo(arg);
+        } else {
+          throw new Error("Invalid get my participating circuits event");
         }
       }
     );

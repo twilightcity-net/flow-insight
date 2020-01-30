@@ -10,22 +10,36 @@ import {
 import { SidePanelViewController } from "../../controllers/SidePanelViewController";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import { DimensionController } from "../../controllers/DimensionController";
+import { CircuitClient } from "../../clients/CircuitClient";
+import UtilRenderer from "../../UtilRenderer";
+import { LearningCircuitModel } from "../../models/LearningCircuitModel";
 
+/**
+ * renders the circuit navigator panels in the gui
+ */
 export default class CircuitsPanel extends Component {
+  /**
+   * builds the circuit navigator panel
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.state = this.loadState();
     this.name = "[CircuitsPanel]";
-
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
   }
 
+  /**
+   * loads the state from the parent
+   * @returns {*|{participatingCircuitsVisible: boolean, doItLaterCircuitsVisible: boolean, animationDelay: number, activeItem: string, title: string, animationType: string}}
+   */
   loadState() {
     let state = this.props.loadStateCb();
     if (!state) {
       return {
+        activeCircuits: CircuitClient.activeCircuits,
         activeItem:
           SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
         participatingCircuitsVisible: true,
@@ -38,7 +52,21 @@ export default class CircuitsPanel extends Component {
     return state;
   }
 
-  openParticipatingCircuuitsPanel() {
+  refreshActiveCircuits() {
+    console.log("call circuit client to refresh active circuits");
+    CircuitClient.loadAllMyParticipatingCircuits(this, models => {
+      this.setState({
+        activeCircuits: models
+      });
+    });
+  }
+
+  refreshDoItLaterCircuits() {
+    console.log("call circuit client to refresh do it later circuits");
+  }
+
+  showParticipatingCircuitsPanel() {
+    this.refreshActiveCircuits();
     this.setState({
       activeItem:
         SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
@@ -52,7 +80,8 @@ export default class CircuitsPanel extends Component {
     }, this.state.animationDelay);
   }
 
-  openDoItLaterCircuitsPanel() {
+  showDoItLaterCircuitsPanel() {
+    this.refreshDoItLaterCircuits();
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS,
       participatingCircuitsVisible: false,
@@ -72,17 +101,22 @@ export default class CircuitsPanel extends Component {
   componentDidMount = () => {
     this.myController.configureCircuitsPanelListener(
       this,
-      this.onRefreshActivePerspective
+      this.onRefreshCircuitsPanel
     );
+    this.onRefreshCircuitsPanel();
   };
 
-  onRefreshActivePerspective() {
+  componentWillUnmount = () => {
+    this.myController.configureCircuitsPanelListener(this, null);
+  };
+
+  onRefreshCircuitsPanel() {
     switch (this.myController.activeCircuitsSubmenuSelection) {
       case SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS:
-        this.openParticipatingCircuuitsPanel();
+        this.showParticipatingCircuitsPanel();
         break;
       case SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS:
-        this.openDoItLaterCircuitsPanel();
+        this.showDoItLaterCircuitsPanel();
         break;
       default:
         throw new Error("Unknown circuits panel menu item");
@@ -105,35 +139,26 @@ export default class CircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(true, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", true)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
-          {this.getCircuitListItem(false, "Zoe Love", "5 min", false)}
+          {this.state.activeCircuits.map(model =>
+            this.getCircuitListItem(model)
+          )}
         </List>
       </div>
     );
   };
 
-  getCircuitListItem = (selected, name, time, retro) => {
-    let timerIcon = retro ? "balance scale" : "lightning",
+  getCircuitListItem = model => {
+    let retro = LearningCircuitModel.isRetro(model),
+      selected = false,
+      time = UtilRenderer.getTimeStringFromTimeArray(model.openTime),
+      circuitName = model.circuitName,
+      ownerName = model.ownerId,
+      timerIcon = retro ? "balance scale" : "lightning",
       timerColor = retro ? "violet" : "red",
       className = selected ? "selected " + timerColor : timerColor;
 
     return (
-      <List.Item className={className}>
+      <List.Item className={className} key={model.id}>
         <List.Content
           floated="right"
           verticalAlign="middle"
@@ -144,8 +169,8 @@ export default class CircuitsPanel extends Component {
           </Label>
         </List.Content>
         <List.Content>
-          <List.Header>Some Circuit Name</List.Header>
-          <i className="name">({name})</i>
+          <List.Header>{circuitName}</List.Header>
+          <i className="name">({ownerName})</i>
         </List.Content>
       </List.Item>
     );

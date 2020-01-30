@@ -5,15 +5,23 @@ export class SidePanelViewController extends ActiveViewController {
   constructor(scope) {
     super(scope);
     this.show = true;
-    this.activeMenuSelection = SidePanelViewController.MenuSelection.PROFILE;
-    this.activeSubmenuSelection =
+    this.activeMenuSelection = SidePanelViewController.MenuSelection.SPIRIT;
+    this.activeSpiritSubmenuSelection =
       SidePanelViewController.SubmenuSelection.SPIRIT;
+    this.activeTeamSubmenuSelection =
+      SidePanelViewController.SubmenuSelection.TEAM;
+    this.activeCircuitsSubmenuSelection =
+      SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS;
     this.sidePanelChangeNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
       this
     );
     this.spiritPanelChangeNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SPIRIT_PANEL,
+      this
+    );
+    this.teamPanelChangeNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_TEAM_PANEL,
       this
     );
     this.circuitsPanelChangeNotifier = RendererEventFactory.createEvent(
@@ -32,6 +40,10 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
       this
     );
+    this.teamPanelListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_TEAM_PANEL,
+      this
+    );
     this.spiritPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SPIRIT_PANEL,
       this
@@ -44,7 +56,7 @@ export class SidePanelViewController extends ActiveViewController {
 
   static get MenuSelection() {
     return {
-      PROFILE: "profile",
+      SPIRIT: "spirit",
       MESSAGES: "messages",
       CIRCUITS: "circuits",
       NOTIFICATIONS: "notifications",
@@ -56,6 +68,7 @@ export class SidePanelViewController extends ActiveViewController {
     return {
       SPIRIT: "spirit",
       BADGES: "badges",
+      TEAM: "team",
       PARTICIPATING_CIRCUITS: "my-circuits",
       DO_IT_LATER_CIRCUITS: "do-it-later-circuits"
     };
@@ -81,6 +94,10 @@ export class SidePanelViewController extends ActiveViewController {
     this.menuListener.updateCallback(scope, callback);
   }
 
+  configureTeamPanelListener(scope, callback) {
+    this.teamPanelListener.updateCallback(scope, callback);
+  }
+
   configureSpiritPanelListener(scope, callback) {
     this.spiritPanelListener.updateCallback(scope, callback);
   }
@@ -99,6 +116,10 @@ export class SidePanelViewController extends ActiveViewController {
 
   fireSpiritPanelNotifyEvent() {
     this.spiritPanelChangeNotifier.dispatch({});
+  }
+
+  fireTeamPanelNotifyEvent() {
+    this.teamPanelChangeNotifier.dispatch({});
   }
 
   fireCircuitsPanelNotifyEvent() {
@@ -124,6 +145,11 @@ export class SidePanelViewController extends ActiveViewController {
   changeActiveSpiritSubmenuPanel(submenuItem) {
     this.activeSpiritSubmenuSelection = submenuItem;
     this.fireSpiritPanelNotifyEvent();
+  }
+
+  changeActiveTeamSubmenuPanel(submenuItem) {
+    this.activeTeamSubmenuSelection = submenuItem;
+    this.fireTeamPanelNotifyEvent();
   }
 
   changeActiveCircuitsSubmenuPanel(submenuItem) {

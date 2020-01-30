@@ -34,6 +34,12 @@ class CircuitManager {
     CircuitController.instance.handleGetMyCircuitEvent({}, {}, callback);
   }
 
+  getAllMyParticipatingCircuits(callback) {
+    CircuitController.instance.handleGetMyCircuitsJoinedEvent({}, {}, callback);
+  }
+
+  ///////////////////// NEED TO IMPLEMENT ////////////////////
+
   startRetroForWTF(circuitName, callback) {
     return null;
   }
@@ -63,10 +69,6 @@ class CircuitManager {
   }
 
   getAllMyDoItLaterCircuits(callback) {
-    return null;
-  }
-
-  getAllMyParticipatingCircuits(callback) {
     return null;
   }
 

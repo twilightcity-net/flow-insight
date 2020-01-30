@@ -42,6 +42,7 @@ export class RendererEventFactory {
       TALK_LEAVE_ROOM: prefix + "talk-leave-room",
       CIRCUIT_CLIENT: prefix + "circuit-client",
       VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel",
+      VIEW_CONSOLE_TEAM_PANEL: prefix + "view-console-team-panel",
       VIEW_CONSOLE_SPIRIT_PANEL: prefix + "view-console-spirit-panel",
       VIEW_CONSOLE_CIRCUITS_PANEL: prefix + "view-console-circuits-panel",
       VIEW_CONSOLE_MENU_CHANGE: prefix + "view-console-menu-change",

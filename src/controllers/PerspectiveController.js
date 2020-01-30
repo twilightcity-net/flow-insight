@@ -93,11 +93,14 @@ export class PerspectiveController {
    * @param event
    * @param arg
    */
+
+  // FIXME this should not make any remote requests.
   onConsoleOpenUpdateModels(event, arg) {
     console.log(this.name + " update models -> " + JSON.stringify(arg));
     switch (arg) {
       case ConsoleView.ConsoleStates.SHOW_CONSOLE:
-        this.teamModel.refreshAll();
+        // TODO this should be moved to the console journal panel
+
         if (this.spiritModel.hasLinks()) {
           this.journalModel.loadDefaultJournal();
         }

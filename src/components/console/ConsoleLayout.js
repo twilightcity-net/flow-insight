@@ -33,7 +33,7 @@ export default class ConsoleLayout extends Component {
       xpSummary: {},
       totalXP: 0,
       flameRating: 0,
-      activePanel: SidePanelViewController.MenuSelection.PROFILE,
+      activePanel: SidePanelViewController.MenuSelection.SPIRIT,
       consoleIsCollapsed: 0,
       me: { shortName: "Me", id: "id" },
       teamMembers: [],
@@ -351,7 +351,7 @@ export default class ConsoleLayout extends Component {
    */
   getActivePanelContent = () => {
     switch (this.state.activePanel) {
-      case SidePanelViewController.MenuSelection.PROFILE:
+      case SidePanelViewController.MenuSelection.SPIRIT:
         return this.getSpiritPanelContent();
       case SidePanelViewController.MenuSelection.MESSAGES:
         return this.getTeamPanelContent();

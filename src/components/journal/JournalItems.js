@@ -107,7 +107,6 @@ export default class JournalItems extends Component {
     }
 
     if (this.isLastActive()) {
-      console.log(this.name + " - isLastActive");
       this.messagesEnd.scrollIntoView({ behavior: "smooth" });
     }
   };

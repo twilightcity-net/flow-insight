@@ -10,6 +10,11 @@ export default class UtilRenderer {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
   }
 
+  static getTimeStringFromTimeArray(array) {
+    // console.log(array);
+    return "5 min";
+  }
+
   static getGuid() {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)

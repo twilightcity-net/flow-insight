@@ -26,6 +26,8 @@ export class CircuitClient extends BaseClient {
 
   static activeCircuit = null;
 
+  static activeCircuits = [];
+
   /**
    * builds the Client for a Circuit in Gridtime
    * @param scope
@@ -70,6 +72,7 @@ export class CircuitClient extends BaseClient {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
       CircuitClient.loadActiveCircuit();
+      CircuitClient.loadAllMyParticipatingCircuits();
     }
   }
 
@@ -84,7 +87,7 @@ export class CircuitClient extends BaseClient {
       { circuitName: circuitName },
       scope,
       (event, arg) => {
-        let model = new LearningCircuitModel(arg.dto, scope);
+        let model = new LearningCircuitModel(arg.dto);
         callback(model);
       }
     );
@@ -98,10 +101,33 @@ export class CircuitClient extends BaseClient {
       {},
       scope ? scope : CircuitClient.instance.scope,
       (event, arg) => {
-        let model = new LearningCircuitModel(arg.dto, scope);
+        let model = new LearningCircuitModel(arg.dto);
         CircuitClient.activeCircuit = model;
         if (callback) {
           callback(model);
+        }
+      }
+    );
+    CircuitClient.instance.notifyCircuit(clientEvent);
+    return clientEvent;
+  }
+
+  static loadAllMyParticipatingCircuits(scope, callback) {
+    let clientEvent = new RendererClientEvent(
+      CircuitClient.Events.GET_MY_CIRCUITS_JOINED,
+      {},
+      scope ? scope : CircuitClient.instance.scope,
+      (event, arg) => {
+        CircuitClient.activeCircuits = [];
+        if (arg.dto) {
+          for (let i = 0; i < arg.dto.length; i++) {
+            CircuitClient.activeCircuits.push(
+              new LearningCircuitModel(arg.dto[i])
+            );
+          }
+        }
+        if (callback) {
+          callback(CircuitClient.activeCircuits);
         }
       }
     );
@@ -132,6 +158,7 @@ export class CircuitClient extends BaseClient {
       CircuitClient.replies.delete(arg.id);
     }
     clientEvent.callback(event, arg);
+    this.notifyListeners(clientEvent);
   };
 
   /**
@@ -148,14 +175,48 @@ export class CircuitClient extends BaseClient {
     this.event.dispatch(clientEvent, true);
   }
 
+  notifyListeners(clientEvent) {
+    console.log(
+      "[" +
+        CircuitClient.name +
+        "] notify listeners {" +
+        CircuitClient.listeners.length +
+        "}-> " +
+        JSON.stringify(clientEvent)
+    );
+    for (var i = CircuitClient.listeners.length - 1; i >= 0; i--) {
+      let listener = CircuitClient.listeners[i];
+      console.log(listener);
+    }
+  }
+
   registerListener(clientEvent) {
     console.log(
-      "[" + CircuitClient.name + "] notify -> " + JSON.stringify(clientEvent)
+      "[" + CircuitClient.name + "] register -> " + JSON.stringify(clientEvent)
     );
     CircuitClient.listeners.push(clientEvent);
   }
 
-  unregisterListener() {}
+  unregisterListener(clientEvent) {
+    console.log(
+      "[" +
+        CircuitClient.name +
+        "] unregister {" +
+        CircuitClient.listeners.length +
+        "} -> " +
+        JSON.stringify(clientEvent)
+    );
+    for (var i = CircuitClient.listeners.length - 1; i >= 0; i--) {
+      console.log(CircuitClient.listeners[i]);
+      if (clientEvent === CircuitClient.listeners[i]) {
+        console.log("found!!");
+        CircuitClient.listeners.splice(i, 1);
+      }
+    }
+  }
+
+  /////////////// NEED TO IMPLEMENT ///////////////
+
   startRetroForWTF(circuitName, callback) {}
 
   joinExistingCircuit(circuitName, callback) {}
@@ -167,8 +228,6 @@ export class CircuitClient extends BaseClient {
   getCircuitWithMembers(circuitName, callback) {}
 
   getAllMyDoItLaterCircuits(callback) {}
-
-  getAllMyParticipatingCircuits(callback) {}
 
   getAllParticipatingCircuitsForMember(memberId, callback) {}
 }

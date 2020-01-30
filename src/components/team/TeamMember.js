@@ -31,7 +31,7 @@ export default class TeamMember extends Component {
 
   navToProfile = () => {
     this.sidePanelController.showPanel(
-      SidePanelViewController.MenuSelection.PROFILE
+      SidePanelViewController.MenuSelection.SPIRIT
     );
   };
 
