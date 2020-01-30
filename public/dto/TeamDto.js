@@ -1,6 +1,7 @@
-//
-// dto class for TeamDto
-//
+/**
+ * the dto class that stores the team information of an organization
+ * @type {TeamDto}
+ */
 module.exports = class TeamDto {
   constructor(json) {
     try {
@@ -8,6 +9,8 @@ module.exports = class TeamDto {
       this.id = json.id;
       this.organizationId = json.organizationId;
       this.name = json.name;
+      this.teamRoomName = json.name;
+      this.teamRoomId = json.name;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'MemberWorkStatusDto' : " + e.message
