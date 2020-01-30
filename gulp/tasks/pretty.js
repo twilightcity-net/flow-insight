@@ -17,10 +17,8 @@ module.exports = function() {
         prettyHtml({
           indent_size: 2,
           preserve_newlines: false,
-          wrap_line_length: 121,
           wrap_attributes: "force-aligned",
-          indent_scripts: "separate",
-          unformatted: []
+          indent_scripts: "keep"
         })
       )
       .pipe(gulp.dest(file => file.base));
