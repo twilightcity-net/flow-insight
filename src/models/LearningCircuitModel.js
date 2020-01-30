@@ -29,6 +29,11 @@ export class LearningCircuitModel {
     }
   }
 
+  /**
+   * checks if we are in retro mode by looking to see if we have a retro room
+   * @param model
+   * @returns {boolean}
+   */
   static isRetro(model) {
     return !!model.retroTalkRoomId;
   }

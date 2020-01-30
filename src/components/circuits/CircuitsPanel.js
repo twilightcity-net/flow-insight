@@ -52,6 +52,9 @@ export default class CircuitsPanel extends Component {
     return state;
   }
 
+  /**
+   * refreshes our active circuits array with new data
+   */
   refreshActiveCircuits() {
     console.log("call circuit client to refresh active circuits");
     CircuitClient.loadAllMyParticipatingCircuits(this, models => {
@@ -61,10 +64,18 @@ export default class CircuitsPanel extends Component {
     });
   }
 
+  /**
+   * refresh our array of do it later on hold circuits
+   */
   refreshDoItLaterCircuits() {
     console.log("call circuit client to refresh do it later circuits");
+
+    //TODO implement this function to show do it later on hold circuits
   }
 
+  /**
+   * shows our active circuits that we are joined to
+   */
   showParticipatingCircuitsPanel() {
     this.refreshActiveCircuits();
     this.setState({
@@ -80,6 +91,10 @@ export default class CircuitsPanel extends Component {
     }, this.state.animationDelay);
   }
 
+  /**
+   * shows our list of circuits we are participating in that are currently on hold
+   * with a do it later status
+   */
   showDoItLaterCircuitsPanel() {
     this.refreshDoItLaterCircuits();
     this.setState({
@@ -94,10 +109,19 @@ export default class CircuitsPanel extends Component {
     }, this.state.animationDelay);
   }
 
+  /**
+   * event handler for our circuits sub menu click
+   * @param e
+   * @param name
+   */
   handleCircuitSubmenuClick = (e, { name }) => {
     this.myController.changeActiveCircuitsSubmenuPanel(name);
   };
 
+  /**
+   * called we are rendering this component into view. This will ask the circuit manager
+   * in the main process for new circuit data
+   */
   componentDidMount = () => {
     this.myController.configureCircuitsPanelListener(
       this,
@@ -106,10 +130,17 @@ export default class CircuitsPanel extends Component {
     this.onRefreshCircuitsPanel();
   };
 
+  /**
+   * called when we remove this circuit from view. this clears the listeners for proper
+   * memory management
+   */
   componentWillUnmount = () => {
     this.myController.configureCircuitsPanelListener(this, null);
   };
 
+  /**
+   * callback function that is performed when we refresh this component in the view
+   */
   onRefreshCircuitsPanel() {
     switch (this.myController.activeCircuitsSubmenuSelection) {
       case SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS:
@@ -123,6 +154,10 @@ export default class CircuitsPanel extends Component {
     }
   }
 
+  /**
+   * get our active circuits content to render in the gui
+   * @returns {*}
+   */
   getParticipatingCircuitsContent = () => {
     return (
       <div
@@ -147,6 +182,11 @@ export default class CircuitsPanel extends Component {
     );
   };
 
+  /**
+   * returns our circuits item that represents a learning circuit
+   * @param model - the learning circuit we are going to renderi in the gui
+   * @returns {*}
+   */
   getCircuitListItem = model => {
     let retro = LearningCircuitModel.isRetro(model),
       selected = false,
@@ -176,6 +216,10 @@ export default class CircuitsPanel extends Component {
     );
   };
 
+  /**
+   * builds our do it later content panel for render() in the gui
+   * @returns {*}
+   */
   getDoItLaterCircuitsContent = () => {
     return (
       <div
@@ -187,6 +231,10 @@ export default class CircuitsPanel extends Component {
     );
   };
 
+  /**
+   * renders our component in the gui
+   * @returns {*}
+   */
   render() {
     const { activeItem } = this.state;
     return (

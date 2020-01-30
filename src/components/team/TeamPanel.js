@@ -150,6 +150,10 @@ export default class TeamPanel extends Component {
     return this.spiritModel.isLinked(memberId);
   };
 
+  /**
+   * gets our team panel content with the team model that was passed in from the props
+   * @returns {*}
+   */
   getTeamMembersContent = () => {
     return (
       <div>

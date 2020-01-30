@@ -22,10 +22,22 @@ export class CircuitClient extends BaseClient {
    */
   static replies = new Map();
 
+  /**
+   * our circuit event listeners that other classes use
+   * @type {*}
+   */
   static listeners = [];
 
+  /**
+   * our active circuit that we are in
+   * @type {null}
+   */
   static activeCircuit = null;
 
+  /**
+   * our list of active participating circuits we have joined
+   * @type {LearningCircuitModel[]}
+   */
   static activeCircuits = [];
 
   /**
@@ -95,6 +107,12 @@ export class CircuitClient extends BaseClient {
     return clientEvent;
   }
 
+  /**
+   * loads our active circuit into the circuit client for the app to use
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static loadActiveCircuit(scope, callback) {
     let clientEvent = new RendererClientEvent(
       CircuitClient.Events.GET_MY_CIRCUIT,
@@ -112,6 +130,12 @@ export class CircuitClient extends BaseClient {
     return clientEvent;
   }
 
+  /**
+   * gets all of our active circuits the team member has joined
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static loadAllMyParticipatingCircuits(scope, callback) {
     let clientEvent = new RendererClientEvent(
       CircuitClient.Events.GET_MY_CIRCUITS_JOINED,
@@ -175,6 +199,11 @@ export class CircuitClient extends BaseClient {
     this.event.dispatch(clientEvent, true);
   }
 
+  /**
+   * notifies any additional listeners that we have recieved some new data from the
+   * circuit controller
+   * @param clientEvent
+   */
   notifyListeners(clientEvent) {
     console.log(
       "[" +
@@ -190,6 +219,11 @@ export class CircuitClient extends BaseClient {
     }
   }
 
+  /**
+   * registers a new listener that is associated to a given client event. These listeners
+   * are wrapped as client events to maintain consistency
+   * @param clientEvent
+   */
   registerListener(clientEvent) {
     console.log(
       "[" + CircuitClient.name + "] register -> " + JSON.stringify(clientEvent)
@@ -197,6 +231,10 @@ export class CircuitClient extends BaseClient {
     CircuitClient.listeners.push(clientEvent);
   }
 
+  /**
+   * removes the listener from our memory. this is important
+   * @param clientEvent
+   */
   unregisterListener(clientEvent) {
     console.log(
       "[" +

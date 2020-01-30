@@ -7,6 +7,10 @@ import { SidePanelViewController } from "../../controllers/SidePanelViewControll
  * this component is the sidebar to the console. This animates a slide.
  */
 export default class ConsoleSidebar extends Component {
+  /**
+   * builds the console sidebar and panel with given properties
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.name = "[ConsoleSidebar]";
@@ -24,6 +28,9 @@ export default class ConsoleSidebar extends Component {
     );
   }
 
+  /**
+   * called when the sidebar is created in the view and will render
+   */
   componentDidMount = () => {
     this.myController.configureMenuListener(
       this,
@@ -31,10 +38,16 @@ export default class ConsoleSidebar extends Component {
     );
   };
 
+  /**
+   * called when we remove the console sidebar panel and menu from view
+   */
   componentWillUnmount = () => {
     this.myController.configureMenuListener(this, null);
   };
 
+  /**
+   * function handler that os called when the console layout perspective changes
+   */
   onRefreshActivePerspective() {
     let activeMenuItem = this.myController.activeMenuSelection;
     let state = {
@@ -90,14 +103,26 @@ export default class ConsoleSidebar extends Component {
     return window.innerHeight - heights.rootBorder - heights.bottomMenuHeight;
   }
 
+  /**
+   * called when we delect a menu ite,. This should close the panel
+   */
   deselectItem = () => {
     this.myController.hidePanel();
   };
 
+  /**
+   * called when we select a new console menu item
+   * @param name
+   */
   selectItem = name => {
     this.myController.showPanel(name);
   };
 
+  /**
+   * event click handler for the menu
+   * @param e
+   * @param name
+   */
   handleItemClick = (e, { name }) => {
     if (this.state.activeItem === name) {
       this.deselectItem(name);
@@ -111,7 +136,6 @@ export default class ConsoleSidebar extends Component {
    */
   render() {
     const { activeItem } = this.state;
-
     return (
       <div id="component" className="consoleSidebar">
         <Menu

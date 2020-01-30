@@ -6,11 +6,19 @@ import ConsoleView from "../views/ConsoleView";
  * This class is used to coordinate views across all the perspective change events
  */
 export class PerspectiveController {
+  /**
+   * builds the perspecitve controller which control the root level of the console view. This
+   * class handles state changes of the console layout and the console sidebar panel and menu
+   * @param scope
+   */
   constructor(scope) {
     this.name = "[PerspectiveController]";
     this.scope = scope;
   }
 
+  /**
+   * the global static reference of this class. There can only be on ~-~
+   */
   static instance;
 
   /**
