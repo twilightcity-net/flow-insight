@@ -11,1099 +11,1099 @@
         href="%PUBLIC_URL%/manifest.json">
   <title>Torchie</title>
   <style>
-/*
+  /*
        * GLOBAL
        */
-div#root {
-  cursor: default !important;
-  height: 100%;
-  background: none !important;
-  opacity: 1;
-  box-sizing: border-box;
-  border-top: 1px solid rgba(76, 76, 76, 1);
-  border-left: 1px solid rgba(36, 36, 36, 1);
-  border-right: 1px solid rgba(32, 32, 32, 1);
-  border-bottom: 1px solid rgba(41, 41, 41, 1);
-}
+  div#root {
+    cursor: default !important;
+    height: 100%;
+    background: none !important;
+    opacity: 1;
+    box-sizing: border-box;
+    border-top: 1px solid rgba(76, 76, 76, 1);
+    border-left: 1px solid rgba(36, 36, 36, 1);
+    border-right: 1px solid rgba(32, 32, 32, 1);
+    border-bottom: 1px solid rgba(41, 41, 41, 1);
+  }
 
-a,
-.ui.button {
-  cursor: default !important;
-}
+  a,
+  .ui.button {
+    cursor: default !important;
+  }
 
-html,
-body.console {
-  background: none;
-  opacity: 1;
-}
+  html,
+  body.console {
+    background: none;
+    opacity: 1;
+  }
 
-body {
-  overflow: hidden;
-}
+  body {
+    overflow: hidden;
+  }
 
-canvas {
-  outline: none;
-  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-  /* mobile webkit */
-}
+  canvas {
+    outline: none;
+    -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+    /* mobile webkit */
+  }
 
-/*
+  /*
        * VIEW: CONSOLE
        */
-#view.console {
-  background: #000000;
-  height: 100%;
-}
+  #view.console {
+    background: #000000;
+    height: 100%;
+  }
 
-/*
+  /*
        * VIEW: LOADING
        */
-#view.loading {
-  background: #1b1c1d;
-  height: 100%;
-}
+  #view.loading {
+    background: #1b1c1d;
+    height: 100%;
+  }
 
-#view.loading .icon {
-  margin: auto;
-  margin-top: 52px;
-  font-size: 32px;
-}
+  #view.loading .icon {
+    margin: auto;
+    margin-top: 52px;
+    font-size: 32px;
+  }
 
-#view.loading .loginFailed .icon {
-  font-size: 64px;
-}
+  #view.loading .loginFailed .icon {
+    font-size: 64px;
+  }
 
-#view.loading .ui.header .sub.header {
-  font-style: italic;
-}
+  #view.loading .ui.header .sub.header {
+    font-style: italic;
+  }
 
-#view.loading .progress .bar {
-  background-color: #6435c9;
-}
+  #view.loading .progress .bar {
+    background-color: #6435c9;
+  }
 
-#view.loading .progress .label {
-  text-align: right !important;
-  font-style: italic;
-  opacity: 0.5;
-  padding-right: 5px;
-  padding-top: 2px;
-}
+  #view.loading .progress .label {
+    text-align: right !important;
+    font-style: italic;
+    opacity: 0.5;
+    padding-right: 5px;
+    padding-top: 2px;
+  }
 
-/*
+  /*
        * VIEW: ACTIVATOR
        */
-#view.activator {
-  background: #1b1c1d;
-  height: 100%;
-}
+  #view.activator {
+    background: #1b1c1d;
+    height: 100%;
+  }
 
-#view.activator .ui.segment.tokenKey,
-#view.activator .ui.segment.terms,
-#view.activator .ui.segment.activating {
-  padding-top: 8px;
-}
+  #view.activator .ui.segment.tokenKey,
+  #view.activator .ui.segment.terms,
+  #view.activator .ui.segment.activating {
+    padding-top: 8px;
+  }
 
-#view.activator .ui.segment.tokenKey {
-  padding-top: 12px;
-}
+  #view.activator .ui.segment.tokenKey {
+    padding-top: 12px;
+  }
 
-#view.activator .ui.segment.terms {
-  max-height: 120px;
-  overflow: hidden;
-  overflow-y: auto;
-  font-size: 12px;
-  background: #323334;
-}
+  #view.activator .ui.segment.terms {
+    max-height: 120px;
+    overflow: hidden;
+    overflow-y: auto;
+    font-size: 12px;
+    background: #323334;
+  }
 
-#view.activator .ui.activatingContent {
-  padding-top: 48px;
-}
+  #view.activator .ui.activatingContent {
+    padding-top: 48px;
+  }
 
-#view.activator .ui.activatingContent .header {
-  width: 100%;
-}
+  #view.activator .ui.activatingContent .header {
+    width: 100%;
+  }
 
-#view.activator .ui.successContent {
-  padding-top: 16px;
-}
+  #view.activator .ui.successContent {
+    padding-top: 16px;
+  }
 
-#view.activator .ui.successContent .header {
-  width: 100%;
-}
+  #view.activator .ui.successContent .header {
+    width: 100%;
+  }
 
-#view.activator .ui.successContent .sub.header {
-  width: 100%;
-}
+  #view.activator .ui.successContent .sub.header {
+    width: 100%;
+  }
 
-#view.activator .ui.successContent .ui.divider {
-  padding-top: 16px;
-}
+  #view.activator .ui.successContent .ui.divider {
+    padding-top: 16px;
+  }
 
-#view.activator .ui.failedContent {
-  padding-top: 16px;
-}
+  #view.activator .ui.failedContent {
+    padding-top: 16px;
+  }
 
-#view.activator .ui.failedContent .header {
-  width: 100%;
-}
+  #view.activator .ui.failedContent .header {
+    width: 100%;
+  }
 
-#view.activator .ui.failedContent .sub.header {
-  width: 100%;
-}
+  #view.activator .ui.failedContent .sub.header {
+    width: 100%;
+  }
 
-#view.activator .ui.failedContent .ui.divider {
-  padding-top: 16px;
-}
+  #view.activator .ui.failedContent .ui.divider {
+    padding-top: 16px;
+  }
 
-#view.activator .ui.input input {
-  transition: border 0.840s ease-out;
-  background: rgba(27, 28, 29, 0.96);
-  border: 1px solid rgba(74, 74, 74, 0.96);
-  color: rgba(241, 241, 241, 0.96);
-}
+  #view.activator .ui.input input {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+  }
 
-#view.activator .ui.input input:focus {
-  border: 1px solid rgba(100, 53, 201, 0.96);
-}
+  #view.activator .ui.input input:focus {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
 
-#view.activator .ui.input input::placeholder {
-  font-style: italic;
-  color: rgba(74, 74, 74, 0.96)
-}
+  #view.activator .ui.input input::placeholder {
+    font-style: italic;
+    color: rgba(74, 74, 74, 0.96)
+  }
 
-/*
+  /*
        * COMPONENT: CONSOLE-LAYOUT
        */
-#component.consoleLayout #wrapper.consoleSidebar {
-  float: left;
-  position: relative;
-}
+  #component.consoleLayout #wrapper.consoleSidebar {
+    float: left;
+    position: relative;
+  }
 
-#component.consoleLayout #wrapper.consoleSidebarPanel {
-  float: left;
-  position: relative;
-  transition: width 0.420s;
-  width: 0;
-  overflow: hidden;
-  margin-top: 0px;
-}
+  #component.consoleLayout #wrapper.consoleSidebarPanel {
+    float: left;
+    position: relative;
+    transition: width 0.420s;
+    width: 0;
+    overflow: hidden;
+    margin-top: 0px;
+  }
 
-#component.consoleLayout #wrapper.consoleContent {
-  overflow: hidden;
-  position: relative;
-  top: 0.420em;
-  padding-left: 0.420em;
-  padding-right: 0.420em;
-}
+  #component.consoleLayout #wrapper.consoleContent {
+    overflow: hidden;
+    position: relative;
+    top: 0.420em;
+    padding-left: 0.420em;
+    padding-right: 0.420em;
+  }
 
-#component.consoleLayout #wrapper.consoleMenu {
-  padding: 0 0;
-  position: absolute;
-  width: 100%;
-  bottom: 0;
-  z-index: 1000;
-}
+  #component.consoleLayout #wrapper.consoleMenu {
+    padding: 0 0;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    z-index: 1000;
+  }
 
-/*
+  /*
        * COMPONENT: CONSOLE-SIDEBAR
        */
-#component.consoleSidebar .ui.menu {
-  border-radius: 0;
-  background: rgba(27, 27, 27, 0.96);
-}
+  #component.consoleSidebar .ui.menu {
+    border-radius: 0;
+    background: rgba(27, 27, 27, 0.96);
+  }
 
-#component.consoleSidebar .ui.menu .item {
-  border-radius: 0;
-  padding-left: 6px;
-  padding-right: 6px;
-}
+  #component.consoleSidebar .ui.menu .item {
+    border-radius: 0;
+    padding-left: 6px;
+    padding-right: 6px;
+  }
 
-#component.consoleSidebar .ui.menu .item.disabled {}
+  #component.consoleSidebar .ui.menu .item.disabled {}
 
-#component.consoleSidebar .ui.menu .item:last-child {
-  border-bottom: 1px solid rgba(43, 43, 43, 0.96);
-}
+  #component.consoleSidebar .ui.menu .item:last-child {
+    border-bottom: 1px solid rgba(43, 43, 43, 0.96);
+  }
 
-#component.consoleSidebar .ui.menu .item .label {
-  padding: 2px 4px;
-  top: 3px;
-  left: 36px;
-}
+  #component.consoleSidebar .ui.menu .item .label {
+    padding: 2px 4px;
+    top: 3px;
+    left: 36px;
+  }
 
-/*
+  /*
        * COMPONENT: CONSOLE-SIDEBAR-PANEL
        */
-#component.consoleSidebarPanel {
-  width: 0;
-  opacity: 0;
-  transition: width 0.420s, opacity 0.35s ease-in;
-  overflow: hidden;
-  border-right: 1px solid rgba(41, 41, 41, 1);
-  border-left: 1px solid rgba(41, 41, 41, 1);
-  border-bottom: 1px solid rgba(41, 41, 41, 1);
-}
+  #component.consoleSidebarPanel {
+    width: 0;
+    opacity: 0;
+    transition: width 0.420s, opacity 0.35s ease-in;
+    overflow: hidden;
+    border-right: 1px solid rgba(41, 41, 41, 1);
+    border-left: 1px solid rgba(41, 41, 41, 1);
+    border-bottom: 1px solid rgba(41, 41, 41, 1);
+  }
 
-#component.consoleSidebarPanel .ui.segments>.segment:last-child {
-  border-top: 1px solid #292929;
-}
+  #component.consoleSidebarPanel .ui.segments>.segment:last-child {
+    border-top: 1px solid #292929;
+  }
 
-#component.consoleSidebarPanel .ui.segment.spiritContentWrapper {
-  padding: 0.5em 0.5em 1.35em;
-}
+  #component.consoleSidebarPanel .ui.segment.spiritContentWrapper {
+    padding: 0.5em 0.5em 1.35em;
+  }
 
-#component.consoleSidebarPanel .ui.segments:not(.horizontal)>.segment:last-child {
-  border-radius: 0px !important;
-}
+  #component.consoleSidebarPanel .ui.segments:not(.horizontal)>.segment:last-child {
+    border-radius: 0px !important;
+  }
 
-#component.consoleSidebarPanel .ui.menu {
-  background: rgba(26, 27, 28, 1);
-  margin: 0;
-}
+  #component.consoleSidebarPanel .ui.menu {
+    background: rgba(26, 27, 28, 1);
+    margin: 0;
+  }
 
-#component.consoleSidebarPanel .ui.segments .ui.segment {
-  padding: 0.420em 0.840em !important
-}
+  #component.consoleSidebarPanel .ui.segments .ui.segment {
+    padding: 0.420em 0.840em !important
+  }
 
-/*
+  /*
        * COMPONENT: CONSOLE-SIDEBAR-SPIRIT
        */
-#component.consoleSidebarPanel.spiritPanel .ui.segments .ui.segment {
-  padding: 0.840em !important
-}
+  #component.consoleSidebarPanel.spiritPanel .ui.segments .ui.segment {
+    padding: 0.840em !important
+  }
 
-#component.consoleSidebarPanel .spiritContent .level {
-  text-align: center;
-  overflow: auto;
-}
+  #component.consoleSidebarPanel .spiritContent .level {
+    text-align: center;
+    overflow: auto;
+  }
 
-#component.consoleSidebarPanel .spiritContent .level .infoTitle {
-  float: left;
-  text-align: left;
-  line-height: 2rem;
-}
+  #component.consoleSidebarPanel .spiritContent .level .infoTitle {
+    float: left;
+    text-align: left;
+    line-height: 2rem;
+  }
 
-#component.consoleSidebarPanel .spiritContent .level .infoTitle b {
-  font-size: 2rem;
-}
+  #component.consoleSidebarPanel .spiritContent .level .infoTitle b {
+    font-size: 2rem;
+  }
 
-#component.consoleSidebarPanel .spiritContent .level .infoLevel {
-  float: right;
-  text-align: right;
-  line-height: 1rem;
-}
+  #component.consoleSidebarPanel .spiritContent .level .infoLevel {
+    float: right;
+    text-align: right;
+    line-height: 1rem;
+  }
 
-#component.consoleSidebarPanel .spiritContent .ui.progress {
-  top: -0.3em;
-  margin-top: 0.5em;
-  margin-bottom: 0.2em;
-}
+  #component.consoleSidebarPanel .spiritContent .ui.progress {
+    top: -0.3em;
+    margin-top: 0.5em;
+    margin-bottom: 0.2em;
+  }
 
-#component.consoleSidebarPanel .spiritContent .ui.progress .bar {
-  background-color: rgba(100, 53, 201, 0.96);
-}
+  #component.consoleSidebarPanel .spiritContent .ui.progress .bar {
+    background-color: rgba(100, 53, 201, 0.96);
+  }
 
-#component.consoleSidebarPanel .spiritContent .ui.progress .label,
-#component.consoleSidebarPanel .badgesContent {
-  white-space: nowrap;
-}
+  #component.consoleSidebarPanel .spiritContent .ui.progress .label,
+  #component.consoleSidebarPanel .badgesContent {
+    white-space: nowrap;
+  }
 
-#component.consoleSidebarPanel .spiritContent .rageButton {
-  transition: background, color .840s ease-out;
-  background: rgba(72, 72, 72, 0.96);
-  color: red;
-  padding-top: 4px;
-  padding-bottom: 6px;
-}
+  #component.consoleSidebarPanel .spiritContent .rageButton {
+    transition: background, color .840s ease-out;
+    background: rgba(72, 72, 72, 0.96);
+    color: red;
+    padding-top: 4px;
+    padding-bottom: 6px;
+  }
 
-#component.consoleSidebarPanel .spiritContent .flameRating {
-  background: rgba(222, 222, 222, 0.96);
-  color: rgba(100, 100, 100, 0.96);
-}
+  #component.consoleSidebarPanel .spiritContent .flameRating {
+    background: rgba(222, 222, 222, 0.96);
+    color: rgba(100, 100, 100, 0.96);
+  }
 
-#component.consoleSidebarPanel .spiritContent .rageButton:hover {
-  background: rgba(100, 100, 100, 0.96);
-}
+  #component.consoleSidebarPanel .spiritContent .rageButton:hover {
+    background: rgba(100, 100, 100, 0.96);
+  }
 
-#component.consoleSidebarPanel .spiritContent .yayButton {
-  transition: background, color .840s ease-out;
-  background: rgba(72, 72, 72, 0.96);
-  color: purple;
-  padding-top: 4px;
-  padding-bottom: 6px;
-}
+  #component.consoleSidebarPanel .spiritContent .yayButton {
+    transition: background, color .840s ease-out;
+    background: rgba(72, 72, 72, 0.96);
+    color: purple;
+    padding-top: 4px;
+    padding-bottom: 6px;
+  }
 
-#component.consoleSidebarPanel .spiritContent .yayButton:hover {
-  background: rgba(100, 100, 100, 0.96);
-}
+  #component.consoleSidebarPanel .spiritContent .yayButton:hover {
+    background: rgba(100, 100, 100, 0.96);
+  }
 
-/*
+  /*
        * COMPONENT: CONSOLE-SIDEBAR-CIRCUITS
        */
-#component.consoleSidebarPanel.circuitsPanel .ui.segments .ui.segment {
-  padding: 0.840em 0.210em 0.840em 0.840em !important;
-}
+  #component.consoleSidebarPanel.circuitsPanel .ui.segments .ui.segment {
+    padding: 0.840em 0.210em 0.840em 0.840em !important;
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent {
-  overflow-y: scroll;
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent {
+    overflow-y: scroll;
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .content .header {
-  font-size: 1rem;
-  line-height: 1rem;
-  padding-left: 0.210em;
-  color: rgba(211, 211, 211, 1);
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .content .header {
+    font-size: 1rem;
+    line-height: 1rem;
+    padding-left: 0.210em;
+    color: rgba(211, 211, 211, 1);
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .content i.name {
-  font-weight: normal;
-  font-size: 1rem;
-  padding-left: 0.420em;
-  color: rgba(211, 211, 211, 1);
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .content i.name {
+    font-weight: normal;
+    font-size: 1rem;
+    padding-left: 0.420em;
+    color: rgba(211, 211, 211, 1);
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .circuitLabelTimer {
-  margin-top: -0.420em;
-  transform: translateY(50%);
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .circuitLabelTimer {
+    margin-top: -0.420em;
+    transform: translateY(50%);
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item.selected {
-  background: rgba(48, 48, 49, 1);
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item.selected {
+    background: rgba(48, 48, 49, 1);
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item.selected .circuitLabelTimer .ui.label {
-  background: red !important;
-  color: white !important;
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item.selected .circuitLabelTimer .ui.label {
+    background: red !important;
+    color: white !important;
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .circuitLabelTimer .ui.label {
-  padding: 0.420em 0.840em;
-  background: rgba(48, 48, 48, 1) !important;
-  border: none;
-  color: rgb(233, 233, 233) !important;
-  transition: background 0.420s ease-out;
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item .circuitLabelTimer .ui.label {
+    padding: 0.420em 0.840em;
+    background: rgba(48, 48, 48, 1) !important;
+    border: none;
+    color: rgb(233, 233, 233) !important;
+    transition: background 0.420s ease-out;
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item:hover .circuitLabelTimer .ui.label.violet {
-  background: #6435c9 !important;
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item:hover .circuitLabelTimer .ui.label.violet {
+    background: #6435c9 !important;
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item:hover .circuitLabelTimer .ui.label.red {
-  background: red !important;
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item:hover .circuitLabelTimer .ui.label.red {
+    background: red !important;
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .circuitLabelTimer i.lightning.icon {
-  margin-right: 0.210em;
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .circuitLabelTimer i.lightning.icon {
+    margin-right: 0.210em;
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item {
-  padding: 0.840em;
-  transition: background 0.840s ease-out, padding 0.210s ease-out;
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item {
+    padding: 0.840em;
+    transition: background 0.840s ease-out, padding 0.210s ease-out;
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item:hover {
-  padding-left: 1.260em;
-  background: #272727;
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item:hover {
+    padding-left: 1.260em;
+    background: #272727;
+  }
 
-#component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item.selected {
-  padding-left: 1.260em;
-}
+  #component.consoleSidebarPanel .participatingCircuitsContent .ui.list .item.selected {
+    padding-left: 1.260em;
+  }
 
-/*
+  /*
        * COMPONENT: CONSOLE-MENU
        */
-#component.consoleMenu .ui.menu {
-  background: rgba(27, 27, 27, 0.96);
-  border-radius: 0;
-  font-size: 12px;
-  min-height: 28px;
-  margin: 0 0;
-}
+  #component.consoleMenu .ui.menu {
+    background: rgba(27, 27, 27, 0.96);
+    border-radius: 0;
+    font-size: 12px;
+    min-height: 28px;
+    margin: 0 0;
+  }
 
-#component.consoleMenu .ui.menu .item {
-  transition: background 0.420s ease-out;
-  padding: 0 12px 0 10px;
-  border-radius: 0;
-}
+  #component.consoleMenu .ui.menu .item {
+    transition: background 0.420s ease-out;
+    padding: 0 12px 0 10px;
+    border-radius: 0;
+  }
 
-#component.consoleMenu .ui.menu .item:first-child {
-  padding-left: 5px;
-  padding-right: 4px;
-  border-top: 1px solid rgba(42, 42, 42, 0.96);
-}
+  #component.consoleMenu .ui.menu .item:first-child {
+    padding-left: 5px;
+    padding-right: 4px;
+    border-top: 1px solid rgba(42, 42, 42, 0.96);
+  }
 
-#component.consoleMenu .ui.menu .item .icon {
-  font-size: 14px;
-  margin-right: 4px;
-}
+  #component.consoleMenu .ui.menu .item .icon {
+    font-size: 14px;
+    margin-right: 4px;
+  }
 
-#component.consoleMenu .ui.menu .item.networkConnect .icon {
-  color: rgba(27, 175, 26, 0.96) !important;
-}
+  #component.consoleMenu .ui.menu .item.networkConnect .icon {
+    color: rgba(27, 175, 26, 0.96) !important;
+  }
 
-#component.consoleMenu .right.menu .item:first-child {
-  padding-left: 10px;
-}
+  #component.consoleMenu .right.menu .item:first-child {
+    padding-left: 10px;
+  }
 
-#component.consoleMenu .right.menu .item {
-  padding-right: 6px;
-}
+  #component.consoleMenu .right.menu .item {
+    padding-right: 6px;
+  }
 
-#component.consoleMenu .right.menu .item i {
-  margin-right: 0;
-}
+  #component.consoleMenu .right.menu .item i {
+    margin-right: 0;
+  }
 
-/*
+  /*
        * COMPONENT: TEAM-PANEL
        */
-#component.consoleSidebarPanel.teamPanel .ui.segments .ui.segment {
-  padding: 0.840em 0.210em 0.840em 0.840em !important;
-}
+  #component.consoleSidebarPanel.teamPanel .ui.segments .ui.segment {
+    padding: 0.840em 0.210em 0.840em 0.840em !important;
+  }
 
-#component.teamPanel i.doneGreen.check.icon {
-  color: rgba(27, 175, 26, 0.96);
-}
+  #component.teamPanel i.doneGreen.check.icon {
+    color: rgba(27, 175, 26, 0.96);
+  }
 
-#component.teamPanel i.doneGreenDark.check.icon {
-  color: rgba(27, 130, 26, 0.96);
-}
+  #component.teamPanel i.doneGreenDark.check.icon {
+    color: rgba(27, 130, 26, 0.96);
+  }
 
-#component.teamPanel div.doneGreen {
-  color: rgba(27, 175, 26, 0.96);
-}
+  #component.teamPanel div.doneGreen {
+    color: rgba(27, 175, 26, 0.96);
+  }
 
-#component.teamPanel div.doneRed {
-  color: rgba(255, 0, 0, 0.96);
-}
+  #component.teamPanel div.doneRed {
+    color: rgba(255, 0, 0, 0.96);
+  }
 
-#component.teamPanel div.tooltipPurple {
-  color: rgba(160, 130, 250, 1);
-}
+  #component.teamPanel div.tooltipPurple {
+    color: rgba(160, 130, 250, 1);
+  }
 
-#component.teamPanel div.tooltipRed {
-  color: rgba(160, 0, 0, 0.96);
-}
+  #component.teamPanel div.tooltipRed {
+    color: rgba(160, 0, 0, 0.96);
+  }
 
-#component.teamPanel i.doneRed.close.icon {
-  color: rgba(160, 0, 0, 0.96);
-}
+  #component.teamPanel i.doneRed.close.icon {
+    color: rgba(160, 0, 0, 0.96);
+  }
 
-#component.teamPanel i.onlineColor.circle.link.icon {
-  color: rgba(140, 110, 250, 1);
-}
+  #component.teamPanel i.onlineColor.circle.link.icon {
+    color: rgba(140, 110, 250, 1);
+  }
 
-#component.teamPanel i.offlineColor.circle.outline.icon {
-  color: #999999;
-}
+  #component.teamPanel i.offlineColor.circle.outline.icon {
+    color: #999999;
+  }
 
-#component.teamPanel i.alarmColor.circle.link.icon {
-  color: red;
-}
+  #component.teamPanel i.alarmColor.circle.link.icon {
+    color: red;
+  }
 
-#component.teamPanel i.chainStatus {
-  float: right;
-}
+  #component.teamPanel i.chainStatus {
+    float: right;
+  }
 
-#component.teamPanel i.chainLink {
-  position: absolute;
-  right: 20px;
-  z-index: 1;
-}
+  #component.teamPanel i.chainLink {
+    position: absolute;
+    right: 20px;
+    z-index: 1;
+  }
 
-#component.teamPanel i.chainUnlink {
-  position: absolute;
-  right: 20px;
-  z-index: 1;
-}
+  #component.teamPanel i.chainUnlink {
+    position: absolute;
+    right: 20px;
+    z-index: 1;
+  }
 
-#component.teamPanel span.alarm {
-  color: red;
-  font-style: italic;
-}
+  #component.teamPanel span.alarm {
+    color: red;
+    font-style: italic;
+  }
 
-#component.teamPanel span.alarmDim {
-  color: darkred;
-  font-style: italic;
-}
+  #component.teamPanel span.alarmDim {
+    color: darkred;
+    font-style: italic;
+  }
 
-#component.teamPanel span.circleLink {
-  color: rgba(220, 0, 0, 0.96);
-  font-weight: 800;
-}
+  #component.teamPanel span.circleLink {
+    color: rgba(220, 0, 0, 0.96);
+    font-weight: 800;
+  }
 
-#component.teamPanel span.circleLink:hover {
-  color: rgba(255, 0, 0, 0.96);
-  text-decoration: underline;
-}
+  #component.teamPanel span.circleLink:hover {
+    color: rgba(255, 0, 0, 0.96);
+    text-decoration: underline;
+  }
 
-#component.teamPanel span.offlineColor {
-  color: #999999;
-}
+  #component.teamPanel span.offlineColor {
+    color: #999999;
+  }
 
-#component.teamPanel .ui.grid {
-  margin: 0px 0;
-}
+  #component.teamPanel .ui.grid {
+    margin: 0px 0;
+  }
 
-#component.teamPanel .ui.grid>.row:last-child {
-  border-bottom: none;
-}
+  #component.teamPanel .ui.grid>.row:last-child {
+    border-bottom: none;
+  }
 
-#component.teamPanel .ui.grid>.row:hover {
-  background: rgba(40, 40, 40, 0.96);
-}
+  #component.teamPanel .ui.grid>.row:hover {
+    background: rgba(40, 40, 40, 0.96);
+  }
 
-#component.teamPanel .ui.grid>.active {
-  background: rgba(50, 50, 51, 0.96);
-  font-weight: bold;
-}
+  #component.teamPanel .ui.grid>.active {
+    background: rgba(50, 50, 51, 0.96);
+    font-weight: bold;
+  }
 
-#component .teamPanel>div>div.ui.inverted.segment>div {
-  height: 100%;
-  overflow-y: scroll;
-}
+  #component .teamPanel>div>div.ui.inverted.segment>div {
+    height: 100%;
+    overflow-y: scroll;
+  }
 
-#component.teamPanel .ui.grid .row .memberText {
-  font-weight: 400;
-  color: #cccccc;
-}
+  #component.teamPanel .ui.grid .row .memberText {
+    font-weight: 400;
+    color: #cccccc;
+  }
 
-/*
+  /*
        * COMPONENT - TROUBLESHOOT-LAYOUT
        */
-#component.troubleshootLayout #wrapper.troubleshootContent {
-  padding-top: 0.420em;
-}
+  #component.troubleshootLayout #wrapper.troubleshootContent {
+    padding-top: 0.420em;
+  }
 
-/*
+  /*
        * COMPONENT - TROUBLESHOOT-START
        */
-@keyframes shadow-pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgba(234, 0, 0, 0.169);
-    background: rgba(211, 22, 22, 1);
-    font-size: 4em;
-    line-height: 3.4em;
+  @keyframes shadow-pulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(234, 0, 0, 0.169);
+      background: rgba(211, 22, 22, 1);
+      font-size: 4em;
+      line-height: 3.4em;
+    }
+
+    100% {
+      box-shadow: 0 0 0 1.112em rgba(27, 28, 29, 0);
+      background: rgba(250, 0, 0, 0.92);
+      font-size: 3.9em;
+      line-height: 3.5em;
+    }
   }
 
-  100% {
-    box-shadow: 0 0 0 1.112em rgba(27, 28, 29, 0);
-    background: rgba(250, 0, 0, 0.92);
-    font-size: 3.9em;
-    line-height: 3.5em;
-  }
-}
+  @keyframes shadow-pulse-hover {
+    0% {
+      box-shadow: 0 0 0 0 rgba(234, 0, 0, 0.333);
+      background: rgba(255, 19, 19, 1);
+      font-size: 4.20em;
+      line-height: 3.25em;
+    }
 
-@keyframes shadow-pulse-hover {
-  0% {
-    box-shadow: 0 0 0 0 rgba(234, 0, 0, 0.333);
-    background: rgba(255, 19, 19, 1);
+    100% {
+      box-shadow: 0 0 0 1.112em rgba(222, 222, 222, 0.01);
+      background: rgba(250, 0, 0, .92);
+      font-size: 4.10em;
+      line-height: 3.3em;
+    }
+  }
+
+  #component.troubleshootContent .wtf-panel-start {
+    padding-top: 3em;
+    padding-bottom: 2em;
+  }
+
+  #component.troubleshootContent .wtf-panel-start .wtf-button-massive {
+    margin: auto;
+    font-style: oblique;
+    width: 202px;
+    height: 202px;
     font-size: 4.20em;
-    line-height: 3.25em;
+    text-transform: uppercase;
+    letter-spacing: 0.112em;
+    line-height: 2em;
+    padding-left: 2px;
+    font-weight: bolder;
+    color: #fff;
+    text-align: center;
+    background: rgba(255, 0, 0, 0.88);
+    border-radius: 50%;
+    border-top: 4px solid #af0000;
+    border-left: 4px solid #af0000;
+    border-bottom: 4px solid #900000;
+    border-right: 4px solid #960000;
+    animation: shadow-pulse 2s infinite;
   }
 
-  100% {
-    box-shadow: 0 0 0 1.112em rgba(222, 222, 222, 0.01);
-    background: rgba(250, 0, 0, .92);
-    font-size: 4.10em;
-    line-height: 3.3em;
+  #component.troubleshootContent .wtf-panel-start .wtf-button-massive:hover {
+    animation: shadow-pulse-hover 0.777s infinite;
   }
-}
 
-#component.troubleshootContent .wtf-panel-start {
-  padding-top: 3em;
-  padding-bottom: 2em;
-}
+  #component.troubleshootContent .wtf-panel-start .ui.segment.wtf-button-desc {
+    background: transparent;
+    font-size: 2em;
+    font-style: italic;
+  }
 
-#component.troubleshootContent .wtf-panel-start .wtf-button-massive {
-  margin: auto;
-  font-style: oblique;
-  width: 202px;
-  height: 202px;
-  font-size: 4.20em;
-  text-transform: uppercase;
-  letter-spacing: 0.112em;
-  line-height: 2em;
-  padding-left: 2px;
-  font-weight: bolder;
-  color: #fff;
-  text-align: center;
-  background: rgba(255, 0, 0, 0.88);
-  border-radius: 50%;
-  border-top: 4px solid #af0000;
-  border-left: 4px solid #af0000;
-  border-bottom: 4px solid #900000;
-  border-right: 4px solid #960000;
-  animation: shadow-pulse 2s infinite;
-}
-
-#component.troubleshootContent .wtf-panel-start .wtf-button-massive:hover {
-  animation: shadow-pulse-hover 0.777s infinite;
-}
-
-#component.troubleshootContent .wtf-panel-start .ui.segment.wtf-button-desc {
-  background: transparent;
-  font-size: 2em;
-  font-style: italic;
-}
-
-/*
+  /*
        * COMPONENT - BROWSER-HEADER
        */
-#wrapper.browserHeader {
-  font-style: italic;
-  position: relative;
-}
+  #wrapper.browserHeader {
+    font-style: italic;
+    position: relative;
+  }
 
-#component.browserHeader #browserGoBtnCell {
-  padding-left: 0;
-}
+  #component.browserHeader #browserGoBtnCell {
+    padding-left: 0;
+  }
 
-#component.browserHeader .ui.button.browserGo {
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-}
+  #component.browserHeader .ui.button.browserGo {
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+  }
 
-#component.browserHeader .ui.segment {
-  padding: .45em .5em .6em .75em;
-}
+  #component.browserHeader .ui.segment {
+    padding: .45em .5em .6em .75em;
+  }
 
-#component.browserHeader .ui.input.browserInput input {
-  transition: border 0.840s ease-out;
-  background: rgba(27, 28, 29, 0.96);
-  border: 1px solid rgba(74, 74, 74, 0.96);
-  border-right-width: 0;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-  color: rgba(241, 241, 241, 0.96);
-}
+  #component.browserHeader .ui.input.browserInput input {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+    border-right-width: 0;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    color: rgba(241, 241, 241, 0.96);
+  }
 
-#component.browserHeader .ui.input.browserInput input:focus {
-  border: 1px solid rgba(100, 53, 201, 0.96);
-  border-right-width: 0;
-  border-top-right-radius: 0px;
-  border-bottom-right-radius: 0px;
-}
+  #component.browserHeader .ui.input.browserInput input:focus {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+    border-right-width: 0;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+  }
 
-#component.browserHeader .ui.input.browserInput input::placeholder {
-  font-style: italic;
-  color: rgba(100, 100, 100, 0.96)
-}
+  #component.browserHeader .ui.input.browserInput input::placeholder {
+    font-style: italic;
+    color: rgba(100, 100, 100, 0.96)
+  }
 
-#component.browserHeader .ui.button.browserGo {
-  transition: background .840s ease-out !important;
-  transition: color .840s ease-out;
-  background: rgba(72, 72, 72, 0.96);
-  color: rgba(187, 187, 187, 0.96);
-  border: none;
-  border-top-left-radius: 0px;
-  border-bottom-left-radius: 0px;
-  padding-right: .6969em;
-}
+  #component.browserHeader .ui.button.browserGo {
+    transition: background .840s ease-out !important;
+    transition: color .840s ease-out;
+    background: rgba(72, 72, 72, 0.96);
+    color: rgba(187, 187, 187, 0.96);
+    border: none;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding-right: .6969em;
+  }
 
-#component.browserHeader .ui.button.browserGo.focused {
-  transition: background, color .840s ease-out;
-  background: rgba(100, 53, 201, 0.96);
-}
+  #component.browserHeader .ui.button.browserGo.focused {
+    transition: background, color .840s ease-out;
+    background: rgba(100, 53, 201, 0.96);
+  }
 
-#component.browserHeader .ui.button.browserGo:hover {
-  transition: background, color .840s ease-out;
-  background: rgba(100, 53, 201, 0.96);
-  color: rgba(241, 241, 241, 0.96);
-  border: none;
-}
+  #component.browserHeader .ui.button.browserGo:hover {
+    transition: background, color .840s ease-out;
+    background: rgba(100, 53, 201, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+    border: none;
+  }
 
-#component.browserHeader .ui.dropdown.browserAction {
-  min-width: 7em;
-}
+  #component.browserHeader .ui.dropdown.browserAction {
+    min-width: 7em;
+  }
 
-#component.browserHeader .ui.dropdown.browserAction .default.text {
-  font-style: italic;
-  color: rgba(100, 100, 100, 0.96);
-}
+  #component.browserHeader .ui.dropdown.browserAction .default.text {
+    font-style: italic;
+    color: rgba(100, 100, 100, 0.96);
+  }
 
-#component.browserHeader .ui.dropdown.browserAction {
-  transition: border 0.840s ease-out;
-  background: rgba(27, 28, 29, 0.96);
-  color: rgba(241, 241, 241, 0.96);
-  border: 1px solid rgba(74, 74, 74, 0.96);
-}
+  #component.browserHeader .ui.dropdown.browserAction {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+  }
 
-#component.browserHeader .ui.visible.dropdown.browserAction div.text {
-  color: rgba(100, 100, 100, 0.96);
-}
+  #component.browserHeader .ui.visible.dropdown.browserAction div.text {
+    color: rgba(100, 100, 100, 0.96);
+  }
 
-#component.browserHeader .ui.dropdown.browserAction div.text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
-}
+  #component.browserHeader .ui.dropdown.browserAction div.text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
 
-#component.browserHeader .ui.dropdown.browserAction .menu {
-  transition: border 0.840s ease-out;
-  background: rgba(27, 28, 29, 0.96);
-  border-color: rgba(72, 72, 72, 0.96);
-}
+  #component.browserHeader .ui.dropdown.browserAction .menu {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border-color: rgba(72, 72, 72, 0.96);
+  }
 
-#component.browserHeader .ui.dropdown.browserAction.focused {
-  border: 1px solid rgba(100, 53, 201, 0.96);
-}
+  #component.browserHeader .ui.dropdown.browserAction.focused {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
 
-#component.browserHeader .ui.dropdown.browserAction.focused .menu {
-  border: 1px solid rgba(100, 53, 201, 0.96);
-}
+  #component.browserHeader .ui.dropdown.browserAction.focused .menu {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
 
-#component.browserHeader .ui.selection.dropdown .menu>.item {
-  transition: background, color 0.420s ease-out;
-  border-top: 1px solid rgba(72, 72, 72, 0.96);
-  color: rgba(100, 100, 100, 0.96);
-}
+  #component.browserHeader .ui.selection.dropdown .menu>.item {
+    transition: background, color 0.420s ease-out;
+    border-top: 1px solid rgba(72, 72, 72, 0.96);
+    color: rgba(100, 100, 100, 0.96);
+  }
 
-#component.browserHeader .ui.selection.dropdown .menu>.item:last-child {
-  border-bottom: 1px solid rgba(72, 72, 72, 0.96);
-}
+  #component.browserHeader .ui.selection.dropdown .menu>.item:last-child {
+    border-bottom: 1px solid rgba(72, 72, 72, 0.96);
+  }
 
-#component.browserHeader .ui.selection.dropdown .menu>.item:hover {
-  background: #2b2b2b;
-  font-weight: 800;
-  color: rgba(200, 200, 200, 0.96);
-}
+  #component.browserHeader .ui.selection.dropdown .menu>.item:hover {
+    background: #2b2b2b;
+    font-weight: 800;
+    color: rgba(200, 200, 200, 0.96);
+  }
 
-#component.browserHeader .ui.selection.dropdown .menu>.selected.item {
-  background: rgba(100, 53, 201, 0.96);
-  color: rgba(255, 255, 255, 0.96);
-}
+  #component.browserHeader .ui.selection.dropdown .menu>.selected.item {
+    background: rgba(100, 53, 201, 0.96);
+    color: rgba(255, 255, 255, 0.96);
+  }
 
-#component.browserHeader #browserActionCell {
-  padding-left: 0.610em;
-  padding-right: 0.420em;
-}
+  #component.browserHeader #browserActionCell {
+    padding-left: 0.610em;
+    padding-right: 0.420em;
+  }
 
-#component.browserHeader #browserInputCell {
-  padding-left: 0.269em;
-  padding-right: 0.9em;
-}
+  #component.browserHeader #browserInputCell {
+    padding-left: 0.269em;
+    padding-right: 0.9em;
+  }
 
-#component.browserHeader .row {
-  padding-top: .9em;
-  padding-bottom: .8em;
-}
+  #component.browserHeader .row {
+    padding-top: .9em;
+    padding-bottom: .8em;
+  }
 
-/*
+  /*
        * COMPONENT: FLOW-LAYOUT
        */
-#component.flowContent {
-  color: white;
-  padding: 24px;
-}
+  #component.flowContent {
+    color: white;
+    padding: 24px;
+  }
 
-/*
+  /*
        * COMPONENT: FLOW-HEADER
        */
-#wrapper.flowHeader {
-  font-style: italic;
-}
+  #wrapper.flowHeader {
+    font-style: italic;
+  }
 
-/*
+  /*
        * COMPONENT: JOURNAL-ITEMS
        */
-#wrapper.journalItems {
-  padding-left: 0.420em;
-}
+  #wrapper.journalItems {
+    padding-left: 0.420em;
+  }
 
-#component.journalItems {
-  overflow-y: scroll;
-  overflow-x: hidden;
-  margin-top: 0.420em;
-  margin-bottom: 0.420em;
-}
+  #component.journalItems {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-top: 0.420em;
+    margin-bottom: 0.420em;
+  }
 
-#component.journalItems .ui.grid {
-  margin: 0 0;
-}
+  #component.journalItems .ui.grid {
+    margin: 0 0;
+  }
 
-#component.journalItems .ui.grid>.row {
-  transition: background 0.6s ease-out;
-  padding: 6px;
-  background: none;
-  border-bottom: 1px solid rgba(27, 28, 29, 0.96);
-  margin-right: 3px;
-}
+  #component.journalItems .ui.grid>.row {
+    transition: background 0.6s ease-out;
+    padding: 6px;
+    background: none;
+    border-bottom: 1px solid rgba(27, 28, 29, 0.96);
+    margin-right: 3px;
+  }
 
-#component.journalItems .ui.grid>.row:last-child {
-  border-bottom: none;
-}
+  #component.journalItems .ui.grid>.row:last-child {
+    border-bottom: none;
+  }
 
-#component.journalItems .ui.grid>.row:hover {
-  background: rgba(40, 40, 40, 0.96);
-}
+  #component.journalItems .ui.grid>.row:hover {
+    background: rgba(40, 40, 40, 0.96);
+  }
 
-#component.journalItems .ui.grid>.active {
-  background: rgba(50, 50, 51, 0.96);
-}
+  #component.journalItems .ui.grid>.active {
+    background: rgba(50, 50, 51, 0.96);
+  }
 
-#component.journalItems .ui.grid>.row .column:first-child {
-  padding-left: 0;
-  left: 14px;
-}
+  #component.journalItems .ui.grid>.row .column:first-child {
+    padding-left: 0;
+    left: 14px;
+  }
 
-#component.journalItems .ui.grid>.row .column:nth-child(2) {
-  padding-left: 0;
-  left: 10px;
-}
+  #component.journalItems .ui.grid>.row .column:nth-child(2) {
+    padding-left: 0;
+    left: 10px;
+  }
 
-#component.journalItems .ui.grid>.row .column:last-child {
-  padding-right: 0;
-}
+  #component.journalItems .ui.grid>.row .column:last-child {
+    padding-right: 0;
+  }
 
-#component.journalItems .ui.grid .row .alarm {
-  color: rgba(180, 0, 0, 0.96);
-  font-weight: 800;
-  font-style: italic;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  #component.journalItems .ui.grid .row .alarm {
+    color: rgba(180, 0, 0, 0.96);
+    font-weight: 800;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-#component.journalItems .ui.grid .row .chunkTitle {
-  font-weight: 800;
-  color: rgba(21, 154, 20, 1);
-  font-style: italic;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
+  #component.journalItems .ui.grid .row .chunkTitle {
+    font-weight: 800;
+    color: rgba(21, 154, 20, 1);
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-#component.journalItems .ui.grid .row .alarmDetails {
-  font-weight: 400;
-  color: rgba(180, 0, 0, 0.96);
-}
+  #component.journalItems .ui.grid .row .alarmDetails {
+    font-weight: 400;
+    color: rgba(180, 0, 0, 0.96);
+  }
 
-#component.journalItems .ui.grid .row .wtfFlame {
-  color: rgba(180, 0, 0, 0.96);
-  white-space: nowrap;
-  overflow: hidden;
-}
+  #component.journalItems .ui.grid .row .wtfFlame {
+    color: rgba(180, 0, 0, 0.96);
+    white-space: nowrap;
+    overflow: hidden;
+  }
 
-#component.journalItems .ui.grid .row .yayFlame {
-  color: rgba(140, 110, 250, 0.96);
-  white-space: nowrap;
-  overflow: hidden;
-}
+  #component.journalItems .ui.grid .row .yayFlame {
+    color: rgba(140, 110, 250, 0.96);
+    white-space: nowrap;
+    overflow: hidden;
+  }
 
-#component.journalItems .ui.grid .row div i {
-  float: right;
-}
+  #component.journalItems .ui.grid .row div i {
+    float: right;
+  }
 
-#component.journalItems .ui.grid .row .chunkText {
-  font-weight: 400;
-  color: #cccccc;
-}
+  #component.journalItems .ui.grid .row .chunkText {
+    font-weight: 400;
+    color: #cccccc;
+  }
 
-#component.journalItems .ui.celled.grid>.row>.column {
-  padding: 8px;
-}
+  #component.journalItems .ui.celled.grid>.row>.column {
+    padding: 8px;
+  }
 
-#component.journalItems i.doneGreen.check.icon {
-  color: rgba(27, 175, 26, 0.96);
-}
+  #component.journalItems i.doneGreen.check.icon {
+    color: rgba(27, 175, 26, 0.96);
+  }
 
-#component.journalItems i.doneGreenDark.check.icon {
-  color: rgba(27, 130, 26, 0.96);
-}
+  #component.journalItems i.doneGreenDark.check.icon {
+    color: rgba(27, 130, 26, 0.96);
+  }
 
-#component.journalItems div.doneGreen {
-  color: rgba(27, 175, 26, 0.96);
-}
+  #component.journalItems div.doneGreen {
+    color: rgba(27, 175, 26, 0.96);
+  }
 
-#component.journalItems div.doneRed {
-  color: rgba(255, 0, 0, 0.96);
-}
+  #component.journalItems div.doneRed {
+    color: rgba(255, 0, 0, 0.96);
+  }
 
-#component.journalItems::-webkit-scrollbar-track {
-  background-color: rgba(0, 0, 0, 0);
-  ;
-}
+  #component.journalItems::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+    ;
+  }
 
-#component.journalItems::-webkit-scrollbar {
-  width: 10px;
-  background-color: rgba(20, 20, 20, 0.96);
-  border-radius: 4px;
-  box-shadow: inset 0 0 10px rgba(10, 10, 10, 0.96);
-}
+  #component.journalItems::-webkit-scrollbar {
+    width: 10px;
+    background-color: rgba(20, 20, 20, 0.96);
+    border-radius: 4px;
+    box-shadow: inset 0 0 10px rgba(10, 10, 10, 0.96);
+  }
 
-#component.journalItems::-webkit-scrollbar-thumb {
-  border-radius: 4px;
-  box-shadow: inset 0 0 8px rgba(30, 30, 30, 0.96);
-  background-color: rgba(80, 80, 80, 0.96);
-}
+  #component.journalItems::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    box-shadow: inset 0 0 8px rgba(30, 30, 30, 0.96);
+    background-color: rgba(80, 80, 80, 0.96);
+  }
 
-#component.journalItems::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(100, 53, 201, 0.96);
-  box-shadow: inset 0 0 8px rgba(25, 25, 25, 0.96);
-}
+  #component.journalItems::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(100, 53, 201, 0.96);
+    box-shadow: inset 0 0 8px rgba(25, 25, 25, 0.96);
+  }
 
-/*
+  /*
        * COMPONENT: JOURNAL-ENTRY
        */
-#component.journalEntry .ui.segment {
-  padding: 4px;
-}
+  #component.journalEntry .ui.segment {
+    padding: 4px;
+  }
 
-#component.journalEntry .ui.grid .column {
-  padding: 0 5px 0 14px;
-}
+  #component.journalEntry .ui.grid .column {
+    padding: 0 5px 0 14px;
+  }
 
-#component.journalEntry .ui.grid .column:nth-child(2) {
-  padding: 0px 5px 0px 4px;
-}
+  #component.journalEntry .ui.grid .column:nth-child(2) {
+    padding: 0px 5px 0px 4px;
+  }
 
-#component.journalEntry .ui.grid .column:nth-child(3) {
-  padding: 0px 14px 0px 4px;
-}
+  #component.journalEntry .ui.grid .column:nth-child(3) {
+    padding: 0px 14px 0px 4px;
+  }
 
-#component.journalEntry .ui.dropdown .default.text {
-  font-style: italic;
-  color: rgba(222, 222, 222, 0.96);
-}
+  #component.journalEntry .ui.dropdown .default.text {
+    font-style: italic;
+    color: rgba(222, 222, 222, 0.96);
+  }
 
-#component.journalEntry .ui.dropdown {
-  transition: border 0.840s ease-out;
-  background: rgba(27, 28, 29, 0.96);
-  color: rgba(241, 241, 241, 0.96);
-  border: 1px solid rgba(74, 74, 74, 0.96);
-}
+  #component.journalEntry .ui.dropdown {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+  }
 
-#component.journalEntry .ui.dropdown input {
-  color: rgba(222, 222, 222, 0.96);
-}
+  #component.journalEntry .ui.dropdown input {
+    color: rgba(222, 222, 222, 0.96);
+  }
 
-#component.journalEntry .ui.dropdown div.text {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  width: 100%;
-}
+  #component.journalEntry .ui.dropdown div.text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
 
-#component.journalEntry .ui.dropdown .menu {
-  transition: border 0.840s ease-out;
-  background: rgba(27, 28, 29, 0.96);
-  border-color: rgba(72, 72, 72, 0.96);
-}
+  #component.journalEntry .ui.dropdown .menu {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border-color: rgba(72, 72, 72, 0.96);
+  }
 
-#component.journalEntry .column.focused .ui.dropdown {
-  border: 1px solid rgba(100, 53, 201, 0.96);
-}
+  #component.journalEntry .column.focused .ui.dropdown {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
 
-#component.journalEntry .column.focused .ui.dropdown .menu {
-  border: 1px solid rgba(100, 53, 201, 0.96);
-}
+  #component.journalEntry .column.focused .ui.dropdown .menu {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
 
-#component.journalEntry .ui.selection.dropdown .menu>.item {
-  transition: background, color 0.420s ease-out;
-  border-top: 1px solid rgba(72, 72, 72, 0.96);
-  color: rgba(100, 100, 100, 0.96);
-}
+  #component.journalEntry .ui.selection.dropdown .menu>.item {
+    transition: background, color 0.420s ease-out;
+    border-top: 1px solid rgba(72, 72, 72, 0.96);
+    color: rgba(100, 100, 100, 0.96);
+  }
 
-#component.journalEntry .ui.selection.dropdown .menu>.item:last-child {
-  border-bottom: 1px solid rgba(72, 72, 72, 0.96);
-}
+  #component.journalEntry .ui.selection.dropdown .menu>.item:last-child {
+    border-bottom: 1px solid rgba(72, 72, 72, 0.96);
+  }
 
-#component.journalEntry .ui.selection.dropdown .menu>.item:hover {
-  background: #2b2b2b;
-  font-weight: 800;
-  color: rgba(200, 200, 200, 0.96);
-}
+  #component.journalEntry .ui.selection.dropdown .menu>.item:hover {
+    background: #2b2b2b;
+    font-weight: 800;
+    color: rgba(200, 200, 200, 0.96);
+  }
 
-#component.journalEntry .ui.selection.dropdown .menu>.selected.item {
-  background: rgba(100, 53, 201, 0.96);
-  color: rgba(255, 255, 255, 0.96);
-}
+  #component.journalEntry .ui.selection.dropdown .menu>.selected.item {
+    background: rgba(100, 53, 201, 0.96);
+    color: rgba(255, 255, 255, 0.96);
+  }
 
-#component.journalEntry .ui.input.intentionText input {
-  transition: border 0.840s ease-out;
-  background: rgba(27, 28, 29, 0.96);
-  border: 1px solid rgba(74, 74, 74, 0.96);
-  border-right-width: 0;
-  color: rgba(241, 241, 241, 0.96);
-}
+  #component.journalEntry .ui.input.intentionText input {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+    border-right-width: 0;
+    color: rgba(241, 241, 241, 0.96);
+  }
 
-#component.journalEntry .ui.input.intentionText input:focus {
-  border: 1px solid rgba(100, 53, 201, 0.96);
-  border-right-width: 0;
-}
+  #component.journalEntry .ui.input.intentionText input:focus {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+    border-right-width: 0;
+  }
 
-#component.journalEntry .ui.input.intentionText input::placeholder {
-  font-style: italic;
-  color: rgba(100, 100, 100, 0.96)
-}
+  #component.journalEntry .ui.input.intentionText input::placeholder {
+    font-style: italic;
+    color: rgba(100, 100, 100, 0.96)
+  }
 
-#component.journalEntry .ui.input.intentionText .ui.button {
-  transition: background, color .840s ease-out;
-  background: rgba(72, 72, 72, 0.96);
-  color: rgba(187, 187, 187, 0.96);
-  border: none;
-}
+  #component.journalEntry .ui.input.intentionText .ui.button {
+    transition: background, color .840s ease-out;
+    background: rgba(72, 72, 72, 0.96);
+    color: rgba(187, 187, 187, 0.96);
+    border: none;
+  }
 
-#component.journalEntry .column .ui.input.intentionText .ui.button {
-  transition: background .840s ease-out;
-}
+  #component.journalEntry .column .ui.input.intentionText .ui.button {
+    transition: background .840s ease-out;
+  }
 
-#component.journalEntry .column.focused .ui.input.intentionText .ui.button {
-  background: rgba(100, 53, 201, 0.96);
-  color: rgba(241, 241, 241, 0.96);
-  border: none;
-}
+  #component.journalEntry .column.focused .ui.input.intentionText .ui.button {
+    background: rgba(100, 53, 201, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+    border: none;
+  }
 
-/*
+  /*
        * COMPONENT: POPUP
        */
-.ui.popup {
-  color: #e9e9e9 !important;
-  border: 1px solid #7b7b7b !important;
-}
+  .ui.popup {
+    color: #e9e9e9 !important;
+    border: 1px solid #7b7b7b !important;
+  }
 
-.ui.popup.chunkTitle .date,
-.ui.popup.timeScrubber .date {
-  font-style: italic;
-  font-size: 12px;
-}
+  .ui.popup.chunkTitle .date,
+  .ui.popup.timeScrubber .date {
+    font-style: italic;
+    font-size: 12px;
+  }
 
-.ui.popup.chunkTitle .highlight,
-.ui.popup.timeScrubber .highlight {
-  color: rgba(160, 140, 250, 0.96);
-}
+  .ui.popup.chunkTitle .highlight,
+  .ui.popup.timeScrubber .highlight {
+    color: rgba(160, 140, 250, 0.96);
+  }
 
-.ui.popup.chunkTitle .alarm,
-.ui.popup.timeScrubber .alarm {
-  color: red;
-}
+  .ui.popup.chunkTitle .alarm,
+  .ui.popup.timeScrubber .alarm {
+    color: red;
+  }
 
-.ui.popup.chunkTitle .alarmDetails,
-.ui.popup.timeScrubber .alarmDetails {
-  color: rgba(180, 0, 0, 0.96);
-}
+  .ui.popup.chunkTitle .alarmDetails,
+  .ui.popup.timeScrubber .alarmDetails {
+    color: rgba(180, 0, 0, 0.96);
+  }
 
-.ui.popup.chunkTitle .taskhighlight,
-.ui.popup.timeScrubber .taskhighlight {
-  color: rgba(27, 175, 26, 0.96)
-}
+  .ui.popup.chunkTitle .taskhighlight,
+  .ui.popup.timeScrubber .taskhighlight {
+    color: rgba(27, 175, 26, 0.96)
+  }
 
-.ui.popup.bottom:before {
-  top: -6px !important;
-  border-left: 1px solid #7b7b7b !important;
-  border-top: 1px solid #7b7b7b !important;
-}
+  .ui.popup.bottom:before {
+    top: -6px !important;
+    border-left: 1px solid #7b7b7b !important;
+    border-top: 1px solid #7b7b7b !important;
+  }
 
-.ui.popup.top:before {
-  bottom: -6px !important;
-  border-right: 1px solid #7b7b7b !important;
-  border-bottom: 1px solid #7b7b7b !important;
-}
+  .ui.popup.top:before {
+    bottom: -6px !important;
+    border-right: 1px solid #7b7b7b !important;
+    border-bottom: 1px solid #7b7b7b !important;
+  }
 
-.ui.popup .ui.divider {
-  margin: 8px 0 6px 0;
-}
+  .ui.popup .ui.divider {
+    margin: 8px 0 6px 0;
+  }
   </style>
 </head>
 
