@@ -48,15 +48,17 @@ export default class TroubleshootStart extends Component {
             )
           }}
         >
-          <div
-            className="wtf-button-massive"
-            onClick={this.onStartTroubleshoot}
-          >
-            WTF?
+          <div className="wtf-start-content">
+            <div
+              className="wtf-button-massive"
+              onClick={this.onStartTroubleshoot}
+            >
+              WTF?
+            </div>
+            <Segment inverted size={"huge"} className="wtf-button-desc">
+              <b>Start A Troubleshooting Session!</b>
+            </Segment>
           </div>
-          <Segment inverted size={"huge"} className="wtf-button-desc">
-            <b>Start A Troubleshooting Session!</b>
-          </Segment>
         </Segment>
       </div>
     );
