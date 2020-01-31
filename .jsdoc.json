@@ -20,6 +20,9 @@
 
   ],
   "templates": {
+    "default": {
+      "includeDate": false
+    },
     "cleverLinks": false,
     "monospaceLinks": true,
     "useLongnameInNav": false,
