@@ -11,17 +11,28 @@ export class LearningCircuitModel {
   constructor(json) {
     try {
       if (typeof json === "string") json = JSON.parse(json);
-      this.circuitName = json.circuitName;
-      this.closeTime = json.closeTime;
       this.id = json.id;
-      this.lastOnHoldTime = json.lastOnHoldTime;
-      this.lastResumeTime = json.lastResumeTime;
+      this.circuitName = json.circuitName;
+      this.description = json.description;
+      this.tags = json.tags;
+      this.wtfTalkRoomName = json.wtfTalkRoomName;
+      this.wtfTalkRoomId = json.wtfTalkRoomId;
+      this.retroTalkRoomName = json.retroTalkRoomName;
+      this.retroTalkRoomId = json.retroTalkRoomId;
+      this.ownerId = json.ownerId;
+      this.ownerName = json.ownerName;
+      this.moderatorName = json.moderatorName;
       this.moderatorId = json.moderatorId;
       this.openTime = json.openTime;
-      this.ownerId = json.ownerId;
-      this.retroTalkRoomId = json.retroTalkRoomId;
+      this.openTimeStr = json.openTimeStr;
+      this.closeTime = json.closeTime;
+      this.closeTimeStr = json.closeTimeStr;
+      this.circuitStatus = json.circuitStatus;
+      this.lastOnHoldTime = json.lastOnHoldTime;
+      this.lastOnHoldTimeStr = json.lastOnHoldTimeStr;
+      this.lastResumeTime = json.lastResumeTime;
+      this.lastResumeTimeStr = json.lastResumeTimeStr;
       this.secondsBeforeOnHold = json.secondsBeforeOnHold;
-      this.wtfTalkRoomId = json.wtfTalkRoomId;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'LearningCircuitModel' : " + e.message

@@ -1,22 +1,15 @@
 import React, { Component } from "react";
-import {
-  Icon,
-  Label,
-  List,
-  Menu,
-  Segment,
-  Transition
-} from "semantic-ui-react";
+import { List, Menu, Segment, Transition } from "semantic-ui-react";
 import { SidePanelViewController } from "../../controllers/SidePanelViewController";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import { DimensionController } from "../../controllers/DimensionController";
 import { CircuitClient } from "../../clients/CircuitClient";
-import UtilRenderer from "../../UtilRenderer";
-import { LearningCircuitModel } from "../../models/LearningCircuitModel";
+import ActiveCircuitListItem from "./ActiveCircuitListItem";
 
 /**
  * renders the circuit navigator panels in the gui
  */
+
 export default class CircuitsPanel extends Component {
   /**
    * builds the circuit navigator panel
@@ -29,7 +22,14 @@ export default class CircuitsPanel extends Component {
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
+    this.selections = {
+      activeCircuitComponent: null
+    };
   }
+
+  // TODO create a timer to update the strings in the timer labels. this should cycle though all
+  //      the list items states and update the time striing. This should rerender that specific
+  //      list item. do this after we are getting strings back from the server
 
   /**
    * loads the state from the parent
@@ -138,6 +138,16 @@ export default class CircuitsPanel extends Component {
     this.myController.configureCircuitsPanelListener(this, null);
   };
 
+  handleClickActiveCircuit = component => {
+    console.log(component);
+    if (this.selections.activeCircuitComponent) {
+      this.selections.activeCircuitComponent.setState({
+        isSelected: false
+      });
+    }
+    this.selections.activeCircuitComponent = component;
+  };
+
   /**
    * callback function that is performed when we refresh this component in the view
    */
@@ -174,45 +184,15 @@ export default class CircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {this.state.activeCircuits.map(model =>
-            this.getCircuitListItem(model)
-          )}
+          {this.state.activeCircuits.map(model => (
+            <ActiveCircuitListItem
+              key={model.id}
+              model={model}
+              onActiveCircuitListItemClick={this.handleClickActiveCircuit}
+            />
+          ))}
         </List>
       </div>
-    );
-  };
-
-  /**
-   * returns our circuits item that represents a learning circuit
-   * @param model - the learning circuit we are going to renderi in the gui
-   * @returns {*}
-   */
-  getCircuitListItem = model => {
-    let retro = LearningCircuitModel.isRetro(model),
-      selected = false,
-      time = UtilRenderer.getTimeStringFromTimeArray(model.openTime),
-      circuitName = model.circuitName,
-      ownerName = model.ownerId,
-      timerIcon = retro ? "balance scale" : "lightning",
-      timerColor = retro ? "violet" : "red",
-      className = selected ? "selected " + timerColor : timerColor;
-
-    return (
-      <List.Item className={className} key={model.id}>
-        <List.Content
-          floated="right"
-          verticalAlign="middle"
-          className="circuitLabelTimer"
-        >
-          <Label color={timerColor}>
-            <Icon name={timerIcon} /> {time}
-          </Label>
-        </List.Content>
-        <List.Content>
-          <List.Header>{circuitName}</List.Header>
-          <i className="name">({ownerName})</i>
-        </List.Content>
-      </List.Item>
     );
   };
 
