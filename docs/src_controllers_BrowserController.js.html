@@ -51,8 +51,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureMainPanelChangeListener">configureMainPanelChangeListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureShowConsoleWindowListener">configureShowConsoleWindowListener</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.createLearningCircuitModel">createLearningCircuitModel</a></span></li>
@@ -329,13 +329,11 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getActionDropdown">getActionDropdown</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getBrowserInput">getBrowserInput</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCanvasEl">getCanvasEl</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDefaultLocation">getDefaultLocation</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getGuid">getGuid</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalLocation">getJournalLocation</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
@@ -355,7 +353,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#setLocation">setLocation</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showDoItLaterCircuitsPanel">showDoItLaterCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></span></li>
@@ -372,6 +369,7 @@
       <article>
         <pre class="prettyprint source linenums"><code>import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
+import UtilRenderer from "../UtilRenderer";
 
 /**
  * used to control the browser header class
@@ -383,12 +381,13 @@ export class BrowserController extends ActiveViewController {
    */
   constructor(scope) {
     super(scope);
-    this.consoleBrowserLoadNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_LOAD,
+    this.name = "[BrowserController]";
+    this.consoleBrowserRequestListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_REQUEST,
       this
     );
-    this.mainPanelChangeListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
+    this.consoleBrowserLoadNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_LOAD,
       this
     );
     this.showConsoleWindowListener = RendererEventFactory.createEvent(
@@ -397,17 +396,21 @@ export class BrowserController extends ActiveViewController {
     );
   }
 
-  dispatchLoadBrowserContent(resource) {
-    this.consoleBrowserLoadNotifier.dispatch(resource);
-  }
-
   /**
-   * callback function that is notified when the main console menu changes
+   * configures the browsers request listener
    * @param scope
    * @param callback
    */
-  configureMainPanelChangeListener(scope, callback) {
-    this.mainPanelChangeListener.updateCallback(scope, callback);
+  configureConsoleBrowserRequestListener(scope, callback) {
+    this.consoleBrowserRequestListener.updateCallback(scope, callback);
+  }
+
+  /**
+   * event that is dispathed to tell the console content what to load
+   * @param resource - the resource to send to console content component
+   */
+  fireConsoleBrowserLoadNotifyEvent(resource) {
+    this.consoleBrowserLoadNotifier.dispatch(resource);
   }
 
   /**
@@ -415,28 +418,15 @@ export class BrowserController extends ActiveViewController {
    * @param scope
    * @param callback
    */
-  configureShowConsoleWindowListener(scope, callback) {
+  configureShowConsoleWindowListener = (scope, callback) => {
     this.showConsoleWindowListener.updateCallback(scope, callback);
-  }
+  };
 
-  processCommand = command => {
-    console.log(this.name + " process the command : " + command);
+  processRequest = request => {
+    console.log(this.name + " process request -> " + request);
     try {
-      let cmd = command.split(" "),
-        action = cmd[0],
-        uri = cmd[1],
-        uriArr = uri.split("/"),
-        uriRoot = uriArr[1],
-        uriRes = uriArr[2],
-        uriChild = uriArr[3],
-        resource = {
-          action: action,
-          uri: uri,
-          root: uriRoot,
-          res: uriRes,
-          child: uriChild
-        };
-      this.dispatchLoadBrowserContent(resource);
+      let resource = UtilRenderer.getResourceFromRequest(request);
+      this.fireConsoleBrowserLoadNotifyEvent(resource);
     } catch (e) {
       console.log(e);
     }

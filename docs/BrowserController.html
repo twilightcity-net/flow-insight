@@ -51,8 +51,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureMainPanelChangeListener">configureMainPanelChangeListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureShowConsoleWindowListener">configureShowConsoleWindowListener</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.createLearningCircuitModel">createLearningCircuitModel</a></span></li>
@@ -329,13 +329,11 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getActionDropdown">getActionDropdown</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getBrowserInput">getBrowserInput</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCanvasEl">getCanvasEl</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDefaultLocation">getDefaultLocation</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getGuid">getGuid</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalLocation">getJournalLocation</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
@@ -355,7 +353,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#setLocation">setLocation</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showDoItLaterCircuitsPanel">showDoItLaterCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></span></li>
@@ -385,7 +382,7 @@
               <dd class="tag-source">
                 <ul class="dummy">
                   <li>
-                    <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line12">line 12</a>
+                    <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line13">line 13</a>
                   </li>
                 </ul>
               </dd>
@@ -416,17 +413,33 @@
           <dt><a href="BrowserController.html">BrowserController</a></dt>
           <dd></dd>
         </dl>
-        <h3 class="subsection-title">Methods</h3>
-        <div class="section-method">
+        <h3 class="subsection-title">Members</h3>
+        <div class="section-members">
           <h4 class="name"
-              id="configureMainPanelChangeListener"><span class="type-signature"></span>configureMainPanelChangeListener<span class="signature">(scope, callback)</span><span class="type-signature"></span></h4>
-          <div class="description"> callback function that is notified when the main console menu changes </div>
+              id="configureShowConsoleWindowListener"><span class="type-signature"></span>configureShowConsoleWindowListener<span class="type-signature"></span></h4>
+          <div class="description"> callback function that is notificed when the console is shown or hidden </div>
           <dl class="details">
             <dt class="tag-source">Source:</dt>
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line37">line 37</a>
+                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line52">line 52</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <h3 class="subsection-title">Methods</h3>
+        <div class="section-method">
+          <h4 class="name"
+              id="configureConsoleBrowserRequestListener"><span class="type-signature"></span>configureConsoleBrowserRequestListener<span class="signature">(scope, callback)</span><span class="type-signature"></span></h4>
+          <div class="description"> configures the browsers request listener </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line35">line 35</a>
                 </li>
               </ul>
             </dd>
@@ -460,14 +473,14 @@
         </div>
         <div class="section-method">
           <h4 class="name"
-              id="configureShowConsoleWindowListener"><span class="type-signature"></span>configureShowConsoleWindowListener<span class="signature">(scope, callback)</span><span class="type-signature"></span></h4>
-          <div class="description"> callback function that is notificed when the console is shown or hidden </div>
+              id="fireConsoleBrowserLoadNotifyEvent"><span class="type-signature"></span>fireConsoleBrowserLoadNotifyEvent<span class="signature">(resource)</span><span class="type-signature"></span></h4>
+          <div class="description"> event that is dispathed to tell the console content what to load </div>
           <dl class="details">
             <dt class="tag-source">Source:</dt>
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line46">line 46</a>
+                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line43">line 43</a>
                 </li>
               </ul>
             </dd>
@@ -483,18 +496,10 @@
             </thead>
             <tbody>
               <tr>
-                <td class="name"><code>scope</code></td>
+                <td class="name"><code>resource</code></td>
                 <td class="type">
                 </td>
-                <td class="description last">
-                </td>
-              </tr>
-              <tr>
-                <td class="name"><code>callback</code></td>
-                <td class="type">
-                </td>
-                <td class="description last">
-                </td>
+                <td class="description last"> the resource to send to console content component </td>
               </tr>
             </tbody>
           </table>

@@ -51,8 +51,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureMainPanelChangeListener">configureMainPanelChangeListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureShowConsoleWindowListener">configureShowConsoleWindowListener</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.createLearningCircuitModel">createLearningCircuitModel</a></span></li>
@@ -329,13 +329,11 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getActionDropdown">getActionDropdown</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getBrowserInput">getBrowserInput</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCanvasEl">getCanvasEl</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDefaultLocation">getDefaultLocation</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getGuid">getGuid</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalLocation">getJournalLocation</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
@@ -355,7 +353,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#setLocation">setLocation</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showDoItLaterCircuitsPanel">showDoItLaterCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></span></li>
@@ -381,7 +378,6 @@ import {
 } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import { DataModelFactory } from "../../models/DataModelFactory";
-import { MainPanelViewController } from "../../controllers/MainPanelViewController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -425,13 +421,13 @@ export default class BrowserHeader extends Component {
    * update our listeners
    */
   componentDidMount = () => {
-    this.myController.configureMainPanelChangeListener(
+    this.myController.configureConsoleBrowserRequestListener(
       this,
-      this.onActivePerspectiveChange
+      this.onConsoleBrowserRequestEvent
     );
     this.myController.configureShowConsoleWindowListener(
       this,
-      this.onShowConsoleWindow
+      this.onShowConsoleWindowEvent
     );
   };
 
@@ -439,26 +435,12 @@ export default class BrowserHeader extends Component {
    * remove listeners when not in view
    */
   componentWillUnmount = () => {
-    this.myController.configureMainPanelChangeListener(this, null);
+    this.myController.consoleBrowserRequestListener(this, null);
     this.myController.configureShowConsoleWindowListener(this, null);
   };
 
-  /**
-   * callback function that is called when the main panels active perspective changes
-   * @param perspective
-   */
-  onActivePerspectiveChange = (event, perspective) => {
-    if (perspective === MainPanelViewController.MenuSelection.JOURNAL) {
-      this.setLocation(this.getJournalLocation());
-    } else if (
-      perspective === MainPanelViewController.MenuSelection.TROUBLESHOOT
-    ) {
-      this.setLocation(this.getTroubleshootLocation());
-    } else if (perspective === MainPanelViewController.MenuSelection.FLOW) {
-      this.setLocation(this.getFlowLocation());
-    } else {
-      this.setLocation("");
-    }
+  onConsoleBrowserRequestEvent = (event, request) => {
+    console.log(this.name + " browser request -> " + JSON.stringify(request));
   };
 
   /**
@@ -467,44 +449,12 @@ export default class BrowserHeader extends Component {
    * @param event
    * @param arg
    */
-  onShowConsoleWindow = (event, arg) => {
+  onShowConsoleWindowEvent = (event, arg) => {
     console.log(this.name + " show console window : " + arg);
-    if (this.state.location === "") {
-      this.setLocation(this.getDefaultLocation());
-    }
+    this.setState({
+      location: "/journal/" + this.teamModel.getActiveTeamMemberShortName()
+    });
   };
-
-  /**
-   * sets the location into the component
-   * @param location
-   */
-  setLocation(location) {
-    this.setState({ location: location });
-  }
-
-  /**
-   * helper function to get the default location
-   * @returns {string}
-   */
-  getDefaultLocation() {
-    return this.getJournalLocation();
-  }
-
-  /**
-   * gets the journbal uri path
-   * @returns {string}
-   */
-  getJournalLocation() {
-    return "/journal/" + this.teamModel.getActiveTeamMemberShortName();
-  }
-
-  getTroubleshootLocation() {
-    return "/wtf";
-  }
-
-  getFlowLocation() {
-    return "/flow";
-  }
 
   /**
    * highlight field border when element is focused on
@@ -542,10 +492,12 @@ export default class BrowserHeader extends Component {
    */
   handleClickForGo = () => {
     console.log("load this resource into view");
-    let uri = this.state.location.toLowerCase(),
-      action = this.state.action.toLowerCase(),
-      command = action + " " + uri;
-    this.myController.processCommand(command);
+    this.makeRequest(this.state.action, this.state.location);
+  };
+
+  makeRequest = (action, location) => {
+    let request = action + " " + location;
+    this.myController.processRequest(request.toLowerCase());
   };
 
   /**
@@ -588,7 +540,7 @@ export default class BrowserHeader extends Component {
    * returns the browser headers input
    * @returns {*}
    */
-  getBrowserInput() {
+  getBrowserInput = () => {
     return (
       &lt;Input
         disabled={this.state.disableControls}
@@ -614,7 +566,7 @@ export default class BrowserHeader extends Component {
         }
       />
     );
-  }
+  };
 
   /**
    * renders the journal items component from array in the console view
