@@ -1,22 +1,58 @@
 import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
+import UtilRenderer from "../UtilRenderer";
 
 /**
  * used to control the browser header class
  */
 export class BrowserController extends ActiveViewController {
+  static get URI_SEPARATOR() {
+    return "::";
+  }
+
+  static get PATH_SEPARATOR() {
+    return "/";
+  }
+
+  static get ACTION_ERROR() {
+    return "error";
+  }
+
+  static get URI_ERROR() {
+    return "error";
+  }
+
+  static get Actions() {
+    return {
+      OPEN: "open",
+      CLOSE: "close",
+      JOIN: "join",
+      LEAVE: "leave"
+    };
+  }
+
+  static get Locations() {
+    return {
+      CIRCUIT: "circuit",
+      JOURNAL: "journal",
+      WTF: "wtf",
+      ROOM: "room"
+    };
+  }
+
   /**
    * builds the browser console header component
    * @param scope
    */
   constructor(scope) {
     super(scope);
-    this.consoleBrowserLoadNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_LOAD,
+    this.name = "[BrowserController]";
+    this.consoleBrowserRequestListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_REQUEST,
       this
     );
-    this.mainPanelChangeListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
+    this.consoleBrowserLoadNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_LOAD,
       this
     );
     this.showConsoleWindowListener = RendererEventFactory.createEvent(
@@ -25,17 +61,21 @@ export class BrowserController extends ActiveViewController {
     );
   }
 
-  dispatchLoadBrowserContent(resource) {
-    this.consoleBrowserLoadNotifier.dispatch(resource);
-  }
-
   /**
-   * callback function that is notified when the main console menu changes
+   * configures the browsers request listener
    * @param scope
    * @param callback
    */
-  configureMainPanelChangeListener(scope, callback) {
-    this.mainPanelChangeListener.updateCallback(scope, callback);
+  configureConsoleBrowserRequestListener(scope, callback) {
+    this.consoleBrowserRequestListener.updateCallback(scope, callback);
+  }
+
+  /**
+   * event that is dispathed to tell the console content what to load
+   * @param resource - the resource to send to console content component
+   */
+  fireConsoleBrowserLoadNotifyEvent(resource) {
+    this.consoleBrowserLoadNotifier.dispatch(resource);
   }
 
   /**
@@ -43,28 +83,15 @@ export class BrowserController extends ActiveViewController {
    * @param scope
    * @param callback
    */
-  configureShowConsoleWindowListener(scope, callback) {
+  configureShowConsoleWindowListener = (scope, callback) => {
     this.showConsoleWindowListener.updateCallback(scope, callback);
-  }
+  };
 
-  processCommand = command => {
-    console.log(this.name + " process the command : " + command);
+  processRequest = request => {
+    console.log(this.name + " process request -> " + request);
     try {
-      let cmd = command.split(" "),
-        action = cmd[0],
-        uri = cmd[1],
-        uriArr = uri.split("/"),
-        uriRoot = uriArr[1],
-        uriRes = uriArr[2],
-        uriChild = uriArr[3],
-        resource = {
-          action: action,
-          uri: uri,
-          root: uriRoot,
-          res: uriRes,
-          child: uriChild
-        };
-      this.dispatchLoadBrowserContent(resource);
+      let resource = UtilRenderer.getResourceFromRequest(request);
+      this.fireConsoleBrowserLoadNotifyEvent(resource);
     } catch (e) {
       console.log(e);
     }

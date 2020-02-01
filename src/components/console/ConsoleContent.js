@@ -12,7 +12,7 @@ import BrowserHeader from "../browser/BrowserHeader";
 export default class ConsoleContent extends Component {
   constructor(props) {
     super(props);
-    this.name = "[" + ConsoleContent.name + "]";
+    this.name = "[ConsoleContent]";
     this.isAnimating = false;
     this.animationTime = Math.floor(this.props.animationTime / 2);
     this.state = {
@@ -24,7 +24,6 @@ export default class ConsoleContent extends Component {
       animationTypeTroubleshoot: "fly left",
       animationTypeFlow: "fly left"
     };
-
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.MAIN_PANEL,
       this
@@ -38,12 +37,19 @@ export default class ConsoleContent extends Component {
     );
     this.myController.configureConsoleBrowserLoadListener(
       this,
-      this.onConsoleBrowserLoad
+      this.onConsoleBrowserLoadEvent
     );
   };
 
   componentWillUnmount = () => {
     this.myController.configureContentListener(this, null);
+    this.myController.configureConsoleBrowserRequestListener(this, null);
+  };
+
+  onConsoleBrowserLoadEvent = (event, resource) => {
+    console.log(this.name + " load resource -> " + JSON.stringify(resource));
+
+    // TODO figure out which resource to load based on what is passed in here
   };
 
   /**
@@ -74,13 +80,7 @@ export default class ConsoleContent extends Component {
     }
   };
 
-  onConsoleBrowserLoad = (event, resource) => {
-    console.log(this.name + " resource content : " + JSON.stringify(resource));
-  };
-
   getAnimationState(oldLayout, newLayout) {
-    console.log("getAnimationState - " + oldLayout + " to " + newLayout);
-
     let state = {
       activeLayout: newLayout,
       journalVisible: false,

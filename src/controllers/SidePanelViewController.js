@@ -48,6 +48,10 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
       this
     );
+    this.consoleBrowserRequestNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_REQUEST,
+      this
+    );
     this.teamPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_TEAM_PANEL,
       this
@@ -183,6 +187,9 @@ export class SidePanelViewController extends ActiveViewController {
     this.spiritPanelChangeNotifier.dispatch({});
   }
 
+  fireConsoleBrowserRequestNotifyEvent(request) {
+    this.consoleBrowserRequestNotifier.dispatch(request);
+  }
   /**
    * dispatch an event when the team panel content changes
    */

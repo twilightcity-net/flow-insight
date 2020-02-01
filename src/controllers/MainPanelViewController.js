@@ -4,28 +4,19 @@ import { RendererEventFactory } from "../events/RendererEventFactory";
 export class MainPanelViewController extends ActiveViewController {
   constructor(scope) {
     super(scope);
-
     this.oldMenuSelection = null;
     this.activeMenuSelection = MainPanelViewController.MenuSelection.DEFAULT;
-
     this.resetDefaultMenuSelection();
-
     this.mainPanelChangeNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
       this
     );
-
     this.contentPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
       this
     );
-
     this.menuListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
-      this
-    );
-    this.consoleBrowserLoadListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_LOAD,
       this
     );
     this.heartbeatListener = RendererEventFactory.createEvent(
@@ -40,6 +31,10 @@ export class MainPanelViewController extends ActiveViewController {
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
       this
     );
+    this.consoleBrowserLoadListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_LOAD,
+      this
+    );
   }
 
   configureContentListener(scope, callback) {
@@ -50,16 +45,21 @@ export class MainPanelViewController extends ActiveViewController {
     this.menuListener.updateCallback(scope, callback);
   }
 
-  configureConsoleBrowserLoadListener(scope, callback) {
-    this.consoleBrowserLoadListener.updateCallback(scope, callback);
-  }
-
   configureHeartbeatListener(scope, callback) {
     this.heartbeatListener.updateCallback(scope, callback);
   }
 
   configurePulseListener(scope, callback) {
     this.pulseListener.updateCallback(scope, callback);
+  }
+
+  /**
+   * configures the browser load listener. notified when we want to load new content
+   * @param scope
+   * @param callback
+   */
+  configureConsoleBrowserLoadListener(scope, callback) {
+    this.consoleBrowserLoadListener.updateCallback(scope, callback);
   }
 
   changeActivePanel(oldState, newState) {

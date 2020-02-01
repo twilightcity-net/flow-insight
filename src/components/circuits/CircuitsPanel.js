@@ -5,6 +5,7 @@ import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControl
 import { DimensionController } from "../../controllers/DimensionController";
 import { CircuitClient } from "../../clients/CircuitClient";
 import ActiveCircuitListItem from "./ActiveCircuitListItem";
+import { BrowserController } from "../../controllers/BrowserController";
 
 /**
  * renders the circuit navigator panels in the gui
@@ -56,7 +57,6 @@ export default class CircuitsPanel extends Component {
    * refreshes our active circuits array with new data
    */
   refreshActiveCircuits() {
-    console.log("call circuit client to refresh active circuits");
     CircuitClient.loadAllMyParticipatingCircuits(this, models => {
       this.setState({
         activeCircuits: models
@@ -139,13 +139,22 @@ export default class CircuitsPanel extends Component {
   };
 
   handleClickActiveCircuit = component => {
-    console.log(component);
     if (this.selections.activeCircuitComponent) {
       this.selections.activeCircuitComponent.setState({
         isSelected: false
       });
     }
     this.selections.activeCircuitComponent = component;
+    let circuitName = component.props.model.circuitName;
+    let request =
+      BrowserController.Actions.OPEN +
+      BrowserController.URI_SEPARATOR +
+      BrowserController.Locations.CIRCUIT +
+      BrowserController.PATH_SEPARATOR +
+      BrowserController.Locations.WTF +
+      BrowserController.PATH_SEPARATOR +
+      circuitName;
+    this.myController.fireConsoleBrowserRequestNotifyEvent(request);
   };
 
   /**

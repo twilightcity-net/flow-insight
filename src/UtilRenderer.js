@@ -1,6 +1,8 @@
 //
 // generic util class that is statically called
 //
+import { BrowserController } from "./controllers/BrowserController";
+
 export default class UtilRenderer {
   /**
    * helper function to return a date time string from a date object that is localized
@@ -29,6 +31,31 @@ export default class UtilRenderer {
   static getTimeStringFromTimeArray(array) {
     // console.log(array);
     return "5 min";
+  }
+
+  /**
+   * gets the browser resource from a given request
+   * @param request
+   * @returns {{action: string, uriArr: string[], uri: string}}
+   */
+  static getResourceFromRequest(request) {
+    if (!request) {
+      return {
+        action: BrowserController.ACTION_ERROR,
+        uri: BrowserController.URI_ERROR,
+        uriArr: [BrowserController.URI_ERROR]
+      };
+    }
+    let req = request.toLowerCase().split(BrowserController.URI_SEPARATOR);
+    if (req[1].startsWith("/")) {
+      req[1] = req[1].slice(1);
+    }
+    let res = req[1].split(BrowserController.PATH_SEPARATOR);
+    return {
+      action: req[0],
+      uri: req[1],
+      uriArr: res
+    };
   }
 
   /**

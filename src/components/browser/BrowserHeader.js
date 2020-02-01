@@ -9,7 +9,7 @@ import {
 } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import { DataModelFactory } from "../../models/DataModelFactory";
-import { MainPanelViewController } from "../../controllers/MainPanelViewController";
+import { BrowserController } from "../../controllers/BrowserController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -42,10 +42,26 @@ export default class BrowserHeader extends Component {
    */
   getOptions() {
     return [
-      { key: 1, text: "Open", value: "Open" },
-      { key: 2, text: "Close", value: "Close" },
-      { key: 3, text: "Join", value: "Join" },
-      { key: 4, text: "Leave", value: "Leave" }
+      {
+        key: 1,
+        text: BrowserController.Actions.OPEN,
+        value: BrowserController.Actions.OPEN
+      },
+      {
+        key: 2,
+        text: BrowserController.Actions.CLOSE,
+        value: BrowserController.Actions.CLOSE
+      },
+      {
+        key: 3,
+        text: BrowserController.Actions.JOIN,
+        value: BrowserController.Actions.JOIN
+      },
+      {
+        key: 4,
+        text: BrowserController.Actions.LEAVE,
+        value: BrowserController.Actions.LEAVE
+      }
     ];
   }
 
@@ -53,13 +69,13 @@ export default class BrowserHeader extends Component {
    * update our listeners
    */
   componentDidMount = () => {
-    this.myController.configureMainPanelChangeListener(
+    this.myController.configureConsoleBrowserRequestListener(
       this,
-      this.onActivePerspectiveChange
+      this.onConsoleBrowserRequestEvent
     );
     this.myController.configureShowConsoleWindowListener(
       this,
-      this.onShowConsoleWindow
+      this.onShowConsoleWindowEvent
     );
   };
 
@@ -67,26 +83,13 @@ export default class BrowserHeader extends Component {
    * remove listeners when not in view
    */
   componentWillUnmount = () => {
-    this.myController.configureMainPanelChangeListener(this, null);
+    this.myController.consoleBrowserRequestListener(this, null);
     this.myController.configureShowConsoleWindowListener(this, null);
   };
 
-  /**
-   * callback function that is called when the main panels active perspective changes
-   * @param perspective
-   */
-  onActivePerspectiveChange = (event, perspective) => {
-    if (perspective === MainPanelViewController.MenuSelection.JOURNAL) {
-      this.setLocation(this.getJournalLocation());
-    } else if (
-      perspective === MainPanelViewController.MenuSelection.TROUBLESHOOT
-    ) {
-      this.setLocation(this.getTroubleshootLocation());
-    } else if (perspective === MainPanelViewController.MenuSelection.FLOW) {
-      this.setLocation(this.getFlowLocation());
-    } else {
-      this.setLocation("");
-    }
+  onConsoleBrowserRequestEvent = (event, request) => {
+    console.log(this.name + " proecess request -> " + JSON.stringify(request));
+    this.myController.processRequest(request);
   };
 
   /**
@@ -95,44 +98,12 @@ export default class BrowserHeader extends Component {
    * @param event
    * @param arg
    */
-  onShowConsoleWindow = (event, arg) => {
+  onShowConsoleWindowEvent = (event, arg) => {
     console.log(this.name + " show console window : " + arg);
-    if (this.state.location === "") {
-      this.setLocation(this.getDefaultLocation());
-    }
+    this.setState({
+      location: "/journal/" + this.teamModel.getActiveTeamMemberShortName()
+    });
   };
-
-  /**
-   * sets the location into the component
-   * @param location
-   */
-  setLocation(location) {
-    this.setState({ location: location });
-  }
-
-  /**
-   * helper function to get the default location
-   * @returns {string}
-   */
-  getDefaultLocation() {
-    return this.getJournalLocation();
-  }
-
-  /**
-   * gets the journbal uri path
-   * @returns {string}
-   */
-  getJournalLocation() {
-    return "/journal/" + this.teamModel.getActiveTeamMemberShortName();
-  }
-
-  getTroubleshootLocation() {
-    return "/wtf";
-  }
-
-  getFlowLocation() {
-    return "/flow";
-  }
 
   /**
    * highlight field border when element is focused on
@@ -169,11 +140,12 @@ export default class BrowserHeader extends Component {
    * loads a new perspective.
    */
   handleClickForGo = () => {
-    console.log("load this resource into view");
-    let uri = this.state.location.toLowerCase(),
-      action = this.state.action.toLowerCase(),
-      command = action + " " + uri;
-    this.myController.processCommand(command);
+    this.makeRequest(this.state.action, this.state.location);
+  };
+
+  makeRequest = (action, location) => {
+    let request = action + BrowserController.URI_SEPARATOR + location;
+    this.myController.processRequest(request);
   };
 
   /**
@@ -216,7 +188,7 @@ export default class BrowserHeader extends Component {
    * returns the browser headers input
    * @returns {*}
    */
-  getBrowserInput() {
+  getBrowserInput = () => {
     return (
       <Input
         disabled={this.state.disableControls}
@@ -242,7 +214,7 @@ export default class BrowserHeader extends Component {
         }
       />
     );
-  }
+  };
 
   /**
    * renders the journal items component from array in the console view
