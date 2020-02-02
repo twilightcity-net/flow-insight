@@ -53,6 +53,22 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#makeRequest">makeRequest</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.html">BrowserRequestFactory</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getActiveCircuitRequest">_getActiveCircuitRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getBrowserRequest">_getBrowserRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getFlowRequest">_getFlowRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getJournalRequest">_getJournalRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getTeamRequest">_getTeamRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getTroubleshootRequest">_getTroubleshootRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#.createRequest">createRequest</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Actions.html">Actions</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.createLearningCircuitModel">createLearningCircuitModel</a></span></li>
@@ -284,6 +300,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#hidePanel">hidePanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#isVisible">isVisible</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#showPanel">showPanel</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></span></li>
@@ -353,6 +370,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshActiveCircuits">refreshActiveCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshDoItLaterCircuits">refreshDoItLaterCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
@@ -486,7 +505,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line169">line 169</a>
+                  <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line188">line 188</a>
                 </li>
               </ul>
             </dd>
@@ -535,7 +554,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line13">line 13</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line10">line 10</a>
                 </li>
               </ul>
             </dd>
@@ -621,7 +640,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line67">line 67</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line64">line 64</a>
                 </li>
               </ul>
             </dd>
@@ -669,7 +688,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line41">line 41</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line38">line 38</a>
                 </li>
               </ul>
             </dd>
@@ -712,7 +731,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line31">line 31</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line28">line 28</a>
                 </li>
               </ul>
             </dd>
@@ -803,7 +822,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line22">line 22</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line19">line 19</a>
                 </li>
               </ul>
             </dd>
@@ -918,7 +937,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_team_TeamPanel.js.html">src/components/team/TeamPanel.js</a>, <a href="src_components_team_TeamPanel.js.html#line38">line 38</a>
+                  <a href="src_components_team_TeamPanel.js.html">src/components/team/TeamPanel.js</a>, <a href="src_components_team_TeamPanel.js.html#line39">line 39</a>
                 </li>
               </ul>
             </dd>
@@ -1065,7 +1084,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_console_ConsoleLayout.js.html">src/components/console/ConsoleLayout.js</a>, <a href="src_components_console_ConsoleLayout.js.html#line192">line 192</a>
+                  <a href="src_components_console_ConsoleLayout.js.html">src/components/console/ConsoleLayout.js</a>, <a href="src_components_console_ConsoleLayout.js.html#line198">line 198</a>
                 </li>
               </ul>
             </dd>
@@ -1095,7 +1114,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_circuits_CircuitsPanel.js.html">src/components/circuits/CircuitsPanel.js</a>, <a href="src_components_circuits_CircuitsPanel.js.html#line157">line 157</a>
+                  <a href="src_components_circuits_CircuitsPanel.js.html">src/components/circuits/CircuitsPanel.js</a>, <a href="src_components_circuits_CircuitsPanel.js.html#line161">line 161</a>
                 </li>
               </ul>
             </dd>
@@ -1140,7 +1159,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_team_TeamPanel.js.html">src/components/team/TeamPanel.js</a>, <a href="src_components_team_TeamPanel.js.html#line71">line 71</a>
+                  <a href="src_components_team_TeamPanel.js.html">src/components/team/TeamPanel.js</a>, <a href="src_components_team_TeamPanel.js.html#line72">line 72</a>
                 </li>
               </ul>
             </dd>
@@ -1241,7 +1260,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line223">line 223</a>
+                  <a href="src_components_browser_BrowserHeader.js.html">src/components/browser/BrowserHeader.js</a>, <a href="src_components_browser_BrowserHeader.js.html#line242">line 242</a>
                 </li>
               </ul>
             </dd>
@@ -1266,7 +1285,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_circuits_CircuitsPanel.js.html">src/components/circuits/CircuitsPanel.js</a>, <a href="src_components_circuits_CircuitsPanel.js.html#line220">line 220</a>
+                  <a href="src_components_circuits_CircuitsPanel.js.html">src/components/circuits/CircuitsPanel.js</a>, <a href="src_components_circuits_CircuitsPanel.js.html#line222">line 222</a>
                 </li>
               </ul>
             </dd>
@@ -1290,7 +1309,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_console_ConsoleContent.js.html">src/components/console/ConsoleContent.js</a>, <a href="src_components_console_ConsoleContent.js.html#line108">line 108</a>
+                  <a href="src_components_console_ConsoleContent.js.html">src/components/console/ConsoleContent.js</a>, <a href="src_components_console_ConsoleContent.js.html#line131">line 131</a>
                 </li>
               </ul>
             </dd>
@@ -1314,7 +1333,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_console_ConsoleLayout.js.html">src/components/console/ConsoleLayout.js</a>, <a href="src_components_console_ConsoleLayout.js.html#line422">line 422</a>
+                  <a href="src_components_console_ConsoleLayout.js.html">src/components/console/ConsoleLayout.js</a>, <a href="src_components_console_ConsoleLayout.js.html#line428">line 428</a>
                 </li>
               </ul>
             </dd>
@@ -1453,7 +1472,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_notifications_NotificationsPanel.js.html">src/components/notifications/NotificationsPanel.js</a>, <a href="src_components_notifications_NotificationsPanel.js.html#line136">line 136</a>
+                  <a href="src_components_notifications_NotificationsPanel.js.html">src/components/notifications/NotificationsPanel.js</a>, <a href="src_components_notifications_NotificationsPanel.js.html#line134">line 134</a>
                 </li>
               </ul>
             </dd>
@@ -1502,7 +1521,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_spirit_SpiritPanel.js.html">src/components/spirit/SpiritPanel.js</a>, <a href="src_components_spirit_SpiritPanel.js.html#line451">line 451</a>
+                  <a href="src_components_spirit_SpiritPanel.js.html">src/components/spirit/SpiritPanel.js</a>, <a href="src_components_spirit_SpiritPanel.js.html#line449">line 449</a>
                 </li>
               </ul>
             </dd>
@@ -1526,7 +1545,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_team_TeamPanel.js.html">src/components/team/TeamPanel.js</a>, <a href="src_components_team_TeamPanel.js.html#line190">line 190</a>
+                  <a href="src_components_team_TeamPanel.js.html">src/components/team/TeamPanel.js</a>, <a href="src_components_team_TeamPanel.js.html#line203">line 203</a>
                 </li>
               </ul>
             </dd>
@@ -1590,7 +1609,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_troubleshoot_TroubleshootStart.js.html">src/components/troubleshoot/TroubleshootStart.js</a>, <a href="src_components_troubleshoot_TroubleshootStart.js.html#line37">line 37</a>
+                  <a href="src_components_troubleshoot_TroubleshootStart.js.html">src/components/troubleshoot/TroubleshootStart.js</a>, <a href="src_components_troubleshoot_TroubleshootStart.js.html#line32">line 32</a>
                 </li>
               </ul>
             </dd>
@@ -1629,6 +1648,74 @@
             </dl>
             <div class="param-desc"> -= the root JSX to render in the 'root' DOM element of the window </div>
           </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="requestBrowserToLoadActiveCircuit"><span class="type-signature"></span>requestBrowserToLoadActiveCircuit<span class="signature">(circuitName)</span><span class="type-signature"></span></h4>
+          <div class="description"> creates a new request and dispatch this to the browser request listener </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_components_circuits_CircuitsPanel.js.html">src/components/circuits/CircuitsPanel.js</a>, <a href="src_components_circuits_CircuitsPanel.js.html#line150">line 150</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>circuitName</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="requestBrowserToLoadTeamJournalAndSetActiveMember"><span class="type-signature"></span>requestBrowserToLoadTeamJournalAndSetActiveMember<span class="signature">(circuitName)</span><span class="type-signature"></span></h4>
+          <div class="description"> creates a new request and dispatch this to the browser request listener </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_components_team_TeamPanel.js.html">src/components/team/TeamPanel.js</a>, <a href="src_components_team_TeamPanel.js.html#line127">line 127</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>circuitName</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="section-method">
           <h4 class="name"
@@ -1688,7 +1775,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_team_TeamPanel.js.html">src/components/team/TeamPanel.js</a>, <a href="src_components_team_TeamPanel.js.html#line56">line 56</a>
+                  <a href="src_components_team_TeamPanel.js.html">src/components/team/TeamPanel.js</a>, <a href="src_components_team_TeamPanel.js.html#line57">line 57</a>
                 </li>
               </ul>
             </dd>
@@ -1797,7 +1884,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_components_team_TeamPanel.js.html">src/components/team/TeamPanel.js</a>, <a href="src_components_team_TeamPanel.js.html#line84">line 84</a>
+                  <a href="src_components_team_TeamPanel.js.html">src/components/team/TeamPanel.js</a>, <a href="src_components_team_TeamPanel.js.html#line85">line 85</a>
                 </li>
               </ul>
             </dd>

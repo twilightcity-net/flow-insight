@@ -53,6 +53,22 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#makeRequest">makeRequest</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.html">BrowserRequestFactory</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getActiveCircuitRequest">_getActiveCircuitRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getBrowserRequest">_getBrowserRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getFlowRequest">_getFlowRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getJournalRequest">_getJournalRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getTeamRequest">_getTeamRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getTroubleshootRequest">_getTroubleshootRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#.createRequest">createRequest</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Actions.html">Actions</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.createLearningCircuitModel">createLearningCircuitModel</a></span></li>
@@ -284,6 +300,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#hidePanel">hidePanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#isVisible">isVisible</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#showPanel">showPanel</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></span></li>
@@ -353,6 +370,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshActiveCircuits">refreshActiveCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshDoItLaterCircuits">refreshDoItLaterCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
@@ -386,7 +405,7 @@
               <dd class="tag-source">
                 <ul class="dummy">
                   <li>
-                    <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line47">line 47</a>
+                    <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line13">line 13</a>
                   </li>
                 </ul>
               </dd>
@@ -427,7 +446,22 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line86">line 86</a>
+                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line60">line 60</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="section-members">
+          <h4 class="name"
+              id="processRequest"><span class="type-signature"></span>processRequest<span class="type-signature"></span></h4>
+          <div class="description"> processes a given request and returns resource objest that the console content component will use to figure out what to render </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line69">line 69</a>
                 </li>
               </ul>
             </dd>
@@ -443,7 +477,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line69">line 69</a>
+                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line43">line 43</a>
                 </li>
               </ul>
             </dd>
@@ -484,7 +518,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line77">line 77</a>
+                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line51">line 51</a>
                 </li>
               </ul>
             </dd>
@@ -504,6 +538,40 @@
                 <td class="type">
                 </td>
                 <td class="description last"> the resource to send to console content component </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="makeRequest"><span class="type-signature"></span>makeRequest<span class="signature">(request)</span><span class="type-signature"></span></h4>
+          <div class="description"> helper wrapper function use to perform a browser request to load content </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line34">line 34</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>request</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
               </tr>
             </tbody>
           </table>

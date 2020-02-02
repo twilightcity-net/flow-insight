@@ -53,6 +53,22 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#makeRequest">makeRequest</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.html">BrowserRequestFactory</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getActiveCircuitRequest">_getActiveCircuitRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getBrowserRequest">_getBrowserRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getFlowRequest">_getFlowRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getJournalRequest">_getJournalRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getTeamRequest">_getTeamRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getTroubleshootRequest">_getTroubleshootRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#.createRequest">createRequest</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Actions.html">Actions</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.createLearningCircuitModel">createLearningCircuitModel</a></span></li>
@@ -284,6 +300,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#hidePanel">hidePanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#isVisible">isVisible</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#showPanel">showPanel</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></span></li>
@@ -353,6 +370,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshActiveCircuits">refreshActiveCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshDoItLaterCircuits">refreshDoItLaterCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
@@ -373,11 +392,27 @@
       <article>
         <pre class="prettyprint source linenums"><code>import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
+import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
 
 /**
  * control the sidebar panels
  */
 export class SidePanelViewController extends ActiveViewController {
+  /**
+   * string hardcode for id
+   * @returns {string}
+   */
+  static get ID() {
+    return "id";
+  }
+
+  /**
+   * string hardcode for self
+   * @returns {string}
+   */
+  static get ME() {
+    return "Me";
+  }
   /**
    * builds the sidebar controller. sets default values and menu selections. this
    * also configures the listeners
@@ -423,10 +458,6 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
       this
     );
-    this.consoleBrowserRequestNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_REQUEST,
-      this
-    );
     this.teamPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_TEAM_PANEL,
       this
@@ -441,6 +472,10 @@ export class SidePanelViewController extends ActiveViewController {
     );
     this.notificationsPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATIONS_PANEL,
+      this
+    );
+    this.browserController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.BROWSER_PANEL,
       this
     );
   }
@@ -576,9 +611,6 @@ export class SidePanelViewController extends ActiveViewController {
     this.spiritPanelChangeNotifier.dispatch({});
   }
 
-  fireConsoleBrowserRequestNotifyEvent(request) {
-    this.consoleBrowserRequestNotifier.dispatch(request);
-  }
   /**
    * dispatch an event when the team panel content changes
    */
@@ -618,6 +650,14 @@ export class SidePanelViewController extends ActiveViewController {
     this.show = true;
     this.activeMenuSelection = selection;
     this.fireSidePanelNotifyEvent();
+  }
+
+  /**
+   * helper function to wrap our function from our other controller
+   * @param request - {BrowserRequestFactory} type request
+   */
+  makeSidebarBrowserRequest(request) {
+    this.browserController.makeRequest(request);
   }
 
   /**

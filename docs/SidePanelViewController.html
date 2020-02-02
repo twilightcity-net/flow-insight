@@ -53,6 +53,22 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#makeRequest">makeRequest</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.html">BrowserRequestFactory</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getActiveCircuitRequest">_getActiveCircuitRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getBrowserRequest">_getBrowserRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getFlowRequest">_getFlowRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getJournalRequest">_getJournalRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getTeamRequest">_getTeamRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getTroubleshootRequest">_getTroubleshootRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#.createRequest">createRequest</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Actions.html">Actions</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.createLearningCircuitModel">createLearningCircuitModel</a></span></li>
@@ -284,6 +300,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#hidePanel">hidePanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#isVisible">isVisible</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#showPanel">showPanel</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></span></li>
@@ -353,6 +370,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshActiveCircuits">refreshActiveCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshDoItLaterCircuits">refreshDoItLaterCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
@@ -386,7 +405,7 @@
               <dd class="tag-source">
                 <ul class="dummy">
                   <li>
-                    <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line13">line 13</a>
+                    <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line29">line 29</a>
                   </li>
                 </ul>
               </dd>
@@ -425,6 +444,37 @@
           <dt><a href="SidePanelViewController.SubmenuSelection.html">SubmenuSelection</a></dt>
           <dd></dd>
         </dl>
+        <h3 class="subsection-title">Members</h3>
+        <div class="section-members">
+          <h4 class="name"
+              id=".ID"><span class="type-signature">(static) </span>ID<span class="type-signature"></span></h4>
+          <div class="description"> string hardcode for id </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line13">line 13</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="section-members">
+          <h4 class="name"
+              id=".ME"><span class="type-signature">(static) </span>ME<span class="type-signature"></span></h4>
+          <div class="description"> string hardcode for self </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line21">line 21</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
         <h3 class="subsection-title">Methods</h3>
         <div class="section-method">
           <h4 class="name"
@@ -435,7 +485,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line272">line 272</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line293">line 293</a>
                 </li>
               </ul>
             </dd>
@@ -469,7 +519,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line254">line 254</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line275">line 275</a>
                 </li>
               </ul>
             </dd>
@@ -503,7 +553,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line263">line 263</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line284">line 284</a>
                 </li>
               </ul>
             </dd>
@@ -537,7 +587,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line169">line 169</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line185">line 185</a>
                 </li>
               </ul>
             </dd>
@@ -578,7 +628,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line142">line 142</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line158">line 158</a>
                 </li>
               </ul>
             </dd>
@@ -619,7 +669,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line178">line 178</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line194">line 194</a>
                 </li>
               </ul>
             </dd>
@@ -660,7 +710,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line188">line 188</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line204">line 204</a>
                 </li>
               </ul>
             </dd>
@@ -701,7 +751,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line133">line 133</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line149">line 149</a>
                 </li>
               </ul>
             </dd>
@@ -742,7 +792,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line160">line 160</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line176">line 176</a>
                 </li>
               </ul>
             </dd>
@@ -783,7 +833,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line151">line 151</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line167">line 167</a>
                 </li>
               </ul>
             </dd>
@@ -824,7 +874,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line219">line 219</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line232">line 232</a>
                 </li>
               </ul>
             </dd>
@@ -839,7 +889,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line195">line 195</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line211">line 211</a>
                 </li>
               </ul>
             </dd>
@@ -854,7 +904,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line202">line 202</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line218">line 218</a>
                 </li>
               </ul>
             </dd>
@@ -869,7 +919,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line212">line 212</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line225">line 225</a>
                 </li>
               </ul>
             </dd>
@@ -884,7 +934,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line234">line 234</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line247">line 247</a>
                 </li>
               </ul>
             </dd>
@@ -899,7 +949,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line227">line 227</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line240">line 240</a>
                 </li>
               </ul>
             </dd>
@@ -916,6 +966,40 @@
         </div>
         <div class="section-method">
           <h4 class="name"
+              id="makeSidebarBrowserRequest"><span class="type-signature"></span>makeSidebarBrowserRequest<span class="signature">(request)</span><span class="type-signature"></span></h4>
+          <div class="description"> helper function to wrap our function from our other controller </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line267">line 267</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>request</code></td>
+                <td class="type">
+                  <span class="param-type"><code><a href="BrowserRequestFactory.html">BrowserRequestFactory</a></code></span>
+                </td>
+                <td class="description last"> type request </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
               id="showPanel"><span class="type-signature"></span>showPanel<span class="signature">(selection)</span><span class="type-signature"></span></h4>
           <div class="description"> shows the console sidebar panel </div>
           <dl class="details">
@@ -923,7 +1007,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line244">line 244</a>
+                  <a href="src_controllers_SidePanelViewController.js.html">src/controllers/SidePanelViewController.js</a>, <a href="src_controllers_SidePanelViewController.js.html#line257">line 257</a>
                 </li>
               </ul>
             </dd>

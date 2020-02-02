@@ -53,6 +53,22 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#makeRequest">makeRequest</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.html">BrowserRequestFactory</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getActiveCircuitRequest">_getActiveCircuitRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getBrowserRequest">_getBrowserRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getFlowRequest">_getFlowRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getJournalRequest">_getJournalRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getTeamRequest">_getTeamRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getTroubleshootRequest">_getTroubleshootRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#.createRequest">createRequest</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Actions.html">Actions</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.createLearningCircuitModel">createLearningCircuitModel</a></span></li>
@@ -284,6 +300,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#hidePanel">hidePanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#isVisible">isVisible</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#showPanel">showPanel</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></span></li>
@@ -353,6 +370,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshActiveCircuits">refreshActiveCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshDoItLaterCircuits">refreshDoItLaterCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
@@ -373,6 +392,7 @@
       <article>
         <pre class="prettyprint source linenums"><code>import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
+import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
 
 export class MainPanelViewController extends ActiveViewController {
   constructor(scope) {
@@ -380,24 +400,28 @@ export class MainPanelViewController extends ActiveViewController {
     this.oldMenuSelection = null;
     this.activeMenuSelection = MainPanelViewController.MenuSelection.DEFAULT;
     this.resetDefaultMenuSelection();
-    this.mainPanelChangeNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
-      this
-    );
-    this.contentPanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
-      this
-    );
-    this.menuListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
-      this
-    );
+    // this.mainPanelChangeNotifier = RendererEventFactory.createEvent(
+    //   RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
+    //   this
+    // );
+    // this.contentPanelListener = RendererEventFactory.createEvent(
+    //   RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
+    //   this
+    // );
+    // this.menuListener = RendererEventFactory.createEvent(
+    //   RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
+    //   this
+    // );
     this.heartbeatListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.APP_HEARTBEAT,
       this
     );
     this.pulseListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.APP_PULSE,
+      this
+    );
+    this.browserController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.BROWSER_PANEL,
       this
     );
     this.hideConsoleWindowNotifier = RendererEventFactory.createEvent(
@@ -410,13 +434,13 @@ export class MainPanelViewController extends ActiveViewController {
     );
   }
 
-  configureContentListener(scope, callback) {
-    this.contentPanelListener.updateCallback(scope, callback);
-  }
+  // configureContentListener(scope, callback) {
+  //   this.contentPanelListener.updateCallback(scope, callback);
+  // }
 
-  configureMenuListener(scope, callback) {
-    this.menuListener.updateCallback(scope, callback);
-  }
+  // configureMenuListener(scope, callback) {
+  //   this.menuListener.updateCallback(scope, callback);
+  // }
 
   configureHeartbeatListener(scope, callback) {
     this.heartbeatListener.updateCallback(scope, callback);
@@ -424,6 +448,10 @@ export class MainPanelViewController extends ActiveViewController {
 
   configurePulseListener(scope, callback) {
     this.pulseListener.updateCallback(scope, callback);
+  }
+
+  makeConsoleBrowserRequest(request) {
+    this.browserController.makeRequest(request);
   }
 
   /**
@@ -435,15 +463,15 @@ export class MainPanelViewController extends ActiveViewController {
     this.consoleBrowserLoadListener.updateCallback(scope, callback);
   }
 
-  changeActivePanel(oldState, newState) {
-    this.oldMenuSelection = oldState;
-    this.activeMenuSelection = newState;
-    this.fireNotifyEvent(newState);
-  }
+  // changeActivePanel(oldState, newState) {
+  //   this.oldMenuSelection = oldState;
+  //   this.activeMenuSelection = newState;
+  //   this.fireNotifyEvent(newState);
+  // }
 
-  fireNotifyEvent(state) {
-    this.mainPanelChangeNotifier.dispatch(state);
-  }
+  // fireNotifyEvent(state) {
+  //   this.mainPanelChangeNotifier.dispatch(state);
+  // }
 
   hideConsoleWindow() {
     this.hideConsoleWindowNotifier.dispatch(1);
