@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>LearningCircuitModel - Documentation</title>
+  <title>src/controllers/MainPanelViewController.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -368,99 +368,108 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">LearningCircuitModel</h1>
+    <h1 class="page-title">src/controllers/MainPanelViewController.js</h1>
     <section>
-      <header>
-        <h2> LearningCircuitModel </h2>
-        <div class="class-description">this class stores the information associated with a learning circuit on the dreamtalk platform See the CircuitMemberStatusWithMembersDto class to access the participant members of the learning circuit.</div>
-      </header>
       <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h2>Constructor</h2>
-            <h4 class="name"
-                id="LearningCircuitModel"><span class="type-signature"></span>new LearningCircuitModel<span class="signature">(json)</span><span class="type-signature"></span></h4>
-            <div class="description"> builds the learning circuit model from json data from gridtime </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_models_LearningCircuitModel.js.html">src/models/LearningCircuitModel.js</a>, <a href="src_models_LearningCircuitModel.js.html#line11">line 11</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>json</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <h3 class="subsection-title">Classes</h3>
-        <dl>
-          <dt><a href="LearningCircuitModel.html">LearningCircuitModel</a></dt>
-          <dd></dd>
-        </dl>
-        <h3 class="subsection-title">Methods</h3>
-        <div class="section-method">
-          <h4 class="name"
-              id=".isRetro"><span class="type-signature">(static) </span>isRetro<span class="signature">(model)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
-          <div class="description"> checks if we are in retro mode by looking to see if we have a retro room </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="src_models_LearningCircuitModel.js.html">src/models/LearningCircuitModel.js</a>, <a href="src_models_LearningCircuitModel.js.html#line48">line 48</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <h5>Parameters:</h5>
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="name"><code>model</code></td>
-                <td class="type">
-                </td>
-                <td class="description last">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="section-returns">
-            <h5>Returns:</h5>
-            <dl class="param-type">
-              <dt> Type: </dt>
-              <dd>
-                <span class="param-type"><code>boolean</code></span>
-              </dd>
-            </dl>
-          </div>
-        </div>
+        <pre class="prettyprint source linenums"><code>import { ActiveViewController } from "./ActiveViewController";
+import { RendererEventFactory } from "../events/RendererEventFactory";
+
+export class MainPanelViewController extends ActiveViewController {
+  constructor(scope) {
+    super(scope);
+    this.oldMenuSelection = null;
+    this.activeMenuSelection = MainPanelViewController.MenuSelection.DEFAULT;
+    this.resetDefaultMenuSelection();
+    this.mainPanelChangeNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
+      this
+    );
+    this.contentPanelListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
+      this
+    );
+    this.menuListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
+      this
+    );
+    this.heartbeatListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.APP_HEARTBEAT,
+      this
+    );
+    this.pulseListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.APP_PULSE,
+      this
+    );
+    this.hideConsoleWindowNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
+      this
+    );
+    this.consoleBrowserLoadListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_LOAD,
+      this
+    );
+  }
+
+  configureContentListener(scope, callback) {
+    this.contentPanelListener.updateCallback(scope, callback);
+  }
+
+  configureMenuListener(scope, callback) {
+    this.menuListener.updateCallback(scope, callback);
+  }
+
+  configureHeartbeatListener(scope, callback) {
+    this.heartbeatListener.updateCallback(scope, callback);
+  }
+
+  configurePulseListener(scope, callback) {
+    this.pulseListener.updateCallback(scope, callback);
+  }
+
+  /**
+   * configures the browser load listener. notified when we want to load new content
+   * @param scope
+   * @param callback
+   */
+  configureConsoleBrowserLoadListener(scope, callback) {
+    this.consoleBrowserLoadListener.updateCallback(scope, callback);
+  }
+
+  changeActivePanel(oldState, newState) {
+    this.oldMenuSelection = oldState;
+    this.activeMenuSelection = newState;
+    this.fireNotifyEvent(newState);
+  }
+
+  fireNotifyEvent(state) {
+    this.mainPanelChangeNotifier.dispatch(state);
+  }
+
+  hideConsoleWindow() {
+    this.hideConsoleWindowNotifier.dispatch(1);
+  }
+
+  resetDefaultMenuSelection() {
+    this.activeMenuSelection = MainPanelViewController.MenuSelection.DEFAULT;
+  }
+
+  static get MenuSelection() {
+    return {
+      DEFAULT: "journal",
+      JOURNAL: "journal",
+      TROUBLESHOOT: "troubleshoot",
+      FLOW: "flow"
+    };
+  }
+
+  static get Animations() {
+    return {
+      FLY_RIGHT: "fly right",
+      FLY_LEFT: "fly left"
+    };
+  }
+}
+</code></pre>
       </article>
     </section>
   </div>
