@@ -1,7 +1,4 @@
-//
-// generic util class that is statically called
-//
-import { BrowserController } from "./controllers/BrowserController";
+import { BrowserRequestFactory } from "./controllers/BrowserRequestFactory";
 
 export default class UtilRenderer {
   /**
@@ -41,16 +38,16 @@ export default class UtilRenderer {
   static getResourceFromRequest(request) {
     if (!request) {
       return {
-        action: BrowserController.ACTION_ERROR,
-        uri: BrowserController.URI_ERROR,
-        uriArr: [BrowserController.URI_ERROR]
+        action: BrowserRequestFactory.ACTION_ERROR,
+        uri: BrowserRequestFactory.URI_ERROR,
+        uriArr: [BrowserRequestFactory.URI_ERROR]
       };
     }
-    let req = request.toLowerCase().split(BrowserController.URI_SEPARATOR);
-    if (req[1].startsWith("/")) {
-      req[1] = req[1].slice(1);
+    let req = request.toLowerCase().split(BrowserRequestFactory.URI_SEPARATOR);
+    if (req[1].startsWith(BrowserRequestFactory.PATH_SEPARATOR)) {
+      req[1] = req[1].substring(1);
     }
-    let res = req[1].split(BrowserController.PATH_SEPARATOR);
+    let res = req[1].split(BrowserRequestFactory.PATH_SEPARATOR);
     return {
       action: req[0],
       uri: req[1],

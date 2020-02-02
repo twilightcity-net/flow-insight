@@ -1,10 +1,26 @@
 import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
+import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
 
 /**
  * control the sidebar panels
  */
 export class SidePanelViewController extends ActiveViewController {
+  /**
+   * string hardcode for id
+   * @returns {string}
+   */
+  static get ID() {
+    return "id";
+  }
+
+  /**
+   * string hardcode for self
+   * @returns {string}
+   */
+  static get ME() {
+    return "Me";
+  }
   /**
    * builds the sidebar controller. sets default values and menu selections. this
    * also configures the listeners
@@ -50,10 +66,6 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
       this
     );
-    this.consoleBrowserRequestNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_REQUEST,
-      this
-    );
     this.teamPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_TEAM_PANEL,
       this
@@ -68,6 +80,10 @@ export class SidePanelViewController extends ActiveViewController {
     );
     this.notificationsPanelListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATIONS_PANEL,
+      this
+    );
+    this.browserController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.BROWSER_PANEL,
       this
     );
   }
@@ -203,9 +219,6 @@ export class SidePanelViewController extends ActiveViewController {
     this.spiritPanelChangeNotifier.dispatch({});
   }
 
-  fireConsoleBrowserRequestNotifyEvent(request) {
-    this.consoleBrowserRequestNotifier.dispatch(request);
-  }
   /**
    * dispatch an event when the team panel content changes
    */
@@ -245,6 +258,14 @@ export class SidePanelViewController extends ActiveViewController {
     this.show = true;
     this.activeMenuSelection = selection;
     this.fireSidePanelNotifyEvent();
+  }
+
+  /**
+   * helper function to wrap our function from our other controller
+   * @param request - {BrowserRequestFactory} type request
+   */
+  makeSidebarBrowserRequest(request) {
+    this.browserController.makeRequest(request);
   }
 
   /**

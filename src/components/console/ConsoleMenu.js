@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
 import { MainPanelViewController } from "../../controllers/MainPanelViewController";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
 
 //
 // this component is the tab panel wrapper for the console content
@@ -28,24 +29,24 @@ export default class ConsoleMenu extends Component {
   componentDidMount = () => {
     this.myController.configurePulseListener(this, this.onPulse);
     this.myController.configureHeartbeatListener(this, this.onHeartbeat);
-    this.myController.configureMenuListener(
-      this,
-      this.onRefreshActivePerspective
-    );
+    // this.myController.configureMenuListener(
+    //   this,
+    //   this.onRefreshActivePerspective
+    // );
   };
 
   componentWillUnmount = () => {
-    this.myController.configureMenuListener(this, null);
+    // this.myController.configureMenuListener(this, null);
     this.myController.configureHeartbeatListener(this, null);
     this.myController.configurePulseListener(this, null);
   };
 
-  onRefreshActivePerspective = () => {
-    let activeMenuItem = this.myController.activeMenuSelection;
-    console.log(activeMenuItem);
-    console.log(this.name + " refresh active perspective : " + activeMenuItem);
-    this.setState({ activeItem: activeMenuItem });
-  };
+  // onRefreshActivePerspective = () => {
+  //   let activeMenuItem = this.myController.activeMenuSelection;
+  //   console.log(activeMenuItem);
+  //   console.log(this.name + " refresh active perspective changed: " + activeMenuItem);
+  //   this.setState({ activeItem: activeMenuItem });
+  // };
 
   onHeartbeat(event, arg) {
     this.setState({
@@ -65,14 +66,38 @@ export default class ConsoleMenu extends Component {
   }
 
   handleMenuClick = (e, { name }) => {
-    if (this.isChanging || this.state.activeItem === name) return;
-    this.isChanging = true;
-
-    this.myController.changeActivePanel(this.state.activeItem, name);
-
-    setTimeout(() => {
-      this.isChanging = false;
-    }, this.animationTime);
+    console.log(this.name + " make browser request -> " + name);
+    let request = null;
+    switch (name) {
+      case MainPanelViewController.MenuSelection.JOURNAL:
+        request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.JOURNAL,
+          BrowserRequestFactory.Locations.ME
+        );
+        break;
+      case MainPanelViewController.MenuSelection.TROUBLESHOOT:
+        request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.TROUBLESHOOT
+        );
+        break;
+      case MainPanelViewController.MenuSelection.FLOW:
+        request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.FLOW,
+          BrowserRequestFactory.Locations.ME
+        );
+        break;
+      default:
+        throw new Error(`Unknown console menu type '${name}'`);
+    }
+    this.myController.makeConsoleBrowserRequest(request);
+    // if (this.isChanging || this.state.activeItem === name) return;
+    // this.isChanging = true;
+    //
+    // this.myController.changeActivePanel(this.state.activeItem, name);
+    //
+    // setTimeout(() => {
+    //   this.isChanging = false;
+    // }, this.animationTime);
   };
 
   handleHideClick = () => {
@@ -171,30 +196,6 @@ export default class ConsoleMenu extends Component {
           >
             <Icon name="random" size="large" />
             Flow
-          </Menu.Item>
-          <Menu.Item
-            name={MainPanelViewController.MenuSelection.PROJECTS}
-            color="violet"
-            active={
-              activeItem === MainPanelViewController.MenuSelection.PROJECTS
-            }
-            onClick={this.handleMenuClick}
-            disabled
-          >
-            <Icon name="cubes" size="large" />
-            Projects
-          </Menu.Item>
-          <Menu.Item
-            name={MainPanelViewController.MenuSelection.CIRCLES}
-            color="violet"
-            active={
-              activeItem === MainPanelViewController.MenuSelection.CIRCLES
-            }
-            onClick={this.handleMenuClick}
-            disabled
-          >
-            <Icon name="users" size="large" />
-            Circles
           </Menu.Item>
           {/*<Menu.Menu position="right">*/}
           {/*  <Menu.Item name="hide" onClick={this.handleHideClick}>*/}

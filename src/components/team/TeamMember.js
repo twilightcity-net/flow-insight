@@ -35,6 +35,10 @@ export default class TeamMember extends Component {
     );
   };
 
+  handleClick = () => {
+    this.props.onSetActiveRow(this.props.id, this.props.teamMember);
+  };
+
   /// renders the component of the console view
   render() {
     let activeClass = "";
@@ -139,9 +143,7 @@ export default class TeamMember extends Component {
       <Grid.Row
         className={activeClass}
         id={this.props.id}
-        onClick={() =>
-          this.props.onSetActiveRow(this.props.id, this.props.teamMember)
-        }
+        onClick={this.handleClick}
       >
         <Grid.Column width={1}>{statusCircle}</Grid.Column>
         <Grid.Column width={12}>

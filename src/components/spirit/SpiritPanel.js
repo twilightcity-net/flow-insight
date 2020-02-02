@@ -434,9 +434,7 @@ export default class SpiritPanel extends Component {
    */
   getSpiritContent = () => {
     return (
-      <div
-        className="spiritContent"
-      >
+      <div className="spiritContent">
         {this.getSpiritTitle()}
         {this.getSpiritCanvas()}
         {this.getSpiritButtons()}

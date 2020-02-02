@@ -122,9 +122,7 @@ export default class NotificationsPanel extends Component {
    */
   getNotificationsContent = () => {
     return (
-      <div
-        className={NotificationsPanel.className}
-      >
+      <div className={NotificationsPanel.className}>
         <i>No notifications, check back later :)</i>
       </div>
     );

@@ -5,7 +5,7 @@ import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControl
 import { DimensionController } from "../../controllers/DimensionController";
 import { CircuitClient } from "../../clients/CircuitClient";
 import ActiveCircuitListItem from "./ActiveCircuitListItem";
-import { BrowserController } from "../../controllers/BrowserController";
+import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
 
 /**
  * renders the circuit navigator panels in the gui
@@ -140,16 +140,20 @@ export default class CircuitsPanel extends Component {
     }
     this.selections.activeCircuitComponent = component;
     let circuitName = component.props.model.circuitName;
-    let request =
-      BrowserController.Actions.OPEN +
-      BrowserController.URI_SEPARATOR +
-      BrowserController.Locations.CIRCUIT +
-      BrowserController.PATH_SEPARATOR +
-      BrowserController.Locations.WTF +
-      BrowserController.PATH_SEPARATOR +
-      circuitName;
-    this.myController.fireConsoleBrowserRequestNotifyEvent(request);
+    this.requestBrowserToLoadActiveCircuit(circuitName);
   };
+
+  /**
+   * creates a new request and dispatch this to the browser request listener
+   * @param circuitName
+   */
+  requestBrowserToLoadActiveCircuit(circuitName) {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+      circuitName
+    );
+    this.myController.makeSidebarBrowserRequest(request);
+  }
 
   /**
    * callback function that is performed when we refresh this component in the view
@@ -205,9 +209,7 @@ export default class CircuitsPanel extends Component {
    */
   getDoItLaterCircuitsContent = () => {
     return (
-      <div
-        className="doItLaterCircuitsContent"
-      >
+      <div className="doItLaterCircuitsContent">
         <i>Currently no circuits :)</i>
       </div>
     );

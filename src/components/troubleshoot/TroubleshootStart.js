@@ -15,11 +15,6 @@ export default class TroubleshootStart extends Component {
   constructor(props) {
     super(props);
     this.name = "[TroubleshootStart]";
-    this.state = {
-      activeCircle: null,
-      circleName: null,
-      circleOwner: "Me"
-    };
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.TROUBLE_PANEL,
       this

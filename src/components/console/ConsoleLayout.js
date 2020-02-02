@@ -36,9 +36,15 @@ export default class ConsoleLayout extends Component {
       flameRating: 0,
       activePanel: SidePanelViewController.MenuSelection.SPIRIT,
       consoleIsCollapsed: 0,
-      me: { shortName: "Me", id: "id" },
+      me: {
+        shortName: SidePanelViewController.ME,
+        id: SidePanelViewController.ID
+      },
       teamMembers: [],
-      activeTeamMember: { shortName: "Me", id: "id" },
+      activeTeamMember: {
+        shortName: SidePanelViewController.ME,
+        id: SidePanelViewController.ID
+      },
       isMe: true
     };
     this.animationTime = 555;

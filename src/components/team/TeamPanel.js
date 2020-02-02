@@ -5,6 +5,7 @@ import { DataModelFactory } from "../../models/DataModelFactory";
 import { DimensionController } from "../../controllers/DimensionController";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -115,9 +116,21 @@ export default class TeamPanel extends Component {
     console.log(
       this.name + " - Team member clicked!" + teamMember.name + "id = " + id
     );
-
-    this.teamModel.setActiveMember(id);
+    this.requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember.name);
+    // this.teamModel.setActiveMember(id);
   };
+
+  /**
+   * creates a new request and dispatch this to the browser request listener
+   * @param circuitName
+   */
+  requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember) {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.TEAM,
+      teamMember
+    );
+    this.myController.makeSidebarBrowserRequest(request);
+  }
 
   /**
    * determines if we are currently linked to another team member

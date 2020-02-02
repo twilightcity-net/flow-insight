@@ -6,40 +6,6 @@ import UtilRenderer from "../UtilRenderer";
  * used to control the browser header class
  */
 export class BrowserController extends ActiveViewController {
-  static get URI_SEPARATOR() {
-    return "::";
-  }
-
-  static get PATH_SEPARATOR() {
-    return "/";
-  }
-
-  static get ACTION_ERROR() {
-    return "error";
-  }
-
-  static get URI_ERROR() {
-    return "error";
-  }
-
-  static get Actions() {
-    return {
-      OPEN: "open",
-      CLOSE: "close",
-      JOIN: "join",
-      LEAVE: "leave"
-    };
-  }
-
-  static get Locations() {
-    return {
-      CIRCUIT: "circuit",
-      JOURNAL: "journal",
-      WTF: "wtf",
-      ROOM: "room"
-    };
-  }
-
   /**
    * builds the browser console header component
    * @param scope
@@ -59,6 +25,14 @@ export class BrowserController extends ActiveViewController {
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
       this
     );
+  }
+
+  /**
+   * helper wrapper function use to perform a browser request to load content
+   * @param request
+   */
+  makeRequest(request) {
+    this.consoleBrowserRequestListener.dispatch(request);
   }
 
   /**
@@ -87,6 +61,11 @@ export class BrowserController extends ActiveViewController {
     this.showConsoleWindowListener.updateCallback(scope, callback);
   };
 
+  /**
+   * processes a given request and returns resource objest that the console content
+   * component will use to figure out what to render
+   * @param request
+   */
   processRequest = request => {
     console.log(this.name + " process request -> " + request);
     try {

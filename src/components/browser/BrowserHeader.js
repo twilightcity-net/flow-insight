@@ -9,7 +9,7 @@ import {
 } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import { DataModelFactory } from "../../models/DataModelFactory";
-import { BrowserController } from "../../controllers/BrowserController";
+import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -44,23 +44,23 @@ export default class BrowserHeader extends Component {
     return [
       {
         key: 1,
-        text: BrowserController.Actions.OPEN,
-        value: BrowserController.Actions.OPEN
+        text: BrowserRequestFactory.Actions.OPEN,
+        value: BrowserRequestFactory.Actions.OPEN
       },
       {
         key: 2,
-        text: BrowserController.Actions.CLOSE,
-        value: BrowserController.Actions.CLOSE
+        text: BrowserRequestFactory.Actions.CLOSE,
+        value: BrowserRequestFactory.Actions.CLOSE
       },
       {
         key: 3,
-        text: BrowserController.Actions.JOIN,
-        value: BrowserController.Actions.JOIN
+        text: BrowserRequestFactory.Actions.JOIN,
+        value: BrowserRequestFactory.Actions.JOIN
       },
       {
         key: 4,
-        text: BrowserController.Actions.LEAVE,
-        value: BrowserController.Actions.LEAVE
+        text: BrowserRequestFactory.Actions.LEAVE,
+        value: BrowserRequestFactory.Actions.LEAVE
       }
     ];
   }
@@ -87,6 +87,11 @@ export default class BrowserHeader extends Component {
     this.myController.configureShowConsoleWindowListener(this, null);
   };
 
+  /**
+   * called when we wish to load content via the browser into the console
+   * @param event
+   * @param request
+   */
   onConsoleBrowserRequestEvent = (event, request) => {
     console.log(this.name + " proecess request -> " + JSON.stringify(request));
     this.myController.processRequest(request);
@@ -140,12 +145,21 @@ export default class BrowserHeader extends Component {
    * loads a new perspective.
    */
   handleClickForGo = () => {
-    this.makeRequest(this.state.action, this.state.location);
+    this.doRequest(this.state.action, this.state.location);
   };
 
-  makeRequest = (action, location) => {
-    let request = action + BrowserController.URI_SEPARATOR + location;
-    this.myController.processRequest(request);
+  /**
+   * performs the request from the input field of the component
+   * @param action
+   * @param uril
+   */
+  doRequest = (action, uril) => {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.BROWSER,
+      action,
+      uril
+    );
+    this.myController.makeRequest(request);
   };
 
   /**
@@ -158,6 +172,11 @@ export default class BrowserHeader extends Component {
     this.setState({ location: value.toLowerCase() });
   };
 
+  /**
+   * handler for when things change in the dropdown
+   * @param e
+   * @param value
+   */
   handleChangeForAction = (e, { value }) => {
     this.setState({ action: value });
   };
