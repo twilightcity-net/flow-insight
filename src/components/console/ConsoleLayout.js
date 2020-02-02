@@ -19,6 +19,7 @@ import { DimensionController } from "../../controllers/DimensionController";
  */
 export default class ConsoleLayout extends Component {
   static sidebarWidth = "24em";
+
   /**
    * the costructor for the root console layout. This calls other child layouts
    * @param props - the properties of the component to render

@@ -46,6 +46,8 @@ export class RendererEventFactory {
       VIEW_CONSOLE_TEAM_PANEL: prefix + "view-console-team-panel",
       VIEW_CONSOLE_SPIRIT_PANEL: prefix + "view-console-spirit-panel",
       VIEW_CONSOLE_CIRCUITS_PANEL: prefix + "view-console-circuits-panel",
+      VIEW_CONSOLE_NOTIFICATIONS_PANEL:
+        prefix + "view-console-notifications-panel",
       VIEW_CONSOLE_MENU_CHANGE: prefix + "view-console-menu-change",
       SUBMIT_BUG_REPORT: prefix + "bugreport-submitted",
       APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",

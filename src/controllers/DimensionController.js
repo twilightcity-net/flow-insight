@@ -229,7 +229,17 @@ export class DimensionController {
     return window.innerWidth;
   }
 
-  static getConsoleSidebarWidth() {}
+  /**
+   * gets the relative height of the console sidebar based on the screen resolution
+   * @returns {number}
+   */
+  static getConsoleSidebarHeight() {
+    let heights = {
+      rootBorder: 2,
+      bottomMenuHeight: 28
+    };
+    return window.innerHeight - heights.rootBorder - heights.bottomMenuHeight;
+  }
 
   /**
    * gets the inner part of the window height

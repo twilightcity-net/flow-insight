@@ -44,14 +44,9 @@ export default class SpiritPanel extends Component {
   showSpiritPanel() {
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
-      spiritVisible: false,
+      spiritVisible: true,
       badgesVisible: false
     });
-    setTimeout(() => {
-      this.setState({
-        spiritVisible: true
-      });
-    }, this.state.animationDelay);
   }
 
   /**
@@ -61,13 +56,8 @@ export default class SpiritPanel extends Component {
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.BADGES,
       spiritVisible: false,
-      badgesVisible: false
+      badgesVisible: true
     });
-    setTimeout(() => {
-      this.setState({
-        badgesVisible: true
-      });
-    }, this.state.animationDelay);
   }
 
   /**
@@ -173,7 +163,7 @@ export default class SpiritPanel extends Component {
     if (!state) {
       return {
         activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
-        spiritVisible: true,
+        spiritVisible: false,
         badgesVisible: false,
         animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
         animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
@@ -328,7 +318,7 @@ export default class SpiritPanel extends Component {
   getBadgesContent = () => {
     return (
       <div className="badgesContent" style={{ height: this.props.height - 61 }}>
-        Check back later :)
+        <i>Check back later :)</i>
       </div>
     );
   };

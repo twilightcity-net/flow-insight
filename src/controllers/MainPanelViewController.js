@@ -88,4 +88,11 @@ export class MainPanelViewController extends ActiveViewController {
       FLOW: "flow"
     };
   }
+
+  static get Animations() {
+    return {
+      FLY_RIGHT: "fly right",
+      FLY_LEFT: "fly left"
+    };
+  }
 }

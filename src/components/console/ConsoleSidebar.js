@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import { Icon, Menu } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { DimensionController } from "../../controllers/DimensionController";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
+ * @type{ConsoleSidebar}
  */
 export default class ConsoleSidebar extends Component {
+  static className = "consoleSidebar";
   /**
    * builds the console sidebar and panel with given properties
    * @param props
@@ -14,7 +17,6 @@ export default class ConsoleSidebar extends Component {
   constructor(props) {
     super(props);
     this.name = "[ConsoleSidebar]";
-
     this.state = {
       activeItem: SidePanelViewController.MenuSelection.SPIRIT,
       iconProfile: "heart",
@@ -22,7 +24,6 @@ export default class ConsoleSidebar extends Component {
       iconCircuit: "compass outline",
       iconNotifications: "bell outline"
     };
-
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
@@ -92,18 +93,6 @@ export default class ConsoleSidebar extends Component {
   }
 
   /**
-   * performs a simple calculation for dynamic height of menu
-   */
-  calculateMenuHeight() {
-    let heights = {
-      rootBorder: 2,
-      bottomMenuHeight: 28
-    };
-
-    return window.innerHeight - heights.rootBorder - heights.bottomMenuHeight;
-  }
-
-  /**
    * called when we delect a menu ite,. This should close the panel
    */
   deselectItem = () => {
@@ -137,23 +126,19 @@ export default class ConsoleSidebar extends Component {
   render() {
     const { activeItem } = this.state;
     return (
-      <div id="component" className="consoleSidebar">
+      <div id="component" className={ConsoleSidebar.className}>
         <Menu
           inverted
           icon
           vertical
-          style={{ height: this.calculateMenuHeight() }}
+          style={{ height: DimensionController.getConsoleSidebarHeight() }}
         >
           <Menu.Item
             name={SidePanelViewController.MenuSelection.SPIRIT}
             active={activeItem === SidePanelViewController.MenuSelection.SPIRIT}
             onClick={this.handleItemClick}
           >
-            <Icon name={this.state.iconProfile}>
-              {/*<Label color="red" floating size="mini">*/}
-              {/*  !*/}
-              {/*</Label>*/}
-            </Icon>
+            <Icon name={this.state.iconProfile} />
           </Menu.Item>
           <Menu.Item
             name={SidePanelViewController.MenuSelection.MESSAGES}
@@ -162,11 +147,7 @@ export default class ConsoleSidebar extends Component {
             }
             onClick={this.handleItemClick}
           >
-            <Icon name={this.state.iconMessages}>
-              {/*<Label color="red" floating size="mini">*/}
-              {/*  7*/}
-              {/*</Label>*/}
-            </Icon>
+            <Icon name={this.state.iconMessages} />
           </Menu.Item>
           <Menu.Item
             name={SidePanelViewController.MenuSelection.CIRCUITS}
@@ -175,11 +156,7 @@ export default class ConsoleSidebar extends Component {
             }
             onClick={this.handleItemClick}
           >
-            <Icon name={this.state.iconCircuit}>
-              {/*<Label color="red" floating size="mini">*/}
-              {/*  7*/}
-              {/*</Label>*/}
-            </Icon>
+            <Icon name={this.state.iconCircuit} />
           </Menu.Item>
           <Menu.Item
             name={SidePanelViewController.MenuSelection.NOTIFICATIONS}
@@ -188,11 +165,7 @@ export default class ConsoleSidebar extends Component {
             }
             onClick={this.handleItemClick}
           >
-            <Icon name={this.state.iconNotifications}>
-              {/*<Label color="red" floating size="mini">*/}
-              {/*  23*/}
-              {/*</Label>*/}
-            </Icon>
+            <Icon name={this.state.iconNotifications} />
           </Menu.Item>
         </Menu>
       </div>

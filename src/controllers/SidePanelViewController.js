@@ -20,6 +20,8 @@ export class SidePanelViewController extends ActiveViewController {
       SidePanelViewController.SubmenuSelection.TEAM;
     this.activeCircuitsSubmenuSelection =
       SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS;
+    this.activeNotificationsSubmenuSelection =
+      SidePanelViewController.SubmenuSelection.NOTIFICATIONS;
     this.sidePanelChangeNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
       this
@@ -64,6 +66,10 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_CIRCUITS_PANEL,
       this
     );
+    this.notificationsPanelListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATIONS_PANEL,
+      this
+    );
   }
 
   /**
@@ -92,7 +98,8 @@ export class SidePanelViewController extends ActiveViewController {
       BADGES: "badges",
       TEAM: "team",
       PARTICIPATING_CIRCUITS: "my-circuits",
-      DO_IT_LATER_CIRCUITS: "do-it-later-circuits"
+      DO_IT_LATER_CIRCUITS: "do-it-later-circuits",
+      NOTIFICATIONS: "notifications"
     };
   }
 
@@ -103,7 +110,7 @@ export class SidePanelViewController extends ActiveViewController {
    */
   static get AnimationTypes() {
     return {
-      FLY_DOWN: "fly down"
+      FLY_DOWN: "fade down"
     };
   }
 
@@ -161,6 +168,15 @@ export class SidePanelViewController extends ActiveViewController {
    */
   configureCircuitsPanelListener(scope, callback) {
     this.circuitsPanelListener.updateCallback(scope, callback);
+  }
+
+  /**
+   * menu listener for the notifications panel
+   * @param scope
+   * @param callback
+   */
+  configureNotificationsPanelListener(scope, callback) {
+    this.notificationsPanelListener.updateCallback(scope, callback);
   }
 
   /**

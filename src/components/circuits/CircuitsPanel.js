@@ -43,7 +43,7 @@ export default class CircuitsPanel extends Component {
         activeCircuits: CircuitClient.activeCircuits,
         activeItem:
           SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
-        participatingCircuitsVisible: true,
+        participatingCircuitsVisible: false,
         doItLaterCircuitsVisible: false,
         animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
         animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
@@ -81,14 +81,9 @@ export default class CircuitsPanel extends Component {
     this.setState({
       activeItem:
         SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
-      participatingCircuitsVisible: false,
+      participatingCircuitsVisible: true,
       doItLaterCircuitsVisible: false
     });
-    setTimeout(() => {
-      this.setState({
-        participatingCircuitsVisible: true
-      });
-    }, this.state.animationDelay);
   }
 
   /**
@@ -100,13 +95,8 @@ export default class CircuitsPanel extends Component {
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS,
       participatingCircuitsVisible: false,
-      doItLaterCircuitsVisible: false
+      doItLaterCircuitsVisible: true
     });
-    setTimeout(() => {
-      this.setState({
-        doItLaterCircuitsVisible: true
-      });
-    }, this.state.animationDelay);
   }
 
   /**
@@ -213,9 +203,8 @@ export default class CircuitsPanel extends Component {
     return (
       <div
         className="doItLaterCircuitsContent"
-        // style={{ height: DimensionController.getSidebarPanelHeight( )}}
       >
-        Do It Later Circuits List
+        <i>Currently no circuits :)</i>
       </div>
     );
   };

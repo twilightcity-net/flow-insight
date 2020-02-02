@@ -1,44 +1,31 @@
 import React, { Component } from "react";
-import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
-import TeamMember from "../team/TeamMember";
-import { DataModelFactory } from "../../models/DataModelFactory";
+import { Menu, Segment, Transition } from "semantic-ui-react";
 import { DimensionController } from "../../controllers/DimensionController";
+import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class NotificationsPanel extends Component {
   /**
+   * the graphical name of this component in the DOM
+   * @type {string}
+   */
+  static className = "notificationsContent";
+
+  /**
    * builds the team panel for the renderer
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[TeamPanel]";
     this.state = this.loadState();
-    this.spiritModel = DataModelFactory.createModel(
-      DataModelFactory.Models.SPIRIT,
-      this
-    );
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS,
-      this
+    this.name = "[NotificationsPanel]";
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL
     );
   }
-
-  /**
-   * called before updating
-   * @param nextProps
-   */
-  componentWillReceiveProps = nextProps => {
-    let newMe = nextProps.me;
-
-    if (nextProps.xpSummary) {
-      newMe.level = nextProps.xpSummary.level;
-      newMe.xpRequired =
-        nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
-    }
-  };
 
   /**
    * loads the stored state from parent or use default values
@@ -48,8 +35,10 @@ export default class NotificationsPanel extends Component {
     let state = this.props.loadStateCb();
     if (!state) {
       return {
-        animationType: "fly down",
-        animationDelay: 350,
+        activeItem: SidePanelViewController.SubmenuSelection.NOTIFICATIONS,
+        notificationsVisible: false,
+        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
+        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
         title: ""
       };
     }
@@ -64,35 +53,45 @@ export default class NotificationsPanel extends Component {
     this.props.saveStateCb(state);
   }
 
+  componentDidMount = () => {
+    this.myController.configureNotificationsPanelListener(
+      this,
+      this.onRefreshNotificationsPanel
+    );
+    this.onRefreshNotificationsPanel();
+  };
+
+  componentWillUnmount = () => {
+    this.myController.configureNotificationsPanelListener(this, null);
+  };
+
+  onRefreshNotificationsPanel() {
+    switch (this.myController.activeNotificationsSubmenuSelection) {
+      case SidePanelViewController.SubmenuSelection.NOTIFICATIONS:
+        this.showNotificationsPanel();
+        break;
+      default:
+        throw new Error("Unknown notifications panel menu item");
+    }
+  }
+
+  showNotificationsPanel() {
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.NOTIFICATIONS,
+      notificationsVisible: true
+    });
+  }
+
   /**
    * updates display to show spirit content
    * @param e
    * @param name
    */
-  handleTeamClick = (e, { name }) => {
+  handleNotificationsClick = (e, { name }) => {
     this.setState({
       activeItem: name,
-      teamVisible: false,
-      addressBookVisible: false
+      notificationsVisible: true
     });
-    setTimeout(() => {
-      this.setState({
-        teamVisible: true
-      });
-    }, this.state.animationDelay);
-  };
-
-  /**
-   * selects a team member in the list
-   * @param id
-   * @param teamMember
-   */
-  selectRow = (id, teamMember) => {
-    console.log(
-      this.name + " - Team member clicked!" + teamMember.name + "id = " + id
-    );
-
-    this.teamModel.setActiveMember(id);
   };
 
   /**
@@ -105,64 +104,27 @@ export default class NotificationsPanel extends Component {
   };
 
   /**
+   * gets the badges content panel for the sidebar
+   * @returns {*}
+   */
+  getNotificationsContent = () => {
+    return (
+      <div
+        className={NotificationsPanel.className}
+      >
+        <i>No notifications, check back later :)</i>
+      </div>
+    );
+  };
+  /**
    * renders the console sidebar panel of the console view
    * @returns {*}
    */
   render() {
-    const teamMembersContent = (
-      <div>
-        <Grid inverted>
-          <TeamMember
-            key={this.props.me.id}
-            id={this.props.me.id}
-            isLinked={this.isLinked(this.props.me.id)}
-            shortName={this.props.me.shortName + " (you)"}
-            name={this.props.me.name}
-            activeStatus={this.props.me.activeStatus}
-            statusColor={this.props.me.statusColor}
-            activeTaskName={this.props.me.activeTaskName}
-            activeTaskSummary={this.props.me.activeTaskSummary}
-            workingOn={this.props.me.workingOn}
-            isAlarmTriggered={this.props.me.isAlarmTriggered}
-            wtfTimer={this.props.me.wtfTimer}
-            alarmStatusMessage={this.props.me.alarmStatusMessage}
-            level={this.props.me.level}
-            xpRequired={this.props.me.xpRequired}
-            onSetActiveRow={this.selectRow}
-            teamMember={this.props.me}
-            activeTeamMember={this.props.activeTeamMember}
-          />
-
-          {this.props.teamMembers.map(d => (
-            <TeamMember
-              key={d.id}
-              id={d.id}
-              isLinked={this.isLinked(d.id)}
-              shortName={d.shortName}
-              name={d.name}
-              activeStatus={d.activeStatus}
-              statusColor={d.statusColor}
-              activeTaskName={d.activeTaskName}
-              activeTaskSummary={d.activeTaskSummary}
-              workingOn={d.workingOn}
-              isAlarmTriggered={d.isAlarmTriggered}
-              wtfTimer={d.wtfTimer}
-              alarmStatusMessage={this.props.me.alarmStatusMessage}
-              level={d.level}
-              xpRequired={d.xpRequired}
-              onSetActiveRow={this.selectRow}
-              teamMember={d}
-              activeTeamMember={this.props.activeTeamMember}
-            />
-          ))}
-        </Grid>
-      </div>
-    );
-
     return (
       <div
         id="component"
-        className="consoleSidebarPanel teamPanel"
+        className="consoleSidebarPanel notificationsPanel"
         style={{
           width: this.props.width,
           opacity: this.props.opacity
@@ -171,9 +133,9 @@ export default class NotificationsPanel extends Component {
         <Segment.Group>
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
-              name="team"
+              name="notifications"
               active={true}
-              onClick={this.handleTeamClick}
+              onClick={this.handleNotificationsClick}
             />
           </Menu>
           <Segment
@@ -181,12 +143,12 @@ export default class NotificationsPanel extends Component {
             style={{ height: DimensionController.getSidebarPanelHeight() }}
           >
             <Transition
-              visible={this.state.teamVisible}
+              visible={this.state.notificationsVisible}
               animation={this.state.animationType}
               duration={this.state.animationDelay}
               unmountOnHide
             >
-              {teamMembersContent}
+              {this.getNotificationsContent()}
             </Transition>
           </Segment>
         </Segment.Group>

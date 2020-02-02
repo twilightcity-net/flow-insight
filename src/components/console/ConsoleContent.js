@@ -5,6 +5,7 @@ import FlowLayout from "../flow/FlowLayout";
 import { Transition } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import BrowserHeader from "../browser/BrowserHeader";
+import { MainPanelViewController } from "../../controllers/MainPanelViewController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -20,9 +21,9 @@ export default class ConsoleContent extends Component {
       journalVisible: true,
       troubleshootVisible: false,
       flowVisible: false,
-      animationTypeJournal: "fly right",
-      animationTypeTroubleshoot: "fly left",
-      animationTypeFlow: "fly left"
+      animationTypeJournal: "drop",
+      animationTypeTroubleshoot: "drop",
+      animationTypeFlow: "drop"
     };
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.MAIN_PANEL,
@@ -63,15 +64,15 @@ export default class ConsoleContent extends Component {
       state = this.getAnimationState(oldLayout, newLayout);
     this.setState(state);
     switch (newLayout) {
-      case "journal":
+      case MainPanelViewController.MenuSelection.JOURNAL:
         state.journalVisible = true;
         this.animateContentFromState(state);
         break;
-      case "troubleshoot":
+      case MainPanelViewController.MenuSelection.TROUBLESHOOT:
         state.troubleshootVisible = true;
         this.animateContentFromState(state);
         break;
-      case "flow":
+      case MainPanelViewController.MenuSelection.FLOW:
         state.flowVisible = true;
         this.animateContentFromState(state);
         break;
@@ -81,38 +82,12 @@ export default class ConsoleContent extends Component {
   };
 
   getAnimationState(oldLayout, newLayout) {
-    let state = {
+    return {
       activeLayout: newLayout,
       journalVisible: false,
       troubleshootVisible: false,
       flowVisible: false
     };
-    if (oldLayout === "flow") {
-      state.animationTypeJournal = "fly right";
-      state.animationTypeTroubleshoot = "fly right";
-      state.animationTypeFlow = "fly left";
-    } else if (oldLayout === "flow" && newLayout === "journal") {
-      state.animationTypeJournal = "fly right";
-      state.animationTypeTroubleshoot = "fly right";
-      state.animationTypeFlow = "fly left";
-    } else if (oldLayout === "troubleshoot" && newLayout === "journal") {
-      state.animationTypeJournal = "fly right";
-      state.animationTypeTroubleshoot = "fly left";
-      state.animationTypeFlow = "fly right";
-    } else if (oldLayout === "troubleshoot" && newLayout === "flow") {
-      state.animationTypeJournal = "fly left";
-      state.animationTypeTroubleshoot = "fly right";
-      state.animationTypeFlow = "fly left";
-    } else if (oldLayout === "journal" && newLayout === "flow") {
-      state.animationTypeJournal = "fly right";
-      state.animationTypeTroubleshoot = "fly right";
-      state.animationTypeFlow = "fly left";
-    } else if (oldLayout === "journal" && newLayout === "troubleshoot") {
-      state.animationTypeJournal = "fly right";
-      state.animationTypeTroubleshoot = "fly left";
-      state.animationTypeFlow = "fly right";
-    }
-    return state;
   }
 
   animateContentFromState(state) {

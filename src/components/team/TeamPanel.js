@@ -32,6 +32,32 @@ export default class TeamPanel extends Component {
   }
 
   /**
+   * loads the stored state from parent or use default values
+   * @returns {{animationDelay: number, title: string, animationType: string}|*}
+   */
+  loadState() {
+    let state = this.props.loadStateCb();
+    if (!state) {
+      return {
+        activeItem: SidePanelViewController.SubmenuSelection.TEAM,
+        teamVisible: false,
+        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
+        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
+        title: ""
+      };
+    }
+    return state;
+  }
+
+  /**
+   * stores this components state in the parents state
+   * @param state
+   */
+  saveState(state) {
+    this.props.saveStateCb(state);
+  }
+
+  /**
    * called when we render the team panel into the gui
    */
   componentDidMount = () => {
@@ -59,30 +85,9 @@ export default class TeamPanel extends Component {
     this.teamModel.refreshAll();
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.TEAM,
-      teamVisible: false
+      teamVisible: true
     });
-    setTimeout(() => {
-      this.setState({
-        teamVisible: true
-      });
-    }, this.state.animationDelay);
   }
-
-  /**
-   * called before updating
-   * @param nextProps
-   */
-
-  // FIXME does this actually do anything?
-
-  componentWillReceiveProps = nextProps => {
-    let newMe = nextProps.me;
-    if (nextProps.xpSummary) {
-      newMe.level = nextProps.xpSummary.level;
-      newMe.xpRequired =
-        nextProps.xpSummary.xpRequiredToLevel - nextProps.xpSummary.xpProgress;
-    }
-  };
 
   /**
    * called when removing the component from the gui. removes any associated listeners for
@@ -91,33 +96,6 @@ export default class TeamPanel extends Component {
   componentWillUnmount = () => {
     this.myController.configureTeamPanelListener(this, null);
   };
-
-  /**
-   * loads the stored state from parent or use default values
-   * @returns {{animationDelay: number, title: string, animationType: string}|*}
-   */
-  loadState() {
-    let state = this.props.loadStateCb();
-    if (!state) {
-      return {
-        activeItem: SidePanelViewController.SubmenuSelection.TEAM,
-        participatingCircuitsVisible: true,
-        doItLaterCircuitsVisible: false,
-        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
-        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
-        title: ""
-      };
-    }
-    return state;
-  }
-
-  /**
-   * stores this components state in the parents state
-   * @param state
-   */
-  saveState(state) {
-    this.props.saveStateCb(state);
-  }
 
   /**
    * updates display to show spirit content
