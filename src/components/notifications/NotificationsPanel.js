@@ -53,6 +53,9 @@ export default class NotificationsPanel extends Component {
     this.props.saveStateCb(state);
   }
 
+  /**
+   * attach our listeners to this component from our controller class
+   */
   componentDidMount = () => {
     this.myController.configureNotificationsPanelListener(
       this,
@@ -61,10 +64,17 @@ export default class NotificationsPanel extends Component {
     this.onRefreshNotificationsPanel();
   };
 
+  /**
+   * detach any listeners when we remove this from view
+   */
   componentWillUnmount = () => {
     this.myController.configureNotificationsPanelListener(this, null);
   };
 
+  /**
+   * called when refreshing the view which is triggered by any perspective
+   * change by an event or menu
+   */
   onRefreshNotificationsPanel() {
     switch (this.myController.activeNotificationsSubmenuSelection) {
       case SidePanelViewController.SubmenuSelection.NOTIFICATIONS:
@@ -75,6 +85,9 @@ export default class NotificationsPanel extends Component {
     }
   }
 
+  /**
+   * display the notification panel in the sidebar panel
+   */
   showNotificationsPanel() {
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.NOTIFICATIONS,

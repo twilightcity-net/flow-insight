@@ -9,8 +9,8 @@ import { BrowserController } from "../../controllers/BrowserController";
 
 /**
  * renders the circuit navigator panels in the gui
+ * @type {CircuitsPanel}
  */
-
 export default class CircuitsPanel extends Component {
   /**
    * builds the circuit navigator panel
@@ -128,6 +128,10 @@ export default class CircuitsPanel extends Component {
     this.myController.configureCircuitsPanelListener(this, null);
   };
 
+  /**
+   * mouse click handler for when a user clicks on an item in the active circuit list
+   * @param component
+   */
   handleClickActiveCircuit = component => {
     if (this.selections.activeCircuitComponent) {
       this.selections.activeCircuitComponent.setState({

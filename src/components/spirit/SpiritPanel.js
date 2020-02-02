@@ -121,6 +121,11 @@ export default class SpiritPanel extends Component {
     });
   };
 
+  /**
+   * gets the string to render in the column for the flame intensity
+   * @param rating
+   * @returns {string}
+   */
   getFlameString(rating) {
     let str = "0";
     if (rating > 0) {
@@ -272,7 +277,6 @@ export default class SpiritPanel extends Component {
    * @returns {*}
    */
   getUnlinkIcon = () => {
-    let linksContent = this.getLinksContent();
     return (
       <Popup
         trigger={
@@ -283,7 +287,7 @@ export default class SpiritPanel extends Component {
             onClick={this.handleClickForChainUnlink}
           />
         }
-        content={linksContent}
+        content={this.getLinksContent()}
         inverted
         hideOnScroll
         position="bottom left"
@@ -323,6 +327,10 @@ export default class SpiritPanel extends Component {
     );
   };
 
+  /**
+   * renders the spirit title content for the panel
+   * @returns {*}
+   */
   getSpiritTitle = () => {
     let linkIcon = this.getLinkIcon(),
       unlinkIcon = this.getUnlinkIcon(),
@@ -342,7 +350,6 @@ export default class SpiritPanel extends Component {
         activeLinkIcon = linkIcon;
       }
     }
-
     return (
       <div className="spiritTitle">
         <div className="level">
@@ -380,6 +387,10 @@ export default class SpiritPanel extends Component {
     );
   };
 
+  /**
+   * gets a 2d canvas to draw our torchie on
+   * @returns {*}
+   */
   getSpiritCanvas = () => {
     return (
       <SpiritCanvas
@@ -392,10 +403,10 @@ export default class SpiritPanel extends Component {
     );
   };
 
-  getSpiritContentHeight = () => {
-    return this.props.height - 61;
-  };
-
+  /**
+   * renders the flame buttons below the canvas
+   * @returns {*}
+   */
   getSpiritButtons = () => {
     return (
       <div className="ui two bottom attached buttons">
@@ -417,11 +428,14 @@ export default class SpiritPanel extends Component {
     );
   };
 
+  /**
+   * renders the parts of the component together
+   * @returns {*}
+   */
   getSpiritContent = () => {
     return (
       <div
         className="spiritContent"
-        style={{ height: this.getSpiritContentHeight() }}
       >
         {this.getSpiritTitle()}
         {this.getSpiritCanvas()}
