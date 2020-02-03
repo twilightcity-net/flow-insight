@@ -8,13 +8,20 @@ import {
   Segment
 } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import { DataModelFactory } from "../../models/DataModelFactory";
+// import { DataModelFactory } from "../../models/DataModelFactory";
 import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
+import {PerspectiveController} from "../../controllers/PerspectiveController";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class BrowserHeader extends Component {
+
+  /**
+   * default string we show in the address bar
+   * @type {string}
+   */
+  static locationStr = "Search Twilight or type a URI";
   /**
    * the constructor for the array of journal items to display
    * @param props - the components properties
@@ -31,9 +38,9 @@ export default class BrowserHeader extends Component {
       ActiveViewControllerFactory.Views.BROWSER_PANEL,
       this
     );
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS
-    );
+    // this.teamModel = DataModelFactory.createModel(
+    //   DataModelFactory.Models.MEMBER_STATUS
+    // );
   }
 
   /**
@@ -104,11 +111,26 @@ export default class BrowserHeader extends Component {
    * @param arg
    */
   onShowConsoleWindowEvent = (event, arg) => {
-    console.log(this.name + " show console window : " + arg);
-    this.setState({
-      location: "/journal/" + this.teamModel.getActiveTeamMemberShortName()
-    });
+      console.log(this.name + " first time console show -> load default content");
+      this.requestBrowserToLoadDefaultContent();
+      this.myController.configureShowConsoleWindowListener(this, null);
+    // console.log(this.name + " show console window : " + arg);
+    // this.setState({
+    //   location: "/journal/" + this.teamModel.getActiveTeamMemberShortName()
+    // });
   };
+
+  /**
+   * loads default content into the browser which is our /journal/me
+   */
+  requestBrowserToLoadDefaultContent() {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.JOURNAL,
+      BrowserRequestFactory.Locations.ME
+    );
+    this.myController.makeRequest(request);
+    PerspectiveController.firstTimeShown = true;
+  }
 
   /**
    * highlight field border when element is focused on
@@ -215,7 +237,7 @@ export default class BrowserHeader extends Component {
         className="browserInput"
         fluid
         inverted
-        placeholder={"loading..."}
+        placeholder={BrowserHeader.locationStr}
         value={this.state.location.toLowerCase()}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}

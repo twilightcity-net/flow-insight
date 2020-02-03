@@ -109,7 +109,6 @@ export default class ConsoleView extends Component {
    * @param arg
    */
   onLoadCb(event, arg) {
-    console.log("[ConsoleView] event -> WINDOW_CONSOLE_SHOW_HIDE : " + arg);
     if (arg === ConsoleView.ConsoleStates.SHOW_CONSOLE) {
       this.keyframes.play({
         name: ConsoleView.animationTypeIn,

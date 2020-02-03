@@ -17,7 +17,7 @@ export default class ConsoleContent extends Component {
     this.animationTime = Math.floor(this.props.animationTime / 2);
     this.state = {
       activeLayout: "journal",
-      journalVisible: true,
+      journalVisible: false,
       troubleshootVisible: false,
       flowVisible: false,
       animationTypeJournal: "drop",
