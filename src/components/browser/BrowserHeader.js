@@ -10,13 +10,12 @@ import {
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 // import { DataModelFactory } from "../../models/DataModelFactory";
 import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
-import {PerspectiveController} from "../../controllers/PerspectiveController";
+import { PerspectiveController } from "../../controllers/PerspectiveController";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class BrowserHeader extends Component {
-
   /**
    * default string we show in the address bar
    * @type {string}
@@ -111,9 +110,9 @@ export default class BrowserHeader extends Component {
    * @param arg
    */
   onShowConsoleWindowEvent = (event, arg) => {
-      console.log(this.name + " first time console show -> load default content");
-      this.requestBrowserToLoadDefaultContent();
-      this.myController.configureShowConsoleWindowListener(this, null);
+    console.log(this.name + " first time console show -> load default content");
+    this.requestBrowserToLoadDefaultContent();
+    this.myController.configureShowConsoleWindowListener(this, null);
     // console.log(this.name + " show console window : " + arg);
     // this.setState({
     //   location: "/journal/" + this.teamModel.getActiveTeamMemberShortName()

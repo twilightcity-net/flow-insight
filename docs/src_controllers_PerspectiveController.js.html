@@ -371,6 +371,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshDoItLaterCircuits">refreshDoItLaterCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
@@ -496,14 +497,14 @@ export class PerspectiveController {
 
   // FIXME this should not make any remote requests.
   onConsoleOpenUpdateModels(event, arg) {
-    console.log(this.name + " update models -> " + JSON.stringify(arg));
     switch (arg) {
       case ConsoleView.ConsoleStates.SHOW_CONSOLE:
         // TODO this should be moved to the console journal panel
 
-        if (this.spiritModel.hasLinks()) {
-          this.journalModel.loadDefaultJournal();
-        }
+        // FIXME this needs to be updated by loadingb the content into the browser
+        // if (this.spiritModel.hasLinks()) {
+        //   this.journalModel.loadDefaultJournal();
+        // }
         break;
       case ConsoleView.ConsoleStates.HIDE_CONSOLE:
         setTimeout(() => {
