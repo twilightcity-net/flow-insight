@@ -6,8 +6,8 @@ export class MainPanelViewController extends ActiveViewController {
   constructor(scope) {
     super(scope);
     this.oldMenuSelection = null;
-    this.activeMenuSelection = MainPanelViewController.MenuSelection.DEFAULT;
-    this.resetDefaultMenuSelection();
+    this.activeMenuSelection = MainPanelViewController.Components.DEFAULT;
+    // this.resetDefaultMenuSelection();
     // this.mainPanelChangeNotifier = RendererEventFactory.createEvent(
     //   RendererEventFactory.Events.VIEW_CONSOLE_MENU_CHANGE,
     //   this
@@ -85,13 +85,13 @@ export class MainPanelViewController extends ActiveViewController {
     this.hideConsoleWindowNotifier.dispatch(1);
   }
 
-  resetDefaultMenuSelection() {
-    this.activeMenuSelection = MainPanelViewController.MenuSelection.DEFAULT;
-  }
+  // resetDefaultMenuSelection() {
+  //   this.activeMenuSelection = MainPanelViewController.Components.NONE;
+  // }
 
-  static get MenuSelection() {
+  static get Components() {
     return {
-      DEFAULT: "journal",
+      NONE: "none",
       JOURNAL: "journal",
       TROUBLESHOOT: "troubleshoot",
       FLOW: "flow"
@@ -101,7 +101,14 @@ export class MainPanelViewController extends ActiveViewController {
   static get Animations() {
     return {
       FLY_RIGHT: "fly right",
-      FLY_LEFT: "fly left"
+      FLY_LEFT: "fly left",
+      DROP: "drop"
+    };
+  }
+
+  static get AnimationTimes() {
+    return {
+      CONSOLE_CONTENT: 420
     };
   }
 }

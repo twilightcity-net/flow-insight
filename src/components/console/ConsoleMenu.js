@@ -14,7 +14,7 @@ export default class ConsoleMenu extends Component {
     this.isChanging = false;
     this.animationTime = props.animationTime + 50;
     this.state = {
-      activeItem: MainPanelViewController.MenuSelection.DEFAULT,
+      activeItem: MainPanelViewController.Components.DEFAULT,
       isOnline: true,
       pingTime: 0,
       server: "identifying...",
@@ -69,18 +69,18 @@ export default class ConsoleMenu extends Component {
     console.log(this.name + " make browser request -> " + name);
     let request = null;
     switch (name) {
-      case MainPanelViewController.MenuSelection.JOURNAL:
+      case MainPanelViewController.Components.JOURNAL:
         request = BrowserRequestFactory.createRequest(
           BrowserRequestFactory.Requests.JOURNAL,
           BrowserRequestFactory.Locations.ME
         );
         break;
-      case MainPanelViewController.MenuSelection.TROUBLESHOOT:
+      case MainPanelViewController.Components.TROUBLESHOOT:
         request = BrowserRequestFactory.createRequest(
           BrowserRequestFactory.Requests.TROUBLESHOOT
         );
         break;
-      case MainPanelViewController.MenuSelection.FLOW:
+      case MainPanelViewController.Components.FLOW:
         request = BrowserRequestFactory.createRequest(
           BrowserRequestFactory.Requests.FLOW,
           BrowserRequestFactory.Locations.ME
@@ -167,21 +167,19 @@ export default class ConsoleMenu extends Component {
             inverted
           />
           <Menu.Item
-            name={MainPanelViewController.MenuSelection.JOURNAL}
+            name={MainPanelViewController.Components.JOURNAL}
             color="violet"
-            active={
-              activeItem === MainPanelViewController.MenuSelection.JOURNAL
-            }
+            active={activeItem === MainPanelViewController.Components.JOURNAL}
             onClick={this.handleMenuClick}
           >
             <Icon name="book" size="large" />
             Journal
           </Menu.Item>
           <Menu.Item
-            name={MainPanelViewController.MenuSelection.TROUBLESHOOT}
+            name={MainPanelViewController.Components.TROUBLESHOOT}
             color="violet"
             active={
-              activeItem === MainPanelViewController.MenuSelection.TROUBLESHOOT
+              activeItem === MainPanelViewController.Components.TROUBLESHOOT
             }
             onClick={this.handleMenuClick}
           >
@@ -189,9 +187,9 @@ export default class ConsoleMenu extends Component {
             Troubleshoot
           </Menu.Item>
           <Menu.Item
-            name={MainPanelViewController.MenuSelection.FLOW}
+            name={MainPanelViewController.Components.FLOW}
             color="violet"
-            active={activeItem === MainPanelViewController.MenuSelection.FLOW}
+            active={activeItem === MainPanelViewController.Components.FLOW}
             onClick={this.handleMenuClick}
           >
             <Icon name="random" size="large" />

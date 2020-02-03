@@ -10,7 +10,7 @@ import {
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 // import { DataModelFactory } from "../../models/DataModelFactory";
 import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
-import { PerspectiveController } from "../../controllers/PerspectiveController";
+// import { PerspectiveController } from "../../controllers/PerspectiveController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -79,6 +79,10 @@ export default class BrowserHeader extends Component {
       this,
       this.onConsoleBrowserRequestEvent
     );
+    this.myController.configureConsoleBrowserLoadListener(
+      this,
+      this.onConsoleBrowserLoadEvent
+    );
     this.myController.configureShowConsoleWindowListener(
       this,
       this.onShowConsoleWindowEvent
@@ -90,6 +94,7 @@ export default class BrowserHeader extends Component {
    */
   componentWillUnmount = () => {
     this.myController.consoleBrowserRequestListener(this, null);
+    this.myController.configureConsoleBrowserLoadListener(this, null);
     this.myController.configureShowConsoleWindowListener(this, null);
   };
 
@@ -99,8 +104,18 @@ export default class BrowserHeader extends Component {
    * @param request
    */
   onConsoleBrowserRequestEvent = (event, request) => {
-    console.log(this.name + " proecess request -> " + JSON.stringify(request));
     this.myController.processRequest(request);
+  };
+
+  /**
+   * called when content is actively loading into the console content
+   * @param event
+   * @param resource
+   */
+  onConsoleBrowserLoadEvent = (event, resource) => {
+    this.setState({
+      location: resource.uri
+    });
   };
 
   /**
@@ -128,7 +143,6 @@ export default class BrowserHeader extends Component {
       BrowserRequestFactory.Locations.ME
     );
     this.myController.makeRequest(request);
-    PerspectiveController.firstTimeShown = true;
   }
 
   /**

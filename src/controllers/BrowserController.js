@@ -44,6 +44,10 @@ export class BrowserController extends ActiveViewController {
     this.consoleBrowserRequestListener.updateCallback(scope, callback);
   }
 
+  configureConsoleBrowserLoadListener(scope, callback) {
+    this.consoleBrowserLoadNotifier.updateCallback(scope, callback);
+  }
+
   /**
    * event that is dispathed to tell the console content what to load
    * @param resource - the resource to send to console content component

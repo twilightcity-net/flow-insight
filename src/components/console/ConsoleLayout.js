@@ -47,10 +47,8 @@ export default class ConsoleLayout extends Component {
       },
       isMe: true
     };
-    this.animationTime = 555;
 
     // TODO move this stuff into the controller class
-
     this.sidePanelController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL,
       this
@@ -391,7 +389,6 @@ export default class ConsoleLayout extends Component {
         <ConsoleContent
           onFlameChange={this.onFlameChangeCb}
           onAdjustFlame={this.adjustFlameCb}
-          animationTime={this.animationTime}
         />
       </div>
     );

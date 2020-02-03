@@ -5,6 +5,7 @@ import FlowLayout from "../flow/FlowLayout";
 import { Transition } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import BrowserHeader from "../browser/BrowserHeader";
+import { MainPanelViewController } from "../../controllers/MainPanelViewController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -13,16 +14,10 @@ export default class ConsoleContent extends Component {
   constructor(props) {
     super(props);
     this.name = "[ConsoleContent]";
-    this.isAnimating = false;
-    this.animationTime = Math.floor(this.props.animationTime / 2);
+    this.animationType = MainPanelViewController.Animations.DROP;
+    this.animationTime = MainPanelViewController.AnimationTimes.CONSOLE_CONTENT;
     this.state = {
-      activeLayout: "journal",
-      journalVisible: false,
-      troubleshootVisible: false,
-      flowVisible: false,
-      animationTypeJournal: "drop",
-      animationTypeTroubleshoot: "drop",
-      animationTypeFlow: "drop"
+      activeComponent: MainPanelViewController.Components.NONE
     };
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.MAIN_PANEL,
@@ -31,10 +26,6 @@ export default class ConsoleContent extends Component {
   }
 
   componentDidMount = () => {
-    // this.myController.configureContentListener(
-    //   this,
-    //   this.onRefreshActivePerspective
-    // );
     this.myController.configureConsoleBrowserLoadListener(
       this,
       this.onConsoleBrowserLoadEvent
@@ -48,79 +39,86 @@ export default class ConsoleContent extends Component {
 
   onConsoleBrowserLoadEvent = (event, resource) => {
     console.log(this.name + " load resource -> " + JSON.stringify(resource));
-
-    // TODO figure out which resource to load based on what is passed in here
+    this.setState({
+      activeComponent: resource.uriArr[0]
+    });
   };
 
-  /**
-   * dispatched when the console menu changes from user clicks
-   */
-  // onRefreshActivePerspective = () => {
-  //   if (this.isAnimating) return;
-  //   this.isAnimating = true;
-  //   let newLayout = this.myController.activeMenuSelection,
-  //     oldLayout = this.myController.oldMenuSelection,
-  //     state = this.getAnimationState(oldLayout, newLayout);
-  //   this.setState(state);
-  //   switch (newLayout) {
-  //     case MainPanelViewController.MenuSelection.JOURNAL:
-  //       state.journalVisible = true;
-  //       this.animateContentFromState(state);
-  //       break;
-  //     case MainPanelViewController.MenuSelection.TROUBLESHOOT:
-  //       state.troubleshootVisible = true;
-  //       this.animateContentFromState(state);
-  //       break;
-  //     case MainPanelViewController.MenuSelection.FLOW:
-  //       state.flowVisible = true;
-  //       this.animateContentFromState(state);
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
-
-  // getAnimationState(oldLayout, newLayout) {
-  //   return {
-  //     activeLayout: newLayout,
-  //     journalVisible: false,
-  //     troubleshootVisible: false,
-  //     flowVisible: false
-  //   };
-  // }
-
-  // animateContentFromState(state) {
-  //   setTimeout(() => {
-  //     this.setState(state);
-  //     this.isAnimating = false;
-  //   }, this.animationTime);
-  // }
+  getActiveComponent = () => {
+    let component = null,
+      className = "Layout";
+    switch (this.state.activeComponent) {
+      case MainPanelViewController.Components.JOURNAL:
+        component = <JournalLayout />;
+        className = MainPanelViewController.Components.JOURNAL + className;
+        break;
+      default:
+        component = (
+          <div>404 - Unknown location '{this.state.activeComponent}'</div>
+        );
+        className = MainPanelViewController.Components.NONE + className;
+        break;
+    }
+    return (
+      <Transition
+        visible={true}
+        animation={this.animationType}
+        duration={this.animationTime}
+        unmountOnHide
+      >
+        <div id="wrapper" className={className}>
+          {component}
+        </div>
+      </Transition>
+    );
+  };
 
   getBrowserHeader = scope => {
     return <BrowserHeader scope={scope} />;
   };
 
-  getJournalLayoutContent = () => {
+  getJournalLayoutComponent = () => {
     return (
-      <div id="wrapper" className="journalLayout">
-        <JournalLayout />
-      </div>
+      <Transition
+        visible={false}
+        animation={this.animationType}
+        duration={this.animationTime}
+        unmountOnHide
+      >
+        <div id="wrapper" className="journalLayout">
+          <JournalLayout />
+        </div>
+      </Transition>
     );
   };
 
-  getTroubleshootLayoutContent = () => {
+  getTroubleshootLayoutComponent = () => {
     return (
-      <div id="wrapper" className="troubleshootLayout">
-        <TroubleshootLayout />
-      </div>
+      <Transition
+        visible={false}
+        animation={this.animationType}
+        duration={this.animationTime}
+        unmountOnHide
+      >
+        <div id="wrapper" className="troubleshootLayout">
+          <TroubleshootLayout />
+        </div>
+      </Transition>
     );
   };
 
-  getFlowLayoutContent = () => {
+  getFlowLayoutComponent = () => {
     return (
-      <div id="wrapper" className="flowLayout">
-        <FlowLayout />
-      </div>
+      <Transition
+        visible={false}
+        animation={this.animationType}
+        duration={this.animationTime}
+        unmountOnHide
+      >
+        <div id="wrapper" className="flowLayout">
+          <FlowLayout />
+        </div>
+      </Transition>
     );
   };
 
@@ -134,30 +132,7 @@ export default class ConsoleContent extends Component {
         <div id="wrapper" className="browserHeader">
           {this.getBrowserHeader(this)}
         </div>
-        <Transition
-          visible={this.state.journalVisible}
-          animation={this.state.animationTypeJournal}
-          duration={this.animationTime}
-          unmountOnHide
-        >
-          {this.getJournalLayoutContent()}
-        </Transition>
-        <Transition
-          visible={this.state.troubleshootVisible}
-          animation={this.state.animationTypeTroubleshoot}
-          duration={this.animationTime}
-          unmountOnHide
-        >
-          {this.getTroubleshootLayoutContent()}
-        </Transition>
-        <Transition
-          visible={this.state.flowVisible}
-          animation={this.state.animationTypeFlow}
-          duration={this.animationTime}
-          unmountOnHide
-        >
-          {this.getFlowLayoutContent()}
-        </Transition>
+        {this.getActiveComponent()}
       </div>
     );
   }
