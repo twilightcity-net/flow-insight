@@ -360,6 +360,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefresh">onRefresh</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></span></li>
@@ -496,7 +497,7 @@ export default class TeamPanel extends Component {
    * @param e
    * @param name
    */
-  handleTeamClick = (e, { name }) => {
+  handleClick = (e, { name }) => {
     this.myController.changeActiveTeamSubmenuPanel(name);
   };
 
@@ -608,7 +609,7 @@ export default class TeamPanel extends Component {
             &lt;Menu.Item
               name="team"
               active={true}
-              onClick={this.handleTeamClick}
+              onClick={this.handleClick}
             />
           &lt;/Menu>
           &lt;Segment

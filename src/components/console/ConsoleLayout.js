@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import ConsoleSidebar from "./ConsoleSidebar";
 import ConsoleContent from "./ConsoleContent";
-import ConsoleMenu from "./ConsoleMenu";
 import CircuitsPanel from "../circuits/CircuitsPanel";
 import NotificationsPanel from "../notifications/NotificationsPanel";
 import TeamPanel from "../team/TeamPanel";
@@ -407,18 +406,6 @@ export default class ConsoleLayout extends Component {
   };
 
   /**
-   * gets the console menu that is is rendered at the bottom of the screen
-   * @returns {*}
-   */
-  getConsoleMenu = () => {
-    return (
-      <div id="wrapper" className="consoleMenu">
-        <ConsoleMenu animationTime={this.animationTime} />
-      </div>
-    );
-  };
-
-  /**
    * renders the root console layout of the console view
    * @returns {*} - the JSX to render
    */
@@ -428,7 +415,6 @@ export default class ConsoleLayout extends Component {
         {this.getConsoleSidebar()}
         {this.state.sidebarPanelVisible && this.getSidebarPanelConent()}
         {this.getConsoleContent()}
-        {this.getConsoleMenu()}
       </div>
     );
   }

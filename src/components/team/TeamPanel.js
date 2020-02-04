@@ -103,7 +103,7 @@ export default class TeamPanel extends Component {
    * @param e
    * @param name
    */
-  handleTeamClick = (e, { name }) => {
+  handleClick = (e, { name }) => {
     this.myController.changeActiveTeamSubmenuPanel(name);
   };
 
@@ -212,11 +212,7 @@ export default class TeamPanel extends Component {
       >
         <Segment.Group>
           <Menu size="mini" inverted pointing secondary>
-            <Menu.Item
-              name="team"
-              active={true}
-              onClick={this.handleTeamClick}
-            />
+            <Menu.Item name="team" active={true} onClick={this.handleClick} />
           </Menu>
           <Segment
             inverted

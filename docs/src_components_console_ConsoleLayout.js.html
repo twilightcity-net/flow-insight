@@ -360,6 +360,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefresh">onRefresh</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></span></li>
@@ -394,7 +395,6 @@
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
 import ConsoleSidebar from "./ConsoleSidebar";
 import ConsoleContent from "./ConsoleContent";
-import ConsoleMenu from "./ConsoleMenu";
 import CircuitsPanel from "../circuits/CircuitsPanel";
 import NotificationsPanel from "../notifications/NotificationsPanel";
 import TeamPanel from "../team/TeamPanel";
@@ -800,18 +800,6 @@ export default class ConsoleLayout extends Component {
   };
 
   /**
-   * gets the console menu that is is rendered at the bottom of the screen
-   * @returns {*}
-   */
-  getConsoleMenu = () => {
-    return (
-      &lt;div id="wrapper" className="consoleMenu">
-        &lt;ConsoleMenu animationTime={this.animationTime} />
-      &lt;/div>
-    );
-  };
-
-  /**
    * renders the root console layout of the console view
    * @returns {*} - the JSX to render
    */
@@ -821,7 +809,6 @@ export default class ConsoleLayout extends Component {
         {this.getConsoleSidebar()}
         {this.state.sidebarPanelVisible &amp;&amp; this.getSidebarPanelConent()}
         {this.getConsoleContent()}
-        {this.getConsoleMenu()}
       &lt;/div>
     );
   }

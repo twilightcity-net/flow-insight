@@ -86,6 +86,14 @@ export class SidePanelViewController extends ActiveViewController {
       ActiveViewControllerFactory.Views.BROWSER_PANEL,
       this
     );
+    this.heartbeatListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.APP_HEARTBEAT,
+      this
+    );
+    this.pulseListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.APP_PULSE,
+      this
+    );
   }
 
   /**
@@ -203,6 +211,14 @@ export class SidePanelViewController extends ActiveViewController {
    */
   configurePerspectiveControllerListener(scope, callback) {
     this.perspectiveControllerListener.updateCallback(scope, callback);
+  }
+
+  configureHeartbeatListener(scope, callback) {
+    this.heartbeatListener.updateCallback(scope, callback);
+  }
+
+  configurePulseListener(scope, callback) {
+    this.pulseListener.updateCallback(scope, callback);
   }
 
   /**

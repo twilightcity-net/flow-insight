@@ -360,6 +360,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefresh">onRefresh</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></span></li>
@@ -479,6 +480,14 @@ export class SidePanelViewController extends ActiveViewController {
       ActiveViewControllerFactory.Views.BROWSER_PANEL,
       this
     );
+    this.heartbeatListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.APP_HEARTBEAT,
+      this
+    );
+    this.pulseListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.APP_PULSE,
+      this
+    );
   }
 
   /**
@@ -596,6 +605,14 @@ export class SidePanelViewController extends ActiveViewController {
    */
   configurePerspectiveControllerListener(scope, callback) {
     this.perspectiveControllerListener.updateCallback(scope, callback);
+  }
+
+  configureHeartbeatListener(scope, callback) {
+    this.heartbeatListener.updateCallback(scope, callback);
+  }
+
+  configurePulseListener(scope, callback) {
+    this.pulseListener.updateCallback(scope, callback);
   }
 
   /**

@@ -360,6 +360,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefresh">onRefresh</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></span></li>
@@ -392,7 +393,7 @@
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import { Icon, Menu } from "semantic-ui-react";
+import {Divider, Icon, Menu, Popup} from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import { SidePanelViewController } from "../../controllers/SidePanelViewController";
 import { DimensionController } from "../../controllers/DimensionController";
@@ -426,23 +427,41 @@ export default class ConsoleSidebar extends Component {
    * called when the sidebar is created in the view and will render
    */
   componentDidMount = () => {
-    this.myController.configureMenuListener(
-      this,
-      this.onRefreshActivePerspective
-    );
+    this.myController.configurePulseListener(this, this.onPulse);
+    this.myController.configureHeartbeatListener(this, this.onHeartbeat);
+    this.myController.configureMenuListener(this, this.onRefresh);
   };
 
   /**
    * called when we remove the console sidebar panel and menu from view
    */
   componentWillUnmount = () => {
+    this.myController.configureHeartbeatListener(this, null);
+    this.myController.configurePulseListener(this, null);
     this.myController.configureMenuListener(this, null);
   };
+
+  onHeartbeat(event, arg) {
+    this.setState({
+      isOnline: arg.isOnline,
+      pingTime: arg.pingTime,
+      latencyTime: arg.latencyTime,
+      talkUrl: arg.talkUrl,
+      server: arg.server,
+      errorMsg: arg.message
+    });
+  }
+
+  onPulse(event, arg) {
+    this.setState({
+      latencyTime: arg.latencyTime
+    });
+  }
 
   /**
    * function handler that os called when the console layout perspective changes
    */
-  onRefreshActivePerspective() {
+  onRefresh() {
     let activeMenuItem = this.myController.activeMenuSelection;
     let state = {
       activeItem: activeMenuItem,
@@ -517,7 +536,56 @@ export default class ConsoleSidebar extends Component {
    * renders the sidebar of the console view
    */
   render() {
-    const { activeItem } = this.state;
+    const {
+      activeItem,
+      isOnline,
+      pingTime,
+      latencyTime,
+      talkUrl,
+      server,
+      errorMsg
+    } = this.state;
+    const networkConnectMenuItem = (
+      &lt;Menu.Item
+        header
+        className={isOnline ? "networkConnect" : "networkConnectError"}
+      >
+        &lt;Icon
+          name={isOnline ? "signal" : "remove circle"}
+          color={isOnline ? "green" : "red"}
+        />
+      &lt;/Menu.Item>
+    );
+    const popupContent = (
+      &lt;div>
+        &lt;div>
+          &lt;i>{server}&lt;/i>
+        &lt;/div>
+        &lt;div>
+          &lt;i>ping: &lt;/i>
+          &lt;b>
+            &lt;i>{pingTime &lt;= 0 ? "calculating..." : pingTime + "ms"}&lt;/i>
+          &lt;/b>
+        &lt;/div>
+        &lt;Divider />
+        &lt;div>
+          &lt;i>{talkUrl}&lt;/i>
+        &lt;/div>
+        &lt;div>
+          &lt;i>latency: &lt;/i>
+          &lt;b>
+            &lt;i>{latencyTime &lt;= 0 ? "calculating..." : latencyTime + "ms"}&lt;/i>
+          &lt;/b>
+        &lt;/div>
+        {!isOnline &amp;&amp; (
+          &lt;div className="errorMsg">
+            &lt;i style={{ color: "red" }}>
+              &lt;b>{errorMsg}&lt;/b>
+            &lt;/i>
+          &lt;/div>
+        )}
+      &lt;/div>
+    );
     return (
       &lt;div id="component" className={ConsoleSidebar.className}>
         &lt;Menu
@@ -560,6 +628,14 @@ export default class ConsoleSidebar extends Component {
           >
             &lt;Icon name={this.state.iconNotifications} />
           &lt;/Menu.Item>
+          &lt;Popup
+            trigger={networkConnectMenuItem}
+            className="chunkTitle"
+            content={popupContent}
+            position="top left"
+            offset={-2}
+            inverted
+          />
         &lt;/Menu>
       &lt;/div>
     );

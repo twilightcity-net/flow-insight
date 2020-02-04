@@ -1,5 +1,5 @@
 /**
- * generic controller that handles calculations for dynamic fluid heights of
+ * our generic controller that handles calculations for dynamic fluid heights of
  * the different resolution aspect ratios
  */
 export class DimensionController {
@@ -53,8 +53,7 @@ export class DimensionController {
       margin: 24,
       padding: 8,
       header: 51,
-      content: 0,
-      menu: 28
+      content: 0
     };
     return (
       window.innerHeight -
@@ -62,8 +61,7 @@ export class DimensionController {
       heights.margin -
       heights.padding -
       heights.header -
-      heights.content -
-      heights.menu
+      heights.content
     );
   }
 
@@ -77,8 +75,7 @@ export class DimensionController {
       margin: 12,
       padding: 12,
       header: 51,
-      entry: 50,
-      menu: 28
+      entry: 50
     };
     return (
       window.innerHeight -
@@ -86,8 +83,7 @@ export class DimensionController {
       heights.margin -
       heights.padding -
       heights.header -
-      heights.entry -
-      heights.menu
+      heights.entry
     );
   }
 
@@ -112,16 +108,14 @@ export class DimensionController {
       border: 2,
       margin: 20,
       title: 24,
-      canvas: 108,
-      menu: 28
+      canvas: 108
     };
     return (
       heights.window -
       heights.border -
       heights.margin -
       heights.title -
-      heights.canvas -
-      heights.menu
+      heights.canvas
     );
   }
 
@@ -133,15 +127,13 @@ export class DimensionController {
     let heights = {
       rootBorder: 4,
       contentMargin: 1,
-      contentHeader: 34,
-      bottomMenuHeight: 28
+      contentHeader: 34
     };
     return (
       window.innerHeight -
       heights.rootBorder -
       heights.contentMargin -
-      heights.contentHeader -
-      heights.bottomMenuHeight
+      heights.contentHeader
     );
   }
 
@@ -153,15 +145,13 @@ export class DimensionController {
     let heights = {
       rootBorder: 4,
       contentMargin: 1,
-      contentHeader: 34,
-      bottomMenuHeight: 28
+      contentHeader: 34
     };
     return (
       window.innerHeight -
       heights.rootBorder -
       heights.contentMargin -
-      heights.contentHeader -
-      heights.bottomMenuHeight
+      heights.contentHeader
     );
   }
 
@@ -174,16 +164,9 @@ export class DimensionController {
       window: window.innerHeight,
       border: 2,
       margin: 20,
-      canvas: 0,
-      menu: 28
+      canvas: 0
     };
-    return (
-      heights.window -
-      heights.border -
-      heights.margin -
-      heights.canvas -
-      heights.menu
-    );
+    return heights.window - heights.border - heights.margin - heights.canvas;
   }
 
   /**
@@ -193,11 +176,9 @@ export class DimensionController {
   static getConsoleLayoutHeight() {
     let heights = {
       window: window.innerHeight,
-      border: 0,
-      margin: 8,
-      header: 22
+      border: 0
     };
-    return heights.window - heights.border - heights.margin - heights.header;
+    return heights.window - heights.border;
   }
 
   /**
@@ -209,16 +190,9 @@ export class DimensionController {
       window: window.innerHeight,
       border: 2,
       margin: 8,
-      menu: 28,
       header: 61
     };
-    return (
-      heights.window -
-      heights.border -
-      heights.margin -
-      heights.header -
-      heights.menu
-    );
+    return heights.window - heights.border - heights.margin - heights.header;
   }
 
   /**
@@ -235,10 +209,9 @@ export class DimensionController {
    */
   static getConsoleSidebarHeight() {
     let heights = {
-      rootBorder: 2,
-      bottomMenuHeight: 28
+      rootBorder: 2
     };
-    return window.innerHeight - heights.rootBorder - heights.bottomMenuHeight;
+    return window.innerHeight - heights.rootBorder;
   }
 
   /**
