@@ -10,12 +10,24 @@ export class BrowserRequestFactory {
    */
   static get Requests() {
     return {
+      COMMAND: "command",
       BROWSER: "browser",
       JOURNAL: "journal",
       TROUBLESHOOT: "troubleshoot",
       FLOW: "flow",
       ACTIVE_CIRCUIT: "active-circuit",
       TEAM: "team"
+    };
+  }
+
+  static get Commands() {
+    return {
+      ERROR: "error",
+      OPEN: "open",
+      CLOSE: "close",
+      JOIN: "join",
+      LEAVE: "leave",
+      WTF: "wtf"
     };
   }
 
@@ -26,6 +38,15 @@ export class BrowserRequestFactory {
    */
   static get URI_SEPARATOR() {
     return "::";
+  }
+
+  /**
+   * separates arguments
+   * @returns {string}
+   * @constructor
+   */
+  static get SPACE_SEPARATOR() {
+    return " ";
   }
 
   /**
@@ -44,20 +65,6 @@ export class BrowserRequestFactory {
    */
   static get PATH_SEPARATOR() {
     return "/";
-  }
-
-  /**
-   * our possible actions we can perform on a uril
-   * @returns {{JOIN: string, LEAVE: string, CLOSE: string, OPEN: string}}
-   * @constructor
-   */
-  static get Actions() {
-    return {
-      OPEN: "open",
-      CLOSE: "close",
-      JOIN: "join",
-      LEAVE: "leave"
-    };
   }
 
   /**
@@ -96,6 +103,17 @@ export class BrowserRequestFactory {
   }
 
   /**
+   * static string for unknown command error
+   * @returns {{UNKNOWN: string}}
+   * @constructor
+   */
+  static get Errors() {
+    return {
+      UNKNOWN: "unknown-command"
+    };
+  }
+
+  /**
    * creates a request based on a given type of request that is past in. each request could have a variable
    * array size of arguments. the _fn calls are priavate and handle  validating this and returning the
    * uril path from enums above
@@ -105,6 +123,8 @@ export class BrowserRequestFactory {
    */
   static createRequest(requestType, ...args) {
     switch (requestType) {
+      case BrowserRequestFactory.Requests.COMMAND:
+        return BrowserRequestFactory._getCommandRequest(args[0]);
       case BrowserRequestFactory.Requests.BROWSER:
         return BrowserRequestFactory._getBrowserRequest(args[0], args[1]);
       case BrowserRequestFactory.Requests.ACTIVE_CIRCUIT:
@@ -123,7 +143,58 @@ export class BrowserRequestFactory {
   }
 
   /**
-   * returns a browser requestion from a given input string
+   * returns a uri path with a command
+   * @param args - array of arguments
+   * @returns {string}
+   * @private
+   */
+  static _getCommandRequest(arg) {
+    let args = arg.split(BrowserRequestFactory.SPACE_SEPARATOR),
+      cmd = args[0];
+    if (cmd) {
+      console.log(cmd);
+      if (cmd === BrowserRequestFactory.Commands.WTF) {
+        return BrowserRequestFactory._getCommandWTFRequest(args);
+      } else {
+        return BrowserRequestFactory._getUnknownCommandErrorRequest();
+      }
+    } else {
+      throw new Error("request: command requires 2 arguments, command");
+    }
+  }
+
+  /**
+   * returns a request for unknown commands
+   * @returns {string}
+   * @private
+   */
+  static _getUnknownCommandErrorRequest() {
+    return (
+      BrowserRequestFactory.Commands.ERROR +
+      BrowserRequestFactory.URI_SEPARATOR +
+      BrowserRequestFactory.Errors.UNKNOWN
+    );
+  }
+
+  /**
+   * returns the request for a wtf new screen
+   * @param args
+   * @returns {string}
+   * @private
+   */
+  static _getCommandWTFRequest(...args) {
+    return (
+      BrowserRequestFactory.Commands.OPEN +
+      BrowserRequestFactory.URI_SEPARATOR +
+      BrowserRequestFactory.ROOT_SEPARATOR +
+      BrowserRequestFactory.Locations.CIRCUIT +
+      BrowserRequestFactory.PATH_SEPARATOR +
+      BrowserRequestFactory.Locations.WTF
+    );
+  }
+
+  /**
+   * returns a browser request from a given input string
    * @param action
    * @param uril
    * @returns {string}
@@ -148,7 +219,7 @@ export class BrowserRequestFactory {
   static _getActiveCircuitRequest(circuitName) {
     if (circuitName) {
       return (
-        BrowserRequestFactory.Actions.OPEN +
+        BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.CIRCUIT +
@@ -173,7 +244,7 @@ export class BrowserRequestFactory {
   static _getJournalRequest(teamMember) {
     if (teamMember) {
       return (
-        BrowserRequestFactory.Actions.OPEN +
+        BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.JOURNAL +
@@ -195,7 +266,7 @@ export class BrowserRequestFactory {
   static _getTroubleshootRequest(circuitName) {
     if (circuitName) {
       return (
-        BrowserRequestFactory.Actions.OPEN +
+        BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.CIRCUIT +
@@ -206,7 +277,7 @@ export class BrowserRequestFactory {
       );
     } else {
       return (
-        BrowserRequestFactory.Actions.OPEN +
+        BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.CIRCUIT +
@@ -225,7 +296,7 @@ export class BrowserRequestFactory {
   static _getFlowRequest(teamMember) {
     if (teamMember) {
       return (
-        BrowserRequestFactory.Actions.OPEN +
+        BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.FLOW +
@@ -246,7 +317,7 @@ export class BrowserRequestFactory {
   static _getTeamRequest(teamMember) {
     if (teamMember) {
       return (
-        BrowserRequestFactory.Actions.OPEN +
+        BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.JOURNAL +

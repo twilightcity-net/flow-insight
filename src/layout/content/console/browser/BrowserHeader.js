@@ -1,16 +1,7 @@
 import React, { Component } from "react";
-import {
-  Button,
-  Dropdown,
-  Grid,
-  Icon,
-  Input,
-  Segment
-} from "semantic-ui-react";
+import { Button, Icon, Input, Segment } from "semantic-ui-react";
 import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
-// import { DataModelFactory } from "../../models/DataModelFactory";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
-// import { PerspectiveController } from "../../controllers/PerspectiveController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -21,6 +12,7 @@ export default class BrowserHeader extends Component {
    * @type {string}
    */
   static locationStr = "Search Twilight or type a URI";
+
   /**
    * the constructor for the array of journal items to display
    * @param props - the components properties
@@ -30,45 +22,12 @@ export default class BrowserHeader extends Component {
     this.name = "[BrowserHeader]";
     this.state = {
       disableControls: false,
-      location: "",
-      action: this.getOptions()[0].value
+      location: ""
     };
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.BROWSER_PANEL,
       this
     );
-    // this.teamModel = DataModelFactory.createModel(
-    //   DataModelFactory.Models.MEMBER_STATUS
-    // );
-  }
-
-  /**
-   * gets hardcoded array of actions used by the dropdown in the browser
-   * @returns {*}
-   */
-  getOptions() {
-    return [
-      {
-        key: 1,
-        text: BrowserRequestFactory.Actions.OPEN,
-        value: BrowserRequestFactory.Actions.OPEN
-      },
-      {
-        key: 2,
-        text: BrowserRequestFactory.Actions.CLOSE,
-        value: BrowserRequestFactory.Actions.CLOSE
-      },
-      {
-        key: 3,
-        text: BrowserRequestFactory.Actions.JOIN,
-        value: BrowserRequestFactory.Actions.JOIN
-      },
-      {
-        key: 4,
-        text: BrowserRequestFactory.Actions.LEAVE,
-        value: BrowserRequestFactory.Actions.LEAVE
-      }
-    ];
   }
 
   /**
@@ -128,10 +87,6 @@ export default class BrowserHeader extends Component {
     console.log(this.name + " first time console show -> load default content");
     this.requestBrowserToLoadDefaultContent();
     this.myController.configureShowConsoleWindowListener(this, null);
-    // console.log(this.name + " show console window : " + arg);
-    // this.setState({
-    //   location: "/journal/" + this.teamModel.getActiveTeamMemberShortName()
-    // });
   };
 
   /**
@@ -150,7 +105,6 @@ export default class BrowserHeader extends Component {
    * @param e
    */
   handleFocus = e => {
-    document.getElementById("browserAction").classList.add("focused");
     document.getElementById("browserInput").classList.add("focused");
     document.getElementById("browserGo").classList.add("focused");
   };
@@ -161,7 +115,6 @@ export default class BrowserHeader extends Component {
    * @param e
    */
   handleBlur = e => {
-    document.getElementById("browserAction").classList.remove("focused");
     document.getElementById("browserInput").classList.remove("focused");
     document.getElementById("browserGo").classList.remove("focused");
   };
@@ -180,22 +133,41 @@ export default class BrowserHeader extends Component {
    * loads a new perspective.
    */
   handleClickForGo = () => {
-    this.doRequest(this.state.action, this.state.location);
+    this.doRequest(this.state.location);
   };
 
   /**
-   * performs the request from the input field of the component
-   * @param action
-   * @param uril
+   * performs the request from the input field of the component. if the action is a command
+   * the create that type of request otherwise create a generic open request
+   * @param uri
    */
-  doRequest = (action, uril) => {
-    let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.BROWSER,
-      action,
-      uril
-    );
+  doRequest = uri => {
+    let request;
+    if (this.isCommand(uri)) {
+      console.log("is command -> " + uri);
+      request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.COMMAND,
+        uri
+      );
+    } else {
+      console.log("is browse -> " + uri);
+      request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.BROWSER,
+        BrowserRequestFactory.Commands.OPEN,
+        uri
+      );
+    }
     this.myController.makeRequest(request);
   };
+
+  /**
+   * checks our uri to see if this is a command or a location
+   * @param uri
+   * @returns {boolean}
+   */
+  isCommand(uri) {
+    return !uri.startsWith(BrowserRequestFactory.ROOT_SEPARATOR);
+  }
 
   /**
    * handles the event that is notified on change of an input link
@@ -206,37 +178,6 @@ export default class BrowserHeader extends Component {
   handleChangeForInput = (e, { value }) => {
     this.setState({ location: value.toLowerCase() });
   };
-
-  /**
-   * handler for when things change in the dropdown
-   * @param e
-   * @param value
-   */
-  handleChangeForAction = (e, { value }) => {
-    this.setState({ action: value });
-  };
-
-  /**
-   * returns the JSX component of action drop down
-   * @returns {*}
-   */
-  getActionDropdown() {
-    let options = this.getOptions();
-    return (
-      <Dropdown
-        disabled={this.state.disableControls}
-        className="browserAction"
-        id="browserAction"
-        placeholder="Choose Action"
-        selection
-        options={options}
-        value={this.state.action}
-        onFocus={this.handleFocus}
-        onBlur={this.handleBlur}
-        onChange={this.handleChangeForAction}
-      />
-    );
-  }
 
   /**
    * returns the browser headers input
@@ -278,18 +219,7 @@ export default class BrowserHeader extends Component {
     return (
       <div id="component" className="browserHeader">
         <Segment.Group>
-          <Segment inverted>
-            <Grid columns="equal" divided inverted>
-              <Grid.Row stretched>
-                <Grid.Column width={2} id="browserActionCell">
-                  {this.getActionDropdown()}
-                </Grid.Column>
-                <Grid.Column width={14} id="browserInputCell">
-                  {this.getBrowserInput()}
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Segment>
+          <Segment inverted>{this.getBrowserInput()}</Segment>
         </Segment.Group>
       </div>
     );

@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import CircuitWTFOpen from "./components/CircuitWTFOpen";
 import CircuitWTFStart from "./components/CircuitWTFStart";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import { MainPanelViewController } from "../../controllers/MainPanelViewController";
 import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
 
 /**
@@ -10,6 +9,10 @@ import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
  * @author ZoeDreams
  */
 export default class CircuitResource extends Component {
+  /**
+   * builds our resource with the given properties
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.name = "[CircuitResource]";
@@ -24,15 +27,16 @@ export default class CircuitResource extends Component {
     this.myController.wireTogetherModels(this);
   }
 
-  componentDidMount = () => {
-    console.log(this.state);
-  };
-
+  /**
+   * determines if this should be a wtf session or new start session componet
+   * @param resource
+   * @returns {boolean}
+   */
   isWTF(resource) {
     let arr = resource.uriArr;
     if (arr.length > 1) {
       if (arr[1] === BrowserRequestFactory.Locations.WTF) {
-        if (arr.length > 2 && arr.length < 4) {
+        if (arr.length === 3) {
           return true;
         }
       }
@@ -46,8 +50,7 @@ export default class CircuitResource extends Component {
    */
   render() {
     let wtfPanel;
-
-    if (this.state.isWTF) {
+    if (this.isWTF(this.props.resource)) {
       wtfPanel = <CircuitWTFOpen />;
     } else {
       wtfPanel = <CircuitWTFStart />;
