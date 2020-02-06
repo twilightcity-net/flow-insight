@@ -14,6 +14,9 @@ export default class JournalResource extends Component {
   constructor(props) {
     super(props);
     this.name = "[JournalResource]";
+    this.state = {
+      resource: props.resource
+    };
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
       this

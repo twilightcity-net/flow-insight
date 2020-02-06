@@ -8,14 +8,14 @@ import { ActiveViewControllerFactory } from "../../../controllers/ActiveViewCont
 /**
  * this component is the tab panel wrapper for the console content
  */
-export default class CircuitWTF extends Component {
+export default class CircuitWTFOpen extends Component {
   /**
    * the constructor, duh
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[CircuitWTF]";
+    this.name = "[CircuitWTFOpen]";
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.TROUBLE_PANEL,
       this
