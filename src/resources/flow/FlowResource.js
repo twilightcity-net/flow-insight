@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import FlowContent from "./FlowContent";
+import FlowContent from "./components/FlowContent";
 
 /**
  * this component is the tab panel wrapper for the flow content
  * @author ZoeDreams
  * @copyright DreamScale, Inc. 2020©®™√
  */
-export default class FlowLayout extends Component {
+export default class FlowResource extends Component {
   /**
    * builds the flow layout content.
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[FlowLayout]";
+    this.name = "[FlowResource]";
   }
 
   /**

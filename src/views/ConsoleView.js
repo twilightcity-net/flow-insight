@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Keyframes from "@keyframes/core";
-import ConsoleLayout from "../components/console/ConsoleLayout";
+import ConsoleLayout from "../layout/ConsoleLayout";
 import { ActiveViewControllerFactory } from "../controllers/ActiveViewControllerFactory";
 import { ModelCoordinator } from "../models/ModelCoordinator";
 import { PerspectiveController } from "../controllers/PerspectiveController";

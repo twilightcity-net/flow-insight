@@ -29,6 +29,15 @@ export class BrowserRequestFactory {
   }
 
   /**
+   * separates what denotes the root of the uri that represents the given resource
+   * @returns {string}
+   * @constructor
+   */
+  static get ROOT_SEPARATOR() {
+    return "/";
+  }
+
+  /**
    * separates dependent locations from our root location of our URI
    * @returns {string}
    * @constructor
@@ -141,6 +150,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.CIRCUIT +
         BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.WTF +
@@ -165,6 +175,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.JOURNAL +
         BrowserRequestFactory.PATH_SEPARATOR +
         teamMember
@@ -186,6 +197,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.CIRCUIT +
         BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.WTF +
@@ -196,6 +208,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.CIRCUIT +
         BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.WTF
@@ -214,6 +227,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.FLOW +
         BrowserRequestFactory.PATH_SEPARATOR +
         teamMember
@@ -234,6 +248,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.JOURNAL +
         BrowserRequestFactory.PATH_SEPARATOR +
         teamMember

@@ -1,21 +1,21 @@
 import React, { Component } from "react";
 import { Button, Segment } from "semantic-ui-react";
-import { DimensionController } from "../../controllers/DimensionController";
+import { DimensionController } from "../../../controllers/DimensionController";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "../../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
-export default class TroubleshootOpen extends Component {
+export default class CircuitWTF extends Component {
   /**
    * the constructor, duh
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[TroubleshootOpen]";
+    this.name = "[CircuitWTF]";
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.TROUBLE_PANEL,
       this

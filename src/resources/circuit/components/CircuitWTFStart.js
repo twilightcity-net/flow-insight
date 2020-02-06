@@ -1,20 +1,20 @@
 import React, { Component } from "react";
 import { Segment } from "semantic-ui-react";
-import { DimensionController } from "../../controllers/DimensionController";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { DimensionController } from "../../../controllers/DimensionController";
+import { ActiveViewControllerFactory } from "../../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
  * @author ZoeDreams
  */
-export default class TroubleshootStart extends Component {
+export default class CircuitWTFStart extends Component {
   /**
    * the constructor function that is called when creating a new TroubleshootSession
    * @param props - properties that are passed in from the troubleshoot layout
    */
   constructor(props) {
     super(props);
-    this.name = "[TroubleshootStart]";
+    this.name = "[CircuitWTFStart]";
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.TROUBLE_PANEL,
       this

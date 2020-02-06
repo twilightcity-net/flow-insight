@@ -7,9 +7,9 @@ import {
   Input,
   Segment
 } from "semantic-ui-react";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
 // import { DataModelFactory } from "../../models/DataModelFactory";
-import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
+import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 // import { PerspectiveController } from "../../controllers/PerspectiveController";
 
 /**

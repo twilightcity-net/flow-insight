@@ -1,19 +1,19 @@
 import React, { Component } from "react";
-import JournalItems from "./JournalItems";
-import JournalEntry from "./JournalEntry";
+import JournalItems from "./components/JournalItems";
+import JournalEntry from "./components/JournalEntry";
 import { DataModelFactory } from "../../models/DataModelFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
-export default class JournalLayout extends Component {
+export default class JournalResource extends Component {
   /**
    * builds the basic journal layout component
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[JournalLayout]";
+    this.name = "[JournalResource]";
     this.journalModel = DataModelFactory.createModel(
       DataModelFactory.Models.JOURNAL,
       this

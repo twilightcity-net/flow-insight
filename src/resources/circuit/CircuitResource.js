@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import TroubleshootOpen from "./TroubleshootOpen";
-import TroubleshootStart from "./TroubleshootStart";
+import CircuitWTF from "./components/CircuitWTF";
+import CircuitWTFStart from "./components/CircuitWTFStart";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
  * @author ZoeDreams
  */
-export default class TroubleshootLayout extends Component {
+export default class CircuitResource extends Component {
   constructor(props) {
     super(props);
-    this.name = "[TroubleshootLayout]";
+    this.name = "[CircuitResource]";
     this.state = {
       isAlarmTriggered: false
     };
@@ -28,9 +28,9 @@ export default class TroubleshootLayout extends Component {
   render() {
     let wtfPanel;
     if (!this.state.isAlarmTriggered) {
-      wtfPanel = <TroubleshootStart />;
+      wtfPanel = <CircuitWTFStart />;
     } else {
-      wtfPanel = <TroubleshootOpen />;
+      wtfPanel = <CircuitWTF />;
     }
 
     return (

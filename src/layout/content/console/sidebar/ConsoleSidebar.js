@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import { SidePanelViewController } from "../../controllers/SidePanelViewController";
-import { DimensionController } from "../../controllers/DimensionController";
+import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { DimensionController } from "../../../../controllers/DimensionController";
 
 /**
  * this component is the sidebar to the console. This animates a slide.

@@ -1,23 +1,23 @@
 import React, { Component } from "react";
-import JournalLayout from "../journal/JournalLayout";
-import TroubleshootLayout from "../troubleshoot/TroubleshootLayout";
-import FlowLayout from "../flow/FlowLayout";
+import JournalResource from "../resources/journal/JournalResource";
+import WtfResource from "../resources/circuit/CircuitResource";
+import FlowResource from "../resources/flow/FlowResource";
 import { Transition } from "semantic-ui-react";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import BrowserHeader from "../browser/BrowserHeader";
-import { MainPanelViewController } from "../../controllers/MainPanelViewController";
+import { ActiveViewControllerFactory } from "../controllers/ActiveViewControllerFactory";
+import BrowserHeader from "./content/console/browser/BrowserHeader";
+import { MainPanelViewController } from "../controllers/MainPanelViewController";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
-export default class ConsoleContent extends Component {
+export default class LayoutContent extends Component {
   constructor(props) {
     super(props);
-    this.name = "[ConsoleContent]";
+    this.name = "[LayoutContent]";
     this.animationType = MainPanelViewController.Animations.DROP;
     this.animationTime = MainPanelViewController.AnimationTimes.CONSOLE_CONTENT;
     this.state = {
-      activeComponent: MainPanelViewController.Components.NONE
+      activeComponent: MainPanelViewController.Resources.NONE
     };
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.MAIN_PANEL,
@@ -48,15 +48,25 @@ export default class ConsoleContent extends Component {
     let component = null,
       className = "Layout";
     switch (this.state.activeComponent) {
-      case MainPanelViewController.Components.JOURNAL:
-        component = <JournalLayout />;
-        className = MainPanelViewController.Components.JOURNAL + className;
+      case MainPanelViewController.Resources.JOURNAL:
+        component = <JournalResource />;
+        className = MainPanelViewController.Resources.JOURNAL + className;
         break;
+      case MainPanelViewController.Resources.CIRCUIT:
+        component = <WtfResource />;
+        className = MainPanelViewController.Resources.JOURNAL + className;
+        break;
+      case MainPanelViewController.Resources.FLOW:
+        component = <FlowResource />;
+        className = MainPanelViewController.Resources.FLOW + className;
+        break;
+
+      // TODO implement a 404 like error page to display to the user
       default:
         component = (
           <div>404 - Unknown location '{this.state.activeComponent}'</div>
         );
-        className = MainPanelViewController.Components.NONE + className;
+        className = MainPanelViewController.Resources.NONE + className;
         break;
     }
     return (
@@ -75,51 +85,6 @@ export default class ConsoleContent extends Component {
 
   getBrowserHeader = scope => {
     return <BrowserHeader scope={scope} />;
-  };
-
-  getJournalLayoutComponent = () => {
-    return (
-      <Transition
-        visible={false}
-        animation={this.animationType}
-        duration={this.animationTime}
-        unmountOnHide
-      >
-        <div id="wrapper" className="journalLayout">
-          <JournalLayout />
-        </div>
-      </Transition>
-    );
-  };
-
-  getTroubleshootLayoutComponent = () => {
-    return (
-      <Transition
-        visible={false}
-        animation={this.animationType}
-        duration={this.animationTime}
-        unmountOnHide
-      >
-        <div id="wrapper" className="troubleshootLayout">
-          <TroubleshootLayout />
-        </div>
-      </Transition>
-    );
-  };
-
-  getFlowLayoutComponent = () => {
-    return (
-      <Transition
-        visible={false}
-        animation={this.animationType}
-        duration={this.animationTime}
-        unmountOnHide
-      >
-        <div id="wrapper" className="flowLayout">
-          <FlowLayout />
-        </div>
-      </Transition>
-    );
   };
 
   /**

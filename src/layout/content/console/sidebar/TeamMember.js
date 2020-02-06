@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Divider, Grid, Icon, Popup } from "semantic-ui-react";
 // import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import { SidePanelViewController } from "../../controllers/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 
 //
 // this component is the individual journal item entered in by the user

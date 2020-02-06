@@ -20,11 +20,11 @@ export class MainPanelViewController extends ActiveViewController {
     this.consoleBrowserLoadListener.updateCallback(scope, callback);
   }
 
-  static get Components() {
+  static get Resources() {
     return {
       NONE: "none",
       JOURNAL: "journal",
-      TROUBLESHOOT: "troubleshoot",
+      CIRCUIT: "circuit",
       FLOW: "flow"
     };
   }

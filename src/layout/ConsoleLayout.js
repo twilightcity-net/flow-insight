@@ -1,16 +1,16 @@
 import React, { Component } from "react";
-import ConsoleSidebar from "./ConsoleSidebar";
-import ConsoleContent from "./ConsoleContent";
-import CircuitsPanel from "../circuits/CircuitsPanel";
-import NotificationsPanel from "../notifications/NotificationsPanel";
-import TeamPanel from "../team/TeamPanel";
-import SpiritPanel from "../spirit/SpiritPanel";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { SpiritModel } from "../../models/SpiritModel";
-import { TeamModel } from "../../models/TeamModel";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import { SidePanelViewController } from "../../controllers/SidePanelViewController";
-import { DimensionController } from "../../controllers/DimensionController";
+import ConsoleSidebar from "./content/console/sidebar/ConsoleSidebar";
+import LayoutContent from "./LayoutContent";
+import CircuitsPanel from "./content/console/sidebar/CircuitsPanel";
+import NotificationsPanel from "./content/console/sidebar/NotificationsPanel";
+import TeamPanel from "./content/console/sidebar/TeamPanel";
+import SpiritPanel from "./content/console/sidebar/SpiritPanel";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { SpiritModel } from "../models/SpiritModel";
+import { TeamModel } from "../models/TeamModel";
+import { ActiveViewControllerFactory } from "../controllers/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../controllers/SidePanelViewController";
+import { DimensionController } from "../controllers/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -385,7 +385,7 @@ export default class ConsoleLayout extends Component {
           )
         }}
       >
-        <ConsoleContent
+        <LayoutContent
           onFlameChange={this.onFlameChangeCb}
           onAdjustFlame={this.adjustFlameCb}
         />

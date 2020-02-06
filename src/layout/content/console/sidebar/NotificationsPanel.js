@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Menu, Segment, Transition } from "semantic-ui-react";
-import { DimensionController } from "../../controllers/DimensionController";
-import { SidePanelViewController } from "../../controllers/SidePanelViewController";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { DimensionController } from "../../../../controllers/DimensionController";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
