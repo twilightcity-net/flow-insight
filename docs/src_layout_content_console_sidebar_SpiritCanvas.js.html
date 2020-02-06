@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>src/components/journal/JournalLayout.js - Documentation</title>
+  <title>src/layout/content/console/sidebar/SpiritCanvas.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -67,6 +67,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
@@ -354,8 +355,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
@@ -374,7 +373,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
@@ -389,94 +387,91 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">src/components/journal/JournalLayout.js</h1>
+    <h1 class="page-title">src/layout/content/console/sidebar/SpiritCanvas.js</h1>
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import JournalItems from "./JournalItems";
-import JournalEntry from "./JournalEntry";
-import { DataModelFactory } from "../../models/DataModelFactory";
 
 /**
- * this component is the tab panel wrapper for the console content
+ * the 2d html canvas react component class that ios user by the spirit
  */
-export default class JournalLayout extends Component {
+export default class SpiritCanvas extends Component {
   /**
-   * builds the basic journal layout component
-   * @param props
+   * builds the canvas from properties
+   * @param props - the components properties
    */
   constructor(props) {
     super(props);
-    this.name = "[JournalLayout]";
-    this.journalModel = DataModelFactory.createModel(
-      DataModelFactory.Models.JOURNAL,
-      this
-    );
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS
-    );
+    this.render3d = props.render3d;
+    this.spirit = props.spirit;
+    this.height = props.height;
+    this.width = props.width;
   }
 
   /**
-   * called when we finish creating a new intention from the journal entry
-   * @param journalEntry
-   * @param finishStatus
+   * should render in 3d?
    */
-  onFinishEntry = (journalEntry, finishStatus) => {
-    console.log(
-      this.name +
-        " finished journal entry status : " +
-        journalEntry.id +
-        " -> " +
-        finishStatus
-    );
-    this.journalModel.finishIntention(journalEntry.id, finishStatus);
+  componentDidMount() {
+    this.canvasEl = this.getCanvasEl();
+    if (this.render3D === "true") {
+      // TODO implement unity3d models and scene into this element
+    } else {
+      this.updateTorchieImage(0);
+    }
+  }
+
+  /**
+   * update the properties
+   * @param nextProps
+   */
+  componentWillReceiveProps = nextProps => {
+    this.updateTorchieImage(nextProps.flameString);
   };
 
   /**
-   * called when the active selected item changes
-   * @param rowId
-   * @param journalItem
+   * updates the torchie image on the screen
+   * @param flameString
    */
-  onChangeActiveEntry = (rowId, journalItem) => {
-    console.log(
-      this.name +
-        " - journal entry changed :" +
-        rowId +
-        " -> " +
-        journalItem.index
-    );
-    this.journalModel.setActiveJournalItem(journalItem);
-  };
+  updateTorchieImage(flameRating) {
+    let spiritImage = "";
+
+    if (flameRating >= 0) {
+      spiritImage = "./assets/images/spirit.png";
+    } else if (flameRating &lt; 0) {
+      spiritImage = "./assets/images/painSpirit.png";
+    }
+
+    let image = new Image();
+    image.onload = () => {
+      let canvas = this.getCanvasEl();
+      if (canvas) {
+        this.getCanvasEl()
+          .getContext("2d")
+          .drawImage(image, 0, 0, this.props.width, this.props.height);
+      }
+    };
+    image.src = spiritImage;
+  }
 
   /**
-   * callback listener for the AddTask event which creates  new journal entry
-   * @param projectId - the id of the project the task will be added to
-   * @param taskName - the name of the task to be entered into the journal
+   * gets the htm canvase element
+   * @returns {HTMLElement} - the dom from the viewport
    */
-  onAddTask = (projectId, taskName) => {
-    console.log(this.name + " - onAddTask: " + projectId + ", " + taskName);
-
-    this.journalModel.addTaskRef(taskName);
-  };
+  getCanvasEl() {
+    return document.getElementById("SpiritCanvas");
+  }
 
   /**
-   * renders the journal layout of the console view
-   * @returns {*} - returns the JSX for this component
+   * renders the component on the screen
+   * @returns {*} - the JSX to render
    */
   render() {
     return (
-      &lt;div id="component" className="journalLayout">
-        &lt;div id="wrapper" className="journalItems">
-          &lt;JournalItems
-            onChangeActiveEntry={this.onChangeActiveEntry}
-            onFinishEntry={this.onFinishEntry}
-          />
-        &lt;/div>
-        &lt;div id="wrapper" className="journalEntry">
-          &lt;JournalEntry onAddTask={this.onAddTask} />
-        &lt;/div>
-      &lt;/div>
+      &lt;canvas
+        id="SpiritCanvas"
+        height={this.props.height}
+        width={this.props.width}
+      />
     );
   }
 }

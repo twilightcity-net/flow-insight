@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>src/components/team/TeamPanel.js - Documentation</title>
+  <title>src/layout/content/console/sidebar/CircuitsPanel.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -67,6 +67,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
@@ -354,8 +355,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
@@ -374,7 +373,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
@@ -389,53 +387,56 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">src/components/team/TeamPanel.js</h1>
+    <h1 class="page-title">src/layout/content/console/sidebar/CircuitsPanel.js</h1>
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
-import TeamMember from "./TeamMember";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { DimensionController } from "../../controllers/DimensionController";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import { SidePanelViewController } from "../../controllers/SidePanelViewController";
-import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
+import { List, Menu, Segment, Transition } from "semantic-ui-react";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
+import { DimensionController } from "../../../../controllers/DimensionController";
+import { CircuitClient } from "../../../../clients/CircuitClient";
+import ActiveCircuitListItem from "./ActiveCircuitListItem";
+import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 
 /**
- * this component is the tab panel wrapper for the console content
+ * renders the circuit navigator panels in the gui
+ * @type {CircuitsPanel}
  */
-export default class TeamPanel extends Component {
+export default class CircuitsPanel extends Component {
   /**
-   * builds the team panel for the renderer
+   * builds the circuit navigator panel
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[TeamPanel]";
     this.state = this.loadState();
-    this.spiritModel = DataModelFactory.createModel(
-      DataModelFactory.Models.SPIRIT,
-      this
-    );
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS,
-      this
-    );
+    this.name = "[CircuitsPanel]";
     this.myController = ActiveViewControllerFactory.createViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
+    this.selections = {
+      activeCircuitComponent: null
+    };
   }
 
+  // TODO create a timer to update the strings in the timer labels. this should cycle though all
+  //      the list items states and update the time striing. This should rerender that specific
+  //      list item. do this after we are getting strings back from the server
+
   /**
-   * loads the stored state from parent or use default values
-   * @returns {{animationDelay: number, title: string, animationType: string}|*}
+   * loads the state from the parent
+   * @returns {*|{participatingCircuitsVisible: boolean, doItLaterCircuitsVisible: boolean, animationDelay: number, activeItem: string, title: string, animationType: string}}
    */
   loadState() {
     let state = this.props.loadStateCb();
     if (!state) {
       return {
-        activeItem: SidePanelViewController.SubmenuSelection.TEAM,
-        teamVisible: false,
+        activeCircuits: CircuitClient.activeCircuits,
+        activeItem:
+          SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+        participatingCircuitsVisible: false,
+        doItLaterCircuitsVisible: false,
         animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
         animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
         title: ""
@@ -445,184 +446,230 @@ export default class TeamPanel extends Component {
   }
 
   /**
-   * stores this components state in the parents state
-   * @param state
+   * refreshes our active circuits array with new data
    */
-  saveState(state) {
-    this.props.saveStateCb(state);
-  }
-
-  /**
-   * called when we render the team panel into the gui
-   */
-  componentDidMount = () => {
-    this.myController.configureTeamPanelListener(this, this.onRefreshTeamPanel);
-    this.onRefreshTeamPanel();
-  };
-
-  /**
-   * called to refresh the team panel with new data
-   */
-  onRefreshTeamPanel() {
-    switch (this.myController.activeTeamSubmenuSelection) {
-      case SidePanelViewController.SubmenuSelection.TEAM:
-        this.showTeamPanel();
-        break;
-      default:
-        throw new Error("Unknown team panel menu item");
-    }
-  }
-
-  /**
-   * called to display the team panel in the gui
-   */
-  showTeamPanel() {
-    this.teamModel.refreshAll();
-    this.setState({
-      activeItem: SidePanelViewController.SubmenuSelection.TEAM,
-      teamVisible: true
+  refreshActiveCircuits() {
+    CircuitClient.loadAllMyParticipatingCircuits(this, models => {
+      this.setState({
+        activeCircuits: models
+      });
     });
   }
 
   /**
-   * called when removing the component from the gui. removes any associated listeners for
-   * memory management
+   * refresh our array of do it later on hold circuits
    */
-  componentWillUnmount = () => {
-    this.myController.configureTeamPanelListener(this, null);
-  };
+  refreshDoItLaterCircuits() {
+    console.log("call circuit client to refresh do it later circuits");
+
+    //TODO implement this function to show do it later on hold circuits
+  }
 
   /**
-   * updates display to show spirit content
+   * shows our active circuits that we are joined to
+   */
+  showParticipatingCircuitsPanel() {
+    this.refreshActiveCircuits();
+    this.setState({
+      activeItem:
+        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+      participatingCircuitsVisible: true,
+      doItLaterCircuitsVisible: false
+    });
+  }
+
+  /**
+   * shows our list of circuits we are participating in that are currently on hold
+   * with a do it later status
+   */
+  showDoItLaterCircuitsPanel() {
+    this.refreshDoItLaterCircuits();
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS,
+      participatingCircuitsVisible: false,
+      doItLaterCircuitsVisible: true
+    });
+  }
+
+  /**
+   * event handler for our circuits sub menu click
    * @param e
    * @param name
    */
-  handleClick = (e, { name }) => {
-    this.myController.changeActiveTeamSubmenuPanel(name);
+  handleCircuitSubmenuClick = (e, { name }) => {
+    this.myController.changeActiveCircuitsSubmenuPanel(name);
   };
 
   /**
-   * selects a team member in the list
-   * @param id
-   * @param teamMember
+   * called we are rendering this component into view. This will ask the circuit manager
+   * in the main process for new circuit data
    */
-  selectRow = (id, teamMember) => {
-    console.log(
-      this.name + " - Team member clicked!" + teamMember.name + "id = " + id
+  componentDidMount = () => {
+    this.myController.configureCircuitsPanelListener(
+      this,
+      this.onRefreshCircuitsPanel
     );
-    this.requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember.name);
-    // this.teamModel.setActiveMember(id);
+    this.onRefreshCircuitsPanel();
+  };
+
+  /**
+   * called when we remove this circuit from view. this clears the listeners for proper
+   * memory management
+   */
+  componentWillUnmount = () => {
+    this.myController.configureCircuitsPanelListener(this, null);
+  };
+
+  /**
+   * mouse click handler for when a user clicks on an item in the active circuit list
+   * @param component
+   */
+  handleClickActiveCircuit = component => {
+    if (this.selections.activeCircuitComponent) {
+      this.selections.activeCircuitComponent.setState({
+        isSelected: false
+      });
+    }
+    this.selections.activeCircuitComponent = component;
+    let circuitName = component.props.model.circuitName;
+    this.requestBrowserToLoadActiveCircuit(circuitName);
   };
 
   /**
    * creates a new request and dispatch this to the browser request listener
    * @param circuitName
    */
-  requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember) {
+  requestBrowserToLoadActiveCircuit(circuitName) {
     let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.TEAM,
-      teamMember
+      BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+      circuitName
     );
     this.myController.makeSidebarBrowserRequest(request);
   }
 
   /**
-   * determines if we are currently linked to another team member
-   * @param memberId
-   * @returns {boolean}
+   * callback function that is performed when we refresh this component in the view
    */
-  isLinked = memberId => {
-    return this.spiritModel.isLinked(memberId);
-  };
+  onRefreshCircuitsPanel() {
+    switch (this.myController.activeCircuitsSubmenuSelection) {
+      case SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS:
+        this.showParticipatingCircuitsPanel();
+        break;
+      case SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS:
+        this.showDoItLaterCircuitsPanel();
+        break;
+      default:
+        throw new Error("Unknown circuits panel menu item");
+    }
+  }
 
   /**
-   * gets our team panel content with the team model that was passed in from the props
+   * get our active circuits content to render in the gui
    * @returns {*}
    */
-  getTeamMembersContent = () => {
+  getParticipatingCircuitsContent = () => {
     return (
-      &lt;div>
-        &lt;Grid inverted>
-          &lt;TeamMember
-            key={this.props.me.id}
-            id={this.props.me.id}
-            isLinked={this.isLinked(this.props.me.id)}
-            shortName={this.props.me.shortName + " (you)"}
-            name={this.props.me.name}
-            activeStatus={this.props.me.activeStatus}
-            statusColor={this.props.me.statusColor}
-            activeTaskName={this.props.me.activeTaskName}
-            activeTaskSummary={this.props.me.activeTaskSummary}
-            workingOn={this.props.me.workingOn}
-            isAlarmTriggered={this.props.me.isAlarmTriggered}
-            wtfTimer={this.props.me.wtfTimer}
-            alarmStatusMessage={this.props.me.alarmStatusMessage}
-            level={this.props.me.level}
-            xpRequired={this.props.me.xpRequired}
-            onSetActiveRow={this.selectRow}
-            teamMember={this.props.me}
-            activeTeamMember={this.props.activeTeamMember}
-          />
-          {this.props.teamMembers.map(d => (
-            &lt;TeamMember
-              key={d.id}
-              id={d.id}
-              isLinked={this.isLinked(d.id)}
-              shortName={d.shortName}
-              name={d.name}
-              activeStatus={d.activeStatus}
-              statusColor={d.statusColor}
-              activeTaskName={d.activeTaskName}
-              activeTaskSummary={d.activeTaskSummary}
-              workingOn={d.workingOn}
-              isAlarmTriggered={d.isAlarmTriggered}
-              wtfTimer={d.wtfTimer}
-              alarmStatusMessage={this.props.me.alarmStatusMessage}
-              level={d.level}
-              xpRequired={d.xpRequired}
-              onSetActiveRow={this.selectRow}
-              teamMember={d}
-              activeTeamMember={this.props.activeTeamMember}
+      &lt;div
+        className="participatingCircuitsContent"
+        style={{
+          height: "100%"
+        }}
+      >
+        &lt;List
+          inverted
+          divided
+          celled
+          animated
+          verticalAlign="middle"
+          size="large"
+        >
+          {this.state.activeCircuits.map(model => (
+            &lt;ActiveCircuitListItem
+              key={model.id}
+              model={model}
+              onActiveCircuitListItemClick={this.handleClickActiveCircuit}
             />
           ))}
-        &lt;/Grid>
+        &lt;/List>
       &lt;/div>
     );
   };
 
   /**
-   * renders the console sidebar panel of the console view
+   * builds our do it later content panel for render() in the gui
+   * @returns {*}
+   */
+  getDoItLaterCircuitsContent = () => {
+    return (
+      &lt;div className="doItLaterCircuitsContent">
+        &lt;i>Currently no circuits :)&lt;/i>
+      &lt;/div>
+    );
+  };
+
+  /**
+   * renders our component in the gui
    * @returns {*}
    */
   render() {
+    const { activeItem } = this.state;
     return (
       &lt;div
         id="component"
-        className="consoleSidebarPanel teamPanel"
+        className="consoleSidebarPanel circuitsPanel"
         style={{
-          width: this.props.width,
-          opacity: this.props.opacity
+          width: "100%",
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.CONSOLE_LAYOUT
+          ),
+          opacity: 1
         }}
       >
         &lt;Segment.Group>
           &lt;Menu size="mini" inverted pointing secondary>
             &lt;Menu.Item
-              name="team"
-              active={true}
-              onClick={this.handleClick}
+              name={
+                SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS
+              }
+              active={
+                activeItem ===
+                SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS
+              }
+              onClick={this.handleCircuitSubmenuClick}
+            />
+            &lt;Menu.Item
+              name={
+                SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS
+              }
+              active={
+                activeItem ===
+                SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS
+              }
+              onClick={this.handleCircuitSubmenuClick}
             />
           &lt;/Menu>
           &lt;Segment
             inverted
-            style={{ height: DimensionController.getSidebarPanelHeight() }}
+            className={"circuitsContentWrapper"}
+            style={{
+              height: DimensionController.getCircuitsSidebarPanelHeight()
+            }}
           >
             &lt;Transition
-              visible={this.state.teamVisible}
+              visible={this.state.participatingCircuitsVisible}
               animation={this.state.animationType}
               duration={this.state.animationDelay}
               unmountOnHide
             >
-              {this.getTeamMembersContent()}
+              {this.getParticipatingCircuitsContent()}
+            &lt;/Transition>
+            &lt;Transition
+              visible={this.state.doItLaterCircuitsVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              {this.getDoItLaterCircuitsContent()}
             &lt;/Transition>
           &lt;/Segment>
         &lt;/Segment.Group>

@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>src/components/troubleshoot/TroubleshootLayout.js - Documentation</title>
+  <title>src/layout/LayoutContent.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -67,6 +67,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
@@ -354,8 +355,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
@@ -374,7 +373,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
@@ -389,49 +387,109 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">src/components/troubleshoot/TroubleshootLayout.js</h1>
+    <h1 class="page-title">src/layout/LayoutContent.js</h1>
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import TroubleshootOpen from "./TroubleshootOpen";
-import TroubleshootStart from "./TroubleshootStart";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import JournalResource from "../resources/journal/JournalResource";
+import WtfResource from "../resources/circuit/CircuitResource";
+import FlowResource from "../resources/flow/FlowResource";
+import { Transition } from "semantic-ui-react";
+import { ActiveViewControllerFactory } from "../controllers/ActiveViewControllerFactory";
+import BrowserHeader from "./content/console/browser/BrowserHeader";
+import { MainPanelViewController } from "../controllers/MainPanelViewController";
 
 /**
  * this component is the tab panel wrapper for the console content
- * @author ZoeDreams
  */
-export default class TroubleshootLayout extends Component {
+export default class LayoutContent extends Component {
   constructor(props) {
     super(props);
-    this.name = "[TroubleshootLayout]";
+    this.name = "[LayoutContent]";
+    this.animationType = MainPanelViewController.Animations.DROP;
+    this.animationTime = MainPanelViewController.AnimationTimes.CONSOLE_CONTENT;
     this.state = {
-      isAlarmTriggered: false
+      activeComponent: MainPanelViewController.Resources.NONE
     };
     this.myController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
+      ActiveViewControllerFactory.Views.MAIN_PANEL,
       this
     );
-    this.myController.wireTogetherModels(this);
   }
 
+  componentDidMount = () => {
+    this.myController.configureConsoleBrowserLoadListener(
+      this,
+      this.onConsoleBrowserLoadEvent
+    );
+  };
+
+  componentWillUnmount = () => {
+    // this.myController.configureContentListener(this, null);
+    this.myController.configureConsoleBrowserRequestListener(this, null);
+  };
+
+  onConsoleBrowserLoadEvent = (event, resource) => {
+    console.log(this.name + " load resource -> " + JSON.stringify(resource));
+    this.setState({
+      activeComponent: resource.uriArr[0]
+    });
+  };
+
+  getActiveComponent = () => {
+    let component = null,
+      className = "Layout";
+    switch (this.state.activeComponent) {
+      case MainPanelViewController.Resources.JOURNAL:
+        component = &lt;JournalResource />;
+        className = MainPanelViewController.Resources.JOURNAL + className;
+        break;
+      case MainPanelViewController.Resources.CIRCUIT:
+        component = &lt;WtfResource />;
+        className = MainPanelViewController.Resources.JOURNAL + className;
+        break;
+      case MainPanelViewController.Resources.FLOW:
+        component = &lt;FlowResource />;
+        className = MainPanelViewController.Resources.FLOW + className;
+        break;
+
+      // TODO implement a 404 like error page to display to the user
+      default:
+        component = (
+          &lt;div>404 - Unknown location '{this.state.activeComponent}'&lt;/div>
+        );
+        className = MainPanelViewController.Resources.NONE + className;
+        break;
+    }
+    return (
+      &lt;Transition
+        visible={true}
+        animation={this.animationType}
+        duration={this.animationTime}
+        unmountOnHide
+      >
+        &lt;div id="wrapper" className={className}>
+          {component}
+        &lt;/div>
+      &lt;/Transition>
+    );
+  };
+
+  getBrowserHeader = scope => {
+    return &lt;BrowserHeader scope={scope} />;
+  };
+
   /**
-   * renders the journal layout of the console view
-   * @returns {*} - the JSX to render
+   * renders the content of the console view
+   * @returns {*}
    */
   render() {
-    let wtfPanel;
-    if (!this.state.isAlarmTriggered) {
-      wtfPanel = &lt;TroubleshootStart />;
-    } else {
-      wtfPanel = &lt;TroubleshootOpen />;
-    }
-
     return (
-      &lt;div id="component" className="troubleshootLayout">
-        &lt;div id="wrapper" className="troubleshootContent">
-          {wtfPanel}
+      &lt;div id="component" className="consoleContent">
+        &lt;div id="wrapper" className="browserHeader">
+          {this.getBrowserHeader(this)}
         &lt;/div>
+        {this.getActiveComponent()}
       &lt;/div>
     );
   }

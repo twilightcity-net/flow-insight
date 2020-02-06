@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>src/components/console/ConsoleLayout.js - Documentation</title>
+  <title>src/layout/content/console/sidebar/SpiritPanel.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -67,6 +67,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
@@ -354,8 +355,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
@@ -374,7 +373,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
@@ -389,426 +387,508 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">src/components/console/ConsoleLayout.js</h1>
+    <h1 class="page-title">src/layout/content/console/sidebar/SpiritPanel.js</h1>
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import ConsoleSidebar from "./ConsoleSidebar";
-import ConsoleContent from "./ConsoleContent";
-import CircuitsPanel from "../circuits/CircuitsPanel";
-import NotificationsPanel from "../notifications/NotificationsPanel";
-import TeamPanel from "../team/TeamPanel";
-import SpiritPanel from "../spirit/SpiritPanel";
-import { DataModelFactory } from "../../models/DataModelFactory";
-import { SpiritModel } from "../../models/SpiritModel";
-import { TeamModel } from "../../models/TeamModel";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import { SidePanelViewController } from "../../controllers/SidePanelViewController";
-import { DimensionController } from "../../controllers/DimensionController";
+import {
+  Icon,
+  Image,
+  Menu,
+  Popup,
+  Progress,
+  Segment,
+  Transition
+} from "semantic-ui-react";
+import { DataModelFactory } from "../../../../models/DataModelFactory";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
+import SpiritCanvas from "./SpiritCanvas";
+import { DimensionController } from "../../../../controllers/DimensionController";
 
 /**
- * this component is the tab panel wrapper for the console content
- * @author ZoeDreams
+ * this class is responsible for storing the users avatar, soul, inventory,
+ * and accessories. Currently this only uses a simple canvas but will use
+ * an embedded unity3d instance
  */
-export default class ConsoleLayout extends Component {
-  static sidebarWidth = "24em";
-
+export default class SpiritPanel extends Component {
   /**
-   * the costructor for the root console layout. This calls other child layouts
-   * @param props - the properties of the component to render
+   * the constructor function which is used to build the spirit panel
+   * @param props - these are the components properties
    */
   constructor(props) {
     super(props);
-    this.name = "[ConsoleLayout]";
-    this.state = {
-      sidebarPanelVisible: false,
-      sidebarPanelWidth: 0,
-      sidebarPanelOpacity: 0,
-      xpSummary: {},
-      totalXP: 0,
-      flameRating: 0,
-      activePanel: SidePanelViewController.MenuSelection.SPIRIT,
-      consoleIsCollapsed: 0,
-      me: {
-        shortName: SidePanelViewController.ME,
-        id: SidePanelViewController.ID
-      },
-      teamMembers: [],
-      activeTeamMember: {
-        shortName: SidePanelViewController.ME,
-        id: SidePanelViewController.ID
-      },
-      isMe: true
-    };
-
-    // TODO move this stuff into the controller class
-    this.sidePanelController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.SIDE_PANEL,
-      this
-    );
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS,
-      this
-    );
-    this.teamModel.registerListener(
-      "consoleLayout",
-      TeamModel.CallbackEvent.MEMBERS_UPDATE,
-      this.onTeamModelUpdateCb
-    );
-    this.teamModel.registerListener(
-      "consoleLayout",
-      TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
-      this.onActiveMemberUpdateCb
-    );
+    this.state = this.loadState();
+    this.name = "[SpiritPanel]";
+    this.render3d = false;
     this.spiritModel = DataModelFactory.createModel(
       DataModelFactory.Models.SPIRIT,
       this
     );
-    this.spiritModel.registerListener(
-      "consoleLayout",
-      SpiritModel.CallbackEvent.XP_UPDATE,
-      this.onXPUpdate
-    );
-    this.spiritModel.registerListener(
-      "consoleLayout",
-      SpiritModel.CallbackEvent.RESET_FLAME,
-      this.onActiveFlameUpdate
-    );
-    this.spiritModel.registerListener(
-      "consoleLayout",
-      SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE,
-      this.onActiveFlameUpdate
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL
     );
   }
 
   /**
-   * called right after when the component after it is finished rendering
+   * thew function that is called to open and display the badges panel in the side
+   */
+  showSpiritPanel() {
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
+      spiritVisible: true,
+      badgesVisible: false
+    });
+  }
+
+  /**
+   * the function that is called to open and display the badges panel in the side
+   */
+  showBadgesPanel() {
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.BADGES,
+      spiritVisible: false,
+      badgesVisible: true
+    });
+  }
+
+  /**
+   * updates display to show spirit content
+   * @param e - the menu event that was dispatched
+   * @param name - the name of the menu that was clicked
+   */
+  handleSpiritClick = (e, { name }) => {
+    this.myController.changeActiveSpiritSubmenuPanel(name);
+  };
+
+  /**
+   * updates the display to show the badges content
+   * @param e - the menu event that was dispatched
+   * @param name - the name of the menu that was clicked
+   */
+  handleBadgesClick = (e, { name }) => {
+    this.myController.changeActiveSpiritSubmenuPanel(name);
+  };
+
+  /**
+   * called after the component mounds and then notifies the perspective
+   * controller to refresh the view
    */
   componentDidMount = () => {
-    this.sidePanelController.configureSidePanelContentListener(
+    this.myController.configureSpiritPanelListener(
       this,
-      this.onRefreshActivePerspective
+      this.onRefreshSpiritPanel
     );
-    this.onRefreshActivePerspective();
+    this.onRefreshSpiritPanel();
   };
 
   /**
-   * called right before when the component will unmount
+   * event listener that is notified when the perspective changes views
    */
-  componentWillUnmount = () => {
-    this.teamModel.unregisterAllListeners("consoleLayout");
-    this.spiritModel.unregisterAllListeners("consoleLayout");
-    this.sidePanelController.configureSidePanelContentListener(this, null);
-  };
-
-  /**
-   * the event callback handler for when the xp's user changes
-   */
-  onXPUpdate = () => {
-    this.setState({
-      torchieOwner: this.spiritModel.getActiveScope().torchieOwner,
-      spiritId: this.spiritModel.getActiveScope().spiritId,
-      xpSummary: this.spiritModel.getActiveScope().xpSummary,
-      activeSpiritLinks: this.spiritModel.getActiveScope().activeSpiritLinks,
-      level: this.spiritModel.getActiveScope().level,
-      percentXP: this.spiritModel.getActiveScope().percentXP,
-      totalXP: this.spiritModel.getActiveScope().totalXP,
-      remainingToLevel: this.spiritModel.getActiveScope().remainingToLevel,
-      title: this.spiritModel.getActiveScope().title
-    });
-  };
-
-  /**
-   * the event callback handler for when the flame rating changes on the gui
-   */
-  onActiveFlameUpdate = () => {
-    this.setState({
-      flameRating: this.spiritModel.getActiveScope().activeFlameRating
-    });
-  };
-
-  /**
-   * the event callback handler for when the TeamModel updates
-   */
-  onTeamModelUpdateCb = () => {
-    this.setState({
-      isMe: this.teamModel.isMeActive(),
-      me: this.teamModel.me,
-      teamMembers: this.teamModel.teamMembers,
-      activeTeamMember: this.teamModel.activeTeamMember
-    });
-  };
-
-  /**
-   * callback handler function for when the active memmber model updates
-   */
-  onActiveMemberUpdateCb = () => {
-    this.setState({
-      isMe: this.teamModel.isMeActive(),
-      activeTeamMember: this.teamModel.activeTeamMember
-    });
-  };
-
-  /**
-   * the callback handler for when the flame rating changes
-   * @param flameRating - the intensity of the flame to change
-   */
-  onFlameChangeCb = flameRating => {
-    this.setState({
-      flameRating: flameRating
-    });
-  };
-
-  /**
-   * click the flame button, which either tries to do a +1 or -1
-   * @param flameDelta - the amount of the flame to change
-   */
-  adjustFlameCb = flameDelta => {
-    console.log(this.name + " - Flame change: " + flameDelta);
-
-    let flameRating = Number(this.state.flameRating) + flameDelta;
-    if (flameRating > 5) {
-      flameRating = 5;
-    } else if (flameRating &lt; -5) {
-      flameRating = -5;
-    }
-    if (this.state.flameRating > 0 &amp;&amp; flameDelta &lt; 0) {
-      flameRating = 0;
-    }
-    if (this.state.flameRating &lt; 0 &amp;&amp; flameDelta > 0) {
-      flameRating = 0;
-    }
-    this.setState({
-      flameRating: flameRating
-    });
-  };
-
-  /**
-   * called when refreshing the active perspective window
-   */
-  onRefreshActivePerspective() {
-    let show = this.sidePanelController.show;
-    if (show) {
-      this.setState({
-        sidebarPanelVisible: true,
-        activePanel: this.sidePanelController.activeMenuSelection
-      });
-      setTimeout(() => {
-        this.setState({
-          sidebarPanelWidth: ConsoleLayout.sidebarWidth,
-          sidebarPanelOpacity: 1
-        });
-      }, 0);
-    } else {
-      this.setState({
-        sidebarPanelWidth: 0,
-        sidebarPanelOpacity: 0
-      });
-      setTimeout(() => {
-        this.setState({
-          sidebarPanelVisible: false,
-          activePanel: this.sidePanelController.activeMenuSelection
-        });
-      }, 420);
+  onRefreshSpiritPanel() {
+    switch (this.myController.activeSpiritSubmenuSelection) {
+      case SidePanelViewController.SubmenuSelection.SPIRIT:
+        this.showSpiritPanel();
+        break;
+      case SidePanelViewController.SubmenuSelection.BADGES:
+        this.showBadgesPanel();
+        break;
+      default:
+        throw new Error(
+          "Unknown spirit panel type '" +
+            this.myController.activeSpiritSubmenuSelection +
+            "'"
+        );
     }
   }
 
   /**
-   * store child component for future reloading
-   * @param state - the current state of the object
+   * called right before the component gets passed its properties
+   * @param nextProps - the next propertiers to change from the previous
    */
-  saveStateSidebarPanelCb = state => {
-    this.setState({ sidebarPanelState: state });
+  componentWillReceiveProps = nextProps => {
+    let flameString = this.getFlameString(nextProps.flameRating);
+    this.setState({
+      flameString: flameString
+    });
   };
 
   /**
-   *  load the child components state from this state
-   * @returns {*}
-   */
-  loadStateSidebarPanelCb = () => {
-    return this.state.sidebarPanelState;
-  };
-
-  /**
-   * the name of the users torchie spirit
+   * gets the string to render in the column for the flame intensity
+   * @param rating
    * @returns {string}
    */
-  getTorchieName = () => {
-    let torchieName = "Member";
-    if (this.state.activeTeamMember) {
-      torchieName = this.state.activeTeamMember.shortName;
+  getFlameString(rating) {
+    let str = "0";
+    if (rating > 0) {
+      str = "+" + rating;
+    } else if (rating &lt; 0) {
+      str = rating;
     }
-    return torchieName;
+    return str;
+  }
+
+  /**
+   * handles the rage button press
+   */
+  handleClickForRage = () => {
+    console.log(this.name + "Rage!");
+    this.spiritModel.adjustFlame(-1);
   };
 
   /**
-   * the spirit panel that gets displayed in the side panel
+   * handles the yay button press
+   */
+  handleClickForYay = () => {
+    console.log(this.name + "Yay!");
+    this.spiritModel.adjustFlame(+1);
+  };
+
+  /**
+   * called right before the component will mount. This will clear the listeners callback
+   */
+  componentWillUnmount() {
+    this.myController.configureSpiritPanelListener(this, null);
+  }
+
+  /**
+   * laods the stored state from parent or use default values
+   * @returns {{totalXP: number, animationDelay: number, level: number, activeItem: string, badgesVisible: boolean, spiritVisible: boolean, title: string, percentXP: number, animationType: string}|*}
+   */
+  loadState() {
+    let state = this.props.loadStateCb();
+    if (!state) {
+      return {
+        activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
+        spiritVisible: false,
+        badgesVisible: false,
+        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
+        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
+        level: 0,
+        percentXP: 99,
+        totalXP: 99999,
+        title: ""
+      };
+    }
+    return state;
+  }
+
+  /**
+   * handles clicking to link a spirit
+   */
+  handleClickForChainLink = () => {
+    console.log(this.name + " - Link this Torchie!");
+    this.spiritModel.linkThisTorchie(this.props.spiritId);
+  };
+
+  /**
+   * handles user spirit unlinking
+   */
+  handleClickForChainUnlink = () => {
+    console.log(this.name + " - Unlink!");
+
+    this.spiritModel.unlink(this.props.spiritId);
+  };
+
+  /**
+   * checks to see if the spirit is linked to us
+   * @returns {boolean}
+   */
+  isLinkedToMe = () => {
+    let linkedToMe = false;
+    if (this.hasActiveLinks()) {
+      let spiritLink = null;
+      for (var i in this.props.activeSpiritLinks) {
+        spiritLink = this.props.activeSpiritLinks[i];
+
+        if (spiritLink.friendSpiritId === this.props.me.id) {
+          linkedToMe = true;
+          break;
+        }
+      }
+    }
+    return linkedToMe;
+  };
+
+  /**
+   * checks to see if the Spirit has active links or not
+   * @returns {boolean|boolean}
+   */
+  hasActiveLinks = () => {
+    return (
+      this.props.activeSpiritLinks != null &amp;&amp;
+      this.props.activeSpiritLinks.length > 0
+    );
+  };
+
+  /**
+   * gets the basic link icon to link to other users
    * @returns {*}
    */
-  getSpiritPanelContent = () => {
+  getLinkIcon = () => {
     return (
-      &lt;SpiritPanel
-        me={this.state.me}
-        isMe={this.state.isMe}
-        torchieOwner={this.getTorchieName()}
-        spiritId={this.state.spiritId}
-        xpSummary={this.state.xpSummary}
-        activeSpiritLinks={this.state.activeSpiritLinks}
-        level={this.state.level}
-        percentXP={this.state.percentXP}
-        remainingToLevel={this.state.remainingToLevel}
-        totalXP={this.state.totalXP}
-        title={this.state.title}
-        flameRating={this.state.flameRating}
-        loadStateCb={this.loadStateSidebarPanelCb}
-        saveStateCb={this.saveStateSidebarPanelCb}
-        width={this.state.sidebarPanelWidth}
-        height={DimensionController.getHeightFor(
-          DimensionController.Components.CONSOLE_LAYOUT
-        )}
-        opacity={this.state.sidebarPanelOpacity}
+      &lt;Popup
+        trigger={
+          &lt;Icon
+            link
+            name="linkify"
+            className="chainLink"
+            onClick={this.handleClickForChainLink}
+          />
+        }
+        content={&lt;div className="tooltipPurple">Link this Torchie!&lt;/div>}
+        inverted
+        hideOnScroll
+        position="top left"
       />
     );
   };
 
   /**
-   * the team panel that gets displayed to the user
+   * gets the body of the link content for the tooltip
+   * @returns {string}
+   */
+  getLinksContent = () => {
+    let links = "";
+    if (this.hasActiveLinks()) {
+      links = this.props.activeSpiritLinks.map(d => (
+        &lt;div key={d.friendSpiritId}>{d.name}&lt;/div>
+      ));
+      links = (
+        &lt;div>
+          &lt;div className="tooltipRed">Break Links&lt;/div>
+          {links}
+        &lt;/div>
+      );
+    }
+    return links;
+  };
+
+  /**
+   * gets the unlink icon for breaking links to other users
    * @returns {*}
    */
-  getTeamPanelContent = () => {
+  getUnlinkIcon = () => {
     return (
-      &lt;TeamPanel
-        xpSummary={this.state.xpSummary}
-        width={this.state.sidebarPanelWidth}
-        opacity={this.state.sidebarPanelOpacity}
-        loadStateCb={this.loadStateSidebarPanelCb}
-        saveStateCb={this.saveStateSidebarPanelCb}
-        me={this.state.me}
-        teamMembers={this.state.teamMembers}
-        activeTeamMember={this.state.activeTeamMember}
-      />
-    );
-  };
-
-  getCircuitsContent = () => {
-    return (
-      &lt;CircuitsPanel
-        xpSummary={this.state.xpSummary}
-        width={this.state.sidebarPanelWidth}
-        opacity={this.state.sidebarPanelOpacity}
-        loadStateCb={this.loadStateSidebarPanelCb}
-        saveStateCb={this.saveStateSidebarPanelCb}
-        me={this.state.me}
-        teamMembers={this.state.teamMembers}
-        activeTeamMember={this.state.activeTeamMember}
-      />
-    );
-  };
-
-  getNotificationsContent = () => {
-    return (
-      &lt;NotificationsPanel
-        xpSummary={this.state.xpSummary}
-        width={this.state.sidebarPanelWidth}
-        opacity={this.state.sidebarPanelOpacity}
-        loadStateCb={this.loadStateSidebarPanelCb}
-        saveStateCb={this.saveStateSidebarPanelCb}
-        me={this.state.me}
-        teamMembers={this.state.teamMembers}
-        activeTeamMember={this.state.activeTeamMember}
+      &lt;Popup
+        trigger={
+          &lt;Icon
+            link
+            name="unlinkify"
+            className="chainUnlink"
+            onClick={this.handleClickForChainUnlink}
+          />
+        }
+        content={this.getLinksContent()}
+        inverted
+        hideOnScroll
+        position="bottom left"
       />
     );
   };
 
   /**
-   * gets the sidebar panel content
+   * gets the busy icon for user linking
    * @returns {*}
    */
-  getSidebarPanelConent = () => {
+  getBusyIcon = () => {
     return (
-      &lt;div
-        id="wrapper"
-        className="consoleSidebarPanel"
-        style={{
-          width: this.state.sidebarPanelWidth,
-          height: DimensionController.getHeightFor(
-            DimensionController.Components.CONSOLE_LAYOUT
-          )
-        }}
-      >
-        {this.getActivePanelContent()}
+      &lt;Popup
+        trigger={&lt;Icon link name="gg" className="chainLink" />}
+        content={
+          &lt;div className="tooltipRed">
+            Busy &lt;i>(Already Linked)&lt;/i>
+          &lt;/div>
+        }
+        inverted
+        hideOnScroll
+        position="bottom left"
+      />
+    );
+  };
+
+  /**
+   * gets the badges content panel for the sidebar
+   * @returns {*}
+   */
+  getBadgesContent = () => {
+    return (
+      &lt;div className="badgesContent" style={{ height: this.props.height - 61 }}>
+        &lt;i>Check back later :)&lt;/i>
       &lt;/div>
     );
   };
 
-  // TODO use boolean to show content for transitions
-
   /**
-   * gets the active panel we should display
+   * renders the spirit title content for the panel
    * @returns {*}
    */
-  getActivePanelContent = () => {
-    switch (this.state.activePanel) {
-      case SidePanelViewController.MenuSelection.SPIRIT:
-        return this.getSpiritPanelContent();
-      case SidePanelViewController.MenuSelection.MESSAGES:
-        return this.getTeamPanelContent();
-      case SidePanelViewController.MenuSelection.CIRCUITS:
-        return this.getCircuitsContent();
-      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
-        return this.getNotificationsContent();
-      default:
-        throw new Error(
-          "Unknown active panel '" + this.state.activePanel + "'"
-        );
+  getSpiritTitle = () => {
+    let linkIcon = this.getLinkIcon(),
+      unlinkIcon = this.getUnlinkIcon(),
+      busyLinkIcon = this.getBusyIcon(),
+      activeLinkIcon = "";
+
+    if (this.props.isMe) {
+      if (this.hasActiveLinks()) {
+        activeLinkIcon = unlinkIcon;
+      }
+    } else {
+      if (this.isLinkedToMe()) {
+        activeLinkIcon = unlinkIcon;
+      } else if (this.hasActiveLinks()) {
+        activeLinkIcon = busyLinkIcon;
+      } else {
+        activeLinkIcon = linkIcon;
+      }
     }
-  };
-
-  /**
-   * gets the main console content component
-   * @returns {*}
-   */
-  getConsoleContent = () => {
     return (
-      &lt;div
-        id="wrapper"
-        className="consoleContent"
-        style={{
-          height: DimensionController.getHeightFor(
-            DimensionController.Components.CONSOLE_LAYOUT
-          )
-        }}
-      >
-        &lt;ConsoleContent
-          onFlameChange={this.onFlameChangeCb}
-          onAdjustFlame={this.adjustFlameCb}
+      &lt;div className="spiritTitle">
+        &lt;div className="level">
+          &lt;div className="infoTitle">
+            &lt;b>{this.props.torchieOwner}&lt;/b>
+            {activeLinkIcon}
+          &lt;/div>
+          &lt;div className="infoLevel">
+            &lt;b>Level {this.props.level} &lt;/b>
+            &lt;br />
+            &lt;i>({this.props.title})&lt;/i>
+          &lt;/div>
+        &lt;/div>
+
+        &lt;Popup
+          trigger={
+            &lt;Progress
+              size="small"
+              percent={this.props.percentXP}
+              color="violet"
+              inverted
+              progress
+            />
+          }
+          content={
+            &lt;div className="xpCount">
+              Total XP: &lt;i>{this.props.totalXP}&lt;/i>
+            &lt;/div>
+          }
+          inverted
+          hideOnScroll
+          position="bottom right"
         />
       &lt;/div>
     );
   };
 
   /**
-   * gets the sidebar to display in the console
+   * gets a 2d canvas to draw our torchie on
    * @returns {*}
    */
-  getConsoleSidebar = () => {
+  getSpiritCanvas = () => {
     return (
-      &lt;div id="wrapper" className="consoleSidebar">
-        &lt;ConsoleSidebar />
+      &lt;SpiritCanvas
+        flameString={this.state.flameString}
+        spirit={this.spiritModel}
+        width={DimensionController.getSpiritCanvasWidth()}
+        height={DimensionController.getSpiritCanvasHeight()}
+        render3d={this.render3d}
+      />
+    );
+  };
+
+  /**
+   * renders the flame buttons below the canvas
+   * @returns {*}
+   */
+  getSpiritButtons = () => {
+    return (
+      &lt;div className="ui two bottom attached buttons">
+        &lt;button
+          className="ui icon button rageButton"
+          tabIndex="0"
+          onClick={this.handleClickForRage}
+        >
+          &lt;Image centered src="./assets/images/wtf/24x24.png" />
+        &lt;/button>
+        &lt;button
+          className="ui icon button yayButton"
+          tabIndex="1"
+          onClick={this.handleClickForYay}
+        >
+          &lt;Image centered src="./assets/images/yay/24x24.png" />
+        &lt;/button>
       &lt;/div>
     );
   };
 
   /**
-   * renders the root console layout of the console view
-   * @returns {*} - the JSX to render
+   * renders the parts of the component together
+   * @returns {*}
+   */
+  getSpiritContent = () => {
+    return (
+      &lt;div className="spiritContent">
+        {this.getSpiritTitle()}
+        {this.getSpiritCanvas()}
+        {this.getSpiritButtons()}
+      &lt;/div>
+    );
+  };
+
+  /**
+   * renders the console sidebar panel of the console view
+   * @returns {*}
    */
   render() {
+    let { activeItem } = this.state;
+
+    const spiritContent = this.getSpiritContent();
+    const badgesContent = this.getBadgesContent();
     return (
-      &lt;div id="component" className="consoleLayout">
-        {this.getConsoleSidebar()}
-        {this.state.sidebarPanelVisible &amp;&amp; this.getSidebarPanelConent()}
-        {this.getConsoleContent()}
+      &lt;div
+        id="component"
+        className="consoleSidebarPanel spiritPanel"
+        style={{
+          width: "100%",
+          height: this.props.height,
+          opacity: 1
+        }}
+      >
+        &lt;Segment.Group>
+          &lt;Menu size="mini" inverted pointing secondary>
+            &lt;Menu.Item
+              name={SidePanelViewController.SubmenuSelection.SPIRIT}
+              active={
+                activeItem === SidePanelViewController.SubmenuSelection.SPIRIT
+              }
+              onClick={this.handleSpiritClick}
+            />
+            &lt;Menu.Item
+              name={SidePanelViewController.SubmenuSelection.BADGES}
+              active={
+                activeItem === SidePanelViewController.SubmenuSelection.BADGES
+              }
+              onClick={this.handleBadgesClick}
+            />
+          &lt;/Menu>
+          &lt;Segment inverted className={"spiritContentWrapper"}>
+            &lt;Transition
+              visible={this.state.spiritVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              {spiritContent}
+            &lt;/Transition>
+            &lt;Transition
+              visible={this.state.badgesVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              {badgesContent}
+            &lt;/Transition>
+          &lt;/Segment>
+        &lt;/Segment.Group>
       &lt;/div>
     );
   }

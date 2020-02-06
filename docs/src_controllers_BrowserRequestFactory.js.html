@@ -67,6 +67,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
@@ -354,8 +355,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
@@ -374,7 +373,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
@@ -420,6 +418,15 @@ export class BrowserRequestFactory {
    */
   static get URI_SEPARATOR() {
     return "::";
+  }
+
+  /**
+   * separates what denotes the root of the uri that represents the given resource
+   * @returns {string}
+   * @constructor
+   */
+  static get ROOT_SEPARATOR() {
+    return "/";
   }
 
   /**
@@ -535,6 +542,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.CIRCUIT +
         BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.WTF +
@@ -559,6 +567,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.JOURNAL +
         BrowserRequestFactory.PATH_SEPARATOR +
         teamMember
@@ -580,6 +589,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.CIRCUIT +
         BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.WTF +
@@ -590,6 +600,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.CIRCUIT +
         BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.WTF
@@ -608,6 +619,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.FLOW +
         BrowserRequestFactory.PATH_SEPARATOR +
         teamMember
@@ -628,6 +640,7 @@ export class BrowserRequestFactory {
       return (
         BrowserRequestFactory.Actions.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.JOURNAL +
         BrowserRequestFactory.PATH_SEPARATOR +
         teamMember

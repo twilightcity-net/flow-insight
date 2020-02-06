@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>src/components/troubleshoot/TroubleshootOpen.js - Documentation</title>
+  <title>ROOT_SEPARATOR - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -67,6 +67,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
@@ -354,8 +355,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
@@ -374,7 +373,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
@@ -389,120 +387,39 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">src/components/troubleshoot/TroubleshootOpen.js</h1>
+    <h1 class="page-title">ROOT_SEPARATOR</h1>
     <section>
+      <header>
+        <h2>
+          <span class="ancestors"><a href="BrowserRequestFactory.html">BrowserRequestFactory</a>.</span> ROOT_SEPARATOR </h2>
+      </header>
       <article>
-        <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import { Button, Segment } from "semantic-ui-react";
-import { DimensionController } from "../../controllers/DimensionController";
-import SplitterLayout from "react-splitter-layout";
-import "react-splitter-layout/lib/index.css";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-
-/**
- * this component is the tab panel wrapper for the console content
- */
-export default class TroubleshootOpen extends Component {
-  /**
-   * the constructor, duh
-   * @param props
-   */
-  constructor(props) {
-    super(props);
-    this.name = "[TroubleshootOpen]";
-    this.myController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
-      this
-    );
-  }
-
-  /**
-   * callled when the solved button is clicked
-   */
-  onClickStopTroubleshoot = () => {
-    console.log(this.name + " - on click stop troubleshooting");
-    this.myController.stopTroubleshooting();
-  };
-
-  /**
-   * gets the realtime content feed of the troubleshooting panel
-   * @returns {*}
-   */
-  getTroubleshootFeed() {
-    return (
-      &lt;div id="component" className="troubleshootFeed">
-        &lt;Segment
-          className="troubleshootFeed"
-          inverted
-          style={{
-            height: DimensionController.getHeightFor(
-              DimensionController.Components.TROUBLESHOOT
-            )
-          }}
-        >
-          Troubleshoot Content Troubleshoot Open
-        &lt;/Segment>
-      &lt;/div>
-    );
-  }
-
-  /**
-   * gets the sidebar react component for the content panel of troubleshoot
-   * @returns {*}
-   */
-  getTroubleshootSidebar() {
-    return (
-      &lt;div id="component" className="troubleshootSidebar">
-        &lt;Segment className="troubleshootSidebar" inverted>
-          &lt;Segment inverted>Troubleshoot Content&lt;/Segment>
-          room: angry_teachers
-          &lt;br />
-          owner: zoe
-          &lt;br />
-          time: 00:00:00 &lt;br />
-          &lt;Button
-            onClick={this.onClickStopTroubleshoot}
-            size="big"
-            color="purple"
-            animated="fade"
-          >
-            &lt;Button.Content visible>YAY!&lt;/Button.Content>
-            &lt;Button.Content hidden>WTF Resolved!&lt;/Button.Content>
-          &lt;/Button>
-        &lt;/Segment>
-      &lt;/div>
-    );
-  }
-
-  /**
-   * renders the default troubleshoot component in the console view
-   */
-  render() {
-    return (
-      &lt;div id="component" className="troubleshootContent">
-        &lt;SplitterLayout
-          percentage={true}
-          primaryIndex={0}
-          primaryMinSize={25}
-          secondaryMinSize={25}
-          secondaryInitialSize={40}
-        >
-          &lt;div>
-            &lt;div id="wrapper" className="troubleshootFeed">
-              {this.getTroubleshootFeed()}
-            &lt;/div>
-          &lt;/div>
-          &lt;div>
-            &lt;div id="wrapper" className="troubleshootSidebar">
-              {this.getTroubleshootSidebar()}
-            &lt;/div>
-          &lt;/div>
-        &lt;/SplitterLayout>
-      &lt;/div>
-    );
-  }
-}
-</code></pre>
+        <div class="container-overview">
+          <div class="section-method">
+            <h4 class="name"
+                id="ROOT_SEPARATOR"><span class="type-signature"></span>new ROOT_SEPARATOR<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+            <div class="description"> separates what denotes the root of the uri that represents the given resource </div>
+            <dl class="details">
+              <dt class="tag-source">Source:</dt>
+              <dd class="tag-source">
+                <ul class="dummy">
+                  <li>
+                    <a href="src_controllers_BrowserRequestFactory.js.html">src/controllers/BrowserRequestFactory.js</a>, <a href="src_controllers_BrowserRequestFactory.js.html#line36">line 36</a>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+            <div class="section-returns">
+              <h5>Returns:</h5>
+              <dl class="param-type">
+                <dt> Type: </dt>
+                <dd>
+                  <span class="param-type"><code>string</code></span>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
       </article>
     </section>
   </div>

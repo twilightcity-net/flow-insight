@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>src/components/flow/FlowLayout.js - Documentation</title>
+  <title>src/layout/content/console/browser/BrowserHeader.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -67,6 +67,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
@@ -354,8 +355,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
@@ -374,7 +373,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
@@ -389,37 +387,302 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">src/components/flow/FlowLayout.js</h1>
+    <h1 class="page-title">src/layout/content/console/browser/BrowserHeader.js</h1>
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import FlowContent from "./FlowContent";
+import {
+  Button,
+  Dropdown,
+  Grid,
+  Icon,
+  Input,
+  Segment
+} from "semantic-ui-react";
+import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
+// import { DataModelFactory } from "../../models/DataModelFactory";
+import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
+// import { PerspectiveController } from "../../controllers/PerspectiveController";
 
 /**
- * this component is the tab panel wrapper for the flow content
- * @author ZoeDreams
- * @copyright DreamScale, Inc. 2020©®™√
+ * this component is the tab panel wrapper for the console content
  */
-export default class FlowLayout extends Component {
+export default class BrowserHeader extends Component {
   /**
-   * builds the flow layout content.
-   * @param props
+   * default string we show in the address bar
+   * @type {string}
+   */
+  static locationStr = "Search Twilight or type a URI";
+  /**
+   * the constructor for the array of journal items to display
+   * @param props - the components properties
    */
   constructor(props) {
     super(props);
-    this.name = "[FlowLayout]";
+    this.name = "[BrowserHeader]";
+    this.state = {
+      disableControls: false,
+      location: "",
+      action: this.getOptions()[0].value
+    };
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.BROWSER_PANEL,
+      this
+    );
+    // this.teamModel = DataModelFactory.createModel(
+    //   DataModelFactory.Models.MEMBER_STATUS
+    // );
   }
 
   /**
-   * renders the journal layout of the console view
-   * @returns {*} - the rendered components JSX
+   * gets hardcoded array of actions used by the dropdown in the browser
+   * @returns {*}
+   */
+  getOptions() {
+    return [
+      {
+        key: 1,
+        text: BrowserRequestFactory.Actions.OPEN,
+        value: BrowserRequestFactory.Actions.OPEN
+      },
+      {
+        key: 2,
+        text: BrowserRequestFactory.Actions.CLOSE,
+        value: BrowserRequestFactory.Actions.CLOSE
+      },
+      {
+        key: 3,
+        text: BrowserRequestFactory.Actions.JOIN,
+        value: BrowserRequestFactory.Actions.JOIN
+      },
+      {
+        key: 4,
+        text: BrowserRequestFactory.Actions.LEAVE,
+        value: BrowserRequestFactory.Actions.LEAVE
+      }
+    ];
+  }
+
+  /**
+   * update our listeners
+   */
+  componentDidMount = () => {
+    this.myController.configureConsoleBrowserRequestListener(
+      this,
+      this.onConsoleBrowserRequestEvent
+    );
+    this.myController.configureConsoleBrowserLoadListener(
+      this,
+      this.onConsoleBrowserLoadEvent
+    );
+    this.myController.configureShowConsoleWindowListener(
+      this,
+      this.onShowConsoleWindowEvent
+    );
+  };
+
+  /**
+   * remove listeners when not in view
+   */
+  componentWillUnmount = () => {
+    this.myController.consoleBrowserRequestListener(this, null);
+    this.myController.configureConsoleBrowserLoadListener(this, null);
+    this.myController.configureShowConsoleWindowListener(this, null);
+  };
+
+  /**
+   * called when we wish to load content via the browser into the console
+   * @param event
+   * @param request
+   */
+  onConsoleBrowserRequestEvent = (event, request) => {
+    this.myController.processRequest(request);
+  };
+
+  /**
+   * called when content is actively loading into the console content
+   * @param event
+   * @param resource
+   */
+  onConsoleBrowserLoadEvent = (event, resource) => {
+    this.setState({
+      location: resource.uri
+    });
+  };
+
+  /**
+   * used to set the default browser location. This hook is used to update the state when we go to
+   * show the console for the first time. TeamModel should be loaded.
+   * @param event
+   * @param arg
+   */
+  onShowConsoleWindowEvent = (event, arg) => {
+    console.log(this.name + " first time console show -> load default content");
+    this.requestBrowserToLoadDefaultContent();
+    this.myController.configureShowConsoleWindowListener(this, null);
+    // console.log(this.name + " show console window : " + arg);
+    // this.setState({
+    //   location: "/journal/" + this.teamModel.getActiveTeamMemberShortName()
+    // });
+  };
+
+  /**
+   * loads default content into the browser which is our /journal/me
+   */
+  requestBrowserToLoadDefaultContent() {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.JOURNAL,
+      BrowserRequestFactory.Locations.ME
+    );
+    this.myController.makeRequest(request);
+  }
+
+  /**
+   * highlight field border when element is focused on
+   * @param e
+   */
+  handleFocus = e => {
+    document.getElementById("browserAction").classList.add("focused");
+    document.getElementById("browserInput").classList.add("focused");
+    document.getElementById("browserGo").classList.add("focused");
+  };
+
+  /**
+   * clear all of the highlights to the fields on any element blur.. called by all
+   * form element inputs
+   * @param e
+   */
+  handleBlur = e => {
+    document.getElementById("browserAction").classList.remove("focused");
+    document.getElementById("browserInput").classList.remove("focused");
+    document.getElementById("browserGo").classList.remove("focused");
+  };
+
+  /**
+   * works the same as the click for create handler.. see above ^
+   * @param e
+   */
+  handleKeyPressForInput = e => {
+    if (e.charCode === 13) {
+      this.handleClickForGo();
+    }
+  };
+
+  /**
+   * loads a new perspective.
+   */
+  handleClickForGo = () => {
+    this.doRequest(this.state.action, this.state.location);
+  };
+
+  /**
+   * performs the request from the input field of the component
+   * @param action
+   * @param uril
+   */
+  doRequest = (action, uril) => {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.BROWSER,
+      action,
+      uril
+    );
+    this.myController.makeRequest(request);
+  };
+
+  /**
+   * handles the event that is notified on change of an input link
+   * @param e
+   * @param name
+   * @param value
+   */
+  handleChangeForInput = (e, { value }) => {
+    this.setState({ location: value.toLowerCase() });
+  };
+
+  /**
+   * handler for when things change in the dropdown
+   * @param e
+   * @param value
+   */
+  handleChangeForAction = (e, { value }) => {
+    this.setState({ action: value });
+  };
+
+  /**
+   * returns the JSX component of action drop down
+   * @returns {*}
+   */
+  getActionDropdown() {
+    let options = this.getOptions();
+    return (
+      &lt;Dropdown
+        disabled={this.state.disableControls}
+        className="browserAction"
+        id="browserAction"
+        placeholder="Choose Action"
+        selection
+        options={options}
+        value={this.state.action}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        onChange={this.handleChangeForAction}
+      />
+    );
+  }
+
+  /**
+   * returns the browser headers input
+   * @returns {*}
+   */
+  getBrowserInput = () => {
+    return (
+      &lt;Input
+        disabled={this.state.disableControls}
+        id="browserInput"
+        className="browserInput"
+        fluid
+        inverted
+        placeholder={BrowserHeader.locationStr}
+        value={this.state.location.toLowerCase()}
+        onFocus={this.handleFocus}
+        onBlur={this.handleBlur}
+        onKeyPress={this.handleKeyPressForInput}
+        onChange={this.handleChangeForInput}
+        action={
+          &lt;Button
+            color="violet"
+            className="browserGo"
+            id="browserGo"
+            onClick={this.handleClickForGo}
+          >
+            &lt;Icon name="play" />
+          &lt;/Button>
+        }
+      />
+    );
+  };
+
+  /**
+   * renders the journal items component from array in the console view
+   * @returns {*} - the JSX to render for the journal header
    */
   render() {
     return (
-      &lt;div id="component" className="flowLayout">
-        &lt;div id="wrapper" className="flowContent">
-          &lt;FlowContent />
-        &lt;/div>
+      &lt;div id="component" className="browserHeader">
+        &lt;Segment.Group>
+          &lt;Segment inverted>
+            &lt;Grid columns="equal" divided inverted>
+              &lt;Grid.Row stretched>
+                &lt;Grid.Column width={2} id="browserActionCell">
+                  {this.getActionDropdown()}
+                &lt;/Grid.Column>
+                &lt;Grid.Column width={14} id="browserInputCell">
+                  {this.getBrowserInput()}
+                &lt;/Grid.Column>
+              &lt;/Grid.Row>
+            &lt;/Grid>
+          &lt;/Segment>
+        &lt;/Segment.Group>
       &lt;/div>
     );
   }

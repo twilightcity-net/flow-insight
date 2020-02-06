@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>src/components/troubleshoot/TroubleshootStart.js - Documentation</title>
+  <title>src/layout/content/console/sidebar/ConsoleSidebar.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -67,6 +67,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
@@ -354,8 +355,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
@@ -374,7 +373,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
@@ -389,66 +387,254 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">src/components/troubleshoot/TroubleshootStart.js</h1>
+    <h1 class="page-title">src/layout/content/console/sidebar/ConsoleSidebar.js</h1>
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import { Segment } from "semantic-ui-react";
-import { DimensionController } from "../../controllers/DimensionController";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
+import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { DimensionController } from "../../../../controllers/DimensionController";
 
 /**
- * this component is the tab panel wrapper for the console content
- * @author ZoeDreams
+ * this component is the sidebar to the console. This animates a slide.
+ * @type{ConsoleSidebar}
  */
-export default class TroubleshootStart extends Component {
+export default class ConsoleSidebar extends Component {
+  static className = "consoleSidebar";
   /**
-   * the constructor function that is called when creating a new TroubleshootSession
-   * @param props - properties that are passed in from the troubleshoot layout
+   * builds the console sidebar and panel with given properties
+   * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[TroubleshootStart]";
+    this.name = "[ConsoleSidebar]";
+    this.state = {
+      activeItem: SidePanelViewController.MenuSelection.SPIRIT,
+      iconProfile: "heart",
+      iconMessages: "user outline",
+      iconCircuit: "compass outline",
+      iconNotifications: "bell outline"
+    };
     this.myController = ActiveViewControllerFactory.createViewController(
-      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
-      this
+      ActiveViewControllerFactory.Views.SIDE_PANEL
     );
   }
 
-  onStartTroubleshoot = () => {
-    return this.myController.startTroubleshooting();
+  /**
+   * called when the sidebar is created in the view and will render
+   */
+  componentDidMount = () => {
+    this.myController.configurePulseListener(this, this.onPulse);
+    this.myController.configureHeartbeatListener(this, this.onHeartbeat);
+    this.myController.configureMenuListener(this, this.onRefresh);
   };
 
   /**
-   * renders the default troubleshoot component in the console view
-   * @returns {*}
+   * called when we remove the console sidebar panel and menu from view
+   */
+  componentWillUnmount = () => {
+    this.myController.configureHeartbeatListener(this, null);
+    this.myController.configurePulseListener(this, null);
+    this.myController.configureMenuListener(this, null);
+  };
+
+  onHeartbeat(event, arg) {
+    this.setState({
+      isOnline: arg.isOnline,
+      pingTime: arg.pingTime,
+      latencyTime: arg.latencyTime,
+      talkUrl: arg.talkUrl,
+      server: arg.server,
+      errorMsg: arg.message
+    });
+  }
+
+  onPulse(event, arg) {
+    this.setState({
+      latencyTime: arg.latencyTime
+    });
+  }
+
+  /**
+   * function handler that os called when the console layout perspective changes
+   */
+  onRefresh() {
+    let activeMenuItem = this.myController.activeMenuSelection;
+    let state = {
+      activeItem: activeMenuItem,
+      iconProfile: "heart",
+      iconMessages: "user",
+      iconNotifications: "bell",
+      iconCircuit: "compass"
+    };
+    let oStr = " outline";
+    switch (activeMenuItem) {
+      case SidePanelViewController.MenuSelection.SPIRIT:
+        state.iconMessages += oStr;
+        state.iconNotifications += oStr;
+        state.iconCircuit += oStr;
+        break;
+      case SidePanelViewController.MenuSelection.MESSAGES:
+        state.iconProfile += oStr;
+        state.iconNotifications += oStr;
+        state.iconCircuit += oStr;
+        break;
+      case SidePanelViewController.MenuSelection.CIRCUITS:
+        state.iconProfile += oStr;
+        state.iconMessages += oStr;
+        state.iconNotifications += oStr;
+        break;
+      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
+        state.iconProfile += oStr;
+        state.iconMessages += oStr;
+        state.iconCircuit += oStr;
+        break;
+      case SidePanelViewController.MenuSelection.NONE:
+        state.iconProfile += oStr;
+        state.iconMessages += oStr;
+        state.iconCircuit += oStr;
+        state.iconNotifications += oStr;
+        break;
+      default:
+        break;
+    }
+    this.setState(state);
+  }
+
+  /**
+   * called when we delect a menu ite,. This should close the panel
+   */
+  deselectItem = () => {
+    this.myController.hidePanel();
+  };
+
+  /**
+   * called when we select a new console menu item
+   * @param name
+   */
+  selectItem = name => {
+    this.myController.showPanel(name);
+  };
+
+  /**
+   * event click handler for the menu
+   * @param e
+   * @param name
+   */
+  handleItemClick = (e, { name }) => {
+    if (this.state.activeItem === name) {
+      this.deselectItem(name);
+    } else {
+      this.selectItem(name);
+    }
+  };
+
+  /**
+   * renders the sidebar of the console view
    */
   render() {
-    return (
-      &lt;div id="component" className="troubleshootContent">
-        &lt;Segment
-          textAlign={"center"}
-          className="wtf-panel-start"
-          inverted
-          padded={"very"}
-          style={{
-            height: DimensionController.getHeightFor(
-              DimensionController.Components.TROUBLESHOOT
-            )
-          }}
-        >
-          &lt;div className="wtf-start-content">
-            &lt;div
-              className="wtf-button-massive"
-              onClick={this.onStartTroubleshoot}
-            >
-              WTF?
-            &lt;/div>
-            &lt;Segment inverted size={"huge"} className="wtf-button-desc">
-              &lt;b>Start A Troubleshooting Session!&lt;/b>
-            &lt;/Segment>
+    const {
+      activeItem,
+      isOnline,
+      pingTime,
+      latencyTime,
+      talkUrl,
+      server,
+      errorMsg
+    } = this.state;
+    const networkConnectMenuItem = (
+      &lt;Menu.Item
+        header
+        className={isOnline ? "networkConnect" : "networkConnectError"}
+      >
+        &lt;Icon
+          name={isOnline ? "signal" : "remove circle"}
+          color={isOnline ? "green" : "red"}
+        />
+      &lt;/Menu.Item>
+    );
+    const popupContent = (
+      &lt;div>
+        &lt;div>
+          &lt;i>{server}&lt;/i>
+        &lt;/div>
+        &lt;div>
+          &lt;i>ping: &lt;/i>
+          &lt;b>
+            &lt;i>{pingTime &lt;= 0 ? "calculating..." : pingTime + "ms"}&lt;/i>
+          &lt;/b>
+        &lt;/div>
+        &lt;Divider />
+        &lt;div>
+          &lt;i>{talkUrl}&lt;/i>
+        &lt;/div>
+        &lt;div>
+          &lt;i>latency: &lt;/i>
+          &lt;b>
+            &lt;i>{latencyTime &lt;= 0 ? "calculating..." : latencyTime + "ms"}&lt;/i>
+          &lt;/b>
+        &lt;/div>
+        {!isOnline &amp;&amp; (
+          &lt;div className="errorMsg">
+            &lt;i style={{ color: "red" }}>
+              &lt;b>{errorMsg}&lt;/b>
+            &lt;/i>
           &lt;/div>
-        &lt;/Segment>
+        )}
+      &lt;/div>
+    );
+    return (
+      &lt;div id="component" className={ConsoleSidebar.className}>
+        &lt;Menu
+          inverted
+          icon
+          vertical
+          style={{ height: DimensionController.getConsoleSidebarHeight() }}
+        >
+          &lt;Menu.Item
+            name={SidePanelViewController.MenuSelection.SPIRIT}
+            active={activeItem === SidePanelViewController.MenuSelection.SPIRIT}
+            onClick={this.handleItemClick}
+          >
+            &lt;Icon name={this.state.iconProfile} />
+          &lt;/Menu.Item>
+          &lt;Menu.Item
+            name={SidePanelViewController.MenuSelection.MESSAGES}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.MESSAGES
+            }
+            onClick={this.handleItemClick}
+          >
+            &lt;Icon name={this.state.iconMessages} />
+          &lt;/Menu.Item>
+          &lt;Menu.Item
+            name={SidePanelViewController.MenuSelection.CIRCUITS}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.CIRCUITS
+            }
+            onClick={this.handleItemClick}
+          >
+            &lt;Icon name={this.state.iconCircuit} />
+          &lt;/Menu.Item>
+          &lt;Menu.Item
+            name={SidePanelViewController.MenuSelection.NOTIFICATIONS}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.NOTIFICATIONS
+            }
+            onClick={this.handleItemClick}
+          >
+            &lt;Icon name={this.state.iconNotifications} />
+          &lt;/Menu.Item>
+          &lt;Popup
+            trigger={networkConnectMenuItem}
+            className="chunkTitle"
+            content={popupContent}
+            position="top left"
+            offset={-2}
+            inverted
+          />
+        &lt;/Menu>
       &lt;/div>
     );
   }

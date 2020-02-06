@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>src/components/journal/JournalItem.js - Documentation</title>
+  <title>src/layout/content/console/sidebar/TeamPanel.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -67,6 +67,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
@@ -354,8 +355,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOptions">getOptions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootFeed">getTroubleshootFeed</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTroubleshootSidebar">getTroubleshootSidebar</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
@@ -374,7 +373,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#resetFocus">resetFocus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
@@ -389,249 +387,240 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">src/components/journal/JournalItem.js</h1>
+    <h1 class="page-title">src/layout/content/console/sidebar/TeamPanel.js</h1>
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import { Divider, Grid, Icon, Image, Popup } from "semantic-ui-react";
+import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
+import TeamMember from "./TeamMember";
+import { DataModelFactory } from "../../../../models/DataModelFactory";
+import { DimensionController } from "../../../../controllers/DimensionController";
+import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 
 /**
- * this component is the individual journal item entered in by the user
+ * this component is the tab panel wrapper for the console content
  */
-
-// FIXME this component needs be have almost no logic because it is replicated in a map
-
-export default class JournalItem extends Component {
+export default class TeamPanel extends Component {
+  /**
+   * builds the team panel for the renderer
+   * @param props
+   */
   constructor(props) {
     super(props);
-
-    this.name = "[JournalItem]";
+    this.name = "[TeamPanel]";
+    this.state = this.loadState();
+    this.spiritModel = DataModelFactory.createModel(
+      DataModelFactory.Models.SPIRIT,
+      this
+    );
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS,
+      this
+    );
+    this.myController = ActiveViewControllerFactory.createViewController(
+      ActiveViewControllerFactory.Views.SIDE_PANEL
+    );
   }
 
-  selectRow(rowId, journalItem) {
-    let rowObj = document.getElementById(rowId);
-
-    this.props.onSetActiveRow(rowId, rowObj, journalItem);
+  /**
+   * loads the stored state from parent or use default values
+   * @returns {{animationDelay: number, title: string, animationType: string}|*}
+   */
+  loadState() {
+    let state = this.props.loadStateCb();
+    if (!state) {
+      return {
+        activeItem: SidePanelViewController.SubmenuSelection.TEAM,
+        teamVisible: false,
+        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
+        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
+        title: ""
+      };
+    }
+    return state;
   }
 
-  handleClickForDone = () => {
-    this.handleUpdateFinishStatus("done");
+  /**
+   * stores this components state in the parents state
+   * @param state
+   */
+  saveState(state) {
+    this.props.saveStateCb(state);
+  }
+
+  /**
+   * called when we render the team panel into the gui
+   */
+  componentDidMount = () => {
+    this.myController.configureTeamPanelListener(this, this.onRefreshTeamPanel);
+    this.onRefreshTeamPanel();
   };
 
-  handleClickForAbort = () => {
-    this.handleUpdateFinishStatus("aborted");
+  /**
+   * called to refresh the team panel with new data
+   */
+  onRefreshTeamPanel() {
+    switch (this.myController.activeTeamSubmenuSelection) {
+      case SidePanelViewController.SubmenuSelection.TEAM:
+        this.showTeamPanel();
+        break;
+      default:
+        throw new Error("Unknown team panel menu item");
+    }
+  }
+
+  /**
+   * called to display the team panel in the gui
+   */
+  showTeamPanel() {
+    this.teamModel.refreshAll();
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.TEAM,
+      teamVisible: true
+    });
+  }
+
+  /**
+   * called when removing the component from the gui. removes any associated listeners for
+   * memory management
+   */
+  componentWillUnmount = () => {
+    this.myController.configureTeamPanelListener(this, null);
   };
 
-  handleUpdateFinishStatus = finishStatus => {
-    this.props.journalItem.finishStatus = finishStatus;
-    this.props.onUpdateFinishStatus(this.props.journalItem, finishStatus);
+  /**
+   * updates display to show spirit content
+   * @param e
+   * @param name
+   */
+  handleClick = (e, { name }) => {
+    this.myController.changeActiveTeamSubmenuPanel(name);
   };
 
-  gotoCircle = () => {
-    console.log(this.name + " - gotoCircle!!! " + this.props.circleId);
+  /**
+   * selects a team member in the list
+   * @param id
+   * @param teamMember
+   */
+  selectRow = (id, teamMember) => {
+    console.log(
+      this.name + " - Team member clicked!" + teamMember.name + "id = " + id
+    );
+    this.requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember.name);
+    // this.teamModel.setActiveMember(id);
   };
 
-  /// renders the component of the console view
-  render() {
-    let finishIcon = "";
-    if (this.props.finishStatus === "done") {
-      finishIcon = &lt;Icon name="check" className="doneGreenDark" />;
-    } else if (this.props.finishStatus === "aborted") {
-      finishIcon = &lt;Icon name="close" className="doneRed" />;
-    } else if (this.props.isMyJournal) {
-      finishIcon = (
-        &lt;span>
-          {" "}
-          &lt;Popup
-            trigger={
-              &lt;Icon
-                link
-                name="check"
-                className="doneGreen"
-                onClick={this.handleClickForDone}
-              />
-            }
-            content={&lt;div className="doneGreen">Finish&lt;/div>}
-            inverted
-            hideOnScroll
-          />
-          &lt;Popup
-            trigger={
-              &lt;Icon
-                link
-                name="close"
-                color="red"
-                onClick={this.handleClickForAbort}
-              />
-            }
-            content={&lt;div className="doneRed">Abort&lt;/div>}
-            inverted
-            hideOnScroll
-          />
-        &lt;/span>
-      );
-    }
-
-    if (this.props.circleId) {
-      finishIcon = "";
-    }
-
-    let active = "";
-    if (this.props.isActive) {
-      active = "active";
-    }
-
-    let wtfPrefix = "";
-    let wtfPopup = "";
-    let padding = "";
-    if (this.props.journalEntryType === "WTF") {
-      wtfPrefix = (
-        &lt;span className="circleLink" onClick={this.gotoCircle}>
-          WTF?
-        &lt;/span>
-      );
-
-      if (
-        this.props.finishStatus === "aborted" ||
-        this.props.finishStatus === "done"
-      ) {
-        wtfPopup = (
-          &lt;div>
-            &lt;div>
-              &lt;span className="alarm">
-                {" "}
-                &lt;i>Circle Closed&lt;/i>
-              &lt;/span>
-            &lt;/div>
-          &lt;/div>
-        );
-      } else {
-        wtfPopup = (
-          &lt;div>
-            &lt;div>
-              &lt;span className="alarm">
-                {" "}
-                &lt;i>Click to Join!&lt;/i>
-              &lt;/span>
-            &lt;/div>
-          &lt;/div>
-        );
-      }
-
-      padding = &lt;span>&amp;nbsp;&amp;nbsp;&lt;/span>;
-    }
-
-    let linkedBlock = "";
-    if (this.props.linked) {
-      linkedBlock = &lt;Icon name="linkify" className="journalLink" />;
-    }
-
-    let taskStyle = "chunkTitle";
-    let descriptionStyle = "chunkText";
-
-    const projectCell = (
-      &lt;div className={taskStyle}>{this.props.projectName}&lt;/div>
+  /**
+   * creates a new request and dispatch this to the browser request listener
+   * @param circuitName
+   */
+  requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember) {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.TEAM,
+      teamMember
     );
-    const taskCell = (
-      &lt;div className={taskStyle}>
-        {this.props.taskName}
-        {linkedBlock}
-      &lt;/div>
-    );
-    const chunkCell = (
-      &lt;div className={descriptionStyle}>
-        {padding}
-        {padding}
-        &lt;Popup
-          trigger={wtfPrefix}
-          content={wtfPopup}
-          position="top center"
-          inverted
-          hideOnScroll
-        />
+    this.myController.makeSidebarBrowserRequest(request);
+  }
 
-        {padding}
+  /**
+   * determines if we are currently linked to another team member
+   * @param memberId
+   * @returns {boolean}
+   */
+  isLinked = memberId => {
+    return this.spiritModel.isLinked(memberId);
+  };
 
-        {this.props.description}
-        {finishIcon}
-      &lt;/div>
-    );
-
-    const popupContent = (
-      &lt;div>
-        &lt;div>
-          &lt;i>{this.props.projectName}&lt;/i>
-        &lt;/div>
-        &lt;div>
-          &lt;b>
-            &lt;span className="taskhighlight"> {this.props.taskName} &lt;/span>
-          &lt;/b>
-        &lt;/div>
-        &lt;div>{this.props.taskSummary}&lt;/div>
-
-        &lt;Divider />
-        &lt;div>
-          &lt;span className="date">{this.props.position}&lt;/span>
-        &lt;/div>
-      &lt;/div>
-    );
-
-    let flameBlock = "";
-
-    let flameRating = this.props.flameRating;
-
-    if (this.props.dirtyFlame != null) {
-      flameRating = this.props.dirtyFlame;
-    }
-
-    if (flameRating > 0) {
-      flameBlock = (
-        &lt;span className="yayFlame">
-          {flameRating}{" "}
-          &lt;Image src="./assets/images/yay/16x16.png" verticalAlign="top" />
-        &lt;/span>
-      );
-    } else if (flameRating &lt; 0) {
-      flameBlock = (
-        &lt;span className="wtfFlame">
-          {Math.abs(flameRating)}{" "}
-          &lt;Image src="./assets/images/wtf/16x16.png" verticalAlign="middle" />
-        &lt;/span>
-      );
-    }
-
+  /**
+   * gets our team panel content with the team model that was passed in from the props
+   * @returns {*}
+   */
+  getTeamMembersContent = () => {
     return (
-      &lt;Grid.Row
-        id={this.props.id}
-        className={active}
-        onClick={() => this.selectRow(this.props.id, this.props.journalItem)}
+      &lt;div>
+        &lt;Grid inverted>
+          &lt;TeamMember
+            key={this.props.me.id}
+            id={this.props.me.id}
+            isLinked={this.isLinked(this.props.me.id)}
+            shortName={this.props.me.shortName + " (you)"}
+            name={this.props.me.name}
+            activeStatus={this.props.me.activeStatus}
+            statusColor={this.props.me.statusColor}
+            activeTaskName={this.props.me.activeTaskName}
+            activeTaskSummary={this.props.me.activeTaskSummary}
+            workingOn={this.props.me.workingOn}
+            isAlarmTriggered={this.props.me.isAlarmTriggered}
+            wtfTimer={this.props.me.wtfTimer}
+            alarmStatusMessage={this.props.me.alarmStatusMessage}
+            level={this.props.me.level}
+            xpRequired={this.props.me.xpRequired}
+            onSetActiveRow={this.selectRow}
+            teamMember={this.props.me}
+            activeTeamMember={this.props.activeTeamMember}
+          />
+          {this.props.teamMembers.map(d => (
+            &lt;TeamMember
+              key={d.id}
+              id={d.id}
+              isLinked={this.isLinked(d.id)}
+              shortName={d.shortName}
+              name={d.name}
+              activeStatus={d.activeStatus}
+              statusColor={d.statusColor}
+              activeTaskName={d.activeTaskName}
+              activeTaskSummary={d.activeTaskSummary}
+              workingOn={d.workingOn}
+              isAlarmTriggered={d.isAlarmTriggered}
+              wtfTimer={d.wtfTimer}
+              alarmStatusMessage={this.props.me.alarmStatusMessage}
+              level={d.level}
+              xpRequired={d.xpRequired}
+              onSetActiveRow={this.selectRow}
+              teamMember={d}
+              activeTeamMember={this.props.activeTeamMember}
+            />
+          ))}
+        &lt;/Grid>
+      &lt;/div>
+    );
+  };
+
+  /**
+   * renders the console sidebar panel of the console view
+   * @returns {*}
+   */
+  render() {
+    return (
+      &lt;div
+        id="component"
+        className="consoleSidebarPanel teamPanel"
+        style={{
+          width: this.props.width,
+          opacity: this.props.opacity
+        }}
       >
-        &lt;Grid.Column width={3}>
-          &lt;Popup
-            trigger={projectCell}
-            className="chunkTitle"
-            content={popupContent}
-            position="bottom left"
+        &lt;Segment.Group>
+          &lt;Menu size="mini" inverted pointing secondary>
+            &lt;Menu.Item name="team" active={true} onClick={this.handleClick} />
+          &lt;/Menu>
+          &lt;Segment
             inverted
-            hideOnScroll
-          />
-        &lt;/Grid.Column>
-        &lt;Grid.Column width={2}>
-          &lt;Popup
-            trigger={taskCell}
-            className="chunkTitle"
-            content={popupContent}
-            position="bottom left"
-            inverted
-          />
-        &lt;/Grid.Column>
-        &lt;Grid.Column width={9} className="chunkCell">
-          {chunkCell}
-        &lt;/Grid.Column>
-        &lt;Grid.Column width={2} className="chunkTitle">
-          {flameBlock}
-        &lt;/Grid.Column>
-      &lt;/Grid.Row>
+            style={{ height: DimensionController.getSidebarPanelHeight() }}
+          >
+            &lt;Transition
+              visible={this.state.teamVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              {this.getTeamMembersContent()}
+            &lt;/Transition>
+          &lt;/Segment>
+        &lt;/Segment.Group>
+      &lt;/div>
     );
   }
 }
