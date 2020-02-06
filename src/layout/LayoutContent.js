@@ -49,15 +49,15 @@ export default class LayoutContent extends Component {
       className = "Layout";
     switch (this.state.activeComponent) {
       case MainPanelViewController.Resources.JOURNAL:
-        component = <JournalResource resource={this.state.resource}/>;
+        component = <JournalResource resource={this.state.resource} />;
         className = MainPanelViewController.Resources.JOURNAL + className;
         break;
       case MainPanelViewController.Resources.CIRCUIT:
-        component = <WtfResource resource={this.state.resource}/>;
+        component = <WtfResource resource={this.state.resource} />;
         className = MainPanelViewController.Resources.JOURNAL + className;
         break;
       case MainPanelViewController.Resources.FLOW:
-        component = <FlowResource resource={this.state.resource}/>;
+        component = <FlowResource resource={this.state.resource} />;
         className = MainPanelViewController.Resources.FLOW + className;
         break;
 

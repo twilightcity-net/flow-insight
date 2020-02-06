@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import CircuitWTFOpen from "./components/CircuitWTFOpen";
 import CircuitWTFStart from "./components/CircuitWTFStart";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
-import {MainPanelViewController} from "../../controllers/MainPanelViewController";
-import {BrowserRequestFactory} from "../../controllers/BrowserRequestFactory";
+import { MainPanelViewController } from "../../controllers/MainPanelViewController";
+import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -25,14 +25,14 @@ export default class CircuitResource extends Component {
   }
 
   componentDidMount = () => {
-    console.log(this.state)
+    console.log(this.state);
   };
 
   isWTF(resource) {
     let arr = resource.uriArr;
-    if(arr.length > 1) {
-      if(arr[1] === BrowserRequestFactory.Locations.WTF) {
-        if(arr.length > 2 && arr.length < 4) {
+    if (arr.length > 1) {
+      if (arr[1] === BrowserRequestFactory.Locations.WTF) {
+        if (arr.length > 2 && arr.length < 4) {
           return true;
         }
       }
@@ -47,10 +47,10 @@ export default class CircuitResource extends Component {
   render() {
     let wtfPanel;
 
-    if(this.state.isWTF) {
-      wtfPanel = <CircuitWTFOpen/>;
+    if (this.state.isWTF) {
+      wtfPanel = <CircuitWTFOpen />;
     } else {
-      wtfPanel = <CircuitWTFStart/>;
+      wtfPanel = <CircuitWTFStart />;
     }
     return (
       <div id="component" className="troubleshootLayout">
