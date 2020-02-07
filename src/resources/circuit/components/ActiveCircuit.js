@@ -8,28 +8,43 @@ import { ActiveViewControllerFactory } from "../../../controllers/ActiveViewCont
 /**
  * this component is the tab panel wrapper for the console content
  */
-export default class CircuitWTFOpen extends Component {
+export default class ActiveCircuit extends Component {
   /**
    * the constructor, duh
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[CircuitWTFOpen]";
+    this.name = "[ActiveCircuit]";
+    this.state = {
+      resource: props.resource
+    };
     this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.TROUBLE_PANEL,
+      ActiveViewControllerFactory.Views.RESOURCE_PANEL,
       this
     );
   }
 
-  /**
-   * callled when the solved button is clicked
-   */
-  onClickStopTroubleshoot = () => {
-    console.log(this.name + " - on click stop troubleshooting");
-    this.myController.stopTroubleshooting();
+  componentDidMount() {
+    console.log(this.name + " load active circuit with members");
+
+    // TODO implement circuit client getActiveCircuitWithMembers()
+  }
+
+  onClickRetroActiveCircuit = () => {
+    console.log(this.name + " - on click retro active circuit");
+    this.myController.retroActiveCircuitResource();
   };
 
+  onClickHoldActiveCircuit = () => {
+    console.log(this.name + " - on click hold active circuit");
+    this.myController.holdActiveCircuitResource();
+  };
+
+  onClickCancelActiveCircuit = () => {
+    console.log(this.name + " - on click cancel active circuit");
+    this.myController.cancelActiveCircuitResource();
+  };
   /**
    * gets the realtime content feed of the troubleshooting panel
    * @returns {*}
@@ -67,13 +82,31 @@ export default class CircuitWTFOpen extends Component {
           <br />
           time: 00:00:00 <br />
           <Button
-            onClick={this.onClickStopTroubleshoot}
-            size="big"
+            onClick={this.onClickRetroActiveCircuit}
+            size="medium"
             color="purple"
             animated="fade"
           >
-            <Button.Content visible>YAY!</Button.Content>
-            <Button.Content hidden>WTF Resolved!</Button.Content>
+            <Button.Content visible>Solved</Button.Content>
+            <Button.Content hidden>Retro ...</Button.Content>
+          </Button>
+          <Button
+            onClick={this.onClickHoldActiveCircuit}
+            size="medium"
+            color="grey"
+            animated="fade"
+          >
+            <Button.Content visible>Do Later</Button.Content>
+            <Button.Content hidden>Hold ...</Button.Content>
+          </Button>
+          <Button
+            onClick={this.onClickCancelActiveCircuit}
+            size="medium"
+            color="grey"
+            animated="fade"
+          >
+            <Button.Content visible>Cancel</Button.Content>
+            <Button.Content hidden>Remove ...</Button.Content>
           </Button>
         </Segment>
       </div>
@@ -91,7 +124,7 @@ export default class CircuitWTFOpen extends Component {
           primaryIndex={0}
           primaryMinSize={25}
           secondaryMinSize={25}
-          secondaryInitialSize={40}
+          secondaryInitialSize={25}
         >
           <div>
             <div id="wrapper" className="troubleshootFeed">

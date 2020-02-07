@@ -48,7 +48,7 @@ export default class LayoutContent extends Component {
       className = "Layout",
       resource = this.state.resource;
 
-    if(resource.uriArr) {
+    if (resource.uriArr) {
       resource = resource.uriArr[0];
     }
     switch (resource) {
@@ -71,9 +71,7 @@ export default class LayoutContent extends Component {
 
       // TODO implement a 404 like error page to display to the user
       default:
-        component = (
-          <div>404 - Unknown location '{resource}'</div>
-        );
+        component = <div>404 - Unknown location '{resource}'</div>;
         className = MainPanelViewController.Resources.NONE + className;
         break;
     }

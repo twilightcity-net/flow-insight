@@ -1,10 +1,10 @@
-import {ActiveViewController} from "./ActiveViewController";
-import {DataModelFactory} from "../models/DataModelFactory";
-import {CircuitClient} from "../clients/CircuitClient";
-import {BrowserRequestFactory} from "./BrowserRequestFactory";
-import {ActiveViewControllerFactory} from "./ActiveViewControllerFactory";
+import { ActiveViewController } from "./ActiveViewController";
+import { DataModelFactory } from "../models/DataModelFactory";
+import { CircuitClient } from "../clients/CircuitClient";
+import { BrowserRequestFactory } from "./BrowserRequestFactory";
+import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
 
-export class TroubleshootController extends ActiveViewController {
+export class ResourceCircuitController extends ActiveViewController {
   constructor(scope) {
     super(scope);
     this.browserController = ActiveViewControllerFactory.getViewController(
@@ -35,7 +35,16 @@ export class TroubleshootController extends ActiveViewController {
     });
   };
 
-  stopTroubleshooting = () => {
-    console.log(this.name + " stop troubleshooting");
+  retroActiveCircuitResource = () => {
+    console.log(this.name + " this active circuit - retro");
+  };
+
+  holdActiveCircuitResource = () => {
+    console.log(this.name + " this active circuit -> hold");
+
+  };
+
+  cancelActiveCircuitResource = () => {
+    console.log(this.name + " this active circuit - cancel");
   };
 }

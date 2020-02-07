@@ -1,7 +1,7 @@
 import { SidePanelViewController } from "./SidePanelViewController";
 import { MainPanelViewController } from "./MainPanelViewController";
 import { ConsoleViewController } from "./ConsoleViewController";
-import { TroubleshootController } from "./TroubleshootController";
+import { ResourceCircuitController } from "./ResourceCircuitController";
 import { BrowserController } from "./BrowserController";
 
 /**
@@ -17,12 +17,12 @@ export class ActiveViewControllerFactory {
 
   /**
    * the views of the gui that have controllers
-   * @returns {{TROUBLE_PANEL: string, MAIN_PANEL: string, CONSOLE_PANEL: string, SIDE_PANEL: string}}
+   * @returns {{RESOURCE_PANEL: string, MAIN_PANEL: string, CONSOLE_PANEL: string, SIDE_PANEL: string}}
    * @constructor
    */
   static get Views() {
     return {
-      TROUBLE_PANEL: "trouble-panel",
+      RESOURCE_PANEL: "resource-panel",
       SIDE_PANEL: "side-panel",
       MAIN_PANEL: "main-panel",
       CONSOLE_PANEL: "console-panel",
@@ -64,12 +64,12 @@ export class ActiveViewControllerFactory {
    * creates a new initialized controller with the given scope
    * @param name - the name of the controller
    * @param scope - the given scope to create in
-   * @returns {ConsoleViewController|TroubleshootController|MainPanelViewController|null|SidePanelViewController}
+   * @returns {ConsoleViewController|ResourceCircuitController|MainPanelViewController|null|SidePanelViewController}
    */
   static initializeNewViewController(name, scope) {
     switch (name) {
-      case ActiveViewControllerFactory.Views.TROUBLE_PANEL:
-        return new TroubleshootController(scope);
+      case ActiveViewControllerFactory.Views.RESOURCE_PANEL:
+        return new ResourceCircuitController(scope);
       case ActiveViewControllerFactory.Views.SIDE_PANEL:
         return new SidePanelViewController(scope);
       case ActiveViewControllerFactory.Views.MAIN_PANEL:

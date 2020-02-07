@@ -1,6 +1,5 @@
 import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
-import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
 
 export class MainPanelViewController extends ActiveViewController {
   constructor(scope) {
