@@ -36,8 +36,8 @@ export class ActiveViewControllerFactory {
    * @param scope - the given scope
    * @returns {*} - the controller instance
    */
-  static createViewController(name, scope) {
-    return ActiveViewControllerFactory.findOrCreateViewController(name, scope);
+  static getViewController(name, scope) {
+    return ActiveViewControllerFactory._findOrCreateViewController(name, scope);
   }
 
   /**
@@ -46,7 +46,7 @@ export class ActiveViewControllerFactory {
    * @param scope
    * @returns {*}
    */
-  static findOrCreateViewController(name, scope) {
+  static _findOrCreateViewController(name, scope) {
     let ctlr;
     if (ActiveViewControllerFactory.viewsByName[name] != null) {
       ctlr = ActiveViewControllerFactory.viewsByName[name];

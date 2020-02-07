@@ -20,7 +20,7 @@ export default class CircuitResource extends Component {
       resource: props.resource,
       isWTF: this.isWTF(props.resource)
     };
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.TROUBLE_PANEL,
       this
     );

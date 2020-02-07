@@ -27,7 +27,7 @@ export default class TeamPanel extends Component {
       DataModelFactory.Models.MEMBER_STATUS,
       this
     );
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
   }

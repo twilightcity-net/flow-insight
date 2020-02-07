@@ -31,7 +31,7 @@ export default class JournalEntry extends Component {
       this
     );
 
-    this.consoleController = ActiveViewControllerFactory.createViewController(
+    this.consoleController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.CONSOLE_PANEL,
       this
     );

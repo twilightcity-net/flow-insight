@@ -56,7 +56,7 @@ export default class ConsoleView extends Component {
   constructor(props) {
     super(props);
     this.name = "[ConsoleView]";
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.CONSOLE_PANEL,
       this
     );

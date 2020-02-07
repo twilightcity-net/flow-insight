@@ -11,7 +11,7 @@ export default class TeamMember extends Component {
   constructor(props) {
     super(props);
 
-    this.sidePanelController = ActiveViewControllerFactory.createViewController(
+    this.sidePanelController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL,
       this
     );

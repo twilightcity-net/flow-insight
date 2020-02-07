@@ -24,7 +24,7 @@ export default class BrowserHeader extends Component {
       disableControls: false,
       location: ""
     };
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.BROWSER_PANEL,
       this
     );

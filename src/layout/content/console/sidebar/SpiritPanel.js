@@ -33,7 +33,7 @@ export default class SpiritPanel extends Component {
       DataModelFactory.Models.SPIRIT,
       this
     );
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
   }

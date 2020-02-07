@@ -82,7 +82,7 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATIONS_PANEL,
       this
     );
-    this.browserController = ActiveViewControllerFactory.createViewController(
+    this.browserController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.BROWSER_PANEL,
       this
     );

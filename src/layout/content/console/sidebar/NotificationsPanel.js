@@ -22,7 +22,7 @@ export default class NotificationsPanel extends Component {
     super(props);
     this.state = this.loadState();
     this.name = "[NotificationsPanel]";
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
   }

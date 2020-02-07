@@ -48,16 +48,16 @@ export class PerspectiveController {
       DataModelFactory.Models.MEMBER_STATUS,
       this
     );
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.MAIN_PANEL,
       this
     );
 
-    this.sidePanelController = ActiveViewControllerFactory.createViewController(
+    this.sidePanelController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL,
       this
     );
-    this.consoleController = ActiveViewControllerFactory.createViewController(
+    this.consoleController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.CONSOLE_PANEL,
       this
     );

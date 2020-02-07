@@ -48,7 +48,7 @@ export default class ConsoleLayout extends Component {
     };
 
     // TODO move this stuff into the controller class
-    this.sidePanelController = ActiveViewControllerFactory.createViewController(
+    this.sidePanelController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL,
       this
     );

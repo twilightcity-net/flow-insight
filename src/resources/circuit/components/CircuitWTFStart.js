@@ -15,7 +15,7 @@ export default class CircuitWTFStart extends Component {
   constructor(props) {
     super(props);
     this.name = "[CircuitWTFStart]";
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.TROUBLE_PANEL,
       this
     );

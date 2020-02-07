@@ -20,7 +20,7 @@ export default class CircuitsPanel extends Component {
     super(props);
     this.state = this.loadState();
     this.name = "[CircuitsPanel]";
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
     this.selections = {

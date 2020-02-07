@@ -24,7 +24,7 @@ export default class ConsoleSidebar extends Component {
       iconCircuit: "compass outline",
       iconNotifications: "bell outline"
     };
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
   }
