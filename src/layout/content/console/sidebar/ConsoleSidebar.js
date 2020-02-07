@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
-import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
-import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
-import { DimensionController } from "../../../../controllers/DimensionController";
+import React, {Component} from "react";
+import {Divider, Icon, Menu, Popup} from "semantic-ui-react";
+import {ActiveViewControllerFactory} from "../../../../controllers/ActiveViewControllerFactory";
+import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
+import {DimensionController} from "../../../../controllers/DimensionController";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -10,6 +10,7 @@ import { DimensionController } from "../../../../controllers/DimensionController
  */
 export default class ConsoleSidebar extends Component {
   static className = "consoleSidebar";
+
   /**
    * builds the console sidebar and panel with given properties
    * @param props
@@ -18,9 +19,10 @@ export default class ConsoleSidebar extends Component {
     super(props);
     this.name = "[ConsoleSidebar]";
     this.state = {
-      activeItem: SidePanelViewController.MenuSelection.SPIRIT,
-      iconProfile: "heart",
-      iconMessages: "user outline",
+      activeItem: SidePanelViewController.MenuSelection.TEAM,
+      iconSpirit: "heart outline",
+      iconTeam: "user",
+      iconWTF: "lightning",
       iconCircuit: "compass outline",
       iconNotifications: "bell outline"
     };
@@ -71,36 +73,37 @@ export default class ConsoleSidebar extends Component {
     let activeMenuItem = this.myController.activeMenuSelection;
     let state = {
       activeItem: activeMenuItem,
-      iconProfile: "heart",
-      iconMessages: "user",
+      iconSpirit: "heart",
+      iconTeam: "user",
+      iconWTF: "lightning",
       iconNotifications: "bell",
       iconCircuit: "compass"
     };
     let oStr = " outline";
     switch (activeMenuItem) {
       case SidePanelViewController.MenuSelection.SPIRIT:
-        state.iconMessages += oStr;
-        state.iconNotifications += oStr;
+        state.iconTeam += oStr;
         state.iconCircuit += oStr;
+        state.iconNotifications += oStr;
         break;
-      case SidePanelViewController.MenuSelection.MESSAGES:
-        state.iconProfile += oStr;
-        state.iconNotifications += oStr;
+      case SidePanelViewController.MenuSelection.TEAM:
+        state.iconSpirit += oStr;
         state.iconCircuit += oStr;
+        state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection.CIRCUITS:
-        state.iconProfile += oStr;
-        state.iconMessages += oStr;
+        state.iconSpirit += oStr;
+        state.iconTeam += oStr;
         state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection.NOTIFICATIONS:
-        state.iconProfile += oStr;
-        state.iconMessages += oStr;
+        state.iconSpirit += oStr;
+        state.iconTeam += oStr;
         state.iconCircuit += oStr;
         break;
       case SidePanelViewController.MenuSelection.NONE:
-        state.iconProfile += oStr;
-        state.iconMessages += oStr;
+        state.iconSpirit += oStr;
+        state.iconTeam += oStr;
         state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
@@ -122,7 +125,12 @@ export default class ConsoleSidebar extends Component {
    * @param name
    */
   selectItem = name => {
-    this.myController.showPanel(name);
+    if (name === SidePanelViewController.MenuSelection.WTF) {
+      console.log("load /circuit/wtf in browser");
+    }
+    else {
+      this.myController.showPanel(name);
+    }
   };
 
   /**
@@ -130,10 +138,11 @@ export default class ConsoleSidebar extends Component {
    * @param e
    * @param name
    */
-  handleItemClick = (e, { name }) => {
+  handleItemClick = (e, {name}) => {
     if (this.state.activeItem === name) {
       this.deselectItem(name);
-    } else {
+    }
+    else {
       this.selectItem(name);
     }
   };
@@ -151,14 +160,24 @@ export default class ConsoleSidebar extends Component {
       server,
       errorMsg
     } = this.state;
+
+    let iconClassName = isOnline ? "signal" : "remove circle",
+      menuClassName = isOnline ? "networkConnect" : "networkConnectError",
+      iconColor = isOnline ? "green" : "red";
+
+    if (isOnline === undefined) {
+      menuClassName = "networkLoading";
+      iconClassName = "wait";
+      iconColor = "grey";
+    }
     const networkConnectMenuItem = (
       <Menu.Item
         header
-        className={isOnline ? "networkConnect" : "networkConnectError"}
+        className={menuClassName}
       >
         <Icon
-          name={isOnline ? "signal" : "remove circle"}
-          color={isOnline ? "green" : "red"}
+          name={iconClassName}
+          color={iconColor}
         />
       </Menu.Item>
     );
@@ -173,7 +192,7 @@ export default class ConsoleSidebar extends Component {
             <i>{pingTime <= 0 ? "calculating..." : pingTime + "ms"}</i>
           </b>
         </div>
-        <Divider />
+        <Divider/>
         <div>
           <i>{talkUrl}</i>
         </div>
@@ -185,7 +204,7 @@ export default class ConsoleSidebar extends Component {
         </div>
         {!isOnline && (
           <div className="errorMsg">
-            <i style={{ color: "red" }}>
+            <i style={{color: "red"}}>
               <b>{errorMsg}</b>
             </i>
           </div>
@@ -198,23 +217,23 @@ export default class ConsoleSidebar extends Component {
           inverted
           icon
           vertical
-          style={{ height: DimensionController.getConsoleSidebarHeight() }}
+          style={{height: DimensionController.getConsoleSidebarHeight()}}
         >
+          <Menu.Item
+            name={SidePanelViewController.MenuSelection.TEAM}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.TEAM
+            }
+            onClick={this.handleItemClick}
+          >
+            <Icon name={this.state.iconTeam}/>
+          </Menu.Item>
           <Menu.Item
             name={SidePanelViewController.MenuSelection.SPIRIT}
             active={activeItem === SidePanelViewController.MenuSelection.SPIRIT}
             onClick={this.handleItemClick}
           >
-            <Icon name={this.state.iconProfile} />
-          </Menu.Item>
-          <Menu.Item
-            name={SidePanelViewController.MenuSelection.MESSAGES}
-            active={
-              activeItem === SidePanelViewController.MenuSelection.MESSAGES
-            }
-            onClick={this.handleItemClick}
-          >
-            <Icon name={this.state.iconMessages} />
+            <Icon name={this.state.iconSpirit}/>
           </Menu.Item>
           <Menu.Item
             name={SidePanelViewController.MenuSelection.CIRCUITS}
@@ -223,7 +242,7 @@ export default class ConsoleSidebar extends Component {
             }
             onClick={this.handleItemClick}
           >
-            <Icon name={this.state.iconCircuit} />
+            <Icon name={this.state.iconCircuit}/>
           </Menu.Item>
           <Menu.Item
             name={SidePanelViewController.MenuSelection.NOTIFICATIONS}
@@ -232,7 +251,16 @@ export default class ConsoleSidebar extends Component {
             }
             onClick={this.handleItemClick}
           >
-            <Icon name={this.state.iconNotifications} />
+            <Icon name={this.state.iconNotifications}/>
+          </Menu.Item>
+          <Menu.Item
+            name={SidePanelViewController.MenuSelection.WTF}
+            active={
+              activeItem === SidePanelViewController.MenuSelection.WTF
+            }
+            onClick={this.handleItemClick}
+          >
+            <Icon name={this.state.iconWTF}/>
           </Menu.Item>
           <Popup
             trigger={networkConnectMenuItem}

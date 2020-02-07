@@ -357,7 +357,7 @@ export default class ConsoleLayout extends Component {
     switch (this.state.activePanel) {
       case SidePanelViewController.MenuSelection.SPIRIT:
         return this.getSpiritPanelContent();
-      case SidePanelViewController.MenuSelection.MESSAGES:
+      case SidePanelViewController.MenuSelection.TEAM:
         return this.getTeamPanelContent();
       case SidePanelViewController.MenuSelection.CIRCUITS:
         return this.getCircuitsContent();

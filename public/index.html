@@ -206,20 +206,24 @@
 
   #component.consoleSidebar .ui.menu .item {
     border-radius: 0;
-    padding-left: 6px;
-    padding-right: 6px;
+    height: 3em;
+    padding: 1em;
+    transition: background 0.333s ease-in;
   }
 
-  #component.consoleSidebar .ui.menu .item.disabled {}
-
-  #component.consoleSidebar .ui.menu .item:last-child {
+  #component.consoleSidebar .ui.menu .item:nth-last-child(3) {
     border-bottom: 1px solid rgba(43, 43, 43, 0.96);
   }
-
-  #component.consoleSidebar .ui.menu .item .label {
-    padding: 2px 4px;
-    top: 3px;
-    left: 36px;
+  #component.consoleSidebar .ui.menu .item:nth-last-child(2) {
+    position: absolute;
+    bottom: 3em;
+  }
+  #component.consoleSidebar .ui.menu .item:nth-last-child(2):hover {
+    background: red;
+  }
+  #component.consoleSidebar .ui.menu .item:last-child {
+    position: absolute;
+    bottom: 0;
   }
 
   /*

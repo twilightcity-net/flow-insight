@@ -58,7 +58,7 @@ export class ModelCoordinator {
     console.log(this.name + " load default models");
     this.journalModel.loadDefaultJournal();
     this.spiritModel.refreshXP();
-    this.teamModel.refreshAll();
+    // this.teamModel.refreshAll();
   }
 
   /**

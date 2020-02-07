@@ -29,7 +29,7 @@ export class SidePanelViewController extends ActiveViewController {
   constructor(scope) {
     super(scope);
     this.show = true;
-    this.activeMenuSelection = SidePanelViewController.MenuSelection.SPIRIT;
+    this.activeMenuSelection = SidePanelViewController.MenuSelection.TEAM;
     this.activeSpiritSubmenuSelection =
       SidePanelViewController.SubmenuSelection.SPIRIT;
     this.activeTeamSubmenuSelection =
@@ -98,13 +98,14 @@ export class SidePanelViewController extends ActiveViewController {
 
   /**
    * enum list of the possible menu types of the console sidebar
-   * @returns {{CIRCUITS: string, MESSAGES: string, SPIRIT: string, NOTIFICATIONS: string, NONE: string}}
+   * @returns {{CIRCUITS: string, TEAM: string, SPIRIT: string, NOTIFICATIONS: string, NONE: string}}
    * @constructor
    */
   static get MenuSelection() {
     return {
+      WTF: "wtf",
       SPIRIT: "spirit",
-      MESSAGES: "messages",
+      TEAM: "team",
       CIRCUITS: "circuits",
       NOTIFICATIONS: "notifications",
       NONE: "none"
