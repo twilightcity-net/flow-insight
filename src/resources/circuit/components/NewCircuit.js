@@ -37,10 +37,10 @@ export default class NewCircuit extends Component {
    */
   render() {
     return (
-      <div id="component" className="troubleshootContent">
+      <div id="component" className="activeCircuitContent">
         <Segment
           textAlign={"center"}
-          className="wtf-panel-start"
+          className="newCircuit"
           inverted
           padded={"very"}
           style={{
@@ -49,14 +49,11 @@ export default class NewCircuit extends Component {
             )
           }}
         >
-          <div className="wtf-start-content">
-            <div
-              className="wtf-button-massive"
-              onClick={this.onClickForNewCircuit}
-            >
+          <div className="content">
+            <div className="wtfBtn" onClick={this.onClickForNewCircuit}>
               WTF?
             </div>
-            <Segment inverted size={"huge"} className="wtf-button-desc">
+            <Segment inverted size={"huge"} className="desc">
               <b>Start A Troubleshooting Session!</b>
             </Segment>
           </div>

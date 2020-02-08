@@ -185,7 +185,7 @@ export class DimensionController {
    * gets the troubleshoot content height
    * @returns {number}
    */
-  static getTroubleshootContentHeight() {
+  static getActiveCircuitContentHeight() {
     let oneRem = window.innerHeight / 100;
     let heights = {
       window: window.innerHeight,
@@ -238,7 +238,7 @@ export class DimensionController {
     } else if (component === DimensionController.Components.CONSOLE_LAYOUT) {
       return DimensionController.getConsoleLayoutHeight();
     } else if (component === DimensionController.Components.TROUBLESHOOT) {
-      return DimensionController.getTroubleshootContentHeight();
+      return DimensionController.getActiveCircuitContentHeight();
     } else if (component === DimensionController.Components.SIDEBAR_PANEL) {
       return DimensionController.getSidebarPanelHeight();
     } else {

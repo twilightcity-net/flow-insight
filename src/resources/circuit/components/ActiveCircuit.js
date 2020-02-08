@@ -62,11 +62,11 @@ export default class ActiveCircuit extends Component {
    * gets the realtime content feed of the troubleshooting panel
    * @returns {*}
    */
-  getTroubleshootFeed() {
+  getActiveCircuitFeed() {
     return (
-      <div id="component" className="troubleshootFeed">
+      <div id="component" className="activeCircuitFeed">
         <Segment
-          className="troubleshootFeed"
+          className="feed"
           inverted
           style={{
             height: DimensionController.getHeightFor(
@@ -80,15 +80,29 @@ export default class ActiveCircuit extends Component {
     );
   }
 
-  /**
-   * gets the sidebar react component for the content panel of troubleshoot
-   * @returns {*}
-   */
-  getTroubleshootSidebar() {
+  getActiveCircuitContent() {
     return (
-      <div id="component" className="troubleshootSidebar">
+      <div id="component" className="activeCircuitContent">
         <Segment
-          className="troubleshootSidebar"
+          className="content"
+          inverted
+          style={{
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.TROUBLESHOOT
+            )
+          }}
+        >
+          Troubleshoot Content Troubleshoot Open
+        </Segment>
+      </div>
+    );
+  }
+
+  getActiveCircuitSidebar() {
+    return (
+      <div id="component" className="activeCircuitSidebar">
+        <Segment
+          className="sidebar"
           inverted
           style={{
             height: DimensionController.getHeightFor(
@@ -170,27 +184,32 @@ export default class ActiveCircuit extends Component {
     return (
       <div
         id="component"
-        className="troubleshootContent"
-        style={{ height: DimensionController.getTroubleshootContentHeight() }}
+        className="activeCircuitContent"
+        style={{ height: DimensionController.getActiveCircuitContentHeight() }}
       >
-        <SplitterLayout
-          percentage={true}
-          primaryIndex={0}
-          primaryMinSize={25}
-          secondaryMinSize={25}
-          secondaryInitialSize={25}
-        >
-          <div>
-            <div id="wrapper" className="troubleshootFeed">
-              {this.getTroubleshootFeed()}
+        <div id="wrapper" className="activeCircuitContentPanel">
+          <SplitterLayout
+            percentage={true}
+            primaryIndex={0}
+            primaryMinSize={25}
+            secondaryMinSize={25}
+            secondaryInitialSize={25}
+          >
+            <div>
+              <div id="wrapper" className="activeCircuitFeed">
+                {this.getActiveCircuitFeed()}
+              </div>
             </div>
-          </div>
-          <div>
-            <div id="wrapper" className="troubleshootSidebar">
-              {this.getTroubleshootSidebar()}
+            <div>
+              <div id="wrapper" className="activeCircuitContent">
+                {this.getActiveCircuitContent()}
+              </div>
             </div>
-          </div>
-        </SplitterLayout>
+          </SplitterLayout>
+        </div>
+        <div id="wrapper" className="activeCircuitSidebar">
+          {this.getActiveCircuitSidebar()}
+        </div>
       </div>
     );
   }

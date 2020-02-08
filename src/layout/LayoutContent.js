@@ -58,7 +58,7 @@ export default class LayoutContent extends Component {
         break;
       case MainPanelViewController.Resources.CIRCUIT:
         component = <WtfResource resource={this.state.resource} />;
-        className = MainPanelViewController.Resources.JOURNAL + className;
+        className = MainPanelViewController.Resources.CIRCUIT + className;
         break;
       case MainPanelViewController.Resources.FLOW:
         component = <FlowResource resource={this.state.resource} />;

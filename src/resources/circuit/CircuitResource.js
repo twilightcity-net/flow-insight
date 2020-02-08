@@ -55,8 +55,8 @@ export default class CircuitResource extends Component {
       wtfPanel = <NewCircuit resource={this.state.resource} />;
     }
     return (
-      <div id="component" className="troubleshootLayout">
-        <div id="wrapper" className="troubleshootContent">
+      <div id="component" className="circuitLayout">
+        <div id="wrapper" className="activeCircuitContent">
           {wtfPanel}
         </div>
       </div>
