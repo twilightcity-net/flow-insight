@@ -296,6 +296,10 @@ export default class ConsoleLayout extends Component {
     );
   };
 
+  /**
+   * renders the sidebar content for circuits
+   * @returns {*}
+   */
   getCircuitsContent = () => {
     return (
       <CircuitsPanel
@@ -311,6 +315,10 @@ export default class ConsoleLayout extends Component {
     );
   };
 
+  /**
+   * renders the notifications content panel for the sidebar
+   * @returns {*}
+   */
   getNotificationsContent = () => {
     return (
       <NotificationsPanel

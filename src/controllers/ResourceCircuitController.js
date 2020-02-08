@@ -5,6 +5,10 @@ import { BrowserRequestFactory } from "./BrowserRequestFactory";
 import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
 
 export class ResourceCircuitController extends ActiveViewController {
+  /**
+   * builds our resource circuit controller with a given scope
+   * @param scope
+   */
   constructor(scope) {
     super(scope);
     this.browserController = ActiveViewControllerFactory.getViewController(
@@ -13,6 +17,10 @@ export class ResourceCircuitController extends ActiveViewController {
     );
   }
 
+  /**
+   * connects the models to our scope
+   * @param scope
+   */
   wireTogetherModels(scope) {
     this.teamModel = DataModelFactory.createModel(
       DataModelFactory.Models.MEMBER_STATUS,
@@ -23,7 +31,7 @@ export class ResourceCircuitController extends ActiveViewController {
   /**
    * Start a troubleshooting session by loading the new session into the browser
    */
-  startTroubleshooting = () => {
+  newCircuit = () => {
     console.log(this.name + " start troubleshooting");
     CircuitClient.createLearningCircuitModel("angry_teachers", this, model => {
       console.log(model);
@@ -35,15 +43,23 @@ export class ResourceCircuitController extends ActiveViewController {
     });
   };
 
+  /**
+   * handler for when we want to start a retro
+   */
   retroActiveCircuitResource = () => {
     console.log(this.name + " this active circuit - retro");
   };
 
+  /**
+   * handler that is called when we put a circuit on hold
+   */
   holdActiveCircuitResource = () => {
     console.log(this.name + " this active circuit -> hold");
-
   };
 
+  /**
+   * handler that os callled when we cancel a circuit and do not hold it
+   */
   cancelActiveCircuitResource = () => {
     console.log(this.name + " this active circuit - cancel");
   };

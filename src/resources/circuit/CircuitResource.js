@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ActiveCircuit from "./components/ActiveCircuit";
-import ActiveCircuitNew from "./components/ActiveCircuitNew";
+import NewCircuit from "./components/NewCircuit";
 import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
 import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
 
@@ -21,7 +21,7 @@ export default class CircuitResource extends Component {
       isWTF: this.isWTF(props.resource)
     };
     this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.RESOURCE_PANEL,
+      ActiveViewControllerFactory.Views.RESOURCES_PANEL,
       this
     );
     this.myController.wireTogetherModels(this);
@@ -53,7 +53,7 @@ export default class CircuitResource extends Component {
     if (this.isWTF(this.props.resource)) {
       wtfPanel = <ActiveCircuit resource={this.state.resource} />;
     } else {
-      wtfPanel = <ActiveCircuitNew resource={this.state.resource} />;
+      wtfPanel = <NewCircuit resource={this.state.resource} />;
     }
     return (
       <div id="component" className="troubleshootLayout">

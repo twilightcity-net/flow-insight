@@ -17,12 +17,12 @@ export class ActiveViewControllerFactory {
 
   /**
    * the views of the gui that have controllers
-   * @returns {{RESOURCE_PANEL: string, MAIN_PANEL: string, CONSOLE_PANEL: string, SIDE_PANEL: string}}
+   * @returns {{RESOURCES_PANEL: string, MAIN_PANEL: string, CONSOLE_PANEL: string, SIDE_PANEL: string}}
    * @constructor
    */
   static get Views() {
     return {
-      RESOURCE_PANEL: "resource-panel",
+      RESOURCES_PANEL: "resources-panel",
       SIDE_PANEL: "side-panel",
       MAIN_PANEL: "main-panel",
       CONSOLE_PANEL: "console-panel",
@@ -68,7 +68,7 @@ export class ActiveViewControllerFactory {
    */
   static initializeNewViewController(name, scope) {
     switch (name) {
-      case ActiveViewControllerFactory.Views.RESOURCE_PANEL:
+      case ActiveViewControllerFactory.Views.RESOURCES_PANEL:
         return new ResourceCircuitController(scope);
       case ActiveViewControllerFactory.Views.SIDE_PANEL:
         return new SidePanelViewController(scope);

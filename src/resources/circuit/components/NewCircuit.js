@@ -7,25 +7,28 @@ import { ActiveViewControllerFactory } from "../../../controllers/ActiveViewCont
  * this component is the tab panel wrapper for the console content
  * @author ZoeDreams
  */
-export default class ActiveCircuitNew extends Component {
+export default class NewCircuit extends Component {
   /**
    * the constructor function that is called when creating a new TroubleshootSession
    * @param props - properties that are passed in from the troubleshoot layout
    */
   constructor(props) {
     super(props);
-    this.name = "[ActiveCircuitNew]";
+    this.name = "[NewCircuit]";
     this.state = {
       resource: props.resource
     };
     this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.RESOURCE_PANEL,
+      ActiveViewControllerFactory.Views.RESOURCES_PANEL,
       this
     );
   }
 
-  onStartTroubleshoot = () => {
-    return this.myController.startTroubleshooting();
+  /**
+   * handler that is called when we want to create a new learning circuit
+   */
+  onClickForNewCircuit = () => {
+    return this.myController.newCircuit();
   };
 
   /**
@@ -49,7 +52,7 @@ export default class ActiveCircuitNew extends Component {
           <div className="wtf-start-content">
             <div
               className="wtf-button-massive"
-              onClick={this.onStartTroubleshoot}
+              onClick={this.onClickForNewCircuit}
             >
               WTF?
             </div>

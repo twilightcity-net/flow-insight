@@ -20,27 +20,39 @@ export default class ActiveCircuit extends Component {
       resource: props.resource
     };
     this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.RESOURCE_PANEL,
+      ActiveViewControllerFactory.Views.RESOURCES_PANEL,
       this
     );
   }
 
+  /**
+   * make sure we load the circuit with members when we load this component
+   */
   componentDidMount() {
     console.log(this.name + " load active circuit with members");
 
     // TODO implement circuit client getActiveCircuitWithMembers()
   }
 
+  /**
+   * click handler for starting a retro
+   */
   onClickRetroActiveCircuit = () => {
     console.log(this.name + " - on click retro active circuit");
     this.myController.retroActiveCircuitResource();
   };
 
+  /**
+   * click handler for putting a circuit on hold
+   */
   onClickHoldActiveCircuit = () => {
     console.log(this.name + " - on click hold active circuit");
     this.myController.holdActiveCircuitResource();
   };
 
+  /**
+   * click handler for when we want to cancel a circuit with out hold or lettuce
+   */
   onClickCancelActiveCircuit = () => {
     console.log(this.name + " - on click cancel active circuit");
     this.myController.cancelActiveCircuitResource();
