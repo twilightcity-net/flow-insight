@@ -584,11 +584,12 @@ export class DimensionController {
    * @returns {number}
    */
   static getTroubleshootContentHeight() {
+    let oneRem = window.innerHeight / 100;
     let heights = {
       window: window.innerHeight,
-      border: 2,
-      margin: 8,
-      header: 61
+      border: Math.ceil(1.680 * oneRem),
+      margin: Math.ceil(1.680 * oneRem),
+      header: 52
     };
     return heights.window - heights.border - heights.margin - heights.header;
   }

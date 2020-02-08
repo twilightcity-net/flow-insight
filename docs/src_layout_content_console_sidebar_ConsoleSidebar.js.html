@@ -407,7 +407,6 @@ import { DimensionController } from "../../../../controllers/DimensionController
  * @type{ConsoleSidebar}
  */
 export default class ConsoleSidebar extends Component {
-
   /**
    * the class name of our root console side bar component
    * @type {string}
@@ -448,7 +447,10 @@ export default class ConsoleSidebar extends Component {
     this.myController.configurePulseListener(this, this.onPulse);
     this.myController.configureHeartbeatListener(this, this.onHeartbeat);
     this.myController.configureMenuListener(this, this.onRefresh);
-    this.myController.configureCircuitStartStopListener(this, this.onCircuitStartStop);
+    this.myController.configureCircuitStartStopListener(
+      this,
+      this.onCircuitStartStop
+    );
   };
 
   /**
@@ -491,7 +493,7 @@ export default class ConsoleSidebar extends Component {
   onCircuitStartStop(event, arg) {
     this.setState({
       isAlarm: arg > 0
-    })
+    });
   }
 
   /**
@@ -554,7 +556,7 @@ export default class ConsoleSidebar extends Component {
    */
   selectItem = name => {
     if (name === SidePanelViewController.MenuSelection.WTF) {
-      this.myController.startWTF()
+      this.myController.startWTF();
     } else {
       this.myController.showPanel(name);
     }
