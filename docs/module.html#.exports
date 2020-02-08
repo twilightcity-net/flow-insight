@@ -229,6 +229,80 @@
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -494,6 +568,80 @@
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -834,7 +982,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -1412,7 +1560,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -1605,7 +1753,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -3975,7 +4123,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -5330,7 +5478,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -14939,6 +15087,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -15204,6 +15426,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -15544,7 +15840,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -16122,7 +16418,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -16315,7 +16611,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -18685,7 +18981,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -20040,7 +20336,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -29799,6 +30095,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -30064,6 +30434,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -30404,7 +30848,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -30982,7 +31426,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -31175,7 +31619,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -33545,7 +33989,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -34900,7 +35344,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -44505,6 +44949,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -44770,6 +45288,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -45110,7 +45702,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -45688,7 +46280,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -45881,7 +46473,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -48251,7 +48843,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -49606,7 +50198,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -59258,6 +59850,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -59523,6 +60189,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -59863,7 +60603,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -60441,7 +61181,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -60634,7 +61374,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -63004,7 +63744,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -64359,7 +65099,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -73964,6 +74704,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -74229,6 +75043,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -74569,7 +75457,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -75147,7 +76035,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -75340,7 +76228,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -77710,7 +78598,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -79065,7 +79953,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -88670,6 +89558,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -88935,6 +89897,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -89275,7 +90311,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -89853,7 +90889,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -90046,7 +91082,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -92416,7 +93452,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -93771,7 +94807,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -103427,6 +104463,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -103692,6 +104802,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -104032,7 +105216,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -104610,7 +105794,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -104803,7 +105987,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -107173,7 +108357,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -108528,7 +109712,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -118133,6 +119317,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -118398,6 +119656,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -118738,7 +120070,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -119316,7 +120648,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -119509,7 +120841,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -121879,7 +123211,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -123234,7 +124566,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -132839,6 +134171,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -133104,6 +134510,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -133444,7 +134924,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -134022,7 +135502,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -134215,7 +135695,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -136585,7 +138065,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -137940,7 +139420,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -147546,6 +149026,80 @@ names of the applications various views</div>
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -147811,6 +149365,80 @@ names of the applications various views</div>
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -148151,7 +149779,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -148729,7 +150357,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -148922,7 +150550,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -151292,7 +152920,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -152647,7 +154275,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -162257,6 +163885,80 @@ the top of the screen with a global hot key</div>
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -162522,6 +164224,80 @@ the top of the screen with a global hot key</div>
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -162862,7 +164638,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -163440,7 +165216,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -163633,7 +165409,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -166003,7 +167779,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -167358,7 +169134,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -177021,6 +178797,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -177286,6 +179136,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -177626,7 +179550,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -178204,7 +180128,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -178397,7 +180321,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -180767,7 +182691,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -182122,7 +184046,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -191727,6 +193651,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -191992,6 +193990,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -192332,7 +194404,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -192910,7 +194982,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -193103,7 +195175,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -195473,7 +197545,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -196828,7 +198900,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -206484,6 +208556,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -206749,6 +208895,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -207089,7 +209309,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -207667,7 +209887,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -207860,7 +210080,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -210230,7 +212450,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -211585,7 +213805,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -221241,6 +223461,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -221506,6 +223800,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -221846,7 +224214,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -222424,7 +224792,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -222617,7 +224985,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -224987,7 +227355,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -226342,7 +228710,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -235821,7 +238189,7 @@ circuit for listeners
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line18">line 18</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -235988,6 +238356,80 @@ circuit for listeners
 </dl>
 
 
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -236263,6 +238705,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -236603,7 +239119,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -237181,7 +239697,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -237374,7 +239890,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -239744,7 +242260,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -241099,7 +243615,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -250755,6 +253271,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -251020,6 +253610,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -251360,7 +254024,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -251938,7 +254602,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -252131,7 +254795,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -254501,7 +257165,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -255856,7 +258520,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -265512,6 +268176,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -265777,6 +268515,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -266117,7 +268929,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -266695,7 +269507,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -266888,7 +269700,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -269258,7 +272070,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -270613,7 +273425,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -280271,6 +283083,80 @@ an embedded unity3d instance</div>
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -280536,6 +283422,80 @@ an embedded unity3d instance</div>
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -280876,7 +283836,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -281454,7 +284414,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -281647,7 +284607,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -284017,7 +286977,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -285372,7 +288332,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -295028,6 +297988,80 @@ circuit for listeners
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -295293,6 +298327,80 @@ circuit for listeners
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -295633,7 +298741,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -296211,7 +299319,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -296404,7 +299512,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -298774,7 +301882,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -300129,7 +303237,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -309788,6 +312896,80 @@ Activates animation according
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -310053,6 +313235,80 @@ Activates animation according
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -310393,7 +313649,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -310971,7 +314227,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -311164,7 +314420,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -313534,7 +316790,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -314889,7 +318145,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 
@@ -324495,6 +327751,80 @@ helper class ViewManagerHelper that is used to store the names of the views.</di
         
             
 <div class="section-members">
+<h4 class="name" id="alarmClassName"><span class="type-signature"></span>alarmClassName<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our alarm menu item
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line23">line 23</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
 <h4 class="name" id="animationTime"><span class="type-signature"></span>animationTime<span class="type-signature"> :number</span></h4>
 
 
@@ -324760,6 +328090,80 @@ helper class ViewManagerHelper that is used to store the names of the views.</di
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
         <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line33">line 33</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type"><code>string</code></span>
+
+
+        </li>
+    </ul>
+
+
+
+
+
+</div>
+
+        
+            
+<div class="section-members">
+<h4 class="name" id="className"><span class="type-signature"></span>className<span class="type-signature"> :string</span></h4>
+
+
+
+
+<div class="description">
+    the class name of our root console side bar component
+</div>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line17">line 17</a>
     </li></ul></dd>
     
 
@@ -325100,7 +328504,7 @@ in the main process for new circuit data
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line37">line 37</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line49">line 49</a>
     </li></ul></dd>
     
 
@@ -325678,7 +329082,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line46">line 46</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line59">line 59</a>
     </li></ul></dd>
     
 
@@ -325871,7 +329275,7 @@ memory management
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line129">line 129</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line149">line 149</a>
     </li></ul></dd>
     
 
@@ -328241,7 +331645,7 @@ form element inputs
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line150">line 150</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line170">line 170</a>
     </li></ul></dd>
     
 
@@ -329596,7 +333000,7 @@ show the console for the first time. TeamModel should be loaded.
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line137">line 137</a>
+        <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html">src/layout/content/console/sidebar/ConsoleSidebar.js</a>, <a href="src_layout_content_console_sidebar_ConsoleSidebar.js.html#line157">line 157</a>
     </li></ul></dd>
     
 

@@ -397,10 +397,10 @@
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import { ActiveViewController } from "./ActiveViewController";
-import { DataModelFactory } from "../models/DataModelFactory";
 import { CircuitClient } from "../clients/CircuitClient";
 import { BrowserRequestFactory } from "./BrowserRequestFactory";
 import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
+import {RendererEventFactory} from "../events/RendererEventFactory";
 
 export class ResourceCircuitController extends ActiveViewController {
   /**
@@ -413,17 +413,18 @@ export class ResourceCircuitController extends ActiveViewController {
       ActiveViewControllerFactory.Views.BROWSER_PANEL,
       this
     );
+    this.circuitStartStopNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
+      this
+    );
   }
 
-  /**
-   * connects the models to our scope
-   * @param scope
-   */
-  wireTogetherModels(scope) {
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS,
-      scope
-    );
+  fireCircuitStartNotifyEvent() {
+    this.circuitStartStopNotifier.dispatch(1);
+  }
+
+  fireCircuitStopNotifyEvent() {
+    this.circuitStartStopNotifier.dispatch(-1);
   }
 
   /**
@@ -431,13 +432,15 @@ export class ResourceCircuitController extends ActiveViewController {
    */
   newCircuit = () => {
     console.log(this.name + " start troubleshooting");
+
+    // TODO show some type of loading view here
     CircuitClient.createLearningCircuitModel("angry_teachers", this, model => {
-      console.log(model);
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
         model.circuitName
       );
       this.browserController.makeRequest(request);
+      this.fireCircuitStartNotifyEvent();
     });
   };
 
