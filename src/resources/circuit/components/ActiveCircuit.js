@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Button, Segment } from "semantic-ui-react";
-import { DimensionController } from "../../../controllers/DimensionController";
+import React, {Component} from "react";
+import {Button, Segment} from "semantic-ui-react";
+import {DimensionController} from "../../../controllers/DimensionController";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
-import { ActiveViewControllerFactory } from "../../../controllers/ActiveViewControllerFactory";
+import {ActiveViewControllerFactory} from "../../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -57,6 +57,7 @@ export default class ActiveCircuit extends Component {
     console.log(this.name + " - on click cancel active circuit");
     this.myController.cancelActiveCircuitResource();
   };
+
   /**
    * gets the realtime content feed of the troubleshooting panel
    * @returns {*}
@@ -87,39 +88,43 @@ export default class ActiveCircuit extends Component {
     return (
       <div id="component" className="troubleshootSidebar">
         <Segment className="troubleshootSidebar" inverted>
-          <Segment inverted>Troubleshoot Content</Segment>
-          room: angry_teachers
-          <br />
-          owner: zoe
-          <br />
-          time: 00:00:00 <br />
-          <Button
-            onClick={this.onClickRetroActiveCircuit}
-            size="medium"
-            color="purple"
-            animated="fade"
-          >
-            <Button.Content visible>Solved</Button.Content>
-            <Button.Content hidden>Retro ...</Button.Content>
-          </Button>
-          <Button
-            onClick={this.onClickHoldActiveCircuit}
-            size="medium"
-            color="grey"
-            animated="fade"
-          >
-            <Button.Content visible>Do Later</Button.Content>
-            <Button.Content hidden>Hold ...</Button.Content>
-          </Button>
-          <Button
-            onClick={this.onClickCancelActiveCircuit}
-            size="medium"
-            color="grey"
-            animated="fade"
-          >
-            <Button.Content visible>Cancel</Button.Content>
-            <Button.Content hidden>Remove ...</Button.Content>
-          </Button>
+          <Segment inverted>
+            Troubleshoot Content
+          </Segment>
+          <Segment inverted>
+            room: angry_teachers
+            <br/>
+            owner: zoe
+            <br/>
+            time: 00:00:00 <br/>
+            <Button
+              onClick={this.onClickRetroActiveCircuit}
+              size="medium"
+              color="purple"
+              animated="fade"
+            >
+              <Button.Content visible>Solved</Button.Content>
+              <Button.Content hidden>Retro ...</Button.Content>
+            </Button>
+            <Button
+              onClick={this.onClickHoldActiveCircuit}
+              size="medium"
+              color="grey"
+              animated="fade"
+            >
+              <Button.Content visible>Do Later</Button.Content>
+              <Button.Content hidden>Hold ...</Button.Content>
+            </Button>
+            <Button
+              onClick={this.onClickCancelActiveCircuit}
+              size="medium"
+              color="grey"
+              animated="fade"
+            >
+              <Button.Content visible>Cancel</Button.Content>
+              <Button.Content hidden>Close ...</Button.Content>
+            </Button>
+          </Segment>
         </Segment>
       </div>
     );
@@ -130,7 +135,10 @@ export default class ActiveCircuit extends Component {
    */
   render() {
     return (
-      <div id="component" className="troubleshootContent">
+      <div id="component"
+           className="troubleshootContent"
+           style={{height:DimensionController.getTroubleshootContentHeight()}}
+      >
         <SplitterLayout
           percentage={true}
           primaryIndex={0}
