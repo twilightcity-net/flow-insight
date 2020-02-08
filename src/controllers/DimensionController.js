@@ -189,8 +189,8 @@ export class DimensionController {
     let oneRem = window.innerHeight / 100;
     let heights = {
       window: window.innerHeight,
-      border: Math.ceil(1.680 * oneRem),
-      margin: Math.ceil(1.680 * oneRem),
+      border: Math.ceil(1.68 * oneRem),
+      margin: Math.ceil(1.68 * oneRem),
       header: 52
     };
     return heights.window - heights.border - heights.margin - heights.header;

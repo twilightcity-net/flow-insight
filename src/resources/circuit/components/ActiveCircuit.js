@@ -1,9 +1,9 @@
-import React, {Component} from "react";
-import {Button, Divider, Grid, Segment} from "semantic-ui-react";
-import {DimensionController} from "../../../controllers/DimensionController";
+import React, { Component } from "react";
+import { Button, Divider, Grid, Segment } from "semantic-ui-react";
+import { DimensionController } from "../../../controllers/DimensionController";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
-import {ActiveViewControllerFactory} from "../../../controllers/ActiveViewControllerFactory";
+import { ActiveViewControllerFactory } from "../../../controllers/ActiveViewControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -99,8 +99,16 @@ export default class ActiveCircuit extends Component {
           <Segment inverted className="title">
             <Grid columns="equal" inverted>
               <Grid.Row stretched>
-                <Grid.Column className="name">Angry Teachers Heaven</Grid.Column>
-                <Grid.Column className="time" textAlign="right" verticalAlign="middle">5m</Grid.Column>
+                <Grid.Column className="name">
+                  Angry Teachers Heaven
+                </Grid.Column>
+                <Grid.Column
+                  className="time"
+                  textAlign="right"
+                  verticalAlign="middle"
+                >
+                  5m
+                </Grid.Column>
               </Grid.Row>
             </Grid>
           </Segment>
@@ -110,7 +118,7 @@ export default class ActiveCircuit extends Component {
           <Segment inverted className="member">
             Joined Members List
           </Segment>
-          <Divider/>
+          <Divider />
           <Segment inverted className="btns">
             <Grid columns="equal" inverted>
               <Grid.Row stretched>
@@ -160,9 +168,10 @@ export default class ActiveCircuit extends Component {
    */
   render() {
     return (
-      <div id="component"
-           className="troubleshootContent"
-           style={{height: DimensionController.getTroubleshootContentHeight()}}
+      <div
+        id="component"
+        className="troubleshootContent"
+        style={{ height: DimensionController.getTroubleshootContentHeight() }}
       >
         <SplitterLayout
           percentage={true}
