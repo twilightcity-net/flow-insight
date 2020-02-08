@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Segment} from "semantic-ui-react";
+import {Button, Divider, Grid, Segment} from "semantic-ui-react";
 import {DimensionController} from "../../../controllers/DimensionController";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
@@ -87,43 +87,68 @@ export default class ActiveCircuit extends Component {
   getTroubleshootSidebar() {
     return (
       <div id="component" className="troubleshootSidebar">
-        <Segment className="troubleshootSidebar" inverted>
-          <Segment inverted>
-            Troubleshoot Content
+        <Segment
+          className="troubleshootSidebar"
+          inverted
+          style={{
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.TROUBLESHOOT
+            )
+          }}
+        >
+          <Segment inverted className="title">
+            <Grid columns="equal" inverted>
+              <Grid.Row stretched>
+                <Grid.Column className="name">Angry Teachers Heaven</Grid.Column>
+                <Grid.Column className="time" textAlign="right" verticalAlign="middle">5m</Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Segment>
-          <Segment inverted>
-            room: angry_teachers
-            <br/>
-            owner: zoe
-            <br/>
-            time: 00:00:00 <br/>
-            <Button
-              onClick={this.onClickRetroActiveCircuit}
-              size="medium"
-              color="purple"
-              animated="fade"
-            >
-              <Button.Content visible>Solved</Button.Content>
-              <Button.Content hidden>Retro ...</Button.Content>
-            </Button>
-            <Button
-              onClick={this.onClickHoldActiveCircuit}
-              size="medium"
-              color="grey"
-              animated="fade"
-            >
-              <Button.Content visible>Do Later</Button.Content>
-              <Button.Content hidden>Hold ...</Button.Content>
-            </Button>
-            <Button
-              onClick={this.onClickCancelActiveCircuit}
-              size="medium"
-              color="grey"
-              animated="fade"
-            >
-              <Button.Content visible>Cancel</Button.Content>
-              <Button.Content hidden>Close ...</Button.Content>
-            </Button>
+          <Divider horizontal inverted clearing>
+            Joined Members
+          </Divider>
+          <Segment inverted className="member">
+            Joined Members List
+          </Segment>
+          <Divider/>
+          <Segment inverted className="btns">
+            <Grid columns="equal" inverted>
+              <Grid.Row stretched>
+                <Grid.Column>
+                  <Button
+                    onClick={this.onClickRetroActiveCircuit}
+                    size="medium"
+                    color="purple"
+                    animated="fade"
+                  >
+                    <Button.Content visible>Solved</Button.Content>
+                    <Button.Content hidden>Retro...</Button.Content>
+                  </Button>
+                </Grid.Column>
+                <Grid.Column>
+                  <Button
+                    onClick={this.onClickHoldActiveCircuit}
+                    size="medium"
+                    color="grey"
+                    animated="fade"
+                  >
+                    <Button.Content visible>Later</Button.Content>
+                    <Button.Content hidden>Hold...</Button.Content>
+                  </Button>
+                </Grid.Column>
+                <Grid.Column>
+                  <Button
+                    onClick={this.onClickCancelActiveCircuit}
+                    size="medium"
+                    color="grey"
+                    animated="fade"
+                  >
+                    <Button.Content visible>Cancel</Button.Content>
+                    <Button.Content hidden>Close...</Button.Content>
+                  </Button>
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Segment>
         </Segment>
       </div>
@@ -137,7 +162,7 @@ export default class ActiveCircuit extends Component {
     return (
       <div id="component"
            className="troubleshootContent"
-           style={{height:DimensionController.getTroubleshootContentHeight()}}
+           style={{height: DimensionController.getTroubleshootContentHeight()}}
       >
         <SplitterLayout
           percentage={true}
