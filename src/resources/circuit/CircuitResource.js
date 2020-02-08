@@ -24,7 +24,6 @@ export default class CircuitResource extends Component {
       ActiveViewControllerFactory.Views.RESOURCES_PANEL,
       this
     );
-    this.myController.wireTogetherModels(this);
   }
 
   /**

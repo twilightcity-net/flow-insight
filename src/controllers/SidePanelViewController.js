@@ -1,6 +1,7 @@
 import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
+import { BrowserRequestFactory } from "./BrowserRequestFactory";
 
 /**
  * control the sidebar panels
@@ -38,6 +39,10 @@ export class SidePanelViewController extends ActiveViewController {
       SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS;
     this.activeNotificationsSubmenuSelection =
       SidePanelViewController.SubmenuSelection.NOTIFICATIONS;
+    this.circuitStartStopListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
+      this
+    );
     this.sidePanelChangeNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
       this
@@ -222,6 +227,10 @@ export class SidePanelViewController extends ActiveViewController {
     this.pulseListener.updateCallback(scope, callback);
   }
 
+  configureCircuitStartStopListener(scope, callback) {
+    this.circuitStartStopListener.updateCallback(scope, callback);
+  }
+
   /**
    * dispatch an event when the console sidebar panel changes
    */
@@ -265,6 +274,14 @@ export class SidePanelViewController extends ActiveViewController {
     this.show = false;
     this.activeMenuSelection = SidePanelViewController.MenuSelection.NONE;
     this.fireSidePanelNotifyEvent();
+  }
+
+  startWTF() {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.COMMAND,
+      BrowserRequestFactory.Commands.WTF
+    );
+    this.makeSidebarBrowserRequest(request);
   }
 
   /**

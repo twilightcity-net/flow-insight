@@ -9,7 +9,17 @@ import { DimensionController } from "../../../../controllers/DimensionController
  * @type{ConsoleSidebar}
  */
 export default class ConsoleSidebar extends Component {
+  /**
+   * the class name of our root console side bar component
+   * @type {string}
+   */
   static className = "consoleSidebar";
+
+  /**
+   * the class name of our alarm menu item
+   * @type {string}
+   */
+  static alarmClassName = "alarm";
 
   /**
    * builds the console sidebar and panel with given properties
@@ -19,6 +29,7 @@ export default class ConsoleSidebar extends Component {
     super(props);
     this.name = "[ConsoleSidebar]";
     this.state = {
+      isAlarm: false,
       activeItem: SidePanelViewController.MenuSelection.TEAM,
       iconSpirit: "heart outline",
       iconTeam: "user",
@@ -38,6 +49,10 @@ export default class ConsoleSidebar extends Component {
     this.myController.configurePulseListener(this, this.onPulse);
     this.myController.configureHeartbeatListener(this, this.onHeartbeat);
     this.myController.configureMenuListener(this, this.onRefresh);
+    this.myController.configureCircuitStartStopListener(
+      this,
+      this.onCircuitStartStop
+    );
   };
 
   /**
@@ -47,6 +62,7 @@ export default class ConsoleSidebar extends Component {
     this.myController.configureHeartbeatListener(this, null);
     this.myController.configurePulseListener(this, null);
     this.myController.configureMenuListener(this, null);
+    this.myController.configureCircuitStartStopListener(this, null);
   };
 
   /**
@@ -73,6 +89,12 @@ export default class ConsoleSidebar extends Component {
   onPulse(event, arg) {
     this.setState({
       latencyTime: arg.latencyTime
+    });
+  }
+
+  onCircuitStartStop(event, arg) {
+    this.setState({
+      isAlarm: arg > 0
     });
   }
 
@@ -136,7 +158,7 @@ export default class ConsoleSidebar extends Component {
    */
   selectItem = name => {
     if (name === SidePanelViewController.MenuSelection.WTF) {
-      console.log("load /circuit/wtf in browser");
+      this.myController.startWTF();
     } else {
       this.myController.showPanel(name);
     }
@@ -257,6 +279,7 @@ export default class ConsoleSidebar extends Component {
             name={SidePanelViewController.MenuSelection.WTF}
             active={activeItem === SidePanelViewController.MenuSelection.WTF}
             onClick={this.handleItemClick}
+            className={this.state.isAlarm ? ConsoleSidebar.alarmClassName : ""}
           >
             <Icon name={this.state.iconWTF} />
           </Menu.Item>

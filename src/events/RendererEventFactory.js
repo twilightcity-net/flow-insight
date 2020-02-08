@@ -18,7 +18,7 @@ export class RendererEventFactory {
 
   /**
    * static enum subclass to store event names
-   * @returns {{SCREENSHOT_READY_FOR_DISPLAY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, VIEW_CONSOLE_SIDEBAR_PANEL: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, VIEW_CONSOLE_CIRCUITS_PANEL: string, DATASTORE_LOAD: string, VIEW_CONSOLE_SPIRIT_PANEL: string, DATASTORE_LOADED: string, VIEW_CONSOLE_MENU_CHANGE: string, APPLOADER_LOAD: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, SCREENSHOT_COMPLETE: string, WINDOW_ACTIVATOR_CLOSE: string, APP_LOADED: string, SUBMIT_BUG_REPORT: string}}
+   * @returns {{SCREENSHOT_READY_FOR_DISPLAY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, VIEW_CONSOLE_SIDEBAR_PANEL: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, VIEW_CONSOLE_CIRCUITS_PANEL: string, DATASTORE_LOAD: string, VIEW_CONSOLE_SPIRIT_PANEL: string, DATASTORE_LOADED: string, APPLOADER_LOAD: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, SCREENSHOT_COMPLETE: string, WINDOW_ACTIVATOR_CLOSE: string, APP_LOADED: string, SUBMIT_BUG_REPORT: string}}
    * @constructor
    */
   static get Events() {
@@ -48,7 +48,7 @@ export class RendererEventFactory {
       VIEW_CONSOLE_CIRCUITS_PANEL: prefix + "view-console-circuits-panel",
       VIEW_CONSOLE_NOTIFICATIONS_PANEL:
         prefix + "view-console-notifications-panel",
-      // VIEW_CONSOLE_MENU_CHANGE: prefix + "view-console-menu-change",
+      VIEW_CONSOLE_CIRCUIT_START_STOP: "view-console-circuit-start-stop",
       SUBMIT_BUG_REPORT: prefix + "bugreport-submitted",
       APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",
       APPACTIVATOR_ACTIVATION_SAVED: prefix + "appactivator-activation-saved",

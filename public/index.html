@@ -197,8 +197,8 @@
   }
 
   /*
-       * COMPONENT: CONSOLE-SIDEBAR
-       */
+   * COMPONENT: CONSOLE-SIDEBAR
+   */
   #component.consoleSidebar .ui.menu {
     border-radius: 0;
     background: rgba(27, 27, 27, 0.96);
@@ -208,7 +208,11 @@
     border-radius: 0;
     height: 3em;
     padding: 1em;
-    transition: background 0.333s ease-in;
+    transition: color 0.333s ease-in, background 0.333s ease-in;
+  }
+
+  #component.consoleSidebar .ui.menu .item:hover {
+    background: #6435c9;
   }
 
   #component.consoleSidebar .ui.menu .item:nth-last-child(3) {
@@ -220,13 +224,46 @@
     bottom: 3em;
   }
 
+  #component.consoleSidebar .ui.menu .alarm.item:nth-last-child(2) .icon {
+    animation: shadow-pulse-menu-item 3s infinite;
+  }
+
+  #component.consoleSidebar .ui.menu .alarm.item:nth-last-child(2) {
+    color: red;
+  }
+
+  #component.consoleSidebar .ui.menu .alarm.item:nth-last-child(2):hover {
+    background: #3c3c3c;
+  }
+
   #component.consoleSidebar .ui.menu .item:nth-last-child(2):hover {
     background: red;
+    color: white;
   }
 
   #component.consoleSidebar .ui.menu .item:last-child {
     position: absolute;
     bottom: 0;
+  }
+
+  #component.consoleSidebar .ui.menu .item:last-child:hover {
+    background: none;
+  }
+
+  @keyframes shadow-pulse-menu-item {
+    0% {
+      box-shadow: 0 0 0 0 rgba(234, 0, 0, 0.169);
+      color: rgba(255, 255, 255, 1);
+    }
+
+    50% {
+      color: rgba(250, 0, 0, 0.92);
+    }
+
+    100% {
+      box-shadow: 0 0 0 1.112em rgba(27, 28, 29, 0);
+      color: rgba(255, 255, 255, 1);
+    }
   }
 
   /*
