@@ -39,8 +39,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520static%2520constructor%2520for%2520the%2520possible%2520types%2520of%2520requests.html">- static constructor for the possible types of requests</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html">ActiveViewControllerFactory</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.createViewController">createViewController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.findOrCreateViewController">findOrCreateViewController</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#._findOrCreateViewController">_findOrCreateViewController</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.getViewController">getViewController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.initializeNewViewController">initializeNewViewController</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.Views.html">Views</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AltModelDelegate.html">AltModelDelegate</a></span></li>
@@ -275,6 +275,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.listenForCallback">listenForCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.listenForReply">listenForReply</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.removeListeners">removeListeners</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ResourceCircuitController_ResourceCircuitController.html">ResourceCircuitController</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScreenshotController.html">ScreenshotController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScreenshotController.html#captureScreenShot">captureScreenShot</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScreenshotReferenceInputDto.html">ScreenshotReferenceInputDto</a></span></li>
@@ -360,8 +361,10 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isCommand">isCommand</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onHeartbeat">onHeartbeat</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onPulse">onPulse</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefresh">onRefresh</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
@@ -405,6 +408,7 @@ import { DimensionController } from "../../../../controllers/DimensionController
  */
 export default class ConsoleSidebar extends Component {
   static className = "consoleSidebar";
+
   /**
    * builds the console sidebar and panel with given properties
    * @param props
@@ -413,13 +417,14 @@ export default class ConsoleSidebar extends Component {
     super(props);
     this.name = "[ConsoleSidebar]";
     this.state = {
-      activeItem: SidePanelViewController.MenuSelection.SPIRIT,
-      iconProfile: "heart",
-      iconMessages: "user outline",
+      activeItem: SidePanelViewController.MenuSelection.TEAM,
+      iconSpirit: "heart outline",
+      iconTeam: "user",
+      iconWTF: "lightning",
       iconCircuit: "compass outline",
       iconNotifications: "bell outline"
     };
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL
     );
   }
@@ -442,6 +447,11 @@ export default class ConsoleSidebar extends Component {
     this.myController.configureMenuListener(this, null);
   };
 
+  /**
+   * called when our app heartbeat pulses
+   * @param event
+   * @param arg
+   */
   onHeartbeat(event, arg) {
     this.setState({
       isOnline: arg.isOnline,
@@ -453,6 +463,11 @@ export default class ConsoleSidebar extends Component {
     });
   }
 
+  /**
+   * called when we pulse the app every 20 s from talk socket ping pong
+   * @param event
+   * @param arg
+   */
   onPulse(event, arg) {
     this.setState({
       latencyTime: arg.latencyTime
@@ -466,36 +481,37 @@ export default class ConsoleSidebar extends Component {
     let activeMenuItem = this.myController.activeMenuSelection;
     let state = {
       activeItem: activeMenuItem,
-      iconProfile: "heart",
-      iconMessages: "user",
+      iconSpirit: "heart",
+      iconTeam: "user",
+      iconWTF: "lightning",
       iconNotifications: "bell",
       iconCircuit: "compass"
     };
     let oStr = " outline";
     switch (activeMenuItem) {
       case SidePanelViewController.MenuSelection.SPIRIT:
-        state.iconMessages += oStr;
-        state.iconNotifications += oStr;
+        state.iconTeam += oStr;
         state.iconCircuit += oStr;
+        state.iconNotifications += oStr;
         break;
-      case SidePanelViewController.MenuSelection.MESSAGES:
-        state.iconProfile += oStr;
-        state.iconNotifications += oStr;
+      case SidePanelViewController.MenuSelection.TEAM:
+        state.iconSpirit += oStr;
         state.iconCircuit += oStr;
+        state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection.CIRCUITS:
-        state.iconProfile += oStr;
-        state.iconMessages += oStr;
+        state.iconSpirit += oStr;
+        state.iconTeam += oStr;
         state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection.NOTIFICATIONS:
-        state.iconProfile += oStr;
-        state.iconMessages += oStr;
+        state.iconSpirit += oStr;
+        state.iconTeam += oStr;
         state.iconCircuit += oStr;
         break;
       case SidePanelViewController.MenuSelection.NONE:
-        state.iconProfile += oStr;
-        state.iconMessages += oStr;
+        state.iconSpirit += oStr;
+        state.iconTeam += oStr;
         state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
@@ -517,7 +533,11 @@ export default class ConsoleSidebar extends Component {
    * @param name
    */
   selectItem = name => {
-    this.myController.showPanel(name);
+    if (name === SidePanelViewController.MenuSelection.WTF) {
+      console.log("load /circuit/wtf in browser");
+    } else {
+      this.myController.showPanel(name);
+    }
   };
 
   /**
@@ -546,15 +566,19 @@ export default class ConsoleSidebar extends Component {
       server,
       errorMsg
     } = this.state;
+
+    let iconClassName = isOnline ? "signal" : "remove circle",
+      menuClassName = isOnline ? "networkConnect" : "networkConnectError",
+      iconColor = isOnline ? "green" : "red";
+
+    if (isOnline === undefined) {
+      menuClassName = "networkLoading";
+      iconClassName = "wait";
+      iconColor = "grey";
+    }
     const networkConnectMenuItem = (
-      &lt;Menu.Item
-        header
-        className={isOnline ? "networkConnect" : "networkConnectError"}
-      >
-        &lt;Icon
-          name={isOnline ? "signal" : "remove circle"}
-          color={isOnline ? "green" : "red"}
-        />
+      &lt;Menu.Item header className={menuClassName}>
+        &lt;Icon name={iconClassName} color={iconColor} />
       &lt;/Menu.Item>
     );
     const popupContent = (
@@ -596,20 +620,18 @@ export default class ConsoleSidebar extends Component {
           style={{ height: DimensionController.getConsoleSidebarHeight() }}
         >
           &lt;Menu.Item
+            name={SidePanelViewController.MenuSelection.TEAM}
+            active={activeItem === SidePanelViewController.MenuSelection.TEAM}
+            onClick={this.handleItemClick}
+          >
+            &lt;Icon name={this.state.iconTeam} />
+          &lt;/Menu.Item>
+          &lt;Menu.Item
             name={SidePanelViewController.MenuSelection.SPIRIT}
             active={activeItem === SidePanelViewController.MenuSelection.SPIRIT}
             onClick={this.handleItemClick}
           >
-            &lt;Icon name={this.state.iconProfile} />
-          &lt;/Menu.Item>
-          &lt;Menu.Item
-            name={SidePanelViewController.MenuSelection.MESSAGES}
-            active={
-              activeItem === SidePanelViewController.MenuSelection.MESSAGES
-            }
-            onClick={this.handleItemClick}
-          >
-            &lt;Icon name={this.state.iconMessages} />
+            &lt;Icon name={this.state.iconSpirit} />
           &lt;/Menu.Item>
           &lt;Menu.Item
             name={SidePanelViewController.MenuSelection.CIRCUITS}
@@ -628,6 +650,13 @@ export default class ConsoleSidebar extends Component {
             onClick={this.handleItemClick}
           >
             &lt;Icon name={this.state.iconNotifications} />
+          &lt;/Menu.Item>
+          &lt;Menu.Item
+            name={SidePanelViewController.MenuSelection.WTF}
+            active={activeItem === SidePanelViewController.MenuSelection.WTF}
+            onClick={this.handleItemClick}
+          >
+            &lt;Icon name={this.state.iconWTF} />
           &lt;/Menu.Item>
           &lt;Popup
             trigger={networkConnectMenuItem}

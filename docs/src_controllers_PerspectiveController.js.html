@@ -39,8 +39,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520static%2520constructor%2520for%2520the%2520possible%2520types%2520of%2520requests.html">- static constructor for the possible types of requests</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html">ActiveViewControllerFactory</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.createViewController">createViewController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.findOrCreateViewController">findOrCreateViewController</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#._findOrCreateViewController">_findOrCreateViewController</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.getViewController">getViewController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.initializeNewViewController">initializeNewViewController</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.Views.html">Views</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AltModelDelegate.html">AltModelDelegate</a></span></li>
@@ -275,6 +275,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.listenForCallback">listenForCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.listenForReply">listenForReply</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.removeListeners">removeListeners</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ResourceCircuitController_ResourceCircuitController.html">ResourceCircuitController</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScreenshotController.html">ScreenshotController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScreenshotController.html#captureScreenShot">captureScreenShot</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScreenshotReferenceInputDto.html">ScreenshotReferenceInputDto</a></span></li>
@@ -360,8 +361,10 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isCommand">isCommand</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onHeartbeat">onHeartbeat</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onPulse">onPulse</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefresh">onRefresh</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
@@ -443,16 +446,16 @@ export class PerspectiveController {
       DataModelFactory.Models.MEMBER_STATUS,
       this
     );
-    this.myController = ActiveViewControllerFactory.createViewController(
+    this.myController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.MAIN_PANEL,
       this
     );
 
-    this.sidePanelController = ActiveViewControllerFactory.createViewController(
+    this.sidePanelController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.SIDE_PANEL,
       this
     );
-    this.consoleController = ActiveViewControllerFactory.createViewController(
+    this.consoleController = ActiveViewControllerFactory.getViewController(
       ActiveViewControllerFactory.Views.CONSOLE_PANEL,
       this
     );

@@ -39,8 +39,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520static%2520constructor%2520for%2520the%2520possible%2520types%2520of%2520requests.html">- static constructor for the possible types of requests</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html">ActiveViewControllerFactory</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.createViewController">createViewController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.findOrCreateViewController">findOrCreateViewController</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#._findOrCreateViewController">_findOrCreateViewController</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.getViewController">getViewController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.initializeNewViewController">initializeNewViewController</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.Views.html">Views</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AltModelDelegate.html">AltModelDelegate</a></span></li>
@@ -275,6 +275,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.listenForCallback">listenForCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.listenForReply">listenForReply</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.removeListeners">removeListeners</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ResourceCircuitController_ResourceCircuitController.html">ResourceCircuitController</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScreenshotController.html">ScreenshotController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScreenshotController.html#captureScreenShot">captureScreenShot</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScreenshotReferenceInputDto.html">ScreenshotReferenceInputDto</a></span></li>
@@ -360,8 +361,10 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isCommand">isCommand</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onHeartbeat">onHeartbeat</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onPulse">onPulse</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefresh">onRefresh</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
@@ -450,56 +453,7 @@
         <h3 class="subsection-title">Methods</h3>
         <div class="section-method">
           <h4 class="name"
-              id=".createViewController"><span class="type-signature">(static) </span>createViewController<span class="signature">(name, scope)</span><span class="type-signature"> &rarr; {*}</span></h4>
-          <div class="description"> helper function to create a new view controller </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="src_controllers_ActiveViewControllerFactory.js.html">src/controllers/ActiveViewControllerFactory.js</a>, <a href="src_controllers_ActiveViewControllerFactory.js.html#line39">line 39</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <h5>Parameters:</h5>
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="name"><code>name</code></td>
-                <td class="type">
-                </td>
-                <td class="description last"> the name of the controller to load </td>
-              </tr>
-              <tr>
-                <td class="name"><code>scope</code></td>
-                <td class="type">
-                </td>
-                <td class="description last"> the given scope </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="section-returns">
-            <h5>Returns:</h5>
-            <dl class="param-type">
-              <dt> Type: </dt>
-              <dd>
-                <span class="param-type"><code>*</code></span>
-              </dd>
-            </dl>
-            <div class="param-desc"> - the controller instance </div>
-          </div>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
-              id=".findOrCreateViewController"><span class="type-signature">(static) </span>findOrCreateViewController<span class="signature">(name, scope)</span><span class="type-signature"> &rarr; {*}</span></h4>
+              id="._findOrCreateViewController"><span class="type-signature">(static) </span>_findOrCreateViewController<span class="signature">(name, scope)</span><span class="type-signature"> &rarr; {*}</span></h4>
           <div class="description"> looks up the controller in a static array of this class </div>
           <dl class="details">
             <dt class="tag-source">Source:</dt>
@@ -549,7 +503,56 @@
         </div>
         <div class="section-method">
           <h4 class="name"
-              id=".initializeNewViewController"><span class="type-signature">(static) </span>initializeNewViewController<span class="signature">(name, scope)</span><span class="type-signature"> &rarr; {ConsoleViewController|TroubleshootController|<a href="MainPanelViewController.html">MainPanelViewController</a>|null|<a href="SidePanelViewController.html">SidePanelViewController</a>}</span></h4>
+              id=".getViewController"><span class="type-signature">(static) </span>getViewController<span class="signature">(name, scope)</span><span class="type-signature"> &rarr; {*}</span></h4>
+          <div class="description"> helper function to create a new view controller </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_controllers_ActiveViewControllerFactory.js.html">src/controllers/ActiveViewControllerFactory.js</a>, <a href="src_controllers_ActiveViewControllerFactory.js.html#line39">line 39</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>name</code></td>
+                <td class="type">
+                </td>
+                <td class="description last"> the name of the controller to load </td>
+              </tr>
+              <tr>
+                <td class="name"><code>scope</code></td>
+                <td class="type">
+                </td>
+                <td class="description last"> the given scope </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>*</code></span>
+              </dd>
+            </dl>
+            <div class="param-desc"> - the controller instance </div>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id=".initializeNewViewController"><span class="type-signature">(static) </span>initializeNewViewController<span class="signature">(name, scope)</span><span class="type-signature"> &rarr; {ConsoleViewController|<a href="ResourceCircuitController.html">ResourceCircuitController</a>|<a href="MainPanelViewController.html">MainPanelViewController</a>|null|<a href="SidePanelViewController.html">SidePanelViewController</a>}</span></h4>
           <div class="description"> creates a new initialized controller with the given scope </div>
           <dl class="details">
             <dt class="tag-source">Source:</dt>
@@ -590,7 +593,7 @@
             <dl class="param-type">
               <dt> Type: </dt>
               <dd>
-                <span class="param-type"><code>ConsoleViewController</code></span> | <span class="param-type"><code>TroubleshootController</code></span> | <span class="param-type"><code><a href="MainPanelViewController.html">MainPanelViewController</a></code></span> | <span class="param-type"><code>null</code></span> | <span class="param-type"><code><a href="SidePanelViewController.html">SidePanelViewController</a></code></span>
+                <span class="param-type"><code>ConsoleViewController</code></span> | <span class="param-type"><code><a href="ResourceCircuitController.html">ResourceCircuitController</a></code></span> | <span class="param-type"><code><a href="MainPanelViewController.html">MainPanelViewController</a></code></span> | <span class="param-type"><code>null</code></span> | <span class="param-type"><code><a href="SidePanelViewController.html">SidePanelViewController</a></code></span>
               </dd>
             </dl>
           </div>
