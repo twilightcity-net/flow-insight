@@ -61,7 +61,7 @@ class WindowManager {
    */
   onFocusWindowCb(event, arg) {
     log.info("[WindowManager] focus window -> " + arg.sender.name);
-    ShortcutManager.activateWindowShortcuts(arg.sender);
+    global.App.ShortcutManager.activateWindowShortcuts(arg.sender);
     global.App.WindowManager.lastFocusWindowName = arg.sender.name;
   }
 
@@ -74,7 +74,7 @@ class WindowManager {
   onBlurWindowCb(event, arg) {
     log.info("[WindowManager] blur window -> " + arg.sender.name);
     global.App.WindowManager.lastBlurWindowName = arg.sender.name;
-    ShortcutManager.deactivateWindowShortcuts(arg.sender);
+    global.App.ShortcutManager.deactivateWindowShortcuts(arg.sender);
     if (arg.sender.name === WindowManagerHelper.WindowNames.CONSOLE) {
       this.handleHideConsoleEvent(1);
     }
@@ -86,9 +86,12 @@ class WindowManager {
    * @param arg - the window event that dispatched the event
    */
   onShortcutsRecievedCb(event, arg) {
-    if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg.name) {
+    if (
+      ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg ||
+      ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE_ALT === arg
+    ) {
       this.handleHideConsoleEvent();
-    } else if (ShortcutManager.Names.GLOBAL_WINDOW_DEV_MODE === arg.name) {
+    } else if (ShortcutManager.Names.GLOBAL_WINDOW_DEV_MODE === arg) {
       log.info(
         "[WindowManager] open dev mode -> " +
           global.App.WindowManager.lastFocusWindowName

@@ -1,5 +1,6 @@
 const log = require("electron-log"),
   platform = require("electron-platform"),
+  chalk = require("chalk"),
   App = require("./App"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
@@ -280,15 +281,19 @@ module.exports = class AppLoader {
     log.info("[AppLoader] process login");
     AppLogin.doLogin(store => {
       let status = AppLogin.getConnectionStatus();
-      console.log(status);
       if (status.isValid()) {
-        log.info("[AppLoader] valid login -> dispatch next load event");
+        log.info(
+          "[AppLoader] login -> " +
+            chalk.bgGreen.bold("VALID") +
+            " : " +
+            JSON.stringify(status)
+        );
         global.App.isOnline = true;
         global.App.isLoggedIn = true;
         global.App.connectionStatus = status;
         this.events.login.dispatch(status);
       } else {
-        log.info("[AppLoader] failed login -> dispatch status to login event");
+        log.info("[AppLoader] login FAILED : " + JSON.stringify(status));
         this.events.loginFailed.dispatch(status);
       }
     });
@@ -324,7 +329,7 @@ module.exports = class AppLoader {
   createShortcuts() {
     log.info("[AppLoader] create shortcuts");
     try {
-      global.App.Shortcuts = ShortcutManager.createGlobalShortcuts();
+      global.App.Shortcuts = global.App.ShortcutManager.createGlobalShortcuts();
       this.events.shortcutsCreated.dispatch();
     } catch (error) {
       AppError.handleError(error, true);

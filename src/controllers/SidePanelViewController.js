@@ -99,6 +99,10 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.APP_PULSE,
       this
     );
+    this.sidebarShowListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW,
+      this
+    );
   }
 
   /**
@@ -229,6 +233,10 @@ export class SidePanelViewController extends ActiveViewController {
 
   configureCircuitStartStopListener(scope, callback) {
     this.circuitStartStopListener.updateCallback(scope, callback);
+  }
+
+  configureSidebarShowListener(scope, callback) {
+    this.sidebarShowListener.updateCallback(scope, callback);
   }
 
   /**

@@ -57,7 +57,9 @@ export class RendererEventFactory {
       PREPARE_FOR_SCREENSHOT: prefix + "prepare-for-screenshot",
       READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",
       SCREENSHOT_COMPLETE: prefix + "screenshot-complete",
-      SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display"
+      SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display",
+      SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW:
+        prefix + "shortcuts-window-console-sidebar-show"
     };
   }
 }

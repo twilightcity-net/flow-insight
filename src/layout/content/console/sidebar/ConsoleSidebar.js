@@ -53,6 +53,7 @@ export default class ConsoleSidebar extends Component {
       this,
       this.onCircuitStartStop
     );
+    this.myController.configureSidebarShowListener(this, this.onSidebarShow);
   };
 
   /**
@@ -63,6 +64,7 @@ export default class ConsoleSidebar extends Component {
     this.myController.configurePulseListener(this, null);
     this.myController.configureMenuListener(this, null);
     this.myController.configureCircuitStartStopListener(this, null);
+    this.myController.configureSidebarShowListener(this, null);
   };
 
   /**
@@ -98,6 +100,29 @@ export default class ConsoleSidebar extends Component {
     });
   }
 
+  onSidebarShow(event, arg) {
+    console.log(this.name + " shortcut recieved -> sidebar show : " + arg);
+    switch (arg) {
+      case 1:
+        this.selectItem(SidePanelViewController.MenuSelection.TEAM);
+        break;
+      case 2:
+        this.selectItem(SidePanelViewController.MenuSelection.CIRCUITS);
+        break;
+      case 3:
+        this.selectItem(SidePanelViewController.MenuSelection.SPIRIT);
+        break;
+      case 4:
+        this.selectItem(SidePanelViewController.MenuSelection.NOTIFICATIONS);
+        break;
+      case 0:
+        this.selectItem(SidePanelViewController.MenuSelection.WTF);
+        break;
+      default:
+        throw new Error("Unknown console sidebar show arg " + arg);
+    }
+  }
+
   /**
    * function handler that os called when the console layout perspective changes
    */
@@ -113,11 +138,6 @@ export default class ConsoleSidebar extends Component {
     };
     let oStr = " outline";
     switch (activeMenuItem) {
-      case SidePanelViewController.MenuSelection.SPIRIT:
-        state.iconTeam += oStr;
-        state.iconCircuit += oStr;
-        state.iconNotifications += oStr;
-        break;
       case SidePanelViewController.MenuSelection.TEAM:
         state.iconSpirit += oStr;
         state.iconCircuit += oStr;
@@ -126,6 +146,11 @@ export default class ConsoleSidebar extends Component {
       case SidePanelViewController.MenuSelection.CIRCUITS:
         state.iconSpirit += oStr;
         state.iconTeam += oStr;
+        state.iconNotifications += oStr;
+        break;
+      case SidePanelViewController.MenuSelection.SPIRIT:
+        state.iconTeam += oStr;
+        state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection.NOTIFICATIONS:

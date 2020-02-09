@@ -12,25 +12,17 @@ const { globalShortcut } = require("electron"),
  * @ref {https://electronjs.org/docs/api/accelerator}
  */
 class Shortcut {
-  /**
-   *
-   * @param {name} the logical name of the shortcut
-   * @param {accelerator} the shortcut to register with
-   * @param {win} window to attach the shortcut; pass null to make global
-   * @param {callback} the callback function to execute (optional)
-   */
-  constructor(name, accelerator, win, callback) {
+  constructor(name, accelerator, scope, callback, window) {
     this.name = name;
     this.accelerator = accelerator;
-    this.window = win;
-    this.callback = callback;
-    ShortcutManager.registerShortcut(this);
-    globalShortcut.register(this.accelerator, () => {
-      if (global.App.ShortcutManager.enabled) {
-        EventManager.dispatch(EventFactory.Types.SHORTCUTS_RECIEVED, this);
-        this.callback();
-      }
-    });
+    this.window = window;
+    this.scope = scope;
+    this.callback = callback ? callback.bind(this.scope) : callback;
+    global.App.ShortcutManager.registerShortcut(this);
+  }
+
+  isGlobal() {
+    return !this.window;
   }
 }
 
@@ -39,7 +31,7 @@ class Shortcut {
  */
 class ShortcutError extends AppError {
   constructor(shortcut, ...args) {
-    super(...args);
+    super(args);
     this.name = "ShortcutException";
     this.shortcut = shortcut;
   }
@@ -64,25 +56,23 @@ class ShortcutManager {
   }
 
   /**
-   * Static array containing all of our shortcuts the app uses
-   * @returns {}
-   * @constructor
-   */
-  static get Shortcuts() {
-    return global.App.ShortcutManager.shortcuts;
-  }
-
-  /**
    * static enum to store shortcut names. These are basically the type
    * of possible shortcuts that can be registered by the Manager.
-   * @returns {enum}
+   * @returns {{WINDOW_SIDEBAR_FIRST_ITEM: string, GLOBAL_SHOW_HIDE_CONSOLE: string, GLOBAL_WINDOW_DEV_MODE: string}}
    * @constructor
    */
   static get Names() {
-    let prefix = "torchie-shortcut-";
+    let prefix = "shortcut-";
     return {
       GLOBAL_SHOW_HIDE_CONSOLE: prefix + "global-show-hide-console",
-      GLOBAL_WINDOW_DEV_MODE: prefix + "global-window-dev-mode"
+      GLOBAL_SHOW_HIDE_CONSOLE_ALT: prefix + "global-show-hide-console-alt",
+      GLOBAL_WINDOW_DEV_MODE: prefix + "global-window-dev-mode",
+      WINDOW_SIDEBAR_FIRST_ITEM: prefix + "window-sidebar-first-item",
+      WINDOW_SIDEBAR_SECOND_ITEM: prefix + "window-sidebar-second-item",
+      WINDOW_SIDEBAR_FOURTH_ITEM: prefix + "window-sidebar-fourth-item",
+      WINDOW_SIDEBAR_FIFTH_ITEM: prefix + "window-sidebar-fifth-item",
+      WINDOW_SIDEBAR_WTF_ITEM: prefix + "window-sidebar-wtf-item",
+      WINDOW_SIDEBAR_WTF_ITEM_ALT: prefix + "window-sidebar-wtf-item-alt"
     };
   }
 
@@ -96,7 +86,13 @@ class ShortcutManager {
     return {
       CONSOLE_SHORTCUT: "Control+`",
       CONSOLE_SHORTCUT_ALT: "CommandOrControl+`",
-      WINDOW_DEV_MODE: "CommandOrControl+Shift+I"
+      WINDOW_DEV_MODE: "CommandOrControl+Shift+I",
+      WINDOW_SIDEBAR_FIRST_ITEM: "Control+1",
+      WINDOW_SIDEBAR_SECOND_ITEM: "Control+2",
+      WINDOW_SIDEBAR_THIRD_ITEM: "Control+3",
+      WINDOW_SIDEBAR_FOURTH_ITEM: "Control+4",
+      WINDOW_SIDEBAR_WTF_ITEM: "Control+Esc",
+      WINDOW_SIDEBAR_WTF_ITEM_ALT: "Command+Esc"
     };
   }
 
@@ -105,46 +101,25 @@ class ShortcutManager {
    * no windows focused
    * @returns {{showHideConsole: Shortcut}}
    */
-  static createGlobalShortcuts() {
+  createGlobalShortcuts() {
     log.info("[ShortcutManager] create global shortcuts");
-
-    let configuredHotkey = global.App.AppSettings.getConsoleShortcut(),
-      configuredAltHotkey = global.App.AppSettings.getConsoleShortcutAlt();
-
     let shortcuts = {
       showHideConsole: new Shortcut(
-        this.Names.GLOBAL_SHOW_HIDE_CONSOLE,
-        configuredHotkey,
-        null,
-        () => {
-          log.info(
-            "[ShortcutManager] received shortcut keypress -> GLOBAL_SHOW_HIDE_CONSOLE"
-          );
-        }
+        ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE,
+        global.App.AppSettings.getConsoleShortcut(),
+        this
       ),
       showHideConsoleAlt: new Shortcut(
-        this.Names.GLOBAL_SHOW_HIDE_CONSOLE,
-        configuredAltHotkey,
-        null,
-        () => {
-          log.info(
-            "[ShortcutManager] received shortcut keypress-> GLOBAL_SHOW_HIDE_CONSOLE.alt"
-          );
-        }
+        ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE_ALT,
+        global.App.AppSettings.getConsoleShortcutAlt(),
+        this
       ),
       consoleDevMode: new Shortcut(
-        this.Names.GLOBAL_WINDOW_DEV_MODE,
+        ShortcutManager.Names.GLOBAL_WINDOW_DEV_MODE,
         ShortcutManager.Accelerators.WINDOW_DEV_MODE,
-        null,
-        () => {
-          log.info(
-            "[ShortcutManager] received shortcut-> GLOBAL_CONSOLE_DEV_MODE"
-          );
-        }
+        this
       )
     };
-
-    log.info("[ShortcutManager] └> created global shortcuts -> okay");
     return shortcuts;
   }
 
@@ -155,8 +130,8 @@ class ShortcutManager {
    * @param shortcut
    * @returns {{window}|*}
    */
-  static registerShortcut(shortcut) {
-    if (!shortcut.window) {
+  registerShortcut(shortcut) {
+    if (shortcut.isGlobal()) {
       log.info(
         "[ShortcutManager] register global shortcut -> " +
           shortcut.name +
@@ -174,27 +149,39 @@ class ShortcutManager {
           shortcut.accelerator
       );
     }
-    ShortcutManager.Shortcuts.push(shortcut);
-    return shortcut;
+    global.App.ShortcutManager.shortcuts.push(shortcut);
+    this.configureGlobalShortcutCallback(shortcut);
+  }
+
+  configureGlobalShortcutCallback(shortcut) {
+    globalShortcut.register(shortcut.accelerator, () => {
+      if (global.App.ShortcutManager.enabled) {
+        global.App.ShortcutManager.events.shortcutsRecieved.dispatch(
+          shortcut.name
+        );
+        if (shortcut.callback) {
+          shortcut.callback();
+        }
+      }
+    });
   }
 
   /**
    * activates any shortcut associated with window parameter
    * @param win
    */
-  static activateWindowShortcuts(win) {
-    log.info("[ShortcutManager] activate window shortcuts -> " + win.name);
+  activateWindowShortcuts(win) {
     let shortcut;
-    for (var i = 0; i < ShortcutManager.Shortcuts.length; i++) {
-      shortcut = ShortcutManager.Shortcuts[i];
+    for (var i = 0; i < global.App.ShortcutManager.shortcuts.length; i++) {
+      shortcut = global.App.ShortcutManager.shortcuts[i];
       if (shortcut.window && shortcut.window.window === win) {
         log.info(
-          "[ShortcutManager] found window shortcut to activate -> " +
-            shortcut.name
+          "[ShortcutManager] register window shortcut -> " +
+            shortcut.name +
+            " : " +
+            shortcut.accelerator
         );
-        globalShortcut.register(shortcut.accelerator, () =>
-          shortcut.callback(win)
-        );
+        this.configureGlobalShortcutCallback(shortcut);
       }
     }
   }
@@ -203,17 +190,18 @@ class ShortcutManager {
    * deactivates any shortcut associated with window parameter
    * @param win
    */
-  static deactivateWindowShortcuts(win) {
-    log.info("[ShortcutManager] deactivate window shortcuts -> " + win.name);
+  deactivateWindowShortcuts(win) {
     let shortcut;
-    for (var i = 0; i < ShortcutManager.Shortcuts.length; i++) {
-      shortcut = ShortcutManager.Shortcuts[i];
+    for (var i = 0; i < global.App.ShortcutManager.shortcuts.length; i++) {
+      shortcut = global.App.ShortcutManager.shortcuts[i];
       if (shortcut.window && shortcut.window.window === win) {
         log.info(
-          "[ShortcutManager] found window shortcut to deactivate -> " +
-            shortcut.name
+          "[ShortcutManager] unregister window shortcut-> " +
+            shortcut.name +
+            " : " +
+            shortcut.accelerator
         );
-        globalShortcut.unregister(ShortcutManager.Shortcuts[i].accelerator);
+        globalShortcut.unregister(shortcut.accelerator);
       }
     }
   }

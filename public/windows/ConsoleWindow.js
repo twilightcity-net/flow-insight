@@ -3,7 +3,8 @@ const { BrowserWindow } = require("electron"),
   Util = require("../Util"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
-  EventFactory = require("../events/EventFactory");
+  EventFactory = require("../events/EventFactory"),
+  { Shortcut, ShortcutManager } = require("../managers/ShortcutManager");
 
 /**
  * the main application window for UX. Suspose to slide in and out of
@@ -72,6 +73,84 @@ module.exports = class ConsoleWindow {
       ),
       screenShotReadyForDisplay: EventFactory.createEvent(
         EventFactory.Types.SCREENSHOT_READY_FOR_DISPLAY,
+        this
+      ),
+      sidebarShowNotifier: EventFactory.createEvent(
+        EventFactory.Types.SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW,
+        this
+      )
+    };
+    this.shortcuts = {
+      sidebarFirstItem: new Shortcut(
+        ShortcutManager.Names.WINDOW_SIDEBAR_FIRST_ITEM,
+        ShortcutManager.Accelerators.WINDOW_SIDEBAR_FIRST_ITEM,
+        this,
+        () => {
+          log.info(
+            "[ConsoleWindow] received shortcut keypress -> WINDOW_SIDEBAR_FIRST_ITEM"
+          );
+          this.events.sidebarShowNotifier.dispatch(1);
+        },
+        this
+      ),
+      sidebarSecondItem: new Shortcut(
+        ShortcutManager.Names.WINDOW_SIDEBAR_SECOND_ITEM,
+        ShortcutManager.Accelerators.WINDOW_SIDEBAR_SECOND_ITEM,
+        this,
+        () => {
+          log.info(
+            "[ConsoleWindow] received shortcut keypress -> WINDOW_SIDEBAR_SECOND_ITEM"
+          );
+          this.events.sidebarShowNotifier.dispatch(2);
+        },
+        this
+      ),
+      sidebarThirdItem: new Shortcut(
+        ShortcutManager.Names.WINDOW_SIDEBAR_THIRD_ITEM,
+        ShortcutManager.Accelerators.WINDOW_SIDEBAR_THIRD_ITEM,
+        this,
+        () => {
+          log.info(
+            "[ConsoleWindow] received shortcut keypress -> WINDOW_SIDEBAR_THIRD_ITEM"
+          );
+          this.events.sidebarShowNotifier.dispatch(3);
+        },
+        this
+      ),
+      sidebarFourthItem: new Shortcut(
+        ShortcutManager.Names.WINDOW_SIDEBAR_FOURTH_ITEM,
+        ShortcutManager.Accelerators.WINDOW_SIDEBAR_FOURTH_ITEM,
+        this,
+        () => {
+          log.info(
+            "[ConsoleWindow] received shortcut keypress -> WINDOW_SIDEBAR_FOURTH_ITEM"
+          );
+          this.events.sidebarShowNotifier.dispatch(4);
+        },
+        this
+      ),
+      sidebarWTFItem: new Shortcut(
+        ShortcutManager.Names.WINDOW_SIDEBAR_WTF_ITEM,
+        ShortcutManager.Accelerators.WINDOW_SIDEBAR_WTF_ITEM,
+        this,
+        () => {
+          log.info(
+            "[ConsoleWindow] received shortcut keypress -> WINDOW_SIDEBAR_WTF_ITEM"
+          );
+          this.events.sidebarShowNotifier.dispatch(0);
+        },
+        this
+      ),
+      sidebarWTFItemAlt: new Shortcut(
+        ShortcutManager.Names.WINDOW_SIDEBAR_WTF_ITEM_ALT,
+        ShortcutManager.Accelerators.WINDOW_SIDEBAR_WTF_ITEM_ALT,
+        this,
+        () => {
+          log.info(
+            "[ConsoleWindow] received shortcut keypress -> WINDOW_SIDEBAR_WTF_ITEM_ALT"
+          );
+          this.events.sidebarShowNotifier.dispatch(0);
+        },
         this
       )
     };

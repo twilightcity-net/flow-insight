@@ -34,12 +34,6 @@ module.exports = class LoadingWindow {
       fullscreenable: false,
       webPreferences: { toolbar: false }
     });
-
-    /// if dev mode then show debug tools. Install react tools
-    // if (isDev) {
-    //   this.window.webContents.openDevTools({mode: "undocked"});
-    // }
-
     this.window.name = this.name;
     this.window.setMenu(null);
     this.window.on("show", () => this.onShowCb());
@@ -48,18 +42,6 @@ module.exports = class LoadingWindow {
       shown: EventFactory.createEvent(
         EventFactory.Types.WINDOW_LOADING_SHOWN,
         this
-      )
-    };
-    this.shortcuts = {
-      windowTest: new Shortcut(
-        ShortcutManager.Names.TEST_WINDOW,
-        "CommandOrControl+Shift+`",
-        this,
-        () => {
-          log.info(
-            "[ShortcutManager] recieved shortcut keypress -> windowTest"
-          );
-        }
       )
     };
   }

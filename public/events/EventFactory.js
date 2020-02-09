@@ -50,6 +50,8 @@ class EventFactory {
       APPLOADER_LOAD: prefix + "apploader-load",
       SHORTCUTS_CREATED: prefix + "shortcuts-created",
       SHORTCUTS_RECIEVED: prefix + "shortcuts-recieved",
+      SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW:
+        prefix + "shortcuts-window-console-sidebar-show",
       SUBMIT_BUG_REPORT: prefix + "bugreport-submitted",
       DATASTORE_LOAD: prefix + "datastore-load",
       DATASTORE_LOADED: prefix + "datastore-loaded",

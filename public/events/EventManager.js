@@ -125,7 +125,9 @@ class EventManager {
   }
 
   /**
-   * creates new sender object that can dispatch the event in a feedback loop. Useful for calling circular events within a state machine.
+   * c
+   *
+   * reates new sender object that can dispatch the event in a feedback loop. Useful for calling circular events within a state machine.
    * @param event
    */
   initSender(event) {

@@ -56,7 +56,7 @@ export default class CircuitResource extends Component {
     }
     return (
       <div id="component" className="circuitLayout">
-        <div id="wrapper" className="activeCircuitContent">
+        <div id="wrapper" className="circuitContent">
           {wtfPanel}
         </div>
       </div>

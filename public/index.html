@@ -562,35 +562,128 @@
   /*
        * COMPONENT - CIRCUIT-LAYOUT
        */
-  #component.circuitLayout #wrapper.activeCircuitContent {
+  #component.circuitLayout #wrapper.circuitContent {
     padding-top: 0.400em;
     padding-left: 0.069em;
+  }
+
+  #component.circuitLayout #wrapper.circuitContentPanel {
+    padding-right: 0.420em;
+    margin-right: -0.420em;
+    width: 75%;
+    float: left;
+  }
+
+  #component.circuitLayout #wrapper.circuitContentPanel,
+  #component.circuitLayout #component.circuitContent,
+  #component.circuitLayout #component.circuitContentPanel,
+  #component.circuitLayout #wrapper.circuitContentSidebar,
+  #component.circuitLayout #component.circuitContentSidebar,
+  #component.circuitLayout #component.circuitContentSidebar>.ui.segment,
+  #component.circuitLayout #component.circuitContentPanel>.ui.segment {
     position: relative;
+    height: 100%;
   }
 
-  #component.circuitLayout #wrapper.activeCircuitContent .splitter-layout {
-    padding-bottom: 0.420em;
-    padding-right: 0.105em;
+  #component.circuitLayout #wrapper.circuitContentSidebar {
+    float: right;
+    width: 25%;
   }
 
-  #component.circuitLayout #wrapper.activeCircuitContent .ui.grid {
-    margin: -0.420em;
+  #component.circuitLayout #component.circuitContentSidebar .ui.grid {
+    height: 2.840em;
+    margin: 0 -0.420em;
   }
 
-  #component.circuitLayout #wrapper.activeCircuitContent .ui.grid .row {
+  #component.circuitLayout #component.circuitContentSidebar .title .ui.grid .row {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .ui.grid .row {
     padding-top: 0.420em;
     padding-bottom: 0.420em;
   }
 
-  #component.circuitLayout #wrapper.activeCircuitContent .ui.grid .column {
+  #component.circuitLayout #component.circuitContentSidebar .ui.grid .column {
     padding-left: 0.420em;
     padding-right: 0.420em;
   }
 
-  #component.circuitLayout #wrapper.activeCircuitContent .title {
+  #component.circuitLayout #component.circuitContentSidebar .title {
     font-size: 2rem;
     line-height: 2rem;
     font-weight: bolder;
+    text-overflow: ellipsis;
+    margin-bottom: 0;
+    padding: 0.420rem 0.420rem 0;
+    overflow: hidden;
+    height: 6.420rem;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .title .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box !important;
+    line-height: 2rem;
+    max-height: 6rem;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .title .time .ui.label {
+    position: relative;
+    padding: 1em;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .title .time .ui.label .span {
+    float: right;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .title .time .ui.label .hours {
+    font-size: 1.420rem;
+    line-height: 1.210rem;
+    white-space: nowrap;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .title .time .ui.label .secs {
+    font-size: 3rem;
+    line-height: 2.777rem;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .ui.segment.member {
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .ui.segment.desc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box !important;
+    line-height: 1.333rem;
+    max-height: 4rem;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+    font-style: italic;
+    text-indent: 0.420rem;
+    padding: 0 0.420rem;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .actions {
+    margin-top: 0;
+    padding-top: 0;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .actions .ui.grid .row .column {
+    padding-right: 0.210rem;
+    ;
+    padding-left: 0;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .actions .ui.grid .row .column:last-child {
+    padding-right: 0;
   }
 
   /*
