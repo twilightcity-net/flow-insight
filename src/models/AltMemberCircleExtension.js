@@ -31,7 +31,7 @@ export class AltMemberCircleExtension extends DataModel {
   }
 
   getCircleOwner = () => {
-    return this.teamModel.getMemberStatus(this.altMemberId).shortName;
+    return this.teamModel.getMemberStatus(this.altMemberId).displayName;
   };
 
   /**

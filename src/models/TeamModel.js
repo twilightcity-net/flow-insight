@@ -28,15 +28,15 @@ export class TeamModel extends DataModel {
   }
 
   getActiveTeamMemberShortName = () => {
-    let shortName = "";
+    let displayName = "";
 
     if (this.activeTeamMember != null) {
-      shortName = this.activeTeamMember.shortName;
+      displayName = this.activeTeamMember.displayName;
     } else if (this.me != null) {
-      shortName = this.me.shortName;
+      displayName = this.me.displayName;
     }
 
-    return shortName;
+    return displayName;
   };
 
   isMeActive = () => {
@@ -213,8 +213,7 @@ export class TeamModel extends DataModel {
       id: teamMember.id,
       email: teamMember.email,
       name: teamMember.fullName,
-      shortName: teamMember.shortName,
-
+      displayName: teamMember.displayName,
       activeStatus: this.toActiveStatus(teamMember.onlineStatus),
       activeTaskName: teamMember.activeTaskName,
       activeTaskSummary: teamMember.activeTaskSummary,

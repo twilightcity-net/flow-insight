@@ -11,7 +11,7 @@ module.exports = class TeamMemberWorkStatusDto {
 
       this.email = json.email;
       this.fullName = json.fullName;
-      this.shortName = json.shortName;
+      this.displayName = json.displayName;
       this.moodRating = json.moodRating;
       this.xpSummary = json.xpSummary;
 

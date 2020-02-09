@@ -79,7 +79,7 @@ export default class TeamMember extends Component {
       if (online) {
         memberNamePanel = (
           <span className={this.props.statusColor}>
-            {this.props.shortName}{" "}
+            {this.props.displayName}{" "}
             <span className="alarm">
               {" "}
               &nbsp;&nbsp; WTF?&nbsp;&nbsp; {this.props.wtfTimer}
@@ -89,7 +89,7 @@ export default class TeamMember extends Component {
       } else {
         memberNamePanel = (
           <span className={this.props.statusColor}>
-            {this.props.shortName}{" "}
+            {this.props.displayName}{" "}
             <span className="alarmDim">
               {" "}
               &nbsp;&nbsp; WTF?&nbsp;&nbsp; {this.props.wtfTimer}
@@ -99,7 +99,7 @@ export default class TeamMember extends Component {
       }
     } else {
       memberNamePanel = (
-        <span className={this.props.statusColor}>{this.props.shortName}</span>
+        <span className={this.props.statusColor}>{this.props.displayName}</span>
       );
     }
 

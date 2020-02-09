@@ -153,7 +153,7 @@ export default class TeamPanel extends Component {
             key={this.props.me.id}
             id={this.props.me.id}
             isLinked={this.isLinked(this.props.me.id)}
-            shortName={this.props.me.shortName + " (you)"}
+            displayName={this.props.me.displayName + " (you)"}
             name={this.props.me.name}
             activeStatus={this.props.me.activeStatus}
             statusColor={this.props.me.statusColor}
@@ -174,7 +174,7 @@ export default class TeamPanel extends Component {
               key={d.id}
               id={d.id}
               isLinked={this.isLinked(d.id)}
-              shortName={d.shortName}
+              displayName={d.displayName}
               name={d.name}
               activeStatus={d.activeStatus}
               statusColor={d.statusColor}
