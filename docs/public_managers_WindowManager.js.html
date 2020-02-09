@@ -108,6 +108,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataStore.html">DataStore</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataStoreFactory.html">DataStoreFactory</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DimensionController.html">DimensionController</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitContentHeight">getActiveCircuitContentHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getCircuitsSidebarPanelHeight">getCircuitsSidebarPanelHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getConsoleLayoutHeight">getConsoleLayoutHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getConsoleSidebarHeight">getConsoleSidebarHeight</a></span></li>
@@ -118,7 +119,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritCanvasHeight">getSpiritCanvasHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritCanvasWidth">getSpiritCanvasWidth</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritPanelHeight">getSpiritPanelHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getTroubleshootContentHeight">getTroubleshootContentHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getWindowInnerHeight">getWindowInnerHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getWindowInnerWidth">getWindowInnerWidth</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.init">init</a></span></li>
@@ -282,13 +282,12 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Shortcut.html">Shortcut</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutError.html">ShortcutError</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.html">ShortcutManager</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.activateWindowShortcuts">activateWindowShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.createGlobalShortcuts">createGlobalShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.deactivateWindowShortcuts">deactivateWindowShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.registerShortcut">registerShortcut</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#activateWindowShortcuts">activateWindowShortcuts</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#createGlobalShortcuts">createGlobalShortcuts</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#deactivateWindowShortcuts">deactivateWindowShortcuts</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#registerShortcut">registerShortcut</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.Accelerators.html">Accelerators</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.Names.html">Names</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.Shortcuts.html">Shortcuts</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.html">SidePanelViewController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#changeActiveCircuitsSubmenuPanel">changeActiveCircuitsSubmenuPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#changeActiveSpiritSubmenuPanel">changeActiveSpiritSubmenuPanel</a></span></li>
@@ -459,7 +458,7 @@ class WindowManager {
    */
   onFocusWindowCb(event, arg) {
     log.info("[WindowManager] focus window -> " + arg.sender.name);
-    ShortcutManager.activateWindowShortcuts(arg.sender);
+    global.App.ShortcutManager.activateWindowShortcuts(arg.sender);
     global.App.WindowManager.lastFocusWindowName = arg.sender.name;
   }
 
@@ -472,7 +471,7 @@ class WindowManager {
   onBlurWindowCb(event, arg) {
     log.info("[WindowManager] blur window -> " + arg.sender.name);
     global.App.WindowManager.lastBlurWindowName = arg.sender.name;
-    ShortcutManager.deactivateWindowShortcuts(arg.sender);
+    global.App.ShortcutManager.deactivateWindowShortcuts(arg.sender);
     if (arg.sender.name === WindowManagerHelper.WindowNames.CONSOLE) {
       // this.handleHideConsoleEvent(1);
     }
@@ -484,9 +483,12 @@ class WindowManager {
    * @param arg - the window event that dispatched the event
    */
   onShortcutsRecievedCb(event, arg) {
-    if (ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg.name) {
+    if (
+      ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg ||
+      ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE_ALT === arg
+    ) {
       this.handleHideConsoleEvent();
-    } else if (ShortcutManager.Names.GLOBAL_WINDOW_DEV_MODE === arg.name) {
+    } else if (ShortcutManager.Names.GLOBAL_WINDOW_DEV_MODE === arg) {
       log.info(
         "[WindowManager] open dev mode -> " +
           global.App.WindowManager.lastFocusWindowName

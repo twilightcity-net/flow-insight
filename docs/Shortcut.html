@@ -108,6 +108,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataStore.html">DataStore</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataStoreFactory.html">DataStoreFactory</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DimensionController.html">DimensionController</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitContentHeight">getActiveCircuitContentHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getCircuitsSidebarPanelHeight">getCircuitsSidebarPanelHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getConsoleLayoutHeight">getConsoleLayoutHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getConsoleSidebarHeight">getConsoleSidebarHeight</a></span></li>
@@ -118,7 +119,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritCanvasHeight">getSpiritCanvasHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritCanvasWidth">getSpiritCanvasWidth</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritPanelHeight">getSpiritPanelHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getTroubleshootContentHeight">getTroubleshootContentHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getWindowInnerHeight">getWindowInnerHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getWindowInnerWidth">getWindowInnerWidth</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.init">init</a></span></li>
@@ -282,13 +282,12 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Shortcut.html">Shortcut</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutError.html">ShortcutError</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.html">ShortcutManager</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.activateWindowShortcuts">activateWindowShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.createGlobalShortcuts">createGlobalShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.deactivateWindowShortcuts">deactivateWindowShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.registerShortcut">registerShortcut</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#activateWindowShortcuts">activateWindowShortcuts</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#createGlobalShortcuts">createGlobalShortcuts</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#deactivateWindowShortcuts">deactivateWindowShortcuts</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#registerShortcut">registerShortcut</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.Accelerators.html">Accelerators</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.Names.html">Names</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.Shortcuts.html">Shortcuts</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.html">SidePanelViewController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#changeActiveCircuitsSubmenuPanel">changeActiveCircuitsSubmenuPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#changeActiveSpiritSubmenuPanel">changeActiveSpiritSubmenuPanel</a></span></li>
@@ -404,57 +403,17 @@
           <div class="section-method">
             <h2>Constructor</h2>
             <h4 class="name"
-                id="Shortcut"><span class="type-signature"></span>new Shortcut<span class="signature">(the, the, window, the)</span><span class="type-signature"></span></h4>
+                id="Shortcut"><span class="type-signature"></span>new Shortcut<span class="signature">()</span><span class="type-signature"></span></h4>
             <dl class="details">
               <dt class="tag-source">Source:</dt>
               <dd class="tag-source">
                 <ul class="dummy">
                   <li>
-                    <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line22">line 22</a>
+                    <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line15">line 15</a>
                   </li>
                 </ul>
               </dd>
             </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>the</code></td>
-                  <td class="type">
-                    <span class="param-type"><code>name</code></span>
-                  </td>
-                  <td class="description last"> logical name of the shortcut </td>
-                </tr>
-                <tr>
-                  <td class="name"><code>the</code></td>
-                  <td class="type">
-                    <span class="param-type"><code>accelerator</code></span>
-                  </td>
-                  <td class="description last"> shortcut to register with </td>
-                </tr>
-                <tr>
-                  <td class="name"><code>window</code></td>
-                  <td class="type">
-                    <span class="param-type"><code>win</code></span>
-                  </td>
-                  <td class="description last"> to attach the shortcut; pass null to make global </td>
-                </tr>
-                <tr>
-                  <td class="name"><code>the</code></td>
-                  <td class="type">
-                    <span class="param-type"><code>callback</code></span>
-                  </td>
-                  <td class="description last"> callback function to execute (optional) </td>
-                </tr>
-              </tbody>
-            </table>
           </div>
         </div>
       </article>

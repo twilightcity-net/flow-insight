@@ -108,6 +108,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataStore.html">DataStore</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataStoreFactory.html">DataStoreFactory</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DimensionController.html">DimensionController</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitContentHeight">getActiveCircuitContentHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getCircuitsSidebarPanelHeight">getCircuitsSidebarPanelHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getConsoleLayoutHeight">getConsoleLayoutHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getConsoleSidebarHeight">getConsoleSidebarHeight</a></span></li>
@@ -118,7 +119,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritCanvasHeight">getSpiritCanvasHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritCanvasWidth">getSpiritCanvasWidth</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritPanelHeight">getSpiritPanelHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getTroubleshootContentHeight">getTroubleshootContentHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getWindowInnerHeight">getWindowInnerHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getWindowInnerWidth">getWindowInnerWidth</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.init">init</a></span></li>
@@ -282,13 +282,12 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Shortcut.html">Shortcut</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutError.html">ShortcutError</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.html">ShortcutManager</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.activateWindowShortcuts">activateWindowShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.createGlobalShortcuts">createGlobalShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.deactivateWindowShortcuts">deactivateWindowShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#.registerShortcut">registerShortcut</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#activateWindowShortcuts">activateWindowShortcuts</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#createGlobalShortcuts">createGlobalShortcuts</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#deactivateWindowShortcuts">deactivateWindowShortcuts</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#registerShortcut">registerShortcut</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.Accelerators.html">Accelerators</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.Names.html">Names</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.Shortcuts.html">Shortcuts</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.html">SidePanelViewController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#changeActiveCircuitsSubmenuPanel">changeActiveCircuitsSubmenuPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#changeActiveSpiritSubmenuPanel">changeActiveSpiritSubmenuPanel</a></span></li>
@@ -451,6 +450,7 @@ export default class ConsoleSidebar extends Component {
       this,
       this.onCircuitStartStop
     );
+    this.myController.configureSidebarShowListener(this, this.onSidebarShow);
   };
 
   /**
@@ -461,6 +461,7 @@ export default class ConsoleSidebar extends Component {
     this.myController.configurePulseListener(this, null);
     this.myController.configureMenuListener(this, null);
     this.myController.configureCircuitStartStopListener(this, null);
+    this.myController.configureSidebarShowListener(this, null);
   };
 
   /**
@@ -496,6 +497,29 @@ export default class ConsoleSidebar extends Component {
     });
   }
 
+  onSidebarShow(event, arg) {
+    console.log(this.name + " shortcut recieved -> sidebar show : " + arg);
+    switch (arg) {
+      case 1:
+        this.selectItem(SidePanelViewController.MenuSelection.TEAM);
+        break;
+      case 2:
+        this.selectItem(SidePanelViewController.MenuSelection.CIRCUITS);
+        break;
+      case 3:
+        this.selectItem(SidePanelViewController.MenuSelection.SPIRIT);
+        break;
+      case 4:
+        this.selectItem(SidePanelViewController.MenuSelection.NOTIFICATIONS);
+        break;
+      case 0:
+        this.selectItem(SidePanelViewController.MenuSelection.WTF);
+        break;
+      default:
+        throw new Error("Unknown console sidebar show arg " + arg);
+    }
+  }
+
   /**
    * function handler that os called when the console layout perspective changes
    */
@@ -511,11 +535,7 @@ export default class ConsoleSidebar extends Component {
     };
     let oStr = " outline";
     switch (activeMenuItem) {
-      case SidePanelViewController.MenuSelection.SPIRIT:
-        state.iconTeam += oStr;
-        state.iconCircuit += oStr;
-        state.iconNotifications += oStr;
-        break;
+
       case SidePanelViewController.MenuSelection.TEAM:
         state.iconSpirit += oStr;
         state.iconCircuit += oStr;
@@ -524,6 +544,11 @@ export default class ConsoleSidebar extends Component {
       case SidePanelViewController.MenuSelection.CIRCUITS:
         state.iconSpirit += oStr;
         state.iconTeam += oStr;
+        state.iconNotifications += oStr;
+        break;
+      case SidePanelViewController.MenuSelection.SPIRIT:
+        state.iconTeam += oStr;
+        state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection.NOTIFICATIONS:
@@ -649,13 +674,6 @@ export default class ConsoleSidebar extends Component {
             &lt;Icon name={this.state.iconTeam} />
           &lt;/Menu.Item>
           &lt;Menu.Item
-            name={SidePanelViewController.MenuSelection.SPIRIT}
-            active={activeItem === SidePanelViewController.MenuSelection.SPIRIT}
-            onClick={this.handleItemClick}
-          >
-            &lt;Icon name={this.state.iconSpirit} />
-          &lt;/Menu.Item>
-          &lt;Menu.Item
             name={SidePanelViewController.MenuSelection.CIRCUITS}
             active={
               activeItem === SidePanelViewController.MenuSelection.CIRCUITS
@@ -663,6 +681,13 @@ export default class ConsoleSidebar extends Component {
             onClick={this.handleItemClick}
           >
             &lt;Icon name={this.state.iconCircuit} />
+          &lt;/Menu.Item>
+          &lt;Menu.Item
+            name={SidePanelViewController.MenuSelection.SPIRIT}
+            active={activeItem === SidePanelViewController.MenuSelection.SPIRIT}
+            onClick={this.handleItemClick}
+          >
+            &lt;Icon name={this.state.iconSpirit} />
           &lt;/Menu.Item>
           &lt;Menu.Item
             name={SidePanelViewController.MenuSelection.NOTIFICATIONS}
