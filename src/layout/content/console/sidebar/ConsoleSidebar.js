@@ -251,13 +251,6 @@ export default class ConsoleSidebar extends Component {
             <Icon name={this.state.iconTeam} />
           </Menu.Item>
           <Menu.Item
-            name={SidePanelViewController.MenuSelection.SPIRIT}
-            active={activeItem === SidePanelViewController.MenuSelection.SPIRIT}
-            onClick={this.handleItemClick}
-          >
-            <Icon name={this.state.iconSpirit} />
-          </Menu.Item>
-          <Menu.Item
             name={SidePanelViewController.MenuSelection.CIRCUITS}
             active={
               activeItem === SidePanelViewController.MenuSelection.CIRCUITS
@@ -265,6 +258,13 @@ export default class ConsoleSidebar extends Component {
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconCircuit} />
+          </Menu.Item>
+          <Menu.Item
+            name={SidePanelViewController.MenuSelection.SPIRIT}
+            active={activeItem === SidePanelViewController.MenuSelection.SPIRIT}
+            onClick={this.handleItemClick}
+          >
+            <Icon name={this.state.iconSpirit} />
           </Menu.Item>
           <Menu.Item
             name={SidePanelViewController.MenuSelection.NOTIFICATIONS}
