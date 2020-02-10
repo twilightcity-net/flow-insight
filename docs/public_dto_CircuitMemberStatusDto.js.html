@@ -404,7 +404,7 @@ class CircuitMemberStatusDto {
     try {
       if (typeof json === "string") json = JSON.parse(json);
       this.memberId = json.memberId;
-      this.shortName = json.shortName;
+      this.displayName = json.displayName;
       this.fullName = json.fullName;
       this.wtfJoinTime = json.wtfJoinTime;
       this.wtfRoomStatus = json.wtfRoomStatus;

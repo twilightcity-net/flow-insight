@@ -14,6 +14,20 @@ export class DataModel {
    */
   static activeWaitDelay = 100;
 
+  static get Paths() {
+    return {
+      SEPARATOR: "/",
+      JOURNAL: "journal",
+      ME: "me",
+      TASK_REF: "taskref",
+      INTENTION: "intention",
+      TRANSITION: "transition",
+      FINISH: "finish",
+      FLAME: "flame",
+      RECENT: "recent"
+    };
+  }
+
   /**
    * builds the datamodel based on the child's calling call. this is the
    * scope to execute the model within

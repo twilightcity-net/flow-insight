@@ -268,4 +268,6 @@ export class CircuitClient extends BaseClient {
   getAllMyDoItLaterCircuits(callback) {}
 
   getAllParticipatingCircuitsForMember(memberId, callback) {}
+
+  abortExistingCircuit(circuitName) {}
 }

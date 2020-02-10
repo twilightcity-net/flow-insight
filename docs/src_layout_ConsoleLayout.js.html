@@ -433,12 +433,12 @@ export default class ConsoleLayout extends Component {
       activePanel: SidePanelViewController.MenuSelection.SPIRIT,
       consoleIsCollapsed: 0,
       me: {
-        shortName: SidePanelViewController.ME,
+        displayName: SidePanelViewController.ME,
         id: SidePanelViewController.ID
       },
       teamMembers: [],
       activeTeamMember: {
-        shortName: SidePanelViewController.ME,
+        displayName: SidePanelViewController.ME,
         id: SidePanelViewController.ID
       },
       isMe: true
@@ -639,7 +639,7 @@ export default class ConsoleLayout extends Component {
   getTorchieName = () => {
     let torchieName = "Member";
     if (this.state.activeTeamMember) {
-      torchieName = this.state.activeTeamMember.shortName;
+      torchieName = this.state.activeTeamMember.displayName;
     }
     return torchieName;
   };

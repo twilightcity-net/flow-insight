@@ -161,13 +161,8 @@ export default class ActiveCircuit extends Component {
                     onClick={this.onClickRetroActiveCircuit}
                     size="medium"
                     color="purple"
-                    animated="fade"
                   >
-                    <Button.Content visible>
-                      <icon name="user" />
-                      solved
-                    </Button.Content>
-                    <Button.Content hidden>retro...</Button.Content>
+                    <Button.Content>solved</Button.Content>
                   </Button>
                 </Grid.Column>
                 <Grid.Column>
@@ -175,10 +170,8 @@ export default class ActiveCircuit extends Component {
                     onClick={this.onClickHoldActiveCircuit}
                     size="medium"
                     color="grey"
-                    animated="fade"
                   >
-                    <Button.Content visible>later</Button.Content>
-                    <Button.Content hidden>hold...</Button.Content>
+                    <Button.Content>later</Button.Content>
                   </Button>
                 </Grid.Column>
                 <Grid.Column>
@@ -186,10 +179,8 @@ export default class ActiveCircuit extends Component {
                     onClick={this.onClickCancelActiveCircuit}
                     size="medium"
                     color="grey"
-                    animated="fade"
                   >
-                    <Button.Content visible>cancel</Button.Content>
-                    <Button.Content hidden>close...</Button.Content>
+                    <Button.Content>cancel</Button.Content>
                   </Button>
                 </Grid.Column>
               </Grid.Row>

@@ -1,6 +1,7 @@
-//
-// dto class for MemberWorkStatusDto
-//
+/**
+ * this class backs the team panel data model array thingy
+ * @type {MemberWorkStatusDto}
+ */
 module.exports = class MemberWorkStatusDto {
   constructor(json) {
     try {
@@ -11,6 +12,7 @@ module.exports = class MemberWorkStatusDto {
       this.email = json.email;
       this.fullName = json.fullName;
       this.displayName = json.displayName;
+      this.username = json.username;
 
       this.xpSummary = json.xpSummary;
       this.activeCircle = json.activeCircle;

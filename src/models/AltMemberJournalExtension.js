@@ -39,13 +39,16 @@ export class AltMemberJournalExtension extends DataModel {
   }
 
   /**
-   * Loads the most recent Journal with X number of entries,
-   * which should ultimately be a configurable setting
-   * but hardcoded on the server for now
+   * load some stuff into the journal stuff
    */
   loadDefaultJournal = () => {
-    let remoteUrn = "/journal?member=" + this.altMemberId;
-    let loadRequestType = DataModel.RequestTypes.GET;
+    let remoteUrn =
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.JOURNAL +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.ME,
+      loadRequestType = DataModel.RequestTypes.GET;
+
     this.remoteFetch(
       null,
       remoteUrn,

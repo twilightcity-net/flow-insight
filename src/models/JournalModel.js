@@ -107,7 +107,11 @@ export class JournalModel extends DataModel {
    * but hardcoded on the server for now
    */
   loadDefaultJournal = () => {
-    let remoteUrn = "/journal",
+    let remoteUrn =
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.JOURNAL +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.ME,
       loadRequestType = DataModel.RequestTypes.GET;
 
     this.remoteFetch(
@@ -160,7 +164,13 @@ export class JournalModel extends DataModel {
   addTaskRef = taskName => {
     console.log(this.name + " - Request - addTaskRef");
 
-    let remoteUrn = "/journal/taskref",
+    let remoteUrn =
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.JOURNAL +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.ME +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.TASK_REF,
       loadRequestType = DataModel.RequestTypes.POST,
       args = { taskName: taskName };
 
@@ -186,13 +196,19 @@ export class JournalModel extends DataModel {
   addJournalEntry = (projectId, taskId, description) => {
     console.log(this.name + " - Request - addJournalEntry");
 
-    let remoteUrn = "/journal/intention";
-    let loadRequestType = DataModel.RequestTypes.POST;
-    let args = {
-      projectId: projectId,
-      taskId: taskId,
-      description: description
-    };
+    let remoteUrn =
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.JOURNAL +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.ME +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.INTENTION,
+      loadRequestType = DataModel.RequestTypes.POST,
+      args = {
+        projectId: projectId,
+        taskId: taskId,
+        description: description
+      };
 
     this.remoteFetch(
       args,
@@ -215,9 +231,23 @@ export class JournalModel extends DataModel {
   finishIntention = (intentionId, finishStatus) => {
     console.log(this.name + " - Request - finishIntention");
 
-    let remoteUrn = "/journal/intention/" + intentionId + "/transition/finish";
-    let loadRequestType = DataModel.RequestTypes.POST;
-    let args = { finishStatus: finishStatus };
+    let remoteUrn =
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.JOURNAL +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.ME +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.INTENTION +
+        DataModel.Paths.SEPARATOR +
+        intentionId +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.TRANSITION +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.FINISH,
+      loadRequestType = DataModel.RequestTypes.POST,
+      args = {
+        finishStatus: finishStatus
+      };
 
     this.remoteFetch(
       args,
@@ -257,9 +287,22 @@ export class JournalModel extends DataModel {
   updateFlameRatingForIntention = (journalItem, flameRating) => {
     console.log(this.name + " update flame rating for journal item");
     let remoteUrn =
-      "/journal/intention/" + journalItem.id + "/transition/flame";
-    let loadRequestType = DataModel.RequestTypes.POST;
-    let args = { flameRating: flameRating };
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.JOURNAL +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.ME +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.INTENTION +
+        DataModel.Paths.SEPARATOR +
+        journalItem.id +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.TRANSITION +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.FLAME,
+      loadRequestType = DataModel.RequestTypes.POST,
+      args = {
+        flameRating: flameRating
+      };
     journalItem.flameRating = Number(flameRating);
     this.remoteFetch(
       args,
@@ -273,31 +316,31 @@ export class JournalModel extends DataModel {
       }
     );
   };
-
-  /**
-   * updates the flame ratings for wtf circuits
-   * @param journalItem
-   * @param flameRating
-   */
-  updateFlameRatingForWTFCircle = (journalItem, flameRating) => {
-    let remoteUrn = "/journal/wtf/" + journalItem.id + "/transition/flame";
-    let loadRequestType = DataModel.RequestTypes.POST;
-    let args = { flameRating: flameRating };
-
-    journalItem.flameRating = Number(flameRating);
-
-    this.remoteFetch(
-      args,
-      remoteUrn,
-      loadRequestType,
-      JournalEntryDto,
-      (dtoResults, err) => {
-        setTimeout(() => {
-          this.onUpdateFlameRatingCb(dtoResults, err);
-        }, DataModel.activeWaitDelay);
-      }
-    );
-  };
+  //
+  // /**
+  //  * updates the flame ratings for wtf circuits
+  //  * @param journalItem
+  //  * @param flameRating
+  //  */
+  // updateFlameRatingForWTFCircle = (journalItem, flameRating) => {
+  //   let remoteUrn = "/journal/wtf/" + journalItem.id + "/transition/flame";
+  //   let loadRequestType = DataModel.RequestTypes.POST;
+  //   let args = { flameRating: flameRating };
+  //
+  //   journalItem.flameRating = Number(flameRating);
+  //
+  //   this.remoteFetch(
+  //     args,
+  //     remoteUrn,
+  //     loadRequestType,
+  //     JournalEntryDto,
+  //     (dtoResults, err) => {
+  //       setTimeout(() => {
+  //         this.onUpdateFlameRatingCb(dtoResults, err);
+  //       }, DataModel.activeWaitDelay);
+  //     }
+  //   );
+  // };
 
   /**
    * Refresh recent task references for the journal drop down
@@ -305,8 +348,16 @@ export class JournalModel extends DataModel {
   refreshRecentTaskReferences = () => {
     console.log(this.name + " - Request - refreshRecentTaskReferences");
 
-    let remoteUrn = "/journal/taskref/recent";
-    let loadRequestType = DataModel.RequestTypes.GET;
+    let remoteUrn =
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.JOURNAL +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.ME +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.TASK_REF +
+        DataModel.Paths.SEPARATOR +
+        DataModel.Paths.RECENT,
+      loadRequestType = DataModel.RequestTypes.GET;
 
     this.remoteFetch(
       null,
