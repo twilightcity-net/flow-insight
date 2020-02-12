@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import JournalResource from "../resources/journal/JournalResource";
-import WtfResource from "../resources/circuit/CircuitResource";
-import FlowResource from "../resources/flow/FlowResource";
+import JournalResource from "../../resources/journal/JournalResource";
+import CircuitResource from "../../resources/circuit/CircuitResource";
+import FlowResource from "../../resources/flow/FlowResource";
 import { Transition } from "semantic-ui-react";
-import { ActiveViewControllerFactory } from "../controllers/ActiveViewControllerFactory";
-import BrowserHeader from "./content/console/browser/BrowserHeader";
-import { MainPanelViewController } from "../controllers/MainPanelViewController";
+import { RendererControllerFactory } from "../../controllers/RendererControllerFactory";
+import LayoutBrowser from "./LayoutBrowser";
+import { MainPanelViewController } from "../../controllers/MainPanelViewController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -19,8 +19,8 @@ export default class LayoutContent extends Component {
     this.state = {
       resource: MainPanelViewController.Resources.NONE
     };
-    this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.MAIN_PANEL,
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.LAYOUT_CONTENT,
       this
     );
   }
@@ -43,6 +43,7 @@ export default class LayoutContent extends Component {
     });
   };
 
+  // TODO create a renderActiveComponent function for the switch below
   getActiveComponent = () => {
     let component = null,
       className = "Layout",
@@ -57,7 +58,7 @@ export default class LayoutContent extends Component {
         className = MainPanelViewController.Resources.JOURNAL + className;
         break;
       case MainPanelViewController.Resources.CIRCUIT:
-        component = <WtfResource resource={this.state.resource} />;
+        component = <CircuitResource resource={this.state.resource} />;
         className = MainPanelViewController.Resources.CIRCUIT + className;
         break;
       case MainPanelViewController.Resources.FLOW:
@@ -90,7 +91,7 @@ export default class LayoutContent extends Component {
   };
 
   getBrowserHeader = scope => {
-    return <BrowserHeader scope={scope} />;
+    return <LayoutBrowser scope={scope} />;
   };
 
   /**

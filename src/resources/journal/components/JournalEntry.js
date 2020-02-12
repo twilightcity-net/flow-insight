@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
 import { DataModelFactory } from "../../../models/DataModelFactory";
 import { JournalModel } from "../../../models/JournalModel";
-import { ActiveViewControllerFactory } from "../../../controllers/ActiveViewControllerFactory";
+import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -31,8 +31,8 @@ export default class JournalEntry extends Component {
       this
     );
 
-    this.consoleController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
+    this.consoleController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.CONSOLE_VIEW,
       this
     );
   }

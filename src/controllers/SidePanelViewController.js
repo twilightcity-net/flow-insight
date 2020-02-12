@@ -1,6 +1,6 @@
 import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
-import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
+import { RendererControllerFactory } from "./RendererControllerFactory";
 import { BrowserRequestFactory } from "./BrowserRequestFactory";
 
 /**
@@ -87,8 +87,8 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATIONS_PANEL,
       this
     );
-    this.browserController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.BROWSER_PANEL,
+    this.browserController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.LAYOUT_BROWSER,
       this
     );
     this.heartbeatListener = RendererEventFactory.createEvent(

@@ -1,5 +1,5 @@
 import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
+import { RendererControllerFactory } from "./RendererControllerFactory";
 import ConsoleView from "../views/ConsoleView";
 
 /**
@@ -48,17 +48,17 @@ export class PerspectiveController {
       DataModelFactory.Models.MEMBER_STATUS,
       this
     );
-    this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.MAIN_PANEL,
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.LAYOUT_CONTENT,
       this
     );
 
-    this.sidePanelController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.SIDE_PANEL,
+    this.sidePanelController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.CONSOLE_SIDEBAR,
       this
     );
-    this.consoleController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
+    this.consoleController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.CONSOLE_VIEW,
       this
     );
     this.configureConsoleOpenCloseModelUpdateEvents();

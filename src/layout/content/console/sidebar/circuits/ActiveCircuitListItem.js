@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Icon, Label, List } from "semantic-ui-react";
-import { LearningCircuitModel } from "../../../../models/LearningCircuitModel";
-import UtilRenderer from "../../../../UtilRenderer";
+import { LearningCircuitModel } from "../../../../../models/LearningCircuitModel";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 export default class ActiveCircuitListItem extends Component {
   constructor(props) {

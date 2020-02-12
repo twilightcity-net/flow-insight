@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Keyframes from "@keyframes/core";
 import ConsoleLayout from "../layout/ConsoleLayout";
-import { ActiveViewControllerFactory } from "../controllers/ActiveViewControllerFactory";
+import { RendererControllerFactory } from "../controllers/RendererControllerFactory";
 import { ModelCoordinator } from "../models/ModelCoordinator";
 import { PerspectiveController } from "../controllers/PerspectiveController";
 import { DimensionController } from "../controllers/DimensionController";
@@ -56,8 +56,8 @@ export default class ConsoleView extends Component {
   constructor(props) {
     super(props);
     this.name = "[ConsoleView]";
-    this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.CONSOLE_PANEL,
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.CONSOLE_VIEW,
       this
     );
 

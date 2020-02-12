@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Segment } from "semantic-ui-react";
 import { DimensionController } from "../../../controllers/DimensionController";
-import { ActiveViewControllerFactory } from "../../../controllers/ActiveViewControllerFactory";
+import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -15,13 +15,10 @@ export default class NewCircuit extends Component {
   constructor(props) {
     super(props);
     this.name = "[NewCircuit]";
+    this.myController = props.ctlr;
     this.state = {
       resource: props.resource
     };
-    this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.RESOURCES_PANEL,
-      this
-    );
   }
 
   /**

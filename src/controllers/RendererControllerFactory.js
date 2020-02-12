@@ -8,25 +8,25 @@ import { BrowserController } from "./BrowserController";
  * generates view controllers for components
  * @author ZoeDreams
  */
-export class ActiveViewControllerFactory {
+export class RendererControllerFactory {
   /**
    * an array of views store as a cluttered object list in memory
    * @type {{}}
    */
-  static viewsByName = {};
+  static controllers = {};
 
   /**
    * the views of the gui that have controllers
-   * @returns {{RESOURCES_PANEL: string, MAIN_PANEL: string, CONSOLE_PANEL: string, SIDE_PANEL: string}}
+   * @returns {{RESOURCES: string, LAYOUT_CONTENT: string, CONSOLE_VIEW: string, CONSOLE_SIDEBAR: string}}
    * @constructor
    */
   static get Views() {
     return {
-      RESOURCES_PANEL: "resources-panel",
-      SIDE_PANEL: "side-panel",
-      MAIN_PANEL: "main-panel",
-      CONSOLE_PANEL: "console-panel",
-      BROWSER_PANEL: "browser-panel"
+      CONSOLE_VIEW: "console-view",
+      CONSOLE_SIDEBAR: "console-sidebar",
+      LAYOUT_CONTENT: "layout-content",
+      LAYOUT_BROWSER: "layout-browser",
+      RESOURCES: "resources"
     };
   }
 
@@ -37,7 +37,7 @@ export class ActiveViewControllerFactory {
    * @returns {*} - the controller instance
    */
   static getViewController(name, scope) {
-    return ActiveViewControllerFactory._findOrCreateViewController(name, scope);
+    return RendererControllerFactory.findOrCreateController(name, scope);
   }
 
   /**
@@ -46,18 +46,23 @@ export class ActiveViewControllerFactory {
    * @param scope
    * @returns {*}
    */
-  static _findOrCreateViewController(name, scope) {
-    let ctlr;
-    if (ActiveViewControllerFactory.viewsByName[name] != null) {
-      ctlr = ActiveViewControllerFactory.viewsByName[name];
+  static findOrCreateController(name, scope) {
+    if (name) {
+      let controller = RendererControllerFactory.controllers[name];
+      if (controller) {
+        controller = controller.updateScope(scope);
+      } else {
+        controller = RendererControllerFactory.controllers[
+          name
+        ] = RendererControllerFactory.createController(name, scope);
+      }
+      if (!controller) {
+        throw new Error("the null controller with num-chucks is dangerous");
+      }
+      return controller;
     } else {
-      ctlr = ActiveViewControllerFactory.initializeNewViewController(
-        name,
-        scope
-      );
-      ActiveViewControllerFactory.viewsByName[name] = ctlr;
+      throw new Error("null controller name disallowed");
     }
-    return ctlr;
   }
 
   /**
@@ -66,20 +71,20 @@ export class ActiveViewControllerFactory {
    * @param scope - the given scope to create in
    * @returns {ConsoleViewController|ResourceCircuitController|MainPanelViewController|null|SidePanelViewController}
    */
-  static initializeNewViewController(name, scope) {
+  static createController(name, scope) {
     switch (name) {
-      case ActiveViewControllerFactory.Views.RESOURCES_PANEL:
+      case RendererControllerFactory.Views.RESOURCES:
         return new ResourceCircuitController(scope);
-      case ActiveViewControllerFactory.Views.SIDE_PANEL:
+      case RendererControllerFactory.Views.CONSOLE_SIDEBAR:
         return new SidePanelViewController(scope);
-      case ActiveViewControllerFactory.Views.MAIN_PANEL:
+      case RendererControllerFactory.Views.LAYOUT_CONTENT:
         return new MainPanelViewController(scope);
-      case ActiveViewControllerFactory.Views.CONSOLE_PANEL:
+      case RendererControllerFactory.Views.CONSOLE_VIEW:
         return new ConsoleViewController(scope);
-      case ActiveViewControllerFactory.Views.BROWSER_PANEL:
+      case RendererControllerFactory.Views.LAYOUT_BROWSER:
         return new BrowserController(scope);
       default:
-        return null;
+        throw new Error("Unknown controller name '" + name + "'");
     }
   }
 }

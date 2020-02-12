@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { List, Menu, Segment, Transition } from "semantic-ui-react";
-import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
-import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
-import { DimensionController } from "../../../../controllers/DimensionController";
-import { CircuitClient } from "../../../../clients/CircuitClient";
+import { SidePanelViewController } from "../../../../../controllers/SidePanelViewController";
+import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
+import { DimensionController } from "../../../../../controllers/DimensionController";
+import { CircuitClient } from "../../../../../clients/CircuitClient";
 import ActiveCircuitListItem from "./ActiveCircuitListItem";
-import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
+import { BrowserRequestFactory } from "../../../../../controllers/BrowserRequestFactory";
 
 /**
  * renders the circuit navigator panels in the gui
@@ -20,8 +20,8 @@ export default class CircuitsPanel extends Component {
     super(props);
     this.state = this.loadState();
     this.name = "[CircuitsPanel]";
-    this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.SIDE_PANEL
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
     this.selections = {
       activeCircuitComponent: null

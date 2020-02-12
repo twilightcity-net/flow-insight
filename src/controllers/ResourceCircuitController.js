@@ -1,7 +1,7 @@
 import { ActiveViewController } from "./ActiveViewController";
 import { CircuitClient } from "../clients/CircuitClient";
 import { BrowserRequestFactory } from "./BrowserRequestFactory";
-import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
+import { RendererControllerFactory } from "./RendererControllerFactory";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 
 export class ResourceCircuitController extends ActiveViewController {
@@ -11,8 +11,8 @@ export class ResourceCircuitController extends ActiveViewController {
    */
   constructor(scope) {
     super(scope);
-    this.browserController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.BROWSER_PANEL,
+    this.browserController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.LAYOUT_BROWSER,
       this
     );
     this.circuitStartStopNotifier = RendererEventFactory.createEvent(

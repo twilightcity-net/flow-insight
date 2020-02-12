@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Divider, Grid, Icon, Popup } from "semantic-ui-react";
 // import { DataModelFactory } from "../models/DataModelFactory";
-import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
-import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
+import { SidePanelViewController } from "../../../../../controllers/SidePanelViewController";
 
 //
 // this component is the individual journal item entered in by the user
@@ -11,8 +11,8 @@ export default class TeamMember extends Component {
   constructor(props) {
     super(props);
 
-    this.sidePanelController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.SIDE_PANEL,
+    this.sidePanelController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.CONSOLE_SIDEBAR,
       this
     );
   }

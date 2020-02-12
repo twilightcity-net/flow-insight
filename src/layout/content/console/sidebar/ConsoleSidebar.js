@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
-import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { DimensionController } from "../../../../controllers/DimensionController";
 
@@ -37,8 +37,8 @@ export default class ConsoleSidebar extends Component {
       iconCircuit: "compass outline",
       iconNotifications: "bell outline"
     };
-    this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.SIDE_PANEL
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
   }
 

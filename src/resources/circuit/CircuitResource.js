@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import ActiveCircuit from "./components/ActiveCircuit";
 import NewCircuit from "./components/NewCircuit";
-import { ActiveViewControllerFactory } from "../../controllers/ActiveViewControllerFactory";
+import { RendererControllerFactory } from "../../controllers/RendererControllerFactory";
 import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
 
 /**
@@ -20,8 +20,8 @@ export default class CircuitResource extends Component {
       resource: props.resource,
       isWTF: this.isWTF(props.resource)
     };
-    this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.RESOURCES_PANEL,
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.RESOURCES,
       this
     );
   }
@@ -50,9 +50,16 @@ export default class CircuitResource extends Component {
   render() {
     let wtfPanel;
     if (this.isWTF(this.props.resource)) {
-      wtfPanel = <ActiveCircuit resource={this.state.resource} />;
+      wtfPanel = (
+        <ActiveCircuit
+          ctlr={this.myController}
+          resource={this.state.resource}
+        />
+      );
     } else {
-      wtfPanel = <NewCircuit resource={this.state.resource} />;
+      wtfPanel = (
+        <NewCircuit ctlr={this.myController} resource={this.state.resource} />
+      );
     }
     return (
       <div id="component" className="circuitLayout">

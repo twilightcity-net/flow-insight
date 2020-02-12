@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import { Button, Icon, Input, Segment } from "semantic-ui-react";
-import { ActiveViewControllerFactory } from "../../../../controllers/ActiveViewControllerFactory";
-import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
+import { RendererControllerFactory } from "../../controllers/RendererControllerFactory";
+import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
-export default class BrowserHeader extends Component {
+export default class LayoutBrowser extends Component {
   /**
    * default string we show in the address bar
    * @type {string}
@@ -24,8 +24,8 @@ export default class BrowserHeader extends Component {
       disableControls: false,
       location: ""
     };
-    this.myController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.BROWSER_PANEL,
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.LAYOUT_BROWSER,
       this
     );
   }
@@ -191,7 +191,7 @@ export default class BrowserHeader extends Component {
         className="browserInput"
         fluid
         inverted
-        placeholder={BrowserHeader.locationStr}
+        placeholder={LayoutBrowser.locationStr}
         value={this.state.location.toLowerCase()}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}

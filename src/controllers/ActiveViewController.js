@@ -6,4 +6,9 @@ export class ActiveViewController {
     this.scope = scope;
     this.guid = UtilRenderer.getGuid();
   }
+
+  updateScope(scope) {
+    this.scope = scope;
+    return this;
+  }
 }

@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import ConsoleSidebar from "./content/console/sidebar/ConsoleSidebar";
-import LayoutContent from "./LayoutContent";
-import CircuitsPanel from "./content/console/sidebar/CircuitsPanel";
-import NotificationsPanel from "./content/console/sidebar/NotificationsPanel";
-import TeamPanel from "./content/console/sidebar/TeamPanel";
-import SpiritPanel from "./content/console/sidebar/SpiritPanel";
+import LayoutContent from "./content/LayoutContent";
+import CircuitsPanel from "./content/console/sidebar/circuits/CircuitsPanel";
+import NotificationsPanel from "./content/console/sidebar/notifications/NotificationsPanel";
+import TeamPanel from "./content/console/sidebar/team/TeamPanel";
+import SpiritPanel from "./content/console/sidebar/spirit/SpiritPanel";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { SpiritModel } from "../models/SpiritModel";
 import { TeamModel } from "../models/TeamModel";
-import { ActiveViewControllerFactory } from "../controllers/ActiveViewControllerFactory";
+import { RendererControllerFactory } from "../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../controllers/SidePanelViewController";
 import { DimensionController } from "../controllers/DimensionController";
 
@@ -48,8 +48,8 @@ export default class ConsoleLayout extends Component {
     };
 
     // TODO move this stuff into the controller class
-    this.sidePanelController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.SIDE_PANEL,
+    this.sidePanelController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.CONSOLE_SIDEBAR,
       this
     );
     this.teamModel = DataModelFactory.createModel(
