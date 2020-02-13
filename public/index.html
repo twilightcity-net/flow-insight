@@ -567,20 +567,21 @@
     padding-left: 0.069em;
   }
 
+  #component.circuitLayout #component.circuitContent {
+    position: relative;
+    height: 100%;
+  }
+
   #component.circuitLayout #wrapper.circuitContentPanel {
     padding-right: 0.420em;
     margin-right: -0.420em;
     width: 75%;
     float: left;
+    position: relative;
+    height: 100%;
   }
 
-  #component.circuitLayout #wrapper.circuitContentPanel,
-  #component.circuitLayout #component.circuitContent,
-  #component.circuitLayout #component.circuitContentPanel,
-  #component.circuitLayout #wrapper.circuitContentSidebar,
-  #component.circuitLayout #component.circuitContentSidebar,
-  #component.circuitLayout #component.circuitContentSidebar>.ui.segment,
-  #component.circuitLayout #component.circuitContentPanel>.ui.segment {
+  #component.circuitLayout #component.circuitContentPanel {
     position: relative;
     height: 100%;
   }
@@ -588,6 +589,23 @@
   #component.circuitLayout #wrapper.circuitContentSidebar {
     float: right;
     width: 25%;
+    position: relative;
+    height: 100%;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar {
+    position: relative;
+    height: 100%;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar>.ui.segment {
+    position: relative;
+    height: 100%;
+  }
+
+  #component.circuitLayout #component.circuitContentPanel>.ui.segment {
+    position: relative;
+    height: 100%;
   }
 
   #component.circuitLayout #wrapper.circuitContentSidebar>.ui.segment {
@@ -672,6 +690,7 @@
     margin-top: 0.420rem;
     padding: 0 0.420rem;
     vertical-align: middle;
+    text-align: center;
   }
 
   #component.circuitLayout #component.circuitContentSidebar .ui.segment.desc {
@@ -679,8 +698,8 @@
     text-overflow: ellipsis;
     display: -webkit-box !important;
     line-height: 1.333rem;
-    max-height: 4rem;
-    -webkit-line-clamp: 3;
+    max-height: 5.333rem;
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow-wrap: break-word;
     font-style: italic;
@@ -693,19 +712,28 @@
     text-overflow: ellipsis;
     display: -webkit-box !important;
     line-height: 2rem;
-    max-height: 6.840rem;
-    -webkit-line-clamp: 3;
+    max-height: 4.840rem;
+    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow-wrap: break-word;
     padding: 0 0.420rem 0 0;
     text-align: center;
   }
 
+  #component.circuitLayout #component.circuitContentSidebar>.content {
+    margin-bottom: 0.420rem;
+    padding-bottom: 0.840rem;
+    padding-top: 0.420rem;
+  }
+
   #component.circuitLayout #component.circuitContentSidebar .tags>.ui.label {
     margin: 0 0.210rem;
   }
 
-  #component.circuitLayout #component.circuitContentSidebar .actions {}
+  #component.circuitLayout #component.circuitContentSidebar>.actions {
+    margin-top: 0.420rem;
+    padding: 0.84rem 1.420rem 0.840rem 1.840rem;
+  }
 
   #component.circuitLayout #component.circuitContentSidebar .actions .ui.grid .row .column {
     padding-right: 0.210rem;

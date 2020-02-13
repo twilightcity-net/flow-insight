@@ -1,15 +1,35 @@
 import React, { Component } from "react";
-import { Button, Divider, Grid, Icon, Menu, Segment } from "semantic-ui-react";
+import { Button, Grid, Icon, Menu, Segment } from "semantic-ui-react";
 import { DimensionController } from "../../../controllers/DimensionController";
 import Label from "semantic-ui-react/dist/commonjs/elements/Label";
-import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 
+/**
+ * the class which defines the circuit sidebar panel
+ */
 export default class CircuitSidebar extends Component {
+  /**
+   * the possible view we can display in the circuit sidebar panel
+   * @returns {{PARTY: string, CHEST: string, OVERVIEW: string}}
+   * @constructor
+   */
+  static get Views() {
+    return {
+      OVERVIEW: "overview",
+      PARTY: "party",
+      CHEST: "chest"
+    };
+  }
+
+  /**
+   * builds our circuit sidebar
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.myController = props.myController;
     this.state = {
-      resource: props.resource
+      resource: props.resource,
+      activeMenuView: CircuitSidebar.Views.OVERVIEW
     };
   }
 
@@ -37,142 +57,192 @@ export default class CircuitSidebar extends Component {
     this.myController.cancelActiveCircuitResource();
   };
 
+  /**
+   * the click handler for the menu of the circuit content sidebar panel
+   * @param e
+   * @param name
+   */
+  handleMenuClick = (e, { name }) => {
+    this.setState({
+      activeMenuView: name
+    });
+  };
+
+  /**
+   * renders the circuit sidebar content panel
+   * @returns {*}
+   */
+  getCircuitSidebarContent() {
+    return (
+      <Segment
+        className="content"
+        inverted
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.CIRCUIT_SIDEBAR
+          )
+        }}
+      >
+        <Menu size="mini" inverted pointing secondary>
+          <Menu.Item
+            name={CircuitSidebar.Views.OVERVIEW}
+            active={this.state.activeMenuView === CircuitSidebar.Views.OVERVIEW}
+            onClick={this.handleMenuClick}
+          />
+          <Menu.Item
+            name={CircuitSidebar.Views.PARTY}
+            active={this.state.activeMenuView === CircuitSidebar.Views.PARTY}
+            onClick={this.handleMenuClick}
+          />
+          <Menu.Item
+            name={CircuitSidebar.Views.CHEST}
+            active={this.state.activeMenuView === CircuitSidebar.Views.CHEST}
+            onClick={this.handleMenuClick}
+          />
+        </Menu>
+        <Label color="red" basic className="time">
+          <Icon name="lightning" /> <span className="time"> 00:00:00:00</span>
+        </Label>
+        <Segment inverted className="title">
+          Angry Teachers Heaven And Some More Text For REALLY long
+        </Segment>
+        <Segment inverted className="desc">
+          The property was originally a nonstandard and unprefixed Microsoft
+          extension called word-wrap, and was implemented by most browsers with
+          the same name. It has since been renamed to overflow-wrap, with
+          word-wrap being an alias.
+        </Segment>
+        <Segment inverted className="tags">
+          <Label color="grey" size="tiny">
+            JavaScript
+          </Label>
+          <Label color="grey" size="tiny">
+            Java
+          </Label>
+          <Label color="grey" size="tiny">
+            SaSS
+          </Label>
+          <Label color="grey" size="tiny">
+            Gradle
+          </Label>
+          <Label color="grey" size="tiny">
+            GUI
+          </Label>
+          <Label color="grey" size="tiny">
+            DB
+          </Label>
+          <Label color="grey" size="tiny">
+            Technical
+          </Label>
+          <Label color="grey" size="tiny">
+            Game
+          </Label>
+          <Label color="grey" size="tiny">
+            Development
+          </Label>
+          <Label color="grey" size="tiny">
+            SomeRandom Tag
+          </Label>
+          <Label color="grey" size="tiny">
+            Tester
+          </Label>
+          <Label color="grey" size="tiny">
+            Important
+          </Label>
+          <Label color="grey" size="tiny">
+            JavaScript
+          </Label>
+          <Label color="grey" size="tiny">
+            Java
+          </Label>
+          <Label color="grey" size="tiny">
+            SaSS
+          </Label>
+          <Label color="grey" size="tiny">
+            Gradle
+          </Label>
+          <Label color="grey" size="tiny">
+            GUI
+          </Label>
+          <Label color="grey" size="tiny">
+            DB
+          </Label>
+          <Label color="grey" size="tiny">
+            Technical
+          </Label>
+          <Label color="grey" size="tiny">
+            Game
+          </Label>
+          <Label color="grey" size="tiny">
+            Development
+          </Label>
+          <Label color="grey" size="tiny">
+            SomeRandom Tag
+          </Label>
+          <Label color="grey" size="tiny">
+            Tester
+          </Label>
+          <Label color="grey" size="tiny">
+            Important
+          </Label>
+        </Segment>
+      </Segment>
+    );
+  }
+
+  /**
+   * renders the circuit sidebar actions segment
+   * @returns {*}
+   */
+  getCircuitSidebarActions() {
+    return (
+      <Segment
+        className="actions"
+        inverted
+        style={{
+          height: DimensionController.getCircuitSidebarActionsHeight()
+        }}
+      >
+        <Grid columns="equal" inverted>
+          <Grid.Row stretched verticalAlign="middle">
+            <Grid.Column>
+              <Button
+                onClick={this.onClickRetroActiveCircuit}
+                size="medium"
+                color="purple"
+              >
+                <Button.Content>solved</Button.Content>
+              </Button>
+            </Grid.Column>
+            <Grid.Column>
+              <Button
+                onClick={this.onClickHoldActiveCircuit}
+                size="medium"
+                color="grey"
+              >
+                <Button.Content>later</Button.Content>
+              </Button>
+            </Grid.Column>
+            <Grid.Column>
+              <Button
+                onClick={this.onClickCancelActiveCircuit}
+                size="medium"
+                color="grey"
+              >
+                <Button.Content>cancel</Button.Content>
+              </Button>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+      </Segment>
+    );
+  }
+
   render() {
     return (
       <div id="component" className="circuitContentSidebar">
-        <Segment
-          inverted
-          style={{
-            height: DimensionController.getHeightFor(
-              DimensionController.Components.TROUBLESHOOT
-            )
-          }}
-        >
-          <Menu size="mini" inverted pointing secondary>
-            <Menu.Item name={"Overview"} active={true} />
-            <Menu.Item name={"Party"} active={false} />
-            <Menu.Item name={"Chest"} active={false} />
-          </Menu>
-          <Label color="red" basic className="time">
-            <Icon name="lightning" /> <span className="time"> 00:00:00:00</span>
-          </Label>
-          <Segment inverted className="title">
-            Angry Teachers Heaven And Some More Text For REALLY long
-          </Segment>
-          <Segment inverted className="desc">
-            The property was originally a nonstandard and unprefixed Microsoft
-            extension called word-wrap, and was implemented by most browsers
-            with the same name. It has since been renamed to overflow-wrap, with
-            word-wrap being an alias.
-          </Segment>
-          <Segment inverted className="tags">
-            <Label color="grey" size="tiny">
-              JavaScript
-            </Label>
-            <Label color="grey" size="tiny">
-              Java
-            </Label>
-            <Label color="grey" size="tiny">
-              SaSS
-            </Label>
-            <Label color="grey" size="tiny">
-              Gradle
-            </Label>
-            <Label color="grey" size="tiny">
-              GUI
-            </Label>
-            <Label color="grey" size="tiny">
-              DB
-            </Label>
-            <Label color="grey" size="tiny">
-              Technical
-            </Label>
-            <Label color="grey" size="tiny">
-              Game
-            </Label>
-            <Label color="grey" size="tiny">
-              Development
-            </Label>
-            <Label color="grey" size="tiny">
-              SomeRandom Tag
-            </Label>
-            <Label color="grey" size="tiny">
-              Tester
-            </Label>
-            <Label color="grey" size="tiny">
-              Important
-            </Label>
-            <Label color="grey" size="tiny">
-              JavaScript
-            </Label>
-            <Label color="grey" size="tiny">
-              Java
-            </Label>
-            <Label color="grey" size="tiny">
-              SaSS
-            </Label>
-            <Label color="grey" size="tiny">
-              Gradle
-            </Label>
-            <Label color="grey" size="tiny">
-              GUI
-            </Label>
-            <Label color="grey" size="tiny">
-              DB
-            </Label>
-            <Label color="grey" size="tiny">
-              Technical
-            </Label>
-            <Label color="grey" size="tiny">
-              Game
-            </Label>
-            <Label color="grey" size="tiny">
-              Development
-            </Label>
-            <Label color="grey" size="tiny">
-              SomeRandom Tag
-            </Label>
-            <Label color="grey" size="tiny">
-              Tester
-            </Label>
-            <Label color="grey" size="tiny">
-              Important
-            </Label>
-          </Segment>
-          <Segment inverted className="actions">
-            <Grid columns="equal" inverted>
-              <Grid.Row stretched verticalAlign="middle">
-                <Grid.Column>
-                  <Button
-                    onClick={this.onClickRetroActiveCircuit}
-                    size="medium"
-                    color="purple"
-                  >
-                    <Button.Content>solved</Button.Content>
-                  </Button>
-                </Grid.Column>
-                <Grid.Column>
-                  <Button
-                    onClick={this.onClickHoldActiveCircuit}
-                    size="medium"
-                    color="grey"
-                  >
-                    <Button.Content>later</Button.Content>
-                  </Button>
-                </Grid.Column>
-                <Grid.Column>
-                  <Button
-                    onClick={this.onClickCancelActiveCircuit}
-                    size="medium"
-                    color="grey"
-                  >
-                    <Button.Content>cancel</Button.Content>
-                  </Button>
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
-          </Segment>
-        </Segment>
+        {this.getCircuitSidebarContent()}
+        {this.getCircuitSidebarActions()}
       </div>
     );
   }

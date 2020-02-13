@@ -29,7 +29,8 @@ export class DimensionController {
       FLOW_PANEL: "[FlowPanel]",
       CONSOLE_LAYOUT: "[ConsoleLayout]",
       TROUBLESHOOT: "[Troubleshoot]",
-      SIDEBAR_PANEL: "[SidebarPanel]"
+      SIDEBAR_PANEL: "[SidebarPanel]",
+      CIRCUIT_SIDEBAR: "[CircuitSidebar]"
     };
   }
 
@@ -197,6 +198,39 @@ export class DimensionController {
   }
 
   /**
+   * gets the dynamic height of the circuit side bar
+   * @returns {number}
+   */
+  static getCircuitSidebarHeight() {
+    let oneRem = window.innerHeight / 100;
+    let heights = {
+      window: window.innerHeight,
+      border: Math.ceil(1.68 * oneRem),
+      margin: Math.ceil(1.68 * oneRem),
+      header: 52,
+      padding: Math.ceil(1.26 * oneRem),
+      footer: Math.ceil(14 * oneRem)
+    };
+    return (
+      heights.window -
+      heights.border -
+      heights.margin -
+      heights.header -
+      heights.padding -
+      heights.footer
+    );
+  }
+
+  /**
+   * gets the circuit sidebar actions
+   * @returns {number}
+   */
+  static getCircuitSidebarActionsHeight() {
+    let oneRem = window.innerHeight / 100;
+    return 14 * oneRem;
+  }
+
+  /**
    * gets the height of the inner part of the window width
    * @returns {number}
    */
@@ -241,6 +275,8 @@ export class DimensionController {
       return DimensionController.getActiveCircuitContentHeight();
     } else if (component === DimensionController.Components.SIDEBAR_PANEL) {
       return DimensionController.getSidebarPanelHeight();
+    } else if (component === DimensionController.Components.CIRCUIT_SIDEBAR) {
+      return DimensionController.getCircuitSidebarHeight();
     } else {
       throw new Error(
         "Unknown component " + component + " in DimensionController"
