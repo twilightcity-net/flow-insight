@@ -38,11 +38,6 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520returns%2520the%2520classes%2520constructor%2520function%2520to%2520render%2520dynamically.html">- returns the classes constructor function to render dynamically</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520static%2520constructor%2520for%2520the%2520possible%2520types%2520of%2520requests.html">- static constructor for the possible types of requests</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html">ActiveViewControllerFactory</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#._findOrCreateViewController">_findOrCreateViewController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.getViewController">getViewController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.html#.initializeNewViewController">initializeNewViewController</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActiveViewControllerFactory.Views.html">Views</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AltModelDelegate.html">AltModelDelegate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureDelegateCall">configureDelegateCall</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureNoOp">configureNoOp</a></span></li>
@@ -109,6 +104,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataStoreFactory.html">DataStoreFactory</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DimensionController.html">DimensionController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitContentHeight">getActiveCircuitContentHeight</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getCircuitSidebarActionsHeight">getCircuitSidebarActionsHeight</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getCircuitSidebarHeight">getCircuitSidebarHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getCircuitsSidebarPanelHeight">getCircuitsSidebarPanelHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getConsoleLayoutHeight">getConsoleLayoutHeight</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getConsoleSidebarHeight">getConsoleSidebarHeight</a></span></li>
@@ -261,6 +258,11 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PerspectiveController.html#onCloseSidePanelClose">onCloseSidePanelClose</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="PerspectiveController.html#onConsoleOpenUpdateModels">onConsoleOpenUpdateModels</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererClientEvent.html">RendererClientEvent</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererControllerFactory.html">RendererControllerFactory</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererControllerFactory.html#.createController">createController</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererControllerFactory.html#.findOrCreateController">findOrCreateController</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererControllerFactory.html#.getViewController">getViewController</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererControllerFactory.Views.html">Views</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererEvent.html">RendererEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEvent.html#dispatch">dispatch</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEvent.html#registerEvents">registerEvents</a></span></li>
@@ -397,7 +399,7 @@
       <article>
         <pre class="prettyprint source linenums"><code>import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
-import { ActiveViewControllerFactory } from "./ActiveViewControllerFactory";
+import { RendererControllerFactory } from "./RendererControllerFactory";
 import { BrowserRequestFactory } from "./BrowserRequestFactory";
 
 /**
@@ -484,8 +486,8 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATIONS_PANEL,
       this
     );
-    this.browserController = ActiveViewControllerFactory.getViewController(
-      ActiveViewControllerFactory.Views.BROWSER_PANEL,
+    this.browserController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.LAYOUT_BROWSER,
       this
     );
     this.heartbeatListener = RendererEventFactory.createEvent(
