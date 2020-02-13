@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Button, Divider, Grid, Segment } from "semantic-ui-react";
+import { Button, Divider, Grid, Icon, Menu, Segment } from "semantic-ui-react";
 import { DimensionController } from "../../../controllers/DimensionController";
 import Label from "semantic-ui-react/dist/commonjs/elements/Label";
+import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 
 export default class CircuitSidebar extends Component {
   constructor(props) {
@@ -47,49 +48,97 @@ export default class CircuitSidebar extends Component {
             )
           }}
         >
-          <Segment inverted className="member">
-            Joined Members List
-          </Segment>
-          <Divider />
+          <Menu size="mini" inverted pointing secondary>
+            <Menu.Item name={"Overview"} active={true} />
+            <Menu.Item name={"Party"} active={false} />
+            <Menu.Item name={"Chest"} active={false} />
+          </Menu>
+          <Label color="red" basic className="time">
+            <Icon name="lightning" /> <span className="time"> 00:00:00:00</span>
+          </Label>
           <Segment inverted className="title">
-            <Grid columns="equal" inverted>
-              <Grid.Row stretched>
-                <Grid.Column
-                  className="time"
-                  textAlign="center"
-                  verticalAlign="middle"
-                >
-                  <Label color="red">
-                    <span>
-                      <div className="hours">34m</div>
-                      <div className="secs">56s</div>
-                    </span>
-                  </Label>
-                </Grid.Column>
-                <Grid.Column
-                  className="name"
-                  textAlign="left"
-                  verticalAlign="middle"
-                >
-                  Angry Teachers Heaven And Some More Text For REALLY long
-                </Grid.Column>
-              </Grid.Row>
-            </Grid>
+            Angry Teachers Heaven And Some More Text For REALLY long
           </Segment>
-          <Divider />
-          <Segment inverted className="member">
-            <Label color="grey" size="tiny">
-              JavaScript
-            </Label>
-          </Segment>
-          <Divider />
           <Segment inverted className="desc">
             The property was originally a nonstandard and unprefixed Microsoft
             extension called word-wrap, and was implemented by most browsers
             with the same name. It has since been renamed to overflow-wrap, with
             word-wrap being an alias.
           </Segment>
-          <Divider />
+          <Segment inverted className="tags">
+            <Label color="grey" size="tiny">
+              JavaScript
+            </Label>
+            <Label color="grey" size="tiny">
+              Java
+            </Label>
+            <Label color="grey" size="tiny">
+              SaSS
+            </Label>
+            <Label color="grey" size="tiny">
+              Gradle
+            </Label>
+            <Label color="grey" size="tiny">
+              GUI
+            </Label>
+            <Label color="grey" size="tiny">
+              DB
+            </Label>
+            <Label color="grey" size="tiny">
+              Technical
+            </Label>
+            <Label color="grey" size="tiny">
+              Game
+            </Label>
+            <Label color="grey" size="tiny">
+              Development
+            </Label>
+            <Label color="grey" size="tiny">
+              SomeRandom Tag
+            </Label>
+            <Label color="grey" size="tiny">
+              Tester
+            </Label>
+            <Label color="grey" size="tiny">
+              Important
+            </Label>
+            <Label color="grey" size="tiny">
+              JavaScript
+            </Label>
+            <Label color="grey" size="tiny">
+              Java
+            </Label>
+            <Label color="grey" size="tiny">
+              SaSS
+            </Label>
+            <Label color="grey" size="tiny">
+              Gradle
+            </Label>
+            <Label color="grey" size="tiny">
+              GUI
+            </Label>
+            <Label color="grey" size="tiny">
+              DB
+            </Label>
+            <Label color="grey" size="tiny">
+              Technical
+            </Label>
+            <Label color="grey" size="tiny">
+              Game
+            </Label>
+            <Label color="grey" size="tiny">
+              Development
+            </Label>
+            <Label color="grey" size="tiny">
+              SomeRandom Tag
+            </Label>
+            <Label color="grey" size="tiny">
+              Tester
+            </Label>
+            <Label color="grey" size="tiny">
+              Important
+            </Label>
+          </Segment>
           <Segment inverted className="actions">
             <Grid columns="equal" inverted>
               <Grid.Row stretched verticalAlign="middle">
