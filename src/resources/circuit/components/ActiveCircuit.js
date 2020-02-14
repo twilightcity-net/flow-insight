@@ -1,18 +1,17 @@
 import React, { Component } from "react";
-import { Button, Divider, Grid, Icon, Segment } from "semantic-ui-react";
 import { DimensionController } from "../../../controllers/DimensionController";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
-import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
-import Label from "semantic-ui-react/dist/commonjs/elements/Label";
 import CircuitSidebar from "./CircuitSidebar";
+import ActiveCircuitFeed from "./ActiveCircuitFeed";
+import ActiveCircuitScrapbook from "./ActiveCircuitScrapbook";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class ActiveCircuit extends Component {
   /**
-   * the constructor, duh
+   *  builds the active circuit component
    * @param props
    */
   constructor(props) {
@@ -34,46 +33,6 @@ export default class ActiveCircuit extends Component {
   }
 
   /**
-   * gets the realtime content feed of the troubleshooting panel
-   * @returns {*}
-   */
-  getCircuitFeed() {
-    return (
-      <div id="component" className="activeCircuitFeed">
-        <Segment
-          className="feed"
-          inverted
-          style={{
-            height: DimensionController.getHeightFor(
-              DimensionController.Components.TROUBLESHOOT
-            )
-          }}
-        >
-          Active Circuit Feed
-        </Segment>
-      </div>
-    );
-  }
-
-  getCircuitContentPanel() {
-    return (
-      <div id="component" className="activeCircuitContent">
-        <Segment
-          className="content"
-          inverted
-          style={{
-            height: DimensionController.getHeightFor(
-              DimensionController.Components.TROUBLESHOOT
-            )
-          }}
-        >
-          Active Circuit Content
-        </Segment>
-      </div>
-    );
-  }
-
-  /**
    * renders the default troubleshoot component in the console view
    */
   render() {
@@ -85,28 +44,20 @@ export default class ActiveCircuit extends Component {
       >
         <div id="wrapper" className="circuitContentPanel">
           <div id="component" className="circuitContentPanel">
-            <Segment inverted>Content</Segment>
+            <SplitterLayout
+              customClassName="content"
+              primaryMinSize={DimensionController.getActiveCircuitContentFeedMinWidth()}
+              secondaryMinSize={DimensionController.getActiveCircuitContentScrapbookMinWidth()}
+              secondaryInitialSize={DimensionController.getActiveCircuitContentScrapbookMinWidthDefault()}
+            >
+              <div id="wrapper" className="activeCircuitFeed">
+                <ActiveCircuitFeed />
+              </div>
+              <div id="wrapper" className="activeCircuitScrapbook">
+                <ActiveCircuitScrapbook />
+              </div>
+            </SplitterLayout>
           </div>
-          {/*<SplitterLayout*/}
-          {/*  id="component"*/}
-          {/*  customClassName="circuitContentPanel"*/}
-          {/*  percentage={true}*/}
-          {/*  primaryIndex={0}*/}
-          {/*  primaryMinSize={25}*/}
-          {/*  secondaryMinSize={25}*/}
-          {/*  secondaryInitialSize={25}*/}
-          {/*>*/}
-          {/*  <div>*/}
-          {/*    <div id="wrapper" className="circuitFeed">*/}
-          {/*      {this.getCircuitFeed()}*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*  <div>*/}
-          {/*    <div id="wrapper" className="circuitContentPanel">*/}
-          {/*      {this.getCircuitContentPanel()}*/}
-          {/*    </div>*/}
-          {/*  </div>*/}
-          {/*</SplitterLayout>*/}
         </div>
         <div id="wrapper" className="circuitContentSidebar">
           <div id="component" className="circuitContentSidebar">

@@ -198,6 +198,107 @@ export class DimensionController {
   }
 
   /**
+   * calculates the dynamic relative size based on screensize. This is called
+   * by the onchange vertical panel resizer for splitter-layout
+   * @param size
+   * @returns {number}
+   */
+  static getActiveCircuitFeedContentHeight(size) {
+    let oneRem = window.innerHeight / 100,
+      newSize;
+    if (size) {
+      let heights = {
+        window: window.innerHeight,
+        border: Math.ceil(1.68 * oneRem),
+        margin: Math.ceil(1.68 * oneRem),
+        padding: Math.ceil(0.84 * oneRem),
+        chat: size,
+        header: Math.ceil(10.14 * oneRem)
+      };
+      newSize =
+        heights.window -
+        heights.border -
+        heights.margin -
+        heights.padding -
+        heights.chat -
+        heights.header;
+    } else {
+      let heights = {
+        window: window.innerHeight,
+        border: Math.ceil(1.68 * oneRem),
+        margin: Math.ceil(1.68 * oneRem),
+        padding: Math.ceil(0.84 * oneRem),
+        chat: DimensionController.getActiveCircuitContentChatMinHeightDefault(),
+        header: Math.ceil(10.14 * oneRem)
+      };
+      newSize =
+        heights.window -
+        heights.border -
+        heights.margin -
+        heights.padding -
+        heights.chat -
+        heights.header;
+    }
+    return newSize;
+  }
+
+  /**
+   * calculates the default resize panel height for the chat panel
+   * @returns {number}
+   */
+  static getActiveCircuitContentChatMinHeightDefault() {
+    return Math.ceil(
+      DimensionController.getActiveCircuitContentChatMinHeight() * 1.42
+    );
+  }
+
+  /**
+   * calculates the minimum height for the circuit content panel
+   * @returns {number}
+   */
+  static getActiveCircuitContentFeedMinHeight() {
+    let oneRem = window.innerHeight / 100;
+    return 24 * oneRem;
+  }
+
+  /**
+   * calculates the circuit chat content height for the panel
+   * @returns {number}
+   */
+  static getActiveCircuitContentChatMinHeight() {
+    let oneRem = window.innerHeight / 100;
+    return 14 * oneRem;
+  }
+
+  /**
+   * calculates the circuit feed content width for the panel
+   * @returns {number}
+   */
+  static getActiveCircuitContentFeedMinWidth() {
+    let oneRem = window.innerHeight / 100;
+    return 48 * oneRem;
+  }
+
+  /**
+   * calculates the height for the circuit scrapbook panel
+   * @returns {number}
+   */
+  static getActiveCircuitContentScrapbookMinWidth() {
+    let oneRem = window.innerHeight / 100;
+    return 44.42 * oneRem;
+  }
+
+  /**
+   * calculate the default resize panel width for the circuit scrapbook
+   * @returns {number}
+   */
+  static getActiveCircuitContentScrapbookMinWidthDefault() {
+    return (
+      DimensionController.getActiveCircuitContentScrapbookMinWidth() * 1.42
+    );
+  }
+
+  /**
    * gets the dynamic height of the circuit side bar
    * @returns {number}
    */
@@ -231,14 +332,6 @@ export class DimensionController {
   }
 
   /**
-   * gets the height of the inner part of the window width
-   * @returns {number}
-   */
-  static getWindowInnerWidth() {
-    return window.innerWidth;
-  }
-
-  /**
    * gets the relative height of the console sidebar based on the screen resolution
    * @returns {number}
    */
@@ -247,14 +340,6 @@ export class DimensionController {
       rootBorder: 2
     };
     return window.innerHeight - heights.rootBorder;
-  }
-
-  /**
-   * gets the inner part of the window height
-   * @returns {number}
-   */
-  static getWindowInnerHeight() {
-    return window.innerHeight;
   }
 
   /**

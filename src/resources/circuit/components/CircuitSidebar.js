@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { Button, Grid, Icon, Menu, Segment } from "semantic-ui-react";
+import { Button, Grid, Icon, Label, Menu, Segment } from "semantic-ui-react";
 import { DimensionController } from "../../../controllers/DimensionController";
-import Label from "semantic-ui-react/dist/commonjs/elements/Label";
 
 /**
  * the class which defines the circuit sidebar panel
@@ -204,52 +203,8 @@ export default class CircuitSidebar extends Component {
   getCircuitSidebarPartyContent() {
     return (
       <div>
-        <Segment inverted className="title">
+        <Segment className="party" inverted>
           Party Members
-        </Segment>
-        <Segment inverted className="tags">
-          <Label color="grey" size="tiny">
-            JavaScript
-          </Label>
-          <Label color="grey" size="tiny">
-            Java
-          </Label>
-          <Label color="grey" size="tiny">
-            SaSS
-          </Label>
-          <Label color="grey" size="tiny">
-            Gradle
-          </Label>
-          <Label color="grey" size="tiny">
-            GUI
-          </Label>
-          <Label color="grey" size="tiny">
-            DB
-          </Label>
-          <Label color="grey" size="tiny">
-            Technical
-          </Label>
-          <Label color="grey" size="tiny">
-            Game
-          </Label>
-          <Label color="grey" size="tiny">
-            Development
-          </Label>
-          <Label color="grey" size="tiny">
-            SomeRandom Tag
-          </Label>
-          <Label color="grey" size="tiny">
-            Tester
-          </Label>
-          <Label color="grey" size="tiny">
-            Important
-          </Label>
-          <Label color="grey" size="tiny">
-            JavaScript
-          </Label>
-          <Label color="grey" size="tiny">
-            Java
-          </Label>
         </Segment>
       </div>
     );
@@ -266,52 +221,8 @@ export default class CircuitSidebar extends Component {
   getCircuitSidebarChestContent() {
     return (
       <div>
-        <Segment inverted className="title">
-          Chest Content Icon List
-        </Segment>
-        <Segment inverted className="tags">
-          <Label color="grey" size="tiny">
-            JavaScript
-          </Label>
-          <Label color="grey" size="tiny">
-            Java
-          </Label>
-          <Label color="grey" size="tiny">
-            SaSS
-          </Label>
-          <Label color="grey" size="tiny">
-            Gradle
-          </Label>
-          <Label color="grey" size="tiny">
-            GUI
-          </Label>
-          <Label color="grey" size="tiny">
-            DB
-          </Label>
-          <Label color="grey" size="tiny">
-            Technical
-          </Label>
-          <Label color="grey" size="tiny">
-            Game
-          </Label>
-          <Label color="grey" size="tiny">
-            Development
-          </Label>
-          <Label color="grey" size="tiny">
-            SomeRandom Tag
-          </Label>
-          <Label color="grey" size="tiny">
-            Tester
-          </Label>
-          <Label color="grey" size="tiny">
-            Important
-          </Label>
-          <Label color="grey" size="tiny">
-            JavaScript
-          </Label>
-          <Label color="grey" size="tiny">
-            Java
-          </Label>
+        <Segment className="chest" inverted>
+          Chest Items
         </Segment>
       </div>
     );

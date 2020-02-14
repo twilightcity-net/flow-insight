@@ -586,6 +586,90 @@
     height: 100%;
   }
 
+  #component.circuitLayout #component.circuitContentPanel .splitter-layout.content>.layout-splitter {
+    width: 0.420rem;
+    background: none !important;
+  }
+
+  #component.circuitLayout #component.circuitContentPanel .splitter-layout-vertical>.layout-splitter {
+    height: 0.420rem;
+    background: none !important;
+  }
+
+  #component.circuitLayout #component.circuitContentPanel .splitter-layout>.layout-pane {
+    transition: width 0.1s ease-out, height 0.1s ease-out;
+    overflow: hidden;
+  }
+
+  #component.circuitLayout #component.circuitContentPanel .splitter-layout-vertical>.layout-pane {
+    transition: width 0.1s ease-out, height 0.1s ease-out;
+    overflow: hidden;
+  }
+
+  #component.circuitLayout #component.circuitContentPanel .splitter-layout>.layout-pane>.ui.segment {
+    height: 100%;
+    transition: width 0.1s ease-out, height 0.1s ease-out;
+  }
+
+  #component.circuitLayout #component.circuitContentPanel .splitter-layout-vertical>.layout-pane>.ui.segment {
+    height: 100%;
+    transition: width 0.1s ease-out, height 0.1s ease-out;
+  }
+
+  #component.circuitLayout #component.circuitContentPanel>.ui.segment {
+    position: relative;
+    height: 100%;
+    transition: width 0.1s ease-out, height 0.1s ease-out;
+  }
+
+  /*
+  *   COMPONENT - ACTIVE-CIRCUIT-FEED
+  */
+  #component.circuitLayout #wrapper.activeCircuitFeed {
+    height: 100%;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed {
+    height: 100%;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed>.ui.segment {
+    height: 100%;
+  }
+
+  /*
+  *   COMPONENT - ACTIVE-CIRCUIT-CHAT
+  */
+  #component.circuitLayout #wrapper.activeCircuitChat {
+    height: 100%;
+  }
+
+  #component.circuitLayout #component.activeCircuitChat {
+    height: 100%;
+  }
+
+  #component.circuitLayout #component.activeCircuitChat>.ui.segment {
+    height: 100%;
+  }
+
+  /*
+  *   COMPONENT - ACTIVE-CIRCUIT-SCRAPBOOK
+  */
+  #component.circuitLayout #wrapper.activeCircuitScrapbook {
+    height: 100%;
+  }
+
+  #component.circuitLayout #component.activeCircuitScrapbook {
+    height: 100%;
+  }
+
+  #component.circuitLayout #component.activeCircuitScrapbook>.ui.segment {
+    height: 100%;
+  }
+
+  /*
+       * COMPONENT - CIRCUIT-LAYOUT-SIDEBAR
+       */
   #component.circuitLayout #wrapper.circuitContentSidebar {
     float: right;
     width: 25%;
@@ -599,11 +683,6 @@
   }
 
   #component.circuitLayout #component.circuitContentSidebar>.ui.segment {
-    position: relative;
-    height: 100%;
-  }
-
-  #component.circuitLayout #component.circuitContentPanel>.ui.segment {
     position: relative;
     height: 100%;
   }
