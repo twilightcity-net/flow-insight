@@ -651,7 +651,9 @@ export class DimensionController {
    * @returns {number}
    */
   static getActiveCircuitContentChatMinHeightDefault() {
-    return Math.ceil(DimensionController.getActiveCircuitContentChatMinHeight() * 1.420);
+    return Math.ceil(
+      DimensionController.getActiveCircuitContentChatMinHeight() * 1.42
+    );
   }
 
   /**
@@ -687,7 +689,7 @@ export class DimensionController {
    */
   static getActiveCircuitContentScrapbookMinWidth() {
     let oneRem = window.innerHeight / 100;
-    return 44.420 * oneRem;
+    return 44.42 * oneRem;
   }
 
   /**
@@ -695,7 +697,9 @@ export class DimensionController {
    * @returns {number}
    */
   static getActiveCircuitContentScrapbookMinWidthDefault() {
-    return DimensionController.getActiveCircuitContentScrapbookMinWidth() * 1.420;
+    return (
+      DimensionController.getActiveCircuitContentScrapbookMinWidth() * 1.42
+    );
   }
 
   /**
