@@ -17,6 +17,7 @@ export default class ActiveCircuitFeed extends Component {
    */
   constructor(props) {
     super(props);
+    this.name = "[ActiveCircuitFeed]";
   }
 
   /**
@@ -25,7 +26,6 @@ export default class ActiveCircuitFeed extends Component {
    * @param size
    */
   onSecondaryPaneSizeChange = size => {
-    console.log(size);
     document.getElementById(
       ActiveCircuitFeed.circuitContentFeedPanelID
     ).style.height =

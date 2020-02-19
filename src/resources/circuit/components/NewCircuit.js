@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Segment } from "semantic-ui-react";
 import { DimensionController } from "../../../controllers/DimensionController";
-import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content

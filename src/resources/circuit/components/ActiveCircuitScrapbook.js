@@ -12,6 +12,7 @@ export default class ActiveCircuitScrapbook extends Component {
    */
   constructor(props) {
     super(props);
+    this.name = "[ActiveCircuitScrapbook]";
   }
 
   /**
