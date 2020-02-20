@@ -573,7 +573,7 @@ class TalkController extends BaseController {
       fn();
     });
     socket.on(TalkController.EventTypes.MESSAGE_ROOM, data => {
-      log.info(chalk.green(name) + " room message : " + data);
+      log.info(chalk.green(name) + " room message : " + JSON.stringify(data));
       this.talkMessageRoomListener.dispatch();
     });
     socket.on(TalkController.EventTypes.JOIN_ROOM, (roomId, fn) => {

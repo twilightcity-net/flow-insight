@@ -19,10 +19,17 @@ export default class ActiveCircuitChat extends Component {
     this.isMouseDown = false;
   }
 
+  /**
+   * gets our chat text DOM element
+   * @returns {HTMLElement}
+   */
   getChatTextEl = () => {
     return document.getElementById("activeCircuitChatText");
   };
 
+  /**
+   * functional handler which focuses our input field
+   */
   focusChat = () => {
     this.isFocused = true;
     document
@@ -30,6 +37,9 @@ export default class ActiveCircuitChat extends Component {
       .classList.add("focused");
   };
 
+  /**
+   * functional handler which blurs our input field
+   */
   blurChat = () => {
     if (this.isFocused) {
       this.isFocused = false;
@@ -39,18 +49,33 @@ export default class ActiveCircuitChat extends Component {
     }
   };
 
+  /**
+   * adds a new character to our array and also the html DOM
+   * @param keyCode
+   * @param key
+   */
   addCharToText = (keyCode, key) => {
     let el = this.getChatTextEl();
     this.keyArray.push(keyCode);
     el.innerText += key;
   };
 
+  /**
+   * removes the last or top character from our html and array
+   */
   delCharFromText = () => {
     let el = this.getChatTextEl();
     this.keyArray.pop();
     el.innerText = el.innerText.slice(0, -1);
   };
 
+  /**
+   * checks to see if we have pressed a valid key, any key listed in here
+   * will be escaped automatically. no exceptions, uses integers against
+   * the current 256 character Unicode ASCII table
+   * @param key
+   * @returns {boolean|boolean}
+   */
   isValidKey = key => {
     return (
       key > 31 &&
@@ -70,38 +95,49 @@ export default class ActiveCircuitChat extends Component {
     );
   };
 
+  /**
+   * handles our key press for when we use the enter or return keys
+   */
   handleEnterKey = () => {
     console.log(this.name + " post to server and clear box");
   };
 
+  /**
+   * click handler for our text controls of the component
+   * @param e
+   * @param name
+   */
   handleClickControls = (e, { name }) => {
     console.log(this.name + " clicked on -> " + name);
   };
 
+  /**
+   * handles the user action of clicking on the text field component (this)
+   */
   handleOnClickChat = () => {
     if (!this.isMouseDown) {
       this.chatInputRef.current.focus();
     }
   };
 
-  handleOnMouseEnter = () => {
-    this.isSelecting = true;
-  };
-
-  handleOnMouseLeave = () => {
-    this.isSelecting = false;
-  };
-
+  /**
+   * toggles the mouse button down boolean flag property
+   */
   handleOnMouseDown = () => {
-    console.log("down");
     this.isMouseDown = true;
   };
 
+  /**
+   * toggles the mouse button down boolean flag property
+   */
   handleOnMouseUp = () => {
-    console.log("up");
     this.isMouseDown = false;
   };
 
+  /**
+   * listens for input from the semantic gui input control
+   * @param e
+   */
   handleOnKeyDownChatInput = e => {
     switch (e.keyCode) {
       case 8:
@@ -121,6 +157,10 @@ export default class ActiveCircuitChat extends Component {
     }
   };
 
+  /**
+   * gets our rendering of our text cursor that blinks
+   * @returns {*}
+   */
   getTextCursor() {
     return (
       <span id="activeCircuitChatCursor" className="chat-cursor">
@@ -179,8 +219,6 @@ export default class ActiveCircuitChat extends Component {
             id="activeCircuitChatContainer"
             className="text-formatted"
             onClick={this.handleOnClickChat}
-            onMouseEnter={this.handleOnMouseEnter}
-            onMouseLeave={this.handleOnMouseLeave}
             onMouseDown={this.handleOnMouseDown}
             onMouseUp={this.handleOnMouseUp}
           >

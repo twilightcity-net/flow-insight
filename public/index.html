@@ -633,8 +633,76 @@
     height: 100%;
   }
 
-  #component.circuitLayout #component.activeCircuitFeed>.ui.segment {
+  #component.circuitLayout #component.activeCircuitFeed>.splitter-layout-vertical>.layout-pane>.ui.segment {
     height: 100%;
+    overflow: hidden;
+    padding: 0.840rem 0.420rem 0.840rem 0.840rem;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed .chat-feed {
+    color: #e9e9e9;
+    overflow-y: auto;
+    height: 100%;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed .chat-feed a {
+    font-weight: bolder;
+    color: #e9e9e9;
+    background: transparent;
+    border: 0.105rem solid transparent;
+    border-radius: 0.420rem;
+    transition: border 0.420s ease-out, background 0.420s ease-out;
+    padding: 0.210rem 0.420rem;
+    margin: -0.210rem 0;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed .chat-feed a:hover {
+    border: 0.105rem solid #6435c9;
+    background: transparent;
+    color: #6435c9;
+    font-weight: bolder;
+    cursor: pointer !important;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed .chat-feed .ui.divider {
+    font-size: 0.630rem;
+    font-style: italic;
+    color: #484848;
+    margin: 0.420rem 0.840rem 0.420rem 0;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed .chat-feed .summary {
+    color: #e9e9e9;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed .chat-feed .summary .date {
+    color: #484848;
+    font-weight: bolder;
+    font-style: italic;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed .chat-feed .text.extra {
+    color: #e9e9e9;
+    padding-left: 0.840rem;
+    line-height: 1.420rem;
+    font-size: 1rem;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed .chat-feed .images.extra {
+    margin-top: 0.840rem;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed .chat-feed .images.extra>img {
+    margin-right: 0.840rem;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed .chat-feed .event .content {
+    margin-left: 0.420rem;
+    margin-bottom: 0.840rem;
+  }
+
+  #component.circuitLayout #component.activeCircuitFeed .chat-feed .event>.label {
+    margin-left: 0.420rem;
   }
 
   /*
