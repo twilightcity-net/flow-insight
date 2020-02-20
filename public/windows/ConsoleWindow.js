@@ -41,7 +41,7 @@ module.exports = class ConsoleWindow {
     });
     this.window.name = this.name;
     this.window.setMenu(null);
-    // this.window.setAlwaysOnTop(true, "torn-off-menu");
+    this.window.setAlwaysOnTop(true, "torn-off-menu");
     this.window.on("ready-to-show", () => this.onReadyToShowCb());
     this.events = {
       ready: EventFactory.createEvent(
