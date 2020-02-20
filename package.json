@@ -39,10 +39,10 @@
     "prebundle": "yarn build",
     "bundle": "gulp browserify && gulp uglify",
     "postbundle": "gulp clean",
-    "prerel": "yarn bundle",
     "predist": "yarn bundle",
-    "rel": "electron-builder -c.extraMetadata.main=build/io.dreamscale.torchie.dat --publish=never",
-    "dist": "electron-builder -c.extraMetadata.main=build/io.dreamscale.torchie.dat --publish=always",
+    "prerelease": "yarn bundle",
+    "dist": "electron-builder -c.extraMetadata.main=build/io.dreamscale.torchie.dat --publish=never",
+    "release": "electron-builder -c.extraMetadata.main=build/io.dreamscale.torchie.dat --publish=always",
     "prerelease:build:update": "yarn prerelease",
     "release:build:update": "gulp releaseBuildUpdate",
     "release:build:update:run": "gulp releaseBuildUpdate && npm run dev"
