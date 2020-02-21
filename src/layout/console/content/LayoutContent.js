@@ -3,9 +3,9 @@ import JournalResource from "./journal/JournalResource";
 import CircuitResource from "./circuit/CircuitResource";
 import FlowResource from "./flow/FlowResource";
 import { Transition } from "semantic-ui-react";
-import { RendererControllerFactory } from "../../controllers/RendererControllerFactory";
+import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import LayoutBrowser from "./LayoutBrowser";
-import { MainPanelViewController } from "../../controllers/MainPanelViewController";
+import { MainPanelViewController } from "../../../controllers/MainPanelViewController";
 
 /**
  * this component is the tab panel wrapper for the console content
