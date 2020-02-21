@@ -23,11 +23,25 @@ const { app } = require("electron"),
   AppLoader = require("./AppLoader"),
   AppHeartbeat = require("./AppHeartbeat"),
   AppLogin = require("./AppLogin"),
-  AppController = require("../controllers/AppController");
+  AppController = require("../controllers/AppController"),
+  AppBanner = [
+    "\n",
+    ".:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:..",
+    ": ________ _____ ______  ______ _______ _______ _____       :",
+    ": ||      |     |   __ \\      |   |   |_     _|  ___|      :",
+    ": ||_    _|  -  |      <_   ---|       |_|   |_|  ___|      :",
+    ":  __|__|_|_____|___|____|_____|___|___|_______|_____|      :",
+    ": |     ____|    |    |      ___|   |____|   |_______       :",
+    ": |___      |         |      ___|        |           |_____ :",
+    ": |_________|____|____|_________|________|_ZoeDreams_|800XL|:",
+    ":                             D R E A M S C A L E © 2 0 2 0 :",
+    ":.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:",
+    "\n"
+  ];
 
 module.exports = class App {
   constructor() {
-    console.log("####");
+    AppBanner.forEach(v => console.log(v));
     if (isDev) Util.setDevUserDataDir();
     this.Logger = Logger.create();
     this.myController = new AppController(app);

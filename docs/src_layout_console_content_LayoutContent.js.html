@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>exports - Documentation</title>
+  <title>src/layout/console/content/LayoutContent.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -409,115 +409,121 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">exports</h1>
+    <h1 class="page-title">src/layout/console/content/LayoutContent.js</h1>
     <section>
-      <header>
-        <h2> exports </h2>
-      </header>
       <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">()</span><span class="type-signature"></span></h4>
-            <div class="description"> Represent a group of Settings </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="public_app_AppSettings.js.html">public/app/AppSettings.js</a>, <a href="public_app_AppSettings.js.html#line22">line 22</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section>
-      <header>
-        <h2> exports </h2>
-      </header>
-      <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">(props)</span><span class="type-signature"></span></h4>
-            <div class="description"> builds the active circuit feed component which is used by the circuit resource </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line18">line 18</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>props</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section>
-      <header>
-        <h2> exports </h2>
-      </header>
-      <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">(props)</span><span class="type-signature"></span></h4>
-            <div class="description"> creates a new Activator view for the Activator Window </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_views_ActivatorView.js.html">src/views/ActivatorView.js</a>, <a href="src_views_ActivatorView.js.html#line31">line 31</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>props</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import JournalResource from "./journal/JournalResource";
+import CircuitResource from "./circuit/CircuitResource";
+import FlowResource from "./flow/FlowResource";
+import { Transition } from "semantic-ui-react";
+import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
+import LayoutBrowser from "./LayoutBrowser";
+import { MainPanelViewController } from "../../../controllers/MainPanelViewController";
+
+/**
+ * this component is the tab panel wrapper for the console content
+ */
+export default class LayoutContent extends Component {
+  constructor(props) {
+    super(props);
+    this.name = "[LayoutContent]";
+    this.animationType = MainPanelViewController.Animations.DROP;
+    this.animationTime = MainPanelViewController.AnimationTimes.CONSOLE_CONTENT;
+    this.state = {
+      resource: MainPanelViewController.Resources.NONE
+    };
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.LAYOUT_CONTENT,
+      this
+    );
+  }
+
+  componentDidMount = () => {
+    this.myController.configureConsoleBrowserLoadListener(
+      this,
+      this.onConsoleBrowserLoadEvent
+    );
+  };
+
+  componentWillUnmount = () => {
+    this.myController.configureConsoleBrowserRequestListener(this, null);
+  };
+
+  onConsoleBrowserLoadEvent = (event, resource) => {
+    console.log(this.name + " load resource -> " + JSON.stringify(resource));
+    this.setState({
+      resource: resource
+    });
+  };
+
+  // TODO create a renderActiveComponent function for the switch below
+  getActiveComponent = () => {
+    let component = null,
+      className = "Layout",
+      resource = this.state.resource;
+
+    if (resource.uriArr) {
+      resource = resource.uriArr[0];
+    }
+    switch (resource) {
+      case MainPanelViewController.Resources.JOURNAL:
+        component = &lt;JournalResource resource={this.state.resource} />;
+        className = MainPanelViewController.Resources.JOURNAL + className;
+        break;
+      case MainPanelViewController.Resources.CIRCUIT:
+        component = &lt;CircuitResource resource={this.state.resource} />;
+        className = MainPanelViewController.Resources.CIRCUIT + className;
+        break;
+      case MainPanelViewController.Resources.FLOW:
+        component = &lt;FlowResource resource={this.state.resource} />;
+        className = MainPanelViewController.Resources.FLOW + className;
+        break;
+      case MainPanelViewController.Resources.NONE:
+        component = "";
+        className = MainPanelViewController.Resources.NONE + className;
+        break;
+
+      // TODO implement a 404 like error page to display to the user
+      default:
+        component = &lt;div>404 - Unknown location '{resource}'&lt;/div>;
+        className = MainPanelViewController.Resources.NONE + className;
+        break;
+    }
+    return (
+      &lt;Transition
+        visible={true}
+        animation={this.animationType}
+        duration={this.animationTime}
+        unmountOnHide
+      >
+        &lt;div id="wrapper" className={className}>
+          {component}
+        &lt;/div>
+      &lt;/Transition>
+    );
+  };
+
+  getBrowserHeader = scope => {
+    return &lt;LayoutBrowser scope={scope} />;
+  };
+
+  /**
+   * renders the content of the console view
+   * @returns {*}
+   */
+  render() {
+    return (
+      &lt;div id="component" className="consoleContent">
+        &lt;div id="wrapper" className="browserHeader">
+          {this.getBrowserHeader(this)}
+        &lt;/div>
+        {this.getActiveComponent()}
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
       </article>
     </section>
   </div>

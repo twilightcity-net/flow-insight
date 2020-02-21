@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>exports - Documentation</title>
+  <title>src/layout/console/content/journal/components/JournalItem.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -409,115 +409,253 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">exports</h1>
+    <h1 class="page-title">src/layout/console/content/journal/components/JournalItem.js</h1>
     <section>
-      <header>
-        <h2> exports </h2>
-      </header>
       <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">()</span><span class="type-signature"></span></h4>
-            <div class="description"> Represent a group of Settings </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="public_app_AppSettings.js.html">public/app/AppSettings.js</a>, <a href="public_app_AppSettings.js.html#line22">line 22</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section>
-      <header>
-        <h2> exports </h2>
-      </header>
-      <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">(props)</span><span class="type-signature"></span></h4>
-            <div class="description"> builds the active circuit feed component which is used by the circuit resource </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line18">line 18</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>props</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section>
-      <header>
-        <h2> exports </h2>
-      </header>
-      <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">(props)</span><span class="type-signature"></span></h4>
-            <div class="description"> creates a new Activator view for the Activator Window </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_views_ActivatorView.js.html">src/views/ActivatorView.js</a>, <a href="src_views_ActivatorView.js.html#line31">line 31</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>props</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import { Divider, Grid, Icon, Image, Popup } from "semantic-ui-react";
+
+/**
+ * this component is the individual journal item entered in by the user
+ */
+
+// FIXME this component needs be have almost no logic because it is replicated in a map
+
+export default class JournalItem extends Component {
+  constructor(props) {
+    super(props);
+
+    this.name = "[JournalItem]";
+  }
+
+  selectRow(rowId, journalItem) {
+    let rowObj = document.getElementById(rowId);
+
+    this.props.onSetActiveRow(rowId, rowObj, journalItem);
+  }
+
+  handleClickForDone = () => {
+    this.handleUpdateFinishStatus("done");
+  };
+
+  handleClickForAbort = () => {
+    this.handleUpdateFinishStatus("aborted");
+  };
+
+  handleUpdateFinishStatus = finishStatus => {
+    this.props.journalItem.finishStatus = finishStatus;
+    this.props.onUpdateFinishStatus(this.props.journalItem, finishStatus);
+  };
+
+  gotoCircle = () => {
+    console.log(this.name + " - gotoCircle!!! " + this.props.circleId);
+  };
+
+  /// renders the component of the console view
+  render() {
+    let finishIcon = "";
+    if (this.props.finishStatus === "done") {
+      finishIcon = &lt;Icon name="check" className="doneGreenDark" />;
+    } else if (this.props.finishStatus === "aborted") {
+      finishIcon = &lt;Icon name="close" className="doneRed" />;
+    } else if (this.props.isMyJournal) {
+      finishIcon = (
+        &lt;span>
+          {" "}
+          &lt;Popup
+            trigger={
+              &lt;Icon
+                link
+                name="check"
+                className="doneGreen"
+                onClick={this.handleClickForDone}
+              />
+            }
+            content={&lt;div className="doneGreen">Finish&lt;/div>}
+            inverted
+            hideOnScroll
+          />
+          &lt;Popup
+            trigger={
+              &lt;Icon
+                link
+                name="close"
+                color="red"
+                onClick={this.handleClickForAbort}
+              />
+            }
+            content={&lt;div className="doneRed">Abort&lt;/div>}
+            inverted
+            hideOnScroll
+          />
+        &lt;/span>
+      );
+    }
+
+    if (this.props.circleId) {
+      finishIcon = "";
+    }
+
+    let active = "";
+    if (this.props.isActive) {
+      active = "active";
+    }
+
+    let wtfPrefix = "";
+    let wtfPopup = "";
+    let padding = "";
+    if (this.props.journalEntryType === "WTF") {
+      wtfPrefix = (
+        &lt;span className="circleLink" onClick={this.gotoCircle}>
+          WTF?
+        &lt;/span>
+      );
+
+      if (
+        this.props.finishStatus === "aborted" ||
+        this.props.finishStatus === "done"
+      ) {
+        wtfPopup = (
+          &lt;div>
+            &lt;div>
+              &lt;span className="alarm">
+                {" "}
+                &lt;i>Circle Closed&lt;/i>
+              &lt;/span>
+            &lt;/div>
+          &lt;/div>
+        );
+      } else {
+        wtfPopup = (
+          &lt;div>
+            &lt;div>
+              &lt;span className="alarm">
+                {" "}
+                &lt;i>Click to Join!&lt;/i>
+              &lt;/span>
+            &lt;/div>
+          &lt;/div>
+        );
+      }
+
+      padding = &lt;span>&amp;nbsp;&amp;nbsp;&lt;/span>;
+    }
+
+    let linkedBlock = "";
+    if (this.props.linked) {
+      linkedBlock = &lt;Icon name="linkify" className="journalLink" />;
+    }
+
+    let taskStyle = "chunkTitle";
+    let descriptionStyle = "chunkText";
+
+    const projectCell = (
+      &lt;div className={taskStyle}>{this.props.projectName}&lt;/div>
+    );
+    const taskCell = (
+      &lt;div className={taskStyle}>
+        {this.props.taskName}
+        {linkedBlock}
+      &lt;/div>
+    );
+    const chunkCell = (
+      &lt;div className={descriptionStyle}>
+        {padding}
+        {padding}
+        &lt;Popup
+          trigger={wtfPrefix}
+          content={wtfPopup}
+          position="top center"
+          inverted
+          hideOnScroll
+        />
+
+        {padding}
+
+        {this.props.description}
+        {finishIcon}
+      &lt;/div>
+    );
+
+    const popupContent = (
+      &lt;div>
+        &lt;div>
+          &lt;i>{this.props.projectName}&lt;/i>
+        &lt;/div>
+        &lt;div>
+          &lt;b>
+            &lt;span className="taskhighlight"> {this.props.taskName} &lt;/span>
+          &lt;/b>
+        &lt;/div>
+        &lt;div>{this.props.taskSummary}&lt;/div>
+
+        &lt;Divider />
+        &lt;div>
+          &lt;span className="date">{this.props.position}&lt;/span>
+        &lt;/div>
+      &lt;/div>
+    );
+
+    let flameBlock = "";
+
+    let flameRating = this.props.flameRating;
+
+    if (this.props.dirtyFlame != null) {
+      flameRating = this.props.dirtyFlame;
+    }
+
+    if (flameRating > 0) {
+      flameBlock = (
+        &lt;span className="yayFlame">
+          {flameRating}{" "}
+          &lt;Image src="./assets/images/yay/16x16.png" verticalAlign="top" />
+        &lt;/span>
+      );
+    } else if (flameRating &lt; 0) {
+      flameBlock = (
+        &lt;span className="wtfFlame">
+          {Math.abs(flameRating)}{" "}
+          &lt;Image src="./assets/images/wtf/16x16.png" verticalAlign="middle" />
+        &lt;/span>
+      );
+    }
+
+    return (
+      &lt;Grid.Row
+        id={this.props.id}
+        className={active}
+        onClick={() => this.selectRow(this.props.id, this.props.journalItem)}
+      >
+        &lt;Grid.Column width={3}>
+          &lt;Popup
+            trigger={projectCell}
+            className="chunkTitle"
+            content={popupContent}
+            position="bottom left"
+            inverted
+            hideOnScroll
+          />
+        &lt;/Grid.Column>
+        &lt;Grid.Column width={2}>
+          &lt;Popup
+            trigger={taskCell}
+            className="chunkTitle"
+            content={popupContent}
+            position="bottom left"
+            inverted
+          />
+        &lt;/Grid.Column>
+        &lt;Grid.Column width={9} className="chunkCell">
+          {chunkCell}
+        &lt;/Grid.Column>
+        &lt;Grid.Column width={2} className="chunkTitle">
+          {flameBlock}
+        &lt;/Grid.Column>
+      &lt;/Grid.Row>
+    );
+  }
+}
+</code></pre>
       </article>
     </section>
   </div>

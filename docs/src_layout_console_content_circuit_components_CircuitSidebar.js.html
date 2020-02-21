@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>exports - Documentation</title>
+  <title>src/layout/console/content/circuit/components/CircuitSidebar.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -409,115 +409,301 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">exports</h1>
+    <h1 class="page-title">src/layout/console/content/circuit/components/CircuitSidebar.js</h1>
     <section>
-      <header>
-        <h2> exports </h2>
-      </header>
       <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">()</span><span class="type-signature"></span></h4>
-            <div class="description"> Represent a group of Settings </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="public_app_AppSettings.js.html">public/app/AppSettings.js</a>, <a href="public_app_AppSettings.js.html#line22">line 22</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section>
-      <header>
-        <h2> exports </h2>
-      </header>
-      <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">(props)</span><span class="type-signature"></span></h4>
-            <div class="description"> builds the active circuit feed component which is used by the circuit resource </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line18">line 18</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>props</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section>
-      <header>
-        <h2> exports </h2>
-      </header>
-      <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">(props)</span><span class="type-signature"></span></h4>
-            <div class="description"> creates a new Activator view for the Activator Window </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_views_ActivatorView.js.html">src/views/ActivatorView.js</a>, <a href="src_views_ActivatorView.js.html#line31">line 31</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>props</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import { Button, Grid, Icon, Label, Menu, Segment } from "semantic-ui-react";
+import { DimensionController } from "../../../../../controllers/DimensionController";
+
+/**
+ * the class which defines the circuit sidebar panel
+ */
+export default class CircuitSidebar extends Component {
+  /**
+   * the possible view we can display in the circuit sidebar panel
+   * @returns {{PARTY: string, CHEST: string, OVERVIEW: string}}
+   * @constructor
+   */
+  static get Views() {
+    return {
+      OVERVIEW: "overview",
+      PARTY: "party",
+      CHEST: "chest"
+    };
+  }
+
+  /**
+   * builds our circuit sidebar
+   * @param props
+   */
+  constructor(props) {
+    super(props);
+    this.myController = props.myController;
+    this.state = {
+      resource: props.resource,
+      activeMenuView: CircuitSidebar.Views.OVERVIEW
+    };
+  }
+
+  /**
+   * click handler for starting a retro
+   */
+  onClickRetroActiveCircuit = () => {
+    console.log(this.name + " - on click retro active circuit");
+    this.myController.retroActiveCircuitResource();
+  };
+
+  /**
+   * click handler for putting a circuit on hold
+   */
+  onClickHoldActiveCircuit = () => {
+    console.log(this.name + " - on click hold active circuit");
+    this.myController.holdActiveCircuitResource();
+  };
+
+  /**
+   * click handler for when we want to cancel a circuit with out hold or lettuce
+   */
+  onClickCancelActiveCircuit = () => {
+    console.log(this.name + " - on click cancel active circuit");
+    this.myController.cancelActiveCircuitResource();
+  };
+
+  /**
+   * the click handler for the menu of the circuit content sidebar panel
+   * @param e
+   * @param name
+   */
+  handleMenuClick = (e, { name }) => {
+    this.setState({
+      activeMenuView: name
+    });
+  };
+
+  /**
+   * renders the circuit sidebar content panel
+   * @returns {*}
+   */
+  getCircuitSidebarContent() {
+    return (
+      &lt;Segment
+        className="content"
+        inverted
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.CIRCUIT_SIDEBAR
+          )
+        }}
+      >
+        &lt;Menu size="mini" inverted pointing secondary>
+          &lt;Menu.Item
+            name={CircuitSidebar.Views.OVERVIEW}
+            active={this.state.activeMenuView === CircuitSidebar.Views.OVERVIEW}
+            onClick={this.handleMenuClick}
+          />
+          &lt;Menu.Item
+            name={CircuitSidebar.Views.PARTY}
+            active={this.state.activeMenuView === CircuitSidebar.Views.PARTY}
+            onClick={this.handleMenuClick}
+          />
+          &lt;Menu.Item
+            name={CircuitSidebar.Views.CHEST}
+            active={this.state.activeMenuView === CircuitSidebar.Views.CHEST}
+            onClick={this.handleMenuClick}
+          />
+        &lt;/Menu>
+        {this.getCircuitSidebarMenuContent()}
+      &lt;/Segment>
+    );
+  }
+
+  /**
+   * renders the circuit sidebar menu content
+   * @returns {*}
+   */
+  getCircuitSidebarMenuContent() {
+    switch (this.state.activeMenuView) {
+      case CircuitSidebar.Views.OVERVIEW:
+        return this.getCircuitSidebarOverviewContent();
+      case CircuitSidebar.Views.PARTY:
+        return this.getCircuitSidebarPartyContent();
+      case CircuitSidebar.Views.CHEST:
+        return this.getCircuitSidebarChestContent();
+      default:
+        throw new Error(
+          "Unknown circuit sidebar menu type '" +
+            this.state.activeMenuView +
+            "'"
+        );
+    }
+  }
+
+  /**
+   * renders the circuit sidebar menu content for the overview section.
+   * This section contains a timer that counts up from start time, a title
+   * for the room, as well a a description along with an array of hashtag
+   * labels
+   * @returns {*}
+   */
+  getCircuitSidebarOverviewContent() {
+    return (
+      &lt;div>
+        &lt;Label color="red" basic className="time">
+          &lt;Icon name="lightning" /> &lt;span className="time"> 00:00:00:00&lt;/span>
+        &lt;/Label>
+        &lt;Segment inverted className="title">
+          Angry Teachers Heaven And Some More Text For REALLY long
+        &lt;/Segment>
+        &lt;Segment inverted className="desc">
+          The property was originally a nonstandard and unprefixed Microsoft
+          extension called word-wrap, and was implemented by most browsers with
+          the same name. It has since been renamed to overflow-wrap, with
+          word-wrap being an alias.
+        &lt;/Segment>
+        &lt;Segment inverted className="tags">
+          &lt;Label color="grey" size="tiny">
+            JavaScript
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            Java
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            SaSS
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            Gradle
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            GUI
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            DB
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            Technical
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            Game
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            Development
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            SomeRandom Tag
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            Tester
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            Important
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            JavaScript
+          &lt;/Label>
+          &lt;Label color="grey" size="tiny">
+            Java
+          &lt;/Label>
+        &lt;/Segment>
+      &lt;/div>
+    );
+  }
+
+  /**
+   * renders the circuit sidebar menu content for the party members
+   * whom have join this active circuits trouble shooting wtf session.
+   * @returns {*}
+   */
+  getCircuitSidebarPartyContent() {
+    return (
+      &lt;div>
+        &lt;Segment className="party" inverted>
+          Party Members
+        &lt;/Segment>
+      &lt;/div>
+    );
+  }
+
+  /**
+   * renders the circuit sidebar menu content for chest content. The
+   * chest content contains an array of linked resources. for example
+   * a snippet or screenshot. These items when clicked on will appear
+   * to the left of this panel and to the right of the chat panel within
+   * a resizable panel
+   * @returns {*}
+   */
+  getCircuitSidebarChestContent() {
+    return (
+      &lt;div>
+        &lt;Segment className="chest" inverted>
+          Chest Items
+        &lt;/Segment>
+      &lt;/div>
+    );
+  }
+
+  /**
+   * renders the circuit sidebar actions segment
+   * @returns {*}
+   */
+  getCircuitSidebarActions() {
+    return (
+      &lt;Segment
+        className="actions"
+        inverted
+        style={{
+          height: DimensionController.getCircuitSidebarActionsHeight()
+        }}
+      >
+        &lt;Grid columns="equal" inverted>
+          &lt;Grid.Row stretched verticalAlign="middle">
+            &lt;Grid.Column>
+              &lt;Button
+                onClick={this.onClickRetroActiveCircuit}
+                size="medium"
+                color="purple"
+              >
+                &lt;Button.Content>solved&lt;/Button.Content>
+              &lt;/Button>
+            &lt;/Grid.Column>
+            &lt;Grid.Column>
+              &lt;Button
+                onClick={this.onClickHoldActiveCircuit}
+                size="medium"
+                color="grey"
+              >
+                &lt;Button.Content>later&lt;/Button.Content>
+              &lt;/Button>
+            &lt;/Grid.Column>
+            &lt;Grid.Column>
+              &lt;Button
+                onClick={this.onClickCancelActiveCircuit}
+                size="medium"
+                color="grey"
+              >
+                &lt;Button.Content>cancel&lt;/Button.Content>
+              &lt;/Button>
+            &lt;/Grid.Column>
+          &lt;/Grid.Row>
+        &lt;/Grid>
+      &lt;/Segment>
+    );
+  }
+
+  /**
+   * renders the circuit sidebar panel
+   * @returns {*}
+   */
+  render() {
+    return (
+      &lt;div id="component" className="circuitContentSidebar">
+        {this.getCircuitSidebarContent()}
+        {this.getCircuitSidebarActions()}
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
       </article>
     </section>
   </div>

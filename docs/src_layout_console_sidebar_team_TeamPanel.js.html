@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>exports - Documentation</title>
+  <title>src/layout/console/sidebar/team/TeamPanel.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -409,115 +409,244 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">exports</h1>
+    <h1 class="page-title">src/layout/console/sidebar/team/TeamPanel.js</h1>
     <section>
-      <header>
-        <h2> exports </h2>
-      </header>
       <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">()</span><span class="type-signature"></span></h4>
-            <div class="description"> Represent a group of Settings </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="public_app_AppSettings.js.html">public/app/AppSettings.js</a>, <a href="public_app_AppSettings.js.html#line22">line 22</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section>
-      <header>
-        <h2> exports </h2>
-      </header>
-      <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">(props)</span><span class="type-signature"></span></h4>
-            <div class="description"> builds the active circuit feed component which is used by the circuit resource </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line18">line 18</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>props</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section>
-      <header>
-        <h2> exports </h2>
-      </header>
-      <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">(props)</span><span class="type-signature"></span></h4>
-            <div class="description"> creates a new Activator view for the Activator Window </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_views_ActivatorView.js.html">src/views/ActivatorView.js</a>, <a href="src_views_ActivatorView.js.html#line31">line 31</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>props</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
+import TeamMember from "./TeamMember";
+import { DataModelFactory } from "../../../../models/DataModelFactory";
+import { DimensionController } from "../../../../controllers/DimensionController";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
+
+/**
+ * this component is the tab panel wrapper for the console content
+ */
+export default class TeamPanel extends Component {
+  /**
+   * builds the team panel for the renderer
+   * @param props
+   */
+  constructor(props) {
+    super(props);
+    this.name = "[TeamPanel]";
+    this.state = this.loadState();
+    this.spiritModel = DataModelFactory.createModel(
+      DataModelFactory.Models.SPIRIT,
+      this
+    );
+    this.teamModel = DataModelFactory.createModel(
+      DataModelFactory.Models.MEMBER_STATUS,
+      this
+    );
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.CONSOLE_SIDEBAR
+    );
+  }
+
+  /**
+   * loads the stored state from parent or use default values
+   * @returns {{animationDelay: number, title: string, animationType: string}|*}
+   */
+  loadState() {
+    let state = this.props.loadStateCb();
+    if (!state) {
+      return {
+        activeItem: SidePanelViewController.SubmenuSelection.TEAM,
+        teamVisible: false,
+        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
+        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
+        title: ""
+      };
+    }
+    return state;
+  }
+
+  /**
+   * stores this components state in the parents state
+   * @param state
+   */
+  saveState(state) {
+    this.props.saveStateCb(state);
+  }
+
+  /**
+   * called when we render the team panel into the gui
+   */
+  componentDidMount = () => {
+    this.myController.configureTeamPanelListener(this, this.onRefreshTeamPanel);
+    this.onRefreshTeamPanel();
+  };
+
+  /**
+   * called to refresh the team panel with new data
+   */
+  onRefreshTeamPanel() {
+    switch (this.myController.activeTeamSubmenuSelection) {
+      case SidePanelViewController.SubmenuSelection.TEAM:
+        this.showTeamPanel();
+        break;
+      default:
+        throw new Error("Unknown team panel menu item");
+    }
+  }
+
+  /**
+   * called to display the team panel in the gui
+   */
+  showTeamPanel() {
+    this.teamModel.refreshAll();
+    this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.TEAM,
+      teamVisible: true
+    });
+  }
+
+  /**
+   * called when removing the component from the gui. removes any associated listeners for
+   * memory management
+   */
+  componentWillUnmount = () => {
+    this.myController.configureTeamPanelListener(this, null);
+  };
+
+  /**
+   * updates display to show spirit content
+   * @param e
+   * @param name
+   */
+  handleClick = (e, { name }) => {
+    this.myController.changeActiveTeamSubmenuPanel(name);
+  };
+
+  /**
+   * selects a team member in the list
+   * @param id
+   * @param teamMember
+   */
+  selectRow = (id, teamMember) => {
+    console.log(
+      this.name + " - Team member clicked!" + teamMember.name + "id = " + id
+    );
+    this.requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember.name);
+    // this.teamModel.setActiveMember(id);
+  };
+
+  /**
+   * creates a new request and dispatch this to the browser request listener
+   * @param circuitName
+   */
+  requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember) {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.TEAM,
+      teamMember
+    );
+    this.myController.makeSidebarBrowserRequest(request);
+  }
+
+  /**
+   * determines if we are currently linked to another team member
+   * @param memberId
+   * @returns {boolean}
+   */
+  isLinked = memberId => {
+    return this.spiritModel.isLinked(memberId);
+  };
+
+  /**
+   * gets our team panel content with the team model that was passed in from the props
+   * @returns {*}
+   */
+  getTeamMembersContent = () => {
+    return (
+      &lt;div>
+        &lt;Grid inverted>
+          &lt;TeamMember
+            key={this.props.me.id}
+            id={this.props.me.id}
+            isLinked={this.isLinked(this.props.me.id)}
+            displayName={this.props.me.displayName + " (you)"}
+            name={this.props.me.name}
+            activeStatus={this.props.me.activeStatus}
+            statusColor={this.props.me.statusColor}
+            activeTaskName={this.props.me.activeTaskName}
+            activeTaskSummary={this.props.me.activeTaskSummary}
+            workingOn={this.props.me.workingOn}
+            isAlarmTriggered={this.props.me.isAlarmTriggered}
+            wtfTimer={this.props.me.wtfTimer}
+            alarmStatusMessage={this.props.me.alarmStatusMessage}
+            level={this.props.me.level}
+            xpRequired={this.props.me.xpRequired}
+            onSetActiveRow={this.selectRow}
+            teamMember={this.props.me}
+            activeTeamMember={this.props.activeTeamMember}
+          />
+          {this.props.teamMembers.map(d => (
+            &lt;TeamMember
+              key={d.id}
+              id={d.id}
+              isLinked={this.isLinked(d.id)}
+              displayName={d.displayName}
+              name={d.name}
+              activeStatus={d.activeStatus}
+              statusColor={d.statusColor}
+              activeTaskName={d.activeTaskName}
+              activeTaskSummary={d.activeTaskSummary}
+              workingOn={d.workingOn}
+              isAlarmTriggered={d.isAlarmTriggered}
+              wtfTimer={d.wtfTimer}
+              alarmStatusMessage={this.props.me.alarmStatusMessage}
+              level={d.level}
+              xpRequired={d.xpRequired}
+              onSetActiveRow={this.selectRow}
+              teamMember={d}
+              activeTeamMember={this.props.activeTeamMember}
+            />
+          ))}
+        &lt;/Grid>
+      &lt;/div>
+    );
+  };
+
+  /**
+   * renders the console sidebar panel of the console view
+   * @returns {*}
+   */
+  render() {
+    return (
+      &lt;div
+        id="component"
+        className="consoleSidebarPanel teamPanel"
+        style={{
+          width: this.props.width,
+          opacity: this.props.opacity
+        }}
+      >
+        &lt;Segment.Group>
+          &lt;Menu size="mini" inverted pointing secondary>
+            &lt;Menu.Item name="team" active={true} onClick={this.handleClick} />
+          &lt;/Menu>
+          &lt;Segment
+            inverted
+            style={{ height: DimensionController.getSidebarPanelHeight() }}
+          >
+            &lt;Transition
+              visible={this.state.teamVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              {this.getTeamMembersContent()}
+            &lt;/Transition>
+          &lt;/Segment>
+        &lt;/Segment.Group>
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
       </article>
     </section>
   </div>

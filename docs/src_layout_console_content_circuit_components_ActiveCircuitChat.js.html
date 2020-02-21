@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>exports - Documentation</title>
+  <title>src/layout/console/content/circuit/components/ActiveCircuitChat.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -409,115 +409,254 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">exports</h1>
+    <h1 class="page-title">src/layout/console/content/circuit/components/ActiveCircuitChat.js</h1>
     <section>
-      <header>
-        <h2> exports </h2>
-      </header>
       <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">()</span><span class="type-signature"></span></h4>
-            <div class="description"> Represent a group of Settings </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="public_app_AppSettings.js.html">public/app/AppSettings.js</a>, <a href="public_app_AppSettings.js.html#line22">line 22</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section>
-      <header>
-        <h2> exports </h2>
-      </header>
-      <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">(props)</span><span class="type-signature"></span></h4>
-            <div class="description"> builds the active circuit feed component which is used by the circuit resource </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line18">line 18</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>props</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </article>
-    </section>
-    <section>
-      <header>
-        <h2> exports </h2>
-      </header>
-      <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="exports"><span class="type-signature"></span>new exports<span class="signature">(props)</span><span class="type-signature"></span></h4>
-            <div class="description"> creates a new Activator view for the Activator Window </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_views_ActivatorView.js.html">src/views/ActivatorView.js</a>, <a href="src_views_ActivatorView.js.html#line31">line 31</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>props</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <pre class="prettyprint source linenums"><code>import React, { Component, createRef } from "react";
+import { Icon, Image, Input, Menu, Segment } from "semantic-ui-react";
+
+/**
+ * This class is used to render the active circuit feed in the console view
+ */
+export default class ActiveCircuitChat extends Component {
+  /**
+   * builds the active circuit chat component for the circuit feed
+   * @param props
+   */
+  constructor(props) {
+    super(props);
+    this.name = "[ActiveCircuitChat]";
+    this.imageEmojiSrc = "./assets/images/emoji_cool.png";
+    this.chatInputRef = createRef();
+    this.keyArray = [];
+    this.isFocused = false;
+    this.isMouseDown = false;
+  }
+
+  /**
+   * gets our chat text DOM element
+   * @returns {HTMLElement}
+   */
+  getChatTextEl = () => {
+    return document.getElementById("activeCircuitChatText");
+  };
+
+  /**
+   * functional handler which focuses our input field
+   */
+  focusChat = () => {
+    this.isFocused = true;
+    document
+      .getElementById("activeCircuitChatContainer")
+      .classList.add("focused");
+  };
+
+  /**
+   * functional handler which blurs our input field
+   */
+  blurChat = () => {
+    if (this.isFocused) {
+      this.isFocused = false;
+      document
+        .getElementById("activeCircuitChatContainer")
+        .classList.remove("focused");
+    }
+  };
+
+  /**
+   * adds a new character to our array and also the html DOM
+   * @param keyCode
+   * @param key
+   */
+  addCharToText = (keyCode, key) => {
+    let el = this.getChatTextEl();
+    this.keyArray.push(keyCode);
+    el.innerText += key;
+  };
+
+  /**
+   * removes the last or top character from our html and array
+   */
+  delCharFromText = () => {
+    let el = this.getChatTextEl();
+    this.keyArray.pop();
+    el.innerText = el.innerText.slice(0, -1);
+  };
+
+  /**
+   * checks to see if we have pressed a valid key, any key listed in here
+   * will be escaped automatically. no exceptions, uses integers against
+   * the current 256 character Unicode ASCII table
+   * @param key
+   * @returns {boolean|boolean}
+   */
+  isValidKey = key => {
+    return (
+      key > 31 &amp;&amp;
+      key !== 91 &amp;&amp;
+      key !== 93 &amp;&amp;
+      key !== 45 &amp;&amp;
+      key !== 35 &amp;&amp;
+      key !== 36 &amp;&amp;
+      key !== 33 &amp;&amp;
+      key !== 34 &amp;&amp;
+      key !== 37 &amp;&amp;
+      key !== 39 &amp;&amp;
+      key !== 38 &amp;&amp;
+      key !== 40 &amp;&amp;
+      key !== 124 &amp;&amp;
+      (key &lt; 112 || key > 124)
+    );
+  };
+
+  /**
+   * handles our key press for when we use the enter or return keys
+   */
+  handleEnterKey = () => {
+    console.log(this.name + " post to server and clear box");
+  };
+
+  /**
+   * click handler for our text controls of the component
+   * @param e
+   * @param name
+   */
+  handleClickControls = (e, { name }) => {
+    console.log(this.name + " clicked on -> " + name);
+  };
+
+  /**
+   * handles the user action of clicking on the text field component (this)
+   */
+  handleOnClickChat = () => {
+    if (!this.isMouseDown) {
+      this.chatInputRef.current.focus();
+    }
+  };
+
+  /**
+   * toggles the mouse button down boolean flag property
+   */
+  handleOnMouseDown = () => {
+    this.isMouseDown = true;
+  };
+
+  /**
+   * toggles the mouse button down boolean flag property
+   */
+  handleOnMouseUp = () => {
+    this.isMouseDown = false;
+  };
+
+  /**
+   * listens for input from the semantic gui input control
+   * @param e
+   */
+  handleOnKeyDownChatInput = e => {
+    switch (e.keyCode) {
+      case 8:
+        this.delCharFromText();
+        break;
+      case 46:
+        this.delCharFromText();
+        break;
+      case 13:
+        this.handleEnterKey();
+        break;
+      default:
+        if (this.isValidKey(e.keyCode)) {
+          this.addCharToText(e.keyCode, e.key);
+        }
+        break;
+    }
+  };
+
+  /**
+   * gets our rendering of our text cursor that blinks
+   * @returns {*}
+   */
+  getTextCursor() {
+    return (
+      &lt;span id="activeCircuitChatCursor" className="chat-cursor">
+        |
+      &lt;/span>
+    );
+  }
+
+  /**
+   * renders the active circuit chat panel for the feed
+   * @returns {*}
+   */
+  render() {
+    return (
+      &lt;div id="component" className="activeCircuitChat">
+        &lt;Segment inverted>
+          &lt;Menu className="controls" inverted icon compact borderless>
+            &lt;Menu.Item name="font-color" onClick={this.handleClickControls}>
+              &lt;Icon name="font" />
+            &lt;/Menu.Item>
+            &lt;Menu.Item name="font-bgColor" onClick={this.handleClickControls}>
+              &lt;Icon bordered inverted color="violet" name="font" />
+            &lt;/Menu.Item>
+            &lt;Menu.Item name="font-smaller" onClick={this.handleClickControls}>
+              &lt;Icon.Group>
+                &lt;Icon name="font" />
+                &lt;Icon name="angle double down" />
+              &lt;/Icon.Group>
+            &lt;/Menu.Item>
+            &lt;Menu.Item name="font-medium" onClick={this.handleClickControls}>
+              &lt;Icon name="font" />
+            &lt;/Menu.Item>
+            &lt;Menu.Item name="font-larger" onClick={this.handleClickControls}>
+              &lt;Icon.Group>
+                &lt;Icon name="font" />
+                &lt;Icon name="angle double up" />
+              &lt;/Icon.Group>
+            &lt;/Menu.Item>
+            &lt;Menu.Item name="font-bold" onClick={this.handleClickControls}>
+              &lt;Icon name="bold" />
+            &lt;/Menu.Item>
+            &lt;Menu.Item name="font-italic" onClick={this.handleClickControls}>
+              &lt;Icon name="italic" />
+            &lt;/Menu.Item>
+            &lt;Menu.Item name="font-underline" onClick={this.handleClickControls}>
+              &lt;Icon name="underline" />
+            &lt;/Menu.Item>
+            &lt;Menu.Item name="font-link" onClick={this.handleClickControls}>
+              link
+            &lt;/Menu.Item>
+            &lt;Menu.Item name="emoji" onClick={this.handleClickControls}>
+              &lt;Image src={this.imageEmojiSrc} verticalAlign="top" />
+            &lt;/Menu.Item>
+          &lt;/Menu>
+          &lt;div
+            id="activeCircuitChatContainer"
+            className="text-formatted"
+            onClick={this.handleOnClickChat}
+            onMouseDown={this.handleOnMouseDown}
+            onMouseUp={this.handleOnMouseUp}
+          >
+            &lt;span id="activeCircuitChatText" className="chat-text" />
+            {this.getTextCursor()}
+            &lt;span>
+              &lt;Input
+                id="activeCircuitChatInput"
+                className="chat-input"
+                transparent
+                value=""
+                ref={this.chatInputRef}
+                onFocus={this.focusChat}
+                onBlur={this.blurChat}
+                onKeyDown={this.handleOnKeyDownChatInput}
+              />
+            &lt;/span>
+          &lt;/div>
+        &lt;/Segment>
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
       </article>
     </section>
   </div>
