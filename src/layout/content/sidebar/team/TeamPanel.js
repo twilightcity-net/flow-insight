@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import TeamMember from "./TeamMember";
-import { DataModelFactory } from "../../../../../models/DataModelFactory";
-import { DimensionController } from "../../../../../controllers/DimensionController";
-import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
-import { SidePanelViewController } from "../../../../../controllers/SidePanelViewController";
-import { BrowserRequestFactory } from "../../../../../controllers/BrowserRequestFactory";
+import { DataModelFactory } from "../../../../models/DataModelFactory";
+import { DimensionController } from "../../../../controllers/DimensionController";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 
 /**
  * this component is the tab panel wrapper for the console content

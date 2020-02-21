@@ -8,11 +8,11 @@ import {
   Segment,
   Transition
 } from "semantic-ui-react";
-import { DataModelFactory } from "../../../../../models/DataModelFactory";
-import { SidePanelViewController } from "../../../../../controllers/SidePanelViewController";
-import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
+import { DataModelFactory } from "../../../../models/DataModelFactory";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import SpiritCanvas from "./SpiritCanvas";
-import { DimensionController } from "../../../../../controllers/DimensionController";
+import { DimensionController } from "../../../../controllers/DimensionController";
 
 /**
  * this class is responsible for storing the users avatar, soul, inventory,

@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import { List, Menu, Segment, Transition } from "semantic-ui-react";
-import { SidePanelViewController } from "../../../../../controllers/SidePanelViewController";
-import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
-import { DimensionController } from "../../../../../controllers/DimensionController";
-import { CircuitClient } from "../../../../../clients/CircuitClient";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
+import { DimensionController } from "../../../../controllers/DimensionController";
+import { CircuitClient } from "../../../../clients/CircuitClient";
 import ActiveCircuitListItem from "./ActiveCircuitListItem";
-import { BrowserRequestFactory } from "../../../../../controllers/BrowserRequestFactory";
+import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 
 /**
  * renders the circuit navigator panels in the gui

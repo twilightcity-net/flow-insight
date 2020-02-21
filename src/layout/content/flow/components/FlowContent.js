@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DimensionController } from "../../../../../controllers/DimensionController";
+import { DimensionController } from "../../../../controllers/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the console content

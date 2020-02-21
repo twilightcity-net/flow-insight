@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import ConsoleSidebar from "./content/console/sidebar/ConsoleSidebar";
+import ConsoleSidebar from "./content/sidebar/ConsoleSidebar";
 import LayoutContent from "./content/LayoutContent";
-import CircuitsPanel from "./content/console/sidebar/circuits/CircuitsPanel";
-import NotificationsPanel from "./content/console/sidebar/notifications/NotificationsPanel";
-import TeamPanel from "./content/console/sidebar/team/TeamPanel";
-import SpiritPanel from "./content/console/sidebar/spirit/SpiritPanel";
+import CircuitsPanel from "./content/sidebar/circuits/CircuitsPanel";
+import NotificationsPanel from "./content/sidebar/notifications/NotificationsPanel";
+import TeamPanel from "./content/sidebar/team/TeamPanel";
+import SpiritPanel from "./content/sidebar/spirit/SpiritPanel";
 import { DataModelFactory } from "../models/DataModelFactory";
 import { SpiritModel } from "../models/SpiritModel";
 import { TeamModel } from "../models/TeamModel";
