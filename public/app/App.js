@@ -1,6 +1,7 @@
 const { app } = require("electron"),
   fs = require("fs"),
   path = require("path"),
+  chalk = require("chalk"),
   log = require("electron-log"),
   isDev = require("electron-is-dev"),
   rootPath = require("electron-root-path").rootPath,
@@ -25,23 +26,24 @@ const { app } = require("electron"),
   AppLogin = require("./AppLogin"),
   AppController = require("../controllers/AppController"),
   AppBanner = [
-    "\n",
-    ".:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:..",
-    ": ________ _____ ______  ______ _______ _______ _____       :",
-    ": ||      |     |   __ \\      |   |   |_     _|  ___|      :",
-    ": ||_    _|  -  |      <_   ---|       |_|   |_|  ___|      :",
-    ":  __|__|_|_____|___|____|_____|___|___|_______|_____|      :",
-    ": |     ____|    |    |      ___|   |____|   |_______       :",
-    ": |___      |         |      ___|        |           |_____ :",
-    ": |_________|____|____|_________|________|_ZoeDreams_|800XL|:",
-    ":                             D R E A M S C A L E © 2 0 2 0 :",
-    ":.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:",
-    "\n"
+    "                                                                          ",
+    "     .:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.      ",
+    "     :   ________ _____ ______ _______ _______ _______ _____       :      ",
+    "     :  ||      |     |   __ \\\\      |   |   |_     _|  ___|       :      ",
+    "     :  ||_    _|  -  |      <_   ---|       |_|   |_|  ___|       :      ",
+    "     :   __|__|_|_____|___|____|_____|___|___|_______|_____|       :      ",
+    "     :  |     ____|    |    |      ___|   |____|   |_______        :      ",
+    "     :  |___      |         |      ___|        |           |_____  :      ",
+    "     :  |_________|____|____|_________|________|_ZoeDreams_|800XL| :      ",
+    "     :                              D R E A M S C A L E © 2 0 2 0  :      ",
+    "     :                                                             :      ",
+    "     :.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:      ",
+    "                                                                          \n"
   ];
 
 module.exports = class App {
   constructor() {
-    AppBanner.forEach(v => console.log(v));
+    AppBanner.forEach(v => console.log(chalk.bgHex("6435C9").bold.white(v)));
     if (isDev) Util.setDevUserDataDir();
     this.Logger = Logger.create();
     this.myController = new AppController(app);
