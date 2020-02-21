@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Button, Grid, Icon, Label, Menu, Segment } from "semantic-ui-react";
-import { DimensionController } from "../../../controllers/DimensionController";
+import { DimensionController } from "../../../../../controllers/DimensionController";
 
 /**
  * the class which defines the circuit sidebar panel

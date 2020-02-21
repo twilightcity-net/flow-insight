@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import ActiveCircuit from "./components/ActiveCircuit";
 import NewCircuit from "./components/NewCircuit";
-import { RendererControllerFactory } from "../../controllers/RendererControllerFactory";
-import { BrowserRequestFactory } from "../../controllers/BrowserRequestFactory";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
+import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 
 /**
  * this component is the tab panel wrapper for the console content

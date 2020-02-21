@@ -39,3 +39,4 @@ torchie-desktop.iml
 /tmp/
 !/torchie-shell.iml
 *torchie-shell.iml*
+/more

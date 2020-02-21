@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
-import { DataModelFactory } from "../../../models/DataModelFactory";
-import { SpiritModel } from "../../../models/SpiritModel";
-import { JournalModel } from "../../../models/JournalModel";
-import { DimensionController } from "../../../controllers/DimensionController";
+import { DataModelFactory } from "../../../../../models/DataModelFactory";
+import { SpiritModel } from "../../../../../models/SpiritModel";
+import { JournalModel } from "../../../../../models/JournalModel";
+import { DimensionController } from "../../../../../controllers/DimensionController";
 
 //
 // this component is the tab panel wrapper for the console content

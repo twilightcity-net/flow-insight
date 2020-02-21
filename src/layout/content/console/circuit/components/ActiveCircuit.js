@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { DimensionController } from "../../../controllers/DimensionController";
+import { DimensionController } from "../../../../../controllers/DimensionController";
 import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
 import CircuitSidebar from "./CircuitSidebar";

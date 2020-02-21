@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
-import { DataModelFactory } from "../../../models/DataModelFactory";
-import { JournalModel } from "../../../models/JournalModel";
-import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
+import { DataModelFactory } from "../../../../../models/DataModelFactory";
+import { JournalModel } from "../../../../../models/JournalModel";
+import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 
 /**
  * this component is the tab panel wrapper for the console content

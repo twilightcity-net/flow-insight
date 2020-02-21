@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import JournalResource from "../../resources/journal/JournalResource";
-import CircuitResource from "../../resources/circuit/CircuitResource";
-import FlowResource from "../../resources/flow/FlowResource";
+import JournalResource from "./console/journal/JournalResource";
+import CircuitResource from "./console/circuit/CircuitResource";
+import FlowResource from "./console/flow/FlowResource";
 import { Transition } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../controllers/RendererControllerFactory";
 import LayoutBrowser from "./LayoutBrowser";
