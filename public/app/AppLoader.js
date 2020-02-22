@@ -6,7 +6,7 @@ const log = require("electron-log"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../events/EventFactory"),
-  DataWarehouse = require("../database/DatabaseFarm"),
+  VolumeManager = require("../database/VolumeManager"),
   { ShortcutManager } = require("../managers/ShortcutManager"),
   AppError = require("./AppError"),
   AppMenu = require("./AppMenu"),
@@ -65,10 +65,10 @@ module.exports = class AppLoader {
         EventFactory.Types.TALK_CONNECT_FAILED,
         this
       ),
-      dataFarmReady: EventFactory.createEvent(
-        EventFactory.Types.DATABASE_FARM_READY,
+      volumesReady: EventFactory.createEvent(
+        EventFactory.Types.DATABASE_VOLUMES_READY,
         this,
-        (..._) => this.onDatabaseFarmReady()
+        (..._) => this.onVolumesReady()
       ),
       consoleReady: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_READY,
@@ -99,6 +99,7 @@ module.exports = class AppLoader {
     this.events.loginFailed.remove();
     this.events.talkConnected.remove();
     this.events.talkFailed.remove();
+    this.events.volumesReady.remove();
     this.events.consoleReady.remove();
     this.events.shortcutsCreated.remove();
     this.events.load.remove();
@@ -156,16 +157,16 @@ module.exports = class AppLoader {
   onConnectedTalkCb(event, arg) {
     setTimeout((event, arg) => {
       this.events.load.dispatch({
-        load: this.stages.DATABASE_FARM,
+        load: this.stages.VOLUMES,
         value: this.incrementStage(),
         total: this.getTotalStages(),
-        label: "breeding voxels...",
-        text: "Creating Data Farm..."
+        label: "breeding platypuses...",
+        text: "Loading Volumes..."
       });
     }, this.eventTimerMs);
   }
 
-  onDatabaseFarmReady(event, arg) {
+  onVolumesReady(event, arg) {
     setTimeout((event, arg) => {
       this.events.load.dispatch({
         load: this.stages.CONSOLE,
@@ -236,8 +237,8 @@ module.exports = class AppLoader {
       case this.stages.TALK:
         this.connectToTalk();
         break;
-      case this.stages.DATABASE_FARM:
-        this.initDatabaseFarm();
+      case this.stages.VOLUMES:
+        this.initVolumes();
         break;
       case this.stages.CONSOLE:
         this.createConsole();
@@ -262,7 +263,7 @@ module.exports = class AppLoader {
     return {
       LOGIN: "login",
       TALK: "talk",
-      DATABASE_FARM: "database-farm",
+      VOLUMES: "volumes",
       CONSOLE: "console",
       SHORTCUTS: "shortcuts",
       FINISHED: "finished"
@@ -362,10 +363,10 @@ module.exports = class AppLoader {
   /**
    * builds our data warehouse to put store our in memory databases in
    */
-  initDatabaseFarm() {
-    log.info("[AppLoader] initialize data farm");
+  initVolumes() {
+    log.info("[AppLoader] create volumes");
     try {
-      global.App.DatabaseFarm.init();
+      global.App.VolumeManager.init();
     } catch (error) {
       AppError.handleError(error, true);
     }

@@ -8,9 +8,8 @@ const Util = require("../Util"),
 module.exports = class MemonicDatabase extends LokiJS {
   constructor(name, scope) {
     super(name);
-    console.log(this);
-    // this.name = "[Database." + name + "]";
-    // this.scope = scope;
-    // this.guid = Util.getGuid();
+    this.name = "[DB." + name.toUpperCase() + "]";
+    this.scope = scope;
+    this.guid = Util.getGuid();
   }
 };

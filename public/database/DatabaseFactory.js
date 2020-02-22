@@ -1,12 +1,18 @@
 const LokiJS = require("lokijs"),
-  Database = require("./MemonicDatabase");
+  MemonicDatabase = require("./MemonicDatabase");
 
 /**
  * this class is used to build new databases
  * @type {DatabaseFactory}
  */
 module.exports = class DatabaseFactory {
-  static createDatabase(name, scope) {
-    return new Database(name, scope);
+  /**
+   * creates our in memory database and return it
+   * @param name
+   * @param scope
+   * @returns {DatabaseFactory}
+   */
+  static create(name, scope) {
+    return new MemonicDatabase(name, scope);
   }
 };
