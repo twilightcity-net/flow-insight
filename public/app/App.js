@@ -41,6 +41,51 @@ const { app } = require("electron"),
     "                                                                          \n"
   ];
 
+/**
+ * Z O E @ D R E A M S C A L E - D R E A M S C A L E © 2 0 2 0 - D I S C L A I M E R - D R E A M S C A L E © 2 0 2 0 ///
+ *
+ * TORCHIE-SHELL IS A RESTRICTED OPERATING SYSTEM UNDER BSD LICENSE. ACCESS beyond this point. Authorized
+ * PERSONNEL, AGENTS and SYSTEMS ONLY.
+ *
+ * WARNING BY access this system you agree that:
+ *
+ * You are accessing a DreamScale Information System (IS) that is provided for authorized use only.
+ * By using this IS (which includes any device attached to this IS), you consent to the following conditions:
+ *
+ * + The SYSTEM routinely intercepts and monitors communications on this IS for purposes including, but not limited to,
+ *   penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), any engagement
+ *   with law enforcement (LE), and counterintelligence (CI) investigations of foreign or domestic.
+ *
+ * + The NETWORK exists soley for educational and scientific research purposes. ANY access related to MILITARY use
+ *   could be considered a THREAT, which may result in bad things. Don't Do IT.
+ *
+ * + At any time, the SYSTEM may inspect and seize data stored on this IS; see above item (2)
+ *
+ * + Communications using, or data stored on, this IS PRIVATE, HOWEVER there is also PUBLIC data that could be subject
+ *   to routine monitoring, interception, and search by the IS
+ *
+ * + This IS includes security measures (e.g., authentication and access controls) to protect PRIVATE security and data
+ *
+ * + Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching
+ *   or monitoring of the content of privileged communications, or work product, related to personal representation
+ *   or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work
+ *   product are private and confidential. See User Agreement for details.
+ *
+ *   /\/ Mess With The Best ..........................Die Like The Rest ! /\/
+ *
+ *                              P R E S E N T S :
+ *
+ *                     A N ARTY & ZOE P R O D U C T I O N :
+ *
+ *            S U P P L I E D BY : P D X // O X Y // A T R // 1337
+ *
+ *              > > > A MESSAGE F R O M OUR S P O N S O R S < < <
+ *            support local! throw out your phone and buy a console!
+ *
+ * Z O E @ D R E A M S C A L E - D R E A M S C A L E © 2 0 2 0 - D I S C L A I M E R - D R E A M S C A L E © 2 0 2 0 ///
+ *
+ * @type {App}
+ */
 module.exports = class App {
   constructor() {
     AppBanner.forEach(v => console.log(chalk.bgHex("6435C9").bold.white(v)));
