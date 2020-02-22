@@ -1,6 +1,7 @@
 const log = require("electron-log"),
   platform = require("electron-platform"),
   chalk = require("chalk"),
+  isDev = require("electron-is-dev"),
   App = require("./App"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
@@ -28,7 +29,7 @@ const log = require("electron-log"),
 module.exports = class AppLoader {
   constructor() {
     log.info("[AppLoader] created -> okay");
-    this.eventTimerMs = 420;
+    this.eventTimerMs = isDev ? 0 : 420;
     this.currentStage = 1;
     this.stages = this.getStages();
     this.wireUpEvents();
