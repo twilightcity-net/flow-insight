@@ -5,6 +5,7 @@ const log = require("electron-log"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../events/EventFactory"),
+  DataWarehouse = require("../database/DatabaseFarm"),
   { ShortcutManager } = require("../managers/ShortcutManager"),
   AppError = require("./AppError"),
   AppMenu = require("./AppMenu"),
@@ -62,6 +63,11 @@ module.exports = class AppLoader {
       talkFailed: EventFactory.createEvent(
         EventFactory.Types.TALK_CONNECT_FAILED,
         this
+      ),
+      dataFarmReady: EventFactory.createEvent(
+        EventFactory.Types.DATABASE_FARM_READY,
+        this,
+        (..._) => this.onDatabaseFarmReady()
       ),
       consoleReady: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_READY,
@@ -149,6 +155,18 @@ module.exports = class AppLoader {
   onConnectedTalkCb(event, arg) {
     setTimeout((event, arg) => {
       this.events.load.dispatch({
+        load: this.stages.DATABASE_FARM,
+        value: this.incrementStage(),
+        total: this.getTotalStages(),
+        label: "breeding voxels...",
+        text: "Creating Data Farm..."
+      });
+    }, this.eventTimerMs);
+  }
+
+  onDatabaseFarmReady(event, arg) {
+    setTimeout((event, arg) => {
+      this.events.load.dispatch({
         load: this.stages.CONSOLE,
         value: this.incrementStage(),
         total: this.getTotalStages(),
@@ -217,6 +235,9 @@ module.exports = class AppLoader {
       case this.stages.TALK:
         this.connectToTalk();
         break;
+      case this.stages.DATABASE_FARM:
+        this.initDatabaseFarm();
+        break;
       case this.stages.CONSOLE:
         this.createConsole();
         break;
@@ -240,6 +261,7 @@ module.exports = class AppLoader {
     return {
       LOGIN: "login",
       TALK: "talk",
+      DATABASE_FARM: "database-farm",
       CONSOLE: "console",
       SHORTCUTS: "shortcuts",
       FINISHED: "finished"
@@ -331,6 +353,18 @@ module.exports = class AppLoader {
     try {
       global.App.Shortcuts = global.App.ShortcutManager.createGlobalShortcuts();
       this.events.shortcutsCreated.dispatch();
+    } catch (error) {
+      AppError.handleError(error, true);
+    }
+  }
+
+  /**
+   * builds our data warehouse to put store our in memory databases in
+   */
+  initDatabaseFarm() {
+    log.info("[AppLoader] initialize data farm");
+    try {
+      global.App.DatabaseFarm.init();
     } catch (error) {
       AppError.handleError(error, true);
     }

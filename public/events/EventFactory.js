@@ -27,6 +27,7 @@ class EventFactory {
       APP_QUIT: prefix + "app-quit",
       APP_HEARTBEAT: prefix + "app-heartbeat",
       APP_PULSE: prefix + "app-pulse",
+      DATABASE_FARM_READY: prefix + "database-farm-ready",
       WINDOW_FOCUS: prefix + "window-focus",
       WINDOW_BLUR: prefix + "window-blur",
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",

@@ -72,6 +72,7 @@
     "honeycomb-beeline": "^1.8.6",
     "hypercore": "^6.25.2",
     "hyperdiscovery": "^8.0.0",
+    "lokijs": "^1.5.8",
     "minami": "^1.2.3",
     "moment": "^2.19.3",
     "node-notifier": "^5.1.2",

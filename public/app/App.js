@@ -11,6 +11,7 @@ const { app } = require("electron"),
   AppError = require("./AppError"),
   Util = require("../Util"),
   TalkManager = require("../managers/TalkManager"),
+  DatabaseFarm = require("../database/DatabaseFarm"),
   CircuitManager = require("../managers/CircuitManager"),
   WindowManager = require("../managers/WindowManager"),
   { EventManager } = require("../events/EventManager"),
@@ -42,10 +43,20 @@ const { app } = require("electron"),
   ];
 
 /**
- * Z O E @ D R E A M S C A L E - D R E A M S C A L E © 2 0 2 0 - D I S C L A I M E R - D R E A M S C A L E © 2 0 2 0 ///
+ * D R E A M S C A L E © 2 0 2 0 - D R E A M S C A L E © 2 0 2 0 - D R E A M S C A L E © 2 0 2 0 ///
  *
- * TORCHIE-SHELL IS A RESTRICTED OPERATING SYSTEM UNDER BSD LICENSE. ACCESS beyond this point. Authorized
- * PERSONNEL, AGENTS and SYSTEMS ONLY.
+ *                              P R E S E N T S :
+ *
+ *                     A N ARTY & ZOE P R O D U C T I O N :
+ *
+ *            S U P P L I E D BY : P D X // O X Y // A T R // 1337
+ *
+ *              > > > A MESSAGE F R O M OUR S P O N S O R S < < <
+ *            support local! throw out your phone and buy a console!
+ *
+ *
+ * TORCHIE-SHELL IS A RESTRICTED OPERATING SYSTEM UNDER BSD LICENSE. ACCESS beyond this point.
+ * Authorized PERSONNEL, AGENTS and SYSTEMS ONLY.
  *
  * WARNING BY access this system you agree that:
  *
@@ -73,16 +84,7 @@ const { app } = require("electron"),
  *
  *   /\/ Mess With The Best ..........................Die Like The Rest ! /\/
  *
- *                              P R E S E N T S :
- *
- *                     A N ARTY & ZOE P R O D U C T I O N :
- *
- *            S U P P L I E D BY : P D X // O X Y // A T R // 1337
- *
- *              > > > A MESSAGE F R O M OUR S P O N S O R S < < <
- *            support local! throw out your phone and buy a console!
- *
- * Z O E @ D R E A M S C A L E - D R E A M S C A L E © 2 0 2 0 - D I S C L A I M E R - D R E A M S C A L E © 2 0 2 0 ///
+ * D R E A M S C A L E © 2 0 2 0 - D R E A M S C A L E © 2 0 2 0 - D R E A M S C A L E © 2 0 2 0 ///
  *
  * @type {App}
  */
@@ -149,6 +151,7 @@ module.exports = class App {
       global.App.ShortcutManager = new ShortcutManager();
       global.App.SlackManager = new SlackManager();
       global.App.AppUpdater = new AppUpdater();
+      global.App.DatabaseFarm = new DatabaseFarm();
       global.App.DataStoreManager = new DataStoreManager();
       global.App.AppActivator = new AppActivator();
       global.App.AppLoader = new AppLoader();
