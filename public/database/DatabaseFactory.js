@@ -27,7 +27,7 @@ module.exports = class DatabaseFactory {
    * @param name
    * @returns {DatabaseFactory}
    */
-  static create(name) {
+  static createDatabase(name) {
     switch (name) {
       case DatabaseFactory.Names.TALK:
         return new TalkDB();

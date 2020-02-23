@@ -2,7 +2,7 @@ const log = require("electron-log"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
   { EventManager } = require("../events/EventManager"),
-  DatabaseFactory = require("./DatabaseFactory");
+  DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
  * this is used to store a database of references to our in memory databases
@@ -11,7 +11,7 @@ const log = require("electron-log"),
 module.exports = class VolumeManager {
   /**
    * global static array we store our database volumes in
-   * @returns {array}
+   * @returns {map}
    * @constructor
    */
   static get Volumes() {
@@ -22,7 +22,7 @@ module.exports = class VolumeManager {
    * builds our volume manager class and volume array
    */
   constructor() {
-    VolumeManager.volumes = [];
+    VolumeManager.volumes = new Map();
     this.name = "[VolumeManager]";
     this.guid = Util.getGuid();
   }
@@ -41,11 +41,20 @@ module.exports = class VolumeManager {
 
   /**
    * creates a database inside of a volume that we can manage on the system
-   * @param dbName
+   * @param name
    */
-  static createDatabaseVolume(dbName) {
-    let db = DatabaseFactory.create(dbName);
-    VolumeManager.Volumes.push(db);
-    log.info("[VolumeManager] database volumes created -> okay");
+  static createDatabaseVolume(name) {
+    let db = DatabaseFactory.createDatabase(name);
+    VolumeManager.Volumes.set(name, db);
+    log.info(`[VolumeManager] database volume '${name}' created -> okay`);
+  }
+
+  /**
+   * gets my database volume by name
+   * @param name
+   * @returns {*}
+   */
+  getVolumeByName(name) {
+    return VolumeManager.Volumes.get(name);
   }
 };

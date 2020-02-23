@@ -3,7 +3,8 @@ const { app, shell } = require("electron"),
   path = require("path"),
   util = require("util"),
   fs = require("fs"),
-  os = require("os");
+  os = require("os"),
+  moment = require("moment-timezone");
 
 /**
  * general purpose global utility functions
@@ -330,6 +331,15 @@ module.exports = class Util {
    */
   static getDateTimeString(date) {
     return date.toLocaleTimeString() + " " + date.toLocaleDateString();
+  }
+
+  /**
+   * gets an epoch unix timestamp from a given UTC string with a timezone
+   * @param utcStr
+   * @returns {string}
+   */
+  static getTimestampFromUTCStr(utcStr) {
+    return moment(utcStr).valueOf();
   }
 
   /**

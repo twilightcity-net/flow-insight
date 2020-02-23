@@ -7,6 +7,7 @@ import { PerspectiveController } from "../controllers/PerspectiveController";
 import { DimensionController } from "../controllers/DimensionController";
 import { CircuitClient } from "../clients/CircuitClient";
 import { TalkClient } from "../clients/TalkClient";
+import { JournalClient } from "../clients/JournalClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -92,6 +93,7 @@ export default class ConsoleView extends Component {
   componentDidMount = () => {
     this.myController.configureConsoleViewListener(this, this.onLoadCb);
     TalkClient.init(this);
+    JournalClient.init(this);
     CircuitClient.init(this);
     ModelCoordinator.init(this);
     PerspectiveController.init(this);

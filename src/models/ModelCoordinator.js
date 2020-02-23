@@ -1,6 +1,7 @@
 import { TeamModel } from "../models/TeamModel";
 import { JournalModel } from "../models/JournalModel";
 import { DataModelFactory } from "../models/DataModelFactory";
+import { JournalClient } from "../clients/JournalClient";
 
 /**
  * This class is used to coordinate models across all the events
@@ -58,6 +59,11 @@ export class ModelCoordinator {
     console.log(this.name + " load default models");
     this.journalModel.loadDefaultJournal();
     this.spiritModel.refreshXP();
+
+    JournalClient.getRecentIntentionsEvent("me", this.scope, (event, arg) => {
+      console.log(event);
+      console.log(arg);
+    });
   }
 
   /**

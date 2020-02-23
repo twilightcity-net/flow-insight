@@ -89,9 +89,11 @@ export class CircuitClient extends BaseClient {
   }
 
   /**
-   * creates a learning circuit dto
+   * creates the learning circuit dto
    * @param circuitName
+   * @param scope
    * @param callback
+   * @returns {RendererClientEvent}
    */
   static createLearningCircuitModel(circuitName, scope, callback) {
     let clientEvent = new RendererClientEvent(
@@ -100,7 +102,9 @@ export class CircuitClient extends BaseClient {
       scope,
       (event, arg) => {
         let model = new LearningCircuitModel(arg.dto);
-        callback(model);
+        if (callback) {
+          callback(model);
+        }
       }
     );
     CircuitClient.instance.notifyCircuit(clientEvent);
@@ -216,6 +220,8 @@ export class CircuitClient extends BaseClient {
     for (var i = CircuitClient.listeners.length - 1; i >= 0; i--) {
       let listener = CircuitClient.listeners[i];
       console.log(listener);
+
+      // TODO this needs execute the callback of this listener
     }
   }
 
@@ -247,7 +253,6 @@ export class CircuitClient extends BaseClient {
     for (var i = CircuitClient.listeners.length - 1; i >= 0; i--) {
       console.log(CircuitClient.listeners[i]);
       if (clientEvent === CircuitClient.listeners[i]) {
-        console.log("found!!");
         CircuitClient.listeners.splice(i, 1);
       }
     }

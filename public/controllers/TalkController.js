@@ -7,9 +7,9 @@ const log = require("electron-log"),
 
 /**
  * This class is used to coordinate controllers across the talk service
- * @type {AppController}
+ * @type {TalkController}
  */
-class TalkController extends BaseController {
+module.exports = class TalkController extends BaseController {
   /**
    *
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -193,24 +193,4 @@ class TalkController extends BaseController {
       socket.open();
     }
   }
-
-  /**
-   * this function makes a request to the TalkToClient interface on gridtime server. This will be
-   * worked into our existing data client and model system.
-   */
-  static doClientRequest(context, dto, name, type, urn, callback) {
-    let store = {
-      context: context,
-      dto: dto,
-      guid: Util.getGuid(),
-      name: name,
-      requestType: type,
-      timestamp: new Date().getTime(),
-      urn: urn
-    };
-    let client = new DtoClient(store, callback);
-    client.doRequest();
-  }
-}
-
-module.exports = TalkController;
+};

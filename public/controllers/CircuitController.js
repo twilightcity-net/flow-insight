@@ -156,30 +156,6 @@ class CircuitController extends BaseController {
       }
     );
   }
-
-  /**
-   * this function makes a request to the TalkToClient interface on gridtime server. This will be
-   * worked into our existing data client and model system.
-   * @param context
-   * @param dto
-   * @param name
-   * @param type
-   * @param urn
-   * @param callback
-   */
-  doClientRequest(context, dto, name, type, urn, callback) {
-    let store = {
-      context: context,
-      dto: dto,
-      guid: Util.getGuid(),
-      name: name,
-      requestType: type,
-      timestamp: new Date().getTime(),
-      urn: urn
-    };
-    let client = new DtoClient(store, callback);
-    client.doRequest();
-  }
 }
 
 module.exports = CircuitController;
