@@ -181,6 +181,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#connectToTalk">connectToTalk</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#create">create</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConsole">createConsole</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createDatabaseVolume">createDatabaseVolume</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createMenu">createMenu</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createShortcuts">createShortcuts</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createWindowActivator">createWindowActivator</a></span></li>
@@ -221,7 +222,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initDatabaseFarm">initDatabaseFarm</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initVolumes">initVolumes</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li>
@@ -261,6 +263,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_EventTypes.html">EventTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Names.html">Names</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Volumes.html">Volumes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_WindowNames.html">WindowNames</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="NewSnippetEvent.html">NewSnippetEvent</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li>
@@ -419,8 +423,10 @@
     <h1 class="page-title">public/database/DatabaseFactory.js</h1>
     <section>
       <article>
-        <pre class="prettyprint source linenums"><code>const LokiJS = require("lokijs"),
-  MemonicDatabase = require("./MemonicDatabase");
+        <pre class="prettyprint source linenums"><code>const TalkDB = require("./TalkDB"),
+  JournalDB = require("./JournalDB"),
+  CircuitDB = require("./CircuitDB"),
+  TeamDB = require("./TeamDB");
 
 /**
  * this class is used to build new databases
@@ -428,13 +434,37 @@
  */
 module.exports = class DatabaseFactory {
   /**
+   * the names of our databases
+   * @returns {{JOURNAL: string, TALK: string}}
+   * @constructor
+   */
+  static get Names() {
+    return {
+      TALK: "talk",
+      JOURNAL: "journal",
+      CIRCUIT: "circuit",
+      TEAM: "team"
+    };
+  }
+
+  /**
    * creates our in memory database and return it
    * @param name
-   * @param scope
    * @returns {DatabaseFactory}
    */
-  static create(name, scope) {
-    return new MemonicDatabase(name, scope);
+  static create(name) {
+    switch (name) {
+      case DatabaseFactory.Names.TALK:
+        return new TalkDB();
+      case DatabaseFactory.Names.JOURNAL:
+        return new JournalDB();
+      case DatabaseFactory.Names.CIRCUIT:
+        return new CircuitDB();
+      case DatabaseFactory.Names.TEAM:
+        return new CircuitDB();
+      default:
+        throw new Error("Unknown database type '" + name + "'");
+    }
   }
 };
 </code></pre>

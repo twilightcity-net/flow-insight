@@ -181,6 +181,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#connectToTalk">connectToTalk</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#create">create</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConsole">createConsole</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createDatabaseVolume">createDatabaseVolume</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createMenu">createMenu</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createShortcuts">createShortcuts</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createWindowActivator">createWindowActivator</a></span></li>
@@ -221,7 +222,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initDatabaseFarm">initDatabaseFarm</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initVolumes">initVolumes</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li>
@@ -261,6 +263,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_EventTypes.html">EventTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Names.html">Names</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Volumes.html">Volumes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_WindowNames.html">WindowNames</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="NewSnippetEvent.html">NewSnippetEvent</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li>
@@ -427,7 +431,7 @@
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../events/EventFactory"),
-  VolumeFactory = require("../database/VolumeManager"),
+  VolumeManager = require("../database/VolumeManager"),
   { ShortcutManager } = require("../managers/ShortcutManager"),
   AppError = require("./AppError"),
   AppMenu = require("./AppMenu"),
@@ -486,10 +490,10 @@ module.exports = class AppLoader {
         EventFactory.Types.TALK_CONNECT_FAILED,
         this
       ),
-      databaseVolumesReady: EventFactory.createEvent(
+      volumesReady: EventFactory.createEvent(
         EventFactory.Types.DATABASE_VOLUMES_READY,
         this,
-        (..._) => this.onDatabaseVolumesReady()
+        (..._) => this.onVolumesReady()
       ),
       consoleReady: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_READY,
@@ -520,7 +524,7 @@ module.exports = class AppLoader {
     this.events.loginFailed.remove();
     this.events.talkConnected.remove();
     this.events.talkFailed.remove();
-    this.events.databaseVolumesReady.remove();
+    this.events.volumesReady.remove();
     this.events.consoleReady.remove();
     this.events.shortcutsCreated.remove();
     this.events.load.remove();
@@ -578,7 +582,7 @@ module.exports = class AppLoader {
   onConnectedTalkCb(event, arg) {
     setTimeout((event, arg) => {
       this.events.load.dispatch({
-        load: this.stages.DATABASE_FARM,
+        load: this.stages.VOLUMES,
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "breeding platypuses...",
@@ -587,7 +591,7 @@ module.exports = class AppLoader {
     }, this.eventTimerMs);
   }
 
-  onDatabaseVolumesReady(event, arg) {
+  onVolumesReady(event, arg) {
     setTimeout((event, arg) => {
       this.events.load.dispatch({
         load: this.stages.CONSOLE,
@@ -658,8 +662,8 @@ module.exports = class AppLoader {
       case this.stages.TALK:
         this.connectToTalk();
         break;
-      case this.stages.DATABASE_FARM:
-        this.initDatabaseFarm();
+      case this.stages.VOLUMES:
+        this.initVolumes();
         break;
       case this.stages.CONSOLE:
         this.createConsole();
@@ -684,7 +688,7 @@ module.exports = class AppLoader {
     return {
       LOGIN: "login",
       TALK: "talk",
-      DATABASE_FARM: "database-farm",
+      VOLUMES: "volumes",
       CONSOLE: "console",
       SHORTCUTS: "shortcuts",
       FINISHED: "finished"
@@ -784,8 +788,8 @@ module.exports = class AppLoader {
   /**
    * builds our data warehouse to put store our in memory databases in
    */
-  initDatabaseFarm() {
-    log.info("[AppLoader] initialize data farm");
+  initVolumes() {
+    log.info("[AppLoader] create volumes");
     try {
       global.App.VolumeManager.init();
     } catch (error) {

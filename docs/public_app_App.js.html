@@ -181,6 +181,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#connectToTalk">connectToTalk</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#create">create</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConsole">createConsole</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createDatabaseVolume">createDatabaseVolume</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createMenu">createMenu</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createShortcuts">createShortcuts</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createWindowActivator">createWindowActivator</a></span></li>
@@ -221,7 +222,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initDatabaseFarm">initDatabaseFarm</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initVolumes">initVolumes</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li>
@@ -261,6 +263,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_EventTypes.html">EventTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Names.html">Names</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Volumes.html">Volumes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_WindowNames.html">WindowNames</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="NewSnippetEvent.html">NewSnippetEvent</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li>
@@ -464,8 +468,6 @@
   ];
 
 /**
- * D R E A M S C A L E © 2 0 2 0 - D R E A M S C A L E © 2 0 2 0 - D R E A M S C A L E © 2 0 2 0 ///
- *
  *                              P R E S E N T S :
  *
  *                     A N ARTY &amp; ZOE P R O D U C T I O N :
@@ -475,6 +477,8 @@
  *              > > > A MESSAGE F R O M OUR S P O N S O R S &lt; &lt; &lt;
  *            support local! throw out your phone and buy a console!
  *
+ *
+ * D R E A M S C A L E © 2 0 2 0 /// D R E A M S C A L E © 2 0 2 0 /// D R E A M S C A L E © 2 0 2 0 /// /// /// /// ///
  *
  * TORCHIE-SHELL IS A RESTRICTED OPERATING SYSTEM UNDER BSD LICENSE. ACCESS beyond this point.
  * Authorized PERSONNEL, AGENTS and SYSTEMS ONLY.
@@ -505,7 +509,7 @@
  *
  *   /\/ Mess With The Best ..........................Die Like The Rest ! /\/
  *
- * D R E A M S C A L E © 2 0 2 0 - D R E A M S C A L E © 2 0 2 0 - D R E A M S C A L E © 2 0 2 0 ///
+ * D R E A M S C A L E © 2 0 2 0 /// D R E A M S C A L E © 2 0 2 0 /// D R E A M S C A L E © 2 0 2 0 /// /// /// /// ///
  *
  * @type {App}
  */

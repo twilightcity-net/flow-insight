@@ -181,6 +181,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#connectToTalk">connectToTalk</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#create">create</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConsole">createConsole</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createDatabaseVolume">createDatabaseVolume</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createMenu">createMenu</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createShortcuts">createShortcuts</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createWindowActivator">createWindowActivator</a></span></li>
@@ -221,7 +222,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initDatabaseFarm">initDatabaseFarm</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initVolumes">initVolumes</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li>
@@ -261,6 +263,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_EventTypes.html">EventTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Names.html">Names</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Volumes.html">Volumes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_WindowNames.html">WindowNames</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="NewSnippetEvent.html">NewSnippetEvent</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="PerspectiveController.html">PerspectiveController</a></span></li>
@@ -419,45 +423,55 @@
     <h1 class="page-title">public/database/VolumeManager.js</h1>
     <section>
       <article>
-        <pre class="prettyprint source linenums"><code>const Util = require("../Util"),
+        <pre class="prettyprint source linenums"><code>const log = require("electron-log"),
+  Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
   { EventManager } = require("../events/EventManager"),
-  DatabaseFactory = require("../database/DatabaseFactory");
+  DatabaseFactory = require("./DatabaseFactory");
 
 /**
  * this is used to store a database of references to our in memory databases
- * @type {VolumeFactory}
+ * @type {VolumeManager}
  */
 module.exports = class VolumeManager {
+  /**
+   * global static array we store our database volumes in
+   * @returns {array}
+   * @constructor
+   */
   static get Volumes() {
     return VolumeManager.volumes;
   }
 
-  static get DatabaseNames() {
-    return {
-      TALK: "talk"
-    };
-  }
-
+  /**
+   * builds our volume manager class and volume array
+   */
   constructor() {
     VolumeManager.volumes = [];
     this.name = "[VolumeManager]";
-    this.scope = global.App;
     this.guid = Util.getGuid();
   }
 
+  /**
+   * initialize our databases for our system
+   */
   init() {
-    console.log(this.name + " initialize memonic databases");
-    VolumeManager.createDatabaseVolume(
-      VolumeManager.DatabaseNames.TALK,
-      this.scope
-    );
+    log.info(this.name + " initialize memonic databases");
+    VolumeManager.createDatabaseVolume(DatabaseFactory.Names.TALK);
+    VolumeManager.createDatabaseVolume(DatabaseFactory.Names.JOURNAL);
+    VolumeManager.createDatabaseVolume(DatabaseFactory.Names.CIRCUIT);
+    VolumeManager.createDatabaseVolume(DatabaseFactory.Names.TEAM);
+    EventManager.dispatch(EventFactory.Types.DATABASE_VOLUMES_READY);
   }
 
-  static createDatabaseVolume(dbName, scope) {
-    let db = DatabaseFactory.create(dbName, scope);
+  /**
+   * creates a database inside of a volume that we can manage on the system
+   * @param dbName
+   */
+  static createDatabaseVolume(dbName) {
+    let db = DatabaseFactory.create(dbName);
     VolumeManager.Volumes.push(db);
-    EventManager.dispatch(EventFactory.Types.DATABASE_VOLUMES_READY);
+    log.info("[VolumeManager] database volumes created -> okay");
   }
 };
 </code></pre>
