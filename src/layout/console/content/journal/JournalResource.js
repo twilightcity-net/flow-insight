@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import JournalEntry from "./components/JournalEntry";
 import { DimensionController } from "../../../../controllers/DimensionController";
-import { Grid } from "semantic-ui-react";
+import { Grid, Icon, Message } from "semantic-ui-react";
 import JournalItem from "./components/JournalItem";
 import { JournalClient } from "../../../../clients/JournalClient";
 
@@ -19,23 +19,32 @@ export default class JournalResource extends Component {
     this.resource = props.resource;
     this.journalItems = [];
     this.activeJournalItem = null;
+    this.error = null;
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     let userName = nextProps.resource.uriArr[1];
     JournalClient.getRecentIntentions(userName, this, arg => {
-      console.log(arg);
-      this.journalItems = arg.data;
-      this.forceUpdate();
+      if (arg.error) {
+        this.error = arg.error;
+        this.forceUpdate();
+      } else {
+        this.error = null;
+        this.journalItems = arg.data;
+        this.forceUpdate();
+      }
     });
     return false;
   }
 
   componentDidMount() {
     JournalClient.getRecentIntentions("me", this, arg => {
-      console.log(arg);
-      this.journalItems = arg.data;
-      this.forceUpdate();
+      if (arg.error) {
+        console.log(arg.error);
+      } else {
+        this.journalItems = arg.data;
+        this.forceUpdate();
+      }
     });
   }
 
@@ -163,36 +172,58 @@ export default class JournalResource extends Component {
     });
   }
 
+  getJournalItemsWrapper() {
+    return (
+      <div id="wrapper" className="journalItems">
+        <div
+          id="component"
+          className="journalItems"
+          style={{
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.JOURNAL_ITEMS
+            )
+          }}
+        >
+          <Grid inverted>{this.getJournalItems()}</Grid>
+          <div
+            className="fltLftClrBth"
+            ref={el => {
+              this.elEnd = el;
+            }}
+          />
+        </div>
+      </div>
+    );
+  }
+
+  getJournalError() {
+    return (
+      <Message icon negative size="large">
+        <Icon name="warning sign" />
+        <Message.Content>
+          <Message.Header>{this.error} :(</Message.Header>
+          These were not the cats you were looking for =|^.^|=
+        </Message.Content>
+      </Message>
+    );
+  }
+
   /**
    * renders the journal layout of the console view
    * @returns {*} - returns the JSX for this component
    */
   render() {
     console.log("render");
+    let error = !!this.error;
     return (
-      <div id="component" className="journalLayout">
-        <div id="wrapper" className="journalItems">
-          <div
-            id="component"
-            className="journalItems"
-            style={{
-              height: DimensionController.getHeightFor(
-                DimensionController.Components.JOURNAL_ITEMS
-              )
-            }}
-          >
-            <Grid inverted>{this.getJournalItems()}</Grid>
-            <div
-              className="fltLftClrBth"
-              ref={el => {
-                this.elEnd = el;
-              }}
-            />
+      <div id="component" className={"journalLayout" + (error ? " error" : "")}>
+        {error && this.getJournalError()}
+        {!error && this.getJournalItemsWrapper()}
+        {!error && (
+          <div id="wrapper" className="journalEntry">
+            <JournalEntry onAddTask={this.onAddTask} />
           </div>
-        </div>
-        <div id="wrapper" className="journalEntry">
-          <JournalEntry onAddTask={this.onAddTask} />
-        </div>
+        )}
       </div>
     );
   }

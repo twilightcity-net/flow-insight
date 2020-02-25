@@ -108,29 +108,35 @@ module.exports = class JournalController extends BaseController {
       "get",
       urn,
       store => {
-        let journal = new RecentJournalDto(store.data),
-          database = global.App.VolumeManager.getVolumeByName(
-            DatabaseFactory.Names.JOURNAL
-          ),
-          collection = database.getCollection(JournalDB.Collections.INTENTIONS);
+        if (store.error) {
+          arg.error = store.error;
+        } else {
+          let journal = new RecentJournalDto(store.data),
+            database = global.App.VolumeManager.getVolumeByName(
+              DatabaseFactory.Names.JOURNAL
+            ),
+            collection = database.getCollection(
+              JournalDB.Collections.INTENTIONS
+            );
 
-        journal.recentIntentions.forEach(ri => {
-          ri.timestamp = Util.getTimestampFromUTCStr(ri.positionStr);
-          ri.userName = userName;
-          collection.insert(ri);
-        });
-
-        collection = database.getCollection(JournalDB.Collections.PROJECTS);
-        journal.recentProjects.forEach(rp => {
-          collection.insert(rp);
-        });
-
-        collection = database.getCollection(JournalDB.Collections.TASKS);
-        Object.values(journal.recentTasksByProjectId).forEach(project => {
-          project.forEach(rt => {
-            collection.insert(rt);
+          journal.recentIntentions.forEach(ri => {
+            ri.timestamp = Util.getTimestampFromUTCStr(ri.positionStr);
+            ri.userName = userName;
+            collection.insert(ri);
           });
-        });
+
+          collection = database.getCollection(JournalDB.Collections.PROJECTS);
+          journal.recentProjects.forEach(rp => {
+            collection.insert(rp);
+          });
+
+          collection = database.getCollection(JournalDB.Collections.TASKS);
+          Object.values(journal.recentTasksByProjectId).forEach(project => {
+            project.forEach(rt => {
+              collection.insert(rt);
+            });
+          });
+        }
 
         if (callback) {
           return callback(arg);
@@ -150,23 +156,40 @@ module.exports = class JournalController extends BaseController {
       userName = arg.args.userName ? arg.args.userName : "me",
       view = database.getViewForIntentionsByUserName(userName);
 
-    log.info(
-      chalk.yellowBright(this.name) +
-        " '" +
-        arg.type +
-        "' : '" +
-        arg.id +
-        "' -> {" +
-        view.count() +
-        "}"
-    );
-    arg.data = view.data();
-    if (callback) {
-      return callback(arg);
-    } else if (event) {
-      return event.replyTo(arg);
+    console.log(view.count());
+    if (userName === "me" || view.count() > 0) {
+      log.info(
+        chalk.yellowBright(this.name) +
+          " '" +
+          arg.type +
+          "' : '" +
+          arg.id +
+          "' -> {" +
+          view.count() +
+          "}"
+      );
+      arg.data = view.data();
+      if (callback) {
+        return callback(arg);
+      } else if (event) {
+        return event.replyTo(arg);
+      } else {
+        throw new Error("Invalid create journal event");
+      }
     } else {
-      throw new Error("Invalid create journal event");
+      this.handleLoadJournalEvent(
+        null,
+        { args: { userName: userName } },
+        args => {
+          if (args.error && event) {
+            arg.error = args.error;
+            event.replyTo(arg);
+          } else {
+            //TODO insert records into database for this new username
+            console.log("load journal -> " + userName);
+          }
+        }
+      );
     }
   }
 

@@ -130,9 +130,9 @@ export class JournalClient extends BaseClient {
     );
     if (clientEvent) {
       JournalClient.replies.delete(arg.id);
+      clientEvent.callback(event, arg);
+      this.notifyListeners(clientEvent);
     }
-    clientEvent.callback(event, arg);
-    this.notifyListeners(clientEvent);
   };
 
   /**
