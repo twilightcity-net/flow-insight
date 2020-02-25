@@ -6,12 +6,10 @@ const electron = require("electron"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
   { ShortcutManager } = require("../managers/ShortcutManager"),
-  AppSettings = require("../app/AppSettings"),
   WindowManagerHelper = require("./WindowManagerHelper"),
   LoadingWindow = require("../windows/LoadingWindow"),
   ActivatorWindow = require("../windows/ActivatorWindow"),
-  ConsoleWindow = require("../windows/ConsoleWindow"),
-  BugReportWindow = require("../windows/BugReportWindow");
+  ConsoleWindow = require("../windows/ConsoleWindow");
 
 /**
  * This class is used to manage the view, state, and display of each
@@ -285,7 +283,7 @@ class WindowManager {
    * factory class.
    * Need to add a new case for each window we wish to open
    * @param name
-   * @returns {LoadingWindow|BugReportWindow|null|ActivatorWindow|ConsoleWindow}
+   * @returns {LoadingWindow|null|ActivatorWindow|ConsoleWindow}
    */
   getWindowClassFromName(name) {
     switch (name) {
@@ -295,8 +293,6 @@ class WindowManager {
         return new ActivatorWindow();
       case WindowManagerHelper.WindowNames.CONSOLE:
         return new ConsoleWindow();
-      case WindowManagerHelper.WindowNames.BUGREPORT:
-        return new BugReportWindow();
       default:
         return null;
     }

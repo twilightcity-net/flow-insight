@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { Divider, Grid, Icon, Popup } from "semantic-ui-react";
-import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 
 export default class TeamMember extends Component {
   constructor(props) {
     super(props);
+    this.name = "[TeamMember]";
   }
 
   handleClick = () => {
@@ -25,20 +25,12 @@ export default class TeamMember extends Component {
 
     if (this.props.statusColor === "offlineColor") {
       statusCircle = (
-        <Icon
-          link
-          className={this.props.statusColor}
-          name="circle outline"
-        />
+        <Icon link className={this.props.statusColor} name="circle outline" />
       );
     } else {
       online = true;
       statusCircle = (
-        <Icon
-          link
-          className={this.props.statusColor}
-          name="circle"
-        />
+        <Icon link className={this.props.statusColor} name="circle" />
       );
     }
 

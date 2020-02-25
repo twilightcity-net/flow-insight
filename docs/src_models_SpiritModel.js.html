@@ -38,11 +38,6 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520returns%2520the%2520classes%2520constructor%2520function%2520to%2520render%2520dynamically.html">- returns the classes constructor function to render dynamically</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520static%2520constructor%2520for%2520the%2520possible%2520types%2520of%2520requests.html">- static constructor for the possible types of requests</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AltModelDelegate.html">AltModelDelegate</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureDelegateCall">configureDelegateCall</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureNoOp">configureNoOp</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#resetMemberSelection">resetMemberSelection</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#setMemberSelection">setMemberSelection</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
@@ -172,14 +167,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#dispatch">dispatch</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#replyTo">replyTo</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#.init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#loadDefaultModels">loadDefaultModels</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onChangeActiveRowResetSpiritFlame">onChangeActiveRowResetSpiritFlame</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalEntryUpdateMeAndXP">onJournalEntryUpdateMeAndXP</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalUpdateResetSpiritFlame">onJournalUpdateResetSpiritFlame</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onTeamMemberChangeActiveScopeForAllModels">onTeamMemberChangeActiveScopeForAllModels</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#updateModels">updateModels</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#check">check</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></span></li>
@@ -437,8 +424,6 @@
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import { DataModel } from "./DataModel";
-import { AltModelDelegate } from "./AltModelDelegate";
-import { AltMemberSpiritExtension } from "./AltMemberSpiritExtension";
 
 const { remote } = window.require("electron"),
   SpiritDto = remote.require("./dto/SpiritDto"),
@@ -464,17 +449,6 @@ export class SpiritModel extends DataModel {
     this.dirtyFlame = 0;
     this.originalFlame = 0;
     this.activeFlameRating = 0;
-
-    this.isAltMemberSelected = false;
-    this.altMemberId = null;
-
-    this.altModelExtension = new AltMemberSpiritExtension(this.scope);
-    this.altModelDelegate = new AltModelDelegate(this, this.altModelExtension);
-
-    this.altModelDelegate.configureDelegateCall("refreshXP");
-    this.altModelDelegate.configureDelegateCall("resetFlame");
-
-    this.altModelDelegate.configureNoOp("adjustFlame");
   }
 
   static get CallbackEvent() {
@@ -484,29 +458,6 @@ export class SpiritModel extends DataModel {
       DIRTY_FLAME_UPDATE: "spirit-dirty-flame"
     };
   }
-
-  /**
-   * Show an alt member's spirit
-   * @param meId
-   * @param memberId
-   */
-  setMemberSelection = (meId, memberId) => {
-    if (meId === memberId) {
-      this.isAltMemberSelected = false;
-      this.altMemberId = null;
-
-      this.altModelDelegate.resetMemberSelection();
-      this.notifyListeners(SpiritModel.CallbackEvent.XP_UPDATE);
-    } else {
-      this.isAltMemberSelected = true;
-      this.altMemberId = memberId;
-
-      //should set the memberId on the object, then delegate the call
-
-      this.altModelExtension.setMemberSelection(memberId);
-      this.refreshXP();
-    }
-  };
 
   hasLinks() {
     return this.activeSpiritLinks.length > 0;
@@ -527,14 +478,6 @@ export class SpiritModel extends DataModel {
     }
 
     return linked;
-  };
-
-  getActiveScope = () => {
-    if (this.isAltMemberSelected) {
-      return this.altModelExtension;
-    } else {
-      return this;
-    }
   };
 
   linkThisTorchie = spiritId => {
@@ -596,23 +539,6 @@ export class SpiritModel extends DataModel {
         }, DataModel.activeWaitDelay);
       }
     );
-  };
-
-  /**
-   * Reinitializes the Torchie flame to a specified rating
-   */
-  resetFlame = cleanFlameRating => {
-    let initFlame = 0;
-    if (cleanFlameRating) {
-      initFlame = cleanFlameRating;
-    }
-
-    this.isDirty = false;
-    this.dirtyFlame = null;
-    this.originalFlame = initFlame;
-    this.activeFlameRating = initFlame;
-
-    this.notifyListeners(SpiritModel.CallbackEvent.RESET_FLAME);
   };
 
   /**

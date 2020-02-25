@@ -15,8 +15,7 @@ module.exports = class WindowManagerHelper {
     return {
       LOADING: "torchie-" + ViewManagerHelper.ViewNames.LOADING,
       ACTIVATOR: "torchie-" + ViewManagerHelper.ViewNames.ACTIVATOR,
-      CONSOLE: "torchie-" + ViewManagerHelper.ViewNames.CONSOLE,
-      BUGREPORT: "torchie-" + ViewManagerHelper.ViewNames.BUGREPORT
+      CONSOLE: "torchie-" + ViewManagerHelper.ViewNames.CONSOLE
     };
   }
 
@@ -44,15 +43,6 @@ module.exports = class WindowManagerHelper {
    */
   static createWindowConsole() {
     let name = WindowManagerHelper.WindowNames.CONSOLE;
-    return global.App.WindowManager.createWindow(name);
-  }
-
-  /**
-   * creates new bug report window
-   * @returns {*}
-   */
-  static createWindowBugReport() {
-    const name = WindowManagerHelper.WindowNames.BUGREPORT;
     return global.App.WindowManager.createWindow(name);
   }
 };

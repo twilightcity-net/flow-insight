@@ -38,11 +38,6 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520returns%2520the%2520classes%2520constructor%2520function%2520to%2520render%2520dynamically.html">- returns the classes constructor function to render dynamically</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520static%2520constructor%2520for%2520the%2520possible%2520types%2520of%2520requests.html">- static constructor for the possible types of requests</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AltModelDelegate.html">AltModelDelegate</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureDelegateCall">configureDelegateCall</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#configureNoOp">configureNoOp</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#resetMemberSelection">resetMemberSelection</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AltModelDelegate.html#setMemberSelection">setMemberSelection</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
@@ -172,14 +167,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#dispatch">dispatch</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#replyTo">replyTo</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ModelCoordinator.html">ModelCoordinator</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#.init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#loadDefaultModels">loadDefaultModels</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onChangeActiveRowResetSpiritFlame">onChangeActiveRowResetSpiritFlame</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalEntryUpdateMeAndXP">onJournalEntryUpdateMeAndXP</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onJournalUpdateResetSpiritFlame">onJournalUpdateResetSpiritFlame</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#onTeamMemberChangeActiveScopeForAllModels">onTeamMemberChangeActiveScopeForAllModels</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ModelCoordinator.html#updateModels">updateModels</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#check">check</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></span></li>
@@ -438,8 +425,6 @@
       <article>
         <pre class="prettyprint source linenums"><code>import { DataModel } from "./DataModel";
 import moment from "moment";
-import { AltMemberJournalExtension } from "./AltMemberJournalExtension";
-import { AltModelDelegate } from "./AltModelDelegate";
 
 const { remote } = window.require("electron"),
   RecentJournalDto = remote.require("./dto/RecentJournalDto"),
@@ -463,21 +448,6 @@ export class JournalModel extends DataModel {
     this.recentProjects = [];
     this.recentTasksByProjectId = [];
     this.recentEntry = {};
-
-    this.isAltMemberSelected = false;
-    this.altMemberId = null;
-
-    this.altModelExtension = new AltMemberJournalExtension(this.scope);
-    this.altModelDelegate = new AltModelDelegate(this, this.altModelExtension);
-
-    this.altModelDelegate.configureDelegateCall("loadDefaultJournal");
-    this.altModelDelegate.configureDelegateCall("resetActiveToLastJournalItem");
-    this.altModelDelegate.configureDelegateCall("setActiveJournalItem");
-
-    this.altModelDelegate.configureNoOp("finishIntention");
-    this.altModelDelegate.configureNoOp("updateFlameRating");
-    this.altModelDelegate.configureNoOp("addJournalEntry");
-    this.altModelDelegate.configureNoOp("addTaskRef");
   }
 
   /**
@@ -493,95 +463,6 @@ export class JournalModel extends DataModel {
       NEW_JOURNAL_ITEM_ADDED: "journal-item-added"
     };
   }
-
-  /**
-   * gets the active scope for a selected user
-   * @returns {AltMemberJournalExtension|JournalModel}
-   */
-  getActiveScope = () => {
-    if (this.isAltMemberSelected) {
-      return this.altModelExtension;
-    } else {
-      return this;
-    }
-  };
-
-  /**
-   * Show an alt member's journal
-   * @param meId
-   * @param memberId
-   */
-  setMemberSelection = (meId, memberId) => {
-    if (meId === memberId) {
-      console.log(this.name + " reset member selection to me -> " + memberId);
-      this.isAltMemberSelected = false;
-      this.altMemberId = null;
-      this.altModelDelegate.resetMemberSelection();
-      this.resetActiveToLastJournalItem();
-      this.notifyListeners(JournalModel.CallbackEvent.RECENT_TASKS_UPDATE);
-      this.notifyListeners(JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE);
-      return;
-    }
-
-    console.log(this.name + " set member selection to  -> " + memberId);
-    this.isAltMemberSelected = true;
-    this.altMemberId = memberId;
-    this.altModelExtension.setMemberSelection(memberId);
-    this.loadDefaultJournal();
-  };
-
-  /**
-   * Restore the showing of the default journal
-   */
-  resetMemberSelection = () => {
-    this.isAltMemberSelected = false;
-    this.altMemberId = null;
-    this.altModelDelegate.resetMemberSelection();
-  };
-
-  /**
-   * Loads the most recent Journal with X number of entries,
-   * which should ultimately be a configurable setting
-   * but hardcoded on the server for now
-   */
-  loadDefaultJournal = () => {
-    let remoteUrn =
-        DataModel.Paths.SEPARATOR +
-        DataModel.Paths.JOURNAL +
-        DataModel.Paths.SEPARATOR +
-        DataModel.Paths.ME,
-      loadRequestType = DataModel.RequestTypes.GET;
-
-    this.remoteFetch(
-      null,
-      remoteUrn,
-      loadRequestType,
-      RecentJournalDto,
-      (dtoResults, err) => {
-        setTimeout(() => {
-          this.onLoadDefaultJournalCb(dtoResults, err);
-        }, DataModel.activeWaitDelay);
-      }
-    );
-  };
-
-  /**
-   * Reset the active selected item to the last item in the journal
-   */
-  resetActiveToLastJournalItem = () => {
-    this.activeIndex = 0;
-    this.activeJournalItem = null;
-
-    if (this.allJournalItems.length > 0) {
-      this.activeJournalItem = this.allJournalItems[
-        this.allJournalItems.length - 1
-      ];
-      this.activeIndex = this.activeJournalItem.index;
-      this.activeFlame = this.activeJournalItem.flameRating;
-    }
-
-    this.notifyListeners(JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE);
-  };
 
   /**
    * Set the active selected item to a specific item in the journal

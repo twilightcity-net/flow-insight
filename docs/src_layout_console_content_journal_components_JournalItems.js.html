@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>RequestTypes - Documentation</title>
+  <title>src/layout/console/content/journal/components/JournalItems.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -397,39 +397,168 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">RequestTypes</h1>
+    <h1 class="page-title">src/layout/console/content/journal/components/JournalItems.js</h1>
     <section>
-      <header>
-        <h2>
-          <span class="ancestors"><a href="DtoClientFactory.html">DtoClientFactory</a>.</span> RequestTypes </h2>
-      </header>
       <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h4 class="name"
-                id="RequestTypes"><span class="type-signature"></span>new RequestTypes<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-            <div class="description"> the types of http requests we can make </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="public_managers_DtoClientFactory.js.html">public/managers/DtoClientFactory.js</a>, <a href="public_managers_DtoClientFactory.js.html#line32">line 32</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <div class="section-returns">
-              <h5>Returns:</h5>
-              <dl class="param-type">
-                <dt> Type: </dt>
-                <dd>
-                  <span class="param-type"><code>Object</code></span>
-                </dd>
-              </dl>
-            </div>
-          </div>
-        </div>
+        <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import { Grid } from "semantic-ui-react";
+import JournalItem from "./JournalItem";
+import { DimensionController } from "../../../../../controllers/DimensionController";
+// import { JournalClient } from "../../../../../clients/JournalClient";
+
+/**
+ * this component is the tab panel wrapper for the console content
+ */
+export default class JournalItems extends Component {
+  constructor(props) {
+    super(props);
+    this.name = "[JournalItems]";
+    this.state = {
+      resource: props.resource,
+      journalItems: props.journalItems,
+      activeJournalItem: null
+    };
+    // JournalClient.getRecentIntentions(nextProps.resource.uriArr[1], this, arg => {
+    //   console.log(arg);
+    //   this.journalItems = arg.data;
+    //   this.forceUpdate();
+    // })
+  }
+
+  componentDidUpdate() {
+    this.scrollToBottomOrActive();
+  }
+
+  scrollToBottomOrActive = () => {
+    if (this.state.activeJournalItem) {
+      let activeRowId = this.state.activeJournalItem.id;
+
+      let rowObj = document.getElementById(activeRowId);
+
+      if (
+        rowObj &amp;&amp;
+        (this.isFirstActive() || !this.isElementInViewport(rowObj))
+      ) {
+        rowObj.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    if (this.isLastActive()) {
+      this.messagesEnd.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  isFirstActive() {
+    let activeIndex = 0;
+
+    if (this.state.activeJournalItem) {
+      activeIndex = this.state.activeJournalItem.index;
+    }
+
+    return activeIndex === 0;
+  }
+
+  isLastActive() {
+    let activeIndex = 0;
+
+    if (this.state.activeJournalItem) {
+      activeIndex = this.state.activeJournalItem.index;
+    }
+
+    return activeIndex === this.state.journalItems.length - 1;
+  }
+
+  isElementInViewport = el => {
+    var rect = el.getBoundingClientRect();
+
+    return (
+      rect.top >= 0 &amp;&amp;
+      rect.left >= 0 &amp;&amp;
+      rect.bottom &lt;=
+        (window.innerHeight ||
+          document.documentElement.clientHeight) /*or $(window).height() */ &amp;&amp;
+      rect.right &lt;=
+        (window.innerWidth ||
+          document.documentElement.clientWidth) /*or $(window).width() */
+    );
+  };
+
+  onSetActiveRow = (rowId, rowObj, journalItem) => {
+    this.journalModel.setActiveJournalItem(journalItem);
+  };
+
+  onUpdateFinishStatus = (journalItem, newStatus) => {
+    console.log(this.name + " - onUpdateFinishStatus");
+    this.props.onFinishEntry(journalItem, newStatus);
+  };
+
+  isActive(id) {
+    if (this.state.activeJournalItem) {
+      return this.state.activeJournalItem.id === id;
+    } else {
+      return false;
+    }
+  }
+
+  getEffectiveDirtyFlame(id) {
+    let dirtyFlame = null;
+    if (this.isActive(id)) {
+      dirtyFlame = this.spiritModel.dirtyFlame;
+    }
+
+    return dirtyFlame;
+  }
+
+  getJournalItems() {
+    return this.state.journalItems.map(d => {
+      return (
+        &lt;JournalItem
+          key={d.id}
+          id={d.id}
+          isActive={this.isActive(d.id)}
+          dirtyFlame={this.getEffectiveDirtyFlame(d.id)}
+          linked={d.linked}
+          projectName={d.projectName}
+          taskName={d.taskName}
+          taskSummary={d.taskSummary}
+          description={d.description}
+          flameRating={d.flameRating}
+          finishStatus={d.finishStatus}
+          journalEntryType={d.journalEntryType}
+          circleId={d.circleId}
+          position={d.position}
+          journalItem={d}
+          onSetActiveRow={this.onSetActiveRow}
+          onUpdateFinishStatus={this.onUpdateFinishStatus}
+        />
+      );
+    });
+  }
+
+  /// renders the journal items component from array in the console view
+  render() {
+    return (
+      &lt;div
+        id="component"
+        className="journalItems"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.JOURNAL_ITEMS
+          )
+        }}
+      >
+        &lt;Grid inverted>{this.getJournalItems()}&lt;/Grid>
+        &lt;div
+          style={{ float: "left", clear: "both" }}
+          ref={el => {
+            this.messagesEnd = el;
+          }}
+        />
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
       </article>
     </section>
   </div>

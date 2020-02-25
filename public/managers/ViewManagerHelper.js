@@ -11,8 +11,7 @@ module.exports = class ViewManagerHelper {
     return {
       LOADING: "loading",
       ACTIVATOR: "activator",
-      CONSOLE: "console",
-      BUGREPORT: "bugreport"
+      CONSOLE: "console"
     };
   }
 };

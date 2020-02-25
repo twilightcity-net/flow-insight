@@ -1,6 +1,8 @@
 import React, { Component } from "react";
-import JournalItems from "./components/JournalItems";
 import JournalEntry from "./components/JournalEntry";
+import { DimensionController } from "../../../../controllers/DimensionController";
+import { Grid } from "semantic-ui-react";
+import JournalItem from "./components/JournalItem";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -13,14 +15,20 @@ export default class JournalResource extends Component {
   constructor(props) {
     super(props);
     this.name = "[JournalResource]";
-    this.journalItems = [];
     this.state = {
-      resource: props.resource
+      journalItems: [],
+      activeJournalItem: null
     };
+
+    // JournalClient.getRecentIntentions(nextProps.resource.uriArr[1], this, arg => {
+    //   console.log(arg);
+    //   this.journalItems = arg.data;
+    //   this.forceUpdate();
+    // })
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(this.state.resource);
+  componentDidUpdate() {
+    this.scrollToBottomOrActive();
   }
 
   /**
@@ -29,7 +37,7 @@ export default class JournalResource extends Component {
    * @param finishStatus
    */
   onFinishEntry = (journalEntry, finishStatus) => {
-    // this.journalModel.finishIntention(journalEntry.id, finishStatus);
+    // TODO  save our journal entry
   };
 
   /**
@@ -38,7 +46,7 @@ export default class JournalResource extends Component {
    * @param journalItem
    */
   onChangeActiveEntry = (rowId, journalItem) => {
-    // this.journalModel.setActiveJournalItem(journalItem);
+    // TODO do some stuff to update to the active journal item
   };
 
   /**
@@ -47,8 +55,105 @@ export default class JournalResource extends Component {
    * @param taskName - the name of the task to be entered into the journal
    */
   onAddTask = (projectId, taskName) => {
-    // this.journalModel.addTaskRef(taskName);
+    // creates a new task for our drop down
   };
+
+  scrollToBottomOrActive = () => {
+    if (this.state.activeJournalItem) {
+      let activeRowId = this.state.activeJournalItem.id;
+
+      let rowObj = document.getElementById(activeRowId);
+
+      if (
+        rowObj &&
+        (this.isFirstActive() || !this.isElementInViewport(rowObj))
+      ) {
+        rowObj.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+
+    if (this.isLastActive()) {
+      this.elEnd.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  isFirstActive() {
+    let activeIndex = 0;
+
+    if (this.state.activeJournalItem) {
+      activeIndex = this.state.activeJournalItem.index;
+    }
+
+    return activeIndex === 0;
+  }
+
+  isLastActive() {
+    let activeIndex = 0;
+
+    if (this.state.activeJournalItem) {
+      activeIndex = this.state.activeJournalItem.index;
+    }
+
+    return activeIndex === this.state.journalItems.length - 1;
+  }
+
+  isElementInViewport = el => {
+    var rect = el.getBoundingClientRect();
+
+    return (
+      rect.top >= 0 &&
+      rect.left >= 0 &&
+      rect.bottom <=
+        (window.innerHeight ||
+          document.documentElement.clientHeight) /*or $(window).height() */ &&
+      rect.right <=
+        (window.innerWidth ||
+          document.documentElement.clientWidth) /*or $(window).width() */
+    );
+  };
+
+  onSetActiveRow = (rowId, rowObj, journalItem) => {
+    // TODO set the active row
+  };
+
+  isActive(id) {
+    if (this.state.activeJournalItem) {
+      return this.state.activeJournalItem.id === id;
+    } else {
+      return false;
+    }
+  }
+
+  getEffectiveDirtyFlame(id) {
+    // TODO how dirty is our flame? We just don't know for sure.
+    return null;
+  }
+
+  getJournalItems() {
+    return this.state.journalItems.map(item => {
+      return (
+        <JournalItem
+          key={item.id}
+          id={item.id}
+          isActive={this.isActive(item.id)}
+          dirtyFlame={this.getEffectiveDirtyFlame(item.id)}
+          linked={item.linked}
+          projectName={item.projectName}
+          taskName={item.taskName}
+          taskSummary={item.taskSummary}
+          description={item.description}
+          flameRating={item.flameRating}
+          finishStatus={item.finishStatus}
+          journalEntryType={item.journalEntryType}
+          circleId={item.circleId}
+          position={item.position}
+          journalItem={item}
+          onSetActiveRow={this.onSetActiveRow}
+          onUpdateFinishStatus={this.onUpdateFinishStatus}
+        />
+      );
+    });
+  }
 
   /**
    * renders the journal layout of the console view
@@ -58,12 +163,23 @@ export default class JournalResource extends Component {
     return (
       <div id="component" className="journalLayout">
         <div id="wrapper" className="journalItems">
-          <JournalItems
-            resource={this.state.resource}
-            journalItems={this.journalItems}
-            onChangeActiveEntry={this.onChangeActiveEntry}
-            onFinishEntry={this.onFinishEntry}
-          />
+          <div
+            id="component"
+            className="journalItems"
+            style={{
+              height: DimensionController.getHeightFor(
+                DimensionController.Components.JOURNAL_ITEMS
+              )
+            }}
+          >
+            <Grid inverted>{this.getJournalItems()}</Grid>
+            <div
+              className="fltLftClrBth"
+              ref={el => {
+                this.elEnd = el;
+              }}
+            />
+          </div>
         </div>
         <div id="wrapper" className="journalEntry">
           <JournalEntry onAddTask={this.onAddTask} />

@@ -12,13 +12,6 @@ const helpSubmenu = [
     }
   },
   {
-    label: "Report bug",
-    click() {
-      log.info("[AppMenu] open report bug window");
-      WindowManagerHelper.createWindowBugReport();
-    }
-  },
-  {
     label: "Deactivate Torchie",
     click() {
       log.info("[AppMenu] deactivate and reset Torchie");
@@ -39,7 +32,7 @@ class AppMenuException extends Error {
   }
 }
 
-class AppMenu extends Menu {
+module.exports = class AppMenu extends Menu {
   constructor() {
     super();
     log.info("[AppMenu] create menu from template");
@@ -179,6 +172,4 @@ class AppMenu extends Menu {
     });
     return menuItems;
   }
-}
-
-module.exports = AppMenu;
+};

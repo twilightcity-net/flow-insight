@@ -22,96 +22,6 @@ module.exports = class Util {
   }
 
   /**
-   * stores slack tokens into an array matrix for encoding purposes
-   * @returns {{"0": string[], "1": string[], "2": string[], "3": string[], "4": string[], "5": string[], "6": string[], "7": string[], "8": string[]}}
-   */
-  static get tokens() {
-    return {
-      0: ["a", "H", "R", "0", "c", "H", "M", "="],
-      1: ["a", "G", "9", "v", "a", "3", "M", "="],
-      2: ["c", "2", "x", "h", "Y", "2", "s", "="],
-      3: ["Y", "2", "9", "t"],
-      4: ["c", "2", "V", "y", "d", "m", "l", "j", "Z", "X", "M", "="],
-      5: ["u", "n", "s", "Q", "w", "K", "s", "Z", "A", "u", "a", "P"],
-      6: ["x", "S", "s", "C", "j", "j", "1", "E", "8", "7", "y", "s"],
-      7: ["Y", "R", "G", "P", "N", "7", "F", "7", "B"],
-      8: ["Z", "6", "9", "M", "R", "S", "G", "0", "T"]
-    };
-  }
-
-  /**
-   * slack tokens
-   * @returns {*}
-   */
-  static get tokenA() {
-    return this.getToken(0);
-  }
-
-  /**
-   * slack tokens
-   * @returns {*}
-   */
-  static get tokenB() {
-    return this.getToken(1);
-  }
-
-  /**
-   * slack tokens
-   * @returns {*}
-   */
-  static get tokenC() {
-    return this.getToken(2);
-  }
-
-  /**
-   * slack tokens
-   * @returns {*}
-   */
-  static get tokenD() {
-    return this.getToken(3);
-  }
-
-  /**
-   * slack tokens
-   * @returns {*}
-   */
-  static get tokenE() {
-    return this.getToken(4);
-  }
-
-  /**
-   * slack tokens
-   * @returns {*}
-   */
-  static get tokenF() {
-    return this.getToken(5);
-  }
-
-  /**
-   * slack tokens
-   * @returns {*}
-   */
-  static get tokenG() {
-    return this.getToken(6);
-  }
-
-  /**
-   * slack tokens
-   * @returns {*}
-   */
-  static get tokenH() {
-    return this.getToken(7);
-  }
-
-  /**
-   * slack tokens
-   * @returns {*}
-   */
-  static get tokenI() {
-    return this.getToken(8);
-  }
-
-  /**
    * shortcut helper link to a baked util.inspect
    * @param object
    * @returns {string}
@@ -367,14 +277,5 @@ module.exports = class Util {
       s4() +
       s4()
     );
-  }
-
-  /**
-   * use our MTA card to get tokens
-   * @param id
-   * @returns {*}
-   */
-  static getToken(id) {
-    return this.tokens[id];
   }
 };
