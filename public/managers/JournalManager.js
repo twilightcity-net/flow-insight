@@ -12,4 +12,16 @@ module.exports = class JournalManager {
     this.myController = new JournalController(this);
     this.myController.configureEvents();
   }
+
+  init(callback) {
+    JournalController.instance.handleLoadJournalEvent(
+      {},
+      {
+        args: {
+          userName: "me"
+        }
+      },
+      callback
+    );
+  }
 };

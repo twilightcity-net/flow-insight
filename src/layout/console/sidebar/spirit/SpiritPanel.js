@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  Icon,
-  Image,
-  Menu,
-  Popup,
-  Progress,
-  Segment,
-  Transition
-} from "semantic-ui-react";
-import { DataModelFactory } from "../../../../models/DataModelFactory";
+import { Menu, Popup, Progress, Segment, Transition } from "semantic-ui-react";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import SpiritCanvas from "./SpiritCanvas";
@@ -29,10 +20,6 @@ export default class SpiritPanel extends Component {
     this.state = this.loadState();
     this.name = "[SpiritPanel]";
     this.render3d = false;
-    this.spiritModel = DataModelFactory.createModel(
-      DataModelFactory.Models.SPIRIT,
-      this
-    );
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
@@ -111,48 +98,6 @@ export default class SpiritPanel extends Component {
   }
 
   /**
-   * called right before the component gets passed its properties
-   * @param nextProps - the next propertiers to change from the previous
-   */
-  componentWillReceiveProps = nextProps => {
-    let flameString = this.getFlameString(nextProps.flameRating);
-    this.setState({
-      flameString: flameString
-    });
-  };
-
-  /**
-   * gets the string to render in the column for the flame intensity
-   * @param rating
-   * @returns {string}
-   */
-  getFlameString(rating) {
-    let str = "0";
-    if (rating > 0) {
-      str = "+" + rating;
-    } else if (rating < 0) {
-      str = rating;
-    }
-    return str;
-  }
-
-  /**
-   * handles the rage button press
-   */
-  handleClickForRage = () => {
-    console.log(this.name + "Rage!");
-    this.spiritModel.adjustFlame(-1);
-  };
-
-  /**
-   * handles the yay button press
-   */
-  handleClickForYay = () => {
-    console.log(this.name + "Yay!");
-    this.spiritModel.adjustFlame(+1);
-  };
-
-  /**
    * called right before the component will mount. This will clear the listeners callback
    */
   componentWillUnmount() {
@@ -182,140 +127,6 @@ export default class SpiritPanel extends Component {
   }
 
   /**
-   * handles clicking to link a spirit
-   */
-  handleClickForChainLink = () => {
-    console.log(this.name + " - Link this Torchie!");
-    this.spiritModel.linkThisTorchie(this.props.spiritId);
-  };
-
-  /**
-   * handles user spirit unlinking
-   */
-  handleClickForChainUnlink = () => {
-    console.log(this.name + " - Unlink!");
-
-    this.spiritModel.unlink(this.props.spiritId);
-  };
-
-  /**
-   * checks to see if the spirit is linked to us
-   * @returns {boolean}
-   */
-  isLinkedToMe = () => {
-    let linkedToMe = false;
-    if (this.hasActiveLinks()) {
-      let spiritLink = null;
-      for (var i in this.props.activeSpiritLinks) {
-        spiritLink = this.props.activeSpiritLinks[i];
-
-        if (spiritLink.friendSpiritId === this.props.me.id) {
-          linkedToMe = true;
-          break;
-        }
-      }
-    }
-    return linkedToMe;
-  };
-
-  /**
-   * checks to see if the Spirit has active links or not
-   * @returns {boolean|boolean}
-   */
-  hasActiveLinks = () => {
-    return (
-      this.props.activeSpiritLinks != null &&
-      this.props.activeSpiritLinks.length > 0
-    );
-  };
-
-  /**
-   * gets the basic link icon to link to other users
-   * @returns {*}
-   */
-  getLinkIcon = () => {
-    return (
-      <Popup
-        trigger={
-          <Icon
-            link
-            name="linkify"
-            className="chainLink"
-            onClick={this.handleClickForChainLink}
-          />
-        }
-        content={<div className="tooltipPurple">Link this Torchie!</div>}
-        inverted
-        hideOnScroll
-        position="top left"
-      />
-    );
-  };
-
-  /**
-   * gets the body of the link content for the tooltip
-   * @returns {string}
-   */
-  getLinksContent = () => {
-    let links = "";
-    if (this.hasActiveLinks()) {
-      links = this.props.activeSpiritLinks.map(d => (
-        <div key={d.friendSpiritId}>{d.name}</div>
-      ));
-      links = (
-        <div>
-          <div className="tooltipRed">Break Links</div>
-          {links}
-        </div>
-      );
-    }
-    return links;
-  };
-
-  /**
-   * gets the unlink icon for breaking links to other users
-   * @returns {*}
-   */
-  getUnlinkIcon = () => {
-    return (
-      <Popup
-        trigger={
-          <Icon
-            link
-            name="unlinkify"
-            className="chainUnlink"
-            onClick={this.handleClickForChainUnlink}
-          />
-        }
-        content={this.getLinksContent()}
-        inverted
-        hideOnScroll
-        position="bottom left"
-      />
-    );
-  };
-
-  /**
-   * gets the busy icon for user linking
-   * @returns {*}
-   */
-  getBusyIcon = () => {
-    return (
-      <Popup
-        trigger={<Icon link name="gg" className="chainLink" />}
-        content={
-          <div className="tooltipRed">
-            Busy <i>(Already Linked)</i>
-          </div>
-        }
-        inverted
-        hideOnScroll
-        position="bottom left"
-      />
-    );
-  };
-
-  /**
    * gets the badges content panel for the sidebar
    * @returns {*}
    */
@@ -332,30 +143,11 @@ export default class SpiritPanel extends Component {
    * @returns {*}
    */
   getSpiritTitle = () => {
-    let linkIcon = this.getLinkIcon(),
-      unlinkIcon = this.getUnlinkIcon(),
-      busyLinkIcon = this.getBusyIcon(),
-      activeLinkIcon = "";
-
-    if (this.props.isMe) {
-      if (this.hasActiveLinks()) {
-        activeLinkIcon = unlinkIcon;
-      }
-    } else {
-      if (this.isLinkedToMe()) {
-        activeLinkIcon = unlinkIcon;
-      } else if (this.hasActiveLinks()) {
-        activeLinkIcon = busyLinkIcon;
-      } else {
-        activeLinkIcon = linkIcon;
-      }
-    }
     return (
       <div className="spiritTitle">
         <div className="level">
           <div className="infoTitle">
             <b>{this.props.torchieOwner}</b>
-            {activeLinkIcon}
           </div>
           <div className="infoLevel">
             <b>Level {this.props.level} </b>
@@ -404,31 +196,6 @@ export default class SpiritPanel extends Component {
   };
 
   /**
-   * renders the flame buttons below the canvas
-   * @returns {*}
-   */
-  getSpiritButtons = () => {
-    return (
-      <div className="ui two bottom attached buttons">
-        <button
-          className="ui icon button rageButton"
-          tabIndex="0"
-          onClick={this.handleClickForRage}
-        >
-          <Image centered src="./assets/images/wtf/24x24.png" />
-        </button>
-        <button
-          className="ui icon button yayButton"
-          tabIndex="1"
-          onClick={this.handleClickForYay}
-        >
-          <Image centered src="./assets/images/yay/24x24.png" />
-        </button>
-      </div>
-    );
-  };
-
-  /**
    * renders the parts of the component together
    * @returns {*}
    */
@@ -437,7 +204,6 @@ export default class SpiritPanel extends Component {
       <div className="spiritContent">
         {this.getSpiritTitle()}
         {this.getSpiritCanvas()}
-        {this.getSpiritButtons()}
       </div>
     );
   };

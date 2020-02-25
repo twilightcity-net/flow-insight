@@ -1,96 +1,31 @@
 import React, { Component } from "react";
 import { Grid } from "semantic-ui-react";
 import JournalItem from "./JournalItem";
-import { DataModelFactory } from "../../../../../models/DataModelFactory";
-import { SpiritModel } from "../../../../../models/SpiritModel";
-import { JournalModel } from "../../../../../models/JournalModel";
 import { DimensionController } from "../../../../../controllers/DimensionController";
+// import { JournalClient } from "../../../../../clients/JournalClient";
 
-//
-// this component is the tab panel wrapper for the console content
-//
+/**
+ * this component is the tab panel wrapper for the console content
+ */
 export default class JournalItems extends Component {
   constructor(props) {
     super(props);
-
     this.name = "[JournalItems]";
-
     this.state = {
-      journalItems: [],
+      resource: props.resource,
+      journalItems: props.journalItems,
       activeJournalItem: null
     };
-
-    this.journalModel = DataModelFactory.createModel(
-      DataModelFactory.Models.JOURNAL,
-      this
-    );
-
-    this.spiritModel = DataModelFactory.createModel(
-      DataModelFactory.Models.SPIRIT,
-      this
-    );
-
-    document.onkeydown = this.handleKeyPress;
+    // JournalClient.getRecentIntentions(nextProps.resource.uriArr[1], this, arg => {
+    //   console.log(arg);
+    //   this.journalItems = arg.data;
+    //   this.forceUpdate();
+    // })
   }
 
-  componentDidMount() {
-    this.journalModel.registerListener(
-      "journalItems",
-      JournalModel.CallbackEvent.JOURNAL_HISTORY_UPDATE,
-      this.onJournalHistoryUpdate
-    );
-
-    this.journalModel.registerListener(
-      "journalItems",
-      JournalModel.CallbackEvent.ACTIVE_ITEM_UPDATE,
-      this.onActiveItemUpdate
-    );
-
-    this.spiritModel.registerListener(
-      "journalItems",
-      SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE,
-      this.onDirtyFlameUpdate
-    );
-
-    this.onJournalHistoryUpdate();
-  }
-
-  onJournalHistoryUpdate = () => {
-    this.setState({
-      journalItems: this.journalModel.getActiveScope().allJournalItems,
-      activeJournalItem: this.journalModel.getActiveScope().activeJournalItem
-    });
+  componentDidUpdate() {
     this.scrollToBottomOrActive();
-  };
-
-  onActiveItemUpdate = () => {
-    this.setState({
-      activeJournalItem: this.journalModel.getActiveScope().activeJournalItem
-    });
-  };
-
-  componentWillUnmount() {
-    this.spiritModel.unregisterAllListeners("journalItems");
-    this.journalModel.unregisterAllListeners("journalItems");
   }
-
-  onDirtyFlameUpdate = () => {
-    console.log(this.name + " - onDirtyFlameUpdate");
-
-    if (this.timeout) {
-      clearTimeout(this.timeout);
-    }
-
-    let journalModel = this.journalModel.getActiveScope();
-    let spiritModel = this.spiritModel.getActiveScope();
-
-    let activeJournalItem = journalModel.activeJournalItem;
-    let dirtyFlame = spiritModel.dirtyFlame;
-
-    this.timeout = setTimeout(function() {
-      journalModel.updateFlameRating(activeJournalItem, dirtyFlame);
-    }, 500);
-  };
 
   scrollToBottomOrActive = () => {
     if (this.state.activeJournalItem) {
@@ -146,10 +81,6 @@ export default class JournalItems extends Component {
     );
   };
 
-  componentDidUpdate() {
-    this.scrollToBottomOrActive();
-  }
-
   onSetActiveRow = (rowId, rowObj, journalItem) => {
     this.journalModel.setActiveJournalItem(journalItem);
   };
@@ -170,7 +101,7 @@ export default class JournalItems extends Component {
   getEffectiveDirtyFlame(id) {
     let dirtyFlame = null;
     if (this.isActive(id)) {
-      dirtyFlame = this.spiritModel.getActiveScope().dirtyFlame;
+      dirtyFlame = this.spiritModel.dirtyFlame;
     }
 
     return dirtyFlame;
@@ -182,7 +113,6 @@ export default class JournalItems extends Component {
         <JournalItem
           key={d.id}
           id={d.id}
-          isMyJournal={!this.journalModel.isAltMemberSelected}
           isActive={this.isActive(d.id)}
           dirtyFlame={this.getEffectiveDirtyFlame(d.id)}
           linked={d.linked}

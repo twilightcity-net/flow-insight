@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import JournalItems from "./components/JournalItems";
 import JournalEntry from "./components/JournalEntry";
-import { DataModelFactory } from "../../../../models/DataModelFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -14,16 +13,14 @@ export default class JournalResource extends Component {
   constructor(props) {
     super(props);
     this.name = "[JournalResource]";
+    this.journalItems = [];
     this.state = {
       resource: props.resource
     };
-    this.journalModel = DataModelFactory.createModel(
-      DataModelFactory.Models.JOURNAL,
-      this
-    );
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS
-    );
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(this.state.resource);
   }
 
   /**
@@ -32,14 +29,7 @@ export default class JournalResource extends Component {
    * @param finishStatus
    */
   onFinishEntry = (journalEntry, finishStatus) => {
-    console.log(
-      this.name +
-        " finished journal entry status : " +
-        journalEntry.id +
-        " -> " +
-        finishStatus
-    );
-    this.journalModel.finishIntention(journalEntry.id, finishStatus);
+    // this.journalModel.finishIntention(journalEntry.id, finishStatus);
   };
 
   /**
@@ -48,14 +38,7 @@ export default class JournalResource extends Component {
    * @param journalItem
    */
   onChangeActiveEntry = (rowId, journalItem) => {
-    console.log(
-      this.name +
-        " - journal entry changed :" +
-        rowId +
-        " -> " +
-        journalItem.index
-    );
-    this.journalModel.setActiveJournalItem(journalItem);
+    // this.journalModel.setActiveJournalItem(journalItem);
   };
 
   /**
@@ -64,9 +47,7 @@ export default class JournalResource extends Component {
    * @param taskName - the name of the task to be entered into the journal
    */
   onAddTask = (projectId, taskName) => {
-    console.log(this.name + " - onAddTask: " + projectId + ", " + taskName);
-
-    this.journalModel.addTaskRef(taskName);
+    // this.journalModel.addTaskRef(taskName);
   };
 
   /**
@@ -78,6 +59,8 @@ export default class JournalResource extends Component {
       <div id="component" className="journalLayout">
         <div id="wrapper" className="journalItems">
           <JournalItems
+            resource={this.state.resource}
+            journalItems={this.journalItems}
             onChangeActiveEntry={this.onChangeActiveEntry}
             onFinishEntry={this.onFinishEntry}
           />

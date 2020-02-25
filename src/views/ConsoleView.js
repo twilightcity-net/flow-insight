@@ -2,8 +2,6 @@ import React, { Component } from "react";
 import Keyframes from "@keyframes/core";
 import ConsoleLayout from "../layout/ConsoleLayout";
 import { RendererControllerFactory } from "../controllers/RendererControllerFactory";
-import { ModelCoordinator } from "../models/ModelCoordinator";
-import { PerspectiveController } from "../controllers/PerspectiveController";
 import { DimensionController } from "../controllers/DimensionController";
 import { CircuitClient } from "../clients/CircuitClient";
 import { TalkClient } from "../clients/TalkClient";
@@ -95,8 +93,6 @@ export default class ConsoleView extends Component {
     TalkClient.init(this);
     JournalClient.init(this);
     CircuitClient.init(this);
-    ModelCoordinator.init(this);
-    PerspectiveController.init(this);
     DimensionController.init(this);
   };
 
@@ -126,7 +122,10 @@ export default class ConsoleView extends Component {
     }
   }
 
-  /// renders the component in the view
+  /**
+   * renders the component in the view
+   * @returns {*}
+   */
   render() {
     return (
       <div id="wrapper" className="console">

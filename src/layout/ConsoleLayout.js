@@ -5,9 +5,6 @@ import CircuitsPanel from "./console/sidebar/circuits/CircuitsPanel";
 import NotificationsPanel from "./console/sidebar/notifications/NotificationsPanel";
 import TeamPanel from "./console/sidebar/team/TeamPanel";
 import SpiritPanel from "./console/sidebar/spirit/SpiritPanel";
-import { DataModelFactory } from "../models/DataModelFactory";
-import { SpiritModel } from "../models/SpiritModel";
-import { TeamModel } from "../models/TeamModel";
 import { RendererControllerFactory } from "../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../controllers/SidePanelViewController";
 import { DimensionController } from "../controllers/DimensionController";
@@ -52,39 +49,6 @@ export default class ConsoleLayout extends Component {
       RendererControllerFactory.Views.CONSOLE_SIDEBAR,
       this
     );
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS,
-      this
-    );
-    this.teamModel.registerListener(
-      "consoleLayout",
-      TeamModel.CallbackEvent.MEMBERS_UPDATE,
-      this.onTeamModelUpdateCb
-    );
-    this.teamModel.registerListener(
-      "consoleLayout",
-      TeamModel.CallbackEvent.ACTIVE_MEMBER_UPDATE,
-      this.onActiveMemberUpdateCb
-    );
-    this.spiritModel = DataModelFactory.createModel(
-      DataModelFactory.Models.SPIRIT,
-      this
-    );
-    this.spiritModel.registerListener(
-      "consoleLayout",
-      SpiritModel.CallbackEvent.XP_UPDATE,
-      this.onXPUpdate
-    );
-    this.spiritModel.registerListener(
-      "consoleLayout",
-      SpiritModel.CallbackEvent.RESET_FLAME,
-      this.onActiveFlameUpdate
-    );
-    this.spiritModel.registerListener(
-      "consoleLayout",
-      SpiritModel.CallbackEvent.DIRTY_FLAME_UPDATE,
-      this.onActiveFlameUpdate
-    );
   }
 
   /**
@@ -102,91 +66,7 @@ export default class ConsoleLayout extends Component {
    * called right before when the component will unmount
    */
   componentWillUnmount = () => {
-    this.teamModel.unregisterAllListeners("consoleLayout");
-    this.spiritModel.unregisterAllListeners("consoleLayout");
     this.sidePanelController.configureSidePanelContentListener(this, null);
-  };
-
-  /**
-   * the event callback handler for when the xp's user changes
-   */
-  onXPUpdate = () => {
-    this.setState({
-      torchieOwner: this.spiritModel.getActiveScope().torchieOwner,
-      spiritId: this.spiritModel.getActiveScope().spiritId,
-      xpSummary: this.spiritModel.getActiveScope().xpSummary,
-      activeSpiritLinks: this.spiritModel.getActiveScope().activeSpiritLinks,
-      level: this.spiritModel.getActiveScope().level,
-      percentXP: this.spiritModel.getActiveScope().percentXP,
-      totalXP: this.spiritModel.getActiveScope().totalXP,
-      remainingToLevel: this.spiritModel.getActiveScope().remainingToLevel,
-      title: this.spiritModel.getActiveScope().title
-    });
-  };
-
-  /**
-   * the event callback handler for when the flame rating changes on the gui
-   */
-  onActiveFlameUpdate = () => {
-    this.setState({
-      flameRating: this.spiritModel.getActiveScope().activeFlameRating
-    });
-  };
-
-  /**
-   * the event callback handler for when the TeamModel updates
-   */
-  onTeamModelUpdateCb = () => {
-    this.setState({
-      isMe: this.teamModel.isMeActive(),
-      me: this.teamModel.me,
-      teamMembers: this.teamModel.teamMembers,
-      activeTeamMember: this.teamModel.activeTeamMember
-    });
-  };
-
-  /**
-   * callback handler function for when the active memmber model updates
-   */
-  onActiveMemberUpdateCb = () => {
-    this.setState({
-      isMe: this.teamModel.isMeActive(),
-      activeTeamMember: this.teamModel.activeTeamMember
-    });
-  };
-
-  /**
-   * the callback handler for when the flame rating changes
-   * @param flameRating - the intensity of the flame to change
-   */
-  onFlameChangeCb = flameRating => {
-    this.setState({
-      flameRating: flameRating
-    });
-  };
-
-  /**
-   * click the flame button, which either tries to do a +1 or -1
-   * @param flameDelta - the amount of the flame to change
-   */
-  adjustFlameCb = flameDelta => {
-    console.log(this.name + " - Flame change: " + flameDelta);
-
-    let flameRating = Number(this.state.flameRating) + flameDelta;
-    if (flameRating > 5) {
-      flameRating = 5;
-    } else if (flameRating < -5) {
-      flameRating = -5;
-    }
-    if (this.state.flameRating > 0 && flameDelta < 0) {
-      flameRating = 0;
-    }
-    if (this.state.flameRating < 0 && flameDelta > 0) {
-      flameRating = 0;
-    }
-    this.setState({
-      flameRating: flameRating
-    });
   };
 
   /**
@@ -393,10 +273,7 @@ export default class ConsoleLayout extends Component {
           )
         }}
       >
-        <LayoutContent
-          onFlameChange={this.onFlameChangeCb}
-          onAdjustFlame={this.adjustFlameCb}
-        />
+        <LayoutContent />
       </div>
     );
   };

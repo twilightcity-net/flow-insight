@@ -23,6 +23,7 @@ module.exports = class VolumeManager {
    */
   constructor() {
     VolumeManager.volumes = new Map();
+    VolumeManager.initializedVolumes = 0;
     this.name = "[VolumeManager]";
     this.guid = Util.getGuid();
   }
@@ -32,11 +33,14 @@ module.exports = class VolumeManager {
    */
   init() {
     log.info(this.name + " initialize memonic databases");
+    VolumeManager.initializedVolumes = 1;
     VolumeManager.createDatabaseVolume(DatabaseFactory.Names.TALK);
     VolumeManager.createDatabaseVolume(DatabaseFactory.Names.JOURNAL);
     VolumeManager.createDatabaseVolume(DatabaseFactory.Names.CIRCUIT);
     VolumeManager.createDatabaseVolume(DatabaseFactory.Names.TEAM);
-    EventManager.dispatch(EventFactory.Types.DATABASE_VOLUMES_READY);
+    VolumeManager.loadDefaultJournalDatabase();
+    VolumeManager.loadDefaultCircuitDatabase();
+    VolumeManager.loadDefaultTeamDatabase();
   }
 
   /**
@@ -56,5 +60,30 @@ module.exports = class VolumeManager {
    */
   getVolumeByName(name) {
     return VolumeManager.Volumes.get(name);
+  }
+
+  static loadDefaultJournalDatabase() {
+    global.App.JournalManager.init(() => {
+      VolumeManager.handleFinishLoadingVolumes();
+    });
+  }
+
+  static loadDefaultCircuitDatabase() {
+    // do stuff
+
+    VolumeManager.handleFinishLoadingVolumes();
+  }
+
+  static loadDefaultTeamDatabase() {
+    // do stuff
+
+    VolumeManager.handleFinishLoadingVolumes();
+  }
+
+  static handleFinishLoadingVolumes() {
+    VolumeManager.initializedVolumes++;
+    if (VolumeManager.initializedVolumes >= 4) {
+      EventManager.dispatch(EventFactory.Types.DATABASE_VOLUMES_READY);
+    }
   }
 };

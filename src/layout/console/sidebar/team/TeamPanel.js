@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
 import TeamMember from "./TeamMember";
-import { DataModelFactory } from "../../../../models/DataModelFactory";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
@@ -19,14 +18,6 @@ export default class TeamPanel extends Component {
     super(props);
     this.name = "[TeamPanel]";
     this.state = this.loadState();
-    this.spiritModel = DataModelFactory.createModel(
-      DataModelFactory.Models.SPIRIT,
-      this
-    );
-    this.teamModel = DataModelFactory.createModel(
-      DataModelFactory.Models.MEMBER_STATUS,
-      this
-    );
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
@@ -83,7 +74,6 @@ export default class TeamPanel extends Component {
    * called to display the team panel in the gui
    */
   showTeamPanel() {
-    this.teamModel.refreshAll();
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.TEAM,
       teamVisible: true
@@ -116,8 +106,9 @@ export default class TeamPanel extends Component {
     console.log(
       this.name + " - Team member clicked!" + teamMember.name + "id = " + id
     );
-    this.requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember.name);
-    // this.teamModel.setActiveMember(id);
+    this.requestBrowserToLoadTeamJournalAndSetActiveMember(
+      teamMember.displayName
+    );
   };
 
   /**
@@ -133,15 +124,6 @@ export default class TeamPanel extends Component {
   }
 
   /**
-   * determines if we are currently linked to another team member
-   * @param memberId
-   * @returns {boolean}
-   */
-  isLinked = memberId => {
-    return this.spiritModel.isLinked(memberId);
-  };
-
-  /**
    * gets our team panel content with the team model that was passed in from the props
    * @returns {*}
    */
@@ -152,7 +134,6 @@ export default class TeamPanel extends Component {
           <TeamMember
             key={this.props.me.id}
             id={this.props.me.id}
-            isLinked={this.isLinked(this.props.me.id)}
             displayName={this.props.me.displayName + " (you)"}
             name={this.props.me.name}
             activeStatus={this.props.me.activeStatus}
@@ -173,7 +154,6 @@ export default class TeamPanel extends Component {
             <TeamMember
               key={d.id}
               id={d.id}
-              isLinked={this.isLinked(d.id)}
               displayName={d.displayName}
               name={d.name}
               activeStatus={d.activeStatus}

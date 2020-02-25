@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
-import { Divider, Feed, Icon, Segment } from "semantic-ui-react";
+import { Divider, Feed, Segment } from "semantic-ui-react";
 import SplitterLayout from "react-splitter-layout";
 import ActiveCircuitChat from "./ActiveCircuitChat";
 

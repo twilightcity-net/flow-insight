@@ -4,19 +4,14 @@ import { Divider, Grid, Icon, Image, Popup } from "semantic-ui-react";
 /**
  * this component is the individual journal item entered in by the user
  */
-
-// FIXME this component needs be have almost no logic because it is replicated in a map
-
 export default class JournalItem extends Component {
   constructor(props) {
     super(props);
-
     this.name = "[JournalItem]";
   }
 
   selectRow(rowId, journalItem) {
     let rowObj = document.getElementById(rowId);
-
     this.props.onSetActiveRow(rowId, rowObj, journalItem);
   }
 
@@ -33,18 +28,13 @@ export default class JournalItem extends Component {
     this.props.onUpdateFinishStatus(this.props.journalItem, finishStatus);
   };
 
-  gotoCircle = () => {
-    console.log(this.name + " - gotoCircle!!! " + this.props.circleId);
-  };
-
-  /// renders the component of the console view
   render() {
     let finishIcon = "";
     if (this.props.finishStatus === "done") {
       finishIcon = <Icon name="check" className="doneGreenDark" />;
     } else if (this.props.finishStatus === "aborted") {
       finishIcon = <Icon name="close" className="doneRed" />;
-    } else if (this.props.isMyJournal) {
+    } else {
       finishIcon = (
         <span>
           {" "}
@@ -90,42 +80,6 @@ export default class JournalItem extends Component {
     let wtfPrefix = "";
     let wtfPopup = "";
     let padding = "";
-    if (this.props.journalEntryType === "WTF") {
-      wtfPrefix = (
-        <span className="circleLink" onClick={this.gotoCircle}>
-          WTF?
-        </span>
-      );
-
-      if (
-        this.props.finishStatus === "aborted" ||
-        this.props.finishStatus === "done"
-      ) {
-        wtfPopup = (
-          <div>
-            <div>
-              <span className="alarm">
-                {" "}
-                <i>Circle Closed</i>
-              </span>
-            </div>
-          </div>
-        );
-      } else {
-        wtfPopup = (
-          <div>
-            <div>
-              <span className="alarm">
-                {" "}
-                <i>Click to Join!</i>
-              </span>
-            </div>
-          </div>
-        );
-      }
-
-      padding = <span>&nbsp;&nbsp;</span>;
-    }
 
     let linkedBlock = "";
     if (this.props.linked) {

@@ -133,7 +133,7 @@ module.exports = class JournalController extends BaseController {
         });
 
         if (callback) {
-          return callback(arg.dto);
+          return callback(arg);
         } else if (event) {
           return event.replyTo(arg);
         } else {
@@ -144,15 +144,16 @@ module.exports = class JournalController extends BaseController {
   }
 
   handleGetRecentIntentionsEvent(event, arg, callback) {
-    let userName = arg.args.userName ? arg.args.userName : "me",
-      view = this.database.getViewForIntentionsByUserName(userName);
-
-    console.log(view.data());
+    let database = global.App.VolumeManager.getVolumeByName(
+        DatabaseFactory.Names.JOURNAL
+      ),
+      userName = arg.args.userName ? arg.args.userName : "me",
+      view = database.getViewForIntentionsByUserName(userName);
 
     arg.data = view.data();
 
     if (callback) {
-      return callback(arg.data);
+      return callback(arg);
     } else if (event) {
       return event.replyTo(arg);
     } else {

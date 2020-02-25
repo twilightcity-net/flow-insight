@@ -1,45 +1,16 @@
 import React, { Component } from "react";
 import { Divider, Grid, Icon, Popup } from "semantic-ui-react";
-// import { DataModelFactory } from "../models/DataModelFactory";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
-import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 
-//
-// this component is the individual journal item entered in by the user
-//
 export default class TeamMember extends Component {
   constructor(props) {
     super(props);
-
-    this.sidePanelController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.CONSOLE_SIDEBAR,
-      this
-    );
   }
-
-  selectRow(rowId, teamMember) {
-    let rowObj = document.getElementById(rowId);
-
-    this.props.onSetActiveRow(rowId, rowObj, teamMember);
-  }
-
-  formatAsDuration(alarmDurationInSeconds) {
-    let minutes = Math.floor(alarmDurationInSeconds / 60);
-
-    return minutes + " minutes";
-  }
-
-  navToProfile = () => {
-    this.sidePanelController.showPanel(
-      SidePanelViewController.MenuSelection.SPIRIT
-    );
-  };
 
   handleClick = () => {
     this.props.onSetActiveRow(this.props.id, this.props.teamMember);
   };
 
-  /// renders the component of the console view
   render() {
     let activeClass = "";
     if (
@@ -50,15 +21,14 @@ export default class TeamMember extends Component {
     }
 
     let statusCircle = "";
-
     let online = false;
+
     if (this.props.statusColor === "offlineColor") {
       statusCircle = (
         <Icon
           link
           className={this.props.statusColor}
           name="circle outline"
-          onClick={this.navToProfile}
         />
       );
     } else {
@@ -68,7 +38,6 @@ export default class TeamMember extends Component {
           link
           className={this.props.statusColor}
           name="circle"
-          onClick={this.navToProfile}
         />
       );
     }

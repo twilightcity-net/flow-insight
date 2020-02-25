@@ -1,7 +1,6 @@
 import { BaseClient } from "./BaseClient";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 import { RendererClientEvent } from "../events/RendererClientEvent";
-import { LearningCircuitModel } from "../models/LearningCircuitModel";
 
 /**
  * the client which is used to make journal requests to gridtime. Basically we
@@ -63,7 +62,6 @@ export class JournalClient extends BaseClient {
   static init(scope) {
     if (!JournalClient.instance) {
       JournalClient.instance = new JournalClient(scope);
-      JournalClient.loadRecentJournal();
     }
   }
 
@@ -81,7 +79,7 @@ export class JournalClient extends BaseClient {
       scope,
       (event, arg) => {
         if (callback) {
-          callback(arg.dto);
+          callback(arg);
         }
       }
     );
@@ -96,14 +94,14 @@ export class JournalClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static getRecentIntentionsEvent(userName, scope, callback) {
+  static getRecentIntentions(userName, scope, callback) {
     let clientEvent = new RendererClientEvent(
-      JournalClient.Events.LOAD_RECENT_JOURNAL,
+      JournalClient.Events.GET_RECENT_INTENTIONS,
       { userName: userName ? userName : "me" },
       scope,
       (event, arg) => {
         if (callback) {
-          callback(arg.dto);
+          callback(arg);
         }
       }
     );
