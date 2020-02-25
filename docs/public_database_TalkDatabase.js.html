@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>src/layout/console/content/journal/JournalResource.js - Documentation</title>
+  <title>public/database/TalkDatabase.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -397,208 +397,34 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">src/layout/console/content/journal/JournalResource.js</h1>
+    <h1 class="page-title">public/database/TalkDatabase.js</h1>
     <section>
       <article>
-        <pre class="prettyprint source linenums"><code>import React, {Component} from "react";
-import JournalEntry from "./components/JournalEntry";
-import {DimensionController} from "../../../../controllers/DimensionController";
-import {Grid} from "semantic-ui-react";
-import JournalItem from "./components/JournalItem";
-import {JournalClient} from "../../../../clients/JournalClient";
+        <pre class="prettyprint source linenums"><code>const LokiJS = require("lokijs"),
+  Util = require("../Util");
 
 /**
- * this component is the tab panel wrapper for the console content
+ * this class is used to build new databases
+ * @type {TalkDatabase}
  */
-export default class JournalResource extends Component {
+module.exports = class TalkDatabase extends LokiJS {
   /**
-   * builds the basic journal layout component
-   * @param props
+   * the name of our talk database file
+   * @returns {string}
    */
-  constructor(props) {
-    super(props);
-    this.name = "[JournalResource]";
-    this.resource = props.resource;
-    this.journalItems = [];
-    this.activeJournalItem = null;
-  }
-
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    let userName = nextProps.resource.uriArr[1];
-    JournalClient.getRecentIntentions(userName, this, arg => {
-      console.log(arg);
-      this.journalItems = arg.data;
-      this.forceUpdate();
-    });
-    return false;
-  }
-
-  componentDidMount() {
-    JournalClient.getRecentIntentions("me", this, arg => {
-      console.log(arg);
-      this.journalItems = arg.data;
-      this.forceUpdate();
-    });
+  static get Name() {
+    return "talk";
   }
 
   /**
-   * called when we finish creating a new intention from the journal entry
-   * @param journalEntry
-   * @param finishStatus
+   * builds our talk database for messages
    */
-  onFinishEntry = (journalEntry, finishStatus) => {
-    // TODO  save our journal entry
-  };
-
-  /**
-   * called when the active selected item changes
-   * @param rowId
-   * @param journalItem
-   */
-  onChangeActiveEntry = (rowId, journalItem) => {
-    // TODO do some stuff to update to the active journal item
-  };
-
-  /**
-   * callback listener for the AddTask event which creates  new journal entry
-   * @param projectId - the id of the project the task will be added to
-   * @param taskName - the name of the task to be entered into the journal
-   */
-  onAddTask = (projectId, taskName) => {
-    // creates a new task for our drop down
-  };
-
-  scrollToBottomOrActive = () => {
-    if (this.activeJournalItem) {
-      let activeRowId = this.activeJournalItem.id;
-
-      let rowObj = document.getElementById(activeRowId);
-
-      if (
-        rowObj &amp;&amp;
-        (this.isFirstActive() || !this.isElementInViewport(rowObj))
-      ) {
-        rowObj.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-
-    if (this.isLastActive()) {
-      this.elEnd.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  isFirstActive() {
-    let activeIndex = 0;
-
-    if (this.activeJournalItem) {
-      activeIndex = this.activeJournalItem.index;
-    }
-
-    return activeIndex === 0;
+  constructor() {
+    super(TalkDatabase.Name);
+    this.name = "[DB." + TalkDatabase.Name + "]";
+    this.guid = Util.getGuid();
   }
-
-  isLastActive() {
-    let activeIndex = 0;
-
-    if (this.activeJournalItem) {
-      activeIndex = this.activeJournalItem.index;
-    }
-
-    return activeIndex === this.journalItems.length - 1;
-  }
-
-  isElementInViewport = el => {
-    var rect = el.getBoundingClientRect();
-
-    return (
-      rect.top >= 0 &amp;&amp;
-      rect.left >= 0 &amp;&amp;
-      rect.bottom &lt;=
-        (window.innerHeight ||
-          document.documentElement.clientHeight) /*or $(window).height() */ &amp;&amp;
-      rect.right &lt;=
-        (window.innerWidth ||
-          document.documentElement.clientWidth) /*or $(window).width() */
-    );
-  };
-
-  onSetActiveRow = (rowId, rowObj, journalItem) => {
-    // TODO set the active row
-  };
-
-  isActive(id) {
-    if (this.activeJournalItem) {
-      return this.activeJournalItem.id === id;
-    } else {
-      return false;
-    }
-  }
-
-  getEffectiveDirtyFlame(id) {
-    // TODO how dirty is our flame? We just don't know for sure.
-    return null;
-  }
-
-  getJournalItems() {
-    return this.journalItems.map(item => {
-      return (
-        &lt;JournalItem
-          key={item.id}
-          id={item.id}
-          isActive={this.isActive(item.id)}
-          dirtyFlame={this.getEffectiveDirtyFlame(item.id)}
-          linked={item.linked}
-          projectName={item.projectName}
-          taskName={item.taskName}
-          taskSummary={item.taskSummary}
-          description={item.description}
-          flameRating={item.flameRating}
-          finishStatus={item.finishStatus}
-          journalEntryType={item.journalEntryType}
-          circleId={item.circleId}
-          position={item.position}
-          journalItem={item}
-          onSetActiveRow={this.onSetActiveRow}
-          onUpdateFinishStatus={this.onUpdateFinishStatus}
-        />
-      );
-    });
-  }
-
-  /**
-   * renders the journal layout of the console view
-   * @returns {*} - returns the JSX for this component
-   */
-  render() {
-    console.log("render");
-    return (
-      &lt;div id="component" className="journalLayout">
-        &lt;div id="wrapper" className="journalItems">
-          &lt;div
-            id="component"
-            className="journalItems"
-            style={{
-              height: DimensionController.getHeightFor(
-                DimensionController.Components.JOURNAL_ITEMS
-              )
-            }}
-          >
-            &lt;Grid inverted>{this.getJournalItems()}&lt;/Grid>
-            &lt;div
-              className="fltLftClrBth"
-              ref={el => {
-                this.elEnd = el;
-              }}
-            />
-          &lt;/div>
-        &lt;/div>
-        &lt;div id="wrapper" className="journalEntry">
-          &lt;JournalEntry onAddTask={this.onAddTask} />
-        &lt;/div>
-      &lt;/div>
-    );
-  }
-}
+};
 </code></pre>
       </article>
     </section>

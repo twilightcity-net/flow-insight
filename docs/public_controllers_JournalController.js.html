@@ -407,7 +407,7 @@
   EventFactory = require("../events/EventFactory"),
   RecentJournalDto = require("../dto/RecentJournalDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  JournalDB = require("../database/JournalDB");
+  JournalDB = require("../database/JournalDatabase");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -553,7 +553,6 @@ module.exports = class JournalController extends BaseController {
       view = database.getViewForIntentionsByUserName(userName);
 
     arg.data = view.data();
-
     if (callback) {
       return callback(arg);
     } else if (event) {

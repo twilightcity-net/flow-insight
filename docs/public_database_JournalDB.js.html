@@ -485,12 +485,14 @@ module.exports = class JournalDB extends LokiJS {
   }
 
   getViewForIntentionsByUserName(name) {
-    let collection = this.getCollection(JournalDB.Collections.INTENTIONS);
-    return collection
-      .getDynamicView(JournalDB.Views.INTENTIONS)
-      .applyWhere(function aCustomFilter(obj) {
-        return obj.userName === name;
-      });
+    let collection = this.getCollection(JournalDB.Collections.INTENTIONS),
+      view = collection.getDynamicView(JournalDB.Views.INTENTIONS);
+    view.removeFilters();
+    view.applyWhere((obj) => {
+      return obj.userName === name;
+    });
+    view.applySimpleSort(JournalDB.Indices.TIMESTAMP);
+    return view;
   }
 
   getViewForProjects() {
