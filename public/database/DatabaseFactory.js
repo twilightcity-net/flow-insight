@@ -1,7 +1,7 @@
-const TalkDB = require("./TalkDB"),
-  JournalDB = require("./JournalDB"),
-  CircuitDB = require("./CircuitDB"),
-  TeamDB = require("./TeamDB");
+const TalkDB = require("./TalkDatabase"),
+  JournalDB = require("./JournalDatabase"),
+  CircuitDB = require("./CircuitDatabase"),
+  TeamDB = require("./TeamDatabase");
 
 /**
  * this class is used to build new databases

@@ -5,7 +5,7 @@ const log = require("electron-log"),
   EventFactory = require("../events/EventFactory"),
   RecentJournalDto = require("../dto/RecentJournalDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  JournalDB = require("../database/JournalDB");
+  JournalDB = require("../database/JournalDatabase");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -150,8 +150,17 @@ module.exports = class JournalController extends BaseController {
       userName = arg.args.userName ? arg.args.userName : "me",
       view = database.getViewForIntentionsByUserName(userName);
 
+    log.info(
+      chalk.yellowBright(this.name) +
+        " '" +
+        arg.type +
+        "' : '" +
+        arg.id +
+        "' -> {" +
+        view.count() +
+        "}"
+    );
     arg.data = view.data();
-
     if (callback) {
       return callback(arg);
     } else if (event) {

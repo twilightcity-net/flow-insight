@@ -3,9 +3,9 @@ const LokiJS = require("lokijs"),
 
 /**
  * this class is used to build new databases
- * @type {TalkDB}
+ * @type {TalkDatabase}
  */
-module.exports = class TalkDB extends LokiJS {
+module.exports = class TalkDatabase extends LokiJS {
   /**
    * the name of our talk database file
    * @returns {string}
@@ -18,8 +18,8 @@ module.exports = class TalkDB extends LokiJS {
    * builds our talk database for messages
    */
   constructor() {
-    super(TalkDB.Name);
-    this.name = "[DB." + TalkDB.Name + "]";
+    super(TalkDatabase.Name);
+    this.name = "[DB." + TalkDatabase.Name + "]";
     this.guid = Util.getGuid();
   }
 };

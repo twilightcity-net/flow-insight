@@ -3,6 +3,7 @@ import JournalEntry from "./components/JournalEntry";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import { Grid } from "semantic-ui-react";
 import JournalItem from "./components/JournalItem";
+import { JournalClient } from "../../../../clients/JournalClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -15,20 +16,27 @@ export default class JournalResource extends Component {
   constructor(props) {
     super(props);
     this.name = "[JournalResource]";
-    this.state = {
-      journalItems: [],
-      activeJournalItem: null
-    };
-
-    // JournalClient.getRecentIntentions(nextProps.resource.uriArr[1], this, arg => {
-    //   console.log(arg);
-    //   this.journalItems = arg.data;
-    //   this.forceUpdate();
-    // })
+    this.resource = props.resource;
+    this.journalItems = [];
+    this.activeJournalItem = null;
   }
 
-  componentDidUpdate() {
-    this.scrollToBottomOrActive();
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    let userName = nextProps.resource.uriArr[1];
+    JournalClient.getRecentIntentions(userName, this, arg => {
+      console.log(arg);
+      this.journalItems = arg.data;
+      this.forceUpdate();
+    });
+    return false;
+  }
+
+  componentDidMount() {
+    JournalClient.getRecentIntentions("me", this, arg => {
+      console.log(arg);
+      this.journalItems = arg.data;
+      this.forceUpdate();
+    });
   }
 
   /**
@@ -59,8 +67,8 @@ export default class JournalResource extends Component {
   };
 
   scrollToBottomOrActive = () => {
-    if (this.state.activeJournalItem) {
-      let activeRowId = this.state.activeJournalItem.id;
+    if (this.activeJournalItem) {
+      let activeRowId = this.activeJournalItem.id;
 
       let rowObj = document.getElementById(activeRowId);
 
@@ -80,8 +88,8 @@ export default class JournalResource extends Component {
   isFirstActive() {
     let activeIndex = 0;
 
-    if (this.state.activeJournalItem) {
-      activeIndex = this.state.activeJournalItem.index;
+    if (this.activeJournalItem) {
+      activeIndex = this.activeJournalItem.index;
     }
 
     return activeIndex === 0;
@@ -90,11 +98,11 @@ export default class JournalResource extends Component {
   isLastActive() {
     let activeIndex = 0;
 
-    if (this.state.activeJournalItem) {
-      activeIndex = this.state.activeJournalItem.index;
+    if (this.activeJournalItem) {
+      activeIndex = this.activeJournalItem.index;
     }
 
-    return activeIndex === this.state.journalItems.length - 1;
+    return activeIndex === this.journalItems.length - 1;
   }
 
   isElementInViewport = el => {
@@ -117,8 +125,8 @@ export default class JournalResource extends Component {
   };
 
   isActive(id) {
-    if (this.state.activeJournalItem) {
-      return this.state.activeJournalItem.id === id;
+    if (this.activeJournalItem) {
+      return this.activeJournalItem.id === id;
     } else {
       return false;
     }
@@ -130,7 +138,7 @@ export default class JournalResource extends Component {
   }
 
   getJournalItems() {
-    return this.state.journalItems.map(item => {
+    return this.journalItems.map(item => {
       return (
         <JournalItem
           key={item.id}
@@ -160,6 +168,7 @@ export default class JournalResource extends Component {
    * @returns {*} - returns the JSX for this component
    */
   render() {
+    console.log("render");
     return (
       <div id="component" className="journalLayout">
         <div id="wrapper" className="journalItems">

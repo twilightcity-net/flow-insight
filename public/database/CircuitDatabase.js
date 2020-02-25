@@ -3,9 +3,9 @@ const LokiJS = require("lokijs"),
 
 /**
  * this class builds a new databases
- * @type {CircuitDB}
+ * @type {CircuitDatabase}
  */
-module.exports = class CircuitDB extends LokiJS {
+module.exports = class CircuitDatabase extends LokiJS {
   /**
    * the name of our database file
    * @returns {string}
@@ -18,8 +18,8 @@ module.exports = class CircuitDB extends LokiJS {
    * builds our database class
    */
   constructor() {
-    super(CircuitDB.Name);
-    this.name = "[DB." + CircuitDB.Name + "]";
+    super(CircuitDatabase.Name);
+    this.name = "[DB." + CircuitDatabase.Name + "]";
     this.guid = Util.getGuid();
   }
 };

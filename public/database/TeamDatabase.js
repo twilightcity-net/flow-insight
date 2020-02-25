@@ -2,10 +2,10 @@ const LokiJS = require("lokijs"),
   Util = require("../Util");
 
 /**
- * this class builds new databases
- * @type {TeamDB}
+ * this class builds new team databases that stores team member informaton in
+ * @type {TeamDatabase}
  */
-module.exports = class TeamDB extends LokiJS {
+module.exports = class TeamDatabase extends LokiJS {
   /**
    * the file name of our team database
    * @returns {string}
@@ -18,8 +18,8 @@ module.exports = class TeamDB extends LokiJS {
    * builds our team database from lokijs instance
    */
   constructor() {
-    super(TeamDB.Name);
-    this.name = "[DB." + TeamDB.Name + "]";
+    super(TeamDatabase.Name);
+    this.name = "[DB." + TeamDatabase.Name + "]";
     this.guid = Util.getGuid();
   }
 };
