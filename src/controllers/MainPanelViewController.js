@@ -21,6 +21,7 @@ export class MainPanelViewController extends ActiveViewController {
 
   static get Resources() {
     return {
+      ERROR: "error",
       NONE: "none",
       JOURNAL: "journal",
       CIRCUIT: "circuit",

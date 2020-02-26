@@ -75,7 +75,7 @@ export class JournalClient extends BaseClient {
   static loadRecentJournal(userName, scope, callback) {
     let clientEvent = new RendererClientEvent(
       JournalClient.Events.LOAD_RECENT_JOURNAL,
-      { userName: userName ? userName : "me" },
+      { userName: userName },
       scope,
       (event, arg) => {
         if (callback) {
@@ -97,7 +97,7 @@ export class JournalClient extends BaseClient {
   static getRecentIntentions(userName, scope, callback) {
     let clientEvent = new RendererClientEvent(
       JournalClient.Events.GET_RECENT_INTENTIONS,
-      { userName: userName ? userName : "me" },
+      { userName: userName },
       scope,
       (event, arg) => {
         if (callback) {

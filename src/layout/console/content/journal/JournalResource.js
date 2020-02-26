@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import JournalEntry from "./components/JournalEntry";
 import { DimensionController } from "../../../../controllers/DimensionController";
-import { Grid, Icon, Message } from "semantic-ui-react";
+import { Grid, Icon, Message, Transition } from "semantic-ui-react";
 import JournalItem from "./components/JournalItem";
 import { JournalClient } from "../../../../clients/JournalClient";
 
@@ -9,6 +9,9 @@ import { JournalClient } from "../../../../clients/JournalClient";
  * this component is the tab panel wrapper for the console content
  */
 export default class JournalResource extends Component {
+  static get userNameMe() {
+    return "me";
+  }
   /**
    * builds the basic journal layout component
    * @param props
@@ -20,32 +23,57 @@ export default class JournalResource extends Component {
     this.journalItems = [];
     this.activeJournalItem = null;
     this.error = null;
+    this.userName = JournalResource.userNameMe;
   }
 
+  /**
+   * this function is called when we load a new resource into this resource view. recycles the component
+   * @param nextProps
+   * @param nextState
+   * @param nextContext
+   * @returns {boolean}
+   */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    let userName = nextProps.resource.uriArr[1];
+    let userName = this.getUserNameFromResource(nextProps);
     JournalClient.getRecentIntentions(userName, this, arg => {
       if (arg.error) {
         this.error = arg.error;
         this.forceUpdate();
       } else {
         this.error = null;
+        this.userName = userName;
         this.journalItems = arg.data;
-        this.forceUpdate();
+        this.forceUpdate(() => {
+          this.scrollToBottomOrActive();
+        });
       }
     });
     return false;
   }
 
+  /**
+   * load our recent intentions after we load this page resource. This is only called when we
+   * initially create the window's console view or switch resource views
+   */
   componentDidMount() {
-    JournalClient.getRecentIntentions("me", this, arg => {
+    let userName = this.getUserNameFromResource(this.props);
+    JournalClient.getRecentIntentions(userName, this, arg => {
       if (arg.error) {
-        console.log(arg.error);
-      } else {
-        this.journalItems = arg.data;
+        this.error = arg.error;
         this.forceUpdate();
+      } else {
+        this.userName = userName;
+        this.journalItems = arg.data;
+        this.forceUpdate(() => {
+          this.scrollToBottomOrActive();
+        });
       }
     });
+  }
+
+  getUserNameFromResource(props) {
+    let userName = props.resource.uriArr[1];
+    return userName;
   }
 
   /**
@@ -75,6 +103,9 @@ export default class JournalResource extends Component {
     // creates a new task for our drop down
   };
 
+  /**
+   * scrolls to the bottom of the array
+   */
   scrollToBottomOrActive = () => {
     if (this.activeJournalItem) {
       let activeRowId = this.activeJournalItem.id;
@@ -94,6 +125,10 @@ export default class JournalResource extends Component {
     }
   };
 
+  /**
+   * checks to see if the first item in our array is active
+   * @returns {boolean}
+   */
   isFirstActive() {
     let activeIndex = 0;
 
@@ -104,6 +139,10 @@ export default class JournalResource extends Component {
     return activeIndex === 0;
   }
 
+  /**
+   * checks to see if our last item in our array is active
+   * @returns {boolean}
+   */
   isLastActive() {
     let activeIndex = 0;
 
@@ -114,6 +153,11 @@ export default class JournalResource extends Component {
     return activeIndex === this.journalItems.length - 1;
   }
 
+  /**
+   * checks to see if our element is in the view port
+   * @param el
+   * @returns {boolean|boolean}
+   */
   isElementInViewport = el => {
     var rect = el.getBoundingClientRect();
 
@@ -129,10 +173,21 @@ export default class JournalResource extends Component {
     );
   };
 
+  /**
+   * event callback for when we set a row active
+   * @param rowId
+   * @param rowObj
+   * @param journalItem
+   */
   onSetActiveRow = (rowId, rowObj, journalItem) => {
     // TODO set the active row
   };
 
+  /**
+   * determines if our journal item is active
+   * @param id
+   * @returns {boolean}
+   */
   isActive(id) {
     if (this.activeJournalItem) {
       return this.activeJournalItem.id === id;
@@ -141,11 +196,24 @@ export default class JournalResource extends Component {
     }
   }
 
+  isMyJournal() {
+    return this.userName === JournalResource.userNameMe;
+  }
+
+  /**
+   * renders our dirty flame string
+   * @param id
+   * @returns {null}
+   */
   getEffectiveDirtyFlame(id) {
     // TODO how dirty is our flame? We just don't know for sure.
     return null;
   }
 
+  /**
+   * renders the array of journal items
+   * @returns {array}
+   */
   getJournalItems() {
     return this.journalItems.map(item => {
       return (
@@ -172,16 +240,18 @@ export default class JournalResource extends Component {
     });
   }
 
-  getJournalItemsWrapper() {
+  /**
+   * wraps our journal items array
+   * @returns {*}
+   */
+  getJournalItemsWrapper(isMyJournal) {
     return (
       <div id="wrapper" className="journalItems">
         <div
           id="component"
           className="journalItems"
           style={{
-            height: DimensionController.getHeightFor(
-              DimensionController.Components.JOURNAL_ITEMS
-            )
+            height: DimensionController.getJournalItemsPanelHeight(isMyJournal)
           }}
         >
           <Grid inverted>{this.getJournalItems()}</Grid>
@@ -196,6 +266,10 @@ export default class JournalResource extends Component {
     );
   }
 
+  /**
+   * renders our error for the screen
+   * @returns {*}
+   */
   getJournalError() {
     return (
       <Message icon negative size="large">
@@ -209,21 +283,33 @@ export default class JournalResource extends Component {
   }
 
   /**
+   * renders our journal entry component in the journal resource view
+   * @param isMyJournal
+   * @returns {*}
+   */
+  getJournalEntry(isMyJournal) {
+    return (
+      <Transition visible={isMyJournal} animation="fade" duration={420}>
+        <div id="wrapper" className="journalEntry ">
+          <JournalEntry onAddTask={this.onAddTask} />
+        </div>
+      </Transition>
+    );
+  }
+
+  /**
    * renders the journal layout of the console view
    * @returns {*} - returns the JSX for this component
    */
   render() {
-    console.log("render");
-    let error = !!this.error;
+    let error = !!this.error,
+      isMyJournal = this.isMyJournal();
+
     return (
       <div id="component" className={"journalLayout" + (error ? " error" : "")}>
         {error && this.getJournalError()}
-        {!error && this.getJournalItemsWrapper()}
-        {!error && (
-          <div id="wrapper" className="journalEntry">
-            <JournalEntry onAddTask={this.onAddTask} />
-          </div>
-        )}
+        {!error && this.getJournalItemsWrapper(isMyJournal)}
+        {!error && this.getJournalEntry(isMyJournal)}
       </div>
     );
   }

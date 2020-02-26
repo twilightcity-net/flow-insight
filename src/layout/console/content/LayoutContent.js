@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import JournalResource from "./journal/JournalResource";
 import CircuitResource from "./circuit/CircuitResource";
 import FlowResource from "./flow/FlowResource";
-import { Transition } from "semantic-ui-react";
+import { Icon, Message, Transition } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import LayoutBrowser from "./LayoutBrowser";
 import { MainPanelViewController } from "../../../controllers/MainPanelViewController";
@@ -69,8 +69,10 @@ export default class LayoutContent extends Component {
         component = "";
         className = MainPanelViewController.Resources.NONE + className;
         break;
-
-      // TODO implement a 404 like error page to display to the user
+      case MainPanelViewController.Resources.ERROR:
+        component = this.getJournalError(resource);
+        className = MainPanelViewController.Resources.ERROR + className;
+        break;
       default:
         component = <div>404 - Unknown location '{resource}'</div>;
         className = MainPanelViewController.Resources.NONE + className;
@@ -92,6 +94,24 @@ export default class LayoutContent extends Component {
 
   getBrowserHeader = scope => {
     return <LayoutBrowser scope={scope} />;
+  };
+
+  /**
+   * renders our error for the screen
+   * @returns {*}
+   */
+  getJournalError = error => {
+    return (
+      <div id="component" className="errorLayout">
+        <Message icon negative size="large">
+          <Icon name="warning sign" />
+          <Message.Content>
+            <Message.Header>{error} :(</Message.Header>
+            WTF! Something went wrong =(^.^)=
+          </Message.Content>
+        </Message>
+      </div>
+    );
   };
 
   /**

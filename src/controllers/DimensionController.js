@@ -70,13 +70,13 @@ export class DimensionController {
    * gets the journal items height for the journal view
    * @returns {number}
    */
-  static getJournalItemsPanelHeight() {
+  static getJournalItemsPanelHeight(isEntryShowing) {
     let heights = {
       border: 2,
       margin: 12,
       padding: 12,
       header: 51,
-      entry: 50
+      entry: isEntryShowing ? 50 : 0
     };
     return (
       window.innerHeight -

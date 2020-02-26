@@ -6,6 +6,11 @@ const LokiJS = require("lokijs"),
  * @type {JournalDatabase}
  */
 module.exports = class JournalDatabase extends LokiJS {
+  /**
+   * this is our name of our database in memory and file
+   * @returns {string}
+   * @constructor
+   */
   static get Name() {
     return "journal";
   }
@@ -82,6 +87,12 @@ module.exports = class JournalDatabase extends LokiJS {
     );
   }
 
+  /**
+   * returns the view for a speofic users intentions that is store locally. We also
+   * apply a sort on the timestamp
+   * @param name
+   * @returns {DynamicView}
+   */
   getViewForIntentionsByUserName(name) {
     let collection = this.getCollection(JournalDatabase.Collections.INTENTIONS),
       view = collection.getDynamicView(JournalDatabase.Views.INTENTIONS);

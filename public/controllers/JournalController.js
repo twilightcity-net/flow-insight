@@ -21,12 +21,27 @@ module.exports = class JournalController extends BaseController {
     if (!JournalController.instance) {
       JournalController.instance = this;
       JournalController.wireControllersTogether();
+      JournalController.instance.userHistory = new Set();
     }
   }
 
   /**
+   * ours static string paths for this client
+   * @returns {{JOURNAL: string, ME: string, LIMIT: string}}
+   * @constructor
+   */
+  static get Paths() {
+    return {
+      JOURNAL: "/journal/",
+      LIMIT: "?limit=",
+      ME: "me"
+    };
+  }
+
+  /**
    * general enum list of all of our possible circuit events
-   * @returns {String}
+   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string}}
+   * @constructor
    */
   static get EventTypes() {
     return {
@@ -86,19 +101,35 @@ module.exports = class JournalController extends BaseController {
   }
 
   /**
+   * performs our callback or makes the event reply
+   * @param event
+   * @param arg
+   * @param callback
+   * @returns {Array|*}
+   */
+  doCallbackOrReplyTo(event, arg, callback) {
+    if (callback) {
+      return callback(arg);
+    } else if (event) {
+      return event.replyTo(arg);
+    } else {
+      throw new Error("Invalid create journal event");
+    }
+  }
+
+  /**
    * processes the create journal events for the listener. returns dto to callback.
    * @param event
    * @param arg
    * @param callback
    */
   handleLoadJournalEvent(event, arg, callback) {
-    let me = "me",
-      userName = arg.args.userName ? arg.args.userName : me,
+    let userName = arg.args.userName,
       limit = arg.args.limit,
-      urn = "/journal/" + userName;
+      urn = JournalController.Paths.JOURNAL + userName;
 
     if (limit) {
-      urn += "?limit=" + limit;
+      urn += JournalController.Paths.LIMIT + limit;
     }
 
     this.doClientRequest(
@@ -137,27 +168,29 @@ module.exports = class JournalController extends BaseController {
             });
           });
         }
-
-        if (callback) {
-          return callback(arg);
-        } else if (event) {
-          return event.replyTo(arg);
-        } else {
-          throw new Error("Invalid create journal event");
-        }
+        JournalController.instance.userHistory.add(userName);
+        this.doCallbackOrReplyTo(event, arg, callback);
       }
     );
   }
 
+  /**
+   * gets our recent intentions for a user
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleGetRecentIntentionsEvent(event, arg, callback) {
     let database = global.App.VolumeManager.getVolumeByName(
         DatabaseFactory.Names.JOURNAL
       ),
-      userName = arg.args.userName ? arg.args.userName : "me",
+      userName = arg.args.userName,
       view = database.getViewForIntentionsByUserName(userName);
 
-    console.log(view.count());
-    if (userName === "me" || view.count() > 0) {
+    if (!userName) {
+      arg.error = "Unknown user '" + userName + "'";
+      this.doCallbackOrReplyTo(event, arg, callback);
+    } else if (userName === JournalController.Paths.ME) {
       log.info(
         chalk.yellowBright(this.name) +
           " '" +
@@ -169,27 +202,50 @@ module.exports = class JournalController extends BaseController {
           "}"
       );
       arg.data = view.data();
-      if (callback) {
-        return callback(arg);
-      } else if (event) {
-        return event.replyTo(arg);
-      } else {
-        throw new Error("Invalid create journal event");
-      }
+      this.doCallbackOrReplyTo(event, arg, callback);
     } else {
-      this.handleLoadJournalEvent(
-        null,
-        { args: { userName: userName } },
-        args => {
-          if (args.error && event) {
-            arg.error = args.error;
-            event.replyTo(arg);
-          } else {
-            //TODO insert records into database for this new username
-            console.log("load journal -> " + userName);
+      if (
+        JournalController.instance.userHistory.has(userName) &&
+        view.count() !== 0
+      ) {
+        log.info(
+          chalk.yellowBright(this.name) +
+            " '" +
+            arg.type +
+            "' : '" +
+            arg.id +
+            "' -> {" +
+            view.count() +
+            "}"
+        );
+        arg.data = view.data();
+        this.doCallbackOrReplyTo(event, arg);
+      } else {
+        console.log("->grid");
+        this.handleLoadJournalEvent(
+          null,
+          { args: { userName: userName } },
+          args => {
+            if (args.error && event) {
+              arg.error = args.error;
+              this.doCallbackOrReplyTo(event, arg);
+            } else {
+              log.info(
+                chalk.yellowBright(this.name) +
+                  " '" +
+                  arg.type +
+                  "' : '" +
+                  arg.id +
+                  "' -> {" +
+                  view.count() +
+                  "}"
+              );
+              arg.data = view.data();
+              this.doCallbackOrReplyTo(event, arg);
+            }
           }
-        }
-      );
+        );
+      }
     }
   }
 

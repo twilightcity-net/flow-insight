@@ -10,6 +10,7 @@ export class BrowserRequestFactory {
    */
   static get Requests() {
     return {
+      ERROR: "error",
       COMMAND: "command",
       BROWSER: "browser",
       JOURNAL: "journal",
@@ -27,7 +28,8 @@ export class BrowserRequestFactory {
       CLOSE: "close",
       JOIN: "join",
       LEAVE: "leave",
-      WTF: "wtf"
+      WTF: "wtf",
+      JOURNAL: "journal"
     };
   }
 
@@ -109,6 +111,7 @@ export class BrowserRequestFactory {
    */
   static get Errors() {
     return {
+      ERROR: "error",
       UNKNOWN: "unknown-command"
     };
   }
@@ -122,24 +125,43 @@ export class BrowserRequestFactory {
    * @returns {*}
    */
   static createRequest(requestType, ...args) {
-    switch (requestType) {
-      case BrowserRequestFactory.Requests.COMMAND:
-        return BrowserRequestFactory._getCommandRequest(args[0]);
-      case BrowserRequestFactory.Requests.BROWSER:
-        return BrowserRequestFactory._getBrowserRequest(args[0], args[1]);
-      case BrowserRequestFactory.Requests.ACTIVE_CIRCUIT:
-        return BrowserRequestFactory._getActiveCircuitRequest(args[0]);
-      case BrowserRequestFactory.Requests.JOURNAL:
-        return BrowserRequestFactory._getJournalRequest(args[0]);
-      case BrowserRequestFactory.Requests.TROUBLESHOOT:
-        return BrowserRequestFactory._getTroubleshootRequest(args[0]);
-      case BrowserRequestFactory.Requests.FLOW:
-        return BrowserRequestFactory._getFlowRequest(args[0]);
-      case BrowserRequestFactory.Requests.TEAM:
-        return BrowserRequestFactory._getTeamRequest(args[0]);
-      default:
-        throw new Error("Unknown request type '" + requestType + "'");
+    try {
+      switch (requestType) {
+        case BrowserRequestFactory.Requests.COMMAND:
+          return BrowserRequestFactory._getCommandRequest(args[0]);
+        case BrowserRequestFactory.Requests.BROWSER:
+          return BrowserRequestFactory._getBrowserRequest(args[0], args[1]);
+        case BrowserRequestFactory.Requests.ACTIVE_CIRCUIT:
+          return BrowserRequestFactory._getActiveCircuitRequest(args[0]);
+        case BrowserRequestFactory.Requests.JOURNAL:
+          return BrowserRequestFactory._getJournalRequest(args[0]);
+        case BrowserRequestFactory.Requests.TROUBLESHOOT:
+          return BrowserRequestFactory._getTroubleshootRequest(args[0]);
+        case BrowserRequestFactory.Requests.FLOW:
+          return BrowserRequestFactory._getFlowRequest(args[0]);
+        case BrowserRequestFactory.Requests.TEAM:
+          return BrowserRequestFactory._getTeamRequest(args[0]);
+        case BrowserRequestFactory.Requests.ERROR:
+          return BrowserRequestFactory._getErrorRequest(args[0]);
+        default:
+          return BrowserRequestFactory._getUnknownCommandErrorRequest();
+      }
+    } catch (e) {
+      return BrowserRequestFactory._getErrorRequest(e.toString());
     }
+  }
+
+  /**
+   * returns a request for unknown commands
+   * @returns {string}
+   * @private
+   */
+  static _getErrorRequest(message) {
+    return (
+      BrowserRequestFactory.Commands.ERROR +
+      BrowserRequestFactory.URI_SEPARATOR +
+      BrowserRequestFactory.Errors.ERROR
+    );
   }
 
   /**
@@ -152,11 +174,13 @@ export class BrowserRequestFactory {
     let args = arg.split(BrowserRequestFactory.SPACE_SEPARATOR),
       cmd = args[0];
     if (cmd) {
-      console.log(cmd);
-      if (cmd === BrowserRequestFactory.Commands.WTF) {
-        return BrowserRequestFactory._getCommandWTFRequest(args);
-      } else {
-        return BrowserRequestFactory._getUnknownCommandErrorRequest();
+      switch (cmd) {
+        case BrowserRequestFactory.Commands.WTF:
+          return BrowserRequestFactory._getCommandWTFRequest(args);
+        case BrowserRequestFactory.Commands.JOURNAL:
+          return BrowserRequestFactory._getCommandJournalRequest(args);
+        default:
+          return BrowserRequestFactory._getUnknownCommandErrorRequest();
       }
     } else {
       throw new Error("request: command requires 2 arguments, command");
@@ -190,6 +214,23 @@ export class BrowserRequestFactory {
       BrowserRequestFactory.Locations.CIRCUIT +
       BrowserRequestFactory.PATH_SEPARATOR +
       BrowserRequestFactory.Locations.WTF
+    );
+  }
+
+  /**
+   * returns the request for a users journal 'me'
+   * @param args
+   * @returns {string}
+   * @private
+   */
+  static _getCommandJournalRequest(...args) {
+    return (
+      BrowserRequestFactory.Commands.OPEN +
+      BrowserRequestFactory.URI_SEPARATOR +
+      BrowserRequestFactory.ROOT_SEPARATOR +
+      BrowserRequestFactory.Locations.JOURNAL +
+      BrowserRequestFactory.PATH_SEPARATOR +
+      BrowserRequestFactory.Locations.ME
     );
   }
 
