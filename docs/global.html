@@ -46,8 +46,10 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.html">BrowserRequestFactory</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getActiveCircuitRequest">_getActiveCircuitRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getBrowserRequest">_getBrowserRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandJournalRequest">_getCommandJournalRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandRequest">_getCommandRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandWTFRequest">_getCommandWTFRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getErrorRequest">_getErrorRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getFlowRequest">_getFlowRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getJournalRequest">_getJournalRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getTeamRequest">_getTeamRequest</a></span></li>
@@ -175,6 +177,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createWindowConsole">createWindowConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createWindowLoading">createWindowLoading</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#deactivate">deactivate</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doCallbackOrReplyTo">doCallbackOrReplyTo</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doClientRequest">doClientRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doLogin">doLogin</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doLogout">doLogout</a></span></li>
@@ -206,9 +209,11 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForIntentionsByUserName">getViewForIntentionsByUserName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getVolumeByName">getVolumeByName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadJournalEvent">handleLoadJournalEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li>
@@ -254,10 +259,12 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireSocketMessagesToEventCircuit">wireSocketMessagesToEventCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_DefaultValues.html">DefaultValues</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports#EventTypes">EventTypes</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_EventTypes.html">EventTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports#Name">Name</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Names.html">Names</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Paths.html">Paths</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Views.html">Views</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Volumes.html">Volumes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_WindowNames.html">WindowNames</a></span></li>
@@ -356,12 +363,20 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarOverviewContent">getCircuitSidebarOverviewContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarPartyContent">getCircuitSidebarPartyContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedEvent">getFeedEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getGuid">getGuid</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalEntry">getJournalEntry</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalError">getJournalError</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItems">getJournalItems</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItemsWrapper">getJournalItemsWrapper</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTextCursor">getTextCursor</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isActive">isActive</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isCommand">isCommand</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isFirstActive">isFirstActive</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isLastActive">isLastActive</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWTF">isWTF</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
@@ -385,6 +400,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#shouldComponentUpdate">shouldComponentUpdate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showDoItLaterCircuitsPanel">showDoItLaterCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showNotificationsPanel">showNotificationsPanel</a></span></li>
@@ -471,6 +487,21 @@
               <ul class="dummy">
                 <li>
                   <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line29">line 29</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="componentDidMount"><span class="type-signature"></span>componentDidMount<span class="signature">()</span><span class="type-signature"></span></h4>
+          <div class="description"> load our recent intentions after we load this page resource. This is only called when we initially create the window's console view or switch resource views </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line58">line 58</a>
                 </li>
               </ul>
             </dd>
@@ -735,6 +766,49 @@
         </div>
         <div class="section-method">
           <h4 class="name"
+              id="getEffectiveDirtyFlame"><span class="type-signature"></span>getEffectiveDirtyFlame<span class="signature">(id)</span><span class="type-signature"> &rarr; {null}</span></h4>
+          <div class="description"> renders our dirty flame string </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line208">line 208</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>id</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>null</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
               id="getFeedEvent"><span class="type-signature"></span>getFeedEvent<span class="signature">(index)</span><span class="type-signature"> &rarr; {*}</span></h4>
           <div class="description"> renders our feed event </div>
           <dl class="details">
@@ -796,6 +870,121 @@
               <dt> Type: </dt>
               <dd>
                 <span class="param-type"><code>string</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="getJournalEntry"><span class="type-signature"></span>getJournalEntry<span class="signature">(isMyJournal)</span><span class="type-signature"> &rarr; {*}</span></h4>
+          <div class="description"> renders our journal entry component in the journal resource view </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line290">line 290</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>isMyJournal</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>*</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="getJournalError"><span class="type-signature"></span>getJournalError<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+          <div class="description"> renders our error for the screen </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line273">line 273</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>*</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="getJournalItems"><span class="type-signature"></span>getJournalItems<span class="signature">()</span><span class="type-signature"> &rarr; {array}</span></h4>
+          <div class="description"> renders the array of journal items </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line217">line 217</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>array</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="getJournalItemsWrapper"><span class="type-signature"></span>getJournalItemsWrapper<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+          <div class="description"> wraps our journal items array </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line247">line 247</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>*</code></span>
               </dd>
             </dl>
           </div>
@@ -912,6 +1101,49 @@
         </div>
         <div class="section-method">
           <h4 class="name"
+              id="isActive"><span class="type-signature"></span>isActive<span class="signature">(id)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+          <div class="description"> determines if our journal item is active </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line191">line 191</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>id</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>boolean</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
               id="isCommand"><span class="type-signature"></span>isCommand<span class="signature">(uri)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
           <div class="description"> checks our uri to see if this is a command or a location </div>
           <dl class="details">
@@ -919,7 +1151,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_LayoutBrowser.js.html">src/layout/console/content/LayoutBrowser.js</a>, <a href="src_layout_console_content_LayoutBrowser.js.html#line168">line 168</a>
+                  <a href="src_layout_console_content_LayoutBrowser.js.html">src/layout/console/content/LayoutBrowser.js</a>, <a href="src_layout_console_content_LayoutBrowser.js.html#line166">line 166</a>
                 </li>
               </ul>
             </dd>
@@ -943,6 +1175,54 @@
               </tr>
             </tbody>
           </table>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>boolean</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="isFirstActive"><span class="type-signature"></span>isFirstActive<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+          <div class="description"> checks to see if the first item in our array is active </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line132">line 132</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>boolean</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="isLastActive"><span class="type-signature"></span>isLastActive<span class="signature">()</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+          <div class="description"> checks to see if our last item in our array is active </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line146">line 146</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
           <div class="section-returns">
             <h5>Returns:</h5>
             <dl class="param-type">
@@ -1550,7 +1830,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_LayoutBrowser.js.html">src/layout/console/content/LayoutBrowser.js</a>, <a href="src_layout_console_content_LayoutBrowser.js.html#line218">line 218</a>
+                  <a href="src_layout_console_content_LayoutBrowser.js.html">src/layout/console/content/LayoutBrowser.js</a>, <a href="src_layout_console_content_LayoutBrowser.js.html#line216">line 216</a>
                 </li>
               </ul>
             </dd>
@@ -1575,7 +1855,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_LayoutContent.js.html">src/layout/console/content/LayoutContent.js</a>, <a href="src_layout_console_content_LayoutContent.js.html#line101">line 101</a>
+                  <a href="src_layout_console_content_LayoutContent.js.html">src/layout/console/content/LayoutContent.js</a>, <a href="src_layout_console_content_LayoutContent.js.html#line122">line 122</a>
                 </li>
               </ul>
             </dd>
@@ -1809,7 +2089,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line215">line 215</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line304">line 304</a>
                 </li>
               </ul>
             </dd>
@@ -2184,6 +2464,63 @@
               </tr>
             </tbody>
           </table>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="shouldComponentUpdate"><span class="type-signature"></span>shouldComponentUpdate<span class="signature">(nextProps, nextState, nextContext)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+          <div class="description"> this function is called when we load a new resource into this resource view. recycles the component </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line36">line 36</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>nextProps</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+              <tr>
+                <td class="name"><code>nextState</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+              <tr>
+                <td class="name"><code>nextContext</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>boolean</code></span>
+              </dd>
+            </dl>
+          </div>
         </div>
         <div class="section-method">
           <h4 class="name"
