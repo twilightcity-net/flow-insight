@@ -149,10 +149,10 @@ module.exports = class TeamController extends BaseController {
         member = new MemberWorkStatusDto(store.data);
 
       member.isMe = true;
-      if(view.count() === 0) {
+      if (view.count() === 0) {
         collection.insert(member);
       } else {
-        collection.findAndUpdate({isMe: true}, (obj) => {
+        collection.findAndUpdate({ isMe: true }, obj => {
           obj = member;
         });
       }

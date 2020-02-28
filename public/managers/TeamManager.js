@@ -11,6 +11,7 @@ module.exports = class TeamManager {
     this.name = "[TeamManager]";
     this.myController = new TeamController(this);
     this.myController.configureEvents();
+    this.loadCount = 0;
   }
 
   init(callback) {
@@ -21,10 +22,17 @@ module.exports = class TeamManager {
           type: "primary"
         }
       },
-      callback
+      () => this.handleInitCallback(callback)
     );
-    TeamController.instance.handleLoadMyCurrentStatus({}, { args: {} }, () => {
-      console.log("callback");
-    });
+    TeamController.instance.handleLoadMyCurrentStatus({}, { args: {} }, () =>
+      this.handleInitCallback(callback)
+    );
+  }
+
+  handleInitCallback(callback) {
+    this.loadCount++;
+    if (callback && this.loadCount === 2) {
+      callback();
+    }
   }
 };
