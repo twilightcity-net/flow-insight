@@ -5,7 +5,7 @@ const log = require("electron-log"),
   EventFactory = require("../events/EventFactory"),
   RecentJournalDto = require("../dto/RecentJournalDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  JournalDB = require("../database/JournalDatabase");
+  JournalDatabase = require("../database/JournalDatabase");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -130,14 +130,12 @@ module.exports = class JournalController extends BaseController {
           arg.error = store.error;
         } else {
           let journal = new RecentJournalDto(store.data),
-            database = global.App.VolumeManager.getVolumeByName(
-              DatabaseFactory.Names.JOURNAL
-            ),
+            database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
             collection = null;
 
           if (journal.recentIntentions) {
             collection = database.getCollection(
-              JournalDB.Collections.INTENTIONS
+              JournalDatabase.Collections.INTENTIONS
             );
             journal.recentIntentions.forEach(ri => {
               ri.timestamp = Util.getTimestampFromUTCStr(ri.positionStr);
@@ -146,13 +144,13 @@ module.exports = class JournalController extends BaseController {
             });
           }
           if (journal.recentIntentions) {
-            collection = database.getCollection(JournalDB.Collections.PROJECTS);
+            collection = database.getCollection(JournalDatabase.Collections.PROJECTS);
             journal.recentProjects.forEach(rp => {
               collection.insert(rp);
             });
           }
           if (journal.recentTasksByProjectId) {
-            collection = database.getCollection(JournalDB.Collections.TASKS);
+            collection = database.getCollection(JournalDatabase.Collections.TASKS);
             Object.values(journal.recentTasksByProjectId).forEach(project => {
               if (project) {
                 project.forEach(rt => {
@@ -175,9 +173,7 @@ module.exports = class JournalController extends BaseController {
    * @param callback
    */
   handleGetRecentIntentionsEvent(event, arg, callback) {
-    let database = global.App.VolumeManager.getVolumeByName(
-        DatabaseFactory.Names.JOURNAL
-      ),
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
       userName = arg.args.userName,
       view = database.getViewForIntentionsByUserName(userName);
 

@@ -14,7 +14,7 @@ module.exports = class TeamManager {
   }
 
   init(callback) {
-    TeamController.instance.handleLoadTeamEvent(
+    TeamController.instance.handleLoadMyTeamEvent(
       {},
       {
         args: {

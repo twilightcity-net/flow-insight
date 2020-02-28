@@ -36,6 +36,12 @@ module.exports = class TeamController extends BaseController {
     };
   }
 
+  static get Types() {
+    return {
+      PRIMARY:"primary"
+    };
+  }
+
   /**
    * general enum list of all of our possible circuit events
    * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string}}
@@ -68,6 +74,9 @@ module.exports = class TeamController extends BaseController {
     );
   }
 
+  getDatabase() {
+
+  }
   /**
    * notified when we get a circuit event
    * @param event
@@ -81,10 +90,10 @@ module.exports = class TeamController extends BaseController {
     } else {
       switch (arg.type) {
         case TeamController.EventTypes.LOAD_RECENT_JOURNAL:
-          this.handleLoadJournalEvent(event, arg);
+          this.handleLoadMyTeamEvent(event, arg);
           break;
         case TeamController.EventTypes.GET_RECENT_INTENTIONS:
-          this.handleGetRecentIntentionsEvent(event, arg);
+          this.handleGetMyTeamEvent(event, arg);
           break;
         default:
           throw new Error("Unknown team client event type '" + arg.type + "'.");
@@ -98,13 +107,13 @@ module.exports = class TeamController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleLoadTeamEvent(event, arg, callback) {
+  handleLoadMyTeamEvent(event, arg, callback) {
     let type = arg.args.type,
       id = arg.args.id,
       name = arg.args.name,
       urn = TeamController.Paths.TEAM;
 
-    if (type !== "primary") {
+    if (type !== TeamController.Types.PRIMARY) {
       urn += TeamController.Paths.SEPARATOR;
       if (id) {
         urn += id;
@@ -114,9 +123,9 @@ module.exports = class TeamController extends BaseController {
     }
 
     this.doClientRequest(
-      "JournalClient",
+      "TeamClient",
       {},
-      "getRecentJournal",
+      "getMyTeam",
       "get",
       urn,
       store => {
@@ -124,9 +133,7 @@ module.exports = class TeamController extends BaseController {
           arg.error = store.error;
         } else {
           let team = new TeamDto(store.data),
-            database = global.App.VolumeManager.getVolumeByName(
-              DatabaseFactory.Names.TEAM
-            ),
+            database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
             collection = database.getCollection(TeamDatabase.Collections.TEAMS);
           if (team) {
             collection.insert(team);
@@ -138,15 +145,13 @@ module.exports = class TeamController extends BaseController {
   }
 
   /**
-   * gets our recent intentions for a user
+   * gets one of our teams that is stored in the database, or fetch from grid
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetRecentIntentionsEvent(event, arg, callback) {
-    let database = global.App.VolumeManager.getVolumeByName(
-        DatabaseFactory.Names.JOURNAL
-      ),
+  handleGetMyTeamEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
       userName = arg.args.userName,
       view = database.getViewForIntentionsByUserName(userName);
 

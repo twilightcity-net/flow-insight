@@ -41,4 +41,13 @@ module.exports = class DatabaseFactory {
         throw new Error("Unknown database type '" + name + "'");
     }
   }
+
+  /**
+   * gets our database in our memory from what we created
+   * @param name
+   * @returns {*}
+   */
+  static getDatabase(name) {
+    return global.App.VolumeManager.getVolumeByName(name);
+  }
 };
