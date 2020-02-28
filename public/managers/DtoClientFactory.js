@@ -62,13 +62,12 @@ class DtoClient {
       req = this.getRequest(url);
 
     log.info(
-      chalk.magenta(this.name) +
-        " [" +
-        this.type.toUpperCase() +
-        "] " +
-        this.store.name +
-        " " +
-        url
+      chalk.bold.magenta(this.name) +
+        chalk.bold.green(" [" + this.type.toUpperCase() + "] ") +
+        chalk.hex("#e99e40").bold(this.store.name) +
+        " -> { " +
+        chalk.bold.magentaBright(url) +
+        " }"
     );
 
     if (!req) {
