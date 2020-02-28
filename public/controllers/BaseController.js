@@ -77,6 +77,5 @@ module.exports = class BaseController {
   handleError(message, event, arg, callback) {
     arg.error = message;
     this.doCallbackOrReplyTo(event, arg, callback);
-
   }
 };

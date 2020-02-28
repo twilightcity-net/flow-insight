@@ -80,7 +80,7 @@ module.exports = class JournalController extends BaseController {
    */
   onJournalClientEvent(event, arg) {
     log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
-    if(!arg.args) {
+    if (!arg.args) {
       this.handleError("arg : args is required", event, arg);
     } else {
       switch (arg.type) {

@@ -80,7 +80,7 @@ module.exports = class TeamController extends BaseController {
    */
   onTeamClientEvent(event, arg) {
     log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
-    if(!arg.args) {
+    if (!arg.args) {
       this.handleError("arg : args is required", event, arg);
     } else {
       switch (arg.type) {
@@ -91,9 +91,7 @@ module.exports = class TeamController extends BaseController {
           this.handleGetRecentIntentionsEvent(event, arg);
           break;
         default:
-          throw new Error(
-            "Unknown team client event type '" + arg.type + "'."
-          );
+          throw new Error("Unknown team client event type '" + arg.type + "'.");
       }
     }
   }
