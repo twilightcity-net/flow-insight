@@ -1,6 +1,4 @@
-const log = require("electron-log"),
-  chalk = require("chalk"),
-  Util = require("../Util"),
+const Util = require("../Util"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   RecentJournalDto = require("../dto/RecentJournalDto"),
@@ -20,22 +18,9 @@ module.exports = class JournalController extends BaseController {
     super(scope, JournalController);
     if (!JournalController.instance) {
       JournalController.instance = this;
-      JournalController.wireControllersTogether();
+      JournalController.wireTogetherControllers();
       JournalController.instance.userHistory = new Set();
     }
-  }
-
-  /**
-   * ours static string paths for this client
-   * @returns {{JOURNAL: string, ME: string, LIMIT: string}}
-   * @constructor
-   */
-  static get Paths() {
-    return {
-      JOURNAL: "/journal/",
-      LIMIT: "?limit=",
-      ME: "me"
-    };
   }
 
   /**
@@ -43,7 +28,7 @@ module.exports = class JournalController extends BaseController {
    * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string}}
    * @constructor
    */
-  static get EventTypes() {
+  static get Events() {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
@@ -55,7 +40,7 @@ module.exports = class JournalController extends BaseController {
   /**
    * links associated controller classes here
    */
-  static wireControllersTogether() {
+  static wireTogetherControllers() {
     BaseController.wireControllersTo(JournalController.instance);
   }
 
@@ -79,21 +64,21 @@ module.exports = class JournalController extends BaseController {
    * @returns {string}
    */
   onJournalClientEvent(event, arg) {
-    log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
+    this.logRequest(this.name, arg);
     if (!arg.args) {
-      this.handleError("arg : args is required", event, arg);
+      this.handleError(JournalController.Error.ERROR_ARGS, event, arg);
     } else {
       switch (arg.type) {
-        case JournalController.EventTypes.LOAD_RECENT_JOURNAL:
+        case JournalController.Events.LOAD_RECENT_JOURNAL:
           this.handleLoadJournalEvent(event, arg);
           break;
-        case JournalController.EventTypes.GET_RECENT_INTENTIONS:
+        case JournalController.Events.GET_RECENT_INTENTIONS:
           this.handleGetRecentIntentionsEvent(event, arg);
           break;
-        case JournalController.EventTypes.GET_RECENT_PROJECTS:
+        case JournalController.Events.GET_RECENT_PROJECTS:
           this.handleGetRecentProjectsEvent(event, arg);
           break;
-        case JournalController.EventTypes.GET_RECENT_TASKS:
+        case JournalController.Events.GET_RECENT_TASKS:
           this.handleGetRecentTasksEvent(event, arg);
           break;
         default:
@@ -125,45 +110,57 @@ module.exports = class JournalController extends BaseController {
       "getRecentJournal",
       "get",
       urn,
-      store => {
-        if (store.error) {
-          arg.error = store.error;
-        } else {
-          let journal = new RecentJournalDto(store.data),
-            database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
-            collection = null;
-
-          if (journal.recentIntentions) {
-            collection = database.getCollection(
-              JournalDatabase.Collections.INTENTIONS
-            );
-            journal.recentIntentions.forEach(ri => {
-              ri.timestamp = Util.getTimestampFromUTCStr(ri.positionStr);
-              ri.userName = userName;
-              collection.insert(ri);
-            });
-          }
-          if (journal.recentIntentions) {
-            collection = database.getCollection(JournalDatabase.Collections.PROJECTS);
-            journal.recentProjects.forEach(rp => {
-              collection.insert(rp);
-            });
-          }
-          if (journal.recentTasksByProjectId) {
-            collection = database.getCollection(JournalDatabase.Collections.TASKS);
-            Object.values(journal.recentTasksByProjectId).forEach(project => {
-              if (project) {
-                project.forEach(rt => {
-                  collection.insert(rt);
-                });
-              }
-            });
-          }
-        }
-        JournalController.instance.userHistory.add(userName);
-        this.doCallbackOrReplyTo(event, arg, callback);
-      }
+      store =>
+        this.delegateLoadJournalCallback(store, userName, event, arg, callback)
     );
+  }
+
+  /**
+   * handles our dto client callback for our rest request
+   * @param store
+   * @param userName
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateLoadJournalCallback(store, userName, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let journal = new RecentJournalDto(store.data),
+        database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
+        collection = database.getCollection(
+          JournalDatabase.Collections.INTENTIONS
+        );
+
+      if (journal.recentIntentions) {
+        journal.recentIntentions.forEach(ri => {
+          ri.timestamp = Util.getTimestampFromUTCStr(ri.positionStr);
+          ri.userName = userName;
+          collection.insert(ri);
+        });
+      }
+      if (journal.recentIntentions) {
+        collection = database.getCollection(
+          JournalDatabase.Collections.PROJECTS
+        );
+        journal.recentProjects.forEach(rp => {
+          collection.insert(rp);
+        });
+      }
+      if (journal.recentTasksByProjectId) {
+        collection = database.getCollection(JournalDatabase.Collections.TASKS);
+        Object.values(journal.recentTasksByProjectId).forEach(project => {
+          if (project) {
+            project.forEach(rt => {
+              collection.insert(rt);
+            });
+          }
+        });
+      }
+    }
+    JournalController.instance.userHistory.add(userName);
+    this.doCallbackOrReplyTo(event, arg, callback);
   }
 
   /**
@@ -181,16 +178,7 @@ module.exports = class JournalController extends BaseController {
       arg.error = "Unknown user '" + userName + "'";
       this.doCallbackOrReplyTo(event, arg, callback);
     } else if (userName === JournalController.Paths.ME) {
-      log.info(
-        chalk.yellowBright(this.name) +
-          " '" +
-          arg.type +
-          "' : '" +
-          arg.id +
-          "' -> {" +
-          view.count() +
-          "}"
-      );
+      this.logResults(this.name, arg.type, arg.id, view.count());
       arg.data = view.data();
       this.doCallbackOrReplyTo(event, arg, callback);
     } else {
@@ -198,41 +186,14 @@ module.exports = class JournalController extends BaseController {
         JournalController.instance.userHistory.has(userName) &&
         view.count() !== 0
       ) {
-        log.info(
-          chalk.yellowBright(this.name) +
-            " '" +
-            arg.type +
-            "' : '" +
-            arg.id +
-            "' -> {" +
-            view.count() +
-            "}"
-        );
+        this.logResults(this.name, arg.type, arg.id, view.count());
         arg.data = view.data();
         this.doCallbackOrReplyTo(event, arg);
       } else {
         this.handleLoadJournalEvent(
           null,
           { args: { userName: userName } },
-          args => {
-            if (args.error && event) {
-              arg.error = args.error;
-              this.doCallbackOrReplyTo(event, arg);
-            } else {
-              log.info(
-                chalk.yellowBright(this.name) +
-                  " '" +
-                  arg.type +
-                  "' : '" +
-                  arg.id +
-                  "' -> {" +
-                  view.count() +
-                  "}"
-              );
-              arg.data = view.data();
-              this.doCallbackOrReplyTo(event, arg);
-            }
-          }
+          args => this.delegateCallback(args, view, event, arg)
         );
       }
     }

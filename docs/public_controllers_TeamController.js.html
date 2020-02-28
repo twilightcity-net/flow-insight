@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>EventException - Documentation</title>
+  <title>public/controllers/TeamController.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -428,79 +428,153 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">EventException</h1>
+    <h1 class="page-title">public/controllers/TeamController.js</h1>
     <section>
-      <header>
-        <h2> EventException </h2>
-        <div class="class-description">generalize event exception class. others should extend this</div>
-      </header>
       <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h2>Constructor</h2>
-            <h4 class="name"
-                id="EventException"><span class="type-signature"></span>new EventException<span class="signature">()</span><span class="type-signature"></span></h4>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="src_events_RendererEventManager.js.html">src/events/RendererEventManager.js</a>, <a href="src_events_RendererEventManager.js.html#line59">line 59</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-          </div>
-        </div>
-        <h3 class="subsection-title">Methods</h3>
-        <div class="section-method">
-          <h4 class="name"
-              id="getDateTimeString"><span class="type-signature"></span>getDateTimeString<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
-          <div class="description"> gets the localized date time string for error reporting </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="src_events_RendererEventManager.js.html">src/events/RendererEventManager.js</a>, <a href="src_events_RendererEventManager.js.html#line89">line 89</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <div class="section-returns">
-            <h5>Returns:</h5>
-            <dl class="param-type">
-              <dt> Type: </dt>
-              <dd>
-                <span class="param-type"><code>string</code></span>
-              </dd>
-            </dl>
-          </div>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
-              id="toString"><span class="type-signature"></span>toString<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
-          <div class="description"> returns the error in string format </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="src_events_RendererEventManager.js.html">src/events/RendererEventManager.js</a>, <a href="src_events_RendererEventManager.js.html#line71">line 71</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <div class="section-returns">
-            <h5>Returns:</h5>
-            <dl class="param-type">
-              <dt> Type: </dt>
-              <dd>
-                <span class="param-type"><code>string</code></span>
-              </dd>
-            </dl>
-          </div>
-        </div>
+        <pre class="prettyprint source linenums"><code>const BaseController = require("./BaseController"),
+  EventFactory = require("../events/EventFactory"),
+  TeamDto = require("../dto/TeamDto"),
+  DatabaseFactory = require("../database/DatabaseFactory"),
+  TeamDatabase = require("../database/TeamDatabase");
+
+/**
+ * This class is used to coordinate controllers across the journal service
+ * @type {JournalController}
+ */
+module.exports = class TeamController extends BaseController {
+
+  /**
+   * builds our Journal Client controller class from our bass class
+   * @param scope - this is the wrapping scope to execute callbacks within
+   */
+  constructor(scope) {
+    super(scope, TeamController);
+    if (!TeamController.instance) {
+      TeamController.instance = this;
+      TeamController.wireTogetherControllers();
+    }
+  }
+
+  /**
+   * general enum list of all of our possible circuit events
+   * @returns {{LOAD_MY_TEAM: string, GET_MY_TEAM: string}}
+   * @constructor
+   */
+  static get Events() {
+    return {
+      LOAD_MY_TEAM: "load-my-team",
+      GET_MY_TEAM: "get-my-team"
+    };
+  }
+
+  /**
+   * links associated controller classes here
+   */
+  static wireTogetherControllers() {
+    BaseController.wireControllersTo(TeamController.instance);
+  }
+
+  /**
+   * configures application wide events here
+   */
+  configureEvents() {
+    BaseController.configEvents(TeamController.instance);
+    this.teamClientEventListener = EventFactory.createEvent(
+      EventFactory.Types.TEAM_CLIENT,
+      this,
+      this.onTeamClientEvent,
+      null
+    );
+  }
+
+  /**
+   * notified when we get a circuit event
+   * @param event
+   * @param arg
+   * @returns {string}
+   */
+  onTeamClientEvent(event, arg) {
+    this.logRequest(this.name, arg);
+    if (!arg.args) {
+      this.handleError(TeamController.Error.ERROR_ARGS, event, arg);
+    } else {
+      switch (arg.type) {
+        case TeamController.Events.LOAD_MY_TEAM:
+          this.handleLoadMyTeamEvent(event, arg);
+          break;
+        case TeamController.Events.GET_MY_TEAM:
+          this.handleGetMyTeamEvent(event, arg);
+          break;
+        default:
+          throw new Error(
+            TeamController.Error.UNKNOWN + " '" + arg.type + "'."
+          );
+      }
+    }
+  }
+
+  /**
+   * process team events for the listener. returns dto to callback.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleLoadMyTeamEvent(event, arg, callback) {
+    let type = arg.args.type,
+      name = arg.args.id ? arg.args.id : arg.args.name,
+      urn = TeamController.Paths.TEAM;
+
+    if (type !== TeamController.Types.PRIMARY) {
+      urn += TeamController.Paths.SEPARATOR + name;
+    }
+
+    this.doClientRequest("TeamClient", {}, "getMyTeam", "get", urn, store =>
+      this.delegateLoadMyTeamCallback(store, event, arg, callback)
+    );
+  }
+
+  /**
+   * handles our dto callback from our rest client
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateLoadMyTeamCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let team = new TeamDto(store.data),
+        database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+        collection = database.getCollection(TeamDatabase.Collections.TEAMS);
+      if (team) {
+        collection.insert(team);
+      }
+    }
+    this.doCallbackOrReplyTo(event, arg, callback);
+  }
+
+  /**
+   * gets one of our teams that is stored in the database, or fetch from grid
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetMyTeamEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+      type = arg.args.type,
+      name = arg.args.id ? arg.args.id : arg.args.name;
+
+    if (!name || type !== TeamController.Types.PRIMARY) {
+      arg.error = "Only primary team supported currently";
+      this.doCallbackOrReplyTo(event, arg, callback);
+    } else if (type === TeamController.Types.PRIMARY) {
+      let view = database.getViewForMyPrimaryTeam();
+      this.delegateCallback(null, view, event, arg);
+    }
+  }
+};
+</code></pre>
       </article>
     </section>
   </div>

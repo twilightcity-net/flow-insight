@@ -1,7 +1,4 @@
-const log = require("electron-log"),
-  chalk = require("chalk"),
-  Util = require("../Util"),
-  BaseController = require("./BaseController"),
+const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   TeamDto = require("../dto/TeamDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
@@ -20,44 +17,26 @@ module.exports = class TeamController extends BaseController {
     super(scope, TeamController);
     if (!TeamController.instance) {
       TeamController.instance = this;
-      TeamController.wireControllersTogether();
+      TeamController.wireTogetherControllers();
     }
   }
 
   /**
-   * ours static string paths for this client
-   * @returns {{JOURNAL: string, ME: string, LIMIT: string}}
-   * @constructor
-   */
-  static get Paths() {
-    return {
-      TEAM: "/team",
-      SEPARATOR: "/"
-    };
-  }
-
-  static get Types() {
-    return {
-      PRIMARY:"primary"
-    };
-  }
-
-  /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string}}
+   * @returns {{LOAD_MY_TEAM: string, GET_MY_TEAM: string}}
    * @constructor
    */
-  static get EventTypes() {
+  static get Events() {
     return {
-      LOAD_RECENT_JOURNAL: "load-recent-journal",
-      GET_RECENT_INTENTIONS: "get-recent-intentions"
+      LOAD_MY_TEAM: "load-my-team",
+      GET_MY_TEAM: "get-my-team"
     };
   }
 
   /**
    * links associated controller classes here
    */
-  static wireControllersTogether() {
+  static wireTogetherControllers() {
     BaseController.wireControllersTo(TeamController.instance);
   }
 
@@ -74,9 +53,6 @@ module.exports = class TeamController extends BaseController {
     );
   }
 
-  getDatabase() {
-
-  }
   /**
    * notified when we get a circuit event
    * @param event
@@ -84,64 +60,64 @@ module.exports = class TeamController extends BaseController {
    * @returns {string}
    */
   onTeamClientEvent(event, arg) {
-    log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
+    this.logRequest(this.name, arg);
     if (!arg.args) {
-      this.handleError("arg : args is required", event, arg);
+      this.handleError(TeamController.Error.ERROR_ARGS, event, arg);
     } else {
       switch (arg.type) {
-        case TeamController.EventTypes.LOAD_RECENT_JOURNAL:
+        case TeamController.Events.LOAD_MY_TEAM:
           this.handleLoadMyTeamEvent(event, arg);
           break;
-        case TeamController.EventTypes.GET_RECENT_INTENTIONS:
+        case TeamController.Events.GET_MY_TEAM:
           this.handleGetMyTeamEvent(event, arg);
           break;
         default:
-          throw new Error("Unknown team client event type '" + arg.type + "'.");
+          throw new Error(
+            TeamController.Error.UNKNOWN + " '" + arg.type + "'."
+          );
       }
     }
   }
 
   /**
-   * processes the create journal events for the listener. returns dto to callback.
+   * process team events for the listener. returns dto to callback.
    * @param event
    * @param arg
    * @param callback
    */
   handleLoadMyTeamEvent(event, arg, callback) {
     let type = arg.args.type,
-      id = arg.args.id,
-      name = arg.args.name,
+      name = arg.args.id ? arg.args.id : arg.args.name,
       urn = TeamController.Paths.TEAM;
 
     if (type !== TeamController.Types.PRIMARY) {
-      urn += TeamController.Paths.SEPARATOR;
-      if (id) {
-        urn += id;
-      } else {
-        urn += name;
-      }
+      urn += TeamController.Paths.SEPARATOR + name;
     }
 
-    this.doClientRequest(
-      "TeamClient",
-      {},
-      "getMyTeam",
-      "get",
-      urn,
-      store => {
-        if (store.error) {
-          arg.error = store.error;
-        } else {
-          let team = new TeamDto(store.data),
-            database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
-            collection = database.getCollection(TeamDatabase.Collections.TEAMS);
-          if (team) {
-            collection.insert(team);
-          }
-        }
-        this.doCallbackOrReplyTo(event, arg, callback);
-      }
+    this.doClientRequest("TeamClient", {}, "getMyTeam", "get", urn, store =>
+      this.delegateLoadMyTeamCallback(store, event, arg, callback)
     );
+  }
+
+  /**
+   * handles our dto callback from our rest client
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateLoadMyTeamCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let team = new TeamDto(store.data),
+        database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+        collection = database.getCollection(TeamDatabase.Collections.TEAMS);
+      if (team) {
+        collection.insert(team);
+      }
+    }
+    this.doCallbackOrReplyTo(event, arg, callback);
   }
 
   /**
@@ -152,49 +128,15 @@ module.exports = class TeamController extends BaseController {
    */
   handleGetMyTeamEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
-      userName = arg.args.userName,
-      view = database.getViewForIntentionsByUserName(userName);
+      type = arg.args.type,
+      name = arg.args.id ? arg.args.id : arg.args.name;
 
-    if (!userName) {
-      arg.error = "Unknown user '" + userName + "'";
+    if (!name || type !== TeamController.Types.PRIMARY) {
+      arg.error = "Only primary team supported currently";
       this.doCallbackOrReplyTo(event, arg, callback);
-    } else if (userName === TeamController.Paths.ME) {
-      log.info(
-        chalk.yellowBright(this.name) +
-          " '" +
-          arg.type +
-          "' : '" +
-          arg.id +
-          "' -> {" +
-          view.count() +
-          "}"
-      );
-      arg.data = view.data();
-      this.doCallbackOrReplyTo(event, arg, callback);
-    } else {
-      this.handleLoadJournalEvent(
-        null,
-        { args: { userName: userName } },
-        args => {
-          if (args.error && event) {
-            arg.error = args.error;
-            this.doCallbackOrReplyTo(event, arg);
-          } else {
-            log.info(
-              chalk.yellowBright(this.name) +
-                " '" +
-                arg.type +
-                "' : '" +
-                arg.id +
-                "' -> {" +
-                view.count() +
-                "}"
-            );
-            arg.data = view.data();
-            this.doCallbackOrReplyTo(event, arg);
-          }
-        }
-      );
+    } else if (type === TeamController.Types.PRIMARY) {
+      let view = database.getViewForMyPrimaryTeam();
+      this.delegateCallback(null, view, event, arg);
     }
   }
 };
