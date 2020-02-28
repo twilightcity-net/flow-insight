@@ -6,17 +6,13 @@ module.exports = class MemberWorkStatusDto {
   constructor(json) {
     try {
       if (typeof json === "string") json = JSON.parse(json);
-
       this.id = json.id;
-
       this.email = json.email;
       this.fullName = json.fullName;
       this.displayName = json.displayName;
       this.username = json.username;
-
       this.xpSummary = json.xpSummary;
       this.activeCircle = json.activeCircle;
-
       this.onlineStatus = json.onlineStatus;
       this.activeTaskId = json.activeTaskId;
       this.activeTaskName = json.activeTaskName;

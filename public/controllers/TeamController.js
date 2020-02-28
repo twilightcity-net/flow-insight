@@ -1,6 +1,7 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   TeamDto = require("../dto/TeamDto"),
+  MemberWorkStatusDto = require("../dto/MemberWorkStatusDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   TeamDatabase = require("../database/TeamDatabase");
 
@@ -29,6 +30,7 @@ module.exports = class TeamController extends BaseController {
   static get Events() {
     return {
       LOAD_MY_TEAM: "load-my-team",
+      LOAD_MY_CURRENT_STATUS: "load-my-current-status",
       GET_MY_TEAM: "get-my-team"
     };
   }
@@ -67,6 +69,9 @@ module.exports = class TeamController extends BaseController {
       switch (arg.type) {
         case TeamController.Events.LOAD_MY_TEAM:
           this.handleLoadMyTeamEvent(event, arg);
+          break;
+        case TeamController.Events.LOAD_MY_CURRENT_STATUS:
+          this.handleLoadMyCurrentStatus(event, arg);
           break;
         case TeamController.Events.GET_MY_TEAM:
           this.handleGetMyTeamEvent(event, arg);
@@ -115,6 +120,41 @@ module.exports = class TeamController extends BaseController {
         collection = database.getCollection(TeamDatabase.Collections.TEAMS);
       if (team) {
         collection.insert(team);
+      }
+    }
+    this.doCallbackOrReplyTo(event, arg, callback);
+  }
+
+  handleLoadMyCurrentStatus(event, arg, callback) {
+    let urn = TeamController.Paths.STATUS + TeamController.Paths.ME;
+
+    this.doClientRequest(
+      "TeamClient",
+      {},
+      "getMyCurrentStatus",
+      "get",
+      urn,
+      store =>
+        this.delegateLoadMyCurrentStatusCallback(store, event, arg, callback)
+    );
+  }
+
+  delegateLoadMyCurrentStatusCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+        collection = database.getCollection(TeamDatabase.Collections.MEMBERS),
+        view = database.getViewForMyCurrentStatus(),
+        member = new MemberWorkStatusDto(store.data);
+
+      member.isMe = true;
+      if(view.count() === 0) {
+        collection.insert(member);
+      } else {
+        collection.findAndUpdate({isMe: true}, (obj) => {
+          obj = member;
+        });
       }
     }
     this.doCallbackOrReplyTo(event, arg, callback);

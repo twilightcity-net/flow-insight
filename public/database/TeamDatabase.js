@@ -12,14 +12,16 @@ module.exports = class TeamDatabase extends LokiJS {
 
   static get Collections() {
     return {
-      TEAMS: "teams"
+      TEAMS: "teams",
+      MEMBERS: "members"
     };
   }
 
   static get Views() {
     return {
       TEAMS: "teams",
-      PRIMARY: "primary"
+      PRIMARY: "primary",
+      MEMBER_ME: "member-me"
     };
   }
 
@@ -28,7 +30,10 @@ module.exports = class TeamDatabase extends LokiJS {
       ID: "id",
       ORG_ID: "organizationId",
       NAME: "name",
-      TYPE: "type"
+      TYPE: "type",
+      USERNAME: "username",
+      EMAIL: "email",
+      DISPLAY_NAME: "displayName"
     };
   }
 
@@ -47,11 +52,22 @@ module.exports = class TeamDatabase extends LokiJS {
         TeamDatabase.Indices.TYPE
       ]
     });
+    this.addCollection(TeamDatabase.Collections.MEMBERS, {
+      indices: [
+        TeamDatabase.Indices.ID,
+        TeamDatabase.Indices.USERNAME,
+        TeamDatabase.Indices.EMAIL,
+        TeamDatabase.Indices.DISPLAY_NAME
+      ]
+    });
     this.getCollection(TeamDatabase.Collections.TEAMS).addDynamicView(
       TeamDatabase.Views.TEAMS
     );
     this.getCollection(TeamDatabase.Collections.TEAMS).addDynamicView(
       TeamDatabase.Views.PRIMARY
+    );
+    this.getCollection(TeamDatabase.Collections.MEMBERS).addDynamicView(
+      TeamDatabase.Views.MEMBER_ME
     );
   }
 
@@ -65,6 +81,15 @@ module.exports = class TeamDatabase extends LokiJS {
       view = collection.getDynamicView(TeamDatabase.Views.PRIMARY);
     view.applyWhere(obj => {
       return obj.type === TeamDatabase.Collections.PRIMARY;
+    });
+    return view;
+  }
+
+  getViewForMyCurrentStatus() {
+    let collection = this.getCollection(TeamDatabase.Collections.MEMBERS),
+      view = collection.getDynamicView(TeamDatabase.Views.MEMBER_ME);
+    view.applyWhere(obj => {
+      return obj.isMe;
     });
     return view;
   }

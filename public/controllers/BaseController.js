@@ -18,7 +18,9 @@ module.exports = class BaseController {
       LIMIT: "?limit=",
       ME: "me",
       TEAM: "/team",
-      SEPARATOR: "/"
+      SEPARATOR: "/",
+      STATUS: "/status/",
+      STATUS_TEAM: "/status/team"
     };
   }
 

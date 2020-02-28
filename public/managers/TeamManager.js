@@ -23,5 +23,8 @@ module.exports = class TeamManager {
       },
       callback
     );
+    TeamController.instance.handleLoadMyCurrentStatus({}, { args: {} }, () => {
+      console.log("callback");
+    });
   }
 };
