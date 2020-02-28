@@ -6,6 +6,7 @@ import { DimensionController } from "../controllers/DimensionController";
 import { CircuitClient } from "../clients/CircuitClient";
 import { TalkClient } from "../clients/TalkClient";
 import { JournalClient } from "../clients/JournalClient";
+import { TeamClient } from "../clients/TeamClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -91,6 +92,7 @@ export default class ConsoleView extends Component {
   componentDidMount = () => {
     this.myController.configureConsoleViewListener(this, this.onLoadCb);
     TalkClient.init(this);
+    TeamClient.init(this);
     JournalClient.init(this);
     CircuitClient.init(this);
     DimensionController.init(this);

@@ -5,6 +5,7 @@ import { DimensionController } from "../../../../controllers/DimensionController
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
+import { TeamClient } from "../../../../clients/TeamClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -49,10 +50,21 @@ export default class TeamPanel extends Component {
     this.props.saveStateCb(state);
   }
 
+  componentDidUpdate = (prevProps, prevState, snapshot) => {
+    console.log("did update");
+  };
+
+  shouldComponentUpdate = (nextProps, nextState, nextContext) => {
+    console.log("update");
+    this.loadMyTeam();
+    return false;
+  };
+
   /**
    * called when we render the team panel into the gui
    */
   componentDidMount = () => {
+    console.log("mount");
     this.myController.configureTeamPanelListener(this, this.onRefreshTeamPanel);
     this.onRefreshTeamPanel();
   };
@@ -68,6 +80,21 @@ export default class TeamPanel extends Component {
       default:
         throw new Error("Unknown team panel menu item");
     }
+  }
+
+  loadMyTeam() {
+    TeamClient.getMyTeam("primary", "", this, arg => {
+      if (arg.error) {
+        this.error = arg.error;
+        this.forceUpdate();
+      } else {
+        this.error = null;
+        this.myTeam = arg.data;
+        this.forceUpdate(() => {
+          this.scrollToBottomOrActive();
+        });
+      }
+    });
   }
 
   /**
