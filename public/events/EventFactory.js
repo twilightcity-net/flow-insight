@@ -29,6 +29,7 @@ class EventFactory {
       APP_PULSE: prefix + "app-pulse",
       DATABASE_CLIENT: prefix + "database-client",
       DATABASE_VOLUMES_READY: prefix + "database-farm-ready",
+      TEAM_CLIENT: prefix + "team-client",
       JOURNAL_CLIENT: prefix + "journal-client",
       WINDOW_FOCUS: prefix + "window-focus",
       WINDOW_BLUR: prefix + "window-blur",

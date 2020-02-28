@@ -75,9 +75,9 @@ module.exports = class VolumeManager {
   }
 
   static loadDefaultTeamDatabase() {
-    // do stuff
-
-    VolumeManager.handleFinishLoadingVolumes();
+    global.App.TeamManager.init(() => {
+      VolumeManager.handleFinishLoadingVolumes();
+    });
   }
 
   static handleFinishLoadingVolumes() {

@@ -11,17 +11,17 @@ const log = require("electron-log"),
  * This class is used to coordinate controllers across the journal service
  * @type {JournalController}
  */
-module.exports = class JournalController extends BaseController {
+module.exports = class TeamController extends BaseController {
   /**
    * builds our Journal Client controller class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
    */
   constructor(scope) {
-    super(scope, JournalController);
-    if (!JournalController.instance) {
-      JournalController.instance = this;
-      JournalController.wireControllersTogether();
-      JournalController.instance.userHistory = new Set();
+    super(scope, TeamController);
+    if (!TeamController.instance) {
+      TeamController.instance = this;
+      TeamController.wireControllersTogether();
+      TeamController.instance.userHistory = new Set();
     }
   }
 
@@ -32,7 +32,7 @@ module.exports = class JournalController extends BaseController {
    */
   static get Paths() {
     return {
-      JOURNAL: "/journal/",
+      JOURNAL: "/team",
       LIMIT: "?limit=",
       ME: "me"
     };
@@ -56,16 +56,16 @@ module.exports = class JournalController extends BaseController {
    * links associated controller classes here
    */
   static wireControllersTogether() {
-    BaseController.wireControllersTo(JournalController.instance);
+    BaseController.wireControllersTo(TeamController.instance);
   }
 
   /**
    * configures application wide events here
    */
   configureEvents() {
-    BaseController.configEvents(JournalController.instance);
-    this.journalClientEventListener = EventFactory.createEvent(
-      EventFactory.Types.JOURNAL_CLIENT,
+    BaseController.configEvents(TeamController.instance);
+    this.teamClientEventListener = EventFactory.createEvent(
+      EventFactory.Types.TEAM_CLIENT,
       this,
       this.onJournalClientEvent,
       null
@@ -81,16 +81,16 @@ module.exports = class JournalController extends BaseController {
   onJournalClientEvent(event, arg) {
     log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
     switch (arg.type) {
-      case JournalController.EventTypes.LOAD_RECENT_JOURNAL:
+      case TeamController.EventTypes.LOAD_RECENT_JOURNAL:
         this.handleLoadJournalEvent(event, arg);
         break;
-      case JournalController.EventTypes.GET_RECENT_INTENTIONS:
+      case TeamController.EventTypes.GET_RECENT_INTENTIONS:
         this.handleGetRecentIntentionsEvent(event, arg);
         break;
-      case JournalController.EventTypes.GET_RECENT_PROJECTS:
+      case TeamController.EventTypes.GET_RECENT_PROJECTS:
         this.handleGetRecentProjectsEvent(event, arg);
         break;
-      case JournalController.EventTypes.GET_RECENT_TASKS:
+      case TeamController.EventTypes.GET_RECENT_TASKS:
         this.handleGetRecentTasksEvent(event, arg);
         break;
       default:
@@ -123,18 +123,13 @@ module.exports = class JournalController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleLoadJournalEvent(event, arg, callback) {
-    let userName = arg.args.userName,
-      limit = arg.args.limit,
-      urn = JournalController.Paths.JOURNAL + userName;
-
-    if (limit) {
-      urn += JournalController.Paths.LIMIT + limit;
-    }
+  handleLoadTeamEvent(event, arg, callback) {
+    let type = arg.args.type,
+      urn = TeamController.Paths.JOURNAL;
 
     this.doClientRequest(
       "JournalClient",
-      userName,
+      type,
       "getRecentJournal",
       "get",
       urn,
@@ -146,34 +141,18 @@ module.exports = class JournalController extends BaseController {
             database = global.App.VolumeManager.getVolumeByName(
               DatabaseFactory.Names.JOURNAL
             ),
-            collection = null;
-
+            collection = database.getCollection(
+              JournalDB.Collections.INTENTIONS
+            );
           if(journal.recentIntentions) {
-            collection = database.getCollection(JournalDB.Collections.INTENTIONS);
             journal.recentIntentions.forEach(ri => {
               ri.timestamp = Util.getTimestampFromUTCStr(ri.positionStr);
-              ri.userName = userName;
+              ri.userName = type;
               collection.insert(ri);
             });
           }
-          if(journal.recentIntentions) {
-            collection = database.getCollection(JournalDB.Collections.PROJECTS);
-            journal.recentProjects.forEach(rp => {
-              collection.insert(rp);
-            });
-          }
-          if(journal.recentTasksByProjectId) {
-            collection = database.getCollection(JournalDB.Collections.TASKS);
-            Object.values(journal.recentTasksByProjectId).forEach(project => {
-              if (project) {
-                project.forEach(rt => {
-                  collection.insert(rt);
-                });
-              }
-            });
-          }
         }
-        JournalController.instance.userHistory.add(userName);
+        TeamController.instance.userHistory.add(type);
         this.doCallbackOrReplyTo(event, arg, callback);
       }
     );
@@ -195,7 +174,7 @@ module.exports = class JournalController extends BaseController {
     if (!userName) {
       arg.error = "Unknown user '" + userName + "'";
       this.doCallbackOrReplyTo(event, arg, callback);
-    } else if (userName === JournalController.Paths.ME) {
+    } else if (userName === TeamController.Paths.ME) {
       log.info(
         chalk.yellowBright(this.name) +
           " '" +
@@ -210,7 +189,7 @@ module.exports = class JournalController extends BaseController {
       this.doCallbackOrReplyTo(event, arg, callback);
     } else {
       if (
-        JournalController.instance.userHistory.has(userName) &&
+        TeamController.instance.userHistory.has(userName) &&
         view.count() !== 0
       ) {
         log.info(
