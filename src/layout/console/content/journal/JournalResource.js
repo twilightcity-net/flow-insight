@@ -34,6 +34,9 @@ export default class JournalResource extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if(nextProps.resource.uri === this.props.resource.uri) {
+      return false;
+    }
     let userName = this.getUserNameFromResource(nextProps);
     JournalClient.getRecentIntentions(userName, this, arg => {
       if (arg.error) {
