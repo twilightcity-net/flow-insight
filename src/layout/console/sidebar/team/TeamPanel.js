@@ -50,21 +50,10 @@ export default class TeamPanel extends Component {
     this.props.saveStateCb(state);
   }
 
-  componentDidUpdate = (prevProps, prevState, snapshot) => {
-    console.log("did update");
-  };
-
-  shouldComponentUpdate = (nextProps, nextState, nextContext) => {
-    console.log("update");
-    this.loadMyTeam();
-    return false;
-  };
-
   /**
    * called when we render the team panel into the gui
    */
   componentDidMount = () => {
-    console.log("mount");
     this.myController.configureTeamPanelListener(this, this.onRefreshTeamPanel);
     this.onRefreshTeamPanel();
   };
@@ -83,24 +72,30 @@ export default class TeamPanel extends Component {
   }
 
   loadMyTeam() {
-    TeamClient.getMyTeam("primary", "", this, arg => {
-      if (arg.error) {
-        this.error = arg.error;
-        this.forceUpdate();
-      } else {
-        this.error = null;
-        this.myTeam = arg.data;
-        this.forceUpdate(() => {
-          this.scrollToBottomOrActive();
-        });
-      }
-    });
+    TeamClient.getMyTeam("primary", null, this, this.loadMyTeamCb);
   }
+
+  loadMyTeamCb = arg => {
+    if (arg.error) {
+      this.error = arg.error;
+
+      // TODO handle the error in the panel with some text or something
+      this.forceUpdate();
+    } else {
+      this.error = null;
+      this.myTeam = arg.data;
+      console.log(this.myTeam);
+      this.forceUpdate(() => {
+        this.scrollToBottomOrActive();
+      });
+    }
+  };
 
   /**
    * called to display the team panel in the gui
    */
   showTeamPanel() {
+    this.loadMyTeam();
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.TEAM,
       teamVisible: true
