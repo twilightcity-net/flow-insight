@@ -347,6 +347,15 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishChatToRoom">publishChatToRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishScreenshotToRoom">publishScreenshotToRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishSnippetToRoom">publishSnippetToRoom</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyTeam">getMyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.loadMyTeam">loadMyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#notifyListeners">notifyListeners</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#notifyTeam">notifyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#registerListener">registerListener</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#unregisterListener">unregisterListener</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Views.html">Views</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="WindowManager.html">WindowManager</a></span></li>
@@ -379,6 +388,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarPartyContent">getCircuitSidebarPartyContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getErrorContent">getErrorContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedEvent">getFeedEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getGuid">getGuid</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalEntry">getJournalEntry</a></span></li>
@@ -432,12 +442,19 @@
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import { Menu, Segment, Transition, Grid } from "semantic-ui-react";
+import {
+  Menu,
+  Segment,
+  Transition,
+  Grid,
+  Message
+} from "semantic-ui-react";
 import TeamMember from "./TeamMember";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
+import { TeamClient } from "../../../../clients/TeamClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -507,11 +524,27 @@ export default class TeamPanel extends Component {
    * called to display the team panel in the gui
    */
   showTeamPanel() {
+    TeamClient.getMyTeam("primary", "", this, this.loadMyTeamCb);
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.TEAM,
       teamVisible: true
     });
   }
+
+  /**
+   * callback handler for our load my team service client request
+   * @param arg
+   */
+  loadMyTeamCb = arg => {
+    if (arg.error) {
+      this.error = arg.error;
+      this.forceUpdate();
+    } else {
+      this.error = null;
+      this.myTeam = arg.data[0];
+      this.forceUpdate();
+    }
+  };
 
   /**
    * called when removing the component from the gui. removes any associated listeners for
@@ -546,7 +579,7 @@ export default class TeamPanel extends Component {
 
   /**
    * creates a new request and dispatch this to the browser request listener
-   * @param circuitName
+   * @param teamMember
    */
   requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember) {
     let request = BrowserRequestFactory.createRequest(
@@ -557,56 +590,76 @@ export default class TeamPanel extends Component {
   }
 
   /**
+   * renders some error content is things fuck up
+   * @param message
+   * @returns {*}
+   */
+  getErrorContent(message) {
+    return (
+      &lt;div className="error">
+        &lt;Message negative>
+          &lt;Message.Header>Error:&lt;/Message.Header>
+          &lt;p>{message}&lt;/p>
+        &lt;/Message>
+      &lt;/div>
+    );
+  }
+
+  /**
    * gets our team panel content with the team model that was passed in from the props
    * @returns {*}
    */
   getTeamMembersContent = () => {
-    return (
-      &lt;div>
-        &lt;Grid inverted>
-          &lt;TeamMember
-            key={this.props.me.id}
-            id={this.props.me.id}
-            displayName={this.props.me.displayName + " (you)"}
-            name={this.props.me.name}
-            activeStatus={this.props.me.activeStatus}
-            statusColor={this.props.me.statusColor}
-            activeTaskName={this.props.me.activeTaskName}
-            activeTaskSummary={this.props.me.activeTaskSummary}
-            workingOn={this.props.me.workingOn}
-            isAlarmTriggered={this.props.me.isAlarmTriggered}
-            wtfTimer={this.props.me.wtfTimer}
-            alarmStatusMessage={this.props.me.alarmStatusMessage}
-            level={this.props.me.level}
-            xpRequired={this.props.me.xpRequired}
-            onSetActiveRow={this.selectRow}
-            teamMember={this.props.me}
-            activeTeamMember={this.props.activeTeamMember}
-          />
-          {this.props.teamMembers.map(d => (
+    if (this.error) {
+      return this.getErrorContent(this.error);
+    } else {
+      return (
+        &lt;div>
+          &lt;Grid inverted>
             &lt;TeamMember
-              key={d.id}
-              id={d.id}
-              displayName={d.displayName}
-              name={d.name}
-              activeStatus={d.activeStatus}
-              statusColor={d.statusColor}
-              activeTaskName={d.activeTaskName}
-              activeTaskSummary={d.activeTaskSummary}
-              workingOn={d.workingOn}
-              isAlarmTriggered={d.isAlarmTriggered}
-              wtfTimer={d.wtfTimer}
+              key={this.props.me.id}
+              id={this.props.me.id}
+              displayName={this.props.me.displayName + " (you)"}
+              name={this.props.me.name}
+              activeStatus={this.props.me.activeStatus}
+              statusColor={this.props.me.statusColor}
+              activeTaskName={this.props.me.activeTaskName}
+              activeTaskSummary={this.props.me.activeTaskSummary}
+              workingOn={this.props.me.workingOn}
+              isAlarmTriggered={this.props.me.isAlarmTriggered}
+              wtfTimer={this.props.me.wtfTimer}
               alarmStatusMessage={this.props.me.alarmStatusMessage}
-              level={d.level}
-              xpRequired={d.xpRequired}
+              level={this.props.me.level}
+              xpRequired={this.props.me.xpRequired}
               onSetActiveRow={this.selectRow}
-              teamMember={d}
+              teamMember={this.props.me}
               activeTeamMember={this.props.activeTeamMember}
             />
-          ))}
-        &lt;/Grid>
-      &lt;/div>
-    );
+            {this.props.teamMembers.map(d => (
+              &lt;TeamMember
+                key={d.id}
+                id={d.id}
+                displayName={d.displayName}
+                name={d.name}
+                activeStatus={d.activeStatus}
+                statusColor={d.statusColor}
+                activeTaskName={d.activeTaskName}
+                activeTaskSummary={d.activeTaskSummary}
+                workingOn={d.workingOn}
+                isAlarmTriggered={d.isAlarmTriggered}
+                wtfTimer={d.wtfTimer}
+                alarmStatusMessage={this.props.me.alarmStatusMessage}
+                level={d.level}
+                xpRequired={d.xpRequired}
+                onSetActiveRow={this.selectRow}
+                teamMember={d}
+                activeTeamMember={this.props.activeTeamMember}
+              />
+            ))}
+          &lt;/Grid>
+        &lt;/div>
+      );
+    }
   };
 
   /**
@@ -614,6 +667,7 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   render() {
+    let teamName = this.myTeam ? this.myTeam.name : "loading...";
     return (
       &lt;div
         id="component"
@@ -625,7 +679,7 @@ export default class TeamPanel extends Component {
       >
         &lt;Segment.Group>
           &lt;Menu size="mini" inverted pointing secondary>
-            &lt;Menu.Item name="team" active={true} onClick={this.handleClick} />
+            &lt;Menu.Item name={teamName} active={true} onClick={this.handleClick} />
           &lt;/Menu>
           &lt;Segment
             inverted

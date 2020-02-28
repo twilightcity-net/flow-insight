@@ -347,6 +347,15 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishChatToRoom">publishChatToRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishScreenshotToRoom">publishScreenshotToRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishSnippetToRoom">publishSnippetToRoom</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyTeam">getMyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.loadMyTeam">loadMyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#notifyListeners">notifyListeners</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#notifyTeam">notifyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#registerListener">registerListener</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#unregisterListener">unregisterListener</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Views.html">Views</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="WindowManager.html">WindowManager</a></span></li>
@@ -379,6 +388,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarPartyContent">getCircuitSidebarPartyContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getErrorContent">getErrorContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedEvent">getFeedEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getGuid">getGuid</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalEntry">getJournalEntry</a></span></li>
@@ -442,7 +452,6 @@
  * @type {JournalController}
  */
 module.exports = class TeamController extends BaseController {
-
   /**
    * builds our Journal Client controller class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -565,12 +574,12 @@ module.exports = class TeamController extends BaseController {
       type = arg.args.type,
       name = arg.args.id ? arg.args.id : arg.args.name;
 
-    if (!name || type !== TeamController.Types.PRIMARY) {
-      arg.error = "Only primary team supported currently";
-      this.doCallbackOrReplyTo(event, arg, callback);
-    } else if (type === TeamController.Types.PRIMARY) {
+    if (type === TeamController.Types.PRIMARY) {
       let view = database.getViewForMyPrimaryTeam();
       this.delegateCallback(null, view, event, arg);
+    } else {
+      arg.error = "Only primary team supported currently";
+      this.doCallbackOrReplyTo(event, arg, callback);
     }
   }
 };

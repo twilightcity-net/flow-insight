@@ -166,7 +166,7 @@ module.exports = class BaseController {
    * @param arg
    */
   delegateCallback(args, view, event, arg) {
-    if (args.error && event) {
+    if (args && args.error && event) {
       arg.error = args.error;
       this.doCallbackOrReplyTo(event, arg);
     } else {

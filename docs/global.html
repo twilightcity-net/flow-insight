@@ -347,6 +347,15 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishChatToRoom">publishChatToRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishScreenshotToRoom">publishScreenshotToRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishSnippetToRoom">publishSnippetToRoom</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyTeam">getMyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.loadMyTeam">loadMyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#notifyListeners">notifyListeners</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#notifyTeam">notifyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#registerListener">registerListener</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#unregisterListener">unregisterListener</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Util.html">Util</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Views.html">Views</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="WindowManager.html">WindowManager</a></span></li>
@@ -379,6 +388,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarPartyContent">getCircuitSidebarPartyContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getErrorContent">getErrorContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedEvent">getFeedEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getGuid">getGuid</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalEntry">getJournalEntry</a></span></li>
@@ -449,7 +459,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line44">line 44</a>
+                  <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line45">line 45</a>
                 </li>
               </ul>
             </dd>
@@ -516,7 +526,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line58">line 58</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line61">line 61</a>
                 </li>
               </ul>
             </dd>
@@ -788,7 +798,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line208">line 208</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line211">line 211</a>
                 </li>
               </ul>
             </dd>
@@ -818,6 +828,49 @@
               <dt> Type: </dt>
               <dd>
                 <span class="param-type"><code>null</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="getErrorContent"><span class="type-signature"></span>getErrorContent<span class="signature">(message)</span><span class="type-signature"> &rarr; {*}</span></h4>
+          <div class="description"> renders some error content is things fuck up </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line154">line 154</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>message</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>*</code></span>
               </dd>
             </dl>
           </div>
@@ -898,7 +951,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line290">line 290</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line293">line 293</a>
                 </li>
               </ul>
             </dd>
@@ -941,7 +994,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line273">line 273</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line276">line 276</a>
                 </li>
               </ul>
             </dd>
@@ -965,7 +1018,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line217">line 217</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line220">line 220</a>
                 </li>
               </ul>
             </dd>
@@ -989,7 +1042,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line247">line 247</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line250">line 250</a>
                 </li>
               </ul>
             </dd>
@@ -1123,7 +1176,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line191">line 191</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line194">line 194</a>
                 </li>
               </ul>
             </dd>
@@ -1209,7 +1262,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line132">line 132</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line135">line 135</a>
                 </li>
               </ul>
             </dd>
@@ -1233,7 +1286,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line146">line 146</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line149">line 149</a>
                 </li>
               </ul>
             </dd>
@@ -1415,7 +1468,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line30">line 30</a>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line37">line 37</a>
                 </li>
               </ul>
             </dd>
@@ -1480,7 +1533,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line109">line 109</a>
+                  <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line111">line 111</a>
                 </li>
               </ul>
             </dd>
@@ -1719,7 +1772,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line63">line 63</a>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line70">line 70</a>
                 </li>
               </ul>
             </dd>
@@ -2104,7 +2157,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line304">line 304</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line307">line 307</a>
                 </li>
               </ul>
             </dd>
@@ -2265,7 +2318,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line183">line 183</a>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line226">line 226</a>
                 </li>
               </ul>
             </dd>
@@ -2289,7 +2342,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line129">line 129</a>
+                  <a href="src_views_ConsoleView.js.html">src/views/ConsoleView.js</a>, <a href="src_views_ConsoleView.js.html#line131">line 131</a>
                 </li>
               </ul>
             </dd>
@@ -2380,14 +2433,14 @@
         </div>
         <div class="section-method">
           <h4 class="name"
-              id="requestBrowserToLoadTeamJournalAndSetActiveMember"><span class="type-signature"></span>requestBrowserToLoadTeamJournalAndSetActiveMember<span class="signature">(circuitName)</span><span class="type-signature"></span></h4>
+              id="requestBrowserToLoadTeamJournalAndSetActiveMember"><span class="type-signature"></span>requestBrowserToLoadTeamJournalAndSetActiveMember<span class="signature">(teamMember)</span><span class="type-signature"></span></h4>
           <div class="description"> creates a new request and dispatch this to the browser request listener </div>
           <dl class="details">
             <dt class="tag-source">Source:</dt>
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line118">line 118</a>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line141">line 141</a>
                 </li>
               </ul>
             </dd>
@@ -2403,7 +2456,7 @@
             </thead>
             <tbody>
               <tr>
-                <td class="name"><code>circuitName</code></td>
+                <td class="name"><code>teamMember</code></td>
                 <td class="type">
                 </td>
                 <td class="description last">
@@ -2455,7 +2508,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line48">line 48</a>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line55">line 55</a>
                 </li>
               </ul>
             </dd>
@@ -2621,7 +2674,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line76">line 76</a>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line83">line 83</a>
                 </li>
               </ul>
             </dd>

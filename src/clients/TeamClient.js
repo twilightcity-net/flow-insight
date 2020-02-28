@@ -89,6 +89,14 @@ export class TeamClient extends BaseClient {
     return clientEvent;
   }
 
+  /**
+   * gets our local team that we are in
+   * @param type
+   * @param name
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static getMyTeam(type, name, scope, callback) {
     let clientEvent = new RendererClientEvent(
       TeamClient.Events.GET_MY_TEAM,

@@ -131,12 +131,12 @@ module.exports = class TeamController extends BaseController {
       type = arg.args.type,
       name = arg.args.id ? arg.args.id : arg.args.name;
 
-    if (!name || type !== TeamController.Types.PRIMARY) {
-      arg.error = "Only primary team supported currently";
-      this.doCallbackOrReplyTo(event, arg, callback);
-    } else if (type === TeamController.Types.PRIMARY) {
+    if (type === TeamController.Types.PRIMARY) {
       let view = database.getViewForMyPrimaryTeam();
       this.delegateCallback(null, view, event, arg);
+    } else {
+      arg.error = "Only primary team supported currently";
+      this.doCallbackOrReplyTo(event, arg, callback);
     }
   }
 };
