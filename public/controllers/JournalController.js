@@ -80,40 +80,27 @@ module.exports = class JournalController extends BaseController {
    */
   onJournalClientEvent(event, arg) {
     log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
-    switch (arg.type) {
-      case JournalController.EventTypes.LOAD_RECENT_JOURNAL:
-        this.handleLoadJournalEvent(event, arg);
-        break;
-      case JournalController.EventTypes.GET_RECENT_INTENTIONS:
-        this.handleGetRecentIntentionsEvent(event, arg);
-        break;
-      case JournalController.EventTypes.GET_RECENT_PROJECTS:
-        this.handleGetRecentProjectsEvent(event, arg);
-        break;
-      case JournalController.EventTypes.GET_RECENT_TASKS:
-        this.handleGetRecentTasksEvent(event, arg);
-        break;
-      default:
-        throw new Error(
-          "Unknown journal client event type '" + arg.type + "'."
-        );
-    }
-  }
-
-  /**
-   * performs our callback or makes the event reply
-   * @param event
-   * @param arg
-   * @param callback
-   * @returns {Array|*}
-   */
-  doCallbackOrReplyTo(event, arg, callback) {
-    if (callback) {
-      return callback(arg);
-    } else if (event) {
-      return event.replyTo(arg);
+    if(!arg.args) {
+      this.handleError("arg : args is required", event, arg);
     } else {
-      throw new Error("Invalid create journal event");
+      switch (arg.type) {
+        case JournalController.EventTypes.LOAD_RECENT_JOURNAL:
+          this.handleLoadJournalEvent(event, arg);
+          break;
+        case JournalController.EventTypes.GET_RECENT_INTENTIONS:
+          this.handleGetRecentIntentionsEvent(event, arg);
+          break;
+        case JournalController.EventTypes.GET_RECENT_PROJECTS:
+          this.handleGetRecentProjectsEvent(event, arg);
+          break;
+        case JournalController.EventTypes.GET_RECENT_TASKS:
+          this.handleGetRecentTasksEvent(event, arg);
+          break;
+        default:
+          throw new Error(
+            "Unknown journal client event type '" + arg.type + "'."
+          );
+      }
     }
   }
 
@@ -134,7 +121,7 @@ module.exports = class JournalController extends BaseController {
 
     this.doClientRequest(
       "JournalClient",
-      userName,
+      {},
       "getRecentJournal",
       "get",
       urn,
@@ -148,21 +135,23 @@ module.exports = class JournalController extends BaseController {
             ),
             collection = null;
 
-          if(journal.recentIntentions) {
-            collection = database.getCollection(JournalDB.Collections.INTENTIONS);
+          if (journal.recentIntentions) {
+            collection = database.getCollection(
+              JournalDB.Collections.INTENTIONS
+            );
             journal.recentIntentions.forEach(ri => {
               ri.timestamp = Util.getTimestampFromUTCStr(ri.positionStr);
               ri.userName = userName;
               collection.insert(ri);
             });
           }
-          if(journal.recentIntentions) {
+          if (journal.recentIntentions) {
             collection = database.getCollection(JournalDB.Collections.PROJECTS);
             journal.recentProjects.forEach(rp => {
               collection.insert(rp);
             });
           }
-          if(journal.recentTasksByProjectId) {
+          if (journal.recentTasksByProjectId) {
             collection = database.getCollection(JournalDB.Collections.TASKS);
             Object.values(journal.recentTasksByProjectId).forEach(project => {
               if (project) {
@@ -226,7 +215,6 @@ module.exports = class JournalController extends BaseController {
         arg.data = view.data();
         this.doCallbackOrReplyTo(event, arg);
       } else {
-        console.log("->grid");
         this.handleLoadJournalEvent(
           null,
           { args: { userName: userName } },

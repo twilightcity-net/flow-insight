@@ -33,6 +33,23 @@ module.exports = class BaseController {
   }
 
   /**
+   * performs our callback or makes the event reply
+   * @param event
+   * @param arg
+   * @param callback
+   * @returns {Array|*}
+   */
+  doCallbackOrReplyTo(event, arg, callback) {
+    if (callback) {
+      return callback(arg);
+    } else if (event) {
+      return event.replyTo(arg);
+    } else {
+      throw new Error("Invalid create team event");
+    }
+  }
+
+  /**
    * this function makes a request to the Journal Client interface on gridtime server. This will be
    * worked into our existing data client and model system.
    * @param context
@@ -55,5 +72,11 @@ module.exports = class BaseController {
     };
     let client = new DtoClient(store, callback);
     client.doRequest();
+  }
+
+  handleError(message, event, arg, callback) {
+    arg.error = message;
+    this.doCallbackOrReplyTo(event, arg, callback);
+
   }
 };

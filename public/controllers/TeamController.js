@@ -67,7 +67,7 @@ module.exports = class TeamController extends BaseController {
     this.teamClientEventListener = EventFactory.createEvent(
       EventFactory.Types.TEAM_CLIENT,
       this,
-      this.onJournalClientEvent,
+      this.onTeamClientEvent,
       null
     );
   }
@@ -78,42 +78,23 @@ module.exports = class TeamController extends BaseController {
    * @param arg
    * @returns {string}
    */
-  onJournalClientEvent(event, arg) {
+  onTeamClientEvent(event, arg) {
     log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
-    switch (arg.type) {
-      case TeamController.EventTypes.LOAD_RECENT_JOURNAL:
-        this.handleLoadJournalEvent(event, arg);
-        break;
-      case TeamController.EventTypes.GET_RECENT_INTENTIONS:
-        this.handleGetRecentIntentionsEvent(event, arg);
-        break;
-      case TeamController.EventTypes.GET_RECENT_PROJECTS:
-        this.handleGetRecentProjectsEvent(event, arg);
-        break;
-      case TeamController.EventTypes.GET_RECENT_TASKS:
-        this.handleGetRecentTasksEvent(event, arg);
-        break;
-      default:
-        throw new Error(
-          "Unknown journal client event type '" + arg.type + "'."
-        );
-    }
-  }
-
-  /**
-   * performs our callback or makes the event reply
-   * @param event
-   * @param arg
-   * @param callback
-   * @returns {Array|*}
-   */
-  doCallbackOrReplyTo(event, arg, callback) {
-    if (callback) {
-      return callback(arg);
-    } else if (event) {
-      return event.replyTo(arg);
+    if(!arg.args) {
+      this.handleError("arg : args is required", event, arg);
     } else {
-      throw new Error("Invalid create journal event");
+      switch (arg.type) {
+        case TeamController.EventTypes.LOAD_RECENT_JOURNAL:
+          this.handleLoadJournalEvent(event, arg);
+          break;
+        case TeamController.EventTypes.GET_RECENT_INTENTIONS:
+          this.handleGetRecentIntentionsEvent(event, arg);
+          break;
+        default:
+          throw new Error(
+            "Unknown team client event type '" + arg.type + "'."
+          );
+      }
     }
   }
 
@@ -125,11 +106,13 @@ module.exports = class TeamController extends BaseController {
    */
   handleLoadTeamEvent(event, arg, callback) {
     let type = arg.args.type,
+      name = arg.args.name,
+      id = arg.args.name,
       urn = TeamController.Paths.JOURNAL;
 
     this.doClientRequest(
       "JournalClient",
-      type,
+      {},
       "getRecentJournal",
       "get",
       urn,
@@ -144,7 +127,7 @@ module.exports = class TeamController extends BaseController {
             collection = database.getCollection(
               JournalDB.Collections.INTENTIONS
             );
-          if(journal.recentIntentions) {
+          if (journal.recentIntentions) {
             journal.recentIntentions.forEach(ri => {
               ri.timestamp = Util.getTimestampFromUTCStr(ri.positionStr);
               ri.userName = type;
@@ -232,8 +215,4 @@ module.exports = class TeamController extends BaseController {
       }
     }
   }
-
-  handleGetRecentProjectsEvent(event, arg, callback) {}
-
-  handleGetRecentTasksEvent(event, arg, callback) {}
 };
