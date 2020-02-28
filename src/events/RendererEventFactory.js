@@ -41,6 +41,7 @@ export class RendererEventFactory {
       TALK_MESSAGE_ROOM: prefix + "talk-message-room",
       TALK_JOIN_ROOM: prefix + "talk-join-room",
       TALK_LEAVE_ROOM: prefix + "talk-leave-room",
+      TEAM_CLIENT: prefix + "team-client",
       JOURNAL_CLIENT: prefix + "journal-client",
       CIRCUIT_CLIENT: prefix + "circuit-client",
       VIEW_CONSOLE_SIDEBAR_PANEL: prefix + "view-console-sidebar-panel",
