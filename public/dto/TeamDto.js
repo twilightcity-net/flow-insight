@@ -9,16 +9,11 @@ module.exports = class TeamDto {
       this.id = json.id;
       this.organizationId = json.organizationId;
       this.name = json.name;
-      this.teamRoomName = json.name;
-      this.teamRoomId = json.name;
     } catch (e) {
-      throw new Error(
-        "Unable to create dto 'MemberWorkStatusDto' : " + e.message
-      );
+      throw new Error("Unable to create dto 'TeamDto' : " + e.message);
     }
   }
   isValid() {
-    if (this.id != null && this.name != null) return true;
-    return false;
+    return this.id != null && this.name != null;
   }
 };

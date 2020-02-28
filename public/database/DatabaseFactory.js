@@ -36,7 +36,7 @@ module.exports = class DatabaseFactory {
       case DatabaseFactory.Names.CIRCUIT:
         return new CircuitDB();
       case DatabaseFactory.Names.TEAM:
-        return new CircuitDB();
+        return new TeamDB();
       default:
         throw new Error("Unknown database type '" + name + "'");
     }
