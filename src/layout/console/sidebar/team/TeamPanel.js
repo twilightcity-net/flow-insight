@@ -1,11 +1,11 @@
 import React, { Component } from "react";
-import { Menu, Segment, Transition, Grid, Message } from "semantic-ui-react";
-import TeamMember from "./TeamMember";
+import { Menu, Segment, Transition, Message, List } from "semantic-ui-react";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 import { TeamClient } from "../../../../clients/TeamClient";
+import TeamPanelListItem from "./TeamPanelListItem";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -27,14 +27,18 @@ export default class TeamPanel extends Component {
     this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
     this.me = this.getDefaultMe();
+    this.myTeam = {};
     this.members = [];
-    this.selected = this.me;
+  }
+
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    return this.me.id !== this.me.displayName;
   }
 
   getDefaultMe() {
     return {
       displayName: SidePanelViewController.ME,
-      id: SidePanelViewController.ID
+      id: SidePanelViewController.ME
     };
   }
 
@@ -55,7 +59,7 @@ export default class TeamPanel extends Component {
         this.showTeamPanel();
         break;
       default:
-        throw new Error("Unknown team panel menu item");
+        throw new Error(TeamClient.Errors.UNKNOWN);
     }
   }
 
@@ -66,10 +70,14 @@ export default class TeamPanel extends Component {
     this.setState({
       teamVisible: true
     });
-    TeamClient.getMyTeam("primary", "", this, arg =>
-      this.handleClientCallback(arg, arg => {
-        this.myTeam = arg.data[0];
-      })
+    TeamClient.getMyTeam(
+      TeamClient.Strings.PRIMARY,
+      TeamClient.Strings.EMPTY,
+      this,
+      arg =>
+        this.handleClientCallback(arg, arg => {
+          this.myTeam = arg.data[0];
+        })
     );
     TeamClient.getMyCurrentStatus(this, arg =>
       this.handleClientCallback(arg, arg => {
@@ -104,23 +112,18 @@ export default class TeamPanel extends Component {
    * @param e
    * @param name
    */
-  handleClick = (e, { name }) => {
-    this.myController.changeActiveTeamSubmenuPanel(name);
+  handleMenuClick = (e, { name }) => {
+    // TODO support multiple teams
+    // this.myController.changeActiveTeamSubmenuPanel(name);
   };
 
   /**
    * selects a team member in the list
-   * @param id
-   * @param teamMember
+   * @param member
    */
-  selectRow = (id, member) => {
-    console.log(
-      this.name + " - Team member clicked!" + member.name + "id = " + id
-    );
-    this.selected = member;
-    this.requestBrowserToLoadTeamJournalAndSetActiveMember(
-      member.userName
-    );
+  handleClickRow = member => {
+    let name = member.isMe ? TeamClient.Strings.ME : member.userName;
+    this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
   };
 
   /**
@@ -152,78 +155,38 @@ export default class TeamPanel extends Component {
   }
 
   /**
-   * renders ourself into the team gui grid
-   * @returns {*}
-   */
-  getTeamMemberMeContent() {
-    return (
-      <TeamMember
-        key={this.me.id}
-        id={this.me.id}
-        displayName={this.me.displayName + " (you)"}
-        name={this.me.name}
-        activeStatus={this.me.activeStatus}
-        statusColor={this.me.statusColor}
-        activeTaskName={this.me.activeTaskName}
-        activeTaskSummary={this.me.activeTaskSummary}
-        workingOn={this.me.workingOn}
-        isAlarmTriggered={this.me.isAlarmTriggered}
-        wtfTimer={this.me.wtfTimer}
-        alarmStatusMessage={this.me.alarmStatusMessage}
-        level={this.me.level}
-        xpRequired={this.me.xpRequired}
-        onSetActiveRow={this.selectRow}
-        teamMember={this.me}
-        activeTeamMember={this.selected}
-      />
-    );
-  }
-
-  /**
-   * renders our other team member content in the gui grid
-   * @param member
-   * @returns {*}
-   */
-  getTeamMembersOtherContent(member) {
-    return (
-      <TeamMember
-        key={member.id}
-        id={member.id}
-        displayName={member.displayName}
-        name={member.name}
-        activeStatus={member.activeStatus}
-        statusColor={member.statusColor}
-        activeTaskName={member.activeTaskName}
-        activeTaskSummary={member.activeTaskSummary}
-        workingOn={member.workingOn}
-        isAlarmTriggered={member.isAlarmTriggered}
-        wtfTimer={member.wtfTimer}
-        alarmStatusMessage={member.alarmStatusMessage}
-        level={member.level}
-        xpRequired={member.xpRequired}
-        onSetActiveRow={this.selectRow}
-        teamMember={member}
-        activeTeamMember={this.selected}
-      />
-    );
-  }
-
-  /**
    * gets our team panel content with the team model that was passed in from the props
    * @returns {*}
    */
-  getTeamMembersContent() {
+  getTeamPanelMembersContent() {
     if (this.error) {
       return this.getErrorContent(this.error);
     } else {
       return (
-        <div>
-          <Grid inverted>
-            {this.getTeamMemberMeContent()}
-            {this.members.map(member =>
-              this.getTeamMembersOtherContent(member)
+        <div className="teamPanelMembersContent">
+          <List
+            inverted
+            divided
+            celled
+            animated
+            verticalAlign="middle"
+            size="large"
+          >
+            {this.me.id !== this.me.displayName && (
+              <TeamPanelListItem
+                key={this.me.id}
+                model={this.me}
+                onClickRow={this.handleClickRow}
+              />
             )}
-          </Grid>
+            {this.members.map(model => (
+              <TeamPanelListItem
+                key={model.id}
+                model={model}
+                onClickRow={this.handleClickRow}
+              />
+            ))}
+          </List>
         </div>
       );
     }
@@ -234,7 +197,7 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   render() {
-    let teamName = this.myTeam ? this.myTeam.name : "loading...";
+    let teamName = this.myTeam ? this.myTeam.name : TeamClient.Strings.LOADING;
     return (
       <div
         id="component"
@@ -249,7 +212,7 @@ export default class TeamPanel extends Component {
             <Menu.Item
               name={teamName}
               active={true}
-              onClick={this.handleClick}
+              onClick={this.handleMenuClick}
             />
           </Menu>
           <Segment
@@ -262,7 +225,7 @@ export default class TeamPanel extends Component {
               duration={this.animationDelay}
               unmountOnHide
             >
-              {this.getTeamMembersContent()}
+              {this.getTeamPanelMembersContent()}
             </Transition>
           </Segment>
         </Segment.Group>

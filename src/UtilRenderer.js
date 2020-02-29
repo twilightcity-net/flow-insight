@@ -58,6 +58,14 @@ export default class UtilRenderer {
     };
   }
 
+  static isMemberOnline(member) {
+    return member.onlineStatus === "Online";
+  }
+
+  static isAlarmTriggered(member) {
+    return !!member.activeCircuit;
+  }
+
   /**
    * gets a unique id in a ISO GUID format based off random number
    * @returns {string}

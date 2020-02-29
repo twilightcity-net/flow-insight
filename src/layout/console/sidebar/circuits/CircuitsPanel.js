@@ -11,7 +11,7 @@ import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFac
  * renders the circuit navigator panels in the gui
  * @type {CircuitsPanel}
  */
-export default class CircuitsPanel extends Component {
+export default class ircuitsPanel extends Component {
   /**
    * builds the circuit navigator panel
    * @param props
@@ -177,12 +177,7 @@ export default class CircuitsPanel extends Component {
    */
   getParticipatingCircuitsContent = () => {
     return (
-      <div
-        className="participatingCircuitsContent"
-        style={{
-          height: "100%"
-        }}
-      >
+      <div className="participatingCircuitsContent">
         <List
           inverted
           divided
