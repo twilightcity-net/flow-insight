@@ -42,7 +42,8 @@ export class TeamClient extends BaseClient {
       LOAD_MY_CURRENT_STATUS: "load-my-current-status",
       LOAD_STATUS_OF_ME_AND_MY_TEAM: "load-status-of-me-and-my-team",
       GET_MY_TEAM: "get-my-team",
-      GET_MY_CURRENT_STATUS: "get-my-current-status"
+      GET_MY_CURRENT_STATUS: "get-my-current-status",
+      GET_STATUS_OF_ME_AND_MY_TEAM: "get-status-of-me-and-my-team"
     };
   }
 
@@ -125,6 +126,17 @@ export class TeamClient extends BaseClient {
   static getMyCurrentStatus(scope, callback) {
     let event = TeamClient.instance.createClientEvent(
       TeamClient.Events.GET_MY_CURRENT_STATUS,
+      {},
+      scope,
+      callback
+    );
+    TeamClient.instance.notifyTeam(event);
+    return event;
+  }
+
+  static getStatusOfMeAndMyTeam(scope, callback) {
+    let event = TeamClient.instance.createClientEvent(
+      TeamClient.Events.GET_STATUS_OF_ME_AND_MY_TEAM,
       {},
       scope,
       callback

@@ -33,7 +33,8 @@ module.exports = class TeamController extends BaseController {
       LOAD_MY_CURRENT_STATUS: "load-my-current-status",
       LOAD_STATUS_OF_ME_AND_MY_TEAM: "load-status-of-me-and-my-team",
       GET_MY_TEAM: "get-my-team",
-      GET_MY_CURRENT_STATUS: "get-my-current-status"
+      GET_MY_CURRENT_STATUS: "get-my-current-status",
+      GET_STATUS_OF_ME_AND_MY_TEAM: "get-status-of-me-and-my-team"
     };
   }
 
@@ -83,6 +84,9 @@ module.exports = class TeamController extends BaseController {
           break;
         case TeamController.Events.GET_MY_CURRENT_STATUS:
           this.handleGetMyCurrentStatusEvent(event, arg);
+          break;
+        case TeamController.Events.GET_STATUS_OF_ME_AND_MY_TEAM:
+          this.handleGetStatusOfMeAndMyTeamEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -235,6 +239,13 @@ module.exports = class TeamController extends BaseController {
   handleGetMyCurrentStatusEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
       view = database.getViewForMyCurrentStatus();
+
+    this.delegateCallback(null, view, event, arg);
+  }
+
+  handleGetStatusOfMeAndMyTeamEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+      view = database.getViewForStatusOfMeAndMyTeam();
 
     this.delegateCallback(null, view, event, arg);
   }

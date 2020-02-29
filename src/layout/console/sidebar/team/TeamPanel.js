@@ -84,6 +84,11 @@ export default class TeamPanel extends Component {
         this.me = arg.data[0];
       })
     );
+    TeamClient.getStatusOfMeAndMyTeam(this, arg =>
+      this.handleClientCallback(arg, arg => {
+        this.members = arg.data;
+      })
+    );
   }
 
   handleClientCallback = (arg, callback) => {
@@ -120,6 +125,7 @@ export default class TeamPanel extends Component {
   /**
    * selects a team member in the list
    * @param member
+   * @param isMe
    */
   handleClickRow = (member, isMe) => {
     let name = isMe ? TeamClient.Strings.ME : member.userName;

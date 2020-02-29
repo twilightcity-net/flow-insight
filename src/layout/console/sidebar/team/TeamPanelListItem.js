@@ -24,10 +24,14 @@ export default class TeamPanelListItem extends Component {
   }
 
   getIcon() {
+    let name = "circle outline",
+      color = "grey";
+
     if (this.isOnline) {
-      return <Icon name="user circle" color="green" />;
+      name = "user circle";
+      color = "green";
     }
-    return <Icon name="circle outline" color="grey" />;
+    return <Icon name={name} color={color} />;
   }
 
   getClassName() {
