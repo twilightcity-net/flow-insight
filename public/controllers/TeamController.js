@@ -174,7 +174,12 @@ module.exports = class TeamController extends BaseController {
       TeamController.Types.GET,
       urn,
       store =>
-        this.delegateLoadStatusOfMeAndMyTeamCallback(store, event, arg, callback)
+        this.delegateLoadStatusOfMeAndMyTeamCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
@@ -186,8 +191,18 @@ module.exports = class TeamController extends BaseController {
         collection = database.getCollection(TeamDatabase.Collections.MEMBERS),
         view = database.getViewForStatusOfMeAndMyTeam();
 
-      if(view.count() === 0) {
+      if (view.count() === 0) {
         collection.insert(store.data);
+      } else if(store.data.length > 0) {
+        store.data.forEach(member => {
+          let obj = collection.findOne({id:member.id});
+          if(obj) {
+            obj = member;
+            collection.update(obj);
+          } else {
+            collection.insert(member);
+          }
+        });
       }
     }
     this.doCallbackOrReplyTo(event, arg, callback);
