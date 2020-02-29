@@ -148,16 +148,16 @@ module.exports = class TeamController extends BaseController {
       arg.error = store.error;
     } else {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
-        collection = database.getCollection(TeamDatabase.Collections.MEMBERS),
+        collection = database.getCollection(TeamDatabase.Collections.ME),
         view = database.getViewForMyCurrentStatus(),
-        member = new MemberWorkStatusDto(store.data);
+        me = new MemberWorkStatusDto(store.data);
 
-      member.isMe = true;
+      me.isMe = true;
       if (view.count() === 0) {
-        collection.insert(member);
+        collection.insert(me);
       } else {
         collection.findAndUpdate({ isMe: true }, obj => {
-          obj = member;
+          obj = me;
         });
       }
     }

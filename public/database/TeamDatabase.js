@@ -13,7 +13,8 @@ module.exports = class TeamDatabase extends LokiJS {
   static get Collections() {
     return {
       TEAMS: "teams",
-      MEMBERS: "members"
+      MEMBERS: "members",
+      ME: "me"
     };
   }
 
@@ -21,7 +22,8 @@ module.exports = class TeamDatabase extends LokiJS {
     return {
       TEAMS: "teams",
       PRIMARY: "primary",
-      MEMBER_ME: "member-me"
+      MEMBERS: "members",
+      ME: "me"
     };
   }
 
@@ -60,14 +62,18 @@ module.exports = class TeamDatabase extends LokiJS {
         TeamDatabase.Indices.DISPLAY_NAME
       ]
     });
+    this.addCollection(TeamDatabase.Collections.ME);
     this.getCollection(TeamDatabase.Collections.TEAMS).addDynamicView(
       TeamDatabase.Views.TEAMS
     );
     this.getCollection(TeamDatabase.Collections.TEAMS).addDynamicView(
       TeamDatabase.Views.PRIMARY
     );
-    this.getCollection(TeamDatabase.Collections.MEMBERS).addDynamicView(
-      TeamDatabase.Views.MEMBER_ME
+    this.getCollection(TeamDatabase.Collections.ME).addDynamicView(
+      TeamDatabase.Views.MEMBERS
+    );
+    this.getCollection(TeamDatabase.Collections.ME).addDynamicView(
+      TeamDatabase.Views.ME
     );
   }
 
@@ -85,12 +91,13 @@ module.exports = class TeamDatabase extends LokiJS {
     return view;
   }
 
+  getViewForStatusOfMeAndMyTeam() {
+    let collection = this.getCollection(TeamDatabase.Collections.MEMBERS);
+    return collection.getDynamicView(TeamDatabase.Views.MEMBERS);
+  }
+
   getViewForMyCurrentStatus() {
-    let collection = this.getCollection(TeamDatabase.Collections.MEMBERS),
-      view = collection.getDynamicView(TeamDatabase.Views.MEMBER_ME);
-    view.applyWhere(obj => {
-      return obj.isMe;
-    });
-    return view;
+    let collection = this.getCollection(TeamDatabase.Collections.ME);
+    return collection.getDynamicView(TeamDatabase.Views.ME);
   }
 };
