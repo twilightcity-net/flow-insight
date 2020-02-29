@@ -164,14 +164,8 @@ export default class ConsoleLayout extends Component {
   getTeamPanelContent = () => {
     return (
       <TeamPanel
-        xpSummary={this.state.xpSummary}
         width={this.state.sidebarPanelWidth}
         opacity={this.state.sidebarPanelOpacity}
-        loadStateCb={this.loadStateSidebarPanelCb}
-        saveStateCb={this.saveStateSidebarPanelCb}
-        me={this.state.me}
-        teamMembers={this.state.teamMembers}
-        activeTeamMember={this.state.activeTeamMember}
       />
     );
   };

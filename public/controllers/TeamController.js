@@ -31,7 +31,8 @@ module.exports = class TeamController extends BaseController {
     return {
       LOAD_MY_TEAM: "load-my-team",
       LOAD_MY_CURRENT_STATUS: "load-my-current-status",
-      GET_MY_TEAM: "get-my-team"
+      GET_MY_TEAM: "get-my-team",
+      GET_MY_CURRENT_STATUS: "get-my-current-status"
     };
   }
 
@@ -75,6 +76,9 @@ module.exports = class TeamController extends BaseController {
           break;
         case TeamController.Events.GET_MY_TEAM:
           this.handleGetMyTeamEvent(event, arg);
+          break;
+        case TeamController.Events.GET_MY_CURRENT_STATUS:
+          this.handleGetMyCurrentStatusEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -178,5 +182,12 @@ module.exports = class TeamController extends BaseController {
       arg.error = "Only primary team supported currently";
       this.doCallbackOrReplyTo(event, arg, callback);
     }
+  }
+
+  handleGetMyCurrentStatusEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+      view = database.getViewForMyCurrentStatus();
+
+    this.delegateCallback(null, view, event, arg);
   }
 };

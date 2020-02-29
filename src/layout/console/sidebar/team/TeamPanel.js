@@ -18,50 +18,38 @@ export default class TeamPanel extends Component {
   constructor(props) {
     super(props);
     this.name = "[TeamPanel]";
-    this.state = this.loadState();
+    this.state = {
+      teamVisible: false
+    };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
+    this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
+    this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
+    this.me = this.getDefaultMe();
+    this.members = [];
+    this.selected = this.me;
   }
 
-  /**
-   * loads the stored state from parent or use default values
-   * @returns {{animationDelay: number, title: string, animationType: string}|*}
-   */
-  loadState() {
-    let state = this.props.loadStateCb();
-    if (!state) {
-      return {
-        activeItem: SidePanelViewController.SubmenuSelection.TEAM,
-        teamVisible: false,
-        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
-        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
-        title: ""
-      };
-    }
-    return state;
-  }
-
-  /**
-   * stores this components state in the parents state
-   * @param state
-   */
-  saveState(state) {
-    this.props.saveStateCb(state);
+  getDefaultMe() {
+    return {
+      displayName: SidePanelViewController.ME,
+      id: SidePanelViewController.ID
+    };
   }
 
   /**
    * called when we render the team panel into the gui
    */
-  componentDidMount = () => {
-    this.myController.configureTeamPanelListener(this, this.onRefreshTeamPanel);
-    this.onRefreshTeamPanel();
-  };
+  componentDidMount() {
+    this.myController.configureTeamPanelListener(this, this.refreshTeamPanel);
+    this.refreshTeamPanel();
+  }
 
   /**
    * called to refresh the team panel with new data
    */
-  onRefreshTeamPanel() {
+  refreshTeamPanel() {
     switch (this.myController.activeTeamSubmenuSelection) {
       case SidePanelViewController.SubmenuSelection.TEAM:
         this.showTeamPanel();
@@ -75,24 +63,30 @@ export default class TeamPanel extends Component {
    * called to display the team panel in the gui
    */
   showTeamPanel() {
-    TeamClient.getMyTeam("primary", "", this, this.loadMyTeamCb);
     this.setState({
-      activeItem: SidePanelViewController.SubmenuSelection.TEAM,
       teamVisible: true
     });
+    TeamClient.getMyTeam("primary", "", this, arg =>
+      this.handleClientCallback(arg, arg => {
+        this.myTeam = arg.data[0];
+      })
+    );
+    TeamClient.getMyCurrentStatus(this, arg =>
+      this.handleClientCallback(arg, arg => {
+        this.me = arg.data[0];
+      })
+    );
   }
 
-  /**
-   * callback handler for our load my team service client request
-   * @param arg
-   */
-  loadMyTeamCb = arg => {
+  handleClientCallback = (arg, callback) => {
     if (arg.error) {
       this.error = arg.error;
       this.forceUpdate();
     } else {
       this.error = null;
-      this.myTeam = arg.data[0];
+      if (callback) {
+        callback(arg);
+      }
       this.forceUpdate();
     }
   };
@@ -101,9 +95,9 @@ export default class TeamPanel extends Component {
    * called when removing the component from the gui. removes any associated listeners for
    * memory management
    */
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.myController.configureTeamPanelListener(this, null);
-  };
+  }
 
   /**
    * updates display to show spirit content
@@ -119,12 +113,13 @@ export default class TeamPanel extends Component {
    * @param id
    * @param teamMember
    */
-  selectRow = (id, teamMember) => {
+  selectRow = (id, member) => {
     console.log(
-      this.name + " - Team member clicked!" + teamMember.name + "id = " + id
+      this.name + " - Team member clicked!" + member.name + "id = " + id
     );
+    this.selected = member;
     this.requestBrowserToLoadTeamJournalAndSetActiveMember(
-      teamMember.displayName
+      member.userName
     );
   };
 
@@ -157,61 +152,82 @@ export default class TeamPanel extends Component {
   }
 
   /**
+   * renders ourself into the team gui grid
+   * @returns {*}
+   */
+  getTeamMemberMeContent() {
+    return (
+      <TeamMember
+        key={this.me.id}
+        id={this.me.id}
+        displayName={this.me.displayName + " (you)"}
+        name={this.me.name}
+        activeStatus={this.me.activeStatus}
+        statusColor={this.me.statusColor}
+        activeTaskName={this.me.activeTaskName}
+        activeTaskSummary={this.me.activeTaskSummary}
+        workingOn={this.me.workingOn}
+        isAlarmTriggered={this.me.isAlarmTriggered}
+        wtfTimer={this.me.wtfTimer}
+        alarmStatusMessage={this.me.alarmStatusMessage}
+        level={this.me.level}
+        xpRequired={this.me.xpRequired}
+        onSetActiveRow={this.selectRow}
+        teamMember={this.me}
+        activeTeamMember={this.selected}
+      />
+    );
+  }
+
+  /**
+   * renders our other team member content in the gui grid
+   * @param member
+   * @returns {*}
+   */
+  getTeamMembersOtherContent(member) {
+    return (
+      <TeamMember
+        key={member.id}
+        id={member.id}
+        displayName={member.displayName}
+        name={member.name}
+        activeStatus={member.activeStatus}
+        statusColor={member.statusColor}
+        activeTaskName={member.activeTaskName}
+        activeTaskSummary={member.activeTaskSummary}
+        workingOn={member.workingOn}
+        isAlarmTriggered={member.isAlarmTriggered}
+        wtfTimer={member.wtfTimer}
+        alarmStatusMessage={member.alarmStatusMessage}
+        level={member.level}
+        xpRequired={member.xpRequired}
+        onSetActiveRow={this.selectRow}
+        teamMember={member}
+        activeTeamMember={this.selected}
+      />
+    );
+  }
+
+  /**
    * gets our team panel content with the team model that was passed in from the props
    * @returns {*}
    */
-  getTeamMembersContent = () => {
+  getTeamMembersContent() {
     if (this.error) {
       return this.getErrorContent(this.error);
     } else {
       return (
         <div>
           <Grid inverted>
-            <TeamMember
-              key={this.props.me.id}
-              id={this.props.me.id}
-              displayName={this.props.me.displayName + " (you)"}
-              name={this.props.me.name}
-              activeStatus={this.props.me.activeStatus}
-              statusColor={this.props.me.statusColor}
-              activeTaskName={this.props.me.activeTaskName}
-              activeTaskSummary={this.props.me.activeTaskSummary}
-              workingOn={this.props.me.workingOn}
-              isAlarmTriggered={this.props.me.isAlarmTriggered}
-              wtfTimer={this.props.me.wtfTimer}
-              alarmStatusMessage={this.props.me.alarmStatusMessage}
-              level={this.props.me.level}
-              xpRequired={this.props.me.xpRequired}
-              onSetActiveRow={this.selectRow}
-              teamMember={this.props.me}
-              activeTeamMember={this.props.activeTeamMember}
-            />
-            {this.props.teamMembers.map(d => (
-              <TeamMember
-                key={d.id}
-                id={d.id}
-                displayName={d.displayName}
-                name={d.name}
-                activeStatus={d.activeStatus}
-                statusColor={d.statusColor}
-                activeTaskName={d.activeTaskName}
-                activeTaskSummary={d.activeTaskSummary}
-                workingOn={d.workingOn}
-                isAlarmTriggered={d.isAlarmTriggered}
-                wtfTimer={d.wtfTimer}
-                alarmStatusMessage={this.props.me.alarmStatusMessage}
-                level={d.level}
-                xpRequired={d.xpRequired}
-                onSetActiveRow={this.selectRow}
-                teamMember={d}
-                activeTeamMember={this.props.activeTeamMember}
-              />
-            ))}
+            {this.getTeamMemberMeContent()}
+            {this.members.map(member =>
+              this.getTeamMembersOtherContent(member)
+            )}
           </Grid>
         </div>
       );
     }
-  };
+  }
 
   /**
    * renders the console sidebar panel of the console view
@@ -242,8 +258,8 @@ export default class TeamPanel extends Component {
           >
             <Transition
               visible={this.state.teamVisible}
-              animation={this.state.animationType}
-              duration={this.state.animationDelay}
+              animation={this.animationType}
+              duration={this.animationDelay}
               unmountOnHide
             >
               {this.getTeamMembersContent()}

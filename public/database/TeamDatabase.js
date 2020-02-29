@@ -31,7 +31,7 @@ module.exports = class TeamDatabase extends LokiJS {
       ORG_ID: "organizationId",
       NAME: "name",
       TYPE: "type",
-      USERNAME: "username",
+      USER_NAME: "userName",
       EMAIL: "email",
       DISPLAY_NAME: "displayName"
     };
@@ -55,7 +55,7 @@ module.exports = class TeamDatabase extends LokiJS {
     this.addCollection(TeamDatabase.Collections.MEMBERS, {
       indices: [
         TeamDatabase.Indices.ID,
-        TeamDatabase.Indices.USERNAME,
+        TeamDatabase.Indices.USER_NAME,
         TeamDatabase.Indices.EMAIL,
         TeamDatabase.Indices.DISPLAY_NAME
       ]

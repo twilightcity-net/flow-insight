@@ -49,7 +49,9 @@ export class TeamClient extends BaseClient {
   static get Events() {
     return {
       LOAD_MY_TEAM: "load-my-team",
-      GET_MY_TEAM: "get-my-team"
+      LOAD_MY_CURRENT_STATUS: "load-my-current-status",
+      GET_MY_TEAM: "get-my-team",
+      GET_MY_CURRENT_STATUS: "get-my-current-status"
     };
   }
 
@@ -89,6 +91,21 @@ export class TeamClient extends BaseClient {
     return clientEvent;
   }
 
+  static loadMyCurrentStatus(scope, callback) {
+    let clientEvent = new RendererClientEvent(
+      TeamClient.Events.LOAD_MY_CURRENT_STATUS,
+      {},
+      scope,
+      (event, arg) => {
+        if (callback) {
+          callback(arg);
+        }
+      }
+    );
+    TeamClient.instance.notifyTeam(clientEvent);
+    return clientEvent;
+  }
+
   /**
    * gets our local team that we are in
    * @param type
@@ -104,6 +121,21 @@ export class TeamClient extends BaseClient {
         type: type,
         name: name
       },
+      scope,
+      (event, arg) => {
+        if (callback) {
+          callback(arg);
+        }
+      }
+    );
+    TeamClient.instance.notifyTeam(clientEvent);
+    return clientEvent;
+  }
+
+  static getMyCurrentStatus(scope, callback) {
+    let clientEvent = new RendererClientEvent(
+      TeamClient.Events.GET_MY_CURRENT_STATUS,
+      {},
       scope,
       (event, arg) => {
         if (callback) {
