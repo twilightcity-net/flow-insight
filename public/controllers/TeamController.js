@@ -31,6 +31,7 @@ module.exports = class TeamController extends BaseController {
     return {
       LOAD_MY_TEAM: "load-my-team",
       LOAD_MY_CURRENT_STATUS: "load-my-current-status",
+      LOAD_STATUS_OF_ME_AND_MY_TEAM: "load-status-of-me-and-my-team",
       GET_MY_TEAM: "get-my-team",
       GET_MY_CURRENT_STATUS: "get-my-current-status"
     };
@@ -73,6 +74,9 @@ module.exports = class TeamController extends BaseController {
           break;
         case TeamController.Events.LOAD_MY_CURRENT_STATUS:
           this.handleLoadMyCurrentStatus(event, arg);
+          break;
+        case TeamController.Events.LOAD_STATUS_OF_ME_AND_MY_TEAM:
+          this.handleLoadStatusOfMeAndMyTeam(event, arg);
           break;
         case TeamController.Events.GET_MY_TEAM:
           this.handleGetMyTeamEvent(event, arg);
@@ -193,10 +197,10 @@ module.exports = class TeamController extends BaseController {
 
       if (view.count() === 0) {
         collection.insert(store.data);
-      } else if(store.data.length > 0) {
+      } else if (store.data.length > 0) {
         store.data.forEach(member => {
-          let obj = collection.findOne({id:member.id});
-          if(obj) {
+          let obj = collection.findOne({ id: member.id });
+          if (obj) {
             obj = member;
             collection.update(obj);
           } else {
