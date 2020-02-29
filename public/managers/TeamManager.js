@@ -27,11 +27,14 @@ module.exports = class TeamManager {
     TeamController.instance.handleLoadMyCurrentStatus({}, { args: {} }, () =>
       this.handleInitCallback(callback)
     );
+    TeamController.instance.handleLoadStatusOfMeAndMyTeam({}, { args: {} }, () =>
+      this.handleInitCallback(callback)
+    );
   }
 
   handleInitCallback(callback) {
     this.loadCount++;
-    if (callback && this.loadCount === 2) {
+    if (callback && this.loadCount === 3) {
       callback();
     }
   }

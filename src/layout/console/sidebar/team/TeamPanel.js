@@ -121,8 +121,8 @@ export default class TeamPanel extends Component {
    * selects a team member in the list
    * @param member
    */
-  handleClickRow = member => {
-    let name = member.isMe ? TeamClient.Strings.ME : member.userName;
+  handleClickRow = (member, isMe) => {
+    let name = isMe ? TeamClient.Strings.ME : member.userName;
     this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
   };
 
@@ -176,6 +176,7 @@ export default class TeamPanel extends Component {
               <TeamPanelListItem
                 key={this.me.id}
                 model={this.me}
+                isMe={true}
                 onClickRow={this.handleClickRow}
               />
             )}
@@ -183,6 +184,7 @@ export default class TeamPanel extends Component {
               <TeamPanelListItem
                 key={model.id}
                 model={model}
+                isMe={false}
                 onClickRow={this.handleClickRow}
               />
             ))}

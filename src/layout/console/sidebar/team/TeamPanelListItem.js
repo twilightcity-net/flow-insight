@@ -11,14 +11,14 @@ export default class TeamPanelListItem extends Component {
   }
 
   handleClick = () => {
-    this.props.onClickRow(this.props.model);
+    this.props.onClickRow(this.props.model, this.props.isMe);
   };
 
   getDisplayName() {
     return (
       <span>
         {this.props.model.displayName}
-        {this.props.model.isMe && <i>{BaseClient.Strings.YOU}</i>}
+        {this.props.isMe && <i>{BaseClient.Strings.YOU}</i>}
       </span>
     );
   }

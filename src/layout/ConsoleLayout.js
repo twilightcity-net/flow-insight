@@ -40,8 +40,7 @@ export default class ConsoleLayout extends Component {
       activeTeamMember: {
         displayName: SidePanelViewController.ME,
         id: SidePanelViewController.ID
-      },
-      isMe: true
+      }
     };
 
     // TODO move this stuff into the controller class
@@ -135,7 +134,6 @@ export default class ConsoleLayout extends Component {
     return (
       <SpiritPanel
         me={this.state.me}
-        isMe={this.state.isMe}
         torchieOwner={this.getTorchieName()}
         spiritId={this.state.spiritId}
         xpSummary={this.state.xpSummary}

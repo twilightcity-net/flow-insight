@@ -31,7 +31,9 @@ module.exports = class BaseController {
    */
   static get Types() {
     return {
-      PRIMARY: "primary"
+      PRIMARY: "primary",
+      GET: "get",
+      POST: "post"
     };
   }
 
@@ -43,7 +45,8 @@ module.exports = class BaseController {
   static get Error() {
     return {
       ERROR_ARGS: "arg : args is required",
-      UNKNOWN: "Unknown team client event type"
+      UNKNOWN: "Unknown team client event type",
+      PRIMARY_ONLY: "Only primary team supported currently"
     };
   }
 

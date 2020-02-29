@@ -69,7 +69,7 @@ module.exports = class TeamDatabase extends LokiJS {
     this.getCollection(TeamDatabase.Collections.TEAMS).addDynamicView(
       TeamDatabase.Views.PRIMARY
     );
-    this.getCollection(TeamDatabase.Collections.ME).addDynamicView(
+    this.getCollection(TeamDatabase.Collections.MEMBERS).addDynamicView(
       TeamDatabase.Views.MEMBERS
     );
     this.getCollection(TeamDatabase.Collections.ME).addDynamicView(

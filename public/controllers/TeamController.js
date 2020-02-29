@@ -122,6 +122,7 @@ module.exports = class TeamController extends BaseController {
       let team = new TeamDto(store.data),
         database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
         collection = database.getCollection(TeamDatabase.Collections.TEAMS);
+
       if (team) {
         collection.insert(team);
       }
@@ -136,7 +137,7 @@ module.exports = class TeamController extends BaseController {
       "TeamClient",
       {},
       "getMyCurrentStatus",
-      "get",
+      TeamController.Types.GET,
       urn,
       store =>
         this.delegateLoadMyCurrentStatusCallback(store, event, arg, callback)
@@ -150,15 +151,43 @@ module.exports = class TeamController extends BaseController {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
         collection = database.getCollection(TeamDatabase.Collections.ME),
         view = database.getViewForMyCurrentStatus(),
-        me = new MemberWorkStatusDto(store.data);
+        member = new MemberWorkStatusDto(store.data),
+        me = view.data()[0];
 
-      me.isMe = true;
-      if (view.count() === 0) {
-        collection.insert(me);
+      if (me) {
+        me = member;
+        collection.update(me);
       } else {
-        collection.findAndUpdate({ isMe: true }, obj => {
-          obj = me;
-        });
+        collection.insert(member);
+      }
+    }
+    this.doCallbackOrReplyTo(event, arg, callback);
+  }
+
+  handleLoadStatusOfMeAndMyTeam(event, arg, callback) {
+    let urn = TeamController.Paths.STATUS_TEAM;
+
+    this.doClientRequest(
+      "TeamClient",
+      {},
+      "getStatusOfMeAndMyTeam",
+      TeamController.Types.GET,
+      urn,
+      store =>
+        this.delegateLoadStatusOfMeAndMyTeamCallback(store, event, arg, callback)
+    );
+  }
+
+  delegateLoadStatusOfMeAndMyTeamCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+        collection = database.getCollection(TeamDatabase.Collections.MEMBERS),
+        view = database.getViewForStatusOfMeAndMyTeam();
+
+      if(view.count() === 0) {
+        collection.insert(store.data);
       }
     }
     this.doCallbackOrReplyTo(event, arg, callback);
@@ -179,7 +208,7 @@ module.exports = class TeamController extends BaseController {
       let view = database.getViewForMyPrimaryTeam();
       this.delegateCallback(null, view, event, arg);
     } else {
-      arg.error = "Only primary team supported currently";
+      arg.error = TeamController.Error.PRIMARY_ONLY;
       this.doCallbackOrReplyTo(event, arg, callback);
     }
   }
