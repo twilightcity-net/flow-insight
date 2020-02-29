@@ -1,4 +1,5 @@
 import UtilRenderer from "../UtilRenderer";
+import { RendererClientEvent } from "../events/RendererClientEvent";
 
 export class BaseClient {
   static instance;
@@ -25,5 +26,21 @@ export class BaseClient {
     this.name = "[" + name + "]";
     this.scope = scope;
     this.guid = UtilRenderer.getGuid();
+  }
+
+  delegateCallback(event, arg, callback) {
+    if (callback) {
+      callback(arg);
+    }
+  }
+
+  createClientEvent(type, args, scope, callback) {
+    return new RendererClientEvent(type, args, scope, (event, arg) =>
+      this.delegateCallback(event, arg, callback)
+    );
+  }
+
+  logReply(name, size, id, type) {
+    console.log("[" + name + "] reply {" + size + "} : " + id + " -> " + type);
   }
 }

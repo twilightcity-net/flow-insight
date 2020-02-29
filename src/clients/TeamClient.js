@@ -1,18 +1,8 @@
 import { BaseClient } from "./BaseClient";
 import { RendererEventFactory } from "../events/RendererEventFactory";
-import { RendererClientEvent } from "../events/RendererClientEvent";
 
 /**
- * the client which is used to make team requests to gridtime. Basically we
- * will use this class to fire an event which the main process listens for. On
- * notification it will make a rest call to grid time. the response is the
- * piped into the calling function to this client.
- *
- * EXAMPLE:
- *
- * `CircuitClient.createLearningCircuitModel("angry_teachers", this, model => {
- *     console.log(model);
- *   });`
+ * This is our class that pulls data from our team service
  */
 export class TeamClient extends BaseClient {
   /**
@@ -50,6 +40,7 @@ export class TeamClient extends BaseClient {
     return {
       LOAD_MY_TEAM: "load-my-team",
       LOAD_MY_CURRENT_STATUS: "load-my-current-status",
+      LOAD_STATUS_OF_ME_AND_MY_TEAM: "load-status-of-me-and-my-team",
       GET_MY_TEAM: "get-my-team",
       GET_MY_CURRENT_STATUS: "get-my-current-status"
     };
@@ -74,36 +65,39 @@ export class TeamClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static loadMyTeam(type, name, scope, callback) {
-    let clientEvent = new RendererClientEvent(
+    let event = TeamClient.instance.createClientEvent(
       TeamClient.Events.LOAD_MY_TEAM,
       {
         type: type,
         name: name
       },
       scope,
-      (event, arg) => {
-        if (callback) {
-          callback(arg);
-        }
-      }
+      callback
     );
-    TeamClient.instance.notifyTeam(clientEvent);
-    return clientEvent;
+    TeamClient.instance.notifyTeam(event);
+    return event;
   }
 
   static loadMyCurrentStatus(scope, callback) {
-    let clientEvent = new RendererClientEvent(
+    let event = TeamClient.instance.createClientEvent(
       TeamClient.Events.LOAD_MY_CURRENT_STATUS,
       {},
       scope,
-      (event, arg) => {
-        if (callback) {
-          callback(arg);
-        }
-      }
+      callback
     );
-    TeamClient.instance.notifyTeam(clientEvent);
-    return clientEvent;
+    TeamClient.instance.notifyTeam(event);
+    return event;
+  }
+
+  static loadStatusOfMeAndMyTeam(scope, callback) {
+    let event = TeamClient.instance.createClientEvent(
+      TeamClient.Events.LOAD_STATUS_OF_ME_AND_MY_TEAM,
+      {},
+      scope,
+      callback
+    );
+    TeamClient.instance.notifyTeam(event);
+    return event;
   }
 
   /**
@@ -115,36 +109,28 @@ export class TeamClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static getMyTeam(type, name, scope, callback) {
-    let clientEvent = new RendererClientEvent(
+    let event = TeamClient.instance.createClientEvent(
       TeamClient.Events.GET_MY_TEAM,
       {
         type: type,
         name: name
       },
       scope,
-      (event, arg) => {
-        if (callback) {
-          callback(arg);
-        }
-      }
+      callback
     );
-    TeamClient.instance.notifyTeam(clientEvent);
-    return clientEvent;
+    TeamClient.instance.notifyTeam(event);
+    return event;
   }
 
   static getMyCurrentStatus(scope, callback) {
-    let clientEvent = new RendererClientEvent(
+    let event = TeamClient.instance.createClientEvent(
       TeamClient.Events.GET_MY_CURRENT_STATUS,
       {},
       scope,
-      (event, arg) => {
-        if (callback) {
-          callback(arg);
-        }
-      }
+      callback
     );
-    TeamClient.instance.notifyTeam(clientEvent);
-    return clientEvent;
+    TeamClient.instance.notifyTeam(event);
+    return event;
   }
 
   /**
@@ -156,16 +142,7 @@ export class TeamClient extends BaseClient {
    */
   onTeamEventReply = (event, arg) => {
     let clientEvent = TeamClient.replies.get(arg.id);
-    console.log(
-      "[" +
-        TeamClient.name +
-        "] reply {" +
-        TeamClient.replies.size +
-        "} : " +
-        arg.id +
-        " -> " +
-        arg.type
-    );
+    this.logReply(TeamClient.name, TeamClient.replies.size, arg.id, arg.type);
     if (clientEvent) {
       TeamClient.replies.delete(arg.id);
       clientEvent.callback(event, arg);

@@ -1,6 +1,5 @@
 import { BaseClient } from "./BaseClient";
 import { RendererEventFactory } from "../events/RendererEventFactory";
-import { RendererClientEvent } from "../events/RendererClientEvent";
 
 /**
  * the client which is used to make journal requests to gridtime. Basically we
@@ -73,18 +72,14 @@ export class JournalClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static loadRecentJournal(userName, scope, callback) {
-    let clientEvent = new RendererClientEvent(
+    let event = JournalClient.instance.createClientEvent(
       JournalClient.Events.LOAD_RECENT_JOURNAL,
       { userName: userName },
       scope,
-      (event, arg) => {
-        if (callback) {
-          callback(arg);
-        }
-      }
+      callback
     );
-    JournalClient.instance.notifyJournal(clientEvent);
-    return clientEvent;
+    JournalClient.instance.notifyJournal(event);
+    return event;
   }
 
   /**
@@ -95,18 +90,14 @@ export class JournalClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static getRecentIntentions(userName, scope, callback) {
-    let clientEvent = new RendererClientEvent(
+    let event = JournalClient.instance.createClientEvent(
       JournalClient.Events.GET_RECENT_INTENTIONS,
       { userName: userName },
       scope,
-      (event, arg) => {
-        if (callback) {
-          callback(arg);
-        }
-      }
+      callback
     );
-    JournalClient.instance.notifyJournal(clientEvent);
-    return clientEvent;
+    JournalClient.instance.notifyJournal(event);
+    return event;
   }
 
   /**
@@ -118,15 +109,11 @@ export class JournalClient extends BaseClient {
    */
   onJournalEventReply = (event, arg) => {
     let clientEvent = JournalClient.replies.get(arg.id);
-    console.log(
-      "[" +
-        JournalClient.name +
-        "] reply {" +
-        JournalClient.replies.size +
-        "} : " +
-        arg.id +
-        " -> " +
-        arg.type
+    this.logReply(
+      JournalClient.name,
+      JournalClient.replies.size,
+      arg.id,
+      arg.type
     );
     if (clientEvent) {
       JournalClient.replies.delete(arg.id);
