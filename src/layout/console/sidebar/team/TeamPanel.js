@@ -170,34 +170,43 @@ export default class TeamPanel extends Component {
     } else {
       return (
         <div className="teamPanelMembersContent">
-          <List
-            inverted
-            divided
-            celled
-            animated
-            verticalAlign="middle"
-            size="large"
-          >
-            {this.me.id !== this.me.displayName && (
-              <TeamPanelListItem
-                key={this.me.id}
-                model={this.me}
-                isMe={true}
-                onClickRow={this.handleClickRow}
-              />
-            )}
-            {this.members.map(model => (
+          {this.getTeamPanelMembersListContent(this.me, this.members)}
+        </div>
+      );
+    }
+  }
+
+  getTeamPanelMembersListContent(me, members) {
+    return (
+      <List
+        inverted
+        divided
+        celled
+        animated
+        verticalAlign="middle"
+        size="large"
+      >
+        {me.id !== me.displayName && (
+          <TeamPanelListItem
+            key={me.id}
+            model={me}
+            isMe={true}
+            onClickRow={this.handleClickRow}
+          />
+        )}
+        {members.map(
+          model =>
+            model.id !== me.id && (
               <TeamPanelListItem
                 key={model.id}
                 model={model}
                 isMe={false}
                 onClickRow={this.handleClickRow}
               />
-            ))}
-          </List>
-        </div>
-      );
-    }
+            )
+        )}
+      </List>
+    );
   }
 
   /**
