@@ -396,6 +396,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItems">getJournalItems</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItemsWrapper">getJournalItemsWrapper</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTextCursor">getTextCursor</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isActive">isActive</a></span></li>
@@ -414,11 +415,11 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshSpiritPanel">onRefreshSpiritPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshTeamPanel">onRefreshTeamPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onTalkFailedCb">onTalkFailedCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshActiveCircuits">refreshActiveCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshDoItLaterCircuits">refreshDoItLaterCircuits</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshTeamPanel">refreshTeamPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
@@ -444,6 +445,7 @@
         <pre class="prettyprint source linenums"><code>const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   TeamDto = require("../dto/TeamDto"),
+  MemberWorkStatusDto = require("../dto/MemberWorkStatusDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   TeamDatabase = require("../database/TeamDatabase");
 
@@ -472,7 +474,9 @@ module.exports = class TeamController extends BaseController {
   static get Events() {
     return {
       LOAD_MY_TEAM: "load-my-team",
-      GET_MY_TEAM: "get-my-team"
+      LOAD_MY_CURRENT_STATUS: "load-my-current-status",
+      GET_MY_TEAM: "get-my-team",
+      GET_MY_CURRENT_STATUS: "get-my-current-status"
     };
   }
 
@@ -511,8 +515,14 @@ module.exports = class TeamController extends BaseController {
         case TeamController.Events.LOAD_MY_TEAM:
           this.handleLoadMyTeamEvent(event, arg);
           break;
+        case TeamController.Events.LOAD_MY_CURRENT_STATUS:
+          this.handleLoadMyCurrentStatus(event, arg);
+          break;
         case TeamController.Events.GET_MY_TEAM:
           this.handleGetMyTeamEvent(event, arg);
+          break;
+        case TeamController.Events.GET_MY_CURRENT_STATUS:
+          this.handleGetMyCurrentStatusEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -563,6 +573,41 @@ module.exports = class TeamController extends BaseController {
     this.doCallbackOrReplyTo(event, arg, callback);
   }
 
+  handleLoadMyCurrentStatus(event, arg, callback) {
+    let urn = TeamController.Paths.STATUS + TeamController.Paths.ME;
+
+    this.doClientRequest(
+      "TeamClient",
+      {},
+      "getMyCurrentStatus",
+      "get",
+      urn,
+      store =>
+        this.delegateLoadMyCurrentStatusCallback(store, event, arg, callback)
+    );
+  }
+
+  delegateLoadMyCurrentStatusCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+        collection = database.getCollection(TeamDatabase.Collections.MEMBERS),
+        view = database.getViewForMyCurrentStatus(),
+        member = new MemberWorkStatusDto(store.data);
+
+      member.isMe = true;
+      if (view.count() === 0) {
+        collection.insert(member);
+      } else {
+        collection.findAndUpdate({ isMe: true }, obj => {
+          obj = member;
+        });
+      }
+    }
+    this.doCallbackOrReplyTo(event, arg, callback);
+  }
+
   /**
    * gets one of our teams that is stored in the database, or fetch from grid
    * @param event
@@ -581,6 +626,13 @@ module.exports = class TeamController extends BaseController {
       arg.error = "Only primary team supported currently";
       this.doCallbackOrReplyTo(event, arg, callback);
     }
+  }
+
+  handleGetMyCurrentStatusEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+      view = database.getViewForMyCurrentStatus();
+
+    this.delegateCallback(null, view, event, arg);
   }
 };
 </code></pre>

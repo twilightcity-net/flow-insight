@@ -396,6 +396,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItems">getJournalItems</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItemsWrapper">getJournalItemsWrapper</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTextCursor">getTextCursor</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isActive">isActive</a></span></li>
@@ -414,11 +415,11 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshSpiritPanel">onRefreshSpiritPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshTeamPanel">onRefreshTeamPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onTalkFailedCb">onTalkFailedCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshActiveCircuits">refreshActiveCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshDoItLaterCircuits">refreshDoItLaterCircuits</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshTeamPanel">refreshTeamPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
@@ -549,6 +550,21 @@
         </div>
         <div class="section-method">
           <h4 class="name"
+              id="componentDidMount"><span class="type-signature"></span>componentDidMount<span class="signature">()</span><span class="type-signature"></span></h4>
+          <div class="description"> called when we render the team panel into the gui </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line54">line 54</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
               id="componentWillMount"><span class="type-signature"></span>componentWillMount<span class="signature">()</span><span class="type-signature"></span></h4>
           <div class="description"> update the class name of the wrapper with the view name. This also will store there render3d flag for various components that might need to know </div>
           <dl class="details">
@@ -572,6 +588,21 @@
               <ul class="dummy">
                 <li>
                   <a href="src_layout_console_sidebar_spirit_SpiritPanel.js.html">src/layout/console/sidebar/spirit/SpiritPanel.js</a>, <a href="src_layout_console_sidebar_spirit_SpiritPanel.js.html#line103">line 103</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="componentWillUnmount"><span class="type-signature"></span>componentWillUnmount<span class="signature">()</span><span class="type-signature"></span></h4>
+          <div class="description"> called when removing the component from the gui. removes any associated listeners for memory management </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line112">line 112</a>
                 </li>
               </ul>
             </dd>
@@ -841,7 +872,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line154">line 154</a>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line152">line 152</a>
                 </li>
               </ul>
             </dd>
@@ -927,7 +958,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line67">line 67</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line75">line 75</a>
                 </li>
               </ul>
             </dd>
@@ -1096,6 +1127,30 @@
               <dt> Type: </dt>
               <dd>
                 <span class="param-type"><code>Object</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="getTeamPanelMembersContent"><span class="type-signature"></span>getTeamPanelMembersContent<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+          <div class="description"> gets our team panel content with the team model that was passed in from the props </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line167">line 167</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>*</code></span>
               </dd>
             </dl>
           </div>
@@ -1461,30 +1516,6 @@
         </div>
         <div class="section-method">
           <h4 class="name"
-              id="loadState"><span class="type-signature"></span>loadState<span class="signature">()</span><span class="type-signature"> &rarr; {Object|*}</span></h4>
-          <div class="description"> loads the stored state from parent or use default values </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line37">line 37</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <div class="section-returns">
-            <h5>Returns:</h5>
-            <dl class="param-type">
-              <dt> Type: </dt>
-              <dd>
-                <span class="param-type"><code>Object</code></span> | <span class="param-type"><code>*</code></span>
-              </dd>
-            </dl>
-          </div>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
               id="onHeartbeat"><span class="type-signature"></span>onHeartbeat<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
           <div class="description"> called when our app heartbeat pulses </div>
           <dl class="details">
@@ -1765,21 +1796,6 @@
         </div>
         <div class="section-method">
           <h4 class="name"
-              id="onRefreshTeamPanel"><span class="type-signature"></span>onRefreshTeamPanel<span class="signature">()</span><span class="type-signature"></span></h4>
-          <div class="description"> called to refresh the team panel with new data </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line70">line 70</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
               id="onTalkFailedCb"><span class="type-signature"></span>onTalkFailedCb<span class="signature">(event, arg)</span><span class="type-signature"></span></h4>
           <div class="description"> called when the app loader talk fails. updated gui </div>
           <dl class="details">
@@ -1866,6 +1882,21 @@
         </div>
         <div class="section-method">
           <h4 class="name"
+              id="refreshTeamPanel"><span class="type-signature"></span>refreshTeamPanel<span class="signature">()</span><span class="type-signature"></span></h4>
+          <div class="description"> called to refresh the team panel with new data </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line62">line 62</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
               id="render"><span class="type-signature"></span>render<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
           <div class="description"> renders the root console layout of the console view </div>
           <dl class="details">
@@ -1873,7 +1904,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_ConsoleLayout.js.html">src/layout/ConsoleLayout.js</a>, <a href="src_layout_ConsoleLayout.js.html#line297">line 297</a>
+                  <a href="src_layout_ConsoleLayout.js.html">src/layout/ConsoleLayout.js</a>, <a href="src_layout_ConsoleLayout.js.html#line291">line 291</a>
                 </li>
               </ul>
             </dd>
@@ -2221,7 +2252,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_circuits_CircuitsPanel.js.html">src/layout/console/sidebar/circuits/CircuitsPanel.js</a>, <a href="src_layout_console_sidebar_circuits_CircuitsPanel.js.html#line222">line 222</a>
+                  <a href="src_layout_console_sidebar_circuits_CircuitsPanel.js.html">src/layout/console/sidebar/circuits/CircuitsPanel.js</a>, <a href="src_layout_console_sidebar_circuits_CircuitsPanel.js.html#line217">line 217</a>
                 </li>
               </ul>
             </dd>
@@ -2318,7 +2349,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line226">line 226</a>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line205">line 205</a>
                 </li>
               </ul>
             </dd>
@@ -2440,7 +2471,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line141">line 141</a>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line139">line 139</a>
                 </li>
               </ul>
             </dd>
@@ -2475,40 +2506,6 @@
               <ul class="dummy">
                 <li>
                   <a href="src_layout_console_sidebar_notifications_NotificationsPanel.js.html">src/layout/console/sidebar/notifications/NotificationsPanel.js</a>, <a href="src_layout_console_sidebar_notifications_NotificationsPanel.js.html#line52">line 52</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <h5>Parameters:</h5>
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="name"><code>state</code></td>
-                <td class="type">
-                </td>
-                <td class="description last">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
-              id="saveState"><span class="type-signature"></span>saveState<span class="signature">(state)</span><span class="type-signature"></span></h4>
-          <div class="description"> stores this components state in the parents state </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line55">line 55</a>
                 </li>
               </ul>
             </dd>
@@ -2674,7 +2671,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line83">line 83</a>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line75">line 75</a>
                 </li>
               </ul>
             </dd>
