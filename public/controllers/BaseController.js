@@ -9,7 +9,7 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * REST paths for our grid server. good place to store thats shared amoung all controllers
-   * @returns {{SEPARATOR: string, JOURNAL: string, ME: string, LIMIT: string, TEAM: string}}
+   * @returns {{STATUS: string, SEPARATOR: string, JOURNAL: string, INTENTION: string, ME: string, LIMIT: string, TEAM: string, STATUS_TEAM: string}}
    * @constructor
    */
   static get Paths() {
@@ -20,7 +20,8 @@ module.exports = class BaseController {
       TEAM: "/team",
       SEPARATOR: "/",
       STATUS: "/status/",
-      STATUS_TEAM: "/status/team"
+      STATUS_TEAM: "/status/team",
+      INTENTION: "/intention"
     };
   }
 

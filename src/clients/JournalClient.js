@@ -48,6 +48,7 @@ export class JournalClient extends BaseClient {
   static get Events() {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
+      CREATE_INTENTION: "create-intention",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks"
@@ -82,6 +83,25 @@ export class JournalClient extends BaseClient {
     return event;
   }
 
+  /**
+   * creates a new intention in our database and grid
+   * @param projectId
+   * @param taskId
+   * @param description
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static createIntention(projectId, taskId, description, scope, callback) {
+    let event = JournalClient.instance.createClientEvent(
+      JournalClient.Events.CREATE_INTENTION,
+      { projectId: projectId, taskId: taskId, description: description },
+      scope,
+      callback
+    );
+    JournalClient.instance.notifyJournal(event);
+    return event;
+  }
   /**
    * gets our most recent journal items from local db
    * @param userName

@@ -3,7 +3,8 @@ const Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
   RecentJournalDto = require("../dto/RecentJournalDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  JournalDatabase = require("../database/JournalDatabase");
+  JournalDatabase = require("../database/JournalDatabase"),
+  IntentionInputDto = require("../dto/IntentionInputDto");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -31,6 +32,7 @@ module.exports = class JournalController extends BaseController {
   static get Events() {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
+      CREATE_INTENTION: "create-intention",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks"
@@ -71,6 +73,9 @@ module.exports = class JournalController extends BaseController {
       switch (arg.type) {
         case JournalController.Events.LOAD_RECENT_JOURNAL:
           this.handleLoadJournalEvent(event, arg);
+          break;
+        case JournalController.Events.CREATE_INTENTION:
+          this.handleCreateIntentionEvent(event, arg);
           break;
         case JournalController.Events.GET_RECENT_INTENTIONS:
           this.handleGetRecentIntentionsEvent(event, arg);
@@ -160,6 +165,44 @@ module.exports = class JournalController extends BaseController {
       }
     }
     JournalController.instance.userHistory.add(userName);
+    this.doCallbackOrReplyTo(event, arg, callback);
+  }
+
+  handleCreateIntentionEvent(event, arg, callback) {
+    let projectId = arg.args.projectId,
+      taskId = arg.args.taskId,
+      description = arg.args.description,
+      urn =
+        JournalController.Paths.JOURNAL +
+        JournalController.Paths.ME +
+        JournalController.Paths.INTENTION;
+
+    this.doClientRequest(
+      "JournalClient",
+      new IntentionInputDto({
+        description: description,
+        projectId: projectId,
+        taskId: taskId
+      }),
+      "createIntention",
+      "post",
+      urn,
+      store => this.delegateCreateIntentionCallback(store, event, arg, callback)
+    );
+  }
+
+  delegateCreateIntentionCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
+        collection = database.getCollection(
+          JournalDatabase.Collections.INTENTIONS
+        ),
+        dto = new IntentionInputDto(store.data);
+
+      console.log(dto);
+    }
     this.doCallbackOrReplyTo(event, arg, callback);
   }
 

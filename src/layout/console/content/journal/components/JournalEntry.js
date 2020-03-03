@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
+import { JournalClient } from "../../../../../clients/JournalClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -123,7 +124,15 @@ export default class JournalEntry extends Component {
   saveJournalEntry() {
     console.log(this.state);
 
-    // TODO make client request to save this intention
+    JournalClient.createIntention(
+      this.state.currentProjectValue,
+      this.state.currentTaskValue,
+      this.state.currentIntentionValue,
+      this,
+      arg => {
+        console.log(arg);
+      }
+    );
 
     // TODO render the journal with the new entry from local db
 
@@ -159,14 +168,6 @@ export default class JournalEntry extends Component {
     this.setState({
       currentTaskValue: value
     });
-  };
-
-  /**
-   * called when the create task button is clicked on, it then shouold dispatch
-   * a new event that will update the rendered view
-   */
-  handleClickForCreate = () => {
-    this.saveJournalEntry();
   };
 
   /**
