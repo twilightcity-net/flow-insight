@@ -199,7 +199,21 @@ module.exports = class JournalController extends BaseController {
     }
   }
 
-  handleGetRecentProjectsEvent(event, arg, callback) {}
+  handleGetRecentProjectsEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
+      view = database.getViewForRecentProjects();
 
-  handleGetRecentTasksEvent(event, arg, callback) {}
+    this.logResults(this.name, arg.type, arg.id, view.count());
+    arg.data = view.data();
+    this.doCallbackOrReplyTo(event, arg, callback);
+  }
+
+  handleGetRecentTasksEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
+      view = database.getViewForRecentTasks();
+
+    this.logResults(this.name, arg.type, arg.id, view.count());
+    arg.data = view.data();
+    this.doCallbackOrReplyTo(event, arg, callback);
+  }
 };

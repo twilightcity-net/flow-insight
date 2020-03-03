@@ -3,17 +3,31 @@ import { Icon, List } from "semantic-ui-react";
 import { BaseClient } from "../../../../clients/BaseClient";
 import UtilRenderer from "../../../../UtilRenderer";
 
+/**
+ * our list items that are displayed in our team panel
+ */
 export default class TeamPanelListItem extends Component {
+  /**
+   * builds our list item for the team panel with props
+   * @param props
+   */
   constructor(props) {
     super(props);
-    this.name = "[TeamMember]";
+    this.name = "[TeamPanelListItem]";
     this.isOnline = UtilRenderer.isMemberOnline(props.model);
   }
 
+  /**
+   * event handler for when we click on one of these items
+   */
   handleClick = () => {
-    this.props.onClickRow(this.props.model, this.props.isMe);
+    this.props.onClickRow(this.props.model);
   };
 
+  /**
+   * gets our display name for our team panel list item
+   * @returns {*}
+   */
   getDisplayName() {
     return (
       <span>
@@ -23,6 +37,10 @@ export default class TeamPanelListItem extends Component {
     );
   }
 
+  /**
+   * gets our icon for our team panel list item
+   * @returns {*}
+   */
   getIcon() {
     let name = "circle outline",
       color = "grey";
@@ -34,12 +52,20 @@ export default class TeamPanelListItem extends Component {
     return <Icon name={name} color={color} />;
   }
 
+  /**
+   * gets our class name for our team panel so we can render online or offline status
+   * @returns {string}
+   */
   getClassName() {
     return this.isOnline
       ? BaseClient.Strings.ONLINE
       : BaseClient.Strings.OFFLINE;
   }
 
+  /**
+   * renders our list item JSX
+   * @returns {*}
+   */
   render() {
     return (
       <List.Item

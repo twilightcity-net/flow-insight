@@ -5,18 +5,59 @@ import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
  * this component is the tab panel wrapper for the console content
  */
 export default class JournalEntry extends Component {
+  /**
+   * builds our journal entry component which is only shown when viewing our
+   * own journal for now.
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.name = "[JournalEntry]";
+    this.projects = [];
+    this.tasks = [];
     this.state = {
-      projects: [],
-      tasks: [],
       currentProjectValue: null,
       currentTaskValue: null,
       currentIntentionValue: "",
       disableControls: false
     };
   }
+
+  /**
+   * this is called right before our parent passes us new props that contain
+   * our recent projects and tasks
+   * @param nextProps
+   * @param nextState
+   * @param nextContext
+   * @returns {boolean}
+   */
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    console.log("should");
+    this.projects = [];
+    this.tasks = [];
+    nextProps.projects.forEach(project =>
+      this.projects.push(this.transformLokiDataStruct(project))
+    );
+    nextProps.tasks.forEach(task =>
+      this.tasks.push(this.transformLokiDataStruct(task))
+    );
+    return true;
+  }
+
+  /**
+   * transforms our loki datastructure returned from our local database into
+   * the option object that semantic ui is looking for. in fact these are
+   * in deed the droids we are looking for
+   * @param p
+   * @returns {{text: *, value: *, key: *}}
+   */
+  transformLokiDataStruct = p => {
+    return {
+      key: p["$loki"],
+      value: p["id"],
+      text: p["name"]
+    };
+  };
 
   /**
    * called when a new task is added from dropdown
@@ -126,6 +167,10 @@ export default class JournalEntry extends Component {
     document.getElementById("createIntentionInput").classList.remove("focused");
   };
 
+  /**
+   * renders our project drop down from our local database
+   * @returns {*}
+   */
   getProjectDropdown() {
     return (
       <Dropdown
@@ -135,7 +180,7 @@ export default class JournalEntry extends Component {
         placeholder="Choose Project"
         selection
         search
-        options={this.state.projects}
+        options={this.projects}
         fluid
         upward
         value={this.state.currentProjectValue}
@@ -147,13 +192,17 @@ export default class JournalEntry extends Component {
     );
   }
 
+  /**
+   * renders our drop down for tasks filters on project.id
+   * @returns {*}
+   */
   getTaskDropdown() {
     return (
       <Dropdown
         disabled={this.state.disableControls}
         id="journalEntryTaskId"
         className="chunkId"
-        options={this.state.tasks}
+        options={this.tasks}
         placeholder="Choose Task"
         search
         selection
@@ -170,6 +219,10 @@ export default class JournalEntry extends Component {
     );
   }
 
+  /**
+   * gets our text input field for the entry
+   * @returns {*}
+   */
   getTextInput() {
     return (
       <Input

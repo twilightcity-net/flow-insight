@@ -14,6 +14,11 @@ module.exports = class TeamManager {
     this.loadCount = 0;
   }
 
+  /**
+   * initializes our Team manager by loading stuff into the database. This is
+   * called by our volume manager
+   * @param callback
+   */
   init(callback) {
     TeamController.instance.handleLoadMyTeamEvent(
       {},
@@ -34,6 +39,10 @@ module.exports = class TeamManager {
     );
   }
 
+  /**
+   * handles our callback in response from our controller event processing
+   * @param callback
+   */
   handleInitCallback(callback) {
     this.loadCount++;
     if (callback && this.loadCount === 3) {

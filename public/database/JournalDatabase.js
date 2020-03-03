@@ -104,13 +104,21 @@ module.exports = class JournalDatabase extends LokiJS {
     return view;
   }
 
-  getViewForProjects() {
+  /**
+   * gets our view for our recent projects
+   * @returns {DynamicView}
+   */
+  getViewForRecentProjects() {
     let collection = this.getCollection(JournalDatabase.Collections.PROJECTS);
     return collection.getDynamicView(JournalDatabase.Views.PROJECTS);
   }
 
-  getViewForTasks() {
-    let collection = this.getCollection(JournalDatabase.Collections.PROJECTS);
-    return collection.getDynamicView(JournalDatabase.Views.PROJECTS);
+  /**
+   * gets our view for our teams recent tasks
+   * @returns {DynamicView}
+   */
+  getViewForRecentTasks() {
+    let collection = this.getCollection(JournalDatabase.Collections.TASKS);
+    return collection.getDynamicView(JournalDatabase.Views.TASKS);
   }
 };

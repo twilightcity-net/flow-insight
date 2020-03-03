@@ -21,6 +21,8 @@ export default class JournalResource extends Component {
     this.name = "[JournalResource]";
     this.resource = props.resource;
     this.journalItems = [];
+    this.projects = [];
+    this.tasks = [];
     this.activeJournalItem = null;
     this.error = null;
     this.userName = JournalResource.userNameMe;
@@ -59,19 +61,54 @@ export default class JournalResource extends Component {
    * initially create the window's console view or switch resource views
    */
   componentDidMount() {
+    this.loadCount = 0;
     let userName = this.getUserNameFromResource(this.props);
     JournalClient.getRecentIntentions(userName, this, arg => {
-      if (arg.error) {
-        this.error = arg.error;
-        this.forceUpdate();
-      } else {
+      if (!this.hasCallbackError(arg)) {
         this.userName = userName;
         this.journalItems = arg.data;
-        this.forceUpdate(() => {
-          this.scrollToBottomOrActive();
-        });
+        this.handleCallback();
       }
     });
+    JournalClient.getRecentProjects(this, arg => {
+      if (!this.hasCallbackError(arg)) {
+        this.projects = arg.data;
+        this.handleCallback();
+      }
+    });
+    JournalClient.getRecentTasks(this, arg => {
+      if (!this.hasCallbackError(arg)) {
+        this.tasks = arg.data;
+        this.handleCallback();
+      }
+    });
+  }
+
+  /**
+   * does stuff when our client callback errors out
+   * @param arg
+   * @returns {boolean}
+   */
+  hasCallbackError(arg) {
+    if (arg.error) {
+      this.error = arg.error;
+      this.forceUpdate();
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * handles our callback for loading data from our local database
+   */
+  handleCallback() {
+    this.loadCount++;
+    if (this.loadCount === 3) {
+      console.log("force update");
+      this.forceUpdate(() => {
+        this.scrollToBottomOrActive();
+      });
+    }
   }
 
   getUserNameFromResource(props) {
@@ -199,6 +236,10 @@ export default class JournalResource extends Component {
     }
   }
 
+  /**
+   * determines if we should render this from the point of view as ourself
+   * @returns {boolean}
+   */
   isMyJournal() {
     return this.userName === JournalResource.userNameMe;
   }
@@ -294,7 +335,11 @@ export default class JournalResource extends Component {
     return (
       <Transition visible={isMyJournal} animation="fade" duration={420}>
         <div id="wrapper" className="journalEntry ">
-          <JournalEntry onAddTask={this.onAddTask} />
+          <JournalEntry
+            onAddTask={this.onAddTask}
+            projects={this.projects}
+            tasks={this.tasks}
+          />
         </div>
       </Transition>
     );

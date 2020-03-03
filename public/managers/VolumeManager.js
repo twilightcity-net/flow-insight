@@ -62,6 +62,9 @@ module.exports = class VolumeManager {
     return VolumeManager.Volumes.get(name);
   }
 
+  /**
+   * loads our journal database into memory
+   */
   static loadDefaultJournalDatabase() {
     global.App.JournalManager.init(() => {
       VolumeManager.handleFinishLoadingVolumes();
@@ -74,12 +77,18 @@ module.exports = class VolumeManager {
     VolumeManager.handleFinishLoadingVolumes();
   }
 
+  /**
+   * loads our team database into our memory
+   */
   static loadDefaultTeamDatabase() {
     global.App.TeamManager.init(() => {
       VolumeManager.handleFinishLoadingVolumes();
     });
   }
 
+  /**
+   * do this when we finish loading all of our databases
+   */
   static handleFinishLoadingVolumes() {
     VolumeManager.initializedVolumes++;
     if (VolumeManager.initializedVolumes >= 4) {

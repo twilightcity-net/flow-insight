@@ -101,6 +101,40 @@ export class JournalClient extends BaseClient {
   }
 
   /**
+   * gets our most recent projects for our dropdown
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getRecentProjects(scope, callback) {
+    let event = JournalClient.instance.createClientEvent(
+      JournalClient.Events.GET_RECENT_PROJECTS,
+      {},
+      scope,
+      callback
+    );
+    JournalClient.instance.notifyJournal(event);
+    return event;
+  }
+
+  /**
+   * gets our most recent task for the user from our local db
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getRecentTasks(scope, callback) {
+    let event = JournalClient.instance.createClientEvent(
+      JournalClient.Events.GET_RECENT_TASKS,
+      {},
+      scope,
+      callback
+    );
+    JournalClient.instance.notifyJournal(event);
+    return event;
+  }
+
+  /**
    * the event callback used by the event manager. removes the event from
    * the local map when its recieved the response from the main process. the
    * call back is bound to the scope of what was pass into the api of this client

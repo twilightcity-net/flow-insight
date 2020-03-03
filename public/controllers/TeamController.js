@@ -138,6 +138,12 @@ module.exports = class TeamController extends BaseController {
     this.doCallbackOrReplyTo(event, arg, callback);
   }
 
+  /**
+   * gets our current status of ourselves
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleLoadMyCurrentStatus(event, arg, callback) {
     let urn = TeamController.Paths.STATUS + TeamController.Paths.ME;
 
@@ -152,6 +158,13 @@ module.exports = class TeamController extends BaseController {
     );
   }
 
+  /**
+   * callback processor for our current status query
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
   delegateLoadMyCurrentStatusCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
@@ -172,6 +185,12 @@ module.exports = class TeamController extends BaseController {
     this.doCallbackOrReplyTo(event, arg, callback);
   }
 
+  /**
+   * loads our current status and our team status
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleLoadStatusOfMeAndMyTeam(event, arg, callback) {
     let urn = TeamController.Paths.STATUS_TEAM;
 
@@ -191,6 +210,13 @@ module.exports = class TeamController extends BaseController {
     );
   }
 
+  /**
+   * processes our callback for when when load our team status
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
   delegateLoadStatusOfMeAndMyTeamCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
@@ -200,15 +226,17 @@ module.exports = class TeamController extends BaseController {
         view = database.getViewForStatusOfMeAndMyTeam();
 
       if (view.count() === 0) {
-        collection.insert(store.data);
+        store.data.forEach(m => {
+          collection.insert(new MemberWorkStatusDto(m));
+        });
       } else if (store.data.length > 0) {
-        store.data.forEach(member => {
-          let obj = collection.findOne({ id: member.id });
-          if (obj) {
-            obj = member;
-            collection.update(obj);
+        store.data.forEach(m => {
+          let member = collection.findOne({ id: m.id });
+          if (member) {
+            member = new MemberWorkStatusDto(m);
+            collection.update(member);
           } else {
-            collection.insert(member);
+            collection.insert(new MemberWorkStatusDto(m));
           }
         });
       }
@@ -236,6 +264,12 @@ module.exports = class TeamController extends BaseController {
     }
   }
 
+  /**
+   * queries for our current status in our local database
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleGetMyCurrentStatusEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
       view = database.getViewForMyCurrentStatus();
@@ -243,6 +277,12 @@ module.exports = class TeamController extends BaseController {
     this.delegateCallback(null, view, event, arg);
   }
 
+  /**
+   * queries for our team status from our local database
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleGetStatusOfMeAndMyTeamEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
       view = database.getViewForStatusOfMeAndMyTeam();

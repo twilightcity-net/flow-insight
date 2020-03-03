@@ -79,6 +79,12 @@ export class TeamClient extends BaseClient {
     return event;
   }
 
+  /**
+   * loads my current status into our database from grid
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static loadMyCurrentStatus(scope, callback) {
     let event = TeamClient.instance.createClientEvent(
       TeamClient.Events.LOAD_MY_CURRENT_STATUS,
@@ -90,6 +96,12 @@ export class TeamClient extends BaseClient {
     return event;
   }
 
+  /**
+   * loads the status of me and my team into our local database
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static loadStatusOfMeAndMyTeam(scope, callback) {
     let event = TeamClient.instance.createClientEvent(
       TeamClient.Events.LOAD_STATUS_OF_ME_AND_MY_TEAM,
@@ -123,6 +135,12 @@ export class TeamClient extends BaseClient {
     return event;
   }
 
+  /**
+   * gets my current status from our Team client service
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static getMyCurrentStatus(scope, callback) {
     let event = TeamClient.instance.createClientEvent(
       TeamClient.Events.GET_MY_CURRENT_STATUS,
@@ -134,6 +152,12 @@ export class TeamClient extends BaseClient {
     return event;
   }
 
+  /**
+   * gets the status of me and my team from our TeamClient service
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static getStatusOfMeAndMyTeam(scope, callback) {
     let event = TeamClient.instance.createClientEvent(
       TeamClient.Events.GET_STATUS_OF_ME_AND_MY_TEAM,

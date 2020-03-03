@@ -31,10 +31,21 @@ export default class TeamPanel extends Component {
     this.members = [];
   }
 
+  /**
+   * make sure we don't update when we aren't changing.
+   * @param nextProps
+   * @param nextState
+   * @param nextContext
+   * @returns {boolean}
+   */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     return this.me.id !== this.me.displayName;
   }
 
+  /**
+   * creates a default member object for loading purposes
+   * @returns {{displayName: string, id: string}}
+   */
   getDefaultMe() {
     return {
       displayName: SidePanelViewController.ME,
@@ -91,6 +102,11 @@ export default class TeamPanel extends Component {
     );
   }
 
+  /**
+   * handles our callback from our TeamClient request
+   * @param arg
+   * @param callback
+   */
   handleClientCallback = (arg, callback) => {
     if (arg.error) {
       this.error = arg.error;
@@ -127,8 +143,9 @@ export default class TeamPanel extends Component {
    * @param member
    * @param isMe
    */
-  handleClickRow = (member, isMe) => {
-    let name = isMe ? TeamClient.Strings.ME : member.userName;
+  handleClickRow = member => {
+    let name =
+      this.me.id === member.id ? TeamClient.Strings.ME : member.userName;
     this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
   };
 
@@ -176,6 +193,12 @@ export default class TeamPanel extends Component {
     }
   }
 
+  /**
+   * gets our team panel list for our team panel in the sidebar
+   * @param me
+   * @param members
+   * @returns {*}
+   */
   getTeamPanelMembersListContent(me, members) {
     return (
       <List

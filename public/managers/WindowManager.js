@@ -74,7 +74,7 @@ class WindowManager {
     global.App.WindowManager.lastBlurWindowName = arg.sender.name;
     global.App.ShortcutManager.deactivateWindowShortcuts(arg.sender);
     if (arg.sender.name === WindowManagerHelper.WindowNames.CONSOLE) {
-      this.handleHideConsoleEvent(1);
+      // this.handleHideConsoleEvent(1);
     }
   }
 

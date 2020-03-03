@@ -6,10 +6,20 @@ const LokiJS = require("lokijs"),
  * @type {TeamDatabase}
  */
 module.exports = class TeamDatabase extends LokiJS {
+  /**
+   * the name of our database
+   * @returns {string}
+   * @constructor
+   */
   static get Name() {
     return "team";
   }
 
+  /**
+   * the collections of our database
+   * @returns {{MEMBERS: string, TEAMS: string, ME: string}}
+   * @constructor
+   */
   static get Collections() {
     return {
       TEAMS: "teams",
@@ -18,6 +28,11 @@ module.exports = class TeamDatabase extends LokiJS {
     };
   }
 
+  /**
+   * the views of our database for queries
+   * @returns {{MEMBERS: string, TEAMS: string, ME: string, PRIMARY: string}}
+   * @constructor
+   */
   static get Views() {
     return {
       TEAMS: "teams",
@@ -27,6 +42,11 @@ module.exports = class TeamDatabase extends LokiJS {
     };
   }
 
+  /**
+   * indices of our database so we can index things for fast queries
+   * @returns {{ORG_ID: string, ID: string, USER_NAME: string, EMAIL: string, TYPE: string, DISPLAY_NAME: string, NAME: string}}
+   * @constructor
+   */
   static get Indices() {
     return {
       ID: "id",
@@ -77,11 +97,19 @@ module.exports = class TeamDatabase extends LokiJS {
     );
   }
 
+  /**
+   * gets our view for all of our teams
+   * @returns {DynamicView}
+   */
   getViewForTeams() {
     let collection = this.getCollection(TeamDatabase.Collections.TEAMS);
     return collection.getDynamicView(TeamDatabase.Views.TEAMS);
   }
 
+  /**
+   * returns our primary team we are part of from the local database
+   * @returns {DynamicView}
+   */
   getViewForMyPrimaryTeam() {
     let collection = this.getCollection(TeamDatabase.Collections.TEAMS),
       view = collection.getDynamicView(TeamDatabase.Views.PRIMARY);
@@ -91,11 +119,19 @@ module.exports = class TeamDatabase extends LokiJS {
     return view;
   }
 
+  /**
+   * returns the view for my status and all of my team members statuses
+   * @returns {DynamicView}
+   */
   getViewForStatusOfMeAndMyTeam() {
     let collection = this.getCollection(TeamDatabase.Collections.MEMBERS);
     return collection.getDynamicView(TeamDatabase.Views.MEMBERS);
   }
 
+  /**
+   * gets my current status for me
+   * @returns {DynamicView}
+   */
   getViewForMyCurrentStatus() {
     let collection = this.getCollection(TeamDatabase.Collections.ME);
     return collection.getDynamicView(TeamDatabase.Views.ME);
