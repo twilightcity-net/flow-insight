@@ -39,6 +39,12 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.html">BaseClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#createClientEvent">createClientEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#delegateCallback">delegateCallback</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#logReply">logReply</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Errors.html">Errors</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Strings.html">Strings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></span></li>
@@ -141,6 +147,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JournalClient.html">JournalClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.loadRecentJournal">loadRecentJournal</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#notifyJournal">notifyJournal</a></span></li>
@@ -180,7 +188,9 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#deactivate">deactivate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCallback">delegateCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyCurrentStatusCallback">delegateLoadMyCurrentStatusCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyTeamCallback">delegateLoadMyTeamCallback</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadStatusOfMeAndMyTeamCallback">delegateLoadStatusOfMeAndMyTeamCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doCallbackOrReplyTo">doCallbackOrReplyTo</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doClientRequest">doClientRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doLogin">doLogin</a></span></li>
@@ -215,20 +225,35 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForIntentionsByUserName">getViewForIntentionsByUserName</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMyCurrentStatus">getViewForMyCurrentStatus</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMyPrimaryTeam">getViewForMyPrimaryTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentProjects">getViewForRecentProjects</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForStatusOfMeAndMyTeam">getViewForStatusOfMeAndMyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getVolumeByName">getVolumeByName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleFinishLoadingVolumes">handleFinishLoadingVolumes</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyCurrentStatusEvent">handleGetMyCurrentStatusEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyTeamEvent">handleGetMyTeamEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetStatusOfMeAndMyTeamEvent">handleGetStatusOfMeAndMyTeamEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadJournalEvent">handleLoadJournalEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadMyCurrentStatus">handleLoadMyCurrentStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadMyTeamEvent">handleLoadMyTeamEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadStatusOfMeAndMyTeam">handleLoadStatusOfMeAndMyTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initVolumes">initVolumes</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultJournalDatabase">loadDefaultJournalDatabase</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logRequest">logRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logResults">logResults</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li>
@@ -270,10 +295,12 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports#Collections">Collections</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_DefaultValues.html">DefaultValues</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Error.html">Error</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_EventTypes.html">EventTypes</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports#Indices">Indices</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports#Name">Name</a></span></li>
@@ -348,9 +375,13 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishScreenshotToRoom">publishScreenshotToRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishSnippetToRoom">publishSnippetToRoom</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyCurrentStatus">getMyCurrentStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyTeam">getMyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getStatusOfMeAndMyTeam">getStatusOfMeAndMyTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.loadMyCurrentStatus">loadMyCurrentStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.loadMyTeam">loadMyTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.loadStatusOfMeAndMyTeam">loadStatusOfMeAndMyTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#notifyListeners">notifyListeners</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#notifyTeam">notifyTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#registerListener">registerListener</a></span></li>
@@ -386,23 +417,34 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarMenuContent">getCircuitSidebarMenuContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarOverviewContent">getCircuitSidebarOverviewContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarPartyContent">getCircuitSidebarPartyContent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getClassName">getClassName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDefaultMe">getDefaultMe</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDisplayName">getDisplayName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getErrorContent">getErrorContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedEvent">getFeedEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getGuid">getGuid</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getIcon">getIcon</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalEntry">getJournalEntry</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalError">getJournalError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItems">getJournalItems</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItemsWrapper">getJournalItemsWrapper</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getProjectDropdown">getProjectDropdown</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTaskDropdown">getTaskDropdown</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTextCursor">getTextCursor</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTextInput">getTextInput</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#handleCallback">handleCallback</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hasCallbackError">hasCallbackError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isActive">isActive</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isCommand">isCommand</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isFirstActive">isFirstActive</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isLastActive">isLastActive</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isMyJournal">isMyJournal</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWTF">isWTF</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
@@ -442,25 +484,62 @@
     <h1 class="page-title">src/layout/console/content/journal/components/JournalEntry.js</h1>
     <section>
       <article>
-        <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
+        <pre class="prettyprint source linenums"><code>import React, {Component} from "react";
+import {Button, Dropdown, Grid, Input, Segment} from "semantic-ui-react";
 
 /**
  * this component is the tab panel wrapper for the console content
  */
 export default class JournalEntry extends Component {
+  /**
+   * builds our journal entry component which is only shown when viewing our
+   * own journal for now.
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.name = "[JournalEntry]";
+    this.projects = [];
+    this.tasks = [];
     this.state = {
-      projects: [],
-      tasks: [],
       currentProjectValue: null,
       currentTaskValue: null,
       currentIntentionValue: "",
       disableControls: false
     };
   }
+
+  /**
+   * this is called right before our parent passes us new props that contain
+   * our recent projects and tasks
+   * @param nextProps
+   * @param nextState
+   * @param nextContext
+   * @returns {boolean}
+   */
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    console.log("should");
+    this.projects = [];
+    this.tasks = [];
+    nextProps.projects.forEach(project => this.projects.push(this.transformLokiDataStruct(project)));
+    nextProps.tasks.forEach(task => this.tasks.push(this.transformLokiDataStruct(task)));
+    return true;
+  }
+
+  /**
+   * transforms our loki datastructure returned from our local database into
+   * the option object that semantic ui is looking for. in fact these are
+   * in deed the droids we are looking for
+   * @param p
+   * @returns {{text: *, value: *, key: *}}
+   */
+  transformLokiDataStruct = p => {
+    return {
+      key: p["$loki"],
+      value: p["id"],
+      text: p["name"]
+    };
+  };
 
   /**
    * called when a new task is added from dropdown
@@ -570,6 +649,10 @@ export default class JournalEntry extends Component {
     document.getElementById("createIntentionInput").classList.remove("focused");
   };
 
+  /**
+   * renders our project drop down from our local database
+   * @returns {*}
+   */
   getProjectDropdown() {
     return (
       &lt;Dropdown
@@ -579,7 +662,7 @@ export default class JournalEntry extends Component {
         placeholder="Choose Project"
         selection
         search
-        options={this.state.projects}
+        options={this.projects}
         fluid
         upward
         value={this.state.currentProjectValue}
@@ -591,13 +674,17 @@ export default class JournalEntry extends Component {
     );
   }
 
+  /**
+   * renders our drop down for tasks filters on project.id
+   * @returns {*}
+   */
   getTaskDropdown() {
     return (
       &lt;Dropdown
         disabled={this.state.disableControls}
         id="journalEntryTaskId"
         className="chunkId"
-        options={this.state.tasks}
+        options={this.tasks}
         placeholder="Choose Task"
         search
         selection
@@ -614,6 +701,10 @@ export default class JournalEntry extends Component {
     );
   }
 
+  /**
+   * gets our text input field for the entry
+   * @returns {*}
+   */
   getTextInput() {
     return (
       &lt;Input
