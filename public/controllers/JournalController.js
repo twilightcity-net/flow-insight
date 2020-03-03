@@ -106,14 +106,14 @@ module.exports = class JournalController extends BaseController {
       urn = JournalController.Paths.JOURNAL + userName;
 
     if (limit) {
-      urn += JournalController.Paths.LIMIT + limit;
+      urn += JournalController.Params.LIMIT + limit;
     }
 
     this.doClientRequest(
       "JournalClient",
       {},
       "getRecentJournal",
-      "get",
+      JournalController.Types.GET,
       urn,
       store =>
         this.delegateLoadJournalCallback(store, userName, event, arg, callback)
@@ -174,7 +174,7 @@ module.exports = class JournalController extends BaseController {
       description = arg.args.description,
       urn =
         JournalController.Paths.JOURNAL +
-        JournalController.Paths.ME +
+        JournalController.Strings.ME +
         JournalController.Paths.INTENTION;
 
     this.doClientRequest(
@@ -185,7 +185,7 @@ module.exports = class JournalController extends BaseController {
         taskId: taskId
       }),
       "createIntention",
-      "post",
+      JournalController.Types.POST,
       urn,
       store => this.delegateCreateIntentionCallback(store, event, arg, callback)
     );
@@ -194,16 +194,22 @@ module.exports = class JournalController extends BaseController {
   delegateCreateIntentionCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
+      this.doCallbackOrReplyTo(event, arg, callback);
     } else {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
         collection = database.getCollection(
           JournalDatabase.Collections.INTENTIONS
-        ),
-        dto = new IntentionInputDto(store.data);
+        );
 
-      console.log(dto);
+      arg.data = new IntentionInputDto(store.data);
+      this.handleLoadJournalEvent(
+        null,
+        { args: { userName: JournalController.Strings.ME } },
+        () => {
+          this.doCallbackOrReplyTo(event, arg, callback);
+        }
+      );
     }
-    this.doCallbackOrReplyTo(event, arg, callback);
   }
 
   /**
@@ -220,7 +226,7 @@ module.exports = class JournalController extends BaseController {
     if (!userName) {
       arg.error = "Unknown user '" + userName + "'";
       this.doCallbackOrReplyTo(event, arg, callback);
-    } else if (userName === JournalController.Paths.ME) {
+    } else if (userName === JournalController.Strings.ME) {
       this.logResults(this.name, arg.type, arg.id, view.count());
       arg.data = view.data();
       this.doCallbackOrReplyTo(event, arg, callback);

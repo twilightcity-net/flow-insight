@@ -9,14 +9,12 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * REST paths for our grid server. good place to store thats shared amoung all controllers
-   * @returns {{STATUS: string, SEPARATOR: string, JOURNAL: string, INTENTION: string, ME: string, LIMIT: string, TEAM: string, STATUS_TEAM: string}}
+   * @returns {{STATUS: string, SEPARATOR: string, JOURNAL: string, INTENTION: string, TEAM: string, STATUS_TEAM: string}}
    * @constructor
    */
   static get Paths() {
     return {
       JOURNAL: "/journal/",
-      LIMIT: "?limit=",
-      ME: "me",
       TEAM: "/team",
       SEPARATOR: "/",
       STATUS: "/status/",
@@ -26,8 +24,19 @@ module.exports = class BaseController {
   }
 
   /**
+   * various request parameter strings our controllers use
+   * @returns {{LIMIT: string}}
+   * @constructor
+   */
+  static get Params() {
+    return {
+      LIMIT: "?limit="
+    };
+  }
+
+  /**
    * Data types flag
-   * @returns {{PRIMARY: string}}
+   * @returns {{POST: string, GET: string, PRIMARY: string}}
    * @constructor
    */
   static get Types() {
@@ -40,7 +49,7 @@ module.exports = class BaseController {
 
   /**
    * errors which the controllers know about
-   * @returns {{UNKNOWN: string, ERROR_ARGS: string}}
+   * @returns {{UNKNOWN: string, ERROR_ARGS: string, PRIMARY_ONLY: string}}
    * @constructor
    */
   static get Error() {
@@ -48,6 +57,17 @@ module.exports = class BaseController {
       ERROR_ARGS: "arg : args is required",
       UNKNOWN: "Unknown team client event type",
       PRIMARY_ONLY: "Only primary team supported currently"
+    };
+  }
+
+  /**
+   * general purpose strings that should prolly go in the {Util}
+   * @returns {{ME: string}}
+   * @constructor
+   */
+  static get Strings() {
+    return {
+      ME: "me"
     };
   }
 
@@ -95,7 +115,7 @@ module.exports = class BaseController {
     } else if (event) {
       return event.replyTo(arg);
     } else {
-      throw new Error("Invalid create team event");
+      throw new Error("Invalid create client event");
     }
   }
 

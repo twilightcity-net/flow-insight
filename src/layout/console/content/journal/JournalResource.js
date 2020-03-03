@@ -9,9 +9,17 @@ import { JournalClient } from "../../../../clients/JournalClient";
  * this component is the tab panel wrapper for the console content
  */
 export default class JournalResource extends Component {
-  static get userNameMe() {
-    return "me";
+  /**
+   * general purpose string to reprent ourselves.. again.
+   * @returns {{ME: string}}
+   * @constructor
+   */
+  static get Strings() {
+    return {
+      ME: "me"
+    };
   }
+
   /**
    * builds the basic journal layout component
    * @param props
@@ -25,7 +33,11 @@ export default class JournalResource extends Component {
     this.tasks = [];
     this.activeJournalItem = null;
     this.error = null;
-    this.userName = JournalResource.userNameMe;
+    this.userName = JournalResource.Strings.ME;
+  }
+
+  getUserNameFromResource(props) {
+    return props.resource.uriArr[1];
   }
 
   /**
@@ -40,19 +52,7 @@ export default class JournalResource extends Component {
       return false;
     }
     let userName = this.getUserNameFromResource(nextProps);
-    JournalClient.getRecentIntentions(userName, this, arg => {
-      if (arg.error) {
-        this.error = arg.error;
-        this.forceUpdate();
-      } else {
-        this.error = null;
-        this.userName = userName;
-        this.journalItems = arg.data;
-        this.forceUpdate(() => {
-          this.scrollToBottomOrActive();
-        });
-      }
-    });
+    this.refreshRecentIntentions(userName);
     return false;
   }
 
@@ -110,17 +110,48 @@ export default class JournalResource extends Component {
     }
   }
 
-  getUserNameFromResource(props) {
-    let userName = props.resource.uriArr[1];
-    return userName;
+  /**
+   * refreshes our current intentions list view with our most recent data from our
+   * local database.
+   * @param userName
+   */
+  refreshRecentIntentions(userName) {
+    JournalClient.getRecentIntentions(userName, this, arg => {
+      if (arg.error) {
+        this.error = arg.error;
+        this.forceUpdate();
+      } else {
+        this.error = null;
+        this.userName = userName;
+        this.journalItems = arg.data;
+        this.forceUpdate(() => {
+          this.scrollToBottomOrActive();
+        });
+      }
+    });
   }
+
+  /**
+   * saves the journal entry from the callback event
+   * @param projectId
+   * @param taskId
+   * @param intention
+   */
+  handleCreateIntention = (projectId, taskId, intention) => {
+    JournalClient.createIntention(projectId, taskId, intention, this, arg => {
+      console.log(arg);
+      console.log("refresh...");
+      this.refreshRecentIntentions(JournalResource.Strings.ME);
+      // TODO refresh this resource view
+    });
+  };
 
   /**
    * callback listener for the AddTask event which creates  new journal entry
    * @param projectId - the id of the project the task will be added to
    * @param taskName - the name of the task to be entered into the journal
    */
-  onAddTask = (projectId, taskName) => {
+  onAddTask = (projectId, taskNyarame) => {
     // creates a new task for our drop down
   };
 
@@ -222,7 +253,7 @@ export default class JournalResource extends Component {
    * @returns {boolean}
    */
   isMyJournal() {
-    return this.userName === JournalResource.userNameMe;
+    return this.userName === JournalResource.Strings.ME;
   }
 
   /**
@@ -320,6 +351,7 @@ export default class JournalResource extends Component {
             onAddTask={this.onAddTask}
             projects={this.projects}
             tasks={this.tasks}
+            createIntention={this.handleCreateIntention}
           />
         </div>
       </Transition>

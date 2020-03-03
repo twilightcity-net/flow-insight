@@ -145,7 +145,7 @@ module.exports = class TeamController extends BaseController {
    * @param callback
    */
   handleLoadMyCurrentStatus(event, arg, callback) {
-    let urn = TeamController.Paths.STATUS + TeamController.Paths.ME;
+    let urn = TeamController.Paths.STATUS + TeamController.Strings.ME;
 
     this.doClientRequest(
       "TeamClient",

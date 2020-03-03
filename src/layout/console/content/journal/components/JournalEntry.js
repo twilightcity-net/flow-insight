@@ -119,27 +119,6 @@ export default class JournalEntry extends Component {
   }
 
   /**
-   * saves the journal entry from the callback event
-   */
-  saveJournalEntry() {
-    console.log(this.state);
-
-    JournalClient.createIntention(
-      this.state.currentProjectValue,
-      this.state.currentTaskValue,
-      this.state.currentIntentionValue,
-      this,
-      arg => {
-        console.log(arg);
-      }
-    );
-
-    // TODO render the journal with the new entry from local db
-
-    // TODO rewind local db intention if error from grid
-  }
-
-  /**
    * called when a new task is added from dropdown
    * @param e
    * @param value
@@ -176,7 +155,11 @@ export default class JournalEntry extends Component {
    */
   handleKeyPressForIntention = e => {
     if (e.charCode === 13) {
-      this.saveJournalEntry();
+      this.props.createIntention(
+        this.state.currentProjectValue,
+        this.state.currentTaskValue,
+        this.state.currentIntentionValue
+      );
     }
   };
 

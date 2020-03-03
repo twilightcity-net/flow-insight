@@ -306,7 +306,9 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports#Name">Name</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Names.html">Names</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Params.html">Params</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Paths.html">Paths</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Strings.html">Strings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Types.html">Types</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Views.html">Views</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Volumes.html">Volumes</a></span></li>
@@ -471,7 +473,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveJournalEntry">saveJournalEntry</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#shouldComponentUpdate">shouldComponentUpdate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
@@ -597,14 +598,14 @@ module.exports = class JournalController extends BaseController {
       urn = JournalController.Paths.JOURNAL + userName;
 
     if (limit) {
-      urn += JournalController.Paths.LIMIT + limit;
+      urn += JournalController.Params.LIMIT + limit;
     }
 
     this.doClientRequest(
       "JournalClient",
       {},
       "getRecentJournal",
-      "get",
+      JournalController.Types.GET,
       urn,
       store =>
         this.delegateLoadJournalCallback(store, userName, event, arg, callback)
@@ -665,7 +666,7 @@ module.exports = class JournalController extends BaseController {
       description = arg.args.description,
       urn =
         JournalController.Paths.JOURNAL +
-        JournalController.Paths.ME +
+        JournalController.Strings.ME +
         JournalController.Paths.INTENTION;
 
     this.doClientRequest(
@@ -676,7 +677,7 @@ module.exports = class JournalController extends BaseController {
         taskId: taskId
       }),
       "createIntention",
-      "post",
+      JournalController.Types.POST,
       urn,
       store => this.delegateCreateIntentionCallback(store, event, arg, callback)
     );
@@ -692,7 +693,11 @@ module.exports = class JournalController extends BaseController {
         ),
         dto = new IntentionInputDto(store.data);
 
-      console.log(dto);
+      this.handleLoadJournalEvent(
+        null,
+        { args: { userName: JournalController.Strings.ME } },
+        args => this.delegateCallback(args, view, event, arg)
+      );
     }
     this.doCallbackOrReplyTo(event, arg, callback);
   }
@@ -711,7 +716,7 @@ module.exports = class JournalController extends BaseController {
     if (!userName) {
       arg.error = "Unknown user '" + userName + "'";
       this.doCallbackOrReplyTo(event, arg, callback);
-    } else if (userName === JournalController.Paths.ME) {
+    } else if (userName === JournalController.Strings.ME) {
       this.logResults(this.name, arg.type, arg.id, view.count());
       arg.data = view.data();
       this.doCallbackOrReplyTo(event, arg, callback);
