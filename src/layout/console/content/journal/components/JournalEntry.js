@@ -6,6 +6,30 @@ import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
  */
 export default class JournalEntry extends Component {
   /**
+   * our basic struct that semantic ui drops downs use.
+   * @param key
+   * @param value
+   * @param text
+   * @returns {{text: *, value: *, key: JournalEntry.Opt.props}}
+   * @constructor
+   */
+  static Opt(key, value, text) {
+    return {
+      key: key,
+      value: value,
+      text: text
+    };
+  }
+
+  static get Strings() {
+    return {
+      LOKI: "$loki",
+      ID: "id",
+      NAME: "name"
+    };
+  }
+
+  /**
    * builds our journal entry component which is only shown when viewing our
    * own journal for now.
    * @param props
@@ -18,8 +42,7 @@ export default class JournalEntry extends Component {
     this.state = {
       currentProjectValue: null,
       currentTaskValue: null,
-      currentIntentionValue: "",
-      disableControls: false
+      currentIntentionValue: ""
     };
   }
 
@@ -32,16 +55,37 @@ export default class JournalEntry extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    console.log("should");
+    console.log("update...");
     this.projects = [];
     this.tasks = [];
+
+    if (this.hasProjectUpdated(nextState)) return true;
+
     nextProps.projects.forEach(project =>
       this.projects.push(this.transformLokiDataStruct(project))
     );
-    nextProps.tasks.forEach(task =>
-      this.tasks.push(this.transformLokiDataStruct(task))
-    );
+    nextProps.tasks.forEach(task => {
+      if (nextState.currentProjectValue === task.projectId) {
+        this.tasks.push(this.transformLokiDataStruct(task));
+      }
+    });
     return true;
+  }
+
+  /**
+   * checks to see if we are updating the current selected project, and update
+   * the state while we are at it.
+   * @param state
+   * @returns {boolean}
+   */
+  hasProjectUpdated(state) {
+    if (state.currentProjectValue !== this.state.currentProjectValue) {
+      this.setState({
+        currentTaskValue: null
+      });
+      return true;
+    }
+    return false;
   }
 
   /**
@@ -49,52 +93,73 @@ export default class JournalEntry extends Component {
    * the option object that semantic ui is looking for. in fact these are
    * in deed the droids we are looking for
    * @param p
-   * @returns {{text: *, value: *, key: *}}
+   * @returns {{text: *, value: *, key: JournalEntry.Opt.props}}
    */
   transformLokiDataStruct = p => {
-    return {
-      key: p["$loki"],
-      value: p["id"],
-      text: p["name"]
-    };
+    return JournalEntry.Opt(
+      p[JournalEntry.Strings.LOKI],
+      p[JournalEntry.Strings.ID],
+      p[JournalEntry.Strings.NAME]
+    );
   };
+
+  /**
+   * adds a new task to our local database and find creates on grid
+   * @param name
+   */
+  addTask(name) {
+    console.log(name);
+
+    // TODO make client request to add this...
+
+    // TODO render the journal entry from local db insert
+
+    // TODO rewind local db task if error from grid
+  }
+
+  /**
+   * saves the journal entry from the callback event
+   */
+  saveJournalEntry() {
+    console.log(this.state);
+
+    // TODO make client request to save this intention
+
+    // TODO render the journal with the new entry from local db
+
+    // TODO rewind local db intention if error from grid
+  }
 
   /**
    * called when a new task is added from dropdown
    * @param e
    * @param value
    */
-  handleAdditionForTask = (e, { value }) => {};
+  handleAdditionForTask = (e, { value }) => {
+    this.addTask(value);
+  };
 
   /**
    * called when a project is selected in dropdown
    * @param e
    * @param value
    */
-  handleChangeForProject = (e, { value }) => {};
-
-  /**
-   * called when a project is selected in dropdown
-   * @param e
-   */
-  handleKeyPressForProject = e => {
-    if (e.key === "Enter") {
-      console.log("ENTER!");
-    }
+  handleChangeForProject = (e, { value }) => {
+    this.setState({
+      currentProjectValue: value
+    });
   };
-
-  /**
-   * called when a project is selected in dropdown
-   * @param e
-   */
-  handleKeyPressForTask = e => {};
 
   /**
    *  called when a task is selected in the dropdown
    * @param e
    * @param value
    */
-  handleChangeForTask = (e, { value }) => {};
+  handleChangeForTask = (e, { value }) => {
+    this.setState({
+      currentTaskValue: value
+    });
+  };
 
   /**
    * called when the create task button is clicked on, it then shouold dispatch
@@ -115,17 +180,15 @@ export default class JournalEntry extends Component {
   };
 
   /**
-   * saves the journal entry from the callback event
-   */
-  saveJournalEntry = () => {};
-
-  /**
    * handles the event that is notified on change of an entry in one of tbe inputs
    * @param e
-   * @param name
    * @param value
    */
-  handleChangeForIntention = (e, { name, value }) => {};
+  handleChangeForIntention = (e, { value }) => {
+    this.setState({
+      currentIntentionValue: value
+    });
+  };
 
   /**
    * highlight field border when element is focused on
@@ -174,20 +237,18 @@ export default class JournalEntry extends Component {
   getProjectDropdown() {
     return (
       <Dropdown
-        disabled={this.state.disableControls}
         className="projectId"
         id="journalEntryProjectId"
         placeholder="Choose Project"
+        options={this.projects}
         selection
         search
-        options={this.projects}
         fluid
         upward
         value={this.state.currentProjectValue}
         onFocus={this.handleFocusForProject}
         onBlur={this.handleBlurForInput}
         onChange={this.handleChangeForProject}
-        onKeyPress={this.handleKeyPressForProject}
       />
     );
   }
@@ -199,11 +260,10 @@ export default class JournalEntry extends Component {
   getTaskDropdown() {
     return (
       <Dropdown
-        disabled={this.state.disableControls}
         id="journalEntryTaskId"
         className="chunkId"
-        options={this.tasks}
         placeholder="Choose Task"
+        options={this.tasks}
         search
         selection
         fluid
@@ -213,7 +273,6 @@ export default class JournalEntry extends Component {
         onFocus={this.handleFocusForTask}
         onBlur={this.handleBlurForInput}
         onAddItem={this.handleAdditionForTask}
-        onKeyPress={this.handleKeyPressForTask}
         onChange={this.handleChangeForTask}
       />
     );
@@ -226,7 +285,6 @@ export default class JournalEntry extends Component {
   getTextInput() {
     return (
       <Input
-        disabled={this.state.disableControls}
         id="intentionTextInput"
         className="intentionText"
         fluid
@@ -237,15 +295,6 @@ export default class JournalEntry extends Component {
         onBlur={this.handleBlurForInput}
         onKeyPress={this.handleKeyPressForIntention}
         onChange={this.handleChangeForIntention}
-        action={
-          <Button
-            className="createIntention"
-            icon="share"
-            labelPosition="right"
-            content="Create"
-            onClick={this.handleClickForCreate}
-          />
-        }
       />
     );
   }

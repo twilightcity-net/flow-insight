@@ -104,7 +104,6 @@ export default class JournalResource extends Component {
   handleCallback() {
     this.loadCount++;
     if (this.loadCount === 3) {
-      console.log("force update");
       this.forceUpdate(() => {
         this.scrollToBottomOrActive();
       });
@@ -115,24 +114,6 @@ export default class JournalResource extends Component {
     let userName = props.resource.uriArr[1];
     return userName;
   }
-
-  /**
-   * called when we finish creating a new intention from the journal entry
-   * @param journalEntry
-   * @param finishStatus
-   */
-  onFinishEntry = (journalEntry, finishStatus) => {
-    // TODO  save our journal entry
-  };
-
-  /**
-   * called when the active selected item changes
-   * @param rowId
-   * @param journalItem
-   */
-  onChangeActiveEntry = (rowId, journalItem) => {
-    // TODO do some stuff to update to the active journal item
-  };
 
   /**
    * callback listener for the AddTask event which creates  new journal entry
