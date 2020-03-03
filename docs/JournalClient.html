@@ -146,6 +146,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JournalClient.html">JournalClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.createIntention">createIntention</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></span></li>
@@ -567,7 +568,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line144">line 144</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line164">line 164</a>
                 </li>
               </ul>
             </dd>
@@ -597,6 +598,77 @@
         <h3 class="subsection-title">Methods</h3>
         <div class="section-method">
           <h4 class="name"
+              id=".createIntention"><span class="type-signature">(static) </span>createIntention<span class="signature">(projectId, taskId, description, scope, callback)</span><span class="type-signature"> &rarr; {<a href="RendererClientEvent.html">RendererClientEvent</a>}</span></h4>
+          <div class="description"> creates a new intention in our database and grid </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line95">line 95</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>projectId</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+              <tr>
+                <td class="name"><code>taskId</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+              <tr>
+                <td class="name"><code>description</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+              <tr>
+                <td class="name"><code>scope</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+              <tr>
+                <td class="name"><code>callback</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code><a href="RendererClientEvent.html">RendererClientEvent</a></code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
               id=".getRecentIntentions"><span class="type-signature">(static) </span>getRecentIntentions<span class="signature">(userName, scope, callback)</span><span class="type-signature"> &rarr; {<a href="RendererClientEvent.html">RendererClientEvent</a>}</span></h4>
           <div class="description"> gets our most recent journal items from local db </div>
           <dl class="details">
@@ -604,7 +676,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line92">line 92</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line112">line 112</a>
                 </li>
               </ul>
             </dd>
@@ -661,7 +733,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line109">line 109</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line129">line 129</a>
                 </li>
               </ul>
             </dd>
@@ -711,7 +783,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line126">line 126</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line146">line 146</a>
                 </li>
               </ul>
             </dd>
@@ -761,7 +833,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line61">line 61</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line62">line 62</a>
                 </li>
               </ul>
             </dd>
@@ -795,7 +867,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line74">line 74</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line75">line 75</a>
                 </li>
               </ul>
             </dd>
@@ -852,7 +924,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line165">line 165</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line185">line 185</a>
                 </li>
               </ul>
             </dd>
@@ -886,7 +958,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line178">line 178</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line198">line 198</a>
                 </li>
               </ul>
             </dd>
@@ -920,7 +992,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line200">line 200</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line220">line 220</a>
                 </li>
               </ul>
             </dd>
@@ -954,7 +1026,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line211">line 211</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line231">line 231</a>
                 </li>
               </ul>
             </dd>

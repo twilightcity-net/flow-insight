@@ -146,6 +146,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JournalClient.html">JournalClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.createIntention">createIntention</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></span></li>
@@ -488,8 +489,9 @@
     <h1 class="page-title">src/layout/console/content/journal/components/JournalEntry.js</h1>
     <section>
       <article>
-        <pre class="prettyprint source linenums"><code>import React, {Component} from "react";
-import {Button, Dropdown, Grid, Input, Segment} from "semantic-ui-react";
+        <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
+import { JournalClient } from "../../../../../clients/JournalClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -555,11 +557,10 @@ export default class JournalEntry extends Component {
       this.projects.push(this.transformLokiDataStruct(project))
     );
     nextProps.tasks.forEach(task => {
-        if (nextState.currentProjectValue === task.projectId) {
-          this.tasks.push(this.transformLokiDataStruct(task))
-        }
+      if (nextState.currentProjectValue === task.projectId) {
+        this.tasks.push(this.transformLokiDataStruct(task));
       }
-    );
+    });
     return true;
   }
 
@@ -608,19 +609,26 @@ export default class JournalEntry extends Component {
     // TODO rewind local db task if error from grid
   }
 
-
   /**
    * saves the journal entry from the callback event
    */
   saveJournalEntry() {
-    console.log(this.state)
+    console.log(this.state);
 
-    // TODO make client request to save this intention
+    JournalClient.createIntention(
+      this.state.currentProjectValue,
+      this.state.currentTaskValue,
+      this.state.currentIntentionValue,
+      this,
+      arg => {
+        console.log(arg);
+      }
+    );
 
     // TODO render the journal with the new entry from local db
 
     // TODO rewind local db intention if error from grid
-  };
+  }
 
   /**
    * called when a new task is added from dropdown
@@ -636,7 +644,7 @@ export default class JournalEntry extends Component {
    * @param e
    * @param value
    */
-  handleChangeForProject = (e, {value}) => {
+  handleChangeForProject = (e, { value }) => {
     this.setState({
       currentProjectValue: value
     });
@@ -647,18 +655,10 @@ export default class JournalEntry extends Component {
    * @param e
    * @param value
    */
-  handleChangeForTask = (e, {value}) => {
+  handleChangeForTask = (e, { value }) => {
     this.setState({
       currentTaskValue: value
     });
-  };
-
-  /**
-   * called when the create task button is clicked on, it then shouold dispatch
-   * a new event that will update the rendered view
-   */
-  handleClickForCreate = () => {
-    this.saveJournalEntry();
   };
 
   /**
@@ -679,7 +679,7 @@ export default class JournalEntry extends Component {
   handleChangeForIntention = (e, { value }) => {
     this.setState({
       currentIntentionValue: value
-    })
+    });
   };
 
   /**
