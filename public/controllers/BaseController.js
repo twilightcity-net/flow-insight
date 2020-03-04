@@ -48,6 +48,18 @@ module.exports = class BaseController {
   }
 
   /**
+   * our possible actions a controller can do, used for logging and
+   * reference
+   * @returns {{REMOVE_DOCS: string}}
+   * @constructor
+   */
+  static get Actions() {
+    return {
+      REMOVE_DOCS: "REMOVE_DOCS"
+    };
+  }
+
+  /**
    * errors which the controllers know about
    * @returns {{UNKNOWN: string, ERROR_ARGS: string, PRIMARY_ONLY: string}}
    * @constructor

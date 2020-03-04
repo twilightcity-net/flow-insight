@@ -113,9 +113,7 @@ module.exports = class TeamDatabase extends LokiJS {
   getViewForMyPrimaryTeam() {
     let collection = this.getCollection(TeamDatabase.Collections.TEAMS),
       view = collection.getDynamicView(TeamDatabase.Views.PRIMARY);
-    view.applyWhere(obj => {
-      return obj.type === TeamDatabase.Collections.PRIMARY;
-    });
+    view.applyFind({ type: TeamDatabase.Collections.PRIMARY });
     return view;
   }
 

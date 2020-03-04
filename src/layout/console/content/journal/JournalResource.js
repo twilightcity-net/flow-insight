@@ -36,6 +36,11 @@ export default class JournalResource extends Component {
     this.userName = JournalResource.Strings.ME;
   }
 
+  /**
+   * gets our user name from a given journal resource from our browser
+   * @param props
+   * @returns {string}
+   */
   getUserNameFromResource(props) {
     return props.resource.uriArr[1];
   }

@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { Button, Dropdown, Grid, Input, Segment } from "semantic-ui-react";
-import { JournalClient } from "../../../../../clients/JournalClient";
+import { Dropdown, Grid, Input, Segment } from "semantic-ui-react";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -22,6 +21,12 @@ export default class JournalEntry extends Component {
     };
   }
 
+  /**
+   * general purpose strings, like a screwdriver, never know if you need a plus
+   * or minus type. *sigh*
+   * @returns {{LOKI: string, ID: string, NAME: string}}
+   * @constructor
+   */
   static get Strings() {
     return {
       LOKI: "$loki",
@@ -155,13 +160,24 @@ export default class JournalEntry extends Component {
    */
   handleKeyPressForIntention = e => {
     if (e.charCode === 13) {
-      this.props.createIntention(
-        this.state.currentProjectValue,
-        this.state.currentTaskValue,
-        this.state.currentIntentionValue
-      );
+      this.createIntention();
     }
   };
+
+  /**
+   * creates a new intention based on our current states values for our
+   * dropdowns and our user text input
+   */
+  createIntention() {
+    this.props.createIntention(
+      this.state.currentProjectValue,
+      this.state.currentTaskValue,
+      this.state.currentIntentionValue
+    );
+    this.setState({
+      currentIntentionValue: ""
+    });
+  }
 
   /**
    * handles the event that is notified on change of an entry in one of tbe inputs

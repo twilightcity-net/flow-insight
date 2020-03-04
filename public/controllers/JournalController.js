@@ -136,25 +136,39 @@ module.exports = class JournalController extends BaseController {
         database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
         collection = database.getCollection(
           JournalDatabase.Collections.INTENTIONS
-        );
+        ),
+        view = database.findOrCreateViewForIntentionsByUserName(userName);
 
       if (journal.recentIntentions) {
+        if (view.count() !== 0) {
+          collection.removeBatch(view.data());
+        }
         journal.recentIntentions.forEach(ri => {
           ri.timestamp = Util.getTimestampFromUTCStr(ri.positionStr);
           ri.userName = userName;
           collection.insert(ri);
         });
       }
-      if (journal.recentIntentions) {
+
+      if (journal.recentProjects) {
         collection = database.getCollection(
           JournalDatabase.Collections.PROJECTS
         );
+        view = database.getViewForRecentProjects();
+        if (view.count() !== 0) {
+          collection.removeBatch(view.data());
+        }
         journal.recentProjects.forEach(rp => {
           collection.insert(rp);
         });
       }
+
       if (journal.recentTasksByProjectId) {
         collection = database.getCollection(JournalDatabase.Collections.TASKS);
+        view = database.getViewForRecentTasks();
+        if (view.count() !== 0) {
+          collection.removeBatch(view.data());
+        }
         Object.values(journal.recentTasksByProjectId).forEach(project => {
           if (project) {
             project.forEach(rt => {
@@ -168,6 +182,12 @@ module.exports = class JournalController extends BaseController {
     this.doCallbackOrReplyTo(event, arg, callback);
   }
 
+  /**
+   * client event handler for our create new intention function
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleCreateIntentionEvent(event, arg, callback) {
     let projectId = arg.args.projectId,
       taskId = arg.args.taskId,
@@ -191,6 +211,14 @@ module.exports = class JournalController extends BaseController {
     );
   }
 
+  /**
+   * callback delegator which processes our return from the dto
+   * request to gridtime
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
   delegateCreateIntentionCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
@@ -221,7 +249,7 @@ module.exports = class JournalController extends BaseController {
   handleGetRecentIntentionsEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
       userName = arg.args.userName,
-      view = database.getViewForIntentionsByUserName(userName);
+      view = database.findOrCreateViewForIntentionsByUserName(userName);
 
     if (!userName) {
       arg.error = "Unknown user '" + userName + "'";
@@ -248,6 +276,12 @@ module.exports = class JournalController extends BaseController {
     }
   }
 
+  /**
+   * queries our local database for recent projects
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleGetRecentProjectsEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
       view = database.getViewForRecentProjects();
@@ -257,6 +291,13 @@ module.exports = class JournalController extends BaseController {
     this.doCallbackOrReplyTo(event, arg, callback);
   }
 
+  /**
+   * queries for our recent task in our local database for the dropdown in the journal
+   * resource view
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleGetRecentTasksEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
       view = database.getViewForRecentTasks();

@@ -90,17 +90,19 @@ module.exports = class JournalDatabase extends LokiJS {
   /**
    * returns the view for a speofic users intentions that is store locally. We also
    * apply a sort on the timestamp
-   * @param name
+   * @param userName
    * @returns {DynamicView}
    */
-  getViewForIntentionsByUserName(name) {
-    let collection = this.getCollection(JournalDatabase.Collections.INTENTIONS),
-      view = collection.getDynamicView(JournalDatabase.Views.INTENTIONS);
-    view.removeFilters();
-    view.applyWhere(obj => {
-      return obj.userName === name;
-    });
-    view.applySimpleSort(JournalDatabase.Indices.TIMESTAMP);
+  findOrCreateViewForIntentionsByUserName(userName) {
+    let viewName = JournalDatabase.Views.INTENTIONS + "-" + userName,
+      collection = this.getCollection(JournalDatabase.Collections.INTENTIONS),
+      view = collection.getDynamicView(viewName);
+
+    if (!view) {
+      view = collection.addDynamicView(viewName);
+      view.applyFind({ userName: userName });
+      view.applySimpleSort(JournalDatabase.Indices.TIMESTAMP);
+    }
     return view;
   }
 
