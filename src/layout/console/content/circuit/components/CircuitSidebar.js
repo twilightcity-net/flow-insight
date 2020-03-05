@@ -15,7 +15,8 @@ export default class CircuitSidebar extends Component {
     return {
       OVERVIEW: "overview",
       PARTY: "party",
-      CHEST: "chest"
+      CHEST: "chest",
+      SCRAPBOOK: "scrapbook"
     };
   }
 
@@ -68,6 +69,17 @@ export default class CircuitSidebar extends Component {
   };
 
   /**
+   * custom event handler for when a user clicks on the scrapbook menu item
+   * @param e
+   * @param arg
+   */
+  handleMenuScrapbookClick = (e, arg) => {
+    console.log("show scrapbook");
+    this.handleMenuClick(e, arg);
+    this.props.showScrapbook();
+  };
+
+  /**
    * renders the circuit sidebar content panel
    * @returns {*}
    */
@@ -98,6 +110,13 @@ export default class CircuitSidebar extends Component {
             active={this.state.activeMenuView === CircuitSidebar.Views.CHEST}
             onClick={this.handleMenuClick}
           />
+          <Menu.Item
+            name={CircuitSidebar.Views.SCRAPBOOK}
+            active={
+              this.state.activeMenuView === CircuitSidebar.Views.SCRAPBOOK
+            }
+            onClick={this.handleMenuScrapbookClick}
+          />
         </Menu>
         {this.getCircuitSidebarMenuContent()}
       </Segment>
@@ -116,6 +135,8 @@ export default class CircuitSidebar extends Component {
         return this.getCircuitSidebarPartyContent();
       case CircuitSidebar.Views.CHEST:
         return this.getCircuitSidebarChestContent();
+      case CircuitSidebar.Views.SCRAPBOOK:
+        return this.getCircuitSidebarScrapbookContent();
       default:
         throw new Error(
           "Unknown circuit sidebar menu type '" +
@@ -223,6 +244,20 @@ export default class CircuitSidebar extends Component {
       <div>
         <Segment className="chest" inverted>
           Chest Items
+        </Segment>
+      </div>
+    );
+  }
+
+  /**
+   * renders our sidebar scrapbook content panel
+   * @returns {*}
+   */
+  getCircuitSidebarScrapbookContent() {
+    return (
+      <div>
+        <Segment className="chest" inverted>
+          <i>No Items</i>
         </Segment>
       </div>
     );

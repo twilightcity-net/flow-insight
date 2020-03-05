@@ -109,9 +109,7 @@ export default class JournalResource extends Component {
   handleCallback() {
     this.loadCount++;
     if (this.loadCount === 3) {
-      this.forceUpdate(() => {
-        this.scrollToBottomOrActive();
-      });
+      this.forceUpdate();
     }
   }
 
@@ -129,9 +127,7 @@ export default class JournalResource extends Component {
         this.error = null;
         this.userName = userName;
         this.journalItems = arg.data;
-        this.forceUpdate(() => {
-          this.scrollToBottomOrActive();
-        });
+        this.forceUpdate();
       }
     });
   }
@@ -147,7 +143,6 @@ export default class JournalResource extends Component {
       console.log(arg);
       console.log("refresh...");
       this.refreshRecentIntentions(JournalResource.Strings.ME);
-      // TODO refresh this resource view
     });
   };
 
@@ -156,78 +151,8 @@ export default class JournalResource extends Component {
    * @param projectId - the id of the project the task will be added to
    * @param taskName - the name of the task to be entered into the journal
    */
-  onAddTask = (projectId, taskNyarame) => {
+  onAddTask = (projectId, taskName) => {
     // creates a new task for our drop down
-  };
-
-  /**
-   * scrolls to the bottom of the array
-   */
-  scrollToBottomOrActive = () => {
-    if (this.activeJournalItem) {
-      let activeRowId = this.activeJournalItem.id;
-
-      let rowObj = document.getElementById(activeRowId);
-
-      if (
-        rowObj &&
-        (this.isFirstActive() || !this.isElementInViewport(rowObj))
-      ) {
-        rowObj.scrollIntoView({ behavior: "smooth" });
-      }
-    }
-
-    if (this.isLastActive()) {
-      this.elEnd.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
-  /**
-   * checks to see if the first item in our array is active
-   * @returns {boolean}
-   */
-  isFirstActive() {
-    let activeIndex = 0;
-
-    if (this.activeJournalItem) {
-      activeIndex = this.activeJournalItem.index;
-    }
-
-    return activeIndex === 0;
-  }
-
-  /**
-   * checks to see if our last item in our array is active
-   * @returns {boolean}
-   */
-  isLastActive() {
-    let activeIndex = 0;
-
-    if (this.activeJournalItem) {
-      activeIndex = this.activeJournalItem.index;
-    }
-
-    return activeIndex === this.journalItems.length - 1;
-  }
-
-  /**
-   * checks to see if our element is in the view port
-   * @param el
-   * @returns {boolean|boolean}
-   */
-  isElementInViewport = el => {
-    var rect = el.getBoundingClientRect();
-
-    return (
-      rect.top >= 0 &&
-      rect.left >= 0 &&
-      rect.bottom <=
-        (window.innerHeight ||
-          document.documentElement.clientHeight) /*or $(window).height() */ &&
-      rect.right <=
-        (window.innerWidth ||
-          document.documentElement.clientWidth) /*or $(window).width() */
-    );
   };
 
   /**
@@ -237,6 +162,16 @@ export default class JournalResource extends Component {
    * @param journalItem
    */
   onSetActiveRow = (rowId, rowObj, journalItem) => {
+    // TODO set the active row
+  };
+
+  /**
+   * event callback for for finishing a row
+   * @param rowId
+   * @param rowObj
+   * @param journalItem
+   */
+  onUpdateFinishStatus = (rowId, rowObj, journalItem) => {
     // TODO set the active row
   };
 
@@ -275,7 +210,7 @@ export default class JournalResource extends Component {
    * renders the array of journal items
    * @returns {array}
    */
-  getJournalItems() {
+  getJournalItemsContent() {
     return this.journalItems.map(item => {
       return (
         <JournalItem
@@ -305,7 +240,7 @@ export default class JournalResource extends Component {
    * wraps our journal items array
    * @returns {*}
    */
-  getJournalItemsWrapper(isMyJournal) {
+  getJournalItemsWrapperContent(isMyJournal) {
     return (
       <div id="wrapper" className="journalItems">
         <div
@@ -315,13 +250,8 @@ export default class JournalResource extends Component {
             height: DimensionController.getJournalItemsPanelHeight(isMyJournal)
           }}
         >
-          <Grid inverted>{this.getJournalItems()}</Grid>
-          <div
-            className="fltLftClrBth"
-            ref={el => {
-              this.elEnd = el;
-            }}
-          />
+          <Grid inverted>{this.getJournalItemsContent()}</Grid>
+          <div className="fltLftClrBth" />
         </div>
       </div>
     );
@@ -331,7 +261,7 @@ export default class JournalResource extends Component {
    * renders our error for the screen
    * @returns {*}
    */
-  getJournalError() {
+  getJournalErrorContent() {
     return (
       <Message icon negative size="large">
         <Icon name="warning sign" />
@@ -348,7 +278,7 @@ export default class JournalResource extends Component {
    * @param isMyJournal
    * @returns {*}
    */
-  getJournalEntry(isMyJournal) {
+  getJournalEntryContent(isMyJournal) {
     return (
       <Transition visible={isMyJournal} animation="fade" duration={420}>
         <div id="wrapper" className="journalEntry ">
@@ -373,9 +303,9 @@ export default class JournalResource extends Component {
 
     return (
       <div id="component" className={"journalLayout" + (error ? " error" : "")}>
-        {error && this.getJournalError()}
-        {!error && this.getJournalItemsWrapper(isMyJournal)}
-        {!error && this.getJournalEntry(isMyJournal)}
+        {error && this.getJournalErrorContent()}
+        {!error && this.getJournalItemsWrapperContent(isMyJournal)}
+        {!error && this.getJournalEntryContent(isMyJournal)}
       </div>
     );
   }

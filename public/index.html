@@ -543,6 +543,18 @@
     height: 100%;
   }
 
+  #component.circuitLayout #component.circuitContentPanel .splitter-layout.content.hide>.layout-pane {
+    transition: width 0.210s ease-out;
+  }
+
+  #component.circuitLayout #component.circuitContentPanel .splitter-layout.content.hide>.layout-pane:last-child {
+    width: 0 !important;
+  }
+
+  #component.circuitLayout #component.circuitContentPanel .splitter-layout.content.hide>.layout-splitter {
+    display: none;
+  }
+
   #component.circuitLayout #component.circuitContentPanel .splitter-layout.content>.layout-splitter {
     width: 0.420rem;
     background: none !important;
@@ -577,6 +589,10 @@
     position: relative;
     height: 100%;
     transition: width 0.1s ease-out, height 0.1s ease-out;
+  }
+
+  #component.circuitLayout #component.activeCircuitScrapbook .scrapbookItemContainer {
+    background: #303031;
   }
 
   /*
@@ -807,8 +823,28 @@
     height: 100%;
   }
 
+  #component.circuitLayout #component.activeCircuitScrapbook .hideScrapbook {
+    display: none;
+  }
+
   #component.circuitLayout #component.activeCircuitScrapbook>.ui.segment {
     height: 100%;
+    padding-top: 0.210rem;
+  }
+
+  #component.circuitLayout #component.activeCircuitScrapbook>.ui.segment>.ui.menu {
+    width: 100% !important;
+    margin: 0;
+  }
+
+  #component.circuitLayout #component.activeCircuitScrapbook>.ui.segment>.ui.menu .item {
+    padding: 0.420rem;
+    padding-bottom: 0.210rem;
+    margin: 0;
+  }
+
+  #component.circuitLayout #component.activeCircuitScrapbook>.ui.segment>.ui.menu .item.header {
+    padding-left: 0.420rem;
   }
 
   /*

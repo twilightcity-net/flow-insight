@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Segment } from "semantic-ui-react";
+import { Divider, Menu, Segment } from "semantic-ui-react";
 
 /**
  * this class renders the active circuit scrapbook component into the console
@@ -16,13 +16,34 @@ export default class ActiveCircuitScrapbook extends Component {
   }
 
   /**
+   * our click handler for our minimize button
+   */
+  handleClick = () => {
+    this.props.hideScrapbook();
+  };
+
+  /**
    * renders the circuit scrapbook component
    * @returns {*}
    */
   render() {
     return (
       <div id="component" className="activeCircuitScrapbook">
-        <Segment inverted>Scrapbook</Segment>
+        <Segment inverted>
+          <Menu icon inverted fluid secondary>
+            <Menu.Item header>Scrapbook</Menu.Item>
+            <Menu.Item
+              link
+              position="right"
+              icon="window minimize"
+              onClick={this.handleClick}
+            />
+          </Menu>
+          <Divider clearing fitted />
+          <Segment className="scrapbookItemContainer" inverted>
+            <i>No Item Selected</i>
+          </Segment>
+        </Segment>
       </div>
     );
   }
