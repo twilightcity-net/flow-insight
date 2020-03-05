@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import TerminalResource from "./terminal/TerminalResource";
 import JournalResource from "./journal/JournalResource";
 import CircuitResource from "./circuit/CircuitResource";
 import FlowResource from "./flow/FlowResource";
@@ -43,7 +44,6 @@ export default class LayoutContent extends Component {
     });
   };
 
-  // TODO create a renderActiveComponent function for the switch below
   getActiveComponent = () => {
     let component = null,
       className = "Layout",
@@ -53,6 +53,10 @@ export default class LayoutContent extends Component {
       resource = resource.uriArr[0];
     }
     switch (resource) {
+      case MainPanelViewController.Resources.TERMINAL:
+        component = <TerminalResource resource={this.state.resource} />;
+        className = MainPanelViewController.Resources.TERMINAL + className;
+        break;
       case MainPanelViewController.Resources.JOURNAL:
         component = <JournalResource resource={this.state.resource} />;
         className = MainPanelViewController.Resources.JOURNAL + className;

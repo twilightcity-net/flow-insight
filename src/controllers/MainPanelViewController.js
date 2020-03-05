@@ -23,6 +23,7 @@ export class MainPanelViewController extends ActiveViewController {
     return {
       ERROR: "error",
       NONE: "none",
+      TERMINAL: "terminal",
       JOURNAL: "journal",
       CIRCUIT: "circuit",
       FLOW: "flow"

@@ -13,6 +13,7 @@ export class BrowserRequestFactory {
       ERROR: "error",
       COMMAND: "command",
       BROWSER: "browser",
+      TERMINAL: "terminal",
       JOURNAL: "journal",
       TROUBLESHOOT: "troubleshoot",
       FLOW: "flow",
@@ -29,7 +30,8 @@ export class BrowserRequestFactory {
       JOIN: "join",
       LEAVE: "leave",
       WTF: "wtf",
-      JOURNAL: "journal"
+      JOURNAL: "journal",
+      TERMINAL: "terminal"
     };
   }
 
@@ -76,6 +78,7 @@ export class BrowserRequestFactory {
    */
   static get Locations() {
     return {
+      TERMINAL: "terminal",
       CIRCUIT: "circuit",
       JOURNAL: "journal",
       FLOW: "flow",
@@ -177,6 +180,8 @@ export class BrowserRequestFactory {
       switch (cmd) {
         case BrowserRequestFactory.Commands.WTF:
           return BrowserRequestFactory._getCommandWTFRequest(args);
+        case BrowserRequestFactory.Commands.TERMINAL:
+          return BrowserRequestFactory._getCommandTerminalRequest(args);
         case BrowserRequestFactory.Commands.JOURNAL:
           return BrowserRequestFactory._getCommandJournalRequest(args);
         default:
@@ -214,6 +219,21 @@ export class BrowserRequestFactory {
       BrowserRequestFactory.Locations.CIRCUIT +
       BrowserRequestFactory.PATH_SEPARATOR +
       BrowserRequestFactory.Locations.WTF
+    );
+  }
+
+  /**
+   * returns the request for a console terminal
+   * @param args
+   * @returns {string}
+   * @private
+   */
+  static _getCommandTerminalRequest(...args) {
+    return (
+      BrowserRequestFactory.Commands.OPEN +
+      BrowserRequestFactory.URI_SEPARATOR +
+      BrowserRequestFactory.ROOT_SEPARATOR +
+      BrowserRequestFactory.Locations.TERMINAL
     );
   }
 
