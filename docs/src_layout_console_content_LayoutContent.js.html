@@ -54,6 +54,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getBrowserRequest">_getBrowserRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandJournalRequest">_getCommandJournalRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandRequest">_getCommandRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandTerminalRequest">_getCommandTerminalRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandWTFRequest">_getCommandWTFRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getErrorRequest">_getErrorRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getFlowRequest">_getFlowRequest</a></span></li>
@@ -500,6 +501,7 @@
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import TerminalResource from "./terminal/TerminalResource";
 import JournalResource from "./journal/JournalResource";
 import CircuitResource from "./circuit/CircuitResource";
 import FlowResource from "./flow/FlowResource";
@@ -518,7 +520,8 @@ export default class LayoutContent extends Component {
     this.animationType = MainPanelViewController.Animations.DROP;
     this.animationTime = MainPanelViewController.AnimationTimes.CONSOLE_CONTENT;
     this.state = {
-      resource: MainPanelViewController.Resources.NONE
+      resource: MainPanelViewController.Resources.NONE,
+      browserVisible: true
     };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.LAYOUT_CONTENT,
@@ -539,12 +542,16 @@ export default class LayoutContent extends Component {
 
   onConsoleBrowserLoadEvent = (event, resource) => {
     console.log(this.name + " load resource -> " + JSON.stringify(resource));
-    this.setState({
-      resource: resource
-    });
+    let state = {
+      resource: resource,
+      browserVisible: true
+    };
+    if (resource.uriArr[0] === MainPanelViewController.Resources.TERMINAL) {
+      state.browserVisible = false;
+    }
+    this.setState(state);
   };
 
-  // TODO create a renderActiveComponent function for the switch below
   getActiveComponent = () => {
     let component = null,
       className = "Layout",
@@ -554,6 +561,10 @@ export default class LayoutContent extends Component {
       resource = resource.uriArr[0];
     }
     switch (resource) {
+      case MainPanelViewController.Resources.TERMINAL:
+        component = &lt;TerminalResource resource={this.state.resource} />;
+        className = MainPanelViewController.Resources.TERMINAL + className;
+        break;
       case MainPanelViewController.Resources.JOURNAL:
         component = &lt;JournalResource resource={this.state.resource} />;
         className = MainPanelViewController.Resources.JOURNAL + className;
@@ -594,7 +605,16 @@ export default class LayoutContent extends Component {
   };
 
   getBrowserHeader = scope => {
-    return &lt;LayoutBrowser scope={scope} />;
+    let resource = this.state.resource;
+    if (resource.uriArr) {
+      resource = resource.uriArr[0];
+    }
+    return (
+      &lt;LayoutBrowser
+        scope={scope}
+        resource={resource}
+      />
+    );
   };
 
   /**
@@ -622,9 +642,11 @@ export default class LayoutContent extends Component {
   render() {
     return (
       &lt;div id="component" className="consoleContent">
-        &lt;div id="wrapper" className="browserHeader">
-          {this.getBrowserHeader(this)}
-        &lt;/div>
+        &lt;Transition visible={this.state.browserVisible} animation="slide down" duration={420}>
+          &lt;div id="wrapper" className="browserHeader">
+            {this.getBrowserHeader(this)}
+          &lt;/div>
+        &lt;/Transition>
         {this.getActiveComponent()}
       &lt;/div>
     );

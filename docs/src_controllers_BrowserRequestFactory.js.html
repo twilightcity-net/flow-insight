@@ -54,6 +54,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getBrowserRequest">_getBrowserRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandJournalRequest">_getCommandJournalRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandRequest">_getCommandRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandTerminalRequest">_getCommandTerminalRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandWTFRequest">_getCommandWTFRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getErrorRequest">_getErrorRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getFlowRequest">_getFlowRequest</a></span></li>
@@ -514,6 +515,7 @@ export class BrowserRequestFactory {
       ERROR: "error",
       COMMAND: "command",
       BROWSER: "browser",
+      TERMINAL: "terminal",
       JOURNAL: "journal",
       TROUBLESHOOT: "troubleshoot",
       FLOW: "flow",
@@ -530,7 +532,8 @@ export class BrowserRequestFactory {
       JOIN: "join",
       LEAVE: "leave",
       WTF: "wtf",
-      JOURNAL: "journal"
+      JOURNAL: "journal",
+      TERMINAL: "terminal"
     };
   }
 
@@ -577,6 +580,7 @@ export class BrowserRequestFactory {
    */
   static get Locations() {
     return {
+      TERMINAL: "terminal",
       CIRCUIT: "circuit",
       JOURNAL: "journal",
       FLOW: "flow",
@@ -678,6 +682,8 @@ export class BrowserRequestFactory {
       switch (cmd) {
         case BrowserRequestFactory.Commands.WTF:
           return BrowserRequestFactory._getCommandWTFRequest(args);
+        case BrowserRequestFactory.Commands.TERMINAL:
+          return BrowserRequestFactory._getCommandTerminalRequest(args);
         case BrowserRequestFactory.Commands.JOURNAL:
           return BrowserRequestFactory._getCommandJournalRequest(args);
         default:
@@ -715,6 +721,21 @@ export class BrowserRequestFactory {
       BrowserRequestFactory.Locations.CIRCUIT +
       BrowserRequestFactory.PATH_SEPARATOR +
       BrowserRequestFactory.Locations.WTF
+    );
+  }
+
+  /**
+   * returns the request for a console terminal
+   * @param args
+   * @returns {string}
+   * @private
+   */
+  static _getCommandTerminalRequest(...args) {
+    return (
+      BrowserRequestFactory.Commands.OPEN +
+      BrowserRequestFactory.URI_SEPARATOR +
+      BrowserRequestFactory.ROOT_SEPARATOR +
+      BrowserRequestFactory.Locations.TERMINAL
     );
   }
 

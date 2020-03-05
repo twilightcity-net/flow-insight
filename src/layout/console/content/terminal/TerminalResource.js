@@ -19,6 +19,8 @@ export default class TerminalResource extends Component {
     };
   }
 
+  componentDidMount() {}
+
   /**
    * renders the terminal layout of the console view
    * @returns {*} - the rendered components JSX

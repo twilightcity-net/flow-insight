@@ -18,7 +18,8 @@ export default class LayoutContent extends Component {
     this.animationType = MainPanelViewController.Animations.DROP;
     this.animationTime = MainPanelViewController.AnimationTimes.CONSOLE_CONTENT;
     this.state = {
-      resource: MainPanelViewController.Resources.NONE
+      resource: MainPanelViewController.Resources.NONE,
+      browserVisible: true
     };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.LAYOUT_CONTENT,
@@ -39,9 +40,14 @@ export default class LayoutContent extends Component {
 
   onConsoleBrowserLoadEvent = (event, resource) => {
     console.log(this.name + " load resource -> " + JSON.stringify(resource));
-    this.setState({
-      resource: resource
-    });
+    let state = {
+      resource: resource,
+      browserVisible: true
+    };
+    if (resource.uriArr[0] === MainPanelViewController.Resources.TERMINAL) {
+      state.browserVisible = false;
+    }
+    this.setState(state);
   };
 
   getActiveComponent = () => {
@@ -97,7 +103,11 @@ export default class LayoutContent extends Component {
   };
 
   getBrowserHeader = scope => {
-    return <LayoutBrowser scope={scope} />;
+    let resource = this.state.resource;
+    if (resource.uriArr) {
+      resource = resource.uriArr[0];
+    }
+    return <LayoutBrowser scope={scope} resource={resource} />;
   };
 
   /**
@@ -125,9 +135,15 @@ export default class LayoutContent extends Component {
   render() {
     return (
       <div id="component" className="consoleContent">
-        <div id="wrapper" className="browserHeader">
-          {this.getBrowserHeader(this)}
-        </div>
+        <Transition
+          visible={this.state.browserVisible}
+          animation="slide down"
+          duration={420}
+        >
+          <div id="wrapper" className="browserHeader">
+            {this.getBrowserHeader(this)}
+          </div>
+        </Transition>
         {this.getActiveComponent()}
       </div>
     );
