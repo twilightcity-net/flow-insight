@@ -320,12 +320,15 @@ class EventManager {
       }
     }
     log.info(
-      chalk.cyanBright("[EventManager]") +
-        " dispatched {" +
-        returnedEvents.length +
-        "} events : " +
-        eventType
+      chalk.bold.cyanBright("[EventManager]") +
+        " " +
+        chalk.hex("#e99e40").bold("dispatch") +
+        " -> { " +
+        chalk.bold.cyanBright(eventType) +
+        " } " +
+        chalk.bold.green("[" + returnedEvents.length + "]")
     );
+
     if (returnedEvents.length === 0 && windows.length === 0) {
       log.info(
         chalk.cyan("[EventManager]") + " └> no events found -> " + eventType

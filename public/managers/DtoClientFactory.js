@@ -63,9 +63,11 @@ class DtoClient {
 
     log.info(
       chalk.bold.magenta(this.name) +
-        chalk.bold.green(" [" + this.type.toUpperCase() + "] ") +
+        " " +
         chalk.hex("#e99e40").bold(this.store.name) +
-        " -> { " +
+        " -> " +
+        chalk.bold.green("[" + this.type.toUpperCase() + "]") +
+        " { " +
         chalk.bold.magentaBright(url) +
         " }"
     );
