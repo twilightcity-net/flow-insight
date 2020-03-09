@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { List, Menu, Segment, Transition } from "semantic-ui-react";
-import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
-import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
-import { DimensionController } from "../../../../controllers/DimensionController";
-import { CircuitClient } from "../../../../clients/CircuitClient";
+import React, {Component} from "react";
+import {List, Menu, Segment, Transition} from "semantic-ui-react";
+import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
+import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import {DimensionController} from "../../../../controllers/DimensionController";
+import {CircuitClient} from "../../../../clients/CircuitClient";
 import ActiveCircuitListItem from "./ActiveCircuitListItem";
-import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
+import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
 
 /**
  * renders the circuit navigator panels in the gui
@@ -18,39 +18,23 @@ export default class ircuitsPanel extends Component {
    */
   constructor(props) {
     super(props);
-    this.state = this.loadState();
     this.name = "[CircuitsPanel]";
+    this.state = {
+      activeItem:
+      SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+      participatingCircuitsVisible: false,
+      doItLaterCircuitsVisible: false,
+      title: ""
+    };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
+    this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
+    this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
     this.selections = {
       activeCircuitComponent: null
     };
-  }
-
-  // TODO create a timer to update the strings in the timer labels. this should cycle though all
-  //      the list items states and update the time striing. This should rerender that specific
-  //      list item. do this after we are getting strings back from the server
-
-  /**
-   * loads the state from the parent
-   * @returns {*|{participatingCircuitsVisible: boolean, doItLaterCircuitsVisible: boolean, animationDelay: number, activeItem: string, title: string, animationType: string}}
-   */
-  loadState() {
-    let state = this.props.loadStateCb();
-    if (!state) {
-      return {
-        activeCircuits: CircuitClient.activeCircuits,
-        activeItem:
-          SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
-        participatingCircuitsVisible: false,
-        doItLaterCircuitsVisible: false,
-        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
-        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
-        title: ""
-      };
-    }
-    return state;
+    this.activeCircuits = CircuitClient.activeCircuits;
   }
 
   /**
@@ -58,9 +42,8 @@ export default class ircuitsPanel extends Component {
    */
   refreshActiveCircuits() {
     CircuitClient.loadAllMyParticipatingCircuits(this, models => {
-      this.setState({
-        activeCircuits: models
-      });
+      this.activeCircuits = models;
+      this.forceUpdate();
     });
   }
 
@@ -74,13 +57,59 @@ export default class ircuitsPanel extends Component {
   }
 
   /**
+   * event handler for our circuits sub menu click
+   * @param e
+   * @param name
+   */
+  handleCircuitSubmenuClick = (e, { name }) => {
+    this.myController.changeActiveCircuitsSubmenuPanel(name);
+  };
+
+  /**
+   * called when we remove this circuit from view. this clears the listeners for proper
+   * memory management
+   */
+  componentWillUnmount() {
+    this.myController.configureCircuitsPanelListener(this, null);
+  }
+
+  /**
+   * called we are rendering this component into view. This will ask the circuit manager
+   * in the main process for new circuit data
+   */
+  componentDidMount() {
+    this.myController.configureCircuitsPanelListener(
+      this,
+      this.onRefreshCircuitsPanel
+    );
+    this.onRefreshCircuitsPanel();
+  }
+
+  /**
+   * callback function that is performed when we refresh this component in the view
+   */
+  onRefreshCircuitsPanel() {
+    switch (this.myController.activeCircuitsSubmenuSelection) {
+      case SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS:
+        this.showParticipatingCircuitsPanel();
+        break;
+      case SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS:
+        this.showDoItLaterCircuitsPanel();
+        break;
+      default:
+        throw new Error("Unknown circuits panel menu item");
+    }
+  }
+
+
+  /**
    * shows our active circuits that we are joined to
    */
   showParticipatingCircuitsPanel() {
     this.refreshActiveCircuits();
     this.setState({
       activeItem:
-        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+      SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
       participatingCircuitsVisible: true,
       doItLaterCircuitsVisible: false
     });
@@ -98,35 +127,6 @@ export default class ircuitsPanel extends Component {
       doItLaterCircuitsVisible: true
     });
   }
-
-  /**
-   * event handler for our circuits sub menu click
-   * @param e
-   * @param name
-   */
-  handleCircuitSubmenuClick = (e, { name }) => {
-    this.myController.changeActiveCircuitsSubmenuPanel(name);
-  };
-
-  /**
-   * called we are rendering this component into view. This will ask the circuit manager
-   * in the main process for new circuit data
-   */
-  componentDidMount = () => {
-    this.myController.configureCircuitsPanelListener(
-      this,
-      this.onRefreshCircuitsPanel
-    );
-    this.onRefreshCircuitsPanel();
-  };
-
-  /**
-   * called when we remove this circuit from view. this clears the listeners for proper
-   * memory management
-   */
-  componentWillUnmount = () => {
-    this.myController.configureCircuitsPanelListener(this, null);
-  };
 
   /**
    * mouse click handler for when a user clicks on an item in the active circuit list
@@ -156,22 +156,6 @@ export default class ircuitsPanel extends Component {
   }
 
   /**
-   * callback function that is performed when we refresh this component in the view
-   */
-  onRefreshCircuitsPanel() {
-    switch (this.myController.activeCircuitsSubmenuSelection) {
-      case SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS:
-        this.showParticipatingCircuitsPanel();
-        break;
-      case SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS:
-        this.showDoItLaterCircuitsPanel();
-        break;
-      default:
-        throw new Error("Unknown circuits panel menu item");
-    }
-  }
-
-  /**
    * get our active circuits content to render in the gui
    * @returns {*}
    */
@@ -186,7 +170,7 @@ export default class ircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {this.state.activeCircuits.map(model => (
+          {this.activeCircuits.map(model => (
             <ActiveCircuitListItem
               key={model.id}
               model={model}
@@ -260,16 +244,16 @@ export default class ircuitsPanel extends Component {
           >
             <Transition
               visible={this.state.participatingCircuitsVisible}
-              animation={this.state.animationType}
-              duration={this.state.animationDelay}
+              animation={this.animationType}
+              duration={this.animationDelay}
               unmountOnHide
             >
               {this.getParticipatingCircuitsContent()}
             </Transition>
             <Transition
               visible={this.state.doItLaterCircuitsVisible}
-              animation={this.state.animationType}
-              duration={this.state.animationDelay}
+              animation={this.animationType}
+              duration={this.animationDelay}
               unmountOnHide
             >
               {this.getDoItLaterCircuitsContent()}
