@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import {List, Menu, Segment, Transition} from "semantic-ui-react";
-import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
-import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
-import {DimensionController} from "../../../../controllers/DimensionController";
-import {CircuitClient} from "../../../../clients/CircuitClient";
+import React, { Component } from "react";
+import { List, Menu, Segment, Transition } from "semantic-ui-react";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
+import { DimensionController } from "../../../../controllers/DimensionController";
+import { CircuitClient } from "../../../../clients/CircuitClient";
 import ActiveCircuitListItem from "./ActiveCircuitListItem";
-import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
+import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 
 /**
  * renders the circuit navigator panels in the gui
@@ -21,7 +21,7 @@ export default class ircuitsPanel extends Component {
     this.name = "[CircuitsPanel]";
     this.state = {
       activeItem:
-      SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
       participatingCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
       title: ""
@@ -35,25 +35,6 @@ export default class ircuitsPanel extends Component {
       activeCircuitComponent: null
     };
     this.activeCircuits = CircuitClient.activeCircuits;
-  }
-
-  /**
-   * refreshes our active circuits array with new data
-   */
-  refreshActiveCircuits() {
-    CircuitClient.loadAllMyParticipatingCircuits(this, models => {
-      this.activeCircuits = models;
-      this.forceUpdate();
-    });
-  }
-
-  /**
-   * refresh our array of do it later on hold circuits
-   */
-  refreshDoItLaterCircuits() {
-    console.log("call circuit client to refresh do it later circuits");
-
-    //TODO implement this function to show do it later on hold circuits
   }
 
   /**
@@ -101,17 +82,19 @@ export default class ircuitsPanel extends Component {
     }
   }
 
-
   /**
    * shows our active circuits that we are joined to
    */
   showParticipatingCircuitsPanel() {
-    this.refreshActiveCircuits();
     this.setState({
       activeItem:
-      SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
       participatingCircuitsVisible: true,
       doItLaterCircuitsVisible: false
+    });
+    CircuitClient.loadAllMyParticipatingCircuits(this, models => {
+      this.activeCircuits = models;
+      this.forceUpdate();
     });
   }
 
@@ -120,7 +103,6 @@ export default class ircuitsPanel extends Component {
    * with a do it later status
    */
   showDoItLaterCircuitsPanel() {
-    this.refreshDoItLaterCircuits();
     this.setState({
       activeItem: SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS,
       participatingCircuitsVisible: false,
@@ -199,7 +181,7 @@ export default class ircuitsPanel extends Component {
    * @returns {*}
    */
   render() {
-    const { activeItem } = this.state;
+    let { activeItem } = this.state;
     return (
       <div
         id="component"

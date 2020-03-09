@@ -19,6 +19,7 @@ export default class TeamPanel extends Component {
     super(props);
     this.name = "[TeamPanel]";
     this.state = {
+      activeItem: SidePanelViewController.SubmenuSelection.TEAM,
       teamVisible: false
     };
     this.myController = RendererControllerFactory.getViewController(
@@ -79,6 +80,7 @@ export default class TeamPanel extends Component {
    */
   showTeamPanel() {
     this.setState({
+      activeItem: SidePanelViewController.SubmenuSelection.TEAM,
       teamVisible: true
     });
     TeamClient.getMyTeam(
@@ -237,7 +239,9 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   render() {
-    let teamName = this.myTeam ? this.myTeam.name : TeamClient.Strings.LOADING;
+    let teamName = this.myTeam ? this.myTeam.name : TeamClient.Strings.LOADING,
+      { activeItem } = this.state;
+
     return (
       <div
         id="component"
@@ -251,7 +255,9 @@ export default class TeamPanel extends Component {
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
               name={teamName}
-              active={true}
+              active={
+                activeItem === SidePanelViewController.SubmenuSelection.TEAM
+              }
               onClick={this.handleMenuClick}
             />
           </Menu>
