@@ -68,7 +68,7 @@ const { app } = require("electron"),
  *   penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), any engagement
  *   with law enforcement (LE), and counterintelligence (CI) investigations of foreign or domestic.
  *
- * + The NETWORK exists soley for educational and scientific research purposes. ANY access related to MILITARY use
+ * + The NETWORK exists solely for educational and scientific research purposes. ANY access related to MILITARY use
  *   could be considered a THREAT, which may result in bad things. Don't Do IT.
  *
  * + At any time, the SYSTEM may inspect and seize data stored on this IS; see above item (2)

@@ -47,7 +47,6 @@ class DtoClient {
     this.urn = store.urn;
     this.type = store.requestType;
     this.callback = callback;
-    this.retry = 3;
     this.timeout = {
       response: 9000,
       deadline: 20000
@@ -113,14 +112,12 @@ class DtoClient {
       case DtoClientFactory.RequestTypes.POST:
         return request
           .post(url)
-          .retry(this.retry)
           .timeout(this.timeout)
           .send(this.store.dto)
           .set("Content-Type", "application/json");
       case DtoClientFactory.RequestTypes.GET:
         return request
           .get(url)
-          .retry(this.retry)
           .timeout(this.timeout)
           .send(this.store.dto)
           .set("Content-Type", "application/json");

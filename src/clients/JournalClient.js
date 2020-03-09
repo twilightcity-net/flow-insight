@@ -49,6 +49,7 @@ export class JournalClient extends BaseClient {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
       CREATE_INTENTION: "create-intention",
+      CREATE_TASK_REFERENCE: "create-task-reference",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks"
@@ -130,6 +131,24 @@ export class JournalClient extends BaseClient {
     let event = JournalClient.instance.createClientEvent(
       JournalClient.Events.GET_RECENT_PROJECTS,
       {},
+      scope,
+      callback
+    );
+    JournalClient.instance.notifyJournal(event);
+    return event;
+  }
+
+  /**
+   * creates a task reference in grid time
+   * @param taskName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static createTaskReference(taskName, scope, callback) {
+    let event = JournalClient.instance.createClientEvent(
+      JournalClient.Events.CREATE_TASK_REFERENCE,
+      { taskName: taskName },
       scope,
       callback
     );

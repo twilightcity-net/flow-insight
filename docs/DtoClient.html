@@ -148,6 +148,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JournalClient.html">JournalClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.createIntention">createIntention</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.createTaskReference">createTaskReference</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></span></li>
@@ -190,6 +191,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#deactivate">deactivate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCallback">delegateCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCreateTaskReferenceCallback">delegateCreateTaskReferenceCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyCurrentStatusCallback">delegateLoadMyCurrentStatusCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyTeamCallback">delegateLoadMyTeamCallback</a></span></li>
@@ -237,6 +239,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getVolumeByName">getVolumeByName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateTaskReferenceEvent">handleCreateTaskReferenceEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleFinishLoadingVolumes">handleFinishLoadingVolumes</a></span></li>
@@ -292,6 +295,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#stop">stop</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#unwireEvents">unwireEvents</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateConsole">updateConsole</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#verify">verify</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
@@ -417,12 +421,12 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#onShortcutsRecievedCb">onShortcutsRecievedCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#openWindow">openWindow</a></span></li>
     <li class="nav-heading"><a href="global.html">Globals</a></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#addTask">addTask</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidMount">componentDidMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createIntention">createIntention</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createTaskReference">createTaskReference</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCanvasEl">getCanvasEl</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarActions">getCircuitSidebarActions</a></span></li>
@@ -531,7 +535,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="public_managers_DtoClientFactory.js.html">public/managers/DtoClientFactory.js</a>, <a href="public_managers_DtoClientFactory.js.html#line60">line 60</a>
+                  <a href="public_managers_DtoClientFactory.js.html">public/managers/DtoClientFactory.js</a>, <a href="public_managers_DtoClientFactory.js.html#line59">line 59</a>
                 </li>
               </ul>
             </dd>
@@ -546,7 +550,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="public_managers_DtoClientFactory.js.html">public/managers/DtoClientFactory.js</a>, <a href="public_managers_DtoClientFactory.js.html#line111">line 111</a>
+                  <a href="public_managers_DtoClientFactory.js.html">public/managers/DtoClientFactory.js</a>, <a href="public_managers_DtoClientFactory.js.html#line110">line 110</a>
                 </li>
               </ul>
             </dd>

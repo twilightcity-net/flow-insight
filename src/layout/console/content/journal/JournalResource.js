@@ -139,10 +139,25 @@ export default class JournalResource extends Component {
    * @param intention
    */
   handleCreateIntention = (projectId, taskId, intention) => {
-    JournalClient.createIntention(projectId, taskId, intention, this, arg => {
-      console.log(arg);
-      console.log("refresh...");
+    JournalClient.createIntention(projectId, taskId, intention, this, () => {
       this.refreshRecentIntentions(JournalResource.Strings.ME);
+    });
+  };
+
+  /**
+   * create a task reference using our journal client
+   * @param taskName
+   */
+  handleCreateTaskReference = taskName => {
+    JournalClient.createTaskReference(taskName, this, arg => {
+      if (arg.error) {
+        this.error = arg.error;
+        this.forceUpdate();
+      } else {
+        this.error = null;
+        this.tasks = arg.data;
+        this.forceUpdate();
+      }
     });
   };
 
@@ -287,6 +302,7 @@ export default class JournalResource extends Component {
             projects={this.projects}
             tasks={this.tasks}
             createIntention={this.handleCreateIntention}
+            createTaskReference={this.handleCreateTaskReference}
           />
         </div>
       </Transition>

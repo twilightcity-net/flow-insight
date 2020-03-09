@@ -148,6 +148,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JournalClient.html">JournalClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.createIntention">createIntention</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.createTaskReference">createTaskReference</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></span></li>
@@ -190,6 +191,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#deactivate">deactivate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCallback">delegateCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCreateTaskReferenceCallback">delegateCreateTaskReferenceCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyCurrentStatusCallback">delegateLoadMyCurrentStatusCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyTeamCallback">delegateLoadMyTeamCallback</a></span></li>
@@ -237,6 +239,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getVolumeByName">getVolumeByName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateTaskReferenceEvent">handleCreateTaskReferenceEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleFinishLoadingVolumes">handleFinishLoadingVolumes</a></span></li>
@@ -292,6 +295,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#stop">stop</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#unwireEvents">unwireEvents</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateConsole">updateConsole</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#verify">verify</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
@@ -417,12 +421,12 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#onShortcutsRecievedCb">onShortcutsRecievedCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#openWindow">openWindow</a></span></li>
     <li class="nav-heading"><a href="global.html">Globals</a></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#addTask">addTask</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidMount">componentDidMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createIntention">createIntention</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createTaskReference">createTaskReference</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCanvasEl">getCanvasEl</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarActions">getCircuitSidebarActions</a></span></li>
@@ -506,7 +510,9 @@
   RecentJournalDto = require("../dto/RecentJournalDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   JournalDatabase = require("../database/JournalDatabase"),
-  IntentionInputDto = require("../dto/IntentionInputDto");
+  IntentionInputDto = require("../dto/IntentionInputDto"),
+  TaskReferenceInputDto = require("../dto/TaskReferenceInputDto"),
+  RecentTasksSummaryDto = require("../dto/RecentTasksSummaryDto");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -535,6 +541,7 @@ module.exports = class JournalController extends BaseController {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
       CREATE_INTENTION: "create-intention",
+      CREATE_TASK_REFERENCE: "create-task-reference",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks"
@@ -578,6 +585,9 @@ module.exports = class JournalController extends BaseController {
           break;
         case JournalController.Events.CREATE_INTENTION:
           this.handleCreateIntentionEvent(event, arg);
+          break;
+        case JournalController.Events.CREATE_TASK_REFERENCE:
+          this.handleCreateTaskReferenceEvent(event, arg);
           break;
         case JournalController.Events.GET_RECENT_INTENTIONS:
           this.handleGetRecentIntentionsEvent(event, arg);
@@ -668,20 +678,30 @@ module.exports = class JournalController extends BaseController {
       if (journal.recentTasksByProjectId) {
         collection = database.getCollection(JournalDatabase.Collections.TASKS);
         view = database.getViewForRecentTasks();
-        if (view.count() !== 0) {
-          collection.removeBatch(view.data());
-        }
-        Object.values(journal.recentTasksByProjectId).forEach(project => {
-          if (project) {
-            project.forEach(rt => {
-              collection.insert(rt);
-            });
-          }
-        });
+        this.updateRecentTasksByProjectId(view, collection, journal);
       }
     }
     JournalController.instance.userHistory.add(userName);
     this.doCallbackOrReplyTo(event, arg, callback);
+  }
+
+  /**
+   * updates our recent tasks in our database based on some model data
+   * @param view
+   * @param collection
+   * @param model
+   */
+  updateRecentTasksByProjectId(view, collection, model) {
+    if (view.count() !== 0) {
+      collection.removeBatch(view.data());
+    }
+    Object.values(model.recentTasksByProjectId).forEach(project => {
+      if (project) {
+        project.forEach(rt => {
+          collection.insert(rt);
+        });
+      }
+    });
   }
 
   /**
@@ -739,6 +759,56 @@ module.exports = class JournalController extends BaseController {
           this.doCallbackOrReplyTo(event, arg, callback);
         }
       );
+    }
+  }
+
+  /**
+   * created a new task in our gridtime and local db
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleCreateTaskReferenceEvent(event, arg, callback) {
+    let taskName = arg.args.taskName,
+      urn =
+        JournalController.Paths.JOURNAL +
+        JournalController.Strings.ME +
+        JournalController.Paths.TASKREF;
+
+    this.doClientRequest(
+      "JournalClient",
+      new TaskReferenceInputDto({ taskName: taskName }),
+      "createTaskReference",
+      JournalController.Types.POST,
+      urn,
+      store =>
+        this.delegateCreateTaskReferenceCallback(store, event, arg, callback)
+    );
+  }
+
+  /**
+   * handles the callback of the create intention
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateCreateTaskReferenceCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+      this.doCallbackOrReplyTo(event, arg, callback);
+    } else {
+      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
+        collection = database.getCollection(JournalDatabase.Collections.TASKS),
+        summary = new RecentTasksSummaryDto(store.data),
+        view = database.getViewForRecentTasks();
+
+      if (summary.recentTasksByProjectId) {
+        this.updateRecentTasksByProjectId(view, collection, summary);
+      }
+
+      arg.data = view.data();
+      this.doCallbackOrReplyTo(event, arg, callback);
     }
   }
 

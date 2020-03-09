@@ -4,7 +4,9 @@ const Util = require("../Util"),
   RecentJournalDto = require("../dto/RecentJournalDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   JournalDatabase = require("../database/JournalDatabase"),
-  IntentionInputDto = require("../dto/IntentionInputDto");
+  IntentionInputDto = require("../dto/IntentionInputDto"),
+  TaskReferenceInputDto = require("../dto/TaskReferenceInputDto"),
+  RecentTasksSummaryDto = require("../dto/RecentTasksSummaryDto");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -33,6 +35,7 @@ module.exports = class JournalController extends BaseController {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
       CREATE_INTENTION: "create-intention",
+      CREATE_TASK_REFERENCE: "create-task-reference",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks"
@@ -76,6 +79,9 @@ module.exports = class JournalController extends BaseController {
           break;
         case JournalController.Events.CREATE_INTENTION:
           this.handleCreateIntentionEvent(event, arg);
+          break;
+        case JournalController.Events.CREATE_TASK_REFERENCE:
+          this.handleCreateTaskReferenceEvent(event, arg);
           break;
         case JournalController.Events.GET_RECENT_INTENTIONS:
           this.handleGetRecentIntentionsEvent(event, arg);
@@ -166,20 +172,30 @@ module.exports = class JournalController extends BaseController {
       if (journal.recentTasksByProjectId) {
         collection = database.getCollection(JournalDatabase.Collections.TASKS);
         view = database.getViewForRecentTasks();
-        if (view.count() !== 0) {
-          collection.removeBatch(view.data());
-        }
-        Object.values(journal.recentTasksByProjectId).forEach(project => {
-          if (project) {
-            project.forEach(rt => {
-              collection.insert(rt);
-            });
-          }
-        });
+        this.updateRecentTasksByProjectId(view, collection, journal);
       }
     }
     JournalController.instance.userHistory.add(userName);
     this.doCallbackOrReplyTo(event, arg, callback);
+  }
+
+  /**
+   * updates our recent tasks in our database based on some model data
+   * @param view
+   * @param collection
+   * @param model
+   */
+  updateRecentTasksByProjectId(view, collection, model) {
+    if (view.count() !== 0) {
+      collection.removeBatch(view.data());
+    }
+    Object.values(model.recentTasksByProjectId).forEach(project => {
+      if (project) {
+        project.forEach(rt => {
+          collection.insert(rt);
+        });
+      }
+    });
   }
 
   /**
@@ -237,6 +253,56 @@ module.exports = class JournalController extends BaseController {
           this.doCallbackOrReplyTo(event, arg, callback);
         }
       );
+    }
+  }
+
+  /**
+   * created a new task in our gridtime and local db
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleCreateTaskReferenceEvent(event, arg, callback) {
+    let taskName = arg.args.taskName,
+      urn =
+        JournalController.Paths.JOURNAL +
+        JournalController.Strings.ME +
+        JournalController.Paths.TASKREF;
+
+    this.doClientRequest(
+      "JournalClient",
+      new TaskReferenceInputDto({ taskName: taskName }),
+      "createTaskReference",
+      JournalController.Types.POST,
+      urn,
+      store =>
+        this.delegateCreateTaskReferenceCallback(store, event, arg, callback)
+    );
+  }
+
+  /**
+   * handles the callback of the create intention
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateCreateTaskReferenceCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+      this.doCallbackOrReplyTo(event, arg, callback);
+    } else {
+      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
+        collection = database.getCollection(JournalDatabase.Collections.TASKS),
+        summary = new RecentTasksSummaryDto(store.data),
+        view = database.getViewForRecentTasks();
+
+      if (summary.recentTasksByProjectId) {
+        this.updateRecentTasksByProjectId(view, collection, summary);
+      }
+
+      arg.data = view.data();
+      this.doCallbackOrReplyTo(event, arg, callback);
     }
   }
 

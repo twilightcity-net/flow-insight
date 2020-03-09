@@ -148,6 +148,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JournalClient.html">JournalClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.createIntention">createIntention</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.createTaskReference">createTaskReference</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></span></li>
@@ -190,6 +191,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#deactivate">deactivate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCallback">delegateCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCreateTaskReferenceCallback">delegateCreateTaskReferenceCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyCurrentStatusCallback">delegateLoadMyCurrentStatusCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyTeamCallback">delegateLoadMyTeamCallback</a></span></li>
@@ -237,6 +239,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getVolumeByName">getVolumeByName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateTaskReferenceEvent">handleCreateTaskReferenceEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleFinishLoadingVolumes">handleFinishLoadingVolumes</a></span></li>
@@ -292,6 +295,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#stop">stop</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#unwireEvents">unwireEvents</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateConsole">updateConsole</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#verify">verify</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
@@ -417,12 +421,12 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#onShortcutsRecievedCb">onShortcutsRecievedCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#openWindow">openWindow</a></span></li>
     <li class="nav-heading"><a href="global.html">Globals</a></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#addTask">addTask</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidMount">componentDidMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createIntention">createIntention</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createTaskReference">createTaskReference</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCanvasEl">getCanvasEl</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarActions">getCircuitSidebarActions</a></span></li>
@@ -579,7 +583,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line164">line 164</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line183">line 183</a>
                 </li>
               </ul>
             </dd>
@@ -616,7 +620,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line95">line 95</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line96">line 96</a>
                 </li>
               </ul>
             </dd>
@@ -680,6 +684,63 @@
         </div>
         <div class="section-method">
           <h4 class="name"
+              id=".createTaskReference"><span class="type-signature">(static) </span>createTaskReference<span class="signature">(taskName, scope, callback)</span><span class="type-signature"> &rarr; {<a href="RendererClientEvent.html">RendererClientEvent</a>}</span></h4>
+          <div class="description"> creates a task reference in grid time </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line148">line 148</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>taskName</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+              <tr>
+                <td class="name"><code>scope</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+              <tr>
+                <td class="name"><code>callback</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code><a href="RendererClientEvent.html">RendererClientEvent</a></code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
               id=".getRecentIntentions"><span class="type-signature">(static) </span>getRecentIntentions<span class="signature">(userName, scope, callback)</span><span class="type-signature"> &rarr; {<a href="RendererClientEvent.html">RendererClientEvent</a>}</span></h4>
           <div class="description"> gets our most recent journal items from local db </div>
           <dl class="details">
@@ -687,7 +748,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line112">line 112</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line113">line 113</a>
                 </li>
               </ul>
             </dd>
@@ -744,7 +805,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line129">line 129</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line130">line 130</a>
                 </li>
               </ul>
             </dd>
@@ -794,7 +855,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line146">line 146</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line165">line 165</a>
                 </li>
               </ul>
             </dd>
@@ -844,7 +905,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line62">line 62</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line63">line 63</a>
                 </li>
               </ul>
             </dd>
@@ -878,7 +939,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line75">line 75</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line76">line 76</a>
                 </li>
               </ul>
             </dd>
@@ -935,7 +996,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line185">line 185</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line204">line 204</a>
                 </li>
               </ul>
             </dd>
@@ -969,7 +1030,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line198">line 198</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line217">line 217</a>
                 </li>
               </ul>
             </dd>
@@ -1003,7 +1064,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line220">line 220</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line239">line 239</a>
                 </li>
               </ul>
             </dd>
@@ -1037,7 +1098,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line231">line 231</a>
+                  <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line250">line 250</a>
                 </li>
               </ul>
             </dd>

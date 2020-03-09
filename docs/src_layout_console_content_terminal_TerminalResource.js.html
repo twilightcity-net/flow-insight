@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>MainEvent - Documentation</title>
+  <title>src/layout/console/content/terminal/TerminalResource.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -501,205 +501,47 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">MainEvent</h1>
+    <h1 class="page-title">src/layout/console/content/terminal/TerminalResource.js</h1>
     <section>
-      <header>
-        <h2> MainEvent </h2>
-        <div class="class-description">an object class used to instantiate new event with callbacks.</div>
-      </header>
       <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h2>Constructor</h2>
-            <h4 class="name"
-                id="MainEvent"><span class="type-signature"></span>new MainEvent<span class="signature">(type, scope, callback, reply, async)</span><span class="type-signature"></span></h4>
-            <div class="description"> builds the main event class for ipc pipe events </div>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line19">line 19</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-            <h5>Parameters:</h5>
-            <table class="params">
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Type</th>
-                  <th class="last">Description</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="name"><code>type</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last"> the name of the event to listen on </td>
-                </tr>
-                <tr>
-                  <td class="name"><code>scope</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last"> parent object that created the event </td>
-                </tr>
-                <tr>
-                  <td class="name"><code>callback</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last"> the function to dispatch </td>
-                </tr>
-                <tr>
-                  <td class="name"><code>reply</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last"> the reply function to dispatch </td>
-                </tr>
-                <tr>
-                  <td class="name"><code>async</code></td>
-                  <td class="type">
-                  </td>
-                  <td class="description last"> true to send an async message back </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <h3 class="subsection-title">Methods</h3>
-        <div class="section-method">
-          <h4 class="name"
-              id="construct"><span class="type-signature"></span>construct<span class="signature">()</span><span class="type-signature"></span></h4>
-          <div class="description"> link stuff with EventManager, and init </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line50">line 50</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
-              id="destruct"><span class="type-signature"></span>destruct<span class="signature">()</span><span class="type-signature"></span></h4>
-          <div class="description"> removes and clears the object from memory. warning, not reversible </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line66">line 66</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
-              id="dispatch"><span class="type-signature"></span>dispatch<span class="signature">(arg)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-          <div class="description"> fires the event associated with the event's channel. </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line34">line 34</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <h5>Parameters:</h5>
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="name"><code>arg</code></td>
-                <td class="type">
-                </td>
-                <td class="description last">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="section-returns">
-            <h5>Returns:</h5>
-            <dl class="param-type">
-              <dt> Type: </dt>
-              <dd>
-                <span class="param-type"><code>Array</code></span>
-              </dd>
-            </dl>
-          </div>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
-              id="remove"><span class="type-signature"></span>remove<span class="signature">()</span><span class="type-signature"></span></h4>
-          <div class="description"> removes the event from the hive </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line59">line 59</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
-              id="replyTo"><span class="type-signature"></span>replyTo<span class="signature">(arg)</span><span class="type-signature"> &rarr; {Array}</span></h4>
-          <div class="description"> sends a reply event message through the event manager </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="public_events_EventManager.js.html">public/events/EventManager.js</a>, <a href="public_events_EventManager.js.html#line43">line 43</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <h5>Parameters:</h5>
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="name"><code>arg</code></td>
-                <td class="type">
-                </td>
-                <td class="description last">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="section-returns">
-            <h5>Returns:</h5>
-            <dl class="param-type">
-              <dt> Type: </dt>
-              <dd>
-                <span class="param-type"><code>Array</code></span>
-              </dd>
-            </dl>
-          </div>
-        </div>
+        <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
+import TerminalContent from "./components/TerminalContent";
+
+/**
+ * this component is the tab panel wrapper for the terminal resource
+ * @author ZoeDreams
+ * @copyright DreamScale, Inc. 2020©®™√
+ */
+export default class TerminalResource extends Component {
+  /**
+   * builds the terminal layout content.
+   * @param props
+   */
+  constructor(props) {
+    super(props);
+    this.name = "[TerminalResource]";
+    this.state = {
+      resource: props.resource
+    };
+  }
+
+  componentDidMount() {}
+
+  /**
+   * renders the terminal layout of the console view
+   * @returns {*} - the rendered components JSX
+   */
+  render() {
+    return (
+      &lt;div id="component" className="terminalLayout">
+        &lt;div id="wrapper" className="terminalContent">
+          &lt;TerminalContent />
+        &lt;/div>
+      &lt;/div>
+    );
+  }
+}
+</code></pre>
       </article>
     </section>
   </div>

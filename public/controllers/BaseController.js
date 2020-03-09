@@ -19,7 +19,8 @@ module.exports = class BaseController {
       SEPARATOR: "/",
       STATUS: "/status/",
       STATUS_TEAM: "/status/team",
-      INTENTION: "/intention"
+      INTENTION: "/intention",
+      TASKREF: "/taskref"
     };
   }
 

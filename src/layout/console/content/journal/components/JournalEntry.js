@@ -110,26 +110,12 @@ export default class JournalEntry extends Component {
   };
 
   /**
-   * adds a new task to our local database and find creates on grid
-   * @param name
-   */
-  addTask(name) {
-    console.log(name);
-
-    // TODO make client request to add this...
-
-    // TODO render the journal entry from local db insert
-
-    // TODO rewind local db task if error from grid
-  }
-
-  /**
    * called when a new task is added from dropdown
    * @param e
    * @param value
    */
-  handleAdditionForTask = (e, { value }) => {
-    this.addTask(value);
+  handleCreateTaskReference = (e, { value }) => {
+    this.createTaskReference(value);
   };
 
   /**
@@ -142,6 +128,18 @@ export default class JournalEntry extends Component {
       currentProjectValue: value
     });
   };
+
+  /**
+   * creates a new task reference
+   * @param taskName
+   */
+  createTaskReference(taskName) {
+    console.log("create");
+    this.props.createTaskReference(taskName);
+    this.setState({
+      currentTaskValue: taskName
+    });
+  }
 
   /**
    *  called when a task is selected in the dropdown
@@ -272,7 +270,7 @@ export default class JournalEntry extends Component {
         value={this.state.currentTaskValue}
         onFocus={this.handleFocusForTask}
         onBlur={this.handleBlurForInput}
-        onAddItem={this.handleAdditionForTask}
+        onAddItem={this.handleCreateTaskReference}
         onChange={this.handleChangeForTask}
       />
     );
