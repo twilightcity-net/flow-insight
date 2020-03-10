@@ -29,18 +29,6 @@ export class CircuitClient extends BaseClient {
   static listeners = [];
 
   /**
-   * our active circuit that we are in
-   * @type {null}
-   */
-  static activeCircuit = null;
-
-  /**
-   * our list of active participating circuits we have joined
-   * @type {LearningCircuitModel[]}
-   */
-  static activeCircuits = [];
-
-  /**
    * builds the Client for a Circuit in Gridtime
    * @param scope
    */
@@ -56,23 +44,11 @@ export class CircuitClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {String}
+   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, CREATE_CIRCUIT: string, LOAD_ACTIVE_CIRCUIT: string}}
    * @constructor
    */
   static get Events() {
     return {
-      CREATE_CIRCUIT: "create-circuit",
-      START_RETRO: "start-retro",
-      JOIN_CIRCUIT: "join-circuit",
-      LEAVE_CIRCUIT: "leave-circuit",
-      CLOSE_CIRCUIT: "close-circuit",
-      HOLD_CIRCUIT: "hold-circuit",
-      RESUME_CIRCUIT: "resume-circuit",
-      GET_CIRCUIT_MEMBERS: "get-circuit-members",
-      GET_MY_CIRCUIT: "get-my-circuit",
-      GET_MY_CIRCUIT_HOLDS: "get-my-circuit-holds",
-      GET_MY_CIRCUITS_JOINED: "get-my-circuit-joined",
-      GET_MEMBER_CIRCUIT_JOINED: "get-member-circuit-joined",
       LOAD_ALL_MY_PARTICIPATING_CIRCUITS: "load-all-my-participating-circuits",
       LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: "load-all-my-do-it-later-circuits",
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
@@ -87,84 +63,7 @@ export class CircuitClient extends BaseClient {
   static init(scope) {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
-      CircuitClient.loadActiveCircuit();
-      CircuitClient.loadAllMyParticipatingCircuits();
     }
-  }
-
-  /**
-   * creates the learning circuit dto
-   * @param circuitName
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static createLearningCircuitModel(circuitName, scope, callback) {
-    let clientEvent = new RendererClientEvent(
-      CircuitClient.Events.CREATE_CIRCUIT,
-      { circuitName: circuitName },
-      scope,
-      (event, arg) => {
-        let model = new LearningCircuitModel(arg.dto);
-        if (callback) {
-          callback(model);
-        }
-      }
-    );
-    CircuitClient.instance.notifyCircuit(clientEvent);
-    return clientEvent;
-  }
-
-  /**
-   * loads our active circuit into the circuit client for the app to use
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static loadActiveCircuit(scope, callback) {
-    let clientEvent = new RendererClientEvent(
-      CircuitClient.Events.GET_MY_CIRCUIT,
-      {},
-      scope ? scope : CircuitClient.instance.scope,
-      (event, arg) => {
-        let model = new LearningCircuitModel(arg.dto);
-        CircuitClient.activeCircuit = model;
-        if (callback) {
-          callback(model);
-        }
-      }
-    );
-    CircuitClient.instance.notifyCircuit(clientEvent);
-    return clientEvent;
-  }
-
-  /**
-   * gets all of our active circuits the team member has joined
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static loadAllMyParticipatingCircuits(scope, callback) {
-    let clientEvent = new RendererClientEvent(
-      CircuitClient.Events.GET_MY_CIRCUITS_JOINED,
-      {},
-      scope ? scope : CircuitClient.instance.scope,
-      (event, arg) => {
-        CircuitClient.activeCircuits = [];
-        if (arg.dto) {
-          for (let i = 0; i < arg.dto.length; i++) {
-            CircuitClient.activeCircuits.push(
-              new LearningCircuitModel(arg.dto[i])
-            );
-          }
-        }
-        if (callback) {
-          callback(CircuitClient.activeCircuits);
-        }
-      }
-    );
-    CircuitClient.instance.notifyCircuit(clientEvent);
-    return clientEvent;
   }
 
   /**
@@ -261,22 +160,4 @@ export class CircuitClient extends BaseClient {
       }
     }
   }
-
-  /////////////// NEED TO IMPLEMENT ///////////////
-
-  startRetroForWTF(circuitName, callback) {}
-
-  joinExistingCircuit(circuitName, callback) {}
-
-  leaveExistingCircuit(circuitName, callback) {}
-
-  putCircuitOnHoldWithDoItLater(circuitName, callback) {}
-
-  getCircuitWithMembers(circuitName, callback) {}
-
-  getAllMyDoItLaterCircuits(callback) {}
-
-  getAllParticipatingCircuitsForMember(memberId, callback) {}
-
-  abortExistingCircuit(circuitName) {}
 }

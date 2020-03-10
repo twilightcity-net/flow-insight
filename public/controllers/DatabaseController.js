@@ -26,7 +26,7 @@ module.exports = class DatabaseController extends BaseController {
    * @returns {String}
    * @constructor
    */
-  static get EventTypes() {
+  static get Events() {
     return {
       CREATE_DATABASE: "create-database"
     };
@@ -61,7 +61,7 @@ module.exports = class DatabaseController extends BaseController {
   onDatabaseClientEvent(event, arg) {
     log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
     switch (arg.type) {
-      case DatabaseController.EventTypes.CREATE_DATABASE:
+      case DatabaseController.Events.CREATE_DATABASE:
         this.handleCreateDatabaseEvent(event, arg);
         break;
       default:

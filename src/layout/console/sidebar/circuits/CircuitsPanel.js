@@ -3,7 +3,6 @@ import { List, Menu, Segment, Transition } from "semantic-ui-react";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { DimensionController } from "../../../../controllers/DimensionController";
-import { CircuitClient } from "../../../../clients/CircuitClient";
 import ActiveCircuitListItem from "./ActiveCircuitListItem";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 
@@ -34,7 +33,7 @@ export default class CircuitsPanel extends Component {
     this.selections = {
       activeCircuitComponent: null
     };
-    this.activeCircuits = CircuitClient.activeCircuits;
+    this.activeCircuits = [];
   }
 
   /**
@@ -91,10 +90,6 @@ export default class CircuitsPanel extends Component {
         SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
       participatingCircuitsVisible: true,
       doItLaterCircuitsVisible: false
-    });
-    CircuitClient.loadAllMyParticipatingCircuits(this, models => {
-      this.activeCircuits = models;
-      this.forceUpdate();
     });
   }
 

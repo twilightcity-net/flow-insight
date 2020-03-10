@@ -36,14 +36,14 @@ export class ResourceCircuitController extends ActiveViewController {
     console.log(this.name + " start troubleshooting");
 
     // TODO show some type of loading view here
-    CircuitClient.createLearningCircuitModel("angry_teachers", this, model => {
-      let request = BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
-        model.circuitName
-      );
-      this.browserController.makeRequest(request);
-      this.fireCircuitStartNotifyEvent();
-    });
+    // CircuitClient.createLearningCircuitModel("angry_teachers", this, model => {
+    //   let request = BrowserRequestFactory.createRequest(
+    //     BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+    //     model.circuitName
+    //   );
+    //   this.browserController.makeRequest(request);
+    //   this.fireCircuitStartNotifyEvent();
+    // });
   };
 
   /**

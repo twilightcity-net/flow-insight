@@ -24,23 +24,11 @@ module.exports = class CircuitController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {String}
+   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, CREATE_CIRCUIT: string, LOAD_ACTIVE_CIRCUIT: string}}
    * @constructor
    */
-  static get EventTypes() {
+  static get Events() {
     return {
-      CREATE_CIRCUIT: "create-circuit",
-      START_RETRO: "start-retro",
-      JOIN_CIRCUIT: "join-circuit",
-      LEAVE_CIRCUIT: "leave-circuit",
-      CLOSE_CIRCUIT: "close-circuit",
-      HOLD_CIRCUIT: "hold-circuit",
-      RESUME_CIRCUIT: "resume-circuit",
-      GET_CIRCUIT_MEMBERS: "get-circuit-members",
-      GET_MY_CIRCUIT: "get-my-circuit",
-      GET_MY_CIRCUIT_HOLDS: "get-my-circuit-holds",
-      GET_MY_CIRCUITS_JOINED: "get-my-circuit-joined",
-      GET_MEMBER_CIRCUIT_JOINED: "get-member-circuit-joined",
       LOAD_ALL_MY_PARTICIPATING_CIRCUITS: "load-all-my-participating-circuits",
       LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: "load-all-my-do-it-later-circuits",
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
@@ -77,25 +65,16 @@ module.exports = class CircuitController extends BaseController {
   onCircuitClientEvent(event, arg) {
     log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
     switch (arg.type) {
-      case CircuitController.EventTypes.CREATE_CIRCUIT:
-        this.handleCreateCircuitEvent(event, arg);
-        break;
-      case CircuitController.EventTypes.GET_MY_CIRCUIT:
-        this.handleGetMyCircuitEvent(event, arg);
-        break;
-      case CircuitController.EventTypes.GET_MY_CIRCUITS_JOINED:
-        this.handleGetMyCircuitsJoinedEvent(event, arg);
-        break;
-      case CircuitController.EventTypes.LOAD_ALL_MY_PARTICIPATING_CIRCUITS:
+      case CircuitController.Events.LOAD_ALL_MY_PARTICIPATING_CIRCUITS:
         this.handleLoadAllMyParticipatingCircuitsEvent(event, arg);
         break;
-      case CircuitController.EventTypes.LOAD_ALL_MY_DO_IT_LATER_CIRCUITS:
+      case CircuitController.Events.LOAD_ALL_MY_DO_IT_LATER_CIRCUITS:
         this.handleLoadAllMyDoItLaterCircuitsEvent(event, arg);
         break;
-      case CircuitController.EventTypes.LOAD_ACTIVE_CIRCUIT:
+      case CircuitController.Events.LOAD_ACTIVE_CIRCUIT:
         this.handleLoadActiveCircuitEvent(event, arg);
         break;
-      case CircuitController.EventTypes.LOAD_CIRCUIT_WITH_ALL_DETAILS:
+      case CircuitController.Events.LOAD_CIRCUIT_WITH_ALL_DETAILS:
         this.handleLoadCircuitWithAllDetailsEvent(event, arg);
         break;
       default:
@@ -103,75 +82,6 @@ module.exports = class CircuitController extends BaseController {
           CircuitController.Error.UNKNOWN_CIRCUIT_EVENT + " '" + arg.type + "'."
         );
     }
-  }
-
-  /**
-   * processes the create circuit events for the listener. returns dto to callback
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleCreateCircuitEvent(event, arg, callback) {
-    let circuitName = arg.args.circuitName;
-    this.doClientRequest(
-      "CircuitClient",
-      circuitName ? circuitName : {},
-      "createLearningCircuit",
-      "post",
-      circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf",
-      store => {
-        arg.dto = store.data;
-        if (callback) {
-          return callback(arg.dto);
-        } else if (event) {
-          return event.replyTo(arg);
-        } else {
-          throw new Error("Invalid create circuit event");
-        }
-      }
-    );
-  }
-
-  handleGetMyCircuitEvent(event, arg, callback) {
-    this.doClientRequest(
-      "CircuitClient",
-      {},
-      "getActiveCircuit",
-      "get",
-      "/circuit/my/active",
-      store => {
-        arg.dto = store.data;
-        if (callback) {
-          return callback(arg.dto);
-        } else if (event) {
-          return event.replyTo(arg);
-        } else {
-          throw new Error("Invalid get active circuit event");
-        }
-      }
-    );
-  }
-
-  handleGetMyCircuitsJoinedEvent(event, arg, callback) {
-    this.doClientRequest(
-      "CircuitClient",
-      {},
-      "getAllMyParticipatingCircuits",
-      "get",
-      "/circuit/my/participating",
-      store => {
-        arg.dto = store.data;
-        if (callback) {
-          return callback(arg.dto);
-        } else if (event) {
-          return event.replyTo(arg);
-        } else {
-          throw new Error(
-            CircuitController.Error.INVALID_PARTICIPATING_CIRCUIT
-          );
-        }
-      }
-    );
   }
 
   /**

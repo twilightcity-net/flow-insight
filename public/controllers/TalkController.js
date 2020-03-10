@@ -28,7 +28,7 @@ module.exports = class TalkController extends BaseController {
    * @returns {String}
    * @constructor
    */
-  static get EventTypes() {
+  static get Events() {
     return {
       CONNECT: "connect",
       CONNECT_ERROR: "connect_error",
@@ -102,7 +102,7 @@ module.exports = class TalkController extends BaseController {
   configSocketListeners(socket, connectionId, name) {
     // TODO move this to the controller
 
-    socket.on(TalkController.EventTypes.CONNECT, () => {
+    socket.on(TalkController.Events.CONNECT, () => {
       log.info(
         chalk.greenBright(name) +
           " connect : " +
@@ -112,34 +112,34 @@ module.exports = class TalkController extends BaseController {
       );
       this.talkConnectedListener.dispatch();
     });
-    socket.on(TalkController.EventTypes.RECONNECT_ATTEMPT, attempt => {
+    socket.on(TalkController.Events.RECONNECT_ATTEMPT, attempt => {
       log.info(
         chalk.green(name) + " attempt {" + attempt + "} to reconnecting..."
       );
     });
-    socket.on(TalkController.EventTypes.RECONNECT_ERROR, err => {
+    socket.on(TalkController.Events.RECONNECT_ERROR, err => {
       log.info(chalk.green(name) + " reconnection error : " + err);
     });
-    socket.on(TalkController.EventTypes.RECONNECT_FAILED, () => {
+    socket.on(TalkController.Events.RECONNECT_FAILED, () => {
       log.info(chalk.greenBright(name) + " unable to reconnect ");
       this.talkConnectFailedListener.dispatch({
         message:
           "Opps, The Talk service seems to be offline, please try again soon."
       });
     });
-    socket.on(TalkController.EventTypes.CONNECT_ERROR, err => {
+    socket.on(TalkController.Events.CONNECT_ERROR, err => {
       log.info(chalk.green(name) + " connection error : " + err);
     });
-    socket.on(TalkController.EventTypes.DISCONNECT, reason => {
+    socket.on(TalkController.Events.DISCONNECT, reason => {
       log.info(chalk.greenBright(name) + " disconnected : " + reason);
     });
-    socket.on(TalkController.EventTypes.CONNECT_TIMEOUT, timeout => {
+    socket.on(TalkController.Events.CONNECT_TIMEOUT, timeout => {
       log.info(chalk.greenBright(name) + " timeout : " + timeout);
     });
-    socket.on(TalkController.EventTypes.ERROR, err => {
+    socket.on(TalkController.Events.ERROR, err => {
       log.info(chalk.redBright(name) + " error : " + err);
     });
-    socket.on(TalkController.EventTypes.RECONNECT, attempt => {
+    socket.on(TalkController.Events.RECONNECT, attempt => {
       log.info(
         chalk.greenBright(name) +
           " reconnected {" +
@@ -148,7 +148,7 @@ module.exports = class TalkController extends BaseController {
           connectionId
       );
     });
-    socket.on(TalkController.EventTypes.PONG, latency => {
+    socket.on(TalkController.Events.PONG, latency => {
       log.info(chalk.green(name) + " latency " + latency + "ms");
       global.App.TalkManager.setLatency(latency);
       this.appPulseNotifier.dispatch({
@@ -163,21 +163,21 @@ module.exports = class TalkController extends BaseController {
    * @param name
    */
   wireSocketMessagesToEventCircuit(socket, name) {
-    socket.on(TalkController.EventTypes.MESSAGE_CLIENT, (data, fn) => {
+    socket.on(TalkController.Events.MESSAGE_CLIENT, (data, fn) => {
       log.info(chalk.green(name) + " client message : " + data);
       this.talkMessageClientListener.dispatch(data);
       fn();
     });
-    socket.on(TalkController.EventTypes.MESSAGE_ROOM, data => {
+    socket.on(TalkController.Events.MESSAGE_ROOM, data => {
       log.info(chalk.green(name) + " room message : " + JSON.stringify(data));
       this.talkMessageRoomListener.dispatch();
     });
-    socket.on(TalkController.EventTypes.JOIN_ROOM, (roomId, fn) => {
+    socket.on(TalkController.Events.JOIN_ROOM, (roomId, fn) => {
       log.info(chalk.greenBright(name) + " joined room '" + roomId + "'");
       this.talkJoinRoomListener.dispatch(roomId);
       fn(roomId);
     });
-    socket.on(TalkController.EventTypes.LEAVE_ROOM, (roomId, fn) => {
+    socket.on(TalkController.Events.LEAVE_ROOM, (roomId, fn) => {
       log.info(chalk.greenBright(name) + " left room '" + roomId + "'");
       this.talkLeaveRoomListener.dispatch(roomId);
       fn(roomId);
