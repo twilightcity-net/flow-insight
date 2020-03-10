@@ -19,7 +19,7 @@ module.exports = class TalkDatabase extends LokiJS {
    */
   constructor() {
     super(TalkDatabase.Name);
-    this.name = "[DB." + TalkDatabase.Name + "]";
+    this.name = "[DB.TalkDatabase]";
     this.guid = Util.getGuid();
   }
 };

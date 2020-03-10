@@ -59,7 +59,7 @@ module.exports = class JournalDatabase extends LokiJS {
    */
   constructor() {
     super(JournalDatabase.Name);
-    this.name = "[DB." + JournalDatabase.Name + "]";
+    this.name = "[DB.JournalDatabase]";
     this.guid = Util.getGuid();
     this.addCollection(JournalDatabase.Collections.INTENTIONS, {
       indices: [

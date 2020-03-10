@@ -64,7 +64,7 @@ module.exports = class TeamDatabase extends LokiJS {
    */
   constructor() {
     super(TeamDatabase.Name);
-    this.name = "[DB." + TeamDatabase.Name + "]";
+    this.name = "[DB.TeamDatabase]";
     this.guid = Util.getGuid();
     this.addCollection(TeamDatabase.Collections.TEAMS, {
       indices: [
