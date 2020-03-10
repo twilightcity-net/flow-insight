@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
 import Terminal from "react-console-emulator";
 import moment from "moment";
-import { TeamClient } from "../../../../../clients/TeamClient";
 import { BrowserRequestFactory } from "../../../../../controllers/BrowserRequestFactory";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 

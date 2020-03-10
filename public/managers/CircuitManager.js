@@ -3,7 +3,7 @@ const CircuitController = require("../controllers/CircuitController");
 /**
  * managing class for the circuit rest client for grid, these are async
  */
-class CircuitManager {
+module.exports = class CircuitManager {
   /**
    * builds the circuit manager for the global app scope
    */
@@ -11,70 +11,37 @@ class CircuitManager {
     this.name = "[CircuitManager]";
     this.myController = new CircuitController(this);
     this.myController.configureEvents();
+    this.loadCount = 0;
   }
 
   /**
-   * creates the learning circuit via remote call to gridtime
-   * @param circuitName
+   * function that is used to initialize the circuit manager
    * @param callback
    */
-  createLearningCircuit(circuitName, callback) {
-    CircuitController.instance.handleCreateCircuitEvent(
+  init(callback) {
+    CircuitController.instance.handleLoadAllMyParticipatingCircuitsEvent(
+      null,
       {},
-      { args: { circuitName: circuitName } },
-      callback
+      () => this.handleInitCallback(callback)
+    );
+    CircuitController.instance.handleLoadAllMyDoItLaterCircuitsEvent(
+      null,
+      {},
+      () => this.handleInitCallback(callback)
+    );
+    CircuitController.instance.handleLoadActiveCircuitEvent(null, {}, () =>
+      this.handleInitCallback(callback)
     );
   }
 
   /**
-   * gets our active circuit the user is currently in
+   * handles our callback in response from our controller event processing
    * @param callback
    */
-  getActiveCircuit(callback) {
-    CircuitController.instance.handleGetMyCircuitEvent({}, {}, callback);
+  handleInitCallback(callback) {
+    this.loadCount++;
+    if (callback && this.loadCount === 3) {
+      callback();
+    }
   }
-
-  getAllMyParticipatingCircuits(callback) {
-    CircuitController.instance.handleGetMyCircuitsJoinedEvent({}, {}, callback);
-  }
-
-  ///////////////////// NEED TO IMPLEMENT ////////////////////
-
-  startRetroForWTF(circuitName, callback) {
-    return null;
-  }
-
-  joinExistingCircuit(circuitName, callback) {
-    return null;
-  }
-
-  leaveExistingCircuit(circuitName, callback) {
-    return null;
-  }
-
-  closeExistingCircuit(circuitName, callback) {
-    return null;
-  }
-
-  putCircuitOnHoldWithDoItLater(circuitName, callback) {
-    return null;
-  }
-
-  resumeCircuit(circuitName, callback) {
-    return null;
-  }
-
-  getCircuitWithMembers(circuitName, callback) {
-    return null;
-  }
-
-  getAllMyDoItLaterCircuits(callback) {
-    return null;
-  }
-
-  getAllParticipatingCircuitsForMember(memberId, callback) {
-    return null;
-  }
-}
-
-module.exports = CircuitManager;
+};

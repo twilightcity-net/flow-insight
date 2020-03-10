@@ -312,11 +312,11 @@ class EventManager {
 
     log.info(
       chalk.bold.cyanBright("[EventManager]") +
-      " " +
-      chalk.hex("#e99e40").bold("dispatch") +
-      " -> { " +
-      chalk.bold.cyanBright(eventType) +
-      " } "
+        " " +
+        chalk.hex("#e99e40").bold("dispatch") +
+        " -> { " +
+        chalk.bold.cyanBright(eventType) +
+        " } "
     );
 
     for (var j = 0; j < windows.length; j++) {

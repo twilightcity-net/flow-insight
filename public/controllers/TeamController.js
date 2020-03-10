@@ -1,13 +1,12 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
-  TeamDto = require("../dto/TeamDto"),
   MemberWorkStatusDto = require("../dto/MemberWorkStatusDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   TeamDatabase = require("../database/TeamDatabase");
 
 /**
  * This class is used to coordinate controllers across the journal service
- * @type {JournalController}
+ * @type {TeamController}
  */
 module.exports = class TeamController extends BaseController {
   /**
@@ -127,7 +126,7 @@ module.exports = class TeamController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let team = new TeamDto(store.data),
+      let team = store.data,
         database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
         collection = database.getCollection(TeamDatabase.Collections.TEAMS);
 
@@ -252,8 +251,7 @@ module.exports = class TeamController extends BaseController {
    */
   handleGetMyTeamEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
-      type = arg.args.type,
-      name = arg.args.id ? arg.args.id : arg.args.name;
+      type = arg.args.type;
 
     if (type === TeamController.Types.PRIMARY) {
       let view = database.getViewForMyPrimaryTeam();

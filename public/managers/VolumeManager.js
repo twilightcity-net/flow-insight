@@ -71,10 +71,13 @@ module.exports = class VolumeManager {
     });
   }
 
+  /**
+   * loads our circuit database into memory
+   */
   static loadDefaultCircuitDatabase() {
-    // do stuff
-
-    VolumeManager.handleFinishLoadingVolumes();
+    global.App.CircuitManager.init(() => {
+      VolumeManager.handleFinishLoadingVolumes();
+    });
   }
 
   /**

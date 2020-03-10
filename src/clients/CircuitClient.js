@@ -62,17 +62,21 @@ export class CircuitClient extends BaseClient {
   static get Events() {
     return {
       CREATE_CIRCUIT: "create-circuit",
-      START_RETRO: "start-retro", //name
-      JOIN_CIRCUIT: "join-circuit", //name
-      LEAVE_CIRCUIT: "leave-circuit", //name
-      CLOSE_CIRCUIT: "close-circuit", //name
-      HOLD_CIRCUIT: "hold-circuit", //name
-      RESUME_CIRCUIT: "resume-circuit", //name
-      GET_CIRCUIT_MEMBERS: "get-circuit-members", //name
+      START_RETRO: "start-retro",
+      JOIN_CIRCUIT: "join-circuit",
+      LEAVE_CIRCUIT: "leave-circuit",
+      CLOSE_CIRCUIT: "close-circuit",
+      HOLD_CIRCUIT: "hold-circuit",
+      RESUME_CIRCUIT: "resume-circuit",
+      GET_CIRCUIT_MEMBERS: "get-circuit-members",
       GET_MY_CIRCUIT: "get-my-circuit",
       GET_MY_CIRCUIT_HOLDS: "get-my-circuit-holds",
       GET_MY_CIRCUITS_JOINED: "get-my-circuit-joined",
-      GET_MEMBER_CIRCUIT_JOINED: "get-member-circuit-joined" //memberId
+      GET_MEMBER_CIRCUIT_JOINED: "get-member-circuit-joined",
+      LOAD_ALL_MY_PARTICIPATING_CIRCUITS: "load-all-my-participating-circuits",
+      LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: "load-all-my-do-it-later-circuits",
+      LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
+      LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details"
     };
   }
 

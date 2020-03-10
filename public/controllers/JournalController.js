@@ -1,12 +1,8 @@
 const Util = require("../Util"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
-  RecentJournalDto = require("../dto/RecentJournalDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  JournalDatabase = require("../database/JournalDatabase"),
-  IntentionInputDto = require("../dto/IntentionInputDto"),
-  TaskReferenceInputDto = require("../dto/TaskReferenceInputDto"),
-  RecentTasksSummaryDto = require("../dto/RecentTasksSummaryDto");
+  JournalDatabase = require("../database/JournalDatabase");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -138,7 +134,7 @@ module.exports = class JournalController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let journal = new RecentJournalDto(store.data),
+      let journal = store.data,
         database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
         collection = database.getCollection(
           JournalDatabase.Collections.INTENTIONS
@@ -215,11 +211,11 @@ module.exports = class JournalController extends BaseController {
 
     this.doClientRequest(
       "JournalClient",
-      new IntentionInputDto({
+      {
         description: description,
         projectId: projectId,
         taskId: taskId
-      }),
+      },
       "createIntention",
       JournalController.Types.POST,
       urn,
@@ -240,12 +236,7 @@ module.exports = class JournalController extends BaseController {
       arg.error = store.error;
       this.doCallbackOrReplyTo(event, arg, callback);
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
-        collection = database.getCollection(
-          JournalDatabase.Collections.INTENTIONS
-        );
-
-      arg.data = new IntentionInputDto(store.data);
+      arg.data = store.data;
       this.handleLoadJournalEvent(
         null,
         { args: { userName: JournalController.Strings.ME } },
@@ -271,7 +262,7 @@ module.exports = class JournalController extends BaseController {
 
     this.doClientRequest(
       "JournalClient",
-      new TaskReferenceInputDto({ taskName: taskName }),
+      { taskName: taskName },
       "createTaskReference",
       JournalController.Types.POST,
       urn,
@@ -294,7 +285,7 @@ module.exports = class JournalController extends BaseController {
     } else {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
         collection = database.getCollection(JournalDatabase.Collections.TASKS),
-        summary = new RecentTasksSummaryDto(store.data),
+        summary = store.data,
         view = database.getViewForRecentTasks();
 
       if (summary.recentTasksByProjectId) {

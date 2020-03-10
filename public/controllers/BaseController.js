@@ -9,7 +9,7 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * REST paths for our grid server. good place to store thats shared amoung all controllers
-   * @returns {{STATUS: string, SEPARATOR: string, JOURNAL: string, INTENTION: string, TEAM: string, STATUS_TEAM: string}}
+   * @returns {{STATUS: string, PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, DO_IT_LATER: string, JOURNAL: string, INTENTION: string, TEAM: string, STATUS_TEAM: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -20,7 +20,12 @@ module.exports = class BaseController {
       STATUS: "/status/",
       STATUS_TEAM: "/status/team",
       INTENTION: "/intention",
-      TASKREF: "/taskref"
+      TASKREF: "/taskref",
+      CIRCUIT: "/circuit/",
+      PARTICIPATING: "/participating",
+      DO_IT_LATER: "/doitlater",
+      ACTIVE: "/active",
+      WTF: "wtf/"
     };
   }
 
@@ -69,7 +74,10 @@ module.exports = class BaseController {
     return {
       ERROR_ARGS: "arg : args is required",
       UNKNOWN: "Unknown team client event type",
-      PRIMARY_ONLY: "Only primary team supported currently"
+      UNKNOWN_CIRCUIT_EVENT: "Unknown circuit client event type",
+      PRIMARY_ONLY: "Only primary team supported currently",
+      INVALID_PARTICIPATING_CIRCUIT:
+        "Invalid get my participating circuits event"
     };
   }
 
@@ -80,7 +88,33 @@ module.exports = class BaseController {
    */
   static get Strings() {
     return {
-      ME: "me"
+      ME: "me",
+      MY: "my"
+    };
+  }
+
+  /**
+   * definition names of our controllers functions
+   * @returns {{GET_ALL_MY_PARTICIPATING_CIRCUITS: string}}
+   * @constructor
+   */
+  static get Names() {
+    return {
+      GET_ALL_MY_PARTICIPATING_CIRCUITS: "getAllMyParticipatingCircuits",
+      GET_ALL_MY_DO_IT_LATER_CIRCUITS: "getAllMyDoItLaterCircuits",
+      GET_ACTIVE_CIRCUIT: "getActiveCircuit",
+      GET_CIRCUIT_WITH_ALL_DETAILS: "getCircuitWithAllDetails"
+    };
+  }
+
+  /**
+   * our possible client context scopes used by gridtime clients
+   * @returns {{CIRCUIT_CLIENT: string}}
+   * @constructor
+   */
+  static get Contexts() {
+    return {
+      CIRCUIT_CLIENT: "CircuitClient"
     };
   }
 

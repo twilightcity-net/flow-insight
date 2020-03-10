@@ -11,7 +11,7 @@ import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFac
  * renders the circuit navigator panels in the gui
  * @type {CircuitsPanel}
  */
-export default class ircuitsPanel extends Component {
+export default class CircuitsPanel extends Component {
   /**
    * builds the circuit navigator panel
    * @param props
