@@ -187,6 +187,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadActiveCircuitCallback">delegateLoadActiveCircuitCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadAllMyDoItLaterCircuitsCallback">delegateLoadAllMyDoItLaterCircuitsCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadAllMyParticipatingCircuitsCallback">delegateLoadAllMyParticipatingCircuitsCallback</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadCircuitWithAllDetailsCallback">delegateLoadCircuitWithAllDetailsCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyCurrentStatusCallback">delegateLoadMyCurrentStatusCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyTeamCallback">delegateLoadMyTeamCallback</a></span></li>
@@ -253,6 +254,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadCircuitWithAllDetailsEvent">handleLoadCircuitWithAllDetailsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadJournalEvent">handleLoadJournalEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadMyCurrentStatus">handleLoadMyCurrentStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadMyTeamEvent">handleLoadMyTeamEvent</a></span></li>
@@ -523,7 +525,7 @@
 module.exports = class BaseController {
   /**
    * REST paths for our grid server. good place to store thats shared amoung all controllers
-   * @returns {{STATUS: string, SEPARATOR: string, JOURNAL: string, INTENTION: string, TEAM: string, STATUS_TEAM: string}}
+   * @returns {{STATUS: string, PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, DO_IT_LATER: string, JOURNAL: string, INTENTION: string, TEAM: string, STATUS_TEAM: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -538,7 +540,8 @@ module.exports = class BaseController {
       CIRCUIT: "/circuit/",
       PARTICIPATING: "/participating",
       DO_IT_LATER: "/doitlater",
-      ACTIVE: "/active"
+      ACTIVE: "/active",
+      WTF: "wtf/"
     };
   }
 
@@ -587,6 +590,7 @@ module.exports = class BaseController {
     return {
       ERROR_ARGS: "arg : args is required",
       UNKNOWN: "Unknown team client event type",
+      UNKNOWN_CIRCUIT_EVENT: "Unknown circuit client event type",
       PRIMARY_ONLY: "Only primary team supported currently",
       INVALID_PARTICIPATING_CIRCUIT:
         "Invalid get my participating circuits event"
@@ -614,7 +618,8 @@ module.exports = class BaseController {
     return {
       GET_ALL_MY_PARTICIPATING_CIRCUITS: "getAllMyParticipatingCircuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS: "getAllMyDoItLaterCircuits",
-      GET_ACTIVE_CIRCUIT: "getActiveCircuit"
+      GET_ACTIVE_CIRCUIT: "getActiveCircuit",
+      GET_CIRCUIT_WITH_ALL_DETAILS: "getCircuitWithAllDetails"
     };
   }
 

@@ -187,6 +187,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadActiveCircuitCallback">delegateLoadActiveCircuitCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadAllMyDoItLaterCircuitsCallback">delegateLoadAllMyDoItLaterCircuitsCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadAllMyParticipatingCircuitsCallback">delegateLoadAllMyParticipatingCircuitsCallback</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadCircuitWithAllDetailsCallback">delegateLoadCircuitWithAllDetailsCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyCurrentStatusCallback">delegateLoadMyCurrentStatusCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyTeamCallback">delegateLoadMyTeamCallback</a></span></li>
@@ -253,6 +254,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadCircuitWithAllDetailsEvent">handleLoadCircuitWithAllDetailsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadJournalEvent">handleLoadJournalEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadMyCurrentStatus">handleLoadMyCurrentStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadMyTeamEvent">handleLoadMyTeamEvent</a></span></li>
@@ -516,13 +518,12 @@
   chalk = require("chalk"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
-  LearningCircuitDto = require("../dto/LearningCircuitDto"),
   CircuitDatabase = require("../database/CircuitDatabase"),
   DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
  * This class is used to coordinate controllers across the talk service
- * @type {AppController}
+ * @type {CircuitController}
  */
 module.exports = class CircuitController extends BaseController {
   /**
@@ -545,20 +546,21 @@ module.exports = class CircuitController extends BaseController {
   static get EventTypes() {
     return {
       CREATE_CIRCUIT: "create-circuit",
-      START_RETRO: "start-retro", //name
-      JOIN_CIRCUIT: "join-circuit", //name
-      LEAVE_CIRCUIT: "leave-circuit", //name
-      CLOSE_CIRCUIT: "close-circuit", //name
-      HOLD_CIRCUIT: "hold-circuit", //name
-      RESUME_CIRCUIT: "resume-circuit", //name
-      GET_CIRCUIT_MEMBERS: "get-circuit-members", //name
+      START_RETRO: "start-retro",
+      JOIN_CIRCUIT: "join-circuit",
+      LEAVE_CIRCUIT: "leave-circuit",
+      CLOSE_CIRCUIT: "close-circuit",
+      HOLD_CIRCUIT: "hold-circuit",
+      RESUME_CIRCUIT: "resume-circuit",
+      GET_CIRCUIT_MEMBERS: "get-circuit-members",
       GET_MY_CIRCUIT: "get-my-circuit",
       GET_MY_CIRCUIT_HOLDS: "get-my-circuit-holds",
       GET_MY_CIRCUITS_JOINED: "get-my-circuit-joined",
-      GET_MEMBER_CIRCUIT_JOINED: "get-member-circuit-joined", //memberId
+      GET_MEMBER_CIRCUIT_JOINED: "get-member-circuit-joined",
       LOAD_ALL_MY_PARTICIPATING_CIRCUITS: "load-all-my-participating-circuits",
       LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: "load-all-my-do-it-later-circuits",
-      LOAD_ACTIVE_CIRCUIT: "load-active-circuit"
+      LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
+      LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details"
     };
   }
 
@@ -609,9 +611,12 @@ module.exports = class CircuitController extends BaseController {
       case CircuitController.EventTypes.LOAD_ACTIVE_CIRCUIT:
         this.handleLoadActiveCircuitEvent(event, arg);
         break;
+      case CircuitController.EventTypes.LOAD_CIRCUIT_WITH_ALL_DETAILS:
+        this.handleLoadCircuitWithAllDetailsEvent(event, arg);
+        break;
       default:
         throw new Error(
-          "Unknown circuit client event type '" + arg.type + "'."
+          CircuitController.Error.UNKNOWN_CIRCUIT_EVENT + " '" + arg.type + "'."
         );
     }
   }
@@ -631,7 +636,7 @@ module.exports = class CircuitController extends BaseController {
       "post",
       circuitName ? "/circuit/wtf/" + circuitName : "/circuit/wtf",
       store => {
-        arg.dto = new LearningCircuitDto(store.data);
+        arg.dto = store.data;
         if (callback) {
           return callback(arg.dto);
         } else if (event) {
@@ -651,7 +656,7 @@ module.exports = class CircuitController extends BaseController {
       "get",
       "/circuit/my/active",
       store => {
-        arg.dto = new LearningCircuitDto(store.data);
+        arg.dto = store.data;
         if (callback) {
           return callback(arg.dto);
         } else if (event) {
@@ -782,26 +787,6 @@ module.exports = class CircuitController extends BaseController {
   }
 
   /**
-   * updates a list of learning circuits by id from a given set of gridtime store data
-   * @param circuits
-   * @param collection
-   */
-  updateCircuitsByIdFromStoreData(circuits, collection) {
-    if (circuits &amp;&amp; circuits.length > 0) {
-      circuits.forEach(circuit => {
-        let model = collection.findOne({id: circuit.id});
-        if (model) {
-          model = new LearningCircuitDto(circuit);
-          collection.update(model);
-        }
-        else {
-          collection.insert(new LearningCircuitDto(circuit));
-        }
-      });
-    }
-  }
-
-  /**
    * handles loading our participating circuits into our local databse
    * @param event
    * @param arg
@@ -820,12 +805,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Types.GET,
       urn,
       store =>
-        this.delegateLoadActiveCircuitCallback(
-          store,
-          event,
-          arg,
-          callback
-        )
+        this.delegateLoadActiveCircuitCallback(store, event, arg, callback)
     );
   }
 
@@ -841,11 +821,63 @@ module.exports = class CircuitController extends BaseController {
       arg.error = store.error;
     } else {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+        collection = database.getCollection(CircuitDatabase.Collections.ACTIVE),
+        view = database.getViewActiveCircuit(),
+        circuit = store.data;
+
+      if (circuit) {
+        this.handleLoadCircuitWithAllDetailsEvent(
+          null,
+          { args: { circuitName: circuit.circuitName } },
+          args => this.doCallbackOrReplyTo(event, arg, callback)
+        );
+      }
+    }
+  }
+
+  /**
+   * handles loading our circuit with details into our local databse
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleLoadCircuitWithAllDetailsEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT + CircuitController.Paths.WTF + name;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.GET_CIRCUIT_WITH_ALL_DETAILS,
+      CircuitController.Types.GET,
+      urn,
+      store =>
+        this.delegateLoadCircuitWithAllDetailsCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * handles our dto callback from our rest client
+   * @param circuitName
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateLoadCircuitWithAllDetailsCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
         collection = database.getCollection(CircuitDatabase.Collections.ACTIVE);
 
       this.updateSingleCircuitByIdFromStoreData(store.data, collection);
-
-      console.log(database.getViewActiveCircuit().data())
     }
     this.doCallbackOrReplyTo(event, arg, callback);
   }
@@ -859,11 +891,30 @@ module.exports = class CircuitController extends BaseController {
     if (circuit) {
       let model = collection.findOne({ id: circuit.id });
       if (model) {
-        model = new LearningCircuitDto(circuit);
+        model = circuit;
         collection.update(model);
       } else {
-        collection.insert(new LearningCircuitDto(circuit));
+        collection.insert(circuit);
       }
+    }
+  }
+
+  /**
+   * updates a list of learning circuits by id from a given set of gridtime store data
+   * @param circuits
+   * @param collection
+   */
+  updateCircuitsByIdFromStoreData(circuits, collection) {
+    if (circuits &amp;&amp; circuits.length > 0) {
+      circuits.forEach(circuit => {
+        let model = collection.findOne({ id: circuit.id });
+        if (model) {
+          model = circuit;
+          collection.update(model);
+        } else {
+          collection.insert(circuit);
+        }
+      });
     }
   }
 };
