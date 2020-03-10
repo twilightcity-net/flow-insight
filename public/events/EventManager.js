@@ -310,6 +310,15 @@ class EventManager {
       manager = global.App.EventManager,
       returnedEvents = [];
 
+    log.info(
+      chalk.bold.cyanBright("[EventManager]") +
+      " " +
+      chalk.hex("#e99e40").bold("dispatch") +
+      " -> { " +
+      chalk.bold.cyanBright(eventType) +
+      " } "
+    );
+
     for (var j = 0; j < windows.length; j++) {
       windows[j].window.webContents.send(eventType, arg);
     }
@@ -319,15 +328,6 @@ class EventManager {
         returnedEvents.push(manager.handleEvent(manager.events[i], arg));
       }
     }
-    log.info(
-      chalk.bold.cyanBright("[EventManager]") +
-        " " +
-        chalk.hex("#e99e40").bold("dispatch") +
-        " -> { " +
-        chalk.bold.cyanBright(eventType) +
-        " } " +
-        chalk.bold.green("[" + returnedEvents.length + "]")
-    );
 
     if (returnedEvents.length === 0 && windows.length === 0) {
       log.info(
