@@ -1,6 +1,4 @@
-const log = require("electron-log"),
-  chalk = require("chalk"),
-  BaseController = require("./BaseController"),
+const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   CircuitDatabase = require("../database/CircuitDatabase"),
   DatabaseFactory = require("../database/DatabaseFactory");
@@ -10,9 +8,10 @@ const log = require("electron-log"),
  * @type {CircuitController}
  */
 module.exports = class CircuitController extends BaseController {
+
   /**
-   *
-   * @param scope - this is the wrapping scope to execute callbacks within
+   * builds our static Circuit controller which interfaces mainly with our local database
+   * @param scope
    */
   constructor(scope) {
     super(scope, CircuitController);
@@ -63,24 +62,28 @@ module.exports = class CircuitController extends BaseController {
    * @returns {string}
    */
   onCircuitClientEvent(event, arg) {
-    log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
-    switch (arg.type) {
-      case CircuitController.Events.LOAD_ALL_MY_PARTICIPATING_CIRCUITS:
-        this.handleLoadAllMyParticipatingCircuitsEvent(event, arg);
-        break;
-      case CircuitController.Events.LOAD_ALL_MY_DO_IT_LATER_CIRCUITS:
-        this.handleLoadAllMyDoItLaterCircuitsEvent(event, arg);
-        break;
-      case CircuitController.Events.LOAD_ACTIVE_CIRCUIT:
-        this.handleLoadActiveCircuitEvent(event, arg);
-        break;
-      case CircuitController.Events.LOAD_CIRCUIT_WITH_ALL_DETAILS:
-        this.handleLoadCircuitWithAllDetailsEvent(event, arg);
-        break;
-      default:
-        throw new Error(
-          CircuitController.Error.UNKNOWN_CIRCUIT_EVENT + " '" + arg.type + "'."
-        );
+    this.logRequest(this.name, arg);
+    if (!arg.args) {
+      this.handleError(CircuitController.Error.ERROR_ARGS, event, arg);
+    } else {
+      switch (arg.type) {
+        case CircuitController.Events.LOAD_ALL_MY_PARTICIPATING_CIRCUITS:
+          this.handleLoadAllMyParticipatingCircuitsEvent(event, arg);
+          break;
+        case CircuitController.Events.LOAD_ALL_MY_DO_IT_LATER_CIRCUITS:
+          this.handleLoadAllMyDoItLaterCircuitsEvent(event, arg);
+          break;
+        case CircuitController.Events.LOAD_ACTIVE_CIRCUIT:
+          this.handleLoadActiveCircuitEvent(event, arg);
+          break;
+        case CircuitController.Events.LOAD_CIRCUIT_WITH_ALL_DETAILS:
+          this.handleLoadCircuitWithAllDetailsEvent(event, arg);
+          break;
+        default:
+          throw new Error(
+            CircuitController.Error.UNKNOWN_CIRCUIT_EVENT + " '" + arg.type + "'."
+          );
+      }
     }
   }
 

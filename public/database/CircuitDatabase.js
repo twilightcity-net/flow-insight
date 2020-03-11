@@ -16,7 +16,7 @@ module.exports = class CircuitDatabase extends LokiJS {
 
   /**
    * the collections of our database
-   * @returns {{PARTICIPATING: string}}
+   * @returns {{LATER: string, PARTICIPATING: string, ACTIVE: string}}
    * @constructor
    */
   static get Collections() {
@@ -29,7 +29,7 @@ module.exports = class CircuitDatabase extends LokiJS {
 
   /**
    * the views of our database for queries
-   * @returns {{PARTICIPATING: string}}
+   * @returns {{LATER: string, PARTICIPATING: string, ACTIVE: string}}
    * @constructor
    */
   static get Views() {
@@ -42,7 +42,7 @@ module.exports = class CircuitDatabase extends LokiJS {
 
   /**
    * indices of our database so we can index things for fast queries
-   * @returns {{ORG_ID: string, ID: string, USER_NAME: string, EMAIL: string, TYPE: string, DISPLAY_NAME: string, NAME: string}}
+   * @returns {{CIRCUIT_NAME: string, OPEN_TIME: string, CLOSE_TIME: string, ID: string, CIRCUIT_STATUS: string, OWNER_ID: string}}
    * @constructor
    */
   static get Indices() {

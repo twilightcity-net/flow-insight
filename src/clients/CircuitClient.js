@@ -1,7 +1,6 @@
 import { BaseClient } from "./BaseClient";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 import { RendererClientEvent } from "../events/RendererClientEvent";
-import { LearningCircuitModel } from "../models/LearningCircuitModel";
 
 /**
  * the client which is used to make circuit requests to gridtime. Basically we
@@ -67,6 +66,80 @@ export class CircuitClient extends BaseClient {
   }
 
   /**
+   * loads all of our participating circuits we have joined into our local database
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static loadAllMyParticipatingCircuits(scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.LOAD_ALL_MY_PARTICIPATING_CIRCUITS,
+      {},
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
+   * loads all of our do it later circuits into our local database
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static loadAllMyDoItLaterCircuits(scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.LOAD_ALL_MY_DO_IT_LATER_CIRCUITS,
+      {},
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
+   * loads our active circuit into our local database with members. This
+   * is accomplished by making two requests chained together. The first
+   * request gets our active circuit information. The subsequent request get
+   * our member information -- who is in the circuit.
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static loadActiveCircuit(scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.LOAD_ACTIVE_CIRCUIT,
+      {},
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
+   * loads a team learning circuit by its circuit name with members into
+   * our local database from grid time. This is usually called by our
+   * load active circuit function.
+   * @param circuitName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static loadCircuitWithAllDetails(circuitName, scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.LOAD_CIRCUIT_WITH_ALL_DETAILS,
+      { circuitName: circuitName},
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
    * the event callback used by the event manager. removes the event from
    * the local map when its recieved the response from the main process. the
    * call back is bound to the scope of what was pass into the api of this client
@@ -75,15 +148,11 @@ export class CircuitClient extends BaseClient {
    */
   onCircuitEventReply = (event, arg) => {
     let clientEvent = CircuitClient.replies.get(arg.id);
-    console.log(
-      "[" +
-        CircuitClient.name +
-        "] reply {" +
-        CircuitClient.replies.size +
-        "} : " +
-        arg.id +
-        " -> " +
-        arg.type
+    this.logReply(
+      CircuitClient.name,
+      CircuitClient.replies.size,
+      arg.id,
+      arg.type
     );
     if (clientEvent) {
       CircuitClient.replies.delete(arg.id);
