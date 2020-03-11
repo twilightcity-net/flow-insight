@@ -21,10 +21,16 @@ export class ResourceCircuitController extends ActiveViewController {
     );
   }
 
+  /**
+   * notifies the system know we are starting a wtf session
+   */
   fireCircuitStartNotifyEvent() {
     this.circuitStartStopNotifier.dispatch(1);
   }
 
+  /**
+   * notifies the system that we are stopping the wtf session
+   */
   fireCircuitStopNotifyEvent() {
     this.circuitStartStopNotifier.dispatch(-1);
   }
@@ -33,17 +39,15 @@ export class ResourceCircuitController extends ActiveViewController {
    * Start a troubleshooting session by loading the new session into the browser
    */
   newCircuit = () => {
-    console.log(this.name + " start troubleshooting");
-
-    // TODO show some type of loading view here
-    // CircuitClient.createLearningCircuitModel("angry_teachers", this, model => {
-    //   let request = BrowserRequestFactory.createRequest(
-    //     BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
-    //     model.circuitName
-    //   );
-    //   this.browserController.makeRequest(request);
-    //   this.fireCircuitStartNotifyEvent();
-    // });
+    CircuitClient.startWtf(this, arg => {
+      let circuit = arg.data[0],
+        request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+          circuit.circuitName
+        );
+      this.browserController.makeRequest(request);
+      this.fireCircuitStartNotifyEvent();
+    });
   };
 
   /**

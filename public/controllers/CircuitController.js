@@ -8,7 +8,6 @@ const BaseController = require("./BaseController"),
  * @type {CircuitController}
  */
 module.exports = class CircuitController extends BaseController {
-
   /**
    * builds our static Circuit controller which interfaces mainly with our local database
    * @param scope
@@ -28,6 +27,8 @@ module.exports = class CircuitController extends BaseController {
    */
   static get Events() {
     return {
+      START_WTF: "start-wtf",
+      START_WTF_WITH_CUSTOM_CIRCUIT_NAME: "startWTFWithCustomCircuitName",
       LOAD_ALL_MY_PARTICIPATING_CIRCUITS: "load-all-my-participating-circuits",
       LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: "load-all-my-do-it-later-circuits",
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
@@ -67,6 +68,12 @@ module.exports = class CircuitController extends BaseController {
       this.handleError(CircuitController.Error.ERROR_ARGS, event, arg);
     } else {
       switch (arg.type) {
+        case CircuitController.Events.START_WTF:
+          this.handleStartWtfEvent(event, arg);
+          break;
+        case CircuitController.Events.START_WTF_WITH_CUSTOM_CIRCUIT_NAME:
+          this.handleStartWtfWithCustomCircuitNameEvent(event, arg);
+          break;
         case CircuitController.Events.LOAD_ALL_MY_PARTICIPATING_CIRCUITS:
           this.handleLoadAllMyParticipatingCircuitsEvent(event, arg);
           break;
@@ -81,8 +88,81 @@ module.exports = class CircuitController extends BaseController {
           break;
         default:
           throw new Error(
-            CircuitController.Error.UNKNOWN_CIRCUIT_EVENT + " '" + arg.type + "'."
+            CircuitController.Error.UNKNOWN_CIRCUIT_EVENT +
+              " '" +
+              arg.type +
+              "'."
           );
+      }
+    }
+  }
+
+  /**
+   * helper function that called the start wtf with a custom name.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleStartWtfEvent(event, arg, callback) {
+    this.handleStartWtfWithCustomCircuitNameEvent(event, arg, callback);
+  }
+
+  /**
+   * function handler that is used to create and start a new learning
+   * circuit in grid time. This function will make a subvsequent call to
+   * load its joined members if any have joined.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleStartWtfWithCustomCircuitNameEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn = CircuitController.Paths.CIRCUIT_WTF;
+
+    if (name) {
+      urn += CircuitController.Paths.SEPARATOR + name;
+    }
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.START_WTF_WITH_CUSTOM_CIRCUIT_NAME,
+      CircuitController.Types.POST,
+      urn,
+      store =>
+        this.delegateStartWtfWithCustomCircuitNameCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * process the callback for the start wtf with a custom name client event.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateStartWtfWithCustomCircuitNameCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+        collection = database.getCollection(CircuitDatabase.Collections.ACTIVE),
+        view = database.getViewActiveCircuit(),
+        circuit = store.data;
+
+      this.batchRemoveFromViewInCollection(view, collection);
+
+      if (circuit) {
+        this.handleLoadCircuitWithAllDetailsEvent(
+          null,
+          { args: { circuitName: circuit.circuitName } },
+          args => this.delegateCallbackWithView(args, view, event, arg)
+        );
       }
     }
   }
@@ -133,7 +213,7 @@ module.exports = class CircuitController extends BaseController {
 
       this.updateCircuitsByIdFromStoreData(store.data, collection);
     }
-    this.doCallbackOrReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
@@ -180,7 +260,7 @@ module.exports = class CircuitController extends BaseController {
 
       this.updateCircuitsByIdFromStoreData(store.data, collection);
     }
-    this.doCallbackOrReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
@@ -226,7 +306,7 @@ module.exports = class CircuitController extends BaseController {
         this.handleLoadCircuitWithAllDetailsEvent(
           null,
           { args: { circuitName: circuit.circuitName } },
-          args => this.doCallbackOrReplyTo(event, arg, callback)
+          args => this.delegateCallbackOrEventReplyTo(event, arg, callback)
         );
       }
     }
@@ -276,7 +356,7 @@ module.exports = class CircuitController extends BaseController {
 
       this.updateSingleCircuitByIdFromStoreData(store.data, collection);
     }
-    this.doCallbackOrReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**

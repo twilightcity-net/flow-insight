@@ -172,7 +172,7 @@ module.exports = class JournalController extends BaseController {
       }
     }
     JournalController.instance.userHistory.add(userName);
-    this.doCallbackOrReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
@@ -234,14 +234,14 @@ module.exports = class JournalController extends BaseController {
   delegateCreateIntentionCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
-      this.doCallbackOrReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(event, arg, callback);
     } else {
       arg.data = store.data;
       this.handleLoadJournalEvent(
         null,
         { args: { userName: JournalController.Strings.ME } },
         () => {
-          this.doCallbackOrReplyTo(event, arg, callback);
+          this.delegateCallbackOrEventReplyTo(event, arg, callback);
         }
       );
     }
@@ -281,7 +281,7 @@ module.exports = class JournalController extends BaseController {
   delegateCreateTaskReferenceCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
-      this.doCallbackOrReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(event, arg, callback);
     } else {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
         collection = database.getCollection(JournalDatabase.Collections.TASKS),
@@ -293,7 +293,7 @@ module.exports = class JournalController extends BaseController {
       }
 
       arg.data = view.data();
-      this.doCallbackOrReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(event, arg, callback);
     }
   }
 
@@ -310,11 +310,11 @@ module.exports = class JournalController extends BaseController {
 
     if (!userName) {
       arg.error = "Unknown user '" + userName + "'";
-      this.doCallbackOrReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(event, arg, callback);
     } else if (userName === JournalController.Strings.ME) {
       this.logResults(this.name, arg.type, arg.id, view.count());
       arg.data = view.data();
-      this.doCallbackOrReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(event, arg, callback);
     } else {
       if (
         JournalController.instance.userHistory.has(userName) &&
@@ -322,12 +322,12 @@ module.exports = class JournalController extends BaseController {
       ) {
         this.logResults(this.name, arg.type, arg.id, view.count());
         arg.data = view.data();
-        this.doCallbackOrReplyTo(event, arg);
+        this.delegateCallbackOrEventReplyTo(event, arg);
       } else {
         this.handleLoadJournalEvent(
           null,
           { args: { userName: userName } },
-          args => this.delegateCallback(args, view, event, arg)
+          args => this.delegateCallbackWithView(args, view, event, arg)
         );
       }
     }
@@ -345,7 +345,7 @@ module.exports = class JournalController extends BaseController {
 
     this.logResults(this.name, arg.type, arg.id, view.count());
     arg.data = view.data();
-    this.doCallbackOrReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
@@ -361,6 +361,6 @@ module.exports = class JournalController extends BaseController {
 
     this.logResults(this.name, arg.type, arg.id, view.count());
     arg.data = view.data();
-    this.doCallbackOrReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 };

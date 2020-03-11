@@ -1,6 +1,5 @@
 import { BaseClient } from "./BaseClient";
 import { RendererEventFactory } from "../events/RendererEventFactory";
-import { RendererClientEvent } from "../events/RendererClientEvent";
 
 /**
  * the client which is used to make circuit requests to gridtime. Basically we
@@ -25,7 +24,7 @@ export class CircuitClient extends BaseClient {
    * our circuit event listeners that other classes use
    * @type {*}
    */
-  static listeners = [];
+  static _listeners = [];
 
   /**
    * builds the Client for a Circuit in Gridtime
@@ -48,6 +47,8 @@ export class CircuitClient extends BaseClient {
    */
   static get Events() {
     return {
+      START_WTF: "start-wtf",
+      START_WTF_WITH_CUSTOM_CIRCUIT_NAME: "startWTFWithCustomCircuitName",
       LOAD_ALL_MY_PARTICIPATING_CIRCUITS: "load-all-my-participating-circuits",
       LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: "load-all-my-do-it-later-circuits",
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
@@ -63,6 +64,41 @@ export class CircuitClient extends BaseClient {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
     }
+  }
+
+  /**
+   * starts a new wtf session by creating a new learning circuit on gridtime
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static startWtf(scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.START_WTF,
+      {},
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
+   * starts a new wtf session with a custom name by creating a bnew learning circuit in gridtime.
+   * @param circuitName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static startWtfWithCustomCircuitName(circuitName, scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.START_WTF_WITH_CUSTOM_CIRCUIT_NAME,
+      { circuitName: circuitName },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
   }
 
   /**
@@ -131,7 +167,7 @@ export class CircuitClient extends BaseClient {
   static loadCircuitWithAllDetails(circuitName, scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.LOAD_CIRCUIT_WITH_ALL_DETAILS,
-      { circuitName: circuitName},
+      { circuitName: circuitName },
       scope,
       callback
     );
@@ -185,12 +221,12 @@ export class CircuitClient extends BaseClient {
       "[" +
         CircuitClient.name +
         "] notify listeners {" +
-        CircuitClient.listeners.length +
+        CircuitClient._listeners.length +
         "}-> " +
         JSON.stringify(clientEvent)
     );
-    for (var i = CircuitClient.listeners.length - 1; i >= 0; i--) {
-      let listener = CircuitClient.listeners[i];
+    for (var i = CircuitClient._listeners.length - 1; i >= 0; i--) {
+      let listener = CircuitClient._listeners[i];
       console.log(listener);
 
       // TODO this needs execute the callback of this listener
@@ -206,7 +242,7 @@ export class CircuitClient extends BaseClient {
     console.log(
       "[" + CircuitClient.name + "] register -> " + JSON.stringify(clientEvent)
     );
-    CircuitClient.listeners.push(clientEvent);
+    CircuitClient._listeners.push(clientEvent);
   }
 
   /**
@@ -218,14 +254,14 @@ export class CircuitClient extends BaseClient {
       "[" +
         CircuitClient.name +
         "] unregister {" +
-        CircuitClient.listeners.length +
+        CircuitClient._listeners.length +
         "} -> " +
         JSON.stringify(clientEvent)
     );
-    for (var i = CircuitClient.listeners.length - 1; i >= 0; i--) {
-      console.log(CircuitClient.listeners[i]);
-      if (clientEvent === CircuitClient.listeners[i]) {
-        CircuitClient.listeners.splice(i, 1);
+    for (var i = CircuitClient._listeners.length - 1; i >= 0; i--) {
+      console.log(CircuitClient._listeners[i]);
+      if (clientEvent === CircuitClient._listeners[i]) {
+        CircuitClient._listeners.splice(i, 1);
       }
     }
   }

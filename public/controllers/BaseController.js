@@ -5,6 +5,7 @@ const log = require("electron-log"),
 
 /**
  * This class is used to coordinate controllers across the app classes
+ * @type {BaseController}
  */
 module.exports = class BaseController {
   /**
@@ -22,6 +23,7 @@ module.exports = class BaseController {
       INTENTION: "/intention",
       TASKREF: "/taskref",
       CIRCUIT: "/circuit/",
+      CIRCUIT_WTF: "/circuit/wtf",
       PARTICIPATING: "/participating",
       DO_IT_LATER: "/doitlater",
       ACTIVE: "/active",
@@ -100,6 +102,8 @@ module.exports = class BaseController {
    */
   static get Names() {
     return {
+      START_WTF: "startWTF",
+      START_WTF_WITH_CUSTOM_CIRCUIT_NAME: "startWTFWithCustomCircuitName",
       GET_ALL_MY_PARTICIPATING_CIRCUITS: "getAllMyParticipatingCircuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS: "getAllMyDoItLaterCircuits",
       GET_ACTIVE_CIRCUIT: "getActiveCircuit",
@@ -156,7 +160,7 @@ module.exports = class BaseController {
    * @param callback
    * @returns {Array|*}
    */
-  doCallbackOrReplyTo(event, arg, callback) {
+  delegateCallbackOrEventReplyTo(event, arg, callback) {
     if (callback) {
       return callback(arg);
     } else if (event) {
@@ -167,8 +171,8 @@ module.exports = class BaseController {
   }
 
   /**
-   * this function makes a request to the Journal Client interface on gridtime server. This will be
-   * worked into our existing data client and model system.
+   * this function makes a request to the Journal Client interface on gridtime
+   * server. This will be worked into our existing data client and model system.
    * @param context
    * @param dto
    * @param name
@@ -199,7 +203,7 @@ module.exports = class BaseController {
    */
   handleError(message, event, arg, callback) {
     arg.error = message;
-    this.doCallbackOrReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
@@ -238,14 +242,24 @@ module.exports = class BaseController {
    * @param event
    * @param arg
    */
-  delegateCallback(args, view, event, arg) {
+  delegateCallbackWithView(args, view, event, arg) {
     if (args && args.error && event) {
       arg.error = args.error;
-      this.doCallbackOrReplyTo(event, arg);
+      this.delegateCallbackOrEventReplyTo(event, arg);
     } else {
       this.logResults(this.name, arg.type, arg.id, view.count());
       arg.data = view.data();
-      this.doCallbackOrReplyTo(event, arg);
+      this.delegateCallbackOrEventReplyTo(event, arg);
     }
+  }
+
+  /**
+   * helper function which takes an entire results set and removes it from the
+   * given collection
+   * @param view
+   * @param collection
+   */
+  batchRemoveFromViewInCollection(view, collection) {
+    collection.removeBatch(view.data());
   }
 };

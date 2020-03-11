@@ -134,7 +134,7 @@ module.exports = class TeamController extends BaseController {
         collection.insert(team);
       }
     }
-    this.doCallbackOrReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
@@ -181,7 +181,7 @@ module.exports = class TeamController extends BaseController {
         collection.insert(member);
       }
     }
-    this.doCallbackOrReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
@@ -240,7 +240,7 @@ module.exports = class TeamController extends BaseController {
         });
       }
     }
-    this.doCallbackOrReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
@@ -255,10 +255,10 @@ module.exports = class TeamController extends BaseController {
 
     if (type === TeamController.Types.PRIMARY) {
       let view = database.getViewForMyPrimaryTeam();
-      this.delegateCallback(null, view, event, arg);
+      this.delegateCallbackWithView(null, view, event, arg);
     } else {
       arg.error = TeamController.Error.PRIMARY_ONLY;
-      this.doCallbackOrReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(event, arg, callback);
     }
   }
 
@@ -272,7 +272,7 @@ module.exports = class TeamController extends BaseController {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
       view = database.getViewForMyCurrentStatus();
 
-    this.delegateCallback(null, view, event, arg);
+    this.delegateCallbackWithView(null, view, event, arg);
   }
 
   /**
@@ -285,6 +285,6 @@ module.exports = class TeamController extends BaseController {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
       view = database.getViewForStatusOfMeAndMyTeam();
 
-    this.delegateCallback(null, view, event, arg);
+    this.delegateCallbackWithView(null, view, event, arg);
   }
 };
