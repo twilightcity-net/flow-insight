@@ -140,7 +140,8 @@ module.exports = class CircuitController extends BaseController {
   }
 
   /**
-   * process the callback for the start wtf with a custom name client event.
+   * process the callback for the start wtf with a custom name client event. Also
+   * make sure we update this new active circuit in our current participating.
    * @param store
    * @param event
    * @param arg
@@ -156,7 +157,10 @@ module.exports = class CircuitController extends BaseController {
         circuit = store.data;
 
       this.batchRemoveFromViewInCollection(view, collection);
-
+      collection = database.getCollection(
+        CircuitDatabase.Collections.PARTICIPATING
+      );
+      this.updateSingleCircuitByIdInCollection(circuit, collection);
       if (circuit) {
         this.handleLoadCircuitWithAllDetailsEvent(
           null,
@@ -211,7 +215,7 @@ module.exports = class CircuitController extends BaseController {
           CircuitDatabase.Collections.PARTICIPATING
         );
 
-      this.updateCircuitsByIdFromStoreData(store.data, collection);
+      this.updateCircuitsByIdInCollection(store.data, collection);
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
@@ -258,7 +262,7 @@ module.exports = class CircuitController extends BaseController {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
         collection = database.getCollection(CircuitDatabase.Collections.LATER);
 
-      this.updateCircuitsByIdFromStoreData(store.data, collection);
+      this.updateCircuitsByIdInCollection(store.data, collection);
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
@@ -354,7 +358,7 @@ module.exports = class CircuitController extends BaseController {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
         collection = database.getCollection(CircuitDatabase.Collections.ACTIVE);
 
-      this.updateSingleCircuitByIdFromStoreData(store.data, collection);
+      this.updateSingleCircuitByIdInCollection(store.data, collection);
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
@@ -364,7 +368,7 @@ module.exports = class CircuitController extends BaseController {
    * @param circuit
    * @param collection
    */
-  updateSingleCircuitByIdFromStoreData(circuit, collection) {
+  updateSingleCircuitByIdInCollection(circuit, collection) {
     if (circuit) {
       let model = collection.findOne({ id: circuit.id });
       if (model) {
@@ -381,7 +385,7 @@ module.exports = class CircuitController extends BaseController {
    * @param circuits
    * @param collection
    */
-  updateCircuitsByIdFromStoreData(circuits, collection) {
+  updateCircuitsByIdInCollection(circuits, collection) {
     if (circuits && circuits.length > 0) {
       circuits.forEach(circuit => {
         let model = collection.findOne({ id: circuit.id });
