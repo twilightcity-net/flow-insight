@@ -17,7 +17,6 @@ class MainEvent {
    * @param async true to send an async message back
    */
   constructor(type, scope, callback, reply, async) {
-    log.info("[EventManager] new event -> " + type);
     this.type = type;
     this.scope = scope;
     this.callback = callback ? callback.bind(scope) : callback;
@@ -125,9 +124,8 @@ class EventManager {
   }
 
   /**
-   * c
-   *
-   * reates new sender object that can dispatch the event in a feedback loop. Useful for calling circular events within a state machine.
+   * creates new sender object that can dispatch the event in a feedback loop.
+   * Useful for calling circular events within a state machine.
    * @param event
    */
   initSender(event) {
@@ -139,7 +137,8 @@ class EventManager {
   }
 
   /**
-   * creates returnValues object with null values. called when dispatching a new event channel
+   * creates returnValues object with null values. called when dispatching a
+   * new event channel
    * @param event
    */
   initReturnValues(event) {
@@ -150,7 +149,8 @@ class EventManager {
   }
 
   /**
-   * initializes event sonar, which will reflect any echo event sent by main or renderer processes. usually for renderer
+   * initializes event sonar, which will reflect any echo event sent by main
+   * or renderer processes. usually for renderer
    */
   initSonar() {
     log.info("[EventManager] setup event sonar");
@@ -189,6 +189,14 @@ class EventManager {
     event = this.createListener(event);
     ipcMain.on(event.type, event.listener);
     this.events.push(event);
+    log.info(
+      chalk.bold.cyanBright("[EventManager]") +
+        " " +
+        chalk.hex("#e99e40").bold("register") +
+        " -> { " +
+        chalk.bold.cyanBright(event.type) +
+        " }"
+    );
   }
 
   /**
@@ -202,9 +210,10 @@ class EventManager {
   createListener(event) {
     event.listener = (_event, _arg) => {
       log.info(
-        chalk.cyan("[EventManager]") +
-          " event : " +
-          event.type +
+        chalk.bold.cyanBright("[EventManager]") +
+          " '" +
+          chalk.bold.greenBright(event.type) +
+          "' " +
           " -> " +
           JSON.stringify(_arg)
       );
@@ -232,8 +241,8 @@ class EventManager {
   }
 
   /**
-   * removes an event from the global events registry. The event much match the pointer
-   * to it. not by the name. Returns the event that was removed.
+   * removes an event from the global events registry. The event much match the
+   * pointer to it. not by the name. Returns the event that was removed.
    * @param event
    * @returns {*}
    */
@@ -241,13 +250,14 @@ class EventManager {
     let manager = global.App.EventManager,
       events = manager.events,
       index = events.indexOf(event);
+
     log.info(
-      chalk.cyan("[EventManager]") +
-        " unregister event -> " +
-        event.type +
-        " @ [" +
-        index +
-        "]"
+      chalk.cyanBright("[EventManager]") +
+        " " +
+        chalk.hex("#e99e40").bold("unregister") +
+        " -> { " +
+        chalk.cyanBright(event.type) +
+        " }"
     );
     events.splice(index, 1);
     ipcMain.removeListener(event.type, event.listener);
@@ -260,7 +270,14 @@ class EventManager {
    * @returns {null}
    */
   static destroy(event) {
-    log.info(chalk.cyan("[EventManager]") + " destroy event -> " + event.type);
+    log.info(
+      chalk.cyan("[EventManager]") +
+        " " +
+        chalk.hex("#e99e40").bold("destroy") +
+        " -> { " +
+        chalk.bold.cyanBright(event.type) +
+        " }"
+    );
     let manager = global.App.EventManager;
     MainEvent.unregister(event);
     for (let property in event) {
