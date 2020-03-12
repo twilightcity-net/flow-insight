@@ -154,23 +154,6 @@ module.exports = class BaseController {
   }
 
   /**
-   * performs our callback or makes the event reply
-   * @param event
-   * @param arg
-   * @param callback
-   * @returns {Array|*}
-   */
-  delegateCallbackOrEventReplyTo(event, arg, callback) {
-    if (callback) {
-      return callback(arg);
-    } else if (event) {
-      return event.replyTo(arg);
-    } else {
-      throw new Error("Invalid create client event");
-    }
-  }
-
-  /**
    * this function makes a request to the Journal Client interface on gridtime
    * server. This will be worked into our existing data client and model system.
    * @param context
@@ -233,6 +216,23 @@ module.exports = class BaseController {
         count +
         "}"
     );
+  }
+
+  /**
+   * performs our callback or makes the event reply
+   * @param event
+   * @param arg
+   * @param callback
+   * @returns {Array|*}
+   */
+  delegateCallbackOrEventReplyTo(event, arg, callback) {
+    if (callback) {
+      return callback(arg);
+    } else if (event) {
+      return event.replyTo(arg);
+    } else {
+      throw new Error("Invalid create client event");
+    }
   }
 
   /**

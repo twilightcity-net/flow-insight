@@ -245,6 +245,25 @@ export class CircuitClient extends BaseClient {
   }
 
   /**
+   * gets our circuit with all member details from our local database. this assumes
+   * that the data is loaded. if not it will load a copy from gridtime
+   * @param circuitName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getCircuitWithAllDetails(circuitName, scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.GET_CIRCUIT_WITH_ALL_DETAILS,
+      { circuitName: circuitName },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
    * the event callback used by the event manager. removes the event from
    * the local map when its recieved the response from the main process. the
    * call back is bound to the scope of what was pass into the api of this client

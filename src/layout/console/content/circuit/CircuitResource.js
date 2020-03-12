@@ -31,9 +31,7 @@ export default class CircuitResource extends Component {
    * called right before we load the circuit resource page to see
    * if we have an active circuit to redirect to
    */
-  componentWillMount() {
-    console.log(CircuitClient.activeCircuit);
-    console.log("redirect -> active circuit");
+  componentDidMount() {
     if (CircuitClient.activeCircuit) {
       this.requestBrowserToLoadActiveCircuit(
         CircuitClient.activeCircuit.circuitName
@@ -50,7 +48,7 @@ export default class CircuitResource extends Component {
     let arr = resource.uriArr;
     if (arr.length > 1) {
       if (arr[1] === BrowserRequestFactory.Locations.WTF) {
-        if (arr.length === 3) {
+        if (arr.length > 2) {
           return true;
         }
       }
@@ -79,13 +77,16 @@ export default class CircuitResource extends Component {
     if (this.isWTF(this.props.resource)) {
       wtfPanel = (
         <ActiveCircuit
-          ctlr={this.myController}
-          resource={this.state.resource}
+          controller={this.myController}
+          resource={this.props.resource}
         />
       );
-    } else {
+    } else if (!CircuitClient.activeCircuit) {
       wtfPanel = (
-        <NewCircuit ctlr={this.myController} resource={this.state.resource} />
+        <NewCircuit
+          controller={this.myController}
+          resource={this.props.resource}
+        />
       );
     }
     return (

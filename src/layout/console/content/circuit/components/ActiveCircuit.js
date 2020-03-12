@@ -6,6 +6,8 @@ import CircuitSidebar from "./CircuitSidebar";
 import ActiveCircuitFeed from "./ActiveCircuitFeed";
 import ActiveCircuitScrapbook from "./ActiveCircuitScrapbook";
 import { Transition } from "semantic-ui-react";
+import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
+import { CircuitClient } from "../../../../../clients/CircuitClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -18,29 +20,37 @@ export default class ActiveCircuit extends Component {
   constructor(props) {
     super(props);
     this.name = "[ActiveCircuit]";
-    this.myController = props.myController;
     this.animationType = "fade";
     this.animationDelay = 210;
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.RESOURCES,
+      this
+    );
     this.state = {
       resource: props.resource,
-      scrapbookVisible: false
+      scrapbookVisible: false,
+      model: null
     };
   }
 
   /**
-   * make sure we load the circuit with members when we load this component
+   * called after this circuit component is loaded. This will thgen fetch the circuit
+   * details from our local database and update our model in our state for our
+   * child components
    */
   componentDidMount() {
-    console.log(this.name + " load active circuit with members");
-
-    // TODO implement circuit client getActiveCircuitWithMembers()
+    let circuitName = this.props.resource.uriArr[2];
+    CircuitClient.getCircuitWithAllDetails(circuitName, this, arg => {
+      this.setState({
+        model: arg.data
+      });
+    });
   }
 
   /**
    * hides our resizable scrapbook in the feed panel
    */
   hideScrapbook = () => {
-    console.log("hide scrapbook");
     this.setState({
       scrapbookVisible: false
     });
@@ -50,7 +60,6 @@ export default class ActiveCircuit extends Component {
    * shows our scrapbook in our feedpanel
    */
   showScrapbook = () => {
-    console.log("show scrapbook");
     if (this.state.scrapbookVisible) return;
     this.setState({
       scrapbookVisible: true
@@ -79,7 +88,11 @@ export default class ActiveCircuit extends Component {
           secondaryInitialSize={DimensionController.getActiveCircuitContentScrapbookMinWidthDefault()}
         >
           <div id="wrapper" className="activeCircuitFeed">
-            <ActiveCircuitFeed />
+            <ActiveCircuitFeed
+              resource={this.state.resource}
+              showScrapbook={this.showScrapbook}
+              model={this.state.model}
+            />
           </div>
           <Transition
             visible={this.state.scrapbookVisible}
@@ -87,7 +100,11 @@ export default class ActiveCircuit extends Component {
             duration={this.animationDelay}
           >
             <div id="wrapper" className="activeCircuitScrapbook">
-              <ActiveCircuitScrapbook hideScrapbook={this.hideScrapbook} />
+              <ActiveCircuitScrapbook
+                resource={this.state.resource}
+                hideScrapbook={this.hideScrapbook}
+                model={this.state.model}
+              />
             </div>
           </Transition>
         </SplitterLayout>
@@ -111,9 +128,9 @@ export default class ActiveCircuit extends Component {
         <div id="wrapper" className="circuitContentSidebar">
           <div id="component" className="circuitContentSidebar">
             <CircuitSidebar
-              controller={this.myController}
               resource={this.state.resource}
               showScrapbook={this.showScrapbook}
+              model={this.state.model}
             />
           </div>
         </div>

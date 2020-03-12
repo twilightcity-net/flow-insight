@@ -428,6 +428,13 @@ module.exports = class CircuitController extends BaseController {
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
+  /**
+   * gets our circuit with details from the database. will load a new one from
+   * grid time if it does not find it..
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleGetCircuitWithAllDetailsEvent(event, arg, callback) {
     let circuitName = arg.args.circuitName,
       database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
@@ -435,14 +442,23 @@ module.exports = class CircuitController extends BaseController {
       view = database.getViewCircuits(),
       circuit = collection.findOne({ circuitName: circuitName });
 
-    if (circuit) {
-      console.log(circuit);
-      //TODO
-    }
+    // FIXME we get a null pointer on the view for some reason when reloading the app
 
-    this.logResults(this.name, arg.type, arg.id, view.count());
-    arg.data = circuit;
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    if (circuit) {
+      this.logResults(this.name, arg.type, arg.id, view.count());
+      arg.data = circuit;
+      this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    } else {
+      this.handleLoadCircuitWithAllDetailsEvent(
+        null,
+        { args: { circuitName: circuitName } },
+        args => {
+          circuit = collection.findOne({ circuitName: circuitName });
+          arg.data = circuit;
+          this.delegateCallbackOrEventReplyTo(event, arg, callback);
+        }
+      );
+    }
   }
 
   /**

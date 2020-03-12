@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import { Button, Grid, Icon, Label, Menu, Segment } from "semantic-ui-react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
+import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
+import { CircuitClient } from "../../../../../clients/CircuitClient";
 
 /**
  * the class which defines the circuit sidebar panel
@@ -21,12 +23,26 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
+   * function that is called right after this component recieved updated properties
+   * through its parent compoent. i know weird right.. good job react.
+   * @param prevProps
+   * @param prevState
+   * @param snapshot
+   */
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("update sidebar", this.props);
+  }
+
+  /**
    * builds our circuit sidebar
    * @param props
    */
   constructor(props) {
     super(props);
-    this.myController = props.myController;
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.RESOURCES,
+      this
+    );
     this.state = {
       resource: props.resource,
       activeMenuView: CircuitSidebar.Views.OVERVIEW
