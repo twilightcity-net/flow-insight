@@ -3,6 +3,9 @@ import { Icon, Label, List } from "semantic-ui-react";
 import { LearningCircuitModel } from "../../../../models/LearningCircuitModel";
 import UtilRenderer from "../../../../UtilRenderer";
 
+/**
+ * builds our do it later circuit list component
+ */
 export default class DoItLaterCircuitListItem extends Component {
   constructor(props) {
     super(props);
@@ -15,6 +18,9 @@ export default class DoItLaterCircuitListItem extends Component {
     };
   }
 
+  /**
+   * click handler for our do it later component
+   */
   handleClick = () => {
     this.props.onDoItCircuitListItemClick(this);
     this.setState({
@@ -22,6 +28,9 @@ export default class DoItLaterCircuitListItem extends Component {
     });
   };
 
+  /**
+   * gets our classname
+   */
   getClassName() {
     return this.timerColor + (this.state.isSelected ? " selected" : "");
   }

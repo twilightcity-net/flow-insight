@@ -177,6 +177,12 @@ export class CircuitClient extends BaseClient {
     return event;
   }
 
+  /**
+   * gets all of our participating circuits from our local db
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static getAllMyParticipatingCircuits(scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.GET_ALL_MY_PARTICIPATING_CIRCUITS,
@@ -188,6 +194,12 @@ export class CircuitClient extends BaseClient {
     return event;
   }
 
+  /**
+   * gets all of our circuits that are on hold we are part of
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static getAllMyDoItLaterCircuits(scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.GET_ALL_MY_DO_IT_LATER_CIRCUITS,

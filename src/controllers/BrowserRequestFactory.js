@@ -299,6 +299,12 @@ export class BrowserRequestFactory {
     }
   }
 
+  /**
+   * loads our do it later circuits. pretty much the same as the active circuits
+   * @param circuitName
+   * @returns {string}
+   * @private
+   */
   static _getDoItLaterCircuitRequest(circuitName) {
     if (circuitName) {
       return (

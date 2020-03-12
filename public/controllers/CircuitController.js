@@ -371,6 +371,12 @@ module.exports = class CircuitController extends BaseController {
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
+  /**
+   * gets all of our participating circuits that is stored in our local database
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleGetAllMyParticipatingCircuitsEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
       view = database.getViewAllMyParticipatingCircuits();
@@ -380,6 +386,12 @@ module.exports = class CircuitController extends BaseController {
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
+  /**
+   * performs a get query to find any circuit that is in our do it later collection
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleGetAllMyDoItLaterCircuitsEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
       view = database.getViewAllMyDoItLaterCircuits();

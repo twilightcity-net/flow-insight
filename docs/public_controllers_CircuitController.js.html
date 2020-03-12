@@ -56,6 +56,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandRequest">_getCommandRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandTerminalRequest">_getCommandTerminalRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getCommandWTFRequest">_getCommandWTFRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getDoItLaterCircuitRequest">_getDoItLaterCircuitRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getErrorRequest">_getErrorRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getFlowRequest">_getFlowRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserRequestFactory.html#._getJournalRequest">_getJournalRequest</a></span></li>
@@ -74,6 +75,8 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyParticipatingCircuits">getAllMyParticipatingCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></span></li>
@@ -247,6 +250,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleFinishLoadingVolumes">handleFinishLoadingVolumes</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyCurrentStatusEvent">handleGetMyCurrentStatusEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyTeamEvent">handleGetMyTeamEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></span></li>
@@ -308,10 +313,10 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#start">start</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#stop">stop</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#unwireEvents">unwireEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateCircuitsByIdFromStoreData">updateCircuitsByIdFromStoreData</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateConsole">updateConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateSingleCircuitByIdFromStoreData">updateSingleCircuitByIdFromStoreData</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#verify">verify</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
@@ -500,6 +505,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDoItLaterCircuit">requestBrowserToLoadDoItLaterCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
@@ -553,7 +559,9 @@ module.exports = class CircuitController extends BaseController {
       LOAD_ALL_MY_PARTICIPATING_CIRCUITS: "load-all-my-participating-circuits",
       LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: "load-all-my-do-it-later-circuits",
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
-      LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details"
+      LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details",
+      GET_ALL_MY_PARTICIPATING_CIRCUITS: "get-all-my-participating-circuits",
+      GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits"
     };
   }
 
@@ -606,6 +614,12 @@ module.exports = class CircuitController extends BaseController {
           break;
         case CircuitController.Events.LOAD_CIRCUIT_WITH_ALL_DETAILS:
           this.handleLoadCircuitWithAllDetailsEvent(event, arg);
+          break;
+        case CircuitController.Events.GET_ALL_MY_PARTICIPATING_CIRCUITS:
+          this.handleGetAllMyParticipatingCircuitsEvent(event, arg);
+          break;
+        case CircuitController.Events.GET_ALL_MY_DO_IT_LATER_CIRCUITS:
+          this.handleGetAllMyDoItLaterCircuitsEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -661,7 +675,8 @@ module.exports = class CircuitController extends BaseController {
   }
 
   /**
-   * process the callback for the start wtf with a custom name client event.
+   * process the callback for the start wtf with a custom name client event. Also
+   * make sure we update this new active circuit in our current participating.
    * @param store
    * @param event
    * @param arg
@@ -677,7 +692,10 @@ module.exports = class CircuitController extends BaseController {
         circuit = store.data;
 
       this.batchRemoveFromViewInCollection(view, collection);
-
+      collection = database.getCollection(
+        CircuitDatabase.Collections.PARTICIPATING
+      );
+      this.updateSingleCircuitByIdInCollection(circuit, collection);
       if (circuit) {
         this.handleLoadCircuitWithAllDetailsEvent(
           null,
@@ -732,7 +750,7 @@ module.exports = class CircuitController extends BaseController {
           CircuitDatabase.Collections.PARTICIPATING
         );
 
-      this.updateCircuitsByIdFromStoreData(store.data, collection);
+      this.updateCircuitsByIdInCollection(store.data, collection);
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
@@ -779,7 +797,7 @@ module.exports = class CircuitController extends BaseController {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
         collection = database.getCollection(CircuitDatabase.Collections.LATER);
 
-      this.updateCircuitsByIdFromStoreData(store.data, collection);
+      this.updateCircuitsByIdInCollection(store.data, collection);
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
@@ -875,8 +893,38 @@ module.exports = class CircuitController extends BaseController {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
         collection = database.getCollection(CircuitDatabase.Collections.ACTIVE);
 
-      this.updateSingleCircuitByIdFromStoreData(store.data, collection);
+      this.updateSingleCircuitByIdInCollection(store.data, collection);
     }
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+  }
+
+  /**
+   * gets all of our participating circuits that is stored in our local database
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetAllMyParticipatingCircuitsEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+      view = database.getViewAllMyParticipatingCircuits();
+
+    this.logResults(this.name, arg.type, arg.id, view.count());
+    arg.data = view.data();
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+  }
+
+  /**
+   * performs a get query to find any circuit that is in our do it later collection
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetAllMyDoItLaterCircuitsEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+      view = database.getViewAllMyDoItLaterCircuits();
+
+    this.logResults(this.name, arg.type, arg.id, view.count());
+    arg.data = view.data();
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
@@ -885,7 +933,7 @@ module.exports = class CircuitController extends BaseController {
    * @param circuit
    * @param collection
    */
-  updateSingleCircuitByIdFromStoreData(circuit, collection) {
+  updateSingleCircuitByIdInCollection(circuit, collection) {
     if (circuit) {
       let model = collection.findOne({ id: circuit.id });
       if (model) {
@@ -902,7 +950,7 @@ module.exports = class CircuitController extends BaseController {
    * @param circuits
    * @param collection
    */
-  updateCircuitsByIdFromStoreData(circuits, collection) {
+  updateCircuitsByIdInCollection(circuits, collection) {
     if (circuits &amp;&amp; circuits.length > 0) {
       circuits.forEach(circuit => {
         let model = collection.findOne({ id: circuit.id });

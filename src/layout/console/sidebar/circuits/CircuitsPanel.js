@@ -132,6 +132,10 @@ export default class CircuitsPanel extends Component {
     this.requestBrowserToLoadActiveCircuit(circuitName);
   };
 
+  /**
+   * handles our do it later circuit click
+   * @param component
+   */
   handleClickDoItLaterCircuit = component => {
     if (this.selections.activeCircuitComponent) {
       this.selections.doItLaterCircuitComponent.setState({
@@ -155,6 +159,10 @@ export default class CircuitsPanel extends Component {
     this.myController.makeSidebarBrowserRequest(request);
   }
 
+  /**
+   * generates a browser request object from a gieven circuit name
+   * @param circuitName
+   */
   requestBrowserToLoadDoItLaterCircuit(circuitName) {
     let request = BrowserRequestFactory.createRequest(
       BrowserRequestFactory.Requests.DO_IT_LATER_CIRCUIT,
