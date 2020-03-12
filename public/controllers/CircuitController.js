@@ -34,7 +34,9 @@ module.exports = class CircuitController extends BaseController {
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
       LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details",
       GET_ALL_MY_PARTICIPATING_CIRCUITS: "get-all-my-participating-circuits",
-      GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits"
+      GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits",
+      GET_ACTIVE_CIRCUIT: "get-active-circuit",
+      GET_CIRCUIT_WITH_ALL_DETAILS: "get-circuit-with-all-details"
     };
   }
 
@@ -93,6 +95,12 @@ module.exports = class CircuitController extends BaseController {
           break;
         case CircuitController.Events.GET_ALL_MY_DO_IT_LATER_CIRCUITS:
           this.handleGetAllMyDoItLaterCircuitsEvent(event, arg);
+          break;
+        case CircuitController.Events.GET_ACTIVE_CIRCUIT:
+          this.handleGetActiveCircuitEvent(event, arg);
+          break;
+        case CircuitController.Events.GET_CIRCUIT_WITH_ALL_DETAILS:
+          this.handleGetCircuitWithAllDetailsEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -165,18 +173,20 @@ module.exports = class CircuitController extends BaseController {
         circuit = store.data;
 
       this.batchRemoveFromViewInCollection(view, collection);
-      collection = database.getCollection(
-        CircuitDatabase.Collections.PARTICIPATING
-      );
-      this.updateSingleCircuitByIdInCollection(circuit, collection);
+
       if (circuit) {
-        this.handleLoadCircuitWithAllDetailsEvent(
-          null,
-          { args: { circuitName: circuit.circuitName } },
-          args => this.delegateCallbackWithView(args, view, event, arg)
+        collection = database.getCollection(
+          CircuitDatabase.Collections.PARTICIPATING
         );
+        this.updateSingleCircuitByIdInCollection(circuit, collection);
+        collection = database.getCollection(
+          CircuitDatabase.Collections.CIRCUITS
+        );
+        this.updateSingleCircuitByIdInCollection(circuit, collection);
+        arg.data = circuit;
       }
     }
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
@@ -314,14 +324,12 @@ module.exports = class CircuitController extends BaseController {
         view = database.getViewActiveCircuit(),
         circuit = store.data;
 
+      this.batchRemoveFromViewInCollection(view, collection);
       if (circuit) {
-        this.handleLoadCircuitWithAllDetailsEvent(
-          null,
-          { args: { circuitName: circuit.circuitName } },
-          args => this.delegateCallbackOrEventReplyTo(event, arg, callback)
-        );
+        this.updateSingleCircuitByIdInCollection(circuit, collection);
       }
     }
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
@@ -352,8 +360,7 @@ module.exports = class CircuitController extends BaseController {
   }
 
   /**
-   * handles our dto callback from our rest client
-   * @param circuitName
+   * handles our dto callback from our rest client.
    * @param store
    * @param event
    * @param arg
@@ -364,9 +371,14 @@ module.exports = class CircuitController extends BaseController {
       arg.error = store.error;
     } else {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
-        collection = database.getCollection(CircuitDatabase.Collections.ACTIVE);
+        collection = database.getCollection(
+          CircuitDatabase.Collections.CIRCUITS
+        ),
+        circuit = store.data;
 
-      this.updateSingleCircuitByIdInCollection(store.data, collection);
+      if (circuit) {
+        this.updateSingleCircuitByIdInCollection(circuit, collection);
+      }
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
@@ -398,6 +410,38 @@ module.exports = class CircuitController extends BaseController {
 
     this.logResults(this.name, arg.type, arg.id, view.count());
     arg.data = view.data();
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+  }
+
+  /**
+   * gets our active circuit from our local database
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetActiveCircuitEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+      view = database.getViewActiveCircuit();
+
+    this.logResults(this.name, arg.type, arg.id, view.count());
+    arg.data = view.data();
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+  }
+
+  handleGetCircuitWithAllDetailsEvent(event, arg, callback) {
+    let circuitName = arg.args.circuitName,
+      database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+      collection = database.getCollection(CircuitDatabase.Collections.CIRCUITS),
+      view = database.getViewCircuits(),
+      circuit = collection.findOne({ circuitName: circuitName });
+
+    if (circuit) {
+      console.log(circuit);
+      //TODO
+    }
+
+    this.logResults(this.name, arg.type, arg.id, view.count());
+    arg.data = circuit;
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 

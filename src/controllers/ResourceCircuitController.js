@@ -22,6 +22,14 @@ export class ResourceCircuitController extends ActiveViewController {
   }
 
   /**
+   * helper function to wrap our function from our other controller
+   * @param request - {BrowserRequestFactory} type request
+   */
+  makeSidebarBrowserRequest(request) {
+    this.browserController.makeRequest(request);
+  }
+
+  /**
    * notifies the system know we are starting a wtf session
    */
   fireCircuitStartNotifyEvent() {

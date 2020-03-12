@@ -27,6 +27,12 @@ export class CircuitClient extends BaseClient {
   static _listeners = [];
 
   /**
+   * our current active circuit assigned by grid time
+   * @type {LearningCircuitDto}
+   */
+  static activeCircuit = null;
+
+  /**
    * builds the Client for a Circuit in Gridtime
    * @param scope
    */
@@ -54,7 +60,9 @@ export class CircuitClient extends BaseClient {
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
       LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details",
       GET_ALL_MY_PARTICIPATING_CIRCUITS: "get-all-my-participating-circuits",
-      GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits"
+      GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits",
+      GET_ACTIVE_CIRCUIT: "get-active-circuit",
+      GET_CIRCUIT_WITH_ALL_DETAILS: "get-circuit-with-all-details"
     };
   }
 
@@ -65,6 +73,14 @@ export class CircuitClient extends BaseClient {
   static init(scope) {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
+      CircuitClient.getActiveCircuit(this, arg => {
+        let circuit = arg.data[0];
+        if (circuit) {
+          CircuitClient.activeCircuit = circuit;
+        } else {
+          CircuitClient.activeCircuit = null;
+        }
+      });
     }
   }
 
@@ -203,6 +219,23 @@ export class CircuitClient extends BaseClient {
   static getAllMyDoItLaterCircuits(scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.GET_ALL_MY_DO_IT_LATER_CIRCUITS,
+      {},
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
+   * gets our active circuit from what is loaded in our local database
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getActiveCircuit(scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.GET_ACTIVE_CIRCUIT,
       {},
       scope,
       callback

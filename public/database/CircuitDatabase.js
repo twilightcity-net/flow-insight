@@ -21,6 +21,7 @@ module.exports = class CircuitDatabase extends LokiJS {
    */
   static get Collections() {
     return {
+      CIRCUIT: "circuits",
       PARTICIPATING: "participating",
       LATER: "later",
       ACTIVE: "active"
@@ -34,6 +35,7 @@ module.exports = class CircuitDatabase extends LokiJS {
    */
   static get Views() {
     return {
+      CIRCUITS: "circuits",
       PARTICIPATING: "participating",
       LATER: "later",
       ACTIVE: "active"
@@ -63,6 +65,16 @@ module.exports = class CircuitDatabase extends LokiJS {
     super(CircuitDatabase.Name);
     this.name = "[DB.CircuitDatabase]";
     this.guid = Util.getGuid();
+    this.addCollection(CircuitDatabase.Collections.CIRCUITS, {
+      indices: [
+        CircuitDatabase.Indices.ID,
+        CircuitDatabase.Indices.CIRCUIT_NAME,
+        CircuitDatabase.Indices.OWNER_ID,
+        CircuitDatabase.Indices.OPEN_TIME,
+        CircuitDatabase.Indices.CLOSE_TIME,
+        CircuitDatabase.Indices.CIRCUIT_STATUS
+      ]
+    });
     this.addCollection(CircuitDatabase.Collections.PARTICIPATING, {
       indices: [
         CircuitDatabase.Indices.ID,
@@ -93,6 +105,9 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.CIRCUIT_STATUS
       ]
     });
+    this.getCollection(CircuitDatabase.Collections.CIRCUITS).addDynamicView(
+      CircuitDatabase.Views.CIRCUITS
+    );
     this.getCollection(
       CircuitDatabase.Collections.PARTICIPATING
     ).addDynamicView(CircuitDatabase.Views.PARTICIPATING);
@@ -102,6 +117,15 @@ module.exports = class CircuitDatabase extends LokiJS {
     this.getCollection(CircuitDatabase.Collections.ACTIVE).addDynamicView(
       CircuitDatabase.Views.ACTIVE
     );
+  }
+
+  /**
+   * gets our view for our known circuits on our team
+   * @returns {DynamicView}
+   */
+  getViewCircuits() {
+    let collection = this.getCollection(CircuitDatabase.Collections.CIRCUITS);
+    return collection.getDynamicView(CircuitDatabase.Views.PARTICIPATING);
   }
 
   /**

@@ -3,6 +3,7 @@ import ActiveCircuit from "./components/ActiveCircuit";
 import NewCircuit from "./components/NewCircuit";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
+import { CircuitClient } from "../../../../clients/CircuitClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -27,6 +28,20 @@ export default class CircuitResource extends Component {
   }
 
   /**
+   * called right before we load the circuit resource page to see
+   * if we have an active circuit to redirect to
+   */
+  componentWillMount() {
+    console.log(CircuitClient.activeCircuit);
+    console.log("redirect -> active circuit");
+    if (CircuitClient.activeCircuit) {
+      this.requestBrowserToLoadActiveCircuit(
+        CircuitClient.activeCircuit.circuitName
+      );
+    }
+  }
+
+  /**
    * determines if this should be a wtf session or new start session componet
    * @param resource
    * @returns {boolean}
@@ -41,6 +56,18 @@ export default class CircuitResource extends Component {
       }
     }
     return false;
+  }
+
+  /**
+   * creates a new request and dispatch this to the browser request listener
+   * @param circuitName
+   */
+  requestBrowserToLoadActiveCircuit(circuitName) {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+      circuitName
+    );
+    this.myController.makeSidebarBrowserRequest(request);
   }
 
   /**
