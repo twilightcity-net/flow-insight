@@ -61,7 +61,6 @@ export default class JournalEntry extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    console.log("update...");
     this.projects = [];
     this.tasks = [];
 
