@@ -78,6 +78,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyParticipatingCircuits">getAllMyParticipatingCircuits</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></span></li>
@@ -255,6 +256,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetCircuitWithAllDetailsEvent">handleGetCircuitWithAllDetailsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyCurrentStatusEvent">handleGetMyCurrentStatusEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyTeamEvent">handleGetMyTeamEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></span></li>
@@ -447,6 +449,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#openWindow">openWindow</a></span></li>
     <li class="nav-heading"><a href="global.html">Globals</a></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidMount">componentDidMount</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidUpdate">componentDidUpdate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
@@ -628,7 +631,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line254">line 254</a>
+                  <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line273">line 273</a>
                 </li>
               </ul>
             </dd>
@@ -780,6 +783,63 @@
               </tr>
             </thead>
             <tbody>
+              <tr>
+                <td class="name"><code>scope</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+              <tr>
+                <td class="name"><code>callback</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code><a href="RendererClientEvent.html">RendererClientEvent</a></code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id=".getCircuitWithAllDetails"><span class="type-signature">(static) </span>getCircuitWithAllDetails<span class="signature">(circuitName, scope, callback)</span><span class="type-signature"> &rarr; {<a href="RendererClientEvent.html">RendererClientEvent</a>}</span></h4>
+          <div class="description"> gets our circuit with all member details from our local database. this assumes that the data is loaded. if not it will load a copy from gridtime </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line255">line 255</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>circuitName</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
               <tr>
                 <td class="name"><code>scope</code></td>
                 <td class="type">
@@ -1163,7 +1223,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line275">line 275</a>
+                  <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line294">line 294</a>
                 </li>
               </ul>
             </dd>
@@ -1197,7 +1257,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line288">line 288</a>
+                  <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line307">line 307</a>
                 </li>
               </ul>
             </dd>
@@ -1231,7 +1291,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line310">line 310</a>
+                  <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line329">line 329</a>
                 </li>
               </ul>
             </dd>
@@ -1265,7 +1325,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line321">line 321</a>
+                  <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line340">line 340</a>
                 </li>
               </ul>
             </dd>

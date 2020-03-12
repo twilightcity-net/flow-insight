@@ -78,6 +78,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyParticipatingCircuits">getAllMyParticipatingCircuits</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></span></li>
@@ -255,6 +256,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetCircuitWithAllDetailsEvent">handleGetCircuitWithAllDetailsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyCurrentStatusEvent">handleGetMyCurrentStatusEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyTeamEvent">handleGetMyTeamEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></span></li>
@@ -447,6 +449,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#openWindow">openWindow</a></span></li>
     <li class="nav-heading"><a href="global.html">Globals</a></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidMount">componentDidMount</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidUpdate">componentDidUpdate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
@@ -958,6 +961,13 @@ module.exports = class CircuitController extends BaseController {
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
+  /**
+   * gets our circuit with details from the database. will load a new one from
+   * grid time if it does not find it..
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleGetCircuitWithAllDetailsEvent(event, arg, callback) {
     let circuitName = arg.args.circuitName,
       database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
@@ -965,14 +975,23 @@ module.exports = class CircuitController extends BaseController {
       view = database.getViewCircuits(),
       circuit = collection.findOne({ circuitName: circuitName });
 
-    if (circuit) {
-      console.log(circuit);
-      //TODO
-    }
+    // FIXME we get a null pointer on the view for some reason when reloading the app
 
-    this.logResults(this.name, arg.type, arg.id, view.count());
-    arg.data = circuit;
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    if (circuit) {
+      this.logResults(this.name, arg.type, arg.id, view.count());
+      arg.data = circuit;
+      this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    } else {
+      this.handleLoadCircuitWithAllDetailsEvent(
+        null,
+        { args: { circuitName: circuitName } },
+        args => {
+          circuit = collection.findOne({ circuitName: circuitName });
+          arg.data = circuit;
+          this.delegateCallbackOrEventReplyTo(event, arg, callback);
+        }
+      );
+    }
   }
 
   /**

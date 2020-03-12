@@ -78,6 +78,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyParticipatingCircuits">getAllMyParticipatingCircuits</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></span></li>
@@ -255,6 +256,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetCircuitWithAllDetailsEvent">handleGetCircuitWithAllDetailsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyCurrentStatusEvent">handleGetMyCurrentStatusEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyTeamEvent">handleGetMyTeamEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></span></li>
@@ -447,6 +449,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#openWindow">openWindow</a></span></li>
     <li class="nav-heading"><a href="global.html">Globals</a></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidMount">componentDidMount</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidUpdate">componentDidUpdate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
@@ -592,13 +595,28 @@
         <div class="section-method">
           <h4 class="name"
               id="componentDidMount"><span class="type-signature"></span>componentDidMount<span class="signature">()</span><span class="type-signature"></span></h4>
-          <div class="description"> make sure we load the circuit with members when we load this component </div>
+          <div class="description"> called right before we load the circuit resource page to see if we have an active circuit to redirect to </div>
           <dl class="details">
             <dt class="tag-source">Source:</dt>
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line33">line 33</a>
+                  <a href="src_layout_console_content_circuit_CircuitResource.js.html">src/layout/console/content/circuit/CircuitResource.js</a>, <a href="src_layout_console_content_circuit_CircuitResource.js.html#line34">line 34</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="componentDidMount"><span class="type-signature"></span>componentDidMount<span class="signature">()</span><span class="type-signature"></span></h4>
+          <div class="description"> called after this circuit component is loaded. This will thgen fetch the circuit details from our local database and update our model in our state for our child components </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line40">line 40</a>
                 </li>
               </ul>
             </dd>
@@ -666,18 +684,51 @@
         </div>
         <div class="section-method">
           <h4 class="name"
-              id="componentWillMount"><span class="type-signature"></span>componentWillMount<span class="signature">()</span><span class="type-signature"></span></h4>
-          <div class="description"> called right before we load the circuit resource page to see if we have an active circuit to redirect to </div>
+              id="componentDidUpdate"><span class="type-signature"></span>componentDidUpdate<span class="signature">(prevProps, prevState, snapshot)</span><span class="type-signature"></span></h4>
+          <div class="description"> function that is called right after this component recieved updated properties through its parent compoent. i know weird right.. good job react. </div>
           <dl class="details">
             <dt class="tag-source">Source:</dt>
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_CircuitResource.js.html">src/layout/console/content/circuit/CircuitResource.js</a>, <a href="src_layout_console_content_circuit_CircuitResource.js.html#line34">line 34</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line32">line 32</a>
                 </li>
               </ul>
             </dd>
           </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>prevProps</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+              <tr>
+                <td class="name"><code>prevState</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+              <tr>
+                <td class="name"><code>snapshot</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
         <div class="section-method">
           <h4 class="name"
@@ -822,7 +873,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line72">line 72</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line80">line 80</a>
                 </li>
               </ul>
             </dd>
@@ -846,7 +897,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line270">line 270</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line286">line 286</a>
                 </li>
               </ul>
             </dd>
@@ -870,7 +921,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line242">line 242</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line258">line 258</a>
                 </li>
               </ul>
             </dd>
@@ -894,7 +945,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line86">line 86</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line102">line 102</a>
                 </li>
               </ul>
             </dd>
@@ -918,7 +969,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line130">line 130</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line146">line 146</a>
                 </li>
               </ul>
             </dd>
@@ -942,7 +993,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line156">line 156</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line172">line 172</a>
                 </li>
               </ul>
             </dd>
@@ -966,7 +1017,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line224">line 224</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line240">line 240</a>
                 </li>
               </ul>
             </dd>
@@ -990,7 +1041,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line256">line 256</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line272">line 272</a>
                 </li>
               </ul>
             </dd>
@@ -1014,7 +1065,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line64">line 64</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line72">line 72</a>
                 </li>
               </ul>
             </dd>
@@ -2013,7 +2064,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_CircuitResource.js.html">src/layout/console/content/circuit/CircuitResource.js</a>, <a href="src_layout_console_content_circuit_CircuitResource.js.html#line49">line 49</a>
+                  <a href="src_layout_console_content_circuit_CircuitResource.js.html">src/layout/console/content/circuit/CircuitResource.js</a>, <a href="src_layout_console_content_circuit_CircuitResource.js.html#line47">line 47</a>
                 </li>
               </ul>
             </dd>
@@ -2563,7 +2614,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_CircuitResource.js.html">src/layout/console/content/circuit/CircuitResource.js</a>, <a href="src_layout_console_content_circuit_CircuitResource.js.html#line77">line 77</a>
+                  <a href="src_layout_console_content_circuit_CircuitResource.js.html">src/layout/console/content/circuit/CircuitResource.js</a>, <a href="src_layout_console_content_circuit_CircuitResource.js.html#line75">line 75</a>
                 </li>
               </ul>
             </dd>
@@ -2588,7 +2639,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line101">line 101</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line115">line 115</a>
                 </li>
               </ul>
             </dd>
@@ -2675,7 +2726,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line318">line 318</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line334">line 334</a>
                 </li>
               </ul>
             </dd>
@@ -3081,7 +3132,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_CircuitResource.js.html">src/layout/console/content/circuit/CircuitResource.js</a>, <a href="src_layout_console_content_circuit_CircuitResource.js.html#line65">line 65</a>
+                  <a href="src_layout_console_content_circuit_CircuitResource.js.html">src/layout/console/content/circuit/CircuitResource.js</a>, <a href="src_layout_console_content_circuit_CircuitResource.js.html#line63">line 63</a>
                 </li>
               </ul>
             </dd>

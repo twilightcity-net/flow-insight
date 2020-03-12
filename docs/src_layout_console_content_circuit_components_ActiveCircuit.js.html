@@ -78,6 +78,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyParticipatingCircuits">getAllMyParticipatingCircuits</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></span></li>
@@ -255,6 +256,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetCircuitWithAllDetailsEvent">handleGetCircuitWithAllDetailsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyCurrentStatusEvent">handleGetMyCurrentStatusEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyTeamEvent">handleGetMyTeamEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></span></li>
@@ -447,6 +449,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#openWindow">openWindow</a></span></li>
     <li class="nav-heading"><a href="global.html">Globals</a></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidMount">componentDidMount</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidUpdate">componentDidUpdate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
@@ -536,6 +539,8 @@ import CircuitSidebar from "./CircuitSidebar";
 import ActiveCircuitFeed from "./ActiveCircuitFeed";
 import ActiveCircuitScrapbook from "./ActiveCircuitScrapbook";
 import { Transition } from "semantic-ui-react";
+import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
+import { CircuitClient } from "../../../../../clients/CircuitClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -548,29 +553,36 @@ export default class ActiveCircuit extends Component {
   constructor(props) {
     super(props);
     this.name = "[ActiveCircuit]";
-    this.myController = props.myController;
     this.animationType = "fade";
     this.animationDelay = 210;
+    this.myController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.RESOURCES,
+      this
+    );
     this.state = {
       resource: props.resource,
-      scrapbookVisible: false
-    };
-  }
+      scrapbookVisible: false,
+      model: null
+    };}
 
   /**
-   * make sure we load the circuit with members when we load this component
+   * called after this circuit component is loaded. This will thgen fetch the circuit
+   * details from our local database and update our model in our state for our
+   * child components
    */
   componentDidMount() {
-    console.log(this.name + " load active circuit with members");
-
-    // TODO implement circuit client getActiveCircuitWithMembers()
+    let circuitName = this.props.resource.uriArr[2];
+    CircuitClient.getCircuitWithAllDetails(circuitName, this, arg => {
+      this.setState({
+        model: arg.data
+      })
+    });
   }
 
   /**
    * hides our resizable scrapbook in the feed panel
    */
   hideScrapbook = () => {
-    console.log("hide scrapbook");
     this.setState({
       scrapbookVisible: false
     });
@@ -580,7 +592,6 @@ export default class ActiveCircuit extends Component {
    * shows our scrapbook in our feedpanel
    */
   showScrapbook = () => {
-    console.log("show scrapbook");
     if (this.state.scrapbookVisible) return;
     this.setState({
       scrapbookVisible: true
@@ -609,7 +620,10 @@ export default class ActiveCircuit extends Component {
           secondaryInitialSize={DimensionController.getActiveCircuitContentScrapbookMinWidthDefault()}
         >
           &lt;div id="wrapper" className="activeCircuitFeed">
-            &lt;ActiveCircuitFeed />
+            &lt;ActiveCircuitFeed
+              resource={this.state.resource}
+              showScrapbook={this.showScrapbook}
+              model={this.state.model}/>
           &lt;/div>
           &lt;Transition
             visible={this.state.scrapbookVisible}
@@ -617,7 +631,10 @@ export default class ActiveCircuit extends Component {
             duration={this.animationDelay}
           >
             &lt;div id="wrapper" className="activeCircuitScrapbook">
-              &lt;ActiveCircuitScrapbook hideScrapbook={this.hideScrapbook} />
+              &lt;ActiveCircuitScrapbook
+                resource={this.state.resource}
+                hideScrapbook={this.hideScrapbook}
+                model={this.state.model}/>
             &lt;/div>
           &lt;/Transition>
         &lt;/SplitterLayout>
@@ -641,9 +658,9 @@ export default class ActiveCircuit extends Component {
         &lt;div id="wrapper" className="circuitContentSidebar">
           &lt;div id="component" className="circuitContentSidebar">
             &lt;CircuitSidebar
-              controller={this.myController}
               resource={this.state.resource}
               showScrapbook={this.showScrapbook}
+              model={this.state.model}
             />
           &lt;/div>
         &lt;/div>
