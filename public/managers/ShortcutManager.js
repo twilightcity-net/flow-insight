@@ -69,6 +69,7 @@ class ShortcutManager {
       GLOBAL_WINDOW_DEV_MODE: prefix + "global-window-dev-mode",
       WINDOW_SIDEBAR_FIRST_ITEM: prefix + "window-sidebar-first-item",
       WINDOW_SIDEBAR_SECOND_ITEM: prefix + "window-sidebar-second-item",
+      WINDOW_SIDEBAR_THIRD_ITEM: prefix + "window-sidebar-third-item",
       WINDOW_SIDEBAR_FOURTH_ITEM: prefix + "window-sidebar-fourth-item",
       WINDOW_SIDEBAR_FIFTH_ITEM: prefix + "window-sidebar-fifth-item",
       WINDOW_SIDEBAR_WTF_ITEM: prefix + "window-sidebar-wtf-item",
