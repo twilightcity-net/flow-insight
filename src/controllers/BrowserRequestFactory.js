@@ -18,6 +18,7 @@ export class BrowserRequestFactory {
       TROUBLESHOOT: "troubleshoot",
       FLOW: "flow",
       ACTIVE_CIRCUIT: "active-circuit",
+      DO_IT_LATER_CIRCUIT: "do-it-later-circuit",
       TEAM: "team"
     };
   }
@@ -136,6 +137,8 @@ export class BrowserRequestFactory {
           return BrowserRequestFactory._getBrowserRequest(args[0], args[1]);
         case BrowserRequestFactory.Requests.ACTIVE_CIRCUIT:
           return BrowserRequestFactory._getActiveCircuitRequest(args[0]);
+        case BrowserRequestFactory.Requests.DO_IT_LATER_CIRCUIT:
+          return BrowserRequestFactory._getDoItLaterCircuitRequest(args[0]);
         case BrowserRequestFactory.Requests.JOURNAL:
           return BrowserRequestFactory._getJournalRequest(args[0]);
         case BrowserRequestFactory.Requests.TROUBLESHOOT:
@@ -278,6 +281,25 @@ export class BrowserRequestFactory {
    * @private
    */
   static _getActiveCircuitRequest(circuitName) {
+    if (circuitName) {
+      return (
+        BrowserRequestFactory.Commands.OPEN +
+        BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
+        BrowserRequestFactory.Locations.CIRCUIT +
+        BrowserRequestFactory.PATH_SEPARATOR +
+        BrowserRequestFactory.Locations.WTF +
+        BrowserRequestFactory.PATH_SEPARATOR +
+        circuitName
+      );
+    } else {
+      throw new Error(
+        "request: active circuit requires 1 argument, circuitName"
+      );
+    }
+  }
+
+  static _getDoItLaterCircuitRequest(circuitName) {
     if (circuitName) {
       return (
         BrowserRequestFactory.Commands.OPEN +

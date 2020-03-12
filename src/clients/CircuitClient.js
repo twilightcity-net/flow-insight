@@ -52,7 +52,9 @@ export class CircuitClient extends BaseClient {
       LOAD_ALL_MY_PARTICIPATING_CIRCUITS: "load-all-my-participating-circuits",
       LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: "load-all-my-do-it-later-circuits",
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
-      LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details"
+      LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details",
+      GET_ALL_MY_PARTICIPATING_CIRCUITS: "get-all-my-participating-circuits",
+      GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits"
     };
   }
 
@@ -168,6 +170,28 @@ export class CircuitClient extends BaseClient {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.LOAD_CIRCUIT_WITH_ALL_DETAILS,
       { circuitName: circuitName },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  static getAllMyParticipatingCircuits(scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.GET_ALL_MY_PARTICIPATING_CIRCUITS,
+      {},
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  static getAllMyDoItLaterCircuits(scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.GET_ALL_MY_DO_IT_LATER_CIRCUITS,
+      {},
       scope,
       callback
     );

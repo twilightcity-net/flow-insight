@@ -4,7 +4,9 @@ import { SidePanelViewController } from "../../../../controllers/SidePanelViewCo
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import ActiveCircuitListItem from "./ActiveCircuitListItem";
+import DoItLaterCircuitListItem from "./DoItLaterCircuitListItem";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
+import { CircuitClient } from "../../../../clients/CircuitClient";
 
 /**
  * renders the circuit navigator panels in the gui
@@ -31,9 +33,11 @@ export default class CircuitsPanel extends Component {
     this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
     this.selections = {
-      activeCircuitComponent: null
+      activeCircuitComponent: null,
+      doItLaterCircuitComponent: null
     };
     this.activeCircuits = [];
+    this.doItLaterCircuits = [];
   }
 
   /**
@@ -91,6 +95,10 @@ export default class CircuitsPanel extends Component {
       participatingCircuitsVisible: true,
       doItLaterCircuitsVisible: false
     });
+    CircuitClient.getAllMyParticipatingCircuits(this, arg => {
+      this.activeCircuits = arg.data;
+      this.forceUpdate();
+    });
   }
 
   /**
@@ -102,6 +110,10 @@ export default class CircuitsPanel extends Component {
       activeItem: SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS,
       participatingCircuitsVisible: false,
       doItLaterCircuitsVisible: true
+    });
+    CircuitClient.getAllMyDoItLaterCircuits(this, arg => {
+      this.doItLaterCircuits = arg.data;
+      this.forceUpdate();
     });
   }
 
@@ -120,6 +132,17 @@ export default class CircuitsPanel extends Component {
     this.requestBrowserToLoadActiveCircuit(circuitName);
   };
 
+  handleClickDoItLaterCircuit = component => {
+    if (this.selections.activeCircuitComponent) {
+      this.selections.doItLaterCircuitComponent.setState({
+        isSelected: false
+      });
+    }
+    this.selections.doItLaterCircuitComponent = component;
+    let circuitName = component.props.model.circuitName;
+    this.requestBrowserToLoadDoItLaterCircuit(circuitName);
+  };
+
   /**
    * creates a new request and dispatch this to the browser request listener
    * @param circuitName
@@ -127,6 +150,14 @@ export default class CircuitsPanel extends Component {
   requestBrowserToLoadActiveCircuit(circuitName) {
     let request = BrowserRequestFactory.createRequest(
       BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+      circuitName
+    );
+    this.myController.makeSidebarBrowserRequest(request);
+  }
+
+  requestBrowserToLoadDoItLaterCircuit(circuitName) {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.DO_IT_LATER_CIRCUIT,
       circuitName
     );
     this.myController.makeSidebarBrowserRequest(request);
@@ -165,8 +196,23 @@ export default class CircuitsPanel extends Component {
    */
   getDoItLaterCircuitsContent = () => {
     return (
-      <div className="doItLaterCircuitsContent">
-        <i>Currently no circuits :)</i>
+      <div className="participatingCircuitsContent">
+        <List
+          inverted
+          divided
+          celled
+          animated
+          verticalAlign="middle"
+          size="large"
+        >
+          {this.doItLaterCircuits.map(model => (
+            <DoItLaterCircuitListItem
+              key={model.id}
+              model={model}
+              onDoItCircuitListItemClick={this.handleClickDoItLaterCircuit}
+            />
+          ))}
+        </List>
       </div>
     );
   };

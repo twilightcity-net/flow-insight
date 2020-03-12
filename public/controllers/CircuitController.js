@@ -32,7 +32,9 @@ module.exports = class CircuitController extends BaseController {
       LOAD_ALL_MY_PARTICIPATING_CIRCUITS: "load-all-my-participating-circuits",
       LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: "load-all-my-do-it-later-circuits",
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
-      LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details"
+      LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details",
+      GET_ALL_MY_PARTICIPATING_CIRCUITS: "get-all-my-participating-circuits",
+      GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits"
     };
   }
 
@@ -85,6 +87,12 @@ module.exports = class CircuitController extends BaseController {
           break;
         case CircuitController.Events.LOAD_CIRCUIT_WITH_ALL_DETAILS:
           this.handleLoadCircuitWithAllDetailsEvent(event, arg);
+          break;
+        case CircuitController.Events.GET_ALL_MY_PARTICIPATING_CIRCUITS:
+          this.handleGetAllMyParticipatingCircuitsEvent(event, arg);
+          break;
+        case CircuitController.Events.GET_ALL_MY_DO_IT_LATER_CIRCUITS:
+          this.handleGetAllMyDoItLaterCircuitsEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -360,6 +368,24 @@ module.exports = class CircuitController extends BaseController {
 
       this.updateSingleCircuitByIdInCollection(store.data, collection);
     }
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+  }
+
+  handleGetAllMyParticipatingCircuitsEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+      view = database.getViewAllMyParticipatingCircuits();
+
+    this.logResults(this.name, arg.type, arg.id, view.count());
+    arg.data = view.data();
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+  }
+
+  handleGetAllMyDoItLaterCircuitsEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+      view = database.getViewAllMyDoItLaterCircuits();
+
+    this.logResults(this.name, arg.type, arg.id, view.count());
+    arg.data = view.data();
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
