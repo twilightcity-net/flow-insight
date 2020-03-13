@@ -417,6 +417,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishScreenshotToRoom">publishScreenshotToRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishSnippetToRoom">publishSnippetToRoom</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMe">getMe</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyCurrentStatus">getMyCurrentStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyTeam">getMyTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getStatusOfMeAndMyTeam">getStatusOfMeAndMyTeam</a></span></li>
@@ -449,7 +450,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#openWindow">openWindow</a></span></li>
     <li class="nav-heading"><a href="global.html">Globals</a></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidMount">componentDidMount</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidUpdate">componentDidUpdate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
@@ -477,6 +477,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalErrorContent">getJournalErrorContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItemsContent">getJournalItemsContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItemsWrapperContent">getJournalItemsWrapperContent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getProjectDropdown">getProjectDropdown</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTaskDropdown">getTaskDropdown</a></span></li>
@@ -491,6 +493,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isActive">isActive</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isCommand">isCommand</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isMe">isMe</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isMyJournal">isMyJournal</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWTF">isWTF</a></span></li>
@@ -551,6 +554,12 @@ export class TeamClient extends BaseClient {
   static listeners = [];
 
   /**
+   * stores my current status for other gui things to use
+   * @type {MemberWorkStatusDto}
+   */
+  static me = null;
+
+  /**
    * builds the Client for a Team in Gridtime
    * @param scope
    */
@@ -587,7 +596,18 @@ export class TeamClient extends BaseClient {
   static init(scope) {
     if (!TeamClient.instance) {
       TeamClient.instance = new TeamClient(scope);
+      TeamClient.getMyCurrentStatus(this, arg => {
+        TeamClient.me = arg.data[0];
+      });
     }
+  }
+
+  /**
+   * gets our status object of ourself
+   * @returns {MemberWorkStatusDto}
+   */
+  static getMe() {
+    return TeamClient.me;
   }
 
   /**

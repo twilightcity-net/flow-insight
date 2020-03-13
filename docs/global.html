@@ -417,6 +417,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishScreenshotToRoom">publishScreenshotToRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkManager.html#publishSnippetToRoom">publishSnippetToRoom</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMe">getMe</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyCurrentStatus">getMyCurrentStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyTeam">getMyTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getStatusOfMeAndMyTeam">getStatusOfMeAndMyTeam</a></span></li>
@@ -449,7 +450,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#openWindow">openWindow</a></span></li>
     <li class="nav-heading"><a href="global.html">Globals</a></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidMount">componentDidMount</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidUpdate">componentDidUpdate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
@@ -477,6 +477,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalErrorContent">getJournalErrorContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItemsContent">getJournalItemsContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItemsWrapperContent">getJournalItemsWrapperContent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getProjectDropdown">getProjectDropdown</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTaskDropdown">getTaskDropdown</a></span></li>
@@ -491,6 +493,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isActive">isActive</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isCommand">isCommand</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isMe">isMe</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isMyJournal">isMyJournal</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWTF">isWTF</a></span></li>
@@ -616,7 +619,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line40">line 40</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line41">line 41</a>
                 </li>
               </ul>
             </dd>
@@ -681,54 +684,6 @@
               </ul>
             </dd>
           </dl>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
-              id="componentDidUpdate"><span class="type-signature"></span>componentDidUpdate<span class="signature">(prevProps, prevState, snapshot)</span><span class="type-signature"></span></h4>
-          <div class="description"> function that is called right after this component recieved updated properties through its parent compoent. i know weird right.. good job react. </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line32">line 32</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <h5>Parameters:</h5>
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="name"><code>prevProps</code></td>
-                <td class="type">
-                </td>
-                <td class="description last">
-                </td>
-              </tr>
-              <tr>
-                <td class="name"><code>prevState</code></td>
-                <td class="type">
-                </td>
-                <td class="description last">
-                </td>
-              </tr>
-              <tr>
-                <td class="name"><code>snapshot</code></td>
-                <td class="type">
-                </td>
-                <td class="description last">
-                </td>
-              </tr>
-            </tbody>
-          </table>
         </div>
         <div class="section-method">
           <h4 class="name"
@@ -873,7 +828,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line80">line 80</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line81">line 81</a>
                 </li>
               </ul>
             </dd>
@@ -897,7 +852,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line286">line 286</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line317">line 317</a>
                 </li>
               </ul>
             </dd>
@@ -921,7 +876,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line258">line 258</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line289">line 289</a>
                 </li>
               </ul>
             </dd>
@@ -945,7 +900,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line102">line 102</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line131">line 131</a>
                 </li>
               </ul>
             </dd>
@@ -969,7 +924,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line146">line 146</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line177">line 177</a>
                 </li>
               </ul>
             </dd>
@@ -993,7 +948,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line172">line 172</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line203">line 203</a>
                 </li>
               </ul>
             </dd>
@@ -1017,7 +972,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line240">line 240</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line271">line 271</a>
                 </li>
               </ul>
             </dd>
@@ -1041,7 +996,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line272">line 272</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line303">line 303</a>
                 </li>
               </ul>
             </dd>
@@ -1065,7 +1020,31 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line72">line 72</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line73">line 73</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>string</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="getClassName"><span class="type-signature"></span>getClassName<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+          <div class="description"> gets our class name for our team panel so we can render online or offline status </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_circuit_components_PartyPanelListItem.js.html">src/layout/console/content/circuit/components/PartyPanelListItem.js</a>, <a href="src_layout_console_content_circuit_components_PartyPanelListItem.js.html#line60">line 60</a>
                 </li>
               </ul>
             </dd>
@@ -1182,6 +1161,30 @@
               <dt> Type: </dt>
               <dd>
                 <span class="param-type"><code>Object</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="getDisplayName"><span class="type-signature"></span>getDisplayName<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+          <div class="description"> gets our display name for our circuit panel list item </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_circuit_components_PartyPanelListItem.js.html">src/layout/console/content/circuit/components/PartyPanelListItem.js</a>, <a href="src_layout_console_content_circuit_components_PartyPanelListItem.js.html#line31">line 31</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>*</code></span>
               </dd>
             </dl>
           </div>
@@ -1366,6 +1369,30 @@
         <div class="section-method">
           <h4 class="name"
               id="getIcon"><span class="type-signature"></span>getIcon<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+          <div class="description"> gets our icon for our circuit panel list item </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_circuit_components_PartyPanelListItem.js.html">src/layout/console/content/circuit/components/PartyPanelListItem.js</a>, <a href="src_layout_console_content_circuit_components_PartyPanelListItem.js.html#line45">line 45</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>*</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="getIcon"><span class="type-signature"></span>getIcon<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
           <div class="description"> gets our icon for our team panel list item </div>
           <dl class="details">
             <dt class="tag-source">Source:</dt>
@@ -1488,6 +1515,54 @@
               <ul class="dummy">
                 <li>
                   <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line258">line 258</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>*</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="getMenuItemPartyContent"><span class="type-signature"></span>getMenuItemPartyContent<span class="signature">()</span><span class="type-signature"> &rarr; {string}</span></h4>
+          <div class="description"> gets the menu item for party content string to display total party members </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line118">line 118</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>string</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="getPartyCircuitMembersContent"><span class="type-signature"></span>getPartyCircuitMembersContent<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+          <div class="description"> renders our list panel content to display all of the members in this circuit </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line365">line 365</a>
                 </li>
               </ul>
             </dd>
@@ -1971,6 +2046,49 @@
             <tbody>
               <tr>
                 <td class="name"><code>uri</code></td>
+                <td class="type">
+                </td>
+                <td class="description last">
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>boolean</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="isMe"><span class="type-signature"></span>isMe<span class="signature">(id)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+          <div class="description"> checks to see if this is use based on a member id </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line106">line 106</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <h5>Parameters:</h5>
+          <table class="params">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Type</th>
+                <th class="last">Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name"><code>id</code></td>
                 <td class="type">
                 </td>
                 <td class="description last">
@@ -2639,7 +2757,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line115">line 115</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line118">line 118</a>
                 </li>
               </ul>
             </dd>
@@ -2726,7 +2844,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line334">line 334</a>
+                  <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line397">line 397</a>
                 </li>
               </ul>
             </dd>
@@ -2751,6 +2869,30 @@
               <ul class="dummy">
                 <li>
                   <a href="src_layout_console_content_circuit_components_NewCircuit.js.html">src/layout/console/content/circuit/components/NewCircuit.js</a>, <a href="src_layout_console_content_circuit_components_NewCircuit.js.html#line34">line 34</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="section-returns">
+            <h5>Returns:</h5>
+            <dl class="param-type">
+              <dt> Type: </dt>
+              <dd>
+                <span class="param-type"><code>*</code></span>
+              </dd>
+            </dl>
+          </div>
+        </div>
+        <div class="section-method">
+          <h4 class="name"
+              id="render"><span class="type-signature"></span>render<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+          <div class="description"> renders our list item JSX </div>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="src_layout_console_content_circuit_components_PartyPanelListItem.js.html">src/layout/console/content/circuit/components/PartyPanelListItem.js</a>, <a href="src_layout_console_content_circuit_components_PartyPanelListItem.js.html#line70">line 70</a>
                 </li>
               </ul>
             </dd>
