@@ -3,6 +3,7 @@ import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 import { DimensionController } from "../../../controllers/DimensionController";
+import { CircuitClient } from "../../../clients/CircuitClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -45,7 +46,7 @@ export default class ConsoleSidebar extends Component {
   /**
    * called when the sidebar is created in the view and will render
    */
-  componentDidMount = () => {
+  componentDidMount() {
     this.myController.configurePulseListener(this, this.onPulse);
     this.myController.configureHeartbeatListener(this, this.onHeartbeat);
     this.myController.configureMenuListener(this, this.onRefresh);
@@ -54,18 +55,18 @@ export default class ConsoleSidebar extends Component {
       this.onCircuitStartStop
     );
     this.myController.configureSidebarShowListener(this, this.onSidebarShow);
-  };
+  }
 
   /**
    * called when we remove the console sidebar panel and menu from view
    */
-  componentWillUnmount = () => {
+  componentWillUnmount() {
     this.myController.configureHeartbeatListener(this, null);
     this.myController.configurePulseListener(this, null);
     this.myController.configureMenuListener(this, null);
     this.myController.configureCircuitStartStopListener(this, null);
     this.myController.configureSidebarShowListener(this, null);
-  };
+  }
 
   /**
    * called when our app heartbeat pulses
@@ -127,6 +128,8 @@ export default class ConsoleSidebar extends Component {
    * function handler that os called when the console layout perspective changes
    */
   onRefresh() {
+    console.log("$$$");
+    console.log(CircuitClient.activeCircuit);
     let activeMenuItem = this.myController.activeMenuSelection;
     let state = {
       activeItem: activeMenuItem,

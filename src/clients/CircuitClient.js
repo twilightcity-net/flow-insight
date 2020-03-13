@@ -44,6 +44,17 @@ export class CircuitClient extends BaseClient {
       null,
       this.onCircuitEventReply
     );
+    this.circuitStartStopNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
+      this
+    );
+  }
+
+  /**
+   * notifies the system know we are starting a wtf session
+   */
+  static fireCircuitStartNotifyEvent() {
+    CircuitClient.instance.circuitStartStopNotifier.dispatch(1);
   }
 
   /**
@@ -77,6 +88,7 @@ export class CircuitClient extends BaseClient {
         let circuit = arg.data[0];
         if (circuit) {
           CircuitClient.activeCircuit = circuit;
+          CircuitClient.fireCircuitStartNotifyEvent();
         } else {
           CircuitClient.activeCircuit = null;
         }

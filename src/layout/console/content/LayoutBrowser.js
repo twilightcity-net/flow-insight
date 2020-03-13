@@ -91,6 +91,7 @@ export default class LayoutBrowser extends Component {
 
   /**
    * loads default content into the browser which is our /journal/me
+   * #IMPORTANT #ENTRY-POINT default resource loaded page
    */
   requestBrowserToLoadDefaultContent() {
     let request = BrowserRequestFactory.createRequest(
