@@ -442,8 +442,6 @@ module.exports = class CircuitController extends BaseController {
       view = database.getViewCircuits(),
       circuit = collection.findOne({ circuitName: circuitName });
 
-    // FIXME we get a null pointer on the view for some reason when reloading the app
-
     if (circuit) {
       this.logResults(this.name, arg.type, arg.id, view.count());
       arg.data = circuit;

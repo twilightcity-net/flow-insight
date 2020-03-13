@@ -21,7 +21,7 @@ module.exports = class CircuitDatabase extends LokiJS {
    */
   static get Collections() {
     return {
-      CIRCUIT: "circuits",
+      CIRCUITS: "circuits",
       PARTICIPATING: "participating",
       LATER: "later",
       ACTIVE: "active"
@@ -125,7 +125,7 @@ module.exports = class CircuitDatabase extends LokiJS {
    */
   getViewCircuits() {
     let collection = this.getCollection(CircuitDatabase.Collections.CIRCUITS);
-    return collection.getDynamicView(CircuitDatabase.Views.PARTICIPATING);
+    return collection.getDynamicView(CircuitDatabase.Views.CIRCUITS);
   }
 
   /**

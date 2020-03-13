@@ -18,6 +18,12 @@ export class TeamClient extends BaseClient {
   static listeners = [];
 
   /**
+   * stores my current status for other gui things to use
+   * @type {MemberWorkStatusDto}
+   */
+  static me = null;
+
+  /**
    * builds the Client for a Team in Gridtime
    * @param scope
    */
@@ -54,7 +60,18 @@ export class TeamClient extends BaseClient {
   static init(scope) {
     if (!TeamClient.instance) {
       TeamClient.instance = new TeamClient(scope);
+      TeamClient.getMyCurrentStatus(this, arg => {
+        TeamClient.me = arg.data[0];
+      });
     }
+  }
+
+  /**
+   * gets our status object of ourself
+   * @returns {MemberWorkStatusDto}
+   */
+  static getMe() {
+    return TeamClient.me;
   }
 
   /**

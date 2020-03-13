@@ -1,8 +1,17 @@
 import React, { Component } from "react";
-import { Button, Grid, Icon, Label, Menu, Segment } from "semantic-ui-react";
+import {
+  Button,
+  Grid,
+  Icon,
+  Label,
+  List,
+  Menu,
+  Segment
+} from "semantic-ui-react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
-import { CircuitClient } from "../../../../../clients/CircuitClient";
+import PartyPanelListItem from "./PartyPanelListItem";
+import { TeamClient } from "../../../../../clients/TeamClient";
 
 /**
  * the class which defines the circuit sidebar panel
@@ -20,17 +29,6 @@ export default class CircuitSidebar extends Component {
       CHEST: "chest",
       SCRAPBOOK: "scrapbook"
     };
-  }
-
-  /**
-   * function that is called right after this component recieved updated properties
-   * through its parent compoent. i know weird right.. good job react.
-   * @param prevProps
-   * @param prevState
-   * @param snapshot
-   */
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("update sidebar", this.props);
   }
 
   /**
@@ -53,7 +51,6 @@ export default class CircuitSidebar extends Component {
    * click handler for starting a retro
    */
   onClickRetroActiveCircuit = () => {
-    console.log(this.name + " - on click retro active circuit");
     this.myController.retroActiveCircuitResource();
   };
 
@@ -61,7 +58,6 @@ export default class CircuitSidebar extends Component {
    * click handler for putting a circuit on hold
    */
   onClickHoldActiveCircuit = () => {
-    console.log(this.name + " - on click hold active circuit");
     this.myController.holdActiveCircuitResource();
   };
 
@@ -69,7 +65,6 @@ export default class CircuitSidebar extends Component {
    * click handler for when we want to cancel a circuit with out hold or lettuce
    */
   onClickCancelActiveCircuit = () => {
-    console.log(this.name + " - on click cancel active circuit");
     this.myController.cancelActiveCircuitResource();
   };
 
@@ -90,10 +85,43 @@ export default class CircuitSidebar extends Component {
    * @param arg
    */
   handleMenuScrapbookClick = (e, arg) => {
-    console.log("show scrapbook");
     this.handleMenuClick(e, arg);
     this.props.showScrapbook();
   };
+
+  /**
+   * selects a team member in the list
+   * @param model
+   */
+  handleClickRow = model => {
+    // TODO something
+  };
+
+  /**
+   * checks to see if this is use based on a member id
+   * @param id
+   * @returns {boolean}
+   */
+  isMe(id) {
+    let me = TeamClient.getMe();
+    if (me && me.id === id) {
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * gets the menu item for party content string to display total party members
+   * @returns {string}
+   */
+  getMenuItemPartyContent() {
+    let circuit = this.props.model;
+    if (circuit && circuit.circuitMembers) {
+      let length = circuit.circuitMembers.length;
+      return "Party [" + length + "]";
+    }
+    return "Party []";
+  }
 
   /**
    * renders the circuit sidebar content panel
@@ -120,7 +148,9 @@ export default class CircuitSidebar extends Component {
             name={CircuitSidebar.Views.PARTY}
             active={this.state.activeMenuView === CircuitSidebar.Views.PARTY}
             onClick={this.handleMenuClick}
-          />
+          >
+            {this.getMenuItemPartyContent()}
+          </Menu.Item>
           <Menu.Item
             name={CircuitSidebar.Views.CHEST}
             active={this.state.activeMenuView === CircuitSidebar.Views.CHEST}
@@ -241,7 +271,7 @@ export default class CircuitSidebar extends Component {
     return (
       <div>
         <Segment className="party" inverted>
-          Party Members
+          {this.getPartyCircuitMembersContent()}
         </Segment>
       </div>
     );
@@ -324,6 +354,38 @@ export default class CircuitSidebar extends Component {
           </Grid.Row>
         </Grid>
       </Segment>
+    );
+  }
+
+  /**
+   * renders our list panel content to display all of the members in this circuit
+   * @returns {*}
+   */
+  getPartyCircuitMembersContent() {
+    let circuit = this.props.model,
+      circuitMembers = [];
+
+    if (circuit && circuit.circuitMembers) {
+      circuitMembers = circuit.circuitMembers;
+    }
+    return (
+      <List
+        inverted
+        divided
+        celled
+        animated
+        verticalAlign="middle"
+        size="large"
+      >
+        {circuitMembers.map(model => (
+          <PartyPanelListItem
+            key={model.memberId}
+            model={model}
+            isMe={this.isMe(model.memberId)}
+            onClickRow={this.handleClickRow}
+          />
+        ))}
+      </List>
     );
   }
 

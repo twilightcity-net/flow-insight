@@ -1,19 +1,19 @@
 import React, { Component } from "react";
 import { Icon, List } from "semantic-ui-react";
-import { BaseClient } from "../../../../clients/BaseClient";
-import UtilRenderer from "../../../../UtilRenderer";
+import { BaseClient } from "../../../../../clients/BaseClient";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
- * our list items that are displayed in our team panel
+ * our list items that are displayed in our circuit sidebar panel
  */
-export default class TeamPanelListItem extends Component {
+export default class PartyPanelListItem extends Component {
   /**
    * builds our list item for the team panel with props
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[TeamPanelListItem]";
+    this.name = "[PartyPanelListItem]";
     this.isOnline = UtilRenderer.isMemberOnline(props.model);
   }
 
@@ -25,27 +25,28 @@ export default class TeamPanelListItem extends Component {
   };
 
   /**
-   * gets our display name for our team panel list item
+   * gets our display name for our circuit panel list item
    * @returns {*}
    */
   getDisplayName() {
+    console.log(this.props.model);
     return (
       <span>
-        {this.props.model.displayName}
+        {this.props.model.fullName}
         {this.props.isMe && <i>{BaseClient.Strings.YOU}</i>}
       </span>
     );
   }
 
   /**
-   * gets our icon for our team panel list item
+   * gets our icon for our circuit panel list item
    * @returns {*}
    */
   getIcon() {
     let name = "circle outline",
       color = "grey";
 
-    if (this.isOnline) {
+    if (this.props.isMe || this.isOnline) {
       name = "circle";
       color = "green";
     }
@@ -70,7 +71,7 @@ export default class TeamPanelListItem extends Component {
     return (
       <List.Item
         className={this.getClassName()}
-        key={this.props.model.id}
+        key={this.props.model.memberId}
         onClick={this.handleClick}
       >
         {this.getIcon()}
