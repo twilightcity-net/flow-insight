@@ -75,6 +75,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.fireCircuitStartNotifyEvent">fireCircuitStartNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyParticipatingCircuits">getAllMyParticipatingCircuits</a></span></li>
@@ -580,6 +581,17 @@ export class CircuitClient extends BaseClient {
       null,
       this.onCircuitEventReply
     );
+    this.circuitStartStopNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
+      this
+    );
+  }
+
+  /**
+   * notifies the system know we are starting a wtf session
+   */
+  static fireCircuitStartNotifyEvent() {
+    CircuitClient.instance.circuitStartStopNotifier.dispatch(1);
   }
 
   /**
@@ -613,6 +625,7 @@ export class CircuitClient extends BaseClient {
         let circuit = arg.data[0];
         if (circuit) {
           CircuitClient.activeCircuit = circuit;
+          CircuitClient.fireCircuitStartNotifyEvent();
         } else {
           CircuitClient.activeCircuit = null;
         }
