@@ -48,6 +48,34 @@ export default class ActiveCircuit extends Component {
   }
 
   /**
+   * checks our update argument to see if we should update and get circuit
+   * model from database
+   * @param nextProps
+   * @param nextState
+   * @param nextContext
+   * @returns {boolean}
+   */
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if (!this.state.model) {
+      return true;
+    } else if (this.props.resource.uri === nextProps.resource.uri) {
+      return false;
+    }
+
+    let circuitName = nextProps.resource.uriArr[2];
+    CircuitClient.getCircuitWithAllDetails(circuitName, this, arg => {
+      this.setState({
+        model: arg.data
+      });
+    });
+    this.setState({
+      model: null
+    });
+
+    return false;
+  }
+
+  /**
    * hides our resizable scrapbook in the feed panel
    */
   hideScrapbook = () => {

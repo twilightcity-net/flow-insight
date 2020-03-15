@@ -588,7 +588,7 @@ export default class UtilRenderer {
         if (t.length > 1) {
           return t.charAt(0).toUpperCase() + t.slice(1);
         }
-        return t.charAt(0).toUpperCase;
+        return t.charAt(0).toUpperCase();
       })
       .join(" ");
   }
@@ -600,9 +600,9 @@ export default class UtilRenderer {
    */
   static getWtfTimerStringFromOpenTime(openTime) {
     let t = moment().diff(openTime, "s"),
-      d = t / 86400 | 0,
-      h = (t / 3600 | 0) % 24,
-      m = (t / 60 | 0) % 60,
+      d = (t / 86400) | 0,
+      h = ((t / 3600) | 0) % 24,
+      m = ((t / 60) | 0) % 60,
       s = t % 60;
 
     return (

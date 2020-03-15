@@ -128,8 +128,6 @@ export default class ConsoleSidebar extends Component {
    * function handler that os called when the console layout perspective changes
    */
   onRefresh() {
-    console.log("$$$");
-    console.log(CircuitClient.activeCircuit);
     let activeMenuItem = this.myController.activeMenuSelection;
     let state = {
       activeItem: activeMenuItem,
