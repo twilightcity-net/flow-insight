@@ -310,7 +310,8 @@ export class DimensionController {
       margin: Math.ceil(1.68 * oneRem),
       header: 52,
       padding: Math.ceil(1.26 * oneRem),
-      footer: Math.ceil(14 * oneRem)
+      footer: Math.ceil(14 * oneRem),
+      timer: Math.ceil(20 * oneRem)
     };
     return (
       heights.window -
@@ -318,7 +319,8 @@ export class DimensionController {
       heights.margin -
       heights.header -
       heights.padding -
-      heights.footer
+      heights.footer -
+      heights.timer
     );
   }
 
@@ -329,6 +331,15 @@ export class DimensionController {
   static getCircuitSidebarActionsHeight() {
     let oneRem = window.innerHeight / 100;
     return 14 * oneRem;
+  }
+
+  /**
+   * gets our circuit sidebar timer height relative units
+   * @returns {number}
+   */
+  static getCircuitSidebarTimerHeight() {
+    let oneRem = window.innerHeight / 100;
+    return 19 * oneRem;
   }
 
   /**

@@ -1,4 +1,5 @@
 import { BrowserRequestFactory } from "./controllers/BrowserRequestFactory";
+import moment from "moment";
 
 export default class UtilRenderer {
   /**
@@ -18,6 +19,58 @@ export default class UtilRenderer {
    */
   static isObjEmpty(obj) {
     return Object.keys(obj).length === 0 && obj.constructor === Object;
+  }
+
+  /**
+   * clears a interval timer from our global scope. fast timers rock
+   * @param timer - our window timer to clearclea
+   */
+  static clearIntervalTimer(timer) {
+    if (timer) {
+      window.clearInterval(timer);
+    }
+    return null;
+  }
+
+  /**
+   * formats our circuit name string with _ and capitalizes the first character
+   * @param circuitName
+   * @returns {string}
+   */
+  static getFormattedCircuitName(circuitName) {
+    return circuitName
+      .split("_")
+      .map((t, i) => {
+        if (t.length > 1) {
+          return t.charAt(0).toUpperCase() + t.slice(1);
+        }
+        return t.charAt(0).toUpperCase();
+      })
+      .join(" ");
+  }
+
+  /**
+   * gets our timer string from the time now see getWtfTimerStringFromSeconds
+   * @param openTime
+   * @returns {string}
+   */
+  static getWtfTimerStringFromOpenTime(openTime) {
+    let t = moment().diff(openTime, "s"),
+      d = (t / 86400) | 0,
+      h = ((t / 3600) | 0) % 24,
+      m = ((t / 60) | 0) % 60,
+      s = t % 60;
+
+    return (
+      (d < 10 ? "0" + d : d) +
+      ":" +
+      (h < 10 ? "0" + h : h) +
+      ":" +
+      (m < 10 ? "0" + m : m) +
+      ":" +
+      (s < 10 ? "0" + s : s) +
+      "s"
+    );
   }
 
   /**
@@ -78,6 +131,7 @@ export default class UtilRenderer {
         .toString(16)
         .substring(1);
     }
+
     return (
       s4() +
       s4() +

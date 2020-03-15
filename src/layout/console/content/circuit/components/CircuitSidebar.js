@@ -12,6 +12,8 @@ import { DimensionController } from "../../../../../controllers/DimensionControl
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import PartyPanelListItem from "./PartyPanelListItem";
 import { TeamClient } from "../../../../../clients/TeamClient";
+import moment from "moment";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * the class which defines the circuit sidebar panel
@@ -104,10 +106,7 @@ export default class CircuitSidebar extends Component {
    */
   isMe(id) {
     let me = TeamClient.getMe();
-    if (me && me.id === id) {
-      return true;
-    }
-    return false;
+    return me && me.id === id;
   }
 
   /**
@@ -133,9 +132,7 @@ export default class CircuitSidebar extends Component {
         className="content"
         inverted
         style={{
-          height: DimensionController.getHeightFor(
-            DimensionController.Components.CIRCUIT_SIDEBAR
-          )
+          height: DimensionController.getCircuitSidebarHeight()
         }}
       >
         <Menu size="mini" inverted pointing secondary>
@@ -193,6 +190,43 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
+   * manages our gui update for our wtf timer
+   * @returns {string}
+   */
+  getWtfTimerCount() {
+    let circuit = this.props.model;
+
+    if (circuit) {
+      this.openTime = moment([
+        circuit.openTime[0],
+        circuit.openTime[1],
+        circuit.openTime[2],
+        circuit.openTime[3],
+        circuit.openTime[4],
+        circuit.openTime[5]
+      ]);
+
+      this.timerEl = document.getElementById("active-circuit-wtf-timer");
+      this.openTimeTimer = UtilRenderer.clearIntervalTimer(this.openTimeTimer);
+      this.openTimeTimer = setInterval(() => {
+        this.timerEl.innerHTML = UtilRenderer.getWtfTimerStringFromOpenTime(
+          this.openTime
+        );
+      }, 1000);
+    }
+
+    return UtilRenderer.getWtfTimerStringFromOpenTime(this.openTime);
+  }
+
+  /**
+   * make sure we remove any static timers which are used to update the wtf
+   * time on the gui
+   */
+  componentWillUnmount() {
+    UtilRenderer.clearIntervalTimer(this.openTimeTimer);
+  }
+
+  /**
    * renders the circuit sidebar menu content for the overview section.
    * This section contains a timer that counts up from start time, a title
    * for the room, as well a a description along with an array of hashtag
@@ -200,65 +234,51 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarOverviewContent() {
+    let circuitName = "loading...",
+      description = "Click on this to add a description.",
+      tags = ["click to add tag"];
+
+    if (this.props.model) {
+      circuitName = this.props.model.circuitName;
+      description = this.props.model.description;
+      tags = this.props.model.tags ? this.props.model.tags : tags;
+      if (!description || description === "") {
+        description = "Click on this to add a description.";
+      }
+    }
+
     return (
-      <div>
-        <Label color="red" basic className="time">
-          <Icon name="lightning" /> <span className="time"> 00:00:00:00</span>
-        </Label>
+      <div className="overview">
         <Segment inverted className="title">
-          Angry Teachers Heaven And Some More Text For REALLY long
+          {UtilRenderer.getFormattedCircuitName(circuitName)}
         </Segment>
         <Segment inverted className="desc">
-          The property was originally a nonstandard and unprefixed Microsoft
-          extension called word-wrap, and was implemented by most browsers with
-          the same name. It has since been renamed to overflow-wrap, with
-          word-wrap being an alias.
+          {description}
         </Segment>
         <Segment inverted className="tags">
-          <Label color="grey" size="tiny">
-            JavaScript
-          </Label>
-          <Label color="grey" size="tiny">
-            Java
-          </Label>
-          <Label color="grey" size="tiny">
-            SaSS
-          </Label>
-          <Label color="grey" size="tiny">
-            Gradle
-          </Label>
-          <Label color="grey" size="tiny">
-            GUI
-          </Label>
-          <Label color="grey" size="tiny">
-            DB
-          </Label>
-          <Label color="grey" size="tiny">
-            Technical
-          </Label>
-          <Label color="grey" size="tiny">
-            Game
-          </Label>
-          <Label color="grey" size="tiny">
-            Development
-          </Label>
-          <Label color="grey" size="tiny">
-            SomeRandom Tag
-          </Label>
-          <Label color="grey" size="tiny">
-            Tester
-          </Label>
-          <Label color="grey" size="tiny">
-            Important
-          </Label>
-          <Label color="grey" size="tiny">
-            JavaScript
-          </Label>
-          <Label color="grey" size="tiny">
-            Java
-          </Label>
+          {tags.map((model, i) => (
+            <Label color="grey" size="tiny" key={i}>
+              {model}
+            </Label>
+          ))}
         </Segment>
       </div>
+    );
+  }
+
+  /**
+   * decorates our timer counter for wtf sessions based on the circuits
+   * open time that is passed in the props.model
+   * @returns {*}
+   */
+  getWtfTimerContent() {
+    return (
+      <Label color="red" basic className="time">
+        <Icon name="lightning" />{" "}
+        <span className="time" id="active-circuit-wtf-timer">
+          {this.getWtfTimerCount()}
+        </span>
+      </Label>
     );
   }
 
@@ -302,10 +322,28 @@ export default class CircuitSidebar extends Component {
   getCircuitSidebarScrapbookContent() {
     return (
       <div>
-        <Segment className="chest" inverted>
+        <Segment className="scrapbook" inverted>
           <i>No Items</i>
         </Segment>
       </div>
+    );
+  }
+
+  /**
+   * gets our circuit sidebar wtf timer counter from our circuit's open time
+   * @returns {*}
+   */
+  getCircuitSidebarTimerContent() {
+    return (
+      <Segment
+        className="timer"
+        inverted
+        style={{
+          height: DimensionController.getCircuitSidebarTimerHeight()
+        }}
+      >
+        {this.getWtfTimerContent()}
+      </Segment>
     );
   }
 
@@ -397,6 +435,7 @@ export default class CircuitSidebar extends Component {
     return (
       <div id="component" className="circuitContentSidebar">
         {this.getCircuitSidebarContent()}
+        {this.getCircuitSidebarTimerContent()}
         {this.getCircuitSidebarActions()}
       </div>
     );
