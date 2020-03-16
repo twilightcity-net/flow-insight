@@ -2,7 +2,7 @@
   "name": "torchie-shell",
   "productName": "Torchie",
   "description": "Torchie Shell - Copyright ® 2020 - DreamsScale, Inc.",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "engines": {
     "node": "11.15.0"
   },
@@ -81,7 +81,6 @@
     "react-dom": "16.7.0",
     "react-router-dom": "^4.3.1",
     "react-splitter-layout": "^4.0.0",
-    "scroll-js": "^3.1.1",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.84.0",
     "socket.io-client": "^2.2.0",

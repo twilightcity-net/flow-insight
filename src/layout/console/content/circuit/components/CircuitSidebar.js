@@ -235,7 +235,7 @@ export default class CircuitSidebar extends Component {
    */
   getCircuitSidebarOverviewContent() {
     let circuitName = "WTF...",
-      description = "Can has some description?",
+      description = "Can has some descriptions?",
       tags = ["..."];
 
     if (this.props.model) {
@@ -243,7 +243,7 @@ export default class CircuitSidebar extends Component {
       description = this.props.model.description;
       tags = this.props.model.tags ? this.props.model.tags : tags;
       if (!description || description === "") {
-        description = "Can has some description?";
+        description = "Can has some descriptions?";
       }
     }
 

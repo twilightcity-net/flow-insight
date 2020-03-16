@@ -4,7 +4,7 @@ import { DimensionController } from "../../../../controllers/DimensionController
 import { Grid, Icon, Message, Transition } from "semantic-ui-react";
 import JournalItem from "./components/JournalItem";
 import { JournalClient } from "../../../../clients/JournalClient";
-import { scrollTo, scrollIntoView } from "scroll-js";
+import { scrollTo } from "../../../../UtilScroll";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -130,13 +130,11 @@ export default class JournalResource extends Component {
   scrollToJournalItemById(id, smooth, callback) {
     let rootElement = document.getElementById("journal-items-grid"),
       parentElement = rootElement.parentElement,
-      myElement = rootElement.lastChild,
       smoothStr = smooth ? "smooth" : "auto",
       theHeight = 0;
 
     if (id) {
-      myElement = rootElement;
-      let array = myElement.children;
+      let array = rootElement.children;
       for (let i = 0; i < array.length; i++) {
         let obj = array[i];
         theHeight += obj.offsetHeight;
@@ -145,13 +143,23 @@ export default class JournalResource extends Component {
           break;
         }
       }
-      scrollTo(parentElement, { top: theHeight }).then(callback);
-    } else if (parentElement && myElement) {
-      scrollIntoView(myElement, parentElement, { behavior: smoothStr }).then(
+      scrollTo(parentElement, { behavior: smoothStr, top: theHeight }).then(
+        callback
+      );
+    } else if (parentElement && rootElement) {
+      theHeight = rootElement.scrollHeight;
+      scrollTo(parentElement, { behavior: smoothStr, top: theHeight }).then(
         callback
       );
     }
   }
+
+  onEntryShown = () => {
+    console.log("journal shown", this.isMyJournal());
+    if (this.isMyJournal()) {
+      this.scrollToJournalItemById(null, true);
+    }
+  };
 
   /**
    * refreshes our current intentions list view with our most recent data from our
@@ -325,7 +333,12 @@ export default class JournalResource extends Component {
    */
   getJournalEntryContent(isMyJournal) {
     return (
-      <Transition visible={isMyJournal} animation="fade" duration={420}>
+      <Transition
+        visible={isMyJournal}
+        animation="fade"
+        duration={420}
+        onComplete={this.onEntryShown}
+      >
         <div id="wrapper" className="journalEntry ">
           <JournalEntry
             projects={this.projects}

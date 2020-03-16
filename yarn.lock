@@ -10789,11 +10789,6 @@ schema-utils@^0.3.0:
   dependencies:
     ajv "^5.0.0"
 
-scroll-js@^3.1.1:
-  version "3.1.1"
-  resolved "https://registry.yarnpkg.com/scroll-js/-/scroll-js-3.1.1.tgz#fb12672684d6fc3ca9cbebe7d04007c9efe96b4b"
-  integrity sha512-wNuiTujlzLBjQSNfAOyiwTmeXO7Yy4DYdomWX1LzAEczfoHSsnjZiPMJ5uh2txvw7JtRMj3kHu+zwgKZA4EWlg==
-
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/select-hose/-/select-hose-2.0.0.tgz#625d8658f865af43ec962bfc376a37359a4994ca"
