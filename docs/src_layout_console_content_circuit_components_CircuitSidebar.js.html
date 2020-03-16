@@ -471,6 +471,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getClassName">getClassName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDefaultMe">getDefaultMe</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDescriptionContent">getDescriptionContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDisplayName">getDisplayName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getErrorContent">getErrorContent</a></span></li>
@@ -486,6 +487,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getProjectDropdown">getProjectDropdown</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTagsMapContent">getTagsMapContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTaskDropdown">getTaskDropdown</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></span></li>
@@ -526,6 +528,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#scrollToJournalItemById">scrollToJournalItemById</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#shouldComponentUpdate">shouldComponentUpdate</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showDoItLaterCircuitsPanel">showDoItLaterCircuitsPanel</a></span></li>
@@ -779,7 +782,7 @@ export default class CircuitSidebar extends Component {
    */
   getCircuitSidebarOverviewContent() {
     let circuitName = "WTF...",
-      description = "No description.",
+      description = "Can has some description?",
       tags = ["..."];
 
     if (this.props.model) {
@@ -787,7 +790,7 @@ export default class CircuitSidebar extends Component {
       description = this.props.model.description;
       tags = this.props.model.tags ? this.props.model.tags : tags;
       if (!description || description === "") {
-        description = "No description.";
+        description = "Can has some description?";
       }
     }
 
@@ -803,14 +806,20 @@ export default class CircuitSidebar extends Component {
     );
   }
 
+  /**
+   * gets our circuit's description content body
+   * @param description
+   * @returns {*}
+   */
   getDescriptionContent(description) {
     return (
       &lt;Popup
-        content="Click to Add Description."
+        content="Click here to add a description."
         mouseEnterDelay={420}
         mouseLeaveDelay={210}
         on="hover"
         inverted
+        position={"top center"}
         trigger={
           &lt;Segment inverted className="desc">
             {description}
@@ -820,17 +829,23 @@ export default class CircuitSidebar extends Component {
     );
   }
 
+  /**
+   * gets our tags content body from our array of tags
+   * @param tags
+   * @returns {*}
+   */
   getTagsMapContent(tags) {
     let tagsContent = (
       &lt;Popup
-        content="Click to Add Tag"
+        content="Click here to add a tag"
         mouseEnterDelay={420}
         mouseLeaveDelay={210}
         on="hover"
+        position={"top center"}
         inverted
         trigger={
-          &lt;Label color="grey" size="tiny">
-            ...
+          &lt;Label color="red" size="tiny">
+            &lt;i>Add Some Tags!&lt;/i>
           &lt;/Label>
         }
       />
