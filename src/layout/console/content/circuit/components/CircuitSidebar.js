@@ -150,16 +150,16 @@ export default class CircuitSidebar extends Component {
             {this.getMenuItemPartyContent()}
           </Menu.Item>
           <Menu.Item
-            name={CircuitSidebar.Views.CHEST}
-            active={this.state.activeMenuView === CircuitSidebar.Views.CHEST}
-            onClick={this.handleMenuClick}
-          />
-          <Menu.Item
             name={CircuitSidebar.Views.SCRAPBOOK}
             active={
               this.state.activeMenuView === CircuitSidebar.Views.SCRAPBOOK
             }
             onClick={this.handleMenuScrapbookClick}
+          />
+          <Menu.Item
+            name={CircuitSidebar.Views.CHEST}
+            active={this.state.activeMenuView === CircuitSidebar.Views.CHEST}
+            onClick={this.handleMenuClick}
           />
         </Menu>
         {this.getCircuitSidebarMenuContent()}
@@ -177,10 +177,10 @@ export default class CircuitSidebar extends Component {
         return this.getCircuitSidebarOverviewContent();
       case CircuitSidebar.Views.PARTY:
         return this.getCircuitSidebarPartyContent();
-      case CircuitSidebar.Views.CHEST:
-        return this.getCircuitSidebarChestContent();
       case CircuitSidebar.Views.SCRAPBOOK:
         return this.getCircuitSidebarScrapbookContent();
+      case CircuitSidebar.Views.CHEST:
+        return this.getCircuitSidebarChestContent();
       default:
         throw new Error(
           "Unknown circuit sidebar menu type '" +
