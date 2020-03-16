@@ -235,7 +235,7 @@ export default class CircuitSidebar extends Component {
    */
   getCircuitSidebarOverviewContent() {
     let circuitName = "WTF...",
-      description = "No description.",
+      description = "Can has some description?",
       tags = ["..."];
 
     if (this.props.model) {
@@ -243,7 +243,7 @@ export default class CircuitSidebar extends Component {
       description = this.props.model.description;
       tags = this.props.model.tags ? this.props.model.tags : tags;
       if (!description || description === "") {
-        description = "No description.";
+        description = "Can has some description?";
       }
     }
 
@@ -259,14 +259,20 @@ export default class CircuitSidebar extends Component {
     );
   }
 
+  /**
+   * gets our circuit's description content body
+   * @param description
+   * @returns {*}
+   */
   getDescriptionContent(description) {
     return (
       <Popup
-        content="Click to Add Description."
+        content="Click here to add a description."
         mouseEnterDelay={420}
         mouseLeaveDelay={210}
         on="hover"
         inverted
+        position={"top center"}
         trigger={
           <Segment inverted className="desc">
             {description}
@@ -276,17 +282,23 @@ export default class CircuitSidebar extends Component {
     );
   }
 
+  /**
+   * gets our tags content body from our array of tags
+   * @param tags
+   * @returns {*}
+   */
   getTagsMapContent(tags) {
     let tagsContent = (
       <Popup
-        content="Click to Add Tag"
+        content="Click here to add a tag"
         mouseEnterDelay={420}
         mouseLeaveDelay={210}
         on="hover"
+        position={"top center"}
         inverted
         trigger={
-          <Label color="grey" size="tiny">
-            ...
+          <Label color="red" size="tiny">
+            <i>Add Some Tags!</i>
           </Label>
         }
       />

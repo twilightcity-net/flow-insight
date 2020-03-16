@@ -5,15 +5,26 @@ import { Divider, Grid, Icon, Image, Popup } from "semantic-ui-react";
  * this component is the individual journal item entered in by the user
  */
 export default class JournalItem extends Component {
+  /**
+   * builds our journal item for our console
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.name = "[JournalItem]";
+    this.isActive = false;
   }
 
-  selectRow(rowId, journalItem) {
-    let rowObj = document.getElementById(rowId);
-    this.props.onSetActiveRow(rowId, rowObj, journalItem);
-  }
+  /**
+   * handles clicking on our journal item. toggels its active state and called function
+   * handler in parent component, by passing this component into parent funciton
+   */
+  handleRowClick = () => {
+    this.isActive = !this.isActive;
+    this.forceUpdate(() => {
+      this.props.onRowClick(this);
+    });
+  };
 
   handleClickForDone = () => {
     this.handleUpdateFinishStatus("done");
@@ -28,6 +39,19 @@ export default class JournalItem extends Component {
     this.props.onUpdateFinishStatus(this.props.journalItem, finishStatus);
   };
 
+  /**
+   * this is used for something, i dont know what yet.
+   * @returns {null}
+   */
+  getEffectiveDirtyFlame() {
+    // TODO this.props.id  // how dirty is our flame? We just don't know for sure.
+    return null;
+  }
+
+  /**
+   * renders our jounrnal item in our grid for the console
+   * @returns {*}
+   */
   render() {
     let finishIcon = "";
     if (this.props.finishStatus === "done") {
@@ -73,7 +97,7 @@ export default class JournalItem extends Component {
     }
 
     let active = "";
-    if (this.props.isActive) {
+    if (this.isActive) {
       active = "active";
     }
 
@@ -140,8 +164,8 @@ export default class JournalItem extends Component {
 
     let flameRating = this.props.flameRating;
 
-    if (this.props.dirtyFlame != null) {
-      flameRating = this.props.dirtyFlame;
+    if (this.getEffectiveDirtyFlame() != null) {
+      flameRating = this.getEffectiveDirtyFlame();
     }
 
     if (flameRating > 0) {
@@ -162,9 +186,9 @@ export default class JournalItem extends Component {
 
     return (
       <Grid.Row
-        id={this.props.id}
+        id={this.props.model.id}
         className={active}
-        onClick={() => this.selectRow(this.props.id, this.props.journalItem)}
+        onClick={this.handleRowClick}
       >
         <Grid.Column width={3}>
           <Popup

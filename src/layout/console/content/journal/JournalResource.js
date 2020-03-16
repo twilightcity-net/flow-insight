@@ -4,6 +4,7 @@ import { DimensionController } from "../../../../controllers/DimensionController
 import { Grid, Icon, Message, Transition } from "semantic-ui-react";
 import JournalItem from "./components/JournalItem";
 import { JournalClient } from "../../../../clients/JournalClient";
+import { scrollTo, scrollIntoView } from "scroll-js";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -109,7 +110,46 @@ export default class JournalResource extends Component {
   handleCallback() {
     this.loadCount++;
     if (this.loadCount === 3) {
-      this.forceUpdate();
+      this.forceUpdate(() => {
+        this.scrollToJournalItemById();
+      });
+    }
+  }
+
+  /**
+   * scrolls our journal items grid into the view of a selected item by
+   * id, or if null it will just scroll to the bottom. This can perform
+   * smooth or auto (jump directly to) performance. In order to center
+   * selected journal items in our grid we must manually loop through the
+   * array of children and calculate the rendered pixel from the offsetHeight.
+   * After this then fire the callback.
+   * @param id
+   * @param smooth
+   * @param callback
+   */
+  scrollToJournalItemById(id, smooth, callback) {
+    let rootElement = document.getElementById("journal-items-grid"),
+      parentElement = rootElement.parentElement,
+      myElement = rootElement.lastChild,
+      smoothStr = smooth ? "smooth" : "auto",
+      theHeight = 0;
+
+    if (id) {
+      myElement = rootElement;
+      let array = myElement.children;
+      for (let i = 0; i < array.length; i++) {
+        let obj = array[i];
+        theHeight += obj.offsetHeight;
+        if (obj.id === this.activeJournalItem.props.model.id) {
+          theHeight -= parentElement.offsetHeight / 2 + obj.offsetHeight / 2;
+          break;
+        }
+      }
+      scrollTo(parentElement, { top: theHeight }).then(callback);
+    } else if (parentElement && myElement) {
+      scrollIntoView(myElement, parentElement, { behavior: smoothStr }).then(
+        callback
+      );
     }
   }
 
@@ -127,7 +167,13 @@ export default class JournalResource extends Component {
         this.error = null;
         this.userName = userName;
         this.journalItems = arg.data;
-        this.forceUpdate();
+        this.forceUpdate(() => {
+          if (this.activeJournalItem) {
+            this.scrollToJournalItemById(this.activeJournalItem.id);
+          } else {
+            this.scrollToJournalItemById();
+          }
+        });
       }
     });
   }
@@ -162,22 +208,16 @@ export default class JournalResource extends Component {
   };
 
   /**
-   * callback listener for the AddTask event which creates  new journal entry
-   * @param projectId - the id of the project the task will be added to
-   * @param taskName - the name of the task to be entered into the journal
-   */
-  onAddTask = (projectId, taskName) => {
-    // creates a new task for our drop down
-  };
-
-  /**
    * event callback for when we set a row active
-   * @param rowId
-   * @param rowObj
    * @param journalItem
    */
-  onSetActiveRow = (rowId, rowObj, journalItem) => {
-    // TODO set the active row
+  onRowClick = journalItem => {
+    if (this.activeJournalItem) {
+      this.activeJournalItem.isActive = false;
+      this.activeJournalItem.forceUpdate();
+    }
+    this.activeJournalItem = journalItem;
+    this.scrollToJournalItemById(journalItem.props.model.id, true);
   };
 
   /**
@@ -212,16 +252,6 @@ export default class JournalResource extends Component {
   }
 
   /**
-   * renders our dirty flame string
-   * @param id
-   * @returns {null}
-   */
-  getEffectiveDirtyFlame(id) {
-    // TODO how dirty is our flame? We just don't know for sure.
-    return null;
-  }
-
-  /**
    * renders the array of journal items
    * @returns {array}
    */
@@ -230,9 +260,8 @@ export default class JournalResource extends Component {
       return (
         <JournalItem
           key={item.id}
-          id={item.id}
+          model={item}
           isActive={this.isActive(item.id)}
-          dirtyFlame={this.getEffectiveDirtyFlame(item.id)}
           linked={item.linked}
           projectName={item.projectName}
           taskName={item.taskName}
@@ -244,7 +273,7 @@ export default class JournalResource extends Component {
           circleId={item.circleId}
           position={item.position}
           journalItem={item}
-          onSetActiveRow={this.onSetActiveRow}
+          onRowClick={this.onRowClick}
           onUpdateFinishStatus={this.onUpdateFinishStatus}
         />
       );
@@ -265,8 +294,9 @@ export default class JournalResource extends Component {
             height: DimensionController.getJournalItemsPanelHeight(isMyJournal)
           }}
         >
-          <Grid inverted>{this.getJournalItemsContent()}</Grid>
-          <div className="fltLftClrBth" />
+          <Grid id="journal-items-grid" inverted>
+            {this.getJournalItemsContent()}
+          </Grid>
         </div>
       </div>
     );
@@ -298,7 +328,6 @@ export default class JournalResource extends Component {
       <Transition visible={isMyJournal} animation="fade" duration={420}>
         <div id="wrapper" className="journalEntry ">
           <JournalEntry
-            onAddTask={this.onAddTask}
             projects={this.projects}
             tasks={this.tasks}
             createIntention={this.handleCreateIntention}
