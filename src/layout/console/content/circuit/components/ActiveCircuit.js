@@ -56,7 +56,10 @@ export default class ActiveCircuit extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (!this.state.model) {
+    if (
+      !this.state.model ||
+      this.state.scrapbookVisible !== nextState.scrapbookVisible
+    ) {
       return true;
     } else if (this.props.resource.uri === nextProps.resource.uri) {
       return false;
@@ -88,10 +91,9 @@ export default class ActiveCircuit extends Component {
    * shows our scrapbook in our feedpanel
    */
   showScrapbook = () => {
-    if (this.state.scrapbookVisible) return;
-    this.setState({
-      scrapbookVisible: true
-    });
+    this.setState(prevState => ({
+      scrapbookVisible: !prevState.scrapbookVisible
+    }));
   };
 
   /**

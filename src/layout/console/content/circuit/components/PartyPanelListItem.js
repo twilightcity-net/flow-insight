@@ -29,7 +29,6 @@ export default class PartyPanelListItem extends Component {
    * @returns {*}
    */
   getDisplayName() {
-    console.log(this.props.model);
     return (
       <span>
         {this.props.model.fullName}

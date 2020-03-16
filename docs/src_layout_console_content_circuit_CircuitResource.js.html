@@ -619,19 +619,9 @@ export default class CircuitResource extends Component {
   render() {
     let wtfPanel;
     if (this.isWTF(this.props.resource)) {
-      wtfPanel = (
-        &lt;ActiveCircuit
-          controller={this.myController}
-          resource={this.props.resource}
-        />
-      );
+      wtfPanel = &lt;ActiveCircuit resource={this.props.resource} />;
     } else if (!CircuitClient.activeCircuit) {
-      wtfPanel = (
-        &lt;NewCircuit
-          controller={this.myController}
-          resource={this.props.resource}
-        />
-      );
+      wtfPanel = &lt;NewCircuit resource={this.props.resource} />;
     }
     return (
       &lt;div id="component" className="circuitLayout">

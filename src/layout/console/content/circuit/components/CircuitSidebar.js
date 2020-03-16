@@ -6,6 +6,7 @@ import {
   Label,
   List,
   Menu,
+  Popup,
   Segment
 } from "semantic-ui-react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
@@ -197,15 +198,14 @@ export default class CircuitSidebar extends Component {
     let circuit = this.props.model;
 
     if (circuit) {
-      this.openTime = moment([
+      this.openTime = moment.utc([
         circuit.openTime[0],
-        circuit.openTime[1],
+        circuit.openTime[1] - 1,
         circuit.openTime[2],
         circuit.openTime[3],
         circuit.openTime[4],
         circuit.openTime[5]
       ]);
-
       this.timerEl = document.getElementById("active-circuit-wtf-timer");
       this.openTimeTimer = UtilRenderer.clearIntervalTimer(this.openTimeTimer);
       this.openTimeTimer = setInterval(() => {
@@ -234,16 +234,16 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarOverviewContent() {
-    let circuitName = "loading...",
-      description = "Click on this to add a description.",
-      tags = ["click to add tag"];
+    let circuitName = "WTF...",
+      description = "No description.",
+      tags = ["..."];
 
     if (this.props.model) {
       circuitName = this.props.model.circuitName;
       description = this.props.model.description;
       tags = this.props.model.tags ? this.props.model.tags : tags;
       if (!description || description === "") {
-        description = "Click on this to add a description.";
+        description = "No description.";
       }
     }
 
@@ -252,17 +252,58 @@ export default class CircuitSidebar extends Component {
         <Segment inverted className="title">
           {UtilRenderer.getFormattedCircuitName(circuitName)}
         </Segment>
-        <Segment inverted className="desc">
-          {description}
-        </Segment>
-        <Segment inverted className="tags">
-          {tags.map((model, i) => (
-            <Label color="grey" size="tiny" key={i}>
-              {model}
-            </Label>
-          ))}
-        </Segment>
+        {this.getDescriptionContent(description)}
+
+        {this.getTagsMapContent(tags)}
       </div>
+    );
+  }
+
+  getDescriptionContent(description) {
+    return (
+      <Popup
+        content="Click to Add Description."
+        mouseEnterDelay={420}
+        mouseLeaveDelay={210}
+        on="hover"
+        inverted
+        trigger={
+          <Segment inverted className="desc">
+            {description}
+          </Segment>
+        }
+      />
+    );
+  }
+
+  getTagsMapContent(tags) {
+    let tagsContent = (
+      <Popup
+        content="Click to Add Tag"
+        mouseEnterDelay={420}
+        mouseLeaveDelay={210}
+        on="hover"
+        inverted
+        trigger={
+          <Label color="grey" size="tiny">
+            ...
+          </Label>
+        }
+      />
+    );
+
+    if (tags.length > 1 && tags[1] !== "...") {
+      tagsContent = tags.map((s, i) => (
+        <Label color="grey" size="tiny" key={i}>
+          {s}
+        </Label>
+      ));
+    }
+
+    return (
+      <Segment inverted className="tags">
+        {tagsContent}
+      </Segment>
     );
   }
 

@@ -3,7 +3,6 @@ import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 import { DimensionController } from "../../../controllers/DimensionController";
-import { CircuitClient } from "../../../clients/CircuitClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
