@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>public/controllers/JournalController.js - Documentation</title>
+  <title>public/controllers/TalkToController.js - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -563,65 +563,59 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">public/controllers/JournalController.js</h1>
+    <h1 class="page-title">public/controllers/TalkToController.js</h1>
     <section>
       <article>
-        <pre class="prettyprint source linenums"><code>const Util = require("../Util"),
-  BaseController = require("./BaseController"),
+        <pre class="prettyprint source linenums"><code>const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
-  DatabaseFactory = require("../database/DatabaseFactory"),
-  JournalDatabase = require("../database/JournalDatabase");
+  TalkDatabase = require("../database/TalkDatabase"),
+  DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
- * This class is used to coordinate controllers across the journal service
- * @type {JournalController}
+ * This class is used to coordinate controllers across the talk service
+ * @type {TalkToController}
  */
-module.exports = class JournalController extends BaseController {
+module.exports = class TalkToController extends BaseController {
   /**
-   * builds our Journal Client controller class from our bass class
-   * @param scope - this is the wrapping scope to execute callbacks within
+   * builds our static Circuit controller which interfaces mainly with our local database
+   * @param scope
    */
   constructor(scope) {
-    super(scope, JournalController);
-    if (!JournalController.instance) {
-      JournalController.instance = this;
-      JournalController.wireTogetherControllers();
-      JournalController.instance.userHistory = new Set();
+    super(scope, TalkToController);
+    if (!TalkToController.instance) {
+      TalkToController.instance = this;
+      TalkToController.wireControllersTogether();
     }
   }
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string}}
+   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, CREATE_CIRCUIT: string, LOAD_ACTIVE_CIRCUIT: string}}
    * @constructor
    */
   static get Events() {
     return {
-      LOAD_RECENT_JOURNAL: "load-recent-journal",
-      CREATE_INTENTION: "create-intention",
-      CREATE_TASK_REFERENCE: "create-task-reference",
-      GET_RECENT_INTENTIONS: "get-recent-intentions",
-      GET_RECENT_PROJECTS: "get-recent-projects",
-      GET_RECENT_TASKS: "get-recent-tasks"
+      LOAD_ALL_TALK_MESSAGES_FROM_ROOM: "load-all-talk-messages-from-room",
+      GET_ALL_TALK_MESSAGES_FROM_ROOM: "get-all-talk-messages-from-room"
     };
   }
 
   /**
    * links associated controller classes here
    */
-  static wireTogetherControllers() {
-    BaseController.wireControllersTo(JournalController.instance);
+  static wireControllersTogether() {
+    BaseController.wireControllersTo(TalkToController.instance);
   }
 
   /**
    * configures application wide events here
    */
   configureEvents() {
-    BaseController.configEvents(JournalController.instance);
-    this.journalClientEventListener = EventFactory.createEvent(
-      EventFactory.Types.JOURNAL_CLIENT,
+    BaseController.configEvents(TalkToController.instance);
+    this.talkToClientEventListener = EventFactory.createEvent(
+      EventFactory.Types.TALK_TO_CLIENT,
       this,
-      this.onJournalClientEvent,
+      this.onTalkToClientEvent,
       null
     );
   }
@@ -632,302 +626,104 @@ module.exports = class JournalController extends BaseController {
    * @param arg
    * @returns {string}
    */
-  onJournalClientEvent(event, arg) {
+  onTalkToClientEvent(event, arg) {
     this.logRequest(this.name, arg);
     if (!arg.args) {
-      this.handleError(JournalController.Error.ERROR_ARGS, event, arg);
+      this.handleError(TalkToController.Error.ERROR_ARGS, event, arg);
     } else {
       switch (arg.type) {
-        case JournalController.Events.LOAD_RECENT_JOURNAL:
-          this.handleLoadJournalEvent(event, arg);
+        case TalkToController.Events.LOAD_ALL_TALK_MESSAGES_FROM_ROOM:
+          this.handleLoadAllTalkNessagesFromRoomEvent(event, arg);
           break;
-        case JournalController.Events.CREATE_INTENTION:
-          this.handleCreateIntentionEvent(event, arg);
-          break;
-        case JournalController.Events.CREATE_TASK_REFERENCE:
-          this.handleCreateTaskReferenceEvent(event, arg);
-          break;
-        case JournalController.Events.GET_RECENT_INTENTIONS:
-          this.handleGetRecentIntentionsEvent(event, arg);
-          break;
-        case JournalController.Events.GET_RECENT_PROJECTS:
-          this.handleGetRecentProjectsEvent(event, arg);
-          break;
-        case JournalController.Events.GET_RECENT_TASKS:
-          this.handleGetRecentTasksEvent(event, arg);
+        case TalkToController.Events.GET_ALL_TALK_MESSAGES_FROM_ROOM:
+          this.handleGetAllTalkMessagesFromRoomEvent(event, arg);
           break;
         default:
           throw new Error(
-            "Unknown journal client event type '" + arg.type + "'."
+            TalkToController.Error.UNKNOWN_TALK_TO_EVENT +
+              " '" +
+              arg.type +
+              "'."
           );
       }
     }
   }
 
   /**
-   * processes the create journal events for the listener. returns dto to callback.
+   * helped function which is used to load all room messages into the db collection
    * @param event
    * @param arg
    * @param callback
    */
-  handleLoadJournalEvent(event, arg, callback) {
-    let userName = arg.args.userName,
-      limit = arg.args.limit,
-      urn = JournalController.Paths.JOURNAL + userName;
-
-    if (limit) {
-      urn += JournalController.Params.LIMIT + limit;
-    }
+  handleLoadAllTalkNessagesFromRoomEvent(event, arg, callback) {
+    let name = arg.args.roomName,
+      urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.ROOM +
+        TalkToController.Paths.SEPARATOR +
+        name;
 
     this.doClientRequest(
-      "JournalClient",
+      TalkToController.Contexts.TALK_TO_CLIENT,
       {},
-      "getRecentJournal",
-      JournalController.Types.GET,
+      TalkToController.Names.GET_ALL_TALK_MESSAGES_FROM_ROOM,
+      TalkToController.Types.GET,
       urn,
       store =>
-        this.delegateLoadJournalCallback(store, userName, event, arg, callback)
+        this.delegateLoadAllTalkMessagesFromRoomCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
   /**
-   * handles our dto client callback for our rest request
+   * callback processor for our load all talk messages from a specific room
+   * action. We need to find and update any existing ones. I dont think we need to
+   * batch room these, however we should have some type of process that can
+   * room duplicates, if any exist.
    * @param store
-   * @param userName
    * @param event
    * @param arg
    * @param callback
    */
-  delegateLoadJournalCallback(store, userName, event, arg, callback) {
+  delegateLoadAllTalkMessagesFromRoomCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let journal = store.data,
-        database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
+      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
         collection = database.getCollection(
-          JournalDatabase.Collections.INTENTIONS
+          TalkDatabase.Collections.TALK_MESSAGES
         ),
-        view = database.findOrCreateViewForIntentionsByUserName(userName);
+        view = database.getViewTalkMessages(),
+        messages = store.data;
 
-      if (journal.recentIntentions) {
-        if (view.count() !== 0) {
-          collection.removeBatch(view.data());
-        }
-        journal.recentIntentions.forEach(ri => {
-          ri.timestamp = Util.getTimestampFromUTCStr(ri.positionStr);
-          ri.userName = userName;
-          collection.insert(ri);
-        });
-      }
-
-      if (journal.recentProjects) {
-        collection = database.getCollection(
-          JournalDatabase.Collections.PROJECTS
-        );
-        view = database.getViewForRecentProjects();
-        if (view.count() !== 0) {
-          collection.removeBatch(view.data());
-        }
-        journal.recentProjects.forEach(rp => {
-          collection.insert(rp);
-        });
-      }
-
-      if (journal.recentTasksByProjectId) {
-        collection = database.getCollection(JournalDatabase.Collections.TASKS);
-        view = database.getViewForRecentTasks();
-        this.updateRecentTasksByProjectId(view, collection, journal);
+      if (messages) {
+        // collection = database.getCollection(
+        //   TalkDatabase.Collections.MESSAGES
+        // );
+        console.log("load our talk messages");
       }
     }
-    JournalController.instance.userHistory.add(userName);
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
-   * updates our recent tasks in our database based on some model data
-   * @param view
-   * @param collection
-   * @param model
-   */
-  updateRecentTasksByProjectId(view, collection, model) {
-    if (view.count() !== 0) {
-      collection.removeBatch(view.data());
-    }
-    Object.values(model.recentTasksByProjectId).forEach(project => {
-      if (project) {
-        project.forEach(rt => {
-          collection.insert(rt);
-        });
-      }
-    });
-  }
-
-  /**
-   * client event handler for our create new intention function
+   * gets our talk messages from a given room name
    * @param event
    * @param arg
    * @param callback
    */
-  handleCreateIntentionEvent(event, arg, callback) {
-    let projectId = arg.args.projectId,
-      taskId = arg.args.taskId,
-      description = arg.args.description,
-      urn =
-        JournalController.Paths.JOURNAL +
-        JournalController.Strings.ME +
-        JournalController.Paths.INTENTION;
-
-    this.doClientRequest(
-      "JournalClient",
-      {
-        description: description,
-        projectId: projectId,
-        taskId: taskId
-      },
-      "createIntention",
-      JournalController.Types.POST,
-      urn,
-      store => this.delegateCreateIntentionCallback(store, event, arg, callback)
-    );
-  }
-
-  /**
-   * callback delegator which processes our return from the dto
-   * request to gridtime
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateCreateIntentionCallback(store, event, arg, callback) {
-    if (store.error) {
-      arg.error = store.error;
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
-    } else {
-      arg.data = store.data;
-      this.handleLoadJournalEvent(
-        null,
-        { args: { userName: JournalController.Strings.ME } },
-        () => {
-          this.delegateCallbackOrEventReplyTo(event, arg, callback);
-        }
-      );
-    }
-  }
-
-  /**
-   * created a new task in our gridtime and local db
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleCreateTaskReferenceEvent(event, arg, callback) {
-    let taskName = arg.args.taskName,
-      urn =
-        JournalController.Paths.JOURNAL +
-        JournalController.Strings.ME +
-        JournalController.Paths.TASKREF;
-
-    this.doClientRequest(
-      "JournalClient",
-      { taskName: taskName },
-      "createTaskReference",
-      JournalController.Types.POST,
-      urn,
-      store =>
-        this.delegateCreateTaskReferenceCallback(store, event, arg, callback)
-    );
-  }
-
-  /**
-   * handles the callback of the create intention
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateCreateTaskReferenceCallback(store, event, arg, callback) {
-    if (store.error) {
-      arg.error = store.error;
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
-    } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
-        collection = database.getCollection(JournalDatabase.Collections.TASKS),
-        summary = store.data,
-        view = database.getViewForRecentTasks();
-
-      if (summary.recentTasksByProjectId) {
-        this.updateRecentTasksByProjectId(view, collection, summary);
-      }
-
-      arg.data = view.data();
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
-    }
-  }
-
-  /**
-   * gets our recent intentions for a user
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleGetRecentIntentionsEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
-      userName = arg.args.userName,
-      view = database.findOrCreateViewForIntentionsByUserName(userName);
-
-    if (!userName) {
-      arg.error = "Unknown user '" + userName + "'";
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
-    } else if (userName === JournalController.Strings.ME) {
-      this.logResults(this.name, arg.type, arg.id, view.count());
-      arg.data = view.data();
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
-    } else {
-      if (
-        JournalController.instance.userHistory.has(userName) &amp;&amp;
-        view.count() !== 0
-      ) {
-        this.logResults(this.name, arg.type, arg.id, view.count());
-        arg.data = view.data();
-        this.delegateCallbackOrEventReplyTo(event, arg);
-      } else {
-        this.handleLoadJournalEvent(
-          null,
-          { args: { userName: userName } },
-          args => this.delegateCallbackWithView(args, view, event, arg)
-        );
-      }
-    }
-  }
-
-  /**
-   * queries our local database for recent projects
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleGetRecentProjectsEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
-      view = database.getViewForRecentProjects();
+  handleGetAllTalkMessagesFromRoomEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
+      view = database.getViewTalkMessages();
 
     this.logResults(this.name, arg.type, arg.id, view.count());
-    arg.data = view.data();
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
-  }
 
-  /**
-   * queries for our recent task in our local database for the dropdown in the journal
-   * resource view
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleGetRecentTasksEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
-      view = database.getViewForRecentTasks();
-
-    this.logResults(this.name, arg.type, arg.id, view.count());
+    // TODO make sure we dont send everything back. Use find w/ indice not view.
     arg.data = view.data();
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
