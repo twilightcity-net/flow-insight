@@ -271,6 +271,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetStatusOfMeAndMyTeamEvent">handleGetStatusOfMeAndMyTeamEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></span></li>
@@ -284,6 +285,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
@@ -583,6 +585,7 @@
   TeamManager = require("../managers/TeamManager"),
   JournalManager = require("../managers/JournalManager"),
   CircuitManager = require("../managers/CircuitManager"),
+  TalkToManager = require("../managers/TalkToManager"),
   WindowManager = require("../managers/WindowManager"),
   { EventManager } = require("../events/EventManager"),
   EventFactory = require("../events/EventFactory"),
@@ -659,7 +662,7 @@
  */
 module.exports = class App {
   constructor() {
-    AppBanner.forEach(v => console.log(chalk.bgHex("6435C9").bold.white(v)));
+    AppBanner.forEach(v => console.log(chalk.bold.greenBright(v)));
     if (isDev) Util.setDevUserDataDir();
     this.Logger = Logger.create();
     this.myController = new AppController(app);
@@ -720,6 +723,7 @@ module.exports = class App {
       global.App.JournalManager = new JournalManager();
       global.App.TeamManager = new TeamManager();
       global.App.CircuitManager = new CircuitManager();
+      global.App.TalkToManager = new TalkToManager();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.AppUpdater = new AppUpdater();
       global.App.DataStoreManager = new DataStoreManager();

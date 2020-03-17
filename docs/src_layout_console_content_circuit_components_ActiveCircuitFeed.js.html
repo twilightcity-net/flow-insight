@@ -271,6 +271,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetStatusOfMeAndMyTeamEvent">handleGetStatusOfMeAndMyTeamEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></span></li>
@@ -284,6 +285,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
@@ -572,6 +574,7 @@ import { Divider, Feed, Segment } from "semantic-ui-react";
 import SplitterLayout from "react-splitter-layout";
 import ActiveCircuitChat from "./ActiveCircuitChat";
 import UtilRenderer from "../../../../../UtilRenderer";
+import { TalkToClient } from "../../../../../clients/TalkToClient";
 
 export default class ActiveCircuitFeed extends Component {
   /**
@@ -596,6 +599,17 @@ export default class ActiveCircuitFeed extends Component {
           "Ours is a life of constant reruns. We're always circling back to life."
       }
     ];
+  }
+
+  componentDidMount() {
+    console.log("mount");
+    TalkToClient.loadAllTalkMessagesFromRoom(
+      "angry_teachers_slot-wtf",
+      this,
+      arg => {
+        console.log("messages", arg);
+      }
+    );
   }
 
   /**
