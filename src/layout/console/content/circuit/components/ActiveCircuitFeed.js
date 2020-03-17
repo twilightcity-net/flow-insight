@@ -1,8 +1,9 @@
-import React, { Component } from "react";
-import { DimensionController } from "../../../../../controllers/DimensionController";
-import { Divider, Feed, Segment } from "semantic-ui-react";
+import React, {Component} from "react";
+import {DimensionController} from "../../../../../controllers/DimensionController";
+import {Divider, Feed, Segment} from "semantic-ui-react";
 import SplitterLayout from "react-splitter-layout";
 import ActiveCircuitChat from "./ActiveCircuitChat";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 export default class ActiveCircuitFeed extends Component {
   /**
@@ -19,6 +20,7 @@ export default class ActiveCircuitFeed extends Component {
     super(props);
     this.name = "[ActiveCircuitFeed]";
     this.imageEmojiSrc = "./assets/images/emoji_cool.png";
+    this.messages = [{name : "Zoe Love", time: "1 hour ago", description: "Ours is a life of constant reruns. We're always circling back to life."}];
   }
 
   /**
@@ -35,52 +37,62 @@ export default class ActiveCircuitFeed extends Component {
 
   /**
    * renders our feed event
-   * @param index
    * @returns {*}
+   * @param key
+   * @param name
+   * @param time
+   * @param text
    */
-  getFeedEvent(index) {
-    if (index === 0) {
+  getFeedEventContent(key, name, time, text) {
       return (
-        <Feed.Event>
+        <Feed.Event key={key}>
           <Feed.Label image={this.imageEmojiSrc} />
           <Feed.Content>
             <Feed.Summary>
-              <a>Zoe Love</a>
-              <Feed.Date>1 hour ago</Feed.Date>
+              <a>{name}</a>
+              <Feed.Date>{time}</Feed.Date>
             </Feed.Summary>
             <Feed.Extra text>
-              Ours is a life of constant reruns. We're always circling back to
-              where we'd we started, then starting all over again. Even if we
-              don't run extra laps that day, we surely will come back for more
-              of the same another day soon.
+              {text}
             </Feed.Extra>
           </Feed.Content>
         </Feed.Event>
       );
-    } else {
-      return (
-        <Feed.Event>
-          <Feed.Label image={this.imageEmojiSrc} />
-          <Feed.Content>
-            <Feed.Summary>
-              <a>Arty Starr</a>
-              <Feed.Date>1 min ago</Feed.Date>
-            </Feed.Summary>
-            <Feed.Extra images>
-              <img alt="" src={this.imageEmojiSrc} />
-              <img alt="" src={this.imageEmojiSrc} />
-              <img alt="" src={this.imageEmojiSrc} />
-            </Feed.Extra>
-          </Feed.Content>
-        </Feed.Event>
-      );
-    }
   }
+
+  /**
+   * renders our divider content which goes between messages. for keyframe markers
+   * @param timeStr
+   * @returns {*}
+   */
+  getDividerContent(timeStr) {
+    return (
+      <Divider inverted horizontal content={timeStr} />
+    );
+  }
+
+  /**
+   * renders our feed messages from our messages array.
+   * @returns {*}
+   */
+  getFeedeventsFromMessagesArrayContent() {
+    return this.messages.map((message, i) => {
+      return this.getFeedEventContent(i, message.name, message.time, message.description);
+    });
+  }
+
   /**
    * renders the active circuit feed into the console view
    * @returns {*}
    */
   render() {
+    let circuit = this.props.model,
+      openTimeStr = "";
+
+    if(circuit) {
+      openTimeStr = UtilRenderer.getOpenTimeStringFromOpenTimeArray(circuit.openTime);
+    }
+
     return (
       <div id="component" className="activeCircuitFeed">
         <SplitterLayout
@@ -99,26 +111,8 @@ export default class ActiveCircuitFeed extends Component {
             }}
           >
             <Feed className="chat-feed">
-              <Divider inverted horizontal content={"12:34:56 PM"} />
-              {this.getFeedEvent(0)}
-              <Divider inverted horizontal content={"12:34:56 PM"} />
-              {this.getFeedEvent(1)}
-              <Divider inverted horizontal content={"12:34:56 PM"} />
-              {this.getFeedEvent(0)}
-              <Divider inverted horizontal content={"12:34:56 PM"} />
-              {this.getFeedEvent(0)}
-              <Divider inverted horizontal content={"12:34:56 PM"} />
-              {this.getFeedEvent(0)}
-              <Divider inverted horizontal content={"12:34:56 PM"} />
-              {this.getFeedEvent(1)}
-              <Divider inverted horizontal content={"12:34:56 PM"} />
-              {this.getFeedEvent(1)}
-              <Divider inverted horizontal content={"12:34:56 PM"} />
-              {this.getFeedEvent(0)}
-              <Divider inverted horizontal content={"12:34:56 PM"} />
-              {this.getFeedEvent(0)}
-              <Divider inverted horizontal content={"12:34:56 PM"} />
-              {this.getFeedEvent(0)}
+              {this.getDividerContent(openTimeStr)}
+              {this.getFeedeventsFromMessagesArrayContent()}
             </Feed>
           </Segment>
           <div id="wrapper" className="activeCircuitChat">

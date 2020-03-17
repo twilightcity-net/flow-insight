@@ -84,6 +84,27 @@ export default class UtilRenderer {
   }
 
   /**
+   * figured out what our open time string is given a utc array
+   * of date time numbers in central timezone
+   * @param array
+   * @returns {string}
+   */
+  static getOpenTimeStringFromOpenTimeArray(array) {
+    if(array) {
+      let t = moment.utc([
+        array[0],
+        array[1] - 1,
+        array[2],
+        array[3],
+        array[4],
+        array[5]
+      ]);
+      return t.format('MMM Do YYYY, h:mm:ss a');
+    }
+    return "";
+  }
+
+  /**
    * gets the browser resource from a given request
    * @param request
    * @returns {{action: string, uriArr: string[], uri: string}}
@@ -111,20 +132,29 @@ export default class UtilRenderer {
     };
   }
 
+  /**
+   * checks of our member is online by their online status field
+   * @param member
+   * @returns {boolean}
+   */
   static isMemberOnline(member) {
     return member.onlineStatus === "Online";
   }
 
+  /**
+   * checks to see if our alarm is triggered for a given user
+   * @param member
+   * @returns {boolean}
+   */
   static isAlarmTriggered(member) {
     return !!member.activeCircuit;
   }
+
 
   /**
    * gets a unique id in a ISO GUID format based off random number
    * @returns {string}
    */
-
-  //TODO this should get the current epoch time and add it to the random number
   static getGuid() {
     function s4() {
       return Math.floor((1 + Math.random()) * 0x10000)
