@@ -90,7 +90,7 @@ export default class UtilRenderer {
    * @returns {string}
    */
   static getOpenTimeStringFromOpenTimeArray(array) {
-    if(array) {
+    if (array) {
       let t = moment.utc([
         array[0],
         array[1] - 1,
@@ -99,7 +99,7 @@ export default class UtilRenderer {
         array[4],
         array[5]
       ]);
-      return t.format('MMM Do YYYY, h:mm:ss a');
+      return t.format("MMM Do YYYY, h:mm:ss a");
     }
     return "";
   }
@@ -149,7 +149,6 @@ export default class UtilRenderer {
   static isAlarmTriggered(member) {
     return !!member.activeCircuit;
   }
-
 
   /**
    * gets a unique id in a ISO GUID format based off random number

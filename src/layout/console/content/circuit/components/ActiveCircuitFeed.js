@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {DimensionController} from "../../../../../controllers/DimensionController";
-import {Divider, Feed, Segment} from "semantic-ui-react";
+import React, { Component } from "react";
+import { DimensionController } from "../../../../../controllers/DimensionController";
+import { Divider, Feed, Segment } from "semantic-ui-react";
 import SplitterLayout from "react-splitter-layout";
 import ActiveCircuitChat from "./ActiveCircuitChat";
 import UtilRenderer from "../../../../../UtilRenderer";
@@ -20,7 +20,14 @@ export default class ActiveCircuitFeed extends Component {
     super(props);
     this.name = "[ActiveCircuitFeed]";
     this.imageEmojiSrc = "./assets/images/emoji_cool.png";
-    this.messages = [{name : "Zoe Love", time: "1 hour ago", description: "Ours is a life of constant reruns. We're always circling back to life."}];
+    this.messages = [
+      {
+        name: "Zoe Love",
+        time: "1 hour ago",
+        description:
+          "Ours is a life of constant reruns. We're always circling back to life."
+      }
+    ];
   }
 
   /**
@@ -44,20 +51,18 @@ export default class ActiveCircuitFeed extends Component {
    * @param text
    */
   getFeedEventContent(key, name, time, text) {
-      return (
-        <Feed.Event key={key}>
-          <Feed.Label image={this.imageEmojiSrc} />
-          <Feed.Content>
-            <Feed.Summary>
-              <a>{name}</a>
-              <Feed.Date>{time}</Feed.Date>
-            </Feed.Summary>
-            <Feed.Extra text>
-              {text}
-            </Feed.Extra>
-          </Feed.Content>
-        </Feed.Event>
-      );
+    return (
+      <Feed.Event key={key}>
+        <Feed.Label image={this.imageEmojiSrc} />
+        <Feed.Content>
+          <Feed.Summary>
+            <a>{name}</a>
+            <Feed.Date>{time}</Feed.Date>
+          </Feed.Summary>
+          <Feed.Extra text>{text}</Feed.Extra>
+        </Feed.Content>
+      </Feed.Event>
+    );
   }
 
   /**
@@ -66,9 +71,7 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {*}
    */
   getDividerContent(timeStr) {
-    return (
-      <Divider inverted horizontal content={timeStr} />
-    );
+    return <Divider inverted horizontal content={timeStr} />;
   }
 
   /**
@@ -77,7 +80,12 @@ export default class ActiveCircuitFeed extends Component {
    */
   getFeedeventsFromMessagesArrayContent() {
     return this.messages.map((message, i) => {
-      return this.getFeedEventContent(i, message.name, message.time, message.description);
+      return this.getFeedEventContent(
+        i,
+        message.name,
+        message.time,
+        message.description
+      );
     });
   }
 
@@ -89,8 +97,10 @@ export default class ActiveCircuitFeed extends Component {
     let circuit = this.props.model,
       openTimeStr = "";
 
-    if(circuit) {
-      openTimeStr = UtilRenderer.getOpenTimeStringFromOpenTimeArray(circuit.openTime);
+    if (circuit) {
+      openTimeStr = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
+        circuit.openTime
+      );
     }
 
     return (
