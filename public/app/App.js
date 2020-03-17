@@ -15,6 +15,7 @@ const { app } = require("electron"),
   TeamManager = require("../managers/TeamManager"),
   JournalManager = require("../managers/JournalManager"),
   CircuitManager = require("../managers/CircuitManager"),
+  TalkToManager = require("../managers/TalkToManager"),
   WindowManager = require("../managers/WindowManager"),
   { EventManager } = require("../events/EventManager"),
   EventFactory = require("../events/EventFactory"),
@@ -91,7 +92,7 @@ const { app } = require("electron"),
  */
 module.exports = class App {
   constructor() {
-    AppBanner.forEach(v => console.log(chalk.bgHex("6435C9").bold.white(v)));
+    AppBanner.forEach(v => console.log(chalk.bold.greenBright(v)));
     if (isDev) Util.setDevUserDataDir();
     this.Logger = Logger.create();
     this.myController = new AppController(app);
@@ -152,6 +153,7 @@ module.exports = class App {
       global.App.JournalManager = new JournalManager();
       global.App.TeamManager = new TeamManager();
       global.App.CircuitManager = new CircuitManager();
+      global.App.TalkToManager = new TalkToManager();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.AppUpdater = new AppUpdater();
       global.App.DataStoreManager = new DataStoreManager();

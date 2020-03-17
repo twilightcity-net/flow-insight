@@ -4,6 +4,7 @@ import { Divider, Feed, Segment } from "semantic-ui-react";
 import SplitterLayout from "react-splitter-layout";
 import ActiveCircuitChat from "./ActiveCircuitChat";
 import UtilRenderer from "../../../../../UtilRenderer";
+import { TalkToClient } from "../../../../../clients/TalkToClient";
 
 export default class ActiveCircuitFeed extends Component {
   /**
@@ -28,6 +29,17 @@ export default class ActiveCircuitFeed extends Component {
           "Ours is a life of constant reruns. We're always circling back to life."
       }
     ];
+  }
+
+  componentDidMount() {
+    console.log("mount");
+    TalkToClient.loadAllTalkMessagesFromRoom(
+      "angry_teachers_slot-wtf",
+      this,
+      arg => {
+        console.log("messages", arg);
+      }
+    );
   }
 
   /**

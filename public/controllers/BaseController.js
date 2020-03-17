@@ -27,7 +27,10 @@ module.exports = class BaseController {
       PARTICIPATING: "/participating",
       DO_IT_LATER: "/doitlater",
       ACTIVE: "/active",
-      WTF: "wtf/"
+      WTF: "wtf/",
+      TALK: "/talk",
+      TO: "/to",
+      ROOM: "/room"
     };
   }
 
@@ -77,6 +80,7 @@ module.exports = class BaseController {
       ERROR_ARGS: "arg : args is required",
       UNKNOWN: "Unknown team client event type",
       UNKNOWN_CIRCUIT_EVENT: "Unknown circuit client event type",
+      UNKNOWN_TALK_TO_EVENT: "Unknown talk to client event type",
       PRIMARY_ONLY: "Only primary team supported currently",
       INVALID_PARTICIPATING_CIRCUIT:
         "Invalid get my participating circuits event"
@@ -107,7 +111,8 @@ module.exports = class BaseController {
       GET_ALL_MY_PARTICIPATING_CIRCUITS: "getAllMyParticipatingCircuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS: "getAllMyDoItLaterCircuits",
       GET_ACTIVE_CIRCUIT: "getActiveCircuit",
-      GET_CIRCUIT_WITH_ALL_DETAILS: "getCircuitWithAllDetails"
+      GET_CIRCUIT_WITH_ALL_DETAILS: "getCircuitWithAllDetails",
+      GET_ALL_TALK_MESSAGES_FROM_ROOM: "getAllTalkMessagesFromRoom"
     };
   }
 
@@ -118,7 +123,8 @@ module.exports = class BaseController {
    */
   static get Contexts() {
     return {
-      CIRCUIT_CLIENT: "CircuitClient"
+      CIRCUIT_CLIENT: "CircuitClient",
+      TALK_TO_CLIENT: "TalkToClient"
     };
   }
 
