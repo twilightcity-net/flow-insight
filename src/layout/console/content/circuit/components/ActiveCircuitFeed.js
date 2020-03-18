@@ -4,7 +4,6 @@ import { Divider, Feed, Segment } from "semantic-ui-react";
 import SplitterLayout from "react-splitter-layout";
 import ActiveCircuitChat from "./ActiveCircuitChat";
 import UtilRenderer from "../../../../../UtilRenderer";
-import { TalkToClient } from "../../../../../clients/TalkToClient";
 
 export default class ActiveCircuitFeed extends Component {
   /**
@@ -33,13 +32,6 @@ export default class ActiveCircuitFeed extends Component {
 
   componentDidMount() {
     console.log("mount");
-    TalkToClient.loadAllTalkMessagesFromRoom(
-      "angry_teachers_slot-wtf",
-      this,
-      arg => {
-        console.log("messages", arg);
-      }
-    );
   }
 
   /**

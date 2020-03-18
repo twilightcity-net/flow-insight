@@ -88,13 +88,13 @@ module.exports = class TalkToController extends BaseController {
    * @param callback
    */
   handleLoadAllTalkNessagesFromRoomEvent(event, arg, callback) {
-    let name = arg.args.roomName,
+    let roomName = arg.args.roomName,
       urn =
         TalkToController.Paths.TALK +
         TalkToController.Paths.TO +
         TalkToController.Paths.ROOM +
         TalkToController.Paths.SEPARATOR +
-        name;
+        roomName;
 
     this.doClientRequest(
       TalkToController.Contexts.TALK_TO_CLIENT,
@@ -126,19 +126,25 @@ module.exports = class TalkToController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-        collection = database.getCollection(
-          TalkDatabase.Collections.TALK_MESSAGES
-        ),
-        view = database.getViewTalkMessages(),
-        messages = store.data;
+      let roomName = arg.args.roomName,
+        database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
+        collection = database.getCollectionForRoomTalkMessages(roomName),
+        view = database.getViewTalkMessagesForCollection(collection),
+        messages = store.data,
+        message = messages[0],
+        uri = message.uri;
 
-      if (messages) {
-        // collection = database.getCollection(
-        //   TalkDatabase.Collections.MESSAGES
-        // );
-        console.log("load our talk messages");
+      if (messages && message) {
+        this.addRoomToRooms(roomName, uri);
+        for (let i = 0, m, len = messages.length; i < len; i++) {
+          message = messages[i];
+          m = collection.findOne({ id: message.id });
+          if (!m) {
+            collection.insert(message);
+          }
+        }
       }
+      this.logResults(this.name, arg.type, arg.id, view.count());
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
@@ -150,13 +156,32 @@ module.exports = class TalkToController extends BaseController {
    * @param callback
    */
   handleGetAllTalkMessagesFromRoomEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-      view = database.getViewTalkMessages();
+    let roomName = arg.args.roomName,
+      database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
+      collection = database.getCollection(
+        TalkDatabase.Collections.TALK_MESSAGES
+      ),
+      view = database.getViewTalkMessages(),
+      room = collection.findOne({ roomName: roomName });
+
+    if (room) {
+      console.log("have messages");
+    } else {
+      console.log("need messages");
+    }
 
     this.logResults(this.name, arg.type, arg.id, view.count());
-
-    // TODO make sure we dont send everything back. Use find w/ indice not view.
-    arg.data = view.data();
+    arg.data = [];
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
+  }
+
+  addRoomToRooms(roomName, uri) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK);
+    let rooms = database.getCollection(TalkDatabase.Collections.ROOMS);
+    let room = rooms.findOne({ uri: uri });
+
+    if (!room) {
+      rooms.insert({ roomName, uri });
+    }
   }
 };

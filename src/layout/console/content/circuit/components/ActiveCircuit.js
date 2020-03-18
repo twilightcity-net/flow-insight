@@ -8,6 +8,7 @@ import ActiveCircuitScrapbook from "./ActiveCircuitScrapbook";
 import { Transition } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
+import { TalkToClient } from "../../../../../clients/TalkToClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -29,7 +30,8 @@ export default class ActiveCircuit extends Component {
     this.state = {
       resource: props.resource,
       scrapbookVisible: false,
-      model: null
+      model: null,
+      messages: []
     };
   }
 
@@ -45,6 +47,13 @@ export default class ActiveCircuit extends Component {
         model: arg.data
       });
     });
+    TalkToClient.loadAllTalkMessagesFromRoom(
+      circuitName + "-wtf",
+      this,
+      arg => {
+        console.log("messages", arg);
+      }
+    );
   }
 
   /**
@@ -71,8 +80,16 @@ export default class ActiveCircuit extends Component {
         model: arg.data
       });
     });
+    TalkToClient.loadAllTalkMessagesFromRoom(circuitName + "-wtf");
+    // TalkToClient.getAllTalkMessagesFromRoom(circuitName + "-wtf", this, arg => {
+    //   console.log("messages", arg);
+    //   this.setState({
+    //     messages: arg.data
+    //   });
+    // });
     this.setState({
-      model: null
+      model: null,
+      messages: []
     });
 
     return false;
