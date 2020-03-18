@@ -171,6 +171,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#replyTo">replyTo</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addTalkMessagesCollection">addTalkMessagesCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#batchRemoveFromViewInCollection">batchRemoveFromViewInCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#check">check</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></span></li>
@@ -223,6 +224,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppUserDataDir">getAppUserDataDir</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetPath">getAssetPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetsDir">getAssetsDir</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getCollectionForRoomTalkMessages">getCollectionForRoomTalkMessages</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConnectionStatus">getConnectionStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConsoleShortcut">getConsoleShortcut</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConsoleShortcutAlt">getConsoleShortcutAlt</a></span></li>
@@ -237,6 +239,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRender3D">getRender3D</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromRoomName">getTalkMessagesCollectionNameFromRoomName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li>
@@ -250,7 +253,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForStatusOfMeAndMyTeam">getViewForStatusOfMeAndMyTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewTalkMessages">getViewTalkMessages</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewRooms">getViewRooms</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewTalkMessagesForCollection">getViewTalkMessagesForCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getVolumeByName">getVolumeByName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></span></li>
@@ -686,7 +690,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line41">line 41</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line43">line 43</a>
                 </li>
               </ul>
             </dd>
@@ -940,7 +944,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line111">line 111</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line128">line 128</a>
                 </li>
               </ul>
             </dd>
@@ -1156,7 +1160,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line103">line 103</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line120">line 120</a>
                 </li>
               </ul>
             </dd>
@@ -1401,7 +1405,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line85">line 85</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line77">line 77</a>
                 </li>
               </ul>
             </dd>
@@ -1511,7 +1515,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line65">line 65</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line57">line 57</a>
                 </li>
               </ul>
             </dd>
@@ -1575,7 +1579,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line93">line 93</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line85">line 85</a>
                 </li>
               </ul>
             </dd>
@@ -3311,7 +3315,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line148">line 148</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line165">line 165</a>
                 </li>
               </ul>
             </dd>
@@ -3350,7 +3354,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line108">line 108</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line100">line 100</a>
                 </li>
               </ul>
             </dd>
@@ -4085,7 +4089,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line58">line 58</a>
+                  <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line67">line 67</a>
                 </li>
               </ul>
             </dd>

@@ -171,6 +171,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#replyTo">replyTo</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addTalkMessagesCollection">addTalkMessagesCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#batchRemoveFromViewInCollection">batchRemoveFromViewInCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#check">check</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></span></li>
@@ -223,6 +224,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppUserDataDir">getAppUserDataDir</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetPath">getAssetPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetsDir">getAssetsDir</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getCollectionForRoomTalkMessages">getCollectionForRoomTalkMessages</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConnectionStatus">getConnectionStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConsoleShortcut">getConsoleShortcut</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConsoleShortcutAlt">getConsoleShortcutAlt</a></span></li>
@@ -237,6 +239,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRender3D">getRender3D</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromRoomName">getTalkMessagesCollectionNameFromRoomName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li>
@@ -250,7 +253,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForStatusOfMeAndMyTeam">getViewForStatusOfMeAndMyTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewTalkMessages">getViewTalkMessages</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewRooms">getViewRooms</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewTalkMessagesForCollection">getViewTalkMessagesForCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getVolumeByName">getVolumeByName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></span></li>
@@ -605,7 +609,7 @@
               <dd class="tag-source">
                 <ul class="dummy">
                   <li>
-                    <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line20">line 20</a>
+                    <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line19">line 19</a>
                   </li>
                 </ul>
               </dd>

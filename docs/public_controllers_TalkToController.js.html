@@ -171,6 +171,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#replyTo">replyTo</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addTalkMessagesCollection">addTalkMessagesCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#batchRemoveFromViewInCollection">batchRemoveFromViewInCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#check">check</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></span></li>
@@ -223,6 +224,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppUserDataDir">getAppUserDataDir</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetPath">getAssetPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetsDir">getAssetsDir</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getCollectionForRoomTalkMessages">getCollectionForRoomTalkMessages</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConnectionStatus">getConnectionStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConsoleShortcut">getConsoleShortcut</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConsoleShortcutAlt">getConsoleShortcutAlt</a></span></li>
@@ -237,6 +239,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRender3D">getRender3D</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromRoomName">getTalkMessagesCollectionNameFromRoomName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li>
@@ -250,7 +253,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForStatusOfMeAndMyTeam">getViewForStatusOfMeAndMyTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewTalkMessages">getViewTalkMessages</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewRooms">getViewRooms</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewTalkMessagesForCollection">getViewTalkMessagesForCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getVolumeByName">getVolumeByName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></span></li>
@@ -658,13 +662,13 @@ module.exports = class TalkToController extends BaseController {
    * @param callback
    */
   handleLoadAllTalkNessagesFromRoomEvent(event, arg, callback) {
-    let name = arg.args.roomName,
+    let roomName = arg.args.roomName,
       urn =
         TalkToController.Paths.TALK +
         TalkToController.Paths.TO +
         TalkToController.Paths.ROOM +
         TalkToController.Paths.SEPARATOR +
-        name;
+        roomName;
 
     this.doClientRequest(
       TalkToController.Contexts.TALK_TO_CLIENT,
@@ -696,19 +700,25 @@ module.exports = class TalkToController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-        collection = database.getCollection(
-          TalkDatabase.Collections.TALK_MESSAGES
-        ),
-        view = database.getViewTalkMessages(),
-        messages = store.data;
+      let roomName = arg.args.roomName,
+        database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
+        collection = database.getCollectionForRoomTalkMessages(roomName),
+        view = database.getViewTalkMessagesForCollection(collection),
+        messages = store.data,
+        message = messages[0],
+        uri = message.uri;
 
-      if (messages) {
-        // collection = database.getCollection(
-        //   TalkDatabase.Collections.MESSAGES
-        // );
-        console.log("load our talk messages");
+      if (messages &amp;&amp; message) {
+        this.addRoomToRooms(roomName, uri);
+        for (let i = 0, m, len = messages.length; i &lt; len; i++) {
+          message = messages[i];
+          m = collection.findOne({ id: message.id });
+          if (!m) {
+            collection.insert(message);
+          }
+        }
       }
+      this.logResults(this.name, arg.type, arg.id, view.count());
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
@@ -720,14 +730,33 @@ module.exports = class TalkToController extends BaseController {
    * @param callback
    */
   handleGetAllTalkMessagesFromRoomEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-      view = database.getViewTalkMessages();
+    let roomName = arg.args.roomName,
+      database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
+      collection = database.getCollection(
+        TalkDatabase.Collections.TALK_MESSAGES
+      ),
+      view = database.getViewTalkMessages(),
+      room = collection.findOne({ roomName: roomName });
+
+    if (room) {
+      console.log("have messages");
+    } else {
+      console.log("need messages");
+    }
 
     this.logResults(this.name, arg.type, arg.id, view.count());
-
-    // TODO make sure we dont send everything back. Use find w/ indice not view.
-    arg.data = view.data();
+    arg.data = [];
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
+  }
+
+  addRoomToRooms(roomName, uri) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK);
+    let rooms = database.getCollection(TalkDatabase.Collections.ROOMS);
+    let room = rooms.findOne({ uri: uri });
+
+    if (!room) {
+      rooms.insert({ roomName, uri });
+    }
   }
 };
 </code></pre>
