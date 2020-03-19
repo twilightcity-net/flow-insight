@@ -158,30 +158,49 @@ module.exports = class TalkToController extends BaseController {
   handleGetAllTalkMessagesFromRoomEvent(event, arg, callback) {
     let roomName = arg.args.roomName,
       database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-      collection = database.getCollection(
-        TalkDatabase.Collections.TALK_MESSAGES
-      ),
-      view = database.getViewTalkMessages(),
-      room = collection.findOne({ roomName: roomName });
+      collection = database.getCollectionForRoomTalkMessages(roomName),
+      view = database.getViewTalkMessagesForCollection(collection);
 
-    if (room) {
-      console.log("have messages");
+    if (this.hasRoomByRoomName(roomName)) {
+      arg.data = view.data();
+      this.logResults(this.name, arg.type, arg.id, view.count());
+      this.delegateCallbackOrEventReplyTo(event, arg, callback);
     } else {
-      console.log("need messages");
+      this.handleLoadAllTalkNessagesFromRoomEvent(
+        null,
+        { args: { roomName: roomName } },
+        () => {
+          arg.data = view.data();
+          this.delegateCallbackOrEventReplyTo(event, arg, callback);
+        }
+      );
     }
-
-    this.logResults(this.name, arg.type, arg.id, view.count());
-    arg.data = [];
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
+  /**
+   * adds a room to our rooms collection for reference
+   * @param roomName
+   * @param uri
+   */
   addRoomToRooms(roomName, uri) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK);
-    let rooms = database.getCollection(TalkDatabase.Collections.ROOMS);
-    let room = rooms.findOne({ uri: uri });
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
+      rooms = database.getCollection(TalkDatabase.Collections.ROOMS),
+      room = rooms.findOne({ uri: uri });
 
     if (!room) {
       rooms.insert({ roomName, uri });
     }
+  }
+
+  /**
+   * checks our database to see if we have a room for the night
+   * @param roomName
+   * @returns {Object}
+   */
+  hasRoomByRoomName(roomName) {
+    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
+      rooms = database.getCollection(TalkDatabase.Collections.ROOMS);
+
+    return rooms.findOne({ roomName: roomName });
   }
 };

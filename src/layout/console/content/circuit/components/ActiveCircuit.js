@@ -80,13 +80,11 @@ export default class ActiveCircuit extends Component {
         model: arg.data
       });
     });
-    TalkToClient.loadAllTalkMessagesFromRoom(circuitName + "-wtf");
-    // TalkToClient.getAllTalkMessagesFromRoom(circuitName + "-wtf", this, arg => {
-    //   console.log("messages", arg);
-    //   this.setState({
-    //     messages: arg.data
-    //   });
-    // });
+    TalkToClient.getAllTalkMessagesFromRoom(circuitName + "-wtf", this, arg => {
+      this.setState({
+        messages: arg.data
+      });
+    });
     this.setState({
       model: null,
       messages: []
