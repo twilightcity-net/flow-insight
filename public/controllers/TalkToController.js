@@ -168,7 +168,7 @@ module.exports = class TalkToController extends BaseController {
     } else {
       this.handleLoadAllTalkNessagesFromRoomEvent(
         null,
-        { args: { roomName: roomName } },
+        { args: { roomName: roomName }, type: arg.type, id: arg.id },
         () => {
           arg.data = view.data();
           this.delegateCallbackOrEventReplyTo(event, arg, callback);
