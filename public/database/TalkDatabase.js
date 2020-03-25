@@ -50,6 +50,7 @@ module.exports = class TalkDatabase extends LokiJS {
   static get Views() {
     return {
       TALK_MESSAGES: "talk-messages",
+      STATUS_TALK_MESSAGES: "status-talk-messages",
       ROOMS: "rooms"
     };
   }
@@ -86,22 +87,39 @@ module.exports = class TalkDatabase extends LokiJS {
    */
   getCollectionForRoomTalkMessages(roomName) {
     let name = this.getTalkMessagesCollectionNameFromRoomName(roomName),
-      collection = this.getCollection(name);
+      collection = this.getCollection(name),
+      view = TalkDatabase.Views.TALK_MESSAGES;
 
     if (!collection) {
-      collection = this.addTalkMessagesCollection(roomName);
+      collection = this.addTalkMessagesCollection(name, view);
+    }
+    return collection;
+  }
+
+  /**
+   * adds or returns and existing collection in our database
+   * @param roomName
+   * @returns {Collection}
+   */
+  getCollectionForRoomStatusTalkMessages(roomName) {
+    let name = this.getStatusTalkMessagesCollectionNameFromRoomName(roomName),
+      collection = this.getCollection(name),
+      view = TalkDatabase.Views.STATUS_TALK_MESSAGES;
+
+    if (!collection) {
+      collection = this.addStatusTalkMessagesCollection(name, view);
     }
     return collection;
   }
 
   /**
    * creates a new talk message collection unique to the room name
-   * @param roomName
    * @returns {Collection}
+   * @param name
+   * @param view
    */
-  addTalkMessagesCollection(roomName) {
-    let name = this.getTalkMessagesCollectionNameFromRoomName(roomName),
-      indices = {
+  addTalkMessagesCollection(name, view) {
+    let indices = {
         indices: [
           TalkDatabase.Indices.ID,
           TalkDatabase.Indices.URI,
@@ -112,7 +130,29 @@ module.exports = class TalkDatabase extends LokiJS {
       },
       collection = this.addCollection(name, indices);
 
-    collection.addDynamicView(TalkDatabase.Views.TALK_MESSAGES);
+    collection.addDynamicView(view);
+    return collection;
+  }
+
+  /**
+   * creates a new status talk message collection unique to the room name
+   * @returns {Collection}
+   * @param name
+   * @param view
+   */
+  addStatusTalkMessagesCollection(name, view) {
+    let indices = {
+        indices: [
+          TalkDatabase.Indices.ID,
+          TalkDatabase.Indices.URI,
+          TalkDatabase.Indices.MESSAGE_TIME,
+          TalkDatabase.Indices.NANO_TIME,
+          TalkDatabase.Indices.MESSAGE_TYPE
+        ]
+      },
+      collection = this.addCollection(name, indices);
+
+    collection.addDynamicView(view);
     return collection;
   }
 
@@ -126,11 +166,31 @@ module.exports = class TalkDatabase extends LokiJS {
   }
 
   /**
-   * gets our view for our specified collection
+   * gets our name for our talk message collection for our database
+   * @param roomName
+   * @returns {string}
+   */
+  getStatusTalkMessagesCollectionNameFromRoomName(roomName) {
+    return this.getTalkMessagesCollectionNameFromRoomName(roomName) + "-status";
+  }
+
+  /**
+   * gets our view for our specified collection of anything thats not a status message
+   * which have their own status collection in this database for each circuit
+   * room that we create in gridtime
    * @param collection
    * @returns {DynamicView}
    */
   getViewTalkMessagesForCollection(collection) {
     return collection.getDynamicView(TalkDatabase.Views.TALK_MESSAGES);
+  }
+
+  /**
+   * gets our view for our specified collection of the status variety
+   * @param collection
+   * @returns {DynamicView}
+   */
+  getViewStatusTalkMessagesForCollection(collection) {
+    return collection.getDynamicView(TalkDatabase.Views.STATUS_TALK_MESSAGES);
   }
 };

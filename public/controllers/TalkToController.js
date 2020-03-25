@@ -22,13 +22,15 @@ module.exports = class TalkToController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, CREATE_CIRCUIT: string, LOAD_ACTIVE_CIRCUIT: string}}
+   * @returns {{LOAD_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string}}
    * @constructor
    */
   static get Events() {
     return {
       LOAD_ALL_TALK_MESSAGES_FROM_ROOM: "load-all-talk-messages-from-room",
-      GET_ALL_TALK_MESSAGES_FROM_ROOM: "get-all-talk-messages-from-room"
+      GET_ALL_TALK_MESSAGES_FROM_ROOM: "get-all-talk-messages-from-room",
+      GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
+        "get-all-status-talk-messages-from-room"
     };
   }
 
@@ -69,6 +71,9 @@ module.exports = class TalkToController extends BaseController {
           break;
         case TalkToController.Events.GET_ALL_TALK_MESSAGES_FROM_ROOM:
           this.handleGetAllTalkMessagesFromRoomEvent(event, arg);
+          break;
+        case TalkToController.Events.GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
+          this.handleGetAllStatusTalkMessagesFromRoomEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -128,23 +133,44 @@ module.exports = class TalkToController extends BaseController {
     } else {
       let roomName = arg.args.roomName,
         database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-        collection = database.getCollectionForRoomTalkMessages(roomName),
-        view = database.getViewTalkMessagesForCollection(collection),
+        messageCollection = database.getCollectionForRoomTalkMessages(roomName),
+        statusCollection = database.getCollectionForRoomStatusTalkMessages(
+          roomName
+        ),
+        messageView = database.getViewTalkMessagesForCollection(
+          messageCollection
+        ),
+        statusView = database.getViewStatusTalkMessagesForCollection(
+          statusCollection
+        ),
         messages = store.data,
         message = messages[0],
+        type = null,
         uri = message.uri;
 
       if (messages && message) {
-        this.addRoomToRooms(roomName, uri);
-        for (let i = 0, m, len = messages.length; i < len; i++) {
+        this.checkForRoomAndToRooms(roomName, uri);
+        for (let i = 0, model = null, len = messages.length; i < len; i++) {
           message = messages[i];
-          m = collection.findOne({ id: message.id });
-          if (!m) {
-            collection.insert(message);
+          type = message.messageType;
+          switch (type) {
+            case TalkToController.MessageTypes.CIRCUIT_STATUS:
+              this.findAndUpdateMessage(model, statusCollection, message);
+              break;
+            case TalkToController.MessageTypes.ROOM_MEMBER_STATUS:
+              this.findAndUpdateMessage(model, statusCollection, message);
+              break;
+            default:
+              this.findAndUpdateMessage(model, messageCollection, message);
           }
         }
       }
-      this.logResults(this.name, arg.type, arg.id, view.count());
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        messageView.count() + "+" + statusView.count()
+      );
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
@@ -161,6 +187,37 @@ module.exports = class TalkToController extends BaseController {
       collection = database.getCollectionForRoomTalkMessages(roomName),
       view = database.getViewTalkMessagesForCollection(collection);
 
+    this.delegateGetAllStatusTalkMessagesFromRoomCallback(
+      roomName,
+      view,
+      event,
+      arg,
+      callback
+    );
+  }
+
+  handleGetAllStatusTalkMessagesFromRoomEvent(event, arg, callback) {
+    let roomName = arg.args.roomName,
+      database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
+      collection = database.getCollectionForRoomStatusTalkMessages(roomName),
+      view = database.getViewStatusTalkMessagesForCollection(collection);
+
+    this.delegateGetAllStatusTalkMessagesFromRoomCallback(
+      roomName,
+      view,
+      event,
+      arg,
+      callback
+    );
+  }
+
+  delegateGetAllStatusTalkMessagesFromRoomCallback(
+    roomName,
+    view,
+    event,
+    arg,
+    callback
+  ) {
     if (this.hasRoomByRoomName(roomName)) {
       arg.data = view.data();
       this.logResults(this.name, arg.type, arg.id, view.count());
@@ -182,7 +239,7 @@ module.exports = class TalkToController extends BaseController {
    * @param roomName
    * @param uri
    */
-  addRoomToRooms(roomName, uri) {
+  checkForRoomAndToRooms(roomName, uri) {
     let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
       rooms = database.getCollection(TalkDatabase.Collections.ROOMS),
       room = rooms.findOne({ uri: uri });

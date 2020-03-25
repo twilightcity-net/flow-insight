@@ -31,7 +31,8 @@ export default class ActiveCircuit extends Component {
       resource: props.resource,
       scrapbookVisible: false,
       model: null,
-      messages: []
+      messages: [],
+      status: []
     };
   }
 
@@ -47,11 +48,20 @@ export default class ActiveCircuit extends Component {
         model: arg.data
       });
     });
-    TalkToClient.loadAllTalkMessagesFromRoom(
+    TalkToClient.getAllTalkMessagesFromRoom(circuitName + "-wtf", this, arg => {
+      this.setState({
+        messages: arg.data
+      });
+      console.log("messages", arg.data);
+    });
+    TalkToClient.getAllStatusTalkMessagesFromRoom(
       circuitName + "-wtf",
       this,
       arg => {
-        console.log("messages", arg);
+        this.setState({
+          status: arg.data
+        });
+        console.log("status", arg.data);
       }
     );
   }
@@ -84,10 +94,23 @@ export default class ActiveCircuit extends Component {
       this.setState({
         messages: arg.data
       });
+      console.log("messages", arg.data);
     });
+    TalkToClient.getAllStatusTalkMessagesFromRoom(
+      circuitName + "-wtf",
+      this,
+      arg => {
+        this.setState({
+          status: arg.data
+        });
+        console.log("status", arg.data);
+      }
+    );
+
     this.setState({
       model: null,
-      messages: []
+      messages: [],
+      status: []
     });
 
     return false;

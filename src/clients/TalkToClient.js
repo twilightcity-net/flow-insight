@@ -33,13 +33,15 @@ export class TalkToClient extends BaseClient {
 
   /**
    * our client events for this talk to service in gridtime
-   * @returns {{LOAD_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string}}
+   * @returns {{LOAD_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string}}
    * @constructor
    */
   static get Events() {
     return {
       LOAD_ALL_TALK_MESSAGES_FROM_ROOM: "load-all-talk-messages-from-room",
-      GET_ALL_TALK_MESSAGES_FROM_ROOM: "get-all-talk-messages-from-room"
+      GET_ALL_TALK_MESSAGES_FROM_ROOM: "get-all-talk-messages-from-room",
+      GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
+        "get-all-status-talk-messages-from-room"
     };
   }
 
@@ -83,6 +85,24 @@ export class TalkToClient extends BaseClient {
   static getAllTalkMessagesFromRoom(roomName, scope, callback) {
     let event = TalkToClient.instance.createClientEvent(
       TalkToClient.Events.GET_ALL_TALK_MESSAGES_FROM_ROOM,
+      { roomName: roomName },
+      scope,
+      callback
+    );
+    TalkToClient.instance.notifyTalkTo(event);
+    return event;
+  }
+
+  /**
+   * gets all of our status messages speciofic to this room
+   * @param roomName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getAllStatusTalkMessagesFromRoom(roomName, scope, callback) {
+    let event = TalkToClient.instance.createClientEvent(
+      TalkToClient.Events.GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM,
       { roomName: roomName },
       scope,
       callback

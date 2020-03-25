@@ -59,14 +59,14 @@ module.exports = class BaseController {
   }
 
   /**
-   * our possible actions a controller can do, used for logging and
-   * reference
-   * @returns {{REMOVE_DOCS: string}}
+   * our possible message type for our controller reference
+   * @returns {{CIRCUIT_STATUS: string, ROOM_MEMBER_STATUS: string}}
    * @constructor
    */
-  static get Actions() {
+  static get MessageTypes() {
     return {
-      REMOVE_DOCS: "REMOVE_DOCS"
+      CIRCUIT_STATUS: "CircuitStatusDto",
+      ROOM_MEMBER_STATUS: "RoomMemberStatus"
     };
   }
 
@@ -267,5 +267,21 @@ module.exports = class BaseController {
    */
   batchRemoveFromViewInCollection(view, collection) {
     collection.removeBatch(view.data());
+  }
+
+  /**
+   * queries for a specific message and determines if we should insert the model
+   * into the collection or not. we are under the assumption that each one of
+   * these talk message records does not mutate over time. The id is fixed in
+   * time as you could say
+   * @param model
+   * @param collection
+   * @param message
+   */
+  findAndUpdateMessage(model, collection, message) {
+    model = collection.findOne({ id: message.id });
+    if (!model) {
+      collection.insert(message);
+    }
   }
 };
