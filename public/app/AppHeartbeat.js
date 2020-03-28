@@ -19,7 +19,7 @@ module.exports = class AppHeartbeat {
     log.info(this.name + " create heartbeat -> okay");
     this.intervalMs = 60000;
     this.timeout = {
-      response: 9000,
+      response: 20000,
       deadline: 30000
     };
     this.dto = new HeartbeatDto({

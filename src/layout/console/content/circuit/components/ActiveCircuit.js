@@ -9,6 +9,7 @@ import { Transition } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
+import { TeamClient } from "../../../../../clients/TeamClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -23,6 +24,7 @@ export default class ActiveCircuit extends Component {
     this.name = "[ActiveCircuit]";
     this.animationType = "fade";
     this.animationDelay = 210;
+    this.me = TeamClient.getMe();
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
       this
@@ -52,7 +54,6 @@ export default class ActiveCircuit extends Component {
       this.setState({
         messages: arg.data
       });
-      console.log("messages", arg.data);
     });
     TalkToClient.getAllStatusTalkMessagesFromRoom(
       circuitName + "-wtf",
@@ -61,9 +62,9 @@ export default class ActiveCircuit extends Component {
         this.setState({
           status: arg.data
         });
-        console.log("status", arg.data);
       }
     );
+    console.log("me", this.me);
   }
 
   /**
@@ -94,7 +95,6 @@ export default class ActiveCircuit extends Component {
       this.setState({
         messages: arg.data
       });
-      console.log("messages", arg.data);
     });
     TalkToClient.getAllStatusTalkMessagesFromRoom(
       circuitName + "-wtf",
@@ -103,7 +103,6 @@ export default class ActiveCircuit extends Component {
         this.setState({
           status: arg.data
         });
-        console.log("status", arg.data);
       }
     );
 
@@ -112,6 +111,8 @@ export default class ActiveCircuit extends Component {
       messages: [],
       status: []
     });
+
+    console.log("me", this.me);
 
     return false;
   }

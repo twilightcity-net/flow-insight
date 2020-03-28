@@ -28,6 +28,14 @@ export default class ActiveCircuitChat extends Component {
   };
 
   /**
+   * gets our chat text input bubble we type into
+   * @returns {string}
+   */
+  getChatTextInnerTextStr = () => {
+    return this.getChatTextEl().innerText;
+  };
+
+  /**
    * functional handler which focuses our input field
    */
   focusChat = () => {
@@ -99,7 +107,23 @@ export default class ActiveCircuitChat extends Component {
    * handles our key press for when we use the enter or return keys
    */
   handleEnterKey = () => {
-    console.log(this.name + " post to server and clear box");
+    let text = this.getChatTextInnerTextStr();
+    this.props.onEnterKey(text, this.delegateEnterKeyCallback);
+  };
+
+  /**
+   * processes our callback for our enter key. clears the text.
+   */
+  delegateEnterKeyCallback = () => {
+    this.clearInnerText();
+  };
+
+  /**
+   * clears our text from our chat text html element
+   */
+  clearInnerText = () => {
+    let el = this.getChatTextEl();
+    el.innerText = "";
   };
 
   /**

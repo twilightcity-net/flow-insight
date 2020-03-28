@@ -506,8 +506,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDividerContent">getDividerContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getErrorContent">getErrorContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedEventContent">getFeedEventContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedeventsFromMessagesArrayContent">getFeedeventsFromMessagesArrayContent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedEventsFromMessagesArrayContent">getFeedEventsFromMessagesArrayContent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedExtraTextsContent">getFeedExtraTextsContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFormattedCircuitName">getFormattedCircuitName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getGuid">getGuid</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getIcon">getIcon</a></span></li>
@@ -591,6 +591,7 @@ import { Transition } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
+import { TeamClient } from "../../../../../clients/TeamClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -605,6 +606,7 @@ export default class ActiveCircuit extends Component {
     this.name = "[ActiveCircuit]";
     this.animationType = "fade";
     this.animationDelay = 210;
+    this.me = TeamClient.getMe();
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
       this
@@ -634,7 +636,6 @@ export default class ActiveCircuit extends Component {
       this.setState({
         messages: arg.data
       });
-      console.log("messages", arg.data);
     });
     TalkToClient.getAllStatusTalkMessagesFromRoom(
       circuitName + "-wtf",
@@ -643,9 +644,9 @@ export default class ActiveCircuit extends Component {
         this.setState({
           status: arg.data
         });
-        console.log("status", arg.data);
       }
     );
+    console.log("me", this.me);
   }
 
   /**
@@ -676,7 +677,6 @@ export default class ActiveCircuit extends Component {
       this.setState({
         messages: arg.data
       });
-      console.log("messages", arg.data);
     });
     TalkToClient.getAllStatusTalkMessagesFromRoom(
       circuitName + "-wtf",
@@ -685,7 +685,6 @@ export default class ActiveCircuit extends Component {
         this.setState({
           status: arg.data
         });
-        console.log("status", arg.data);
       }
     );
 
@@ -694,6 +693,8 @@ export default class ActiveCircuit extends Component {
       messages: [],
       status: []
     });
+
+    console.log("me", this.me);
 
     return false;
   }

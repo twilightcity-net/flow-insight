@@ -48,8 +48,8 @@ class DtoClient {
     this.type = store.requestType;
     this.callback = callback;
     this.timeout = {
-      response: 9000,
-      deadline: 20000
+      response: 20000,
+      deadline: 30000
     };
   }
 

@@ -4,6 +4,8 @@ import { Divider, Feed, Segment } from "semantic-ui-react";
 import SplitterLayout from "react-splitter-layout";
 import ActiveCircuitChat from "./ActiveCircuitChat";
 import UtilRenderer from "../../../../../UtilRenderer";
+import { TeamClient } from "../../../../../clients/TeamClient";
+import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
 
 export default class ActiveCircuitFeed extends Component {
   /**
@@ -19,20 +21,44 @@ export default class ActiveCircuitFeed extends Component {
   constructor(props) {
     super(props);
     this.name = "[ActiveCircuitFeed]";
-    this.imageEmojiSrc = "./assets/images/emoji_cool.png";
-    this.messages = [
-      {
-        name: "Zoe Love",
-        time: "1 hour ago",
-        description:
-          "Ours is a life of constant reruns. We're always circling back to life."
-      }
-    ];
+    this.messages = [];
+    this.lastFeedEvent = null;
+    this.me = TeamClient.getMe();
   }
 
-  componentDidMount() {
-    console.log("mount");
-  }
+  /**
+   * processes our enter key for our chat texting
+   * @param text
+   * @param callback
+   */
+  handleEnterKey = (text, callback) => {
+    this.addChatMessage(this.me.userName, "NOW - Today", text, callback);
+  };
+
+  /**
+   * adds a new message to our messages array and triggers a rerender
+   * @param name
+   * @param time
+   * @param text
+   * @param callback
+   */
+  addChatMessage = (name, time, text, callback) => {
+    let message = {
+      name: name,
+      time: time,
+      text: [text]
+    };
+    if (this.lastFeedEvent && this.lastFeedEvent.props.name === name) {
+      message = this.messages.pop();
+      message.text.push(text);
+    }
+    this.messages.push(message);
+    this.forceUpdate(() => {
+      if (callback) {
+        callback();
+      }
+    });
+  };
 
   /**
    * event handle for the vertical panel resize. Adjust the feed panel height
@@ -47,29 +73,6 @@ export default class ActiveCircuitFeed extends Component {
   };
 
   /**
-   * renders our feed event
-   * @returns {*}
-   * @param key
-   * @param name
-   * @param time
-   * @param text
-   */
-  getFeedEventContent(key, name, time, text) {
-    return (
-      <Feed.Event key={key}>
-        <Feed.Label image={this.imageEmojiSrc} />
-        <Feed.Content>
-          <Feed.Summary>
-            <a>{name}</a>
-            <Feed.Date>{time}</Feed.Date>
-          </Feed.Summary>
-          <Feed.Extra text>{text}</Feed.Extra>
-        </Feed.Content>
-      </Feed.Event>
-    );
-  }
-
-  /**
    * renders our divider content which goes between messages. for keyframe markers
    * @param timeStr
    * @returns {*}
@@ -82,14 +85,17 @@ export default class ActiveCircuitFeed extends Component {
    * renders our feed messages from our messages array.
    * @returns {*}
    */
-  getFeedeventsFromMessagesArrayContent() {
+  getFeedEventsFromMessagesArrayContent() {
     return this.messages.map((message, i) => {
-      return this.getFeedEventContent(
-        i,
-        message.name,
-        message.time,
-        message.description
+      this.lastFeedEvent = (
+        <ActiveCircuitFeedEvent
+          key={i}
+          name={message.name}
+          time={message.time}
+          texts={message.text}
+        />
       );
+      return this.lastFeedEvent;
     });
   }
 
@@ -126,11 +132,11 @@ export default class ActiveCircuitFeed extends Component {
           >
             <Feed className="chat-feed">
               {this.getDividerContent(openTimeStr)}
-              {this.getFeedeventsFromMessagesArrayContent()}
+              {this.getFeedEventsFromMessagesArrayContent()}
             </Feed>
           </Segment>
           <div id="wrapper" className="activeCircuitChat">
-            <ActiveCircuitChat />
+            <ActiveCircuitChat onEnterKey={this.handleEnterKey} />
           </div>
         </SplitterLayout>
       </div>

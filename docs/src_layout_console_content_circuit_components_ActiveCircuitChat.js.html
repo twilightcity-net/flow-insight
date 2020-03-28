@@ -506,8 +506,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDividerContent">getDividerContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getErrorContent">getErrorContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedEventContent">getFeedEventContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedeventsFromMessagesArrayContent">getFeedeventsFromMessagesArrayContent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedEventsFromMessagesArrayContent">getFeedEventsFromMessagesArrayContent</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedExtraTextsContent">getFeedExtraTextsContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFormattedCircuitName">getFormattedCircuitName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getGuid">getGuid</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getIcon">getIcon</a></span></li>
@@ -610,6 +610,14 @@ export default class ActiveCircuitChat extends Component {
   };
 
   /**
+   * gets our chat text input bubble we type into
+   * @returns {string}
+   */
+  getChatTextInnerTextStr = () => {
+    return this.getChatTextEl().innerText;
+  };
+
+  /**
    * functional handler which focuses our input field
    */
   focusChat = () => {
@@ -681,7 +689,23 @@ export default class ActiveCircuitChat extends Component {
    * handles our key press for when we use the enter or return keys
    */
   handleEnterKey = () => {
-    console.log(this.name + " post to server and clear box");
+    let text = this.getChatTextInnerTextStr();
+    this.props.onEnterKey(text, this.delegateEnterKeyCallback);
+  };
+
+  /**
+   * processes our callback for our enter key. clears the text.
+   */
+  delegateEnterKeyCallback = () => {
+    this.clearInnerText();
+  };
+
+  /**
+   * clears our text from our chat text html element
+   */
+  clearInnerText = () => {
+    let el = this.getChatTextEl();
+    el.innerText = "";
   };
 
   /**
