@@ -8,7 +8,10 @@ class LearningCircuitWithMembersDto extends LearningCircuitDto {
   constructor(json) {
     super(json);
     try {
-      this.circuitMembers = json.circuitMembers;
+      this.circuitParticipants = json.circuitParticipants;
+      this.activeWtfRoomMembers = json.activeWtfRoomMembers;
+      this.activeRetroRoomMembers = json.activeRetroRoomMembers;
+
     } catch (e) {
       throw new Error(
         "Unable to create dto 'LearningCircuitWithMembersDto' : " + e.message
