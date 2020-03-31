@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { DimensionController } from "../../../../controllers/DimensionController";
 
 /**
  * the 2d html canvas react component class that ios user by the spirit
@@ -11,9 +12,9 @@ export default class SpiritCanvas extends Component {
   constructor(props) {
     super(props);
     this.render3d = props.render3d;
-    this.spirit = props.spirit;
     this.height = props.height;
     this.width = props.width;
+    this.flameRating = 0;
   }
 
   /**
@@ -24,7 +25,7 @@ export default class SpiritCanvas extends Component {
     if (this.render3D === "true") {
       // TODO implement unity3d models and scene into this element
     } else {
-      this.updateTorchieImage(0);
+      this.updateTorchieImage(this.flameRating);
     }
   }
 
@@ -33,7 +34,7 @@ export default class SpiritCanvas extends Component {
    * @param nextProps
    */
   componentWillReceiveProps = nextProps => {
-    this.updateTorchieImage(nextProps.flameString);
+    this.updateTorchieImage(this.flameRating);
   };
 
   /**
@@ -41,7 +42,9 @@ export default class SpiritCanvas extends Component {
    * @param flameString
    */
   updateTorchieImage(flameRating) {
-    let spiritImage = "";
+    let spiritImage = "",
+      height = DimensionController.getSpiritCanvasHeight(),
+      width = DimensionController.getSpiritCanvasWidth();
 
     if (flameRating >= 0) {
       spiritImage = "./assets/images/spirit.png";
@@ -55,7 +58,7 @@ export default class SpiritCanvas extends Component {
       if (canvas) {
         this.getCanvasEl()
           .getContext("2d")
-          .drawImage(image, 0, 0, this.props.width, this.props.height);
+          .drawImage(image, 0, 0, width, height);
       }
     };
     image.src = spiritImage;
@@ -77,8 +80,8 @@ export default class SpiritCanvas extends Component {
     return (
       <canvas
         id="SpiritCanvas"
-        height={this.props.height}
-        width={this.props.width}
+        height={DimensionController.getSpiritCanvasHeight()}
+        width={DimensionController.getSpiritCanvasWidth()}
       />
     );
   }

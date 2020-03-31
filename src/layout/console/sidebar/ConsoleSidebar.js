@@ -3,6 +3,7 @@ import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 import { DimensionController } from "../../../controllers/DimensionController";
+import { TeamClient } from "../../../clients/TeamClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -40,6 +41,7 @@ export default class ConsoleSidebar extends Component {
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
+    console.log("A", TeamClient.isWTFAlarmTriggered());
   }
 
   /**
@@ -94,12 +96,22 @@ export default class ConsoleSidebar extends Component {
     });
   }
 
+  /**
+   * event handler for when we start and stop our active circuit
+   * @param event
+   * @param arg
+   */
   onCircuitStartStop(event, arg) {
     this.setState({
       isAlarm: arg > 0
     });
   }
 
+  /**
+   * event listener for when our sidebar panel needs to update and change
+   * @param event
+   * @param arg
+   */
   onSidebarShow(event, arg) {
     console.log(this.name + " shortcut recieved -> sidebar show : " + arg);
     switch (arg) {
@@ -203,34 +215,17 @@ export default class ConsoleSidebar extends Component {
   };
 
   /**
-   * renders the sidebar of the console view
+   * renders our network connection popup tooltip on our shell
+   * @param server
+   * @param pingTime
+   * @param talkUrl
+   * @param latencyTime
+   * @param isOnline
+   * @param errorMsg
+   * @returns {*}
    */
-  render() {
-    const {
-      activeItem,
-      isOnline,
-      pingTime,
-      latencyTime,
-      talkUrl,
-      server,
-      errorMsg
-    } = this.state;
-
-    let iconClassName = isOnline ? "signal" : "remove circle",
-      menuClassName = isOnline ? "networkConnect" : "networkConnectError",
-      iconColor = isOnline ? "green" : "red";
-
-    if (isOnline === undefined) {
-      menuClassName = "networkLoading";
-      iconClassName = "wait";
-      iconColor = "grey";
-    }
-    const networkConnectMenuItem = (
-      <Menu.Item header className={menuClassName}>
-        <Icon name={iconClassName} color={iconColor} />
-      </Menu.Item>
-    );
-    const popupContent = (
+  getPopupContent(server, pingTime, talkUrl, latencyTime, isOnline, errorMsg) {
+    return (
       <div>
         <div>
           <i>{server}</i>
@@ -259,6 +254,44 @@ export default class ConsoleSidebar extends Component {
           </div>
         )}
       </div>
+    );
+  }
+
+  /**
+   * renders the sidebar of the console view
+   */
+  render() {
+    const {
+      activeItem,
+      isOnline,
+      pingTime,
+      latencyTime,
+      talkUrl,
+      server,
+      errorMsg
+    } = this.state;
+
+    let iconClassName = isOnline ? "signal" : "remove circle",
+      menuClassName = isOnline ? "networkConnect" : "networkConnectError",
+      iconColor = isOnline ? "green" : "red";
+
+    if (isOnline === undefined) {
+      menuClassName = "networkLoading";
+      iconClassName = "wait";
+      iconColor = "grey";
+    }
+    const networkConnectMenuItem = (
+      <Menu.Item header className={menuClassName}>
+        <Icon name={iconClassName} color={iconColor} />
+      </Menu.Item>
+    );
+    const popupContent = this.getPopupContent(
+      server,
+      pingTime,
+      talkUrl,
+      latencyTime,
+      isOnline,
+      errorMsg
     );
     return (
       <div id="component" className={ConsoleSidebar.className}>

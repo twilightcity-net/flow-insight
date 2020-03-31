@@ -50,21 +50,6 @@ export default class ActiveCircuit extends Component {
         model: arg.data
       });
     });
-    TalkToClient.getAllTalkMessagesFromRoom(circuitName + "-wtf", this, arg => {
-      this.setState({
-        messages: arg.data
-      });
-    });
-    TalkToClient.getAllStatusTalkMessagesFromRoom(
-      circuitName + "-wtf",
-      this,
-      arg => {
-        this.setState({
-          status: arg.data
-        });
-      }
-    );
-    console.log("me", this.me);
   }
 
   /**
@@ -87,32 +72,15 @@ export default class ActiveCircuit extends Component {
 
     let circuitName = nextProps.resource.uriArr[2];
     CircuitClient.getCircuitWithAllDetails(circuitName, this, arg => {
+      console.log(arg);
       this.setState({
         model: arg.data
       });
     });
-    TalkToClient.getAllTalkMessagesFromRoom(circuitName + "-wtf", this, arg => {
-      this.setState({
-        messages: arg.data
-      });
-    });
-    TalkToClient.getAllStatusTalkMessagesFromRoom(
-      circuitName + "-wtf",
-      this,
-      arg => {
-        this.setState({
-          status: arg.data
-        });
-      }
-    );
 
     this.setState({
-      model: null,
-      messages: [],
-      status: []
+      model: null
     });
-
-    console.log("me", this.me);
 
     return false;
   }

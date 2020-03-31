@@ -96,6 +96,7 @@ export class DimensionController {
     let consoleSidebarWidthPixels = 29,
       oneRem = window.innerWidth / 100,
       relativeWidth = 20.2;
+
     return oneRem * relativeWidth - consoleSidebarWidthPixels;
   }
 
@@ -104,20 +105,11 @@ export class DimensionController {
    * @returns {number}
    */
   static getSpiritCanvasHeight() {
-    let heights = {
-      window: window.innerHeight,
-      border: 2,
-      margin: 20,
-      title: 24,
-      canvas: 108
-    };
-    return (
-      heights.window -
-      heights.border -
-      heights.margin -
-      heights.title -
-      heights.canvas
-    );
+    let consoleSidebarBorderPixels = 4,
+      oneRem = window.innerHeight / 100,
+      relativeHeight = 77;
+
+    return oneRem * relativeHeight - consoleSidebarBorderPixels;
   }
 
   /**

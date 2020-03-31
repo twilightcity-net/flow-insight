@@ -39,6 +39,36 @@ export class BaseClient {
   }
 
   /**
+   * our enum of gridtime Circuit Message Types that talk broadcasts
+   * @returns {{TEAM_MEMBER_STATUS_UPDATE: string, WTF_STARTED: string, TEAM_MEMBER_XP_UPDATE: string, CHAT: string, TEAM_WTF_RESUMED: string, ROOM_MEMBER_JOIN: string, ROOM_MEMBER_ONLINE: string, TEAM_WTF_STOPPED: string, WTF_RESUMED: string, WTF_SOLVED: string, SCREENSHOT: string, TEAM_RETRO_STARTED: string, SNIPPET: string, ROOM_MEMBER_LEAVE: string, TEAM_INTENTION_STARTED: string, WTF_RETRO_STARTED: string, WTF_ONHOLD: string, ROOM_MEMBER_OFFLINE: string, WTF_CANCELED: string, TEAM_WTF_STARTED: string}}
+   * @constructor
+   */
+  static get CircuitMessageTypeDto() {
+    return {
+      CHAT: "ChatMessageDetailsDto",
+      SCREENSHOT: "ScreenshotMessageDetailsDto",
+      SNIPPET: "SnippetMessageDetailsDto",
+      ROOM_MEMBER_JOIN: "RoomMemberStatus",
+      ROOM_MEMBER_LEAVE: "RoomMemberStatus",
+      ROOM_MEMBER_OFFLINE: "RoomMemberStatus",
+      ROOM_MEMBER_ONLINE: "RoomMemberStatus",
+      WTF_STARTED: "CircuitStatusDto",
+      WTF_SOLVED: "CircuitStatusDto",
+      WTF_ONHOLD: "CircuitStatusDto",
+      WTF_RESUMED: "CircuitStatusDto",
+      WTF_RETRO_STARTED: "CircuitStatusDto",
+      WTF_CANCELED: "CircuitStatusDto",
+      TEAM_INTENTION_STARTED: "IntentionStartedDetailsDto",
+      TEAM_WTF_STARTED: "WTFStatusUpdateDto",
+      TEAM_WTF_STOPPED: "WTFStatusUpdateDto",
+      TEAM_WTF_RESUMED: "WTFStatusUpdateDto",
+      TEAM_RETRO_STARTED: "WTFStatusUpdateDto",
+      TEAM_MEMBER_STATUS_UPDATE: "MemberWorkStatusDto",
+      TEAM_MEMBER_XP_UPDATE: "XPStatusUpdateDto"
+    };
+  }
+
+  /**
    * builds our base client class
    * @param scope
    * @param name

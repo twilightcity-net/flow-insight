@@ -1,7 +1,8 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   CircuitDatabase = require("../database/CircuitDatabase"),
-  DatabaseFactory = require("../database/DatabaseFactory");
+  DatabaseFactory = require("../database/DatabaseFactory"),
+  Util = require("../Util");
 
 /**
  * This class is used to coordinate controllers across the talk service
@@ -325,7 +326,7 @@ module.exports = class CircuitController extends BaseController {
         circuit = store.data;
 
       this.batchRemoveFromViewInCollection(view, collection);
-      if (circuit) {
+      if (circuit && !Util.isEmpty(circuit)) {
         this.updateSingleCircuitByIdInCollection(circuit, collection);
       }
     }

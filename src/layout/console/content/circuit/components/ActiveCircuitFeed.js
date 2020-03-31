@@ -6,6 +6,8 @@ import ActiveCircuitChat from "./ActiveCircuitChat";
 import UtilRenderer from "../../../../../UtilRenderer";
 import { TeamClient } from "../../../../../clients/TeamClient";
 import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
+import { TalkToClient } from "../../../../../clients/TalkToClient";
+import moment from "moment";
 
 export default class ActiveCircuitFeed extends Component {
   /**
@@ -21,10 +23,83 @@ export default class ActiveCircuitFeed extends Component {
   constructor(props) {
     super(props);
     this.name = "[ActiveCircuitFeed]";
-    this.messages = [];
-    this.lastFeedEvent = null;
     this.me = TeamClient.getMe();
+    this.lastFeedEvent = null;
+    this.feedEvents = [];
+    this.messages = [];
+    this.status = [];
   }
+
+  /**
+   * when we load this component we should query for locally stored talk messages. If they dont exist
+   * then the client will make a grid time request fetching these documents for the local database.
+   */
+  componentDidMount() {
+    let circuitName = this.props.resource.uriArr[2];
+    TalkToClient.getAllTalkMessagesFromRoom(circuitName + "-wtf", this, arg => {
+      this.messages = arg.data;
+      this.updateChatMessages();
+    });
+  }
+
+  /**
+   * called when we update our active circuit feed. works similar to its parent component.
+   * @param nextProps
+   * @param nextState
+   * @param nextContext
+   * @returns {boolean}
+   */
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if (this.props.resource.uri === nextProps.resource.uri) {
+      return false;
+    }
+
+    let circuitName = nextProps.resource.uriArr[2];
+    TalkToClient.getAllTalkMessagesFromRoom(circuitName + "-wtf", this, arg => {
+      this.messages = arg.data;
+      this.updateChatMessages();
+    });
+
+    return true;
+  }
+
+  /**
+   * updates our Chat Messages that our in our messages array. This is generally setup initially
+   * by our mount or update component functions
+   */
+  updateChatMessages = () => {
+    let metaProps = null,
+      userName = null,
+      time = null,
+      json = null,
+      text = [],
+      event = null;
+
+    this.feedEvents = [];
+    this.messages.map(value => {
+      metaProps = value.metaProps;
+      userName = !!metaProps && metaProps["from.member.userName"];
+      time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(value.messageTime);
+      json = JSON.parse(value.jsonBody);
+      text = json.message;
+
+      if (this.lastFeedEvent && this.lastFeedEvent.name === userName) {
+        event = this.feedEvents.pop();
+        event.text.push(text);
+      } else {
+        event = {
+          name: userName,
+          time: time,
+          text: [text]
+        };
+      }
+
+      this.lastFeedEvent = event;
+      this.feedEvents.push(event);
+    });
+
+    this.forceUpdate();
+  };
 
   /**
    * processes our enter key for our chat texting
@@ -32,7 +107,7 @@ export default class ActiveCircuitFeed extends Component {
    * @param callback
    */
   handleEnterKey = (text, callback) => {
-    this.addChatMessage(this.me.userName, "NOW - Today", text, callback);
+    this.addChatMessage(this.me.userName, "NOW - Today", text, callback, true);
   };
 
   /**
@@ -43,16 +118,21 @@ export default class ActiveCircuitFeed extends Component {
    * @param callback
    */
   addChatMessage = (name, time, text, callback) => {
-    let message = {
-      name: name,
-      time: time,
-      text: [text]
-    };
+    let roomName = this.props.resource.uriArr[2],
+      message = {
+        name: name,
+        time: time,
+        text: [text]
+      };
+
     if (this.lastFeedEvent && this.lastFeedEvent.props.name === name) {
-      message = this.messages.pop();
+      message = this.feedEvents.pop();
       message.text.push(text);
     }
-    this.messages.push(message);
+    this.feedEvents.push(message);
+    TalkToClient.publishChatToRoom(roomName + "-wtf", text, this, arg => {
+      console.log(arg);
+    });
     this.forceUpdate(() => {
       if (callback) {
         callback();
@@ -86,7 +166,7 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {*}
    */
   getFeedEventsFromMessagesArrayContent() {
-    return this.messages.map((message, i) => {
+    return this.feedEvents.map((message, i) => {
       this.lastFeedEvent = (
         <ActiveCircuitFeedEvent
           key={i}

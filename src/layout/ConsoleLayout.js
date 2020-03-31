@@ -133,23 +133,7 @@ export default class ConsoleLayout extends Component {
   getSpiritPanelContent = () => {
     return (
       <SpiritPanel
-        me={this.state.me}
-        torchieOwner={this.getTorchieName()}
-        spiritId={this.state.spiritId}
-        xpSummary={this.state.xpSummary}
-        activeSpiritLinks={this.state.activeSpiritLinks}
-        level={this.state.level}
-        percentXP={this.state.percentXP}
-        remainingToLevel={this.state.remainingToLevel}
-        totalXP={this.state.totalXP}
-        title={this.state.title}
-        flameRating={this.state.flameRating}
-        loadStateCb={this.loadStateSidebarPanelCb}
-        saveStateCb={this.saveStateSidebarPanelCb}
         width={this.state.sidebarPanelWidth}
-        height={DimensionController.getHeightFor(
-          DimensionController.Components.CONSOLE_LAYOUT
-        )}
         opacity={this.state.sidebarPanelOpacity}
       />
     );

@@ -8,8 +8,7 @@ const { app, shell } = require("electron"),
 
 /**
  * general purpose global utility functions
- * @class Util
- * @type {module.Util}
+ * @type {Util}
  */
 module.exports = class Util {
   /**
@@ -19,6 +18,15 @@ module.exports = class Util {
    */
   static get node() {
     return util;
+  }
+
+  /**
+   * checks to see if we have an empty object.
+   * @param obj
+   * @returns {boolean}
+   */
+  static isEmpty(obj) {
+    return Object.keys(obj).length === 0;
   }
 
   /**

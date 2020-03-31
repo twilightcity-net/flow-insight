@@ -34,7 +34,7 @@ class LearningCircuitDto {
       this.resumeCircuitNanoTime = json.resumeCircuitNanoTime;
       this.cancelCircuitNanoTime = json.cancelCircuitNanoTime;
 
-        return json;
+      return json;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'LearningCircuitDto' : " + e.message

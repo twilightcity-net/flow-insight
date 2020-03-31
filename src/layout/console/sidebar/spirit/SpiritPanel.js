@@ -4,6 +4,8 @@ import { SidePanelViewController } from "../../../../controllers/SidePanelViewCo
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import SpiritCanvas from "./SpiritCanvas";
 import { DimensionController } from "../../../../controllers/DimensionController";
+import { TeamClient } from "../../../../clients/TeamClient";
+import UtilRenderer from "../../../../UtilRenderer";
 
 /**
  * this class is responsible for storing the users avatar, soul, inventory,
@@ -17,12 +19,19 @@ export default class SpiritPanel extends Component {
    */
   constructor(props) {
     super(props);
-    this.state = this.loadState();
     this.name = "[SpiritPanel]";
     this.render3d = false;
+    this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
+    this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
+    this.state = {
+      activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
+      spiritVisible: false,
+      badgesVisible: false
+    };
+    this.me = TeamClient.getMe();
   }
 
   /**
@@ -81,6 +90,7 @@ export default class SpiritPanel extends Component {
    * event listener that is notified when the perspective changes views
    */
   onRefreshSpiritPanel() {
+    this.me = TeamClient.getMe();
     switch (this.myController.activeSpiritSubmenuSelection) {
       case SidePanelViewController.SubmenuSelection.SPIRIT:
         this.showSpiritPanel();
@@ -105,34 +115,15 @@ export default class SpiritPanel extends Component {
   }
 
   /**
-   * laods the stored state from parent or use default values
-   * @returns {{totalXP: number, animationDelay: number, level: number, activeItem: string, badgesVisible: boolean, spiritVisible: boolean, title: string, percentXP: number, animationType: string}|*}
-   */
-  loadState() {
-    let state = this.props.loadStateCb();
-    if (!state) {
-      return {
-        activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
-        spiritVisible: false,
-        badgesVisible: false,
-        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
-        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
-        level: 0,
-        percentXP: 99,
-        totalXP: 99999,
-        title: ""
-      };
-    }
-    return state;
-  }
-
-  /**
    * gets the badges content panel for the sidebar
    * @returns {*}
    */
   getBadgesContent = () => {
     return (
-      <div className="badgesContent" style={{ height: this.props.height - 61 }}>
+      <div
+        className="badgesContent"
+        style={{ height: DimensionController.getConsoleLayoutHeight() - 61 }}
+      >
         <i>Check back later :)</i>
       </div>
     );
@@ -143,16 +134,23 @@ export default class SpiritPanel extends Component {
    * @returns {*}
    */
   getSpiritTitle = () => {
+    let displayName = this.me.displayName,
+      xpSummary = this.me.xpSummary,
+      xpPercent = UtilRenderer.getXpPercent(
+        xpSummary.xpProgress,
+        xpSummary.xpRequiredToLevel
+      );
+
     return (
       <div className="spiritTitle">
         <div className="level">
           <div className="infoTitle">
-            <b>{this.props.torchieOwner}</b>
+            <b>{displayName}</b>
           </div>
           <div className="infoLevel">
-            <b>Level {this.props.level} </b>
+            <b>Level {xpSummary.level} </b>
             <br />
-            <i>({this.props.title})</i>
+            <i>({xpSummary.title})</i>
           </div>
         </div>
 
@@ -160,7 +158,7 @@ export default class SpiritPanel extends Component {
           trigger={
             <Progress
               size="small"
-              percent={this.props.percentXP}
+              percent={xpPercent}
               color="violet"
               inverted
               progress
@@ -168,7 +166,10 @@ export default class SpiritPanel extends Component {
           }
           content={
             <div className="xpCount">
-              Total XP: <i>{this.props.totalXP}</i>
+              <b>
+                <i>Total:</i>
+              </b>{" "}
+              {xpSummary.totalXP} XP
             </div>
           }
           inverted
@@ -184,15 +185,7 @@ export default class SpiritPanel extends Component {
    * @returns {*}
    */
   getSpiritCanvas = () => {
-    return (
-      <SpiritCanvas
-        flameString={this.state.flameString}
-        spirit={this.spiritModel}
-        width={DimensionController.getSpiritCanvasWidth()}
-        height={DimensionController.getSpiritCanvasHeight()}
-        render3d={this.render3d}
-      />
-    );
+    return <SpiritCanvas render3d={this.render3d} />;
   };
 
   /**
@@ -223,7 +216,7 @@ export default class SpiritPanel extends Component {
         className="consoleSidebarPanel spiritPanel"
         style={{
           width: "100%",
-          height: this.props.height,
+          height: DimensionController.getConsoleLayoutHeight(),
           opacity: 1
         }}
       >

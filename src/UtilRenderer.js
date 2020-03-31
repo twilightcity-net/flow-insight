@@ -133,21 +133,22 @@ export default class UtilRenderer {
   }
 
   /**
+   * gets a decimal percent of our relative xp towards the next level.
+   * @param xpProgress
+   * @param xpRequiredToLevel
+   * @returns {number}
+   */
+  static getXpPercent(xpProgress, xpRequiredToLevel) {
+    return ((xpProgress / xpRequiredToLevel) * 100) | 0;
+  }
+
+  /**
    * checks of our member is online by their online status field
    * @param member
    * @returns {boolean}
    */
   static isMemberOnline(member) {
     return member.onlineStatus === "Online";
-  }
-
-  /**
-   * checks to see if our alarm is triggered for a given user
-   * @param member
-   * @returns {boolean}
-   */
-  static isAlarmTriggered(member) {
-    return !!member.activeCircuit;
   }
 
   /**

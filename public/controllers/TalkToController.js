@@ -30,7 +30,8 @@ module.exports = class TalkToController extends BaseController {
       LOAD_ALL_TALK_MESSAGES_FROM_ROOM: "load-all-talk-messages-from-room",
       GET_ALL_TALK_MESSAGES_FROM_ROOM: "get-all-talk-messages-from-room",
       GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
-        "get-all-status-talk-messages-from-room"
+        "get-all-status-talk-messages-from-room",
+      PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room"
     };
   }
 
@@ -74,6 +75,9 @@ module.exports = class TalkToController extends BaseController {
           break;
         case TalkToController.Events.GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
           this.handleGetAllStatusTalkMessagesFromRoomEvent(event, arg);
+          break;
+        case TalkToController.Events.PUBLISH_CHAT_TO_ROOM:
+          this.handlePublishChatToRoomEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -232,6 +236,51 @@ module.exports = class TalkToController extends BaseController {
         }
       );
     }
+  }
+
+  handlePublishChatToRoomEvent(event, arg, callback) {
+    let roomName = arg.args.roomName,
+      text = arg.args.text,
+      urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.ROOM +
+        TalkToController.Paths.SEPARATOR +
+        roomName +
+        TalkToController.Paths.CHAT;
+
+    this.doClientRequest(
+      TalkToController.Contexts.TALK_TO_CLIENT,
+      { chatMessage: text },
+      TalkToController.Names.PUBLISH_CHAT_TO_ROOM,
+      TalkToController.Types.POST,
+      urn,
+      store =>
+        this.delegatePublishChatToRoomCallback(store, event, arg, callback)
+    );
+  }
+
+  delegatePublishChatToRoomCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let roomName = arg.args.roomName,
+        database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
+        messageCollection = database.getCollectionForRoomTalkMessages(roomName),
+        messageView = database.getViewTalkMessagesForCollection(
+          messageCollection
+        ),
+        message = store.data,
+        uri = message.uri;
+
+      if (message) {
+        this.checkForRoomAndToRooms(roomName, uri);
+        messageCollection.insert(message);
+        arg.data = message;
+      }
+      this.logResults(this.name, arg.type, arg.id, messageView.count());
+    }
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**
