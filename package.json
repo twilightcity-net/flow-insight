@@ -2,7 +2,7 @@
   "name": "torchie-shell",
   "productName": "Torchie",
   "description": "Torchie Shell - Copyright ® 2020 - DreamsScale, Inc.",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "engines": {
     "node": "11.15.0"
   },
@@ -16,6 +16,7 @@
   "main": "public/electron.js",
   "repository": {
     "type": "git",
+
     "url": "https://github.com/dreamscale-io/torchie-release.git"
   },
   "scripts": {

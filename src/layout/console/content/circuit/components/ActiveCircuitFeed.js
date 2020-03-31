@@ -7,7 +7,7 @@ import UtilRenderer from "../../../../../UtilRenderer";
 import { TeamClient } from "../../../../../clients/TeamClient";
 import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
-import moment from "moment";
+import { scrollTo } from "../../../../../UtilScroll";
 
 export default class ActiveCircuitFeed extends Component {
   /**
@@ -98,7 +98,21 @@ export default class ActiveCircuitFeed extends Component {
       this.feedEvents.push(event);
     });
 
-    this.forceUpdate();
+    this.forceUpdate(() => {
+      this.scrollToFeedBottom();
+    });
+  };
+
+  /**
+   * function used to scroll our feed panel to the bottom when we build the
+   * list or get a new talk message event in from the talk client
+   * @param callback
+   */
+  scrollToFeedBottom = callback => {
+    let feedElement = document.getElementById("active-circuit-feed"),
+      height = feedElement.scrollHeight;
+
+    scrollTo(feedElement, { behavior: "auto", top: height }).then(callback);
   };
 
   /**
@@ -130,13 +144,9 @@ export default class ActiveCircuitFeed extends Component {
       message.text.push(text);
     }
     this.feedEvents.push(message);
-    TalkToClient.publishChatToRoom(roomName + "-wtf", text, this, arg => {
-      console.log(arg);
-    });
+    TalkToClient.publishChatToRoom(roomName + "-wtf", text);
     this.forceUpdate(() => {
-      if (callback) {
-        callback();
-      }
+      this.scrollToFeedBottom(callback);
     });
   };
 
@@ -185,7 +195,7 @@ export default class ActiveCircuitFeed extends Component {
    */
   render() {
     let circuit = this.props.model,
-      openTimeStr = "";
+      openTimeStr = "NOW";
 
     if (circuit) {
       openTimeStr = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
@@ -210,7 +220,7 @@ export default class ActiveCircuitFeed extends Component {
               height: DimensionController.getActiveCircuitFeedContentHeight()
             }}
           >
-            <Feed className="chat-feed">
+            <Feed className="chat-feed" id="active-circuit-feed">
               {this.getDividerContent(openTimeStr)}
               {this.getFeedEventsFromMessagesArrayContent()}
             </Feed>
