@@ -11,11 +11,11 @@ module.exports = class TalkMessageDto {
       if (typeof json === "string") json = JSON.parse(json);
       this.id = json.id;
       this.uri = json.uri;
-      this.nanoTime = json.nanoTime;
       this.messageTime = json.messageTime;
-      this.messageType = json.messageType;
+      this.nanoTime = json.nanoTime;
       this.metaProps = json.metaProps;
-      this.jsonBody = json.jsonBody;
+      this.messageType = json.messageType;
+      this.data = json.data;
     } catch (e) {
       throw new Error("Unable to create json : " + e.message);
     }
