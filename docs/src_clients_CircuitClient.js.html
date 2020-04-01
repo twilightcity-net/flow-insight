@@ -663,7 +663,8 @@ export class CircuitClient extends BaseClient {
       GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits",
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS: "get-circuit-with-all-details",
-      CANCEL_WTF: "cancel-wtf"
+      CANCEL_WTF: "cancel-wtf",
+      PAUSE_WTF: "pause-wtf"
     };
   }
 
@@ -875,7 +876,18 @@ export class CircuitClient extends BaseClient {
   static cancelWtf(circuitName, scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.CANCEL_WTF,
-      {},
+      { circuitName: circuitName },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  static pauseWtf(circuitName, scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.PAUSE_WTF,
+      { circuitName: circuitName },
       scope,
       callback
     );

@@ -37,7 +37,9 @@ module.exports = class CircuitController extends BaseController {
       GET_ALL_MY_PARTICIPATING_CIRCUITS: "get-all-my-participating-circuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits",
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
-      GET_CIRCUIT_WITH_ALL_DETAILS: "get-circuit-with-all-details"
+      GET_CIRCUIT_WITH_ALL_DETAILS: "get-circuit-with-all-details",
+      CANCEL_WTF: "cancel-wtf",
+      PAUSE_WTF: "pause-wtf"
     };
   }
 
@@ -102,6 +104,12 @@ module.exports = class CircuitController extends BaseController {
           break;
         case CircuitController.Events.GET_CIRCUIT_WITH_ALL_DETAILS:
           this.handleGetCircuitWithAllDetailsEvent(event, arg);
+          break;
+        case CircuitController.Events.CANCEL_WTF:
+          this.handleCancelWtfEvent(event, arg);
+          break;
+        case CircuitController.Events.PAUSE_WTF:
+          this.handlePauseWtfEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -458,6 +466,102 @@ module.exports = class CircuitController extends BaseController {
         }
       );
     }
+  }
+
+  handleCancelWtfEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT_WTF +
+        CircuitController.Paths.SEPARATOR +
+        name +
+        CircuitController.Paths.CANCEL;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.CANCEL_WTF,
+      CircuitController.Types.POST,
+      urn,
+      store => this.delegateCancelWtfCallback(store, event, arg, callback)
+    );
+  }
+
+  delegateCancelWtfCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+        collection = database.getCollection(CircuitDatabase.Collections.ACTIVE),
+        view = database.getViewActiveCircuit(),
+        circuit = store.data;
+
+      this.batchRemoveFromViewInCollection(view, collection);
+
+      console.log("***CIRCUIT", circuit);
+
+      arg.data = circuit;
+
+      // if (circuit) {
+      //   collection = database.getCollection(
+      //     CircuitDatabase.Collections.PARTICIPATING
+      //   );
+      //   this.updateSingleCircuitByIdInCollection(circuit, collection);
+      //   collection = database.getCollection(
+      //     CircuitDatabase.Collections.CIRCUITS
+      //   );
+      //   this.updateSingleCircuitByIdInCollection(circuit, collection);
+      //   arg.data = circuit;
+      // }
+    }
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+  }
+
+  handlePauseWtfEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT_WTF +
+        CircuitController.Paths.SEPARATOR +
+        name +
+        CircuitController.Paths.DO_IT_LATER;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.PAUSE_WTF,
+      CircuitController.Types.POST,
+      urn,
+      store => this.delegatePauseWtfCallback(store, event, arg, callback)
+    );
+  }
+
+  delegatePauseWtfCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+        collection = database.getCollection(CircuitDatabase.Collections.ACTIVE),
+        view = database.getViewActiveCircuit(),
+        circuit = store.data;
+
+      // this.batchRemoveFromViewInCollection(view, collection);
+
+      console.log("***CIRCUIT", circuit);
+
+      arg.data = circuit;
+
+      // if (circuit) {
+      //   collection = database.getCollection(
+      //     CircuitDatabase.Collections.PARTICIPATING
+      //   );
+      //   this.updateSingleCircuitByIdInCollection(circuit, collection);
+      //   collection = database.getCollection(
+      //     CircuitDatabase.Collections.CIRCUITS
+      //   );
+      //   this.updateSingleCircuitByIdInCollection(circuit, collection);
+      //   arg.data = circuit;
+      // }
+    }
+    this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
 
   /**

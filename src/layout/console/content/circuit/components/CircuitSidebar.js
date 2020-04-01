@@ -60,15 +60,17 @@ export default class CircuitSidebar extends Component {
   /**
    * click handler for putting a circuit on hold
    */
-  onClickHoldActiveCircuit = () => {
-    this.myController.holdActiveCircuitResource();
+  onClickPauseActiveCircuit = () => {
+    let circuitName = this.props.model.circuitName;
+    this.myController.pauseCircuit(circuitName);
   };
 
   /**
    * click handler for when we want to cancel a circuit with out hold or lettuce
    */
   onClickCancelActiveCircuit = () => {
-    this.myController.cancelCircuit();
+    let circuitName = this.props.model.circuitName;
+    this.myController.cancelCircuit(circuitName);
   };
 
   /**
@@ -426,11 +428,11 @@ export default class CircuitSidebar extends Component {
             </Grid.Column>
             <Grid.Column>
               <Button
-                onClick={this.onClickHoldActiveCircuit}
+                onClick={this.onClickPauseActiveCircuit}
                 size="medium"
                 color="grey"
               >
-                <Button.Content>later</Button.Content>
+                <Button.Content>pause</Button.Content>
               </Button>
             </Grid.Column>
             <Grid.Column>

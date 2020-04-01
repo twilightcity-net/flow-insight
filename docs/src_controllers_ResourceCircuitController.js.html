@@ -657,15 +657,15 @@ export class ResourceCircuitController extends ActiveViewController {
   /**
    * handler that is called when we put a circuit on hold
    */
-  holdActiveCircuitResource = () => {
-    console.log(this.name + " this active circuit -> hold");
+  pauseCircuit = circuitName => {
+    CircuitClient.pauseWtf(circuitName);
   };
 
   /**
    * handler that os called when we cancel a circuit and do not hold it
    */
-  cancelCircuit = () => {
-    console.log(this.name + " this active circuit - cancel");
+  cancelCircuit = circuitName => {
+    CircuitClient.cancelWtf(circuitName);
   };
 }
 </code></pre>

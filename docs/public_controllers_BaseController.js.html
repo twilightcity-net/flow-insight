@@ -599,7 +599,7 @@
 module.exports = class BaseController {
   /**
    * REST paths for our grid server. good place to store thats shared amoung all controllers
-   * @returns {{STATUS: string, PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, DO_IT_LATER: string, JOURNAL: string, INTENTION: string, TEAM: string, STATUS_TEAM: string, CIRCUIT: string}}
+   * @returns {{PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, TALK: string, STATUS: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, TEAM: string, TO: string, STATUS_TEAM: string, ROOM: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -620,7 +620,8 @@ module.exports = class BaseController {
       TALK: "/talk",
       TO: "/to",
       ROOM: "/room",
-      CHAT: "/chat"
+      CHAT: "/chat",
+      CANCEL: "/cancel"
     };
   }
 
@@ -720,8 +721,8 @@ module.exports = class BaseController {
   }
 
   /**
-   * definition names of our controllers functions
-   * @returns {{GET_ALL_MY_PARTICIPATING_CIRCUITS: string}}
+   *  definition names of our controllers functions
+   * @returns {{GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string}}
    * @constructor
    */
   static get Names() {
@@ -732,7 +733,9 @@ module.exports = class BaseController {
       GET_ALL_MY_DO_IT_LATER_CIRCUITS: "getAllMyDoItLaterCircuits",
       GET_ACTIVE_CIRCUIT: "getActiveCircuit",
       GET_CIRCUIT_WITH_ALL_DETAILS: "getCircuitWithAllDetails",
-      GET_ALL_TALK_MESSAGES_FROM_ROOM: "getAllTalkMessagesFromRoom"
+      GET_ALL_TALK_MESSAGES_FROM_ROOM: "getAllTalkMessagesFromRoom",
+      CANCEL_WTF: "cancelWtf",
+      PAUSE_WTF: "pauseWtf"
     };
   }
 
