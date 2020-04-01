@@ -74,7 +74,7 @@ export class CircuitClient extends BaseClient {
       GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits",
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS: "get-circuit-with-all-details",
-      ABORT_WTF: "abort-wtf"
+      CANCEL_WTF: "cancel-wtf"
     };
   }
 
@@ -277,15 +277,15 @@ export class CircuitClient extends BaseClient {
   }
 
   /**
-   * aborts (cancels) our current circuit on grid time
+   * cancel's our current circuit on grid time
    * @param circuitName
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static abortWtf(circuitName, scope, callback) {
+  static cancelWtf(circuitName, scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
-      CircuitClient.Events.ABORT_WTF,
+      CircuitClient.Events.CANCEL_WTF,
       {},
       scope,
       callback

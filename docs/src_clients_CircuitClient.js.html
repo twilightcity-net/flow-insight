@@ -76,7 +76,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.abortWtf">abortWtf</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.cancelWtf">cancelWtf</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.fireCircuitStartNotifyEvent">fireCircuitStartNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></span></li>
@@ -663,7 +663,7 @@ export class CircuitClient extends BaseClient {
       GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits",
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS: "get-circuit-with-all-details",
-      ABORT_WTF: "abort-wtf"
+      CANCEL_WTF: "cancel-wtf"
     };
   }
 
@@ -866,15 +866,15 @@ export class CircuitClient extends BaseClient {
   }
 
   /**
-   * aborts (cancels) our current circuit on grid time
+   * cancel's our current circuit on grid time
    * @param circuitName
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static abortWtf(circuitName, scope, callback) {
+  static cancelWtf(circuitName, scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
-      CircuitClient.Events.ABORT_WTF,
+      CircuitClient.Events.CANCEL_WTF,
       {},
       scope,
       callback

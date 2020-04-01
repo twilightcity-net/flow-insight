@@ -75,7 +75,7 @@ export class ResourceCircuitController extends ActiveViewController {
   /**
    * handler that os called when we cancel a circuit and do not hold it
    */
-  abortCircuit = () => {
-    console.log(this.name + " this active circuit - abort");
+  cancelCircuit = () => {
+    console.log(this.name + " this active circuit - cancel");
   };
 }
