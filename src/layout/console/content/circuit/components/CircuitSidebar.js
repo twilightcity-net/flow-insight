@@ -67,8 +67,8 @@ export default class CircuitSidebar extends Component {
   /**
    * click handler for when we want to cancel a circuit with out hold or lettuce
    */
-  onClickCancelActiveCircuit = () => {
-    this.myController.cancelActiveCircuitResource();
+  onClickAbortActiveCircuit = () => {
+    this.myController.abortCircuit();
   };
 
   /**
@@ -435,11 +435,11 @@ export default class CircuitSidebar extends Component {
             </Grid.Column>
             <Grid.Column>
               <Button
-                onClick={this.onClickCancelActiveCircuit}
+                onClick={this.onClickAbortActiveCircuit}
                 size="medium"
                 color="grey"
               >
-                <Button.Content>cancel</Button.Content>
+                <Button.Content>abort</Button.Content>
               </Button>
             </Grid.Column>
           </Grid.Row>

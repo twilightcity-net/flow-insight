@@ -73,7 +73,8 @@ export class CircuitClient extends BaseClient {
       GET_ALL_MY_PARTICIPATING_CIRCUITS: "get-all-my-participating-circuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits",
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
-      GET_CIRCUIT_WITH_ALL_DETAILS: "get-circuit-with-all-details"
+      GET_CIRCUIT_WITH_ALL_DETAILS: "get-circuit-with-all-details",
+      ABORT_WTF: "abort-wtf"
     };
   }
 
@@ -268,6 +269,24 @@ export class CircuitClient extends BaseClient {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.GET_CIRCUIT_WITH_ALL_DETAILS,
       { circuitName: circuitName },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
+   * aborts (cancels) our current circuit on grid time
+   * @param circuitName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static abortWtf(circuitName, scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.ABORT_WTF,
+      {},
       scope,
       callback
     );

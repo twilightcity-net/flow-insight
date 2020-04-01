@@ -76,6 +76,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.abortWtf">abortWtf</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.fireCircuitStartNotifyEvent">fireCircuitStartNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></span></li>
@@ -595,7 +596,7 @@ import UtilRenderer from "../../../../../UtilRenderer";
 import { TeamClient } from "../../../../../clients/TeamClient";
 import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
-import {scrollTo} from "../../../../../UtilScroll";
+import { scrollTo } from "../../../../../UtilScroll";
 
 export default class ActiveCircuitFeed extends Component {
   /**
@@ -668,7 +669,7 @@ export default class ActiveCircuitFeed extends Component {
       metaProps = value.metaProps;
       userName = !!metaProps &amp;&amp; metaProps["from.member.userName"];
       time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(value.messageTime);
-      json = JSON.parse(value.jsonBody);
+      json = JSON.parse(value.data);
       text = json.message;
 
       if (this.lastFeedEvent &amp;&amp; this.lastFeedEvent.name === userName) {

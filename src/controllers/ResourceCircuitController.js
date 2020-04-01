@@ -46,7 +46,7 @@ export class ResourceCircuitController extends ActiveViewController {
   /**
    * Start a troubleshooting session by loading the new session into the browser
    */
-  newCircuit = () => {
+  startCircuit = () => {
     CircuitClient.startWtf(this, arg => {
       let circuit = arg.data[0],
         request = BrowserRequestFactory.createRequest(
@@ -73,9 +73,9 @@ export class ResourceCircuitController extends ActiveViewController {
   };
 
   /**
-   * handler that os callled when we cancel a circuit and do not hold it
+   * handler that os called when we cancel a circuit and do not hold it
    */
-  cancelActiveCircuitResource = () => {
-    console.log(this.name + " this active circuit - cancel");
+  abortCircuit = () => {
+    console.log(this.name + " this active circuit - abort");
   };
 }

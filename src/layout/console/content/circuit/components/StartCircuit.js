@@ -7,14 +7,14 @@ import { RendererControllerFactory } from "../../../../../controllers/RendererCo
  * this component is the tab panel wrapper for the console content
  * @author ZoeDreams
  */
-export default class NewCircuit extends Component {
+export default class StartCircuit extends Component {
   /**
    * the constructor function that is called when creating a new TroubleshootSession
    * @param props - properties that are passed in from the troubleshoot layout
    */
   constructor(props) {
     super(props);
-    this.name = "[NewCircuit]";
+    this.name = "[StartCircuit]";
     this.state = {
       resource: props.resource
     };
@@ -27,8 +27,8 @@ export default class NewCircuit extends Component {
   /**
    * handler that is called when we want to create a new learning circuit
    */
-  onClickForNewCircuit = () => {
-    return this.myController.newCircuit();
+  onClickForStartCircuit = () => {
+    return this.myController.startCircuit();
   };
 
   /**
@@ -40,7 +40,7 @@ export default class NewCircuit extends Component {
       <div id="component" className="activeCircuitContent">
         <Segment
           textAlign={"center"}
-          className="newCircuit"
+          className="startCircuit"
           inverted
           padded={"very"}
           style={{
@@ -50,7 +50,7 @@ export default class NewCircuit extends Component {
           }}
         >
           <div className="content">
-            <div className="wtfBtn" onClick={this.onClickForNewCircuit}>
+            <div className="wtfBtn" onClick={this.onClickForStartCircuit}>
               WTF?
             </div>
             <Segment inverted size={"huge"} className="desc">

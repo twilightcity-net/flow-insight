@@ -76,6 +76,7 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.abortWtf">abortWtf</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.fireCircuitStartNotifyEvent">fireCircuitStartNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></span></li>
@@ -634,7 +635,7 @@ export class ResourceCircuitController extends ActiveViewController {
   /**
    * Start a troubleshooting session by loading the new session into the browser
    */
-  newCircuit = () => {
+  startCircuit = () => {
     CircuitClient.startWtf(this, arg => {
       let circuit = arg.data[0],
         request = BrowserRequestFactory.createRequest(
@@ -661,10 +662,10 @@ export class ResourceCircuitController extends ActiveViewController {
   };
 
   /**
-   * handler that os callled when we cancel a circuit and do not hold it
+   * handler that os called when we cancel a circuit and do not hold it
    */
-  cancelActiveCircuitResource = () => {
-    console.log(this.name + " this active circuit - cancel");
+  abortCircuit = () => {
+    console.log(this.name + " this active circuit - abort");
   };
 }
 </code></pre>

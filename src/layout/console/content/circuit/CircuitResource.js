@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ActiveCircuit from "./components/ActiveCircuit";
-import NewCircuit from "./components/NewCircuit";
+import StartCircuit from "./components/StartCircuit";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 import { CircuitClient } from "../../../../clients/CircuitClient";
@@ -77,7 +77,7 @@ export default class CircuitResource extends Component {
     if (this.isWTF(this.props.resource)) {
       wtfPanel = <ActiveCircuit resource={this.props.resource} />;
     } else if (!CircuitClient.activeCircuit) {
-      wtfPanel = <NewCircuit resource={this.props.resource} />;
+      wtfPanel = <StartCircuit resource={this.props.resource} />;
     }
     return (
       <div id="component" className="circuitLayout">
