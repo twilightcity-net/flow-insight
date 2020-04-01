@@ -80,7 +80,7 @@ export default class ActiveCircuitFeed extends Component {
       metaProps = value.metaProps;
       userName = !!metaProps && metaProps["from.member.userName"];
       time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(value.messageTime);
-      json = JSON.parse(value.jsonBody);
+      json = JSON.parse(value.data);
       text = json.message;
 
       if (this.lastFeedEvent && this.lastFeedEvent.name === userName) {
