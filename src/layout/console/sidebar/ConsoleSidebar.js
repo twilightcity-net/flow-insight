@@ -41,7 +41,6 @@ export default class ConsoleSidebar extends Component {
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
-    console.log("A", TeamClient.isWTFAlarmTriggered());
   }
 
   /**

@@ -72,7 +72,6 @@ export default class ActiveCircuit extends Component {
 
     let circuitName = nextProps.resource.uriArr[2];
     CircuitClient.getCircuitWithAllDetails(circuitName, this, arg => {
-      console.log(arg);
       this.setState({
         model: arg.data
       });

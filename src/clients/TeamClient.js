@@ -74,10 +74,6 @@ export class TeamClient extends BaseClient {
     return TeamClient.me;
   }
 
-  static isWTFAlarmTriggered() {
-    return false;
-  }
-
   /**
    * loads our team from grid
    * @param type
