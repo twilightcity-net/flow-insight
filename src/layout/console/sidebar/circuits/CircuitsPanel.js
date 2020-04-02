@@ -122,11 +122,6 @@ export default class CircuitsPanel extends Component {
    * @param component
    */
   handleClickActiveCircuit = component => {
-    if (this.selections.activeCircuitComponent) {
-      this.selections.activeCircuitComponent.setState({
-        isSelected: false
-      });
-    }
     this.selections.activeCircuitComponent = component;
     let circuitName = component.props.model.circuitName;
     this.requestBrowserToLoadActiveCircuit(circuitName);
@@ -137,11 +132,6 @@ export default class CircuitsPanel extends Component {
    * @param component
    */
   handleClickDoItLaterCircuit = component => {
-    if (this.selections.doItLaterCircuitComponent) {
-      this.selections.doItLaterCircuitComponent.setState({
-        isSelected: false
-      });
-    }
     this.selections.doItLaterCircuitComponent = component;
     let circuitName = component.props.model.circuitName;
     this.requestBrowserToLoadDoItLaterCircuit(circuitName);

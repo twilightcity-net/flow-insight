@@ -70,6 +70,8 @@ export default class ActiveCircuit extends Component {
       return false;
     }
 
+    console.log("update");
+
     let circuitName = nextProps.resource.uriArr[2];
     CircuitClient.getCircuitWithAllDetails(circuitName, this, arg => {
       console.log(arg);
