@@ -137,7 +137,7 @@ export default class CircuitsPanel extends Component {
    * @param component
    */
   handleClickDoItLaterCircuit = component => {
-    if (this.selections.activeCircuitComponent) {
+    if (this.selections.doItLaterCircuitComponent) {
       this.selections.doItLaterCircuitComponent.setState({
         isSelected: false
       });
