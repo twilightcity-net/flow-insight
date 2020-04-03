@@ -8,7 +8,6 @@ import ActiveCircuitScrapbook from "./ActiveCircuitScrapbook";
 import { Transition } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
-import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { TeamClient } from "../../../../../clients/TeamClient";
 
 /**

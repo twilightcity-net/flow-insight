@@ -73,14 +73,18 @@ export default class ActiveCircuitFeed extends Component {
       time = null,
       json = null,
       text = [],
-      event = null;
+      event = null,
+      messages = this.messages,
+      messagesLength = this.messages.length;
 
     this.feedEvents = [];
-    this.messages.map(value => {
-      metaProps = value.metaProps;
+
+    for(let i = 0, m = null; i < messagesLength; i++) {
+      m = messages[i];
+      metaProps = m.metaProps;
       userName = !!metaProps && metaProps["from.member.userName"];
-      time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(value.messageTime);
-      json = JSON.parse(value.data);
+      time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(m.messageTime);
+      json = JSON.parse(m.data);
       text = json.message;
 
       if (this.lastFeedEvent && this.lastFeedEvent.name === userName) {
@@ -96,7 +100,7 @@ export default class ActiveCircuitFeed extends Component {
 
       this.lastFeedEvent = event;
       this.feedEvents.push(event);
-    });
+    }
 
     this.forceUpdate(() => {
       this.scrollToFeedBottom();
