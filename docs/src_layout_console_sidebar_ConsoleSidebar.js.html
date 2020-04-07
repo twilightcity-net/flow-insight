@@ -592,7 +592,6 @@ import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 import { DimensionController } from "../../../controllers/DimensionController";
-import { TeamClient } from "../../../clients/TeamClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -630,7 +629,6 @@ export default class ConsoleSidebar extends Component {
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
-    console.log("A", TeamClient.isWTFAlarmTriggered());
   }
 
   /**

@@ -30,37 +30,17 @@ export default class ActiveCircuitFeed extends Component {
     this.status = [];
   }
 
-  /**
-   * when we load this component we should query for locally stored talk messages. If they dont exist
-   * then the client will make a grid time request fetching these documents for the local database.
-   */
-  componentDidMount() {
-    let circuitName = this.props.resource.uriArr[2];
-    TalkToClient.getAllTalkMessagesFromRoom(circuitName + "-wtf", this, arg => {
-      this.messages = arg.data;
-      this.updateChatMessages();
-    });
-  }
-
-  /**
-   * called when we update our active circuit feed. works similar to its parent component.
-   * @param nextProps
-   * @param nextState
-   * @param nextContext
-   * @returns {boolean}
-   */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (this.props.resource.uri === nextProps.resource.uri) {
-      return false;
-    }
+    console.log("update");
 
-    let circuitName = nextProps.resource.uriArr[2];
-    TalkToClient.getAllTalkMessagesFromRoom(circuitName + "-wtf", this, arg => {
-      this.messages = arg.data;
-      this.updateChatMessages();
-    });
+    this.messages = nextProps.messages;
+    this.updateChatMessages();
 
     return true;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    this.scrollToFeedBottom();
   }
 
   /**
@@ -68,6 +48,7 @@ export default class ActiveCircuitFeed extends Component {
    * by our mount or update component functions
    */
   updateChatMessages = () => {
+    console.log("update chat messages");
     let metaProps = null,
       userName = null,
       time = null,
@@ -79,7 +60,7 @@ export default class ActiveCircuitFeed extends Component {
 
     this.feedEvents = [];
 
-    for(let i = 0, m = null; i < messagesLength; i++) {
+    for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
       metaProps = m.metaProps;
       userName = !!metaProps && metaProps["from.member.userName"];
@@ -101,10 +82,6 @@ export default class ActiveCircuitFeed extends Component {
       this.lastFeedEvent = event;
       this.feedEvents.push(event);
     }
-
-    this.forceUpdate(() => {
-      this.scrollToFeedBottom();
-    });
   };
 
   /**

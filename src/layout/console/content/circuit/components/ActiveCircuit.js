@@ -9,6 +9,7 @@ import { Transition } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
 import { TeamClient } from "../../../../../clients/TeamClient";
+import { TalkToClient } from "../../../../../clients/TalkToClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -43,11 +44,23 @@ export default class ActiveCircuit extends Component {
    * child components
    */
   componentDidMount() {
-    let circuitName = this.props.resource.uriArr[2];
+    let circuitName = this.props.resource.uriArr[2],
+      model = null,
+      messages = null;
+
     CircuitClient.getCircuitWithAllDetails(circuitName, this, arg => {
-      this.setState({
-        model: arg.data
-      });
+      model = arg.data;
+      TalkToClient.getAllTalkMessagesFromRoom(
+        circuitName + "-wtf",
+        this,
+        arg => {
+          messages = arg.data;
+          this.setState({
+            model: model,
+            messages: messages
+          });
+        }
+      );
     });
   }
 
@@ -69,15 +82,28 @@ export default class ActiveCircuit extends Component {
       return false;
     }
 
-    let circuitName = nextProps.resource.uriArr[2];
+    let circuitName = nextProps.resource.uriArr[2],
+      model = null,
+      messages = null;
+
     CircuitClient.getCircuitWithAllDetails(circuitName, this, arg => {
-      this.setState({
-        model: arg.data
-      });
+      model = arg.data;
+      TalkToClient.getAllTalkMessagesFromRoom(
+        circuitName + "-wtf",
+        this,
+        arg => {
+          messages = arg.data;
+          this.setState({
+            model: model,
+            messages: messages
+          });
+        }
+      );
     });
 
     this.setState({
-      model: null
+      model: null,
+      messages: null
     });
 
     return false;
@@ -125,8 +151,8 @@ export default class ActiveCircuit extends Component {
           <div id="wrapper" className="activeCircuitFeed">
             <ActiveCircuitFeed
               resource={this.state.resource}
-              showScrapbook={this.showScrapbook}
               model={this.state.model}
+              messages={this.state.messages}
             />
           </div>
           <Transition
