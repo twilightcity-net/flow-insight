@@ -10,16 +10,15 @@ export default class ActiveCircuitFeedEvent extends Component {
     super(props);
     this.name = "[ActiveCircuitFeedEvent]";
     this.imageEmojiSrc = "./assets/images/emoji_cool.png";
-    this.texts = this.props.texts;
   }
 
   /**
-   * gets our extra text element from our array  of texts
+   * gets our extra text element from our array of texts
    * @returns {*}
    */
   getFeedExtraTextsContent() {
-    return this.texts.map((message, i) => {
-      return <Feed.Extra key={i} text content={this.texts[i]} />;
+    return this.props.texts.map((message, i) => {
+      return <Feed.Extra key={i} text content={this.props.texts[i]} />;
     });
   }
 

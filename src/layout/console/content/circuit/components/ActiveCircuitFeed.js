@@ -31,11 +31,8 @@ export default class ActiveCircuitFeed extends Component {
   }
 
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    console.log("update");
-
     this.messages = nextProps.messages;
     this.updateChatMessages();
-
     return true;
   }
 
@@ -48,7 +45,6 @@ export default class ActiveCircuitFeed extends Component {
    * by our mount or update component functions
    */
   updateChatMessages = () => {
-    console.log("update chat messages");
     let metaProps = null,
       userName = null,
       time = null,
@@ -157,6 +153,7 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {*}
    */
   getFeedEventsFromMessagesArrayContent() {
+    console.log("render array`");
     return this.feedEvents.map((message, i) => {
       this.lastFeedEvent = (
         <ActiveCircuitFeedEvent
