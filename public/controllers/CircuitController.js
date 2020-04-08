@@ -184,6 +184,8 @@ module.exports = class CircuitController extends BaseController {
       this.batchRemoveFromViewInCollection(view, collection);
 
       if (circuit) {
+        console.log(view.data());
+        // collection.insert(circuit);
         collection = database.getCollection(
           CircuitDatabase.Collections.PARTICIPATING
         );
@@ -497,21 +499,17 @@ module.exports = class CircuitController extends BaseController {
 
       this.batchRemoveFromViewInCollection(view, collection);
 
-      console.log("***CIRCUIT", circuit);
-
-      arg.data = circuit;
-
-      // if (circuit) {
-      //   collection = database.getCollection(
-      //     CircuitDatabase.Collections.PARTICIPATING
-      //   );
-      //   this.updateSingleCircuitByIdInCollection(circuit, collection);
-      //   collection = database.getCollection(
-      //     CircuitDatabase.Collections.CIRCUITS
-      //   );
-      //   this.updateSingleCircuitByIdInCollection(circuit, collection);
-      //   arg.data = circuit;
-      // }
+      if (circuit) {
+        collection = database.getCollection(
+          CircuitDatabase.Collections.PARTICIPATING
+        );
+        this.removeSingleCircuitByIdFromCollection(circuit, collection);
+        collection = database.getCollection(
+          CircuitDatabase.Collections.CIRCUITS
+        );
+        this.removeSingleCircuitByIdFromCollection(circuit, collection);
+        arg.data = circuit;
+      }
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
@@ -562,6 +560,20 @@ module.exports = class CircuitController extends BaseController {
       // }
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
+  }
+
+  /**
+   * removes a single circuit from our gridtime system and local database
+   * @param circuit
+   * @param collection
+   */
+  removeSingleCircuitByIdFromCollection(circuit, collection) {
+    if (circuit) {
+      let model = collection.findOne({ id: circuit.id });
+      if (model) {
+        collection.remove(model);
+      }
+    }
   }
 
   /**

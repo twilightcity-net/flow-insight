@@ -148,16 +148,13 @@ module.exports = class TalkToController extends BaseController {
           statusCollection
         ),
         messages = store.data,
-        message = messages[0],
-        type = null,
-        uri = message.uri;
+        message = messages[0];
 
       if (messages && message) {
-        this.checkForRoomAndToRooms(roomName, uri);
+        this.checkForRoomAndToRooms(roomName, message.uri);
         for (let i = 0, model = null, len = messages.length; i < len; i++) {
           message = messages[i];
-          type = message.messageType;
-          switch (type) {
+          switch (message.messageType) {
             case TalkToController.MessageTypes.CIRCUIT_STATUS:
               this.findAndUpdateMessage(model, statusCollection, message);
               break;
