@@ -549,14 +549,12 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWTF">isWTF</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onCircuitStartStop">onCircuitStartStop</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onHeartbeat">onHeartbeat</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onPulse">onPulse</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefresh">onRefresh</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshSpiritPanel">onRefreshSpiritPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onSidebarShow">onSidebarShow</a></span></li>
@@ -597,6 +595,7 @@ import ActiveCircuitListItem from "./ActiveCircuitListItem";
 import DoItLaterCircuitListItem from "./DoItLaterCircuitListItem";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 import { CircuitClient } from "../../../../clients/CircuitClient";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 
 /**
  * renders the circuit navigator panels in the gui
@@ -644,6 +643,7 @@ export default class CircuitsPanel extends Component {
    * memory management
    */
   componentWillUnmount() {
+    this.circuitStartStopListener.updateCallback(this, null);
     this.myController.configureCircuitsPanelListener(this, null);
   }
 
@@ -652,6 +652,11 @@ export default class CircuitsPanel extends Component {
    * in the main process for new circuit data
    */
   componentDidMount() {
+    this.circuitStartStopListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
+      this,
+      this.onCircuitStartStop
+    );
     this.myController.configureCircuitsPanelListener(
       this,
       this.onRefreshCircuitsPanel
@@ -659,10 +664,14 @@ export default class CircuitsPanel extends Component {
     this.onRefreshCircuitsPanel();
   }
 
+  onCircuitStartStop = (event, arg) => {
+    this.onRefreshCircuitsPanel();
+  };
+
   /**
-   * callback function that is performed when we refresh this component in the view
+   * callback function that was performed when we refresh this component in the view
    */
-  onRefreshCircuitsPanel() {
+  onRefreshCircuitsPanel = () => {
     switch (this.myController.activeCircuitsSubmenuSelection) {
       case SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS:
         this.showParticipatingCircuitsPanel();

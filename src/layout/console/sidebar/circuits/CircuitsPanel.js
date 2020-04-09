@@ -7,6 +7,7 @@ import ActiveCircuitListItem from "./ActiveCircuitListItem";
 import DoItLaterCircuitListItem from "./DoItLaterCircuitListItem";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 import { CircuitClient } from "../../../../clients/CircuitClient";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 
 /**
  * renders the circuit navigator panels in the gui
@@ -54,6 +55,7 @@ export default class CircuitsPanel extends Component {
    * memory management
    */
   componentWillUnmount() {
+    this.circuitStartStopListener.updateCallback(this, null);
     this.myController.configureCircuitsPanelListener(this, null);
   }
 
@@ -62,6 +64,11 @@ export default class CircuitsPanel extends Component {
    * in the main process for new circuit data
    */
   componentDidMount() {
+    this.circuitStartStopListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
+      this,
+      this.onCircuitStartStop
+    );
     this.myController.configureCircuitsPanelListener(
       this,
       this.onRefreshCircuitsPanel
@@ -69,10 +76,14 @@ export default class CircuitsPanel extends Component {
     this.onRefreshCircuitsPanel();
   }
 
+  onCircuitStartStop = (event, arg) => {
+    this.onRefreshCircuitsPanel();
+  };
+
   /**
-   * callback function that is performed when we refresh this component in the view
+   * callback function that was performed when we refresh this component in the view
    */
-  onRefreshCircuitsPanel() {
+  onRefreshCircuitsPanel = () => {
     switch (this.myController.activeCircuitsSubmenuSelection) {
       case SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS:
         this.showParticipatingCircuitsPanel();
@@ -83,7 +94,7 @@ export default class CircuitsPanel extends Component {
       default:
         throw new Error("Unknown circuits panel menu item");
     }
-  }
+  };
 
   /**
    * shows our active circuits that we are joined to

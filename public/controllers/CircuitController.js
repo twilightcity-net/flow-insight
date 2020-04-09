@@ -179,21 +179,26 @@ module.exports = class CircuitController extends BaseController {
       let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
         collection = database.getCollection(CircuitDatabase.Collections.ACTIVE),
         view = database.getViewActiveCircuit(),
-        circuit = store.data;
+        circuit = {};
 
       this.batchRemoveFromViewInCollection(view, collection);
 
       if (circuit) {
-        console.log(view.data());
-        // collection.insert(circuit);
+        circuit = Object.assign(circuit, store.data);
+        collection.insert(circuit);
+
+        circuit = Object.assign({}, store.data);
         collection = database.getCollection(
           CircuitDatabase.Collections.PARTICIPATING
         );
         this.updateSingleCircuitByIdInCollection(circuit, collection);
+
+        circuit = Object.assign({}, store.data);
         collection = database.getCollection(
           CircuitDatabase.Collections.CIRCUITS
         );
         this.updateSingleCircuitByIdInCollection(circuit, collection);
+
         arg.data = circuit;
       }
     }

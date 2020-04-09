@@ -43,8 +43,8 @@ module.exports = class CircuitDatabase extends LokiJS {
   }
 
   /**
-   * indices of our database so we can index things for fast queries
-   * @returns {{CIRCUIT_NAME: string, OPEN_TIME: string, CLOSE_TIME: string, ID: string, CIRCUIT_STATUS: string, OWNER_ID: string}}
+   * Indices of our database. This allows us to index things for fast queries
+   * @returns {{CIRCUIT_NAME: string, OPEN_TIME: string, CIRCUIT_STATE: string, CLOSE_TIME: string, ID: string, OWNER_ID: string}}
    * @constructor
    */
   static get Indices() {
@@ -52,9 +52,9 @@ module.exports = class CircuitDatabase extends LokiJS {
       ID: "id",
       CIRCUIT_NAME: "circuitName",
       OWNER_ID: "ownerId",
-      OPEN_TIME: "openTIme",
-      CLOSE_TIME: "closeTime",
-      CIRCUIT_STATUS: "circuit-status"
+      OPEN_TIME: "openTime",
+      CLOSE_TIME: "closeCircuitNanoTime",
+      CIRCUIT_STATE: "circuitState"
     };
   }
 
@@ -72,7 +72,7 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATUS
+        CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
     this.addCollection(CircuitDatabase.Collections.PARTICIPATING, {
@@ -82,7 +82,7 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATUS
+        CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
     this.addCollection(CircuitDatabase.Collections.LATER, {
@@ -92,7 +92,7 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATUS
+        CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
     this.addCollection(CircuitDatabase.Collections.ACTIVE, {
@@ -102,7 +102,7 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATUS
+        CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
     this.getCollection(CircuitDatabase.Collections.CIRCUITS).addDynamicView(

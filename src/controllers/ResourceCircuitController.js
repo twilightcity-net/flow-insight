@@ -48,7 +48,7 @@ export class ResourceCircuitController extends ActiveViewController {
    */
   startCircuit = () => {
     CircuitClient.startWtf(this, arg => {
-      let circuit = arg.data[0],
+      let circuit = arg.data,
         request = BrowserRequestFactory.createRequest(
           BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
           circuit.circuitName
@@ -67,6 +67,7 @@ export class ResourceCircuitController extends ActiveViewController {
 
   /**
    * handler that is called when we put a circuit on hold
+   * @param circuitName - the circuit to pause
    */
   pauseCircuit = circuitName => {
     CircuitClient.pauseWtf(circuitName);
@@ -74,8 +75,16 @@ export class ResourceCircuitController extends ActiveViewController {
 
   /**
    * handler that os called when we cancel a circuit and do not hold it
+   * @param circuitName - the circuit to cancel
    */
   cancelCircuit = circuitName => {
-    CircuitClient.cancelWtf(circuitName);
+    CircuitClient.cancelWtf(circuitName, this, arg => {
+      let request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.JOURNAL,
+        BrowserRequestFactory.Locations.ME
+      );
+      this.browserController.makeRequest(request);
+      this.fireCircuitStopNotifyEvent();
+    });
   };
 }

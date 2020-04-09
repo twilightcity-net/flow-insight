@@ -3,6 +3,7 @@ import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 import { DimensionController } from "../../../controllers/DimensionController";
+import { RendererEventFactory } from "../../../events/RendererEventFactory";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -49,11 +50,13 @@ export default class ConsoleSidebar extends Component {
     this.myController.configurePulseListener(this, this.onPulse);
     this.myController.configureHeartbeatListener(this, this.onHeartbeat);
     this.myController.configureMenuListener(this, this.onRefresh);
-    this.myController.configureCircuitStartStopListener(
+    this.myController.configureSidebarShowListener(this, this.onSidebarShow);
+
+    this.circuitStartStopListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
       this,
       this.onCircuitStartStop
     );
-    this.myController.configureSidebarShowListener(this, this.onSidebarShow);
   }
 
   /**
@@ -63,8 +66,9 @@ export default class ConsoleSidebar extends Component {
     this.myController.configureHeartbeatListener(this, null);
     this.myController.configurePulseListener(this, null);
     this.myController.configureMenuListener(this, null);
-    this.myController.configureCircuitStartStopListener(this, null);
     this.myController.configureSidebarShowListener(this, null);
+
+    this.circuitStartStopListener.updateCallback(this, null);
   }
 
   /**
@@ -99,11 +103,11 @@ export default class ConsoleSidebar extends Component {
    * @param event
    * @param arg
    */
-  onCircuitStartStop(event, arg) {
+  onCircuitStartStop = (event, arg) => {
     this.setState({
       isAlarm: arg > 0
     });
-  }
+  };
 
   /**
    * event listener for when our sidebar panel needs to update and change

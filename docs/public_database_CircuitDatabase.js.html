@@ -549,14 +549,12 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWTF">isWTF</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onCircuitStartStop">onCircuitStartStop</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onHeartbeat">onHeartbeat</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onPulse">onPulse</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefresh">onRefresh</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshSpiritPanel">onRefreshSpiritPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onSidebarShow">onSidebarShow</a></span></li>
@@ -633,8 +631,8 @@ module.exports = class CircuitDatabase extends LokiJS {
   }
 
   /**
-   * indices of our database so we can index things for fast queries
-   * @returns {{CIRCUIT_NAME: string, OPEN_TIME: string, CLOSE_TIME: string, ID: string, CIRCUIT_STATUS: string, OWNER_ID: string}}
+   * Indices of our database. This allows us to index things for fast queries
+   * @returns {{CIRCUIT_NAME: string, OPEN_TIME: string, CIRCUIT_STATE: string, CLOSE_TIME: string, ID: string, OWNER_ID: string}}
    * @constructor
    */
   static get Indices() {
@@ -642,9 +640,9 @@ module.exports = class CircuitDatabase extends LokiJS {
       ID: "id",
       CIRCUIT_NAME: "circuitName",
       OWNER_ID: "ownerId",
-      OPEN_TIME: "openTIme",
-      CLOSE_TIME: "closeTime",
-      CIRCUIT_STATUS: "circuit-status"
+      OPEN_TIME: "openTime",
+      CLOSE_TIME: "closeCircuitNanoTime",
+      CIRCUIT_STATE: "circuitState"
     };
   }
 
@@ -662,7 +660,7 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATUS
+        CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
     this.addCollection(CircuitDatabase.Collections.PARTICIPATING, {
@@ -672,7 +670,7 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATUS
+        CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
     this.addCollection(CircuitDatabase.Collections.LATER, {
@@ -682,7 +680,7 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATUS
+        CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
     this.addCollection(CircuitDatabase.Collections.ACTIVE, {
@@ -692,7 +690,7 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATUS
+        CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
     this.getCollection(CircuitDatabase.Collections.CIRCUITS).addDynamicView(

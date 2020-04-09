@@ -549,14 +549,12 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWTF">isWTF</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onCircuitStartStop">onCircuitStartStop</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onHeartbeat">onHeartbeat</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onPulse">onPulse</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefresh">onRefresh</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshCircuitsPanel">onRefreshCircuitsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshSpiritPanel">onRefreshSpiritPanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onSidebarShow">onSidebarShow</a></span></li>
@@ -638,7 +636,7 @@ export class ResourceCircuitController extends ActiveViewController {
    */
   startCircuit = () => {
     CircuitClient.startWtf(this, arg => {
-      let circuit = arg.data[0],
+      let circuit = arg.data,
         request = BrowserRequestFactory.createRequest(
           BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
           circuit.circuitName
@@ -657,6 +655,7 @@ export class ResourceCircuitController extends ActiveViewController {
 
   /**
    * handler that is called when we put a circuit on hold
+   * @param circuitName - the circuit to pause
    */
   pauseCircuit = circuitName => {
     CircuitClient.pauseWtf(circuitName);
@@ -664,9 +663,17 @@ export class ResourceCircuitController extends ActiveViewController {
 
   /**
    * handler that os called when we cancel a circuit and do not hold it
+   * @param circuitName - the circuit to cancel
    */
   cancelCircuit = circuitName => {
-    CircuitClient.cancelWtf(circuitName);
+    CircuitClient.cancelWtf(circuitName, this, arg => {
+      let request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.JOURNAL,
+        BrowserRequestFactory.Locations.ME
+      );
+      this.browserController.makeRequest(request);
+      this.fireCircuitStopNotifyEvent();
+    });
   };
 }
 </code></pre>

@@ -231,10 +231,6 @@ export class SidePanelViewController extends ActiveViewController {
     this.pulseListener.updateCallback(scope, callback);
   }
 
-  configureCircuitStartStopListener(scope, callback) {
-    this.circuitStartStopListener.updateCallback(scope, callback);
-  }
-
   configureSidebarShowListener(scope, callback) {
     this.sidebarShowListener.updateCallback(scope, callback);
   }
