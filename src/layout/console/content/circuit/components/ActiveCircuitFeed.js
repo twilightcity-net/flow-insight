@@ -59,7 +59,7 @@ export default class ActiveCircuitFeed extends Component {
     for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
       metaProps = m.metaProps;
-      userName = !!metaProps && metaProps["from.member.userName"];
+      userName = !!metaProps && metaProps["from.username"];
       time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(m.messageTime);
       json = JSON.parse(m.data);
       text = json.message;
