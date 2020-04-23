@@ -16,12 +16,13 @@ module.exports = class TalkDatabase extends LokiJS {
 
   /**
    * the collections of our database
-   * @returns {{ROOMS: string, TALK_MESSAGES: string}}
+   * @returns {{ROOMS: string, FLUX_TALK_MESSAGES: string, TALK_MESSAGES: string}}
    * @constructor
    */
   static get Collections() {
     return {
       TALK_MESSAGES: "talk-messages",
+      FLUX_TALK_MESSAGES: "flux-talk-messages",
       ROOMS: "rooms"
     };
   }
@@ -44,13 +45,14 @@ module.exports = class TalkDatabase extends LokiJS {
 
   /**
    * the views of our database for queries
-   * @returns {{ROOMS: string, TALK_MESSAGES: string}}
+   * @returns {{ROOMS: string, FLUX_TALK_MESSAGES: string, STATUS_TALK_MESSAGES: string, TALK_MESSAGES: string}}
    * @constructor
    */
   static get Views() {
     return {
       TALK_MESSAGES: "talk-messages",
       STATUS_TALK_MESSAGES: "status-talk-messages",
+      FLUX_TALK_MESSAGES: "flux-talk-messages",
       ROOMS: "rooms"
     };
   }
@@ -69,6 +71,13 @@ module.exports = class TalkDatabase extends LokiJS {
     this.getCollection(TalkDatabase.Collections.ROOMS).addDynamicView(
       TalkDatabase.Views.ROOMS
     );
+    this.addCollection(TalkDatabase.Collections.FLUX_TALK_MESSAGES, {
+      indices: [TalkDatabase.Indices.ID, TalkDatabase.Indices.URI]
+    });
+
+    this.getCollection(
+      TalkDatabase.Collections.FLUX_TALK_MESSAGES
+    ).addDynamicView(TalkDatabase.Views.FLUX_TALK_MESSAGES);
   }
 
   /**
@@ -78,6 +87,19 @@ module.exports = class TalkDatabase extends LokiJS {
   getViewRooms() {
     let collection = this.getCollection(TalkDatabase.Collections.ROOMS);
     return collection.getDynamicView(TalkDatabase.Views.ROOMS);
+  }
+
+  /**
+   * gets our view for our flux talk messages. a flux talk message is a message that
+   * has been posted to the gridtime server and is awaiting the talk network to
+   * push the spawned message to use to validate.
+   * @returns {DynamicView}
+   */
+  getViewFluxTalkMessages() {
+    let collection = this.getCollection(
+      TalkDatabase.Collections.FLUX_TALK_MESSAGES
+    );
+    return collection.getDynamicView(TalkDatabase.Views.FLUX_TALK_MESSAGES);
   }
 
   /**

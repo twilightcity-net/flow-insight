@@ -197,6 +197,12 @@ module.exports = class TalkToController extends BaseController {
     );
   }
 
+  /**
+   * gets all of our status talk message for a given uri room address
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleGetAllStatusTalkMessagesFromRoomEvent(event, arg, callback) {
     let roomName = arg.args.roomName,
       database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
@@ -212,6 +218,14 @@ module.exports = class TalkToController extends BaseController {
     );
   }
 
+  /**
+   * processes our talk status message requests
+   * @param roomName
+   * @param view
+   * @param event
+   * @param arg
+   * @param callback
+   */
   delegateGetAllStatusTalkMessagesFromRoomCallback(
     roomName,
     view,
@@ -235,6 +249,12 @@ module.exports = class TalkToController extends BaseController {
     }
   }
 
+  /**
+   * processes our puboish to chat room request with gridtime
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handlePublishChatToRoomEvent(event, arg, callback) {
     let roomName = arg.args.roomName,
       text = arg.args.text,
@@ -257,25 +277,32 @@ module.exports = class TalkToController extends BaseController {
     );
   }
 
+  /**
+   * handles the callback logic of the publish to chat room event on gridtim. in this  function
+   * we will store this transient talk message in a flux collection. this collection is used to
+   * store temporary messages awaiting arrival from the gridtime to talk push.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
   delegatePublishChatToRoomCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {
       let roomName = arg.args.roomName,
         database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-        messageCollection = database.getCollectionForRoomTalkMessages(roomName),
-        messageView = database.getViewTalkMessagesForCollection(
-          messageCollection
+        collection = database.getCollection(
+          TalkDatabase.Collections.FLUX_TALK_MESSAGES
         ),
-        message = store.data,
-        uri = message.uri;
+        view = database.getViewFluxTalkMessages(),
+        message = store.data;
 
       if (message) {
-        this.checkForRoomAndToRooms(roomName, uri);
-        messageCollection.insert(message);
+        collection.insert(message);
         arg.data = message;
       }
-      this.logResults(this.name, arg.type, arg.id, messageView.count());
+      this.logResults(this.name, arg.type, arg.id, view.count());
     }
     this.delegateCallbackOrEventReplyTo(event, arg, callback);
   }
