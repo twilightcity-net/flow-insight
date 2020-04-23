@@ -69,18 +69,18 @@ function testTalk() {
       chalk.greenBright("[TalkManager]") + " Socket Ping [" + latency + "ms]"
     );
   });
-  talkClient.on("message-client", (data, fn) => {
+  talkClient.on("message_client", (data, fn) => {
     log.info(chalk.cyan("[TalkManager]") + " client message : " + data);
     fn(data);
   });
-  talkClient.on("message-room", data => {
+  talkClient.on("message_room", data => {
     log.info(chalk.cyan("[TalkManager]") + " room message : " + data);
   });
-  talkClient.on("join-room", (roomId, fn) => {
+  talkClient.on("join_room", (roomId, fn) => {
     log.info(chalk.blue("[TalkManager]") + " joined room '" + roomId + "'");
     fn(roomId);
   });
-  talkClient.on("leave-room", (roomId, fn) => {
+  talkClient.on("leave_room", (roomId, fn) => {
     log.info(chalk.blue("[TalkManager]") + " left room '" + roomId + "'");
     fn(roomId);
   });
