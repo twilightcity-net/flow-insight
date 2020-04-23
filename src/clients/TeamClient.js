@@ -199,7 +199,6 @@ export class TeamClient extends BaseClient {
     if (clientEvent) {
       TeamClient.replies.delete(arg.id);
       clientEvent.callback(event, arg);
-      this.notifyListeners(clientEvent);
     }
   };
 
@@ -215,60 +214,5 @@ export class TeamClient extends BaseClient {
     );
     TeamClient.replies.set(clientEvent.id, clientEvent);
     this.event.dispatch(clientEvent, true);
-  }
-
-  /**
-   * notifies any additional listeners that we have received some new data from the
-   * circuit controller
-   * @param clientEvent
-   */
-  notifyListeners(clientEvent) {
-    console.log(
-      "[" +
-        TeamClient.name +
-        "] notify listeners {" +
-        TeamClient.listeners.length +
-        "}-> " +
-        JSON.stringify(clientEvent)
-    );
-    for (var i = TeamClient.listeners.length - 1; i >= 0; i--) {
-      let listener = TeamClient.listeners[i];
-      console.log(listener);
-
-      // TODO this needs execute the callback of this listener
-    }
-  }
-
-  /**
-   * registers a new listener that is associated to a given client event. These listeners
-   * are wrapped as client events to maintain consistency.
-   * @param clientEvent
-   */
-  registerListener(clientEvent) {
-    console.log(
-      "[" + TeamClient.name + "] register -> " + JSON.stringify(clientEvent)
-    );
-    TeamClient.listeners.push(clientEvent);
-  }
-
-  /**
-   * removes the listener from our memory. this is important
-   * @param clientEvent
-   */
-  unregisterListener(clientEvent) {
-    console.log(
-      "[" +
-        TeamClient.name +
-        "] unregister {" +
-        TeamClient.listeners.length +
-        "} -> " +
-        JSON.stringify(clientEvent)
-    );
-    for (var i = TeamClient.listeners.length - 1; i >= 0; i--) {
-      console.log(TeamClient.listeners[i]);
-      if (clientEvent === TeamClient.listeners[i]) {
-        TeamClient.listeners.splice(i, 1);
-      }
-    }
   }
 }

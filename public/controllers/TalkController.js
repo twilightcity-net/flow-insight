@@ -1,12 +1,10 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
-  Util = require("../Util"),
-  { DtoClient } = require("../managers/DtoClientFactory"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory");
 
 /**
- * This class is used to coordinate controllers across the talk service
+ * The class used to coordinate controllers across the talk service.
  * @type {TalkController}
  */
 module.exports = class TalkController extends BaseController {
@@ -62,40 +60,40 @@ module.exports = class TalkController extends BaseController {
     this.appHeartbeatListener = EventFactory.createEvent(
       EventFactory.Types.APP_HEARTBEAT,
       this,
-      this.onAppHeartbeat
+      this.handleAppHeartbeat
     );
-    this.appPulseNotifier = EventFactory.createEvent(
+    this.appPulseEvent = EventFactory.createEvent(
       EventFactory.Types.APP_PULSE,
       this
     );
-    this.talkConnectedListener = EventFactory.createEvent(
+    this.talkConnectedEvent = EventFactory.createEvent(
       EventFactory.Types.TALK_CONNECTED,
       this
     );
-    this.talkConnectFailedListener = EventFactory.createEvent(
+    this.talkConnectFailedEvent = EventFactory.createEvent(
       EventFactory.Types.TALK_CONNECT_FAILED,
       this
     );
-    this.talkMessageClientListener = EventFactory.createEvent(
+    this.talkMessageClientEvent = EventFactory.createEvent(
       EventFactory.Types.TALK_MESSAGE_CLIENT,
       this
     );
-    this.talkMessageRoomListener = EventFactory.createEvent(
+    this.talkMessageRoomEvent = EventFactory.createEvent(
       EventFactory.Types.TALK_MESSAGE_ROOM,
       this
     );
-    this.talkJoinRoomListener = EventFactory.createEvent(
+    this.talkJoinRoomEvent = EventFactory.createEvent(
       EventFactory.Types.TALK_JOIN_ROOM,
       this
     );
-    this.talkLeaveRoomListener = EventFactory.createEvent(
+    this.talkLeaveRoomEvent = EventFactory.createEvent(
       EventFactory.Types.TALK_LEAVE_ROOM,
       this
     );
   }
 
   /**
-   * creates the listeners for the manager. this should be moved into the controler
+   * A function used to create listeners for this talk controller.
    * @param socket
    * @param connectionId
    */
@@ -110,7 +108,7 @@ module.exports = class TalkController extends BaseController {
           " -> " +
           socket.id
       );
-      this.talkConnectedListener.dispatch();
+      this.talkConnectedEvent.dispatch();
     });
     socket.on(TalkController.Events.RECONNECT_ATTEMPT, attempt => {
       log.info(
@@ -122,9 +120,8 @@ module.exports = class TalkController extends BaseController {
     });
     socket.on(TalkController.Events.RECONNECT_FAILED, () => {
       log.info(chalk.greenBright(name) + " unable to reconnect ");
-      this.talkConnectFailedListener.dispatch({
-        message:
-          "Opps, The Talk service seems to be offline, please try again soon."
+      this.talkConnectFailedEvent.dispatch({
+        message: "Sorry, reconnection to 'Talk' FAILED."
       });
     });
     socket.on(TalkController.Events.CONNECT_ERROR, err => {
@@ -151,7 +148,7 @@ module.exports = class TalkController extends BaseController {
     socket.on(TalkController.Events.PONG, latency => {
       log.info(chalk.green(name) + " latency " + latency + "ms");
       global.App.TalkManager.setLatency(latency);
-      this.appPulseNotifier.dispatch({
+      this.appPulseEvent.dispatch({
         latencyTime: latency
       });
     });
@@ -163,28 +160,73 @@ module.exports = class TalkController extends BaseController {
    * @param name
    */
   wireSocketMessagesToEventCircuit(socket, name) {
-    socket.on(TalkController.Events.MESSAGE_CLIENT, (data, fn) => {
-      log.info(chalk.green(name) + " client message : " + data);
-      this.talkMessageClientListener.dispatch(data);
-      fn();
-    });
-    socket.on(TalkController.Events.MESSAGE_ROOM, data => {
-      log.info(chalk.green(name) + " room message : " + JSON.stringify(data));
-      this.talkMessageRoomListener.dispatch();
-    });
-    socket.on(TalkController.Events.JOIN_ROOM, (roomId, fn) => {
-      log.info(chalk.greenBright(name) + " joined room '" + roomId + "'");
-      this.talkJoinRoomListener.dispatch(roomId);
-      fn(roomId);
-    });
-    socket.on(TalkController.Events.LEAVE_ROOM, (roomId, fn) => {
-      log.info(chalk.greenBright(name) + " left room '" + roomId + "'");
-      this.talkLeaveRoomListener.dispatch(roomId);
-      fn(roomId);
-    });
+    socket.on(
+      TalkController.Events.MESSAGE_CLIENT,
+      (data, fn) => this.handleSocketMessageClient
+    );
+    socket.on(
+      TalkController.Events.MESSAGE_ROOM,
+      data => this.handleSocketMessageRoom
+    );
+    socket.on(
+      TalkController.Events.JOIN_ROOM,
+      (roomId, fn) => this.handleSocketJoinRoom
+    );
+    socket.on(
+      TalkController.Events.LEAVE_ROOM,
+      (roomId, fn) => this.handleSocketLeaveRoom
+    );
   }
 
-  onAppHeartbeat() {
+  /**
+   * handles incoming direct client messages with a socket callback
+   * @param data - the data we are sending over the socket connection
+   * @param fn - the callback function which is synchronizes the return value.
+   */
+  handleSocketMessageClient(data, fn) {
+    log.info(chalk.green(name) + " client message : " + data);
+    this.talkMessageClientEvent.dispatch(data);
+    fn();
+  }
+
+  /**
+   * callback function that our socket uses to delegate our talk room messages
+   * @param data - the data that was sent to the talk room
+   */
+  handleSocketMessageRoom(data) {
+    log.info(chalk.green(name) + " room message : " + JSON.stringify(data));
+
+    // TODO store the message into talk database for the specific room's collection
+
+    this.talkMessageRoomEvent.dispatch(data);
+  }
+
+  /**
+   * handles our socket callback when we join a room on talk or gridtime
+   * @param roomId - the room id we wish to join
+   * @param fn - the function we use to call back to talk
+   */
+  handleSocketJoinRoom(roomId, fn) {
+    log.info(chalk.greenBright(name) + " joined room '" + roomId + "'");
+    this.talkJoinRoomEvent.dispatch(roomId);
+    fn(roomId);
+  }
+
+  /**
+   * handles our socket callback for leaving rooms we have joined
+   * @param roomId - the room id we are leaving
+   * @param fn - the callback function used to handle the return value
+   */
+  handleSocketLeaveRoom(roomId, fn) {
+    log.info(chalk.greenBright(name) + " left room '" + roomId + "'");
+    this.talkLeaveRoomEvent.dispatch(roomId);
+    fn(roomId);
+  }
+
+  /**
+   * event callback for our application heartbeat
+   */
+  handleAppHeartbeat() {
     let socket = global.App.TalkManager.socket;
     if (!socket.connected) {
       log.info(

@@ -21,12 +21,6 @@ export class CircuitClient extends BaseClient {
   static replies = new Map();
 
   /**
-   * our circuit event listeners that other classes use
-   * @type {*}
-   */
-  static _listeners = [];
-
-  /**
    * our current active circuit assigned by grid time
    * @type {LearningCircuitDto}
    */
@@ -325,7 +319,6 @@ export class CircuitClient extends BaseClient {
       CircuitClient.replies.delete(arg.id);
     }
     clientEvent.callback(event, arg);
-    this.notifyListeners(clientEvent);
   };
 
   /**
@@ -340,60 +333,5 @@ export class CircuitClient extends BaseClient {
     );
     CircuitClient.replies.set(clientEvent.id, clientEvent);
     this.event.dispatch(clientEvent, true);
-  }
-
-  /**
-   * notifies any additional listeners that we have recieved some new data from the
-   * circuit controller
-   * @param clientEvent
-   */
-  notifyListeners(clientEvent) {
-    console.log(
-      "[" +
-        CircuitClient.name +
-        "] notify listeners {" +
-        CircuitClient._listeners.length +
-        "}-> " +
-        JSON.stringify(clientEvent)
-    );
-    for (var i = CircuitClient._listeners.length - 1; i >= 0; i--) {
-      let listener = CircuitClient._listeners[i];
-      console.log(listener);
-
-      // TODO this needs execute the callback of this listener
-    }
-  }
-
-  /**
-   * registers a new listener that is associated to a given client event. These listeners
-   * are wrapped as client events to maintain consistency
-   * @param clientEvent
-   */
-  registerListener(clientEvent) {
-    console.log(
-      "[" + CircuitClient.name + "] register -> " + JSON.stringify(clientEvent)
-    );
-    CircuitClient._listeners.push(clientEvent);
-  }
-
-  /**
-   * removes the listener from our memory. this is important
-   * @param clientEvent
-   */
-  unregisterListener(clientEvent) {
-    console.log(
-      "[" +
-        CircuitClient.name +
-        "] unregister {" +
-        CircuitClient._listeners.length +
-        "} -> " +
-        JSON.stringify(clientEvent)
-    );
-    for (var i = CircuitClient._listeners.length - 1; i >= 0; i--) {
-      console.log(CircuitClient._listeners[i]);
-      if (clientEvent === CircuitClient._listeners[i]) {
-        CircuitClient._listeners.splice(i, 1);
-      }
-    }
   }
 }

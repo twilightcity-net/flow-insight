@@ -12,12 +12,6 @@ export class TalkToClient extends BaseClient {
   static replies = new Map();
 
   /**
-   * our client event listeners that other classes use
-   * @type {*}
-   */
-  static _listeners = [];
-
-  /**
    * builds the Client for Gridtime TalkTo Client Service
    * @param scope
    */
@@ -150,7 +144,6 @@ export class TalkToClient extends BaseClient {
       TalkToClient.replies.delete(arg.id);
     }
     clientEvent.callback(event, arg);
-    this.notifyListeners(clientEvent);
   };
 
   /**
@@ -165,60 +158,5 @@ export class TalkToClient extends BaseClient {
     );
     TalkToClient.replies.set(clientEvent.id, clientEvent);
     this.event.dispatch(clientEvent, true);
-  }
-
-  /**
-   * notifies any additional listeners that we have received some new data from the
-   * talk to controller
-   * @param clientEvent
-   */
-  notifyListeners(clientEvent) {
-    console.log(
-      "[" +
-        TalkToClient.name +
-        "] notify listeners {" +
-        TalkToClient._listeners.length +
-        "}-> " +
-        JSON.stringify(clientEvent)
-    );
-    for (var i = TalkToClient._listeners.length - 1; i >= 0; i--) {
-      let listener = TalkToClient._listeners[i];
-      console.log(listener);
-
-      // TODO this needs execute the callback of this listener
-    }
-  }
-
-  /**
-   * registers a new listener that is associated to a given client event. These listeners
-   * wrapped as client events to maintain consistency.
-   * @param clientEvent
-   */
-  registerListener(clientEvent) {
-    console.log(
-      "[" + TalkToClient.name + "] register -> " + JSON.stringify(clientEvent)
-    );
-    TalkToClient._listeners.push(clientEvent);
-  }
-
-  /**
-   * removes the listener from our memory. this is important.
-   * @param clientEvent
-   */
-  unregisterListener(clientEvent) {
-    console.log(
-      "[" +
-        TalkToClient.name +
-        "] unregister {" +
-        TalkToClient._listeners.length +
-        "} -> " +
-        JSON.stringify(clientEvent)
-    );
-    for (var i = TalkToClient._listeners.length - 1; i >= 0; i--) {
-      console.log(TalkToClient._listeners[i]);
-      if (clientEvent === TalkToClient._listeners[i]) {
-        TalkToClient._listeners.splice(i, 1);
-      }
-    }
   }
 }

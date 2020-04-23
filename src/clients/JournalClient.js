@@ -2,16 +2,7 @@ import { BaseClient } from "./BaseClient";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 
 /**
- * the client which is used to make journal requests to gridtime. Basically we
- * will use this class to fire an event which the main process listens for. On
- * notification it will make a rest call to grid time. the response is the
- * piped into the calling function to this client.
- *
- * EXAMPLE:
- *
- * `CircuitClient.createLearningCircuitModel("angry_teachers", this, model => {
- *     console.log(model);
- *   });`
+ * this class is used to converse with gridtime about a specific journal of intentions
  */
 export class JournalClient extends BaseClient {
   /**
@@ -19,12 +10,6 @@ export class JournalClient extends BaseClient {
    * @type {Map<any, any>}
    */
   static replies = new Map();
-
-  /**
-   * our circuit event listeners that other classes use
-   * @type {*}
-   */
-  static listeners = [];
 
   /**
    * builds the Client for a Circuit in Gridtime
@@ -191,7 +176,6 @@ export class JournalClient extends BaseClient {
     if (clientEvent) {
       JournalClient.replies.delete(arg.id);
       clientEvent.callback(event, arg);
-      this.notifyListeners(clientEvent);
     }
   };
 
@@ -207,60 +191,5 @@ export class JournalClient extends BaseClient {
     );
     JournalClient.replies.set(clientEvent.id, clientEvent);
     this.event.dispatch(clientEvent, true);
-  }
-
-  /**
-   * notifies any additional listeners that we have recieved some new data from the
-   * circuit controller
-   * @param clientEvent
-   */
-  notifyListeners(clientEvent) {
-    console.log(
-      "[" +
-        JournalClient.name +
-        "] notify listeners {" +
-        JournalClient.listeners.length +
-        "}-> " +
-        JSON.stringify(clientEvent)
-    );
-    for (var i = JournalClient.listeners.length - 1; i >= 0; i--) {
-      let listener = JournalClient.listeners[i];
-      console.log(listener);
-
-      // TODO this needs execute the callback of this listener
-    }
-  }
-
-  /**
-   * registers a new listener that is associated to a given client event. These listeners
-   * are wrapped as client events to maintain consistency
-   * @param clientEvent
-   */
-  registerListener(clientEvent) {
-    console.log(
-      "[" + JournalClient.name + "] register -> " + JSON.stringify(clientEvent)
-    );
-    JournalClient.listeners.push(clientEvent);
-  }
-
-  /**
-   * removes the listener from our memory. this is important
-   * @param clientEvent
-   */
-  unregisterListener(clientEvent) {
-    console.log(
-      "[" +
-        JournalClient.name +
-        "] unregister {" +
-        JournalClient.listeners.length +
-        "} -> " +
-        JSON.stringify(clientEvent)
-    );
-    for (var i = JournalClient.listeners.length - 1; i >= 0; i--) {
-      console.log(JournalClient.listeners[i]);
-      if (clientEvent === JournalClient.listeners[i]) {
-        JournalClient.listeners.splice(i, 1);
-      }
-    }
   }
 }

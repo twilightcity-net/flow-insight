@@ -2,7 +2,7 @@
   "name": "torchie-shell",
   "productName": "Torchie",
   "description": "Torchie Shell - Copyright ® 2020 - DreamsScale, Inc.",
-  "version": "0.4.5",
+  "version": "0.4.6",
   "engines": {
     "node": "11.15.0"
   },
@@ -16,7 +16,6 @@
   "main": "public/electron.js",
   "repository": {
     "type": "git",
-
     "url": "https://github.com/dreamscale-io/torchie-release.git"
   },
   "scripts": {
@@ -75,6 +74,7 @@
     "minami": "^1.2.3",
     "moment": "^2.19.3",
     "moment-timezone": "^0.5.28",
+    "node-neural-network": "^1.0.3",
     "node-notifier": "^5.1.2",
     "random-access-memory": "^3.1.1",
     "react": "16.7.0",
