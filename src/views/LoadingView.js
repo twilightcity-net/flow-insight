@@ -11,14 +11,15 @@ import {
   Transition
 } from "semantic-ui-react";
 
-//
-// This view class is used to show application loading which consists of:
-//   1> checking for ner version to update
-//   2> downloading update if there is one, auto restart
-//   3> load database file into memory
-//   4> read user configuration
-//   5> authenticate user API-Key if online
-//
+/**
+ *  This view class is used to show application loading which consists of:
+ *
+ *  1> checking for ner version to update
+ *  2> downloading update if there is one, auto restart
+ *  3> load database file into memory
+ *  4> read user configuration
+ *  5> authenticate user API-Key if online
+ */
 export default class LoadingView extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +36,7 @@ export default class LoadingView extends Component {
       label: "Populating cats and synthesizers"
     };
     this.state = {
+      appVersion: "0.4.6",
       visible: true,
       header: this.header,
       progress: this.progress,
@@ -170,13 +172,7 @@ export default class LoadingView extends Component {
           onHide={this.onHideShow}
           onShow={this.onHideShow}
         >
-          <Icon
-            size="huge"
-            circular
-            inverted
-            color="violet"
-            name={this.state.header.icon}
-          />
+          <Icon size="huge" circular color="" name={this.state.header.icon} />
         </Transition>
         <Header as="h2" inverted>
           <Header.Content>
@@ -184,16 +180,15 @@ export default class LoadingView extends Component {
             <Header.Subheader>{this.state.header.text}</Header.Subheader>
           </Header.Content>
         </Header>
-        <Divider clearing />
         <Progress
           color={this.state.progress.color}
           value={this.state.progress.value}
           total={this.state.progress.total}
-          progress="percent"
           precision={0}
           active
-          size="medium"
+          size="tiny"
           inverted
+          align="center"
         >
           {this.state.progress.label}
         </Progress>
@@ -259,6 +254,8 @@ export default class LoadingView extends Component {
         >
           {talkFailedContent}
         </Transition>
+        <div className="appVersion">v. {this.state.appVersion} </div>
+        <div className="appCopyright">Copyright .DreamScale ©2020 </div>
       </Segment>
     );
   }

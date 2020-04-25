@@ -740,14 +740,14 @@ module.exports = class TalkController extends BaseController {
    * @param name
    */
   wireSocketMessagesToEventCircuit(socket, name) {
-    socket.on(TalkController.Events.MESSAsGE_CLIENT, (data, fn) => {
+    socket.on(TalkController.Events.MESSAGE_CLIENT, (data, fn) => {
       log.info(chalk.green(name) + " client message : " + data);
       this.talkMessageClientListener.dispatch(data);
       fn();
     });
     socket.on(TalkController.Events.MESSAGE_ROOM, data => {
       log.info(chalk.green(name) + " room message : " + JSON.stringify(data));
-      this.talkMessageRoomListener.dispatch();
+      this.talkMessageRoomListener.dispatch(data);
     });
     socket.on(TalkController.Events.JOIN_ROOM, (roomId, fn) => {
       log.info(chalk.greenBright(name) + " joined room '" + roomId + "'");

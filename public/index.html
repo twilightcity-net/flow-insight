@@ -68,14 +68,50 @@
        * VIEW: LOADING
        */
   #view.loading {
-    background: #1b1c1d;
+    background: #000000 url("./assets/images/loader_background.png") no-repeat fixed 0 -7rem;
+    background-size: cover;
     height: 100%;
+    padding-top: 4.20rem;
+  }
+
+  #view.loading>.ui.segment {
+    background: none;
   }
 
   #view.loading .icon {
-    margin: auto;
-    margin-top: 52px;
-    font-size: 32px;
+    margin: 0.76543210rem auto auto;
+    font-size: 4.20rem;
+  }
+
+  #view.loading .ui.progress .bar>.progress {
+    display: none;
+  }
+
+  #view.loading .ui.progress .label {
+    text-align: center;
+  }
+
+  #view.loading>.ui.segment .ui.header {
+    margin-top: 1.2rem;
+  }
+
+  #view.loading>.ui.segment .appVersion {
+    position: absolute;
+    padding: 0.420rem;
+    top: -4.20rem;
+    right: 0.420rem;
+    font-size: .777rem;
+    color: #555;
+  }
+
+  #view.loading>.ui.segment .appCopyright {
+    position: absolute;
+    left: 0.420rem;
+    bottom: 0;
+    font-size: .777rem;
+    font-weight: bold;
+    color: #777;
+    padding-left: 1.6rem;
   }
 
   #view.loading .loginFailed .icon {
@@ -94,8 +130,8 @@
     text-align: right !important;
     font-style: italic;
     opacity: 0.5;
-    padding-right: 5px;
-    padding-top: 2px;
+    padding-right: 0;
+    margin-top: 1rem;
   }
 
   /*
