@@ -4,6 +4,7 @@ import { RendererControllerFactory } from "../../../controllers/RendererControll
 import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 import { DimensionController } from "../../../controllers/DimensionController";
 import { RendererEventFactory } from "../../../events/RendererEventFactory";
+import { CircuitClient } from "../../../clients/CircuitClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -185,34 +186,23 @@ export default class ConsoleSidebar extends Component {
   }
 
   /**
-   * called when we delect a menu ite,. This should close the panel
-   */
-  deselectItem = () => {
-    this.myController.hidePanel();
-  };
-
-  /**
-   * called when we select a new console menu item
-   * @param name
-   */
-  selectItem = name => {
-    if (name === SidePanelViewController.MenuSelection.WTF) {
-      this.myController.startWTF();
-    } else {
-      this.myController.showPanel(name);
-    }
-  };
-
-  /**
    * event click handler for the menu
    * @param e
    * @param name
    */
   handleItemClick = (e, { name }) => {
+    console.log(CircuitClient.activeCircuit);
     if (this.state.activeItem === name) {
-      this.deselectItem(name);
+      this.myController.hidePanel();
+    } else if (
+      name === SidePanelViewController.MenuSelection.WTF &&
+      CircuitClient.activeCircuit !== null
+    ) {
+      this.myController.loadWTF();
+    } else if (name === SidePanelViewController.MenuSelection.WTF) {
+      this.myController.startWTF();
     } else {
-      this.selectItem(name);
+      this.myController.showPanel(name);
     }
   };
 

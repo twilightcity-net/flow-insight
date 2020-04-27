@@ -2,6 +2,7 @@ import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 import { RendererControllerFactory } from "./RendererControllerFactory";
 import { BrowserRequestFactory } from "./BrowserRequestFactory";
+import { CircuitClient } from "../clients/CircuitClient";
 
 /**
  * control the sidebar panels
@@ -280,11 +281,27 @@ export class SidePanelViewController extends ActiveViewController {
     this.fireSidePanelNotifyEvent();
   }
 
+  /**
+   * starts a new WTF session with gridtime
+   */
   startWTF() {
     let request = BrowserRequestFactory.createRequest(
       BrowserRequestFactory.Requests.COMMAND,
       BrowserRequestFactory.Commands.WTF
     );
+    this.makeSidebarBrowserRequest(request);
+  }
+
+  /**
+   * loads your active WTF that is in the active session from gridtime
+   */
+  loadWTF() {
+    let circuit = CircuitClient.activeCircuit,
+      circuitName = circuit.circuitName,
+      request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+        circuitName
+      );
     this.makeSidebarBrowserRequest(request);
   }
 
