@@ -296,13 +296,19 @@ export class SidePanelViewController extends ActiveViewController {
    * loads your active WTF that is in the active session from gridtime
    */
   loadWTF() {
-    let circuit = CircuitClient.activeCircuit,
-      circuitName = circuit.circuitName,
-      request = BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
-        circuitName
-      );
-    this.makeSidebarBrowserRequest(request);
+    CircuitClient.getActiveCircuit(this, arg => {
+      let circuit = arg.data[0];
+      if (circuit) {
+        let circuitName = circuit.circuitName,
+          request = BrowserRequestFactory.createRequest(
+            BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+            circuitName
+          );
+
+        CircuitClient.activeCircuit = circuit;
+        this.makeSidebarBrowserRequest(request);
+      }
+    });
   }
 
   /**
