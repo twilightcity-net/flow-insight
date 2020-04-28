@@ -40,9 +40,16 @@ export class CircuitClient extends BaseClient {
     );
     this.circuitStartStopNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
-      this
+      this,
+      this.handleCircuitStartStopCallback
     );
   }
+
+  handleCircuitStartStopCallback = (event, arg) => {
+    if (arg < 0) {
+      CircuitClient.activeCircuit = null;
+    }
+  };
 
   /**
    * notifies the system know we are starting a wtf session
