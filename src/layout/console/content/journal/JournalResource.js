@@ -155,7 +155,6 @@ export default class JournalResource extends Component {
   }
 
   onEntryShown = () => {
-    console.log("journal shown", this.isMyJournal());
     if (this.isMyJournal()) {
       this.scrollToJournalItemById(null, true);
     }
