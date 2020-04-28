@@ -153,7 +153,6 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {*}
    */
   getFeedEventsFromMessagesArrayContent() {
-    console.log("render array`");
     return this.feedEvents.map((message, i) => {
       this.lastFeedEvent = (
         <ActiveCircuitFeedEvent
