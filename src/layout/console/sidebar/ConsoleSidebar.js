@@ -4,7 +4,6 @@ import { RendererControllerFactory } from "../../../controllers/RendererControll
 import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 import { DimensionController } from "../../../controllers/DimensionController";
 import { RendererEventFactory } from "../../../events/RendererEventFactory";
-import { CircuitClient } from "../../../clients/CircuitClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -191,12 +190,11 @@ export default class ConsoleSidebar extends Component {
    * @param name
    */
   handleItemClick = (e, { name }) => {
-    console.log(CircuitClient.activeCircuit);
     if (this.state.activeItem === name) {
       this.myController.hidePanel();
     } else if (
       name === SidePanelViewController.MenuSelection.WTF &&
-      CircuitClient.activeCircuit !== null
+      this.state.isAlarm
     ) {
       this.myController.loadWTF();
     } else if (name === SidePanelViewController.MenuSelection.WTF) {
