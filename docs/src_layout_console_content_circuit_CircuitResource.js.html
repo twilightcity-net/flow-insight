@@ -431,8 +431,10 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#hidePanel">hidePanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#isVisible">isVisible</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#loadWTF">loadWTF</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#showPanel">showPanel</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#startWTF">startWTF</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.MenuSelection.html">MenuSelection</a></span></li>
@@ -583,7 +585,7 @@ import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFac
 import { CircuitClient } from "../../../../clients/CircuitClient";
 
 /**
- * this component is the tab panel wrapper for the console content
+ * this component is the tab panel wrapper for the console cntent
  * @author ZoeDreams
  */
 export default class CircuitResource extends Component {
@@ -602,18 +604,6 @@ export default class CircuitResource extends Component {
       RendererControllerFactory.Views.RESOURCES,
       this
     );
-  }
-
-  /**
-   * called right before we load the circuit resource page to see
-   * if we have an active circuit to redirect to
-   */
-  componentDidMount() {
-    if (CircuitClient.activeCircuit) {
-      this.requestBrowserToLoadActiveCircuit(
-        CircuitClient.activeCircuit.circuitName
-      );
-    }
   }
 
   /**
@@ -650,12 +640,12 @@ export default class CircuitResource extends Component {
    * @returns {*} - the JSX to render
    */
   render() {
-    let wtfPanel;
+    let wtfPanel = &lt;StartCircuit resource={this.props.resource} />;
+
     if (this.isWTF(this.props.resource)) {
       wtfPanel = &lt;ActiveCircuit resource={this.props.resource} />;
-    } else if (!CircuitClient.activeCircuit) {
-      wtfPanel = &lt;StartCircuit resource={this.props.resource} />;
     }
+
     return (
       &lt;div id="component" className="circuitLayout">
         &lt;div id="wrapper" className="circuitContent">

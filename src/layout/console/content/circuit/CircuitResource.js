@@ -6,7 +6,7 @@ import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFac
 import { CircuitClient } from "../../../../clients/CircuitClient";
 
 /**
- * this component is the tab panel wrapper for the console content
+ * this component is the tab panel wrapper for the console cntent
  * @author ZoeDreams
  */
 export default class CircuitResource extends Component {
@@ -25,18 +25,6 @@ export default class CircuitResource extends Component {
       RendererControllerFactory.Views.RESOURCES,
       this
     );
-  }
-
-  /**
-   * called right before we load the circuit resource page to see
-   * if we have an active circuit to redirect to
-   */
-  componentDidMount() {
-    if (CircuitClient.activeCircuit) {
-      this.requestBrowserToLoadActiveCircuit(
-        CircuitClient.activeCircuit.circuitName
-      );
-    }
   }
 
   /**
@@ -73,12 +61,12 @@ export default class CircuitResource extends Component {
    * @returns {*} - the JSX to render
    */
   render() {
-    let wtfPanel;
+    let wtfPanel = <StartCircuit resource={this.props.resource} />;
+
     if (this.isWTF(this.props.resource)) {
       wtfPanel = <ActiveCircuit resource={this.props.resource} />;
-    } else if (!CircuitClient.activeCircuit) {
-      wtfPanel = <StartCircuit resource={this.props.resource} />;
     }
+
     return (
       <div id="component" className="circuitLayout">
         <div id="wrapper" className="circuitContent">

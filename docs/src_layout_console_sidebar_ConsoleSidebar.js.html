@@ -431,8 +431,10 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#hidePanel">hidePanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#isVisible">isVisible</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#loadWTF">loadWTF</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#showPanel">showPanel</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#startWTF">startWTF</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.MenuSelection.html">MenuSelection</a></span></li>
@@ -695,19 +697,19 @@ export default class ConsoleSidebar extends Component {
     console.log(this.name + " shortcut recieved -> sidebar show : " + arg);
     switch (arg) {
       case 1:
-        this.selectItem(SidePanelViewController.MenuSelection.TEAM);
+        this.showPanel(SidePanelViewController.MenuSelection.TEAM);
         break;
       case 2:
-        this.selectItem(SidePanelViewController.MenuSelection.CIRCUITS);
+        this.showPanel(SidePanelViewController.MenuSelection.CIRCUITS);
         break;
       case 3:
-        this.selectItem(SidePanelViewController.MenuSelection.SPIRIT);
+        this.showPanel(SidePanelViewController.MenuSelection.SPIRIT);
         break;
       case 4:
-        this.selectItem(SidePanelViewController.MenuSelection.NOTIFICATIONS);
+        this.showPanel(SidePanelViewController.MenuSelection.NOTIFICATIONS);
         break;
       case 0:
-        this.selectItem(SidePanelViewController.MenuSelection.WTF);
+        this.showPanel(SidePanelViewController.MenuSelection.WTF);
         break;
       default:
         throw new Error("Unknown console sidebar show arg " + arg);
@@ -762,34 +764,22 @@ export default class ConsoleSidebar extends Component {
   }
 
   /**
-   * called when we delect a menu ite,. This should close the panel
-   */
-  deselectItem = () => {
-    this.myController.hidePanel();
-  };
-
-  /**
-   * called when we select a new console menu item
-   * @param name
-   */
-  selectItem = name => {
-    if (name === SidePanelViewController.MenuSelection.WTF) {
-      this.myController.startWTF();
-    } else {
-      this.myController.showPanel(name);
-    }
-  };
-
-  /**
    * event click handler for the menu
    * @param e
    * @param name
    */
   handleItemClick = (e, { name }) => {
     if (this.state.activeItem === name) {
-      this.deselectItem(name);
+      this.myController.hidePanel();
+    } else if (
+      name === SidePanelViewController.MenuSelection.WTF &amp;&amp;
+      this.state.isAlarm
+    ) {
+      this.myController.loadWTF();
+    } else if (name === SidePanelViewController.MenuSelection.WTF) {
+      this.myController.startWTF();
     } else {
-      this.selectItem(name);
+      this.myController.showPanel(name);
     }
   };
 

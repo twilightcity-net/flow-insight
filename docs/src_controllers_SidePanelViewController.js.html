@@ -431,8 +431,10 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#hidePanel">hidePanel</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#isVisible">isVisible</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#loadWTF">loadWTF</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#showPanel">showPanel</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#startWTF">startWTF</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.MenuSelection.html">MenuSelection</a></span></li>
@@ -579,6 +581,7 @@
 import { RendererEventFactory } from "../events/RendererEventFactory";
 import { RendererControllerFactory } from "./RendererControllerFactory";
 import { BrowserRequestFactory } from "./BrowserRequestFactory";
+import { CircuitClient } from "../clients/CircuitClient";
 
 /**
  * control the sidebar panels
@@ -857,12 +860,34 @@ export class SidePanelViewController extends ActiveViewController {
     this.fireSidePanelNotifyEvent();
   }
 
+  /**
+   * starts a new WTF session with gridtime
+   */
   startWTF() {
     let request = BrowserRequestFactory.createRequest(
       BrowserRequestFactory.Requests.COMMAND,
       BrowserRequestFactory.Commands.WTF
     );
     this.makeSidebarBrowserRequest(request);
+  }
+
+  /**
+   * loads your active WTF that is in the active session from gridtime
+   */
+  loadWTF() {
+    CircuitClient.getActiveCircuit(this, arg => {
+      let circuit = arg.data[0];
+      if (circuit) {
+        let circuitName = circuit.circuitName,
+          request = BrowserRequestFactory.createRequest(
+            BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+            circuitName
+          );
+
+        CircuitClient.activeCircuit = circuit;
+        this.makeSidebarBrowserRequest(request);
+      }
+    });
   }
 
   /**
