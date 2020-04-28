@@ -2,6 +2,8 @@
  * a factory class that is used to create new requests for our browser
  * @type{BrowserRequestFactory}
  */
+import { CircuitClient } from "../clients/CircuitClient";
+
 export class BrowserRequestFactory {
   /**
    * the possible types of request we have
@@ -215,6 +217,19 @@ export class BrowserRequestFactory {
    * @private
    */
   static _getCommandWTFRequest(...args) {
+    let circuit = CircuitClient.activeCircuit;
+    if (circuit) {
+      return (
+        BrowserRequestFactory.Commands.OPEN +
+        BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
+        BrowserRequestFactory.Locations.CIRCUIT +
+        BrowserRequestFactory.PATH_SEPARATOR +
+        BrowserRequestFactory.Locations.WTF +
+        BrowserRequestFactory.PATH_SEPARATOR +
+        circuit.circuitName
+      );
+    }
     return (
       BrowserRequestFactory.Commands.OPEN +
       BrowserRequestFactory.URI_SEPARATOR +
