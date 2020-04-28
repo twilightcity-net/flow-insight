@@ -119,19 +119,19 @@ export default class ConsoleSidebar extends Component {
     console.log(this.name + " shortcut recieved -> sidebar show : " + arg);
     switch (arg) {
       case 1:
-        this.selectItem(SidePanelViewController.MenuSelection.TEAM);
+        this.showPanel(SidePanelViewController.MenuSelection.TEAM);
         break;
       case 2:
-        this.selectItem(SidePanelViewController.MenuSelection.CIRCUITS);
+        this.showPanel(SidePanelViewController.MenuSelection.CIRCUITS);
         break;
       case 3:
-        this.selectItem(SidePanelViewController.MenuSelection.SPIRIT);
+        this.showPanel(SidePanelViewController.MenuSelection.SPIRIT);
         break;
       case 4:
-        this.selectItem(SidePanelViewController.MenuSelection.NOTIFICATIONS);
+        this.showPanel(SidePanelViewController.MenuSelection.NOTIFICATIONS);
         break;
       case 0:
-        this.selectItem(SidePanelViewController.MenuSelection.WTF);
+        this.showPanel(SidePanelViewController.MenuSelection.WTF);
         break;
       default:
         throw new Error("Unknown console sidebar show arg " + arg);
