@@ -45,6 +45,14 @@ export class CircuitClient extends BaseClient {
     );
   }
 
+  /**
+   * callback handler for our circuit stop start alarm that is notified. What we do
+   * is check the argument which is an integer. This integer is positive for an an
+   * active alarm. For now 1 represents a wtf, and -1 clears the alarm. Please note
+   * that this negative value could be used to trigger additional levels of detail.
+   * @param event
+   * @param arg
+   */
   handleCircuitStartStopCallback = (event, arg) => {
     if (arg < 0) {
       CircuitClient.activeCircuit = null;
