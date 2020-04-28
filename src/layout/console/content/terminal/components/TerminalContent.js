@@ -37,6 +37,13 @@ export default class TerminalContent extends Component {
           return "v0.4.1 Higgly Heights";
         }
       },
+      whoami: {
+        description: "Who am i really?.",
+        usage: "whoami <string>",
+        fn: function() {
+          return `Only the white rabbit knows?`;
+        }
+      },
       echo: {
         description: "Echo a passed string.",
         usage: "echo <string>",
