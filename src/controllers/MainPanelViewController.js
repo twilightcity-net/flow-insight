@@ -5,7 +5,8 @@ export class MainPanelViewController extends ActiveViewController {
   constructor(scope) {
     super(scope);
     this.consoleBrowserLoadListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_LOAD,
+      RendererEventFactory.Events
+        .WINDOW_CONSOLE_BROWSER_LOAD,
       this
     );
   }
@@ -16,7 +17,10 @@ export class MainPanelViewController extends ActiveViewController {
    * @param callback
    */
   configureConsoleBrowserLoadListener(scope, callback) {
-    this.consoleBrowserLoadListener.updateCallback(scope, callback);
+    this.consoleBrowserLoadListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   static get Resources() {

@@ -53,7 +53,8 @@ export default class LoadingView extends Component {
         this.onLoadCb
       ),
       loginFailed: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_LOADING_LOGIN_FAILED,
+        RendererEventFactory.Events
+          .WINDOW_LOADING_LOGIN_FAILED,
         this,
         this.onLoginFailedCb
       ),
@@ -75,7 +76,9 @@ export default class LoadingView extends Component {
    * @param arg
    */
   onLoadCb(event, arg) {
-    console.log("[LoadingView] event -> APPLOADER_LOAD : " + arg.load);
+    console.log(
+      "[LoadingView] event -> APPLOADER_LOAD : " + arg.load
+    );
     this.setState(state => {
       this.updateHeaderText(arg.text);
       this.updateProgress(arg.value, arg.total, arg.label);
@@ -172,12 +175,19 @@ export default class LoadingView extends Component {
           onHide={this.onHideShow}
           onShow={this.onHideShow}
         >
-          <Icon size="huge" circular color="" name={this.state.header.icon} />
+          <Icon
+            size="huge"
+            circular
+            color=""
+            name={this.state.header.icon}
+          />
         </Transition>
         <Header as="h2" inverted>
           <Header.Content>
             {this.state.header.title}
-            <Header.Subheader>{this.state.header.text}</Header.Subheader>
+            <Header.Subheader>
+              {this.state.header.text}
+            </Header.Subheader>
           </Header.Content>
         </Header>
         <Progress
@@ -196,16 +206,26 @@ export default class LoadingView extends Component {
     );
     const loginFailedContent = (
       <Container textAlign="center" className="loginFailed">
-        <Icon size="massive" name="warning circle" color="red" />
+        <Icon
+          size="massive"
+          name="warning circle"
+          color="red"
+        />
         <Header as="h2" inverted>
           <Header.Content>
             Sorry, Authentication Error :(
-            <Header.Subheader>{this.state.loginFailedMsg}</Header.Subheader>
+            <Header.Subheader>
+              {this.state.loginFailedMsg}
+            </Header.Subheader>
           </Header.Content>
         </Header>
         <Divider clearing />
         <Container textAlign="center">
-          <Button onClick={this.handleQuitAppBtn} size="big" color="red">
+          <Button
+            onClick={this.handleQuitAppBtn}
+            size="big"
+            color="red"
+          >
             Quit Torchie
           </Button>
         </Container>
@@ -213,16 +233,26 @@ export default class LoadingView extends Component {
     );
     const talkFailedContent = (
       <Container textAlign="center" className="talkFailed">
-        <Icon size="massive" name="warning circle" color="red" />
+        <Icon
+          size="massive"
+          name="warning circle"
+          color="red"
+        />
         <Header as="h2" inverted>
           <Header.Content>
             Sorry, Connection Offline :(
-            <Header.Subheader>{this.state.talkFailedMsg}</Header.Subheader>
+            <Header.Subheader>
+              {this.state.talkFailedMsg}
+            </Header.Subheader>
           </Header.Content>
         </Header>
         <Divider clearing />
         <Container textAlign="center">
-          <Button onClick={this.handleQuitAppBtn} size="big" color="red">
+          <Button
+            onClick={this.handleQuitAppBtn}
+            size="big"
+            color="red"
+          >
             Quit Torchie
           </Button>
         </Container>
@@ -254,8 +284,12 @@ export default class LoadingView extends Component {
         >
           {talkFailedContent}
         </Transition>
-        <div className="appVersion">v. {this.state.appVersion} </div>
-        <div className="appCopyright">Copyright .DreamScale ©2020 </div>
+        <div className="appVersion">
+          v. {this.state.appVersion}{" "}
+        </div>
+        <div className="appCopyright">
+          Copyright .DreamScale ©2020{" "}
+        </div>
       </Segment>
     );
   }

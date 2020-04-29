@@ -83,18 +83,18 @@ module.exports = class TeamDatabase extends LokiJS {
       ]
     });
     this.addCollection(TeamDatabase.Collections.ME);
-    this.getCollection(TeamDatabase.Collections.TEAMS).addDynamicView(
-      TeamDatabase.Views.TEAMS
-    );
-    this.getCollection(TeamDatabase.Collections.TEAMS).addDynamicView(
-      TeamDatabase.Views.PRIMARY
-    );
-    this.getCollection(TeamDatabase.Collections.MEMBERS).addDynamicView(
-      TeamDatabase.Views.MEMBERS
-    );
-    this.getCollection(TeamDatabase.Collections.ME).addDynamicView(
-      TeamDatabase.Views.ME
-    );
+    this.getCollection(
+      TeamDatabase.Collections.TEAMS
+    ).addDynamicView(TeamDatabase.Views.TEAMS);
+    this.getCollection(
+      TeamDatabase.Collections.TEAMS
+    ).addDynamicView(TeamDatabase.Views.PRIMARY);
+    this.getCollection(
+      TeamDatabase.Collections.MEMBERS
+    ).addDynamicView(TeamDatabase.Views.MEMBERS);
+    this.getCollection(
+      TeamDatabase.Collections.ME
+    ).addDynamicView(TeamDatabase.Views.ME);
   }
 
   /**
@@ -102,8 +102,12 @@ module.exports = class TeamDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewForTeams() {
-    let collection = this.getCollection(TeamDatabase.Collections.TEAMS);
-    return collection.getDynamicView(TeamDatabase.Views.TEAMS);
+    let collection = this.getCollection(
+      TeamDatabase.Collections.TEAMS
+    );
+    return collection.getDynamicView(
+      TeamDatabase.Views.TEAMS
+    );
   }
 
   /**
@@ -111,9 +115,15 @@ module.exports = class TeamDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewForMyPrimaryTeam() {
-    let collection = this.getCollection(TeamDatabase.Collections.TEAMS),
-      view = collection.getDynamicView(TeamDatabase.Views.PRIMARY);
-    view.applyFind({ type: TeamDatabase.Collections.PRIMARY });
+    let collection = this.getCollection(
+        TeamDatabase.Collections.TEAMS
+      ),
+      view = collection.getDynamicView(
+        TeamDatabase.Views.PRIMARY
+      );
+    view.applyFind({
+      type: TeamDatabase.Collections.PRIMARY
+    });
     return view;
   }
 
@@ -122,8 +132,12 @@ module.exports = class TeamDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewForStatusOfMeAndMyTeam() {
-    let collection = this.getCollection(TeamDatabase.Collections.MEMBERS);
-    return collection.getDynamicView(TeamDatabase.Views.MEMBERS);
+    let collection = this.getCollection(
+      TeamDatabase.Collections.MEMBERS
+    );
+    return collection.getDynamicView(
+      TeamDatabase.Views.MEMBERS
+    );
   }
 
   /**
@@ -131,7 +145,9 @@ module.exports = class TeamDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewForMyCurrentStatus() {
-    let collection = this.getCollection(TeamDatabase.Collections.ME);
+    let collection = this.getCollection(
+      TeamDatabase.Collections.ME
+    );
     return collection.getDynamicView(TeamDatabase.Views.ME);
   }
 };

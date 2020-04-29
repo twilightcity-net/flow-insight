@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { Menu, Segment, Transition } from "semantic-ui-react";
+import {
+  Menu,
+  Segment,
+  Transition
+} from "semantic-ui-react";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
@@ -35,10 +39,14 @@ export default class NotificationsPanel extends Component {
     let state = this.props.loadStateCb();
     if (!state) {
       return {
-        activeItem: SidePanelViewController.SubmenuSelection.NOTIFICATIONS,
+        activeItem:
+          SidePanelViewController.SubmenuSelection
+            .NOTIFICATIONS,
         notificationsVisible: false,
-        animationType: SidePanelViewController.AnimationTypes.FLY_DOWN,
-        animationDelay: SidePanelViewController.AnimationDelays.SUBMENU,
+        animationType:
+          SidePanelViewController.AnimationTypes.FLY_DOWN,
+        animationDelay:
+          SidePanelViewController.AnimationDelays.SUBMENU,
         title: ""
       };
     }
@@ -68,7 +76,10 @@ export default class NotificationsPanel extends Component {
    * detach any listeners when we remove this from view
    */
   componentWillUnmount = () => {
-    this.myController.configureNotificationsPanelListener(this, null);
+    this.myController.configureNotificationsPanelListener(
+      this,
+      null
+    );
   };
 
   /**
@@ -76,12 +87,17 @@ export default class NotificationsPanel extends Component {
    * change by an event or menu
    */
   onRefreshNotificationsPanel() {
-    switch (this.myController.activeNotificationsSubmenuSelection) {
-      case SidePanelViewController.SubmenuSelection.NOTIFICATIONS:
+    switch (
+      this.myController.activeNotificationsSubmenuSelection
+    ) {
+      case SidePanelViewController.SubmenuSelection
+        .NOTIFICATIONS:
         this.showNotificationsPanel();
         break;
       default:
-        throw new Error("Unknown notifications panel menu item");
+        throw new Error(
+          "Unknown notifications panel menu item"
+        );
     }
   }
 
@@ -90,7 +106,9 @@ export default class NotificationsPanel extends Component {
    */
   showNotificationsPanel() {
     this.setState({
-      activeItem: SidePanelViewController.SubmenuSelection.NOTIFICATIONS,
+      activeItem:
+        SidePanelViewController.SubmenuSelection
+          .NOTIFICATIONS,
       notificationsVisible: true
     });
   }
@@ -151,7 +169,9 @@ export default class NotificationsPanel extends Component {
           </Menu>
           <Segment
             inverted
-            style={{ height: DimensionController.getSidebarPanelHeight() }}
+            style={{
+              height: DimensionController.getSidebarPanelHeight()
+            }}
           >
             <Transition
               visible={this.state.notificationsVisible}

@@ -9,7 +9,8 @@ const taskClean = require("./gulp/tasks/clean");
 const OsTypeToTargetMap = {
   Darwin: {
     distDir: "./dist/mac/resources",
-    releaseAsarFile: "dist/mac/Torchie.app/Contents/Resources/app.asar"
+    releaseAsarFile:
+      "dist/mac/Torchie.app/Contents/Resources/app.asar"
   },
   Linux: {
     distDir: "./dist/win-unpacked/resources",
@@ -39,7 +40,9 @@ gulp.task("releaseBuildUpdate", function(cb) {
 
   const osType = require("os").type();
   if (osType === "Linux") {
-    console.log(`Linux build not yet supported.  Exiting...`);
+    console.log(
+      `Linux build not yet supported.  Exiting...`
+    );
     return gutil.noop();
   }
   const target = OsTypeToTargetMap[osType];
@@ -67,20 +70,21 @@ gulp.task("releaseBuildUpdate", function(cb) {
       );
       copyBuild();
     } else {
-      console.log(`Project not distributed: Try 'yarn release' first.`);
+      console.log(
+        `Project not distributed: Try 'yarn release' first.`
+      );
     }
   };
   const packAsar = () => {
     console.log(`Packing ${asar}...`);
-    execSync(`${asarBin} pack ${asarExtractedDir} ${asarDir}`, function(
-      err,
-      stdout,
-      stderr
-    ) {
-      console.log(stdout);
-      console.log(stderr);
-      cb(err);
-    });
+    execSync(
+      `${asarBin} pack ${asarExtractedDir} ${asarDir}`,
+      function(err, stdout, stderr) {
+        console.log(stdout);
+        console.log(stderr);
+        cb(err);
+      }
+    );
   };
   const copyBuild = () => {
     console.log("Removing build dir...");

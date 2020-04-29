@@ -14,11 +14,13 @@ export class BrowserController extends ActiveViewController {
     super(scope);
     this.name = "[BrowserController]";
     this.consoleBrowserRequestListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_REQUEST,
+      RendererEventFactory.Events
+        .WINDOW_CONSOLE_BROWSER_REQUEST,
       this
     );
     this.consoleBrowserLoadNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_BROWSER_LOAD,
+      RendererEventFactory.Events
+        .WINDOW_CONSOLE_BROWSER_LOAD,
       this
     );
     this.showConsoleWindowListener = RendererEventFactory.createEvent(
@@ -41,11 +43,17 @@ export class BrowserController extends ActiveViewController {
    * @param callback
    */
   configureConsoleBrowserRequestListener(scope, callback) {
-    this.consoleBrowserRequestListener.updateCallback(scope, callback);
+    this.consoleBrowserRequestListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   configureConsoleBrowserLoadListener(scope, callback) {
-    this.consoleBrowserLoadNotifier.updateCallback(scope, callback);
+    this.consoleBrowserLoadNotifier.updateCallback(
+      scope,
+      callback
+    );
   }
 
   /**
@@ -61,8 +69,14 @@ export class BrowserController extends ActiveViewController {
    * @param scope
    * @param callback
    */
-  configureShowConsoleWindowListener = (scope, callback) => {
-    this.showConsoleWindowListener.updateCallback(scope, callback);
+  configureShowConsoleWindowListener = (
+    scope,
+    callback
+  ) => {
+    this.showConsoleWindowListener.updateCallback(
+      scope,
+      callback
+    );
   };
 
   /**
@@ -71,9 +85,13 @@ export class BrowserController extends ActiveViewController {
    * @param request
    */
   processRequest = request => {
-    console.log(this.name + " process request -> " + request);
+    console.log(
+      this.name + " process request -> " + request
+    );
     try {
-      let resource = UtilRenderer.getResourceFromRequest(request);
+      let resource = UtilRenderer.getResourceFromRequest(
+        request
+      );
       this.fireConsoleBrowserLoadNotifyEvent(resource);
     } catch (e) {
       console.log(e);

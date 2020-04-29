@@ -11,7 +11,8 @@ module.exports = class AccountActivationDto {
       this.status = json.status;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'AccountActivationDto' : " + e.message
+        "Unable to create dto 'AccountActivationDto' : " +
+          e.message
       );
     }
   }

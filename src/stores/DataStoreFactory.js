@@ -16,7 +16,10 @@ export class DataStoreFactory {
     if (DataStoreFactory.storesByName[name] != null) {
       storeFound = DataStoreFactory.storesByName[name];
     } else {
-      storeFound = DataStoreFactory.initializeNewStore(name, scope);
+      storeFound = DataStoreFactory.initializeNewStore(
+        name,
+        scope
+      );
       DataStoreFactory.storesByName[name] = storeFound;
     }
 
@@ -24,7 +27,9 @@ export class DataStoreFactory {
   }
 
   static initializeNewStore(name, scope) {
-    if (name === DataStoreFactory.Stores.ACCOUNT_ACTIVATION) {
+    if (
+      name === DataStoreFactory.Stores.ACCOUNT_ACTIVATION
+    ) {
       return new AccountActivationStore(scope);
     } else {
       return null;

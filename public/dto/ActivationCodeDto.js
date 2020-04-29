@@ -8,7 +8,8 @@ module.exports = class ActivationCodeDto {
       this.activationCode = json.activationCode;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'ActivationCodeDto' : " + e.message
+        "Unable to create dto 'ActivationCodeDto' : " +
+          e.message
       );
     }
   }

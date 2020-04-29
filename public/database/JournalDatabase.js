@@ -61,30 +61,39 @@ module.exports = class JournalDatabase extends LokiJS {
     super(JournalDatabase.Name);
     this.name = "[DB.JournalDatabase]";
     this.guid = Util.getGuid();
-    this.addCollection(JournalDatabase.Collections.INTENTIONS, {
+    this.addCollection(
+      JournalDatabase.Collections.INTENTIONS,
+      {
+        indices: [
+          JournalDatabase.Indices.ID,
+          JournalDatabase.Indices.USER_NAME,
+          JournalDatabase.Indices.TIMESTAMP,
+          JournalDatabase.Indices.TASK_ID,
+          JournalDatabase.Indices.PROJECT_ID
+        ]
+      }
+    );
+    this.addCollection(
+      JournalDatabase.Collections.PROJECTS,
+      {
+        indices: [JournalDatabase.Indices.ID]
+      }
+    );
+    this.addCollection(JournalDatabase.Collections.TASKS, {
       indices: [
         JournalDatabase.Indices.ID,
-        JournalDatabase.Indices.USER_NAME,
-        JournalDatabase.Indices.TIMESTAMP,
-        JournalDatabase.Indices.TASK_ID,
         JournalDatabase.Indices.PROJECT_ID
       ]
     });
-    this.addCollection(JournalDatabase.Collections.PROJECTS, {
-      indices: [JournalDatabase.Indices.ID]
-    });
-    this.addCollection(JournalDatabase.Collections.TASKS, {
-      indices: [JournalDatabase.Indices.ID, JournalDatabase.Indices.PROJECT_ID]
-    });
-    this.getCollection(JournalDatabase.Collections.INTENTIONS).addDynamicView(
-      JournalDatabase.Views.INTENTIONS
-    );
-    this.getCollection(JournalDatabase.Collections.PROJECTS).addDynamicView(
-      JournalDatabase.Views.PROJECTS
-    );
-    this.getCollection(JournalDatabase.Collections.TASKS).addDynamicView(
-      JournalDatabase.Views.TASKS
-    );
+    this.getCollection(
+      JournalDatabase.Collections.INTENTIONS
+    ).addDynamicView(JournalDatabase.Views.INTENTIONS);
+    this.getCollection(
+      JournalDatabase.Collections.PROJECTS
+    ).addDynamicView(JournalDatabase.Views.PROJECTS);
+    this.getCollection(
+      JournalDatabase.Collections.TASKS
+    ).addDynamicView(JournalDatabase.Views.TASKS);
   }
 
   /**
@@ -94,14 +103,19 @@ module.exports = class JournalDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   findOrCreateViewForIntentionsByUserName(userName) {
-    let viewName = JournalDatabase.Views.INTENTIONS + "-" + userName,
-      collection = this.getCollection(JournalDatabase.Collections.INTENTIONS),
+    let viewName =
+        JournalDatabase.Views.INTENTIONS + "-" + userName,
+      collection = this.getCollection(
+        JournalDatabase.Collections.INTENTIONS
+      ),
       view = collection.getDynamicView(viewName);
 
     if (!view) {
       view = collection.addDynamicView(viewName);
       view.applyFind({ userName: userName });
-      view.applySimpleSort(JournalDatabase.Indices.TIMESTAMP);
+      view.applySimpleSort(
+        JournalDatabase.Indices.TIMESTAMP
+      );
     }
     return view;
   }
@@ -111,8 +125,12 @@ module.exports = class JournalDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewForRecentProjects() {
-    let collection = this.getCollection(JournalDatabase.Collections.PROJECTS);
-    return collection.getDynamicView(JournalDatabase.Views.PROJECTS);
+    let collection = this.getCollection(
+      JournalDatabase.Collections.PROJECTS
+    );
+    return collection.getDynamicView(
+      JournalDatabase.Views.PROJECTS
+    );
   }
 
   /**
@@ -120,7 +138,11 @@ module.exports = class JournalDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewForRecentTasks() {
-    let collection = this.getCollection(JournalDatabase.Collections.TASKS);
-    return collection.getDynamicView(JournalDatabase.Views.TASKS);
+    let collection = this.getCollection(
+      JournalDatabase.Collections.TASKS
+    );
+    return collection.getDynamicView(
+      JournalDatabase.Views.TASKS
+    );
   }
 };

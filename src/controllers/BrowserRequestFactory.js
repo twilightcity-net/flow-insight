@@ -134,28 +134,50 @@ export class BrowserRequestFactory {
     try {
       switch (requestType) {
         case BrowserRequestFactory.Requests.COMMAND:
-          return BrowserRequestFactory._getCommandRequest(args[0]);
+          return BrowserRequestFactory._getCommandRequest(
+            args[0]
+          );
         case BrowserRequestFactory.Requests.BROWSER:
-          return BrowserRequestFactory._getBrowserRequest(args[0], args[1]);
+          return BrowserRequestFactory._getBrowserRequest(
+            args[0],
+            args[1]
+          );
         case BrowserRequestFactory.Requests.ACTIVE_CIRCUIT:
-          return BrowserRequestFactory._getActiveCircuitRequest(args[0]);
-        case BrowserRequestFactory.Requests.DO_IT_LATER_CIRCUIT:
-          return BrowserRequestFactory._getDoItLaterCircuitRequest(args[0]);
+          return BrowserRequestFactory._getActiveCircuitRequest(
+            args[0]
+          );
+        case BrowserRequestFactory.Requests
+          .DO_IT_LATER_CIRCUIT:
+          return BrowserRequestFactory._getDoItLaterCircuitRequest(
+            args[0]
+          );
         case BrowserRequestFactory.Requests.JOURNAL:
-          return BrowserRequestFactory._getJournalRequest(args[0]);
+          return BrowserRequestFactory._getJournalRequest(
+            args[0]
+          );
         case BrowserRequestFactory.Requests.TROUBLESHOOT:
-          return BrowserRequestFactory._getTroubleshootRequest(args[0]);
+          return BrowserRequestFactory._getTroubleshootRequest(
+            args[0]
+          );
         case BrowserRequestFactory.Requests.FLOW:
-          return BrowserRequestFactory._getFlowRequest(args[0]);
+          return BrowserRequestFactory._getFlowRequest(
+            args[0]
+          );
         case BrowserRequestFactory.Requests.TEAM:
-          return BrowserRequestFactory._getTeamRequest(args[0]);
+          return BrowserRequestFactory._getTeamRequest(
+            args[0]
+          );
         case BrowserRequestFactory.Requests.ERROR:
-          return BrowserRequestFactory._getErrorRequest(args[0]);
+          return BrowserRequestFactory._getErrorRequest(
+            args[0]
+          );
         default:
           return BrowserRequestFactory._getUnknownCommandErrorRequest();
       }
     } catch (e) {
-      return BrowserRequestFactory._getErrorRequest(e.toString());
+      return BrowserRequestFactory._getErrorRequest(
+        e.toString()
+      );
     }
   }
 
@@ -179,21 +201,31 @@ export class BrowserRequestFactory {
    * @private
    */
   static _getCommandRequest(arg) {
-    let args = arg.split(BrowserRequestFactory.SPACE_SEPARATOR),
+    let args = arg.split(
+        BrowserRequestFactory.SPACE_SEPARATOR
+      ),
       cmd = args[0];
     if (cmd) {
       switch (cmd) {
         case BrowserRequestFactory.Commands.WTF:
-          return BrowserRequestFactory._getCommandWTFRequest(args);
+          return BrowserRequestFactory._getCommandWTFRequest(
+            args
+          );
         case BrowserRequestFactory.Commands.TERMINAL:
-          return BrowserRequestFactory._getCommandTerminalRequest(args);
+          return BrowserRequestFactory._getCommandTerminalRequest(
+            args
+          );
         case BrowserRequestFactory.Commands.JOURNAL:
-          return BrowserRequestFactory._getCommandJournalRequest(args);
+          return BrowserRequestFactory._getCommandJournalRequest(
+            args
+          );
         default:
           return BrowserRequestFactory._getUnknownCommandErrorRequest();
       }
     } else {
-      throw new Error("request: command requires 2 arguments, command");
+      throw new Error(
+        "request: command requires 2 arguments, command"
+      );
     }
   }
 
@@ -281,7 +313,9 @@ export class BrowserRequestFactory {
    */
   static _getBrowserRequest(action, uril) {
     if (uril) {
-      return action + BrowserRequestFactory.URI_SEPARATOR + uril;
+      return (
+        action + BrowserRequestFactory.URI_SEPARATOR + uril
+      );
     } else {
       throw new Error(
         "request: browser requires 2 arguments, action and uril string "
@@ -356,7 +390,9 @@ export class BrowserRequestFactory {
         teamMember
       );
     } else {
-      throw new Error("request: journal requires 1 argument, teamMember");
+      throw new Error(
+        "request: journal requires 1 argument, teamMember"
+      );
     }
   }
 
@@ -408,7 +444,9 @@ export class BrowserRequestFactory {
         teamMember
       );
     } else {
-      throw new Error("request: flow requires 1 argument, teamMember");
+      throw new Error(
+        "request: flow requires 1 argument, teamMember"
+      );
     }
   }
 
@@ -429,7 +467,9 @@ export class BrowserRequestFactory {
         teamMember
       );
     } else {
-      throw new Error("request: team requires 1 argument, teamMember");
+      throw new Error(
+        "request: team requires 1 argument, teamMember"
+      );
     }
   }
 }

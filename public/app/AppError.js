@@ -55,7 +55,10 @@ module.exports = class AppError extends Error {
       );
     }
     if (fatal) {
-      dialog.showErrorBox("Torchie", "[FATAL] " + error.toString());
+      dialog.showErrorBox(
+        "Torchie",
+        "[FATAL] " + error.toString()
+      );
       process.exit(1);
     } else if (!graceful) {
       dialog.showErrorBox("Torchie", error.toString());

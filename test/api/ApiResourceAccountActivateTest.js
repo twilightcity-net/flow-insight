@@ -14,7 +14,8 @@ const apiUrlRemote = "http://htmflow.dreamscale.io";
 describe("API Resource : /account ", function() {
   let apiKey = "123e4567-e89b-12d3-a456-426655440000";
   describe("POST /account/activate", function() {
-    let msg = "Your account has been successfully activated.";
+    let msg =
+      "Your account has been successfully activated.";
     let status = "VALID";
     let email = "kara@dreamscale.io";
     let key = "FASFD423fsfd32d2322d";

@@ -13,7 +13,12 @@ module.exports = class AccountHeartbeat {
           status: "VALID"
         });
 
-        Util.logPostRequest("POST", req.url, dtoReq, dtoRes);
+        Util.logPostRequest(
+          "POST",
+          req.url,
+          dtoReq,
+          dtoRes
+        );
 
         res.send(dtoRes);
       } catch (e) {
@@ -26,7 +31,10 @@ module.exports = class AccountHeartbeat {
 
   getApiKey(request) {
     let apiKey = request.headers["x-api-key"];
-    if (!apiKey) throw new Error("Request requires header 'x-api-key'");
+    if (!apiKey)
+      throw new Error(
+        "Request requires header 'x-api-key'"
+      );
     return apiKey;
   }
 };

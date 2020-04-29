@@ -6,7 +6,10 @@ module.exports = class UtilTest {
     if (err) {
       if (err.response)
         throw new Error(
-          "[" + err.response.statusCode + "] " + err.response.text
+          "[" +
+            err.response.statusCode +
+            "] " +
+            err.response.text
         );
       err.should.equal(null);
     }

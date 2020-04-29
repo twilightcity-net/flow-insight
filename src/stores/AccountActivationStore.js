@@ -1,7 +1,9 @@
 import { DataStore } from "./DataStore";
 
 const { remote } = window.require("electron"),
-  AccountActivationDto = remote.require("./dto/AccountActivationDto");
+  AccountActivationDto = remote.require(
+    "./dto/AccountActivationDto"
+  );
 
 //
 // this class is used to manage DtoClient requests for Stores

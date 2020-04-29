@@ -17,7 +17,9 @@ module.exports = class TalkMessageDto {
       this.messageType = json.messageType;
       this.data = json.data;
     } catch (e) {
-      throw new Error("Unable to create json : " + e.message);
+      throw new Error(
+        "Unable to create json : " + e.message
+      );
     }
   }
 };

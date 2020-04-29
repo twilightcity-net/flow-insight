@@ -63,13 +63,17 @@ export default class ConsoleView extends Component {
     );
 
     let root = document.getElementById("root");
-    root.style.transform = "translate(0px," + window.innerHeight * -1 + "px)";
+    root.style.transform =
+      "translate(0px," + window.innerHeight * -1 + "px)";
     root.style.opacity = "0";
     this.keyframes = new Keyframes(root);
     Keyframes.define({
       name: ConsoleView.animationTypeIn,
       from: {
-        transform: "translate(0px," + window.innerHeight * -1 + "px)",
+        transform:
+          "translate(0px," +
+          window.innerHeight * -1 +
+          "px)",
         opacity: "0"
       },
       to: {
@@ -84,14 +88,20 @@ export default class ConsoleView extends Component {
         opacity: "1"
       },
       to: {
-        transform: "translate(0px," + window.innerHeight * -1 + "px)",
+        transform:
+          "translate(0px," +
+          window.innerHeight * -1 +
+          "px)",
         opacity: "0"
       }
     });
   }
 
   componentDidMount = () => {
-    this.myController.configureConsoleViewListener(this, this.onLoadCb);
+    this.myController.configureConsoleViewListener(
+      this,
+      this.onLoadCb
+    );
     TalkClient.init(this);
     TalkToClient.init(this);
     TeamClient.init(this);
@@ -101,7 +111,10 @@ export default class ConsoleView extends Component {
   };
 
   componentWillUnmount = () => {
-    this.myController.configureConsoleViewListener(this, null);
+    this.myController.configureConsoleViewListener(
+      this,
+      null
+    );
   };
 
   /**
@@ -117,7 +130,9 @@ export default class ConsoleView extends Component {
         duration: ConsoleView.animationTime + "s",
         timingFunction: ConsoleView.animationTiming
       });
-    } else if (arg === ConsoleView.ConsoleStates.HIDE_CONSOLE) {
+    } else if (
+      arg === ConsoleView.ConsoleStates.HIDE_CONSOLE
+    ) {
       this.keyframes.play({
         name: ConsoleView.animationTypeOut,
         duration: ConsoleView.animationTime + "s",

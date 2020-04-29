@@ -25,15 +25,18 @@ module.exports = class TeamMemberWorkStatusDto {
 
       this.spiritStatus = json.spiritStatus;
       this.spiritMessage = json.spiritMessage;
-      this.alarmDurationInSeconds = json.alarmDurationInSeconds;
+      this.alarmDurationInSeconds =
+        json.alarmDurationInSeconds;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'TeamWithMembersDto' : " + e.message
+        "Unable to create dto 'TeamWithMembersDto' : " +
+          e.message
       );
     }
   }
   isValid() {
-    if (this.id != null && this.activeStatus != null) return true;
+    if (this.id != null && this.activeStatus != null)
+      return true;
     return false;
   }
 };

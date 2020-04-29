@@ -16,11 +16,19 @@ describe("app.controllers", function() {
 });
 
 function testBaseControllerClass() {
-  let baseClass = new BaseController("[BaseController]", this, Object);
+  let baseClass = new BaseController(
+    "[BaseController]",
+    this,
+    Object
+  );
 
   ///  test for the static instance
-  baseClass.should.not.have.property("instance").with.be.a("Object");
-  Object.should.have.property("instance").with.be.a("Object");
+  baseClass.should.not.have
+    .property("instance")
+    .with.be.a("Object");
+  Object.should.have
+    .property("instance")
+    .with.be.a("Object");
 
   /// test for name property in static instance
   baseClass.should.not.have.property("instance");

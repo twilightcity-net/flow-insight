@@ -12,7 +12,9 @@ export class RendererEvent {
   constructor(eventType, scope, callback, reply) {
     this.type = eventType;
     this.scope = scope;
-    this.callback = callback ? callback.bind(scope) : callback;
+    this.callback = callback
+      ? callback.bind(scope)
+      : callback;
     this.reply = reply ? reply.bind(scope) : reply;
     this.returnValue = null;
     this.replyReturnValue = null;
@@ -23,8 +25,12 @@ export class RendererEvent {
    * registers the events listeners callback and reply functions
    */
   registerEvents() {
-    this.callbackWrapperFunction = RendererEventManager.listenForCallback(this);
-    this.replyWrapperFunction = RendererEventManager.listenForReply(this);
+    this.callbackWrapperFunction = RendererEventManager.listenForCallback(
+      this
+    );
+    this.replyWrapperFunction = RendererEventManager.listenForReply(
+      this
+    );
   }
 
   /**
@@ -36,8 +42,12 @@ export class RendererEvent {
     RendererEventManager.removeListeners(this);
 
     this.scope = scope;
-    this.callback = callback ? callback.bind(scope) : callback;
-    this.callbackWrapperFunction = RendererEventManager.listenForCallback(this);
+    this.callback = callback
+      ? callback.bind(scope)
+      : callback;
+    this.callbackWrapperFunction = RendererEventManager.listenForCallback(
+      this
+    );
   }
 
   /**
@@ -48,7 +58,12 @@ export class RendererEvent {
    * @returns {*}
    */
   dispatch(arg, noEcho, isSync) {
-    return RendererEventManager.dispatch(this, arg, noEcho, isSync);
+    return RendererEventManager.dispatch(
+      this,
+      arg,
+      noEcho,
+      isSync
+    );
   }
 
   /**
@@ -95,7 +110,9 @@ class EventException {
    */
   getDateTimeString() {
     return (
-      this.date.toLocaleTimeString() + " " + this.date.toLocaleDateString()
+      this.date.toLocaleTimeString() +
+      " " +
+      this.date.toLocaleDateString()
     );
   }
 }
@@ -177,11 +194,17 @@ export class RendererEventManager {
    */
   static removeListeners(event) {
     if (event.callbackWrapperFunction) {
-      ipcRenderer.removeListener(event.type, event.callbackWrapperFunction);
+      ipcRenderer.removeListener(
+        event.type,
+        event.callbackWrapperFunction
+      );
     }
 
     if (event.replyWrapperFunction) {
-      ipcRenderer.removeListener(event.type, event.replyWrapperFunction);
+      ipcRenderer.removeListener(
+        event.type,
+        event.replyWrapperFunction
+      );
     }
   }
 
@@ -200,7 +223,10 @@ export class RendererEventManager {
       try {
         event.returnValue = event.callback(_event, _arg);
       } catch (error) {
-        event.returnValue = RendererEventManager.createEventError(error, event);
+        event.returnValue = RendererEventManager.createEventError(
+          error,
+          event
+        );
         console.error(
           "[RendererEventManager] " +
             event.returnValue.toString() +
@@ -235,13 +261,22 @@ export class RendererEventManager {
     event.returnValue = null;
     try {
       if (noEcho && isSync) {
-        event.returnValue = ipcRenderer.sendSync(event.type, arg);
+        event.returnValue = ipcRenderer.sendSync(
+          event.type,
+          arg
+        );
         RendererEventManager.checkEventForError(event);
-        event.returnValue = event.callback(event, event.returnValue);
+        event.returnValue = event.callback(
+          event,
+          event.returnValue
+        );
       } else if (noEcho) {
         ipcRenderer.send(event.type, arg);
       } else {
-        ipcRenderer.send("echo-event", { type: event.type, arg: arg });
+        ipcRenderer.send("echo-event", {
+          type: event.type,
+          arg: arg
+        });
       }
     } catch (error) {
       event.returnValue = error;

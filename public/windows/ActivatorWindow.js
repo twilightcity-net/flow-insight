@@ -13,7 +13,9 @@ module.exports = class ActivatorWindow {
   constructor() {
     this.name = WindowManagerHelper.WindowNames.ACTIVATOR;
     this.view = ViewManagerHelper.ViewNames.ACTIVATOR;
-    this.url = global.App.WindowManager.getWindowViewURL(this.view);
+    this.url = global.App.WindowManager.getWindowViewURL(
+      this.view
+    );
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = true;
     // this.activatorFinished = false;
@@ -48,7 +50,9 @@ module.exports = class ActivatorWindow {
 
   onClosedCb() {
     if (!this.activatorFinished) {
-      log.info("[ActivatorWindow] closed window -> quit application");
+      log.info(
+        "[ActivatorWindow] closed window -> quit application"
+      );
       global.App.quit();
     }
   }

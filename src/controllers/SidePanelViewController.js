@@ -31,7 +31,8 @@ export class SidePanelViewController extends ActiveViewController {
   constructor(scope) {
     super(scope);
     this.show = true;
-    this.activeMenuSelection = SidePanelViewController.MenuSelection.TEAM;
+    this.activeMenuSelection =
+      SidePanelViewController.MenuSelection.TEAM;
     this.activeSpiritSubmenuSelection =
       SidePanelViewController.SubmenuSelection.SPIRIT;
     this.activeTeamSubmenuSelection =
@@ -41,11 +42,13 @@ export class SidePanelViewController extends ActiveViewController {
     this.activeNotificationsSubmenuSelection =
       SidePanelViewController.SubmenuSelection.NOTIFICATIONS;
     this.circuitStartStopListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_START_STOP,
       this
     );
     this.sidePanelChangeNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_SIDEBAR_PANEL,
       this
     );
     this.spiritPanelChangeNotifier = RendererEventFactory.createEvent(
@@ -57,19 +60,23 @@ export class SidePanelViewController extends ActiveViewController {
       this
     );
     this.circuitsPanelChangeNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUITS_PANEL,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUITS_PANEL,
       this
     );
     this.contentPanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_SIDEBAR_PANEL,
       this
     );
     this.menuListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_SIDEBAR_PANEL,
       this
     );
     this.perspectiveControllerListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_SIDEBAR_PANEL,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_SIDEBAR_PANEL,
       this
     );
     this.teamPanelListener = RendererEventFactory.createEvent(
@@ -81,11 +88,13 @@ export class SidePanelViewController extends ActiveViewController {
       this
     );
     this.circuitsPanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUITS_PANEL,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUITS_PANEL,
       this
     );
     this.notificationsPanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATIONS_PANEL,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_NOTIFICATIONS_PANEL,
       this
     );
     this.browserController = RendererControllerFactory.getViewController(
@@ -101,7 +110,8 @@ export class SidePanelViewController extends ActiveViewController {
       this
     );
     this.sidebarShowListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW,
+      RendererEventFactory.Events
+        .SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW,
       this
     );
   }
@@ -166,7 +176,10 @@ export class SidePanelViewController extends ActiveViewController {
    * @param callback
    */
   configureSidePanelContentListener(scope, callback) {
-    this.contentPanelListener.updateCallback(scope, callback);
+    this.contentPanelListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   /**
@@ -193,7 +206,10 @@ export class SidePanelViewController extends ActiveViewController {
    * @param callback
    */
   configureSpiritPanelListener(scope, callback) {
-    this.spiritPanelListener.updateCallback(scope, callback);
+    this.spiritPanelListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   /**
@@ -202,7 +218,10 @@ export class SidePanelViewController extends ActiveViewController {
    * @param callback
    */
   configureCircuitsPanelListener(scope, callback) {
-    this.circuitsPanelListener.updateCallback(scope, callback);
+    this.circuitsPanelListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   /**
@@ -211,7 +230,10 @@ export class SidePanelViewController extends ActiveViewController {
    * @param callback
    */
   configureNotificationsPanelListener(scope, callback) {
-    this.notificationsPanelListener.updateCallback(scope, callback);
+    this.notificationsPanelListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   /**
@@ -221,7 +243,10 @@ export class SidePanelViewController extends ActiveViewController {
    * @param callback
    */
   configurePerspectiveControllerListener(scope, callback) {
-    this.perspectiveControllerListener.updateCallback(scope, callback);
+    this.perspectiveControllerListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   configureHeartbeatListener(scope, callback) {
@@ -233,7 +258,10 @@ export class SidePanelViewController extends ActiveViewController {
   }
 
   configureSidebarShowListener(scope, callback) {
-    this.sidebarShowListener.updateCallback(scope, callback);
+    this.sidebarShowListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   /**
@@ -277,7 +305,8 @@ export class SidePanelViewController extends ActiveViewController {
    */
   hidePanel() {
     this.show = false;
-    this.activeMenuSelection = SidePanelViewController.MenuSelection.NONE;
+    this.activeMenuSelection =
+      SidePanelViewController.MenuSelection.NONE;
     this.fireSidePanelNotifyEvent();
   }
 

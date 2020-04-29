@@ -14,7 +14,9 @@ export default class PartyPanelListItem extends Component {
   constructor(props) {
     super(props);
     this.name = "[PartyPanelListItem]";
-    this.isOnline = UtilRenderer.isMemberOnline(props.model);
+    this.isOnline = UtilRenderer.isMemberOnline(
+      props.model
+    );
   }
 
   /**

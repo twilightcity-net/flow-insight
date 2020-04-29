@@ -12,7 +12,9 @@ module.exports = class AppTray extends Tray {
     if (process.platform === "darwin") {
       // ??? Why didn't this work according to https://www.christianengvall.se/electron-app-icons/
       // iconPath = Util.getAssetPath("/icons/mac/icon.icns");
-      iconPath = Util.getAssetPath("/icons/mac/png/icon.png");
+      iconPath = Util.getAssetPath(
+        "/icons/mac/png/icon.png"
+      );
     } else if (process.platform !== "win32") {
       iconPath = Util.getAssetPath("/icons/win/icon.ico");
     }

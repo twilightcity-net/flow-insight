@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import queryString from "query-string";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route
+} from "react-router-dom";
 import LoadingView from "./LoadingView";
 import ActivatorView from "./ActivatorView";
 import ConsoleView from "./ConsoleView";
@@ -44,7 +47,8 @@ export default class ViewManager extends Component {
     let query = queryString.parse(window.location.search),
       name = query.view,
       view = ViewManager.Views[name.toUpperCase()];
-    if (view == null) throw new Error("View '" + name + "' is undefined");
+    if (view == null)
+      throw new Error("View '" + name + "' is undefined");
     return view;
   }
 

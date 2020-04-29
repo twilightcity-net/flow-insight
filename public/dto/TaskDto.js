@@ -12,7 +12,9 @@ module.exports = class TaskDto {
       this.externalId = json.externalId;
       this.projectId = json.projectId;
     } catch (e) {
-      throw new Error("Unable to create dto 'TaskDto' : " + e.message);
+      throw new Error(
+        "Unable to create dto 'TaskDto' : " + e.message
+      );
     }
   }
 

@@ -40,7 +40,9 @@ module.exports = class AppActivator {
   onActivatorSaveCb(event, arg) {
     log.info("[AppActivator] saving api-key...");
     try {
-      let accountActivationDto = new AccountActivationDto(arg);
+      let accountActivationDto = new AccountActivationDto(
+        arg
+      );
       global.App.AppSettings.save(
         Util.getAppApi(),
         accountActivationDto.apiKey
@@ -53,9 +55,14 @@ module.exports = class AppActivator {
       }
       this.events.activationSaved.dispatch();
     } catch (err) {
-      log.error("[AppActivator] Unable to save api-key : " + err);
+      log.error(
+        "[AppActivator] Unable to save api-key : " + err
+      );
       this.events.closeActivator.dispatch(-1);
-      dialog.showErrorBox("Torchie", "[FATAL] Unable to save api-key");
+      dialog.showErrorBox(
+        "Torchie",
+        "[FATAL] Unable to save api-key"
+      );
       process.exit(1);
     }
   }
@@ -73,7 +80,10 @@ module.exports = class AppActivator {
    */
   finished() {
     log.info("[AppActivator] finished : okay");
-    global.App.WindowManager.closeWindow(this.activatorWindow, true);
+    global.App.WindowManager.closeWindow(
+      this.activatorWindow,
+      true
+    );
   }
 
   /**

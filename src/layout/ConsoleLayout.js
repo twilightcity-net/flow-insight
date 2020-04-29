@@ -30,7 +30,8 @@ export default class ConsoleLayout extends Component {
       xpSummary: {},
       totalXP: 0,
       flameRating: 0,
-      activePanel: SidePanelViewController.MenuSelection.SPIRIT,
+      activePanel:
+        SidePanelViewController.MenuSelection.SPIRIT,
       consoleIsCollapsed: 0,
       me: {
         displayName: SidePanelViewController.ME,
@@ -65,7 +66,10 @@ export default class ConsoleLayout extends Component {
    * called right before when the component will unmount
    */
   componentWillUnmount = () => {
-    this.sidePanelController.configureSidePanelContentListener(this, null);
+    this.sidePanelController.configureSidePanelContentListener(
+      this,
+      null
+    );
   };
 
   /**
@@ -76,7 +80,8 @@ export default class ConsoleLayout extends Component {
     if (show) {
       this.setState({
         sidebarPanelVisible: true,
-        activePanel: this.sidePanelController.activeMenuSelection
+        activePanel: this.sidePanelController
+          .activeMenuSelection
       });
       setTimeout(() => {
         this.setState({
@@ -92,7 +97,8 @@ export default class ConsoleLayout extends Component {
       setTimeout(() => {
         this.setState({
           sidebarPanelVisible: false,
-          activePanel: this.sidePanelController.activeMenuSelection
+          activePanel: this.sidePanelController
+            .activeMenuSelection
         });
       }, 420);
     }
@@ -219,11 +225,14 @@ export default class ConsoleLayout extends Component {
         return this.getTeamPanelContent();
       case SidePanelViewController.MenuSelection.CIRCUITS:
         return this.getCircuitsContent();
-      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
+      case SidePanelViewController.MenuSelection
+        .NOTIFICATIONS:
         return this.getNotificationsContent();
       default:
         throw new Error(
-          "Unknown active panel '" + this.state.activePanel + "'"
+          "Unknown active panel '" +
+            this.state.activePanel +
+            "'"
         );
     }
   };
@@ -268,7 +277,8 @@ export default class ConsoleLayout extends Component {
     return (
       <div id="component" className="consoleLayout">
         {this.getConsoleSidebar()}
-        {this.state.sidebarPanelVisible && this.getSidebarPanelConent()}
+        {this.state.sidebarPanelVisible &&
+          this.getSidebarPanelConent()}
         {this.getConsoleContent()}
       </div>
     );

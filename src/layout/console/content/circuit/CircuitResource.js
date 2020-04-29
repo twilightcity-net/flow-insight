@@ -3,7 +3,6 @@ import ActiveCircuit from "./components/ActiveCircuit";
 import StartCircuit from "./components/StartCircuit";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
-import { CircuitClient } from "../../../../clients/CircuitClient";
 
 /**
  * this component is the tab panel wrapper for the console cntent
@@ -61,10 +60,14 @@ export default class CircuitResource extends Component {
    * @returns {*} - the JSX to render
    */
   render() {
-    let wtfPanel = <StartCircuit resource={this.props.resource} />;
+    let wtfPanel = (
+      <StartCircuit resource={this.props.resource} />
+    );
 
     if (this.isWTF(this.props.resource)) {
-      wtfPanel = <ActiveCircuit resource={this.props.resource} />;
+      wtfPanel = (
+        <ActiveCircuit resource={this.props.resource} />
+      );
     }
 
     return (

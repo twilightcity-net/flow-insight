@@ -5,7 +5,9 @@ const electron = require("electron"),
   log = require("electron-log"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
-  { ShortcutManager } = require("../managers/ShortcutManager"),
+  {
+    ShortcutManager
+  } = require("../managers/ShortcutManager"),
   WindowManagerHelper = require("./WindowManagerHelper"),
   LoadingWindow = require("../windows/LoadingWindow"),
   ActivatorWindow = require("../windows/ActivatorWindow"),
@@ -43,7 +45,8 @@ class WindowManager {
       shortcutsRecieved: EventFactory.createEvent(
         EventFactory.Types.SHORTCUTS_RECIEVED,
         this,
-        (event, arg) => this.onShortcutsRecievedCb(event, arg)
+        (event, arg) =>
+          this.onShortcutsRecievedCb(event, arg)
       ),
       hideConsole: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE
@@ -58,9 +61,14 @@ class WindowManager {
    * @param arg
    */
   onFocusWindowCb(event, arg) {
-    log.info("[WindowManager] focus window -> " + arg.sender.name);
-    global.App.ShortcutManager.activateWindowShortcuts(arg.sender);
-    global.App.WindowManager.lastFocusWindowName = arg.sender.name;
+    log.info(
+      "[WindowManager] focus window -> " + arg.sender.name
+    );
+    global.App.ShortcutManager.activateWindowShortcuts(
+      arg.sender
+    );
+    global.App.WindowManager.lastFocusWindowName =
+      arg.sender.name;
   }
 
   /**
@@ -70,10 +78,18 @@ class WindowManager {
    * @param arg
    */
   onBlurWindowCb(event, arg) {
-    log.info("[WindowManager] blur window -> " + arg.sender.name);
-    global.App.WindowManager.lastBlurWindowName = arg.sender.name;
-    global.App.ShortcutManager.deactivateWindowShortcuts(arg.sender);
-    if (arg.sender.name === WindowManagerHelper.WindowNames.CONSOLE) {
+    log.info(
+      "[WindowManager] blur window -> " + arg.sender.name
+    );
+    global.App.WindowManager.lastBlurWindowName =
+      arg.sender.name;
+    global.App.ShortcutManager.deactivateWindowShortcuts(
+      arg.sender
+    );
+    if (
+      arg.sender.name ===
+      WindowManagerHelper.WindowNames.CONSOLE
+    ) {
       // this.handleHideConsoleEvent(1);
     }
   }
@@ -85,18 +101,26 @@ class WindowManager {
    */
   onShortcutsRecievedCb(event, arg) {
     if (
-      ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE === arg ||
-      ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE_ALT === arg
+      ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE ===
+        arg ||
+      ShortcutManager.Names.GLOBAL_SHOW_HIDE_CONSOLE_ALT ===
+        arg
     ) {
       this.handleHideConsoleEvent();
-    } else if (ShortcutManager.Names.GLOBAL_WINDOW_DEV_MODE === arg) {
+    } else if (
+      ShortcutManager.Names.GLOBAL_WINDOW_DEV_MODE === arg
+    ) {
       log.info(
         "[WindowManager] open dev mode -> " +
           global.App.WindowManager.lastFocusWindowName
       );
-      let win = this.getWindow(global.App.WindowManager.lastFocusWindowName);
+      let win = this.getWindow(
+        global.App.WindowManager.lastFocusWindowName
+      );
       if (win) {
-        win.window.webContents.openDevTools({ mode: "undocked" });
+        win.window.webContents.openDevTools({
+          mode: "undocked"
+        });
       }
     }
   }
@@ -106,7 +130,9 @@ class WindowManager {
    * @param windowState
    */
   handleHideConsoleEvent(windowState) {
-    let win = this.getWindow(WindowManagerHelper.WindowNames.CONSOLE);
+    let win = this.getWindow(
+      WindowManagerHelper.WindowNames.CONSOLE
+    );
     if (win.consoleShortcut.pressedState === 1) return;
     win.consoleShortcut.pressedState = 1;
     setTimeout(() => {
@@ -138,7 +164,10 @@ class WindowManager {
       return primaryDisplay;
     }
     let defaultDisplay = global.App.AppSettings.getDisplayIndex();
-    if (defaultDisplay && defaultDisplay < displays.length) {
+    if (
+      defaultDisplay &&
+      defaultDisplay < displays.length
+    ) {
       return displays[defaultDisplay];
     }
     global.App.AppSettings.setDisplayIndex(0);
@@ -176,7 +205,10 @@ class WindowManager {
     let filePath = `${path.join(
       app.getAppPath(),
       Util.getAppRootDir(),
-      "/index.html?view=" + viewName + "&render3d=" + global.App.render3D
+      "/index.html?view=" +
+        viewName +
+        "&render3d=" +
+        global.App.render3D
     )}`;
     return "file://" + filePath;
   }
@@ -186,7 +218,9 @@ class WindowManager {
    * @param window
    */
   loadWindow(window) {
-    log.info("[WindowManager] load window -> " + window.name);
+    log.info(
+      "[WindowManager] load window -> " + window.name
+    );
     window.window.loadURL(window.url);
     window.window.on("ready-to-show", () => {
       if (window.autoShow) this.openWindow(window);
@@ -198,7 +232,9 @@ class WindowManager {
    * @param window
    */
   openWindow(window) {
-    log.info("[WindowManager] open window -> " + window.name);
+    log.info(
+      "[WindowManager] open window -> " + window.name
+    );
     window.window.show();
     window.window.focus();
   }
@@ -210,10 +246,14 @@ class WindowManager {
    * @param destroy
    */
   closeWindow(window, destroy) {
-    log.info("[WindowManager] hide window -> " + window.name);
+    log.info(
+      "[WindowManager] hide window -> " + window.name
+    );
     window.window.hide();
     if (destroy) {
-      log.info("[WindowManager] close window -> " + window.name);
+      log.info(
+        "[WindowManager] close window -> " + window.name
+      );
       window.window.close();
       window = this.destroyWindow(window);
     }
@@ -227,11 +267,16 @@ class WindowManager {
    * @returns {null|T[]}
    */
   destroyWindow(window) {
-    log.info("[WindowManager] destroy window -> " + window.name);
+    log.info(
+      "[WindowManager] destroy window -> " + window.name
+    );
     Util.inspect(this.windows);
     for (var i = this.windows.length - 1; i >= 0; i--) {
       if (this.windows[i].name === window.name) {
-        log.info("[WindowManager] unregister window -> " + window.name);
+        log.info(
+          "[WindowManager] unregister window -> " +
+            window.name
+        );
         return this.windows.splice(i, 1);
       }
     }
@@ -243,7 +288,9 @@ class WindowManager {
    */
   destroyAllWindows() {
     log.info(
-      "[WindowManager] destroy all windows {" + this.windows.length + "]"
+      "[WindowManager] destroy all windows {" +
+        this.windows.length +
+        "]"
     );
     for (var i = this.windows.length - 1; i >= 0; i--) {
       this.closeWindow(this.windows[i], true);
@@ -262,7 +309,9 @@ class WindowManager {
     log.info("[WindowManager] create window -> " + name);
     let window = this.getWindow(name);
     if (!window) {
-      log.info("[WindowManager] └> get or make window -> " + name);
+      log.info(
+        "[WindowManager] └> get or make window -> " + name
+      );
       window = this.getWindowClassFromName(name);
       window.window.on("focus", event => {
         this.events.focusWindow.dispatch(event);

@@ -46,11 +46,17 @@ export class ConsoleViewController extends ActiveViewController {
 
   //FIXME do we need???
   configureConsoleLayoutListener(scope, callback) {
-    this.consoleLayoutlListener.updateCallback(scope, callback);
+    this.consoleLayoutlListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   configureConsoleViewListener(scope, callback) {
-    this.consoleViewListener.updateCallback(scope, callback);
+    this.consoleViewListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   configureTeamPanelListener(scope, callback) {
@@ -58,15 +64,24 @@ export class ConsoleViewController extends ActiveViewController {
   }
 
   configureJournalLayoutListener(scope, callback) {
-    this.journalLayoutListener.updateCallback(scope, callback);
+    this.journalLayoutListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   configureJournalEntryListener(scope, callback) {
-    this.journalEntryListener.updateCallback(scope, callback);
+    this.journalEntryListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   configureModelUpdateListener(scope, callback) {
-    this.modelUpdateListener.updateCallback(scope, callback);
+    this.modelUpdateListener.updateCallback(
+      scope,
+      callback
+    );
   }
 
   onUpdateState(event, showHideFlag) {

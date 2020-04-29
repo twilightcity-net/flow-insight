@@ -19,7 +19,9 @@ class MainEvent {
   constructor(type, scope, callback, reply, async) {
     this.type = type;
     this.scope = scope;
-    this.callback = callback ? callback.bind(scope) : callback;
+    this.callback = callback
+      ? callback.bind(scope)
+      : callback;
     this.reply = reply ? reply.bind(scope) : reply;
     this.async = async;
     this.construct();
@@ -218,7 +220,10 @@ class EventManager {
           JSON.stringify(_arg)
       );
       try {
-        let value = global.App.EventManager.executeCallback(event, _arg);
+        let value = global.App.EventManager.executeCallback(
+          event,
+          _arg
+        );
         _event.returnValue = value;
         if (event.async) {
           log.info(
@@ -232,7 +237,11 @@ class EventManager {
         }
       } catch (e) {
         log.error(
-          "[EventManager] └> " + e.toString() + "\n\n" + e.stack + "\n"
+          "[EventManager] └> " +
+            e.toString() +
+            "\n\n" +
+            e.stack +
+            "\n"
         );
         _event.returnValue = e;
       }
@@ -342,13 +351,20 @@ class EventManager {
 
     for (var i = 0; i < manager.events.length; i++) {
       if (manager.events[i].type === eventType) {
-        returnedEvents.push(manager.handleEvent(manager.events[i], arg));
+        returnedEvents.push(
+          manager.handleEvent(manager.events[i], arg)
+        );
       }
     }
 
-    if (returnedEvents.length === 0 && windows.length === 0) {
+    if (
+      returnedEvents.length === 0 &&
+      windows.length === 0
+    ) {
       log.info(
-        chalk.cyan("[EventManager]") + " └> no events found -> " + eventType
+        chalk.cyan("[EventManager]") +
+          " └> no events found -> " +
+          eventType
       );
       return [];
     }
@@ -365,9 +381,15 @@ class EventManager {
   handleEvent(event, arg) {
     this.initReturnValues(event);
     try {
-      event.returnValues.callback = this.executeCallback(event, arg);
+      event.returnValues.callback = this.executeCallback(
+        event,
+        arg
+      );
       if (event.reply) {
-        event.returnValues.reply = this.executeReply(event, arg);
+        event.returnValues.reply = this.executeReply(
+          event,
+          arg
+        );
       }
     } catch (error) {
       if (error instanceof EventCallbackException) {

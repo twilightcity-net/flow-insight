@@ -19,7 +19,9 @@ let phrase = process.argv[2] || "testing";
 let swarm = null;
 
 feed.on("ready", function() {
-  console.log("[ CONNECTING ] feed : " + feed.key.toString("hex"));
+  console.log(
+    "[ CONNECTING ] feed : " + feed.key.toString("hex")
+  );
 
   swarm = hyperdiscovery(feed);
   swarm.on("connection", function(peer, type) {

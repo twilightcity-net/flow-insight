@@ -5,7 +5,10 @@ const { BrowserWindow } = require("electron"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../events/EventFactory"),
-  { ShortcutManager, Shortcut } = require("../managers/ShortcutManager");
+  {
+    ShortcutManager,
+    Shortcut
+  } = require("../managers/ShortcutManager");
 
 /*
  * The Application loading window. Loads LoadingView class. This window
@@ -15,7 +18,9 @@ module.exports = class LoadingWindow {
   constructor() {
     this.name = WindowManagerHelper.WindowNames.LOADING;
     this.view = ViewManagerHelper.ViewNames.LOADING;
-    this.url = global.App.WindowManager.getWindowViewURL(this.view);
+    this.url = global.App.WindowManager.getWindowViewURL(
+      this.view
+    );
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = true;
     this.window = new BrowserWindow({
@@ -51,7 +56,9 @@ module.exports = class LoadingWindow {
   }
 
   onClosedCb() {
-    log.info("[LoadingWindow] closed window -> enable global shortcuts");
+    log.info(
+      "[LoadingWindow] closed window -> enable global shortcuts"
+    );
     global.App.ShortcutManager.enabled = true;
   }
 };

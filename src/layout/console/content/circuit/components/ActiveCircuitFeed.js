@@ -8,13 +8,15 @@ import { TeamClient } from "../../../../../clients/TeamClient";
 import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { scrollTo } from "../../../../../UtilScroll";
+import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 
 export default class ActiveCircuitFeed extends Component {
   /**
    * the dom el id name of the circuit feed content panel
    * @type {string}
    */
-  static circuitContentFeedPanelID = "circuitContentFeedPanel";
+  static circuitContentFeedPanelID =
+    "circuitContentFeedPanel";
 
   /**
    * builds the active circuit feed component which is used by the circuit resource
@@ -28,16 +30,105 @@ export default class ActiveCircuitFeed extends Component {
     this.feedEvents = [];
     this.messages = [];
     this.status = [];
+    this.talkRoomMessageListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+      this,
+      this.onTalkRoomMessage
+    );
   }
 
+  /**
+   * our event handler for our talk room message. This function is used to
+   * make sure we do not double enter a message in which we have already
+   * added. meaning we published the message ourself. Most often these
+   * messages will be from other people on the talk networks
+   * @param event
+   * @param arg
+   */
+  onTalkRoomMessage = (event, arg) => {
+    let hasMessage = UtilRenderer.hasMessageInArray(
+      this.messages,
+      arg
+    );
+
+    if (!hasMessage) {
+      this.appendChatMessage(arg);
+    }
+  };
+
+  /**
+   * make sure we update our chat messages in our renderer when whenever we
+   * get some gui updates for this component
+   * @param nextProps
+   * @param nextState
+   * @param nextContext
+   * @returns {boolean}
+   */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     this.messages = nextProps.messages;
     this.updateChatMessages();
     return true;
   }
 
+  /**
+   * when our component updates, lets also scroll down to the bottom of this
+   * feed component
+   * @param prevProps
+   * @param prevState
+   * @param snapshot
+   */
   componentDidUpdate(prevProps, prevState, snapshot) {
     this.scrollToFeedBottom();
+  }
+
+  /**
+   * make sure we clear our talk room listener when destroying this component
+   */
+  componentWillUnmount() {
+    this.talkRoomMessageListener.clear();
+  }
+
+  /**
+   * adds a chat message to the end of all of our chat
+   * messages, and update the gui. This assumes we have
+   * already loaded the circuit resource view.
+   * @param message
+   */
+  appendChatMessage(message) {
+    // FIXME this should use the messages user name
+
+    // TODO break out yoda to randomly publish statements
+
+    let name = "yoda",
+      time = "NOW",
+      data = message.data,
+      rand = 10 * (Math.random() % 7),
+      yodas = [
+        "Do or do not. There is no try.",
+        "You must unlearn what you have learned.",
+        "Named must be your fear before banish it you can.",
+        "Fear is the path to the dark side.",
+        "That is why you fail.",
+        "The greatest teacher, failure is.",
+        "Pass on what you have learned.",
+        "Now I know there is something strong than fear — far stronger.",
+        "Don't underestimate the Force.",
+        "For my ally is the Force, and a powerful ally it is."
+      ];
+
+    rand = rand.toFixed(0);
+
+    let text = yodas[rand],
+      chat = {
+        name: name,
+        time: time,
+        text: [text]
+      };
+
+    this.feedEvents.push(chat);
+    this.forceUpdate(() => {
+      this.scrollToFeedBottom();
+    });
   }
 
   /**
@@ -60,11 +151,16 @@ export default class ActiveCircuitFeed extends Component {
       m = messages[i];
       metaProps = m.metaProps;
       userName = !!metaProps && metaProps["from.username"];
-      time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(m.messageTime);
+      time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
+        m.messageTime
+      );
       json = JSON.parse(m.data);
       text = json.message;
 
-      if (this.lastFeedEvent && this.lastFeedEvent.name === userName) {
+      if (
+        this.lastFeedEvent &&
+        this.lastFeedEvent.name === userName
+      ) {
         event = this.feedEvents.pop();
         event.text.push(text);
       } else {
@@ -86,10 +182,15 @@ export default class ActiveCircuitFeed extends Component {
    * @param callback
    */
   scrollToFeedBottom = callback => {
-    let feedElement = document.getElementById("active-circuit-feed"),
+    let feedElement = document.getElementById(
+        "active-circuit-feed"
+      ),
       height = feedElement.scrollHeight;
 
-    scrollTo(feedElement, { behavior: "auto", top: height }).then(callback);
+    scrollTo(feedElement, {
+      behavior: "auto",
+      top: height
+    }).then(callback);
   };
 
   /**
@@ -98,7 +199,13 @@ export default class ActiveCircuitFeed extends Component {
    * @param callback
    */
   handleEnterKey = (text, callback) => {
-    this.addChatMessage(this.me.userName, "NOW - Today", text, callback, true);
+    this.addChatMessage(
+      this.me.userName,
+      "NOW - Today",
+      text,
+      callback,
+      true
+    );
   };
 
   /**
@@ -116,7 +223,10 @@ export default class ActiveCircuitFeed extends Component {
         text: [text]
       };
 
-    if (this.lastFeedEvent && this.lastFeedEvent.props.name === name) {
+    if (
+      this.lastFeedEvent &&
+      this.lastFeedEvent.props.name === name
+    ) {
       message = this.feedEvents.pop();
       message.text.push(text);
     }
@@ -136,7 +246,9 @@ export default class ActiveCircuitFeed extends Component {
     document.getElementById(
       ActiveCircuitFeed.circuitContentFeedPanelID
     ).style.height =
-      DimensionController.getActiveCircuitFeedContentHeight(size) + "px";
+      DimensionController.getActiveCircuitFeedContentHeight(
+        size
+      ) + "px";
   };
 
   /**
@@ -145,7 +257,9 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {*}
    */
   getDividerContent(timeStr) {
-    return <Divider inverted horizontal content={timeStr} />;
+    return (
+      <Divider inverted horizontal content={timeStr} />
+    );
   }
 
   /**
@@ -188,7 +302,9 @@ export default class ActiveCircuitFeed extends Component {
           primaryMinSize={DimensionController.getActiveCircuitContentFeedMinHeight()}
           secondaryMinSize={DimensionController.getActiveCircuitContentChatMinHeight()}
           secondaryInitialSize={DimensionController.getActiveCircuitContentChatMinHeightDefault()}
-          onSecondaryPaneSizeChange={this.onSecondaryPaneSizeChange}
+          onSecondaryPaneSizeChange={
+            this.onSecondaryPaneSizeChange
+          }
         >
           <Segment
             inverted
@@ -197,13 +313,18 @@ export default class ActiveCircuitFeed extends Component {
               height: DimensionController.getActiveCircuitFeedContentHeight()
             }}
           >
-            <Feed className="chat-feed" id="active-circuit-feed">
+            <Feed
+              className="chat-feed"
+              id="active-circuit-feed"
+            >
               {this.getDividerContent(openTimeStr)}
               {this.getFeedEventsFromMessagesArrayContent()}
             </Feed>
           </Segment>
           <div id="wrapper" className="activeCircuitChat">
-            <ActiveCircuitChat onEnterKey={this.handleEnterKey} />
+            <ActiveCircuitChat
+              onEnterKey={this.handleEnterKey}
+            />
           </div>
         </SplitterLayout>
       </div>

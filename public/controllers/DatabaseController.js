@@ -36,14 +36,18 @@ module.exports = class DatabaseController extends BaseController {
    * links associated controller classes here
    */
   static wireControllersTogether() {
-    BaseController.wireControllersTo(DatabaseController.instance);
+    BaseController.wireControllersTo(
+      DatabaseController.instance
+    );
   }
 
   /**
    * configures application wide events here
    */
   configureEvents() {
-    BaseController.configEvents(DatabaseController.instance);
+    BaseController.configEvents(
+      DatabaseController.instance
+    );
     this.databaseClientEventListener = EventFactory.createEvent(
       EventFactory.Types.DATABASE_CLIENT,
       this,
@@ -59,14 +63,20 @@ module.exports = class DatabaseController extends BaseController {
    * @returns {string}
    */
   onDatabaseClientEvent(event, arg) {
-    log.info(chalk.yellowBright(this.name) + " event : " + JSON.stringify(arg));
+    log.info(
+      chalk.yellowBright(this.name) +
+        " event : " +
+        JSON.stringify(arg)
+    );
     switch (arg.type) {
       case DatabaseController.Events.CREATE_DATABASE:
         this.handleCreateDatabaseEvent(event, arg);
         break;
       default:
         throw new Error(
-          "Unknown database client event type '" + arg.type + "'."
+          "Unknown database client event type '" +
+            arg.type +
+            "'."
         );
     }
   }

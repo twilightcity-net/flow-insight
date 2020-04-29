@@ -15,7 +15,8 @@ class CircuitMemberStatusDto {
       this.retroRoomStatus = json.retroRoomStatus;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'LearningCircuitDto' : " + e.message
+        "Unable to create dto 'LearningCircuitDto' : " +
+          e.message
       );
     }
   }

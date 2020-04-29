@@ -37,7 +37,10 @@ export class RendererControllerFactory {
    * @returns {*} - the controller instance
    */
   static getViewController(name, scope) {
-    return RendererControllerFactory.findOrCreateController(name, scope);
+    return RendererControllerFactory.findOrCreateController(
+      name,
+      scope
+    );
   }
 
   /**
@@ -48,16 +51,22 @@ export class RendererControllerFactory {
    */
   static findOrCreateController(name, scope) {
     if (name) {
-      let controller = RendererControllerFactory.controllers[name];
+      let controller =
+        RendererControllerFactory.controllers[name];
       if (controller) {
         controller = controller.updateScope(scope);
       } else {
         controller = RendererControllerFactory.controllers[
           name
-        ] = RendererControllerFactory.createController(name, scope);
+        ] = RendererControllerFactory.createController(
+          name,
+          scope
+        );
       }
       if (!controller) {
-        throw new Error("the null controller with num-chucks is dangerous");
+        throw new Error(
+          "the null controller with num-chucks is dangerous"
+        );
       }
       return controller;
     } else {
@@ -84,7 +93,9 @@ export class RendererControllerFactory {
       case RendererControllerFactory.Views.LAYOUT_BROWSER:
         return new BrowserController(scope);
       default:
-        throw new Error("Unknown controller name '" + name + "'");
+        throw new Error(
+          "Unknown controller name '" + name + "'"
+        );
     }
   }
 }

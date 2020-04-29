@@ -40,7 +40,9 @@ export class DimensionController {
    */
   static init(scope) {
     if (!DimensionController.instance) {
-      DimensionController.instance = new DimensionController(scope);
+      DimensionController.instance = new DimensionController(
+        scope
+      );
     }
   }
 
@@ -97,7 +99,9 @@ export class DimensionController {
       oneRem = window.innerWidth / 100,
       relativeWidth = 20.2;
 
-    return oneRem * relativeWidth - consoleSidebarWidthPixels;
+    return (
+      oneRem * relativeWidth - consoleSidebarWidthPixels
+    );
   }
 
   /**
@@ -109,7 +113,9 @@ export class DimensionController {
       oneRem = window.innerHeight / 100,
       relativeHeight = 77;
 
-    return oneRem * relativeHeight - consoleSidebarBorderPixels;
+    return (
+      oneRem * relativeHeight - consoleSidebarBorderPixels
+    );
   }
 
   /**
@@ -159,7 +165,12 @@ export class DimensionController {
       margin: 20,
       canvas: 0
     };
-    return heights.window - heights.border - heights.margin - heights.canvas;
+    return (
+      heights.window -
+      heights.border -
+      heights.margin -
+      heights.canvas
+    );
   }
 
   /**
@@ -186,7 +197,12 @@ export class DimensionController {
       margin: Math.ceil(1.68 * oneRem),
       header: 52
     };
-    return heights.window - heights.border - heights.margin - heights.header;
+    return (
+      heights.window -
+      heights.border -
+      heights.margin -
+      heights.header
+    );
   }
 
   /**
@@ -240,7 +256,8 @@ export class DimensionController {
    */
   static getActiveCircuitContentChatMinHeightDefault() {
     return Math.ceil(
-      DimensionController.getActiveCircuitContentChatMinHeight() * 1.42
+      DimensionController.getActiveCircuitContentChatMinHeight() *
+        1.42
     );
   }
 
@@ -286,7 +303,8 @@ export class DimensionController {
    */
   static getActiveCircuitContentScrapbookMinWidthDefault() {
     return (
-      DimensionController.getActiveCircuitContentScrapbookMinWidth() * 1.42
+      DimensionController.getActiveCircuitContentScrapbookMinWidth() *
+      1.42
     );
   }
 
@@ -351,23 +369,46 @@ export class DimensionController {
    * @returns {number|*}
    */
   static getHeightFor(component) {
-    if (component === DimensionController.Components.SPIRIT_PANEL) {
+    if (
+      component ===
+      DimensionController.Components.SPIRIT_PANEL
+    ) {
       return DimensionController.getSpiritPanelHeight();
-    } else if (component === DimensionController.Components.JOURNAL_ITEMS) {
+    } else if (
+      component ===
+      DimensionController.Components.JOURNAL_ITEMS
+    ) {
       return DimensionController.getJournalItemsPanelHeight();
-    } else if (component === DimensionController.Components.FLOW_PANEL) {
+    } else if (
+      component ===
+      DimensionController.Components.FLOW_PANEL
+    ) {
       return DimensionController.getFlowPanelHeight();
-    } else if (component === DimensionController.Components.CONSOLE_LAYOUT) {
+    } else if (
+      component ===
+      DimensionController.Components.CONSOLE_LAYOUT
+    ) {
       return DimensionController.getConsoleLayoutHeight();
-    } else if (component === DimensionController.Components.TROUBLESHOOT) {
+    } else if (
+      component ===
+      DimensionController.Components.TROUBLESHOOT
+    ) {
       return DimensionController.getActiveCircuitContentHeight();
-    } else if (component === DimensionController.Components.SIDEBAR_PANEL) {
+    } else if (
+      component ===
+      DimensionController.Components.SIDEBAR_PANEL
+    ) {
       return DimensionController.getSidebarPanelHeight();
-    } else if (component === DimensionController.Components.CIRCUIT_SIDEBAR) {
+    } else if (
+      component ===
+      DimensionController.Components.CIRCUIT_SIDEBAR
+    ) {
       return DimensionController.getCircuitSidebarHeight();
     } else {
       throw new Error(
-        "Unknown component " + component + " in DimensionController"
+        "Unknown component " +
+          component +
+          " in DimensionController"
       );
     }
   }

@@ -9,12 +9,18 @@ module.exports = class AccountActivate {
         let dtoReq = new ActivationCodeDto(req.body);
         let dtoRes = new AccountActivationDto({
           status: "VALID",
-          message: "Your account has been successfully activated.",
+          message:
+            "Your account has been successfully activated.",
           email: "kara@dreamscale.io",
           apiKey: "FASFD423fsfd32d2322d"
         });
 
-        Util.logPostRequest("POST", req.url, dtoReq, dtoRes);
+        Util.logPostRequest(
+          "POST",
+          req.url,
+          dtoReq,
+          dtoRes
+        );
 
         res.send(dtoRes);
       } catch (e) {

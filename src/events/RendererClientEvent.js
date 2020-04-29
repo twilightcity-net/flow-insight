@@ -15,6 +15,8 @@ export class RendererClientEvent {
     this.id = UtilRenderer.getGuid();
     this.type = type;
     this.args = args;
-    this.callback = callback ? callback.bind(scope) : callback;
+    this.callback = callback
+      ? callback.bind(scope)
+      : callback;
   }
 }

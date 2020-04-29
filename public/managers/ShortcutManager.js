@@ -17,7 +17,9 @@ class Shortcut {
     this.accelerator = accelerator;
     this.window = window;
     this.scope = scope;
-    this.callback = callback ? callback.bind(this.scope) : callback;
+    this.callback = callback
+      ? callback.bind(this.scope)
+      : callback;
     global.App.ShortcutManager.registerShortcut(this);
   }
 
@@ -64,16 +66,26 @@ class ShortcutManager {
   static get Names() {
     let prefix = "shortcut-";
     return {
-      GLOBAL_SHOW_HIDE_CONSOLE: prefix + "global-show-hide-console",
-      GLOBAL_SHOW_HIDE_CONSOLE_ALT: prefix + "global-show-hide-console-alt",
-      GLOBAL_WINDOW_DEV_MODE: prefix + "global-window-dev-mode",
-      WINDOW_SIDEBAR_FIRST_ITEM: prefix + "window-sidebar-first-item",
-      WINDOW_SIDEBAR_SECOND_ITEM: prefix + "window-sidebar-second-item",
-      WINDOW_SIDEBAR_THIRD_ITEM: prefix + "window-sidebar-third-item",
-      WINDOW_SIDEBAR_FOURTH_ITEM: prefix + "window-sidebar-fourth-item",
-      WINDOW_SIDEBAR_FIFTH_ITEM: prefix + "window-sidebar-fifth-item",
-      WINDOW_SIDEBAR_WTF_ITEM: prefix + "window-sidebar-wtf-item",
-      WINDOW_SIDEBAR_WTF_ITEM_ALT: prefix + "window-sidebar-wtf-item-alt"
+      GLOBAL_SHOW_HIDE_CONSOLE:
+        prefix + "global-show-hide-console",
+      GLOBAL_SHOW_HIDE_CONSOLE_ALT:
+        prefix + "global-show-hide-console-alt",
+      GLOBAL_WINDOW_DEV_MODE:
+        prefix + "global-window-dev-mode",
+      WINDOW_SIDEBAR_FIRST_ITEM:
+        prefix + "window-sidebar-first-item",
+      WINDOW_SIDEBAR_SECOND_ITEM:
+        prefix + "window-sidebar-second-item",
+      WINDOW_SIDEBAR_THIRD_ITEM:
+        prefix + "window-sidebar-third-item",
+      WINDOW_SIDEBAR_FOURTH_ITEM:
+        prefix + "window-sidebar-fourth-item",
+      WINDOW_SIDEBAR_FIFTH_ITEM:
+        prefix + "window-sidebar-fifth-item",
+      WINDOW_SIDEBAR_WTF_ITEM:
+        prefix + "window-sidebar-wtf-item",
+      WINDOW_SIDEBAR_WTF_ITEM_ALT:
+        prefix + "window-sidebar-wtf-item-alt"
     };
   }
 
@@ -173,9 +185,16 @@ class ShortcutManager {
    */
   activateWindowShortcuts(win) {
     let shortcut;
-    for (var i = 0; i < global.App.ShortcutManager.shortcuts.length; i++) {
+    for (
+      var i = 0;
+      i < global.App.ShortcutManager.shortcuts.length;
+      i++
+    ) {
       shortcut = global.App.ShortcutManager.shortcuts[i];
-      if (shortcut.window && shortcut.window.window === win) {
+      if (
+        shortcut.window &&
+        shortcut.window.window === win
+      ) {
         log.info(
           "[ShortcutManager] register window shortcut -> " +
             shortcut.name +
@@ -193,9 +212,16 @@ class ShortcutManager {
    */
   deactivateWindowShortcuts(win) {
     let shortcut;
-    for (var i = 0; i < global.App.ShortcutManager.shortcuts.length; i++) {
+    for (
+      var i = 0;
+      i < global.App.ShortcutManager.shortcuts.length;
+      i++
+    ) {
       shortcut = global.App.ShortcutManager.shortcuts[i];
-      if (shortcut.window && shortcut.window.window === win) {
+      if (
+        shortcut.window &&
+        shortcut.window.window === win
+      ) {
         log.info(
           "[ShortcutManager] unregister window shortcut-> " +
             shortcut.name +

@@ -32,8 +32,10 @@ export class TalkToClient extends BaseClient {
    */
   static get Events() {
     return {
-      LOAD_ALL_TALK_MESSAGES_FROM_ROOM: "load-all-talk-messages-from-room",
-      GET_ALL_TALK_MESSAGES_FROM_ROOM: "get-all-talk-messages-from-room",
+      LOAD_ALL_TALK_MESSAGES_FROM_ROOM:
+        "load-all-talk-messages-from-room",
+      GET_ALL_TALK_MESSAGES_FROM_ROOM:
+        "get-all-talk-messages-from-room",
       GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
         "get-all-status-talk-messages-from-room",
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room"
@@ -57,7 +59,11 @@ export class TalkToClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static loadAllTalkMessagesFromRoom(roomName, scope, callback) {
+  static loadAllTalkMessagesFromRoom(
+    roomName,
+    scope,
+    callback
+  ) {
     let event = TalkToClient.instance.createClientEvent(
       TalkToClient.Events.LOAD_ALL_TALK_MESSAGES_FROM_ROOM,
       { roomName: roomName },
@@ -77,7 +83,11 @@ export class TalkToClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static getAllTalkMessagesFromRoom(roomName, scope, callback) {
+  static getAllTalkMessagesFromRoom(
+    roomName,
+    scope,
+    callback
+  ) {
     let event = TalkToClient.instance.createClientEvent(
       TalkToClient.Events.GET_ALL_TALK_MESSAGES_FROM_ROOM,
       { roomName: roomName },
@@ -95,9 +105,14 @@ export class TalkToClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static getAllStatusTalkMessagesFromRoom(roomName, scope, callback) {
+  static getAllStatusTalkMessagesFromRoom(
+    roomName,
+    scope,
+    callback
+  ) {
     let event = TalkToClient.instance.createClientEvent(
-      TalkToClient.Events.GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM,
+      TalkToClient.Events
+        .GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM,
       { roomName: roomName },
       scope,
       callback
@@ -114,7 +129,12 @@ export class TalkToClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static publishChatToRoom(roomName, text, scope, callback) {
+  static publishChatToRoom(
+    roomName,
+    text,
+    scope,
+    callback
+  ) {
     let event = TalkToClient.instance.createClientEvent(
       TalkToClient.Events.PUBLISH_CHAT_TO_ROOM,
       { roomName: roomName, text: text },
@@ -154,7 +174,10 @@ export class TalkToClient extends BaseClient {
    */
   notifyTalkTo(clientEvent) {
     console.log(
-      "[" + TalkToClient.name + "] notify -> " + JSON.stringify(clientEvent)
+      "[" +
+        TalkToClient.name +
+        "] notify -> " +
+        JSON.stringify(clientEvent)
     );
     TalkToClient.replies.set(clientEvent.id, clientEvent);
     this.event.dispatch(clientEvent, true);

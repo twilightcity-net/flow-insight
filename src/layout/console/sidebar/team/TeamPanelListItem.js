@@ -14,7 +14,9 @@ export default class TeamPanelListItem extends Component {
   constructor(props) {
     super(props);
     this.name = "[TeamPanelListItem]";
-    this.isOnline = UtilRenderer.isMemberOnline(props.model);
+    this.isOnline = UtilRenderer.isMemberOnline(
+      props.model
+    );
   }
 
   /**

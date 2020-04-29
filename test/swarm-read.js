@@ -18,7 +18,9 @@ var swarm = null;
 
 // called when the core system is initialized
 feed.on("ready", function() {
-  console.log("[ CONNECTING ] feed : " + feed.key.toString("hex"));
+  console.log(
+    "[ CONNECTING ] feed : " + feed.key.toString("hex")
+  );
 
   // we need to join the swarm to be able to find other peers
   swarm = hyperdiscovery(feed, { live: true });

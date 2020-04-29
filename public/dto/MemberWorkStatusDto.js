@@ -20,12 +20,14 @@ module.exports = class MemberWorkStatusDto {
       this.workingOn = json.workingOn;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'MemberWorkStatusDto' : " + e.message
+        "Unable to create dto 'MemberWorkStatusDto' : " +
+          e.message
       );
     }
   }
   isValid() {
-    if (this.id != null && this.onlineStatus != null) return true;
+    if (this.id != null && this.onlineStatus != null)
+      return true;
     return false;
   }
 };

@@ -18,7 +18,13 @@ export default class ActiveCircuitFeedEvent extends Component {
    */
   getFeedExtraTextsContent() {
     return this.props.texts.map((message, i) => {
-      return <Feed.Extra key={i} text content={this.props.texts[i]} />;
+      return (
+        <Feed.Extra
+          key={i}
+          text
+          content={this.props.texts[i]}
+        />
+      );
     });
   }
 

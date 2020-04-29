@@ -42,7 +42,9 @@ module.exports = class JournalController extends BaseController {
    * links associated controller classes here
    */
   static wireTogetherControllers() {
-    BaseController.wireControllersTo(JournalController.instance);
+    BaseController.wireControllersTo(
+      JournalController.instance
+    );
   }
 
   /**
@@ -67,7 +69,11 @@ module.exports = class JournalController extends BaseController {
   onJournalClientEvent(event, arg) {
     this.logRequest(this.name, arg);
     if (!arg.args) {
-      this.handleError(JournalController.Error.ERROR_ARGS, event, arg);
+      this.handleError(
+        JournalController.Error.ERROR_ARGS,
+        event,
+        arg
+      );
     } else {
       switch (arg.type) {
         case JournalController.Events.LOAD_RECENT_JOURNAL:
@@ -90,7 +96,9 @@ module.exports = class JournalController extends BaseController {
           break;
         default:
           throw new Error(
-            "Unknown journal client event type '" + arg.type + "'."
+            "Unknown journal client event type '" +
+              arg.type +
+              "'."
           );
       }
     }
@@ -118,7 +126,13 @@ module.exports = class JournalController extends BaseController {
       JournalController.Types.GET,
       urn,
       store =>
-        this.delegateLoadJournalCallback(store, userName, event, arg, callback)
+        this.delegateLoadJournalCallback(
+          store,
+          userName,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
@@ -130,23 +144,35 @@ module.exports = class JournalController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateLoadJournalCallback(store, userName, event, arg, callback) {
+  delegateLoadJournalCallback(
+    store,
+    userName,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
       let journal = store.data,
-        database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
+        database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.JOURNAL
+        ),
         collection = database.getCollection(
           JournalDatabase.Collections.INTENTIONS
         ),
-        view = database.findOrCreateViewForIntentionsByUserName(userName);
+        view = database.findOrCreateViewForIntentionsByUserName(
+          userName
+        );
 
       if (journal.recentIntentions) {
         if (view.count() !== 0) {
           collection.removeBatch(view.data());
         }
         journal.recentIntentions.forEach(ri => {
-          ri.timestamp = Util.getTimestampFromUTCStr(ri.positionStr);
+          ri.timestamp = Util.getTimestampFromUTCStr(
+            ri.positionStr
+          );
           ri.userName = userName;
           collection.insert(ri);
         });
@@ -166,13 +192,23 @@ module.exports = class JournalController extends BaseController {
       }
 
       if (journal.recentTasksByProjectId) {
-        collection = database.getCollection(JournalDatabase.Collections.TASKS);
+        collection = database.getCollection(
+          JournalDatabase.Collections.TASKS
+        );
         view = database.getViewForRecentTasks();
-        this.updateRecentTasksByProjectId(view, collection, journal);
+        this.updateRecentTasksByProjectId(
+          view,
+          collection,
+          journal
+        );
       }
     }
     JournalController.instance.userHistory.add(userName);
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -185,13 +221,15 @@ module.exports = class JournalController extends BaseController {
     if (view.count() !== 0) {
       collection.removeBatch(view.data());
     }
-    Object.values(model.recentTasksByProjectId).forEach(project => {
-      if (project) {
-        project.forEach(rt => {
-          collection.insert(rt);
-        });
+    Object.values(model.recentTasksByProjectId).forEach(
+      project => {
+        if (project) {
+          project.forEach(rt => {
+            collection.insert(rt);
+          });
+        }
       }
-    });
+    );
   }
 
   /**
@@ -219,7 +257,13 @@ module.exports = class JournalController extends BaseController {
       "createIntention",
       JournalController.Types.POST,
       urn,
-      store => this.delegateCreateIntentionCallback(store, event, arg, callback)
+      store =>
+        this.delegateCreateIntentionCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
@@ -231,17 +275,32 @@ module.exports = class JournalController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateCreateIntentionCallback(store, event, arg, callback) {
+  delegateCreateIntentionCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
     } else {
       arg.data = store.data;
       this.handleLoadJournalEvent(
         null,
-        { args: { userName: JournalController.Strings.ME } },
+        {
+          args: { userName: JournalController.Strings.ME }
+        },
         () => {
-          this.delegateCallbackOrEventReplyTo(event, arg, callback);
+          this.delegateCallbackOrEventReplyTo(
+            event,
+            arg,
+            callback
+          );
         }
       );
     }
@@ -267,7 +326,12 @@ module.exports = class JournalController extends BaseController {
       JournalController.Types.POST,
       urn,
       store =>
-        this.delegateCreateTaskReferenceCallback(store, event, arg, callback)
+        this.delegateCreateTaskReferenceCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
@@ -278,22 +342,43 @@ module.exports = class JournalController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateCreateTaskReferenceCallback(store, event, arg, callback) {
+  delegateCreateTaskReferenceCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
-        collection = database.getCollection(JournalDatabase.Collections.TASKS),
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.JOURNAL
+        ),
+        collection = database.getCollection(
+          JournalDatabase.Collections.TASKS
+        ),
         summary = store.data,
         view = database.getViewForRecentTasks();
 
       if (summary.recentTasksByProjectId) {
-        this.updateRecentTasksByProjectId(view, collection, summary);
+        this.updateRecentTasksByProjectId(
+          view,
+          collection,
+          summary
+        );
       }
 
       arg.data = view.data();
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
     }
   }
 
@@ -304,30 +389,60 @@ module.exports = class JournalController extends BaseController {
    * @param callback
    */
   handleGetRecentIntentionsEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.JOURNAL
+      ),
       userName = arg.args.userName,
-      view = database.findOrCreateViewForIntentionsByUserName(userName);
+      view = database.findOrCreateViewForIntentionsByUserName(
+        userName
+      );
 
     if (!userName) {
       arg.error = "Unknown user '" + userName + "'";
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
     } else if (userName === JournalController.Strings.ME) {
-      this.logResults(this.name, arg.type, arg.id, view.count());
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        view.count()
+      );
       arg.data = view.data();
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
     } else {
       if (
-        JournalController.instance.userHistory.has(userName) &&
+        JournalController.instance.userHistory.has(
+          userName
+        ) &&
         view.count() !== 0
       ) {
-        this.logResults(this.name, arg.type, arg.id, view.count());
+        this.logResults(
+          this.name,
+          arg.type,
+          arg.id,
+          view.count()
+        );
         arg.data = view.data();
         this.delegateCallbackOrEventReplyTo(event, arg);
       } else {
         this.handleLoadJournalEvent(
           null,
           { args: { userName: userName } },
-          args => this.delegateCallbackWithView(args, view, event, arg)
+          args =>
+            this.delegateCallbackWithView(
+              args,
+              view,
+              event,
+              arg
+            )
         );
       }
     }
@@ -340,12 +455,23 @@ module.exports = class JournalController extends BaseController {
    * @param callback
    */
   handleGetRecentProjectsEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.JOURNAL
+      ),
       view = database.getViewForRecentProjects();
 
-    this.logResults(this.name, arg.type, arg.id, view.count());
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      view.count()
+    );
     arg.data = view.data();
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -356,11 +482,22 @@ module.exports = class JournalController extends BaseController {
    * @param callback
    */
   handleGetRecentTasksEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.JOURNAL),
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.JOURNAL
+      ),
       view = database.getViewForRecentTasks();
 
-    this.logResults(this.name, arg.type, arg.id, view.count());
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      view.count()
+    );
     arg.data = view.data();
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 };

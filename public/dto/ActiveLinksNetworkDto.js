@@ -9,12 +9,18 @@ module.exports = class ActiveLinksNetworkDto {
       this.networkId = json.networkId;
       this.spiritLinks = json.spiritLinks;
     } catch (e) {
-      throw new Error("Unable to create dto 'XPSummaryDto' : " + e.message);
+      throw new Error(
+        "Unable to create dto 'XPSummaryDto' : " + e.message
+      );
     }
   }
 
   isValid() {
-    if (this.spiritLinks != null && this.spiritLinks != null) return true;
+    if (
+      this.spiritLinks != null &&
+      this.spiritLinks != null
+    )
+      return true;
     return false;
   }
 };

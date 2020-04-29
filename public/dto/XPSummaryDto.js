@@ -12,12 +12,15 @@ module.exports = class XPSummaryDto {
       this.xpRequiredToLevel = json.xpRequiredToLevel;
       this.title = json.title;
     } catch (e) {
-      throw new Error("Unable to create dto 'XPSummaryDto' : " + e.message);
+      throw new Error(
+        "Unable to create dto 'XPSummaryDto' : " + e.message
+      );
     }
   }
 
   isValid() {
-    if (this.level != null && this.totalXP != null) return true;
+    if (this.level != null && this.totalXP != null)
+      return true;
     return false;
   }
 };

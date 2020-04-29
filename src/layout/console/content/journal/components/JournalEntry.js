@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Dropdown, Grid, Input, Segment } from "semantic-ui-react";
+import {
+  Dropdown,
+  Grid,
+  Input,
+  Segment
+} from "semantic-ui-react";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -67,10 +72,14 @@ export default class JournalEntry extends Component {
     if (this.hasProjectUpdated(nextState)) return true;
 
     nextProps.projects.forEach(project =>
-      this.projects.push(this.transformLokiDataStruct(project))
+      this.projects.push(
+        this.transformLokiDataStruct(project)
+      )
     );
     nextProps.tasks.forEach(task => {
-      if (nextState.currentProjectValue === task.projectId) {
+      if (
+        nextState.currentProjectValue === task.projectId
+      ) {
         this.tasks.push(this.transformLokiDataStruct(task));
       }
     });
@@ -84,7 +93,10 @@ export default class JournalEntry extends Component {
    * @returns {boolean}
    */
   hasProjectUpdated(state) {
-    if (state.currentProjectValue !== this.state.currentProjectValue) {
+    if (
+      state.currentProjectValue !==
+      this.state.currentProjectValue
+    ) {
       this.setState({
         currentTaskValue: null
       });
@@ -192,9 +204,15 @@ export default class JournalEntry extends Component {
    * @param e
    */
   handleFocusForProject = e => {
-    document.getElementById("selectProjectInput").classList.add("focused");
-    document.getElementById("selectTaskInput").classList.remove("focused");
-    document.getElementById("createIntentionInput").classList.remove("focused");
+    document
+      .getElementById("selectProjectInput")
+      .classList.add("focused");
+    document
+      .getElementById("selectTaskInput")
+      .classList.remove("focused");
+    document
+      .getElementById("createIntentionInput")
+      .classList.remove("focused");
   };
 
   /**
@@ -202,9 +220,15 @@ export default class JournalEntry extends Component {
    * @param e
    */
   handleFocusForTask = e => {
-    document.getElementById("selectProjectInput").classList.remove("focused");
-    document.getElementById("selectTaskInput").classList.add("focused");
-    document.getElementById("createIntentionInput").classList.remove("focused");
+    document
+      .getElementById("selectProjectInput")
+      .classList.remove("focused");
+    document
+      .getElementById("selectTaskInput")
+      .classList.add("focused");
+    document
+      .getElementById("createIntentionInput")
+      .classList.remove("focused");
   };
 
   /**
@@ -212,9 +236,15 @@ export default class JournalEntry extends Component {
    * @param e
    */
   handleFocusForIntention = e => {
-    document.getElementById("selectProjectInput").classList.remove("focused");
-    document.getElementById("selectTaskInput").classList.remove("focused");
-    document.getElementById("createIntentionInput").classList.add("focused");
+    document
+      .getElementById("selectProjectInput")
+      .classList.remove("focused");
+    document
+      .getElementById("selectTaskInput")
+      .classList.remove("focused");
+    document
+      .getElementById("createIntentionInput")
+      .classList.add("focused");
   };
 
   /**
@@ -222,9 +252,15 @@ export default class JournalEntry extends Component {
    * @param e
    */
   handleBlurForInput = e => {
-    document.getElementById("selectProjectInput").classList.remove("focused");
-    document.getElementById("selectTaskInput").classList.remove("focused");
-    document.getElementById("createIntentionInput").classList.remove("focused");
+    document
+      .getElementById("selectProjectInput")
+      .classList.remove("focused");
+    document
+      .getElementById("selectTaskInput")
+      .classList.remove("focused");
+    document
+      .getElementById("createIntentionInput")
+      .classList.remove("focused");
   };
 
   /**
@@ -307,13 +343,19 @@ export default class JournalEntry extends Component {
           <Segment inverted>
             <Grid columns="equal" divided inverted>
               <Grid.Row stretched>
-                <Grid.Column width={3} id="selectProjectInput">
+                <Grid.Column
+                  width={3}
+                  id="selectProjectInput"
+                >
                   {this.getProjectDropdown()}
                 </Grid.Column>
                 <Grid.Column width={2} id="selectTaskInput">
                   {this.getTaskDropdown()}
                 </Grid.Column>
-                <Grid.Column width={11} id="createIntentionInput">
+                <Grid.Column
+                  width={11}
+                  id="createIntentionInput"
+                >
                   {this.getTextInput()}
                 </Grid.Column>
               </Grid.Row>

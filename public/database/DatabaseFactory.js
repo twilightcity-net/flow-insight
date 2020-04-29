@@ -38,7 +38,9 @@ module.exports = class DatabaseFactory {
       case DatabaseFactory.Names.TEAM:
         return new TeamDB();
       default:
-        throw new Error("Unknown database type '" + name + "'");
+        throw new Error(
+          "Unknown database type '" + name + "'"
+        );
     }
   }
 

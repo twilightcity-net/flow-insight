@@ -28,7 +28,10 @@ export default class ActiveCircuitScrapbook extends Component {
    */
   render() {
     return (
-      <div id="component" className="activeCircuitScrapbook">
+      <div
+        id="component"
+        className="activeCircuitScrapbook"
+      >
         <Segment inverted>
           <Menu icon inverted fluid secondary>
             <Menu.Item header>Scrapbook</Menu.Item>
@@ -40,7 +43,10 @@ export default class ActiveCircuitScrapbook extends Component {
             />
           </Menu>
           <Divider clearing fitted />
-          <Segment className="scrapbookItemContainer" inverted>
+          <Segment
+            className="scrapbookItemContainer"
+            inverted
+          >
             <i>No Item Selected</i>
           </Segment>
         </Segment>

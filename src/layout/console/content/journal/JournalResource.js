@@ -1,7 +1,12 @@
 import React, { Component } from "react";
 import JournalEntry from "./components/JournalEntry";
 import { DimensionController } from "../../../../controllers/DimensionController";
-import { Grid, Icon, Message, Transition } from "semantic-ui-react";
+import {
+  Grid,
+  Icon,
+  Message,
+  Transition
+} from "semantic-ui-react";
 import JournalItem from "./components/JournalItem";
 import { JournalClient } from "../../../../clients/JournalClient";
 import { scrollTo } from "../../../../UtilScroll";
@@ -54,7 +59,9 @@ export default class JournalResource extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (nextProps.resource.uri === this.props.resource.uri) {
+    if (
+      nextProps.resource.uri === this.props.resource.uri
+    ) {
       return false;
     }
     let userName = this.getUserNameFromResource(nextProps);
@@ -69,13 +76,17 @@ export default class JournalResource extends Component {
   componentDidMount() {
     this.loadCount = 0;
     let userName = this.getUserNameFromResource(this.props);
-    JournalClient.getRecentIntentions(userName, this, arg => {
-      if (!this.hasCallbackError(arg)) {
-        this.userName = userName;
-        this.journalItems = arg.data;
-        this.handleCallback();
+    JournalClient.getRecentIntentions(
+      userName,
+      this,
+      arg => {
+        if (!this.hasCallbackError(arg)) {
+          this.userName = userName;
+          this.journalItems = arg.data;
+          this.handleCallback();
+        }
       }
-    });
+    );
     JournalClient.getRecentProjects(this, arg => {
       if (!this.hasCallbackError(arg)) {
         this.projects = arg.data;
@@ -128,7 +139,9 @@ export default class JournalResource extends Component {
    * @param callback
    */
   scrollToJournalItemById(id, smooth, callback) {
-    let rootElement = document.getElementById("journal-items-grid"),
+    let rootElement = document.getElementById(
+        "journal-items-grid"
+      ),
       parentElement = rootElement.parentElement,
       smoothStr = smooth ? "smooth" : "auto",
       theHeight = 0;
@@ -138,19 +151,25 @@ export default class JournalResource extends Component {
       for (let i = 0; i < array.length; i++) {
         let obj = array[i];
         theHeight += obj.offsetHeight;
-        if (obj.id === this.activeJournalItem.props.model.id) {
-          theHeight -= parentElement.offsetHeight / 2 + obj.offsetHeight / 2;
+        if (
+          obj.id === this.activeJournalItem.props.model.id
+        ) {
+          theHeight -=
+            parentElement.offsetHeight / 2 +
+            obj.offsetHeight / 2;
           break;
         }
       }
-      scrollTo(parentElement, { behavior: smoothStr, top: theHeight }).then(
-        callback
-      );
+      scrollTo(parentElement, {
+        behavior: smoothStr,
+        top: theHeight
+      }).then(callback);
     } else if (parentElement && rootElement) {
       theHeight = rootElement.scrollHeight;
-      scrollTo(parentElement, { behavior: smoothStr, top: theHeight }).then(
-        callback
-      );
+      scrollTo(parentElement, {
+        behavior: smoothStr,
+        top: theHeight
+      }).then(callback);
     }
   }
 
@@ -166,23 +185,29 @@ export default class JournalResource extends Component {
    * @param userName
    */
   refreshRecentIntentions(userName) {
-    JournalClient.getRecentIntentions(userName, this, arg => {
-      if (arg.error) {
-        this.error = arg.error;
-        this.forceUpdate();
-      } else {
-        this.error = null;
-        this.userName = userName;
-        this.journalItems = arg.data;
-        this.forceUpdate(() => {
-          if (this.activeJournalItem) {
-            this.scrollToJournalItemById(this.activeJournalItem.id);
-          } else {
-            this.scrollToJournalItemById();
-          }
-        });
+    JournalClient.getRecentIntentions(
+      userName,
+      this,
+      arg => {
+        if (arg.error) {
+          this.error = arg.error;
+          this.forceUpdate();
+        } else {
+          this.error = null;
+          this.userName = userName;
+          this.journalItems = arg.data;
+          this.forceUpdate(() => {
+            if (this.activeJournalItem) {
+              this.scrollToJournalItemById(
+                this.activeJournalItem.id
+              );
+            } else {
+              this.scrollToJournalItemById();
+            }
+          });
+        }
       }
-    });
+    );
   }
 
   /**
@@ -191,10 +216,22 @@ export default class JournalResource extends Component {
    * @param taskId
    * @param intention
    */
-  handleCreateIntention = (projectId, taskId, intention) => {
-    JournalClient.createIntention(projectId, taskId, intention, this, () => {
-      this.refreshRecentIntentions(JournalResource.Strings.ME);
-    });
+  handleCreateIntention = (
+    projectId,
+    taskId,
+    intention
+  ) => {
+    JournalClient.createIntention(
+      projectId,
+      taskId,
+      intention,
+      this,
+      () => {
+        this.refreshRecentIntentions(
+          JournalResource.Strings.ME
+        );
+      }
+    );
   };
 
   /**
@@ -202,16 +239,20 @@ export default class JournalResource extends Component {
    * @param taskName
    */
   handleCreateTaskReference = taskName => {
-    JournalClient.createTaskReference(taskName, this, arg => {
-      if (arg.error) {
-        this.error = arg.error;
-        this.forceUpdate();
-      } else {
-        this.error = null;
-        this.tasks = arg.data;
-        this.forceUpdate();
+    JournalClient.createTaskReference(
+      taskName,
+      this,
+      arg => {
+        if (arg.error) {
+          this.error = arg.error;
+          this.forceUpdate();
+        } else {
+          this.error = null;
+          this.tasks = arg.data;
+          this.forceUpdate();
+        }
       }
-    });
+    );
   };
 
   /**
@@ -224,7 +265,10 @@ export default class JournalResource extends Component {
       this.activeJournalItem.forceUpdate();
     }
     this.activeJournalItem = journalItem;
-    this.scrollToJournalItemById(journalItem.props.model.id, true);
+    this.scrollToJournalItemById(
+      journalItem.props.model.id,
+      true
+    );
   };
 
   /**
@@ -298,7 +342,9 @@ export default class JournalResource extends Component {
           id="component"
           className="journalItems"
           style={{
-            height: DimensionController.getJournalItemsPanelHeight(isMyJournal)
+            height: DimensionController.getJournalItemsPanelHeight(
+              isMyJournal
+            )
           }}
         >
           <Grid id="journal-items-grid" inverted>
@@ -319,7 +365,8 @@ export default class JournalResource extends Component {
         <Icon name="warning sign" />
         <Message.Content>
           <Message.Header>{this.error} :(</Message.Header>
-          These were not the cats you were looking for =|^.^|=
+          These were not the cats you were looking for
+          =|^.^|=
         </Message.Content>
       </Message>
     );
@@ -343,7 +390,9 @@ export default class JournalResource extends Component {
             projects={this.projects}
             tasks={this.tasks}
             createIntention={this.handleCreateIntention}
-            createTaskReference={this.handleCreateTaskReference}
+            createTaskReference={
+              this.handleCreateTaskReference
+            }
           />
         </div>
       </Transition>
@@ -359,9 +408,15 @@ export default class JournalResource extends Component {
       isMyJournal = this.isMyJournal();
 
     return (
-      <div id="component" className={"journalLayout" + (error ? " error" : "")}>
+      <div
+        id="component"
+        className={
+          "journalLayout" + (error ? " error" : "")
+        }
+      >
         {error && this.getJournalErrorContent()}
-        {!error && this.getJournalItemsWrapperContent(isMyJournal)}
+        {!error &&
+          this.getJournalItemsWrapperContent(isMyJournal)}
         {!error && this.getJournalEntryContent(isMyJournal)}
       </div>
     );

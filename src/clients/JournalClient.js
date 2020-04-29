@@ -78,10 +78,20 @@ export class JournalClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static createIntention(projectId, taskId, description, scope, callback) {
+  static createIntention(
+    projectId,
+    taskId,
+    description,
+    scope,
+    callback
+  ) {
     let event = JournalClient.instance.createClientEvent(
       JournalClient.Events.CREATE_INTENTION,
-      { projectId: projectId, taskId: taskId, description: description },
+      {
+        projectId: projectId,
+        taskId: taskId,
+        description: description
+      },
       scope,
       callback
     );
@@ -187,7 +197,10 @@ export class JournalClient extends BaseClient {
    */
   notifyJournal(clientEvent) {
     console.log(
-      "[" + JournalClient.name + "] notify -> " + JSON.stringify(clientEvent)
+      "[" +
+        JournalClient.name +
+        "] notify -> " +
+        JSON.stringify(clientEvent)
     );
     JournalClient.replies.set(clientEvent.id, clientEvent);
     this.event.dispatch(clientEvent, true);

@@ -8,15 +8,20 @@ module.exports = class RecentTasksSummaryDto {
 
       this.activeTask = json.activeTask;
       this.recentProjects = json.recentProjects;
-      this.recentTasksByProjectId = json.recentTasksByProjectId;
+      this.recentTasksByProjectId =
+        json.recentTasksByProjectId;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'RecentTasksSummaryDto' : " + e.message
+        "Unable to create dto 'RecentTasksSummaryDto' : " +
+          e.message
       );
     }
   }
 
   isValid() {
-    return this.recentProjects != null && this.recentProjects.length > 0;
+    return (
+      this.recentProjects != null &&
+      this.recentProjects.length > 0
+    );
   }
 };

@@ -30,10 +30,12 @@ module.exports = class TeamController extends BaseController {
     return {
       LOAD_MY_TEAM: "load-my-team",
       LOAD_MY_CURRENT_STATUS: "load-my-current-status",
-      LOAD_STATUS_OF_ME_AND_MY_TEAM: "load-status-of-me-and-my-team",
+      LOAD_STATUS_OF_ME_AND_MY_TEAM:
+        "load-status-of-me-and-my-team",
       GET_MY_TEAM: "get-my-team",
       GET_MY_CURRENT_STATUS: "get-my-current-status",
-      GET_STATUS_OF_ME_AND_MY_TEAM: "get-status-of-me-and-my-team"
+      GET_STATUS_OF_ME_AND_MY_TEAM:
+        "get-status-of-me-and-my-team"
     };
   }
 
@@ -41,7 +43,9 @@ module.exports = class TeamController extends BaseController {
    * links associated controller classes here
    */
   static wireTogetherControllers() {
-    BaseController.wireControllersTo(TeamController.instance);
+    BaseController.wireControllersTo(
+      TeamController.instance
+    );
   }
 
   /**
@@ -66,7 +70,11 @@ module.exports = class TeamController extends BaseController {
   onTeamClientEvent(event, arg) {
     this.logRequest(this.name, arg);
     if (!arg.args) {
-      this.handleError(TeamController.Error.ERROR_ARGS, event, arg);
+      this.handleError(
+        TeamController.Error.ERROR_ARGS,
+        event,
+        arg
+      );
     } else {
       switch (arg.type) {
         case TeamController.Events.LOAD_MY_TEAM:
@@ -75,7 +83,8 @@ module.exports = class TeamController extends BaseController {
         case TeamController.Events.LOAD_MY_CURRENT_STATUS:
           this.handleLoadMyCurrentStatus(event, arg);
           break;
-        case TeamController.Events.LOAD_STATUS_OF_ME_AND_MY_TEAM:
+        case TeamController.Events
+          .LOAD_STATUS_OF_ME_AND_MY_TEAM:
           this.handleLoadStatusOfMeAndMyTeam(event, arg);
           break;
         case TeamController.Events.GET_MY_TEAM:
@@ -84,12 +93,19 @@ module.exports = class TeamController extends BaseController {
         case TeamController.Events.GET_MY_CURRENT_STATUS:
           this.handleGetMyCurrentStatusEvent(event, arg);
           break;
-        case TeamController.Events.GET_STATUS_OF_ME_AND_MY_TEAM:
-          this.handleGetStatusOfMeAndMyTeamEvent(event, arg);
+        case TeamController.Events
+          .GET_STATUS_OF_ME_AND_MY_TEAM:
+          this.handleGetStatusOfMeAndMyTeamEvent(
+            event,
+            arg
+          );
           break;
         default:
           throw new Error(
-            TeamController.Error.UNKNOWN + " '" + arg.type + "'."
+            TeamController.Error.UNKNOWN +
+              " '" +
+              arg.type +
+              "'."
           );
       }
     }
@@ -110,8 +126,19 @@ module.exports = class TeamController extends BaseController {
       urn += TeamController.Paths.SEPARATOR + name;
     }
 
-    this.doClientRequest("TeamClient", {}, "getMyTeam", "get", urn, store =>
-      this.delegateLoadMyTeamCallback(store, event, arg, callback)
+    this.doClientRequest(
+      "TeamClient",
+      {},
+      "getMyTeam",
+      "get",
+      urn,
+      store =>
+        this.delegateLoadMyTeamCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
@@ -127,14 +154,22 @@ module.exports = class TeamController extends BaseController {
       arg.error = store.error;
     } else {
       let team = store.data,
-        database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
-        collection = database.getCollection(TeamDatabase.Collections.TEAMS);
+        database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.TEAM
+        ),
+        collection = database.getCollection(
+          TeamDatabase.Collections.TEAMS
+        );
 
       if (team) {
         collection.insert(team);
       }
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -144,7 +179,9 @@ module.exports = class TeamController extends BaseController {
    * @param callback
    */
   handleLoadMyCurrentStatus(event, arg, callback) {
-    let urn = TeamController.Paths.STATUS + TeamController.Strings.ME;
+    let urn =
+      TeamController.Paths.STATUS +
+      TeamController.Strings.ME;
 
     this.doClientRequest(
       "TeamClient",
@@ -153,7 +190,12 @@ module.exports = class TeamController extends BaseController {
       TeamController.Types.GET,
       urn,
       store =>
-        this.delegateLoadMyCurrentStatusCallback(store, event, arg, callback)
+        this.delegateLoadMyCurrentStatusCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
@@ -164,12 +206,21 @@ module.exports = class TeamController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateLoadMyCurrentStatusCallback(store, event, arg, callback) {
+  delegateLoadMyCurrentStatusCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
-        collection = database.getCollection(TeamDatabase.Collections.ME),
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.TEAM
+        ),
+        collection = database.getCollection(
+          TeamDatabase.Collections.ME
+        ),
         view = database.getViewForMyCurrentStatus(),
         member = new MemberWorkStatusDto(store.data),
         me = view.data()[0];
@@ -181,7 +232,11 @@ module.exports = class TeamController extends BaseController {
         collection.insert(member);
       }
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -216,12 +271,21 @@ module.exports = class TeamController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateLoadStatusOfMeAndMyTeamCallback(store, event, arg, callback) {
+  delegateLoadStatusOfMeAndMyTeamCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
-        collection = database.getCollection(TeamDatabase.Collections.MEMBERS),
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.TEAM
+        ),
+        collection = database.getCollection(
+          TeamDatabase.Collections.MEMBERS
+        ),
         view = database.getViewForStatusOfMeAndMyTeam();
 
       if (view.count() === 0) {
@@ -240,7 +304,11 @@ module.exports = class TeamController extends BaseController {
         });
       }
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -250,7 +318,9 @@ module.exports = class TeamController extends BaseController {
    * @param callback
    */
   handleGetMyTeamEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TEAM
+      ),
       type = arg.args.type;
 
     if (type === TeamController.Types.PRIMARY) {
@@ -258,7 +328,11 @@ module.exports = class TeamController extends BaseController {
       this.delegateCallbackWithView(null, view, event, arg);
     } else {
       arg.error = TeamController.Error.PRIMARY_ONLY;
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
     }
   }
 
@@ -269,7 +343,9 @@ module.exports = class TeamController extends BaseController {
    * @param callback
    */
   handleGetMyCurrentStatusEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TEAM
+      ),
       view = database.getViewForMyCurrentStatus();
 
     this.delegateCallbackWithView(null, view, event, arg);
@@ -282,7 +358,9 @@ module.exports = class TeamController extends BaseController {
    * @param callback
    */
   handleGetStatusOfMeAndMyTeamEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TEAM),
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TEAM
+      ),
       view = database.getViewForStatusOfMeAndMyTeam();
 
     this.delegateCallbackWithView(null, view, event, arg);

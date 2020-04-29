@@ -35,7 +35,8 @@ export class LearningCircuitModel {
       this.secondsBeforeOnHold = json.secondsBeforeOnHold;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'LearningCircuitModel' : " + e.message
+        "Unable to create dto 'LearningCircuitModel' : " +
+          e.message
       );
     }
   }

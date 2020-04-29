@@ -10,7 +10,8 @@ module.exports = class IntentionInputDto {
       this.taskId = json.taskId;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'IntentionInputDto' : " + e.message
+        "Unable to create dto 'IntentionInputDto' : " +
+          e.message
       );
     }
   }

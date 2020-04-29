@@ -1,7 +1,9 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   Util = require("../Util"),
-  { DtoClient } = require("../managers/DtoClientFactory");
+  { DtoClient } = require("../managers/DtoClientFactory"),
+  TalkDatabase = require("../database/TalkDatabase"),
+  DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
  * This class is used to coordinate controllers across the app classes
@@ -68,7 +70,8 @@ module.exports = class BaseController {
   static get MessageTypes() {
     return {
       CIRCUIT_STATUS: "CircuitStatusDto",
-      ROOM_MEMBER_STATUS: "RoomMemberStatus"
+      ROOM_MEMBER_STATUS: "RoomMemberStatus",
+      CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto"
     };
   }
 
@@ -111,8 +114,10 @@ module.exports = class BaseController {
     return {
       ERROR_ARGS: "arg : args is required",
       UNKNOWN: "Unknown team client event type",
-      UNKNOWN_CIRCUIT_EVENT: "Unknown circuit client event type",
-      UNKNOWN_TALK_TO_EVENT: "Unknown talk to client event type",
+      UNKNOWN_CIRCUIT_EVENT:
+        "Unknown circuit client event type",
+      UNKNOWN_TALK_TO_EVENT:
+        "Unknown talk to client event type",
       PRIMARY_ONLY: "Only primary team supported currently",
       INVALID_PARTICIPATING_CIRCUIT:
         "Invalid get my participating circuits event"
@@ -139,12 +144,17 @@ module.exports = class BaseController {
   static get Names() {
     return {
       START_WTF: "startWTF",
-      START_WTF_WITH_CUSTOM_CIRCUIT_NAME: "startWTFWithCustomCircuitName",
-      GET_ALL_MY_PARTICIPATING_CIRCUITS: "getAllMyParticipatingCircuits",
-      GET_ALL_MY_DO_IT_LATER_CIRCUITS: "getAllMyDoItLaterCircuits",
+      START_WTF_WITH_CUSTOM_CIRCUIT_NAME:
+        "startWTFWithCustomCircuitName",
+      GET_ALL_MY_PARTICIPATING_CIRCUITS:
+        "getAllMyParticipatingCircuits",
+      GET_ALL_MY_DO_IT_LATER_CIRCUITS:
+        "getAllMyDoItLaterCircuits",
       GET_ACTIVE_CIRCUIT: "getActiveCircuit",
-      GET_CIRCUIT_WITH_ALL_DETAILS: "getCircuitWithAllDetails",
-      GET_ALL_TALK_MESSAGES_FROM_ROOM: "getAllTalkMessagesFromRoom",
+      GET_CIRCUIT_WITH_ALL_DETAILS:
+        "getCircuitWithAllDetails",
+      GET_ALL_TALK_MESSAGES_FROM_ROOM:
+        "getAllTalkMessagesFromRoom",
       CANCEL_WTF: "cancelWtf",
       PAUSE_WTF: "pauseWtf"
     };
@@ -179,7 +189,10 @@ module.exports = class BaseController {
    */
   static wireControllersTo(clazz) {
     log.info(
-      "[" + BaseController.name + "] wire controllers to -> " + clazz.name
+      "[" +
+        BaseController.name +
+        "] wire controllers to -> " +
+        clazz.name
     );
   }
 
@@ -189,7 +202,10 @@ module.exports = class BaseController {
    */
   static configEvents(clazz) {
     log.info(
-      "[" + BaseController.name + "] configure events for -> " + clazz.name
+      "[" +
+        BaseController.name +
+        "] configure events for -> " +
+        clazz.name
     );
   }
 
@@ -226,7 +242,11 @@ module.exports = class BaseController {
    */
   handleError(message, event, arg, callback) {
     arg.error = message;
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -235,7 +255,11 @@ module.exports = class BaseController {
    * @param arg
    */
   logRequest(name, arg) {
-    log.info(chalk.yellowBright(name) + " event : " + JSON.stringify(arg));
+    log.info(
+      chalk.yellowBright(name) +
+        " event : " +
+        JSON.stringify(arg)
+    );
   }
 
   /**
@@ -287,7 +311,12 @@ module.exports = class BaseController {
       arg.error = args.error;
       this.delegateCallbackOrEventReplyTo(event, arg);
     } else {
-      this.logResults(this.name, arg.type, arg.id, view.count());
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        view.count()
+      );
       arg.data = view.data();
       this.delegateCallbackOrEventReplyTo(event, arg);
     }
@@ -310,12 +339,47 @@ module.exports = class BaseController {
    * time as you could say
    * @param model
    * @param collection
-   * @param message
+   * @param circuit
    */
-  findAndUpdateMessage(model, collection, message) {
-    model = collection.findOne({ id: message.id });
+  findXOrInsertMessage(model, collection, circuit) {
+    model = collection.findOne({ id: circuit.id });
     if (!model) {
-      collection.insert(message);
+      collection.insert(circuit);
     }
+  }
+
+  /**
+   * adds a room to our rooms collection for reference
+   * @param roomName
+   * @param uri
+   */
+  findRoomAndInsert(roomName, uri) {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TALK
+      ),
+      rooms = database.getCollection(
+        TalkDatabase.Collections.ROOMS
+      ),
+      room = rooms.findOne({ uri: uri });
+
+    if (!room) {
+      rooms.insert({ roomName, uri });
+    }
+  }
+
+  /**
+   * checks our database to see if we have a room for the night
+   * @param roomName
+   * @returns {Object}
+   */
+  hasRoomByRoomName(roomName) {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TALK
+      ),
+      rooms = database.getCollection(
+        TalkDatabase.Collections.ROOMS
+      );
+
+    return rooms.findOne({ roomName: roomName });
   }
 };

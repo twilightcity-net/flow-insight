@@ -141,12 +141,18 @@ export default class CircuitSidebar extends Component {
         <Menu size="mini" inverted pointing secondary>
           <Menu.Item
             name={CircuitSidebar.Views.OVERVIEW}
-            active={this.state.activeMenuView === CircuitSidebar.Views.OVERVIEW}
+            active={
+              this.state.activeMenuView ===
+              CircuitSidebar.Views.OVERVIEW
+            }
             onClick={this.handleMenuClick}
           />
           <Menu.Item
             name={CircuitSidebar.Views.PARTY}
-            active={this.state.activeMenuView === CircuitSidebar.Views.PARTY}
+            active={
+              this.state.activeMenuView ===
+              CircuitSidebar.Views.PARTY
+            }
             onClick={this.handleMenuClick}
           >
             {this.getMenuItemPartyContent()}
@@ -154,13 +160,17 @@ export default class CircuitSidebar extends Component {
           <Menu.Item
             name={CircuitSidebar.Views.SCRAPBOOK}
             active={
-              this.state.activeMenuView === CircuitSidebar.Views.SCRAPBOOK
+              this.state.activeMenuView ===
+              CircuitSidebar.Views.SCRAPBOOK
             }
             onClick={this.handleMenuScrapbookClick}
           />
           <Menu.Item
             name={CircuitSidebar.Views.CHEST}
-            active={this.state.activeMenuView === CircuitSidebar.Views.CHEST}
+            active={
+              this.state.activeMenuView ===
+              CircuitSidebar.Views.CHEST
+            }
             onClick={this.handleMenuClick}
           />
         </Menu>
@@ -208,8 +218,12 @@ export default class CircuitSidebar extends Component {
         circuit.openTime[4],
         circuit.openTime[5]
       ]);
-      this.timerEl = document.getElementById("active-circuit-wtf-timer");
-      this.openTimeTimer = UtilRenderer.clearIntervalTimer(this.openTimeTimer);
+      this.timerEl = document.getElementById(
+        "active-circuit-wtf-timer"
+      );
+      this.openTimeTimer = UtilRenderer.clearIntervalTimer(
+        this.openTimeTimer
+      );
       this.openTimeTimer = setInterval(() => {
         this.timerEl.innerHTML = UtilRenderer.getWtfTimerStringFromOpenTime(
           this.openTime
@@ -217,7 +231,9 @@ export default class CircuitSidebar extends Component {
       }, 1000);
     }
 
-    return UtilRenderer.getWtfTimerStringFromOpenTime(this.openTime);
+    return UtilRenderer.getWtfTimerStringFromOpenTime(
+      this.openTime
+    );
   }
 
   /**
@@ -243,7 +259,9 @@ export default class CircuitSidebar extends Component {
     if (this.props.model) {
       circuitName = this.props.model.circuitName;
       description = this.props.model.description;
-      tags = this.props.model.tags ? this.props.model.tags : tags;
+      tags = this.props.model.tags
+        ? this.props.model.tags
+        : tags;
       if (!description || description === "") {
         description = "Can has some descriptions?";
       }
@@ -252,7 +270,9 @@ export default class CircuitSidebar extends Component {
     return (
       <div className="overview">
         <Segment inverted className="title">
-          {UtilRenderer.getFormattedCircuitName(circuitName)}
+          {UtilRenderer.getFormattedCircuitName(
+            circuitName
+          )}
         </Segment>
         {this.getDescriptionContent(description)}
 
@@ -330,7 +350,10 @@ export default class CircuitSidebar extends Component {
     return (
       <Label color="red" basic className="time">
         <Icon name="lightning" />{" "}
-        <span className="time" id="active-circuit-wtf-timer">
+        <span
+          className="time"
+          id="active-circuit-wtf-timer"
+        >
           {this.getWtfTimerCount()}
         </span>
       </Label>

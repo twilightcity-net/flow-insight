@@ -39,7 +39,8 @@ export class CircuitClient extends BaseClient {
       this.onCircuitEventReply
     );
     this.circuitStartStopNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_START_STOP,
       this,
       this.handleCircuitStartStopCallback
     );
@@ -63,7 +64,9 @@ export class CircuitClient extends BaseClient {
    * notifies the system know we are starting a wtf session
    */
   static fireCircuitStartNotifyEvent() {
-    CircuitClient.instance.circuitStartStopNotifier.dispatch(1);
+    CircuitClient.instance.circuitStartStopNotifier.dispatch(
+      1
+    );
   }
 
   /**
@@ -74,15 +77,22 @@ export class CircuitClient extends BaseClient {
   static get Events() {
     return {
       START_WTF: "start-wtf",
-      START_WTF_WITH_CUSTOM_CIRCUIT_NAME: "startWTFWithCustomCircuitName",
-      LOAD_ALL_MY_PARTICIPATING_CIRCUITS: "load-all-my-participating-circuits",
-      LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: "load-all-my-do-it-later-circuits",
+      START_WTF_WITH_CUSTOM_CIRCUIT_NAME:
+        "startWTFWithCustomCircuitName",
+      LOAD_ALL_MY_PARTICIPATING_CIRCUITS:
+        "load-all-my-participating-circuits",
+      LOAD_ALL_MY_DO_IT_LATER_CIRCUITS:
+        "load-all-my-do-it-later-circuits",
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
-      LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details",
-      GET_ALL_MY_PARTICIPATING_CIRCUITS: "get-all-my-participating-circuits",
-      GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits",
+      LOAD_CIRCUIT_WITH_ALL_DETAILS:
+        "load-circuit-with-all-details",
+      GET_ALL_MY_PARTICIPATING_CIRCUITS:
+        "get-all-my-participating-circuits",
+      GET_ALL_MY_DO_IT_LATER_CIRCUITS:
+        "get-all-my-do-it-later-circuits",
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
-      GET_CIRCUIT_WITH_ALL_DETAILS: "get-circuit-with-all-details",
+      GET_CIRCUIT_WITH_ALL_DETAILS:
+        "get-circuit-with-all-details",
       CANCEL_WTF: "cancel-wtf",
       PAUSE_WTF: "pause-wtf"
     };
@@ -131,9 +141,14 @@ export class CircuitClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static startWtfWithCustomCircuitName(circuitName, scope, callback) {
+  static startWtfWithCustomCircuitName(
+    circuitName,
+    scope,
+    callback
+  ) {
     let event = CircuitClient.instance.createClientEvent(
-      CircuitClient.Events.START_WTF_WITH_CUSTOM_CIRCUIT_NAME,
+      CircuitClient.Events
+        .START_WTF_WITH_CUSTOM_CIRCUIT_NAME,
       { circuitName: circuitName },
       scope,
       callback
@@ -150,7 +165,8 @@ export class CircuitClient extends BaseClient {
    */
   static loadAllMyParticipatingCircuits(scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
-      CircuitClient.Events.LOAD_ALL_MY_PARTICIPATING_CIRCUITS,
+      CircuitClient.Events
+        .LOAD_ALL_MY_PARTICIPATING_CIRCUITS,
       {},
       scope,
       callback
@@ -205,7 +221,11 @@ export class CircuitClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static loadCircuitWithAllDetails(circuitName, scope, callback) {
+  static loadCircuitWithAllDetails(
+    circuitName,
+    scope,
+    callback
+  ) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.LOAD_CIRCUIT_WITH_ALL_DETAILS,
       { circuitName: circuitName },
@@ -224,7 +244,8 @@ export class CircuitClient extends BaseClient {
    */
   static getAllMyParticipatingCircuits(scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
-      CircuitClient.Events.GET_ALL_MY_PARTICIPATING_CIRCUITS,
+      CircuitClient.Events
+        .GET_ALL_MY_PARTICIPATING_CIRCUITS,
       {},
       scope,
       callback
@@ -275,7 +296,11 @@ export class CircuitClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static getCircuitWithAllDetails(circuitName, scope, callback) {
+  static getCircuitWithAllDetails(
+    circuitName,
+    scope,
+    callback
+  ) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.GET_CIRCUIT_WITH_ALL_DETAILS,
       { circuitName: circuitName },
@@ -344,7 +369,10 @@ export class CircuitClient extends BaseClient {
    */
   notifyCircuit(clientEvent) {
     console.log(
-      "[" + CircuitClient.name + "] notify -> " + JSON.stringify(clientEvent)
+      "[" +
+        CircuitClient.name +
+        "] notify -> " +
+        JSON.stringify(clientEvent)
     );
     CircuitClient.replies.set(clientEvent.id, clientEvent);
     this.event.dispatch(clientEvent, true);

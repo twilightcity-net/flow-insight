@@ -24,14 +24,16 @@ export default class TerminalContent extends Component {
     );
     this.commands = {
       about: {
-        description: "Display about information for this shell",
+        description:
+          "Display about information for this shell",
         usage: "about",
         fn: () => {
           return "Torchie Shell // DreamScale © 2020 // Author: Zoe@DreamScale.io";
         }
       },
       version: {
-        description: "Display version information for this shell",
+        description:
+          "Display version information for this shell",
         usage: "version",
         fn: () => {
           return "v0.4.1 Higgly Heights";
@@ -73,7 +75,10 @@ export default class TerminalContent extends Component {
       <Terminal
         commands={this.commands}
         welcomeMessage={[
-          "Last login: " + moment(new Date()).format("MMMM Do YYYY, h:mm:ss a"),
+          "Last login: " +
+            moment(new Date()).format(
+              "MMMM Do YYYY, h:mm:ss a"
+            ),
           "~"
         ]}
         promptLabel={"me@Pheonix~$"}

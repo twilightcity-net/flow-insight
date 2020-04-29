@@ -65,15 +65,24 @@ module.exports = class TalkDatabase extends LokiJS {
     this.name = "[DB.TalkDatabase]";
     this.guid = Util.getGuid();
     this.addCollection(TalkDatabase.Collections.ROOMS, {
-      indices: [TalkDatabase.Indices.URI, TalkDatabase.Indices.ROOM_NAME]
+      indices: [
+        TalkDatabase.Indices.URI,
+        TalkDatabase.Indices.ROOM_NAME
+      ]
     });
 
-    this.getCollection(TalkDatabase.Collections.ROOMS).addDynamicView(
-      TalkDatabase.Views.ROOMS
+    this.getCollection(
+      TalkDatabase.Collections.ROOMS
+    ).addDynamicView(TalkDatabase.Views.ROOMS);
+    this.addCollection(
+      TalkDatabase.Collections.FLUX_TALK_MESSAGES,
+      {
+        indices: [
+          TalkDatabase.Indices.ID,
+          TalkDatabase.Indices.URI
+        ]
+      }
     );
-    this.addCollection(TalkDatabase.Collections.FLUX_TALK_MESSAGES, {
-      indices: [TalkDatabase.Indices.ID, TalkDatabase.Indices.URI]
-    });
 
     this.getCollection(
       TalkDatabase.Collections.FLUX_TALK_MESSAGES
@@ -85,8 +94,12 @@ module.exports = class TalkDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewRooms() {
-    let collection = this.getCollection(TalkDatabase.Collections.ROOMS);
-    return collection.getDynamicView(TalkDatabase.Views.ROOMS);
+    let collection = this.getCollection(
+      TalkDatabase.Collections.ROOMS
+    );
+    return collection.getDynamicView(
+      TalkDatabase.Views.ROOMS
+    );
   }
 
   /**
@@ -99,7 +112,9 @@ module.exports = class TalkDatabase extends LokiJS {
     let collection = this.getCollection(
       TalkDatabase.Collections.FLUX_TALK_MESSAGES
     );
-    return collection.getDynamicView(TalkDatabase.Views.FLUX_TALK_MESSAGES);
+    return collection.getDynamicView(
+      TalkDatabase.Views.FLUX_TALK_MESSAGES
+    );
   }
 
   /**
@@ -108,12 +123,17 @@ module.exports = class TalkDatabase extends LokiJS {
    * @returns {Collection}
    */
   getCollectionForRoomTalkMessages(roomName) {
-    let name = this.getTalkMessagesCollectionNameFromRoomName(roomName),
+    let name = this.getTalkMessagesCollectionNameFromRoomName(
+        roomName
+      ),
       collection = this.getCollection(name),
       view = TalkDatabase.Views.TALK_MESSAGES;
 
     if (!collection) {
-      collection = this.addTalkMessagesCollection(name, view);
+      collection = this.addTalkMessagesCollection(
+        name,
+        view
+      );
     }
     return collection;
   }
@@ -124,12 +144,17 @@ module.exports = class TalkDatabase extends LokiJS {
    * @returns {Collection}
    */
   getCollectionForRoomStatusTalkMessages(roomName) {
-    let name = this.getStatusTalkMessagesCollectionNameFromRoomName(roomName),
+    let name = this.getStatusTalkMessagesCollectionNameFromRoomName(
+        roomName
+      ),
       collection = this.getCollection(name),
       view = TalkDatabase.Views.STATUS_TALK_MESSAGES;
 
     if (!collection) {
-      collection = this.addStatusTalkMessagesCollection(name, view);
+      collection = this.addStatusTalkMessagesCollection(
+        name,
+        view
+      );
     }
     return collection;
   }
@@ -184,7 +209,11 @@ module.exports = class TalkDatabase extends LokiJS {
    * @returns {string}
    */
   getTalkMessagesCollectionNameFromRoomName(roomName) {
-    return TalkDatabase.Collections.TALK_MESSAGES + "-" + roomName;
+    return (
+      TalkDatabase.Collections.TALK_MESSAGES +
+      "-" +
+      roomName
+    );
   }
 
   /**
@@ -192,8 +221,14 @@ module.exports = class TalkDatabase extends LokiJS {
    * @param roomName
    * @returns {string}
    */
-  getStatusTalkMessagesCollectionNameFromRoomName(roomName) {
-    return this.getTalkMessagesCollectionNameFromRoomName(roomName) + "-status";
+  getStatusTalkMessagesCollectionNameFromRoomName(
+    roomName
+  ) {
+    return (
+      this.getTalkMessagesCollectionNameFromRoomName(
+        roomName
+      ) + "-status"
+    );
   }
 
   /**
@@ -204,7 +239,9 @@ module.exports = class TalkDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewTalkMessagesForCollection(collection) {
-    return collection.getDynamicView(TalkDatabase.Views.TALK_MESSAGES);
+    return collection.getDynamicView(
+      TalkDatabase.Views.TALK_MESSAGES
+    );
   }
 
   /**
@@ -213,6 +250,8 @@ module.exports = class TalkDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewStatusTalkMessagesForCollection(collection) {
-    return collection.getDynamicView(TalkDatabase.Views.STATUS_TALK_MESSAGES);
+    return collection.getDynamicView(
+      TalkDatabase.Views.STATUS_TALK_MESSAGES
+    );
   }
 };

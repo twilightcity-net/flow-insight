@@ -60,7 +60,9 @@ module.exports = class AppLogin {
    */
   static getConnectionStatus() {
     try {
-      let connectionStatus = new ConnectionStatusDto(this.store.data);
+      let connectionStatus = new ConnectionStatusDto(
+        this.store.data
+      );
       return connectionStatus;
     } catch (e) {
       log.error("[AppLogin] " + e);

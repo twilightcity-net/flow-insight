@@ -10,12 +10,15 @@ module.exports = class SpiritDto {
       this.xpSummary = json.xpSummary;
       this.activeSpiritLinks = json.activeSpiritLinks;
     } catch (e) {
-      throw new Error("Unable to create dto 'XPSummaryDto' : " + e.message);
+      throw new Error(
+        "Unable to create dto 'XPSummaryDto' : " + e.message
+      );
     }
   }
 
   isValid() {
-    if (this.xpSummary != null && this.xpSummary != null) return true;
+    if (this.xpSummary != null && this.xpSummary != null)
+      return true;
     return false;
   }
 };

@@ -23,21 +23,27 @@ class LearningCircuitDto {
       this.retroStartedTimeStr = json.retroStartedTimeStr;
       this.openTime = json.openTime;
       this.openTimeStr = json.openTimeStr;
-      this.totalCircuitElapsedNanoTime = json.totalCircuitElapsedNanoTime;
-      this.totalCircuitPausedNanoTime = json.totalCircuitPausedNanoTime;
+      this.totalCircuitElapsedNanoTime =
+        json.totalCircuitElapsedNanoTime;
+      this.totalCircuitPausedNanoTime =
+        json.totalCircuitPausedNanoTime;
       this.circuitState = json.circuitState;
       this.wtfOpenNanoTime = json.wtfOpenNanoTime;
       this.retroOpenNanoTime = json.retroOpenNanoTime;
       this.closeCircuitNanoTime = json.closeCircuitNanoTime;
-      this.solvedCircuitNanoTime = json.solvedCircuitNanoTime;
+      this.solvedCircuitNanoTime =
+        json.solvedCircuitNanoTime;
       this.pauseCircuitNanoTime = json.pauseCircuitNanoTime;
-      this.resumeCircuitNanoTime = json.resumeCircuitNanoTime;
-      this.cancelCircuitNanoTime = json.cancelCircuitNanoTime;
+      this.resumeCircuitNanoTime =
+        json.resumeCircuitNanoTime;
+      this.cancelCircuitNanoTime =
+        json.cancelCircuitNanoTime;
 
       return json;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'LearningCircuitDto' : " + e.message
+        "Unable to create dto 'LearningCircuitDto' : " +
+          e.message
       );
     }
   }

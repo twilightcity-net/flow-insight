@@ -8,7 +8,10 @@ module.exports = class SimpleStatusDto {
       this.message = json.message;
       this.status = json.status;
     } catch (e) {
-      throw new Error("Unable to create dto 'SimpleStatusDto' : " + e.message);
+      throw new Error(
+        "Unable to create dto 'SimpleStatusDto' : " +
+          e.message
+      );
     }
   }
 

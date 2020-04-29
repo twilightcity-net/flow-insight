@@ -1,5 +1,11 @@
 import React, { Component, createRef } from "react";
-import { Icon, Image, Input, Menu, Segment } from "semantic-ui-react";
+import {
+  Icon,
+  Image,
+  Input,
+  Menu,
+  Segment
+} from "semantic-ui-react";
 
 /**
  * This class is used to render the active circuit feed in the console view
@@ -108,7 +114,10 @@ export default class ActiveCircuitChat extends Component {
    */
   handleEnterKey = () => {
     let text = this.getChatTextInnerTextStr();
-    this.props.onEnterKey(text, this.delegateEnterKeyCallback);
+    this.props.onEnterKey(
+      text,
+      this.delegateEnterKeyCallback
+    );
   };
 
   /**
@@ -187,7 +196,10 @@ export default class ActiveCircuitChat extends Component {
    */
   getTextCursor() {
     return (
-      <span id="activeCircuitChatCursor" className="chat-cursor">
+      <span
+        id="activeCircuitChatCursor"
+        className="chat-cursor"
+      >
         |
       </span>
     );
@@ -201,42 +213,86 @@ export default class ActiveCircuitChat extends Component {
     return (
       <div id="component" className="activeCircuitChat">
         <Segment inverted>
-          <Menu className="controls" inverted icon compact borderless>
-            <Menu.Item name="font-color" onClick={this.handleClickControls}>
+          <Menu
+            className="controls"
+            inverted
+            icon
+            compact
+            borderless
+          >
+            <Menu.Item
+              name="font-color"
+              onClick={this.handleClickControls}
+            >
               <Icon name="font" />
             </Menu.Item>
-            <Menu.Item name="font-bgColor" onClick={this.handleClickControls}>
-              <Icon bordered inverted color="violet" name="font" />
+            <Menu.Item
+              name="font-bgColor"
+              onClick={this.handleClickControls}
+            >
+              <Icon
+                bordered
+                inverted
+                color="violet"
+                name="font"
+              />
             </Menu.Item>
-            <Menu.Item name="font-smaller" onClick={this.handleClickControls}>
+            <Menu.Item
+              name="font-smaller"
+              onClick={this.handleClickControls}
+            >
               <Icon.Group>
                 <Icon name="font" />
                 <Icon name="angle double down" />
               </Icon.Group>
             </Menu.Item>
-            <Menu.Item name="font-medium" onClick={this.handleClickControls}>
+            <Menu.Item
+              name="font-medium"
+              onClick={this.handleClickControls}
+            >
               <Icon name="font" />
             </Menu.Item>
-            <Menu.Item name="font-larger" onClick={this.handleClickControls}>
+            <Menu.Item
+              name="font-larger"
+              onClick={this.handleClickControls}
+            >
               <Icon.Group>
                 <Icon name="font" />
                 <Icon name="angle double up" />
               </Icon.Group>
             </Menu.Item>
-            <Menu.Item name="font-bold" onClick={this.handleClickControls}>
+            <Menu.Item
+              name="font-bold"
+              onClick={this.handleClickControls}
+            >
               <Icon name="bold" />
             </Menu.Item>
-            <Menu.Item name="font-italic" onClick={this.handleClickControls}>
+            <Menu.Item
+              name="font-italic"
+              onClick={this.handleClickControls}
+            >
               <Icon name="italic" />
             </Menu.Item>
-            <Menu.Item name="font-underline" onClick={this.handleClickControls}>
+            <Menu.Item
+              name="font-underline"
+              onClick={this.handleClickControls}
+            >
               <Icon name="underline" />
             </Menu.Item>
-            <Menu.Item name="font-link" onClick={this.handleClickControls}>
+            <Menu.Item
+              name="font-link"
+              onClick={this.handleClickControls}
+            >
               link
             </Menu.Item>
-            <Menu.Item name="emoji" onClick={this.handleClickControls}>
-              <Image src={this.imageEmojiSrc} verticalAlign="top" />
+            <Menu.Item
+              name="emoji"
+              onClick={this.handleClickControls}
+            >
+              <Image
+                src={this.imageEmojiSrc}
+                verticalAlign="top"
+              />
             </Menu.Item>
           </Menu>
           <div
@@ -246,7 +302,10 @@ export default class ActiveCircuitChat extends Component {
             onMouseDown={this.handleOnMouseDown}
             onMouseUp={this.handleOnMouseUp}
           >
-            <span id="activeCircuitChatText" className="chat-text" />
+            <span
+              id="activeCircuitChatText"
+              className="chat-text"
+            />
             {this.getTextCursor()}
             <span>
               <Input

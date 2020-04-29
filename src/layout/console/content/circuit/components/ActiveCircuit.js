@@ -48,20 +48,24 @@ export default class ActiveCircuit extends Component {
       model = null,
       messages = null;
 
-    CircuitClient.getCircuitWithAllDetails(circuitName, this, arg => {
-      model = arg.data;
-      TalkToClient.getAllTalkMessagesFromRoom(
-        circuitName + "-wtf",
-        this,
-        arg => {
-          messages = arg.data;
-          this.setState({
-            model: model,
-            messages: messages
-          });
-        }
-      );
-    });
+    CircuitClient.getCircuitWithAllDetails(
+      circuitName,
+      this,
+      arg => {
+        model = arg.data;
+        TalkToClient.getAllTalkMessagesFromRoom(
+          circuitName + "-wtf",
+          this,
+          arg => {
+            messages = arg.data;
+            this.setState({
+              model: model,
+              messages: messages
+            });
+          }
+        );
+      }
+    );
   }
 
   /**
@@ -75,10 +79,13 @@ export default class ActiveCircuit extends Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     if (
       !this.state.model ||
-      this.state.scrapbookVisible !== nextState.scrapbookVisible
+      this.state.scrapbookVisible !==
+        nextState.scrapbookVisible
     ) {
       return true;
-    } else if (this.props.resource.uri === nextProps.resource.uri) {
+    } else if (
+      this.props.resource.uri === nextProps.resource.uri
+    ) {
       return false;
     }
 
@@ -86,20 +93,24 @@ export default class ActiveCircuit extends Component {
       model = null,
       messages = null;
 
-    CircuitClient.getCircuitWithAllDetails(circuitName, this, arg => {
-      model = arg.data;
-      TalkToClient.getAllTalkMessagesFromRoom(
-        circuitName + "-wtf",
-        this,
-        arg => {
-          messages = arg.data;
-          this.setState({
-            model: model,
-            messages: messages
-          });
-        }
-      );
-    });
+    CircuitClient.getCircuitWithAllDetails(
+      circuitName,
+      this,
+      arg => {
+        model = arg.data;
+        TalkToClient.getAllTalkMessagesFromRoom(
+          circuitName + "-wtf",
+          this,
+          arg => {
+            messages = arg.data;
+            this.setState({
+              model: model,
+              messages: messages
+            });
+          }
+        );
+      }
+    );
 
     this.setState({
       model: null,
@@ -132,7 +143,9 @@ export default class ActiveCircuit extends Component {
    * @returns {string}
    */
   getClassName() {
-    return this.state.scrapbookVisible ? "content show" : "content hide";
+    return this.state.scrapbookVisible
+      ? "content show"
+      : "content hide";
   }
 
   /**
@@ -160,7 +173,10 @@ export default class ActiveCircuit extends Component {
             animation={this.animationType}
             duration={this.animationDelay}
           >
-            <div id="wrapper" className="activeCircuitScrapbook">
+            <div
+              id="wrapper"
+              className="activeCircuitScrapbook"
+            >
               <ActiveCircuitScrapbook
                 resource={this.state.resource}
                 hideScrapbook={this.hideScrapbook}
@@ -181,13 +197,18 @@ export default class ActiveCircuit extends Component {
       <div
         id="component"
         className="circuitContent"
-        style={{ height: DimensionController.getActiveCircuitContentHeight() }}
+        style={{
+          height: DimensionController.getActiveCircuitContentHeight()
+        }}
       >
         <div id="wrapper" className="circuitContentPanel">
           {this.getCircuitContentPanel()}
         </div>
         <div id="wrapper" className="circuitContentSidebar">
-          <div id="component" className="circuitContentSidebar">
+          <div
+            id="component"
+            className="circuitContentSidebar"
+          >
             <CircuitSidebar
               resource={this.state.resource}
               showScrapbook={this.showScrapbook}

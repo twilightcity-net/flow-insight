@@ -7,8 +7,12 @@ const helpSubmenu = [
   {
     label: "Torchie - Learn More",
     click() {
-      log.info("[AppMenu] open browser-> http://www.dreamscale.love/");
-      Util.openExternalBrowser("http://www.dreamscale.love/");
+      log.info(
+        "[AppMenu] open browser-> http://www.dreamscale.love/"
+      );
+      Util.openExternalBrowser(
+        "http://www.dreamscale.love/"
+      );
     }
   },
   {
@@ -96,16 +100,32 @@ module.exports = class AppMenu extends Menu {
       {
         label: "Edit",
         submenu: [
-          { label: "Undo", accelerator: "CmdOrCtrl+Z", selector: "undo:" },
+          {
+            label: "Undo",
+            accelerator: "CmdOrCtrl+Z",
+            selector: "undo:"
+          },
           {
             label: "Redo",
             accelerator: "Shift+CmdOrCtrl+Z",
             selector: "redo:"
           },
           { type: "separator" },
-          { label: "Cut", accelerator: "CmdOrCtrl+X", selector: "cut:" },
-          { label: "Copy", accelerator: "CmdOrCtrl+C", selector: "copy:" },
-          { label: "Paste", accelerator: "CmdOrCtrl+V", selector: "paste:" },
+          {
+            label: "Cut",
+            accelerator: "CmdOrCtrl+X",
+            selector: "cut:"
+          },
+          {
+            label: "Copy",
+            accelerator: "CmdOrCtrl+C",
+            selector: "copy:"
+          },
+          {
+            label: "Paste",
+            accelerator: "CmdOrCtrl+V",
+            selector: "paste:"
+          },
           {
             label: "Select All",
             accelerator: "CmdOrCtrl+A",
@@ -164,7 +184,9 @@ module.exports = class AppMenu extends Menu {
         index: arrPos - 1,
         click: event => {
           console.log(event);
-          global.App.AppSettings.setDisplayIndex(event.index);
+          global.App.AppSettings.setDisplayIndex(
+            event.index
+          );
         }
       });
       arrPos += 1;

@@ -9,7 +9,11 @@ export default class UtilRenderer {
    * @returns {string}
    */
   static getDateTimeString(date) {
-    return date.toLocaleTimeString() + " " + date.toLocaleDateString();
+    return (
+      date.toLocaleTimeString() +
+      " " +
+      date.toLocaleDateString()
+    );
   }
 
   /**
@@ -18,7 +22,10 @@ export default class UtilRenderer {
    * @returns {boolean|boolean}
    */
   static isObjEmpty(obj) {
-    return Object.keys(obj).length === 0 && obj.constructor === Object;
+    return (
+      Object.keys(obj).length === 0 &&
+      obj.constructor === Object
+    );
   }
 
   /**
@@ -117,8 +124,12 @@ export default class UtilRenderer {
         uriArr: [BrowserRequestFactory.URI_ERROR]
       };
     }
-    let req = request.toLowerCase().split(BrowserRequestFactory.URI_SEPARATOR);
-    let res = req[1].split(BrowserRequestFactory.PATH_SEPARATOR);
+    let req = request
+      .toLowerCase()
+      .split(BrowserRequestFactory.URI_SEPARATOR);
+    let res = req[1].split(
+      BrowserRequestFactory.PATH_SEPARATOR
+    );
     if (res[0] === "/" || res[0] === "") {
       res.shift();
     }
@@ -130,6 +141,24 @@ export default class UtilRenderer {
       uri: req[1],
       uriArr: res
     };
+  }
+
+  /**
+   * iterates over an array to see if we alread have the message. simple
+   * shit right?
+   * @param arr - our array to search in
+   * @param message - our message we are looking for
+   * @returns {boolean}
+   */
+  static hasMessageInArray(arr, message) {
+    let length = arr.length;
+    for (let i = 0, m = null; i < length; i++) {
+      m = arr[i];
+      if (m.id === message.id) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**

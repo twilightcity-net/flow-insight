@@ -4,7 +4,10 @@ const { BrowserWindow } = require("electron"),
   ViewManagerHelper = require("../managers/ViewManagerHelper"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../events/EventFactory"),
-  { Shortcut, ShortcutManager } = require("../managers/ShortcutManager");
+  {
+    Shortcut,
+    ShortcutManager
+  } = require("../managers/ShortcutManager");
 
 /**
  * the main application window for UX. Suspose to slide in and out of
@@ -18,14 +21,18 @@ module.exports = class ConsoleWindow {
   constructor() {
     this.name = WindowManagerHelper.WindowNames.CONSOLE;
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
-    this.url = global.App.WindowManager.getWindowViewURL(this.view);
+    this.url = global.App.WindowManager.getWindowViewURL(
+      this.view
+    );
     this.display = global.App.WindowManager.getDisplay();
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = false;
     this.window = new BrowserWindow({
       name: this.name,
       width: this.display.workAreaSize.width,
-      height: Math.floor(this.display.workAreaSize.height / 2),
+      height: Math.floor(
+        this.display.workAreaSize.height / 2
+      ),
       x: 0,
       y: Math.floor(-this.display.workAreaSize.height / 2),
       show: false,
@@ -37,12 +44,18 @@ module.exports = class ConsoleWindow {
       icon: this.icon,
       fullscreenable: false,
       toolbar: false,
-      webPreferences: { zoomFactor: 1.0, toolbar: false, webSecurity: false }
+      webPreferences: {
+        zoomFactor: 1.0,
+        toolbar: false,
+        webSecurity: false
+      }
     });
     this.window.name = this.name;
     this.window.setMenu(null);
     // this.window.setAlwaysOnTop(true, "torn-off-menu");
-    this.window.on("ready-to-show", () => this.onReadyToShowCb());
+    this.window.on("ready-to-show", () =>
+      this.onReadyToShowCb()
+    );
     this.events = {
       ready: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_READY,
@@ -60,7 +73,8 @@ module.exports = class ConsoleWindow {
       prepareForScreenShot: EventFactory.createEvent(
         EventFactory.Types.PREPARE_FOR_SCREENSHOT,
         this,
-        (event, arg) => this.onPrepareForScreenshot(event, arg)
+        (event, arg) =>
+          this.onPrepareForScreenshot(event, arg)
       ),
       readyForScreenShot: EventFactory.createEvent(
         EventFactory.Types.READY_FOR_SCREENSHOT,
@@ -69,14 +83,16 @@ module.exports = class ConsoleWindow {
       screenShotComplete: EventFactory.createEvent(
         EventFactory.Types.SCREENSHOT_COMPLETE,
         this,
-        (event, arg) => this.onScreenshotComplete(event, arg)
+        (event, arg) =>
+          this.onScreenshotComplete(event, arg)
       ),
       screenShotReadyForDisplay: EventFactory.createEvent(
         EventFactory.Types.SCREENSHOT_READY_FOR_DISPLAY,
         this
       ),
       sidebarShowNotifier: EventFactory.createEvent(
-        EventFactory.Types.SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW,
+        EventFactory.Types
+          .SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW,
         this
       )
     };
@@ -184,7 +200,10 @@ module.exports = class ConsoleWindow {
     this.hideConsole();
     let screenPath = Util.getLatestScreenshotPath();
     setTimeout(() => {
-      this.events.readyForScreenShot.dispatch(screenPath, true);
+      this.events.readyForScreenShot.dispatch(
+        screenPath,
+        true
+      );
     }, 1000);
   }
 
@@ -197,7 +216,10 @@ module.exports = class ConsoleWindow {
     this.showConsole();
 
     setTimeout(() => {
-      this.events.screenShotReadyForDisplay.dispatch(arg, true);
+      this.events.screenShotReadyForDisplay.dispatch(
+        arg,
+        true
+      );
     }, 100);
   }
 
@@ -225,7 +247,10 @@ module.exports = class ConsoleWindow {
    */
   updateConsole() {
     this.display = global.App.WindowManager.getDisplay();
-    this.window.setPosition(this.display.workArea.x, this.display.workArea.y);
+    this.window.setPosition(
+      this.display.workArea.x,
+      this.display.workArea.y
+    );
     this.window.setSize(
       this.display.workAreaSize.width,
       Math.floor(this.display.workAreaSize.height / 2)

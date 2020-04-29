@@ -100,8 +100,12 @@ export class BaseClient {
    * @returns {RendererClientEvent}
    */
   createClientEvent(type, args, scope, callback) {
-    return new RendererClientEvent(type, args, scope, (event, arg) =>
-      this.delegateCallback(event, arg, callback)
+    return new RendererClientEvent(
+      type,
+      args,
+      scope,
+      (event, arg) =>
+        this.delegateCallback(event, arg, callback)
     );
   }
 
@@ -113,6 +117,15 @@ export class BaseClient {
    * @param type
    */
   logReply(name, size, id, type) {
-    console.log("[" + name + "] reply {" + size + "} : " + id + " -> " + type);
+    console.log(
+      "[" +
+        name +
+        "] reply {" +
+        size +
+        "} : " +
+        id +
+        " -> " +
+        type
+    );
   }
 }

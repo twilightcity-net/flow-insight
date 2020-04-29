@@ -41,7 +41,11 @@ module.exports = class AppHeartbeat {
    * starts our heartbeat mechanism
    */
   start() {
-    log.info(this.name + " start heartbeat -> interval : " + this.intervalMs);
+    log.info(
+      this.name +
+        " start heartbeat -> interval : " +
+        this.intervalMs
+    );
     this.previousDeltaTime = new Date().getTime();
     this.pulse();
     this.interval = setInterval(() => {
@@ -64,7 +68,8 @@ module.exports = class AppHeartbeat {
     try {
       /// gets the calculated values for idle and delta time
       this.dto.idleTime = global.App.idleTime;
-      this.dto.deltaTime = new Date().getTime() - this.previousDeltaTime;
+      this.dto.deltaTime =
+        new Date().getTime() - this.previousDeltaTime;
 
       /// build our heartbeat request, no retries
       let req = request
@@ -82,9 +87,13 @@ module.exports = class AppHeartbeat {
 
       /// perform our request
       req.end((err, res) => {
-        this.pingTime = new Date().getTime() - this.previousDeltaTime;
+        this.pingTime =
+          new Date().getTime() - this.previousDeltaTime;
         log.info(
-          chalk.greenBright(this.name) + " ping [" + this.pingTime + "ms]"
+          chalk.greenBright(this.name) +
+            " ping [" +
+            this.pingTime +
+            "ms]"
         );
 
         try {
@@ -113,7 +122,14 @@ module.exports = class AppHeartbeat {
         }
       });
     } catch (e) {
-      log.error(chalk.red(this.name) + " " + e + "\n\n" + e.stack + "\n");
+      log.error(
+        chalk.red(this.name) +
+          " " +
+          e +
+          "\n\n" +
+          e.stack +
+          "\n"
+      );
     }
   }
 };

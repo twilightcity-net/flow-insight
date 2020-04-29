@@ -29,15 +29,22 @@ module.exports = class CircuitController extends BaseController {
   static get Events() {
     return {
       START_WTF: "start-wtf",
-      START_WTF_WITH_CUSTOM_CIRCUIT_NAME: "startWTFWithCustomCircuitName",
-      LOAD_ALL_MY_PARTICIPATING_CIRCUITS: "load-all-my-participating-circuits",
-      LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: "load-all-my-do-it-later-circuits",
+      START_WTF_WITH_CUSTOM_CIRCUIT_NAME:
+        "startWTFWithCustomCircuitName",
+      LOAD_ALL_MY_PARTICIPATING_CIRCUITS:
+        "load-all-my-participating-circuits",
+      LOAD_ALL_MY_DO_IT_LATER_CIRCUITS:
+        "load-all-my-do-it-later-circuits",
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
-      LOAD_CIRCUIT_WITH_ALL_DETAILS: "load-circuit-with-all-details",
-      GET_ALL_MY_PARTICIPATING_CIRCUITS: "get-all-my-participating-circuits",
-      GET_ALL_MY_DO_IT_LATER_CIRCUITS: "get-all-my-do-it-later-circuits",
+      LOAD_CIRCUIT_WITH_ALL_DETAILS:
+        "load-circuit-with-all-details",
+      GET_ALL_MY_PARTICIPATING_CIRCUITS:
+        "get-all-my-participating-circuits",
+      GET_ALL_MY_DO_IT_LATER_CIRCUITS:
+        "get-all-my-do-it-later-circuits",
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
-      GET_CIRCUIT_WITH_ALL_DETAILS: "get-circuit-with-all-details",
+      GET_CIRCUIT_WITH_ALL_DETAILS:
+        "get-circuit-with-all-details",
       CANCEL_WTF: "cancel-wtf",
       PAUSE_WTF: "pause-wtf"
     };
@@ -47,7 +54,9 @@ module.exports = class CircuitController extends BaseController {
    * links associated controller classes here
    */
   static wireControllersTogether() {
-    BaseController.wireControllersTo(CircuitController.instance);
+    BaseController.wireControllersTo(
+      CircuitController.instance
+    );
   }
 
   /**
@@ -72,38 +81,70 @@ module.exports = class CircuitController extends BaseController {
   onCircuitClientEvent(event, arg) {
     this.logRequest(this.name, arg);
     if (!arg.args) {
-      this.handleError(CircuitController.Error.ERROR_ARGS, event, arg);
+      this.handleError(
+        CircuitController.Error.ERROR_ARGS,
+        event,
+        arg
+      );
     } else {
       switch (arg.type) {
         case CircuitController.Events.START_WTF:
           this.handleStartWtfEvent(event, arg);
           break;
-        case CircuitController.Events.START_WTF_WITH_CUSTOM_CIRCUIT_NAME:
-          this.handleStartWtfWithCustomCircuitNameEvent(event, arg);
+        case CircuitController.Events
+          .START_WTF_WITH_CUSTOM_CIRCUIT_NAME:
+          this.handleStartWtfWithCustomCircuitNameEvent(
+            event,
+            arg
+          );
           break;
-        case CircuitController.Events.LOAD_ALL_MY_PARTICIPATING_CIRCUITS:
-          this.handleLoadAllMyParticipatingCircuitsEvent(event, arg);
+        case CircuitController.Events
+          .LOAD_ALL_MY_PARTICIPATING_CIRCUITS:
+          this.handleLoadAllMyParticipatingCircuitsEvent(
+            event,
+            arg
+          );
           break;
-        case CircuitController.Events.LOAD_ALL_MY_DO_IT_LATER_CIRCUITS:
-          this.handleLoadAllMyDoItLaterCircuitsEvent(event, arg);
+        case CircuitController.Events
+          .LOAD_ALL_MY_DO_IT_LATER_CIRCUITS:
+          this.handleLoadAllMyDoItLaterCircuitsEvent(
+            event,
+            arg
+          );
           break;
         case CircuitController.Events.LOAD_ACTIVE_CIRCUIT:
           this.handleLoadActiveCircuitEvent(event, arg);
           break;
-        case CircuitController.Events.LOAD_CIRCUIT_WITH_ALL_DETAILS:
-          this.handleLoadCircuitWithAllDetailsEvent(event, arg);
+        case CircuitController.Events
+          .LOAD_CIRCUIT_WITH_ALL_DETAILS:
+          this.handleLoadCircuitWithAllDetailsEvent(
+            event,
+            arg
+          );
           break;
-        case CircuitController.Events.GET_ALL_MY_PARTICIPATING_CIRCUITS:
-          this.handleGetAllMyParticipatingCircuitsEvent(event, arg);
+        case CircuitController.Events
+          .GET_ALL_MY_PARTICIPATING_CIRCUITS:
+          this.handleGetAllMyParticipatingCircuitsEvent(
+            event,
+            arg
+          );
           break;
-        case CircuitController.Events.GET_ALL_MY_DO_IT_LATER_CIRCUITS:
-          this.handleGetAllMyDoItLaterCircuitsEvent(event, arg);
+        case CircuitController.Events
+          .GET_ALL_MY_DO_IT_LATER_CIRCUITS:
+          this.handleGetAllMyDoItLaterCircuitsEvent(
+            event,
+            arg
+          );
           break;
         case CircuitController.Events.GET_ACTIVE_CIRCUIT:
           this.handleGetActiveCircuitEvent(event, arg);
           break;
-        case CircuitController.Events.GET_CIRCUIT_WITH_ALL_DETAILS:
-          this.handleGetCircuitWithAllDetailsEvent(event, arg);
+        case CircuitController.Events
+          .GET_CIRCUIT_WITH_ALL_DETAILS:
+          this.handleGetCircuitWithAllDetailsEvent(
+            event,
+            arg
+          );
           break;
         case CircuitController.Events.CANCEL_WTF:
           this.handleCancelWtfEvent(event, arg);
@@ -129,7 +170,11 @@ module.exports = class CircuitController extends BaseController {
    * @param callback
    */
   handleStartWtfEvent(event, arg, callback) {
-    this.handleStartWtfWithCustomCircuitNameEvent(event, arg, callback);
+    this.handleStartWtfWithCustomCircuitNameEvent(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -140,7 +185,11 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleStartWtfWithCustomCircuitNameEvent(event, arg, callback) {
+  handleStartWtfWithCustomCircuitNameEvent(
+    event,
+    arg,
+    callback
+  ) {
     let name = arg.args.circuitName,
       urn = CircuitController.Paths.CIRCUIT_WTF;
 
@@ -151,7 +200,8 @@ module.exports = class CircuitController extends BaseController {
     this.doClientRequest(
       CircuitController.Contexts.CIRCUIT_CLIENT,
       {},
-      CircuitController.Names.START_WTF_WITH_CUSTOM_CIRCUIT_NAME,
+      CircuitController.Names
+        .START_WTF_WITH_CUSTOM_CIRCUIT_NAME,
       CircuitController.Types.POST,
       urn,
       store =>
@@ -172,16 +222,28 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateStartWtfWithCustomCircuitNameCallback(store, event, arg, callback) {
+  delegateStartWtfWithCustomCircuitNameCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
-        collection = database.getCollection(CircuitDatabase.Collections.ACTIVE),
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.CIRCUIT
+        ),
+        collection = database.getCollection(
+          CircuitDatabase.Collections.ACTIVE
+        ),
         view = database.getViewActiveCircuit(),
         circuit = {};
 
-      this.batchRemoveFromViewInCollection(view, collection);
+      this.batchRemoveFromViewInCollection(
+        view,
+        collection
+      );
 
       if (circuit) {
         circuit = Object.assign(circuit, store.data);
@@ -191,18 +253,28 @@ module.exports = class CircuitController extends BaseController {
         collection = database.getCollection(
           CircuitDatabase.Collections.PARTICIPATING
         );
-        this.updateSingleCircuitByIdInCollection(circuit, collection);
+        this.updateSingleCircuitByIdInCollection(
+          circuit,
+          collection
+        );
 
         circuit = Object.assign({}, store.data);
         collection = database.getCollection(
           CircuitDatabase.Collections.CIRCUITS
         );
-        this.updateSingleCircuitByIdInCollection(circuit, collection);
+        this.updateSingleCircuitByIdInCollection(
+          circuit,
+          collection
+        );
 
         arg.data = circuit;
       }
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -211,7 +283,11 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleLoadAllMyParticipatingCircuitsEvent(event, arg, callback) {
+  handleLoadAllMyParticipatingCircuitsEvent(
+    event,
+    arg,
+    callback
+  ) {
     let urn =
       CircuitController.Paths.CIRCUIT +
       CircuitController.Strings.MY +
@@ -220,7 +296,8 @@ module.exports = class CircuitController extends BaseController {
     this.doClientRequest(
       CircuitController.Contexts.CIRCUIT_CLIENT,
       {},
-      CircuitController.Names.GET_ALL_MY_PARTICIPATING_CIRCUITS,
+      CircuitController.Names
+        .GET_ALL_MY_PARTICIPATING_CIRCUITS,
       CircuitController.Types.GET,
       urn,
       store =>
@@ -240,18 +317,32 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateLoadAllMyParticipatingCircuitsCallback(store, event, arg, callback) {
+  delegateLoadAllMyParticipatingCircuitsCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.CIRCUIT
+        ),
         collection = database.getCollection(
           CircuitDatabase.Collections.PARTICIPATING
         );
 
-      this.updateCircuitsByIdInCollection(store.data, collection);
+      this.updateCircuitsByIdInCollection(
+        store.data,
+        collection
+      );
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -260,7 +351,11 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleLoadAllMyDoItLaterCircuitsEvent(event, arg, callback) {
+  handleLoadAllMyDoItLaterCircuitsEvent(
+    event,
+    arg,
+    callback
+  ) {
     let urn =
       CircuitController.Paths.CIRCUIT +
       CircuitController.Strings.MY +
@@ -269,7 +364,8 @@ module.exports = class CircuitController extends BaseController {
     this.doClientRequest(
       CircuitController.Contexts.CIRCUIT_CLIENT,
       {},
-      CircuitController.Names.GET_ALL_MY_DO_IT_LATER_CIRCUITS,
+      CircuitController.Names
+        .GET_ALL_MY_DO_IT_LATER_CIRCUITS,
       CircuitController.Types.GET,
       urn,
       store =>
@@ -289,16 +385,32 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateLoadAllMyDoItLaterCircuitsCallback(store, event, arg, callback) {
+  delegateLoadAllMyDoItLaterCircuitsCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
-        collection = database.getCollection(CircuitDatabase.Collections.LATER);
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.CIRCUIT
+        ),
+        collection = database.getCollection(
+          CircuitDatabase.Collections.LATER
+        );
 
-      this.updateCircuitsByIdInCollection(store.data, collection);
+      this.updateCircuitsByIdInCollection(
+        store.data,
+        collection
+      );
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -320,7 +432,12 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Types.GET,
       urn,
       store =>
-        this.delegateLoadActiveCircuitCallback(store, event, arg, callback)
+        this.delegateLoadActiveCircuitCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
@@ -331,21 +448,40 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateLoadActiveCircuitCallback(store, event, arg, callback) {
+  delegateLoadActiveCircuitCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
-        collection = database.getCollection(CircuitDatabase.Collections.ACTIVE),
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.CIRCUIT
+        ),
+        collection = database.getCollection(
+          CircuitDatabase.Collections.ACTIVE
+        ),
         view = database.getViewActiveCircuit(),
         circuit = store.data;
 
-      this.batchRemoveFromViewInCollection(view, collection);
+      this.batchRemoveFromViewInCollection(
+        view,
+        collection
+      );
       if (circuit && !Util.isEmpty(circuit)) {
-        this.updateSingleCircuitByIdInCollection(circuit, collection);
+        this.updateSingleCircuitByIdInCollection(
+          circuit,
+          collection
+        );
       }
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -354,10 +490,16 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleLoadCircuitWithAllDetailsEvent(event, arg, callback) {
+  handleLoadCircuitWithAllDetailsEvent(
+    event,
+    arg,
+    callback
+  ) {
     let name = arg.args.circuitName,
       urn =
-        CircuitController.Paths.CIRCUIT + CircuitController.Paths.WTF + name;
+        CircuitController.Paths.CIRCUIT +
+        CircuitController.Paths.WTF +
+        name;
 
     this.doClientRequest(
       CircuitController.Contexts.CIRCUIT_CLIENT,
@@ -382,21 +524,35 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateLoadCircuitWithAllDetailsCallback(store, event, arg, callback) {
+  delegateLoadCircuitWithAllDetailsCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.CIRCUIT
+        ),
         collection = database.getCollection(
           CircuitDatabase.Collections.CIRCUITS
         ),
         circuit = store.data;
 
       if (circuit) {
-        this.updateSingleCircuitByIdInCollection(circuit, collection);
+        this.updateSingleCircuitByIdInCollection(
+          circuit,
+          collection
+        );
       }
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -405,13 +561,28 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleGetAllMyParticipatingCircuitsEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+  handleGetAllMyParticipatingCircuitsEvent(
+    event,
+    arg,
+    callback
+  ) {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.CIRCUIT
+      ),
       view = database.getViewAllMyParticipatingCircuits();
 
-    this.logResults(this.name, arg.type, arg.id, view.count());
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      view.count()
+    );
     arg.data = view.data();
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -420,13 +591,28 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleGetAllMyDoItLaterCircuitsEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+  handleGetAllMyDoItLaterCircuitsEvent(
+    event,
+    arg,
+    callback
+  ) {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.CIRCUIT
+      ),
       view = database.getViewAllMyDoItLaterCircuits();
 
-    this.logResults(this.name, arg.type, arg.id, view.count());
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      view.count()
+    );
     arg.data = view.data();
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -436,12 +622,23 @@ module.exports = class CircuitController extends BaseController {
    * @param callback
    */
   handleGetActiveCircuitEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.CIRCUIT
+      ),
       view = database.getViewActiveCircuit();
 
-    this.logResults(this.name, arg.type, arg.id, view.count());
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      view.count()
+    );
     arg.data = view.data();
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -451,25 +648,50 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleGetCircuitWithAllDetailsEvent(event, arg, callback) {
+  handleGetCircuitWithAllDetailsEvent(
+    event,
+    arg,
+    callback
+  ) {
     let circuitName = arg.args.circuitName,
-      database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
-      collection = database.getCollection(CircuitDatabase.Collections.CIRCUITS),
+      database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.CIRCUIT
+      ),
+      collection = database.getCollection(
+        CircuitDatabase.Collections.CIRCUITS
+      ),
       view = database.getViewCircuits(),
-      circuit = collection.findOne({ circuitName: circuitName });
+      circuit = collection.findOne({
+        circuitName: circuitName
+      });
 
     if (circuit) {
-      this.logResults(this.name, arg.type, arg.id, view.count());
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        view.count()
+      );
       arg.data = circuit;
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
     } else {
       this.handleLoadCircuitWithAllDetailsEvent(
         null,
         { args: { circuitName: circuitName } },
         args => {
-          circuit = collection.findOne({ circuitName: circuitName });
+          circuit = collection.findOne({
+            circuitName: circuitName
+          });
           arg.data = circuit;
-          this.delegateCallbackOrEventReplyTo(event, arg, callback);
+          this.delegateCallbackOrEventReplyTo(
+            event,
+            arg,
+            callback
+          );
         }
       );
     }
@@ -489,7 +711,13 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.CANCEL_WTF,
       CircuitController.Types.POST,
       urn,
-      store => this.delegateCancelWtfCallback(store, event, arg, callback)
+      store =>
+        this.delegateCancelWtfCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
@@ -497,26 +725,43 @@ module.exports = class CircuitController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
-        collection = database.getCollection(CircuitDatabase.Collections.ACTIVE),
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.CIRCUIT
+        ),
+        collection = database.getCollection(
+          CircuitDatabase.Collections.ACTIVE
+        ),
         view = database.getViewActiveCircuit(),
         circuit = store.data;
 
-      this.batchRemoveFromViewInCollection(view, collection);
+      this.batchRemoveFromViewInCollection(
+        view,
+        collection
+      );
 
       if (circuit) {
         collection = database.getCollection(
           CircuitDatabase.Collections.PARTICIPATING
         );
-        this.removeSingleCircuitByIdFromCollection(circuit, collection);
+        this.removeSingleCircuitByIdFromCollection(
+          circuit,
+          collection
+        );
         collection = database.getCollection(
           CircuitDatabase.Collections.CIRCUITS
         );
-        this.removeSingleCircuitByIdFromCollection(circuit, collection);
+        this.removeSingleCircuitByIdFromCollection(
+          circuit,
+          collection
+        );
         arg.data = circuit;
       }
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   handlePauseWtfEvent(event, arg, callback) {
@@ -533,7 +778,13 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.PAUSE_WTF,
       CircuitController.Types.POST,
       urn,
-      store => this.delegatePauseWtfCallback(store, event, arg, callback)
+      store =>
+        this.delegatePauseWtfCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
@@ -541,8 +792,12 @@ module.exports = class CircuitController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.CIRCUIT),
-        collection = database.getCollection(CircuitDatabase.Collections.ACTIVE),
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.CIRCUIT
+        ),
+        collection = database.getCollection(
+          CircuitDatabase.Collections.ACTIVE
+        ),
         view = database.getViewActiveCircuit(),
         circuit = store.data;
 
@@ -564,7 +819,11 @@ module.exports = class CircuitController extends BaseController {
       //   arg.data = circuit;
       // }
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -572,7 +831,10 @@ module.exports = class CircuitController extends BaseController {
    * @param circuit
    * @param collection
    */
-  removeSingleCircuitByIdFromCollection(circuit, collection) {
+  removeSingleCircuitByIdFromCollection(
+    circuit,
+    collection
+  ) {
     if (circuit) {
       let model = collection.findOne({ id: circuit.id });
       if (model) {

@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Button, Icon, Input, Segment } from "semantic-ui-react";
+import {
+  Button,
+  Icon,
+  Input,
+  Segment
+} from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import { BrowserRequestFactory } from "../../../controllers/BrowserRequestFactory";
 
@@ -52,9 +57,18 @@ export default class LayoutBrowser extends Component {
    * remove listeners when not in view
    */
   componentWillUnmount = () => {
-    this.myController.consoleBrowserRequestListener(this, null);
-    this.myController.configureConsoleBrowserLoadListener(this, null);
-    this.myController.configureShowConsoleWindowListener(this, null);
+    this.myController.consoleBrowserRequestListener(
+      this,
+      null
+    );
+    this.myController.configureConsoleBrowserLoadListener(
+      this,
+      null
+    );
+    this.myController.configureShowConsoleWindowListener(
+      this,
+      null
+    );
   };
 
   /**
@@ -84,9 +98,15 @@ export default class LayoutBrowser extends Component {
    * @param arg
    */
   onShowConsoleWindowEvent = (event, arg) => {
-    console.log(this.name + " first time console show -> load default content");
+    console.log(
+      this.name +
+        " first time console show -> load default content"
+    );
     this.requestBrowserToLoadDefaultContent();
-    this.myController.configureShowConsoleWindowListener(this, null);
+    this.myController.configureShowConsoleWindowListener(
+      this,
+      null
+    );
   };
 
   /**
@@ -106,8 +126,12 @@ export default class LayoutBrowser extends Component {
    * @param e
    */
   handleFocus = e => {
-    document.getElementById("browserInput").classList.add("focused");
-    document.getElementById("browserGo").classList.add("focused");
+    document
+      .getElementById("browserInput")
+      .classList.add("focused");
+    document
+      .getElementById("browserGo")
+      .classList.add("focused");
   };
 
   /**
@@ -116,8 +140,12 @@ export default class LayoutBrowser extends Component {
    * @param e
    */
   handleBlur = e => {
-    document.getElementById("browserInput").classList.remove("focused");
-    document.getElementById("browserGo").classList.remove("focused");
+    document
+      .getElementById("browserInput")
+      .classList.remove("focused");
+    document
+      .getElementById("browserGo")
+      .classList.remove("focused");
   };
 
   /**
@@ -165,7 +193,9 @@ export default class LayoutBrowser extends Component {
    * @returns {boolean}
    */
   isCommand(uri) {
-    return !uri.startsWith(BrowserRequestFactory.ROOT_SEPARATOR);
+    return !uri.startsWith(
+      BrowserRequestFactory.ROOT_SEPARATOR
+    );
   }
 
   /**
@@ -218,7 +248,9 @@ export default class LayoutBrowser extends Component {
     return (
       <div id="component" className="browserHeader">
         <Segment.Group>
-          <Segment inverted>{this.getBrowserInput()}</Segment>
+          <Segment inverted>
+            {this.getBrowserInput()}
+          </Segment>
         </Segment.Group>
       </div>
     );

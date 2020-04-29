@@ -29,8 +29,10 @@ module.exports = class TeamManager {
       },
       () => this.handleInitCallback(callback)
     );
-    TeamController.instance.handleLoadMyCurrentStatus({}, { args: {} }, () =>
-      this.handleInitCallback(callback)
+    TeamController.instance.handleLoadMyCurrentStatus(
+      {},
+      { args: {} },
+      () => this.handleInitCallback(callback)
     );
     TeamController.instance.handleLoadStatusOfMeAndMyTeam(
       {},

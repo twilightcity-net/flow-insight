@@ -11,7 +11,10 @@ class NewSnippetEvent {
       this.source = json.source;
       this.snippet = json.snippet;
     } catch (e) {
-      throw new Error("Unable to create dto 'NewSnippetEvent' : " + e.message);
+      throw new Error(
+        "Unable to create dto 'NewSnippetEvent' : " +
+          e.message
+      );
     }
   }
 }

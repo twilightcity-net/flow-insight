@@ -10,7 +10,9 @@ module.exports = class TeamDto {
       this.organizationId = json.organizationId;
       this.name = json.name;
     } catch (e) {
-      throw new Error("Unable to create dto 'TeamDto' : " + e.message);
+      throw new Error(
+        "Unable to create dto 'TeamDto' : " + e.message
+      );
     }
   }
   isValid() {

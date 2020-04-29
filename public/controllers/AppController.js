@@ -22,7 +22,9 @@ module.exports = class AppController extends BaseController {
    * links associated controller classes here
    */
   static wireControllersTogether() {
-    BaseController.wireControllersTo(AppController.instance);
+    BaseController.wireControllersTo(
+      AppController.instance
+    );
   }
 
   /**

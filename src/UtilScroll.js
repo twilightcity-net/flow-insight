@@ -16,14 +16,28 @@ async function scrollTo(el, options = {}) {
   ) => {
     window.requestAnimationFrame(() => {
       const currentTime = Date.now();
-      const time = Math.min(1, (currentTime - startTime) / duration);
+      const time = Math.min(
+        1,
+        (currentTime - startTime) / duration
+      );
       if (from === to) {
         return callback ? callback() : null;
       }
-      setScrollPosition(el, easeFunc(time) * (to - from) + from);
+      setScrollPosition(
+        el,
+        easeFunc(time) * (to - from) + from
+      );
       /* prevent scrolling, if already there, or at end */
       if (time < 1) {
-        scroll(from, to, prop, startTime, duration, easeFunc, callback);
+        scroll(
+          from,
+          to,
+          prop,
+          startTime,
+          duration,
+          easeFunc,
+          callback
+        );
       } else if (callback) {
         callback();
       }
@@ -34,7 +48,9 @@ async function scrollTo(el, options = {}) {
   return new Promise(resolve => {
     scroll(
       currentScrollPosition,
-      typeof options.top === "number" ? options.top : currentScrollPosition,
+      typeof options.top === "number"
+        ? options.top
+        : currentScrollPosition,
       scrollProperty,
       Date.now(),
       options.duration,
@@ -79,7 +95,10 @@ function getScrollPosition(el) {
     el === document.documentElement ||
     el instanceof Window
   ) {
-    return document.body.scrollTop || document.documentElement.scrollTop;
+    return (
+      document.body.scrollTop ||
+      document.documentElement.scrollTop
+    );
   } else {
     return el.scrollTop;
   }

@@ -25,7 +25,10 @@ module.exports = class AccountLogout {
 
   getApiKey(request) {
     let apiKey = request.headers["x-api-key"];
-    if (!apiKey) throw new Error("Request requires header 'x-api-key'");
+    if (!apiKey)
+      throw new Error(
+        "Request requires header 'x-api-key'"
+      );
     return apiKey;
   }
 

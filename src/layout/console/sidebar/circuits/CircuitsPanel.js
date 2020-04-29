@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { List, Menu, Segment, Transition } from "semantic-ui-react";
+import {
+  List,
+  Menu,
+  Segment,
+  Transition
+} from "semantic-ui-react";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { DimensionController } from "../../../../controllers/DimensionController";
@@ -23,7 +28,8 @@ export default class CircuitsPanel extends Component {
     this.name = "[CircuitsPanel]";
     this.state = {
       activeItem:
-        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+        SidePanelViewController.SubmenuSelection
+          .PARTICIPATING_CIRCUITS,
       participatingCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
       title: ""
@@ -31,8 +37,10 @@ export default class CircuitsPanel extends Component {
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
-    this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
-    this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
+    this.animationType =
+      SidePanelViewController.AnimationTypes.FLY_DOWN;
+    this.animationDelay =
+      SidePanelViewController.AnimationDelays.SUBMENU;
     this.selections = {
       activeCircuitComponent: null,
       doItLaterCircuitComponent: null
@@ -47,7 +55,9 @@ export default class CircuitsPanel extends Component {
    * @param name
    */
   handleCircuitSubmenuClick = (e, { name }) => {
-    this.myController.changeActiveCircuitsSubmenuPanel(name);
+    this.myController.changeActiveCircuitsSubmenuPanel(
+      name
+    );
   };
 
   /**
@@ -55,8 +65,14 @@ export default class CircuitsPanel extends Component {
    * memory management
    */
   componentWillUnmount() {
-    this.circuitStartStopListener.updateCallback(this, null);
-    this.myController.configureCircuitsPanelListener(this, null);
+    this.circuitStartStopListener.updateCallback(
+      this,
+      null
+    );
+    this.myController.configureCircuitsPanelListener(
+      this,
+      null
+    );
   }
 
   /**
@@ -65,7 +81,8 @@ export default class CircuitsPanel extends Component {
    */
   componentDidMount() {
     this.circuitStartStopListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_START_STOP,
       this,
       this.onCircuitStartStop
     );
@@ -84,11 +101,15 @@ export default class CircuitsPanel extends Component {
    * callback function that was performed when we refresh this component in the view
    */
   onRefreshCircuitsPanel = () => {
-    switch (this.myController.activeCircuitsSubmenuSelection) {
-      case SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS:
+    switch (
+      this.myController.activeCircuitsSubmenuSelection
+    ) {
+      case SidePanelViewController.SubmenuSelection
+        .PARTICIPATING_CIRCUITS:
         this.showParticipatingCircuitsPanel();
         break;
-      case SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS:
+      case SidePanelViewController.SubmenuSelection
+        .DO_IT_LATER_CIRCUITS:
         this.showDoItLaterCircuitsPanel();
         break;
       default:
@@ -102,14 +123,18 @@ export default class CircuitsPanel extends Component {
   showParticipatingCircuitsPanel() {
     this.setState({
       activeItem:
-        SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS,
+        SidePanelViewController.SubmenuSelection
+          .PARTICIPATING_CIRCUITS,
       participatingCircuitsVisible: true,
       doItLaterCircuitsVisible: false
     });
-    CircuitClient.getAllMyParticipatingCircuits(this, arg => {
-      this.activeCircuits = arg.data;
-      this.forceUpdate();
-    });
+    CircuitClient.getAllMyParticipatingCircuits(
+      this,
+      arg => {
+        this.activeCircuits = arg.data;
+        this.forceUpdate();
+      }
+    );
   }
 
   /**
@@ -118,7 +143,9 @@ export default class CircuitsPanel extends Component {
    */
   showDoItLaterCircuitsPanel() {
     this.setState({
-      activeItem: SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS,
+      activeItem:
+        SidePanelViewController.SubmenuSelection
+          .DO_IT_LATER_CIRCUITS,
       participatingCircuitsVisible: false,
       doItLaterCircuitsVisible: true
     });
@@ -191,7 +218,9 @@ export default class CircuitsPanel extends Component {
             <ActiveCircuitListItem
               key={model.id}
               model={model}
-              onActiveCircuitListItemClick={this.handleClickActiveCircuit}
+              onActiveCircuitListItemClick={
+                this.handleClickActiveCircuit
+              }
             />
           ))}
         </List>
@@ -218,7 +247,9 @@ export default class CircuitsPanel extends Component {
             <DoItLaterCircuitListItem
               key={model.id}
               model={model}
-              onDoItCircuitListItemClick={this.handleClickDoItLaterCircuit}
+              onDoItCircuitListItemClick={
+                this.handleClickDoItLaterCircuit
+              }
             />
           ))}
         </List>
@@ -248,21 +279,25 @@ export default class CircuitsPanel extends Component {
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
               name={
-                SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS
+                SidePanelViewController.SubmenuSelection
+                  .PARTICIPATING_CIRCUITS
               }
               active={
                 activeItem ===
-                SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS
+                SidePanelViewController.SubmenuSelection
+                  .PARTICIPATING_CIRCUITS
               }
               onClick={this.handleCircuitSubmenuClick}
             />
             <Menu.Item
               name={
-                SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS
+                SidePanelViewController.SubmenuSelection
+                  .DO_IT_LATER_CIRCUITS
               }
               active={
                 activeItem ===
-                SidePanelViewController.SubmenuSelection.DO_IT_LATER_CIRCUITS
+                SidePanelViewController.SubmenuSelection
+                  .DO_IT_LATER_CIRCUITS
               }
               onClick={this.handleCircuitSubmenuClick}
             />
@@ -275,7 +310,9 @@ export default class CircuitsPanel extends Component {
             }}
           >
             <Transition
-              visible={this.state.participatingCircuitsVisible}
+              visible={
+                this.state.participatingCircuitsVisible
+              }
               animation={this.animationType}
               duration={this.animationDelay}
               unmountOnHide

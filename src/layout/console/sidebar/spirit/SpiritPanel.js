@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { Menu, Popup, Progress, Segment, Transition } from "semantic-ui-react";
+import {
+  Menu,
+  Popup,
+  Progress,
+  Segment,
+  Transition
+} from "semantic-ui-react";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import SpiritCanvas from "./SpiritCanvas";
@@ -21,13 +27,16 @@ export default class SpiritPanel extends Component {
     super(props);
     this.name = "[SpiritPanel]";
     this.render3d = false;
-    this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
-    this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
+    this.animationType =
+      SidePanelViewController.AnimationTypes.FLY_DOWN;
+    this.animationDelay =
+      SidePanelViewController.AnimationDelays.SUBMENU;
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
     this.state = {
-      activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
+      activeItem:
+        SidePanelViewController.SubmenuSelection.SPIRIT,
       spiritVisible: false,
       badgesVisible: false
     };
@@ -39,7 +48,8 @@ export default class SpiritPanel extends Component {
    */
   showSpiritPanel() {
     this.setState({
-      activeItem: SidePanelViewController.SubmenuSelection.SPIRIT,
+      activeItem:
+        SidePanelViewController.SubmenuSelection.SPIRIT,
       spiritVisible: true,
       badgesVisible: false
     });
@@ -50,7 +60,8 @@ export default class SpiritPanel extends Component {
    */
   showBadgesPanel() {
     this.setState({
-      activeItem: SidePanelViewController.SubmenuSelection.BADGES,
+      activeItem:
+        SidePanelViewController.SubmenuSelection.BADGES,
       spiritVisible: false,
       badgesVisible: true
     });
@@ -91,7 +102,9 @@ export default class SpiritPanel extends Component {
    */
   onRefreshSpiritPanel() {
     this.me = TeamClient.getMe();
-    switch (this.myController.activeSpiritSubmenuSelection) {
+    switch (
+      this.myController.activeSpiritSubmenuSelection
+    ) {
       case SidePanelViewController.SubmenuSelection.SPIRIT:
         this.showSpiritPanel();
         break;
@@ -111,7 +124,10 @@ export default class SpiritPanel extends Component {
    * called right before the component will mount. This will clear the listeners callback
    */
   componentWillUnmount() {
-    this.myController.configureSpiritPanelListener(this, null);
+    this.myController.configureSpiritPanelListener(
+      this,
+      null
+    );
   }
 
   /**
@@ -122,7 +138,11 @@ export default class SpiritPanel extends Component {
     return (
       <div
         className="badgesContent"
-        style={{ height: DimensionController.getConsoleLayoutHeight() - 61 }}
+        style={{
+          height:
+            DimensionController.getConsoleLayoutHeight() -
+            61
+        }}
       >
         <i>Check back later :)</i>
       </div>
@@ -223,21 +243,34 @@ export default class SpiritPanel extends Component {
         <Segment.Group>
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
-              name={SidePanelViewController.SubmenuSelection.SPIRIT}
+              name={
+                SidePanelViewController.SubmenuSelection
+                  .SPIRIT
+              }
               active={
-                activeItem === SidePanelViewController.SubmenuSelection.SPIRIT
+                activeItem ===
+                SidePanelViewController.SubmenuSelection
+                  .SPIRIT
               }
               onClick={this.handleSpiritClick}
             />
             <Menu.Item
-              name={SidePanelViewController.SubmenuSelection.BADGES}
+              name={
+                SidePanelViewController.SubmenuSelection
+                  .BADGES
+              }
               active={
-                activeItem === SidePanelViewController.SubmenuSelection.BADGES
+                activeItem ===
+                SidePanelViewController.SubmenuSelection
+                  .BADGES
               }
               onClick={this.handleBadgesClick}
             />
           </Menu>
-          <Segment inverted className={"spiritContentWrapper"}>
+          <Segment
+            inverted
+            className={"spiritContentWrapper"}
+          >
             <Transition
               visible={this.state.spiritVisible}
               animation={this.state.animationType}

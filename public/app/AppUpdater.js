@@ -29,10 +29,20 @@ module.exports = class AppUpdater {
       log.error("Error in auto-updater.");
     });
     Updater.on("download-progress", progressObj => {
-      let logMsg = "Download speed: " + progressObj.bytesPerSecond;
-      logMsg = logMsg + " - Downloaded " + progressObj.percent + "%";
+      let logMsg =
+        "Download speed: " + progressObj.bytesPerSecond;
       logMsg =
-        logMsg + " (" + progressObj.transferred + "/" + progressObj.total + ")";
+        logMsg +
+        " - Downloaded " +
+        progressObj.percent +
+        "%";
+      logMsg =
+        logMsg +
+        " (" +
+        progressObj.transferred +
+        "/" +
+        progressObj.total +
+        ")";
       log.info(logMsg);
     });
     Updater.on("update-downloaded", info => {
@@ -45,7 +55,8 @@ module.exports = class AppUpdater {
    * see -> https://electron.atom.io/docs/all/#apprelaunchoptions
    */
   static startUpdate() {
-    if (isDev || !(platform.isWin32 || platform.isDarwin)) return;
+    if (isDev || !(platform.isWin32 || platform.isDarwin))
+      return;
     Updater.checkForUpdates();
   }
 };

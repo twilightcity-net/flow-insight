@@ -65,14 +65,18 @@ class DtoClient {
         " " +
         chalk.hex("#e99e40").bold(this.store.name) +
         " -> " +
-        chalk.bold.green("[" + this.type.toUpperCase() + "]") +
+        chalk.bold.green(
+          "[" + this.type.toUpperCase() + "]"
+        ) +
         " { " +
         chalk.bold.magentaBright(url) +
         " }"
     );
 
     if (!req) {
-      throw new Error("Unknown request type ; " + this.type);
+      throw new Error(
+        "Unknown request type ; " + this.type
+      );
     } else if (global.App.ApiKey) {
       req.set("X-API-Key", global.App.ApiKey);
     }
@@ -122,7 +126,9 @@ class DtoClient {
           .send(this.store.dto)
           .set("Content-Type", "application/json");
       default:
-        throw new Error("Unknown request type '" + this.type + "'");
+        throw new Error(
+          "Unknown request type '" + this.type + "'"
+        );
     }
   }
 }

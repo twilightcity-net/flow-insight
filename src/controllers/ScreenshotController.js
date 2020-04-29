@@ -2,9 +2,12 @@ import { RendererEventFactory } from "../events/RendererEventFactory";
 
 // FIXME this is a security issue, should be handled in the main process
 
-const { remote, ipcRenderer, desktopCapturer, electron } = window.require(
-  "electron"
-);
+const {
+  remote,
+  ipcRenderer,
+  desktopCapturer,
+  electron
+} = window.require("electron");
 const log = remote.require("electron-log");
 const electronScreen = electron.screen;
 const fs = window.require("fs");
@@ -35,16 +38,19 @@ export class ScreenshotController {
       readyForScreenShot: RendererEventFactory.createEvent(
         RendererEventFactory.Events.READY_FOR_SCREENSHOT,
         this,
-        (event, arg) => this.onReadyForScreenShot(event, arg)
+        (event, arg) =>
+          this.onReadyForScreenShot(event, arg)
       ),
       screenShotComplete: RendererEventFactory.createEvent(
         RendererEventFactory.Events.SCREENSHOT_COMPLETE,
         this
       ),
       screenReadyForDisplay: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.SCREENSHOT_READY_FOR_DISPLAY,
+        RendererEventFactory.Events
+          .SCREENSHOT_READY_FOR_DISPLAY,
         this,
-        (event, arg) => this.onScreenShotReadyForDisplay(event, arg)
+        (event, arg) =>
+          this.onScreenShotReadyForDisplay(event, arg)
       )
     };
   }
@@ -92,33 +98,48 @@ export class ScreenshotController {
    * @param screenPath - the path to save the screenshot to
    */
   captureScreenShot(screenPath) {
-    log.info("[ScreenshotController] capturing new screenshot async");
+    log.info(
+      "[ScreenshotController] capturing new screenshot async"
+    );
 
     let thumbSize = this.determineScreenShotSize();
 
     log.info("captureScreenShotAsync2");
-    let options = { types: ["screen"], thumbnailSize: thumbSize };
+    let options = {
+      types: ["screen"],
+      thumbnailSize: thumbSize
+    };
 
     log.info("captureScreenShotAsync3");
 
-    desktopCapturer.getSources(options, (error, sources) => {
-      log.info("Capture!!");
+    desktopCapturer.getSources(
+      options,
+      (error, sources) => {
+        log.info("Capture!!");
 
-      if (error) return console.log(error.message);
+        if (error) return console.log(error.message);
 
-      sources.forEach(source => {
-        log.info("Saved!");
+        sources.forEach(source => {
+          log.info("Saved!");
 
-        log.info("Saved! : " + source.name);
-        if (source.name === "Entire screen" || source.name === "Screen 1") {
-          fs.writeFile(screenPath, source.thumbnail.toPNG(), err => {
-            if (err) return console.log(err.message);
+          log.info("Saved! : " + source.name);
+          if (
+            source.name === "Entire screen" ||
+            source.name === "Screen 1"
+          ) {
+            fs.writeFile(
+              screenPath,
+              source.thumbnail.toPNG(),
+              err => {
+                if (err) return console.log(err.message);
 
-            log.info("Saved to " + screenPath);
-          });
-        }
-      });
-    });
+                log.info("Saved to " + screenPath);
+              }
+            );
+          }
+        });
+      }
+    );
   }
 
   /**
@@ -127,33 +148,49 @@ export class ScreenshotController {
    */
   takeScreenShot = screenPath => {
     let thumbSize = this.determineScreenShotSize();
-    let options = { types: ["screen"], thumbnailSize: thumbSize };
+    let options = {
+      types: ["screen"],
+      thumbnailSize: thumbSize
+    };
 
-    desktopCapturer.getSources(options, (error, sources) => {
-      if (error) return console.log(error.message);
+    desktopCapturer.getSources(
+      options,
+      (error, sources) => {
+        if (error) return console.log(error.message);
 
-      sources.forEach(source => {
-        console.log("Saved!");
+        sources.forEach(source => {
+          console.log("Saved!");
 
-        console.log("Saved! : " + source.name);
-        if (source.name === "Entire screen" || source.name === "Screen 1") {
-          //const screenPath = window.require("path").join(window.require("os").tmpdir(), 'screenshot.png');
+          console.log("Saved! : " + source.name);
+          if (
+            source.name === "Entire screen" ||
+            source.name === "Screen 1"
+          ) {
+            //const screenPath = window.require("path").join(window.require("os").tmpdir(), 'screenshot.png');
 
-          // FIXME: this should be handled by the main process, potential security issue
+            // FIXME: this should be handled by the main process, potential security issue
 
-          fs.writeFile(screenPath, source.thumbnail.toPNG(), err => {
-            if (err) return console.log(err.message);
+            fs.writeFile(
+              screenPath,
+              source.thumbnail.toPNG(),
+              err => {
+                if (err) return console.log(err.message);
 
-            //electron.shell.openExternal('file://' + screenPath);
+                //electron.shell.openExternal('file://' + screenPath);
 
-            console.info("saved");
-            this.events.screenShotComplete.dispatch(screenPath, true);
+                console.info("saved");
+                this.events.screenShotComplete.dispatch(
+                  screenPath,
+                  true
+                );
 
-            console.log("Saved to " + screenPath);
-          });
-        }
-      });
-    });
+                console.log("Saved to " + screenPath);
+              }
+            );
+          }
+        });
+      }
+    );
   };
 
   /**
@@ -175,9 +212,14 @@ export class ScreenshotController {
 
     const primaryDisplay = electronScreen.getPrimaryDisplay();
     const screenSize = primaryDisplay.workAreaSize;
-    const maxDimension = Math.max(screenSize.width, screenSize.height);
+    const maxDimension = Math.max(
+      screenSize.width,
+      screenSize.height
+    );
 
-    log.info("determineScreenShotSize done: " + maxDimension);
+    log.info(
+      "determineScreenShotSize done: " + maxDimension
+    );
 
     return {
       width: maxDimension * window.devicePixelRatio,

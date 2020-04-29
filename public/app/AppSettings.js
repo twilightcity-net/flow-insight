@@ -4,7 +4,9 @@ let settings = require("electron-settings"),
   crypto = require("crypto-js"),
   Util = require("../Util"),
   AppError = require("./AppError"),
-  { ShortcutManager } = require("../managers/ShortcutManager");
+  {
+    ShortcutManager
+  } = require("../managers/ShortcutManager");
 
 /**
  * Application class used to manage our settings stores in ~/.flow
@@ -22,7 +24,12 @@ module.exports = class AppSettings {
   constructor() {
     let flowPath = this.getOrCreateFlowHomeDir();
     let path = Util.getAppSettingsPath();
-    log.info("[AppSettings] set paths -> " + flowPath + " : " + path);
+    log.info(
+      "[AppSettings] set paths -> " +
+        flowPath +
+        " : " +
+        path
+    );
     settings.setPath(path);
     this.path = settings.file();
 
@@ -55,12 +62,22 @@ module.exports = class AppSettings {
   save(apiUrl, apiKey) {
     // let apiKeyCrypted = crypto.AES.encrypt(apiKey, this.keyToken).toString();
 
-    log.info("[AppSettings] save api key and url", apiUrl, apiKey);
+    log.info(
+      "[AppSettings] save api key and url",
+      apiUrl,
+      apiKey
+    );
     settings.set(AppSettings.Keys.APP_API_URL, apiUrl);
     settings.set(AppSettings.Keys.APP_API_KEY, apiKey);
-    this.setDisplayIndex(AppSettings.DefaultValues.DISPLAY_INDEX);
-    this.setConsoleShortcut(AppSettings.DefaultValues.CONSOLE_SHORTCUT);
-    this.setConsoleShortcutAlt(AppSettings.DefaultValues.CONSOLE_SHORTCUT_ALT);
+    this.setDisplayIndex(
+      AppSettings.DefaultValues.DISPLAY_INDEX
+    );
+    this.setConsoleShortcut(
+      AppSettings.DefaultValues.CONSOLE_SHORTCUT
+    );
+    this.setConsoleShortcutAlt(
+      AppSettings.DefaultValues.CONSOLE_SHORTCUT_ALT
+    );
   }
 
   /**
@@ -71,7 +88,10 @@ module.exports = class AppSettings {
     let path = Util.getFlowHomePath();
 
     try {
-      fs.accessSync(path, fs.constants.R_OK | fs.constants.W_OK);
+      fs.accessSync(
+        path,
+        fs.constants.R_OK | fs.constants.W_OK
+      );
     } catch (err) {
       fs.mkdirSync(path);
     }
@@ -115,9 +135,12 @@ module.exports = class AppSettings {
    * @returns {any}
    */
   getConsoleShortcut() {
-    let shortcut = settings.get(AppSettings.Keys.CONSOLE_SHORTCUT);
+    let shortcut = settings.get(
+      AppSettings.Keys.CONSOLE_SHORTCUT
+    );
     if (!shortcut) {
-      shortcut = ShortcutManager.Accelerators.CONSOLE_SHORTCUT;
+      shortcut =
+        ShortcutManager.Accelerators.CONSOLE_SHORTCUT;
       this.setConsoleShortcut(shortcut);
     }
     return shortcut;
@@ -128,7 +151,10 @@ module.exports = class AppSettings {
    * @param shortcut
    */
   setConsoleShortcut(shortcut) {
-    settings.set(AppSettings.Keys.CONSOLE_SHORTCUT, shortcut);
+    settings.set(
+      AppSettings.Keys.CONSOLE_SHORTCUT,
+      shortcut
+    );
   }
 
   /**
@@ -136,9 +162,12 @@ module.exports = class AppSettings {
    * @returns {any}
    */
   getConsoleShortcutAlt() {
-    let shortcut = settings.get(AppSettings.Keys.CONSOLE_SHORTCUT_ALT);
+    let shortcut = settings.get(
+      AppSettings.Keys.CONSOLE_SHORTCUT_ALT
+    );
     if (!shortcut) {
-      shortcut = ShortcutManager.Accelerators.CONSOLE_SHORTCUT_ALT;
+      shortcut =
+        ShortcutManager.Accelerators.CONSOLE_SHORTCUT_ALT;
       this.setConsoleShortcutAlt(shortcut);
     }
     return shortcut;
@@ -149,7 +178,10 @@ module.exports = class AppSettings {
    * @param shortcut
    */
   setConsoleShortcutAlt(shortcut) {
-    settings.set(AppSettings.Keys.CONSOLE_SHORTCUT_ALT, shortcut);
+    settings.set(
+      AppSettings.Keys.CONSOLE_SHORTCUT_ALT,
+      shortcut
+    );
   }
 
   /**
@@ -162,14 +194,20 @@ module.exports = class AppSettings {
       i = 0;
     for (i = 0; i < len; i++) {
       if (!settings.has(keys[i])) {
-        log.info("[AppSettings] verify settings -> failed : " + keys[i]);
+        log.info(
+          "[AppSettings] verify settings -> failed : " +
+            keys[i]
+        );
         return false;
       } else if (
         keys[i] === AppSettings.Keys.APP_API_KEY &&
         settings.get(AppSettings.Keys.APP_API_KEY) &&
-        settings.get(AppSettings.Keys.APP_API_KEY).length !== 32
+        settings.get(AppSettings.Keys.APP_API_KEY)
+          .length !== 32
       ) {
-        log.info("[AppSettings] verify api key -> failed : invalid");
+        log.info(
+          "[AppSettings] verify api key -> failed : invalid"
+        );
         return false;
       }
     }
@@ -185,8 +223,10 @@ module.exports = class AppSettings {
   static get DefaultValues() {
     return {
       DISPLAY_INDEX: 0,
-      CONSOLE_SHORTCUT: ShortcutManager.Accelerators.CONSOLE_SHORTCUT,
-      CONSOLE_SHORTCUT_ALT: ShortcutManager.Accelerators.CONSOLE_SHORTCUT_ALT
+      CONSOLE_SHORTCUT:
+        ShortcutManager.Accelerators.CONSOLE_SHORTCUT,
+      CONSOLE_SHORTCUT_ALT:
+        ShortcutManager.Accelerators.CONSOLE_SHORTCUT_ALT
     };
   }
 

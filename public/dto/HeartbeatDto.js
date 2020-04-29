@@ -8,7 +8,9 @@ module.exports = class HeartbeatDto {
       this.idleTime = json.idleTime;
       this.deltaTime = json.deltaTime;
     } catch (e) {
-      throw new Error("Unable to create dto 'HeartbeatDto' : " + e.message);
+      throw new Error(
+        "Unable to create dto 'HeartbeatDto' : " + e.message
+      );
     }
   }
 };

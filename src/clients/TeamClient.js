@@ -46,10 +46,12 @@ export class TeamClient extends BaseClient {
     return {
       LOAD_MY_TEAM: "load-my-team",
       LOAD_MY_CURRENT_STATUS: "load-my-current-status",
-      LOAD_STATUS_OF_ME_AND_MY_TEAM: "load-status-of-me-and-my-team",
+      LOAD_STATUS_OF_ME_AND_MY_TEAM:
+        "load-status-of-me-and-my-team",
       GET_MY_TEAM: "get-my-team",
       GET_MY_CURRENT_STATUS: "get-my-current-status",
-      GET_STATUS_OF_ME_AND_MY_TEAM: "get-status-of-me-and-my-team"
+      GET_STATUS_OF_ME_AND_MY_TEAM:
+        "get-status-of-me-and-my-team"
     };
   }
 
@@ -195,7 +197,12 @@ export class TeamClient extends BaseClient {
    */
   onTeamEventReply = (event, arg) => {
     let clientEvent = TeamClient.replies.get(arg.id);
-    this.logReply(TeamClient.name, TeamClient.replies.size, arg.id, arg.type);
+    this.logReply(
+      TeamClient.name,
+      TeamClient.replies.size,
+      arg.id,
+      arg.type
+    );
     if (clientEvent) {
       TeamClient.replies.delete(arg.id);
       clientEvent.callback(event, arg);
@@ -210,7 +217,10 @@ export class TeamClient extends BaseClient {
    */
   notifyTeam(clientEvent) {
     console.log(
-      "[" + TeamClient.name + "] notify -> " + JSON.stringify(clientEvent)
+      "[" +
+        TeamClient.name +
+        "] notify -> " +
+        JSON.stringify(clientEvent)
     );
     TeamClient.replies.set(clientEvent.id, clientEvent);
     this.event.dispatch(clientEvent, true);

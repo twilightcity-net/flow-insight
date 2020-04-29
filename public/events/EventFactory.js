@@ -28,20 +28,26 @@ class EventFactory {
       APP_HEARTBEAT: prefix + "app-heartbeat",
       APP_PULSE: prefix + "app-pulse",
       DATABASE_CLIENT: prefix + "database-client",
-      DATABASE_VOLUMES_READY: prefix + "database-farm-ready",
+      DATABASE_VOLUMES_READY:
+        prefix + "database-farm-ready",
       TEAM_CLIENT: prefix + "team-client",
       JOURNAL_CLIENT: prefix + "journal-client",
       WINDOW_FOCUS: prefix + "window-focus",
       WINDOW_BLUR: prefix + "window-blur",
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",
       WINDOW_LOADING_LOGIN: prefix + "window-loading-login",
-      WINDOW_LOADING_LOGIN_FAILED: prefix + "window-loading-login-failed",
+      WINDOW_LOADING_LOGIN_FAILED:
+        prefix + "window-loading-login-failed",
       WINDOW_CONSOLE_READY: prefix + "window-console-ready",
       WINDOW_CONSOLE_SHOWN: prefix + "window-console-shown",
-      WINDOW_CONSOLE_SHOW_HIDE: prefix + "window-console-show-hide",
-      WINDOW_CONSOLE_BROWSER_REQUEST: prefix + "window-console-browser-request",
-      WINDOW_CONSOLE_BROWSER_LOAD: prefix + "window-console-browser-load",
-      WINDOW_ACTIVATOR_CLOSE: prefix + "window-activator-close",
+      WINDOW_CONSOLE_SHOW_HIDE:
+        prefix + "window-console-show-hide",
+      WINDOW_CONSOLE_BROWSER_REQUEST:
+        prefix + "window-console-browser-request",
+      WINDOW_CONSOLE_BROWSER_LOAD:
+        prefix + "window-console-browser-load",
+      WINDOW_ACTIVATOR_CLOSE:
+        prefix + "window-activator-close",
       TALK_CONNECTED: prefix + "talk-connected",
       TALK_CONNECT_FAILED: prefix + "talk-connect-failed",
       TALK_MESSAGE_CLIENT: prefix + "talk-message-client",
@@ -50,8 +56,10 @@ class EventFactory {
       TALK_LEAVE_ROOM: prefix + "talk-leave-room",
       TALK_TO_CLIENT: prefix + "talk-to-client",
       CIRCUIT_CLIENT: prefix + "circuit-client",
-      APPACTIVATOR_SAVE_ACTIVATION: prefix + "appactivator-save-activation",
-      APPACTIVATOR_ACTIVATION_SAVED: prefix + "appactivator-activation-saved",
+      APPACTIVATOR_SAVE_ACTIVATION:
+        prefix + "appactivator-save-activation",
+      APPACTIVATOR_ACTIVATION_SAVED:
+        prefix + "appactivator-activation-saved",
       APPLOADER_LOAD: prefix + "apploader-load",
       SHORTCUTS_CREATED: prefix + "shortcuts-created",
       SHORTCUTS_RECIEVED: prefix + "shortcuts-recieved",
@@ -59,10 +67,12 @@ class EventFactory {
         prefix + "shortcuts-window-console-sidebar-show",
       DATASTORE_LOAD: prefix + "datastore-load",
       DATASTORE_LOADED: prefix + "datastore-loaded",
-      PREPARE_FOR_SCREENSHOT: prefix + "prepare-for-screenshot",
+      PREPARE_FOR_SCREENSHOT:
+        prefix + "prepare-for-screenshot",
       READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",
       SCREENSHOT_COMPLETE: prefix + "screenshot-complete",
-      SCREENSHOT_READY_FOR_DISPLAY: prefix + "screenshot-ready-for-display"
+      SCREENSHOT_READY_FOR_DISPLAY:
+        prefix + "screenshot-ready-for-display"
     };
   }
 }

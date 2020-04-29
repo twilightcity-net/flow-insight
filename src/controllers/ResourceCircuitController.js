@@ -16,7 +16,8 @@ export class ResourceCircuitController extends ActiveViewController {
       this
     );
     this.circuitStartStopNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_START_STOP,
       this
     );
   }

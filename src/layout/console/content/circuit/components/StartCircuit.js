@@ -50,10 +50,17 @@ export default class StartCircuit extends Component {
           }}
         >
           <div className="content">
-            <div className="wtfBtn" onClick={this.onClickForStartCircuit}>
+            <div
+              className="wtfBtn"
+              onClick={this.onClickForStartCircuit}
+            >
               WTF?
             </div>
-            <Segment inverted size={"huge"} className="desc">
+            <Segment
+              inverted
+              size={"huge"}
+              className="desc"
+            >
               <b>Start A Troubleshooting Session!</b>
             </Segment>
           </div>

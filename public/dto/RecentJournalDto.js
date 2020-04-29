@@ -8,13 +8,20 @@ module.exports = class RecentJournalDto {
       if (typeof json === "string") json = JSON.parse(json);
       this.recentIntentions = json.recentIntentions;
       this.recentProjects = json.recentProjects;
-      this.recentTasksByProjectId = json.recentTasksByProjectId;
+      this.recentTasksByProjectId =
+        json.recentTasksByProjectId;
     } catch (e) {
-      throw new Error("Unable to create dto 'RecentJournalDto' : " + e.message);
+      throw new Error(
+        "Unable to create dto 'RecentJournalDto' : " +
+          e.message
+      );
     }
   }
 
   isValid() {
-    return this.recentProjects != null && this.recentProjects.length > 0;
+    return (
+      this.recentProjects != null &&
+      this.recentProjects.length > 0
+    );
   }
 };

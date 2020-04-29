@@ -10,10 +10,12 @@ class LearningCircuitWithMembersDto extends LearningCircuitDto {
     try {
       this.circuitParticipants = json.circuitParticipants;
       this.activeWtfRoomMembers = json.activeWtfRoomMembers;
-      this.activeRetroRoomMembers = json.activeRetroRoomMembers;
+      this.activeRetroRoomMembers =
+        json.activeRetroRoomMembers;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'LearningCircuitWithMembersDto' : " + e.message
+        "Unable to create dto 'LearningCircuitWithMembersDto' : " +
+          e.message
       );
     }
   }

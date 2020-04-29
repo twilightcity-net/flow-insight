@@ -10,7 +10,8 @@ class ScreenshotReferenceInputDto {
       this.filePath = json.filePath;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'ScreenshotReferenceInputDto' : " + e.message
+        "Unable to create dto 'ScreenshotReferenceInputDto' : " +
+          e.message
       );
     }
   }

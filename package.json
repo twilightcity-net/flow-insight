@@ -129,13 +129,13 @@
   },
   "prettier": {
     "configJS": {
-      "printWidth": 80,
+      "printWidth": 60,
       "tabWidth": 2,
       "bracketSpacing": true
     },
     "configJSON": {
       "parser": "json",
-      "printWidth": 120,
+      "printWidth": 60,
       "tabWidth": 2,
       "bracketSpacing": true
     }

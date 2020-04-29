@@ -34,10 +34,18 @@ module.exports = class VolumeManager {
   init() {
     log.info(this.name + " initialize memonic databases");
     VolumeManager.initializedVolumes = 1;
-    VolumeManager.createDatabaseVolume(DatabaseFactory.Names.TALK);
-    VolumeManager.createDatabaseVolume(DatabaseFactory.Names.JOURNAL);
-    VolumeManager.createDatabaseVolume(DatabaseFactory.Names.CIRCUIT);
-    VolumeManager.createDatabaseVolume(DatabaseFactory.Names.TEAM);
+    VolumeManager.createDatabaseVolume(
+      DatabaseFactory.Names.TALK
+    );
+    VolumeManager.createDatabaseVolume(
+      DatabaseFactory.Names.JOURNAL
+    );
+    VolumeManager.createDatabaseVolume(
+      DatabaseFactory.Names.CIRCUIT
+    );
+    VolumeManager.createDatabaseVolume(
+      DatabaseFactory.Names.TEAM
+    );
     VolumeManager.loadDefaultJournalDatabase();
     VolumeManager.loadDefaultCircuitDatabase();
     VolumeManager.loadDefaultTeamDatabase();
@@ -50,7 +58,9 @@ module.exports = class VolumeManager {
   static createDatabaseVolume(name) {
     let db = DatabaseFactory.createDatabase(name);
     VolumeManager.Volumes.set(name, db);
-    log.info(`[VolumeManager] database volume '${name}' created -> okay`);
+    log.info(
+      `[VolumeManager] database volume '${name}' created -> okay`
+    );
   }
 
   /**
@@ -95,7 +105,9 @@ module.exports = class VolumeManager {
   static handleFinishLoadingVolumes() {
     VolumeManager.initializedVolumes++;
     if (VolumeManager.initializedVolumes >= 4) {
-      EventManager.dispatch(EventFactory.Types.DATABASE_VOLUMES_READY);
+      EventManager.dispatch(
+        EventFactory.Types.DATABASE_VOLUMES_READY
+      );
     }
   }
 };

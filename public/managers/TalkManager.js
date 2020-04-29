@@ -18,7 +18,8 @@ module.exports = class TalkManager {
    */
   createConnection() {
     this.myController = new TalkController(this);
-    this.connectionId = global.App.connectionStatus.connectionId;
+    this.connectionId =
+      global.App.connectionStatus.connectionId;
     this.connnectionUrl = this.getConnectionUrl();
     this.connectionOpts = {
       reconnection: true,
@@ -28,15 +29,23 @@ module.exports = class TalkManager {
       secure: true
     };
     log.info(
-      chalk.greenBright(this.name) + " connecting to -> " + this.connnectionUrl
+      chalk.greenBright(this.name) +
+        " connecting to -> " +
+        this.connnectionUrl
     );
-    this.socket = io(this.connnectionUrl, this.connectionOpts);
+    this.socket = io(
+      this.connnectionUrl,
+      this.connectionOpts
+    );
     this.myController.configSocketListeners(
       this.socket,
       this.connectionId,
       this.name
     );
-    this.myController.wireSocketMessagesToEventCircuit(this.socket, this.name);
+    this.myController.wireSocketMessagesToEventCircuit(
+      this.socket,
+      this.name
+    );
     this.latency = 0;
   }
 
@@ -52,7 +61,11 @@ module.exports = class TalkManager {
    * @returns {string}
    */
   getConnectionUrl() {
-    return global.App.talkUrl + "?connectionId=" + this.connectionId;
+    return (
+      global.App.talkUrl +
+      "?connectionId=" +
+      this.connectionId
+    );
   }
 
   getLatency() {

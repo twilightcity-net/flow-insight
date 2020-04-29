@@ -29,8 +29,10 @@ module.exports = class CircuitManager {
       {},
       () => this.handleInitCallback(callback)
     );
-    CircuitController.instance.handleLoadActiveCircuitEvent(null, {}, () =>
-      this.handleInitCallback(callback)
+    CircuitController.instance.handleLoadActiveCircuitEvent(
+      null,
+      {},
+      () => this.handleInitCallback(callback)
     );
   }
 

@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { Menu, Segment, Transition, Message, List } from "semantic-ui-react";
+import {
+  Menu,
+  Segment,
+  Transition,
+  Message,
+  List
+} from "semantic-ui-react";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
@@ -19,14 +25,17 @@ export default class TeamPanel extends Component {
     super(props);
     this.name = "[TeamPanel]";
     this.state = {
-      activeItem: SidePanelViewController.SubmenuSelection.TEAM,
+      activeItem:
+        SidePanelViewController.SubmenuSelection.TEAM,
       teamVisible: false
     };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
-    this.animationType = SidePanelViewController.AnimationTypes.FLY_DOWN;
-    this.animationDelay = SidePanelViewController.AnimationDelays.SUBMENU;
+    this.animationType =
+      SidePanelViewController.AnimationTypes.FLY_DOWN;
+    this.animationDelay =
+      SidePanelViewController.AnimationDelays.SUBMENU;
     this.me = this.getDefaultMe();
     this.myTeam = {};
     this.members = [];
@@ -58,7 +67,10 @@ export default class TeamPanel extends Component {
    * called when we render the team panel into the gui
    */
   componentDidMount() {
-    this.myController.configureTeamPanelListener(this, this.refreshTeamPanel);
+    this.myController.configureTeamPanelListener(
+      this,
+      this.refreshTeamPanel
+    );
     this.refreshTeamPanel();
   }
 
@@ -80,7 +92,8 @@ export default class TeamPanel extends Component {
    */
   showTeamPanel() {
     this.setState({
-      activeItem: SidePanelViewController.SubmenuSelection.TEAM,
+      activeItem:
+        SidePanelViewController.SubmenuSelection.TEAM,
       teamVisible: true
     });
     TeamClient.getMyTeam(
@@ -127,7 +140,10 @@ export default class TeamPanel extends Component {
    * memory management
    */
   componentWillUnmount() {
-    this.myController.configureTeamPanelListener(this, null);
+    this.myController.configureTeamPanelListener(
+      this,
+      null
+    );
   }
 
   /**
@@ -147,15 +163,21 @@ export default class TeamPanel extends Component {
    */
   handleClickRow = member => {
     let name =
-      this.me.id === member.id ? TeamClient.Strings.ME : member.userName;
-    this.requestBrowserToLoadTeamJournalAndSetActiveMember(name);
+      this.me.id === member.id
+        ? TeamClient.Strings.ME
+        : member.userName;
+    this.requestBrowserToLoadTeamJournalAndSetActiveMember(
+      name
+    );
   };
 
   /**
    * creates a new request and dispatch this to the browser request listener
    * @param teamMember
    */
-  requestBrowserToLoadTeamJournalAndSetActiveMember(teamMember) {
+  requestBrowserToLoadTeamJournalAndSetActiveMember(
+    teamMember
+  ) {
     let request = BrowserRequestFactory.createRequest(
       BrowserRequestFactory.Requests.TEAM,
       teamMember
@@ -189,7 +211,10 @@ export default class TeamPanel extends Component {
     } else {
       return (
         <div className="teamPanelMembersContent">
-          {this.getTeamPanelMembersListContent(this.me, this.members)}
+          {this.getTeamPanelMembersListContent(
+            this.me,
+            this.members
+          )}
         </div>
       );
     }
@@ -239,7 +264,9 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   render() {
-    let teamName = this.myTeam ? this.myTeam.name : TeamClient.Strings.LOADING,
+    let teamName = this.myTeam
+        ? this.myTeam.name
+        : TeamClient.Strings.LOADING,
       { activeItem } = this.state;
 
     return (
@@ -256,14 +283,18 @@ export default class TeamPanel extends Component {
             <Menu.Item
               name={teamName}
               active={
-                activeItem === SidePanelViewController.SubmenuSelection.TEAM
+                activeItem ===
+                SidePanelViewController.SubmenuSelection
+                  .TEAM
               }
               onClick={this.handleMenuClick}
             />
           </Menu>
           <Segment
             inverted
-            style={{ height: DimensionController.getSidebarPanelHeight() }}
+            style={{
+              height: DimensionController.getSidebarPanelHeight()
+            }}
           >
             <Transition
               visible={this.state.teamVisible}

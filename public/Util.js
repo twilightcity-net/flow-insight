@@ -156,7 +156,9 @@ module.exports = class Util {
    */
   static setDevUserDataDir() {
     let filePath = path.join(app.getAppPath(), "data");
-    console.log("*** DEVELOPMENT MODE [" + filePath + "] ***");
+    console.log(
+      "*** DEVELOPMENT MODE [" + filePath + "] ***"
+    );
     app.setPath("userData", filePath);
   }
 
@@ -165,7 +167,9 @@ module.exports = class Util {
    * @returns {string}
    */
   static getUserHomePath() {
-    return process.env[process.platform == "win32" ? "USERPROFILE" : "HOME"];
+    return process.env[
+      process.platform == "win32" ? "USERPROFILE" : "HOME"
+    ];
   }
 
   /**
@@ -193,7 +197,10 @@ module.exports = class Util {
    * @returns {string}
    */
   static getAppSettingsPath() {
-    return path.join(Util.getFlowHomePath(), "settings.json");
+    return path.join(
+      Util.getFlowHomePath(),
+      "settings.json"
+    );
   }
 
   /**
@@ -201,7 +208,10 @@ module.exports = class Util {
    * @returns {string}
    */
   static getScreenshotFolderPath() {
-    let screensFolder = path.join(this.getFlowHomePath(), "screenshots");
+    let screensFolder = path.join(
+      this.getFlowHomePath(),
+      "screenshots"
+    );
     fs.mkdir(screensFolder);
     return screensFolder;
   }
@@ -248,7 +258,11 @@ module.exports = class Util {
    * @returns {string}
    */
   static getDateTimeString(date) {
-    return date.toLocaleTimeString() + " " + date.toLocaleDateString();
+    return (
+      date.toLocaleTimeString() +
+      " " +
+      date.toLocaleDateString()
+    );
   }
 
   /**

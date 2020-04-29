@@ -19,7 +19,9 @@ const { app } = require("electron"),
   WindowManager = require("../managers/WindowManager"),
   { EventManager } = require("../events/EventManager"),
   EventFactory = require("../events/EventFactory"),
-  { ShortcutManager } = require("../managers/ShortcutManager"),
+  {
+    ShortcutManager
+  } = require("../managers/ShortcutManager"),
   AppUpdater = require("./AppUpdater"),
   AppSettings = require("./AppSettings"),
   DataStoreManager = require("../managers/DtoClientManager"),
@@ -92,7 +94,9 @@ const { app } = require("electron"),
  */
 module.exports = class App {
   constructor() {
-    AppBanner.forEach(v => console.log(chalk.bold.greenBright(v)));
+    AppBanner.forEach(v =>
+      console.log(chalk.bold.greenBright(v))
+    );
     if (isDev) Util.setDevUserDataDir();
     this.Logger = Logger.create();
     this.myController = new AppController(app);
@@ -105,7 +109,9 @@ module.exports = class App {
       crashed: this.onCrash
     };
     this.processCLI();
-    this.isSecondInstance = app.makeSingleInstance(this.onSingleInstance);
+    this.isSecondInstance = app.makeSingleInstance(
+      this.onSingleInstance
+    );
     if (this.isSecondInstance) {
       log.info("[App] quit -> second instance");
 
@@ -119,7 +125,9 @@ module.exports = class App {
         this.start();
       } else if (Util.checkIfCalledFromCLI(process.argv)) {
         if (rootPath.startsWith("/Applications")) {
-          log.error("Please pass 'Torchie' a command or argument.");
+          log.error(
+            "Please pass 'Torchie' a command or argument."
+          );
           process.exit(0);
         } else {
           this.start();
@@ -141,9 +149,16 @@ module.exports = class App {
     global.App.isLoggedIn = false;
     app.setName(global.App.name);
 
-    log.info("[App] ready -> " + global.App.name + " : " + global.App.api);
+    log.info(
+      "[App] ready -> " +
+        global.App.name +
+        " : " +
+        global.App.api
+    );
     log.info("[App] ready -> talk : " + global.App.talkUrl);
-    log.info("[App] ready -> render3D : " + global.App.render3D);
+    log.info(
+      "[App] ready -> render3D : " + global.App.render3D
+    );
     try {
       global.App.EventManager = new EventManager();
       global.App.AppSettings = new AppSettings();
@@ -212,7 +227,9 @@ module.exports = class App {
 
   /// called before windows are closed and is going to quit.
   onWillQuit(event) {
-    log.info("[App] before quit -> attempt to logout application");
+    log.info(
+      "[App] before quit -> attempt to logout application"
+    );
 
     /// only logout if we are already logged in. This is used to
     /// bypass quiting during activation or loading
@@ -221,13 +238,17 @@ module.exports = class App {
       global.App.WindowManager.destroyAllWindows();
       global.App.TalkManager.disconnect();
       AppLogin.doLogout(store => {
-        log.info("[App] before quit -> logout complete : quit");
+        log.info(
+          "[App] before quit -> logout complete : quit"
+        );
         app.exit(0);
       });
 
       /// hard quit just to make sure we dont memory leak
       setTimeout(() => {
-        log.info("[App] before quit -> logout timemout : quit");
+        log.info(
+          "[App] before quit -> logout timemout : quit"
+        );
         app.exit(0);
       }, 10000);
     }
@@ -242,7 +263,9 @@ module.exports = class App {
   // TODO implement https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
   onCrash(event, killed) {
     App.handleError(
-      new AppError("WTF the GPU crashed : killed=" + killed),
+      new AppError(
+        "WTF the GPU crashed : killed=" + killed
+      ),
       true
     );
   }
@@ -263,7 +286,10 @@ module.exports = class App {
     // this.errorWatcher();
     AppController.configureEvents();
     app.on("ready", this.events.ready);
-    app.on("window-all-closed", this.events.windowAllClosed);
+    app.on(
+      "window-all-closed",
+      this.events.windowAllClosed
+    );
     app.on("quit", this.events.quit);
     app.on("will-quit", this.events.willQuit);
     app.on("gpu-process-crashed", this.events.crashed);

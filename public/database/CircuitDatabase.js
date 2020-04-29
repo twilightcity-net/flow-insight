@@ -65,26 +65,32 @@ module.exports = class CircuitDatabase extends LokiJS {
     super(CircuitDatabase.Name);
     this.name = "[DB.CircuitDatabase]";
     this.guid = Util.getGuid();
-    this.addCollection(CircuitDatabase.Collections.CIRCUITS, {
-      indices: [
-        CircuitDatabase.Indices.ID,
-        CircuitDatabase.Indices.CIRCUIT_NAME,
-        CircuitDatabase.Indices.OWNER_ID,
-        CircuitDatabase.Indices.OPEN_TIME,
-        CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATE
-      ]
-    });
-    this.addCollection(CircuitDatabase.Collections.PARTICIPATING, {
-      indices: [
-        CircuitDatabase.Indices.ID,
-        CircuitDatabase.Indices.CIRCUIT_NAME,
-        CircuitDatabase.Indices.OWNER_ID,
-        CircuitDatabase.Indices.OPEN_TIME,
-        CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATE
-      ]
-    });
+    this.addCollection(
+      CircuitDatabase.Collections.CIRCUITS,
+      {
+        indices: [
+          CircuitDatabase.Indices.ID,
+          CircuitDatabase.Indices.CIRCUIT_NAME,
+          CircuitDatabase.Indices.OWNER_ID,
+          CircuitDatabase.Indices.OPEN_TIME,
+          CircuitDatabase.Indices.CLOSE_TIME,
+          CircuitDatabase.Indices.CIRCUIT_STATE
+        ]
+      }
+    );
+    this.addCollection(
+      CircuitDatabase.Collections.PARTICIPATING,
+      {
+        indices: [
+          CircuitDatabase.Indices.ID,
+          CircuitDatabase.Indices.CIRCUIT_NAME,
+          CircuitDatabase.Indices.OWNER_ID,
+          CircuitDatabase.Indices.OPEN_TIME,
+          CircuitDatabase.Indices.CLOSE_TIME,
+          CircuitDatabase.Indices.CIRCUIT_STATE
+        ]
+      }
+    );
     this.addCollection(CircuitDatabase.Collections.LATER, {
       indices: [
         CircuitDatabase.Indices.ID,
@@ -105,18 +111,18 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
-    this.getCollection(CircuitDatabase.Collections.CIRCUITS).addDynamicView(
-      CircuitDatabase.Views.CIRCUITS
-    );
+    this.getCollection(
+      CircuitDatabase.Collections.CIRCUITS
+    ).addDynamicView(CircuitDatabase.Views.CIRCUITS);
     this.getCollection(
       CircuitDatabase.Collections.PARTICIPATING
     ).addDynamicView(CircuitDatabase.Views.PARTICIPATING);
-    this.getCollection(CircuitDatabase.Collections.LATER).addDynamicView(
-      CircuitDatabase.Views.LATER
-    );
-    this.getCollection(CircuitDatabase.Collections.ACTIVE).addDynamicView(
-      CircuitDatabase.Views.ACTIVE
-    );
+    this.getCollection(
+      CircuitDatabase.Collections.LATER
+    ).addDynamicView(CircuitDatabase.Views.LATER);
+    this.getCollection(
+      CircuitDatabase.Collections.ACTIVE
+    ).addDynamicView(CircuitDatabase.Views.ACTIVE);
   }
 
   /**
@@ -124,8 +130,12 @@ module.exports = class CircuitDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewCircuits() {
-    let collection = this.getCollection(CircuitDatabase.Collections.CIRCUITS);
-    return collection.getDynamicView(CircuitDatabase.Views.CIRCUITS);
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.CIRCUITS
+    );
+    return collection.getDynamicView(
+      CircuitDatabase.Views.CIRCUITS
+    );
   }
 
   /**
@@ -136,7 +146,9 @@ module.exports = class CircuitDatabase extends LokiJS {
     let collection = this.getCollection(
       CircuitDatabase.Collections.PARTICIPATING
     );
-    return collection.getDynamicView(CircuitDatabase.Views.PARTICIPATING);
+    return collection.getDynamicView(
+      CircuitDatabase.Views.PARTICIPATING
+    );
   }
 
   /**
@@ -144,8 +156,12 @@ module.exports = class CircuitDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewAllMyDoItLaterCircuits() {
-    let collection = this.getCollection(CircuitDatabase.Collections.LATER);
-    return collection.getDynamicView(CircuitDatabase.Views.LATER);
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.LATER
+    );
+    return collection.getDynamicView(
+      CircuitDatabase.Views.LATER
+    );
   }
 
   /**
@@ -153,7 +169,11 @@ module.exports = class CircuitDatabase extends LokiJS {
    * @returns {DynamicView}
    */
   getViewActiveCircuit() {
-    let collection = this.getCollection(CircuitDatabase.Collections.ACTIVE);
-    return collection.getDynamicView(CircuitDatabase.Views.ACTIVE);
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.ACTIVE
+    );
+    return collection.getDynamicView(
+      CircuitDatabase.Views.ACTIVE
+    );
   }
 };

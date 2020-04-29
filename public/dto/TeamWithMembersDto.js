@@ -13,7 +13,8 @@ module.exports = class TeamWithMembersDto {
       this.teamMembers = json.teamMembers;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'TeamWithMembersDto' : " + e.message
+        "Unable to create dto 'TeamWithMembersDto' : " +
+          e.message
       );
     }
   }

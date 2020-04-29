@@ -8,7 +8,8 @@ module.exports = class TaskReferencesInputDto {
       this.taskName = json.taskName;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'TaskReferencesInputDto' : " + e.message
+        "Unable to create dto 'TaskReferencesInputDto' : " +
+          e.message
       );
     }
   }

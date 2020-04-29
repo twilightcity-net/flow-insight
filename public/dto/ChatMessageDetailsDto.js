@@ -8,7 +8,8 @@ class ChatMessageDetailsDto {
       this.chatMessage = json.chatMessage;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'ChatMessageDetailDto' : " + e.message
+        "Unable to create dto 'ChatMessageDetailDto' : " +
+          e.message
       );
     }
   }

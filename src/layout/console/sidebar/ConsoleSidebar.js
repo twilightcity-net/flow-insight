@@ -1,5 +1,10 @@
 import React, { Component } from "react";
-import { Divider, Icon, Menu, Popup } from "semantic-ui-react";
+import {
+  Divider,
+  Icon,
+  Menu,
+  Popup
+} from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 import { DimensionController } from "../../../controllers/DimensionController";
@@ -31,7 +36,8 @@ export default class ConsoleSidebar extends Component {
     this.name = "[ConsoleSidebar]";
     this.state = {
       isAlarm: false,
-      activeItem: SidePanelViewController.MenuSelection.TEAM,
+      activeItem:
+        SidePanelViewController.MenuSelection.TEAM,
       iconSpirit: "heart outline",
       iconTeam: "user",
       iconWTF: "lightning",
@@ -47,13 +53,26 @@ export default class ConsoleSidebar extends Component {
    * called when the sidebar is created in the view and will render
    */
   componentDidMount() {
-    this.myController.configurePulseListener(this, this.onPulse);
-    this.myController.configureHeartbeatListener(this, this.onHeartbeat);
-    this.myController.configureMenuListener(this, this.onRefresh);
-    this.myController.configureSidebarShowListener(this, this.onSidebarShow);
+    this.myController.configurePulseListener(
+      this,
+      this.onPulse
+    );
+    this.myController.configureHeartbeatListener(
+      this,
+      this.onHeartbeat
+    );
+    this.myController.configureMenuListener(
+      this,
+      this.onRefresh
+    );
+    this.myController.configureSidebarShowListener(
+      this,
+      this.onSidebarShow
+    );
 
     this.circuitStartStopListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_START_STOP,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_START_STOP,
       this,
       this.onCircuitStartStop
     );
@@ -63,12 +82,21 @@ export default class ConsoleSidebar extends Component {
    * called when we remove the console sidebar panel and menu from view
    */
   componentWillUnmount() {
-    this.myController.configureHeartbeatListener(this, null);
+    this.myController.configureHeartbeatListener(
+      this,
+      null
+    );
     this.myController.configurePulseListener(this, null);
     this.myController.configureMenuListener(this, null);
-    this.myController.configureSidebarShowListener(this, null);
+    this.myController.configureSidebarShowListener(
+      this,
+      null
+    );
 
-    this.circuitStartStopListener.updateCallback(this, null);
+    this.circuitStartStopListener.updateCallback(
+      this,
+      null
+    );
   }
 
   /**
@@ -115,25 +143,42 @@ export default class ConsoleSidebar extends Component {
    * @param arg
    */
   onSidebarShow(event, arg) {
-    console.log(this.name + " shortcut recieved -> sidebar show : " + arg);
+    console.log(
+      this.name +
+        " shortcut recieved -> sidebar show : " +
+        arg
+    );
     switch (arg) {
       case 1:
-        this.showPanel(SidePanelViewController.MenuSelection.TEAM);
+        this.showPanel(
+          SidePanelViewController.MenuSelection.TEAM
+        );
         break;
       case 2:
-        this.showPanel(SidePanelViewController.MenuSelection.CIRCUITS);
+        this.showPanel(
+          SidePanelViewController.MenuSelection.CIRCUITS
+        );
         break;
       case 3:
-        this.showPanel(SidePanelViewController.MenuSelection.SPIRIT);
+        this.showPanel(
+          SidePanelViewController.MenuSelection.SPIRIT
+        );
         break;
       case 4:
-        this.showPanel(SidePanelViewController.MenuSelection.NOTIFICATIONS);
+        this.showPanel(
+          SidePanelViewController.MenuSelection
+            .NOTIFICATIONS
+        );
         break;
       case 0:
-        this.showPanel(SidePanelViewController.MenuSelection.WTF);
+        this.showPanel(
+          SidePanelViewController.MenuSelection.WTF
+        );
         break;
       default:
-        throw new Error("Unknown console sidebar show arg " + arg);
+        throw new Error(
+          "Unknown console sidebar show arg " + arg
+        );
     }
   }
 
@@ -141,7 +186,8 @@ export default class ConsoleSidebar extends Component {
    * function handler that os called when the console layout perspective changes
    */
   onRefresh() {
-    let activeMenuItem = this.myController.activeMenuSelection;
+    let activeMenuItem = this.myController
+      .activeMenuSelection;
     let state = {
       activeItem: activeMenuItem,
       iconSpirit: "heart",
@@ -167,7 +213,8 @@ export default class ConsoleSidebar extends Component {
         state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
-      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
+      case SidePanelViewController.MenuSelection
+        .NOTIFICATIONS:
         state.iconSpirit += oStr;
         state.iconTeam += oStr;
         state.iconCircuit += oStr;
@@ -197,7 +244,9 @@ export default class ConsoleSidebar extends Component {
       this.state.isAlarm
     ) {
       this.myController.loadWTF();
-    } else if (name === SidePanelViewController.MenuSelection.WTF) {
+    } else if (
+      name === SidePanelViewController.MenuSelection.WTF
+    ) {
       this.myController.startWTF();
     } else {
       this.myController.showPanel(name);
@@ -214,7 +263,14 @@ export default class ConsoleSidebar extends Component {
    * @param errorMsg
    * @returns {*}
    */
-  getPopupContent(server, pingTime, talkUrl, latencyTime, isOnline, errorMsg) {
+  getPopupContent(
+    server,
+    pingTime,
+    talkUrl,
+    latencyTime,
+    isOnline,
+    errorMsg
+  ) {
     return (
       <div>
         <div>
@@ -223,7 +279,11 @@ export default class ConsoleSidebar extends Component {
         <div>
           <i>ping: </i>
           <b>
-            <i>{pingTime <= 0 ? "calculating..." : pingTime + "ms"}</i>
+            <i>
+              {pingTime <= 0
+                ? "calculating..."
+                : pingTime + "ms"}
+            </i>
           </b>
         </div>
         <Divider />
@@ -233,7 +293,11 @@ export default class ConsoleSidebar extends Component {
         <div>
           <i>latency: </i>
           <b>
-            <i>{latencyTime <= 0 ? "calculating..." : latencyTime + "ms"}</i>
+            <i>
+              {latencyTime <= 0
+                ? "calculating..."
+                : latencyTime + "ms"}
+            </i>
           </b>
         </div>
         {!isOnline && (
@@ -261,8 +325,12 @@ export default class ConsoleSidebar extends Component {
       errorMsg
     } = this.state;
 
-    let iconClassName = isOnline ? "signal" : "remove circle",
-      menuClassName = isOnline ? "networkConnect" : "networkConnectError",
+    let iconClassName = isOnline
+        ? "signal"
+        : "remove circle",
+      menuClassName = isOnline
+        ? "networkConnect"
+        : "networkConnectError",
       iconColor = isOnline ? "green" : "red";
 
     if (isOnline === undefined) {
@@ -284,40 +352,63 @@ export default class ConsoleSidebar extends Component {
       errorMsg
     );
     return (
-      <div id="component" className={ConsoleSidebar.className}>
+      <div
+        id="component"
+        className={ConsoleSidebar.className}
+      >
         <Menu
           inverted
           icon
           vertical
-          style={{ height: DimensionController.getConsoleSidebarHeight() }}
+          style={{
+            height: DimensionController.getConsoleSidebarHeight()
+          }}
         >
           <Menu.Item
-            name={SidePanelViewController.MenuSelection.TEAM}
-            active={activeItem === SidePanelViewController.MenuSelection.TEAM}
+            name={
+              SidePanelViewController.MenuSelection.TEAM
+            }
+            active={
+              activeItem ===
+              SidePanelViewController.MenuSelection.TEAM
+            }
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconTeam} />
           </Menu.Item>
           <Menu.Item
-            name={SidePanelViewController.MenuSelection.CIRCUITS}
+            name={
+              SidePanelViewController.MenuSelection.CIRCUITS
+            }
             active={
-              activeItem === SidePanelViewController.MenuSelection.CIRCUITS
+              activeItem ===
+              SidePanelViewController.MenuSelection.CIRCUITS
             }
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconCircuit} />
           </Menu.Item>
           <Menu.Item
-            name={SidePanelViewController.MenuSelection.SPIRIT}
-            active={activeItem === SidePanelViewController.MenuSelection.SPIRIT}
+            name={
+              SidePanelViewController.MenuSelection.SPIRIT
+            }
+            active={
+              activeItem ===
+              SidePanelViewController.MenuSelection.SPIRIT
+            }
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconSpirit} />
           </Menu.Item>
           <Menu.Item
-            name={SidePanelViewController.MenuSelection.NOTIFICATIONS}
+            name={
+              SidePanelViewController.MenuSelection
+                .NOTIFICATIONS
+            }
             active={
-              activeItem === SidePanelViewController.MenuSelection.NOTIFICATIONS
+              activeItem ===
+              SidePanelViewController.MenuSelection
+                .NOTIFICATIONS
             }
             onClick={this.handleItemClick}
           >
@@ -325,9 +416,16 @@ export default class ConsoleSidebar extends Component {
           </Menu.Item>
           <Menu.Item
             name={SidePanelViewController.MenuSelection.WTF}
-            active={activeItem === SidePanelViewController.MenuSelection.WTF}
+            active={
+              activeItem ===
+              SidePanelViewController.MenuSelection.WTF
+            }
             onClick={this.handleItemClick}
-            className={this.state.isAlarm ? ConsoleSidebar.alarmClassName : ""}
+            className={
+              this.state.isAlarm
+                ? ConsoleSidebar.alarmClassName
+                : ""
+            }
           >
             <Icon name={this.state.iconWTF} />
           </Menu.Item>

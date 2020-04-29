@@ -27,8 +27,10 @@ module.exports = class TalkToController extends BaseController {
    */
   static get Events() {
     return {
-      LOAD_ALL_TALK_MESSAGES_FROM_ROOM: "load-all-talk-messages-from-room",
-      GET_ALL_TALK_MESSAGES_FROM_ROOM: "get-all-talk-messages-from-room",
+      LOAD_ALL_TALK_MESSAGES_FROM_ROOM:
+        "load-all-talk-messages-from-room",
+      GET_ALL_TALK_MESSAGES_FROM_ROOM:
+        "get-all-talk-messages-from-room",
       GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
         "get-all-status-talk-messages-from-room",
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room"
@@ -39,7 +41,9 @@ module.exports = class TalkToController extends BaseController {
    * links associated controller classes here
    */
   static wireControllersTogether() {
-    BaseController.wireControllersTo(TalkToController.instance);
+    BaseController.wireControllersTo(
+      TalkToController.instance
+    );
   }
 
   /**
@@ -64,17 +68,33 @@ module.exports = class TalkToController extends BaseController {
   onTalkToClientEvent(event, arg) {
     this.logRequest(this.name, arg);
     if (!arg.args) {
-      this.handleError(TalkToController.Error.ERROR_ARGS, event, arg);
+      this.handleError(
+        TalkToController.Error.ERROR_ARGS,
+        event,
+        arg
+      );
     } else {
       switch (arg.type) {
-        case TalkToController.Events.LOAD_ALL_TALK_MESSAGES_FROM_ROOM:
-          this.handleLoadAllTalkNessagesFromRoomEvent(event, arg);
+        case TalkToController.Events
+          .LOAD_ALL_TALK_MESSAGES_FROM_ROOM:
+          this.handleLoadAllTalkNessagesFromRoomEvent(
+            event,
+            arg
+          );
           break;
-        case TalkToController.Events.GET_ALL_TALK_MESSAGES_FROM_ROOM:
-          this.handleGetAllTalkMessagesFromRoomEvent(event, arg);
+        case TalkToController.Events
+          .GET_ALL_TALK_MESSAGES_FROM_ROOM:
+          this.handleGetAllTalkMessagesFromRoomEvent(
+            event,
+            arg
+          );
           break;
-        case TalkToController.Events.GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
-          this.handleGetAllStatusTalkMessagesFromRoomEvent(event, arg);
+        case TalkToController.Events
+          .GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
+          this.handleGetAllStatusTalkMessagesFromRoomEvent(
+            event,
+            arg
+          );
           break;
         case TalkToController.Events.PUBLISH_CHAT_TO_ROOM:
           this.handlePublishChatToRoomEvent(event, arg);
@@ -96,7 +116,11 @@ module.exports = class TalkToController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleLoadAllTalkNessagesFromRoomEvent(event, arg, callback) {
+  handleLoadAllTalkNessagesFromRoomEvent(
+    event,
+    arg,
+    callback
+  ) {
     let roomName = arg.args.roomName,
       urn =
         TalkToController.Paths.TALK +
@@ -108,7 +132,8 @@ module.exports = class TalkToController extends BaseController {
     this.doClientRequest(
       TalkToController.Contexts.TALK_TO_CLIENT,
       {},
-      TalkToController.Names.GET_ALL_TALK_MESSAGES_FROM_ROOM,
+      TalkToController.Names
+        .GET_ALL_TALK_MESSAGES_FROM_ROOM,
       TalkToController.Types.GET,
       urn,
       store =>
@@ -131,13 +156,22 @@ module.exports = class TalkToController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateLoadAllTalkMessagesFromRoomCallback(store, event, arg, callback) {
+  delegateLoadAllTalkMessagesFromRoomCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
       let roomName = arg.args.roomName,
-        database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-        messageCollection = database.getCollectionForRoomTalkMessages(roomName),
+        database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.TALK
+        ),
+        messageCollection = database.getCollectionForRoomTalkMessages(
+          roomName
+        ),
         statusCollection = database.getCollectionForRoomStatusTalkMessages(
           roomName
         ),
@@ -151,18 +185,36 @@ module.exports = class TalkToController extends BaseController {
         message = messages[0];
 
       if (messages && message) {
-        this.checkForRoomAndToRooms(roomName, message.uri);
-        for (let i = 0, model = null, len = messages.length; i < len; i++) {
+        this.findRoomAndInsert(roomName, message.uri);
+        for (
+          let i = 0, model = null, len = messages.length;
+          i < len;
+          i++
+        ) {
           message = messages[i];
           switch (message.messageType) {
-            case TalkToController.MessageTypes.CIRCUIT_STATUS:
-              this.findAndUpdateMessage(model, statusCollection, message);
+            case TalkToController.MessageTypes
+              .CIRCUIT_STATUS:
+              this.findXOrInsertMessage(
+                model,
+                statusCollection,
+                message
+              );
               break;
-            case TalkToController.MessageTypes.ROOM_MEMBER_STATUS:
-              this.findAndUpdateMessage(model, statusCollection, message);
+            case TalkToController.MessageTypes
+              .ROOM_MEMBER_STATUS:
+              this.findXOrInsertMessage(
+                model,
+                statusCollection,
+                message
+              );
               break;
             default:
-              this.findAndUpdateMessage(model, messageCollection, message);
+              this.findXOrInsertMessage(
+                model,
+                messageCollection,
+                message
+              );
           }
         }
       }
@@ -173,7 +225,11 @@ module.exports = class TalkToController extends BaseController {
         messageView.count() + "+" + statusView.count()
       );
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -182,11 +238,21 @@ module.exports = class TalkToController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleGetAllTalkMessagesFromRoomEvent(event, arg, callback) {
+  handleGetAllTalkMessagesFromRoomEvent(
+    event,
+    arg,
+    callback
+  ) {
     let roomName = arg.args.roomName,
-      database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-      collection = database.getCollectionForRoomTalkMessages(roomName),
-      view = database.getViewTalkMessagesForCollection(collection);
+      database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TALK
+      ),
+      collection = database.getCollectionForRoomTalkMessages(
+        roomName
+      ),
+      view = database.getViewTalkMessagesForCollection(
+        collection
+      );
 
     this.delegateGetAllStatusTalkMessagesFromRoomCallback(
       roomName,
@@ -203,11 +269,21 @@ module.exports = class TalkToController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleGetAllStatusTalkMessagesFromRoomEvent(event, arg, callback) {
+  handleGetAllStatusTalkMessagesFromRoomEvent(
+    event,
+    arg,
+    callback
+  ) {
     let roomName = arg.args.roomName,
-      database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-      collection = database.getCollectionForRoomStatusTalkMessages(roomName),
-      view = database.getViewStatusTalkMessagesForCollection(collection);
+      database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TALK
+      ),
+      collection = database.getCollectionForRoomStatusTalkMessages(
+        roomName
+      ),
+      view = database.getViewStatusTalkMessagesForCollection(
+        collection
+      );
 
     this.delegateGetAllStatusTalkMessagesFromRoomCallback(
       roomName,
@@ -235,15 +311,32 @@ module.exports = class TalkToController extends BaseController {
   ) {
     if (this.hasRoomByRoomName(roomName)) {
       arg.data = view.data();
-      this.logResults(this.name, arg.type, arg.id, view.count());
-      this.delegateCallbackOrEventReplyTo(event, arg, callback);
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        view.count()
+      );
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
     } else {
       this.handleLoadAllTalkNessagesFromRoomEvent(
         null,
-        { args: { roomName: roomName }, type: arg.type, id: arg.id },
+        {
+          args: { roomName: roomName },
+          type: arg.type,
+          id: arg.id
+        },
         () => {
           arg.data = view.data();
-          this.delegateCallbackOrEventReplyTo(event, arg, callback);
+          this.delegateCallbackOrEventReplyTo(
+            event,
+            arg,
+            callback
+          );
         }
       );
     }
@@ -273,7 +366,12 @@ module.exports = class TalkToController extends BaseController {
       TalkToController.Types.POST,
       urn,
       store =>
-        this.delegatePublishChatToRoomCallback(store, event, arg, callback)
+        this.delegatePublishChatToRoomCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
@@ -286,12 +384,19 @@ module.exports = class TalkToController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegatePublishChatToRoomCallback(store, event, arg, callback) {
+  delegatePublishChatToRoomCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
       let roomName = arg.args.roomName,
-        database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
+        database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.TALK
+        ),
         collection = database.getCollection(
           TalkDatabase.Collections.FLUX_TALK_MESSAGES
         ),
@@ -302,35 +407,17 @@ module.exports = class TalkToController extends BaseController {
         collection.insert(message);
         arg.data = message;
       }
-      this.logResults(this.name, arg.type, arg.id, view.count());
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        view.count()
+      );
     }
-    this.delegateCallbackOrEventReplyTo(event, arg, callback);
-  }
-
-  /**
-   * adds a room to our rooms collection for reference
-   * @param roomName
-   * @param uri
-   */
-  checkForRoomAndToRooms(roomName, uri) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-      rooms = database.getCollection(TalkDatabase.Collections.ROOMS),
-      room = rooms.findOne({ uri: uri });
-
-    if (!room) {
-      rooms.insert({ roomName, uri });
-    }
-  }
-
-  /**
-   * checks our database to see if we have a room for the night
-   * @param roomName
-   * @returns {Object}
-   */
-  hasRoomByRoomName(roomName) {
-    let database = DatabaseFactory.getDatabase(DatabaseFactory.Names.TALK),
-      rooms = database.getCollection(TalkDatabase.Collections.ROOMS);
-
-    return rooms.findOne({ roomName: roomName });
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 };

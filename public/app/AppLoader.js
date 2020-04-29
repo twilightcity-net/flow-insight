@@ -7,7 +7,9 @@ const log = require("electron-log"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../events/EventFactory"),
   VolumeManager = require("../managers/VolumeManager"),
-  { ShortcutManager } = require("../managers/ShortcutManager"),
+  {
+    ShortcutManager
+  } = require("../managers/ShortcutManager"),
   AppError = require("./AppError"),
   AppMenu = require("./AppMenu"),
   AppTray = require("./AppTray"),
@@ -217,7 +219,10 @@ module.exports = class AppLoader {
    */
   onFinished() {
     setTimeout(() => {
-      global.App.WindowManager.closeWindow(this.loadingWindow, true);
+      global.App.WindowManager.closeWindow(
+        this.loadingWindow,
+        true
+      );
       this.unwireEvents();
       global.App.AppHeartbeat.start();
       log.info("[AppLoader] finished loading -> okay");
@@ -250,7 +255,9 @@ module.exports = class AppLoader {
         this.onFinished();
         break;
       default:
-        log.warn("[AppLoader] unrecognized stage : " + arg.load);
+        log.warn(
+          "[AppLoader] unrecognized stage : " + arg.load
+        );
         break;
     }
   }
@@ -317,7 +324,10 @@ module.exports = class AppLoader {
         global.App.connectionStatus = status;
         this.events.login.dispatch(status);
       } else {
-        log.info("[AppLoader] login FAILED : " + JSON.stringify(status));
+        log.info(
+          "[AppLoader] login FAILED : " +
+            JSON.stringify(status)
+        );
         this.events.loginFailed.dispatch(status);
       }
     });
