@@ -19,6 +19,8 @@
     "url": "https://github.com/dreamscale-io/torchie-release.git"
   },
   "scripts": {
+    ".": "yarn dev",
+    "_": "yarn docs && yarn stage && yarn dev",
     "update": "git fetch && git pull && yarn prestage",
     "prestage": "gulp prettier lint pretty",
     "stage": "git add .",
