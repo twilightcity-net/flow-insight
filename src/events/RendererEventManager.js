@@ -50,6 +50,13 @@ export class RendererEvent {
   dispatch(arg, noEcho, isSync) {
     return RendererEventManager.dispatch(this, arg, noEcho, isSync);
   }
+
+  /**
+   * clears our event's listeners so that they do not leak
+   */
+  clear() {
+    this.updateCallback(this.scope, null);
+  }
 }
 
 /**
