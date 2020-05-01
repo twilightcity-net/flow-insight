@@ -102,7 +102,7 @@ export default class ActiveCircuitFeed extends Component {
     let name = "yoda",
       time = "NOW",
       // data = message.data,
-      rand = 10 * (Math.random() % 7),
+      rand = 10 * Math.random(),
       yodas = [
         "Do or do not. There is no try.",
         "You must unlearn what you have learned.",
