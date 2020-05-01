@@ -154,7 +154,7 @@ export default class ActiveCircuitFeed extends Component {
       time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
         m.messageTime
       );
-      json = JSON.parse(m.data);
+      json = m.data;
       text = json.message;
 
       if (
