@@ -33,7 +33,9 @@ module.exports = class TalkToController extends BaseController {
         "get-all-talk-messages-from-room",
       GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
         "get-all-status-talk-messages-from-room",
-      PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room"
+      PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
+      JOIN_EXISTING_ROOM: "join-existing-room",
+      LEAVE_EXISTING_ROOM: "leave-existing-room"
     };
   }
 
@@ -98,6 +100,12 @@ module.exports = class TalkToController extends BaseController {
           break;
         case TalkToController.Events.PUBLISH_CHAT_TO_ROOM:
           this.handlePublishChatToRoomEvent(event, arg);
+          break;
+        case TalkToController.Events.JOIN_EXISTING_ROOM:
+          this.handleJoinExistingRoomEvent(event, arg);
+          break;
+        case TalkToController.Events.LEAVE_EXISTING_ROOM:
+          this.handleLeaveExistingRoomEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -412,6 +420,145 @@ module.exports = class TalkToController extends BaseController {
         arg.type,
         arg.id,
         view.count()
+      );
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * joins a talk room from a given room name. This is set within the
+   * arg.args object that is passed  in from our client. This function
+   * will make a dtp http request to gridtime for joining a room. Talk
+   * will not complain if you join a room that you already are in. if
+   * room doesn't exist in talk, the server will create a new one. Also
+   * the  room will remain open until everyone is kicked (left) from
+   * the room
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleJoinExistingRoomEvent(event, arg, callback) {
+    let roomName = arg.args.roomName,
+      urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.ROOM +
+        TalkToController.Paths.SEPARATOR +
+        roomName +
+        TalkToController.Paths.JOIN;
+
+    this.doClientRequest(
+      TalkToController.Contexts.TALK_TO_CLIENT,
+      {},
+      TalkToController.Names.JOIN_EXISTING_ROOM,
+      TalkToController.Types.POST,
+      urn,
+      store =>
+        this.delegateJoinExistingRoomCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * processes the callback for our join existing room request on grid.
+   * This will just log the action, and if an error return it to the
+   * client.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateJoinExistingRoomCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        JSON.stringify(arg.args)
+      );
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * processes our client event for leaving a room on talk. To do this
+   * we make a request with gridtime to join when connecting to this
+   * from the renderer's circuit resource class. This calls calls the
+   * talkto client which joins the  room. This renderer class also will
+   * call leave on the talkto client. See gridtimes TalkToClient.java
+   * class for more information.
+   * @param event
+   * @param arg - our argument. requires .args.roomName
+   * @param callback
+   */
+  handleLeaveExistingRoomEvent(event, arg, callback) {
+    let roomName = arg.args.roomName,
+      urn =
+        TalkToController.Paths.TALK +
+        TalkToController.Paths.TO +
+        TalkToController.Paths.ROOM +
+        TalkToController.Paths.SEPARATOR +
+        roomName +
+        TalkToController.Paths.LEAVE;
+
+    this.doClientRequest(
+      TalkToController.Contexts.TALK_TO_CLIENT,
+      {},
+      TalkToController.Names.LEAVE_EXISTING_ROOM,
+      TalkToController.Types.POST,
+      urn,
+      store =>
+        this.delegateLeaveExistingRoomCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * processes our callback for leaving a room on the talk sever. This
+   * is done by making a http dto request to gridtime's TalkToClient
+   * class.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateLeaveExistingRoomCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        JSON.stringify(arg.args)
       );
     }
     this.delegateCallbackOrEventReplyTo(

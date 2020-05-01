@@ -192,7 +192,10 @@
   },
   "build": {
     "appId": "io.dreamscale.torchie.shell",
-    "files": ["build/**/*", "package.json"],
+    "files": [
+      "build/**/*",
+      "package.json"
+    ],
     "directories": {
       "buildResources": "resources"
     },

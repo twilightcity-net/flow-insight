@@ -12,7 +12,7 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * REST paths for our grid server. good place to store thats shared amoung all controllers
-   * @returns {{PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, TALK: string, STATUS: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, TEAM: string, TO: string, STATUS_TEAM: string, ROOM: string, CIRCUIT: string}}
+   * @returns {{PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, JOIN: string, TALK: string, STATUS: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, TEAM: string, TO: string, STATUS_TEAM: string, ROOM: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -34,6 +34,8 @@ module.exports = class BaseController {
       TO: "/to",
       ROOM: "/room",
       CHAT: "/chat",
+      JOIN: "/join",
+      LEAVE: "/leave",
       CANCEL: "/cancel"
     };
   }
@@ -137,8 +139,8 @@ module.exports = class BaseController {
   }
 
   /**
-   *  definition names of our controllers functions
-   * @returns {{GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string}}
+   * definition names of our controllers functions
+   * @returns {{GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, JOIN_EXISTING_ROOM: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, CANCEL_WTF: string, PAUSE_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string}}
    * @constructor
    */
   static get Names() {
@@ -156,7 +158,9 @@ module.exports = class BaseController {
       GET_ALL_TALK_MESSAGES_FROM_ROOM:
         "getAllTalkMessagesFromRoom",
       CANCEL_WTF: "cancelWtf",
-      PAUSE_WTF: "pauseWtf"
+      PAUSE_WTF: "pauseWtf",
+      JOIN_EXISTING_ROOM: "joinExistingRoom",
+      LEAVE_EXISTING_ROOM: "leaveExistingRoom"
     };
   }
 

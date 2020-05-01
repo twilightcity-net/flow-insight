@@ -27,7 +27,7 @@ export class TalkToClient extends BaseClient {
 
   /**
    * our client events for this talk to service in gridtime
-   * @returns {{LOAD_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string}}
+   * @returns {{LOAD_ALL_TALK_MESSAGES_FROM_ROOM: string, JOIN_EXISTING_ROOM: string, GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, PUBLISH_CHAT_TO_ROOM: string, LEAVE_EXISTING_ROOM: string}}
    * @constructor
    */
   static get Events() {
@@ -38,7 +38,9 @@ export class TalkToClient extends BaseClient {
         "get-all-talk-messages-from-room",
       GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
         "get-all-status-talk-messages-from-room",
-      PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room"
+      PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
+      JOIN_EXISTING_ROOM: "join-existing-room",
+      LEAVE_EXISTING_ROOM: "leave-existing-room"
     };
   }
 
@@ -146,6 +148,47 @@ export class TalkToClient extends BaseClient {
   }
 
   /**
+   * joins a  specific room by its name. This call is picked up by the
+   * controller class within the main process via our IPC event bus
+   * @param roomName
+   * @param scope
+   * @param callback
+   */
+  static joinExistingRoom(roomName, scope, callback) {
+    let event = TalkToClient.instance.createClientEvent(
+      TalkToClient.Events.JOIN_EXISTING_ROOM,
+      { roomName: roomName },
+      scope,
+      callback
+    );
+    TalkToClient.instance.notifyTalkTo(event);
+    return event;
+  }
+
+  /**
+   * leaves an existing room on our talk server. This is called by our
+   * circuit resource class. We should leave the rooms on talk  so that
+   * we do not get extra messages when we are not active in a circuit.
+   * When a room has no one left, talk will automagically  remove the
+   * room. Talk does not store a history of record for it rooms. Some
+   * assembly required. See gridtime's documentation on building rooms.
+   * @param roomName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static leaveExistingRoom(roomName, scope, callback) {
+    let event = TalkToClient.instance.createClientEvent(
+      TalkToClient.Events.LEAVE_EXISTING_ROOM,
+      { roomName: roomName },
+      scope,
+      callback
+    );
+    TalkToClient.instance.notifyTalkTo(event);
+    return event;
+  }
+
+  /**~
    * the event callback used by the event manager. removes the event from
    * the local map when its receive the response from the main process. the
    * call back bound to the scope of what was pass into the api of this client

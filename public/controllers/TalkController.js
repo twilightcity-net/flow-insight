@@ -84,8 +84,7 @@ module.exports = class TalkController extends BaseController {
     );
     this.talkMessageRoomListener = EventFactory.createEvent(
       EventFactory.Types.TALK_MESSAGE_ROOM,
-      this,
-      this.onTalkMessageRoom
+      this
     );
     this.talkJoinRoomListener = EventFactory.createEvent(
       EventFactory.Types.TALK_JOIN_ROOM,

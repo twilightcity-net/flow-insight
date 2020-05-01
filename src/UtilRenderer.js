@@ -162,6 +162,44 @@ export default class UtilRenderer {
   }
 
   /**
+   * determines if this should be a wtf session or new start session componet
+   * @param resource
+   * @returns {boolean}
+   */
+  static isWTFResource(resource) {
+    let arr = resource.uriArr;
+    if (arr.length > 1) {
+      if (arr[1] === BrowserRequestFactory.Locations.WTF) {
+        if (arr.length > 2) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * gets the name of our room from a given circuit resource
+   * @param resource
+   * @returns {string|null}
+   */
+  static getRoomNameFromResource(resource) {
+    let arr = resource.uriArr;
+    if (arr.length > 1) {
+      if (arr[1] === BrowserRequestFactory.Locations.WTF) {
+        if (arr.length > 2) {
+          return (
+            arr[2] +
+            "-" +
+            BrowserRequestFactory.Locations.WTF
+          );
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
    * gets a decimal percent of our relative xp towards the next level.
    * @param xpProgress
    * @param xpRequiredToLevel
