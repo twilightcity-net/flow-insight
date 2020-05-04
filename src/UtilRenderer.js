@@ -162,6 +162,17 @@ export default class UtilRenderer {
   }
 
   /**
+   * a simple check to see if a talk message is a status message
+   * @param message
+   * @returns {boolean}
+   */
+  static isStatusMessage(message) {
+    return (
+      message.messageType === "RoomMemberStatusEventDto"
+    );
+  }
+
+  /**
    * determines if this should be a wtf session or new start session componet
    * @param resource
    * @returns {boolean}

@@ -537,6 +537,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isMemberOnline">isMemberOnline</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isMyJournal">isMyJournal</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isStatusMessage">isStatusMessage</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWTFResource">isWTFResource</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#joinCircuit">joinCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#leaveCircuit">leaveCircuit</a></span></li>
@@ -739,6 +740,17 @@ export default class UtilRenderer {
       }
     }
     return false;
+  }
+
+  /**
+   * a simple check to see if a talk message is a status message
+   * @param message
+   * @returns {boolean}
+   */
+  static isStatusMessage(message) {
+    return (
+      message.messageType === "RoomMemberStatusEventDto"
+    );
   }
 
   /**

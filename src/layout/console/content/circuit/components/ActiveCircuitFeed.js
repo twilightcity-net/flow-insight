@@ -47,11 +47,12 @@ export default class ActiveCircuitFeed extends Component {
    */
   onTalkRoomMessage = (event, arg) => {
     let hasMessage = UtilRenderer.hasMessageInArray(
-      this.messages,
-      arg
-    );
+        this.messages,
+        arg
+      ),
+      isStatus = UtilRenderer.isStatusMessage(arg);
 
-    if (!hasMessage) {
+    if (!hasMessage && !isStatus) {
       this.appendChatMessage(arg);
     }
   };
@@ -95,41 +96,56 @@ export default class ActiveCircuitFeed extends Component {
    * @param message
    */
   appendChatMessage(message) {
-    // FIXME this should use the messages user name
-
-    // TODO break out yoda to randomly publish statements
-
-    let name = "yoda",
-      time = "NOW",
-      // data = message.data,
-      rand = 10 * Math.random(),
-      yodas = [
-        "Do or do not. There is no try.",
-        "You must unlearn what you have learned.",
-        "Named must be your fear before banish it you can.",
-        "Fear is the path to the dark side.",
-        "That is why you fail.",
-        "The greatest teacher, failure is.",
-        "Pass on what you have learned.",
-        "Now I know there is something strong than fear — far stronger.",
-        "Don't underestimate the Force.",
-        "For my ally is the Force, and a powerful ally it is."
-      ];
-
-    rand = rand.toFixed(0);
-
-    let text = yodas[rand],
-      chat = {
-        name: name,
+    let time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
+        message.messageTime
+      ),
+      metaProps = message.metaProps,
+      username = !!metaProps && metaProps["from.username"],
+      data = message.data,
+      text = data.message,
+      event = {
+        name: username,
         time: time,
         text: [text]
       };
 
-    this.feedEvents.push(chat);
+    this.lastFeedEvent = event;
+    this.feedEvents.push(event);
+
+    this.messages.push(message);
+
     this.forceUpdate(() => {
       this.scrollToFeedBottom();
     });
   }
+
+  // doYoda() {
+  //   let doOr = (10 * Math.random()).toFixed(0),
+  //     doNot = (10 * Math.random()) % 2 > 1,
+  //     thereIsNoTry = [
+  //       "Do or do not. There is no try.",
+  //       "You must unlearn what you have learned.",
+  //       "Named must be your fear before banish it you can.",
+  //       "Fear is the path to the dark side.",
+  //       "That is why you fail.",
+  //       "The greatest teacher, failure is.",
+  //       "Pass on what you have learned.",
+  //       "Now I know there is something strong than fear — far stronger.",
+  //       "Don't underestimate the Force.",
+  //       "For my ally is the Force, and a powerful ally it is."
+  //     ];
+  //
+  //   // if(doNot) {
+  //   this.feedEvents.push({
+  //     name: "yoda",
+  //     time: "NOW",
+  //     text: [thereIsNoTry[doOr]]
+  //   });
+  //   this.forceUpdate(() => {
+  //     this.scrollToFeedBottom();
+  //   });
+  //   // }
+  // }
 
   /**
    * updates our Chat Messages that our in our messages array. This is generally setup initially
@@ -137,7 +153,7 @@ export default class ActiveCircuitFeed extends Component {
    */
   updateChatMessages = () => {
     let metaProps = null,
-      userName = null,
+      username = null,
       time = null,
       json = null,
       text = [],
@@ -150,22 +166,22 @@ export default class ActiveCircuitFeed extends Component {
     for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
       metaProps = m.metaProps;
-      userName = !!metaProps && metaProps["from.username"];
+      username = !!metaProps && metaProps["from.username"];
       time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
         m.messageTime
       );
-      json = JSON.parse(m.data);
+      json = m.data;
       text = json.message;
 
       if (
         this.lastFeedEvent &&
-        this.lastFeedEvent.name === userName
+        this.lastFeedEvent.name === username
       ) {
         event = this.feedEvents.pop();
         event.text.push(text);
       } else {
         event = {
-          name: userName,
+          name: username,
           time: time,
           text: [text]
         };
@@ -174,6 +190,27 @@ export default class ActiveCircuitFeed extends Component {
       this.lastFeedEvent = event;
       this.feedEvents.push(event);
     }
+  };
+
+  /**
+   * adds a new message to our messages array and triggers a rerender
+   * @param name
+   * @param time
+   * @param text
+   * @param callback
+   */
+  addChatMessage = (name, time, text, callback) => {
+    let roomName = this.props.resource.uriArr[2];
+    TalkToClient.publishChatToRoom(
+      roomName + "-wtf",
+      text,
+      this,
+      arg => {
+        if (callback) {
+          callback();
+        }
+      }
+    );
   };
 
   /**
@@ -201,40 +238,11 @@ export default class ActiveCircuitFeed extends Component {
   handleEnterKey = (text, callback) => {
     this.addChatMessage(
       this.me.userName,
-      "NOW - Today",
+      "NOW",
       text,
       callback,
       true
     );
-  };
-
-  /**
-   * adds a new message to our messages array and triggers a rerender
-   * @param name
-   * @param time
-   * @param text
-   * @param callback
-   */
-  addChatMessage = (name, time, text, callback) => {
-    let roomName = this.props.resource.uriArr[2],
-      message = {
-        name: name,
-        time: time,
-        text: [text]
-      };
-
-    if (
-      this.lastFeedEvent &&
-      this.lastFeedEvent.props.name === name
-    ) {
-      message = this.feedEvents.pop();
-      message.text.push(text);
-    }
-    this.feedEvents.push(message);
-    TalkToClient.publishChatToRoom(roomName + "-wtf", text);
-    this.forceUpdate(() => {
-      this.scrollToFeedBottom(callback);
-    });
   };
 
   /**
