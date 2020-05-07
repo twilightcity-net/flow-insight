@@ -127,10 +127,10 @@ module.exports = class TeamController extends BaseController {
     }
 
     this.doClientRequest(
-      "TeamClient",
+      TeamController.Contexts.TEAM_CLIENT,
       {},
-      "getMyTeam",
-      "get",
+      TeamController.Names.GET_MY_HOME_TEAM,
+      TeamController.Types.GET,
       urn,
       store =>
         this.delegateLoadMyTeamCallback(

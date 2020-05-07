@@ -160,7 +160,8 @@ module.exports = class BaseController {
       CANCEL_WTF: "cancelWtf",
       PAUSE_WTF: "pauseWtf",
       JOIN_EXISTING_ROOM: "joinExistingRoom",
-      LEAVE_EXISTING_ROOM: "leaveExistingRoom"
+      LEAVE_EXISTING_ROOM: "leaveExistingRoom",
+      GET_MY_HOME_TEAM: "getMyHomeTeam"
     };
   }
 
@@ -172,7 +173,8 @@ module.exports = class BaseController {
   static get Contexts() {
     return {
       CIRCUIT_CLIENT: "CircuitClient",
-      TALK_TO_CLIENT: "TalkToClient"
+      TALK_TO_CLIENT: "TalkToClient",
+      TEAM_CLIENT: "TeamClient"
     };
   }
 
