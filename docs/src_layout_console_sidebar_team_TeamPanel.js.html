@@ -581,6 +581,8 @@
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
 import {
+  Accordion,
+  Icon,
   Menu,
   Segment,
   Transition,
@@ -606,8 +608,9 @@ export default class TeamPanel extends Component {
     super(props);
     this.name = "[TeamPanel]";
     this.state = {
+      activeIndex: 0,
       activeItem:
-        SidePanelViewController.SubmenuSelection.TEAM,
+        SidePanelViewController.SubmenuSelection.TEAMS,
       teamVisible: false
     };
     this.myController = RendererControllerFactory.getViewController(
@@ -620,6 +623,7 @@ export default class TeamPanel extends Component {
     this.me = this.getDefaultMe();
     this.myTeam = {};
     this.members = [];
+    this.teams = [{name: "Pheonix"}, {name: "Awesome"}, {name: "Torchie"}]
   }
 
   /**
@@ -660,7 +664,7 @@ export default class TeamPanel extends Component {
    */
   refreshTeamPanel() {
     switch (this.myController.activeTeamSubmenuSelection) {
-      case SidePanelViewController.SubmenuSelection.TEAM:
+      case SidePanelViewController.SubmenuSelection.TEAMS:
         this.showTeamPanel();
         break;
       default:
@@ -674,7 +678,7 @@ export default class TeamPanel extends Component {
   showTeamPanel() {
     this.setState({
       activeItem:
-        SidePanelViewController.SubmenuSelection.TEAM,
+        SidePanelViewController.SubmenuSelection.TEAMS,
       teamVisible: true
     });
     TeamClient.getMyTeam(
@@ -801,6 +805,14 @@ export default class TeamPanel extends Component {
     }
   }
 
+  handleClick = (e, titleProps) => {
+    const { index } = titleProps
+    const { activeIndex } = this.state
+    const newIndex = activeIndex === index ? -1 : index
+
+    this.setState({ activeIndex: newIndex })
+  }
+
   /**
    * gets our team panel list for our team panel in the sidebar
    * @param me
@@ -808,36 +820,106 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   getTeamPanelMembersListContent(me, members) {
-    return (
-      &lt;List
-        inverted
-        divided
-        celled
-        animated
-        verticalAlign="middle"
-        size="large"
-      >
-        {me.id !== me.displayName &amp;&amp; (
-          &lt;TeamPanelListItem
-            key={me.id}
-            model={me}
-            isMe={true}
-            onClickRow={this.handleClickRow}
-          />
-        )}
-        {members.map(
-          model =>
-            model.id !== me.id &amp;&amp; (
-              &lt;TeamPanelListItem
-                key={model.id}
-                model={model}
-                isMe={false}
-                onClickRow={this.handleClickRow}
-              />
-            )
-        )}
-      &lt;/List>
-    );
+    const { activeIndex } = this.state
+
+    let teamPanels = this.teams.map(
+          model => {
+            console.log(model.name);
+          });
+
+   return (
+     &lt;Accordion
+        defaultActiveIndex={[0]}
+       exclusive={false}
+        fluid
+       inverted>
+       &lt;Accordion.Title
+         active={activeIndex === 0}
+         index={0}
+         onClick={this.handleClick}
+       >
+         &lt;Icon name='dropdown' />
+         What is a dog?
+       &lt;/Accordion.Title>
+       &lt;Accordion.Content active={activeIndex === 0}>
+         &lt;p>
+           A dog is a type of domesticated animal. Known for its loyalty and
+           faithfulness, it can be found as a welcome guest in many
+           households across the world.
+         &lt;/p>
+       &lt;/Accordion.Content>
+
+       &lt;Accordion.Title
+         active={activeIndex === 1}
+         index={1}
+         onClick={this.handleClick}
+       >
+         &lt;Icon name='dropdown' />
+         What kinds of dogs are there?
+       &lt;/Accordion.Title>
+       &lt;Accordion.Content active={activeIndex === 1}>
+         &lt;p>
+           There are many breeds of dogs. Each breed varies in size and
+           temperament. Owners often select a breed of dog that they find to
+           be compatible with their own lifestyle and desires from a
+           companion.
+         &lt;/p>
+       &lt;/Accordion.Content>
+
+       &lt;Accordion.Title
+         active={activeIndex === 2}
+         index={2}
+         onClick={this.handleClick}
+       >
+         &lt;Icon name='dropdown' />
+         How do you acquire a dog?
+       &lt;/Accordion.Title>
+       &lt;Accordion.Content active={activeIndex === 2}>
+         &lt;p>
+           Three common ways for a prospective owner to acquire a dog is from
+           pet shops, private owners, or shelters.
+         &lt;/p>
+         &lt;p>
+           A pet shop may be the most convenient way to buy a dog. Buying a
+           dog from a private owner allows you to assess the pedigree and
+           upbringing of your dog before choosing to take it home. Lastly,
+           finding your dog from a shelter, helps give a good home to a dog
+           who may not find one so readily.
+         &lt;/p>
+       &lt;/Accordion.Content>
+     &lt;/Accordion>
+   );
+
+    // return (
+    //   &lt;List
+    //     inverted
+    //     divided
+    //     celled
+    //     animated
+    //     verticalAlign="middle"
+    //     size="large"
+    //   >
+    //     {me.id !== me.displayName &amp;&amp; (
+    //       &lt;TeamPanelListItem
+    //         key={me.id}
+    //         model={me}
+    //         isMe={true}
+    //         onClickRow={this.handleClickRow}
+    //       />
+    //     )}
+    //     {members.map(
+    //       model =>
+    //         model.id !== me.id &amp;&amp; (
+    //           &lt;TeamPanelListItem
+    //             key={model.id}
+    //             model={model}
+    //             isMe={false}
+    //             onClickRow={this.handleClickRow}
+    //           />
+    //         )
+    //     )}
+    //   &lt;/List>
+    // );
   }
 
   /**
@@ -845,10 +927,7 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   render() {
-    let teamName = this.myTeam
-        ? this.myTeam.name
-        : TeamClient.Strings.LOADING,
-      { activeItem } = this.state;
+    let { activeItem } = this.state;
 
     return (
       &lt;div
@@ -862,11 +941,10 @@ export default class TeamPanel extends Component {
         &lt;Segment.Group>
           &lt;Menu size="mini" inverted pointing secondary>
             &lt;Menu.Item
-              name={teamName}
+              name="Teams"
               active={
                 activeItem ===
-                SidePanelViewController.SubmenuSelection
-                  .TEAM
+                SidePanelViewController.SubmenuSelection.TEAMS
               }
               onClick={this.handleMenuClick}
             />

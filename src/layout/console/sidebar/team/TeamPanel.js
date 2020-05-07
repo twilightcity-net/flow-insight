@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  Accordion,
   Menu,
   Segment,
   Transition,
@@ -25,8 +26,9 @@ export default class TeamPanel extends Component {
     super(props);
     this.name = "[TeamPanel]";
     this.state = {
+      activeIndex: 0,
       activeItem:
-        SidePanelViewController.SubmenuSelection.TEAM,
+        SidePanelViewController.SubmenuSelection.TEAMS,
       teamVisible: false
     };
     this.myController = RendererControllerFactory.getViewController(
@@ -39,6 +41,11 @@ export default class TeamPanel extends Component {
     this.me = this.getDefaultMe();
     this.myTeam = {};
     this.members = [];
+    this.teams = [
+      { name: "Pheonix" },
+      { name: "Awesome" },
+      { name: "Torchie" }
+    ];
   }
 
   /**
@@ -79,7 +86,7 @@ export default class TeamPanel extends Component {
    */
   refreshTeamPanel() {
     switch (this.myController.activeTeamSubmenuSelection) {
-      case SidePanelViewController.SubmenuSelection.TEAM:
+      case SidePanelViewController.SubmenuSelection.TEAMS:
         this.showTeamPanel();
         break;
       default:
@@ -93,7 +100,7 @@ export default class TeamPanel extends Component {
   showTeamPanel() {
     this.setState({
       activeItem:
-        SidePanelViewController.SubmenuSelection.TEAM,
+        SidePanelViewController.SubmenuSelection.TEAMS,
       teamVisible: true
     });
     TeamClient.getMyTeam(
@@ -227,6 +234,39 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   getTeamPanelMembersListContent(me, members) {
+    let panels = this.teams.map((team, i) => {
+      return {
+        key: `panel-${i}`,
+        title: `${team.name}`,
+        content: {
+          content: this.getTeamPanelListMembersContent(
+            me,
+            members
+          )
+        }
+      };
+    });
+
+    return (
+      <Accordion
+        as={Menu}
+        vertical
+        defaultActiveIndex={[0]}
+        panels={panels}
+        exclusive={false}
+        fluid
+        inverted
+      />
+    );
+  }
+
+  /**
+   * generates a list of our teams members for our accordion panel
+   * @param me
+   * @param members
+   * @returns {*}
+   */
+  getTeamPanelListMembersContent(me, members) {
     return (
       <List
         inverted
@@ -264,10 +304,7 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   render() {
-    let teamName = this.myTeam
-        ? this.myTeam.name
-        : TeamClient.Strings.LOADING,
-      { activeItem } = this.state;
+    let { activeItem } = this.state;
 
     return (
       <div
@@ -281,11 +318,11 @@ export default class TeamPanel extends Component {
         <Segment.Group>
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
-              name={teamName}
+              name="Teams"
               active={
                 activeItem ===
                 SidePanelViewController.SubmenuSelection
-                  .TEAM
+                  .TEAMS
               }
               onClick={this.handleMenuClick}
             />

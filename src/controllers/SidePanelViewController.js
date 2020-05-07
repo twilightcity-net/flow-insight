@@ -36,7 +36,7 @@ export class SidePanelViewController extends ActiveViewController {
     this.activeSpiritSubmenuSelection =
       SidePanelViewController.SubmenuSelection.SPIRIT;
     this.activeTeamSubmenuSelection =
-      SidePanelViewController.SubmenuSelection.TEAM;
+      SidePanelViewController.SubmenuSelection.TEAMS;
     this.activeCircuitsSubmenuSelection =
       SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS;
     this.activeNotificationsSubmenuSelection =
@@ -141,7 +141,7 @@ export class SidePanelViewController extends ActiveViewController {
     return {
       SPIRIT: "spirit",
       BADGES: "badges",
-      TEAM: "team",
+      TEAMS: "teams",
       PARTICIPATING_CIRCUITS: "my-circuits",
       DO_IT_LATER_CIRCUITS: "do-it-later-circuits",
       NOTIFICATIONS: "notifications"
