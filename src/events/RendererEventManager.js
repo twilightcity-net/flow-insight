@@ -179,10 +179,10 @@ export class RendererEventManager {
             event.replyReturnValue.stack +
             "\n"
         );
-        console.error(event.replyReturnValue.toString());
-      } finally {
-        return event;
+        console.error(event, _event);
+        console.trace();
       }
+      return event;
     };
     ipcRenderer.on(event.type + "-reply", wrapperFunction);
     return wrapperFunction;
