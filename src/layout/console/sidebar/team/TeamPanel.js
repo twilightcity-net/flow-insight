@@ -39,13 +39,8 @@ export default class TeamPanel extends Component {
     this.animationDelay =
       SidePanelViewController.AnimationDelays.SUBMENU;
     this.me = this.getDefaultMe();
-    this.myTeam = {};
     this.members = [];
-    this.teams = [
-      { name: "Pheonix" },
-      { name: "Awesome" },
-      { name: "Torchie" }
-    ];
+    this.teams = [];
   }
 
   /**
@@ -103,14 +98,10 @@ export default class TeamPanel extends Component {
         SidePanelViewController.SubmenuSelection.TEAMS,
       teamVisible: true
     });
-    TeamClient.getMyTeam(
-      TeamClient.Strings.PRIMARY,
-      TeamClient.Strings.EMPTY,
-      this,
-      arg =>
-        this.handleClientCallback(arg, arg => {
-          this.myTeam = arg.data[0];
-        })
+    TeamClient.getAllMyTeams(this, arg =>
+      this.handleClientCallback(arg, arg => {
+        this.teams = arg.data;
+      })
     );
     TeamClient.getMyCurrentStatus(this, arg =>
       this.handleClientCallback(arg, arg => {

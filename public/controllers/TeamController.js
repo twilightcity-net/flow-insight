@@ -23,16 +23,18 @@ module.exports = class TeamController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_MY_TEAM: string, GET_MY_TEAM: string}}
+   * @returns {{GET_STATUS_OF_ME_AND_MY_TEAM: string, LOAD_ALL_MY_TEAMS: string, LOAD_MY_CURRENT_STATUS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_MY_CURRENT_STATUS: string, LOAD_MY_HOME_TEAM: string, LOAD_STATUS_OF_ME_AND_MY_TEAM: string}}
    * @constructor
    */
   static get Events() {
     return {
-      LOAD_MY_TEAM: "load-my-team",
+      LOAD_MY_HOME_TEAM: "load-my-home-team",
+      LOAD_ALL_MY_TEAMS: "load-all-my-teams",
+      GET_MY_HOME_TEAM: "get-my-home-team",
+      GET_ALL_MY_TEAMS: "get-all-my-teams",
       LOAD_MY_CURRENT_STATUS: "load-my-current-status",
       LOAD_STATUS_OF_ME_AND_MY_TEAM:
         "load-status-of-me-and-my-team",
-      GET_MY_TEAM: "get-my-team",
       GET_MY_CURRENT_STATUS: "get-my-current-status",
       GET_STATUS_OF_ME_AND_MY_TEAM:
         "get-status-of-me-and-my-team"
@@ -77,8 +79,11 @@ module.exports = class TeamController extends BaseController {
       );
     } else {
       switch (arg.type) {
-        case TeamController.Events.LOAD_MY_TEAM:
-          this.handleLoadMyTeamEvent(event, arg);
+        case TeamController.Events.LOAD_MY_HOME_TEAM:
+          this.handleLoadMyHomeTeamEvent(event, arg);
+          break;
+        case TeamController.Events.LOAD_ALL_MY_TEAMS:
+          this.handleLoadAllMyTeamsEvent(event, arg);
           break;
         case TeamController.Events.LOAD_MY_CURRENT_STATUS:
           this.handleLoadMyCurrentStatus(event, arg);
@@ -87,8 +92,11 @@ module.exports = class TeamController extends BaseController {
           .LOAD_STATUS_OF_ME_AND_MY_TEAM:
           this.handleLoadStatusOfMeAndMyTeam(event, arg);
           break;
-        case TeamController.Events.GET_MY_TEAM:
-          this.handleGetMyTeamEvent(event, arg);
+        case TeamController.Events.GET_MY_HOME_TEAM:
+          this.handleGetMyHomeTeamEvent(event, arg);
+          break;
+        case TeamController.Events.GET_ALL_MY_TEAMS:
+          this.handleGetAllMyTeamsEvent(event, arg);
           break;
         case TeamController.Events.GET_MY_CURRENT_STATUS:
           this.handleGetMyCurrentStatusEvent(event, arg);
@@ -117,14 +125,9 @@ module.exports = class TeamController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleLoadMyTeamEvent(event, arg, callback) {
-    let type = arg.args.type,
-      name = arg.args.id ? arg.args.id : arg.args.name,
-      urn = TeamController.Paths.TEAM;
-
-    if (type !== TeamController.Types.PRIMARY) {
-      urn += TeamController.Paths.SEPARATOR + name;
-    }
+  handleLoadMyHomeTeamEvent(event, arg, callback) {
+    let urn =
+      TeamController.Paths.TEAM + TeamController.Paths.HOME;
 
     this.doClientRequest(
       TeamController.Contexts.TEAM_CLIENT,
@@ -133,7 +136,79 @@ module.exports = class TeamController extends BaseController {
       TeamController.Types.GET,
       urn,
       store =>
-        this.delegateLoadMyTeamCallback(
+        this.delegateLoadMyHomeTeamCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * handles our callback for our gridtime request of loading my home
+   * team dto from the server.s
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateLoadMyHomeTeamCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let team = store.data,
+        database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.TEAM
+        ),
+        collection = database.getCollection(
+          TeamDatabase.Collections.TEAMS
+        );
+
+      if (team) {
+        let results = collection.find({ isHomeTeam: true });
+        results.forEach(t => {
+          t.isHomeTeam = false;
+          collection.update(t);
+        });
+
+        let result = collection.findOne({ id: team.id });
+        if (result) {
+          collection.remove(result);
+        }
+
+        team.isHomeTeam = true; //TEMP
+        collection.insert(team);
+      }
+    }
+  }
+
+  /**
+   * gets all of our participating teams we have loaded from  the db. If the collections are
+   * empty, we will try looking for new content on grid.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleLoadAllMyTeamsEvent(event, arg, callback) {
+    let urn =
+      TeamController.Paths.TEAM +
+      TeamController.Paths.MY +
+      TeamController.Paths.PARTICIPATING;
+
+    this.doClientRequest(
+      TeamController.Contexts.TEAM_CLIENT,
+      {},
+      TeamController.Names.GET_ALL_MY_TEAMS,
+      TeamController.Types.GET,
+      urn,
+      store =>
+        this.delegateLoadAllMyTeamsCallback(
           store,
           event,
           arg,
@@ -149,11 +224,16 @@ module.exports = class TeamController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateLoadMyTeamCallback(store, event, arg, callback) {
+  delegateLoadAllMyTeamsCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let team = store.data,
+      let teams = store.data,
         database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.TEAM
         ),
@@ -161,10 +241,17 @@ module.exports = class TeamController extends BaseController {
           TeamDatabase.Collections.TEAMS
         );
 
-      if (team) {
-        collection.insert(team);
+      if (teams && teams.length > 0) {
+        teams.forEach(t => {
+          let team = collection.findOne({ id: t.id });
+          if (team) {
+            collection.remove(team);
+          }
+          collection.insert(t);
+        });
       }
     }
+
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,
@@ -184,7 +271,7 @@ module.exports = class TeamController extends BaseController {
       TeamController.Strings.ME;
 
     this.doClientRequest(
-      "TeamClient",
+      TeamController.Contexts.TEAM_CLIENT,
       {},
       "getMyCurrentStatus",
       TeamController.Types.GET,
@@ -249,7 +336,7 @@ module.exports = class TeamController extends BaseController {
     let urn = TeamController.Paths.STATUS_TEAM;
 
     this.doClientRequest(
-      "TeamClient",
+      TeamController.Contexts.TEAM_CLIENT,
       {},
       "getStatusOfMeAndMyTeam",
       TeamController.Types.GET,
@@ -312,28 +399,42 @@ module.exports = class TeamController extends BaseController {
   }
 
   /**
-   * gets one of our teams that is stored in the database, or fetch from grid
+   * gets one of our teams that is stored in the database, or fetch from
+   * gridtime server.
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetMyTeamEvent(event, arg, callback) {
+  handleGetMyHomeTeamEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.TEAM
       ),
-      type = arg.args.type;
-
-    if (type === TeamController.Types.PRIMARY) {
-      let view = database.getViewForMyPrimaryTeam();
-      this.delegateCallbackWithView(null, view, event, arg);
-    } else {
-      arg.error = TeamController.Error.PRIMARY_ONLY;
-      this.delegateCallbackOrEventReplyTo(
-        event,
-        arg,
-        callback
+      collection = database.getCollection(
+        TeamDatabase.Collections.TEAMS
       );
-    }
+
+    arg.data = collection.findOne({ isHomeTeam: true });
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * gets all of our teams we are participating from our local database.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetAllMyTeamsEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TEAM
+      ),
+      view = database.getViewForTeams();
+
+    this.delegateCallbackWithView(null, view, event, arg);
   }
 
   /**

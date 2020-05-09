@@ -12,7 +12,7 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * REST paths for our grid server. good place to store thats shared amoung all controllers
-   * @returns {{PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, JOIN: string, TALK: string, STATUS: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, TEAM: string, TO: string, STATUS_TEAM: string, ROOM: string, CIRCUIT: string}}
+   * @returns {{PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, JOIN: string, TALK: string, STATUS: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, LEAVE: string, TEAM: string, TO: string, STATUS_TEAM: string, ROOM: string, HOME: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -31,12 +31,14 @@ module.exports = class BaseController {
       ACTIVE: "/active",
       WTF: "wtf/",
       TALK: "/talk",
+      MY: "/my",
       TO: "/to",
       ROOM: "/room",
       CHAT: "/chat",
       JOIN: "/join",
       LEAVE: "/leave",
-      CANCEL: "/cancel"
+      CANCEL: "/cancel",
+      HOME: "/home"
     };
   }
 
@@ -161,7 +163,8 @@ module.exports = class BaseController {
       PAUSE_WTF: "pauseWtf",
       JOIN_EXISTING_ROOM: "joinExistingRoom",
       LEAVE_EXISTING_ROOM: "leaveExistingRoom",
-      GET_MY_HOME_TEAM: "getMyHomeTeam"
+      GET_MY_HOME_TEAM: "getMyHomeTeam",
+      GET_ALL_MY_TEAMS: "getAllMyTeams"
     };
   }
 

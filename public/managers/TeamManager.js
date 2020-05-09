@@ -20,15 +20,13 @@ module.exports = class TeamManager {
    * @param callback
    */
   init(callback) {
-    TeamController.instance.handleLoadMyTeamEvent(
+    TeamController.instance.handleLoadAllMyTeamsEvent(
       {},
-      {
-        args: {
-          type: "primary"
-        }
-      },
+      { args: {} },
       () => this.handleInitCallback(callback)
     );
+
+    ///TBD - zoe
     TeamController.instance.handleLoadMyCurrentStatus(
       {},
       { args: {} },
@@ -39,6 +37,7 @@ module.exports = class TeamManager {
       { args: {} },
       () => this.handleInitCallback(callback)
     );
+    ///EOD
   }
 
   /**

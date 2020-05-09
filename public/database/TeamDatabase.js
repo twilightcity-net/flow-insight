@@ -36,7 +36,6 @@ module.exports = class TeamDatabase extends LokiJS {
   static get Views() {
     return {
       TEAMS: "teams",
-      PRIMARY: "primary",
       MEMBERS: "members",
       ME: "me"
     };
@@ -87,9 +86,6 @@ module.exports = class TeamDatabase extends LokiJS {
       TeamDatabase.Collections.TEAMS
     ).addDynamicView(TeamDatabase.Views.TEAMS);
     this.getCollection(
-      TeamDatabase.Collections.TEAMS
-    ).addDynamicView(TeamDatabase.Views.PRIMARY);
-    this.getCollection(
       TeamDatabase.Collections.MEMBERS
     ).addDynamicView(TeamDatabase.Views.MEMBERS);
     this.getCollection(
@@ -108,23 +104,6 @@ module.exports = class TeamDatabase extends LokiJS {
     return collection.getDynamicView(
       TeamDatabase.Views.TEAMS
     );
-  }
-
-  /**
-   * returns our primary team we are part of from the local database
-   * @returns {DynamicView}
-   */
-  getViewForMyPrimaryTeam() {
-    let collection = this.getCollection(
-        TeamDatabase.Collections.TEAMS
-      ),
-      view = collection.getDynamicView(
-        TeamDatabase.Views.PRIMARY
-      );
-    view.applyFind({
-      type: TeamDatabase.Collections.PRIMARY
-    });
-    return view;
   }
 
   /**

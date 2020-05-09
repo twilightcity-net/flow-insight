@@ -39,16 +39,18 @@ export class TeamClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {String}
+   * @returns {{GET_STATUS_OF_ME_AND_MY_TEAM: string, LOAD_ALL_MY_TEAMS: string, LOAD_MY_CURRENT_STATUS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_MY_CURRENT_STATUS: string, LOAD_MY_HOME_TEAM: string, LOAD_STATUS_OF_ME_AND_MY_TEAM: string}}
    * @constructor
    */
   static get Events() {
     return {
-      LOAD_MY_TEAM: "load-my-team",
+      LOAD_MY_HOME_TEAM: "load-my-home-team",
+      LOAD_ALL_MY_TEAMS: "load-all-my-teams",
+      GET_MY_HOME_TEAM: "get-my-home-team",
+      GET_ALL_MY_TEAMS: "get-all-my-teams",
       LOAD_MY_CURRENT_STATUS: "load-my-current-status",
       LOAD_STATUS_OF_ME_AND_MY_TEAM:
         "load-status-of-me-and-my-team",
-      GET_MY_TEAM: "get-my-team",
       GET_MY_CURRENT_STATUS: "get-my-current-status",
       GET_STATUS_OF_ME_AND_MY_TEAM:
         "get-status-of-me-and-my-team"
@@ -78,19 +80,31 @@ export class TeamClient extends BaseClient {
 
   /**
    * loads our team from grid
-   * @param type
-   * @param name
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static loadMyTeam(type, name, scope, callback) {
+  static loadMyHomeTeam(scope, callback) {
     let event = TeamClient.instance.createClientEvent(
-      TeamClient.Events.LOAD_MY_TEAM,
-      {
-        type: type,
-        name: name
-      },
+      TeamClient.Events.LOAD_MY_HOME_TEAM,
+      {},
+      scope,
+      callback
+    );
+    TeamClient.instance.notifyTeam(event);
+    return event;
+  }
+
+  /**
+   * loads all of the teams we are participating in from gridtime
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static loadAllMyTeams(scope, callback) {
+    let event = TeamClient.instance.createClientEvent(
+      TeamClient.Events.LOAD_ALL_MY_TEAMS,
+      {},
       scope,
       callback
     );
@@ -134,19 +148,31 @@ export class TeamClient extends BaseClient {
 
   /**
    * gets our local team that we are in
-   * @param type
-   * @param name
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static getMyTeam(type, name, scope, callback) {
+  static getMyHomeTeam(scope, callback) {
     let event = TeamClient.instance.createClientEvent(
-      TeamClient.Events.GET_MY_TEAM,
-      {
-        type: type,
-        name: name
-      },
+      TeamClient.Events.GET_MY_HOME_TEAM,
+      {},
+      scope,
+      callback
+    );
+    TeamClient.instance.notifyTeam(event);
+    return event;
+  }
+
+  /**
+   * gets all of our teams that we are participating in
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getAllMyTeams(scope, callback) {
+    let event = TeamClient.instance.createClientEvent(
+      TeamClient.Events.GET_ALL_MY_TEAMS,
+      {},
       scope,
       callback
     );
