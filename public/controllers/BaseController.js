@@ -20,8 +20,6 @@ module.exports = class BaseController {
       JOURNAL: "/journal/",
       TEAM: "/team",
       SEPARATOR: "/",
-      STATUS: "/status/",
-      STATUS_TEAM: "/status/team",
       INTENTION: "/intention",
       TASKREF: "/taskref",
       CIRCUIT: "/circuit/",
@@ -60,7 +58,6 @@ module.exports = class BaseController {
    */
   static get Types() {
     return {
-      PRIMARY: "primary",
       GET: "get",
       POST: "post"
     };
@@ -122,7 +119,6 @@ module.exports = class BaseController {
         "Unknown circuit client event type",
       UNKNOWN_TALK_TO_EVENT:
         "Unknown talk to client event type",
-      PRIMARY_ONLY: "Only primary team supported currently",
       INVALID_PARTICIPATING_CIRCUIT:
         "Invalid get my participating circuits event"
     };

@@ -1,6 +1,5 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
-  MemberWorkStatusDto = require("../dto/MemberWorkStatusDto"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   TeamDatabase = require("../database/TeamDatabase");
 
@@ -23,7 +22,7 @@ module.exports = class TeamController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_STATUS_OF_ME_AND_MY_TEAM: string, LOAD_ALL_MY_TEAMS: string, LOAD_MY_CURRENT_STATUS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_MY_CURRENT_STATUS: string, LOAD_MY_HOME_TEAM: string, LOAD_STATUS_OF_ME_AND_MY_TEAM: string}}
+   * @returns {{GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, LOAD_MY_HOME_TEAM: string, LOAD_ALL_MY_TEAMS: string}}
    * @constructor
    */
   static get Events() {
@@ -31,13 +30,7 @@ module.exports = class TeamController extends BaseController {
       LOAD_MY_HOME_TEAM: "load-my-home-team",
       LOAD_ALL_MY_TEAMS: "load-all-my-teams",
       GET_MY_HOME_TEAM: "get-my-home-team",
-      GET_ALL_MY_TEAMS: "get-all-my-teams",
-      LOAD_MY_CURRENT_STATUS: "load-my-current-status",
-      LOAD_STATUS_OF_ME_AND_MY_TEAM:
-        "load-status-of-me-and-my-team",
-      GET_MY_CURRENT_STATUS: "get-my-current-status",
-      GET_STATUS_OF_ME_AND_MY_TEAM:
-        "get-status-of-me-and-my-team"
+      GET_ALL_MY_TEAMS: "get-all-my-teams"
     };
   }
 
@@ -85,28 +78,11 @@ module.exports = class TeamController extends BaseController {
         case TeamController.Events.LOAD_ALL_MY_TEAMS:
           this.handleLoadAllMyTeamsEvent(event, arg);
           break;
-        case TeamController.Events.LOAD_MY_CURRENT_STATUS:
-          this.handleLoadMyCurrentStatus(event, arg);
-          break;
-        case TeamController.Events
-          .LOAD_STATUS_OF_ME_AND_MY_TEAM:
-          this.handleLoadStatusOfMeAndMyTeam(event, arg);
-          break;
         case TeamController.Events.GET_MY_HOME_TEAM:
           this.handleGetMyHomeTeamEvent(event, arg);
           break;
         case TeamController.Events.GET_ALL_MY_TEAMS:
           this.handleGetAllMyTeamsEvent(event, arg);
-          break;
-        case TeamController.Events.GET_MY_CURRENT_STATUS:
-          this.handleGetMyCurrentStatusEvent(event, arg);
-          break;
-        case TeamController.Events
-          .GET_STATUS_OF_ME_AND_MY_TEAM:
-          this.handleGetStatusOfMeAndMyTeamEvent(
-            event,
-            arg
-          );
           break;
         default:
           throw new Error(
@@ -196,10 +172,7 @@ module.exports = class TeamController extends BaseController {
    * @param callback
    */
   handleLoadAllMyTeamsEvent(event, arg, callback) {
-    let urn =
-      TeamController.Paths.TEAM +
-      TeamController.Paths.MY +
-      TeamController.Paths.PARTICIPATING;
+    let urn = TeamController.Paths.TEAM;
 
     this.doClientRequest(
       TeamController.Contexts.TEAM_CLIENT,
@@ -260,145 +233,6 @@ module.exports = class TeamController extends BaseController {
   }
 
   /**
-   * gets our current status of ourselves
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleLoadMyCurrentStatus(event, arg, callback) {
-    let urn =
-      TeamController.Paths.STATUS +
-      TeamController.Strings.ME;
-
-    this.doClientRequest(
-      TeamController.Contexts.TEAM_CLIENT,
-      {},
-      "getMyCurrentStatus",
-      TeamController.Types.GET,
-      urn,
-      store =>
-        this.delegateLoadMyCurrentStatusCallback(
-          store,
-          event,
-          arg,
-          callback
-        )
-    );
-  }
-
-  /**
-   * callback processor for our current status query
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateLoadMyCurrentStatusCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
-    if (store.error) {
-      arg.error = store.error;
-    } else {
-      let database = DatabaseFactory.getDatabase(
-          DatabaseFactory.Names.TEAM
-        ),
-        collection = database.getCollection(
-          TeamDatabase.Collections.ME
-        ),
-        view = database.getViewForMyCurrentStatus(),
-        member = new MemberWorkStatusDto(store.data),
-        me = view.data()[0];
-
-      if (me) {
-        me = member;
-        collection.update(me);
-      } else {
-        collection.insert(member);
-      }
-    }
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
-  }
-
-  /**
-   * loads our current status and our team status
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleLoadStatusOfMeAndMyTeam(event, arg, callback) {
-    let urn = TeamController.Paths.STATUS_TEAM;
-
-    this.doClientRequest(
-      TeamController.Contexts.TEAM_CLIENT,
-      {},
-      "getStatusOfMeAndMyTeam",
-      TeamController.Types.GET,
-      urn,
-      store =>
-        this.delegateLoadStatusOfMeAndMyTeamCallback(
-          store,
-          event,
-          arg,
-          callback
-        )
-    );
-  }
-
-  /**
-   * processes our callback for when when load our team status
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateLoadStatusOfMeAndMyTeamCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
-    if (store.error) {
-      arg.error = store.error;
-    } else {
-      let database = DatabaseFactory.getDatabase(
-          DatabaseFactory.Names.TEAM
-        ),
-        collection = database.getCollection(
-          TeamDatabase.Collections.MEMBERS
-        ),
-        view = database.getViewForStatusOfMeAndMyTeam();
-
-      if (view.count() === 0) {
-        store.data.forEach(m => {
-          collection.insert(new MemberWorkStatusDto(m));
-        });
-      } else if (store.data.length > 0) {
-        store.data.forEach(m => {
-          let member = collection.findOne({ id: m.id });
-          if (member) {
-            member = new MemberWorkStatusDto(m);
-            collection.update(member);
-          } else {
-            collection.insert(new MemberWorkStatusDto(m));
-          }
-        });
-      }
-    }
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
-  }
-
-  /**
    * gets one of our teams that is stored in the database, or fetch from
    * gridtime server.
    * @param event
@@ -433,36 +267,6 @@ module.exports = class TeamController extends BaseController {
         DatabaseFactory.Names.TEAM
       ),
       view = database.getViewForTeams();
-
-    this.delegateCallbackWithView(null, view, event, arg);
-  }
-
-  /**
-   * queries for our current status in our local database
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleGetMyCurrentStatusEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.TEAM
-      ),
-      view = database.getViewForMyCurrentStatus();
-
-    this.delegateCallbackWithView(null, view, event, arg);
-  }
-
-  /**
-   * queries for our team status from our local database
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleGetStatusOfMeAndMyTeamEvent(event, arg, callback) {
-    let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.TEAM
-      ),
-      view = database.getViewForStatusOfMeAndMyTeam();
 
     this.delegateCallbackWithView(null, view, event, arg);
   }

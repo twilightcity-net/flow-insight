@@ -18,7 +18,6 @@ export class BaseClient {
   static get Strings() {
     return {
       ME: "me",
-      PRIMARY: "primary",
       EMPTY: "",
       YOU: " (you)",
       LOADING: "loading...",

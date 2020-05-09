@@ -25,19 +25,6 @@ module.exports = class TeamManager {
       { args: {} },
       () => this.handleInitCallback(callback)
     );
-
-    ///TBD - zoe
-    TeamController.instance.handleLoadMyCurrentStatus(
-      {},
-      { args: {} },
-      () => this.handleInitCallback(callback)
-    );
-    TeamController.instance.handleLoadStatusOfMeAndMyTeam(
-      {},
-      { args: {} },
-      () => this.handleInitCallback(callback)
-    );
-    ///EOD
   }
 
   /**
@@ -46,7 +33,7 @@ module.exports = class TeamManager {
    */
   handleInitCallback(callback) {
     this.loadCount++;
-    if (callback && this.loadCount === 3) {
+    if (callback && this.loadCount === 1) {
       callback();
     }
   }

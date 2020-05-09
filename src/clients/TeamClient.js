@@ -20,8 +20,20 @@ export class TeamClient extends BaseClient {
   /**
    * stores my current status for other gui things to use
    * @type {MemberWorkStatusDto}
+   * @deprecated
    */
-  static me = null;
+
+  // FIXME this is replaced by the new member client
+
+  static me = {
+    id: "test",
+    email: "noone@nowhere.com",
+    fullName: "jane doe",
+    displayName: "jane",
+    username: "jane",
+    onlineStatus: "online",
+    xpSummary: "0"
+  };
 
   /**
    * builds the Client for a Team in Gridtime
@@ -39,7 +51,7 @@ export class TeamClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_STATUS_OF_ME_AND_MY_TEAM: string, LOAD_ALL_MY_TEAMS: string, LOAD_MY_CURRENT_STATUS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_MY_CURRENT_STATUS: string, LOAD_MY_HOME_TEAM: string, LOAD_STATUS_OF_ME_AND_MY_TEAM: string}}
+   * @returns {{GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, LOAD_MY_HOME_TEAM: string, LOAD_ALL_MY_TEAMS: string}}
    * @constructor
    */
   static get Events() {
@@ -47,13 +59,7 @@ export class TeamClient extends BaseClient {
       LOAD_MY_HOME_TEAM: "load-my-home-team",
       LOAD_ALL_MY_TEAMS: "load-all-my-teams",
       GET_MY_HOME_TEAM: "get-my-home-team",
-      GET_ALL_MY_TEAMS: "get-all-my-teams",
-      LOAD_MY_CURRENT_STATUS: "load-my-current-status",
-      LOAD_STATUS_OF_ME_AND_MY_TEAM:
-        "load-status-of-me-and-my-team",
-      GET_MY_CURRENT_STATUS: "get-my-current-status",
-      GET_STATUS_OF_ME_AND_MY_TEAM:
-        "get-status-of-me-and-my-team"
+      GET_ALL_MY_TEAMS: "get-all-my-teams"
     };
   }
 
@@ -64,9 +70,6 @@ export class TeamClient extends BaseClient {
   static init(scope) {
     if (!TeamClient.instance) {
       TeamClient.instance = new TeamClient(scope);
-      TeamClient.getMyCurrentStatus(this, arg => {
-        TeamClient.me = arg.data[0];
-      });
     }
   }
 
@@ -113,40 +116,6 @@ export class TeamClient extends BaseClient {
   }
 
   /**
-   * loads my current status into our database from grid
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static loadMyCurrentStatus(scope, callback) {
-    let event = TeamClient.instance.createClientEvent(
-      TeamClient.Events.LOAD_MY_CURRENT_STATUS,
-      {},
-      scope,
-      callback
-    );
-    TeamClient.instance.notifyTeam(event);
-    return event;
-  }
-
-  /**
-   * loads the status of me and my team into our local database
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static loadStatusOfMeAndMyTeam(scope, callback) {
-    let event = TeamClient.instance.createClientEvent(
-      TeamClient.Events.LOAD_STATUS_OF_ME_AND_MY_TEAM,
-      {},
-      scope,
-      callback
-    );
-    TeamClient.instance.notifyTeam(event);
-    return event;
-  }
-
-  /**
    * gets our local team that we are in
    * @param scope
    * @param callback
@@ -172,40 +141,6 @@ export class TeamClient extends BaseClient {
   static getAllMyTeams(scope, callback) {
     let event = TeamClient.instance.createClientEvent(
       TeamClient.Events.GET_ALL_MY_TEAMS,
-      {},
-      scope,
-      callback
-    );
-    TeamClient.instance.notifyTeam(event);
-    return event;
-  }
-
-  /**
-   * gets my current status from our Team client service
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static getMyCurrentStatus(scope, callback) {
-    let event = TeamClient.instance.createClientEvent(
-      TeamClient.Events.GET_MY_CURRENT_STATUS,
-      {},
-      scope,
-      callback
-    );
-    TeamClient.instance.notifyTeam(event);
-    return event;
-  }
-
-  /**
-   * gets the status of me and my team from our TeamClient service
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static getStatusOfMeAndMyTeam(scope, callback) {
-    let event = TeamClient.instance.createClientEvent(
-      TeamClient.Events.GET_STATUS_OF_ME_AND_MY_TEAM,
       {},
       scope,
       callback

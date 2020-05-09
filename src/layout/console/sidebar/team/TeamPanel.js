@@ -103,16 +103,6 @@ export default class TeamPanel extends Component {
         this.teams = arg.data;
       })
     );
-    TeamClient.getMyCurrentStatus(this, arg =>
-      this.handleClientCallback(arg, arg => {
-        this.me = arg.data[0];
-      })
-    );
-    TeamClient.getStatusOfMeAndMyTeam(this, arg =>
-      this.handleClientCallback(arg, arg => {
-        this.members = arg.data;
-      })
-    );
   }
 
   /**
