@@ -8,6 +8,7 @@ import { TalkClient } from "../clients/TalkClient";
 import { TalkToClient } from "../clients/TalkToClient";
 import { JournalClient } from "../clients/JournalClient";
 import { TeamClient } from "../clients/TeamClient";
+import { MemberClient } from "../clients/MemberClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -105,6 +106,7 @@ export default class ConsoleView extends Component {
     TalkClient.init(this);
     TalkToClient.init(this);
     TeamClient.init(this);
+    MemberClient.init(this);
     JournalClient.init(this);
     CircuitClient.init(this);
     DimensionController.init(this);

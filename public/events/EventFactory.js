@@ -18,7 +18,7 @@ class EventFactory {
 
   /**
    * Static enum to store event types. These are basically the type of possible events that can be dispatched by the Manager.
-   * @returns {{SCREENSHOT_READY_FOR_DISPLAY: string, DATABASE_VOLUMES_READY: string, WINDOW_CONSOLE_READY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, SHORTCUTS_RECIEVED: string, DATABASE_CLIENT: string, JOURNAL_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, WINDOW_FOCUS: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_LOADING_SHOWN: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, APP_PULSE: string, WINDOW_LOADING_LOGIN: string, DATASTORE_LOAD: string, TEAM_CLIENT: string, TALK_TO_CLIENT: string, DATASTORE_LOADED: string, WINDOW_CONSOLE_BROWSER_REQUEST: string, SHORTCUTS_CREATED: string, APPLOADER_LOAD: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, WINDOW_BLUR: string, SCREENSHOT_COMPLETE: string, WINDOW_ACTIVATOR_CLOSE: string, SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: string}}
+   * @returns {{SCREENSHOT_READY_FOR_DISPLAY: string, DATABASE_VOLUMES_READY: string, WINDOW_CONSOLE_READY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, SHORTCUTS_RECIEVED: string, DATABASE_CLIENT: string, JOURNAL_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, WINDOW_FOCUS: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_LOADING_SHOWN: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, APP_PULSE: string, WINDOW_LOADING_LOGIN: string, DATASTORE_LOAD: string, TEAM_CLIENT: string, TALK_TO_CLIENT: string, DATASTORE_LOADED: string, WINDOW_CONSOLE_BROWSER_REQUEST: string, SHORTCUTS_CREATED: string, APPLOADER_LOAD: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, WINDOW_BLUR: string, SCREENSHOT_COMPLETE: string, MEMBER_CLIENT: string, WINDOW_ACTIVATOR_CLOSE: string, SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: string}}
    * @constructor
    */
   static get Types() {
@@ -31,6 +31,7 @@ class EventFactory {
       DATABASE_VOLUMES_READY:
         prefix + "database-farm-ready",
       TEAM_CLIENT: prefix + "team-client",
+      MEMBER_CLIENT: prefix + "member-client",
       JOURNAL_CLIENT: prefix + "journal-client",
       WINDOW_FOCUS: prefix + "window-focus",
       WINDOW_BLUR: prefix + "window-blur",

@@ -1,7 +1,8 @@
 const TalkDB = require("./TalkDatabase"),
   JournalDB = require("./JournalDatabase"),
   CircuitDB = require("./CircuitDatabase"),
-  TeamDB = require("./TeamDatabase");
+  TeamDB = require("./TeamDatabase"),
+  MemberDB = require("./MemberDatabase");
 
 /**
  * this class is used to build new databases
@@ -10,7 +11,7 @@ const TalkDB = require("./TalkDatabase"),
 module.exports = class DatabaseFactory {
   /**
    * the names of our databases
-   * @returns {{JOURNAL: string, TEAM: string, TALK: string, CIRCUIT: string}}
+   * @returns {{JOURNAL: string, TEAM: string, TALK: string, CIRCUIT: string, MEMBER: string}}
    * @constructor
    */
   static get Names() {
@@ -18,12 +19,16 @@ module.exports = class DatabaseFactory {
       TALK: "talk",
       JOURNAL: "journal",
       CIRCUIT: "circuit",
-      TEAM: "team"
+      TEAM: "team",
+      MEMBER: "member"
     };
   }
 
   /**
-   * creates our in memory database and return it
+   * creates our in memonic (in-memory) database and return it. These things have about a 250k document limit at about
+   * 1.4GB. Max size is about ~4.2GB which hits your local floating point indexs.. This creates weird behavior in which
+   * multiple indices reference multiple unrelated things.. Long story, try to spawn and manage hierarchial data via
+   * the tree of a loki db.
    * @param name
    * @returns {DatabaseFactory}
    */
@@ -37,6 +42,8 @@ module.exports = class DatabaseFactory {
         return new CircuitDB();
       case DatabaseFactory.Names.TEAM:
         return new TeamDB();
+      case DatabaseFactory.Names.MEMBER:
+        return new MemberDB();
       default:
         throw new Error(
           "Unknown database type '" + name + "'"

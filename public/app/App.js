@@ -1,11 +1,8 @@
 const { app } = require("electron"),
-  fs = require("fs"),
-  path = require("path"),
   chalk = require("chalk"),
   log = require("electron-log"),
   isDev = require("electron-is-dev"),
   rootPath = require("electron-root-path").rootPath,
-  platform = require("electron-platform"),
   argv = require("yargs").argv,
   Logger = require("./AppLogger"),
   AppError = require("./AppError"),
@@ -13,6 +10,7 @@ const { app } = require("electron"),
   TalkManager = require("../managers/TalkManager"),
   VolumeManager = require("../managers/VolumeManager"),
   TeamManager = require("../managers/TeamManager"),
+  MemberManager = require("../managers/MemberManager"),
   JournalManager = require("../managers/JournalManager"),
   CircuitManager = require("../managers/CircuitManager"),
   TalkToManager = require("../managers/TalkToManager"),
@@ -138,7 +136,9 @@ module.exports = class App {
     }
   }
 
-  /// called by the app ready event -> called first after electron app loaded
+  /**
+   * called by the app ready event -> called first after electron app loaded
+   */
   onReady() {
     global.App.api = Util.getAppApi();
     global.App.name = Util.getAppName();
@@ -167,6 +167,7 @@ module.exports = class App {
       global.App.TalkManager = new TalkManager();
       global.App.JournalManager = new JournalManager();
       global.App.TeamManager = new TeamManager();
+      global.App.MemberManager = new MemberManager();
       global.App.CircuitManager = new CircuitManager();
       global.App.TalkToManager = new TalkToManager();
       global.App.ShortcutManager = new ShortcutManager();
@@ -196,9 +197,11 @@ module.exports = class App {
     }
   }
 
-  /// This listener is activate when someone tries to run the app again. This is also where
-  /// we would listen for any CLI commands or arguments... Such as Torchie task-new or
-  /// Torchie -quit
+  /**
+   * This listener is activate when someone tries to run the app again. This is also where
+   * we would listen for any CLI commands or arguments... Such as Torchie task-new or
+   * Torchie -quit
+   */
   onSingleInstance(commandLine, workingDirectory) {
     log.warn(
       "[App] second instance detected -> " +
@@ -208,31 +211,40 @@ module.exports = class App {
     );
   }
 
-  /// processes the system command line arguments.. nothing fance should go here
-  /// will need to build a more complex CLI processor when we have actual an
-  /// API that requires using args
+  /**
+   * processes the system command line arguments.. nothing fance should go here
+   * will need to build a more complex CLI processor when we have actual an
+   * API that requires using args
+   *
+   * check for --activate argument which can only be 'new' for now.
+   * this will remove the previous license key and prompt for a new key
+   */
   processCLI() {
-    /// check for --activate argument which can only be 'new' for now.
-    /// this will remove the previous license key and prompt for a new key
     if (argv.deactivate || argv.DEACTIVATE) {
       console.log("deactivate!!!");
       // AppController.init(this);
     }
   }
 
-  /// idle the app if all windows are closed
+  /**
+   * idle the app if all windows are closed
+   */
   onWindowAllClosed() {
     log.info("[App] app idle : no windows");
   }
 
-  /// called before windows are closed and is going to quit.
+  /**
+   * called before windows are closed and is going to quit.
+   *
+   * only logout if we are already logged in. This is used to
+   * bypass quiting during activation or loading
+   * @param event
+   */
   onWillQuit(event) {
     log.info(
       "[App] before quit -> attempt to logout application"
     );
 
-    /// only logout if we are already logged in. This is used to
-    /// bypass quiting during activation or loading
     if (global.App.isLoggedIn) {
       event.preventDefault();
       global.App.WindowManager.destroyAllWindows();
@@ -254,13 +266,21 @@ module.exports = class App {
     }
   }
 
-  /// called when the application is quiting
+  /**
+   * called when the application is quiting
+   * @param event
+   * @param exitCode
+   */
   onQuit(event, exitCode) {
     log.info("[App] quitting -> exitCode : " + exitCode);
   }
 
-  /// handles when the gpu crashes then quites if not already quit.
-  // TODO implement https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
+  /**
+   * handles when the gpu crashes then quites if not already quit.
+   * // TODO implement https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
+   * @param event
+   * @param killed
+   */
   onCrash(event, killed) {
     App.handleError(
       new AppError(
@@ -280,7 +300,9 @@ module.exports = class App {
     AppError.handleError(error, fatal);
   }
 
-  /// used to start the app listeners which are dispatched by the apps events
+  /**
+   * used to start the app listeners which are dispatched by the apps eventsused to start the app listeners which are dispatched by the apps events
+   */
   start() {
     log.info("[App] starting...");
     // this.errorWatcher();
@@ -295,7 +317,9 @@ module.exports = class App {
     app.on("gpu-process-crashed", this.events.crashed);
   }
 
-  /// called to start loading the application from AppLoader class
+  /**
+   * called to start loading the application from AppLoader class
+   */
   load() {
     log.info("[App] checking for settings...");
     if (global.App.AppSettings.check()) {
@@ -307,19 +331,24 @@ module.exports = class App {
     }
   }
 
-  /// restarts the application if not in dev mode; uses hard quit to
-  /// bypass any of the quit events.
+  /**
+   * restarts the application if not in dev mode; uses hard quit to bypass any of the quit events.
+   */
   restart() {
     if (!isDev) app.relaunch();
     app.exit(0);
   }
 
-  /// wrapper function to quit the application
+  /**
+   * wrapper function to quit the application
+   */
   quit() {
     app.quit();
   }
 
-  /// async way to quit the application from renderer
+  /**
+   * async way to quit the application from renderer
+   */
   createQuitListener() {
     this.events.quitListener = EventFactory.createEvent(
       EventFactory.Types.APP_QUIT,

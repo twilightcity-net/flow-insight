@@ -4,7 +4,6 @@ import { Divider, Feed, Segment } from "semantic-ui-react";
 import SplitterLayout from "react-splitter-layout";
 import ActiveCircuitChat from "./ActiveCircuitChat";
 import UtilRenderer from "../../../../../UtilRenderer";
-import { TeamClient } from "../../../../../clients/TeamClient";
 import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { scrollTo } from "../../../../../UtilScroll";
@@ -25,7 +24,6 @@ export default class ActiveCircuitFeed extends Component {
   constructor(props) {
     super(props);
     this.name = "[ActiveCircuitFeed]";
-    this.me = TeamClient.getMe();
     this.lastFeedEvent = null;
     this.feedEvents = [];
     this.messages = [];
@@ -194,12 +192,10 @@ export default class ActiveCircuitFeed extends Component {
 
   /**
    * adds a new message to our messages array and triggers a rerender
-   * @param name
-   * @param time
    * @param text
    * @param callback
    */
-  addChatMessage = (name, time, text, callback) => {
+  addChatMessage = (text, callback) => {
     let roomName = this.props.resource.uriArr[2];
     TalkToClient.publishChatToRoom(
       roomName + "-wtf",
@@ -236,13 +232,7 @@ export default class ActiveCircuitFeed extends Component {
    * @param callback
    */
   handleEnterKey = (text, callback) => {
-    this.addChatMessage(
-      this.me.userName,
-      "NOW",
-      text,
-      callback,
-      true
-    );
+    this.addChatMessage(text, callback, true);
   };
 
   /**
