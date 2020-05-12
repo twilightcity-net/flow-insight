@@ -10,7 +10,6 @@ import { SidePanelViewController } from "../../../../controllers/SidePanelViewCo
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import SpiritCanvas from "./SpiritCanvas";
 import { DimensionController } from "../../../../controllers/DimensionController";
-import { TeamClient } from "../../../../clients/TeamClient";
 import { MemberClient } from "../../../../clients/MemberClient";
 import UtilRenderer from "../../../../UtilRenderer";
 
