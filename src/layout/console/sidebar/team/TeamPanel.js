@@ -38,31 +38,7 @@ export default class TeamPanel extends Component {
       SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay =
       SidePanelViewController.AnimationDelays.SUBMENU;
-    this.me = this.getDefaultMe();
-    this.members = [];
     this.teams = [];
-  }
-
-  /**
-   * make sure we don't update when we aren't changing.
-   * @param nextProps
-   * @param nextState
-   * @param nextContext
-   * @returns {boolean}
-   */
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return this.me.id !== this.me.displayName;
-  }
-
-  /**
-   * creates a default member object for loading purposes
-   * @returns {{displayName: string, id: string}}
-   */
-  getDefaultMe() {
-    return {
-      displayName: SidePanelViewController.ME,
-      id: SidePanelViewController.ME
-    };
   }
 
   /**
@@ -150,10 +126,7 @@ export default class TeamPanel extends Component {
    * @param isMe
    */
   handleClickRow = member => {
-    let name =
-      this.me.id === member.id
-        ? TeamClient.Strings.ME
-        : member.userName;
+    let name = member.username;
     this.requestBrowserToLoadTeamJournalAndSetActiveMember(
       name
     );
@@ -199,10 +172,7 @@ export default class TeamPanel extends Component {
     } else {
       return (
         <div className="teamPanelMembersContent">
-          {this.getTeamPanelMembersListContent(
-            this.me,
-            this.members
-          )}
+          {this.getTeamPanelMembersListContent()}
         </div>
       );
     }
@@ -210,19 +180,16 @@ export default class TeamPanel extends Component {
 
   /**
    * gets our team panel list for our team panel in the sidebar
-   * @param me
-   * @param members
    * @returns {*}
    */
-  getTeamPanelMembersListContent(me, members) {
+  getTeamPanelMembersListContent() {
     let panels = this.teams.map((team, i) => {
       return {
         key: `panel-${i}`,
         title: `${team.name}`,
         content: {
           content: this.getTeamPanelListMembersContent(
-            me,
-            members
+            team.teamMembers
           )
         }
       };
@@ -243,11 +210,10 @@ export default class TeamPanel extends Component {
 
   /**
    * generates a list of our teams members for our accordion panel
-   * @param me
    * @param members
    * @returns {*}
    */
-  getTeamPanelListMembersContent(me, members) {
+  getTeamPanelListMembersContent(members) {
     return (
       <List
         inverted
@@ -257,24 +223,14 @@ export default class TeamPanel extends Component {
         verticalAlign="middle"
         size="large"
       >
-        {me.id !== me.displayName && (
-          <TeamPanelListItem
-            key={me.id}
-            model={me}
-            isMe={true}
-            onClickRow={this.handleClickRow}
-          />
-        )}
         {members.map(
           model =>
-            model.id !== me.id && (
               <TeamPanelListItem
                 key={model.id}
                 model={model}
                 isMe={false}
                 onClickRow={this.handleClickRow}
               />
-            )
         )}
       </List>
     );
