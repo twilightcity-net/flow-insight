@@ -52,7 +52,7 @@ module.exports = class TeamDatabase extends LokiJS {
       ORG_ID: "organizationId",
       NAME: "name",
       TYPE: "type",
-      USER_NAME: "username",
+      USER_NAME: "userName",
       EMAIL: "email",
       DISPLAY_NAME: "displayName"
     };

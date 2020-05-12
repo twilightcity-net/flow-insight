@@ -12,14 +12,13 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * REST paths for our grid server. good place to store thats shared amoung all controllers
-   * @returns {{PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, JOIN: string, TALK: string, MY: string, MEMBER: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, ME: string, LEAVE: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
+   * @returns {{PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, JOIN: string, TALK: string, STATUS: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, LEAVE: string, TEAM: string, TO: string, STATUS_TEAM: string, ROOM: string, HOME: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
     return {
       JOURNAL: "/journal/",
       TEAM: "/team",
-      MEMBER: "/member",
       SEPARATOR: "/",
       INTENTION: "/intention",
       TASKREF: "/taskref",
@@ -30,7 +29,6 @@ module.exports = class BaseController {
       ACTIVE: "/active",
       WTF: "wtf/",
       TALK: "/talk",
-      ME: "/me",
       MY: "/my",
       TO: "/to",
       ROOM: "/room",
@@ -122,9 +120,7 @@ module.exports = class BaseController {
       UNKNOWN_TALK_TO_EVENT:
         "Unknown talk to client event type",
       INVALID_PARTICIPATING_CIRCUIT:
-        "Invalid get my participating circuits event",
-      UNKNOWN_ME:
-        "The server returned back a null me object. Are you null?"
+        "Invalid get my participating circuits event"
     };
   }
 
@@ -142,7 +138,7 @@ module.exports = class BaseController {
 
   /**
    * definition names of our controllers functions
-   * @returns {{JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
+   * @returns {{GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, JOIN_EXISTING_ROOM: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, CANCEL_WTF: string, PAUSE_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string}}
    * @constructor
    */
   static get Names() {
@@ -164,8 +160,7 @@ module.exports = class BaseController {
       JOIN_EXISTING_ROOM: "joinExistingRoom",
       LEAVE_EXISTING_ROOM: "leaveExistingRoom",
       GET_MY_HOME_TEAM: "getMyHomeTeam",
-      GET_ALL_MY_TEAMS: "getAllMyTeams",
-      GET_ME: "getMe"
+      GET_ALL_MY_TEAMS: "getAllMyTeams"
     };
   }
 

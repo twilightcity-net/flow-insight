@@ -29,8 +29,7 @@ module.exports = class VolumeManager {
   }
 
   /**
-   * initialize our databases for our system. NOTEL talk manager does not have an init
-   * function so it is not counted towards any setup time.
+   * initialize our databases for our system
    */
   init() {
     log.info(this.name + " initialize memonic databases");
@@ -47,13 +46,9 @@ module.exports = class VolumeManager {
     VolumeManager.createDatabaseVolume(
       DatabaseFactory.Names.TEAM
     );
-    VolumeManager.createDatabaseVolume(
-      DatabaseFactory.Names.MEMBER
-    );
     VolumeManager.loadDefaultJournalDatabase();
     VolumeManager.loadDefaultCircuitDatabase();
     VolumeManager.loadDefaultTeamDatabase();
-    VolumeManager.loadDefaultMemberDatabase();
   }
 
   /**
@@ -100,15 +95,6 @@ module.exports = class VolumeManager {
    */
   static loadDefaultTeamDatabase() {
     global.App.TeamManager.init(() => {
-      VolumeManager.handleFinishLoadingVolumes();
-    });
-  }
-
-  /**
-   * loads our member database into our memory
-   */
-  static loadDefaultMemberDatabase() {
-    global.App.MemberManager.init(() => {
       VolumeManager.handleFinishLoadingVolumes();
     });
   }

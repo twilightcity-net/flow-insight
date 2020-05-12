@@ -12,7 +12,7 @@ import {
 import { DimensionController } from "../../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import PartyPanelListItem from "./PartyPanelListItem";
-import { MemberClient } from "../../../../../clients/MemberClient";
+import { TeamClient } from "../../../../../clients/TeamClient";
 import moment from "moment";
 import UtilRenderer from "../../../../../UtilRenderer";
 
@@ -108,7 +108,7 @@ export default class CircuitSidebar extends Component {
    * @returns {boolean}
    */
   isMe(id) {
-    let me = MemberClient.me;
+    let me = TeamClient.getMe();
     return me && me.id === id;
   }
 
