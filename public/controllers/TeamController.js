@@ -162,6 +162,12 @@ module.exports = class TeamController extends BaseController {
         collection.insert(team);
       }
     }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
