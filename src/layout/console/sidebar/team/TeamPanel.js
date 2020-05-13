@@ -223,15 +223,14 @@ export default class TeamPanel extends Component {
         verticalAlign="middle"
         size="large"
       >
-        {members.map(
-          model =>
-              <TeamPanelListItem
-                key={model.id}
-                model={model}
-                isMe={false}
-                onClickRow={this.handleClickRow}
-              />
-        )}
+        {members.map(model => (
+          <TeamPanelListItem
+            key={model.id}
+            model={model}
+            isMe={false}
+            onClickRow={this.handleClickRow}
+          />
+        ))}
       </List>
     );
   }

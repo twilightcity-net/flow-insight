@@ -12,7 +12,7 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * REST paths for our grid server. good place to store thats shared amoung all controllers
-   * @returns {{PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, JOIN: string, TALK: string, STATUS: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, LEAVE: string, TEAM: string, TO: string, STATUS_TEAM: string, ROOM: string, HOME: string, CIRCUIT: string}}
+   * @returns {{PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, JOIN: string, TALK: string, MY: string, MEMBER: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, LEAVE: string, ME: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -36,7 +36,9 @@ module.exports = class BaseController {
       JOIN: "/join",
       LEAVE: "/leave",
       CANCEL: "/cancel",
-      HOME: "/home"
+      HOME: "/home",
+      MEMBER: "/member",
+      ME: "/me"
     };
   }
 
@@ -138,7 +140,7 @@ module.exports = class BaseController {
 
   /**
    * definition names of our controllers functions
-   * @returns {{GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, JOIN_EXISTING_ROOM: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, CANCEL_WTF: string, PAUSE_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string}}
+   * @returns {{JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
    * @constructor
    */
   static get Names() {
@@ -160,7 +162,8 @@ module.exports = class BaseController {
       JOIN_EXISTING_ROOM: "joinExistingRoom",
       LEAVE_EXISTING_ROOM: "leaveExistingRoom",
       GET_MY_HOME_TEAM: "getMyHomeTeam",
-      GET_ALL_MY_TEAMS: "getAllMyTeams"
+      GET_ALL_MY_TEAMS: "getAllMyTeams",
+      GET_ME: "getMe"
     };
   }
 
@@ -173,7 +176,8 @@ module.exports = class BaseController {
     return {
       CIRCUIT_CLIENT: "CircuitClient",
       TALK_TO_CLIENT: "TalkToClient",
-      TEAM_CLIENT: "TeamClient"
+      TEAM_CLIENT: "TeamClient",
+      MEMBER_CLIENT: "MemberClient"
     };
   }
 

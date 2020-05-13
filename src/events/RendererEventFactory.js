@@ -48,6 +48,7 @@ export class RendererEventFactory {
       TALK_LEAVE_ROOM: prefix + "talk-leave-room",
       TALK_TO_CLIENT: prefix + "talk-to-client",
       TEAM_CLIENT: prefix + "team-client",
+      MEMBER_CLIENT: prefix + "member-client",
       JOURNAL_CLIENT: prefix + "journal-client",
       CIRCUIT_CLIENT: prefix + "circuit-client",
       VIEW_CONSOLE_SIDEBAR_PANEL:
