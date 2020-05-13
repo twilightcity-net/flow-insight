@@ -151,6 +151,10 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#dispatch">dispatch</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#replyTo">replyTo</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MemberClient.html">MemberClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MemberClient.html#.init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MemberClient.html#notifyMember">notifyMember</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MemberClient.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addStatusTalkMessagesCollection">addStatusTalkMessagesCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addTalkMessagesCollection">addTalkMessagesCollection</a></span></li>
@@ -487,7 +491,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarTimerContent">getCircuitSidebarTimerContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getClassName">getClassName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDefaultMe">getDefaultMe</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDescriptionContent">getDescriptionContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDisplayName">getDisplayName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDividerContent">getDividerContent</a></span></li>
@@ -614,31 +617,7 @@ export default class TeamPanel extends Component {
       SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay =
       SidePanelViewController.AnimationDelays.SUBMENU;
-    this.me = this.getDefaultMe();
-    this.members = [];
     this.teams = [];
-  }
-
-  /**
-   * make sure we don't update when we aren't changing.
-   * @param nextProps
-   * @param nextState
-   * @param nextContext
-   * @returns {boolean}
-   */
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    return this.me.id !== this.me.displayName;
-  }
-
-  /**
-   * creates a default member object for loading purposes
-   * @returns {{displayName: string, id: string}}
-   */
-  getDefaultMe() {
-    return {
-      displayName: SidePanelViewController.ME,
-      id: SidePanelViewController.ME
-    };
   }
 
   /**
@@ -726,10 +705,7 @@ export default class TeamPanel extends Component {
    * @param isMe
    */
   handleClickRow = member => {
-    let name =
-      this.me.id === member.id
-        ? TeamClient.Strings.ME
-        : member.userName;
+    let name = member.username;
     this.requestBrowserToLoadTeamJournalAndSetActiveMember(
       name
     );
@@ -775,10 +751,7 @@ export default class TeamPanel extends Component {
     } else {
       return (
         &lt;div className="teamPanelMembersContent">
-          {this.getTeamPanelMembersListContent(
-            this.me,
-            this.members
-          )}
+          {this.getTeamPanelMembersListContent()}
         &lt;/div>
       );
     }
@@ -786,19 +759,16 @@ export default class TeamPanel extends Component {
 
   /**
    * gets our team panel list for our team panel in the sidebar
-   * @param me
-   * @param members
    * @returns {*}
    */
-  getTeamPanelMembersListContent(me, members) {
+  getTeamPanelMembersListContent() {
     let panels = this.teams.map((team, i) => {
       return {
         key: `panel-${i}`,
         title: `${team.name}`,
         content: {
           content: this.getTeamPanelListMembersContent(
-            me,
-            members
+            team.teamMembers
           )
         }
       };
@@ -819,11 +789,10 @@ export default class TeamPanel extends Component {
 
   /**
    * generates a list of our teams members for our accordion panel
-   * @param me
    * @param members
    * @returns {*}
    */
-  getTeamPanelListMembersContent(me, members) {
+  getTeamPanelListMembersContent(members) {
     return (
       &lt;List
         inverted
@@ -833,25 +802,14 @@ export default class TeamPanel extends Component {
         verticalAlign="middle"
         size="large"
       >
-        {me.id !== me.displayName &amp;&amp; (
+        {members.map(model => (
           &lt;TeamPanelListItem
-            key={me.id}
-            model={me}
-            isMe={true}
+            key={model.id}
+            model={model}
+            isMe={false}
             onClickRow={this.handleClickRow}
           />
-        )}
-        {members.map(
-          model =>
-            model.id !== me.id &amp;&amp; (
-              &lt;TeamPanelListItem
-                key={model.id}
-                model={model}
-                isMe={false}
-                onClickRow={this.handleClickRow}
-              />
-            )
-        )}
+        ))}
       &lt;/List>
     );
   }

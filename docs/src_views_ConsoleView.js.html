@@ -151,6 +151,10 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#dispatch">dispatch</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#replyTo">replyTo</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MemberClient.html">MemberClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MemberClient.html#.init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MemberClient.html#notifyMember">notifyMember</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MemberClient.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addStatusTalkMessagesCollection">addStatusTalkMessagesCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addTalkMessagesCollection">addTalkMessagesCollection</a></span></li>
@@ -487,7 +491,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarTimerContent">getCircuitSidebarTimerContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getClassName">getClassName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDefaultMe">getDefaultMe</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDescriptionContent">getDescriptionContent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDisplayName">getDisplayName</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDividerContent">getDividerContent</a></span></li>
@@ -584,6 +587,7 @@ import { TalkClient } from "../clients/TalkClient";
 import { TalkToClient } from "../clients/TalkToClient";
 import { JournalClient } from "../clients/JournalClient";
 import { TeamClient } from "../clients/TeamClient";
+import { MemberClient } from "../clients/MemberClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -673,6 +677,10 @@ export default class ConsoleView extends Component {
     });
   }
 
+  /**
+   * called before anything else is loaded within this gui's console view window.
+   * In here we load all of our client's which link to main process controllers
+   */
   componentDidMount = () => {
     this.myController.configureConsoleViewListener(
       this,
@@ -681,6 +689,7 @@ export default class ConsoleView extends Component {
     TalkClient.init(this);
     TalkToClient.init(this);
     TeamClient.init(this);
+    MemberClient.init(this);
     JournalClient.init(this);
     CircuitClient.init(this);
     DimensionController.init(this);
