@@ -181,26 +181,26 @@ class ShortcutManager {
 
   /**
    * activates any shortcut associated with window parameter
-   * @param win
+   * @param window
    */
-  activateWindowShortcuts(win) {
-    let shortcut;
-    for (
-      var i = 0;
-      i < global.App.ShortcutManager.shortcuts.length;
-      i++
-    ) {
+  activateWindowShortcuts(window) {
+    let shortcut,
+      shortcutCount =
+        global.App.ShortcutManager.shortcuts.length;
+
+    log.info(
+      "[ShortcutManager] activate window shortcuts -> " +
+        window.name +
+        " {" +
+        shortcutCount +
+        "}"
+    );
+    for (let i = 0; i < shortcutCount; i++) {
       shortcut = global.App.ShortcutManager.shortcuts[i];
       if (
         shortcut.window &&
-        shortcut.window.window === win
+        shortcut.window.window === window
       ) {
-        log.info(
-          "[ShortcutManager] register window shortcut -> " +
-            shortcut.name +
-            " : " +
-            shortcut.accelerator
-        );
         this.configureGlobalShortcutCallback(shortcut);
       }
     }
@@ -208,26 +208,26 @@ class ShortcutManager {
 
   /**
    * deactivates any shortcut associated with window parameter
-   * @param win
+   * @param window
    */
-  deactivateWindowShortcuts(win) {
-    let shortcut;
-    for (
-      var i = 0;
-      i < global.App.ShortcutManager.shortcuts.length;
-      i++
-    ) {
+  deactivateWindowShortcuts(window) {
+    let shortcut,
+      shortcutCount =
+        global.App.ShortcutManager.shortcuts.length;
+
+    log.info(
+      "[ShortcutManager] deactivate window shortcuts -> " +
+        window.name +
+        " {" +
+        shortcutCount +
+        "}"
+    );
+    for (let i = 0; i < shortcutCount; i++) {
       shortcut = global.App.ShortcutManager.shortcuts[i];
       if (
         shortcut.window &&
-        shortcut.window.window === win
+        shortcut.window.window === window
       ) {
-        log.info(
-          "[ShortcutManager] unregister window shortcut-> " +
-            shortcut.name +
-            " : " +
-            shortcut.accelerator
-        );
         globalShortcut.unregister(shortcut.accelerator);
       }
     }
