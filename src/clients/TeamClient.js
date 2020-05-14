@@ -18,24 +18,6 @@ export class TeamClient extends BaseClient {
   static listeners = [];
 
   /**
-   * stores my current status for other gui things to use
-   * @type {MemberWorkStatusDto}
-   * @deprecated
-   */
-
-  // FIXME this is replaced by the new member client
-
-  static me = {
-    id: "test",
-    email: "noone@nowhere.com",
-    fullName: "jane doe",
-    displayName: "jane",
-    username: "jane",
-    onlineStatus: "online",
-    xpSummary: "0"
-  };
-
-  /**
    * builds the Client for a Team in Gridtime
    * @param scope
    */
@@ -71,14 +53,6 @@ export class TeamClient extends BaseClient {
     if (!TeamClient.instance) {
       TeamClient.instance = new TeamClient(scope);
     }
-  }
-
-  /**
-   * gets our status object of ourself
-   * @returns {MemberWorkStatusDto}
-   */
-  static getMe() {
-    return TeamClient.me;
   }
 
   /**

@@ -18,6 +18,12 @@ export class MemberClient extends BaseClient {
   static listeners = [];
 
   /**
+   * stores a static reference of our current user logged in
+   * @type {MemberWorkStatusDto}
+   */
+  static me = null;
+
+  /**
    * builds the Client for a Team in Gridtime
    * @param scope
    */
@@ -50,6 +56,9 @@ export class MemberClient extends BaseClient {
   static init(scope) {
     if (!MemberClient.instance) {
       MemberClient.instance = new MemberClient(scope);
+      MemberClient.getMe(this, arg => {
+        MemberClient.me = arg.data;
+      });
     }
   }
 

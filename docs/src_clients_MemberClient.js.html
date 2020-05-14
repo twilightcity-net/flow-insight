@@ -454,7 +454,6 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TalkToClient.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getAllMyTeams">getAllMyTeams</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMe">getMe</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyHomeTeam">getMyHomeTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.loadAllMyTeams">loadAllMyTeams</a></span></li>
@@ -607,6 +606,12 @@ export class MemberClient extends BaseClient {
   static listeners = [];
 
   /**
+   * stores a static reference of our current user logged in
+   * @type {MemberWorkStatusDto}
+   */
+  static me = null;
+
+  /**
    * builds the Client for a Team in Gridtime
    * @param scope
    */
@@ -639,6 +644,9 @@ export class MemberClient extends BaseClient {
   static init(scope) {
     if (!MemberClient.instance) {
       MemberClient.instance = new MemberClient(scope);
+      MemberClient.getMe(this, arg => {
+        MemberClient.me = arg.data;
+      });
     }
   }
 

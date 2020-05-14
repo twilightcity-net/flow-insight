@@ -10,6 +10,7 @@ import {
 import JournalItem from "./components/JournalItem";
 import { JournalClient } from "../../../../clients/JournalClient";
 import { scrollTo } from "../../../../UtilScroll";
+import { MemberClient } from "../../../../clients/MemberClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -39,7 +40,7 @@ export default class JournalResource extends Component {
     this.tasks = [];
     this.activeJournalItem = null;
     this.error = null;
-    this.userName = JournalResource.Strings.ME;
+    this.username = JournalResource.Strings.ME;
   }
 
   /**
@@ -64,8 +65,8 @@ export default class JournalResource extends Component {
     ) {
       return false;
     }
-    let userName = this.getUserNameFromResource(nextProps);
-    this.refreshRecentIntentions(userName);
+    let username = this.getUserNameFromResource(nextProps);
+    this.refreshRecentIntentions(username);
     return false;
   }
 
@@ -75,13 +76,13 @@ export default class JournalResource extends Component {
    */
   componentDidMount() {
     this.loadCount = 0;
-    let userName = this.getUserNameFromResource(this.props);
+    let username = this.getUserNameFromResource(this.props);
     JournalClient.getRecentIntentions(
-      userName,
+      username,
       this,
       arg => {
         if (!this.hasCallbackError(arg)) {
-          this.userName = userName;
+          this.username = username;
           this.journalItems = arg.data;
           this.handleCallback();
         }
@@ -182,11 +183,11 @@ export default class JournalResource extends Component {
   /**
    * refreshes our current intentions list view with our most recent data from our
    * local database.
-   * @param userName
+   * @param username
    */
-  refreshRecentIntentions(userName) {
+  refreshRecentIntentions(username) {
     JournalClient.getRecentIntentions(
-      userName,
+      username,
       this,
       arg => {
         if (arg.error) {
@@ -194,7 +195,7 @@ export default class JournalResource extends Component {
           this.forceUpdate();
         } else {
           this.error = null;
-          this.userName = userName;
+          this.username = username;
           this.journalItems = arg.data;
           this.forceUpdate(() => {
             if (this.activeJournalItem) {
@@ -295,11 +296,14 @@ export default class JournalResource extends Component {
   }
 
   /**
-   * determines if we should render this from the point of view as ourself
+   * determines if we should render this from the point of view as ourselves
    * @returns {boolean}
    */
   isMyJournal() {
-    return this.userName === JournalResource.Strings.ME;
+    return (
+      this.username === JournalResource.Strings.ME ||
+      this.username === MemberClient.me.username
+    );
   }
 
   /**
@@ -335,7 +339,7 @@ export default class JournalResource extends Component {
    * wraps our journal items array
    * @returns {*}
    */
-  getJournalItemsWrapperContent(isMyJournal) {
+  getJournalItemsWrapperContent() {
     return (
       <div id="wrapper" className="journalItems">
         <div
@@ -343,7 +347,7 @@ export default class JournalResource extends Component {
           className="journalItems"
           style={{
             height: DimensionController.getJournalItemsPanelHeight(
-              isMyJournal
+              this.isMyJournal()
             )
           }}
         >
@@ -374,13 +378,12 @@ export default class JournalResource extends Component {
 
   /**
    * renders our journal entry component in the journal resource view
-   * @param isMyJournal
    * @returns {*}
    */
-  getJournalEntryContent(isMyJournal) {
+  getJournalEntryContent() {
     return (
       <Transition
-        visible={isMyJournal}
+        visible={this.isMyJournal()}
         animation="fade"
         duration={420}
         onComplete={this.onEntryShown}
@@ -404,8 +407,7 @@ export default class JournalResource extends Component {
    * @returns {*} - returns the JSX for this component
    */
   render() {
-    let error = !!this.error,
-      isMyJournal = this.isMyJournal();
+    let error = !!this.error;
 
     return (
       <div
@@ -415,9 +417,8 @@ export default class JournalResource extends Component {
         }
       >
         {error && this.getJournalErrorContent()}
-        {!error &&
-          this.getJournalItemsWrapperContent(isMyJournal)}
-        {!error && this.getJournalEntryContent(isMyJournal)}
+        {!error && this.getJournalItemsWrapperContent()}
+        {!error && this.getJournalEntryContent()}
       </div>
     );
   }

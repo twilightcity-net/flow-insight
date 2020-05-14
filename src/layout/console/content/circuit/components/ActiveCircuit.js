@@ -8,7 +8,7 @@ import ActiveCircuitScrapbook from "./ActiveCircuitScrapbook";
 import { Transition } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
-import { TeamClient } from "../../../../../clients/TeamClient";
+import { MemberClient } from "../../../../../clients/MemberClient";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
 
 /**
@@ -24,7 +24,7 @@ export default class ActiveCircuit extends Component {
     this.name = "[ActiveCircuit]";
     this.animationType = "fade";
     this.animationDelay = 210;
-    this.me = TeamClient.getMe();
+    this.me = MemberClient.me;
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
       this

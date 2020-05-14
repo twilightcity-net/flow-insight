@@ -10,7 +10,7 @@ import { SidePanelViewController } from "../../../../controllers/SidePanelViewCo
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import SpiritCanvas from "./SpiritCanvas";
 import { DimensionController } from "../../../../controllers/DimensionController";
-import { TeamClient } from "../../../../clients/TeamClient";
+import { MemberClient } from "../../../../clients/MemberClient";
 import UtilRenderer from "../../../../UtilRenderer";
 
 /**
@@ -40,7 +40,7 @@ export default class SpiritPanel extends Component {
       spiritVisible: false,
       badgesVisible: false
     };
-    this.me = TeamClient.getMe();
+    this.me = MemberClient.me;
   }
 
   /**
@@ -101,7 +101,7 @@ export default class SpiritPanel extends Component {
    * event listener that is notified when the perspective changes views
    */
   onRefreshSpiritPanel() {
-    this.me = TeamClient.getMe();
+    this.me = MemberClient.me;
     switch (
       this.myController.activeSpiritSubmenuSelection
     ) {

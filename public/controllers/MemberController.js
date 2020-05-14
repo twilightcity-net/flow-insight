@@ -161,16 +161,11 @@ module.exports = class MemberController extends BaseController {
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.MEMBER
       ),
-      collection = database.getCollection(
-        MemberDatabase.Collections.ME
-      ),
       view = database.getViewForMe();
 
     if (view.count() > 0) {
       arg.data = view.data()[0];
     }
-
-    console.log("data", arg.data);
 
     this.delegateCallbackOrEventReplyTo(
       event,

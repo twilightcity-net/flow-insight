@@ -454,7 +454,6 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TalkToClient.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getAllMyTeams">getAllMyTeams</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMe">getMe</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyHomeTeam">getMyHomeTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.loadAllMyTeams">loadAllMyTeams</a></span></li>
@@ -602,6 +601,7 @@ import { SidePanelViewController } from "../../../../controllers/SidePanelViewCo
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 import { TeamClient } from "../../../../clients/TeamClient";
 import TeamPanelListItem from "./TeamPanelListItem";
+import {MemberClient} from "../../../../clients/MemberClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -803,6 +803,7 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   getTeamPanelListMembersContent(members) {
+    let me = MemberClient.me;
     return (
       &lt;List
         inverted
@@ -812,10 +813,16 @@ export default class TeamPanel extends Component {
         verticalAlign="middle"
         size="large"
       >
-        {members.map(model => (
-          &lt;TeamPanelListItem
-            key={model.id}
-            model={model}
+        &lt;TeamPanelListItem
+          key={me.id}
+          model={me}
+          isMe={true}
+          onClickRow={this.handleClickRow}
+        />
+        {members.map(member => (
+          me.id !== member.id &amp;&amp; &lt;TeamPanelListItem
+            key={member.id}
+            model={member}
             isMe={false}
             onClickRow={this.handleClickRow}
           />

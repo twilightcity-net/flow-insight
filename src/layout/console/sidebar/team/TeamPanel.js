@@ -13,6 +13,7 @@ import { SidePanelViewController } from "../../../../controllers/SidePanelViewCo
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 import { TeamClient } from "../../../../clients/TeamClient";
 import TeamPanelListItem from "./TeamPanelListItem";
+import { MemberClient } from "../../../../clients/MemberClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -214,6 +215,7 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   getTeamPanelListMembersContent(members) {
+    let me = MemberClient.me;
     return (
       <List
         inverted
@@ -223,14 +225,23 @@ export default class TeamPanel extends Component {
         verticalAlign="middle"
         size="large"
       >
-        {members.map(model => (
-          <TeamPanelListItem
-            key={model.id}
-            model={model}
-            isMe={false}
-            onClickRow={this.handleClickRow}
-          />
-        ))}
+        <TeamPanelListItem
+          key={me.id}
+          model={me}
+          isMe={true}
+          onClickRow={this.handleClickRow}
+        />
+        {members.map(
+          member =>
+            me.id !== member.id && (
+              <TeamPanelListItem
+                key={member.id}
+                model={member}
+                isMe={false}
+                onClickRow={this.handleClickRow}
+              />
+            )
+        )}
       </List>
     );
   }

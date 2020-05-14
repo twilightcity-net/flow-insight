@@ -454,7 +454,6 @@
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TalkToClient.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getAllMyTeams">getAllMyTeams</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMe">getMe</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyHomeTeam">getMyHomeTeam</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.init">init</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.loadAllMyTeams">loadAllMyTeams</a></span></li>
@@ -660,14 +659,6 @@ export class TeamClient extends BaseClient {
     if (!TeamClient.instance) {
       TeamClient.instance = new TeamClient(scope);
     }
-  }
-
-  /**
-   * gets our status object of ourself
-   * @returns {MemberWorkStatusDto}
-   */
-  static getMe() {
-    return TeamClient.me;
   }
 
   /**
