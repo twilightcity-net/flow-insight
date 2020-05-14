@@ -135,7 +135,7 @@ module.exports = class MemberController extends BaseController {
       //   TeamDatabase.Collections.TEAMS
       // );
 
-      if (member) {
+      if (me) {
         console.log("me", me);
 
         // let results = collection.find({ isHomeTeam: true });

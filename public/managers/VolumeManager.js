@@ -46,9 +46,13 @@ module.exports = class VolumeManager {
     VolumeManager.createDatabaseVolume(
       DatabaseFactory.Names.TEAM
     );
+    VolumeManager.createDatabaseVolume(
+      DatabaseFactory.Names.MEMBER
+    );
     VolumeManager.loadDefaultJournalDatabase();
     VolumeManager.loadDefaultCircuitDatabase();
     VolumeManager.loadDefaultTeamDatabase();
+    VolumeManager.loadDefaultMemberDatabase();
   }
 
   /**
@@ -100,11 +104,20 @@ module.exports = class VolumeManager {
   }
 
   /**
+   * loads our member database into our memory
+   */
+  static loadDefaultMemberDatabase() {
+    global.App.MemberManager.init(() => {
+      VolumeManager.handleFinishLoadingVolumes();
+    });
+  }
+
+  /**
    * do this when we finish loading all of our databases
    */
   static handleFinishLoadingVolumes() {
     VolumeManager.initializedVolumes++;
-    if (VolumeManager.initializedVolumes >= 4) {
+    if (VolumeManager.initializedVolumes >= 5) {
       EventManager.dispatch(
         EventFactory.Types.DATABASE_VOLUMES_READY
       );

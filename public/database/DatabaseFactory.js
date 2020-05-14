@@ -1,7 +1,8 @@
 const TalkDB = require("./TalkDatabase"),
   JournalDB = require("./JournalDatabase"),
   CircuitDB = require("./CircuitDatabase"),
-  TeamDB = require("./TeamDatabase");
+  TeamDB = require("./TeamDatabase"),
+  MemberDB = require("./MemberDatabase");
 
 /**
  * this class is used to build new databases
@@ -18,7 +19,8 @@ module.exports = class DatabaseFactory {
       TALK: "talk",
       JOURNAL: "journal",
       CIRCUIT: "circuit",
-      TEAM: "team"
+      TEAM: "team",
+      MEMBER: "member"
     };
   }
 
@@ -37,6 +39,8 @@ module.exports = class DatabaseFactory {
         return new CircuitDB();
       case DatabaseFactory.Names.TEAM:
         return new TeamDB();
+      case DatabaseFactory.Names.MEMBER:
+        return new MemberDB();
       default:
         throw new Error(
           "Unknown database type '" + name + "'"
