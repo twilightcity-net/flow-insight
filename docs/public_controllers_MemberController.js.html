@@ -246,13 +246,11 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMyCurrentStatus">getViewForMyCurrentStatus</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMe">getViewForMe</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMyCurrentStatus">getViewForMyCurrentStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentProjects">getViewForRecentProjects</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForStatusOfMeAndMyTeam">getViewForStatusOfMeAndMyTeam</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForStatusOfMeAndMyTeam">getViewForStatusOfMeAndMyTeam</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewRooms">getViewRooms</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewStatusTalkMessagesForCollection">getViewStatusTalkMessagesForCollection</a></span></li>
@@ -592,7 +590,7 @@
         <pre class="prettyprint source linenums"><code>const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  TeamDatabase = require("../database/TeamDatabase");
+  MemberDatabase = require("../database/MemberDatabase");
 
 /**
  * This class is used to coordinate controllers across the member service
@@ -646,7 +644,7 @@ module.exports = class MemberController extends BaseController {
   }
 
   /**
-   * notified when we get a circuit event
+   * notified when we get a member event
    * @param event
    * @param arg
    * @returns {string}
@@ -679,7 +677,7 @@ module.exports = class MemberController extends BaseController {
   }
 
   /**
-   * process team events for the listener. returns dto to callback.
+   * process memberm events for the listener. returns dto to callback.
    * @param event
    * @param arg
    * @param callback
@@ -707,7 +705,6 @@ module.exports = class MemberController extends BaseController {
 
   /**
    * handles our callback for our gridtime request of loading ourselves
-   * team member dto from the server.
    * @param store
    * @param event
    * @param arg
@@ -717,31 +714,21 @@ module.exports = class MemberController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let me = store.data;
+      let me = store.data,
+        database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.MEMBER
+        ),
+        collection = database.getCollection(
+          MemberDatabase.Collections.ME
+        ),
+        view = database.getViewForMe();
 
-      // database = DatabaseFactory.getDatabase(
-      //   DatabaseFactory.Names.TEAM
-      // ),
-      // collection = database.getCollection(
-      //   TeamDatabase.Collections.TEAMS
-      // );
-
-      if (member) {
-        console.log("me", me);
-
-        // let results = collection.find({ isHomeTeam: true });
-        // results.forEach(t => {
-        //   t.isHomeTeam = false;
-        //   collection.update(t);
-        // });
-        //
-        // let result = collection.findOne({ id: team.id });
-        // if (result) {
-        //   collection.remove(result);
-        // }
-        //
-        // member.isHomeTeam = true; //TEMP
-        // collection.insert(team);
+      if (me) {
+        this.batchRemoveFromViewInCollection(
+          view,
+          collection
+        );
+        collection.insert(me);
       }
     }
 
@@ -753,34 +740,26 @@ module.exports = class MemberController extends BaseController {
   }
 
   /**
-   * gets one of our teams that is stored in the database, or fetch from
+   * gets ourselves that is stored in the database, or fetch from
    * gridtime server.
    * @param event
    * @param arg
    * @param callback
    */
   handleGetMeEvent(event, arg, callback) {
-    // let database = DatabaseFactory.getDatabase(
-    //     DatabaseFactory.Names.TEAM
-    //   ),
-    //   collection = database.getCollection(
-    //     TeamDatabase.Collections.TEAMS
-    //   );
-    //
-    // arg.data = collection.findOne({ isHomeTeam: true });
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.MEMBER
+      ),
+      collection = database.getCollection(
+        MemberDatabase.Collections.ME
+      ),
+      view = database.getViewForMe();
 
-    /// Temp
-    arg.data = {
-      id: "test",
-      email: "noone@nowhere.com",
-      fullName: "jane doe",
-      displayName: "jane",
-      username: "jane",
-      onlineStatus: "online",
-      xpSummary: "0"
-    };
+    if(view.count() > 0) {
+      arg.data = view.data()[0];
+    }
 
-    console.log("temp", arg.data);
+    console.log("data", arg.data);
 
     this.delegateCallbackOrEventReplyTo(
       event,

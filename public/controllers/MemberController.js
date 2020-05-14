@@ -1,7 +1,7 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  TeamDatabase = require("../database/TeamDatabase");
+  MemberDatabase = require("../database/MemberDatabase");
 
 /**
  * This class is used to coordinate controllers across the member service
@@ -55,7 +55,7 @@ module.exports = class MemberController extends BaseController {
   }
 
   /**
-   * notified when we get a circuit event
+   * notified when we get a member event
    * @param event
    * @param arg
    * @returns {string}
@@ -88,7 +88,7 @@ module.exports = class MemberController extends BaseController {
   }
 
   /**
-   * process team events for the listener. returns dto to callback.
+   * process memberm events for the listener. returns dto to callback.
    * @param event
    * @param arg
    * @param callback
@@ -116,7 +116,6 @@ module.exports = class MemberController extends BaseController {
 
   /**
    * handles our callback for our gridtime request of loading ourselves
-   * team member dto from the server.
    * @param store
    * @param event
    * @param arg
@@ -126,31 +125,21 @@ module.exports = class MemberController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let me = store.data;
-
-      // database = DatabaseFactory.getDatabase(
-      //   DatabaseFactory.Names.TEAM
-      // ),
-      // collection = database.getCollection(
-      //   TeamDatabase.Collections.TEAMS
-      // );
+      let me = store.data,
+        database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.MEMBER
+        ),
+        collection = database.getCollection(
+          MemberDatabase.Collections.ME
+        ),
+        view = database.getViewForMe();
 
       if (me) {
-        console.log("me", me);
-
-        // let results = collection.find({ isHomeTeam: true });
-        // results.forEach(t => {
-        //   t.isHomeTeam = false;
-        //   collection.update(t);
-        // });
-        //
-        // let result = collection.findOne({ id: team.id });
-        // if (result) {
-        //   collection.remove(result);
-        // }
-        //
-        // member.isHomeTeam = true; //TEMP
-        // collection.insert(team);
+        this.batchRemoveFromViewInCollection(
+          view,
+          collection
+        );
+        collection.insert(me);
       }
     }
 
@@ -162,34 +151,26 @@ module.exports = class MemberController extends BaseController {
   }
 
   /**
-   * gets one of our teams that is stored in the database, or fetch from
+   * gets ourselves that is stored in the database, or fetch from
    * gridtime server.
    * @param event
    * @param arg
    * @param callback
    */
   handleGetMeEvent(event, arg, callback) {
-    // let database = DatabaseFactory.getDatabase(
-    //     DatabaseFactory.Names.TEAM
-    //   ),
-    //   collection = database.getCollection(
-    //     TeamDatabase.Collections.TEAMS
-    //   );
-    //
-    // arg.data = collection.findOne({ isHomeTeam: true });
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.MEMBER
+      ),
+      collection = database.getCollection(
+        MemberDatabase.Collections.ME
+      ),
+      view = database.getViewForMe();
 
-    /// Temp
-    arg.data = {
-      id: "test",
-      email: "noone@nowhere.com",
-      fullName: "jane doe",
-      displayName: "jane",
-      username: "jane",
-      onlineStatus: "online",
-      xpSummary: "0"
-    };
+    if (view.count() > 0) {
+      arg.data = view.data()[0];
+    }
 
-    console.log("temp", arg.data);
+    console.log("data", arg.data);
 
     this.delegateCallbackOrEventReplyTo(
       event,
