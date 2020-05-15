@@ -45,6 +45,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#logReply">logReply</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.CircuitMessageTypeDto.html">CircuitMessageTypeDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Errors.html">Errors</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.MessageTypes.html">MessageTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Strings.html">Strings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
@@ -234,12 +235,14 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRender3D">getRender3D</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromRoomName">getStatusTalkMessagesCollectionNameFromRoomName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromRoomName">getTalkMessagesCollectionNameFromRoomName</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromUri">getStatusTalkMessagesCollectionNameFromUri</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromUri">getTalkMessagesCollectionNameFromUri</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUriFromMessageArray">getUriFromMessageArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewActiveCircuit">getViewActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></span></li>
@@ -311,6 +314,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logRequest">logRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logResults">logResults</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#lookupRoomNameByUri">lookupRoomNameByUri</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onAppHeartbeat">onAppHeartbeat</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onCircuitClientEvent">onCircuitClientEvent</a></span></li>
@@ -601,7 +605,7 @@
               <dd class="tag-source">
                 <ul class="dummy">
                   <li>
-                    <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line42">line 42</a>
+                    <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line24">line 24</a>
                   </li>
                 </ul>
               </dd>
@@ -658,33 +662,6 @@
         </div>
         <div class="section-members">
           <h4 class="name"
-              id="me"><span class="type-signature"></span>me<span class="type-signature"> :MemberWorkStatusDto</span></h4>
-          <div class="description"> stores my current status for other gui things to use </div>
-          <dl class="details">
-            <dt class="important tag-deprecated">Deprecated:</dt>
-            <dd class="yes-def tag-deprecated">
-              <ul class="dummy">
-                <li>Yes</li>
-              </ul>
-            </dd>
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line28">line 28</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <h5>Type:</h5>
-          <ul>
-            <li>
-              <span class="param-type"><code>MemberWorkStatusDto</code></span>
-            </li>
-          </ul>
-        </div>
-        <div class="section-members">
-          <h4 class="name"
               id="onTeamEventReply"><span class="type-signature"></span>onTeamEventReply<span class="type-signature"></span></h4>
           <div class="description"> the event callback used by the event manager. removes the event from the local map when its received the response from the main process. the callback it's bound to the scope of what was pass into the api of this client </div>
           <dl class="details">
@@ -692,7 +669,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line151">line 151</a>
+                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line133">line 133</a>
                 </li>
               </ul>
             </dd>
@@ -729,7 +706,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line133">line 133</a>
+                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line115">line 115</a>
                 </li>
               </ul>
             </dd>
@@ -779,7 +756,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line116">line 116</a>
+                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line98">line 98</a>
                 </li>
               </ul>
             </dd>
@@ -829,7 +806,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line70">line 70</a>
+                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line52">line 52</a>
                 </li>
               </ul>
             </dd>
@@ -863,7 +840,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line99">line 99</a>
+                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line81">line 81</a>
                 </li>
               </ul>
             </dd>
@@ -913,7 +890,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line82">line 82</a>
+                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line64">line 64</a>
                 </li>
               </ul>
             </dd>
@@ -963,7 +940,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line171">line 171</a>
+                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line153">line 153</a>
                 </li>
               </ul>
             </dd>

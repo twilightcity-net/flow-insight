@@ -45,6 +45,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#logReply">logReply</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.CircuitMessageTypeDto.html">CircuitMessageTypeDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Errors.html">Errors</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.MessageTypes.html">MessageTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Strings.html">Strings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
@@ -234,12 +235,14 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRender3D">getRender3D</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromRoomName">getStatusTalkMessagesCollectionNameFromRoomName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromRoomName">getTalkMessagesCollectionNameFromRoomName</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromUri">getStatusTalkMessagesCollectionNameFromUri</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromUri">getTalkMessagesCollectionNameFromUri</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUriFromMessageArray">getUriFromMessageArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewActiveCircuit">getViewActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></span></li>
@@ -311,6 +314,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logRequest">logRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logResults">logResults</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#lookupRoomNameByUri">lookupRoomNameByUri</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onAppHeartbeat">onAppHeartbeat</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onCircuitClientEvent">onCircuitClientEvent</a></span></li>
@@ -622,6 +626,19 @@ export class BaseClient {
   static get Errors() {
     return {
       UNKNOWN: "Unknown team panel menu item"
+    };
+  }
+
+  /**
+   * our possible message type for our controller reference
+   * @returns {{ROOM_MEMBER_STATUS_EVENT: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string}}
+   * @constructor
+   */
+  static get MessageTypes() {
+    return {
+      CIRCUIT_STATUS: "CircuitStatusDto",
+      ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
+      CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto"
     };
   }
 

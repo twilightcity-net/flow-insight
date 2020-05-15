@@ -373,13 +373,16 @@ module.exports = class BaseController {
       ),
       room = rooms.findOne({ uri: uri });
 
-    if (!room) {
-      rooms.insert({ roomName, uri });
+    if (!room && roomName && uri) {
+      rooms.insert({
+        roomName: roomName,
+        uri: uri
+      });
     }
   }
 
   /**
-   * checks our database to see if we have a room for the night
+   * checks our database to see if we have a room for the night.
    * @param roomName
    * @returns {Object}
    */
@@ -392,5 +395,29 @@ module.exports = class BaseController {
       );
 
     return rooms.findOne({ roomName: roomName });
+  }
+
+  /**
+   * looks up a roomname by a uri. This is dependent on having this room be loaded
+   * by calling load talk messages from the talk controller. This happens implicitly
+   * when we load a circuit via the circuit resource.
+   * @param uri
+   * @returns {*}
+   */
+  lookupRoomNameByUri(uri) {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TALK
+      ),
+      rooms = database.getCollection(
+        TalkDatabase.Collections.ROOMS
+      ),
+      room = rooms.findOne({ uri: uri });
+
+    console.log("$$$$room", room);
+
+    if (room) {
+      return room.roomName;
+    }
+    return null;
   }
 };

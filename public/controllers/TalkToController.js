@@ -1,7 +1,8 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   TalkDatabase = require("../database/TalkDatabase"),
-  DatabaseFactory = require("../database/DatabaseFactory");
+  DatabaseFactory = require("../database/DatabaseFactory"),
+  Util = require("../Util");
 
 /**
  * This class is used to coordinate controllers across the talk service
@@ -173,29 +174,34 @@ module.exports = class TalkToController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let roomName = arg.args.roomName,
+      let messages = store.data,
+        uri = Util.getUriFromMessageArray(messages),
+        roomName = Util.getRoomNameFromMessageArray(
+          messages
+        ),
         database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.TALK
         ),
         messageCollection = database.getCollectionForRoomTalkMessages(
-          roomName
+          uri
         ),
         statusCollection = database.getCollectionForRoomStatusTalkMessages(
-          roomName
+          uri
         ),
         messageView = database.getViewTalkMessagesForCollection(
           messageCollection
         ),
         statusView = database.getViewStatusTalkMessagesForCollection(
           statusCollection
-        ),
-        messages = store.data,
-        message = messages[0];
+        );
 
-      if (messages && message) {
-        this.findRoomAndInsert(roomName, message.uri);
+      if (messages) {
+        this.findRoomAndInsert(roomName, uri);
         for (
-          let i = 0, model = null, len = messages.length;
+          let i = 0,
+            message = null,
+            model = null,
+            len = messages.length;
           i < len;
           i++
         ) {
@@ -210,19 +216,30 @@ module.exports = class TalkToController extends BaseController {
               );
               break;
             case TalkToController.MessageTypes
-              .ROOM_MEMBER_STATUS:
+              .ROOM_MEMBER_STATUS_EVENT:
               this.findXOrInsertMessage(
                 model,
                 statusCollection,
                 message
               );
               break;
-            default:
+            case TalkToController.MessageTypes
+              .CHAT_MESSAGE_DETAILS:
               this.findXOrInsertMessage(
                 model,
                 messageCollection,
                 message
               );
+              break;
+            default:
+              console.warn(
+                TalkToController.Error
+                  .UNKNOWN_TALK_MESSAGE_TYPE +
+                  " '" +
+                  message.messageType +
+                  "'."
+              );
+              break;
           }
         }
       }
@@ -246,17 +263,21 @@ module.exports = class TalkToController extends BaseController {
    * @param arg
    * @param callback
    */
+
+  //FIXME this should use URI not roomName
+
   handleGetAllTalkMessagesFromRoomEvent(
     event,
     arg,
     callback
   ) {
     let roomName = arg.args.roomName,
+      uri = arg.args.uri,
       database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.TALK
       ),
       collection = database.getCollectionForRoomTalkMessages(
-        roomName
+        uri
       ),
       view = database.getViewTalkMessagesForCollection(
         collection

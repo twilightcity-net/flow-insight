@@ -45,6 +45,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#logReply">logReply</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.CircuitMessageTypeDto.html">CircuitMessageTypeDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Errors.html">Errors</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.MessageTypes.html">MessageTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Strings.html">Strings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
@@ -234,12 +235,14 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRender3D">getRender3D</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromRoomName">getStatusTalkMessagesCollectionNameFromRoomName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromRoomName">getTalkMessagesCollectionNameFromRoomName</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromUri">getStatusTalkMessagesCollectionNameFromUri</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromUri">getTalkMessagesCollectionNameFromUri</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUriFromMessageArray">getUriFromMessageArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewActiveCircuit">getViewActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></span></li>
@@ -311,6 +314,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logRequest">logRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logResults">logResults</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#lookupRoomNameByUri">lookupRoomNameByUri</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onAppHeartbeat">onAppHeartbeat</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onCircuitClientEvent">onCircuitClientEvent</a></span></li>
@@ -655,13 +659,13 @@ module.exports = class BaseController {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{CIRCUIT_STATUS: string, ROOM_MEMBER_STATUS: string}}
+   * @returns {{ROOM_MEMBER_STATUS_EVENT: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string}}
    * @constructor
    */
   static get MessageTypes() {
     return {
       CIRCUIT_STATUS: "CircuitStatusDto",
-      ROOM_MEMBER_STATUS: "RoomMemberStatus",
+      ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
       CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto"
     };
   }
@@ -707,6 +711,8 @@ module.exports = class BaseController {
       UNKNOWN: "Unknown team client event type",
       UNKNOWN_CIRCUIT_EVENT:
         "Unknown circuit client event type",
+      UNKNOWN_TALK_MESSAGE_TYPE:
+        "Unknown talk message type",
       UNKNOWN_TALK_TO_EVENT:
         "Unknown talk to client event type",
       INVALID_PARTICIPATING_CIRCUIT:
@@ -936,12 +942,12 @@ module.exports = class BaseController {
    * time as you could say
    * @param model
    * @param collection
-   * @param circuit
+   * @param message
    */
-  findXOrInsertMessage(model, collection, circuit) {
-    model = collection.findOne({ id: circuit.id });
+  findXOrInsertMessage(model, collection, message) {
+    model = collection.findOne({ id: message.id });
     if (!model) {
-      collection.insert(circuit);
+      collection.insert(message);
     }
   }
 
@@ -960,12 +966,17 @@ module.exports = class BaseController {
       room = rooms.findOne({ uri: uri });
 
     if (!room) {
-      rooms.insert({ roomName, uri });
+      console.log(">>>insert room", roomName, uri);
+
+      rooms.insert({
+        roomName: roomName,
+        uri: uri
+      });
     }
   }
 
   /**
-   * checks our database to see if we have a room for the night
+   * checks our database to see if we have a room for the night.
    * @param roomName
    * @returns {Object}
    */
@@ -978,6 +989,30 @@ module.exports = class BaseController {
       );
 
     return rooms.findOne({ roomName: roomName });
+  }
+
+  /**
+   * looks up a roomname by a uri. This is dependent on having this room be loaded
+   * by calling load talk messages from the talk controller. This happens implicitly
+   * when we load a circuit via the circuit resource.
+   * @param uri
+   * @returns {*}
+   */
+  lookupRoomNameByUri(uri) {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TALK
+      ),
+      rooms = database.getCollection(
+        TalkDatabase.Collections.ROOMS
+      ),
+      room = rooms.findOne({ uri: uri });
+
+    console.log("$$$$room", room);
+
+    if (room) {
+      return room.roomName;
+    }
+    return null;
   }
 };
 </code></pre>

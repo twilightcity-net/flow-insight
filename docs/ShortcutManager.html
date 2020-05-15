@@ -45,6 +45,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#logReply">logReply</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.CircuitMessageTypeDto.html">CircuitMessageTypeDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Errors.html">Errors</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.MessageTypes.html">MessageTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Strings.html">Strings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
@@ -234,12 +235,14 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRender3D">getRender3D</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromRoomName">getStatusTalkMessagesCollectionNameFromRoomName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromRoomName">getTalkMessagesCollectionNameFromRoomName</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromUri">getStatusTalkMessagesCollectionNameFromUri</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromUri">getTalkMessagesCollectionNameFromUri</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUriFromMessageArray">getUriFromMessageArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewActiveCircuit">getViewActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></span></li>
@@ -311,6 +314,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logRequest">logRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logResults">logResults</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#lookupRoomNameByUri">lookupRoomNameByUri</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onAppHeartbeat">onAppHeartbeat</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onCircuitClientEvent">onCircuitClientEvent</a></span></li>
@@ -617,7 +621,7 @@
         <h3 class="subsection-title">Methods</h3>
         <div class="section-method">
           <h4 class="name"
-              id="activateWindowShortcuts"><span class="type-signature"></span>activateWindowShortcuts<span class="signature">(win)</span><span class="type-signature"></span></h4>
+              id="activateWindowShortcuts"><span class="type-signature"></span>activateWindowShortcuts<span class="signature">(window)</span><span class="type-signature"></span></h4>
           <div class="description"> activates any shortcut associated with window parameter </div>
           <dl class="details">
             <dt class="tag-source">Source:</dt>
@@ -640,7 +644,7 @@
             </thead>
             <tbody>
               <tr>
-                <td class="name"><code>win</code></td>
+                <td class="name"><code>window</code></td>
                 <td class="type">
                 </td>
                 <td class="description last">
@@ -675,7 +679,7 @@
         </div>
         <div class="section-method">
           <h4 class="name"
-              id="deactivateWindowShortcuts"><span class="type-signature"></span>deactivateWindowShortcuts<span class="signature">(win)</span><span class="type-signature"></span></h4>
+              id="deactivateWindowShortcuts"><span class="type-signature"></span>deactivateWindowShortcuts<span class="signature">(window)</span><span class="type-signature"></span></h4>
           <div class="description"> deactivates any shortcut associated with window parameter </div>
           <dl class="details">
             <dt class="tag-source">Source:</dt>
@@ -698,7 +702,7 @@
             </thead>
             <tbody>
               <tr>
-                <td class="name"><code>win</code></td>
+                <td class="name"><code>window</code></td>
                 <td class="type">
                 </td>
                 <td class="description last">

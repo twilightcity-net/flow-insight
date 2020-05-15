@@ -16,12 +16,13 @@ module.exports = class TalkDatabase extends LokiJS {
 
   /**
    * the collections of our database
-   * @returns {{ROOMS: string, FLUX_TALK_MESSAGES: string, TALK_MESSAGES: string}}
+   * @returns {{ROOMS: string, FLUX_TALK_MESSAGES: string, STATUS_TALK_MESSAGES: string, TALK_MESSAGES: string}}
    * @constructor
    */
   static get Collections() {
     return {
       TALK_MESSAGES: "talk-messages",
+      STATUS_TALK_MESSAGES: "status-talk-messages",
       FLUX_TALK_MESSAGES: "flux-talk-messages",
       ROOMS: "rooms"
     };
@@ -119,12 +120,12 @@ module.exports = class TalkDatabase extends LokiJS {
 
   /**
    * adds or returns and existing collection in our database
-   * @param roomName
    * @returns {Collection}
+   * @param uri
    */
-  getCollectionForRoomTalkMessages(roomName) {
-    let name = this.getTalkMessagesCollectionNameFromRoomName(
-        roomName
+  getCollectionForRoomTalkMessages(uri) {
+    let name = this.getTalkMessagesCollectionNameFromUri(
+        uri
       ),
       collection = this.getCollection(name),
       view = TalkDatabase.Views.TALK_MESSAGES;
@@ -140,12 +141,12 @@ module.exports = class TalkDatabase extends LokiJS {
 
   /**
    * adds or returns and existing collection in our database
-   * @param roomName
+   * @param uri
    * @returns {Collection}
    */
-  getCollectionForRoomStatusTalkMessages(roomName) {
-    let name = this.getStatusTalkMessagesCollectionNameFromRoomName(
-        roomName
+  getCollectionForRoomStatusTalkMessages(uri) {
+    let name = this.getStatusTalkMessagesCollectionNameFromUri(
+        uri
       ),
       collection = this.getCollection(name),
       view = TalkDatabase.Views.STATUS_TALK_MESSAGES;
@@ -205,29 +206,25 @@ module.exports = class TalkDatabase extends LokiJS {
 
   /**
    * gets our name for our talk message collection for our database
-   * @param roomName
+   * @param uri
    * @returns {string}
    */
-  getTalkMessagesCollectionNameFromRoomName(roomName) {
+  getTalkMessagesCollectionNameFromUri(uri) {
     return (
-      TalkDatabase.Collections.TALK_MESSAGES +
-      "-" +
-      roomName
+      TalkDatabase.Collections.TALK_MESSAGES + "-" + uri
     );
   }
 
   /**
-   * gets our name for our talk message collection for our database
-   * @param roomName
+   * gets our name for our status talk message collection for our database
+   * @param uri
    * @returns {string}
    */
-  getStatusTalkMessagesCollectionNameFromRoomName(
-    roomName
-  ) {
+  getStatusTalkMessagesCollectionNameFromUri(uri) {
     return (
-      this.getTalkMessagesCollectionNameFromRoomName(
-        roomName
-      ) + "-status"
+      TalkDatabase.Collections.STATUS_TALK_MESSAGES +
+      "-" +
+      uri
     );
   }
 

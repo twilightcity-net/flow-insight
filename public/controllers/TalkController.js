@@ -252,7 +252,8 @@ module.exports = class TalkController extends BaseController {
    * @param message - our message that was recieved via the talk network socket
    */
   handleTalkMessageRoomCallback(message) {
-    let roomName = message.circuitName,
+    let uri = message.uri,
+      roomName = this.lookupRoomNameByUri(uri),
       database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.TALK
       ),
@@ -260,10 +261,10 @@ module.exports = class TalkController extends BaseController {
         TalkDatabase.Collections.FLUX_TALK_MESSAGES
       ),
       messageCollection = database.getCollectionForRoomTalkMessages(
-        roomName
+        uri
       ),
       statusCollection = database.getCollectionForRoomStatusTalkMessages(
-        roomName
+        uri
       ),
       model = fluxCollection.findOne({ id: message.id });
 
@@ -273,8 +274,6 @@ module.exports = class TalkController extends BaseController {
       this.talkMessageRoomListener.dispatch(message);
     }
 
-    this.findRoomAndInsert(roomName, message.uri);
-
     switch (message.messageType) {
       case TalkController.MessageTypes.CIRCUIT_STATUS:
         this.findXOrInsertMessage(
@@ -283,18 +282,27 @@ module.exports = class TalkController extends BaseController {
           message
         );
         break;
-      case TalkController.MessageTypes.ROOM_MEMBER_STATUS:
+      case TalkController.MessageTypes
+        .ROOM_MEMBER_STATUS_EVENT:
         this.findXOrInsertMessage(
           model,
           statusCollection,
           message
         );
         break;
-      default:
+      case TalkController.MessageTypes.CHAT_MESSAGE_DETAILS:
         this.findXOrInsertMessage(
           model,
           messageCollection,
           message
+        );
+        break;
+      default:
+        console.warn(
+          TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +
+            " '" +
+            message.messageType +
+            "'."
         );
         break;
     }

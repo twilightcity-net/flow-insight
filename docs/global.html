@@ -45,6 +45,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#logReply">logReply</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.CircuitMessageTypeDto.html">CircuitMessageTypeDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Errors.html">Errors</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.MessageTypes.html">MessageTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Strings.html">Strings</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
@@ -234,12 +235,14 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRender3D">getRender3D</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromRoomName">getStatusTalkMessagesCollectionNameFromRoomName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromRoomName">getTalkMessagesCollectionNameFromRoomName</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromUri">getStatusTalkMessagesCollectionNameFromUri</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromUri">getTalkMessagesCollectionNameFromUri</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUriFromMessageArray">getUriFromMessageArray</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewActiveCircuit">getViewActiveCircuit</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></span></li>
@@ -311,6 +314,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logRequest">logRequest</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logResults">logResults</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#lookupRoomNameByUri">lookupRoomNameByUri</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onAppHeartbeat">onAppHeartbeat</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onCircuitClientEvent">onCircuitClientEvent</a></span></li>
@@ -690,7 +694,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line35">line 35</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line36">line 36</a>
                 </li>
               </ul>
             </dd>
@@ -1401,7 +1405,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line11">line 11</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line12">line 12</a>
                 </li>
               </ul>
             </dd>
@@ -1693,7 +1697,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line47">line 47</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line48">line 48</a>
                 </li>
               </ul>
             </dd>
@@ -1736,7 +1740,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line236">line 236</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line240">line 240</a>
                 </li>
               </ul>
             </dd>
@@ -1808,7 +1812,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line380">line 380</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line383">line 383</a>
                 </li>
               </ul>
             </dd>
@@ -1832,7 +1836,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line363">line 363</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line366">line 366</a>
                 </li>
               </ul>
             </dd>
@@ -1856,7 +1860,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line310">line 310</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line313">line 313</a>
                 </li>
               </ul>
             </dd>
@@ -1880,7 +1884,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line339">line 339</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line342">line 342</a>
                 </li>
               </ul>
             </dd>
@@ -1928,7 +1932,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line99">line 99</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line100">line 100</a>
                 </li>
               </ul>
             </dd>
@@ -2097,7 +2101,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line119">line 119</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line120">line 120</a>
                 </li>
               </ul>
             </dd>
@@ -2140,7 +2144,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line197">line 197</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line201">line 201</a>
                 </li>
               </ul>
             </dd>
@@ -2389,7 +2393,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line88">line 88</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line89">line 89</a>
                 </li>
               </ul>
             </dd>
@@ -2523,7 +2527,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line64">line 64</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line65">line 65</a>
                 </li>
               </ul>
             </dd>
@@ -2566,7 +2570,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line219">line 219</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line223">line 223</a>
                 </li>
               </ul>
             </dd>
@@ -2674,7 +2678,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line153">line 153</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line154">line 154</a>
                 </li>
               </ul>
             </dd>
@@ -2894,7 +2898,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line228">line 228</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line232">line 232</a>
                 </li>
               </ul>
             </dd>
@@ -2961,7 +2965,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line24">line 24</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line25">line 25</a>
                 </li>
               </ul>
             </dd>
@@ -3004,7 +3008,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line169">line 169</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line170">line 170</a>
                 </li>
               </ul>
             </dd>
@@ -3047,7 +3051,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line180">line 180</a>
+                  <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line184">line 184</a>
                 </li>
               </ul>
             </dd>
@@ -3906,7 +3910,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line406">line 406</a>
+                  <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line409">line 409</a>
                 </li>
               </ul>
             </dd>
@@ -4141,7 +4145,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line250">line 250</a>
+                  <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line253">line 253</a>
                 </li>
               </ul>
             </dd>
