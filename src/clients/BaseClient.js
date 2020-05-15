@@ -38,6 +38,19 @@ export class BaseClient {
   }
 
   /**
+   * our possible message type for our controller reference
+   * @returns {{ROOM_MEMBER_STATUS_EVENT: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string}}
+   * @constructor
+   */
+  static get MessageTypes() {
+    return {
+      CIRCUIT_STATUS: "CircuitStatusDto",
+      ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
+      CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto"
+    };
+  }
+
+  /**
    * our enum of gridtime Circuit Message Types that talk broadcasts
    * @returns {{TEAM_MEMBER_STATUS_UPDATE: string, WTF_STARTED: string, TEAM_MEMBER_XP_UPDATE: string, CHAT: string, TEAM_WTF_RESUMED: string, ROOM_MEMBER_JOIN: string, ROOM_MEMBER_ONLINE: string, TEAM_WTF_STOPPED: string, WTF_RESUMED: string, WTF_SOLVED: string, SCREENSHOT: string, TEAM_RETRO_STARTED: string, SNIPPET: string, ROOM_MEMBER_LEAVE: string, TEAM_INTENTION_STARTED: string, WTF_RETRO_STARTED: string, WTF_ONHOLD: string, ROOM_MEMBER_OFFLINE: string, WTF_CANCELED: string, TEAM_WTF_STARTED: string}}
    * @constructor
