@@ -139,27 +139,28 @@ class ShortcutManager {
   /**
    * registers the shortcut with the manager. Any shortcut with the window property
    * set is assumed to be only linked to that shortcut. currently we do not
-   * check to see if a shortcut has already be set.. will override
+   * check to see if a shortcut has already be set.. will override... abort abort.
    * @param shortcut
    * @returns {{window}|*}
    */
   registerShortcut(shortcut) {
     if (shortcut.isGlobal()) {
       log.info(
-        "[ShortcutManager] register global shortcut -> " +
+        "[ShortcutManager] register.global : " +
           shortcut.name +
-          " : '" +
+          " { " +
           shortcut.accelerator +
-          "'"
+          " }"
       );
     } else {
       log.info(
-        "[ShortcutManager] register window shortcut -> " +
+        "[ShortcutManager] register.window : " +
           shortcut.window.name +
-          " : " +
+          " { " +
           shortcut.name +
           " : " +
-          shortcut.accelerator
+          shortcut.accelerator +
+          " }"
       );
     }
     global.App.ShortcutManager.shortcuts.push(shortcut);
