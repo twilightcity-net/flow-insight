@@ -275,6 +275,38 @@ module.exports = class Util {
   }
 
   /**
+   * gets the uri guid of our talk room from the first item in our array index.
+   * We use this value to store into a room collection that allows us to
+   * reference this for future use.
+   * @param array
+   * @returns {string}
+   */
+  static getUriFromMessageArray(array) {
+    let uri = "";
+    if (!!array && array.length > 0) {
+      uri = array[0].uri;
+    }
+    return uri;
+  }
+
+  /**
+   * gets our room name from our urn that is contained within  one of the messages
+   * (we use the first one). once we get the urn we split the string into its various
+   * parts then the last  index of it is the room name.
+   * @param array
+   * @returns {string}
+   */
+  static getRoomNameFromMessageArray(array) {
+    let roomName = "";
+    if (!!array && array.length > 0) {
+      let urn = array[0].urn;
+      let arr = urn.split("/");
+      roomName = arr[arr.length - 1];
+    }
+    return roomName;
+  }
+
+  /**
    * returns a new unique random GUID with a random number generator
    * @returns {string}
    */
