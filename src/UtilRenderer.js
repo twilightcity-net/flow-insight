@@ -1,4 +1,5 @@
 import { BrowserRequestFactory } from "./controllers/BrowserRequestFactory";
+import { BaseClient } from "./clients/BaseClient";
 import moment from "moment";
 
 export default class UtilRenderer {
@@ -168,7 +169,10 @@ export default class UtilRenderer {
    */
   static isStatusMessage(message) {
     return (
-      message.messageType === "RoomMemberStatusEventDto"
+      message.messageType ===
+        BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT ||
+      message.messageType ===
+        BaseClient.MessageTypes.CIRCUIT_STATUS
     );
   }
 
