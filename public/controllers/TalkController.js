@@ -244,16 +244,13 @@ module.exports = class TalkController extends BaseController {
    * our event callback handler talk messages. This function sorts incoming talk
    * messages into status and details. A flux is a message which originated from
    * the user host. We remove this when received. After that the message is stored
-   * into our local database for future retrieval.
-   *
-   * In other words a flux model is used to temporary block duplicate model data.
-   * No need to dispatch an event for an event we  created.
-   *
+   * into our local database for future retrieval In other words a flux model is
+   * used to temporary block duplicate model data. No need to dispatch an event for
+   * an event we  created.
    * @param message - our message that was recieved via the talk network socket
    */
   handleTalkMessageRoomCallback(message) {
     let uri = message.uri,
-      roomName = this.lookupRoomNameByUri(uri),
       database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.TALK
       ),

@@ -285,6 +285,7 @@ module.exports = class TalkToController extends BaseController {
 
     this.delegateGetAllStatusTalkMessagesFromRoomCallback(
       roomName,
+      uri,
       view,
       event,
       arg,
@@ -304,11 +305,12 @@ module.exports = class TalkToController extends BaseController {
     callback
   ) {
     let roomName = arg.args.roomName,
+      uri = arg.args.uri,
       database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.TALK
       ),
       collection = database.getCollectionForRoomStatusTalkMessages(
-        roomName
+        uri
       ),
       view = database.getViewStatusTalkMessagesForCollection(
         collection
@@ -316,6 +318,7 @@ module.exports = class TalkToController extends BaseController {
 
     this.delegateGetAllStatusTalkMessagesFromRoomCallback(
       roomName,
+      uri,
       view,
       event,
       arg,
@@ -324,8 +327,10 @@ module.exports = class TalkToController extends BaseController {
   }
 
   /**
-   * processes our talk status message requests
+   * processes our talk status message requests from our server on gridtime.
+   * we assume that we have already loaded some messages with a load call first.
    * @param roomName
+   * @param uri
    * @param view
    * @param event
    * @param arg
@@ -333,6 +338,7 @@ module.exports = class TalkToController extends BaseController {
    */
   delegateGetAllStatusTalkMessagesFromRoomCallback(
     roomName,
+    uri,
     view,
     event,
     arg,
@@ -355,7 +361,7 @@ module.exports = class TalkToController extends BaseController {
       this.handleLoadAllTalkNessagesFromRoomEvent(
         null,
         {
-          args: { roomName: roomName },
+          args: { roomName: roomName, uri: uri },
           type: arg.type,
           id: arg.id
         },
@@ -372,7 +378,12 @@ module.exports = class TalkToController extends BaseController {
   }
 
   /**
-   * processes our puboish to chat room request with gridtime
+   * process our publish to chat room service event. This is called by an action
+   * from the gui client. This controller posts this request to gridtime,
+   * which will update the database. Grid time will subsequentially make a REST
+   * call to Talk server to broadcast this text message. Talk then will route
+   * the message to all connected cliented to that specific room that is
+   * stored as a guid.
    * @param event
    * @param arg
    * @param callback

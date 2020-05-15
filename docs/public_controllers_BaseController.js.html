@@ -965,9 +965,7 @@ module.exports = class BaseController {
       ),
       room = rooms.findOne({ uri: uri });
 
-    if (!room) {
-      console.log(">>>insert room", roomName, uri);
-
+    if (!room &amp;&amp; roomName &amp;&amp; uri) {
       rooms.insert({
         roomName: roomName,
         uri: uri

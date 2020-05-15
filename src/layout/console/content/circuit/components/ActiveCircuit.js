@@ -54,7 +54,8 @@ export default class ActiveCircuit extends Component {
       arg => {
         model = arg.data;
         TalkToClient.getAllTalkMessagesFromRoom(
-          circuitName + "-wtf",
+          model.wtfTalkRoomName,
+          model.wtfTalkRoomId,
           this,
           arg => {
             messages = arg.data;
@@ -99,7 +100,8 @@ export default class ActiveCircuit extends Component {
       arg => {
         model = arg.data;
         TalkToClient.getAllTalkMessagesFromRoom(
-          circuitName + "-wtf",
+          model.wtfTalkRoomName,
+          model.wtfTalkRoomId,
           this,
           arg => {
             messages = arg.data;

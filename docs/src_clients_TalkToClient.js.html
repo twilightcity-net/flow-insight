@@ -673,18 +673,20 @@ export class TalkToClient extends BaseClient {
    * our local database. if nothing exists we make a request to gridtime
    * to fetch these talk messages
    * @param roomName
+   * @param uri
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
   static getAllTalkMessagesFromRoom(
     roomName,
+    uri,
     scope,
     callback
   ) {
     let event = TalkToClient.instance.createClientEvent(
       TalkToClient.Events.GET_ALL_TALK_MESSAGES_FROM_ROOM,
-      { roomName: roomName },
+      { roomName: roomName, uri: uri },
       scope,
       callback
     );
@@ -693,21 +695,23 @@ export class TalkToClient extends BaseClient {
   }
 
   /**
-   * gets all of our status messages speciofic to this room
+   * gets all of our status messages specific to this room
    * @param roomName
+   * @param uri
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
   static getAllStatusTalkMessagesFromRoom(
     roomName,
+    uri,
     scope,
     callback
   ) {
     let event = TalkToClient.instance.createClientEvent(
       TalkToClient.Events
         .GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM,
-      { roomName: roomName },
+      { roomName: roomName, uri: uri },
       scope,
       callback
     );
