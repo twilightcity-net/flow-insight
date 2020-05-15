@@ -67,13 +67,13 @@ module.exports = class BaseController {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{CIRCUIT_STATUS: string, ROOM_MEMBER_STATUS: string}}
+   * @returns {{ROOM_MEMBER_STATUS_EVENT: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string}}
    * @constructor
    */
   static get MessageTypes() {
     return {
       CIRCUIT_STATUS: "CircuitStatusDto",
-      ROOM_MEMBER_STATUS: "RoomMemberStatus",
+      ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
       CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto"
     };
   }
@@ -119,6 +119,8 @@ module.exports = class BaseController {
       UNKNOWN: "Unknown team client event type",
       UNKNOWN_CIRCUIT_EVENT:
         "Unknown circuit client event type",
+      UNKNOWN_TALK_MESSAGE_TYPE:
+        "Unknown talk message type",
       UNKNOWN_TALK_TO_EVENT:
         "Unknown talk to client event type",
       INVALID_PARTICIPATING_CIRCUIT:
@@ -348,12 +350,12 @@ module.exports = class BaseController {
    * time as you could say
    * @param model
    * @param collection
-   * @param circuit
+   * @param message
    */
-  findXOrInsertMessage(model, collection, circuit) {
-    model = collection.findOne({ id: circuit.id });
+  findXOrInsertMessage(model, collection, message) {
+    model = collection.findOne({ id: message.id });
     if (!model) {
-      collection.insert(circuit);
+      collection.insert(message);
     }
   }
 
