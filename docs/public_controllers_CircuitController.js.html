@@ -43,7 +43,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#createClientEvent">createClientEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#delegateCallback">delegateCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#logReply">logReply</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.CircuitMessageTypeDto.html">CircuitMessageTypeDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Errors.html">Errors</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.MessageTypes.html">MessageTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Strings.html">Strings</a></span></li>
@@ -456,6 +455,12 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#.publishChatToRoom">publishChatToRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#notifyTalkTo">notifyTalkTo</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TalkToClient.Events.html">Events</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamCircuitClient.html">TeamCircuitClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#.getMyHomeTeam">getMyHomeTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#.init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#.loadMyHomeTeam">loadMyHomeTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#notifyTeamCircuit">notifyTeamCircuit</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamCircuitClient.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getAllMyTeams">getAllMyTeams</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyHomeTeam">getMyHomeTeam</a></span></li>
@@ -882,6 +887,7 @@ module.exports = class CircuitController extends BaseController {
   ) {
     let urn =
       CircuitController.Paths.CIRCUIT +
+      CircuitController.Paths.SEPARATOR +
       CircuitController.Strings.MY +
       CircuitController.Paths.PARTICIPATING;
 
@@ -950,6 +956,7 @@ module.exports = class CircuitController extends BaseController {
   ) {
     let urn =
       CircuitController.Paths.CIRCUIT +
+      CircuitController.Paths.SEPARATOR +
       CircuitController.Strings.MY +
       CircuitController.Paths.DO_IT_LATER;
 
@@ -1014,6 +1021,7 @@ module.exports = class CircuitController extends BaseController {
   handleLoadActiveCircuitEvent(event, arg, callback) {
     let urn =
       CircuitController.Paths.CIRCUIT +
+      CircuitController.Paths.SEPARATOR +
       CircuitController.Strings.MY +
       CircuitController.Paths.ACTIVE;
 
@@ -1090,6 +1098,7 @@ module.exports = class CircuitController extends BaseController {
     let name = arg.args.circuitName,
       urn =
         CircuitController.Paths.CIRCUIT +
+        CircuitController.Paths.SEPARATOR +
         CircuitController.Paths.WTF +
         name;
 

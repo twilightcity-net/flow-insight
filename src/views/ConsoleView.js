@@ -8,6 +8,7 @@ import { TalkClient } from "../clients/TalkClient";
 import { TalkToClient } from "../clients/TalkToClient";
 import { JournalClient } from "../clients/JournalClient";
 import { TeamClient } from "../clients/TeamClient";
+import { TeamCircuitClient } from "../clients/TeamCircuitClient";
 import { MemberClient } from "../clients/MemberClient";
 
 /**
@@ -110,6 +111,7 @@ export default class ConsoleView extends Component {
     TalkClient.init(this);
     TalkToClient.init(this);
     TeamClient.init(this);
+    TeamCircuitClient.init(this);
     MemberClient.init(this);
     JournalClient.init(this);
     CircuitClient.init(this);

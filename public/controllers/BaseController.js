@@ -22,7 +22,7 @@ module.exports = class BaseController {
       SEPARATOR: "/",
       INTENTION: "/intention",
       TASKREF: "/taskref",
-      CIRCUIT: "/circuit/",
+      CIRCUIT: "/circuit",
       CIRCUIT_WTF: "/circuit/wtf",
       PARTICIPATING: "/participating",
       DO_IT_LATER: "/doitlater",
@@ -142,7 +142,7 @@ module.exports = class BaseController {
 
   /**
    * definition names of our controllers functions
-   * @returns {{JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
+   * @returns {{JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, GET_MY_TEAM_CIRCUIT: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
    * @constructor
    */
   static get Names() {
@@ -165,13 +165,14 @@ module.exports = class BaseController {
       LEAVE_EXISTING_ROOM: "leaveExistingRoom",
       GET_MY_HOME_TEAM: "getMyHomeTeam",
       GET_ALL_MY_TEAMS: "getAllMyTeams",
-      GET_ME: "getMe"
+      GET_ME: "getMe",
+      GET_MY_TEAM_CIRCUIT: "getMyTeamCircuit"
     };
   }
 
   /**
    * our possible client context scopes used by gridtime clients
-   * @returns {{CIRCUIT_CLIENT: string}}
+   * @returns {{TEAM_CIRCUIT_CLIENT: string, CIRCUIT_CLIENT: string, TEAM_CLIENT: string, MEMBER_CLIENT: string, TALK_TO_CLIENT: string}}
    * @constructor
    */
   static get Contexts() {
@@ -179,6 +180,7 @@ module.exports = class BaseController {
       CIRCUIT_CLIENT: "CircuitClient",
       TALK_TO_CLIENT: "TalkToClient",
       TEAM_CLIENT: "TeamClient",
+      TEAM_CIRCUIT_CLIENT: "TeamCircuitClient",
       MEMBER_CLIENT: "MemberClient"
     };
   }

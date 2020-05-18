@@ -43,7 +43,6 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#createClientEvent">createClientEvent</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#delegateCallback">delegateCallback</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#logReply">logReply</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.CircuitMessageTypeDto.html">CircuitMessageTypeDto</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Errors.html">Errors</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.MessageTypes.html">MessageTypes</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Strings.html">Strings</a></span></li>
@@ -456,6 +455,12 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#.publishChatToRoom">publishChatToRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#notifyTalkTo">notifyTalkTo</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TalkToClient.Events.html">Events</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamCircuitClient.html">TeamCircuitClient</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#.getMyHomeTeam">getMyHomeTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#.init">init</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#.loadMyHomeTeam">loadMyHomeTeam</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#notifyTeamCircuit">notifyTeamCircuit</a></span></li>
+    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamCircuitClient.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getAllMyTeams">getAllMyTeams</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyHomeTeam">getMyHomeTeam</a></span></li>
@@ -642,35 +647,35 @@ export class BaseClient {
     };
   }
 
-  /**
-   * our enum of gridtime Circuit Message Types that talk broadcasts
-   * @returns {{TEAM_MEMBER_STATUS_UPDATE: string, WTF_STARTED: string, TEAM_MEMBER_XP_UPDATE: string, CHAT: string, TEAM_WTF_RESUMED: string, ROOM_MEMBER_JOIN: string, ROOM_MEMBER_ONLINE: string, TEAM_WTF_STOPPED: string, WTF_RESUMED: string, WTF_SOLVED: string, SCREENSHOT: string, TEAM_RETRO_STARTED: string, SNIPPET: string, ROOM_MEMBER_LEAVE: string, TEAM_INTENTION_STARTED: string, WTF_RETRO_STARTED: string, WTF_ONHOLD: string, ROOM_MEMBER_OFFLINE: string, WTF_CANCELED: string, TEAM_WTF_STARTED: string}}
-   * @constructor
-   */
-  static get CircuitMessageTypeDto() {
-    return {
-      CHAT: "ChatMessageDetailsDto",
-      SCREENSHOT: "ScreenshotMessageDetailsDto",
-      SNIPPET: "SnippetMessageDetailsDto",
-      ROOM_MEMBER_JOIN: "RoomMemberStatus",
-      ROOM_MEMBER_LEAVE: "RoomMemberStatus",
-      ROOM_MEMBER_OFFLINE: "RoomMemberStatus",
-      ROOM_MEMBER_ONLINE: "RoomMemberStatus",
-      WTF_STARTED: "CircuitStatusDto",
-      WTF_SOLVED: "CircuitStatusDto",
-      WTF_ONHOLD: "CircuitStatusDto",
-      WTF_RESUMED: "CircuitStatusDto",
-      WTF_RETRO_STARTED: "CircuitStatusDto",
-      WTF_CANCELED: "CircuitStatusDto",
-      TEAM_INTENTION_STARTED: "IntentionStartedDetailsDto",
-      TEAM_WTF_STARTED: "WTFStatusUpdateDto",
-      TEAM_WTF_STOPPED: "WTFStatusUpdateDto",
-      TEAM_WTF_RESUMED: "WTFStatusUpdateDto",
-      TEAM_RETRO_STARTED: "WTFStatusUpdateDto",
-      TEAM_MEMBER_STATUS_UPDATE: "MemberWorkStatusDto",
-      TEAM_MEMBER_XP_UPDATE: "XPStatusUpdateDto"
-    };
-  }
+  // /**
+  //  * our enum of gridtime Circuit Message Types that talk broadcasts
+  //  * @returns {{TEAM_MEMBER_STATUS_UPDATE: string, WTF_STARTED: string, TEAM_MEMBER_XP_UPDATE: string, CHAT: string, TEAM_WTF_RESUMED: string, ROOM_MEMBER_JOIN: string, ROOM_MEMBER_ONLINE: string, TEAM_WTF_STOPPED: string, WTF_RESUMED: string, WTF_SOLVED: string, SCREENSHOT: string, TEAM_RETRO_STARTED: string, SNIPPET: string, ROOM_MEMBER_LEAVE: string, TEAM_INTENTION_STARTED: string, WTF_RETRO_STARTED: string, WTF_ONHOLD: string, ROOM_MEMBER_OFFLINE: string, WTF_CANCELED: string, TEAM_WTF_STARTED: string}}
+  //  * @constructor
+  //  */
+  // static get CircuitMessageTypeDto() {
+  //   return {
+  //     CHAT: "ChatMessageDetailsDto",
+  //     SCREENSHOT: "ScreenshotMessageDetailsDto",
+  //     SNIPPET: "SnippetMessageDetailsDto",
+  //     ROOM_MEMBER_JOIN: "RoomMemberStatus",
+  //     ROOM_MEMBER_LEAVE: "RoomMemberStatus",
+  //     ROOM_MEMBER_OFFLINE: "RoomMemberStatus",
+  //     ROOM_MEMBER_ONLINE: "RoomMemberStatus",
+  //     WTF_STARTED: "CircuitStatusDto",
+  //     WTF_SOLVED: "CircuitStatusDto",
+  //     WTF_ONHOLD: "CircuitStatusDto",
+  //     WTF_RESUMED: "CircuitStatusDto",
+  //     WTF_RETRO_STARTED: "CircuitStatusDto",
+  //     WTF_CANCELED: "CircuitStatusDto",
+  //     TEAM_INTENTION_STARTED: "IntentionStartedDetailsDto",
+  //     TEAM_WTF_STARTED: "WTFStatusUpdateDto",
+  //     TEAM_WTF_STOPPED: "WTFStatusUpdateDto",
+  //     TEAM_WTF_RESUMED: "WTFStatusUpdateDto",
+  //     TEAM_RETRO_STARTED: "WTFStatusUpdateDto",
+  //     TEAM_MEMBER_STATUS_UPDATE: "MemberWorkStatusDto",
+  //     TEAM_MEMBER_XP_UPDATE: "XPStatusUpdateDto"
+  //   };
+  // }
 
   /**
    * builds our base client class

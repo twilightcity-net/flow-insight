@@ -290,6 +290,7 @@ module.exports = class CircuitController extends BaseController {
   ) {
     let urn =
       CircuitController.Paths.CIRCUIT +
+      CircuitController.Paths.SEPARATOR +
       CircuitController.Strings.MY +
       CircuitController.Paths.PARTICIPATING;
 
@@ -358,6 +359,7 @@ module.exports = class CircuitController extends BaseController {
   ) {
     let urn =
       CircuitController.Paths.CIRCUIT +
+      CircuitController.Paths.SEPARATOR +
       CircuitController.Strings.MY +
       CircuitController.Paths.DO_IT_LATER;
 
@@ -422,6 +424,7 @@ module.exports = class CircuitController extends BaseController {
   handleLoadActiveCircuitEvent(event, arg, callback) {
     let urn =
       CircuitController.Paths.CIRCUIT +
+      CircuitController.Paths.SEPARATOR +
       CircuitController.Strings.MY +
       CircuitController.Paths.ACTIVE;
 
@@ -498,6 +501,7 @@ module.exports = class CircuitController extends BaseController {
     let name = arg.args.circuitName,
       urn =
         CircuitController.Paths.CIRCUIT +
+        CircuitController.Paths.SEPARATOR +
         CircuitController.Paths.WTF +
         name;
 
