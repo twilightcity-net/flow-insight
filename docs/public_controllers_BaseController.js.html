@@ -1028,9 +1028,9 @@ module.exports = class BaseController {
    * @param collection
    */
   resetHomeTeamFlag(doc, collection) {
-    let results = collection.find({ homeTeam: true });
+    let results = collection.find({ isHomeTeam: true });
     results.forEach(t => {
-      t.homeTeam = false;
+      t.isHsomeTeam = false;
       collection.update(t);
     });
   }

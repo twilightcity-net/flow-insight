@@ -785,6 +785,7 @@ module.exports = class TeamCircuitController extends BaseController {
           collection.remove(result);
         }
         collection.insert(circuit);
+        arg.data = circuit;
       }
     }
 
@@ -856,9 +857,8 @@ module.exports = class TeamCircuitController extends BaseController {
           }
           collection.insert(c);
         });
+        arg.data = circuits;
       }
-
-      console.log(collection);
     }
 
     this.delegateCallbackOrEventReplyTo(
@@ -883,7 +883,7 @@ module.exports = class TeamCircuitController extends BaseController {
         CircuitDatabase.Collections.TEAM_CIRCUITS
       );
 
-    arg.data = collection.findOne({ homeTeam: true });
+    arg.data = collection.findOne({ isHomeTeam: true });
 
     this.delegateCallbackOrEventReplyTo(
       event,

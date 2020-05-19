@@ -163,6 +163,7 @@ module.exports = class TeamCircuitController extends BaseController {
           collection.remove(result);
         }
         collection.insert(circuit);
+        arg.data = circuit;
       }
     }
 
@@ -234,9 +235,8 @@ module.exports = class TeamCircuitController extends BaseController {
           }
           collection.insert(c);
         });
+        arg.data = circuits;
       }
-
-      console.log(collection);
     }
 
     this.delegateCallbackOrEventReplyTo(
