@@ -78,35 +78,35 @@ module.exports = class BaseController {
     };
   }
 
-  /**
-   * our enum of gridtime Circuit Message Types that talk broadcasts
-   * @returns {{TEAM_MEMBER_STATUS_UPDATE: string, WTF_STARTED: string, TEAM_MEMBER_XP_UPDATE: string, CHAT: string, TEAM_WTF_RESUMED: string, ROOM_MEMBER_JOIN: string, ROOM_MEMBER_ONLINE: string, TEAM_WTF_STOPPED: string, WTF_RESUMED: string, WTF_SOLVED: string, SCREENSHOT: string, TEAM_RETRO_STARTED: string, SNIPPET: string, ROOM_MEMBER_LEAVE: string, TEAM_INTENTION_STARTED: string, WTF_RETRO_STARTED: string, WTF_ONHOLD: string, ROOM_MEMBER_OFFLINE: string, WTF_CANCELED: string, TEAM_WTF_STARTED: string}}
-   * @constructor
-   */
-  static get CircuitMessageTypeDto() {
-    return {
-      CHAT: "ChatMessageDetailsDto",
-      SCREENSHOT: "ScreenshotMessageDetailsDto",
-      SNIPPET: "SnippetMessageDetailsDto",
-      ROOM_MEMBER_JOIN: "RoomMemberStatus",
-      ROOM_MEMBER_LEAVE: "RoomMemberStatus",
-      ROOM_MEMBER_OFFLINE: "RoomMemberStatus",
-      ROOM_MEMBER_ONLINE: "RoomMemberStatus",
-      WTF_STARTED: "CircuitStatusDto",
-      WTF_SOLVED: "CircuitStatusDto",
-      WTF_ONHOLD: "CircuitStatusDto",
-      WTF_RESUMED: "CircuitStatusDto",
-      WTF_RETRO_STARTED: "CircuitStatusDto",
-      WTF_CANCELED: "CircuitStatusDto",
-      TEAM_INTENTION_STARTED: "IntentionStartedDetailsDto",
-      TEAM_WTF_STARTED: "WTFStatusUpdateDto",
-      TEAM_WTF_STOPPED: "WTFStatusUpdateDto",
-      TEAM_WTF_RESUMED: "WTFStatusUpdateDto",
-      TEAM_RETRO_STARTED: "WTFStatusUpdateDto",
-      TEAM_MEMBER_STATUS_UPDATE: "MemberWorkStatusDto",
-      TEAM_MEMBER_XP_UPDATE: "XPStatusUpdateDto"
-    };
-  }
+  // /**
+  //  * our enum of gridtime Circuit Message Types that talk broadcasts
+  //  * @returns {{TEAM_MEMBER_STATUS_UPDATE: string, WTF_STARTED: string, TEAM_MEMBER_XP_UPDATE: string, CHAT: string, TEAM_WTF_RESUMED: string, ROOM_MEMBER_JOIN: string, ROOM_MEMBER_ONLINE: string, TEAM_WTF_STOPPED: string, WTF_RESUMED: string, WTF_SOLVED: string, SCREENSHOT: string, TEAM_RETRO_STARTED: string, SNIPPET: string, ROOM_MEMBER_LEAVE: string, TEAM_INTENTION_STARTED: string, WTF_RETRO_STARTED: string, WTF_ONHOLD: string, ROOM_MEMBER_OFFLINE: string, WTF_CANCELED: string, TEAM_WTF_STARTED: string}}
+  //  * @constructor
+  //  */
+  // static get CircuitMessageTypeDto() {
+  //   return {
+  //     CHAT: "ChatMessageDetailsDto",
+  //     SCREENSHOT: "ScreenshotMessageDetailsDto",
+  //     SNIPPET: "SnippetMessageDetailsDto",
+  //     ROOM_MEMBER_JOIN: "RoomMemberStatus",
+  //     ROOM_MEMBER_LEAVE: "RoomMemberStatus",
+  //     ROOM_MEMBER_OFFLINE: "RoomMemberStatus",
+  //     ROOM_MEMBER_ONLINE: "RoomMemberStatus",
+  //     WTF_STARTED: "CircuitStatusDto",
+  //     WTF_SOLVED: "CircuitStatusDto",
+  //     WTF_ONHOLD: "CircuitStatusDto",
+  //     WTF_RESUMED: "CircuitStatusDto",
+  //     WTF_RETRO_STARTED: "CircuitStatusDto",
+  //     WTF_CANCELED: "CircuitStatusDto",
+  //     TEAM_INTENTION_STARTED: "IntentionStartedDetailsDto",
+  //     TEAM_WTF_STARTED: "WTFStatusUpdateDto",
+  //     TEAM_WTF_STOPPED: "WTFStatusUpdateDto",
+  //     TEAM_WTF_RESUMED: "WTFStatusUpdateDto",
+  //     TEAM_RETRO_STARTED: "WTFStatusUpdateDto",
+  //     TEAM_MEMBER_STATUS_UPDATE: "MemberWorkStatusDto",
+  //     TEAM_MEMBER_XP_UPDATE: "XPStatusUpdateDto"
+  //   };
+  // }
 
   /**
    * errors which the controllers know about
@@ -142,7 +142,7 @@ module.exports = class BaseController {
 
   /**
    * definition names of our controllers functions
-   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
+   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
    * @constructor
    */
   static get Names() {
@@ -166,7 +166,8 @@ module.exports = class BaseController {
       GET_MY_HOME_TEAM: "getMyHomeTeam",
       GET_ALL_MY_TEAMS: "getAllMyTeams",
       GET_ME: "getMe",
-      GET_MY_HOME_TEAM_CIRCUIT: "getMyHomeTeamCircuit"
+      GET_MY_HOME_TEAM_CIRCUIT: "getMyHomeTeamCircuit",
+      GET_ALL_MY_TEAM_CIRCUITS: "getAllMyTeamCircuits"
     };
   }
 
@@ -405,9 +406,9 @@ module.exports = class BaseController {
    * @param collection
    */
   resetHomeTeamFlag(doc, collection) {
-    let results = collection.find({ homeTeam: true });
+    let results = collection.find({ isHomeTeam: true });
     results.forEach(t => {
-      t.homeTeam = false;
+      t.isHsomeTeam = false;
       collection.update(t);
     });
   }

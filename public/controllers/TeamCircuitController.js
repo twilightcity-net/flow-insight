@@ -22,14 +22,17 @@ module.exports = class TeamCircuitController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, LOAD_MY_HOME_TEAM_CIRCUIT: string}}
+   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, LOAD_MY_HOME_TEAM_CIRCUIT: string, GET_ALL_MY_TEAM_CIRCUITS: string, LOAD_ALL_MY_TEAM_CIRCUITS: string}}
    * @constructor
    */
   static get Events() {
     return {
       LOAD_MY_HOME_TEAM_CIRCUIT:
         "load-my-home-team-circuit",
-      GET_MY_HOME_TEAM_CIRCUIT: "get-my-home-team-circuit"
+      GET_MY_HOME_TEAM_CIRCUIT: "get-my-home-team-circuit",
+      LOAD_ALL_MY_TEAM_CIRCUITS:
+        "load-all-my-team-circuits",
+      GET_ALL_MY_TEAM_CIRCUITS: "get-all-my-team-circuits"
     };
   }
 
@@ -80,6 +83,14 @@ module.exports = class TeamCircuitController extends BaseController {
         case TeamCircuitController.Events
           .GET_MY_HOME_TEAM_CIRCUIT:
           this.handleGetMyHomeTeamCircuitEvent(event, arg);
+          break;
+        case TeamCircuitController.Events
+          .LOAD_ALL_MY_TEAM_CIRCUITS:
+          this.handleLoadAllMyTeamCircuitsEvent(event, arg);
+          break;
+        case TeamCircuitController.Events
+          .GET_ALL_MY_TEAM_CIRCUITS:
+          this.handleGetAllMyTeamCircuitsEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -163,6 +174,79 @@ module.exports = class TeamCircuitController extends BaseController {
   }
 
   /**
+   * loads all of our team circuits we are participating in currently
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleLoadAllMyTeamCircuitsEvent(event, arg, callback) {
+    let urn =
+      TeamCircuitController.Paths.CIRCUIT +
+      TeamCircuitController.Paths.TEAM;
+
+    this.doClientRequest(
+      TeamCircuitController.Contexts.TEAM_CIRCUIT_CLIENT,
+      {},
+      TeamCircuitController.Names.GET_ALL_MY_TEAM_CIRCUITS,
+      TeamCircuitController.Types.GET,
+      urn,
+      store =>
+        this.delegateLoadAllMyTeamCircuitsCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * processes our gridtime request for loading all team circuits
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateLoadAllMyTeamCircuitsCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let circuits = store.data,
+        database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.CIRCUIT
+        ),
+        collection = database.getCollection(
+          CircuitDatabase.Collections.TEAM_CIRCUITS
+        );
+
+      if (circuits && circuits.length > 0) {
+        circuits.forEach(c => {
+          let circuit = collection.findOne({
+            teamId: c.teamId
+          });
+          if (circuit) {
+            collection.remove(circuit);
+          }
+          collection.insert(c);
+        });
+      }
+
+      console.log(collection);
+    }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
    * gets one of our teams that is stored in the database, or fetch from
    * gridtime server.
    * @param event
@@ -177,12 +261,27 @@ module.exports = class TeamCircuitController extends BaseController {
         CircuitDatabase.Collections.TEAM_CIRCUITS
       );
 
-    arg.data = collection.findOne({ homeTeam: true });
+    arg.data = collection.findOne({ isHomeTeam: true });
 
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,
       callback
     );
+  }
+
+  /**
+   * gets all of our team circuits we are participating from our local database.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetAllMyTeamCircuitsEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.CIRCUIT
+      ),
+      view = database.getViewTeamCircuits();
+
+    this.delegateCallbackWithView(null, view, event, arg);
   }
 };

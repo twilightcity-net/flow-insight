@@ -20,7 +20,7 @@ module.exports = class TeamCircuitManager {
    * @param callback
    */
   init(callback) {
-    TeamCircuitController.instance.handleLoadMyHomeTeamCircuitEvent(
+    TeamCircuitController.instance.handleLoadAllMyTeamCircuitsEvent(
       {},
       { args: {} },
       () => this.handleInitCallback(callback)

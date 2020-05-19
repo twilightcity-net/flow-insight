@@ -123,7 +123,6 @@ module.exports = class CircuitDatabase extends LokiJS {
       CircuitDatabase.Collections.TEAM_CIRCUITS,
       {
         indices: [
-          CircuitDatabase.Indices.ID,
           CircuitDatabase.Indices.ORGANIZATION_ID,
           CircuitDatabase.Indices.TEAM_ID,
           CircuitDatabase.Indices.TEAM_NAME,
@@ -147,7 +146,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       CircuitDatabase.Collections.ACTIVE
     ).addDynamicView(CircuitDatabase.Views.ACTIVE);
     this.getCollection(
-      CircuitDatabase.Collections.ACTIVE
+      CircuitDatabase.Collections.TEAM_CIRCUITS
     ).addDynamicView(CircuitDatabase.Views.TEAM_CIRCUITS);
   }
 
