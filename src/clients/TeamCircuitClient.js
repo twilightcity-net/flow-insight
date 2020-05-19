@@ -35,13 +35,14 @@ export class TeamCircuitClient extends BaseClient {
 
   /**
    * general enum list of all of our possible team circuit events
-   * @returns {{LOAD_MY_TEAM_CIRCUIT: string, GET_MY_TEAM_CIRCUIT: string}}
+   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, LOAD_MY_HOME_TEAM_CIRCUIT: string}}
    * @constructor
    */
   static get Events() {
     return {
-      LOAD_MY_TEAM_CIRCUIT: "load-my-team-circuit",
-      GET_MY_TEAM_CIRCUIT: "get-my-team-circuit"
+      LOAD_MY_HOME_TEAM_CIRCUIT:
+        "load-my-home-team-circuit",
+      GET_MY_HOME_TEAM_CIRCUIT: "get-my-home-team-circuit"
     };
   }
 
@@ -63,9 +64,9 @@ export class TeamCircuitClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static loadMyHomeTeam(scope, callback) {
+  static loadMyHomeTeamCircuit(scope, callback) {
     let event = TeamCircuitClient.instance.createClientEvent(
-      TeamCircuitClient.Events.LOAD_MY_TEAM_CIRCUIT,
+      TeamCircuitClient.Events.LOAD_MY_HOME_TEAM_CIRCUIT,
       {},
       scope,
       callback
@@ -80,9 +81,9 @@ export class TeamCircuitClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static getMyHomeTeam(scope, callback) {
+  static getMyHomeTeamCircuit(scope, callback) {
     let event = TeamCircuitClient.instance.createClientEvent(
-      TeamCircuitClient.Events.GET_MY_TEAM_CIRCUIT,
+      TeamCircuitClient.Events.GET_MY_HOME_TEAM_CIRCUIT,
       {},
       scope,
       callback

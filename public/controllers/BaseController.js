@@ -130,7 +130,7 @@ module.exports = class BaseController {
 
   /**
    * general purpose strings that should prolly go in the {Util}
-   * @returns {{ME: string}}
+   * @returns {{ME: string, MY: string}}
    * @constructor
    */
   static get Strings() {
@@ -142,7 +142,7 @@ module.exports = class BaseController {
 
   /**
    * definition names of our controllers functions
-   * @returns {{JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, GET_MY_TEAM_CIRCUIT: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
+   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
    * @constructor
    */
   static get Names() {
@@ -166,7 +166,7 @@ module.exports = class BaseController {
       GET_MY_HOME_TEAM: "getMyHomeTeam",
       GET_ALL_MY_TEAMS: "getAllMyTeams",
       GET_ME: "getMe",
-      GET_MY_TEAM_CIRCUIT: "getMyTeamCircuit"
+      GET_MY_HOME_TEAM_CIRCUIT: "getMyHomeTeamCircuit"
     };
   }
 

@@ -22,13 +22,14 @@ module.exports = class TeamCircuitController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_MY_TEAM_CIRCUIT: string, GET_MY_TEAM_CIRCUIT: string}}
+   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, LOAD_MY_HOME_TEAM_CIRCUIT: string}}
    * @constructor
    */
   static get Events() {
     return {
-      LOAD_MY_TEAM_CIRCUIT: "load-my-team-circuit",
-      GET_MY_TEAM_CIRCUIT: "get-my-team-circuit"
+      LOAD_MY_HOME_TEAM_CIRCUIT:
+        "load-my-home-team-circuit",
+      GET_MY_HOME_TEAM_CIRCUIT: "get-my-home-team-circuit"
     };
   }
 
@@ -73,12 +74,12 @@ module.exports = class TeamCircuitController extends BaseController {
     } else {
       switch (arg.type) {
         case TeamCircuitController.Events
-          .LOAD_MY_TEAM_CIRCUIT:
-          this.handleLoadMyTeamCircuitEvent(event, arg);
+          .LOAD_MY_HOME_TEAM_CIRCUIT:
+          this.handleLoadMyHomeTeamCircuitEvent(event, arg);
           break;
         case TeamCircuitController.Events
-          .GET_MY_TEAM_CIRCUIT:
-          this.handleGetMyTeamCircuitEvent(event, arg);
+          .GET_MY_HOME_TEAM_CIRCUIT:
+          this.handleGetMyHomeTeamCircuitEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -97,7 +98,7 @@ module.exports = class TeamCircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleLoadMyTeamCircuitEvent(event, arg, callback) {
+  handleLoadMyHomeTeamCircuitEvent(event, arg, callback) {
     let urn =
       TeamCircuitController.Paths.CIRCUIT +
       TeamCircuitController.Paths.TEAM +
@@ -106,11 +107,11 @@ module.exports = class TeamCircuitController extends BaseController {
     this.doClientRequest(
       TeamCircuitController.Contexts.TEAM_CIRCUIT_CLIENT,
       {},
-      TeamCircuitController.Names.GET_MY_TEAM_CIRCUIT,
+      TeamCircuitController.Names.GET_MY_HOME_TEAM_CIRCUIT,
       TeamCircuitController.Types.GET,
       urn,
       store =>
-        this.delegateLoadMyTeamCircuitCallback(
+        this.delegateLoadMyHomeTeamCircuitCallback(
           store,
           event,
           arg,
@@ -127,7 +128,7 @@ module.exports = class TeamCircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateLoadMyTeamCircuitCallback(
+  delegateLoadMyHomeTeamCircuitCallback(
     store,
     event,
     arg,
@@ -168,7 +169,7 @@ module.exports = class TeamCircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleGetMyTeamCircuitEvent(event, arg, callback) {
+  handleGetMyHomeTeamCircuitEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.CIRCUIT
       ),

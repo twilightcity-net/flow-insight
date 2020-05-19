@@ -207,7 +207,7 @@ module.exports = class CircuitDatabase extends LokiJS {
    * gets our current view for our team circuits
    * @returns {DynamicView}
    */
-  getViewTeamCircuitss() {
+  getViewTeamCircuits() {
     let collection = this.getCollection(
       CircuitDatabase.Collections.TEAM_CIRCUITS
     );
