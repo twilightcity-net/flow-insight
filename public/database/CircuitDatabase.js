@@ -16,7 +16,7 @@ module.exports = class CircuitDatabase extends LokiJS {
 
   /**
    * the collections of our database
-   * @returns {{LATER: string, PARTICIPATING: string, ACTIVE: string}}
+   * @returns {{CIRCUITS: string, LATER: string, PARTICIPATING: string, ACTIVE: string, TEAM_CIRCUITS: string}}
    * @constructor
    */
   static get Collections() {
@@ -24,13 +24,14 @@ module.exports = class CircuitDatabase extends LokiJS {
       CIRCUITS: "circuits",
       PARTICIPATING: "participating",
       LATER: "later",
-      ACTIVE: "active"
+      ACTIVE: "active",
+      TEAM_CIRCUITS: "team-circuits"
     };
   }
 
   /**
    * the views of our database for queries
-   * @returns {{LATER: string, PARTICIPATING: string, ACTIVE: string}}
+   * @returns {{CIRCUITS: string, LATER: string, PARTICIPATING: string, ACTIVE: string, TEAM_CIRCUITS: string}}
    * @constructor
    */
   static get Views() {
@@ -38,13 +39,14 @@ module.exports = class CircuitDatabase extends LokiJS {
       CIRCUITS: "circuits",
       PARTICIPATING: "participating",
       LATER: "later",
-      ACTIVE: "active"
+      ACTIVE: "active",
+      TEAM_CIRCUITS: "team-circuits"
     };
   }
 
   /**
    * Indices of our database. This allows us to index things for fast queries
-   * @returns {{CIRCUIT_NAME: string, OPEN_TIME: string, CIRCUIT_STATE: string, CLOSE_TIME: string, ID: string, OWNER_ID: string}}
+   * @returns {{TEAM_NAME: string, CIRCUIT_NAME: string, OPEN_TIME: string, OWNER_NAME: string, CIRCUIT_STATE: string, MODERATOR_ID: string, CLOSE_TIME: string, ID: string, OWNER_ID: string, ORGANIZATION_ID: string, TEAM_ID: string, MODERATOR_NAME: string}}
    * @constructor
    */
   static get Indices() {
@@ -52,9 +54,15 @@ module.exports = class CircuitDatabase extends LokiJS {
       ID: "id",
       CIRCUIT_NAME: "circuitName",
       OWNER_ID: "ownerId",
+      OWNER_NAME: "ownerName",
       OPEN_TIME: "openTime",
       CLOSE_TIME: "closeCircuitNanoTime",
-      CIRCUIT_STATE: "circuitState"
+      CIRCUIT_STATE: "circuitState",
+      ORGANIZATION_ID: "organizationId",
+      TEAM_ID: "teamId",
+      TEAM_NAME: "teamName",
+      MODERATOR_ID: "moderatorId",
+      MODERATOR_NAME: "moderatorName"
     };
   }
 
@@ -111,6 +119,21 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
+    this.addCollection(
+      CircuitDatabase.Collections.TEAM_CIRCUITS,
+      {
+        indices: [
+          CircuitDatabase.Indices.ID,
+          CircuitDatabase.Indices.ORGANIZATION_ID,
+          CircuitDatabase.Indices.TEAM_ID,
+          CircuitDatabase.Indices.TEAM_NAME,
+          CircuitDatabase.Indices.OWNER_ID,
+          CircuitDatabase.Indices.OWNER_NAME,
+          CircuitDatabase.Indices.MODERATOR_ID,
+          CircuitDatabase.Indices.MODERATOR_NAME
+        ]
+      }
+    );
     this.getCollection(
       CircuitDatabase.Collections.CIRCUITS
     ).addDynamicView(CircuitDatabase.Views.CIRCUITS);
@@ -123,6 +146,9 @@ module.exports = class CircuitDatabase extends LokiJS {
     this.getCollection(
       CircuitDatabase.Collections.ACTIVE
     ).addDynamicView(CircuitDatabase.Views.ACTIVE);
+    this.getCollection(
+      CircuitDatabase.Collections.ACTIVE
+    ).addDynamicView(CircuitDatabase.Views.TEAM_CIRCUITS);
   }
 
   /**
@@ -174,6 +200,19 @@ module.exports = class CircuitDatabase extends LokiJS {
     );
     return collection.getDynamicView(
       CircuitDatabase.Views.ACTIVE
+    );
+  }
+
+  /**
+   * gets our current view for our team circuits
+   * @returns {DynamicView}
+   */
+  getViewTeamCircuitss() {
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.TEAM_CIRCUITS
+    );
+    return collection.getDynamicView(
+      CircuitDatabase.Views.TEAM_CIRCUITS
     );
   }
 };

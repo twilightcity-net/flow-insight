@@ -86,16 +86,20 @@ module.exports = class VolumeManager {
   }
 
   /**
-   * loads our circuit database into memory
+   * loads our circuit database data into memory
    */
   static loadDefaultCircuitDatabase() {
     global.App.CircuitManager.init(() => {
       VolumeManager.handleFinishLoadingVolumes();
     });
+    global.App.TeamCircuitManager.init(() => {
+      VolumeManager.handleFinishLoadingVolumes();
+    });
   }
 
   /**
-   * loads our team database into our memory
+   * loads our team data into team database that
+   * exists in our memory
    */
   static loadDefaultTeamDatabase() {
     global.App.TeamManager.init(() => {
@@ -117,7 +121,7 @@ module.exports = class VolumeManager {
    */
   static handleFinishLoadingVolumes() {
     VolumeManager.initializedVolumes++;
-    if (VolumeManager.initializedVolumes >= 5) {
+    if (VolumeManager.initializedVolumes >= 6) {
       EventManager.dispatch(
         EventFactory.Types.DATABASE_VOLUMES_READY
       );

@@ -400,26 +400,15 @@ module.exports = class BaseController {
   }
 
   /**
-   * looks up a roomname by a uri. This is dependent on having this room be loaded
-   * by calling load talk messages from the talk controller. This happens implicitly
-   * when we load a circuit via the circuit resource.
-   * @param uri
-   * @returns {*}
+   * resets the isHomeTeam flag on any document collection
+   * @param doc
+   * @param collection
    */
-  lookupRoomNameByUri(uri) {
-    let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.TALK
-      ),
-      rooms = database.getCollection(
-        TalkDatabase.Collections.ROOMS
-      ),
-      room = rooms.findOne({ uri: uri });
-
-    console.log("$$$$room", room);
-
-    if (room) {
-      return room.roomName;
-    }
-    return null;
+  resetHomeTeamFlag(doc, collection) {
+    let results = collection.find({ homeTeam: true });
+    results.forEach(t => {
+      t.homeTeam = false;
+      collection.update(t);
+    });
   }
 };

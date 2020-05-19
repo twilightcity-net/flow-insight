@@ -147,18 +147,11 @@ module.exports = class TeamController extends BaseController {
         );
 
       if (team) {
-        let results = collection.find({ isHomeTeam: true });
-        results.forEach(t => {
-          t.isHomeTeam = false;
-          collection.update(t);
-        });
-
+        this.resetHomeTeamFlag(team, collection);
         let result = collection.findOne({ id: team.id });
         if (result) {
           collection.remove(result);
         }
-
-        team.isHomeTeam = true; //TEMP
         collection.insert(team);
       }
     }
@@ -253,7 +246,7 @@ module.exports = class TeamController extends BaseController {
         TeamDatabase.Collections.TEAMS
       );
 
-    arg.data = collection.findOne({ isHomeTeam: true });
+    arg.data = collection.findOne({ homeTeam: true });
 
     this.delegateCallbackOrEventReplyTo(
       event,
