@@ -1,5 +1,6 @@
 const TeamCircuitController = require("../controllers/TeamCircuitController");
 const TalkToController = require("../controllers/TalkToController");
+const Util = require("../Util");
 
 /**
  * managing class for the team client
@@ -28,32 +29,29 @@ module.exports = class TeamCircuitManager {
         let circuits = arg.data;
         if (circuits && circuits.length > 0) {
           for (
-            let i = 0, circuit = null;
+            let i = 0, room, roomName;
             i < circuits.length;
             i++
           ) {
-            circuit = circuits[i];
-
-            let homeRoom = circuit.defaultRoom,
-              homeRoomName = homeRoom.talkRoomName;
-
-            console.log(homeRoom);
+            (room = circuits[i].defaultRoom),
+              (roomName = room.talkRoomName);
 
             TalkToController.instance.handleJoinExistingRoomEvent(
               {},
               {
+                id: Util.getGuid(),
+                type:
+                  TalkToController.Names.JOIN_EXISTING_ROOM,
                 args: {
-                  roomName: homeRoomName
+                  roomName: roomName
                 }
               },
               arg => {
-                console.log("###", arg);
+                this.handleInitCallback(callback, arg);
               }
             );
           }
         }
-
-        this.handleInitCallback(callback);
       }
     );
   }
@@ -61,11 +59,12 @@ module.exports = class TeamCircuitManager {
   /**
    * handles our callback in response from our controller event processing
    * @param callback
+   * @param arg
    */
-  handleInitCallback(callback) {
+  handleInitCallback(callback, arg) {
     this.loadCount++;
     if (callback && this.loadCount === 1) {
-      callback();
+      callback(arg);
     }
   }
 };
