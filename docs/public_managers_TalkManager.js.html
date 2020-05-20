@@ -156,6 +156,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MemberClient.html#notifyMember">notifyMember</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MemberClient.Events.html">Events</a></span></li>
     <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addRoom">addRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addStatusTalkMessagesCollection">addStatusTalkMessagesCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addTalkMessagesCollection">addTalkMessagesCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#batchRemoveFromViewInCollection">batchRemoveFromViewInCollection</a></span></li>
@@ -235,6 +236,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getDisplaysSubmenu">getDisplaysSubmenu</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getFlowHomePath">getFlowHomePath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getGuid">getGuid</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatency">getLatency</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRender3D">getRender3D</a></span></li>
@@ -356,6 +358,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#processLogin">processLogin</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#pulse">pulse</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#quit">quit</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#removeRoom">removeRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#removeSingleCircuitByIdFromCollection">removeSingleCircuitByIdFromCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#resetHomeTeamFlag">resetHomeTeamFlag</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#restart">restart</a></span></li>
@@ -365,6 +368,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setConsoleShortcutAlt">setConsoleShortcutAlt</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setDevUserDataDir">setDevUserDataDir</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setDisplayIndex">setDisplayIndex</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setLatency">setLatency</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#showConsole">showConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#start">start</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#start">start</a></span></li>
@@ -669,6 +673,7 @@ module.exports = class TalkManager {
       this.name
     );
     this.latency = 0;
+    this.rooms = [];
   }
 
   /**
@@ -690,12 +695,74 @@ module.exports = class TalkManager {
     );
   }
 
+  /**
+   * gets our latency for our talk network
+   * @returns {number}
+   */
   getLatency() {
     return this.latency;
   }
 
+  /**
+   * sets our latency that is used by other functions.
+   * @param latency
+   */
   setLatency(latency) {
     this.latency = latency;
+  }
+
+  /**
+   * join a roomId to our rooms array
+   * @param roomId
+   */
+  addRoom(roomId) {
+    for (let i = 0; i &lt; this.rooms.length; i++) {
+      let r = this.rooms[i];
+      if (r === roomId) {
+        log.info(
+          chalk.green(this.name) +
+            " existing roomId -> " +
+            roomId +
+            " : {" +
+            this.rooms.length +
+            "}"
+        );
+        return;
+      }
+    }
+
+    log.info(
+      chalk.green(this.name) +
+        " add to rooms -> " +
+        roomId +
+        " : {" +
+        (this.rooms.length + 1) +
+        "}"
+    );
+    this.rooms.push(roomId);
+  }
+
+  /**
+   * removes our roomId from our array of rooms we use to figure out
+   * what we need to reconnect to.s
+   * @param roomId
+   */
+  removeRoom(roomId) {
+    for (let i = this.rooms.length - 1; i >= 0; --i) {
+      let r = this.rooms[i];
+      if (r === roomId) {
+        log.info(
+          chalk.green(this.name) +
+            " remove from rooms -> " +
+            roomId +
+            " : {" +
+            (this.rooms.length - 1) +
+            "}"
+        );
+        this.rooms.splice(i, 1);
+        return;
+      }
+    }
   }
 };
 </code></pre>

@@ -221,6 +221,7 @@ module.exports = class TalkController extends BaseController {
             roomId +
             "'"
         );
+        global.App.TalkManager.addRoom(roomId);
         this.talkJoinRoomListener.dispatch(roomId);
         fn(roomId);
       }
@@ -234,6 +235,7 @@ module.exports = class TalkController extends BaseController {
             roomId +
             "'"
         );
+        global.App.TalkManager.removeRoom(roomId);
         this.talkLeaveRoomListener.dispatch(roomId);
         fn(roomId);
       }

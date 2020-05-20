@@ -47,6 +47,7 @@ module.exports = class TalkManager {
       this.name
     );
     this.latency = 0;
+    this.rooms = [];
   }
 
   /**
@@ -68,11 +69,73 @@ module.exports = class TalkManager {
     );
   }
 
+  /**
+   * gets our latency for our talk network
+   * @returns {number}
+   */
   getLatency() {
     return this.latency;
   }
 
+  /**
+   * sets our latency that is used by other functions.
+   * @param latency
+   */
   setLatency(latency) {
     this.latency = latency;
+  }
+
+  /**
+   * join a roomId to our rooms array
+   * @param roomId
+   */
+  addRoom(roomId) {
+    for (let i = 0; i < this.rooms.length; i++) {
+      let r = this.rooms[i];
+      if (r === roomId) {
+        log.info(
+          chalk.green(this.name) +
+            " existing roomId -> " +
+            roomId +
+            " : {" +
+            this.rooms.length +
+            "}"
+        );
+        return;
+      }
+    }
+
+    log.info(
+      chalk.green(this.name) +
+        " add to rooms -> " +
+        roomId +
+        " : {" +
+        (this.rooms.length + 1) +
+        "}"
+    );
+    this.rooms.push(roomId);
+  }
+
+  /**
+   * removes our roomId from our array of rooms we use to figure out
+   * what we need to reconnect to.s
+   * @param roomId
+   */
+  removeRoom(roomId) {
+    for (let i = this.rooms.length - 1; i >= 0; --i) {
+      let r = this.rooms[i];
+      if (r === roomId) {
+        log.info(
+          chalk.green(this.name) +
+            " remove from rooms -> " +
+            roomId +
+            " : {" +
+            (this.rooms.length - 1) +
+            "}"
+        );
+        this.rooms.splice(i, 1);
+        return;
+      }
+    }
   }
 };
