@@ -29,17 +29,23 @@ module.exports = class TeamCircuitManager {
         let circuits = arg.data;
         if (circuits && circuits.length > 0) {
           for (
-            let i = 0, room, roomName;
+            let i = 0,
+              circuit,
+              defaultRoom,
+              roomName,
+              roomId;
             i < circuits.length;
             i++
           ) {
-            (room = circuits[i].defaultRoom),
-              (roomName = room.talkRoomName);
+            circuit = circuits[i];
+            defaultRoom = circuit.defaultRoom;
+            roomName = defaultRoom.talkRoomName;
+            roomId = defaultRoom.talkRoomId;
 
             TalkToController.instance.handleJoinExistingRoomEvent(
               {},
               {
-                id: Util.getGuid(),
+                id: roomId,
                 type:
                   TalkToController.Names.JOIN_EXISTING_ROOM,
                 args: {

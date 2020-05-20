@@ -319,6 +319,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initVolumes">initVolumes</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#isEmpty">isEmpty</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#joinRoomById">joinRoomById</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultCircuitDatabase">loadDefaultCircuitDatabase</a></span></li>
@@ -358,6 +360,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#processLogin">processLogin</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#pulse">pulse</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#quit">quit</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#rejoinRooms">rejoinRooms</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#removeRoom">removeRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#removeSingleCircuitByIdFromCollection">removeSingleCircuitByIdFromCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#resetHomeTeamFlag">resetHomeTeamFlag</a></span></li>
@@ -716,8 +719,8 @@ module.exports = class TalkManager {
    * @param roomId
    */
   addRoom(roomId) {
-    for (let i = 0; i &lt; this.rooms.length; i++) {
-      let r = this.rooms[i];
+    for (let i = 0, r = null; i &lt; this.rooms.length; i++) {
+      r = this.rooms[i];
       if (r === roomId) {
         log.info(
           chalk.green(this.name) +
@@ -748,8 +751,12 @@ module.exports = class TalkManager {
    * @param roomId
    */
   removeRoom(roomId) {
-    for (let i = this.rooms.length - 1; i >= 0; --i) {
-      let r = this.rooms[i];
+    for (
+      let r = null, i = this.rooms.length - 1;
+      i >= 0;
+      --i
+    ) {
+      r = this.rooms[i];
       if (r === roomId) {
         log.info(
           chalk.green(this.name) +
@@ -761,6 +768,23 @@ module.exports = class TalkManager {
         );
         this.rooms.splice(i, 1);
         return;
+      }
+    }
+  }
+
+  /**
+   * rejoins any rooms we are part of. typically called when talk
+   * connection is restarting.
+   */
+  rejoinRooms() {
+    if (this.rooms.length > 0) {
+      for (
+        let i = 0, r = null;
+        i &lt; this.rooms.length;
+        i++
+      ) {
+        r = this.rooms[i];
+        global.App.TalkToManager.joinRoomById(r);
       }
     }
   }

@@ -90,8 +90,8 @@ module.exports = class TalkManager {
    * @param roomId
    */
   addRoom(roomId) {
-    for (let i = 0; i < this.rooms.length; i++) {
-      let r = this.rooms[i];
+    for (let i = 0, r = null; i < this.rooms.length; i++) {
+      r = this.rooms[i];
       if (r === roomId) {
         log.info(
           chalk.green(this.name) +
@@ -122,8 +122,12 @@ module.exports = class TalkManager {
    * @param roomId
    */
   removeRoom(roomId) {
-    for (let i = this.rooms.length - 1; i >= 0; --i) {
-      let r = this.rooms[i];
+    for (
+      let r = null, i = this.rooms.length - 1;
+      i >= 0;
+      --i
+    ) {
+      r = this.rooms[i];
       if (r === roomId) {
         log.info(
           chalk.green(this.name) +
@@ -135,6 +139,23 @@ module.exports = class TalkManager {
         );
         this.rooms.splice(i, 1);
         return;
+      }
+    }
+  }
+
+  /**
+   * rejoins any rooms we are part of. typically called when talk
+   * connection is restarting.
+   */
+  rejoinRooms() {
+    if (this.rooms.length > 0) {
+      for (
+        let i = 0, r = null;
+        i < this.rooms.length;
+        i++
+      ) {
+        r = this.rooms[i];
+        global.App.TalkToManager.joinRoomById(r);
       }
     }
   }

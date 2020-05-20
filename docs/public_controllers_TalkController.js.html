@@ -319,6 +319,8 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initVolumes">initVolumes</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#isEmpty">isEmpty</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#joinRoomById">joinRoomById</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultCircuitDatabase">loadDefaultCircuitDatabase</a></span></li>
@@ -358,6 +360,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#processLogin">processLogin</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#pulse">pulse</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#quit">quit</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#rejoinRooms">rejoinRooms</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#removeRoom">removeRoom</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#removeSingleCircuitByIdFromCollection">removeSingleCircuitByIdFromCollection</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#resetHomeTeamFlag">resetHomeTeamFlag</a></span></li>
@@ -726,10 +729,9 @@ module.exports = class TalkController extends BaseController {
    * creates the listeners for the manager. this should be moved into the controler
    * @param socket
    * @param connectionId
+   * @param name
    */
   configSocketListeners(socket, connectionId, name) {
-    // TODO move this to the controller
-
     socket.on(TalkController.Events.CONNECT, () => {
       log.info(
         chalk.greenBright(name) +
@@ -738,6 +740,7 @@ module.exports = class TalkController extends BaseController {
           " -> " +
           socket.id
       );
+      global.App.TalkManager.rejoinRooms();
       this.talkConnectedEvent.dispatch();
     });
     socket.on(

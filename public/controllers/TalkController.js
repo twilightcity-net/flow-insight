@@ -100,10 +100,9 @@ module.exports = class TalkController extends BaseController {
    * creates the listeners for the manager. this should be moved into the controler
    * @param socket
    * @param connectionId
+   * @param name
    */
   configSocketListeners(socket, connectionId, name) {
-    // TODO move this to the controller
-
     socket.on(TalkController.Events.CONNECT, () => {
       log.info(
         chalk.greenBright(name) +
@@ -112,6 +111,7 @@ module.exports = class TalkController extends BaseController {
           " -> " +
           socket.id
       );
+      global.App.TalkManager.rejoinRooms();
       this.talkConnectedEvent.dispatch();
     });
     socket.on(
