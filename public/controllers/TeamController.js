@@ -1,7 +1,8 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  TeamDatabase = require("../database/TeamDatabase");
+  TeamDatabase = require("../database/TeamDatabase"),
+  MemberDatabase = require("../database/MemberDatabase");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -206,20 +207,35 @@ module.exports = class TeamController extends BaseController {
       arg.error = store.error;
     } else {
       let teams = store.data,
-        database = DatabaseFactory.getDatabase(
+        teamDatabase = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.TEAM
         ),
-        collection = database.getCollection(
+        memberDatabase = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.MEMBER
+        ),
+        teamsCollection = teamDatabase.getCollection(
           TeamDatabase.Collections.TEAMS
+        ),
+        membersCollection = memberDatabase.getCollection(
+          MemberDatabase.Collections.MEMBERS
         );
 
       if (teams && teams.length > 0) {
         teams.forEach(t => {
-          let team = collection.findOne({ id: t.id });
-          if (team) {
-            collection.remove(team);
+          let teamMembers = t.teamMembers;
+          for (let i = 0; i < teamMembers.length; i++) {
+            this.findRemoveXInsertDoc(
+              null,
+              membersCollection,
+              teamMembers[i]
+            );
           }
-          collection.insert(t);
+
+          let team = teamsCollection.findOne({ id: t.id });
+          if (team) {
+            teamsCollection.remove(team);
+          }
+          teamsCollection.insert(t);
         });
       }
     }

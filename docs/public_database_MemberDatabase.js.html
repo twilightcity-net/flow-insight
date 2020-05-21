@@ -210,8 +210,9 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doLogin">doLogin</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doLogout">doLogout</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findOrCreateViewForIntentionsByUserName">findOrCreateViewForIntentionsByUserName</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findXOrInsertMessage">findXOrInsertMessage</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKey">getApiKey</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppApi">getAppApi</a></span></li>
@@ -255,6 +256,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMe">getViewForMe</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMyCurrentStatus">getViewForMyCurrentStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentProjects">getViewForRecentProjects</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></span></li>
@@ -382,6 +384,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateConsole">updateConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#verify">verify</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
@@ -646,23 +649,25 @@ module.exports = class MemberDatabase extends LokiJS {
 
   /**
    * the collections of our database
-   * @returns {{ME: string}}
+   * @returns {{MEMBERS: string, ME: string}}
    * @constructor
    */
   static get Collections() {
     return {
-      ME: "me"
+      ME: "me",
+      MEMBERS: "members"
     };
   }
 
   /**
    * the views of our database for queries
-   * @returns {{ME: string}}
+   * @returns {{MEMBERS: string, ME: string}}
    * @constructor
    */
   static get Views() {
     return {
-      ME: "me"
+      ME: "me",
+      MEMBERS: "members"
     };
   }
 
@@ -690,9 +695,13 @@ module.exports = class MemberDatabase extends LokiJS {
     this.name = "[DB.MemberDatabase]";
     this.guid = Util.getGuid();
     this.addCollection(MemberDatabase.Collections.ME);
+    this.addCollection(MemberDatabase.Collections.MEMBERS);
     this.getCollection(
       MemberDatabase.Collections.ME
     ).addDynamicView(MemberDatabase.Views.ME);
+    this.getCollection(
+      MemberDatabase.Collections.MEMBERS
+    ).addDynamicView(MemberDatabase.Views.MEMBERS);
   }
 
   /**
@@ -706,6 +715,38 @@ module.exports = class MemberDatabase extends LokiJS {
     return collection.getDynamicView(
       MemberDatabase.Views.ME
     );
+  }
+
+  /**
+   * gets our members we know about from all teams
+   * @returns {DynamicView}
+   */
+  getViewForMembers() {
+    let collection = this.getCollection(
+      MemberDatabase.Collections.MEMBERS
+    );
+    return collection.getDynamicView(
+      MemberDatabase.Views.MEMBERS
+    );
+  }
+
+  /**
+   * updates our xp summary with a new one via our talk controller
+   * or other by any means neccessary. just ask rambo.
+   * @param memberId
+   * @param newXPSummary
+   */
+  updateXPStatusByTeamMemberId(memberId, newXPSummary) {
+    let collection = this.getCollection(
+        MemberDatabase.Collections.MEMBERS
+      ),
+      member = collection.findOne({ id: memberId });
+
+    if (member) {
+      member.xpSummary = newXPSummary;
+    }
+
+    console.log("MEMBER", member);
   }
 };
 </code></pre>

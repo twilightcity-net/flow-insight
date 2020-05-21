@@ -17,23 +17,25 @@ module.exports = class MemberDatabase extends LokiJS {
 
   /**
    * the collections of our database
-   * @returns {{ME: string}}
+   * @returns {{MEMBERS: string, ME: string}}
    * @constructor
    */
   static get Collections() {
     return {
-      ME: "me"
+      ME: "me",
+      MEMBERS: "members"
     };
   }
 
   /**
    * the views of our database for queries
-   * @returns {{ME: string}}
+   * @returns {{MEMBERS: string, ME: string}}
    * @constructor
    */
   static get Views() {
     return {
-      ME: "me"
+      ME: "me",
+      MEMBERS: "members"
     };
   }
 
@@ -61,9 +63,13 @@ module.exports = class MemberDatabase extends LokiJS {
     this.name = "[DB.MemberDatabase]";
     this.guid = Util.getGuid();
     this.addCollection(MemberDatabase.Collections.ME);
+    this.addCollection(MemberDatabase.Collections.MEMBERS);
     this.getCollection(
       MemberDatabase.Collections.ME
     ).addDynamicView(MemberDatabase.Views.ME);
+    this.getCollection(
+      MemberDatabase.Collections.MEMBERS
+    ).addDynamicView(MemberDatabase.Views.MEMBERS);
   }
 
   /**
@@ -77,5 +83,37 @@ module.exports = class MemberDatabase extends LokiJS {
     return collection.getDynamicView(
       MemberDatabase.Views.ME
     );
+  }
+
+  /**
+   * gets our members we know about from all teams
+   * @returns {DynamicView}
+   */
+  getViewForMembers() {
+    let collection = this.getCollection(
+      MemberDatabase.Collections.MEMBERS
+    );
+    return collection.getDynamicView(
+      MemberDatabase.Views.MEMBERS
+    );
+  }
+
+  /**
+   * updates our xp summary with a new one via our talk controller
+   * or other by any means neccessary. just ask rambo.
+   * @param memberId
+   * @param newXPSummary
+   */
+  updateXPStatusByTeamMemberId(memberId, newXPSummary) {
+    let collection = this.getCollection(
+        MemberDatabase.Collections.MEMBERS
+      ),
+      member = collection.findOne({ id: memberId });
+
+    if (member) {
+      member.xpSummary = newXPSummary;
+    }
+
+    console.log("MEMBER", member);
   }
 };

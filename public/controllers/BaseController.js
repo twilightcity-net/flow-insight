@@ -67,14 +67,17 @@ module.exports = class BaseController {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{ROOM_MEMBER_STATUS_EVENT: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string}}
+   * @returns {{WTF_STATUS_UPDATE: string, ROOM_MEMBER_STATUS_EVENT: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
     return {
       CIRCUIT_STATUS: "CircuitStatusDto",
       ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
-      CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto"
+      CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto",
+      TEAM_MEMBER: "TeamMemberDto",
+      XP_STATUS_UPDATE: "XPStatusUpdateDto",
+      WTF_STATUS_UPDATE: "WTFStatusUpdateDto"
     };
   }
 
@@ -317,19 +320,33 @@ module.exports = class BaseController {
   }
 
   /**
-   * queries for a specific message and determines if we should insert the model
+   * queries for a specific doc and determines if we should insert the model
    * into the collection or not. we are under the assumption that each one of
-   * these talk message records does not mutate over time. The id is fixed in
+   * these talk doc records does not mutate over time. The id is fixed in
    * time as you could say
    * @param model
    * @param collection
-   * @param message
+   * @param doc
    */
-  findXOrInsertMessage(model, collection, message) {
-    model = collection.findOne({ id: message.id });
+  findXOrInsertDoc(model, collection, doc) {
+    model = collection.findOne({ id: doc.id });
     if (!model) {
-      collection.insert(message);
+      collection.insert(doc);
     }
+  }
+
+  /**
+   * finds a document doc, and removes it, then inserts
+   * @param model
+   * @param collection
+   * @param doc
+   */
+  findRemoveXInsertDoc(model, collection, doc) {
+    model = collection.findOne({ id: doc.id });
+    if (model) {
+      collection.remove(model);
+    }
+    collection.insert(doc);
   }
 
   /**

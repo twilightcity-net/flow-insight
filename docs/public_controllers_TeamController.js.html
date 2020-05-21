@@ -210,8 +210,9 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doLogin">doLogin</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doLogout">doLogout</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findOrCreateViewForIntentionsByUserName">findOrCreateViewForIntentionsByUserName</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findXOrInsertMessage">findXOrInsertMessage</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKey">getApiKey</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppApi">getAppApi</a></span></li>
@@ -255,6 +256,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMe">getViewForMe</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMyCurrentStatus">getViewForMyCurrentStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentProjects">getViewForRecentProjects</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></span></li>
@@ -382,6 +384,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateConsole">updateConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#verify">verify</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
@@ -630,7 +633,8 @@
         <pre class="prettyprint source linenums"><code>const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  TeamDatabase = require("../database/TeamDatabase");
+  TeamDatabase = require("../database/TeamDatabase"),
+  MemberDatabase = require("../database/MemberDatabase");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -835,20 +839,35 @@ module.exports = class TeamController extends BaseController {
       arg.error = store.error;
     } else {
       let teams = store.data,
-        database = DatabaseFactory.getDatabase(
+        teamDatabase = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.TEAM
         ),
-        collection = database.getCollection(
+        memberDatabase = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.MEMBER
+        ),
+        teamsCollection = teamDatabase.getCollection(
           TeamDatabase.Collections.TEAMS
+        ),
+        membersCollection = memberDatabase.getCollection(
+          MemberDatabase.Collections.MEMBERS
         );
 
       if (teams &amp;&amp; teams.length > 0) {
         teams.forEach(t => {
-          let team = collection.findOne({ id: t.id });
-          if (team) {
-            collection.remove(team);
+          let teamMembers = t.teamMembers;
+          for (let i = 0; i &lt; teamMembers.length; i++) {
+            this.findRemoveXInsertDoc(
+              null,
+              membersCollection,
+              teamMembers[i]
+            );
           }
-          collection.insert(t);
+
+          let team = teamsCollection.findOne({ id: t.id });
+          if (team) {
+            teamsCollection.remove(team);
+          }
+          teamsCollection.insert(t);
         });
       }
     }

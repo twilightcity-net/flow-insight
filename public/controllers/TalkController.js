@@ -3,6 +3,7 @@ const log = require("electron-log"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   TalkDatabase = require("../database/TalkDatabase"),
+  MemberDatabase = require("../database/MemberDatabase"),
   DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
@@ -253,19 +254,26 @@ module.exports = class TalkController extends BaseController {
    */
   handleTalkMessageRoomCallback(message) {
     let uri = message.uri,
-      database = DatabaseFactory.getDatabase(
+      talkDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.TALK
       ),
-      fluxCollection = database.getCollection(
+      memberDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.MEMBER
+      ),
+      fluxCollection = talkDatabase.getCollection(
         TalkDatabase.Collections.FLUX_TALK_MESSAGES
       ),
-      messageCollection = database.getCollectionForRoomTalkMessages(
+      messageCollection = talkDatabase.getCollectionForRoomTalkMessages(
         uri
       ),
-      statusCollection = database.getCollectionForRoomStatusTalkMessages(
+      statusCollection = talkDatabase.getCollectionForRoomStatusTalkMessages(
         uri
       ),
-      model = fluxCollection.findOne({ id: message.id });
+      membersCollection = memberDatabase.getCollection(
+        MemberDatabase.Collections.MEMBERS
+      ),
+      model = fluxCollection.findOne({ id: message.id }),
+      data;
 
     if (model) {
       fluxCollection.remove(model);
@@ -275,7 +283,7 @@ module.exports = class TalkController extends BaseController {
 
     switch (message.messageType) {
       case TalkController.MessageTypes.CIRCUIT_STATUS:
-        this.findXOrInsertMessage(
+        this.findXOrInsertDoc(
           model,
           statusCollection,
           message
@@ -283,19 +291,48 @@ module.exports = class TalkController extends BaseController {
         break;
       case TalkController.MessageTypes
         .ROOM_MEMBER_STATUS_EVENT:
-        this.findXOrInsertMessage(
+        this.findXOrInsertDoc(
           model,
           statusCollection,
           message
         );
         break;
       case TalkController.MessageTypes.CHAT_MESSAGE_DETAILS:
-        this.findXOrInsertMessage(
+        this.findXOrInsertDoc(
           model,
           messageCollection,
           message
         );
         break;
+      case TalkController.MessageTypes.TEAM_MEMBER:
+        this.findRemoveXInsertDoc(
+          model,
+          membersCollection,
+          message.data
+        );
+        break;
+      case TalkController.MessageTypes.XP_STATUS_UPDATE:
+        data = message.data;
+        memberDatabase.updateXPStatusByTeamMemberId(
+          data.memberId,
+          data.newXPSummary
+        );
+        break;
+      case TalkController.MessageTypes.WTF_STATUS_UPDATE:
+        console.log("WTF_STATUS_UPDATE", message);
+
+        // TODO if CANCELLED then remove from all circuits collections
+
+        // TODO update team member with the appropiate active circuit.
+
+        // TODO update the circuits collection with this new circuit
+
+        // TODO update the active circuit collection
+
+        break;
+
+      // TODO implement StartIntentionStatus message switch case
+
       default:
         console.warn(
           TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +

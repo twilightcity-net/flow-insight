@@ -209,7 +209,7 @@ module.exports = class TalkToController extends BaseController {
           switch (message.messageType) {
             case TalkToController.MessageTypes
               .CIRCUIT_STATUS:
-              this.findXOrInsertMessage(
+              this.findXOrInsertDoc(
                 model,
                 statusCollection,
                 message
@@ -217,7 +217,7 @@ module.exports = class TalkToController extends BaseController {
               break;
             case TalkToController.MessageTypes
               .ROOM_MEMBER_STATUS_EVENT:
-              this.findXOrInsertMessage(
+              this.findXOrInsertDoc(
                 model,
                 statusCollection,
                 message
@@ -225,7 +225,7 @@ module.exports = class TalkToController extends BaseController {
               break;
             case TalkToController.MessageTypes
               .CHAT_MESSAGE_DETAILS:
-              this.findXOrInsertMessage(
+              this.findXOrInsertDoc(
                 model,
                 messageCollection,
                 message

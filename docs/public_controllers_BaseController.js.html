@@ -210,8 +210,9 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doLogin">doLogin</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doLogout">doLogout</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findOrCreateViewForIntentionsByUserName">findOrCreateViewForIntentionsByUserName</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findXOrInsertMessage">findXOrInsertMessage</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKey">getApiKey</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppApi">getAppApi</a></span></li>
@@ -255,6 +256,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMe">getViewForMe</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMyCurrentStatus">getViewForMyCurrentStatus</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentProjects">getViewForRecentProjects</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></span></li>
@@ -382,6 +384,7 @@
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateConsole">updateConsole</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></span></li>
+    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#verify">verify</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></span></li>
     <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
@@ -696,46 +699,19 @@ module.exports = class BaseController {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{ROOM_MEMBER_STATUS_EVENT: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string}}
+   * @returns {{WTF_STATUS_UPDATE: string, ROOM_MEMBER_STATUS_EVENT: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
     return {
       CIRCUIT_STATUS: "CircuitStatusDto",
       ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
-      CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto"
+      CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto",
+      TEAM_MEMBER: "TeamMemberDto",
+      XP_STATUS_UPDATE: "XPStatusUpdateDto",
+      WTF_STATUS_UPDATE: "WTFStatusUpdateDto"
     };
   }
-
-  // /**
-  //  * our enum of gridtime Circuit Message Types that talk broadcasts
-  //  * @returns {{TEAM_MEMBER_STATUS_UPDATE: string, WTF_STARTED: string, TEAM_MEMBER_XP_UPDATE: string, CHAT: string, TEAM_WTF_RESUMED: string, ROOM_MEMBER_JOIN: string, ROOM_MEMBER_ONLINE: string, TEAM_WTF_STOPPED: string, WTF_RESUMED: string, WTF_SOLVED: string, SCREENSHOT: string, TEAM_RETRO_STARTED: string, SNIPPET: string, ROOM_MEMBER_LEAVE: string, TEAM_INTENTION_STARTED: string, WTF_RETRO_STARTED: string, WTF_ONHOLD: string, ROOM_MEMBER_OFFLINE: string, WTF_CANCELED: string, TEAM_WTF_STARTED: string}}
-  //  * @constructor
-  //  */
-  // static get CircuitMessageTypeDto() {
-  //   return {
-  //     CHAT: "ChatMessageDetailsDto",
-  //     SCREENSHOT: "ScreenshotMessageDetailsDto",
-  //     SNIPPET: "SnippetMessageDetailsDto",
-  //     ROOM_MEMBER_JOIN: "RoomMemberStatus",
-  //     ROOM_MEMBER_LEAVE: "RoomMemberStatus",
-  //     ROOM_MEMBER_OFFLINE: "RoomMemberStatus",
-  //     ROOM_MEMBER_ONLINE: "RoomMemberStatus",
-  //     WTF_STARTED: "CircuitStatusDto",
-  //     WTF_SOLVED: "CircuitStatusDto",
-  //     WTF_ONHOLD: "CircuitStatusDto",
-  //     WTF_RESUMED: "CircuitStatusDto",
-  //     WTF_RETRO_STARTED: "CircuitStatusDto",
-  //     WTF_CANCELED: "CircuitStatusDto",
-  //     TEAM_INTENTION_STARTED: "IntentionStartedDetailsDto",
-  //     TEAM_WTF_STARTED: "WTFStatusUpdateDto",
-  //     TEAM_WTF_STOPPED: "WTFStatusUpdateDto",
-  //     TEAM_WTF_RESUMED: "WTFStatusUpdateDto",
-  //     TEAM_RETRO_STARTED: "WTFStatusUpdateDto",
-  //     TEAM_MEMBER_STATUS_UPDATE: "MemberWorkStatusDto",
-  //     TEAM_MEMBER_XP_UPDATE: "XPStatusUpdateDto"
-  //   };
-  // }
 
   /**
    * errors which the controllers know about
@@ -976,19 +952,33 @@ module.exports = class BaseController {
   }
 
   /**
-   * queries for a specific message and determines if we should insert the model
+   * queries for a specific doc and determines if we should insert the model
    * into the collection or not. we are under the assumption that each one of
-   * these talk message records does not mutate over time. The id is fixed in
+   * these talk doc records does not mutate over time. The id is fixed in
    * time as you could say
    * @param model
    * @param collection
-   * @param message
+   * @param doc
    */
-  findXOrInsertMessage(model, collection, message) {
-    model = collection.findOne({ id: message.id });
+  findXOrInsertDoc(model, collection, doc) {
+    model = collection.findOne({ id: doc.id });
     if (!model) {
-      collection.insert(message);
+      collection.insert(doc);
     }
+  }
+
+  /**
+   * finds a document doc, and removes it, then inserts
+   * @param model
+   * @param collection
+   * @param doc
+   */
+  findRemoveXInsertDoc(model, collection, doc) {
+    model = collection.findOne({ id: doc.id });
+    if (model) {
+      collection.remove(model);
+    }
+    collection.insert(doc);
   }
 
   /**
