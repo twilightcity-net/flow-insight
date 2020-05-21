@@ -93,14 +93,6 @@ module.exports = class TalkManager {
     for (let i = 0, r = null; i < this.rooms.length; i++) {
       r = this.rooms[i];
       if (r === roomId) {
-        log.info(
-          chalk.green(this.name) +
-            " existing roomId -> " +
-            roomId +
-            " : {" +
-            this.rooms.length +
-            "}"
-        );
         return;
       }
     }

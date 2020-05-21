@@ -1,4 +1,6 @@
-const TalkToController = require("../controllers/TalkToController");
+const TalkToController = require("../controllers/TalkToController"),
+  log = require("electron-log"),
+  chalk = require("chalk");
 
 /**
  * managing class for the talk to rest client for grid, these are async
@@ -39,9 +41,6 @@ module.exports = class TalkToManager {
    * @param roomId
    */
   joinRoomById(roomId) {
-    console.log("!!! -> joinTalkRoomById", roomId);
-
-    // FIXME currently errors because we do not accept ids yet on gridtime for join
     TalkToController.instance.handleJoinExistingRoomEvent(
       {},
       {
@@ -52,7 +51,11 @@ module.exports = class TalkToManager {
         }
       },
       arg => {
-        console.log("@@@ -> joined room : ", arg);
+        log.info(
+          chalk.green(this.name) +
+            " joined -> " +
+            JSON.stringify(arg)
+        );
       }
     );
   }
