@@ -1,817 +1,729 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport"
-        content="width=device-width,initial-scale=1">
-  <title>ShortcutManager - Documentation</title>
-  <script src="scripts/prettify/prettify.js"></script>
-  <script src="scripts/prettify/lang-css.js"></script>
-  <!--[if lt IE 9]>
+    
+    <meta charset="utf-8">
+    <title>ShortcutManager - Documentation</title>
+    
+    
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-  <link type="text/css"
-        rel="stylesheet"
-        href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-  <link type="text/css"
-        rel="stylesheet"
-        href="styles/prettify-tomorrow.css">
-  <link type="text/css"
-        rel="stylesheet"
-        href="styles/jsdoc-default.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
+    <script src="scripts/nav.js" defer></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
-
 <body>
-  <input type="checkbox"
-         id="nav-trigger"
-         class="nav-trigger" />
-  <label for="nav-trigger"
-         class="navicon-button x">
-    <div class="navicon"></div>
-  </label>
-  <label for="nav-trigger"
-         class="overlay"></label>
-  <nav>
-    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li>
-    <li class="nav-heading">Classes</li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="%2520returns%2520the%2520classes%2520constructor%2520function%2520to%2520render%2520dynamically.html">- returns the classes constructor function to render dynamically</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ActivatorView.html">ActivatorView</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppActivator.html">AppActivator</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AppSettings.html">AppSettings</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.html">BaseClient</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#createClientEvent">createClientEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#delegateCallback">delegateCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BaseClient.html#logReply">logReply</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Errors.html">Errors</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.MessageTypes.html">MessageTypes</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BaseClient.Strings.html">Strings</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserController.html">BrowserController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="BrowserController.html#makeRequest">makeRequest</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Errors.html">Errors</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Locations.html">Locations</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.Requests.html">Requests</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.SPACE_SEPARATOR.html">SPACE_SEPARATOR</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.html">CircuitClient</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.cancelWtf">cancelWtf</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.fireCircuitStartNotifyEvent">fireCircuitStartNotifyEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getAllMyParticipatingCircuits">getAllMyParticipatingCircuits</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.startWtf">startWtf</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitClient.Events.html">Events</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="CircuitMemberStatusDto.html">CircuitMemberStatusDto</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataStore.html">DataStore</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DataStoreFactory.html">DataStoreFactory</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DimensionController.html">DimensionController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitContentChatMinHeight">getActiveCircuitContentChatMinHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitContentChatMinHeightDefault">getActiveCircuitContentChatMinHeightDefault</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitContentFeedMinHeight">getActiveCircuitContentFeedMinHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitContentFeedMinWidth">getActiveCircuitContentFeedMinWidth</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitContentHeight">getActiveCircuitContentHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitContentScrapbookMinWidth">getActiveCircuitContentScrapbookMinWidth</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitContentScrapbookMinWidthDefault">getActiveCircuitContentScrapbookMinWidthDefault</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getActiveCircuitFeedContentHeight">getActiveCircuitFeedContentHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getCircuitSidebarActionsHeight">getCircuitSidebarActionsHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getCircuitSidebarHeight">getCircuitSidebarHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getCircuitSidebarTimerHeight">getCircuitSidebarTimerHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getCircuitsSidebarPanelHeight">getCircuitsSidebarPanelHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getConsoleLayoutHeight">getConsoleLayoutHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getConsoleSidebarHeight">getConsoleSidebarHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getFlowPanelHeight">getFlowPanelHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getHeightFor">getHeightFor</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getJournalItemsPanelHeight">getJournalItemsPanelHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSidebarPanelHeight">getSidebarPanelHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritCanvasHeight">getSpiritCanvasHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritCanvasWidth">getSpiritCanvasWidth</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.getSpiritPanelHeight">getSpiritPanelHeight</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DimensionController.html#.init">init</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DimensionController.Components.html">Components</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DtoClient.html">DtoClient</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DtoClient.html#doRequest">doRequest</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DtoClient.html#getRequest">getRequest</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DtoClientFactory.html">DtoClientFactory</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="DtoClientFactory.html#makeStoreRequest">makeStoreRequest</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="DtoClientFactory.RequestTypes.html">RequestTypes</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventCallbackException.html">EventCallbackException</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventEchoException.html">EventEchoException</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventException.html">EventException</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventException.html#getDateTimeString">getDateTimeString</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventException.html#toString">toString</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventFactory.html">EventFactory</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventFactory.html#.createEvent">createEvent</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventFactory.Types.html">Types</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.html">EventManager</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.destroy">destroy</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.dispatch">dispatch</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#.unregister">unregister</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#createListener">createListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeCallback">executeCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#executeReply">executeReply</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#handleEvent">handleEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initReturnValues">initReturnValues</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSender">initSender</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#initSonar">initSonar</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="EventManager.html#register">register</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventManager.Events.html">Events</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="EventReplyException.html">EventReplyException</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JournalClient.html">JournalClient</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.createIntention">createIntention</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.createTaskReference">createTaskReference</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#.loadRecentJournal">loadRecentJournal</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="JournalClient.html#notifyJournal">notifyJournal</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="JournalClient.Events.html">Events</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="LearningCircuitDto.html">LearningCircuitDto</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="LearningCircuitModel.html">LearningCircuitModel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="LearningCircuitModel.html#.isRetro">isRetro</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="LearningCircuitWithMembersDto.html">LearningCircuitWithMembersDto</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MainEvent.html">MainEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#construct">construct</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#destruct">destruct</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#dispatch">dispatch</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#remove">remove</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MainEvent.html#replyTo">replyTo</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MemberClient.html">MemberClient</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MemberClient.html#.init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="MemberClient.html#notifyMember">notifyMember</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="MemberClient.Events.html">Events</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports">exports</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addRoom">addRoom</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addStatusTalkMessagesCollection">addStatusTalkMessagesCollection</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#addTalkMessagesCollection">addTalkMessagesCollection</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#batchRemoveFromViewInCollection">batchRemoveFromViewInCollection</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#check">check</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configEvents">configEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configSocketListeners">configSocketListeners</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#configureEvents">configureEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#connectToTalk">connectToTalk</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConnection">createConnection</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createConsole">createConsole</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createDatabase">createDatabase</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createDatabaseVolume">createDatabaseVolume</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createMenu">createMenu</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createQuitListener">createQuitListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createShortcuts">createShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createWindowActivator">createWindowActivator</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createWindowConsole">createWindowConsole</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#createWindowLoading">createWindowLoading</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#deactivate">deactivate</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCallbackOrEventReplyTo">delegateCallbackOrEventReplyTo</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCallbackWithView">delegateCallbackWithView</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateCreateTaskReferenceCallback">delegateCreateTaskReferenceCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateJoinExistingRoomCallback">delegateJoinExistingRoomCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLeaveExistingRoomCallback">delegateLeaveExistingRoomCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadActiveCircuitCallback">delegateLoadActiveCircuitCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadAllMyDoItLaterCircuitsCallback">delegateLoadAllMyDoItLaterCircuitsCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadAllMyParticipatingCircuitsCallback">delegateLoadAllMyParticipatingCircuitsCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadAllMyTeamCircuitsCallback">delegateLoadAllMyTeamCircuitsCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadAllMyTeamsCallback">delegateLoadAllMyTeamsCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadAllTalkMessagesFromRoomCallback">delegateLoadAllTalkMessagesFromRoomCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadCircuitWithAllDetailsCallback">delegateLoadCircuitWithAllDetailsCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMeCallback">delegateLoadMeCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyHomeTeamCallback">delegateLoadMyHomeTeamCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateLoadMyHomeTeamCircuitCallback">delegateLoadMyHomeTeamCircuitCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#disconnect">disconnect</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doClientRequest">doClientRequest</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doLogin">doLogin</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#doLogout">doLogout</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findOrCreateViewForIntentionsByUserName">findOrCreateViewForIntentionsByUserName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#finished">finished</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getApiKey">getApiKey</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppApi">getAppApi</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppIcon">getAppIcon</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppName">getAppName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppRootDir">getAppRootDir</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppSettingsPath">getAppSettingsPath</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppTalkUrl">getAppTalkUrl</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppTray">getAppTray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAppUserDataDir">getAppUserDataDir</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetPath">getAssetPath</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getAssetsDir">getAssetsDir</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getCollectionForRoomStatusTalkMessages">getCollectionForRoomStatusTalkMessages</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getCollectionForRoomTalkMessages">getCollectionForRoomTalkMessages</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConnectionStatus">getConnectionStatus</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConnectionUrl">getConnectionUrl</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConsoleShortcut">getConsoleShortcut</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getConsoleShortcutAlt">getConsoleShortcutAlt</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getDatabase">getDatabase</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getDateTimeString">getDateTimeString</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getDisplayIndex">getDisplayIndex</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getDisplaysSubmenu">getDisplaysSubmenu</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getFlowHomePath">getFlowHomePath</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getGuid">getGuid</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatency">getLatency</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getMe">getMe</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRender3D">getRender3D</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStages">getStages</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromUri">getStatusTalkMessagesCollectionNameFromUri</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTalkMessagesCollectionNameFromUri">getTalkMessagesCollectionNameFromUri</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getTotalStages">getTotalStages</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUriFromMessageArray">getUriFromMessageArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewActiveCircuit">getViewActiveCircuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMe">getViewForMe</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForMyCurrentStatus">getViewForMyCurrentStatus</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentProjects">getViewForRecentProjects</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForStatusOfMeAndMyTeam">getViewForStatusOfMeAndMyTeam</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewRooms">getViewRooms</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewStatusTalkMessagesForCollection">getViewStatusTalkMessagesForCollection</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewTalkMessagesForCollection">getViewTalkMessagesForCollection</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getViewTeamCircuits">getViewTeamCircuits</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#getVolumeByName">getVolumeByName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleCreateTaskReferenceEvent">handleCreateTaskReferenceEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleError">handleError</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleFinishLoadingVolumes">handleFinishLoadingVolumes</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyTeamCircuitsEvent">handleGetAllMyTeamCircuitsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllMyTeamsEvent">handleGetAllMyTeamsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllStatusTalkMessagesFromRoomEvent">handleGetAllStatusTalkMessagesFromRoomEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetAllTalkMessagesFromRoomEvent">handleGetAllTalkMessagesFromRoomEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetCircuitWithAllDetailsEvent">handleGetCircuitWithAllDetailsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMeEvent">handleGetMeEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyHomeTeamCircuitEvent">handleGetMyHomeTeamCircuitEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetMyHomeTeamEvent">handleGetMyHomeTeamEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetRecentProjectsEvent">handleGetRecentProjectsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleGetRecentTasksEvent">handleGetRecentTasksEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleJoinExistingRoomEvent">handleJoinExistingRoomEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLeaveExistingRoomEvent">handleLeaveExistingRoomEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyTeamCircuitsEvent">handleLoadAllMyTeamCircuitsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllMyTeamsEvent">handleLoadAllMyTeamsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadAllTalkNessagesFromRoomEvent">handleLoadAllTalkNessagesFromRoomEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadCircuitWithAllDetailsEvent">handleLoadCircuitWithAllDetailsEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadJournalEvent">handleLoadJournalEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadMeEvent">handleLoadMeEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadMyHomeTeamCircuitEvent">handleLoadMyHomeTeamCircuitEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleLoadMyHomeTeamEvent">handleLoadMyHomeTeamEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hasRoomByRoomName">hasRoomByRoomName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#hideConsole">hideConsole</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#incrementStage">incrementStage</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#initVolumes">initVolumes</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#insertCircuitOrUpdateCircuitState">insertCircuitOrUpdateCircuitState</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#inspect">inspect</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#isEmpty">isEmpty</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#joinRoomById">joinRoomById</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#load">load</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultCircuitDatabase">loadDefaultCircuitDatabase</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultJournalDatabase">loadDefaultJournalDatabase</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultMemberDatabase">loadDefaultMemberDatabase</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#log">log</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#log">log</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logRequest">logRequest</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#logResults">logResults</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onAppHeartbeat">onAppHeartbeat</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onCircuitClientEvent">onCircuitClientEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConnectedTalkCb">onConnectedTalkCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleReadyCb">onConsoleReadyCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onConsoleShowHideCb">onConsoleShowHideCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onCrash">onCrash</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onDatabaseClientEvent">onDatabaseClientEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onFinished">onFinished</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onJournalClientEvent">onJournalClientEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadCb">onLoadCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingLoginCb">onLoadingLoginCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onLoadingShowCb">onLoadingShowCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onMemberClientEvent">onMemberClientEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onPrepareForScreenshot">onPrepareForScreenshot</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onQuit">onQuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onReady">onReady</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onReadyToShowCb">onReadyToShowCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onScreenshotComplete">onScreenshotComplete</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onShortcutsCreatedCb">onShortcutsCreatedCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onSingleInstance">onSingleInstance</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onTalkToClientEvent">onTalkToClientEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onTeamCircuitClientEvent">onTeamCircuitClientEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onTeamClientEvent">onTeamClientEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onWillQuit">onWillQuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#onWindowAllClosed">onWindowAllClosed</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#openExternalBrowser">openExternalBrowser</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#processCLI">processCLI</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#processLogin">processLogin</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#pulse">pulse</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#quit">quit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#rejoinRooms">rejoinRooms</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#removeActiveCircuitFromMembers">removeActiveCircuitFromMembers</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#removeCircuitByIdFromCollectionName">removeCircuitByIdFromCollectionName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#removeCircuitFromAllCollections">removeCircuitFromAllCollections</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#removeRoom">removeRoom</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#removeSingleCircuitByIdFromCollection">removeSingleCircuitByIdFromCollection</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#resetHomeTeamFlag">resetHomeTeamFlag</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#restart">restart</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#save">save</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setAppTray">setAppTray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setConsoleShortcut">setConsoleShortcut</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setConsoleShortcutAlt">setConsoleShortcutAlt</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setDevUserDataDir">setDevUserDataDir</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setDisplayIndex">setDisplayIndex</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#setLatency">setLatency</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#showConsole">showConsole</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#start">start</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#start">start</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#start">start</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#stop">stop</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#unwireEvents">unwireEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateConsole">updateConsole</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#verify">verify</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireSocketMessagesToEventCircuit">wireSocketMessagesToEventCircuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_CircuitStates.html">CircuitStates</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports#Collections">Collections</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Contexts.html">Contexts</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_DefaultValues.html">DefaultValues</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Error.html">Error</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Events.html">Events</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports#Indices">Indices</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Keys.html">Keys</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_MessageTypes.html">MessageTypes</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_module.exports.html">exports</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.html#.exports#Name">Name</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Names.html">Names</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Params.html">Params</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Paths.html">Paths</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_StatusTypes.html">StatusTypes</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Strings.html">Strings</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Types.html">Types</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Views.html">Views</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_Volumes.html">Volumes</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module.exports_WindowNames.html">WindowNames</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="NewSnippetEvent.html">NewSnippetEvent</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Opt.html">Opt</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererClientEvent.html">RendererClientEvent</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererControllerFactory.html">RendererControllerFactory</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererControllerFactory.html#.createController">createController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererControllerFactory.html#.findOrCreateController">findOrCreateController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererControllerFactory.html#.getViewController">getViewController</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererControllerFactory.Views.html">Views</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererEvent.html">RendererEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEvent.html#clear">clear</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEvent.html#dispatch">dispatch</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEvent.html#registerEvents">registerEvents</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEvent.html#updateCallback">updateCallback</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererEventFactory.html">RendererEventFactory</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventFactory.html#.createEvent">createEvent</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererEventFactory.Events.html">Events</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RendererEventManager.html">RendererEventManager</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.checkEventForError">checkEventForError</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.createEventError">createEventError</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.dispatch">dispatch</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.listenForCallback">listenForCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.listenForReply">listenForReply</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RendererEventManager.html#.removeListeners">removeListeners</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ResourceCircuitController_ResourceCircuitController.html">ResourceCircuitController</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScreenshotController.html">ScreenshotController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ScreenshotController.html#captureScreenShot">captureScreenShot</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ScreenshotReferenceInputDto.html">ScreenshotReferenceInputDto</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Shortcut.html">Shortcut</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutError.html">ShortcutError</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.html">ShortcutManager</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#activateWindowShortcuts">activateWindowShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#createGlobalShortcuts">createGlobalShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#deactivateWindowShortcuts">deactivateWindowShortcuts</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ShortcutManager.html#registerShortcut">registerShortcut</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.Accelerators.html">Accelerators</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ShortcutManager.Names.html">Names</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.html">SidePanelViewController</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#changeActiveCircuitsSubmenuPanel">changeActiveCircuitsSubmenuPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#changeActiveSpiritSubmenuPanel">changeActiveSpiritSubmenuPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#changeActiveTeamSubmenuPanel">changeActiveTeamSubmenuPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#configureCircuitsPanelListener">configureCircuitsPanelListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#configureMenuListener">configureMenuListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#configureNotificationsPanelListener">configureNotificationsPanelListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#configurePerspectiveControllerListener">configurePerspectiveControllerListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#configureSidePanelContentListener">configureSidePanelContentListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#configureSpiritPanelListener">configureSpiritPanelListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#configureTeamPanelListener">configureTeamPanelListener</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireCircuitsPanelNotifyEvent">fireCircuitsPanelNotifyEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireSidePanelNotifyEvent">fireSidePanelNotifyEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireSpiritPanelNotifyEvent">fireSpiritPanelNotifyEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#hidePanel">hidePanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#isVisible">isVisible</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#loadWTF">loadWTF</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#showPanel">showPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="SidePanelViewController.html#startWTF">startWTF</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.MenuSelection.html">MenuSelection</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="SidePanelViewController.SubmenuSelection.html">SubmenuSelection</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Strings.html">Strings</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TalkToClient.html">TalkToClient</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#.getAllStatusTalkMessagesFromRoom">getAllStatusTalkMessagesFromRoom</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#.getAllTalkMessagesFromRoom">getAllTalkMessagesFromRoom</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#.init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#.joinExistingRoom">joinExistingRoom</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#.leaveExistingRoom">leaveExistingRoom</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#.loadAllTalkMessagesFromRoom">loadAllTalkMessagesFromRoom</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#.publishChatToRoom">publishChatToRoom</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TalkToClient.html#notifyTalkTo">notifyTalkTo</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TalkToClient.Events.html">Events</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamCircuitClient.html">TeamCircuitClient</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#.getAllMyTeamCircuits">getAllMyTeamCircuits</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#.getMyHomeTeamCircuit">getMyHomeTeamCircuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#.init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#.loadAllMyTeamCircuits">loadAllMyTeamCircuits</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#.loadMyHomeTeamCircuit">loadMyHomeTeamCircuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamCircuitClient.html#notifyTeamCircuit">notifyTeamCircuit</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamCircuitClient.Events.html">Events</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.html">TeamClient</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getAllMyTeams">getAllMyTeams</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.getMyHomeTeam">getMyHomeTeam</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.init">init</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.loadAllMyTeams">loadAllMyTeams</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#.loadMyHomeTeam">loadMyHomeTeam</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="TeamClient.html#notifyTeam">notifyTeam</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="TeamClient.Events.html">Events</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Views.html">Views</a></span></li>
-    <li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="WindowManager.html">WindowManager</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#closeWindow">closeWindow</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#createWindow">createWindow</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#destroyAllWindows">destroyAllWindows</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#destroyWindow">destroyWindow</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#getDisplay">getDisplay</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#getDisplays">getDisplays</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#getWindow">getWindow</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#getWindowClassFromName">getWindowClassFromName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#getWindowViewURL">getWindowViewURL</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#handleHideConsoleEvent">handleHideConsoleEvent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#loadWindow">loadWindow</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#onBlurWindowCb">onBlurWindowCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#onFocusWindowCb">onFocusWindowCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#onShortcutsRecievedCb">onShortcutsRecievedCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="WindowManager.html#openWindow">openWindow</a></span></li>
-    <li class="nav-heading"><a href="global.html">Globals</a></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#appendChatMessage">appendChatMessage</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#clearIntervalTimer">clearIntervalTimer</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidMount">componentDidMount</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentDidUpdate">componentDidUpdate</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillMount">componentWillMount</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#componentWillUnmount">componentWillUnmount</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ConsoleStates">ConsoleStates</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createIntention">createIntention</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#createTaskReference">createTaskReference</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCanvasEl">getCanvasEl</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitError">getCircuitError</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarActions">getCircuitSidebarActions</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarChestContent">getCircuitSidebarChestContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarContent">getCircuitSidebarContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarMenuContent">getCircuitSidebarMenuContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarOverviewContent">getCircuitSidebarOverviewContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarPartyContent">getCircuitSidebarPartyContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarScrapbookContent">getCircuitSidebarScrapbookContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getCircuitSidebarTimerContent">getCircuitSidebarTimerContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getClassName">getClassName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDateTimeString">getDateTimeString</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDescriptionContent">getDescriptionContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDisplayName">getDisplayName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getDividerContent">getDividerContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getErrorContent">getErrorContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedEventsFromMessagesArrayContent">getFeedEventsFromMessagesArrayContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFeedExtraTextsContent">getFeedExtraTextsContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getFormattedCircuitName">getFormattedCircuitName</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getGuid">getGuid</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getIcon">getIcon</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalEntryContent">getJournalEntryContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalErrorContent">getJournalErrorContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItemsContent">getJournalItemsContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getJournalItemsWrapperContent">getJournalItemsWrapperContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getPopupContent">getPopupContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getProjectDropdown">getProjectDropdown</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTagsMapContent">getTagsMapContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTaskDropdown">getTaskDropdown</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTeamPanelListMembersContent">getTeamPanelListMembersContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTextCursor">getTextCursor</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTextInput">getTextInput</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getUserNameFromResource">getUserNameFromResource</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWtfTimerContent">getWtfTimerContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWtfTimerCount">getWtfTimerCount</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getWtfTimerStringFromOpenTime">getWtfTimerStringFromOpenTime</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#getXpPercent">getXpPercent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#handleCallback">handleCallback</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hasCallbackError">hasCallbackError</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hasMessageInArray">hasMessageInArray</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isActive">isActive</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isCommand">isCommand</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isMe">isMe</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isMemberOnline">isMemberOnline</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isMyJournal">isMyJournal</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isObjEmpty">isObjEmpty</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isStatusMessage">isStatusMessage</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#isWTFResource">isWTFResource</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#joinCircuit">joinCircuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#leaveCircuit">leaveCircuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#loadState">loadState</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onHeartbeat">onHeartbeat</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoadCb">onLoadCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onPulse">onPulse</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefresh">onRefresh</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onRefreshSpiritPanel">onRefreshSpiritPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onSidebarShow">onSidebarShow</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#onTalkFailedCb">onTalkFailedCb</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#processActivationCode">processActivationCode</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshRecentIntentions">refreshRecentIntentions</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#refreshTeamPanel">refreshTeamPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#render">render</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadDoItLaterCircuit">requestBrowserToLoadDoItLaterCircuit</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#ROOT_">ROOT_</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#saveState">saveState</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#scrollToJournalItemById">scrollToJournalItemById</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#shouldComponentUpdate">shouldComponentUpdate</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showBadgesPanel">showBadgesPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showDoItLaterCircuitsPanel">showDoItLaterCircuitsPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showNotificationsPanel">showNotificationsPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showSpiritPanel">showSpiritPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#showTeamPanel">showTeamPanel</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#updateHeaderText">updateHeaderText</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#updateProgress">updateProgress</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="global.html#updateTorchieImage">updateTorchieImage</a></span></li>
-    <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
-  </nav>
-  <div id="main">
-    <h1 class="page-title">ShortcutManager</h1>
-    <section>
-      <header>
-        <h2> ShortcutManager </h2>
-        <div class="class-description">This class is used to managed the shortcuts within the app. This class basically just listens for shortcuts and fires associated events with the listener.</div>
-      </header>
-      <article>
-        <div class="container-overview">
-          <div class="section-method">
-            <h2>Constructor</h2>
-            <h4 class="name"
-                id="ShortcutManager"><span class="type-signature"></span>new ShortcutManager<span class="signature">()</span><span class="type-signature"></span></h4>
-            <dl class="details">
-              <dt class="tag-source">Source:</dt>
-              <dd class="tag-source">
-                <ul class="dummy">
-                  <li>
-                    <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line48">line 48</a>
-                  </li>
-                </ul>
-              </dd>
-            </dl>
-          </div>
-        </div>
-        <h3 class="subsection-title">Classes</h3>
-        <dl>
-          <dt><a href="ShortcutManager.Accelerators.html">Accelerators</a></dt>
-          <dd></dd>
-          <dt><a href="ShortcutManager.Names.html">Names</a></dt>
-          <dd></dd>
-        </dl>
-        <h3 class="subsection-title">Methods</h3>
-        <div class="section-method">
-          <h4 class="name"
-              id="activateWindowShortcuts"><span class="type-signature"></span>activateWindowShortcuts<span class="signature">(window)</span><span class="type-signature"></span></h4>
-          <div class="description"> activates any shortcut associated with window parameter </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line187">line 187</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <h5>Parameters:</h5>
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="name"><code>window</code></td>
-                <td class="type">
-                </td>
-                <td class="description last">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
-              id="createGlobalShortcuts"><span class="type-signature"></span>createGlobalShortcuts<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
-          <div class="description"> creates global app shortcuts which are listening even if the app has no windows focused </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line117">line 117</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <div class="section-returns">
-            <h5>Returns:</h5>
-            <dl class="param-type">
-              <dt> Type: </dt>
-              <dd>
-                <span class="param-type"><code>Object</code></span>
-              </dd>
-            </dl>
-          </div>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
-              id="deactivateWindowShortcuts"><span class="type-signature"></span>deactivateWindowShortcuts<span class="signature">(window)</span><span class="type-signature"></span></h4>
-          <div class="description"> deactivates any shortcut associated with window parameter </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line214">line 214</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <h5>Parameters:</h5>
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="name"><code>window</code></td>
-                <td class="type">
-                </td>
-                <td class="description last">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="section-method">
-          <h4 class="name"
-              id="registerShortcut"><span class="type-signature"></span>registerShortcut<span class="signature">(shortcut)</span><span class="type-signature"> &rarr; {Object|*}</span></h4>
-          <div class="description"> registers the shortcut with the manager. Any shortcut with the window property set is assumed to be only linked to that shortcut. currently we do not check to see if a shortcut has already be set.. will override... abort abort. </div>
-          <dl class="details">
-            <dt class="tag-source">Source:</dt>
-            <dd class="tag-source">
-              <ul class="dummy">
-                <li>
-                  <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line146">line 146</a>
-                </li>
-              </ul>
-            </dd>
-          </dl>
-          <h5>Parameters:</h5>
-          <table class="params">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th class="last">Description</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="name"><code>shortcut</code></td>
-                <td class="type">
-                </td>
-                <td class="description last">
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="section-returns">
-            <h5>Returns:</h5>
-            <dl class="param-type">
-              <dt> Type: </dt>
-              <dd>
-                <span class="param-type"><code>Object</code></span> | <span class="param-type"><code>*</code></span>
-              </dd>
-            </dl>
-          </div>
-        </div>
-      </article>
-    </section>
-  </div>
-  <br class="clear">
-  <footer> Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> using the Minami theme. </footer>
-  <script>
-  prettyPrint();
-  </script>
-  <script src="scripts/linenumber.js"></script>
-</body>
 
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav >
+    
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="%2520returns%2520the%2520classes%2520constructor%2520function%2520to%2520render%2520dynamically.html">- returns the classes constructor function to render dynamically</a></li><li><a href="ActivatorView.html">ActivatorView</a></li><li><a href="AppActivator.html">AppActivator</a></li><li><a href="AppSettings.html">AppSettings</a></li><li><a href="BaseClient.html">BaseClient</a><ul class='methods'><li data-type='method'><a href="BaseClient.html#createClientEvent">createClientEvent</a></li><li data-type='method'><a href="BaseClient.html#delegateCallback">delegateCallback</a></li><li data-type='method'><a href="BaseClient.html#logReply">logReply</a></li></ul></li><li><a href="BaseClient.Errors.html">Errors</a></li><li><a href="BaseClient.MessageTypes.html">MessageTypes</a></li><li><a href="BaseClient.Strings.html">Strings</a></li><li><a href="BrowserController.html">BrowserController</a><ul class='methods'><li data-type='method'><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></li><li data-type='method'><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></li><li data-type='method'><a href="BrowserController.html#makeRequest">makeRequest</a></li></ul></li><li><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></li><li><a href="BrowserRequestFactory.Errors.html">Errors</a></li><li><a href="BrowserRequestFactory.Locations.html">Locations</a></li><li><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></li><li><a href="BrowserRequestFactory.Requests.html">Requests</a></li><li><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></li><li><a href="BrowserRequestFactory.SPACE_SEPARATOR.html">SPACE_SEPARATOR</a></li><li><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></li><li><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></li><li><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></li><li><a href="CircuitClient.html">CircuitClient</a><ul class='methods'><li data-type='method'><a href="CircuitClient.html#.cancelWtf">cancelWtf</a></li><li data-type='method'><a href="CircuitClient.html#.fireCircuitStartNotifyEvent">fireCircuitStartNotifyEvent</a></li><li data-type='method'><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></li><li data-type='method'><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></li><li data-type='method'><a href="CircuitClient.html#.getAllMyParticipatingCircuits">getAllMyParticipatingCircuits</a></li><li data-type='method'><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></li><li data-type='method'><a href="CircuitClient.html#.init">init</a></li><li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li><li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li><li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li><li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li><li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li><li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li><li data-type='method'><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></li></ul></li><li><a href="CircuitClient.Events.html">Events</a></li><li><a href="CircuitMemberStatusDto.html">CircuitMemberStatusDto</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="DataStoreFactory.html">DataStoreFactory</a></li><li><a href="DimensionController.html">DimensionController</a><ul class='methods'><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentChatMinHeight">getActiveCircuitContentChatMinHeight</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentChatMinHeightDefault">getActiveCircuitContentChatMinHeightDefault</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentFeedMinHeight">getActiveCircuitContentFeedMinHeight</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentFeedMinWidth">getActiveCircuitContentFeedMinWidth</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentHeight">getActiveCircuitContentHeight</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentScrapbookMinWidth">getActiveCircuitContentScrapbookMinWidth</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentScrapbookMinWidthDefault">getActiveCircuitContentScrapbookMinWidthDefault</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitFeedContentHeight">getActiveCircuitFeedContentHeight</a></li><li data-type='method'><a href="DimensionController.html#.getCircuitSidebarActionsHeight">getCircuitSidebarActionsHeight</a></li><li data-type='method'><a href="DimensionController.html#.getCircuitSidebarHeight">getCircuitSidebarHeight</a></li><li data-type='method'><a href="DimensionController.html#.getCircuitSidebarTimerHeight">getCircuitSidebarTimerHeight</a></li><li data-type='method'><a href="DimensionController.html#.getCircuitsSidebarPanelHeight">getCircuitsSidebarPanelHeight</a></li><li data-type='method'><a href="DimensionController.html#.getConsoleLayoutHeight">getConsoleLayoutHeight</a></li><li data-type='method'><a href="DimensionController.html#.getConsoleSidebarHeight">getConsoleSidebarHeight</a></li><li data-type='method'><a href="DimensionController.html#.getFlowPanelHeight">getFlowPanelHeight</a></li><li data-type='method'><a href="DimensionController.html#.getHeightFor">getHeightFor</a></li><li data-type='method'><a href="DimensionController.html#.getJournalItemsPanelHeight">getJournalItemsPanelHeight</a></li><li data-type='method'><a href="DimensionController.html#.getSidebarPanelHeight">getSidebarPanelHeight</a></li><li data-type='method'><a href="DimensionController.html#.getSpiritCanvasHeight">getSpiritCanvasHeight</a></li><li data-type='method'><a href="DimensionController.html#.getSpiritCanvasWidth">getSpiritCanvasWidth</a></li><li data-type='method'><a href="DimensionController.html#.getSpiritPanelHeight">getSpiritPanelHeight</a></li><li data-type='method'><a href="DimensionController.html#.init">init</a></li></ul></li><li><a href="DimensionController.Components.html">Components</a></li><li><a href="DtoClient.html">DtoClient</a><ul class='methods'><li data-type='method'><a href="DtoClient.html#doRequest">doRequest</a></li><li data-type='method'><a href="DtoClient.html#getRequest">getRequest</a></li></ul></li><li><a href="DtoClientFactory.html">DtoClientFactory</a><ul class='methods'><li data-type='method'><a href="DtoClientFactory.html#makeStoreRequest">makeStoreRequest</a></li></ul></li><li><a href="DtoClientFactory.RequestTypes.html">RequestTypes</a></li><li><a href="EventCallbackException.html">EventCallbackException</a></li><li><a href="EventEchoException.html">EventEchoException</a></li><li><a href="EventException.html">EventException</a><ul class='methods'><li data-type='method'><a href="EventException.html#getDateTimeString">getDateTimeString</a></li><li data-type='method'><a href="EventException.html#toString">toString</a></li></ul></li><li><a href="EventFactory.html">EventFactory</a><ul class='methods'><li data-type='method'><a href="EventFactory.html#.createEvent">createEvent</a></li></ul></li><li><a href="EventFactory.Types.html">Types</a></li><li><a href="EventManager.html">EventManager</a><ul class='methods'><li data-type='method'><a href="EventManager.html#.destroy">destroy</a></li><li data-type='method'><a href="EventManager.html#.dispatch">dispatch</a></li><li data-type='method'><a href="EventManager.html#.unregister">unregister</a></li><li data-type='method'><a href="EventManager.html#createListener">createListener</a></li><li data-type='method'><a href="EventManager.html#executeCallback">executeCallback</a></li><li data-type='method'><a href="EventManager.html#executeReply">executeReply</a></li><li data-type='method'><a href="EventManager.html#handleEvent">handleEvent</a></li><li data-type='method'><a href="EventManager.html#initReturnValues">initReturnValues</a></li><li data-type='method'><a href="EventManager.html#initSender">initSender</a></li><li data-type='method'><a href="EventManager.html#initSonar">initSonar</a></li><li data-type='method'><a href="EventManager.html#register">register</a></li></ul></li><li><a href="EventManager.Events.html">Events</a></li><li><a href="EventReplyException.html">EventReplyException</a></li><li><a href="JournalClient.html">JournalClient</a><ul class='methods'><li data-type='method'><a href="JournalClient.html#.createIntention">createIntention</a></li><li data-type='method'><a href="JournalClient.html#.createTaskReference">createTaskReference</a></li><li data-type='method'><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></li><li data-type='method'><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></li><li data-type='method'><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></li><li data-type='method'><a href="JournalClient.html#.init">init</a></li><li data-type='method'><a href="JournalClient.html#.loadRecentJournal">loadRecentJournal</a></li><li data-type='method'><a href="JournalClient.html#notifyJournal">notifyJournal</a></li></ul></li><li><a href="JournalClient.Events.html">Events</a></li><li><a href="LearningCircuitDto.html">LearningCircuitDto</a></li><li><a href="LearningCircuitModel.html">LearningCircuitModel</a><ul class='methods'><li data-type='method'><a href="LearningCircuitModel.html#.isRetro">isRetro</a></li></ul></li><li><a href="LearningCircuitWithMembersDto.html">LearningCircuitWithMembersDto</a></li><li><a href="MainEvent.html">MainEvent</a><ul class='methods'><li data-type='method'><a href="MainEvent.html#construct">construct</a></li><li data-type='method'><a href="MainEvent.html#destruct">destruct</a></li><li data-type='method'><a href="MainEvent.html#dispatch">dispatch</a></li><li data-type='method'><a href="MainEvent.html#remove">remove</a></li><li data-type='method'><a href="MainEvent.html#replyTo">replyTo</a></li></ul></li><li><a href="MemberClient.html">MemberClient</a><ul class='methods'><li data-type='method'><a href="MemberClient.html#.init">init</a></li><li data-type='method'><a href="MemberClient.html#notifyMember">notifyMember</a></li></ul></li><li><a href="MemberClient.Events.html">Events</a></li><li><a href="module.html#.exports">exports</a><ul class='methods'><li data-type='method'><a href="module.html#.exports#addRoom">addRoom</a></li><li data-type='method'><a href="module.html#.exports#addStatusTalkMessagesCollection">addStatusTalkMessagesCollection</a></li><li data-type='method'><a href="module.html#.exports#addTalkMessagesCollection">addTalkMessagesCollection</a></li><li data-type='method'><a href="module.html#.exports#batchRemoveFromViewInCollection">batchRemoveFromViewInCollection</a></li><li data-type='method'><a href="module.html#.exports#check">check</a></li><li data-type='method'><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></li><li data-type='method'><a href="module.html#.exports#configEvents">configEvents</a></li><li data-type='method'><a href="module.html#.exports#configSocketListeners">configSocketListeners</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#connectToTalk">connectToTalk</a></li><li data-type='method'><a href="module.html#.exports#createConnection">createConnection</a></li><li data-type='method'><a href="module.html#.exports#createConsole">createConsole</a></li><li data-type='method'><a href="module.html#.exports#createDatabase">createDatabase</a></li><li data-type='method'><a href="module.html#.exports#createDatabaseVolume">createDatabaseVolume</a></li><li data-type='method'><a href="module.html#.exports#createMenu">createMenu</a></li><li data-type='method'><a href="module.html#.exports#createQuitListener">createQuitListener</a></li><li data-type='method'><a href="module.html#.exports#createShortcuts">createShortcuts</a></li><li data-type='method'><a href="module.html#.exports#createWindowActivator">createWindowActivator</a></li><li data-type='method'><a href="module.html#.exports#createWindowConsole">createWindowConsole</a></li><li data-type='method'><a href="module.html#.exports#createWindowLoading">createWindowLoading</a></li><li data-type='method'><a href="module.html#.exports#deactivate">deactivate</a></li><li data-type='method'><a href="module.html#.exports#delegateCallbackOrEventReplyTo">delegateCallbackOrEventReplyTo</a></li><li data-type='method'><a href="module.html#.exports#delegateCallbackWithView">delegateCallbackWithView</a></li><li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateCreateTaskReferenceCallback">delegateCreateTaskReferenceCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateJoinExistingRoomCallback">delegateJoinExistingRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLeaveExistingRoomCallback">delegateLeaveExistingRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadActiveCircuitCallback">delegateLoadActiveCircuitCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadAllMyDoItLaterCircuitsCallback">delegateLoadAllMyDoItLaterCircuitsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadAllMyParticipatingCircuitsCallback">delegateLoadAllMyParticipatingCircuitsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadAllMyTeamCircuitsCallback">delegateLoadAllMyTeamCircuitsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadAllMyTeamsCallback">delegateLoadAllMyTeamsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadAllTalkMessagesFromRoomCallback">delegateLoadAllTalkMessagesFromRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadCircuitWithAllDetailsCallback">delegateLoadCircuitWithAllDetailsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadMeCallback">delegateLoadMeCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCallback">delegateLoadMyHomeTeamCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCircuitCallback">delegateLoadMyHomeTeamCircuitCallback</a></li><li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li><li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li><li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li><li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li><li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li><li data-type='method'><a href="module.html#.exports#findOrCreateViewForIntentionsByUserName">findOrCreateViewForIntentionsByUserName</a></li><li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li><li data-type='method'><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></li><li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li><li data-type='method'><a href="module.html#.exports#finished">finished</a></li><li data-type='method'><a href="module.html#.exports#getApiKey">getApiKey</a></li><li data-type='method'><a href="module.html#.exports#getAppApi">getAppApi</a></li><li data-type='method'><a href="module.html#.exports#getAppIcon">getAppIcon</a></li><li data-type='method'><a href="module.html#.exports#getAppName">getAppName</a></li><li data-type='method'><a href="module.html#.exports#getAppRootDir">getAppRootDir</a></li><li data-type='method'><a href="module.html#.exports#getAppSettingsPath">getAppSettingsPath</a></li><li data-type='method'><a href="module.html#.exports#getAppTalkUrl">getAppTalkUrl</a></li><li data-type='method'><a href="module.html#.exports#getAppTray">getAppTray</a></li><li data-type='method'><a href="module.html#.exports#getAppUserDataDir">getAppUserDataDir</a></li><li data-type='method'><a href="module.html#.exports#getAssetPath">getAssetPath</a></li><li data-type='method'><a href="module.html#.exports#getAssetsDir">getAssetsDir</a></li><li data-type='method'><a href="module.html#.exports#getCollectionForRoomStatusTalkMessages">getCollectionForRoomStatusTalkMessages</a></li><li data-type='method'><a href="module.html#.exports#getCollectionForRoomTalkMessages">getCollectionForRoomTalkMessages</a></li><li data-type='method'><a href="module.html#.exports#getConnectionStatus">getConnectionStatus</a></li><li data-type='method'><a href="module.html#.exports#getConnectionUrl">getConnectionUrl</a></li><li data-type='method'><a href="module.html#.exports#getConsoleShortcut">getConsoleShortcut</a></li><li data-type='method'><a href="module.html#.exports#getConsoleShortcutAlt">getConsoleShortcutAlt</a></li><li data-type='method'><a href="module.html#.exports#getDatabase">getDatabase</a></li><li data-type='method'><a href="module.html#.exports#getDateTimeString">getDateTimeString</a></li><li data-type='method'><a href="module.html#.exports#getDisplayIndex">getDisplayIndex</a></li><li data-type='method'><a href="module.html#.exports#getDisplaysSubmenu">getDisplaysSubmenu</a></li><li data-type='method'><a href="module.html#.exports#getFlowHomePath">getFlowHomePath</a></li><li data-type='method'><a href="module.html#.exports#getGuid">getGuid</a></li><li data-type='method'><a href="module.html#.exports#getLatency">getLatency</a></li><li data-type='method'><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></li><li data-type='method'><a href="module.html#.exports#getMe">getMe</a></li><li data-type='method'><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></li><li data-type='method'><a href="module.html#.exports#getRender3D">getRender3D</a></li><li data-type='method'><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></li><li data-type='method'><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></li><li data-type='method'><a href="module.html#.exports#getStages">getStages</a></li><li data-type='method'><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromUri">getStatusTalkMessagesCollectionNameFromUri</a></li><li data-type='method'><a href="module.html#.exports#getTalkMessagesCollectionNameFromUri">getTalkMessagesCollectionNameFromUri</a></li><li data-type='method'><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></li><li data-type='method'><a href="module.html#.exports#getTotalStages">getTotalStages</a></li><li data-type='method'><a href="module.html#.exports#getUriFromMessageArray">getUriFromMessageArray</a></li><li data-type='method'><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></li><li data-type='method'><a href="module.html#.exports#getViewActiveCircuit">getViewActiveCircuit</a></li><li data-type='method'><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></li><li data-type='method'><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></li><li data-type='method'><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></li><li data-type='method'><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></li><li data-type='method'><a href="module.html#.exports#getViewForMe">getViewForMe</a></li><li data-type='method'><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></li><li data-type='method'><a href="module.html#.exports#getViewForMyCurrentStatus">getViewForMyCurrentStatus</a></li><li data-type='method'><a href="module.html#.exports#getViewForRecentProjects">getViewForRecentProjects</a></li><li data-type='method'><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></li><li data-type='method'><a href="module.html#.exports#getViewForStatusOfMeAndMyTeam">getViewForStatusOfMeAndMyTeam</a></li><li data-type='method'><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></li><li data-type='method'><a href="module.html#.exports#getViewRooms">getViewRooms</a></li><li data-type='method'><a href="module.html#.exports#getViewStatusTalkMessagesForCollection">getViewStatusTalkMessagesForCollection</a></li><li data-type='method'><a href="module.html#.exports#getViewTalkMessagesForCollection">getViewTalkMessagesForCollection</a></li><li data-type='method'><a href="module.html#.exports#getViewTeamCircuits">getViewTeamCircuits</a></li><li data-type='method'><a href="module.html#.exports#getVolumeByName">getVolumeByName</a></li><li data-type='method'><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></li><li data-type='method'><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></li><li data-type='method'><a href="module.html#.exports#handleCreateTaskReferenceEvent">handleCreateTaskReferenceEvent</a></li><li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li><li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li><li data-type='method'><a href="module.html#.exports#handleFinishLoadingVolumes">handleFinishLoadingVolumes</a></li><li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllMyTeamCircuitsEvent">handleGetAllMyTeamCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllMyTeamsEvent">handleGetAllMyTeamsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllStatusTalkMessagesFromRoomEvent">handleGetAllStatusTalkMessagesFromRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllTalkMessagesFromRoomEvent">handleGetAllTalkMessagesFromRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetCircuitWithAllDetailsEvent">handleGetCircuitWithAllDetailsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetMeEvent">handleGetMeEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetMyHomeTeamCircuitEvent">handleGetMyHomeTeamCircuitEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetMyHomeTeamEvent">handleGetMyHomeTeamEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetRecentProjectsEvent">handleGetRecentProjectsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetRecentTasksEvent">handleGetRecentTasksEvent</a></li><li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li><li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li><li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li><li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li><li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li><li data-type='method'><a href="module.html#.exports#handleJoinExistingRoomEvent">handleJoinExistingRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLeaveExistingRoomEvent">handleLeaveExistingRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadAllMyTeamCircuitsEvent">handleLoadAllMyTeamCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadAllMyTeamsEvent">handleLoadAllMyTeamsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadAllTalkNessagesFromRoomEvent">handleLoadAllTalkNessagesFromRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadCircuitWithAllDetailsEvent">handleLoadCircuitWithAllDetailsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadJournalEvent">handleLoadJournalEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadMeEvent">handleLoadMeEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamCircuitEvent">handleLoadMyHomeTeamCircuitEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamEvent">handleLoadMyHomeTeamEvent</a></li><li data-type='method'><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li><li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li><li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#hasRoomByRoomName">hasRoomByRoomName</a></li><li data-type='method'><a href="module.html#.exports#hideConsole">hideConsole</a></li><li data-type='method'><a href="module.html#.exports#incrementStage">incrementStage</a></li><li data-type='method'><a href="module.html#.exports#init">init</a></li><li data-type='method'><a href="module.html#.exports#init">init</a></li><li data-type='method'><a href="module.html#.exports#init">init</a></li><li data-type='method'><a href="module.html#.exports#init">init</a></li><li data-type='method'><a href="module.html#.exports#init">init</a></li><li data-type='method'><a href="module.html#.exports#init">init</a></li><li data-type='method'><a href="module.html#.exports#initVolumes">initVolumes</a></li><li data-type='method'><a href="module.html#.exports#insertCircuitOrUpdateCircuitState">insertCircuitOrUpdateCircuitState</a></li><li data-type='method'><a href="module.html#.exports#inspect">inspect</a></li><li data-type='method'><a href="module.html#.exports#isEmpty">isEmpty</a></li><li data-type='method'><a href="module.html#.exports#joinRoomById">joinRoomById</a></li><li data-type='method'><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></li><li data-type='method'><a href="module.html#.exports#load">load</a></li><li data-type='method'><a href="module.html#.exports#load">load</a></li><li data-type='method'><a href="module.html#.exports#loadDefaultCircuitDatabase">loadDefaultCircuitDatabase</a></li><li data-type='method'><a href="module.html#.exports#loadDefaultJournalDatabase">loadDefaultJournalDatabase</a></li><li data-type='method'><a href="module.html#.exports#loadDefaultMemberDatabase">loadDefaultMemberDatabase</a></li><li data-type='method'><a href="module.html#.exports#loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></li><li data-type='method'><a href="module.html#.exports#log">log</a></li><li data-type='method'><a href="module.html#.exports#log">log</a></li><li data-type='method'><a href="module.html#.exports#logRequest">logRequest</a></li><li data-type='method'><a href="module.html#.exports#logResults">logResults</a></li><li data-type='method'><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></li><li data-type='method'><a href="module.html#.exports#onAppHeartbeat">onAppHeartbeat</a></li><li data-type='method'><a href="module.html#.exports#onCircuitClientEvent">onCircuitClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onConnectedTalkCb">onConnectedTalkCb</a></li><li data-type='method'><a href="module.html#.exports#onConsoleReadyCb">onConsoleReadyCb</a></li><li data-type='method'><a href="module.html#.exports#onConsoleShowHideCb">onConsoleShowHideCb</a></li><li data-type='method'><a href="module.html#.exports#onCrash">onCrash</a></li><li data-type='method'><a href="module.html#.exports#onDatabaseClientEvent">onDatabaseClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onFinished">onFinished</a></li><li data-type='method'><a href="module.html#.exports#onJournalClientEvent">onJournalClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onLoadCb">onLoadCb</a></li><li data-type='method'><a href="module.html#.exports#onLoadingLoginCb">onLoadingLoginCb</a></li><li data-type='method'><a href="module.html#.exports#onLoadingShowCb">onLoadingShowCb</a></li><li data-type='method'><a href="module.html#.exports#onMemberClientEvent">onMemberClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onPrepareForScreenshot">onPrepareForScreenshot</a></li><li data-type='method'><a href="module.html#.exports#onQuit">onQuit</a></li><li data-type='method'><a href="module.html#.exports#onReady">onReady</a></li><li data-type='method'><a href="module.html#.exports#onReadyToShowCb">onReadyToShowCb</a></li><li data-type='method'><a href="module.html#.exports#onScreenshotComplete">onScreenshotComplete</a></li><li data-type='method'><a href="module.html#.exports#onShortcutsCreatedCb">onShortcutsCreatedCb</a></li><li data-type='method'><a href="module.html#.exports#onSingleInstance">onSingleInstance</a></li><li data-type='method'><a href="module.html#.exports#onTalkToClientEvent">onTalkToClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onTeamCircuitClientEvent">onTeamCircuitClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onTeamClientEvent">onTeamClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onWillQuit">onWillQuit</a></li><li data-type='method'><a href="module.html#.exports#onWindowAllClosed">onWindowAllClosed</a></li><li data-type='method'><a href="module.html#.exports#openExternalBrowser">openExternalBrowser</a></li><li data-type='method'><a href="module.html#.exports#processCLI">processCLI</a></li><li data-type='method'><a href="module.html#.exports#processLogin">processLogin</a></li><li data-type='method'><a href="module.html#.exports#pulse">pulse</a></li><li data-type='method'><a href="module.html#.exports#quit">quit</a></li><li data-type='method'><a href="module.html#.exports#rejoinRooms">rejoinRooms</a></li><li data-type='method'><a href="module.html#.exports#removeActiveCircuitFromMembers">removeActiveCircuitFromMembers</a></li><li data-type='method'><a href="module.html#.exports#removeCircuitByIdFromCollectionName">removeCircuitByIdFromCollectionName</a></li><li data-type='method'><a href="module.html#.exports#removeCircuitFromAllCollections">removeCircuitFromAllCollections</a></li><li data-type='method'><a href="module.html#.exports#removeRoom">removeRoom</a></li><li data-type='method'><a href="module.html#.exports#removeSingleCircuitByIdFromCollection">removeSingleCircuitByIdFromCollection</a></li><li data-type='method'><a href="module.html#.exports#resetHomeTeamFlag">resetHomeTeamFlag</a></li><li data-type='method'><a href="module.html#.exports#restart">restart</a></li><li data-type='method'><a href="module.html#.exports#save">save</a></li><li data-type='method'><a href="module.html#.exports#setAppTray">setAppTray</a></li><li data-type='method'><a href="module.html#.exports#setConsoleShortcut">setConsoleShortcut</a></li><li data-type='method'><a href="module.html#.exports#setConsoleShortcutAlt">setConsoleShortcutAlt</a></li><li data-type='method'><a href="module.html#.exports#setDevUserDataDir">setDevUserDataDir</a></li><li data-type='method'><a href="module.html#.exports#setDisplayIndex">setDisplayIndex</a></li><li data-type='method'><a href="module.html#.exports#setLatency">setLatency</a></li><li data-type='method'><a href="module.html#.exports#showConsole">showConsole</a></li><li data-type='method'><a href="module.html#.exports#start">start</a></li><li data-type='method'><a href="module.html#.exports#start">start</a></li><li data-type='method'><a href="module.html#.exports#start">start</a></li><li data-type='method'><a href="module.html#.exports#stop">stop</a></li><li data-type='method'><a href="module.html#.exports#unwireEvents">unwireEvents</a></li><li data-type='method'><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></li><li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li><li data-type='method'><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></li><li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li><li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li><li data-type='method'><a href="module.html#.exports#verify">verify</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li><li data-type='method'><a href="module.html#.exports#wireSocketMessagesToEventCircuit">wireSocketMessagesToEventCircuit</a></li><li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li><li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li><li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li><li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li><li data-type='method'><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></li></ul></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li><a href="module.exports_CircuitStates.html">CircuitStates</a></li><li><a href="module.html#.exports#Collections">Collections</a></li><li></li><li></li><li></li><li><a href="module.exports_Contexts.html">Contexts</a></li><li><a href="module.exports_DefaultValues.html">DefaultValues</a></li><li><a href="module.exports_Error.html">Error</a></li><li><a href="module.exports_Events.html">Events</a></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li><a href="module.html#.exports#Indices">Indices</a></li><li></li><li></li><li></li><li><a href="module.exports_Keys.html">Keys</a></li><li><a href="module.exports_MessageTypes.html">MessageTypes</a></li><li><a href="module.exports_module.exports.html">exports</a></li><li></li><li></li><li></li><li><a href="module.html#.exports#Name">Name</a></li><li></li><li></li><li><a href="module.exports_Names.html">Names</a></li><li></li><li><a href="module.exports_Params.html">Params</a></li><li><a href="module.exports_Paths.html">Paths</a></li><li><a href="module.exports_StatusTypes.html">StatusTypes</a></li><li><a href="module.exports_Strings.html">Strings</a></li><li><a href="module.exports_Types.html">Types</a></li><li><a href="module.exports_Views.html">Views</a></li><li></li><li></li><li></li><li></li><li><a href="module.exports_Volumes.html">Volumes</a></li><li><a href="module.exports_WindowNames.html">WindowNames</a></li><li><a href="NewSnippetEvent.html">NewSnippetEvent</a></li><li><a href="Opt.html">Opt</a></li><li><a href="RendererClientEvent.html">RendererClientEvent</a></li><li><a href="RendererControllerFactory.html">RendererControllerFactory</a><ul class='methods'><li data-type='method'><a href="RendererControllerFactory.html#.createController">createController</a></li><li data-type='method'><a href="RendererControllerFactory.html#.findOrCreateController">findOrCreateController</a></li><li data-type='method'><a href="RendererControllerFactory.html#.getViewController">getViewController</a></li></ul></li><li><a href="RendererControllerFactory.Views.html">Views</a></li><li><a href="RendererEvent.html">RendererEvent</a><ul class='methods'><li data-type='method'><a href="RendererEvent.html#clear">clear</a></li><li data-type='method'><a href="RendererEvent.html#dispatch">dispatch</a></li><li data-type='method'><a href="RendererEvent.html#registerEvents">registerEvents</a></li><li data-type='method'><a href="RendererEvent.html#updateCallback">updateCallback</a></li></ul></li><li><a href="RendererEventFactory.html">RendererEventFactory</a><ul class='methods'><li data-type='method'><a href="RendererEventFactory.html#.createEvent">createEvent</a></li></ul></li><li><a href="RendererEventFactory.Events.html">Events</a></li><li><a href="RendererEventManager.html">RendererEventManager</a><ul class='methods'><li data-type='method'><a href="RendererEventManager.html#.checkEventForError">checkEventForError</a></li><li data-type='method'><a href="RendererEventManager.html#.createEventError">createEventError</a></li><li data-type='method'><a href="RendererEventManager.html#.dispatch">dispatch</a></li><li data-type='method'><a href="RendererEventManager.html#.listenForCallback">listenForCallback</a></li><li data-type='method'><a href="RendererEventManager.html#.listenForReply">listenForReply</a></li><li data-type='method'><a href="RendererEventManager.html#.removeListeners">removeListeners</a></li></ul></li><li><a href="ResourceCircuitController_ResourceCircuitController.html">ResourceCircuitController</a></li><li><a href="ScreenshotController.html">ScreenshotController</a><ul class='methods'><li data-type='method'><a href="ScreenshotController.html#captureScreenShot">captureScreenShot</a></li></ul></li><li><a href="ScreenshotReferenceInputDto.html">ScreenshotReferenceInputDto</a></li><li><a href="Shortcut.html">Shortcut</a></li><li><a href="ShortcutError.html">ShortcutError</a></li><li><a href="ShortcutManager.html">ShortcutManager</a><ul class='methods'><li data-type='method'><a href="ShortcutManager.html#activateWindowShortcuts">activateWindowShortcuts</a></li><li data-type='method'><a href="ShortcutManager.html#createGlobalShortcuts">createGlobalShortcuts</a></li><li data-type='method'><a href="ShortcutManager.html#deactivateWindowShortcuts">deactivateWindowShortcuts</a></li><li data-type='method'><a href="ShortcutManager.html#registerShortcut">registerShortcut</a></li></ul></li><li><a href="ShortcutManager.Accelerators.html">Accelerators</a></li><li><a href="ShortcutManager.Names.html">Names</a></li><li><a href="SidePanelViewController.html">SidePanelViewController</a><ul class='methods'><li data-type='method'><a href="SidePanelViewController.html#changeActiveCircuitsSubmenuPanel">changeActiveCircuitsSubmenuPanel</a></li><li data-type='method'><a href="SidePanelViewController.html#changeActiveSpiritSubmenuPanel">changeActiveSpiritSubmenuPanel</a></li><li data-type='method'><a href="SidePanelViewController.html#changeActiveTeamSubmenuPanel">changeActiveTeamSubmenuPanel</a></li><li data-type='method'><a href="SidePanelViewController.html#configureCircuitsPanelListener">configureCircuitsPanelListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configureMenuListener">configureMenuListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configureNotificationsPanelListener">configureNotificationsPanelListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configurePerspectiveControllerListener">configurePerspectiveControllerListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configureSidePanelContentListener">configureSidePanelContentListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configureSpiritPanelListener">configureSpiritPanelListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configureTeamPanelListener">configureTeamPanelListener</a></li><li data-type='method'><a href="SidePanelViewController.html#fireCircuitsPanelNotifyEvent">fireCircuitsPanelNotifyEvent</a></li><li data-type='method'><a href="SidePanelViewController.html#fireSidePanelNotifyEvent">fireSidePanelNotifyEvent</a></li><li data-type='method'><a href="SidePanelViewController.html#fireSpiritPanelNotifyEvent">fireSpiritPanelNotifyEvent</a></li><li data-type='method'><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></li><li data-type='method'><a href="SidePanelViewController.html#hidePanel">hidePanel</a></li><li data-type='method'><a href="SidePanelViewController.html#isVisible">isVisible</a></li><li data-type='method'><a href="SidePanelViewController.html#loadWTF">loadWTF</a></li><li data-type='method'><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></li><li data-type='method'><a href="SidePanelViewController.html#showPanel">showPanel</a></li><li data-type='method'><a href="SidePanelViewController.html#startWTF">startWTF</a></li></ul></li><li><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></li><li><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></li><li><a href="SidePanelViewController.MenuSelection.html">MenuSelection</a></li><li><a href="SidePanelViewController.SubmenuSelection.html">SubmenuSelection</a></li><li><a href="Strings.html">Strings</a></li><li></li><li><a href="TalkToClient.html">TalkToClient</a><ul class='methods'><li data-type='method'><a href="TalkToClient.html#.getAllStatusTalkMessagesFromRoom">getAllStatusTalkMessagesFromRoom</a></li><li data-type='method'><a href="TalkToClient.html#.getAllTalkMessagesFromRoom">getAllTalkMessagesFromRoom</a></li><li data-type='method'><a href="TalkToClient.html#.init">init</a></li><li data-type='method'><a href="TalkToClient.html#.joinExistingRoom">joinExistingRoom</a></li><li data-type='method'><a href="TalkToClient.html#.leaveExistingRoom">leaveExistingRoom</a></li><li data-type='method'><a href="TalkToClient.html#.loadAllTalkMessagesFromRoom">loadAllTalkMessagesFromRoom</a></li><li data-type='method'><a href="TalkToClient.html#.publishChatToRoom">publishChatToRoom</a></li><li data-type='method'><a href="TalkToClient.html#notifyTalkTo">notifyTalkTo</a></li></ul></li><li><a href="TalkToClient.Events.html">Events</a></li><li><a href="TeamCircuitClient.html">TeamCircuitClient</a><ul class='methods'><li data-type='method'><a href="TeamCircuitClient.html#.getAllMyTeamCircuits">getAllMyTeamCircuits</a></li><li data-type='method'><a href="TeamCircuitClient.html#.getMyHomeTeamCircuit">getMyHomeTeamCircuit</a></li><li data-type='method'><a href="TeamCircuitClient.html#.init">init</a></li><li data-type='method'><a href="TeamCircuitClient.html#.loadAllMyTeamCircuits">loadAllMyTeamCircuits</a></li><li data-type='method'><a href="TeamCircuitClient.html#.loadMyHomeTeamCircuit">loadMyHomeTeamCircuit</a></li><li data-type='method'><a href="TeamCircuitClient.html#notifyTeamCircuit">notifyTeamCircuit</a></li></ul></li><li><a href="TeamCircuitClient.Events.html">Events</a></li><li><a href="TeamClient.html">TeamClient</a><ul class='methods'><li data-type='method'><a href="TeamClient.html#.getAllMyTeams">getAllMyTeams</a></li><li data-type='method'><a href="TeamClient.html#.getMyHomeTeam">getMyHomeTeam</a></li><li data-type='method'><a href="TeamClient.html#.init">init</a></li><li data-type='method'><a href="TeamClient.html#.loadAllMyTeams">loadAllMyTeams</a></li><li data-type='method'><a href="TeamClient.html#.loadMyHomeTeam">loadMyHomeTeam</a></li><li data-type='method'><a href="TeamClient.html#notifyTeam">notifyTeam</a></li></ul></li><li><a href="TeamClient.Events.html">Events</a></li><li><a href="Views.html">Views</a></li><li></li><li><a href="WindowManager.html">WindowManager</a><ul class='methods'><li data-type='method'><a href="WindowManager.html#closeWindow">closeWindow</a></li><li data-type='method'><a href="WindowManager.html#createWindow">createWindow</a></li><li data-type='method'><a href="WindowManager.html#destroyAllWindows">destroyAllWindows</a></li><li data-type='method'><a href="WindowManager.html#destroyWindow">destroyWindow</a></li><li data-type='method'><a href="WindowManager.html#getDisplay">getDisplay</a></li><li data-type='method'><a href="WindowManager.html#getDisplays">getDisplays</a></li><li data-type='method'><a href="WindowManager.html#getWindow">getWindow</a></li><li data-type='method'><a href="WindowManager.html#getWindowClassFromName">getWindowClassFromName</a></li><li data-type='method'><a href="WindowManager.html#getWindowViewURL">getWindowViewURL</a></li><li data-type='method'><a href="WindowManager.html#handleHideConsoleEvent">handleHideConsoleEvent</a></li><li data-type='method'><a href="WindowManager.html#loadWindow">loadWindow</a></li><li data-type='method'><a href="WindowManager.html#onBlurWindowCb">onBlurWindowCb</a></li><li data-type='method'><a href="WindowManager.html#onFocusWindowCb">onFocusWindowCb</a></li><li data-type='method'><a href="WindowManager.html#onShortcutsRecievedCb">onShortcutsRecievedCb</a></li><li data-type='method'><a href="WindowManager.html#openWindow">openWindow</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#appendChatMessage">appendChatMessage</a></li><li><a href="global.html#clearIntervalTimer">clearIntervalTimer</a></li><li><a href="global.html#componentDidMount">componentDidMount</a></li><li><a href="global.html#componentDidUpdate">componentDidUpdate</a></li><li><a href="global.html#componentWillMount">componentWillMount</a></li><li><a href="global.html#componentWillUnmount">componentWillUnmount</a></li><li><a href="global.html#ConsoleStates">ConsoleStates</a></li><li><a href="global.html#createIntention">createIntention</a></li><li><a href="global.html#createTaskReference">createTaskReference</a></li><li><a href="global.html#getCanvasEl">getCanvasEl</a></li><li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li><li><a href="global.html#getCircuitError">getCircuitError</a></li><li><a href="global.html#getCircuitSidebarActions">getCircuitSidebarActions</a></li><li><a href="global.html#getCircuitSidebarChestContent">getCircuitSidebarChestContent</a></li><li><a href="global.html#getCircuitSidebarContent">getCircuitSidebarContent</a></li><li><a href="global.html#getCircuitSidebarMenuContent">getCircuitSidebarMenuContent</a></li><li><a href="global.html#getCircuitSidebarOverviewContent">getCircuitSidebarOverviewContent</a></li><li><a href="global.html#getCircuitSidebarPartyContent">getCircuitSidebarPartyContent</a></li><li><a href="global.html#getCircuitSidebarScrapbookContent">getCircuitSidebarScrapbookContent</a></li><li><a href="global.html#getCircuitSidebarTimerContent">getCircuitSidebarTimerContent</a></li><li><a href="global.html#getClassName">getClassName</a></li><li><a href="global.html#getDateTimeString">getDateTimeString</a></li><li><a href="global.html#getDescriptionContent">getDescriptionContent</a></li><li><a href="global.html#getDisplayName">getDisplayName</a></li><li><a href="global.html#getDividerContent">getDividerContent</a></li><li><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></li><li><a href="global.html#getErrorContent">getErrorContent</a></li><li><a href="global.html#getFeedEventsFromMessagesArrayContent">getFeedEventsFromMessagesArrayContent</a></li><li><a href="global.html#getFeedExtraTextsContent">getFeedExtraTextsContent</a></li><li><a href="global.html#getFormattedCircuitName">getFormattedCircuitName</a></li><li><a href="global.html#getGuid">getGuid</a></li><li><a href="global.html#getIcon">getIcon</a></li><li><a href="global.html#getJournalEntryContent">getJournalEntryContent</a></li><li><a href="global.html#getJournalErrorContent">getJournalErrorContent</a></li><li><a href="global.html#getJournalItemsContent">getJournalItemsContent</a></li><li><a href="global.html#getJournalItemsWrapperContent">getJournalItemsWrapperContent</a></li><li><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></li><li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li><li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li><li><a href="global.html#getPopupContent">getPopupContent</a></li><li><a href="global.html#getProjectDropdown">getProjectDropdown</a></li><li><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></li><li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li><li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li><li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li><li><a href="global.html#getTeamPanelListMembersContent">getTeamPanelListMembersContent</a></li><li><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></li><li><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></li><li><a href="global.html#getTextCursor">getTextCursor</a></li><li><a href="global.html#getTextInput">getTextInput</a></li><li><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></li><li><a href="global.html#getUserNameFromResource">getUserNameFromResource</a></li><li><a href="global.html#getWtfTimerContent">getWtfTimerContent</a></li><li><a href="global.html#getWtfTimerCount">getWtfTimerCount</a></li><li><a href="global.html#getWtfTimerStringFromOpenTime">getWtfTimerStringFromOpenTime</a></li><li><a href="global.html#getXpPercent">getXpPercent</a></li><li><a href="global.html#handleCallback">handleCallback</a></li><li><a href="global.html#hasCallbackError">hasCallbackError</a></li><li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li><li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li><li><a href="global.html#isActive">isActive</a></li><li><a href="global.html#isCommand">isCommand</a></li><li><a href="global.html#isMe">isMe</a></li><li><a href="global.html#isMemberOnline">isMemberOnline</a></li><li><a href="global.html#isMyJournal">isMyJournal</a></li><li><a href="global.html#isObjEmpty">isObjEmpty</a></li><li><a href="global.html#isStatusMessage">isStatusMessage</a></li><li><a href="global.html#isWTFResource">isWTFResource</a></li><li><a href="global.html#joinCircuit">joinCircuit</a></li><li><a href="global.html#leaveCircuit">leaveCircuit</a></li><li><a href="global.html#loadState">loadState</a></li><li><a href="global.html#onHeartbeat">onHeartbeat</a></li><li><a href="global.html#onLoadCb">onLoadCb</a></li><li><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></li><li><a href="global.html#onPulse">onPulse</a></li><li><a href="global.html#onRefresh">onRefresh</a></li><li><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></li><li><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></li><li><a href="global.html#onRefreshSpiritPanel">onRefreshSpiritPanel</a></li><li><a href="global.html#onSidebarShow">onSidebarShow</a></li><li><a href="global.html#onTalkFailedCb">onTalkFailedCb</a></li><li><a href="global.html#processActivationCode">processActivationCode</a></li><li><a href="global.html#refreshRecentIntentions">refreshRecentIntentions</a></li><li><a href="global.html#refreshTeamPanel">refreshTeamPanel</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></li><li><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></li><li><a href="global.html#requestBrowserToLoadDoItLaterCircuit">requestBrowserToLoadDoItLaterCircuit</a></li><li><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></li><li><a href="global.html#ROOT_">ROOT_</a></li><li><a href="global.html#saveState">saveState</a></li><li><a href="global.html#scrollToJournalItemById">scrollToJournalItemById</a></li><li><a href="global.html#shouldComponentUpdate">shouldComponentUpdate</a></li><li><a href="global.html#showBadgesPanel">showBadgesPanel</a></li><li><a href="global.html#showDoItLaterCircuitsPanel">showDoItLaterCircuitsPanel</a></li><li><a href="global.html#showNotificationsPanel">showNotificationsPanel</a></li><li><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></li><li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li><li><a href="global.html#showTeamPanel">showTeamPanel</a></li><li><a href="global.html#updateHeaderText">updateHeaderText</a></li><li><a href="global.html#updateProgress">updateProgress</a></li><li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li><li><a href="global.html#viewName">viewName</a></li></ul>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">ShortcutManager</h1>
+    
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+        ShortcutManager
+        </h2>
+        
+            <div class="class-description usertext">This class is used to managed the shortcuts within the app. This class
+basically just listens for shortcuts and fires associated events with
+the listener.</div>
+        
+    
+</header>
+
+<article>
+    
+        <div class="container-overview">
+        
+            
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="ShortcutManager"><span class="type-signature"></span>new ShortcutManager<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line48">line 48</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        </div>
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Classes</h3>
+
+        <dl>
+            <dt><a href="ShortcutManager.Accelerators.html">Accelerators</a></dt>
+            <dd></dd>
+        
+            <dt><a href="ShortcutManager.Names.html">Names</a></dt>
+            <dd></dd>
+        </dl>
+    
+    
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="activateWindowShortcuts"><span class="type-signature"></span>activateWindowShortcuts<span class="signature">(window)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line187">line 187</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    activates any shortcut associated with window parameter
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>window</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="createGlobalShortcuts"><span class="type-signature"></span>createGlobalShortcuts<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line117">line 117</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    creates global app shortcuts which are listening even if the app has
+no windows focused
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="deactivateWindowShortcuts"><span class="type-signature"></span>deactivateWindowShortcuts<span class="signature">(window)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line214">line 214</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    deactivates any shortcut associated with window parameter
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>window</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="registerShortcut"><span class="type-signature"></span>registerShortcut<span class="signature">(shortcut)</span><span class="type-signature"> &rarr; {Object|*}</span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="public_managers_ShortcutManager.js.html">public/managers/ShortcutManager.js</a>, <a href="public_managers_ShortcutManager.js.html#line146">line 146</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    registers the shortcut with the manager. Any shortcut with the window property
+set is assumed to be only linked to that shortcut. currently we do not
+check to see if a shortcut has already be set.. will override... abort abort.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>shortcut</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+
+
+<dl class="param-type">
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Object</span>
+|
+
+<span class="param-type">*</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+    
+    
+</div>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/polyfill.js"></script>
+<script src="scripts/linenumber.js"></script>
+
+
+
+</body>
 </html>
