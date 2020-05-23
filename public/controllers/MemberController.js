@@ -159,13 +159,10 @@ module.exports = class MemberController extends BaseController {
    */
   handleGetMeEvent(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.MEMBER
-      ),
-      view = database.getViewForMe();
+      DatabaseFactory.Names.MEMBER
+    );
 
-    if (view.count() > 0) {
-      arg.data = view.data()[0];
-    }
+    arg.data = database.getMe();
 
     this.delegateCallbackOrEventReplyTo(
       event,

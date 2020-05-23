@@ -4,6 +4,7 @@ const log = require("electron-log"),
   EventFactory = require("../events/EventFactory"),
   TalkDatabase = require("../database/TalkDatabase"),
   MemberDatabase = require("../database/MemberDatabase"),
+  CircuitDatabase = require("../database/CircuitDatabase"),
   DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
@@ -260,6 +261,9 @@ module.exports = class TalkController extends BaseController {
       memberDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.MEMBER
       ),
+      circuitDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.CIRCUIT
+      ),
       fluxCollection = talkDatabase.getCollection(
         TalkDatabase.Collections.FLUX_TALK_MESSAGES
       ),
@@ -272,8 +276,7 @@ module.exports = class TalkController extends BaseController {
       membersCollection = memberDatabase.getCollection(
         MemberDatabase.Collections.MEMBERS
       ),
-      model = fluxCollection.findOne({ id: message.id }),
-      data;
+      model = fluxCollection.findOne({ id: message.id });
 
     if (model) {
       fluxCollection.remove(model);
@@ -312,22 +315,53 @@ module.exports = class TalkController extends BaseController {
         );
         break;
       case TalkController.MessageTypes.XP_STATUS_UPDATE:
-        data = message.data;
         memberDatabase.updateXPStatusByTeamMemberId(
-          data.memberId,
-          data.newXPSummary
+          message.data
         );
         break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:
-        console.log("WTF_STATUS_UPDATE", message);
+        let data = message.data,
+          circuit = data.learningCircuitDto,
+          me = memberDatabase.getMe();
 
-        // TODO if CANCELLED then remove from all circuits collections
+        switch (data.statusType) {
+          case TalkController.StatusTypes.TEAM_WTF_STARTED:
+            if (me.id !== data.memberId) {
+              circuitDatabase.insertCircuitOrUpdateCircuitState(
+                circuit
+              );
+            }
+            break;
+          case TalkController.StatusTypes.TEAM_WTF_STOPPED:
+            if (
+              circuit.circuitState ===
+              TalkController.CircuitStates.CANCELED
+            ) {
+              circuitDatabase.removeCircuitFromAllCollections(
+                circuit
+              );
+              memberDatabase.removeActiveCircuitFromMembers(
+                circuit
+              );
+            } else {
+              console.warn(
+                TalkController.Error.UNKNOWN_STATE_TYPE +
+                  " '" +
+                  circuit.circuitState +
+                  "'."
+              );
+            }
 
-        // TODO update team member with the appropiate active circuit.
-
-        // TODO update the circuits collection with this new circuit
-
-        // TODO update the active circuit collection
+            break;
+          default:
+            console.warn(
+              TalkController.Error.UNKNOWN_STATUS_TYPE +
+                " '" +
+                data.statusType +
+                "'."
+            );
+            break;
+        }
 
         break;
 

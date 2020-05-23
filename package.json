@@ -21,6 +21,7 @@
   "scripts": {
     ".": "clear && yarn dev",
     "_": "clear && yarn docs && yarn stage && yarn dev",
+    "%": "yarn docs && yarn stage",
     "update": "git fetch && git pull && yarn prestage",
     "prestage": "gulp prettier lint pretty",
     "stage": "git add .",

@@ -1,4 +1,6 @@
-const LokiJS = require("lokijs"),
+const log = require("electron-log"),
+  chalk = require("chalk"),
+  LokiJS = require("lokijs"),
   Util = require("../Util");
 
 /**
@@ -71,7 +73,7 @@ module.exports = class CircuitDatabase extends LokiJS {
    */
   constructor() {
     super(CircuitDatabase.Name);
-    this.name = "[DB.CircuitDatabase]";
+    this.name = "[CircuitDatabase]";
     this.guid = Util.getGuid();
     this.addCollection(
       CircuitDatabase.Collections.CIRCUITS,
@@ -212,6 +214,108 @@ module.exports = class CircuitDatabase extends LokiJS {
     );
     return collection.getDynamicView(
       CircuitDatabase.Views.TEAM_CIRCUITS
+    );
+  }
+
+  /**
+   * updates a specific circuit in all of our possible circuit
+   * collections within this database
+   * @param circuit
+   */
+  insertCircuitOrUpdateCircuitState(circuit) {
+    let collection = this.getCollection(
+        CircuitDatabase.Collections.CIRCUITS
+      ),
+      result = collection.findOne({
+        id: circuit.id
+      });
+
+    if (result) {
+      result.circuitState = circuit.circuitState;
+    } else {
+      collection.insert(circuit);
+    }
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.PARTICIPATING
+    );
+    result = collection.findOne({
+      id: circuit.id
+    });
+    if (result) {
+      result.circuitState = circuit.circuitState;
+    }
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.LATER
+    );
+    result = collection.findOne({
+      id: circuit.id
+    });
+    if (result) {
+      result.circuitState = circuit.circuitState;
+    }
+
+    this.log(
+      "insert circuit",
+      this.getViewCircuits().count()
+    );
+  }
+
+  /**
+   * removes a given circuit from all of our collections in our
+   * database
+   * @param circuit
+   */
+  removeCircuitFromAllCollections(circuit) {
+    let id = circuit.id;
+    this.removeCircuitByIdFromCollectionName(
+      id,
+      CircuitDatabase.Collections.CIRCUITS
+    );
+    this.removeCircuitByIdFromCollectionName(
+      id,
+      CircuitDatabase.Collections.PARTICIPATING
+    );
+    this.removeCircuitByIdFromCollectionName(
+      id,
+      CircuitDatabase.Collections.LATER
+    );
+    this.removeCircuitByIdFromCollectionName(
+      id,
+      CircuitDatabase.Collections.ACTIVE
+    );
+
+    this.log(
+      "remove circuit",
+      this.getViewCircuits().count()
+    );
+  }
+
+  /**
+   * finds and removes a circuit by id by a given name
+   * of a circuit database collection
+   * @param id
+   * @param name
+   */
+  removeCircuitByIdFromCollectionName(id, name) {
+    let collection = this.getCollection(name);
+    collection.findAndRemove({ id: id });
+  }
+
+  /**
+   * logs a database message with a fanyc blue color
+   * @param message
+   * @param count
+   */
+  log(message, count) {
+    log.info(
+      chalk.blueBright(this.name) +
+        " " +
+        message +
+        " : {" +
+        count +
+        "}"
     );
   }
 };

@@ -1,4 +1,6 @@
-const LokiJS = require("lokijs"),
+const log = require("electron-log"),
+  chalk = require("chalk"),
+  LokiJS = require("lokijs"),
   Util = require("../Util");
 
 /**
@@ -60,7 +62,7 @@ module.exports = class MemberDatabase extends LokiJS {
    */
   constructor() {
     super(MemberDatabase.Name);
-    this.name = "[DB.MemberDatabase]";
+    this.name = "[MemberDatabase]";
     this.guid = Util.getGuid();
     this.addCollection(MemberDatabase.Collections.ME);
     this.addCollection(MemberDatabase.Collections.MEMBERS);
@@ -100,20 +102,83 @@ module.exports = class MemberDatabase extends LokiJS {
 
   /**
    * updates our xp summary with a new one via our talk controller
-   * or other by any means neccessary. just ask rambo.
-   * @param memberId
-   * @param newXPSummary
+   * or other by any means necessary. just ask rambo.
+   * @param data
    */
-  updateXPStatusByTeamMemberId(memberId, newXPSummary) {
+  updateXPStatusByTeamMemberId(data) {
     let collection = this.getCollection(
         MemberDatabase.Collections.MEMBERS
       ),
-      member = collection.findOne({ id: memberId });
+      memberId = data.memberId,
+      member = collection.findOne({ id: memberId }),
+      newXPSummary = data.newXPSummary,
+      me = this.getMe();
 
-    if (member) {
+    if (member && newXPSummary) {
       member.xpSummary = newXPSummary;
+      if (me && me.id === memberId) {
+        me.xpSummary = newXPSummary;
+      }
+    } else {
+      console.warn(
+        "Unable to update member xp status",
+        member,
+        newXPSummary
+      );
     }
 
-    console.log("MEMBER", member);
+    this.log("update xp summary", memberId);
+  }
+
+  /**
+   * removes a given circuit from our members collection
+   * @param circuit
+   */
+  removeActiveCircuitFromMembers(circuit) {
+    this.log(
+      "remove active circuit -> " + circuit.circuitName,
+      circuit.id
+    );
+
+    let members = this.getViewForMembers().data();
+    for (let i = 0, member, c; i < members.length; i++) {
+      member = members[i];
+      c = member.activeCircuit;
+      if (c && c.id === circuit.id) {
+        member.activeCircuit = null;
+      }
+    }
+
+    let me = this.getMe(),
+      activeCircuit = me.activeCircuit;
+
+    if (activeCircuit && activeCircuit.id === circuit.id) {
+      me.activeCircuit = null;
+    }
+  }
+
+  /**
+   * gets our user object of ourselves logged in.
+   * @returns {Array}
+   */
+  getMe() {
+    let view = this.getViewForMe();
+    return view.data()[0];
+  }
+
+  /**
+   * logs a database message with a fancy blue color
+   * @param message
+   * @param count
+   */
+  log(message, count) {
+    log.info(
+      chalk.blueBright(this.name) +
+        " " +
+        message +
+        " : {" +
+        count +
+        "}"
+    );
   }
 };

@@ -83,7 +83,7 @@ module.exports = class BaseController {
 
   /**
    * errors which the controllers know about
-   * @returns {{UNKNOWN: string, ERROR_ARGS: string, PRIMARY_ONLY: string}}
+   * @returns {{UNKNOWN_STATUS_TYPE: string, UNKNOWN_STATE_TYPE: string, UNKNOWN_TALK_MESSAGE_TYPE: string, UNKNOWN_TALK_TO_EVENT: string, UNKNOWN: string, UNKNOWN_CIRCUIT_EVENT: string, ERROR_ARGS: string, INVALID_PARTICIPATING_CIRCUIT: string}}
    * @constructor
    */
   static get Error() {
@@ -94,6 +94,8 @@ module.exports = class BaseController {
         "Unknown circuit client event type",
       UNKNOWN_TALK_MESSAGE_TYPE:
         "Unknown talk message type",
+      UNKNOWN_STATUS_TYPE: "Unknown status type",
+      UNKNOWN_STATE_TYPE: "Unknown state type",
       UNKNOWN_TALK_TO_EVENT:
         "Unknown talk to client event type",
       INVALID_PARTICIPATING_CIRCUIT:
@@ -141,6 +143,30 @@ module.exports = class BaseController {
       GET_ME: "getMe",
       GET_MY_HOME_TEAM_CIRCUIT: "getMyHomeTeamCircuit",
       GET_ALL_MY_TEAM_CIRCUITS: "getAllMyTeamCircuits"
+    };
+  }
+
+  /**
+   * a list of our various circuit status types
+   * @returns {{CANCELED: string, TROUBLESHOOT: string}}
+   * @constructor
+   */
+  static get StatusTypes() {
+    return {
+      TEAM_WTF_STARTED: "TEAM_WTF_STARTED",
+      TEAM_WTF_STOPPED: "TEAM_WTF_STOPPED"
+    };
+  }
+
+  /**
+   * a list of our various circuit states
+   * @returns {{CANCELED: string, TROUBLESHOOT: string}}
+   * @constructor
+   */
+  static get CircuitStates() {
+    return {
+      TROUBLESHOOT: "TROUBLESHOOT",
+      CANCELED: "CANCELED"
     };
   }
 

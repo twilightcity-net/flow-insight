@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport"
         content="width=device-width,initial-scale=1">
-  <title>public/app/App.js - Documentation</title>
+  <title>CircuitStates - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -636,374 +636,39 @@
     <li class="nav-item"><span class="nav-item-type type-member">M</span><span class="nav-item-name"><a href="global.html#viewName">viewName</a></span></li>
   </nav>
   <div id="main">
-    <h1 class="page-title">public/app/App.js</h1>
+    <h1 class="page-title">CircuitStates</h1>
     <section>
+      <header>
+        <h2>
+          <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span> CircuitStates </h2>
+      </header>
       <article>
-        <pre class="prettyprint source linenums"><code>const { app } = require("electron"),
-  fs = require("fs"),
-  path = require("path"),
-  chalk = require("chalk"),
-  log = require("electron-log"),
-  isDev = require("electron-is-dev"),
-  rootPath = require("electron-root-path").rootPath,
-  platform = require("electron-platform"),
-  argv = require("yargs").argv,
-  Logger = require("./AppLogger"),
-  AppError = require("./AppError"),
-  Util = require("../Util"),
-  TalkManager = require("../managers/TalkManager"),
-  VolumeManager = require("../managers/VolumeManager"),
-  TeamManager = require("../managers/TeamManager"),
-  MemberManager = require("../managers/MemberManager"),
-  JournalManager = require("../managers/JournalManager"),
-  CircuitManager = require("../managers/CircuitManager"),
-  TeamCircuitManager = require("../managers/TeamCircuitManager"),
-  TalkToManager = require("../managers/TalkToManager"),
-  WindowManager = require("../managers/WindowManager"),
-  { EventManager } = require("../events/EventManager"),
-  EventFactory = require("../events/EventFactory"),
-  {
-    ShortcutManager
-  } = require("../managers/ShortcutManager"),
-  AppUpdater = require("./AppUpdater"),
-  AppSettings = require("./AppSettings"),
-  DataStoreManager = require("../managers/DtoClientManager"),
-  AppActivator = require("./AppActivator"),
-  AppLoader = require("./AppLoader"),
-  AppHeartbeat = require("./AppHeartbeat"),
-  AppLogin = require("./AppLogin"),
-  AppController = require("../controllers/AppController"),
-  AppBanner = [
-    "                                                                                               ",
-    "     .:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.     ",
-    "     :    __________ __________ __________ _________ _____ _____ _________ __________    :     ",
-    "     :   |          |          |    __   \\\\         |     |     |_       _|        __|   :     ",
-    "     :   |_        _|    __    |         &lt;|       __|           |_|     |_|        __|   :     ",
-    "     :    _|______|_|__________|_____|____|_________|_____|_____|_________|__________|   :     ",
-    "     :   |      ______|     |     |         __|          |________|          |_______    :     ",
-    "     :   |______      |           |         __|                   |                  |   :     ",
-    "     :   |____________|_____|_____|___________|___________________|__ZoeDreams_800XL |   :     ",
-    "     :                                           D R E A M S C A L E © 2 0 2 0           :     ",
-    "     :                                                                                   :     ",
-    "     :.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:     ",
-    "                                                                                               \n"
-  ];
-
-/**
- *                                         P R E S E N T S :
- *
- *                               A N ARTY &amp; ZOE P R O D U C T I O N :
- *
- *                        S U P P L I E D BY : P D X // O X Y // A T R // 1337
- *
- *                         > > > A MESSAGE F R O M OUR S P O N S O R S &lt; &lt; &lt;
- *                       support local! throw out your phone and buy a console!
- *
- *
- * D R E A M S C A L E © 2 0 2 0 /// D R E A M S C A L E © 2 0 2 0 /// D R E A M S C A L E © 2 0 2 0 /// /// /// /// ///
- *
- * TORCHIE-SHELL IS A RESTRICTED OPERATING SYSTEM UNDER BSD LICENSE. ACCESS beyond this point.
- * Authorized PERSONNEL, AGENTS and SYSTEMS ONLY.
- *
- * WARNING BY access this system you agree that:
- *
- * You are accessing a DreamScale Information System (IS) that is provided for authorized use only.
- * By using this IS (which includes any device attached to this IS), you consent to the following conditions:
- *
- * + The SYSTEM routinely intercepts and monitors communications on this IS for purposes including, but not limited to,
- *   penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), any engagement
- *   with law enforcement (LE), and counterintelligence (CI) investigations of foreign or domestic.
- *
- * + The NETWORK exists solely for educational and scientific research purposes. ANY access related to MILITARY use
- *   could be considered a THREAT, which may result in bad things. Don't Do IT.
- *
- * + At any time, the SYSTEM may inspect and seize data stored on this IS; see above item (2)
- *
- * + Communications using, or data stored on, this IS PRIVATE, HOWEVER there is also PUBLIC data that could be subject
- *   to routine monitoring, interception, and search by the IS
- *
- * + This IS includes security measures (e.g., authentication and access controls) to protect PRIVATE security and data
- *
- * + Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching
- *   or monitoring of the content of privileged communications, or work product, related to personal representation
- *   or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work
- *   product are private and confidential. See User Agreement for details.
- *
- *   /\/ Mess With The Best ...........................................................Get Deleted Like The Rest ! /\/
- *
- * D R E A M S C A L E © 2 0 2 0 /// D R E A M S C A L E © 2 0 2 0 /// D R E A M S C A L E © 2 0 2 0 /// /// /// /// ///
- *
- * @type {App}
- */
-module.exports = class App {
-  constructor() {
-    AppBanner.forEach(v =>
-      console.log(chalk.bold.greenBright(v))
-    );
-    if (isDev) Util.setDevUserDataDir();
-    this.Logger = Logger.create();
-    this.myController = new AppController(app);
-    this.events = {
-      ready: this.onReady,
-      singleInstance: this.onSingleInstance,
-      windowAllClosed: this.onWindowAllClosed,
-      quit: this.onQuit,
-      willQuit: this.onWillQuit,
-      crashed: this.onCrash
-    };
-    this.processCLI();
-    this.isSecondInstance = app.makeSingleInstance(
-      this.onSingleInstance
-    );
-    if (this.isSecondInstance) {
-      log.info("[App] quit -> second instance");
-
-      //TODO need to implement a check for args
-
-      //TODO need to implement a CLIManager that works with yarv
-
-      this.quit();
-    } else {
-      if (isDev) {
-        this.start();
-      } else if (Util.checkIfCalledFromCLI(process.argv)) {
-        if (rootPath.startsWith("/Applications")) {
-          log.error(
-            "Please pass 'Torchie' a command or argument."
-          );
-          process.exit(0);
-        } else {
-          this.start();
-        }
-      } else {
-        this.start();
-      }
-    }
-  }
-
-  /**
-   * called by the app ready event -> called first after electron app loaded
-   */
-  onReady() {
-    global.App.api = Util.getAppApi();
-    global.App.name = Util.getAppName();
-    global.App.talkUrl = Util.getAppTalkUrl();
-    global.App.render3D = Util.getRender3D();
-    global.App.idleTime = 0;
-    global.App.isOnline = false;
-    global.App.isLoggedIn = false;
-    app.setName(global.App.name);
-
-    log.info(
-      "[App] ready -> " +
-        global.App.name +
-        " : " +
-        global.App.api
-    );
-    log.info("[App] ready -> talk : " + global.App.talkUrl);
-    log.info(
-      "[App] ready -> render3D : " + global.App.render3D
-    );
-    try {
-      global.App.EventManager = new EventManager();
-      global.App.AppSettings = new AppSettings();
-      global.App.WindowManager = new WindowManager();
-      global.App.VolumeManager = new VolumeManager();
-      global.App.TalkManager = new TalkManager();
-      global.App.JournalManager = new JournalManager();
-      global.App.TeamManager = new TeamManager();
-      global.App.MemberManager = new MemberManager();
-      global.App.CircuitManager = new CircuitManager();
-      global.App.TeamCircuitManager = new TeamCircuitManager();
-      global.App.TalkToManager = new TalkToManager();
-      global.App.ShortcutManager = new ShortcutManager();
-      global.App.AppUpdater = new AppUpdater();
-      global.App.DataStoreManager = new DataStoreManager();
-      global.App.AppActivator = new AppActivator();
-      global.App.AppLoader = new AppLoader();
-      global.App.AppHeartbeat = new AppHeartbeat();
-      global.App.createQuitListener();
-      global.App.load();
-    } catch (error) {
-      App.handleError(error, true);
-    } finally {
-      if (isDev) {
-        const {
-          default: installExtension,
-          REACT_DEVELOPER_TOOLS
-        } = require("electron-devtools-installer");
-        installExtension(REACT_DEVELOPER_TOOLS)
-          .then(name => {
-            log.info("[App] ready -> dev tools : " + name);
-          })
-          .catch(err => {
-            AppError.handleError(err, false);
-          });
-      }
-    }
-  }
-
-  /**
-   * This listener is activate when someone tries to run the app again. This is also where
-   * we would listen for any CLI commands or arguments... Such as Torchie task-new or
-   * Torchie -quit
-   * @param commandLine
-   * @param workingDirectory
-   */
-  onSingleInstance(commandLine, workingDirectory) {
-    log.warn(
-      "[App] second instance detected -> " +
-        workingDirectory +
-        " => " +
-        commandLine
-    );
-  }
-
-  /**
-   * processes the system command line arguments.. nothing fance should go here
-   * will need to build a more complex CLI processor when we have actual an
-   * API that requires using args.
-   * check for --activate argument which can only be 'new' for now.
-   * this will remove the previous license key and prompt for a new key
-   */
-  processCLI() {
-    if (argv.deactivate || argv.DEACTIVATE) {
-      console.log("deactivate!!!");
-      // AppController.init(this);
-    }
-  }
-
-  /**
-   * idle the app if all windows are closed
-   */
-  onWindowAllClosed() {
-    log.info("[App] app idle : no windows");
-  }
-
-  /**
-   * called before windows are closed and is going to quit.
-   * @param event
-   */
-  onWillQuit(event) {
-    log.info(
-      "[App] before quit -> attempt to logout application"
-    );
-
-    if (global.App.isLoggedIn) {
-      event.preventDefault();
-      global.App.WindowManager.destroyAllWindows();
-      global.App.TalkManager.disconnect();
-      AppLogin.doLogout(store => {
-        log.info(
-          "[App] before quit -> logout complete : quit"
-        );
-        app.exit(0);
-      });
-
-      setTimeout(() => {
-        log.info(
-          "[App] before quit -> logout timemout : quit"
-        );
-        app.exit(0);
-      }, 10000);
-    }
-  }
-
-  /**
-   * called when the application is quiting
-   * @param event
-   * @param exitCode
-   */
-  onQuit(event, exitCode) {
-    log.info("[App] quitting -> exitCode : " + exitCode);
-  }
-
-  /**
-   *  handles when the gpu crashes then quites if not already quit.
-   * @param event
-   * @param killed
-   */
-  //TODO implement https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
-  onCrash(event, killed) {
-    App.handleError(
-      new AppError(
-        "WTF the GPU crashed : killed=" + killed
-      ),
-      true
-    );
-  }
-
-  /**
-   * proxy method for AppError class handler
-   * @param error - the error that was thrown
-   * @param fatal - shut down the app or not
-   * @deprecated - should use AppError.handleError(err,fatal)
-   */
-  static handleError(error, fatal) {
-    AppError.handleError(error, fatal);
-  }
-
-  /**
-   * used to start the app listeners which are dispatched by the apps events
-   */
-  start() {
-    log.info("[App] starting...");
-    // this.errorWatcher();
-    AppController.configureEvents();
-    app.on("ready", this.events.ready);
-    app.on(
-      "window-all-closed",
-      this.events.windowAllClosed
-    );
-    app.on("quit", this.events.quit);
-    app.on("will-quit", this.events.willQuit);
-    app.on("gpu-process-crashed", this.events.crashed);
-  }
-
-  /**
-   * called to start loading the application from AppLoader class
-   */
-  load() {
-    log.info("[App] checking for settings...");
-    if (global.App.AppSettings.check()) {
-      global.App.ApiKey = global.App.AppSettings.getApiKey();
-      global.App.AppLoader.load();
-    } else {
-      global.App.AppActivator.start();
-      global.App.AppLoader.createMenu();
-    }
-  }
-
-  /**
-   * restarts the application if not in dev mode; uses hard quit to
-   * bypass any of the quit events.
-   */
-  restart() {
-    if (!isDev) app.relaunch();
-    app.exit(0);
-  }
-
-  /**
-   * wrapper function to quit the application
-   */
-  quit() {
-    app.quit();
-  }
-
-  /**
-   * async way to quit the application from renderer
-   */
-  createQuitListener() {
-    this.events.quitListener = EventFactory.createEvent(
-      EventFactory.Types.APP_QUIT,
-      this,
-      (event, arg) => {
-        global.App.quit();
-      }
-    );
-  }
-};
-</code></pre>
+        <div class="container-overview">
+          <div class="section-method">
+            <h4 class="name"
+                id="CircuitStates"><span class="type-signature"></span>new CircuitStates<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+            <div class="description"> a list of our various circuit states </div>
+            <dl class="details">
+              <dt class="tag-source">Source:</dt>
+              <dd class="tag-source">
+                <ul class="dummy">
+                  <li>
+                    <a href="public_controllers_BaseController.js.html">public/controllers/BaseController.js</a>, <a href="public_controllers_BaseController.js.html#line166">line 166</a>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+            <div class="section-returns">
+              <h5>Returns:</h5>
+              <dl class="param-type">
+                <dt> Type: </dt>
+                <dd>
+                  <span class="param-type"><code>Object</code></span>
+                </dd>
+              </dl>
+            </div>
+          </div>
+        </div>
       </article>
     </section>
   </div>
