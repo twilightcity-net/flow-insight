@@ -9,6 +9,7 @@ import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { scrollTo } from "../../../../../UtilScroll";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
+import { BaseClient } from "../../../../../clients/BaseClient";
 
 export default class ActiveCircuitFeed extends Component {
   /**
@@ -40,20 +41,25 @@ export default class ActiveCircuitFeed extends Component {
   /**
    * our event handler for our talk room message. This function is used to
    * make sure we do not double enter a message in which we have already
-   * added. meaning we published the message ourself. Most often these
+   * added. meaning we published the message ourselves. Most often these
    * messages will be from other people on the talk networks
    * @param event
    * @param arg
    */
   onTalkRoomMessage = (event, arg) => {
     let hasMessage = UtilRenderer.hasMessageInArray(
-        this.messages,
-        arg
-      ),
-      isStatus = UtilRenderer.isStatusMessage(arg);
+      this.messages,
+      arg
+    );
 
-    if (!hasMessage && !isStatus) {
-      this.appendChatMessage(arg);
+    switch (arg.messageType) {
+      case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
+        if (!hasMessage) {
+          this.appendChatMessage(arg);
+        }
+        break;
+      default:
+        break;
     }
   };
 

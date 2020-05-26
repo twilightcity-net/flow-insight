@@ -39,14 +39,17 @@ export class BaseClient {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{ROOM_MEMBER_STATUS_EVENT: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string}}
+   * @returns {{WTF_STATUS_UPDATE: string, ROOM_MEMBER_STATUS_EVENT: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
     return {
       CIRCUIT_STATUS: "CircuitStatusDto",
       ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
-      CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto"
+      CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto",
+      TEAM_MEMBER: "TeamMemberDto",
+      XP_STATUS_UPDATE: "XPStatusUpdateDto",
+      WTF_STATUS_UPDATE: "WTFStatusUpdateDto"
     };
   }
 

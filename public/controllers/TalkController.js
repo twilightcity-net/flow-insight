@@ -278,12 +278,6 @@ module.exports = class TalkController extends BaseController {
       ),
       model = fluxCollection.findOne({ id: message.id });
 
-    if (model) {
-      fluxCollection.remove(model);
-    } else {
-      this.talkMessageRoomListener.dispatch(message);
-    }
-
     switch (message.messageType) {
       case TalkController.MessageTypes.CIRCUIT_STATUS:
         this.findXOrInsertDoc(
@@ -375,6 +369,12 @@ module.exports = class TalkController extends BaseController {
             "'."
         );
         break;
+    }
+
+    if (model) {
+      fluxCollection.remove(model);
+    } else {
+      this.talkMessageRoomListener.dispatch(message);
     }
   }
 
