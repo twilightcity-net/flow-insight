@@ -270,7 +270,6 @@ class WindowManager {
     log.info(
       "[WindowManager] destroy window -> " + window.name
     );
-    Util.inspect(this.windows);
     for (var i = this.windows.length - 1; i >= 0; i--) {
       if (this.windows[i].name === window.name) {
         log.info(
