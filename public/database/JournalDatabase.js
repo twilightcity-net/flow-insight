@@ -17,7 +17,8 @@ module.exports = class JournalDatabase extends LokiJS {
 
   /**
    * our collection in our database
-   * @returns {{RECENT_INTENTIONS: string, RECENT_PROJECTS: string, RECENT_TASKS: string}}
+   * @returns {{INTENTIONS: string, TASKS: string, PROJECTS: string}}
+   * @constructor
    */
   static get Collections() {
     return {
@@ -29,7 +30,7 @@ module.exports = class JournalDatabase extends LokiJS {
 
   /**
    * our databases dynamic views using indices
-   * @returns {{TASKS: string, PROJECTS: string, INTENTIONS_ME: string}}
+   * @returns {{INTENTIONS: string, TASKS: string, PROJECTS: string}}
    * @constructor
    */
   static get Views() {
@@ -42,15 +43,20 @@ module.exports = class JournalDatabase extends LokiJS {
 
   /**
    * the indices we wish to store for what we query on (faster)
-   * @returns {{TIMESTAMP: string, USER_NAME: string, ID: string, TASK_ID: string, PROJECT_ID: string}}
+   * @returns {{POSITION: string, DESCRIPTION: string, JOURNAL_ENTRY_TYPE: string, TIMESTAMP: string, MEMBER_ID: string, USER_NAME: string, ID: string, TASK_ID: string, PROJECT_ID: string}}
+   * @constructor
    */
   static get Indices() {
     return {
       USER_NAME: "userName",
-      TIMESTAMP: "timestamp",
+      MEMBER_ID: "memberId",
       ID: "id",
       TASK_ID: "taskId",
-      PROJECT_ID: "projectId"
+      PROJECT_ID: "projectId",
+      DESCRIPTION: "description",
+      JOURNAL_ENTRY_TYPE: "journalEntryType",
+      POSITION: "position",
+      TIMESTAMP: "timestamp"
     };
   }
 
@@ -67,9 +73,13 @@ module.exports = class JournalDatabase extends LokiJS {
         indices: [
           JournalDatabase.Indices.ID,
           JournalDatabase.Indices.USER_NAME,
-          JournalDatabase.Indices.TIMESTAMP,
+          JournalDatabase.Indices.MEMBER_ID,
           JournalDatabase.Indices.TASK_ID,
-          JournalDatabase.Indices.PROJECT_ID
+          JournalDatabase.Indices.PROJECT_ID,
+          JournalDatabase.Indices.DESCRIPTION,
+          JournalDatabase.Indices.JOURNAL_ENTRY_TYPE,
+          JournalDatabase.Indices.POSITION,
+          JournalDatabase.Indices.TIMESTAMP
         ]
       }
     );
@@ -97,27 +107,16 @@ module.exports = class JournalDatabase extends LokiJS {
   }
 
   /**
-   * returns the view for a speofic users intentions that is store locally. We also
-   * apply a sort on the timestamp
-   * @param userName
+   * gets our view  for our list of intentions
    * @returns {DynamicView}
    */
-  findOrCreateViewForIntentionsByUserName(userName) {
-    let viewName =
-        JournalDatabase.Views.INTENTIONS + "-" + userName,
-      collection = this.getCollection(
-        JournalDatabase.Collections.INTENTIONS
-      ),
-      view = collection.getDynamicView(viewName);
-
-    if (!view) {
-      view = collection.addDynamicView(viewName);
-      view.applyFind({ userName: userName });
-      view.applySimpleSort(
-        JournalDatabase.Indices.TIMESTAMP
-      );
-    }
-    return view;
+  getViewForIntentions() {
+    let collection = this.getCollection(
+      JournalDatabase.Collections.INTENTIONS
+    );
+    return collection.getDynamicView(
+      JournalDatabase.Views.INTENTIONS
+    );
   }
 
   /**
@@ -144,5 +143,20 @@ module.exports = class JournalDatabase extends LokiJS {
     return collection.getDynamicView(
       JournalDatabase.Views.TASKS
     );
+  }
+
+  /**
+   * updates our intention in our Journal Database. All intentions from
+   * all users are stored in the same collection for speed. They can be
+   * queried with username or member id.
+   * @param doc
+   * @param collection
+   */
+  findRemoveInsert(doc, collection) {
+    let result = collection.findOne({ id: doc.id });
+    if (result) {
+      collection.remove(result);
+    }
+    collection.insert(doc);
   }
 };

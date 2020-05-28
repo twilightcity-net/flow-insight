@@ -1,5 +1,6 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
+  Util = require("../Util"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   TalkDatabase = require("../database/TalkDatabase"),
@@ -280,8 +281,6 @@ module.exports = class TalkController extends BaseController {
       ),
       model = fluxCollection.findOne({ id: message.id });
 
-    // console.log("MESSAGE", message.data);
-
     switch (message.messageType) {
       case TalkController.MessageTypes.CIRCUIT_STATUS:
         this.findXOrInsertDoc(
@@ -322,8 +321,9 @@ module.exports = class TalkController extends BaseController {
         );
         break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:
-        let circuit = data.learningCircuitDto,
-          me = memberDatabase.getMe();
+        let data = message.data,
+          circuit = data.learningCircuitDto,
+          me = this.getMemberMe();
 
         switch (data.statusType) {
           case TalkController.StatusTypes.TEAM_WTF_STARTED:
@@ -363,11 +363,14 @@ module.exports = class TalkController extends BaseController {
             );
             break;
         }
+        break;
+      case TalkController.MessageTypes
+        .INTENTION_STARTED_DETAILS:
+        console.log(Util.inspect(message));
+
+        // TODO finishing coding this section
 
         break;
-
-      // TODO implement StartIntentionStatus message switch case
-
       default:
         console.warn(
           TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +

@@ -111,7 +111,7 @@ module.exports = class MemberDatabase extends LokiJS {
       memberId = data.memberId,
       member = collection.findOne({ id: memberId }),
       newXPSummary = data.newXPSummary,
-      me = this.getMe();
+      me = this.getMemberMe();
 
     if (member && newXPSummary) {
       member.xpSummary = newXPSummary;
@@ -148,7 +148,7 @@ module.exports = class MemberDatabase extends LokiJS {
       }
     }
 
-    let me = this.getMe(),
+    let me = this.getMeFromView(),
       activeCircuit = me.activeCircuit;
 
     if (activeCircuit && activeCircuit.id === circuit.id) {
@@ -156,12 +156,7 @@ module.exports = class MemberDatabase extends LokiJS {
     }
   }
 
-  /**
-   * gets our user object of ourselves logged in.
-   * @returns {Array}
-   */
-  getMe() {
-    let view = this.getViewForMe();
-    return view.data()[0];
+  getMeFromView() {
+    return this.getViewForMe().data()[0];
   }
 };

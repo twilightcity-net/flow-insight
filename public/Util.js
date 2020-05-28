@@ -35,14 +35,16 @@ module.exports = class Util {
    * @returns {string}
    */
   static inspect(object) {
-    return util.inspect(object, {
-      showHidden: true,
-      depth: null,
-      colors: true,
-      showProxy: true,
-      maxArrayLength: null,
-      breakLength: 80
-    });
+    console.log(
+      util.inspect(object, {
+        showHidden: true,
+        depth: null,
+        colors: true,
+        showProxy: true,
+        maxArrayLength: null,
+        breakLength: 80
+      })
+    );
   }
 
   /**

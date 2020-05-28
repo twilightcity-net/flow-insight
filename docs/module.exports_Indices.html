@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>src/views/ActivatorView.js - Documentation</title>
+  <title>Indices - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -807,580 +807,155 @@
     </ul>
   </nav>
   <div id="main">
-    <h1 class="page-title">src/views/ActivatorView.js</h1>
+    <h1 class="page-title">Indices</h1>
     <section>
+      <header>
+        <h2>
+          <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span> Indices </h2>
+      </header>
       <article>
-        <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import { DataStoreFactory } from "../stores/DataStoreFactory";
-import { RendererEventFactory } from "../events/RendererEventFactory";
-import {
-  Button,
-  Container,
-  Divider,
-  Form,
-  Icon,
-  Header,
-  Segment,
-  Transition
-} from "semantic-ui-react";
-
-const { remote } = window.require("electron"),
-  ActivationCodeDto = remote.require(
-    "./dto/ActivationCodeDto"
-  );
-
-const electronLog = remote.require("electron-log");
-
-/**
- * This view class is used to activate the application
- * @class ActivatorView
- * @extends Component
- */
-export default class ActivatorView extends Component {
-  /**
-   * creates a new Activator view for the Activator Window
-   * @constructor
-   * @param props
-   */
-  constructor(props) {
-    super(props);
-    this.animationTime = 500;
-    this.activateWaitDelay = 1000;
-    this.tokenKeyValue = "";
-    this.state = {
-      finishedMessage: "",
-      submitBtnDisabled: true,
-      tokenKeyVisible: true,
-      termsVisible: false,
-      activatingVisible: false,
-      successVisible: false,
-      failedVisible: false
-    };
-    this.store = DataStoreFactory.createStore(
-      DataStoreFactory.Stores.ACCOUNT_ACTIVATION,
-      this
-    );
-    this.events = {
-      closeActivator: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.WINDOW_ACTIVATOR_CLOSE,
-        this
-      ),
-      saveActivation: RendererEventFactory.createEvent(
-        RendererEventFactory.Events
-          .APPACTIVATOR_SAVE_ACTIVATION,
-        this
-      ),
-      activationSaved: RendererEventFactory.createEvent(
-        RendererEventFactory.Events
-          .APPACTIVATOR_ACTIVATION_SAVED,
-        this,
-        this.onActivationSaved
-      )
-    };
-  }
-
-  log = msg => {
-    electronLog.info(`[${this.constructor.name}] ${msg}`);
-  };
-
-  onActivationSaved(event, arg) {
-    this.log("onActivationSaved");
-    this.showSuccessOrFailureContent();
-  }
-
-  componentDidMount() {
-    this.log("componentDidMount");
-    let input = document.getElementById(
-      "activator-view-form-tokenKey-input"
-    );
-    if (input) input.focus();
-  }
-
-  /**
-   * processes the activation code by loading into a DataStore for API. calls store.load()
-   */
-  processActivationCode() {
-    this.log(
-      "process activation code: " + this.tokenKeyValue
-    );
-    this.store.load(
-      new ActivationCodeDto({
-        activationCode: this.tokenKeyValue
-      }),
-      err => {
-        setTimeout(() => {
-          this.onStoreLoadCb(err);
-        }, this.activateWaitDelay);
-      }
-    );
-  }
-
-  activationFinished() {
-    this.log("activationFinished");
-    this.events.closeActivator.dispatch(0, true);
-  }
-
-  onStoreLoadCb(err) {
-    this.log("onStoreLoadCb");
-    if (err) {
-      this.store.dto = new this.store.dtoClass({
-        message: err,
-        status: "FAILED"
-      });
-      this.showSuccessOrFailureContent();
-    } else {
-      this.events.saveActivation.dispatch(
-        this.store.dto,
-        true
-      );
-    }
-  }
-
-  showSuccessOrFailureContent() {
-    this.log("showSuccessOrFailureContent");
-    this.setState({
-      tokenKeyVisible: false,
-      termsVisible: false,
-      activatingVisible: false,
-      successVisible: false,
-      failedVisible: false
-    });
-    setTimeout(() => {
-      let accountActivationDto = this.store.dto;
-      if (accountActivationDto.isValidToken()) {
-        this.setState({
-          successVisible: true,
-          finishedMessage: accountActivationDto.message
-        });
-      } else {
-        this.setState({
-          failedVisible: true,
-          finishedMessage: accountActivationDto.message
-        });
-      }
-    }, this.animationTime);
-  }
-
-  handleChange = (e, { name, value }) => {
-    this.log(
-      "handleChange : " + value.length + " : " + value
-    );
-    /// reset the activate button if incorrect value present
-    if (value.length > 32) {
-      document.getElementById(
-        "activator-view-form-tokenKey-input"
-      ).value = value.substring(0, 32);
-      value = value.substring(0, 32);
-    } else if (
-      !this.state.submitBtnDisabled ||
-      value.length === 0
-    ) {
-      this.setState({
-        submitBtnDisabled: true
-      });
-    }
-    /// filter out for alpha numeric
-    if (!value.match(/^[0-9a-zA-Z]+$/)) {
-      let input = document.getElementById(
-        "activator-view-form-tokenKey-input"
-      );
-      input.value = input.value.substring(
-        0,
-        input.value.length - 1
-      );
-      return;
-    }
-    /// enable the activate button if everything is good
-    if (
-      value !== "" &amp;&amp;
-      this.state.submitBtnDisabled &amp;&amp;
-      value.length === 32
-    ) {
-      this.setState({
-        submitBtnDisabled: false
-      });
-    }
-    this.tokenKeyValue = value;
-  };
-
-  handleSubmit = () => {
-    this.log("handleSubmit");
-    this.setState({
-      tokenKeyVisible: false,
-      termsVisible: false,
-      activatingVisible: false,
-      successVisible: false,
-      failedVisible: false
-    });
-    setTimeout(() => {
-      this.setState({
-        termsVisible: true
-      });
-    }, this.animationTime);
-  };
-
-  handleTermsAndConditionsAccept = () => {
-    this.log("handleTermsAndConditionsAccept");
-    this.setState({
-      tokenKeyVisible: false,
-      termsVisible: false,
-      activatingVisible: false,
-      successVisible: false,
-      failedVisible: false
-    });
-    setTimeout(() => {
-      this.setState({
-        activatingVisible: true
-      });
-      setTimeout(() => {
-        this.processActivationCode();
-      }, this.animationTime * 2);
-    }, this.animationTime);
-  };
-
-  handleFinishedActivating = () => {
-    this.activationFinished();
-  };
-
-  handleErrorActivating = () => {
-    console.log("Error... try again");
-    this.setState({
-      tokenKeyVisible: false,
-      termsVisible: false,
-      activatingVisible: false,
-      successVisible: false,
-      failedVisible: false
-    });
-    setTimeout(() => {
-      this.tokenKeyValue = "";
-      this.setState({
-        tokenKeyVisible: true,
-        submitBtnDisabled: true
-      });
-      let input = document.getElementById(
-        "activator-view-form-tokenKey-input"
-      );
-      input.value = "";
-      input.focus();
-    }, this.animationTime);
-  };
-
-  /// renders the view into our root element of our window
-  render() {
-    const tokenContent = (
-      &lt;Container className="tokenContent">
-        &lt;Header as="h4" floated="left" inverted>
-          &lt;Icon
-            size="huge"
-            circular
-            inverted
-            color="violet"
-            name="signup"
-          />
-        &lt;/Header>
-        &lt;Header as="h3" floated="left" inverted>
-          &lt;Header.Content>
-            Activate Application
-            &lt;Header.Subheader>
-              Please enter your 'Activation Token' provided
-              and click 'Activate'.
-            &lt;/Header.Subheader>
-          &lt;/Header.Content>
-        &lt;/Header>
-        &lt;Divider clearing />
-        &lt;Segment className="tokenKey" inverted>
-          &lt;Form
-            onSubmit={this.handleSubmit}
-            size="big"
-            inverted
-          >
-            &lt;Form.Group widths="equal" className="tokenKey">
-              &lt;Form.Input
-                id="activator-view-form-tokenKey-input"
-                fluid
-                label="Activation Token:"
-                placeholder="XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX"
-                name="name"
-                onChange={this.handleChange}
-              />
-            &lt;/Form.Group>
-            &lt;Divider />
-            &lt;Button
-              type="submit"
-              size="big"
-              color="violet"
-              disabled={this.state.submitBtnDisabled}
-            >
-              Activate
-            &lt;/Button>
-          &lt;/Form>
-        &lt;/Segment>
-      &lt;/Container>
-    );
-    const termsContent = (
-      &lt;Container className="termsContent">
-        &lt;Header as="h4" floated="left" inverted>
-          &lt;Icon
-            size="huge"
-            circular
-            inverted
-            color="violet"
-            name="announcement"
-          />
-        &lt;/Header>
-        &lt;Header as="h3" floated="left" inverted>
-          &lt;Header.Content>
-            Accept Terms and Conditions
-            &lt;Header.Subheader>
-              Please read the following and click 'I Agree
-              to Terms' to continue.
-            &lt;/Header.Subheader>
-          &lt;/Header.Content>
-        &lt;/Header>
-        &lt;Divider clearing />
-        &lt;Segment className="terms" inverted>
-          &lt;p>****** End-User License Agreement ******&lt;/p>
-          &lt;p>
-            This License Agreement ("Agreement") is made
-            between you (the "Licensee") and DreamScale,
-            Inc. (the "Licensor"). The terms of this
-            Agreement apply to all current and future
-            versions and updates of Torchie collborative
-            troubleshooting software ("Torchie").
-          &lt;/p>
-          &lt;p>
-            By installing, enabling or using Torchie,
-            Licensee agrees with all the terms of this
-            Agreement. Licensor reserves all rights not
-            specifically granted and transferred to
-            Licensee.
-          &lt;/p>
-          &lt;p>
-            Licensee understands, acknowledges and agrees
-            with the following:
-          &lt;/p>
-          &lt;ul>
-            &lt;li>
-              Licensor grants Licensee a non-exclusive and
-              non-transferable license to use Torchie for
-              non-commercial purposes only. Licensee
-              therefore does not own Torchie, Licensor
-              remains the owner of Torchie.
-            &lt;/li>
-            &lt;li>
-              Licensor provides Torchie on an "as is" basis
-              without warranty of any kind. Licensor neither
-              guarantees the correct, error-free functioning
-              of Torchie nor is Licensor responsible for any
-              damage caused by the use of Torchie.
-            &lt;/li>
-            &lt;li>
-              Licensee may not decompile, disassemble,
-              reverse-engineer, modify or redistribute
-              Torchie in any way.
-            &lt;/li>
-            &lt;li>
-              Torchie will automatically, without notice to
-              Licensee, download and install updates from
-              time to time.
-            &lt;/li>
-            &lt;li>
-              Torchie may scan Licensee's entire random
-              access memory (RAM), and any software-related
-              and system-related files and folders on
-              Licensee's system using hueristic-algorithms,
-              report results of such algorithms to other
-              connected computers and/or to Licensor and
-              store such information for the sole purpose of
-              troubleshooting software issues. Torchie only
-              scans and/or reports data which absolutely
-              needs to be scanned and/or reported to meet
-              this purpose.
-            &lt;/li>
-            &lt;li>
-              Torchie may further report and store
-              Licensee's Internet Protocol address, account
-              name and identifier, in-app nickname, and
-              system-related and hardware-related
-              information including, but not limited to,
-              device identifiers and hardware serial
-              numbers.
-            &lt;/li>
-            &lt;li>
-              Licensor values Licensee's privacy and does
-              its utmost to protect it at all times. Torchie
-              does not report any personally identifiable
-              information or personal data except for any
-              information/data specifically mentioned
-              herein.
-            &lt;/li>
-            &lt;li>
-              Licensor stores all information collected by
-              Torchie on servers located in Europe and/or
-              the US. Licensor may share the information
-              with its partners and/or affiliates.
-            &lt;/li>
-            &lt;li>
-              {" "}
-              Licensee acknowledges that the invasive nature
-              of Torchie is necessary to meet its purpose
-              and goal of troubleshooting software
-              development.
-            &lt;/li>
-            &lt;li>
-              Licensor is allowed to terminate the license
-              at any time for any reason and without notice
-              to Licensee.
-            &lt;/li>
-          &lt;/ul>
-
-          &lt;p>
-            This License Agreement constitutes the entire
-            agreement between Licensor and Licensee and
-            supersedes any prior statements.
-          &lt;/p>
-        &lt;/Segment>
-        &lt;Divider />
-        &lt;Button
-          onClick={this.handleTermsAndConditionsAccept}
-          size="big"
-          color="violet"
-        >
-          I Agree to Terms
-        &lt;/Button>
-      &lt;/Container>
-    );
-    const activatingContent = (
-      &lt;Container className="activatingContent">
-        &lt;Segment textAlign="center" inverted>
-          &lt;Icon
-            loading
-            size="huge"
-            name="spinner"
-            color="violet"
-          />
-          &lt;Divider clearing />
-          &lt;Header as="h3" floated="left" inverted>
-            &lt;Header.Content>
-              Activating Torchie...
-              &lt;Header.Subheader>
-                &lt;i>
-                  Please standby while we verify your
-                  'Activation Token' with our servers.
-                &lt;/i>
-              &lt;/Header.Subheader>
-            &lt;/Header.Content>
-          &lt;/Header>
-        &lt;/Segment>
-      &lt;/Container>
-    );
-    const successContent = (
-      &lt;Container className="successContent">
-        &lt;Segment textAlign="center" inverted>
-          &lt;Icon
-            size="huge"
-            name="checkmark box"
-            color="green"
-          />
-          &lt;Divider clearing />
-          &lt;Header as="h3" floated="left" inverted>
-            &lt;Header.Content>
-              Successfully Activated =]
-              &lt;Header.Subheader>
-                &lt;i>{this.state.finishedMessage}&lt;/i>
-              &lt;/Header.Subheader>
-            &lt;/Header.Content>
-          &lt;/Header>
-        &lt;/Segment>
-        &lt;Divider clearing />
-        &lt;Container textAlign="center">
-          &lt;Button
-            onClick={this.handleFinishedActivating}
-            size="big"
-            color="green"
-          >
-            Okay
-          &lt;/Button>
-        &lt;/Container>
-      &lt;/Container>
-    );
-    const failedContent = (
-      &lt;Container className="failedContent">
-        &lt;Segment textAlign="center" inverted>
-          &lt;Icon
-            size="huge"
-            name="warning circle"
-            color="red"
-          />
-          &lt;Divider clearing />
-          &lt;Header as="h3" floated="left" inverted>
-            &lt;Header.Content>
-              Unable to Activate
-              &lt;Header.Subheader>
-                &lt;i>{this.state.finishedMessage}&lt;/i>
-              &lt;/Header.Subheader>
-            &lt;/Header.Content>
-          &lt;/Header>
-        &lt;/Segment>
-        &lt;Divider clearing />
-        &lt;Container textAlign="center">
-          &lt;Button
-            onClick={this.handleErrorActivating}
-            size="big"
-            color="red"
-          >
-            Try Again
-          &lt;/Button>
-        &lt;/Container>
-      &lt;/Container>
-    );
-    return (
-      &lt;Segment basic inverted>
-        &lt;Transition
-          visible={this.state.tokenKeyVisible}
-          animation="vertical flip"
-          duration={this.animationTime}
-          unmountOnHide
-        >
-          {tokenContent}
-        &lt;/Transition>
-        &lt;Transition
-          visible={this.state.termsVisible}
-          animation="vertical flip"
-          duration={this.animationTime}
-          unmountOnHide
-        >
-          {termsContent}
-        &lt;/Transition>
-        &lt;Transition
-          visible={this.state.activatingVisible}
-          animation="vertical flip"
-          duration={this.animationTime}
-          unmountOnHide
-        >
-          {activatingContent}
-        &lt;/Transition>
-        &lt;Transition
-          visible={this.state.successVisible}
-          animation="vertical flip"
-          duration={this.animationTime}
-          unmountOnHide
-        >
-          {successContent}
-        &lt;/Transition>
-        &lt;Transition
-          visible={this.state.failedVisible}
-          animation="vertical flip"
-          duration={this.animationTime}
-          unmountOnHide
-        >
-          {failedContent}
-        &lt;/Transition>
-      &lt;/Segment>
-    );
-  }
-}
-</code></pre>
+        <div class="container-overview">
+          <h4 class="name"
+              id="Indices"><span class="type-signature"></span>new Indices<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="public_database_CircuitDatabase.js.html">public/database/CircuitDatabase.js</a>, <a href="public_database_CircuitDatabase.js.html#line54">line 54</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="description usertext"> Indices of our database. This allows us to index things for fast queries </div>
+          <h5>Returns:</h5>
+          <dl class="param-type">
+            <dt> Type </dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+        </div>
+      </article>
+    </section>
+    <section>
+      <header>
+        <h2>
+          <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span> Indices </h2>
+      </header>
+      <article>
+        <div class="container-overview">
+          <h4 class="name"
+              id="Indices"><span class="type-signature"></span>new Indices<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="public_database_JournalDatabase.js.html">public/database/JournalDatabase.js</a>, <a href="public_database_JournalDatabase.js.html#line49">line 49</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="description usertext"> the indices we wish to store for what we query on (faster) </div>
+          <h5>Returns:</h5>
+          <dl class="param-type">
+            <dt> Type </dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+        </div>
+      </article>
+    </section>
+    <section>
+      <header>
+        <h2>
+          <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span> Indices </h2>
+      </header>
+      <article>
+        <div class="container-overview">
+          <h4 class="name"
+              id="Indices"><span class="type-signature"></span>new Indices<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="public_database_MemberDatabase.js.html">public/database/MemberDatabase.js</a>, <a href="public_database_MemberDatabase.js.html#line48">line 48</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="description usertext"> indices of our database so we can index things for fast queries </div>
+          <h5>Returns:</h5>
+          <dl class="param-type">
+            <dt> Type </dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+        </div>
+      </article>
+    </section>
+    <section>
+      <header>
+        <h2>
+          <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span> Indices </h2>
+      </header>
+      <article>
+        <div class="container-overview">
+          <h4 class="name"
+              id="Indices"><span class="type-signature"></span>new Indices<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="public_database_TalkDatabase.js.html">public/database/TalkDatabase.js</a>, <a href="public_database_TalkDatabase.js.html#line36">line 36</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="description usertext"> indices of our database so we can index things for fast queries </div>
+          <h5>Returns:</h5>
+          <dl class="param-type">
+            <dt> Type </dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+        </div>
+      </article>
+    </section>
+    <section>
+      <header>
+        <h2>
+          <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span> Indices </h2>
+      </header>
+      <article>
+        <div class="container-overview">
+          <h4 class="name"
+              id="Indices"><span class="type-signature"></span>new Indices<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="public_database_TeamDatabase.js.html">public/database/TeamDatabase.js</a>, <a href="public_database_TeamDatabase.js.html#line46">line 46</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="description usertext"> indices of our database so we can index things for fast queries </div>
+          <h5>Returns:</h5>
+          <dl class="param-type">
+            <dt> Type </dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+        </div>
       </article>
     </section>
   </div>

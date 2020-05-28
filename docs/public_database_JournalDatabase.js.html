@@ -249,7 +249,7 @@
           <li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
-          <li data-type='method'><a href="module.html#.exports#findOrCreateViewForIntentionsByUserName">findOrCreateViewForIntentionsByUserName</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li>
@@ -279,7 +279,7 @@
           <li data-type='method'><a href="module.html#.exports#getGuid">getGuid</a></li>
           <li data-type='method'><a href="module.html#.exports#getLatency">getLatency</a></li>
           <li data-type='method'><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></li>
-          <li data-type='method'><a href="module.html#.exports#getMe">getMe</a></li>
+          <li data-type='method'><a href="module.html#.exports#getMemberMe">getMemberMe</a></li>
           <li data-type='method'><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></li>
           <li data-type='method'><a href="module.html#.exports#getRender3D">getRender3D</a></li>
           <li data-type='method'><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></li>
@@ -296,6 +296,7 @@
           <li data-type='method'><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewForIntentions">getViewForIntentions</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMe">getViewForMe</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForRecentProjects">getViewForRecentProjects</a></li>
@@ -427,7 +428,6 @@
           <li data-type='method'><a href="module.html#.exports#unwireEvents">unwireEvents</a></li>
           <li data-type='method'><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li>
-          <li data-type='method'><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
@@ -515,7 +515,8 @@
       <li></li>
       <li></li>
       <li><a href="module.exports_CircuitStates.html">CircuitStates</a></li>
-      <li><a href="module.html#.exports#Collections">Collections</a></li>
+      <li><a href="module.exports_Collections.html">Collections</a></li>
+      <li></li>
       <li></li>
       <li></li>
       <li></li>
@@ -530,7 +531,8 @@
       <li></li>
       <li></li>
       <li></li>
-      <li><a href="module.html#.exports#Indices">Indices</a></li>
+      <li><a href="module.exports_Indices.html">Indices</a></li>
+      <li></li>
       <li></li>
       <li></li>
       <li></li>
@@ -827,7 +829,8 @@ module.exports = class JournalDatabase extends LokiJS {
 
   /**
    * our collection in our database
-   * @returns {{RECENT_INTENTIONS: string, RECENT_PROJECTS: string, RECENT_TASKS: string}}
+   * @returns {{INTENTIONS: string, TASKS: string, PROJECTS: string}}
+   * @constructor
    */
   static get Collections() {
     return {
@@ -839,7 +842,7 @@ module.exports = class JournalDatabase extends LokiJS {
 
   /**
    * our databases dynamic views using indices
-   * @returns {{TASKS: string, PROJECTS: string, INTENTIONS_ME: string}}
+   * @returns {{INTENTIONS: string, TASKS: string, PROJECTS: string}}
    * @constructor
    */
   static get Views() {
@@ -852,15 +855,20 @@ module.exports = class JournalDatabase extends LokiJS {
 
   /**
    * the indices we wish to store for what we query on (faster)
-   * @returns {{TIMESTAMP: string, USER_NAME: string, ID: string, TASK_ID: string, PROJECT_ID: string}}
+   * @returns {{POSITION: string, DESCRIPTION: string, JOURNAL_ENTRY_TYPE: string, TIMESTAMP: string, MEMBER_ID: string, USER_NAME: string, ID: string, TASK_ID: string, PROJECT_ID: string}}
+   * @constructor
    */
   static get Indices() {
     return {
       USER_NAME: "userName",
-      TIMESTAMP: "timestamp",
+      MEMBER_ID: "memberId",
       ID: "id",
       TASK_ID: "taskId",
-      PROJECT_ID: "projectId"
+      PROJECT_ID: "projectId",
+      DESCRIPTION: "description",
+      JOURNAL_ENTRY_TYPE: "journalEntryType",
+      POSITION: "position",
+      TIMESTAMP: "timestamp"
     };
   }
 
@@ -877,9 +885,13 @@ module.exports = class JournalDatabase extends LokiJS {
         indices: [
           JournalDatabase.Indices.ID,
           JournalDatabase.Indices.USER_NAME,
-          JournalDatabase.Indices.TIMESTAMP,
+          JournalDatabase.Indices.MEMBER_ID,
           JournalDatabase.Indices.TASK_ID,
-          JournalDatabase.Indices.PROJECT_ID
+          JournalDatabase.Indices.PROJECT_ID,
+          JournalDatabase.Indices.DESCRIPTION,
+          JournalDatabase.Indices.JOURNAL_ENTRY_TYPE,
+          JournalDatabase.Indices.POSITION,
+          JournalDatabase.Indices.TIMESTAMP
         ]
       }
     );
@@ -907,27 +919,16 @@ module.exports = class JournalDatabase extends LokiJS {
   }
 
   /**
-   * returns the view for a speofic users intentions that is store locally. We also
-   * apply a sort on the timestamp
-   * @param userName
+   * gets our view  for our list of intentions
    * @returns {DynamicView}
    */
-  findOrCreateViewForIntentionsByUserName(userName) {
-    let viewName =
-        JournalDatabase.Views.INTENTIONS + "-" + userName,
-      collection = this.getCollection(
-        JournalDatabase.Collections.INTENTIONS
-      ),
-      view = collection.getDynamicView(viewName);
-
-    if (!view) {
-      view = collection.addDynamicView(viewName);
-      view.applyFind({ userName: userName });
-      view.applySimpleSort(
-        JournalDatabase.Indices.TIMESTAMP
-      );
-    }
-    return view;
+  getViewForIntentions() {
+    let collection = this.getCollection(
+      JournalDatabase.Collections.INTENTIONS
+    );
+    return collection.getDynamicView(
+      JournalDatabase.Views.INTENTIONS
+    );
   }
 
   /**
@@ -954,6 +955,21 @@ module.exports = class JournalDatabase extends LokiJS {
     return collection.getDynamicView(
       JournalDatabase.Views.TASKS
     );
+  }
+
+  /**
+   * updates our intention in our Journal Database. All intentions from
+   * all users are stored in the same collection for speed. They can be
+   * queried with username or member id.
+   * @param doc
+   * @param collection
+   */
+  findRemoveInsert(doc, collection) {
+    let result = collection.findOne({ id: doc.id });
+    if (result) {
+      collection.remove(result);
+    }
+    collection.insert(doc);
   }
 };
 </code></pre>

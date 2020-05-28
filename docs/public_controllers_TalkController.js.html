@@ -249,7 +249,7 @@
           <li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
-          <li data-type='method'><a href="module.html#.exports#findOrCreateViewForIntentionsByUserName">findOrCreateViewForIntentionsByUserName</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li>
@@ -279,7 +279,7 @@
           <li data-type='method'><a href="module.html#.exports#getGuid">getGuid</a></li>
           <li data-type='method'><a href="module.html#.exports#getLatency">getLatency</a></li>
           <li data-type='method'><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></li>
-          <li data-type='method'><a href="module.html#.exports#getMe">getMe</a></li>
+          <li data-type='method'><a href="module.html#.exports#getMemberMe">getMemberMe</a></li>
           <li data-type='method'><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></li>
           <li data-type='method'><a href="module.html#.exports#getRender3D">getRender3D</a></li>
           <li data-type='method'><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></li>
@@ -296,6 +296,7 @@
           <li data-type='method'><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewForIntentions">getViewForIntentions</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMe">getViewForMe</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForRecentProjects">getViewForRecentProjects</a></li>
@@ -427,7 +428,6 @@
           <li data-type='method'><a href="module.html#.exports#unwireEvents">unwireEvents</a></li>
           <li data-type='method'><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li>
-          <li data-type='method'><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
@@ -515,7 +515,8 @@
       <li></li>
       <li></li>
       <li><a href="module.exports_CircuitStates.html">CircuitStates</a></li>
-      <li><a href="module.html#.exports#Collections">Collections</a></li>
+      <li><a href="module.exports_Collections.html">Collections</a></li>
+      <li></li>
       <li></li>
       <li></li>
       <li></li>
@@ -530,7 +531,8 @@
       <li></li>
       <li></li>
       <li></li>
-      <li><a href="module.html#.exports#Indices">Indices</a></li>
+      <li><a href="module.exports_Indices.html">Indices</a></li>
+      <li></li>
       <li></li>
       <li></li>
       <li></li>
@@ -810,6 +812,7 @@
       <article>
         <pre class="prettyprint source linenums"><code>const log = require("electron-log"),
   chalk = require("chalk"),
+  Util = require("../Util"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   TalkDatabase = require("../database/TalkDatabase"),
@@ -1090,8 +1093,6 @@ module.exports = class TalkController extends BaseController {
       ),
       model = fluxCollection.findOne({ id: message.id });
 
-    // console.log("MESSAGE", message.data);
-
     switch (message.messageType) {
       case TalkController.MessageTypes.CIRCUIT_STATUS:
         this.findXOrInsertDoc(
@@ -1132,8 +1133,9 @@ module.exports = class TalkController extends BaseController {
         );
         break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:
-        let circuit = data.learningCircuitDto,
-          me = memberDatabase.getMe();
+        let data = message.data,
+          circuit = data.learningCircuitDto,
+          me = this.getMemberMe();
 
         switch (data.statusType) {
           case TalkController.StatusTypes.TEAM_WTF_STARTED:
@@ -1173,11 +1175,14 @@ module.exports = class TalkController extends BaseController {
             );
             break;
         }
+        break;
+      case TalkController.MessageTypes
+        .INTENTION_STARTED_DETAILS:
+        console.log(Util.inspect(message));
+
+        // TODO finishing coding this section
 
         break;
-
-      // TODO implement StartIntentionStatus message switch case
-
       default:
         console.warn(
           TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +

@@ -3,6 +3,7 @@ const log = require("electron-log"),
   Util = require("../Util"),
   { DtoClient } = require("../managers/DtoClientFactory"),
   TalkDatabase = require("../database/TalkDatabase"),
+  MemberDatabase = require("../database/MemberDatabase"),
   DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
@@ -67,7 +68,7 @@ module.exports = class BaseController {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{WTF_STATUS_UPDATE: string, ROOM_MEMBER_STATUS_EVENT: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
+   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
@@ -77,7 +78,9 @@ module.exports = class BaseController {
       CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto",
       TEAM_MEMBER: "TeamMemberDto",
       XP_STATUS_UPDATE: "XPStatusUpdateDto",
-      WTF_STATUS_UPDATE: "WTFStatusUpdateDto"
+      WTF_STATUS_UPDATE: "WTFStatusUpdateDto",
+      INTENTION_STARTED_DETAILS:
+        "IntentionStartedDetailsDto"
     };
   }
 
@@ -425,5 +428,18 @@ module.exports = class BaseController {
       t.isHsomeTeam = false;
       collection.update(t);
     });
+  }
+
+  /**
+   * gets our user object of ourselves logged in.
+   * @returns {Array}
+   */
+  getMemberMe() {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.MEMBER
+      ),
+      view = database.getViewForMe();
+
+    return view.data()[0];
   }
 };

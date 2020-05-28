@@ -162,7 +162,7 @@ module.exports = class MemberController extends BaseController {
       DatabaseFactory.Names.MEMBER
     );
 
-    arg.data = database.getMe();
+    arg.data = this.getMemberMe();
 
     this.delegateCallbackOrEventReplyTo(
       event,

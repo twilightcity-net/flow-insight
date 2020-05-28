@@ -2,7 +2,8 @@ const Util = require("../Util"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  JournalDatabase = require("../database/JournalDatabase");
+  JournalDatabase = require("../database/JournalDatabase"),
+  MemberDatabase = require("../database/MemberDatabase");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -154,81 +155,70 @@ module.exports = class JournalController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let journal = store.data,
+      let data = store.data,
+        recentIntentions = data.recentIntentions,
+        recentProjects = data.recentProjects,
+        recentTasksByProjectId =
+          data.recentTasksByProjectId,
         database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.JOURNAL
-        ),
-        collection = database.getCollection(
-          JournalDatabase.Collections.INTENTIONS
-        ),
-        view = database.findOrCreateViewForIntentionsByUserName(
-          userName
         );
 
-      if (journal.recentIntentions) {
-        if (view.count() !== 0) {
-          collection.removeBatch(view.data());
-        }
-        journal.recentIntentions.forEach(ri => {
-          ri.timestamp = Util.getTimestampFromUTCStr(
-            ri.positionStr
+      if (recentIntentions && recentIntentions.length > 0) {
+        let collection = database.getCollection(
+          JournalDatabase.Collections.INTENTIONS
+        );
+        for (let i = 0; i < recentIntentions.length; i++) {
+          // FIXME TEMP
+          recentIntentions[
+            i
+          ].timestamp = Util.getTimestampFromUTCStr(
+            recentIntentions[i].positionStr
           );
-          ri.userName = userName;
-          collection.insert(ri);
-        });
+          database.findRemoveInsert(
+            recentIntentions[i],
+            collection
+          );
+        }
       }
 
-      if (journal.recentProjects) {
-        collection = database.getCollection(
+      if (recentProjects && recentProjects.length > 0) {
+        let collection = database.getCollection(
           JournalDatabase.Collections.PROJECTS
         );
-        view = database.getViewForRecentProjects();
-        if (view.count() !== 0) {
-          collection.removeBatch(view.data());
+        for (let i = 0; i < recentProjects.length; i++) {
+          database.findRemoveInsert(
+            recentProjects[i],
+            collection
+          );
         }
-        journal.recentProjects.forEach(rp => {
-          collection.insert(rp);
-        });
       }
 
-      if (journal.recentTasksByProjectId) {
-        collection = database.getCollection(
+      if (
+        recentTasksByProjectId &&
+        recentTasksByProjectId.length > 0
+      ) {
+        let collection = database.getCollection(
           JournalDatabase.Collections.TASKS
         );
-        view = database.getViewForRecentTasks();
-        this.updateRecentTasksByProjectId(
-          view,
-          collection,
-          journal
-        );
+        for (
+          let i = 0;
+          i < recentTasksByProjectId.length;
+          i++
+        ) {
+          database.findRemoveInsert(
+            recentTasksByProjectId[i],
+            collection
+          );
+        }
       }
     }
-    JournalController.instance.userHistory.add(userName);
+
+    arg.data = store.data;
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,
       callback
-    );
-  }
-
-  /**
-   * updates our recent tasks in our database based on some model data
-   * @param view
-   * @param collection
-   * @param model
-   */
-  updateRecentTasksByProjectId(view, collection, model) {
-    if (view.count() !== 0) {
-      collection.removeBatch(view.data());
-    }
-    Object.values(model.recentTasksByProjectId).forEach(
-      project => {
-        if (project) {
-          project.forEach(rt => {
-            collection.insert(rt);
-          });
-        }
-      }
     );
   }
 
@@ -366,11 +356,12 @@ module.exports = class JournalController extends BaseController {
         view = database.getViewForRecentTasks();
 
       if (summary.recentTasksByProjectId) {
-        this.updateRecentTasksByProjectId(
-          view,
-          collection,
-          summary
-        );
+        // FIXME this needs to be updated to use better functions
+        // this.updateRecentTasksByProjectId(
+        //   view,
+        //   collection,
+        //   summary
+        // );
       }
 
       arg.data = view.data();
@@ -389,63 +380,37 @@ module.exports = class JournalController extends BaseController {
    * @param callback
    */
   handleGetRecentIntentionsEvent(event, arg, callback) {
+    console.log("XXX-handleGetRecentIntentionsEvent");
+
+    // FIXME figure out why this isn't working for other users
+    
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.JOURNAL
       ),
+      collection = database.getCollection(
+        JournalDatabase.Collections.INTENTIONS
+      ),
       userName = arg.args.userName,
-      view = database.findOrCreateViewForIntentionsByUserName(
-        userName
-      );
+      me = this.getMemberMe();
 
     if (!userName) {
       arg.error = "Unknown user '" + userName + "'";
-      this.delegateCallbackOrEventReplyTo(
-        event,
-        arg,
-        callback
-      );
-    } else if (userName === JournalController.Strings.ME) {
-      this.logResults(
-        this.name,
-        arg.type,
-        arg.id,
-        view.count()
-      );
-      arg.data = view.data();
-      this.delegateCallbackOrEventReplyTo(
-        event,
-        arg,
-        callback
-      );
     } else {
-      if (
-        JournalController.instance.userHistory.has(
-          userName
-        ) &&
-        view.count() !== 0
-      ) {
-        this.logResults(
-          this.name,
-          arg.type,
-          arg.id,
-          view.count()
-        );
-        arg.data = view.data();
-        this.delegateCallbackOrEventReplyTo(event, arg);
-      } else {
-        this.handleLoadJournalEvent(
-          null,
-          { args: { userName: userName } },
-          args =>
-            this.delegateCallbackWithView(
-              args,
-              view,
-              event,
-              arg
-            )
-        );
+      if (userName === BaseController.Strings.ME) {
+        userName = me.username;
       }
+      arg.data = collection
+        .chain()
+        .find({ userName: userName })
+        .simplesort(JournalDatabase.Indices.TIMESTAMP)
+        .data();
     }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
