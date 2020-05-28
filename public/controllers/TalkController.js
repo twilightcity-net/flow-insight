@@ -4,7 +4,6 @@ const log = require("electron-log"),
   EventFactory = require("../events/EventFactory"),
   TalkDatabase = require("../database/TalkDatabase"),
   MemberDatabase = require("../database/MemberDatabase"),
-  CircuitDatabase = require("../database/CircuitDatabase"),
   DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
@@ -258,6 +257,9 @@ module.exports = class TalkController extends BaseController {
       talkDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.TALK
       ),
+      teamDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.TEAM
+      ),
       memberDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.MEMBER
       ),
@@ -277,6 +279,8 @@ module.exports = class TalkController extends BaseController {
         MemberDatabase.Collections.MEMBERS
       ),
       model = fluxCollection.findOne({ id: message.id });
+
+    // console.log("MESSAGE", message.data);
 
     switch (message.messageType) {
       case TalkController.MessageTypes.CIRCUIT_STATUS:
@@ -307,15 +311,18 @@ module.exports = class TalkController extends BaseController {
           membersCollection,
           message.data
         );
+        teamDatabase.updateTeamMemberInTeams(message.data);
         break;
       case TalkController.MessageTypes.XP_STATUS_UPDATE:
         memberDatabase.updateXPStatusByTeamMemberId(
           message.data
         );
+        teamDatabase.updateTeamMemberXPSummaryInTeams(
+          message.data
+        );
         break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:
-        let data = message.data,
-          circuit = data.learningCircuitDto,
+        let circuit = data.learningCircuitDto,
           me = memberDatabase.getMe();
 
         switch (data.statusType) {

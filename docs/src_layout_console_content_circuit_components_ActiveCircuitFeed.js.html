@@ -298,10 +298,8 @@
           <li data-type='method'><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMe">getViewForMe</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></li>
-          <li data-type='method'><a href="module.html#.exports#getViewForMyCurrentStatus">getViewForMyCurrentStatus</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForRecentProjects">getViewForRecentProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></li>
-          <li data-type='method'><a href="module.html#.exports#getViewForStatusOfMeAndMyTeam">getViewForStatusOfMeAndMyTeam</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewRooms">getViewRooms</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewStatusTalkMessagesForCollection">getViewStatusTalkMessagesForCollection</a></li>
@@ -431,6 +429,8 @@
           <li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li>
           <li data-type='method'><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li>
           <li data-type='method'><a href="module.html#.exports#verify">verify</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></li>
@@ -447,6 +447,7 @@
           <li data-type='method'><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></li>
         </ul>
       </li>
+      <li></li>
       <li></li>
       <li></li>
       <li></li>
@@ -797,7 +798,6 @@
       <li><a href="global.html#showNotificationsPanel">showNotificationsPanel</a></li>
       <li><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></li>
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
-      <li><a href="global.html#showTeamPanel">showTeamPanel</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
       <li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li>
@@ -819,7 +819,7 @@ import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { scrollTo } from "../../../../../UtilScroll";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
-import {BaseClient} from "../../../../../clients/BaseClient";
+import { BaseClient } from "../../../../../clients/BaseClient";
 
 export default class ActiveCircuitFeed extends Component {
   /**
@@ -851,18 +851,18 @@ export default class ActiveCircuitFeed extends Component {
   /**
    * our event handler for our talk room message. This function is used to
    * make sure we do not double enter a message in which we have already
-   * added. meaning we published the message ourself. Most often these
+   * added. meaning we published the message ourselves. Most often these
    * messages will be from other people on the talk networks
    * @param event
    * @param arg
    */
   onTalkRoomMessage = (event, arg) => {
     let hasMessage = UtilRenderer.hasMessageInArray(
-        this.messages,
-        arg
-      );
+      this.messages,
+      arg
+    );
 
-    switch(arg.messageType) {
+    switch (arg.messageType) {
       case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
         if (!hasMessage) {
           this.appendChatMessage(arg);

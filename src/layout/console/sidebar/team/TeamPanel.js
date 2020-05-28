@@ -30,7 +30,8 @@ export default class TeamPanel extends Component {
       activeIndex: 0,
       activeItem:
         SidePanelViewController.SubmenuSelection.TEAMS,
-      teamVisible: false
+      teamVisible: false,
+      teams: []
     };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
@@ -39,7 +40,6 @@ export default class TeamPanel extends Component {
       SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay =
       SidePanelViewController.AnimationDelays.SUBMENU;
-    this.teams = [];
   }
 
   /**
@@ -57,48 +57,23 @@ export default class TeamPanel extends Component {
    * called to refresh the team panel with new data
    */
   refreshTeamPanel() {
-    switch (this.myController.activeTeamSubmenuSelection) {
-      case SidePanelViewController.SubmenuSelection.TEAMS:
-        this.showTeamPanel();
-        break;
-      default:
-        throw new Error(TeamClient.Errors.UNKNOWN);
-    }
-  }
+    console.log("refresh");
 
-  /**
-   * called to display the team panel in the gui
-   */
-  showTeamPanel() {
-    this.setState({
-      activeItem:
-        SidePanelViewController.SubmenuSelection.TEAMS,
-      teamVisible: true
-    });
-    TeamClient.getAllMyTeams(this, arg =>
-      this.handleClientCallback(arg, arg => {
-        this.teams = arg.data;
-      })
-    );
-  }
-
-  /**
-   * handles our callback from our TeamClient request
-   * @param arg
-   * @param callback
-   */
-  handleClientCallback = (arg, callback) => {
-    if (arg.error) {
-      this.error = arg.error;
-      this.forceUpdate();
-    } else {
-      this.error = null;
-      if (callback) {
-        callback(arg);
+    TeamClient.getAllMyTeams(this, arg => {
+      if (arg.error) {
+        this.error = arg.error;
+      } else {
+        this.error = null;
+        console.log(arg.data);
+        this.setState({
+          activeItem:
+            SidePanelViewController.SubmenuSelection.TEAMS,
+          teamVisible: true,
+          teams: arg.data
+        });
       }
-      this.forceUpdate();
-    }
-  };
+    });
+  }
 
   /**
    * called when removing the component from the gui. removes any associated listeners for
@@ -184,7 +159,7 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   getTeamPanelMembersListContent() {
-    let panels = this.teams.map((team, i) => {
+    let panels = this.state.teams.map((team, i) => {
       return {
         key: `panel-${i}`,
         title: `${team.name}`,

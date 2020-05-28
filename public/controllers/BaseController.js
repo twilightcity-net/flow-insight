@@ -372,7 +372,8 @@ module.exports = class BaseController {
     if (model) {
       collection.remove(model);
     }
-    collection.insert(doc);
+    model = Object.assign({}, doc);
+    collection.insert(model);
   }
 
   /**

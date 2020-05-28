@@ -298,10 +298,8 @@
           <li data-type='method'><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMe">getViewForMe</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></li>
-          <li data-type='method'><a href="module.html#.exports#getViewForMyCurrentStatus">getViewForMyCurrentStatus</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForRecentProjects">getViewForRecentProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForRecentTasks">getViewForRecentTasks</a></li>
-          <li data-type='method'><a href="module.html#.exports#getViewForStatusOfMeAndMyTeam">getViewForStatusOfMeAndMyTeam</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewRooms">getViewRooms</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewStatusTalkMessagesForCollection">getViewStatusTalkMessagesForCollection</a></li>
@@ -431,6 +429,8 @@
           <li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li>
           <li data-type='method'><a href="module.html#.exports#updateRecentTasksByProjectId">updateRecentTasksByProjectId</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li>
           <li data-type='method'><a href="module.html#.exports#verify">verify</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></li>
@@ -447,6 +447,7 @@
           <li data-type='method'><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></li>
         </ul>
       </li>
+      <li></li>
       <li></li>
       <li></li>
       <li></li>
@@ -797,7 +798,6 @@
       <li><a href="global.html#showNotificationsPanel">showNotificationsPanel</a></li>
       <li><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></li>
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
-      <li><a href="global.html#showTeamPanel">showTeamPanel</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
       <li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li>
@@ -808,10 +808,9 @@
     <h1 class="page-title">public/database/MemberDatabase.js</h1>
     <section>
       <article>
-        <pre class="prettyprint source linenums"><code>const log = require("electron-log"),
-  chalk = require("chalk"),
-  LokiJS = require("lokijs"),
-  Util = require("../Util");
+        <pre class="prettyprint source linenums"><code>const LokiJS = require("lokijs"),
+  Util = require("../Util"),
+  DatabaseUtil = require("./DatabaseUtil");
 
 /**
  * this class builds new member databases that stores  member information in
@@ -937,7 +936,7 @@ module.exports = class MemberDatabase extends LokiJS {
       );
     }
 
-    this.log("update xp summary", memberId);
+    DatabaseUtil.log("update xp summary", memberId);
   }
 
   /**
@@ -945,7 +944,7 @@ module.exports = class MemberDatabase extends LokiJS {
    * @param circuit
    */
   removeActiveCircuitFromMembers(circuit) {
-    this.log(
+    DatabaseUtil.log(
       "remove active circuit -> " + circuit.circuitName,
       circuit.id
     );
@@ -974,22 +973,6 @@ module.exports = class MemberDatabase extends LokiJS {
   getMe() {
     let view = this.getViewForMe();
     return view.data()[0];
-  }
-
-  /**
-   * logs a database message with a fancy blue color
-   * @param message
-   * @param count
-   */
-  log(message, count) {
-    log.info(
-      chalk.blueBright(this.name) +
-        " " +
-        message +
-        " : {" +
-        count +
-        "}"
-    );
   }
 };
 </code></pre>

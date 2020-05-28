@@ -1,5 +1,6 @@
 const LokiJS = require("lokijs"),
-  Util = require("../Util");
+  Util = require("../Util"),
+  DatabaseUtil = require("./DatabaseUtil");
 
 /**
  * this class builds new team databases that stores team member informaton in
@@ -17,27 +18,23 @@ module.exports = class TeamDatabase extends LokiJS {
 
   /**
    * the collections of our database
-   * @returns {{MEMBERS: string, TEAMS: string, ME: string}}
+   * @returns {{TEAMS: string}}
    * @constructor
    */
   static get Collections() {
     return {
-      TEAMS: "teams",
-      MEMBERS: "members",
-      ME: "me"
+      TEAMS: "teams"
     };
   }
 
   /**
    * the views of our database for queries
-   * @returns {{MEMBERS: string, TEAMS: string, ME: string, PRIMARY: string}}
+   * @returns {{TEAMS: string}}
    * @constructor
    */
   static get Views() {
     return {
-      TEAMS: "teams",
-      MEMBERS: "members",
-      ME: "me"
+      TEAMS: "teams"
     };
   }
 
@@ -73,24 +70,9 @@ module.exports = class TeamDatabase extends LokiJS {
         TeamDatabase.Indices.TYPE
       ]
     });
-    this.addCollection(TeamDatabase.Collections.MEMBERS, {
-      indices: [
-        TeamDatabase.Indices.ID,
-        TeamDatabase.Indices.USER_NAME,
-        TeamDatabase.Indices.EMAIL,
-        TeamDatabase.Indices.DISPLAY_NAME
-      ]
-    });
-    this.addCollection(TeamDatabase.Collections.ME);
     this.getCollection(
       TeamDatabase.Collections.TEAMS
     ).addDynamicView(TeamDatabase.Views.TEAMS);
-    this.getCollection(
-      TeamDatabase.Collections.MEMBERS
-    ).addDynamicView(TeamDatabase.Views.MEMBERS);
-    this.getCollection(
-      TeamDatabase.Collections.ME
-    ).addDynamicView(TeamDatabase.Views.ME);
   }
 
   /**
@@ -107,26 +89,55 @@ module.exports = class TeamDatabase extends LokiJS {
   }
 
   /**
-   * returns the view for my status and all of my team members statuses
-   * @returns {DynamicView}
+   * updates our team member that is stored in our team members
+   * array of in each of our teams. This function will iterate
+   * over all of the teams in our database, and update the document
+   * where found.
+   * @param teamMember
    */
-  getViewForStatusOfMeAndMyTeam() {
-    let collection = this.getCollection(
-      TeamDatabase.Collections.MEMBERS
-    );
-    return collection.getDynamicView(
-      TeamDatabase.Views.MEMBERS
-    );
+  updateTeamMemberInTeams(teamMember) {
+    let view = this.getViewForTeams();
+    for (
+      let i = 0, j = 0, teams = view.data(), team;
+      i < teams.length;
+      i++
+    ) {
+      team = teams[i];
+      for (j = 0; j < team.teamMembers.length; j++) {
+        if (team.teamMembers[j].id === teamMember.id) {
+          team.teamMembers[j] = teamMember;
+          break;
+        }
+      }
+    }
+
+    DatabaseUtil.log("update team member", teamMember.id);
   }
 
   /**
-   * gets my current status for me
-   * @returns {DynamicView}
+   * updates the xp summary in the team member dto that is stored in the team
+   * @param data
    */
-  getViewForMyCurrentStatus() {
-    let collection = this.getCollection(
-      TeamDatabase.Collections.ME
-    );
-    return collection.getDynamicView(TeamDatabase.Views.ME);
+  updateTeamMemberXPSummaryInTeams(data) {
+    let view = this.getViewForTeams(),
+      memberId = data.memberId,
+      newXPSummary = data.newXPSummary;
+
+    for (
+      let i = 0, j = 0, teams = view.data(), team;
+      i < teams.length;
+      i++
+    ) {
+      team = teams[i];
+      for (j = 0; j < team.teamMembers.length; j++) {
+        if (team.teamMembers[j].id === memberId) {
+          let teamMember = team.teamMembers[j];
+          teamMember.xpSummary = newXPSummary;
+
+          DatabaseUtil.log("update team member", memberId);
+          break;
+        }
+      }
+    }
   }
 };

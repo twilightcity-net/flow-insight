@@ -1,7 +1,6 @@
-const log = require("electron-log"),
-  chalk = require("chalk"),
-  LokiJS = require("lokijs"),
-  Util = require("../Util");
+const LokiJS = require("lokijs"),
+  Util = require("../Util"),
+  DatabaseUtil = require("./DatabaseUtil");
 
 /**
  * this class builds new member databases that stores  member information in
@@ -127,7 +126,7 @@ module.exports = class MemberDatabase extends LokiJS {
       );
     }
 
-    this.log("update xp summary", memberId);
+    DatabaseUtil.log("update xp summary", memberId);
   }
 
   /**
@@ -135,7 +134,7 @@ module.exports = class MemberDatabase extends LokiJS {
    * @param circuit
    */
   removeActiveCircuitFromMembers(circuit) {
-    this.log(
+    DatabaseUtil.log(
       "remove active circuit -> " + circuit.circuitName,
       circuit.id
     );
@@ -164,21 +163,5 @@ module.exports = class MemberDatabase extends LokiJS {
   getMe() {
     let view = this.getViewForMe();
     return view.data()[0];
-  }
-
-  /**
-   * logs a database message with a fancy blue color
-   * @param message
-   * @param count
-   */
-  log(message, count) {
-    log.info(
-      chalk.blueBright(this.name) +
-        " " +
-        message +
-        " : {" +
-        count +
-        "}"
-    );
   }
 };
