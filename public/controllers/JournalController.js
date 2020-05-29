@@ -112,9 +112,9 @@ module.exports = class JournalController extends BaseController {
    * @param callback
    */
   handleLoadJournalEvent(event, arg, callback) {
-    let userName = arg.args.userName,
+    let username = arg.args.username,
       limit = arg.args.limit,
-      urn = JournalController.Paths.JOURNAL + userName;
+      urn = JournalController.Paths.JOURNAL + username;
 
     if (limit) {
       urn += JournalController.Params.LIMIT + limit;
@@ -129,7 +129,7 @@ module.exports = class JournalController extends BaseController {
       store =>
         this.delegateLoadJournalCallback(
           store,
-          userName,
+          username,
           event,
           arg,
           callback
@@ -140,14 +140,14 @@ module.exports = class JournalController extends BaseController {
   /**
    * handles our dto client callback for our rest request
    * @param store
-   * @param userName
+   * @param username
    * @param event
    * @param arg
    * @param callback
    */
   delegateLoadJournalCallback(
     store,
-    userName,
+    username,
     event,
     arg,
     callback
@@ -283,7 +283,7 @@ module.exports = class JournalController extends BaseController {
       this.handleLoadJournalEvent(
         null,
         {
-          args: { userName: JournalController.Strings.ME }
+          args: { username: JournalController.Strings.ME }
         },
         () => {
           this.delegateCallbackOrEventReplyTo(
@@ -383,25 +383,25 @@ module.exports = class JournalController extends BaseController {
     console.log("XXX-handleGetRecentIntentionsEvent");
 
     // FIXME figure out why this isn't working for other users
-    
+
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.JOURNAL
       ),
       collection = database.getCollection(
         JournalDatabase.Collections.INTENTIONS
       ),
-      userName = arg.args.userName,
+      username = arg.args.username,
       me = this.getMemberMe();
 
-    if (!userName) {
-      arg.error = "Unknown user '" + userName + "'";
+    if (!username) {
+      arg.error = "Unknown user '" + username + "'";
     } else {
-      if (userName === BaseController.Strings.ME) {
-        userName = me.username;
+      if (username === BaseController.Strings.ME) {
+        username = me.username;
       }
       arg.data = collection
         .chain()
-        .find({ userName: userName })
+        .find({ username: username })
         .simplesort(JournalDatabase.Indices.TIMESTAMP)
         .data();
     }

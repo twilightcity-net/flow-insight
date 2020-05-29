@@ -53,15 +53,15 @@ export class JournalClient extends BaseClient {
 
   /**
    * loads our most recent journal items from grid
-   * @param userName
+   * @param username
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static loadRecentJournal(userName, scope, callback) {
+  static loadRecentJournal(username, scope, callback) {
     let event = JournalClient.instance.createClientEvent(
       JournalClient.Events.LOAD_RECENT_JOURNAL,
-      { userName: userName },
+      { username: username },
       scope,
       callback
     );
@@ -100,15 +100,15 @@ export class JournalClient extends BaseClient {
   }
   /**
    * gets our most recent journal items from local db
-   * @param userName
+   * @param username
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static getRecentIntentions(userName, scope, callback) {
+  static getRecentIntentions(username, scope, callback) {
     let event = JournalClient.instance.createClientEvent(
       JournalClient.Events.GET_RECENT_INTENTIONS,
-      { userName: userName },
+      { username: username },
       scope,
       callback
     );

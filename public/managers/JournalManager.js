@@ -18,7 +18,7 @@ module.exports = class JournalManager {
       {},
       {
         args: {
-          userName: "me"
+          username: "me"
         }
       },
       callback
