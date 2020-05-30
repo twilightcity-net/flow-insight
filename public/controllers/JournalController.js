@@ -285,7 +285,7 @@ module.exports = class JournalController extends BaseController {
         {
           args: { username: JournalController.Strings.ME }
         },
-        () => {
+        args => {
           this.delegateCallbackOrEventReplyTo(
             event,
             arg,
@@ -380,32 +380,27 @@ module.exports = class JournalController extends BaseController {
    * @param callback
    */
   handleGetRecentIntentionsEvent(event, arg, callback) {
-    console.log("XXX-handleGetRecentIntentionsEvent");
-
-    // FIXME figure out why this isn't working for other users
-
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.JOURNAL
       ),
       collection = database.getCollection(
         JournalDatabase.Collections.INTENTIONS
       ),
-      username = arg.args.username,
-      me = this.getMemberMe();
+      username = arg.args.username;
 
+    if (username === BaseController.Strings.ME) {
+      let me = this.getMemberMe();
+      username = me.username;
+    }
     if (!username) {
       arg.error = "Unknown user '" + username + "'";
     } else {
-      if (username === BaseController.Strings.ME) {
-        username = me.username;
-      }
       arg.data = collection
         .chain()
         .find({ username: username })
         .simplesort(JournalDatabase.Indices.TIMESTAMP)
         .data();
     }
-
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,

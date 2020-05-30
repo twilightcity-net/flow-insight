@@ -39,6 +39,7 @@ export default class JournalResource extends Component {
     this.projects = [];
     this.tasks = [];
     this.activeJournalItem = null;
+    this.loadCount = 0;
     this.error = null;
     this.username = JournalResource.Strings.ME;
   }
@@ -60,13 +61,13 @@ export default class JournalResource extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
+    console.log("update");
     if (
       nextProps.resource.uri === this.props.resource.uri
     ) {
       return false;
     }
-    let username = this.getUserNameFromResource(nextProps);
-    this.refreshRecentIntentions(username);
+    this.refreshJournal(nextProps);
     return false;
   }
 
@@ -75,17 +76,52 @@ export default class JournalResource extends Component {
    * initially create the window's console view or switch resource views
    */
   componentDidMount() {
+    this.refreshJournal(this.props);
+  }
+
+  /**
+   * refreshes our journal in the gui by getting journal items from our local database.
+   * if an empty array is return we make a load call on gridtime through our client
+   * interface and controllers. This will scroll to the bottom of the grid when we
+   * have everything loaded.
+   * @param props
+   */
+  refreshJournal(props) {
+    console.log("refresh journal", props);
+    this.error = null;
     this.loadCount = 0;
-    let username = this.getUserNameFromResource(this.props);
+    let username = this.getUserNameFromResource(props);
     JournalClient.getRecentIntentions(
       username,
       this,
       arg => {
-        if (!this.hasCallbackError(arg)) {
+        if (
+          !this.hasCallbackError(arg) &&
+          arg.data &&
+          arg.data.length > 0
+        ) {
           this.username = username;
           this.journalItems = arg.data;
           this.handleCallback();
+          return;
         }
+        JournalClient.loadRecentJournal(
+          username,
+          this,
+          args => {
+            let data = args.data;
+            if (
+              !this.hasCallbackError(args) &&
+              data &&
+              data.recentIntentions &&
+              data.recentIntentions.length > 0
+            ) {
+              this.username = username;
+              this.journalItems = data.recentIntentions;
+              this.handleCallback();
+            }
+          }
+        );
       }
     );
     JournalClient.getRecentProjects(this, arg => {
@@ -181,37 +217,6 @@ export default class JournalResource extends Component {
   };
 
   /**
-   * refreshes our current intentions list view with our most recent data from our
-   * local database.
-   * @param username
-   */
-  refreshRecentIntentions(username) {
-    JournalClient.getRecentIntentions(
-      username,
-      this,
-      arg => {
-        if (arg.error) {
-          this.error = arg.error;
-          this.forceUpdate();
-        } else {
-          this.error = null;
-          this.username = username;
-          this.journalItems = arg.data;
-          this.forceUpdate(() => {
-            if (this.activeJournalItem) {
-              this.scrollToJournalItemById(
-                this.activeJournalItem.id
-              );
-            } else {
-              this.scrollToJournalItemById();
-            }
-          });
-        }
-      }
-    );
-  }
-
-  /**
    * saves the journal entry from the callback event
    * @param projectId
    * @param taskId
@@ -227,10 +232,8 @@ export default class JournalResource extends Component {
       taskId,
       intention,
       this,
-      () => {
-        this.refreshRecentIntentions(
-          JournalResource.Strings.ME
-        );
+      arg => {
+        console.log("create", arg);
       }
     );
   };
