@@ -924,7 +924,8 @@ export default class JournalResource extends Component {
             let data = args.data;
             if (
               !this.hasCallbackError(args) &amp;&amp;
-              data &amp;&amp; data.recentIntentions &amp;&amp;
+              data &amp;&amp;
+              data.recentIntentions &amp;&amp;
               data.recentIntentions.length > 0
             ) {
               this.username = username;

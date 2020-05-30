@@ -194,22 +194,14 @@ module.exports = class JournalController extends BaseController {
         }
       }
 
-      if (
-        recentTasksByProjectId &&
-        recentTasksByProjectId.length > 0
-      ) {
+      if(recentTasksByProjectId) {
         let collection = database.getCollection(
           JournalDatabase.Collections.TASKS
         );
-        for (
-          let i = 0;
-          i < recentTasksByProjectId.length;
-          i++
-        ) {
-          database.findRemoveInsert(
-            recentTasksByProjectId[i],
-            collection
-          );
+        for (let [projectId, tasks] of Object.entries(recentTasksByProjectId)) {
+          for(let i = 0; i < tasks.length; i++) {
+            database.findRemoveInsert(tasks[i], collection);
+          }
         }
       }
     }

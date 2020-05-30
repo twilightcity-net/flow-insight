@@ -976,15 +976,15 @@ module.exports = class JournalController extends BaseController {
           DatabaseFactory.Names.JOURNAL
         );
 
+      Util.inspect(recentTasksByProjectId);
+
       if (recentIntentions &amp;&amp; recentIntentions.length > 0) {
         let collection = database.getCollection(
           JournalDatabase.Collections.INTENTIONS
         );
         for (let i = 0; i &lt; recentIntentions.length; i++) {
           // FIXME TEMP
-          recentIntentions[
-            i
-          ].timestamp = Util.getTimestampFromUTCStr(
+          recentIntentions[i].timestamp = Util.getTimestampFromUTCStr(
             recentIntentions[i].positionStr
           );
           database.findRemoveInsert(
@@ -1006,6 +1006,8 @@ module.exports = class JournalController extends BaseController {
         }
       }
 
+      console.log("XXX", store.data);
+
       if (
         recentTasksByProjectId &amp;&amp;
         recentTasksByProjectId.length > 0
@@ -1018,11 +1020,19 @@ module.exports = class JournalController extends BaseController {
           i &lt; recentTasksByProjectId.length;
           i++
         ) {
-          database.findRemoveInsert(
-            recentTasksByProjectId[i],
-            collection
-          );
+          let tasks = recentTasksByProjectId[i];
+          console.log(tasks);
+          for (
+            let j = 0;
+            j &lt; tasks.length;
+            j++
+          ) {
+            let task = tasks[j];
+            database.findRemoveInsert(task, collection);
+          }
         }
+
+        // Util.inspect(collection);
       }
     }
 
