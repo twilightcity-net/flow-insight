@@ -295,7 +295,6 @@
           <li data-type='method'><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></li>
-          <li data-type='method'><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForIntentions">getViewForIntentions</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMe">getViewForMe</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></li>
@@ -851,7 +850,7 @@ export class BaseClient {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{WTF_STATUS_UPDATE: string, ROOM_MEMBER_STATUS_EVENT: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
+   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
@@ -861,7 +860,9 @@ export class BaseClient {
       CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto",
       TEAM_MEMBER: "TeamMemberDto",
       XP_STATUS_UPDATE: "XPStatusUpdateDto",
-      WTF_STATUS_UPDATE: "WTFStatusUpdateDto"
+      WTF_STATUS_UPDATE: "WTFStatusUpdateDto",
+      INTENTION_STARTED_DETAILS:
+        "IntentionStartedDetailsDto"
     };
   }
 

@@ -416,8 +416,7 @@ module.exports = class TalkToController extends BaseController {
   }
 
   /**
-   * handles the callback logic of the publish to chat room event on gridtim. in this  function
-   * we will store this transient talk message in a flux collection. this collection is used to
+   * handles the callback logic of the publish to chat room event on gridtim. this collection is used to
    * store temporary messages awaiting arrival from the gridtime to talk push.
    * @param store
    * @param event
@@ -433,26 +432,7 @@ module.exports = class TalkToController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let roomName = arg.args.roomName,
-        database = DatabaseFactory.getDatabase(
-          DatabaseFactory.Names.TALK
-        ),
-        collection = database.getCollection(
-          TalkDatabase.Collections.FLUX_TALK_MESSAGES
-        ),
-        view = database.getViewFluxTalkMessages(),
-        message = store.data;
-
-      if (message) {
-        collection.insert(message);
-        arg.data = message;
-      }
-      this.logResults(
-        this.name,
-        arg.type,
-        arg.id,
-        view.count()
-      );
+      arg.data = store.data;
     }
     this.delegateCallbackOrEventReplyTo(
       event,

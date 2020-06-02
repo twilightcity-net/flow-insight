@@ -295,7 +295,6 @@
           <li data-type='method'><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></li>
-          <li data-type='method'><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForIntentions">getViewForIntentions</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMe">getViewForMe</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></li>
@@ -923,7 +922,7 @@ module.exports = class MemberDatabase extends LokiJS {
       memberId = data.memberId,
       member = collection.findOne({ id: memberId }),
       newXPSummary = data.newXPSummary,
-      me = this.getMemberMe();
+      me = this.getMeFromView();
 
     if (member &amp;&amp; newXPSummary) {
       member.xpSummary = newXPSummary;

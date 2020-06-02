@@ -157,6 +157,7 @@ module.exports = class JournalDatabase extends LokiJS {
     if (result) {
       collection.remove(result);
     }
-    collection.insert(doc);
+    result = Object.assign({}, doc);
+    collection.insert(result);
   }
 };

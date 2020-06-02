@@ -13,7 +13,7 @@ module.exports = class DatabaseUtil {
    */
   static log(message, count) {
     log.info(
-      chalk.blueBright(this.name) +
+      chalk.blueBright("[Database]") +
         " " +
         message +
         " : {" +

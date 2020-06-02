@@ -2,11 +2,12 @@ const { ipcRenderer } = window.require("electron");
 
 /**
  * events generated from the renderer. If there is an associated event in the main
- * process, then those callbacks will be envoked. The MainEvent property, async,
+ * process, then those callbacks will be evoked. The MainEvent property, async,
  * will fire a *-reply event back which is picked up by this classes reply function
  *
- * ***NOTE***: if a callback is provided, then there MUST be an event created in the
- * main process or the renderer will hang
+ * >>>NOTE<<<
+ * if a callback is provided, then there MUST be an event created in the
+ * main process or the renderer will hang; like something dead.
  */
 export class RendererEvent {
   constructor(eventType, scope, callback, reply) {

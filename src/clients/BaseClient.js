@@ -39,7 +39,7 @@ export class BaseClient {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{WTF_STATUS_UPDATE: string, ROOM_MEMBER_STATUS_EVENT: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
+   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
@@ -49,7 +49,9 @@ export class BaseClient {
       CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto",
       TEAM_MEMBER: "TeamMemberDto",
       XP_STATUS_UPDATE: "XPStatusUpdateDto",
-      WTF_STATUS_UPDATE: "WTFStatusUpdateDto"
+      WTF_STATUS_UPDATE: "WTFStatusUpdateDto",
+      INTENTION_STARTED_DETAILS:
+        "IntentionStartedDetailsDto"
     };
   }
 

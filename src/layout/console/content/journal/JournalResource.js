@@ -11,6 +11,9 @@ import JournalItem from "./components/JournalItem";
 import { JournalClient } from "../../../../clients/JournalClient";
 import { scrollTo } from "../../../../UtilScroll";
 import { MemberClient } from "../../../../clients/MemberClient";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
+import UtilRenderer from "../../../../UtilRenderer";
+import { BaseClient } from "../../../../clients/BaseClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -35,13 +38,73 @@ export default class JournalResource extends Component {
     super(props);
     this.name = "[JournalResource]";
     this.resource = props.resource;
-    this.journalItems = [];
+    this.journalIntentions = [];
     this.projects = [];
     this.tasks = [];
     this.activeJournalItem = null;
     this.loadCount = 0;
     this.error = null;
     this.username = JournalResource.Strings.ME;
+    this.talkRoomMessageListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+      this,
+      this.onTalkRoomMessage
+    );
+  }
+
+  onTalkRoomMessage = (event, arg) => {
+    // console.log(arg);
+    let mType = arg.messageType,
+      data = arg.data,
+      username = data.username;
+
+    if(mType === BaseClient.MessageTypes.INTENTION_STARTED_DETAILS) {
+      let me = MemberClient.me,
+        name = this.username;
+
+      if(name === JournalResource.Strings.ME) {
+        name = me.username;
+      }
+
+      if(username === name) {
+        console.log("MATCH");
+      }
+      
+
+      // console.log(arg.data);
+
+      // console.log(this.journalIntentions);
+
+      // let journalEntry = data.journalEntry;
+
+      // console.log("!", journalEntry);
+
+      // let hasIntention = UtilRenderer.hasMessageInArray(
+      //   this.journalIntentions,
+      //   journalEntry
+      // );
+
+      // if(!hasIntention) {
+      //   console.log("add to array")
+      // }
+
+    }
+
+
+    //
+    // switch (arg.messageType) {
+    //   case BaseClient.MessageTypes.INTENTION_STARTED_DETAILS:
+    //     break;
+    //   default:
+    //     break;
+    // }
+  };
+
+  /**
+   * make sure we clear our talk room listener when destroying this component
+   */
+  componentWillUnmount() {
+    this.talkRoomMessageListener.clear();
   }
 
   /**
@@ -61,7 +124,6 @@ export default class JournalResource extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    console.log("update");
     if (
       nextProps.resource.uri === this.props.resource.uri
     ) {
@@ -72,7 +134,7 @@ export default class JournalResource extends Component {
   }
 
   /**
-   * load our recent intentions after we load this page resource. This is only called when we
+   * load our recent journalIntentions after we load this page resource. This is only called when we
    * initially create the window's console view or switch resource views
    */
   componentDidMount() {
@@ -87,7 +149,6 @@ export default class JournalResource extends Component {
    * @param props
    */
   refreshJournal(props) {
-    console.log("refresh journal", props);
     this.error = null;
     this.loadCount = 0;
     let username = this.getUserNameFromResource(props);
@@ -101,7 +162,7 @@ export default class JournalResource extends Component {
           arg.data.length > 0
         ) {
           this.username = username;
-          this.journalItems = arg.data;
+          this.journalIntentions = arg.data;
           this.handleCallback();
           return;
         }
@@ -117,7 +178,8 @@ export default class JournalResource extends Component {
               data.recentIntentions.length > 0
             ) {
               this.username = username;
-              this.journalItems = data.recentIntentions;
+              this.journalIntentions =
+                data.recentIntentions;
               this.handleCallback();
             }
           }
@@ -227,13 +289,19 @@ export default class JournalResource extends Component {
     taskId,
     intention
   ) => {
+    this.error = null;
     JournalClient.createIntention(
       projectId,
       taskId,
       intention,
       this,
       arg => {
-        console.log("create", arg);
+        if (!this.hasCallbackError(arg) && arg.data) {
+          this.journalIntentions.push(arg.data);
+          this.forceUpdate(() => {
+            this.scrollToJournalItemById();
+          });
+        }
       }
     );
   };
@@ -314,7 +382,7 @@ export default class JournalResource extends Component {
    * @returns {array}
    */
   getJournalItemsContent() {
-    return this.journalItems.map(item => {
+    return this.journalIntentions.map(item => {
       return (
         <JournalItem
           key={item.id}
@@ -344,10 +412,10 @@ export default class JournalResource extends Component {
    */
   getJournalItemsWrapperContent() {
     return (
-      <div id="wrapper" className="journalItems">
+      <div id="wrapper" className="journalIntentions">
         <div
           id="component"
-          className="journalItems"
+          className="journalIntentions"
           style={{
             height: DimensionController.getJournalItemsPanelHeight(
               this.isMyJournal()

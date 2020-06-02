@@ -111,7 +111,7 @@ module.exports = class MemberDatabase extends LokiJS {
       memberId = data.memberId,
       member = collection.findOne({ id: memberId }),
       newXPSummary = data.newXPSummary,
-      me = this.getMemberMe();
+      me = this.getMeFromView();
 
     if (member && newXPSummary) {
       member.xpSummary = newXPSummary;

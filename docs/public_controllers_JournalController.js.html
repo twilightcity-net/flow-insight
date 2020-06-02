@@ -295,7 +295,6 @@
           <li data-type='method'><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></li>
-          <li data-type='method'><a href="module.html#.exports#getViewFluxTalkMessages">getViewFluxTalkMessages</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForIntentions">getViewForIntentions</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMe">getViewForMe</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></li>
@@ -814,8 +813,8 @@
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  JournalDatabase = require("../database/JournalDatabase"),
-  MemberDatabase = require("../database/MemberDatabase");
+  TalkDatabase = require("../database/TalkDatabase"),
+  JournalDatabase = require("../database/JournalDatabase");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -976,15 +975,15 @@ module.exports = class JournalController extends BaseController {
           DatabaseFactory.Names.JOURNAL
         );
 
-      Util.inspect(recentTasksByProjectId);
-
       if (recentIntentions &amp;&amp; recentIntentions.length > 0) {
         let collection = database.getCollection(
           JournalDatabase.Collections.INTENTIONS
         );
         for (let i = 0; i &lt; recentIntentions.length; i++) {
           // FIXME TEMP
-          recentIntentions[i].timestamp = Util.getTimestampFromUTCStr(
+          recentIntentions[
+            i
+          ].timestamp = Util.getTimestampFromUTCStr(
             recentIntentions[i].positionStr
           );
           database.findRemoveInsert(
@@ -1006,33 +1005,17 @@ module.exports = class JournalController extends BaseController {
         }
       }
 
-      console.log("XXX", store.data);
-
-      if (
-        recentTasksByProjectId &amp;&amp;
-        recentTasksByProjectId.length > 0
-      ) {
+      if (recentTasksByProjectId) {
         let collection = database.getCollection(
           JournalDatabase.Collections.TASKS
         );
-        for (
-          let i = 0;
-          i &lt; recentTasksByProjectId.length;
-          i++
-        ) {
-          let tasks = recentTasksByProjectId[i];
-          console.log(tasks);
-          for (
-            let j = 0;
-            j &lt; tasks.length;
-            j++
-          ) {
-            let task = tasks[j];
-            database.findRemoveInsert(task, collection);
+        for (let [projectId, tasks] of Object.entries(
+          recentTasksByProjectId
+        )) {
+          for (let i = 0; i &lt; tasks.length; i++) {
+            database.findRemoveInsert(tasks[i], collection);
           }
         }
-
-        // Util.inspect(collection);
       }
     }
 
@@ -1095,27 +1078,27 @@ module.exports = class JournalController extends BaseController {
   ) {
     if (store.error) {
       arg.error = store.error;
-      this.delegateCallbackOrEventReplyTo(
-        event,
-        arg,
-        callback
-      );
     } else {
-      arg.data = store.data;
-      this.handleLoadJournalEvent(
-        null,
-        {
-          args: { username: JournalController.Strings.ME }
-        },
-        args => {
-          this.delegateCallbackOrEventReplyTo(
-            event,
-            arg,
-            callback
-          );
-        }
+      let journalDatabase = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.JOURNAL
+        ),
+        intentionsCollection = journalDatabase.getCollection(
+          JournalDatabase.Collections.INTENTIONS
+        ),
+        intention = store.data;
+
+      journalDatabase.findRemoveInsert(
+        intention,
+        intentionsCollection
       );
+      arg.data = store.data;
     }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**

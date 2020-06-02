@@ -2,8 +2,8 @@ const Util = require("../Util"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  JournalDatabase = require("../database/JournalDatabase"),
-  MemberDatabase = require("../database/MemberDatabase");
+  TalkDatabase = require("../database/TalkDatabase"),
+  JournalDatabase = require("../database/JournalDatabase");
 
 /**
  * This class is used to coordinate controllers across the journal service
@@ -194,12 +194,14 @@ module.exports = class JournalController extends BaseController {
         }
       }
 
-      if(recentTasksByProjectId) {
+      if (recentTasksByProjectId) {
         let collection = database.getCollection(
           JournalDatabase.Collections.TASKS
         );
-        for (let [projectId, tasks] of Object.entries(recentTasksByProjectId)) {
-          for(let i = 0; i < tasks.length; i++) {
+        for (let [projectId, tasks] of Object.entries(
+          recentTasksByProjectId
+        )) {
+          for (let i = 0; i < tasks.length; i++) {
             database.findRemoveInsert(tasks[i], collection);
           }
         }
@@ -265,27 +267,27 @@ module.exports = class JournalController extends BaseController {
   ) {
     if (store.error) {
       arg.error = store.error;
-      this.delegateCallbackOrEventReplyTo(
-        event,
-        arg,
-        callback
-      );
     } else {
-      arg.data = store.data;
-      this.handleLoadJournalEvent(
-        null,
-        {
-          args: { username: JournalController.Strings.ME }
-        },
-        args => {
-          this.delegateCallbackOrEventReplyTo(
-            event,
-            arg,
-            callback
-          );
-        }
+      let journalDatabase = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.JOURNAL
+        ),
+        intentionsCollection = journalDatabase.getCollection(
+          JournalDatabase.Collections.INTENTIONS
+        ),
+        intention = store.data;
+
+      journalDatabase.findRemoveInsert(
+        intention,
+        intentionsCollection
       );
+      arg.data = store.data;
     }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**

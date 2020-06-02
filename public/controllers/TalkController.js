@@ -5,7 +5,9 @@ const log = require("electron-log"),
   EventFactory = require("../events/EventFactory"),
   TalkDatabase = require("../database/TalkDatabase"),
   MemberDatabase = require("../database/MemberDatabase"),
-  DatabaseFactory = require("../database/DatabaseFactory");
+  JournalDatabase = require("../database/JournalDatabase"),
+  DatabaseFactory = require("../database/DatabaseFactory"),
+  DatabaseUtil = require("../database/DatabaseUtil");
 
 /**
  * This class is used to coordinate controllers across the talk service
@@ -246,12 +248,8 @@ module.exports = class TalkController extends BaseController {
 
   /**
    * our event callback handler talk messages. This function sorts incoming talk
-   * messages into status and details. A flux is a message which originated from
-   * the user host. We remove this when received. After that the message is stored
-   * into our local database for future retrieval In other words a flux model is
-   * used to temporary block duplicate model data. No need to dispatch an event for
-   * an event we  created.
-   * @param message - our message that was recieved via the talk network socket
+   * messages into status and details.s
+   * @param message - our message that was received via the talk network socket
    */
   handleTalkMessageRoomCallback(message) {
     let uri = message.uri,
@@ -267,8 +265,8 @@ module.exports = class TalkController extends BaseController {
       circuitDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.CIRCUIT
       ),
-      fluxCollection = talkDatabase.getCollection(
-        TalkDatabase.Collections.FLUX_TALK_MESSAGES
+      journalDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.JOURNAL
       ),
       messageCollection = talkDatabase.getCollectionForRoomTalkMessages(
         uri
@@ -279,7 +277,11 @@ module.exports = class TalkController extends BaseController {
       membersCollection = memberDatabase.getCollection(
         MemberDatabase.Collections.MEMBERS
       ),
-      model = fluxCollection.findOne({ id: message.id });
+      intentionsCollection = journalDatabase.getCollection(
+        JournalDatabase.Collections.INTENTIONS
+      ),
+      me = this.getMemberMe(),
+      model = {};
 
     switch (message.messageType) {
       case TalkController.MessageTypes.CIRCUIT_STATUS:
@@ -322,8 +324,7 @@ module.exports = class TalkController extends BaseController {
         break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:
         let data = message.data,
-          circuit = data.learningCircuitDto,
-          me = this.getMemberMe();
+          circuit = data.learningCircuitDto;
 
         switch (data.statusType) {
           case TalkController.StatusTypes.TEAM_WTF_STARTED:
@@ -352,7 +353,6 @@ module.exports = class TalkController extends BaseController {
                   "'."
               );
             }
-
             break;
           default:
             console.warn(
@@ -366,10 +366,17 @@ module.exports = class TalkController extends BaseController {
         break;
       case TalkController.MessageTypes
         .INTENTION_STARTED_DETAILS:
-        console.log(Util.inspect(message));
+        let mData = message.data,
+          journalEntry = mData.journalEntry;
 
-        // TODO finishing coding this section
-
+        journalDatabase.findRemoveInsert(
+          journalEntry,
+          intentionsCollection
+        );
+        DatabaseUtil.log(
+          "update journal entry",
+          journalEntry.id
+        );
         break;
       default:
         console.warn(
@@ -381,11 +388,7 @@ module.exports = class TalkController extends BaseController {
         break;
     }
 
-    if (model) {
-      fluxCollection.remove(model);
-    } else {
-      this.talkMessageRoomListener.dispatch(message);
-    }
+    this.talkMessageRoomListener.dispatch(message);
   }
 
   /**
