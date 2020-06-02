@@ -53,51 +53,31 @@ export default class JournalResource extends Component {
   }
 
   onTalkRoomMessage = (event, arg) => {
-    // console.log(arg);
     let mType = arg.messageType,
       data = arg.data,
-      username = data.username;
+      username = data.username,
+      me = MemberClient.me;
 
-    if(mType === BaseClient.MessageTypes.INTENTION_STARTED_DETAILS) {
-      let me = MemberClient.me,
-        name = this.username;
+    if (
+      mType ===
+        BaseClient.MessageTypes.INTENTION_STARTED_DETAILS &&
+      this.username !== JournalResource.Strings.ME &&
+      this.username !== me.username &&
+      this.username === username
+    ) {
+      let journalEntry = data.journalEntry,
+        hasIntention = UtilRenderer.hasMessageInArray(
+          this.journalIntentions,
+          journalEntry
+        );
 
-      if(name === JournalResource.Strings.ME) {
-        name = me.username;
+      if (!hasIntention) {
+        this.journalIntentions.push(journalEntry);
+        this.forceUpdate(() => {
+          this.scrollToJournalItemById();
+        });
       }
-
-      if(username === name) {
-        console.log("MATCH");
-      }
-      
-
-      // console.log(arg.data);
-
-      // console.log(this.journalIntentions);
-
-      // let journalEntry = data.journalEntry;
-
-      // console.log("!", journalEntry);
-
-      // let hasIntention = UtilRenderer.hasMessageInArray(
-      //   this.journalIntentions,
-      //   journalEntry
-      // );
-
-      // if(!hasIntention) {
-      //   console.log("add to array")
-      // }
-
     }
-
-
-    //
-    // switch (arg.messageType) {
-    //   case BaseClient.MessageTypes.INTENTION_STARTED_DETAILS:
-    //     break;
-    //   default:
-    //     break;
-    // }
   };
 
   /**
