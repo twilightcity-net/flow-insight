@@ -210,14 +210,7 @@ export default class CircuitSidebar extends Component {
     let circuit = this.props.model;
 
     if (circuit) {
-      this.openTime = moment.utc([
-        circuit.openTime[0],
-        circuit.openTime[1] - 1,
-        circuit.openTime[2],
-        circuit.openTime[3],
-        circuit.openTime[4],
-        circuit.openTime[5]
-      ]);
+      this.openTime = moment.utc(circuit.openTime);
       this.timerEl = document.getElementById(
         "active-circuit-wtf-timer"
       );
