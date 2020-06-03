@@ -173,7 +173,6 @@ module.exports = class JournalController extends BaseController {
           ].timestamp = Util.getTimestampFromUTCStr(
             recentIntentions[i].positionStr
           );
-          console.log(recentIntentions[i]);
           database.findRemoveInsert(
             recentIntentions[i],
             collection
