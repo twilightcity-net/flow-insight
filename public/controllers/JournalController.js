@@ -2,7 +2,6 @@ const Util = require("../Util"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
-  TalkDatabase = require("../database/TalkDatabase"),
   JournalDatabase = require("../database/JournalDatabase");
 
 /**
@@ -169,12 +168,12 @@ module.exports = class JournalController extends BaseController {
           JournalDatabase.Collections.INTENTIONS
         );
         for (let i = 0; i < recentIntentions.length; i++) {
-          // FIXME TEMP
           recentIntentions[
             i
           ].timestamp = Util.getTimestampFromUTCStr(
             recentIntentions[i].positionStr
           );
+          console.log(recentIntentions[i]);
           database.findRemoveInsert(
             recentIntentions[i],
             collection
@@ -208,6 +207,12 @@ module.exports = class JournalController extends BaseController {
       }
     }
 
+    if (username === JournalController.Strings.ME) {
+      let me = this.getMemberMe();
+      username = me.username;
+    }
+
+    JournalController.instance.userHistory.add(username);
     arg.data = store.data;
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -388,18 +393,47 @@ module.exports = class JournalController extends BaseController {
     }
     if (!username) {
       arg.error = "Unknown user '" + username + "'";
-    } else {
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+      return;
+    }
+
+    if (
+      JournalController.instance.userHistory.has(username)
+    ) {
       arg.data = collection
         .chain()
         .find({ username: username })
         .simplesort(JournalDatabase.Indices.TIMESTAMP)
         .data();
+
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    } else {
+      this.handleLoadJournalEvent(
+        {},
+        {
+          args: {
+            username: username
+          }
+        },
+        args => {
+          let data = args.data;
+          arg.data = data.recentIntentions;
+          this.delegateCallbackOrEventReplyTo(
+            event,
+            arg,
+            callback
+          );
+        }
+      );
     }
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
   }
 
   /**

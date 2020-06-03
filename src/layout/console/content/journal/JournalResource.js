@@ -52,6 +52,13 @@ export default class JournalResource extends Component {
     );
   }
 
+  /**
+   * this function is called when ever a talk message is recieve over
+   * one of the rooms that the torchie client is connected to. This
+   * is regulated and brokered by gridtime server.
+   * @param event
+   * @param arg
+   */
   onTalkRoomMessage = (event, arg) => {
     let mType = arg.messageType,
       data = arg.data,
@@ -144,26 +151,7 @@ export default class JournalResource extends Component {
           this.username = username;
           this.journalIntentions = arg.data;
           this.handleCallback();
-          return;
         }
-        JournalClient.loadRecentJournal(
-          username,
-          this,
-          args => {
-            let data = args.data;
-            if (
-              !this.hasCallbackError(args) &&
-              data &&
-              data.recentIntentions &&
-              data.recentIntentions.length > 0
-            ) {
-              this.username = username;
-              this.journalIntentions =
-                data.recentIntentions;
-              this.handleCallback();
-            }
-          }
-        );
       }
     );
     JournalClient.getRecentProjects(this, arg => {
