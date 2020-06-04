@@ -160,4 +160,60 @@ module.exports = class JournalDatabase extends LokiJS {
     result = Object.assign({}, doc);
     collection.insert(result);
   }
+
+  /**
+   * updates our local databases journals projects. this is used for our
+   * journal drop down. not project management.
+   * @param projects
+   */
+  updateJournalProjects(projects) {
+    if (projects && projects.length > 0) {
+      let collection = this.getCollection(
+        JournalDatabase.Collections.PROJECTS
+      );
+      for (let i = 0; i < projects.length; i++) {
+        this.findRemoveInsert(projects[i], collection);
+      }
+    }
+  }
+
+  /**
+   * updates our local database with our recent tasks for specific journal
+   * projects and such.
+   * @param tasks
+   */
+  updateJournalTasks(tasks) {
+    if (tasks) {
+      let collection = this.getCollection(
+        JournalDatabase.Collections.TASKS
+      );
+      for (let [p, t] of Object.entries(tasks)) {
+        for (let i = 0; i < t.length; i++) {
+          this.findRemoveInsert(t[i], collection);
+        }
+      }
+    }
+  }
+
+  /**
+   * updates our journals intentions in our local databases collection
+   * this is usually updated from talk messages however some the api
+   * can also call this when we load a users journal
+   * @param intentions
+   */
+  updateJournalIntentions(intentions) {
+    if (intentions && intentions.length > 0) {
+      let collection = this.getCollection(
+        JournalDatabase.Collections.INTENTIONS
+      );
+      for (let i = 0; i < intentions.length; i++) {
+        intentions[
+          i
+        ].timestamp = Util.getTimestampFromUTCStr(
+          intentions[i].positionStr
+        );
+        this.findRemoveInsert(intentions[i], collection);
+      }
+    }
+  }
 };

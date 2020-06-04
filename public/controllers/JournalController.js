@@ -155,55 +155,17 @@ module.exports = class JournalController extends BaseController {
       arg.error = store.error;
     } else {
       let data = store.data,
-        recentIntentions = data.recentIntentions,
-        recentProjects = data.recentProjects,
-        recentTasksByProjectId =
-          data.recentTasksByProjectId,
         database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.JOURNAL
         );
 
-      if (recentIntentions && recentIntentions.length > 0) {
-        let collection = database.getCollection(
-          JournalDatabase.Collections.INTENTIONS
-        );
-        for (let i = 0; i < recentIntentions.length; i++) {
-          recentIntentions[
-            i
-          ].timestamp = Util.getTimestampFromUTCStr(
-            recentIntentions[i].positionStr
-          );
-          database.findRemoveInsert(
-            recentIntentions[i],
-            collection
-          );
-        }
-      }
-
-      if (recentProjects && recentProjects.length > 0) {
-        let collection = database.getCollection(
-          JournalDatabase.Collections.PROJECTS
-        );
-        for (let i = 0; i < recentProjects.length; i++) {
-          database.findRemoveInsert(
-            recentProjects[i],
-            collection
-          );
-        }
-      }
-
-      if (recentTasksByProjectId) {
-        let collection = database.getCollection(
-          JournalDatabase.Collections.TASKS
-        );
-        for (let [projectId, tasks] of Object.entries(
-          recentTasksByProjectId
-        )) {
-          for (let i = 0; i < tasks.length; i++) {
-            database.findRemoveInsert(tasks[i], collection);
-          }
-        }
-      }
+      database.updateJournalIntentions(
+        data.recentIntentions
+      );
+      database.updateJournalProjects(data.recentProjects);
+      database.updateJournalTasks(
+        data.recentTasksByProjectId
+      );
     }
 
     if (username === JournalController.Strings.ME) {
@@ -347,21 +309,13 @@ module.exports = class JournalController extends BaseController {
       let database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.JOURNAL
         ),
-        collection = database.getCollection(
-          JournalDatabase.Collections.TASKS
-        ),
-        summary = store.data,
+        data = store.data,
         view = database.getViewForRecentTasks();
 
-      if (summary.recentTasksByProjectId) {
-        // FIXME this needs to be updated to use better functions
-        // this.updateRecentTasksByProjectId(
-        //   view,
-        //   collection,
-        //   summary
-        // );
-      }
-
+      database.updateJournalProjects(data.recentProjects);
+      database.updateJournalTasks(
+        data.recentTasksByProjectId
+      );
       arg.data = view.data();
       this.delegateCallbackOrEventReplyTo(
         event,
