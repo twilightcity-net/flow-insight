@@ -234,6 +234,16 @@ export default class UtilRenderer {
   }
 
   /**
+   * checks our member dto to see if we have an active circuit
+   * and if we do then we need ot set the alarm flag to true.
+   * @param member
+   * @returns {boolean}
+   */
+  static isMemberAlarm(member) {
+    return !!member.activeCircuit;
+  }
+
+  /**
    * gets a unique id in a ISO GUID format based off random number
    * @returns {string}
    */

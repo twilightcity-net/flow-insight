@@ -767,6 +767,7 @@
       <li><a href="global.html#isActive">isActive</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
+      <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
       <li><a href="global.html#isMemberOnline">isMemberOnline</a></li>
       <li><a href="global.html#isMyJournal">isMyJournal</a></li>
       <li><a href="global.html#isObjEmpty">isObjEmpty</a></li>
@@ -804,6 +805,7 @@
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
+      <li><a href="global.html#updateTeamMembers">updateTeamMembers</a></li>
       <li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li>
       <li><a href="global.html#viewName">viewName</a></li>
     </ul>
@@ -1045,6 +1047,16 @@ export default class UtilRenderer {
    */
   static isMemberOnline(member) {
     return member.onlineStatus === "Online";
+  }
+
+  /**
+   * checks our member dto to see if we have an active circuit
+   * and if we do then we need ot set the alarm flag to true.
+   * @param member
+   * @returns {boolean}
+   */
+  static isMemberAlarm(member) {
+    return !!member.activeCircuit;
   }
 
   /**

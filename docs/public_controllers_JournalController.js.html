@@ -767,6 +767,7 @@
       <li><a href="global.html#isActive">isActive</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
+      <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
       <li><a href="global.html#isMemberOnline">isMemberOnline</a></li>
       <li><a href="global.html#isMyJournal">isMyJournal</a></li>
       <li><a href="global.html#isObjEmpty">isObjEmpty</a></li>
@@ -804,6 +805,7 @@
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
+      <li><a href="global.html#updateTeamMembers">updateTeamMembers</a></li>
       <li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li>
       <li><a href="global.html#viewName">viewName</a></li>
     </ul>
@@ -976,9 +978,7 @@ module.exports = class JournalController extends BaseController {
       database.updateJournalIntentions(
         data.recentIntentions
       );
-      database.updateJournalProjects(
-        data.recentProjects
-      );
+      database.updateJournalProjects(data.recentProjects);
       database.updateJournalTasks(
         data.recentTasksByProjectId
       );
@@ -1128,9 +1128,7 @@ module.exports = class JournalController extends BaseController {
         data = store.data,
         view = database.getViewForRecentTasks();
 
-      database.updateJournalProjects(
-        data.recentProjects
-      );
+      database.updateJournalProjects(data.recentProjects);
       database.updateJournalTasks(
         data.recentTasksByProjectId
       );

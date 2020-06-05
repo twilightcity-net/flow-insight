@@ -767,6 +767,7 @@
       <li><a href="global.html#isActive">isActive</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
+      <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
       <li><a href="global.html#isMemberOnline">isMemberOnline</a></li>
       <li><a href="global.html#isMyJournal">isMyJournal</a></li>
       <li><a href="global.html#isObjEmpty">isObjEmpty</a></li>
@@ -804,6 +805,7 @@
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
+      <li><a href="global.html#updateTeamMembers">updateTeamMembers</a></li>
       <li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li>
       <li><a href="global.html#viewName">viewName</a></li>
     </ul>
@@ -1001,7 +1003,6 @@ module.exports = class JournalDatabase extends LokiJS {
       let collection = this.getCollection(
         JournalDatabase.Collections.TASKS
       );
-
       for (let [p, t] of Object.entries(tasks)) {
         for (let i = 0; i &lt; t.length; i++) {
           this.findRemoveInsert(t[i], collection);

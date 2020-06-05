@@ -12,7 +12,7 @@ export class BaseClient {
 
   /**
    * generic strings for use by our clients
-   * @returns {{LOADING: string, ME: string, PRIMARY: string, EMPTY: string, YOU: string, ONLINE: string, OFFLINE: string}}
+   * @returns {{LOADING: string, ALARM: string, ME: string, EMPTY: string, YOU: string, ONLINE: string, OFFLINE: string}}
    * @constructor
    */
   static get Strings() {
@@ -22,7 +22,8 @@ export class BaseClient {
       YOU: " (you)",
       LOADING: "loading...",
       ONLINE: "online",
-      OFFLINE: "offline"
+      OFFLINE: "offline",
+      ALARM: "alarm"
     };
   }
 

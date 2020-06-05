@@ -767,6 +767,7 @@
       <li><a href="global.html#isActive">isActive</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
+      <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
       <li><a href="global.html#isMemberOnline">isMemberOnline</a></li>
       <li><a href="global.html#isMyJournal">isMyJournal</a></li>
       <li><a href="global.html#isObjEmpty">isObjEmpty</a></li>
@@ -804,6 +805,7 @@
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
+      <li><a href="global.html#updateTeamMembers">updateTeamMembers</a></li>
       <li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li>
       <li><a href="global.html#viewName">viewName</a></li>
     </ul>
@@ -826,7 +828,7 @@ export class BaseClient {
 
   /**
    * generic strings for use by our clients
-   * @returns {{LOADING: string, ME: string, PRIMARY: string, EMPTY: string, YOU: string, ONLINE: string, OFFLINE: string}}
+   * @returns {{LOADING: string, ALARM: string, ME: string, EMPTY: string, YOU: string, ONLINE: string, OFFLINE: string}}
    * @constructor
    */
   static get Strings() {
@@ -836,7 +838,8 @@ export class BaseClient {
       YOU: " (you)",
       LOADING: "loading...",
       ONLINE: "online",
-      OFFLINE: "offline"
+      OFFLINE: "offline",
+      ALARM: "alarm"
     };
   }
 

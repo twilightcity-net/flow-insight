@@ -767,6 +767,7 @@
       <li><a href="global.html#isActive">isActive</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
+      <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
       <li><a href="global.html#isMemberOnline">isMemberOnline</a></li>
       <li><a href="global.html#isMyJournal">isMyJournal</a></li>
       <li><a href="global.html#isObjEmpty">isObjEmpty</a></li>
@@ -804,6 +805,7 @@
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
+      <li><a href="global.html#updateTeamMembers">updateTeamMembers</a></li>
       <li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li>
       <li><a href="global.html#viewName">viewName</a></li>
     </ul>
@@ -828,6 +830,8 @@ import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFac
 import { TeamClient } from "../../../../clients/TeamClient";
 import TeamPanelListItem from "./TeamPanelListItem";
 import { MemberClient } from "../../../../clients/MemberClient";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
+import { BaseClient } from "../../../../clients/BaseClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -854,6 +858,53 @@ export default class TeamPanel extends Component {
       SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay =
       SidePanelViewController.AnimationDelays.SUBMENU;
+    this.talkRoomMessageListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+      this,
+      this.onTalkRoomMessage
+    );
+  }
+
+  /**
+   * event handler that is called whenever we receive a talk message
+   * from our talk network. This panel is looking for team member updates
+   * and will loop over all of the known teams looking for the specific
+   * team member to update. yay!
+   * @param event
+   * @param arg
+   */
+  onTalkRoomMessage = (event, arg) => {
+    let mType = arg.messageType,
+      data = arg.data;
+
+    if (mType === BaseClient.MessageTypes.TEAM_MEMBER) {
+      let teams = this.state.teams;
+      for (let i = 0; i &lt; teams.length; i++) {
+        this.updateTeamMembers(teams[i].teamMembers, data);
+      }
+      this.setState({
+        teams: teams
+      });
+    }
+  };
+
+  /**
+   * updates our team members with our components state so that the tiny red light
+   * goes on. This is a result of many thousands of lines of code in order to make
+   * this light turn on. It is control via our talk network which is distributed over
+   * a peer to peer grid.
+   * @param teamMembers
+   * @param teamMember
+   * @returns {*}
+   */
+  updateTeamMembers(teamMembers, teamMember) {
+    for (let i = 0; i &lt; teamMembers.length; i++) {
+      if (teamMembers[i].id === teamMember.id) {
+        teamMembers[i] = teamMember;
+        break;
+      }
+    }
+    return teamMembers;
   }
 
   /**
@@ -871,14 +922,11 @@ export default class TeamPanel extends Component {
    * called to refresh the team panel with new data
    */
   refreshTeamPanel() {
-    console.log("refresh");
-
     TeamClient.getAllMyTeams(this, arg => {
       if (arg.error) {
         this.error = arg.error;
       } else {
         this.error = null;
-        console.log(arg.data);
         this.setState({
           activeItem:
             SidePanelViewController.SubmenuSelection.TEAMS,
@@ -894,6 +942,7 @@ export default class TeamPanel extends Component {
    * memory management
    */
   componentWillUnmount() {
+    this.talkRoomMessageListener.clear();
     this.myController.configureTeamPanelListener(
       this,
       null
