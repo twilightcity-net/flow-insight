@@ -579,8 +579,8 @@
   }
 
   /*
-       * COMPONENT - CIRCUIT-LAYOUT
-       */
+         * COMPONENT - CIRCUIT-LAYOUT
+         */
   #component.circuitLayout #wrapper.circuitContent {
     padding-top: 0.400em;
     padding-left: 0.069em;
@@ -1560,6 +1560,35 @@
     color: red;
   }
 
+  /**
+    POPUP - TEAM PANEL
+   */
+  .ui.popup.teamPanel .username {
+    font-size: 1.420rem;
+    font-weight: bolder;
+    line-height: 1.630rem;
+    padding-bottom: 0.210rem;
+  }
+
+  .ui.popup.teamPanel .ui.label.level {
+    font-size: .840rem;
+    position: absolute;
+    top: 1.105rem;
+    right: .735rem;
+  }
+
+  .ui.popup.teamPanel .circuit .state {
+    color: rgba(180, 0, 0, 0.96);
+    font-size: 1rem;
+    font-weight: bolder;
+  }
+
+  .ui.popup.teamPanel .circuit .name {
+    color: rgba(180, 0, 0, 0.96);
+    font-size: 1rem;
+    font-weight: bolder;
+  }
+
   .ui.popup.chunkTitle .alarmDetails,
   .ui.popup.timeScrubber .alarmDetails {
     color: rgba(180, 0, 0, 0.96);
@@ -1579,6 +1608,12 @@
   .ui.popup.top:before {
     bottom: -6px !important;
     border-right: 1px solid #7b7b7b !important;
+    border-bottom: 1px solid #7b7b7b !important;
+  }
+
+  .ui.popup.right:before {
+    left: -6px !important;
+    border-left: 1px solid #7b7b7b !important;
     border-bottom: 1px solid #7b7b7b !important;
   }
 

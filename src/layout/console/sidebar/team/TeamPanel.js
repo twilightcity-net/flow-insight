@@ -16,6 +16,7 @@ import TeamPanelListItem from "./TeamPanelListItem";
 import { MemberClient } from "../../../../clients/MemberClient";
 import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../clients/BaseClient";
+import { BrowserController } from "../../../../controllers/BrowserController";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -149,10 +150,25 @@ export default class TeamPanel extends Component {
    * @param isMe
    */
   handleClickRow = member => {
-    let name = member.username;
-    this.requestBrowserToLoadTeamJournalAndSetActiveMember(
-      name
-    );
+    let name = member.username,
+      activeCircuit = member.activeCircuit,
+      uri = BrowserController.uri + "";
+
+    if (
+      activeCircuit &&
+      uri.startsWith(
+        BrowserRequestFactory.ROOT_SEPARATOR +
+          BrowserRequestFactory.Requests.JOURNAL
+      )
+    ) {
+      this.requestBrowserToLoadTeamMemberActiveCircuit(
+        activeCircuit.circuitName
+      );
+    } else {
+      this.requestBrowserToLoadTeamJournalAndSetActiveMember(
+        name
+      );
+    }
   };
 
   /**
@@ -165,6 +181,18 @@ export default class TeamPanel extends Component {
     let request = BrowserRequestFactory.createRequest(
       BrowserRequestFactory.Requests.TEAM,
       teamMember
+    );
+    this.myController.makeSidebarBrowserRequest(request);
+  }
+
+  /**
+   * creates a new request to load the active circuit
+   * @param circuitName
+   */
+  requestBrowserToLoadTeamMemberActiveCircuit(circuitName) {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+      circuitName
     );
     this.myController.makeSidebarBrowserRequest(request);
   }

@@ -76,9 +76,9 @@ export class RendererControllerFactory {
 
   /**
    * creates a new initialized controller with the given scope
-   * @param name - the name of the controller
-   * @param scope - the given scope to create in
-   * @returns {ConsoleViewController|ResourceCircuitController|MainPanelViewController|null|SidePanelViewController}
+   * @param name
+   * @param scope
+   * @returns {ResourceCircuitController|BrowserController|MainPanelViewController|ConsoleViewController|SidePanelViewController}
    */
   static createController(name, scope) {
     switch (name) {

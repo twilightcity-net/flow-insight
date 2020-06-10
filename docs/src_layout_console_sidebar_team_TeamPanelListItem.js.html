@@ -54,6 +54,7 @@
           <li data-type='method'><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></li>
           <li data-type='method'><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></li>
           <li data-type='method'><a href="BrowserController.html#makeRequest">makeRequest</a></li>
+          <li data-type='method'><a href="BrowserController.html#setUri">setUri</a></li>
         </ul>
       </li>
       <li><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></li>
@@ -713,6 +714,7 @@
       <li><a href="global.html#ConsoleStates">ConsoleStates</a></li>
       <li><a href="global.html#createIntention">createIntention</a></li>
       <li><a href="global.html#createTaskReference">createTaskReference</a></li>
+      <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
       <li><a href="global.html#getCircuitError">getCircuitError</a></li>
@@ -749,6 +751,7 @@
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
       <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
       <li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li>
+      <li><a href="global.html#getTaskPopupContent">getTaskPopupContent</a></li>
       <li><a href="global.html#getTeamPanelListMembersContent">getTeamPanelListMembersContent</a></li>
       <li><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></li>
       <li><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></li>
@@ -794,6 +797,7 @@
       <li><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></li>
       <li><a href="global.html#requestBrowserToLoadDoItLaterCircuit">requestBrowserToLoadDoItLaterCircuit</a></li>
       <li><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></li>
+      <li><a href="global.html#requestBrowserToLoadTeamMemberActiveCircuit">requestBrowserToLoadTeamMemberActiveCircuit</a></li>
       <li><a href="global.html#ROOT_">ROOT_</a></li>
       <li><a href="global.html#saveState">saveState</a></li>
       <li><a href="global.html#scrollToJournalItemById">scrollToJournalItemById</a></li>
@@ -815,7 +819,13 @@
     <section>
       <article>
         <pre class="prettyprint source linenums"><code>import React, { Component } from "react";
-import { Icon, List } from "semantic-ui-react";
+import {
+  Divider,
+  Icon,
+  Label,
+  List,
+  Popup
+} from "semantic-ui-react";
 import { BaseClient } from "../../../../clients/BaseClient";
 import UtilRenderer from "../../../../UtilRenderer";
 
@@ -888,6 +898,110 @@ export default class TeamPanelListItem extends Component {
   }
 
   /**
+   * renders our popup content for our GUI to display to the user
+   * @param trigger
+   * @returns {*}
+   */
+  getPopupContent(trigger) {
+    let member = this.props.model,
+      username = member.username,
+      name = member.fullName,
+      xpSummary = member.xpSummary,
+      level = xpSummary.level,
+      activeTaskName = member.activeTaskName,
+      activeTaskSummary = member.activeTaskSummary,
+      workingOn = member.workingOn,
+      activeCircuit = member.activeCircuit;
+
+    let popupContent = (
+      &lt;div>
+        &lt;div>
+          &lt;div className="username">@{username}&lt;/div>
+          &lt;Label
+            className="level"
+            color="violet"
+            horizontal
+          >
+            {xpSummary.title}
+            &lt;Label.Detail>{level}&lt;/Label.Detail>
+          &lt;/Label>
+          &lt;div className="names">
+            &lt;div className="name">{name}&lt;/div>
+          &lt;/div>
+        &lt;/div>
+        {!activeCircuit &amp;&amp;
+          this.getTaskPopupContent(
+            activeTaskName,
+            activeTaskSummary,
+            workingOn
+          )}
+        {!!activeCircuit &amp;&amp;
+          this.getAlarmPopupContent(activeCircuit)}
+      &lt;/div>
+    );
+
+    return (
+      &lt;Popup
+        trigger={trigger}
+        className="teamPanel chunkTitle"
+        content={popupContent}
+        wide
+        position="right center"
+        inverted
+        hideOnScroll
+      />
+    );
+  }
+
+  /**
+   * renders our task popup content for our team panel tooltip
+   * @param activeTaskName
+   * @param activeTaskSummary
+   * @param workingOn
+   * @returns {*}
+   */
+  getTaskPopupContent(
+    activeTaskName,
+    activeTaskSummary,
+    workingOn
+  ) {
+    return (
+      &lt;div>
+        &lt;Divider />
+        &lt;div>
+          &lt;b>
+            &lt;span className="taskhighlight">
+              {activeTaskName}: {activeTaskSummary}
+            &lt;/span>
+          &lt;/b>
+        &lt;/div>
+        &lt;div>{workingOn}&lt;/div>
+      &lt;/div>
+    );
+  }
+
+  /**
+   * renders our alarm circuit content for our tool tip of our team panel
+   * @param circuit
+   * @returns {*}
+   */
+  getAlarmPopupContent(circuit) {
+    return (
+      &lt;div className="circuit">
+        &lt;Divider />
+        &lt;div className="state">{circuit.circuitState}:&lt;/div>
+        &lt;div className="name">
+          {" /circuit/wtf/" + circuit.circuitName}
+        &lt;/div>
+        &lt;div className="owner">
+          Owner: {circuit.ownerName}
+        &lt;/div>
+        &lt;div className="time">T+ {circuit.openTime}&lt;/div>
+      &lt;/div>
+    );
+  }
+
+  /**
    * gets our icon for our team panel list item
    * @returns {*}
    */
@@ -922,11 +1036,7 @@ export default class TeamPanelListItem extends Component {
     return className;
   }
 
-  /**
-   * renders our list item JSX
-   * @returns {*}
-   */
-  render() {
+  getTeamMemberListItem() {
     return (
       &lt;List.Item
         className={this.getClassName()}
@@ -938,6 +1048,16 @@ export default class TeamPanelListItem extends Component {
           &lt;List.Header>{this.getDisplayName()}&lt;/List.Header>
         &lt;/List.Content>
       &lt;/List.Item>
+    );
+  }
+
+  /**
+   * renders our list item JSX
+   * @returns {*}
+   */
+  render() {
+    return this.getPopupContent(
+      this.getTeamMemberListItem()
     );
   }
 }

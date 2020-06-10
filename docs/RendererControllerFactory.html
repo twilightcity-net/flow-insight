@@ -54,6 +54,7 @@
           <li data-type='method'><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></li>
           <li data-type='method'><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></li>
           <li data-type='method'><a href="BrowserController.html#makeRequest">makeRequest</a></li>
+          <li data-type='method'><a href="BrowserController.html#setUri">setUri</a></li>
         </ul>
       </li>
       <li><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></li>
@@ -713,6 +714,7 @@
       <li><a href="global.html#ConsoleStates">ConsoleStates</a></li>
       <li><a href="global.html#createIntention">createIntention</a></li>
       <li><a href="global.html#createTaskReference">createTaskReference</a></li>
+      <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
       <li><a href="global.html#getCircuitError">getCircuitError</a></li>
@@ -749,6 +751,7 @@
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
       <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
       <li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li>
+      <li><a href="global.html#getTaskPopupContent">getTaskPopupContent</a></li>
       <li><a href="global.html#getTeamPanelListMembersContent">getTeamPanelListMembersContent</a></li>
       <li><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></li>
       <li><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></li>
@@ -794,6 +797,7 @@
       <li><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></li>
       <li><a href="global.html#requestBrowserToLoadDoItLaterCircuit">requestBrowserToLoadDoItLaterCircuit</a></li>
       <li><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></li>
+      <li><a href="global.html#requestBrowserToLoadTeamMemberActiveCircuit">requestBrowserToLoadTeamMemberActiveCircuit</a></li>
       <li><a href="global.html#ROOT_">ROOT_</a></li>
       <li><a href="global.html#saveState">saveState</a></li>
       <li><a href="global.html#scrollToJournalItemById">scrollToJournalItemById</a></li>
@@ -866,7 +870,7 @@
         </ul>
         <h3 class="subsection-title">Methods</h3>
         <h4 class="name"
-            id=".createController"><span class="type-signature">(static) </span>createController<span class="signature">(name, scope)</span><span class="type-signature"> &rarr; {ConsoleViewController|<a href="ResourceCircuitController.html">ResourceCircuitController</a>|<a href="MainPanelViewController.html">MainPanelViewController</a>|null|<a href="SidePanelViewController.html">SidePanelViewController</a>}</span></h4>
+            id=".createController"><span class="type-signature">(static) </span>createController<span class="signature">(name, scope)</span><span class="type-signature"> &rarr; {<a href="ResourceCircuitController.html">ResourceCircuitController</a>|<a href="BrowserController.html">BrowserController</a>|<a href="MainPanelViewController.html">MainPanelViewController</a>|ConsoleViewController|<a href="SidePanelViewController.html">SidePanelViewController</a>}</span></h4>
         <dl class="details">
           <dt class="tag-source">Source:</dt>
           <dd class="tag-source">
@@ -892,13 +896,13 @@
               <td class="name"><code>name</code></td>
               <td class="type">
               </td>
-              <td class="description last">the name of the controller</td>
+              <td class="description last"></td>
             </tr>
             <tr>
               <td class="name"><code>scope</code></td>
               <td class="type">
               </td>
-              <td class="description last">the given scope to create in</td>
+              <td class="description last"></td>
             </tr>
           </tbody>
         </table>
@@ -906,7 +910,7 @@
         <dl class="param-type">
           <dt> Type </dt>
           <dd>
-            <span class="param-type">ConsoleViewController</span> | <span class="param-type"><a href="ResourceCircuitController.html">ResourceCircuitController</a></span> | <span class="param-type"><a href="MainPanelViewController.html">MainPanelViewController</a></span> | <span class="param-type">null</span> | <span class="param-type"><a href="SidePanelViewController.html">SidePanelViewController</a></span>
+            <span class="param-type"><a href="ResourceCircuitController.html">ResourceCircuitController</a></span> | <span class="param-type"><a href="BrowserController.html">BrowserController</a></span> | <span class="param-type"><a href="MainPanelViewController.html">MainPanelViewController</a></span> | <span class="param-type">ConsoleViewController</span> | <span class="param-type"><a href="SidePanelViewController.html">SidePanelViewController</a></span>
           </dd>
         </dl>
         <h4 class="name"

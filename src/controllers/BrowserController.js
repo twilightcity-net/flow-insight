@@ -6,6 +6,8 @@ import UtilRenderer from "../UtilRenderer";
  * used to control the browser header class
  */
 export class BrowserController extends ActiveViewController {
+  static uri = null;
+
   /**
    * builds the browser console header component
    * @param scope
@@ -80,6 +82,14 @@ export class BrowserController extends ActiveViewController {
   };
 
   /**
+   * sets our current uri to a static variable any other controller can access
+   * @param resource
+   */
+  setUri(resource) {
+    BrowserController.uri = resource.uri;
+  }
+
+  /**
    * processes a given request and returns resource objest that the console content
    * component will use to figure out what to render
    * @param request
@@ -92,6 +102,7 @@ export class BrowserController extends ActiveViewController {
       let resource = UtilRenderer.getResourceFromRequest(
         request
       );
+      this.setUri(resource);
       this.fireConsoleBrowserLoadNotifyEvent(resource);
     } catch (e) {
       console.log(e);

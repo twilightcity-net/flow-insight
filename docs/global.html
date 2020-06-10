@@ -54,6 +54,7 @@
           <li data-type='method'><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></li>
           <li data-type='method'><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></li>
           <li data-type='method'><a href="BrowserController.html#makeRequest">makeRequest</a></li>
+          <li data-type='method'><a href="BrowserController.html#setUri">setUri</a></li>
         </ul>
       </li>
       <li><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></li>
@@ -713,6 +714,7 @@
       <li><a href="global.html#ConsoleStates">ConsoleStates</a></li>
       <li><a href="global.html#createIntention">createIntention</a></li>
       <li><a href="global.html#createTaskReference">createTaskReference</a></li>
+      <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
       <li><a href="global.html#getCircuitError">getCircuitError</a></li>
@@ -749,6 +751,7 @@
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
       <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
       <li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li>
+      <li><a href="global.html#getTaskPopupContent">getTaskPopupContent</a></li>
       <li><a href="global.html#getTeamPanelListMembersContent">getTeamPanelListMembersContent</a></li>
       <li><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></li>
       <li><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></li>
@@ -794,6 +797,7 @@
       <li><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></li>
       <li><a href="global.html#requestBrowserToLoadDoItLaterCircuit">requestBrowserToLoadDoItLaterCircuit</a></li>
       <li><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></li>
+      <li><a href="global.html#requestBrowserToLoadTeamMemberActiveCircuit">requestBrowserToLoadTeamMemberActiveCircuit</a></li>
       <li><a href="global.html#ROOT_">ROOT_</a></li>
       <li><a href="global.html#saveState">saveState</a></li>
       <li><a href="global.html#scrollToJournalItemById">scrollToJournalItemById</a></li>
@@ -1016,7 +1020,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line97">line 97</a>
+                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line98">line 98</a>
               </li>
             </ul>
           </dd>
@@ -1163,7 +1167,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line128">line 128</a>
+                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line129">line 129</a>
               </li>
             </ul>
           </dd>
@@ -1213,6 +1217,44 @@
             </tr>
           </tbody>
         </table>
+        <h4 class="name"
+            id="getAlarmPopupContent"><span class="type-signature"></span>getAlarmPopupContent<span class="signature">(circuit)</span><span class="type-signature"> &rarr; {*}</span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line168">line 168</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> renders our alarm circuit content for our tool tip of our team panel </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>circuit</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Returns:</h5>
+        <dl class="param-type">
+          <dt> Type </dt>
+          <dd>
+            <span class="param-type">*</span>
+          </dd>
+        </dl>
         <h4 class="name"
             id="getCanvasEl"><span class="type-signature"></span>getCanvasEl<span class="signature">()</span><span class="type-signature"> &rarr; {HTMLElement}</span></h4>
         <dl class="details">
@@ -1512,7 +1554,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line96">line 96</a>
+                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line206">line 206</a>
               </li>
             </ul>
           </dd>
@@ -1628,7 +1670,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line65">line 65</a>
+                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line71">line 71</a>
               </li>
             </ul>
           </dd>
@@ -1706,7 +1748,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line177">line 177</a>
+                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line205">line 205</a>
               </li>
             </ul>
           </dd>
@@ -1862,7 +1904,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line78">line 78</a>
+                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line188">line 188</a>
               </li>
             </ul>
           </dd>
@@ -2102,6 +2144,44 @@
           </dd>
         </dl>
         <h4 class="name"
+            id="getPopupContent"><span class="type-signature"></span>getPopupContent<span class="signature">(trigger)</span><span class="type-signature"> &rarr; {*}</span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line85">line 85</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> renders our popup content for our GUI to display to the user </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>trigger</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Returns:</h5>
+        <dl class="param-type">
+          <dt> Type </dt>
+          <dd>
+            <span class="param-type">*</span>
+          </dd>
+        </dl>
+        <h4 class="name"
             id="getProjectDropdown"><span class="type-signature"></span>getProjectDropdown<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
         <dl class="details">
           <dt class="tag-source">Source:</dt>
@@ -2256,13 +2336,63 @@
           </dd>
         </dl>
         <h4 class="name"
+            id="getTaskPopupContent"><span class="type-signature"></span>getTaskPopupContent<span class="signature">(activeTaskName, activeTaskSummary, workingOn)</span><span class="type-signature"> &rarr; {*}</span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line143">line 143</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> renders our task popup content for our team panel tooltip </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>activeTaskName</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+            <tr>
+              <td class="name"><code>activeTaskSummary</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+            <tr>
+              <td class="name"><code>workingOn</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Returns:</h5>
+        <dl class="param-type">
+          <dt> Type </dt>
+          <dd>
+            <span class="param-type">*</span>
+          </dd>
+        </dl>
+        <h4 class="name"
             id="getTeamPanelListMembersContent"><span class="type-signature"></span>getTeamPanelListMembersContent<span class="signature">(members)</span><span class="type-signature"> &rarr; {*}</span></h4>
         <dl class="details">
           <dt class="tag-source">Source:</dt>
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line239">line 239</a>
+                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line267">line 267</a>
               </li>
             </ul>
           </dd>
@@ -2300,7 +2430,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line192">line 192</a>
+                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line220">line 220</a>
               </li>
             </ul>
           </dd>
@@ -2320,7 +2450,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line208">line 208</a>
+                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line236">line 236</a>
               </li>
             </ul>
           </dd>
@@ -3454,7 +3584,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line108">line 108</a>
+                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line109">line 109</a>
               </li>
             </ul>
           </dd>
@@ -3942,7 +4072,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line275">line 275</a>
+                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line303">line 303</a>
               </li>
             </ul>
           </dd>
@@ -3962,7 +4092,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line113">line 113</a>
+                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line238">line 238</a>
               </li>
             </ul>
           </dd>
@@ -4129,7 +4259,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line162">line 162</a>
+                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line178">line 178</a>
               </li>
             </ul>
           </dd>
@@ -4147,6 +4277,37 @@
           <tbody>
             <tr>
               <td class="name"><code>teamMember</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 class="name"
+            id="requestBrowserToLoadTeamMemberActiveCircuit"><span class="type-signature"></span>requestBrowserToLoadTeamMemberActiveCircuit<span class="signature">(circuitName)</span><span class="type-signature"></span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line192">line 192</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> creates a new request to load the active circuit </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>circuitName</code></td>
               <td class="type">
               </td>
               <td class="description last"></td>
@@ -4484,7 +4645,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line38">line 38</a>
+                <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html">src/layout/console/sidebar/team/TeamPanelListItem.js</a>, <a href="src_layout_console_sidebar_team_TeamPanelListItem.js.html#line44">line 44</a>
               </li>
             </ul>
           </dd>
@@ -4687,7 +4848,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line84">line 84</a>
+                <a href="src_layout_console_sidebar_team_TeamPanel.js.html">src/layout/console/sidebar/team/TeamPanel.js</a>, <a href="src_layout_console_sidebar_team_TeamPanel.js.html#line85">line 85</a>
               </li>
             </ul>
           </dd>

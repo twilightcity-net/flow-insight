@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import { Icon, List } from "semantic-ui-react";
+import {
+  Divider,
+  Icon,
+  Label,
+  List,
+  Popup
+} from "semantic-ui-react";
 import { BaseClient } from "../../../../clients/BaseClient";
 import UtilRenderer from "../../../../UtilRenderer";
 
@@ -72,6 +78,110 @@ export default class TeamPanelListItem extends Component {
   }
 
   /**
+   * renders our popup content for our GUI to display to the user
+   * @param trigger
+   * @returns {*}
+   */
+  getPopupContent(trigger) {
+    let member = this.props.model,
+      username = member.username,
+      name = member.fullName,
+      xpSummary = member.xpSummary,
+      level = xpSummary.level,
+      activeTaskName = member.activeTaskName,
+      activeTaskSummary = member.activeTaskSummary,
+      workingOn = member.workingOn,
+      activeCircuit = member.activeCircuit;
+
+    let popupContent = (
+      <div>
+        <div>
+          <div className="username">@{username}</div>
+          <Label
+            className="level"
+            color="violet"
+            horizontal
+          >
+            {xpSummary.title}
+            <Label.Detail>{level}</Label.Detail>
+          </Label>
+          <div className="names">
+            <div className="name">{name}</div>
+          </div>
+        </div>
+        {!activeCircuit &&
+          this.getTaskPopupContent(
+            activeTaskName,
+            activeTaskSummary,
+            workingOn
+          )}
+        {!!activeCircuit &&
+          this.getAlarmPopupContent(activeCircuit)}
+      </div>
+    );
+
+    return (
+      <Popup
+        trigger={trigger}
+        className="teamPanel chunkTitle"
+        content={popupContent}
+        wide
+        position="right center"
+        inverted
+        hideOnScroll
+      />
+    );
+  }
+
+  /**
+   * renders our task popup content for our team panel tooltip
+   * @param activeTaskName
+   * @param activeTaskSummary
+   * @param workingOn
+   * @returns {*}
+   */
+  getTaskPopupContent(
+    activeTaskName,
+    activeTaskSummary,
+    workingOn
+  ) {
+    return (
+      <div>
+        <Divider />
+        <div>
+          <b>
+            <span className="taskhighlight">
+              {activeTaskName}: {activeTaskSummary}
+            </span>
+          </b>
+        </div>
+        <div>{workingOn}</div>
+      </div>
+    );
+  }
+
+  /**
+   * renders our alarm circuit content for our tool tip of our team panel
+   * @param circuit
+   * @returns {*}
+   */
+  getAlarmPopupContent(circuit) {
+    return (
+      <div className="circuit">
+        <Divider />
+        <div className="state">{circuit.circuitState}:</div>
+        <div className="name">
+          {" /circuit/wtf/" + circuit.circuitName}
+        </div>
+        <div className="owner">
+          Owner: {circuit.ownerName}
+        </div>
+        <div className="time">T+ {circuit.openTime}</div>
+      </div>
+    );
+  }
+
+  /**
    * gets our icon for our team panel list item
    * @returns {*}
    */
@@ -106,11 +216,7 @@ export default class TeamPanelListItem extends Component {
     return className;
   }
 
-  /**
-   * renders our list item JSX
-   * @returns {*}
-   */
-  render() {
+  getTeamMemberListItem() {
     return (
       <List.Item
         className={this.getClassName()}
@@ -122,6 +228,16 @@ export default class TeamPanelListItem extends Component {
           <List.Header>{this.getDisplayName()}</List.Header>
         </List.Content>
       </List.Item>
+    );
+  }
+
+  /**
+   * renders our list item JSX
+   * @returns {*}
+   */
+  render() {
+    return this.getPopupContent(
+      this.getTeamMemberListItem()
     );
   }
 }

@@ -27,7 +27,7 @@ export default class LoadingView extends Component {
     this.header = {
       title: "Loading Torchie",
       text: "Checking for new version...",
-      icon: "hand spock"
+      icon: "universal access"
     };
     this.progress = {
       color: "violet",
@@ -36,7 +36,7 @@ export default class LoadingView extends Component {
       label: "Populating cats and synthesizers"
     };
     this.state = {
-      appVersion: "0.4.8",
+      appVersion: "0.4.9",
       visible: true,
       header: this.header,
       progress: this.progress,

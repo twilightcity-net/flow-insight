@@ -54,6 +54,7 @@
           <li data-type='method'><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></li>
           <li data-type='method'><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></li>
           <li data-type='method'><a href="BrowserController.html#makeRequest">makeRequest</a></li>
+          <li data-type='method'><a href="BrowserController.html#setUri">setUri</a></li>
         </ul>
       </li>
       <li><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></li>
@@ -713,6 +714,7 @@
       <li><a href="global.html#ConsoleStates">ConsoleStates</a></li>
       <li><a href="global.html#createIntention">createIntention</a></li>
       <li><a href="global.html#createTaskReference">createTaskReference</a></li>
+      <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
       <li><a href="global.html#getCircuitError">getCircuitError</a></li>
@@ -749,6 +751,7 @@
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
       <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
       <li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li>
+      <li><a href="global.html#getTaskPopupContent">getTaskPopupContent</a></li>
       <li><a href="global.html#getTeamPanelListMembersContent">getTeamPanelListMembersContent</a></li>
       <li><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></li>
       <li><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></li>
@@ -794,6 +797,7 @@
       <li><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></li>
       <li><a href="global.html#requestBrowserToLoadDoItLaterCircuit">requestBrowserToLoadDoItLaterCircuit</a></li>
       <li><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></li>
+      <li><a href="global.html#requestBrowserToLoadTeamMemberActiveCircuit">requestBrowserToLoadTeamMemberActiveCircuit</a></li>
       <li><a href="global.html#ROOT_">ROOT_</a></li>
       <li><a href="global.html#saveState">saveState</a></li>
       <li><a href="global.html#scrollToJournalItemById">scrollToJournalItemById</a></li>
@@ -827,7 +831,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line13">line 13</a>
+                  <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line15">line 15</a>
                 </li>
               </ul>
             </dd>
@@ -865,7 +869,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line72">line 72</a>
+                <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line74">line 74</a>
               </li>
             </ul>
           </dd>
@@ -878,7 +882,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line87">line 87</a>
+                <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line97">line 97</a>
               </li>
             </ul>
           </dd>
@@ -892,7 +896,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line45">line 45</a>
+                <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line47">line 47</a>
               </li>
             </ul>
           </dd>
@@ -929,7 +933,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line63">line 63</a>
+                <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line65">line 65</a>
               </li>
             </ul>
           </dd>
@@ -960,7 +964,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line36">line 36</a>
+                <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line38">line 38</a>
               </li>
             </ul>
           </dd>
@@ -978,6 +982,37 @@
           <tbody>
             <tr>
               <td class="name"><code>request</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 class="name"
+            id="setUri"><span class="type-signature"></span>setUri<span class="signature">(resource)</span><span class="type-signature"></span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_controllers_BrowserController.js.html">src/controllers/BrowserController.js</a>, <a href="src_controllers_BrowserController.js.html#line88">line 88</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> sets our current uri to a static variable any other controller can access </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>resource</code></td>
               <td class="type">
               </td>
               <td class="description last"></td>
