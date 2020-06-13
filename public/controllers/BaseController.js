@@ -442,4 +442,13 @@ module.exports = class BaseController {
 
     return view.data()[0];
   }
+
+  /**
+   * gets our local user name that represents ourselves
+   * @returns {String}
+   */
+  getMeUsername() {
+    let me = this.getMemberMe();
+    return me.username;
+  }
 };

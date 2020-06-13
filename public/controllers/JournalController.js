@@ -168,10 +168,10 @@ module.exports = class JournalController extends BaseController {
       );
     }
 
-    if (username === JournalController.Strings.ME) {
-      let me = this.getMemberMe();
-      username = me.username;
-    }
+    // if (username === JournalController.Strings.ME) {
+    //   let me = this.getMemberMe();
+    //   username = me.username;
+    // }
 
     JournalController.instance.userHistory.add(username);
     arg.data = store.data;
@@ -340,23 +340,14 @@ module.exports = class JournalController extends BaseController {
       ),
       username = arg.args.username;
 
-    if (username === BaseController.Strings.ME) {
-      let me = this.getMemberMe();
-      username = me.username;
-    }
-    if (!username) {
-      arg.error = "Unknown user '" + username + "'";
-      this.delegateCallbackOrEventReplyTo(
-        event,
-        arg,
-        callback
-      );
-      return;
-    }
-
     if (
       JournalController.instance.userHistory.has(username)
     ) {
+
+      if (username === BaseController.Strings.ME) {
+        username = this.getMeUsername();
+      }
+
       arg.data = collection
         .chain()
         .find({ username: username })
