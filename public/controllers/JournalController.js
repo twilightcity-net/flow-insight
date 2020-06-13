@@ -343,7 +343,6 @@ module.exports = class JournalController extends BaseController {
     if (
       JournalController.instance.userHistory.has(username)
     ) {
-
       if (username === BaseController.Strings.ME) {
         username = this.getMeUsername();
       }

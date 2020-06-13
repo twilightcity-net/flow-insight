@@ -307,9 +307,7 @@ module.exports = class TalkController extends BaseController {
         );
         break;
       case TalkController.MessageTypes.TEAM_MEMBER:
-        this.findRemoveXInsertDoc(
-          model,
-          membersCollection,
+        memberDatabase.updateMemberInCollections(
           message.data
         );
         teamDatabase.updateTeamMemberInTeams(message.data);

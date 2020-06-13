@@ -156,7 +156,35 @@ module.exports = class MemberDatabase extends LokiJS {
     }
   }
 
+  /**
+   * gets the object that represents our own user account from our db view
+   * @returns {*}
+   */
   getMeFromView() {
     return this.getViewForMe().data()[0];
+  }
+
+  updateMemberMe(member) {
+    let me = this.getMeFromView();
+    if (me.id === member.id) {
+      me = member;
+    }
+  }
+  /**
+   * updates a member dto in our database and checks  to see if we should update our me
+   * collection too.
+   * @param member
+   */
+  updateMemberInCollections(member) {
+    let collection = this.getCollection(
+      MemberDatabase.Collections.MEMBERS
+    );
+
+    let model = collection.find({ id: member.id });
+    if (model) {
+      collection.remove(model);
+    }
+    collection.insert(Object.assign({}, member));
+    this.updateMemberMe(member);
   }
 };
