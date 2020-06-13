@@ -102,7 +102,6 @@ class EventReplyException extends AppError {
   }
 }
 
-////
 /**
  * This class is used to managed the ipc events within the main process. the helper
  * class in ./src/EventManagerHelp is used to help look up event names in the render
