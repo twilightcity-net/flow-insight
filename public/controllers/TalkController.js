@@ -307,9 +307,7 @@ module.exports = class TalkController extends BaseController {
         );
         break;
       case TalkController.MessageTypes.TEAM_MEMBER:
-        memberDatabase.updateMemberInCollections(
-          message.data
-        );
+        memberDatabase.updateTeamMember(message.data);
         teamDatabase.updateTeamMemberInTeams(message.data);
         break;
       case TalkController.MessageTypes.XP_STATUS_UPDATE:

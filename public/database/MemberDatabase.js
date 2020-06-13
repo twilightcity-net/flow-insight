@@ -175,7 +175,7 @@ module.exports = class MemberDatabase extends LokiJS {
    * collection too.
    * @param member
    */
-  updateMemberInCollections(member) {
+  updateTeamMember(member) {
     let collection = this.getCollection(
       MemberDatabase.Collections.MEMBERS
     );
