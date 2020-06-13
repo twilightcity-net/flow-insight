@@ -8,11 +8,10 @@ const log = require("electron-log"),
  * this is used to store a database of references to our in memory databases
  * @type {VolumeManager}
  */
-module.exports = class VolumeManager {
+class VolumeManager {
   /**
    * global static array we store our database volumes in
    * @returns {map}
-   * @constructor
    */
   static get Volumes() {
     return VolumeManager.volumes;
@@ -20,6 +19,7 @@ module.exports = class VolumeManager {
 
   /**
    * builds our volume manager class and volume array
+   * @constructor
    */
   constructor() {
     VolumeManager.volumes = new Map();
@@ -127,4 +127,6 @@ module.exports = class VolumeManager {
       );
     }
   }
-};
+}
+
+module.exports = VolumeManager;

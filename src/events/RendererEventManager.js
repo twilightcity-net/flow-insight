@@ -10,8 +10,15 @@ const { ipcRenderer } = window.require("electron");
  * main process or the renderer will hang; like something dead.
  */
 export class RendererEvent {
-  constructor(eventType, scope, callback, reply) {
-    this.type = eventType;
+  /**
+   * builds our render process event class object
+   * @param type
+   * @param scope
+   * @param callback
+   * @param reply
+   */
+  constructor(type, scope, callback, reply) {
+    this.type = type;
     this.scope = scope;
     this.callback = callback
       ? callback.bind(scope)
@@ -35,7 +42,7 @@ export class RendererEvent {
   }
 
   /**
-   * updates the listerner with a new function. pass null to remove from memory
+   * updates the listener with a new function. pass null to remove from memory
    * @param scope
    * @param callback
    */

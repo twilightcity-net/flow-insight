@@ -87,6 +87,14 @@
       </li>
       <li><a href="CircuitClient.Events.html">Events</a></li>
       <li><a href="CircuitMemberStatusDto.html">CircuitMemberStatusDto</a></li>
+      <li><a href="ControllerEvent.html">ControllerEvent</a></li>
+      <li><a href="DatabaseFactory.html">DatabaseFactory</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="DatabaseFactory.html#.createDatabase">createDatabase</a></li>
+          <li data-type='method'><a href="DatabaseFactory.html#.getDatabase">getDatabase</a></li>
+        </ul>
+      </li>
+      <li><a href="DatabaseFactory.Names.html">Names</a></li>
       <li><a href="DataStore.html">DataStore</a></li>
       <li><a href="DataStoreFactory.html">DataStoreFactory</a></li>
       <li><a href="DimensionController.html">DimensionController</a>
@@ -195,6 +203,24 @@
         </ul>
       </li>
       <li><a href="MemberClient.Events.html">Events</a></li>
+      <li><a href="MemberController.html">MemberController</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="MemberController.html#.wireTogetherControllers">wireTogetherControllers</a></li>
+          <li data-type='method'><a href="MemberController.html#configureEvents">configureEvents</a></li>
+          <li data-type='method'><a href="MemberController.html#delegateLoadMeCallback">delegateLoadMeCallback</a></li>
+          <li data-type='method'><a href="MemberController.html#handleGetMeEvent">handleGetMeEvent</a></li>
+          <li data-type='method'><a href="MemberController.html#handleLoadMeEvent">handleLoadMeEvent</a></li>
+          <li data-type='method'><a href="MemberController.html#onMemberClientEvent">onMemberClientEvent</a></li>
+          <li data-type='method'><a href="MemberController.html#updateMeInClient">updateMeInClient</a></li>
+        </ul>
+      </li>
+      <li><a href="MemberManager.html">MemberManager</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="MemberManager.html#handleInitCallback">handleInitCallback</a></li>
+          <li data-type='method'><a href="MemberManager.html#init">init</a></li>
+          <li data-type='method'><a href="MemberManager.html#updateMe">updateMe</a></li>
+        </ul>
+      </li>
       <li><a href="module.html#.exports">exports</a>
         <ul class='methods'>
           <li data-type='method'><a href="module.html#.exports#addRoom">addRoom</a></li>
@@ -202,10 +228,8 @@
           <li data-type='method'><a href="module.html#.exports#addTalkMessagesCollection">addTalkMessagesCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#batchRemoveFromViewInCollection">batchRemoveFromViewInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#check">check</a></li>
-          <li data-type='method'><a href="module.html#.exports#checkIfCalledFromCLI">checkIfCalledFromCLI</a></li>
           <li data-type='method'><a href="module.html#.exports#configEvents">configEvents</a></li>
           <li data-type='method'><a href="module.html#.exports#configSocketListeners">configSocketListeners</a></li>
-          <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
           <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
           <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
           <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
@@ -217,8 +241,6 @@
           <li data-type='method'><a href="module.html#.exports#connectToTalk">connectToTalk</a></li>
           <li data-type='method'><a href="module.html#.exports#createConnection">createConnection</a></li>
           <li data-type='method'><a href="module.html#.exports#createConsole">createConsole</a></li>
-          <li data-type='method'><a href="module.html#.exports#createDatabase">createDatabase</a></li>
-          <li data-type='method'><a href="module.html#.exports#createDatabaseVolume">createDatabaseVolume</a></li>
           <li data-type='method'><a href="module.html#.exports#createMenu">createMenu</a></li>
           <li data-type='method'><a href="module.html#.exports#createQuitListener">createQuitListener</a></li>
           <li data-type='method'><a href="module.html#.exports#createShortcuts">createShortcuts</a></li>
@@ -241,7 +263,6 @@
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllTalkMessagesFromRoomCallback">delegateLoadAllTalkMessagesFromRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadCircuitWithAllDetailsCallback">delegateLoadCircuitWithAllDetailsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></li>
-          <li data-type='method'><a href="module.html#.exports#delegateLoadMeCallback">delegateLoadMeCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCallback">delegateLoadMyHomeTeamCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCircuitCallback">delegateLoadMyHomeTeamCircuitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
@@ -256,44 +277,23 @@
           <li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#finished">finished</a></li>
           <li data-type='method'><a href="module.html#.exports#getApiKey">getApiKey</a></li>
-          <li data-type='method'><a href="module.html#.exports#getAppApi">getAppApi</a></li>
-          <li data-type='method'><a href="module.html#.exports#getAppIcon">getAppIcon</a></li>
-          <li data-type='method'><a href="module.html#.exports#getAppName">getAppName</a></li>
-          <li data-type='method'><a href="module.html#.exports#getAppRootDir">getAppRootDir</a></li>
-          <li data-type='method'><a href="module.html#.exports#getAppSettingsPath">getAppSettingsPath</a></li>
-          <li data-type='method'><a href="module.html#.exports#getAppTalkUrl">getAppTalkUrl</a></li>
-          <li data-type='method'><a href="module.html#.exports#getAppTray">getAppTray</a></li>
-          <li data-type='method'><a href="module.html#.exports#getAppUserDataDir">getAppUserDataDir</a></li>
-          <li data-type='method'><a href="module.html#.exports#getAssetPath">getAssetPath</a></li>
-          <li data-type='method'><a href="module.html#.exports#getAssetsDir">getAssetsDir</a></li>
           <li data-type='method'><a href="module.html#.exports#getCollectionForRoomStatusTalkMessages">getCollectionForRoomStatusTalkMessages</a></li>
           <li data-type='method'><a href="module.html#.exports#getCollectionForRoomTalkMessages">getCollectionForRoomTalkMessages</a></li>
           <li data-type='method'><a href="module.html#.exports#getConnectionStatus">getConnectionStatus</a></li>
           <li data-type='method'><a href="module.html#.exports#getConnectionUrl">getConnectionUrl</a></li>
           <li data-type='method'><a href="module.html#.exports#getConsoleShortcut">getConsoleShortcut</a></li>
           <li data-type='method'><a href="module.html#.exports#getConsoleShortcutAlt">getConsoleShortcutAlt</a></li>
-          <li data-type='method'><a href="module.html#.exports#getDatabase">getDatabase</a></li>
-          <li data-type='method'><a href="module.html#.exports#getDateTimeString">getDateTimeString</a></li>
           <li data-type='method'><a href="module.html#.exports#getDisplayIndex">getDisplayIndex</a></li>
           <li data-type='method'><a href="module.html#.exports#getDisplaysSubmenu">getDisplaysSubmenu</a></li>
-          <li data-type='method'><a href="module.html#.exports#getFlowHomePath">getFlowHomePath</a></li>
-          <li data-type='method'><a href="module.html#.exports#getGuid">getGuid</a></li>
           <li data-type='method'><a href="module.html#.exports#getLatency">getLatency</a></li>
-          <li data-type='method'><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></li>
           <li data-type='method'><a href="module.html#.exports#getMeFromView">getMeFromView</a></li>
           <li data-type='method'><a href="module.html#.exports#getMemberMe">getMemberMe</a></li>
           <li data-type='method'><a href="module.html#.exports#getMeUsername">getMeUsername</a></li>
           <li data-type='method'><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></li>
-          <li data-type='method'><a href="module.html#.exports#getRender3D">getRender3D</a></li>
-          <li data-type='method'><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></li>
-          <li data-type='method'><a href="module.html#.exports#getScreenshotFolderPath">getScreenshotFolderPath</a></li>
           <li data-type='method'><a href="module.html#.exports#getStages">getStages</a></li>
           <li data-type='method'><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromUri">getStatusTalkMessagesCollectionNameFromUri</a></li>
           <li data-type='method'><a href="module.html#.exports#getTalkMessagesCollectionNameFromUri">getTalkMessagesCollectionNameFromUri</a></li>
-          <li data-type='method'><a href="module.html#.exports#getTimestampFromUTCStr">getTimestampFromUTCStr</a></li>
           <li data-type='method'><a href="module.html#.exports#getTotalStages">getTotalStages</a></li>
-          <li data-type='method'><a href="module.html#.exports#getUriFromMessageArray">getUriFromMessageArray</a></li>
-          <li data-type='method'><a href="module.html#.exports#getUserHomePath">getUserHomePath</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewActiveCircuit">getViewActiveCircuit</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></li>
@@ -308,13 +308,11 @@
           <li data-type='method'><a href="module.html#.exports#getViewStatusTalkMessagesForCollection">getViewStatusTalkMessagesForCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewTalkMessagesForCollection">getViewTalkMessagesForCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewTeamCircuits">getViewTeamCircuits</a></li>
-          <li data-type='method'><a href="module.html#.exports#getVolumeByName">getVolumeByName</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateTaskReferenceEvent">handleCreateTaskReferenceEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
-          <li data-type='method'><a href="module.html#.exports#handleFinishLoadingVolumes">handleFinishLoadingVolumes</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></li>
@@ -323,13 +321,11 @@
           <li data-type='method'><a href="module.html#.exports#handleGetAllStatusTalkMessagesFromRoomEvent">handleGetAllStatusTalkMessagesFromRoomEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllTalkMessagesFromRoomEvent">handleGetAllTalkMessagesFromRoomEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetCircuitWithAllDetailsEvent">handleGetCircuitWithAllDetailsEvent</a></li>
-          <li data-type='method'><a href="module.html#.exports#handleGetMeEvent">handleGetMeEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetMyHomeTeamCircuitEvent">handleGetMyHomeTeamCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetMyHomeTeamEvent">handleGetMyHomeTeamEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetRecentProjectsEvent">handleGetRecentProjectsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetRecentTasksEvent">handleGetRecentTasksEvent</a></li>
-          <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
@@ -344,7 +340,6 @@
           <li data-type='method'><a href="module.html#.exports#handleLoadAllTalkNessagesFromRoomEvent">handleLoadAllTalkNessagesFromRoomEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadCircuitWithAllDetailsEvent">handleLoadCircuitWithAllDetailsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadJournalEvent">handleLoadJournalEvent</a></li>
-          <li data-type='method'><a href="module.html#.exports#handleLoadMeEvent">handleLoadMeEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamCircuitEvent">handleLoadMyHomeTeamCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamEvent">handleLoadMyHomeTeamEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></li>
@@ -358,20 +353,12 @@
           <li data-type='method'><a href="module.html#.exports#init">init</a></li>
           <li data-type='method'><a href="module.html#.exports#init">init</a></li>
           <li data-type='method'><a href="module.html#.exports#init">init</a></li>
-          <li data-type='method'><a href="module.html#.exports#init">init</a></li>
-          <li data-type='method'><a href="module.html#.exports#init">init</a></li>
           <li data-type='method'><a href="module.html#.exports#initVolumes">initVolumes</a></li>
           <li data-type='method'><a href="module.html#.exports#insertCircuitOrUpdateCircuitState">insertCircuitOrUpdateCircuitState</a></li>
-          <li data-type='method'><a href="module.html#.exports#inspect">inspect</a></li>
-          <li data-type='method'><a href="module.html#.exports#isEmpty">isEmpty</a></li>
           <li data-type='method'><a href="module.html#.exports#joinRoomById">joinRoomById</a></li>
           <li data-type='method'><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></li>
           <li data-type='method'><a href="module.html#.exports#load">load</a></li>
           <li data-type='method'><a href="module.html#.exports#load">load</a></li>
-          <li data-type='method'><a href="module.html#.exports#loadDefaultCircuitDatabase">loadDefaultCircuitDatabase</a></li>
-          <li data-type='method'><a href="module.html#.exports#loadDefaultJournalDatabase">loadDefaultJournalDatabase</a></li>
-          <li data-type='method'><a href="module.html#.exports#loadDefaultMemberDatabase">loadDefaultMemberDatabase</a></li>
-          <li data-type='method'><a href="module.html#.exports#loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></li>
           <li data-type='method'><a href="module.html#.exports#log">log</a></li>
           <li data-type='method'><a href="module.html#.exports#log">log</a></li>
           <li data-type='method'><a href="module.html#.exports#logRequest">logRequest</a></li>
@@ -389,7 +376,6 @@
           <li data-type='method'><a href="module.html#.exports#onLoadCb">onLoadCb</a></li>
           <li data-type='method'><a href="module.html#.exports#onLoadingLoginCb">onLoadingLoginCb</a></li>
           <li data-type='method'><a href="module.html#.exports#onLoadingShowCb">onLoadingShowCb</a></li>
-          <li data-type='method'><a href="module.html#.exports#onMemberClientEvent">onMemberClientEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#onPrepareForScreenshot">onPrepareForScreenshot</a></li>
           <li data-type='method'><a href="module.html#.exports#onQuit">onQuit</a></li>
           <li data-type='method'><a href="module.html#.exports#onReady">onReady</a></li>
@@ -402,7 +388,6 @@
           <li data-type='method'><a href="module.html#.exports#onTeamClientEvent">onTeamClientEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#onWillQuit">onWillQuit</a></li>
           <li data-type='method'><a href="module.html#.exports#onWindowAllClosed">onWindowAllClosed</a></li>
-          <li data-type='method'><a href="module.html#.exports#openExternalBrowser">openExternalBrowser</a></li>
           <li data-type='method'><a href="module.html#.exports#processCLI">processCLI</a></li>
           <li data-type='method'><a href="module.html#.exports#processLogin">processLogin</a></li>
           <li data-type='method'><a href="module.html#.exports#pulse">pulse</a></li>
@@ -416,10 +401,8 @@
           <li data-type='method'><a href="module.html#.exports#resetHomeTeamFlag">resetHomeTeamFlag</a></li>
           <li data-type='method'><a href="module.html#.exports#restart">restart</a></li>
           <li data-type='method'><a href="module.html#.exports#save">save</a></li>
-          <li data-type='method'><a href="module.html#.exports#setAppTray">setAppTray</a></li>
           <li data-type='method'><a href="module.html#.exports#setConsoleShortcut">setConsoleShortcut</a></li>
           <li data-type='method'><a href="module.html#.exports#setConsoleShortcutAlt">setConsoleShortcutAlt</a></li>
-          <li data-type='method'><a href="module.html#.exports#setDevUserDataDir">setDevUserDataDir</a></li>
           <li data-type='method'><a href="module.html#.exports#setDisplayIndex">setDisplayIndex</a></li>
           <li data-type='method'><a href="module.html#.exports#setLatency">setLatency</a></li>
           <li data-type='method'><a href="module.html#.exports#showConsole">showConsole</a></li>
@@ -433,8 +416,8 @@
           <li data-type='method'><a href="module.html#.exports#updateJournalIntentions">updateJournalIntentions</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalProjects">updateJournalProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateMemberInMembers">updateMemberInMembers</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
-          <li data-type='method'><a href="module.html#.exports#updateTeamMember">updateTeamMember</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li>
@@ -449,15 +432,9 @@
           <li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li>
           <li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li>
           <li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li>
-          <li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li>
           <li data-type='method'><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></li>
         </ul>
       </li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
-      <li></li>
       <li></li>
       <li></li>
       <li></li>
@@ -536,7 +513,6 @@
       <li></li>
       <li></li>
       <li></li>
-      <li></li>
       <li><a href="module.exports_Indices.html">Indices</a></li>
       <li></li>
       <li></li>
@@ -552,7 +528,6 @@
       <li></li>
       <li></li>
       <li><a href="module.exports_Names.html">Names</a></li>
-      <li></li>
       <li><a href="module.exports_Params.html">Params</a></li>
       <li><a href="module.exports_Paths.html">Paths</a></li>
       <li><a href="module.exports_StatusTypes.html">StatusTypes</a></li>
@@ -563,7 +538,6 @@
       <li></li>
       <li></li>
       <li></li>
-      <li><a href="module.exports_Volumes.html">Volumes</a></li>
       <li><a href="module.exports_WindowNames.html">WindowNames</a></li>
       <li><a href="NewSnippetEvent.html">NewSnippetEvent</a></li>
       <li><a href="Opt.html">Opt</a></li>
@@ -684,8 +658,50 @@
         </ul>
       </li>
       <li><a href="TeamClient.Events.html">Events</a></li>
+      <li><a href="Util.html">Util</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="Util.html#.checkIfCalledFromCLI">checkIfCalledFromCLI</a></li>
+          <li data-type='method'><a href="Util.html#.getAppApi">getAppApi</a></li>
+          <li data-type='method'><a href="Util.html#.getAppIcon">getAppIcon</a></li>
+          <li data-type='method'><a href="Util.html#.getAppName">getAppName</a></li>
+          <li data-type='method'><a href="Util.html#.getAppRootDir">getAppRootDir</a></li>
+          <li data-type='method'><a href="Util.html#.getAppSettingsPath">getAppSettingsPath</a></li>
+          <li data-type='method'><a href="Util.html#.getAppTalkUrl">getAppTalkUrl</a></li>
+          <li data-type='method'><a href="Util.html#.getAppTray">getAppTray</a></li>
+          <li data-type='method'><a href="Util.html#.getAppUserDataDir">getAppUserDataDir</a></li>
+          <li data-type='method'><a href="Util.html#.getAssetPath">getAssetPath</a></li>
+          <li data-type='method'><a href="Util.html#.getAssetsDir">getAssetsDir</a></li>
+          <li data-type='method'><a href="Util.html#.getDateTimeString">getDateTimeString</a></li>
+          <li data-type='method'><a href="Util.html#.getFlowHomePath">getFlowHomePath</a></li>
+          <li data-type='method'><a href="Util.html#.getGuid">getGuid</a></li>
+          <li data-type='method'><a href="Util.html#.getLatestScreenshotPath">getLatestScreenshotPath</a></li>
+          <li data-type='method'><a href="Util.html#.getRender3D">getRender3D</a></li>
+          <li data-type='method'><a href="Util.html#.getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></li>
+          <li data-type='method'><a href="Util.html#.getScreenshotFolderPath">getScreenshotFolderPath</a></li>
+          <li data-type='method'><a href="Util.html#.getTimestampFromUTCStr">getTimestampFromUTCStr</a></li>
+          <li data-type='method'><a href="Util.html#.getUriFromMessageArray">getUriFromMessageArray</a></li>
+          <li data-type='method'><a href="Util.html#.getUserHomePath">getUserHomePath</a></li>
+          <li data-type='method'><a href="Util.html#.inspect">inspect</a></li>
+          <li data-type='method'><a href="Util.html#.isEmpty">isEmpty</a></li>
+          <li data-type='method'><a href="Util.html#.openExternalBrowser">openExternalBrowser</a></li>
+          <li data-type='method'><a href="Util.html#.setAppTray">setAppTray</a></li>
+          <li data-type='method'><a href="Util.html#.setDevUserDataDir">setDevUserDataDir</a></li>
+        </ul>
+      </li>
       <li><a href="Views.html">Views</a></li>
       <li></li>
+      <li><a href="VolumeManager.html">VolumeManager</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="VolumeManager.html#.createDatabaseVolume">createDatabaseVolume</a></li>
+          <li data-type='method'><a href="VolumeManager.html#.handleFinishLoadingVolumes">handleFinishLoadingVolumes</a></li>
+          <li data-type='method'><a href="VolumeManager.html#.loadDefaultCircuitDatabase">loadDefaultCircuitDatabase</a></li>
+          <li data-type='method'><a href="VolumeManager.html#.loadDefaultJournalDatabase">loadDefaultJournalDatabase</a></li>
+          <li data-type='method'><a href="VolumeManager.html#.loadDefaultMemberDatabase">loadDefaultMemberDatabase</a></li>
+          <li data-type='method'><a href="VolumeManager.html#.loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></li>
+          <li data-type='method'><a href="VolumeManager.html#getVolumeByName">getVolumeByName</a></li>
+          <li data-type='method'><a href="VolumeManager.html#init">init</a></li>
+        </ul>
+      </li>
       <li><a href="WindowManager.html">WindowManager</a>
         <ul class='methods'>
           <li data-type='method'><a href="WindowManager.html#closeWindow">closeWindow</a></li>
@@ -1130,7 +1146,7 @@ module.exports = class TalkController extends BaseController {
         );
         break;
       case TalkController.MessageTypes.TEAM_MEMBER:
-        memberDatabase.updateTeamMember(message.data);
+        memberDatabase.updateMemberInMembers(message.data);
         teamDatabase.updateTeamMemberInTeams(message.data);
         break;
       case TalkController.MessageTypes.XP_STATUS_UPDATE:

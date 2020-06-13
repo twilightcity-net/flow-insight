@@ -8,7 +8,7 @@ const TalkDB = require("./TalkDatabase"),
  * this class is used to build new databases
  * @type {DatabaseFactory}
  */
-module.exports = class DatabaseFactory {
+class DatabaseFactory {
   /**
    * the names of our databases
    * @returns {{JOURNAL: string, TEAM: string, TALK: string, CIRCUIT: string}}
@@ -56,4 +56,6 @@ module.exports = class DatabaseFactory {
   static getDatabase(name) {
     return global.App.VolumeManager.getVolumeByName(name);
   }
-};
+}
+
+module.exports = DatabaseFactory;

@@ -10,7 +10,7 @@ const { app, shell } = require("electron"),
  * general purpose global utility functions
  * @type {Util}
  */
-module.exports = class Util {
+class Util {
   /**
    * static linking to internal nodejs util exports
    * @https://nodejs.org/api/util.html#util_util
@@ -334,4 +334,6 @@ module.exports = class Util {
       s4()
     );
   }
-};
+}
+
+module.exports = Util;

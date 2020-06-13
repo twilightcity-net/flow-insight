@@ -164,10 +164,14 @@ module.exports = class MemberDatabase extends LokiJS {
     return this.getViewForMe().data()[0];
   }
 
+  /**
+   * helper function used by our managers to update our selves
+   * @param member
+   */
   updateMemberMe(member) {
     let me = this.getMeFromView();
     if (me.id === member.id) {
-      me = member;
+      global.App.MemberManager.updateMe(member);
     }
   }
   /**
@@ -175,7 +179,7 @@ module.exports = class MemberDatabase extends LokiJS {
    * collection too.
    * @param member
    */
-  updateTeamMember(member) {
+  updateMemberInMembers(member) {
     let collection = this.getCollection(
       MemberDatabase.Collections.MEMBERS
     );

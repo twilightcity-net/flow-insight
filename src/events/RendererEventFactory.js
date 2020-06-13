@@ -9,16 +9,18 @@ export class RendererEventFactory {
   /**
    * creates te event from the factory to use
    * @param type
-   * @param args
+   * @param scope
+   * @param callback
+   * @param reply
    * @returns {RendererEvent}
    */
-  static createEvent(type, ...args) {
-    return new RendererEvent(type, ...args);
+  static createEvent(type, scope, callback, reply) {
+    return new RendererEvent(type, scope, callback, reply);
   }
 
   /**
    * static enum subclass to store event names
-   * @returns {{VIEW_CONSOLE_NOTIFICATIONS_PANEL: string, SCREENSHOT_READY_FOR_DISPLAY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, JOURNAL_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, TEAM_CIRCUIT_CLIENT: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, VIEW_CONSOLE_SIDEBAR_PANEL: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, VIEW_CONSOLE_CIRCUITS_PANEL: string, APP_PULSE: string, DATASTORE_LOAD: string, TEAM_CLIENT: string, VIEW_CONSOLE_SPIRIT_PANEL: string, TALK_TO_CLIENT: string, DATASTORE_LOADED: string, WINDOW_CONSOLE_BROWSER_REQUEST: string, APPLOADER_LOAD: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, SCREENSHOT_COMPLETE: string, WINDOW_ACTIVATOR_CLOSE: string, MEMBER_CLIENT: string, VIEW_CONSOLE_TEAM_PANEL: string, APP_LOADED: string, VIEW_CONSOLE_CIRCUIT_START_STOP: string, SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: string}}
+   * @returns {{VIEW_CONSOLE_NOTIFICATIONS_PANEL: string, SCREENSHOT_READY_FOR_DISPLAY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, JOURNAL_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, TEAM_CIRCUIT_CLIENT: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, VIEW_CONSOLE_SIDEBAR_PANEL: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, VIEW_CONSOLE_CIRCUITS_PANEL: string, APP_PULSE: string, DATASTORE_LOAD: string, TEAM_CLIENT: string, VIEW_CONSOLE_SPIRIT_PANEL: string, TALK_TO_CLIENT: string, DATASTORE_LOADED: string, WINDOW_CONSOLE_BROWSER_REQUEST: string, APPLOADER_LOAD: string, MEMBER_CONTROLLER: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, SCREENSHOT_COMPLETE: string, WINDOW_ACTIVATOR_CLOSE: string, MEMBER_CLIENT: string, VIEW_CONSOLE_TEAM_PANEL: string, APP_LOADED: string, VIEW_CONSOLE_CIRCUIT_START_STOP: string, SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: string}}
    * @constructor
    */
   static get Events() {
@@ -50,6 +52,7 @@ export class RendererEventFactory {
       TEAM_CLIENT: prefix + "team-client",
       TEAM_CIRCUIT_CLIENT: prefix + "team-circuit-client",
       MEMBER_CLIENT: prefix + "member-client",
+      MEMBER_CONTROLLER: prefix + "member-controller",
       JOURNAL_CLIENT: prefix + "journal-client",
       CIRCUIT_CLIENT: prefix + "circuit-client",
       VIEW_CONSOLE_SIDEBAR_PANEL:

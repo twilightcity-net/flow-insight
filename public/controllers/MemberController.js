@@ -1,4 +1,5 @@
 const BaseController = require("./BaseController"),
+  ControllerEvent = require("../events/ControllerEvent"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   MemberDatabase = require("../database/MemberDatabase");
@@ -7,7 +8,7 @@ const BaseController = require("./BaseController"),
  * This class is used to coordinate controllers across the member service
  * @type {MemberController}
  */
-module.exports = class MemberController extends BaseController {
+class MemberController extends BaseController {
   /**
    * builds our Member Client controller class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -22,11 +23,11 @@ module.exports = class MemberController extends BaseController {
 
   /**
    * general enum list of all of our possible member events
-   * @returns {{LOAD_ME: string, GET_ME: string}}
-   * @constructor
+   * @returns {{UPDATE_ME: string, LOAD_ME: string, GET_ME: string}}
    */
   static get Events() {
     return {
+      UPDATE_ME: "update-me",
       LOAD_ME: "load-me",
       GET_ME: "get-me"
     };
@@ -42,15 +43,19 @@ module.exports = class MemberController extends BaseController {
   }
 
   /**
-   * configures application wide events here
+   * configures our client event  which is used to share information between
+   * our client side and controller side.
    */
   configureEvents() {
     BaseController.configEvents(MemberController.instance);
     this.memberClientEventListener = EventFactory.createEvent(
       EventFactory.Types.MEMBER_CLIENT,
       this,
-      this.onMemberClientEvent,
-      null
+      this.onMemberClientEvent
+    );
+    this.memberClientEventNotifier = EventFactory.createEvent(
+      EventFactory.Types.MEMBER_CONTROLLER,
+      this
     );
   }
 
@@ -170,4 +175,21 @@ module.exports = class MemberController extends BaseController {
       callback
     );
   }
-};
+
+  /**
+   * this is a helper function which uses our client event bus to
+   * give the client a reference of our new member me dto that is us.
+   * @param me
+   */
+  updateMeInClient(me) {
+    console.log("ME", me);
+    this.memberClientEventNotifier.dispatch(
+      new ControllerEvent(
+        MemberController.Events.UPDATE_ME,
+        me
+      )
+    );
+  }
+}
+
+module.exports = MemberController;
