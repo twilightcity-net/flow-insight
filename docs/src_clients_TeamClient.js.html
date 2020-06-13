@@ -280,7 +280,9 @@
           <li data-type='method'><a href="module.html#.exports#getGuid">getGuid</a></li>
           <li data-type='method'><a href="module.html#.exports#getLatency">getLatency</a></li>
           <li data-type='method'><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></li>
+          <li data-type='method'><a href="module.html#.exports#getMeFromView">getMeFromView</a></li>
           <li data-type='method'><a href="module.html#.exports#getMemberMe">getMemberMe</a></li>
+          <li data-type='method'><a href="module.html#.exports#getMeUsername">getMeUsername</a></li>
           <li data-type='method'><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></li>
           <li data-type='method'><a href="module.html#.exports#getRender3D">getRender3D</a></li>
           <li data-type='method'><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></li>
@@ -432,6 +434,7 @@
           <li data-type='method'><a href="module.html#.exports#updateJournalProjects">updateJournalProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateTeamMember">updateTeamMember</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li>
@@ -830,13 +833,7 @@ export class TeamClient extends BaseClient {
    * @type {Map&lt;any, any>}
    */
   static replies = new Map();
-
-  /**
-   * our team event listeners that other classes use
-   * @type {*}
-   */
-  static listeners = [];
-
+  
   /**
    * builds the Client for a Team in Gridtime
    * @param scope

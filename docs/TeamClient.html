@@ -280,7 +280,9 @@
           <li data-type='method'><a href="module.html#.exports#getGuid">getGuid</a></li>
           <li data-type='method'><a href="module.html#.exports#getLatency">getLatency</a></li>
           <li data-type='method'><a href="module.html#.exports#getLatestScreenshotPath">getLatestScreenshotPath</a></li>
+          <li data-type='method'><a href="module.html#.exports#getMeFromView">getMeFromView</a></li>
           <li data-type='method'><a href="module.html#.exports#getMemberMe">getMemberMe</a></li>
+          <li data-type='method'><a href="module.html#.exports#getMeUsername">getMeUsername</a></li>
           <li data-type='method'><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></li>
           <li data-type='method'><a href="module.html#.exports#getRender3D">getRender3D</a></li>
           <li data-type='method'><a href="module.html#.exports#getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></li>
@@ -432,6 +434,7 @@
           <li data-type='method'><a href="module.html#.exports#updateJournalProjects">updateJournalProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateTeamMember">updateTeamMember</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li>
@@ -831,7 +834,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line24">line 24</a>
+                  <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line18">line 18</a>
                 </li>
               </ul>
             </dd>
@@ -865,32 +868,13 @@
         </dl>
         <h3 class="subsection-title">Members</h3>
         <h4 class="name"
-            id="listeners"><span class="type-signature"></span>listeners<span class="type-signature"> :*</span></h4>
-        <dl class="details">
-          <dt class="tag-source">Source:</dt>
-          <dd class="tag-source">
-            <ul class="dummy">
-              <li>
-                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line18">line 18</a>
-              </li>
-            </ul>
-          </dd>
-        </dl>
-        <div class="description usertext"> our team event listeners that other classes use </div>
-        <h5>Type:</h5>
-        <ul>
-          <li>
-            <span class="param-type">*</span>
-          </li>
-        </ul>
-        <h4 class="name"
             id="onTeamEventReply"><span class="type-signature"></span>onTeamEventReply<span class="type-signature"></span></h4>
         <dl class="details">
           <dt class="tag-source">Source:</dt>
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line133">line 133</a>
+                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line127">line 127</a>
               </li>
             </ul>
           </dd>
@@ -923,7 +907,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line115">line 115</a>
+                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line109">line 109</a>
               </li>
             </ul>
           </dd>
@@ -967,7 +951,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line98">line 98</a>
+                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line92">line 92</a>
               </li>
             </ul>
           </dd>
@@ -1011,7 +995,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line52">line 52</a>
+                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line46">line 46</a>
               </li>
             </ul>
           </dd>
@@ -1042,7 +1026,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line81">line 81</a>
+                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line75">line 75</a>
               </li>
             </ul>
           </dd>
@@ -1086,7 +1070,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line64">line 64</a>
+                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line58">line 58</a>
               </li>
             </ul>
           </dd>
@@ -1130,7 +1114,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line153">line 153</a>
+                <a href="src_clients_TeamClient.js.html">src/clients/TeamClient.js</a>, <a href="src_clients_TeamClient.js.html#line147">line 147</a>
               </li>
             </ul>
           </dd>

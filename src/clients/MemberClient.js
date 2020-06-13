@@ -12,12 +12,6 @@ export class MemberClient extends BaseClient {
   static replies = new Map();
 
   /**
-   * our team event listeners that other classes use
-   * @type {*}
-   */
-  static listeners = [];
-
-  /**
    * stores a static reference of our current user logged in
    * @type {MemberWorkStatusDto}
    */

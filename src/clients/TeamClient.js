@@ -12,12 +12,6 @@ export class TeamClient extends BaseClient {
   static replies = new Map();
 
   /**
-   * our team event listeners that other classes use
-   * @type {*}
-   */
-  static listeners = [];
-
-  /**
    * builds the Client for a Team in Gridtime
    * @param scope
    */
