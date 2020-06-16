@@ -182,7 +182,6 @@ class MemberController extends BaseController {
    * @param me
    */
   updateMeInClient(me) {
-    console.log("ME", me);
     this.memberClientEventNotifier.dispatch(
       new ControllerEvent(
         MemberController.Events.UPDATE_ME,
