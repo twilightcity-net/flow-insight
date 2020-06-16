@@ -417,6 +417,7 @@
           <li data-type='method'><a href="module.html#.exports#updateJournalProjects">updateJournalProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
           <li data-type='method'><a href="module.html#.exports#updateMemberInMembers">updateMemberInMembers</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateMemberMe">updateMemberMe</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
@@ -951,7 +952,19 @@ export class MemberClient extends BaseClient {
    * @param arg
    */
   onMemberEventCallback = (event, arg) => {
-    console.log("ARG", arg);
+    switch (arg.type) {
+      case MemberClient.Events.UPDATE_ME:
+        console.log("XXX");
+        MemberClient.me = arg.data;
+        break;
+      default:
+        throw new Error(
+          MemberClient.Error.UNKNOWN +
+            " '" +
+            arg.type +
+            "'."
+        );
+    }
   };
 
   /**

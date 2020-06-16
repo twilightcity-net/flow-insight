@@ -17,6 +17,7 @@ import { MemberClient } from "../../../../clients/MemberClient";
 import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../clients/BaseClient";
 import { BrowserController } from "../../../../controllers/BrowserController";
+import UtilRenderer from "../../../../UtilRenderer";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -234,17 +235,20 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   getTeamPanelMembersListContent() {
-    let panels = this.state.teams.map((team, i) => {
-      return {
-        key: `panel-${i}`,
-        title: `${team.name}`,
-        content: {
-          content: this.getTeamPanelListMembersContent(
-            team.teamMembers
-          )
-        }
-      };
-    });
+    let showOffline = false,
+      panels = this.state.teams.map((team, i) => {
+        showOffline = UtilRenderer.isEveryoneTeam(team);
+        return {
+          key: `panel-${i}`,
+          title: `${team.name}`,
+          content: {
+            content: this.getTeamPanelListMembersContent(
+              team.teamMembers,
+              showOffline
+            )
+          }
+        };
+      });
 
     return (
       <Accordion
@@ -260,11 +264,13 @@ export default class TeamPanel extends Component {
   }
 
   /**
-   * generates a list of our teams members for our accordion panel
+   * generates a list of our teams members for our accordion panel, pass in true for show
+   * offline members for the param showOffline
    * @param members
+   * @param showOffline
    * @returns {*}
    */
-  getTeamPanelListMembersContent(members) {
+  getTeamPanelListMembersContent(members, showOffline) {
     let me = MemberClient.me;
     return (
       <List
@@ -283,7 +289,9 @@ export default class TeamPanel extends Component {
         />
         {members.map(
           member =>
-            me.id !== member.id && (
+            me.id !== member.id &&
+            (showOffline ||
+              UtilRenderer.isMemberOnline(member)) && (
               <TeamPanelListItem
                 key={member.id}
                 model={member}

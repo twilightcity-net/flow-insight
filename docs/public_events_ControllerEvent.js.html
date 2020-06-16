@@ -417,6 +417,7 @@
           <li data-type='method'><a href="module.html#.exports#updateJournalProjects">updateJournalProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
           <li data-type='method'><a href="module.html#.exports#updateMemberInMembers">updateMemberInMembers</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateMemberMe">updateMemberMe</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
@@ -843,11 +844,12 @@
  * this is a child event which wraps various events used for our
  * main process controllers
  */
-export class ControllerEvent {
+class ControllerEvent {
   /**
-   * builds the controller event for the main process
+   * ControllerEvent
    * @param type
    * @param data
+   * @constructor
    */
   constructor(type, data) {
     this.id = Util.getGuid();
@@ -855,6 +857,8 @@ export class ControllerEvent {
     this.data = data;
   }
 }
+
+module.exports = ControllerEvent;
 </code></pre>
       </article>
     </section>

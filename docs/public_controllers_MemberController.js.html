@@ -417,6 +417,7 @@
           <li data-type='method'><a href="module.html#.exports#updateJournalProjects">updateJournalProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
           <li data-type='method'><a href="module.html#.exports#updateMemberInMembers">updateMemberInMembers</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateMemberMe">updateMemberMe</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
@@ -837,9 +838,8 @@
     <h1 class="page-title">public/controllers/MemberController.js</h1>
     <section>
       <article>
-        <pre class="prettyprint source linenums"><code>import {ControllerEvent} from "../events/ControllerEvent";
-
-const BaseController = require("./BaseController"),
+        <pre class="prettyprint source linenums"><code>const BaseController = require("./BaseController"),
+  ControllerEvent = require("../events/ControllerEvent"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   MemberDatabase = require("../database/MemberDatabase");
@@ -1023,7 +1023,12 @@ class MemberController extends BaseController {
    */
   updateMeInClient(me) {
     console.log("ME", me);
-    this.memberClientEventNotifier.dispatch(new ControllerEvent(MemberController.Events.UPDATE_ME, me));
+    this.memberClientEventNotifier.dispatch(
+      new ControllerEvent(
+        MemberController.Events.UPDATE_ME,
+        me
+      )
+    );
   }
 }
 

@@ -417,6 +417,7 @@
           <li data-type='method'><a href="module.html#.exports#updateJournalProjects">updateJournalProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
           <li data-type='method'><a href="module.html#.exports#updateMemberInMembers">updateMemberInMembers</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateMemberMe">updateMemberMe</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
@@ -1003,11 +1004,14 @@ module.exports = class MemberDatabase extends LokiJS {
     return this.getViewForMe().data()[0];
   }
 
+  /**
+   * helper function used by our managers to update our selves
+   * @param member
+   */
   updateMemberMe(member) {
     let me = this.getMeFromView();
     if (me.id === member.id) {
-      me = member;
-      global.App.MemberManager.updateMe(me);
+      global.App.MemberManager.updateMe(member);
     }
   }
   /**
