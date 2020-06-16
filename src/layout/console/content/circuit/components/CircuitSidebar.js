@@ -380,7 +380,7 @@ export default class CircuitSidebar extends Component {
     return (
       <div>
         <Segment className="chest" inverted>
-          Chest Items
+          <i>No Items</i>
         </Segment>
       </div>
     );
