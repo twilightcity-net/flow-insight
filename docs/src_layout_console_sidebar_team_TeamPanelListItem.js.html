@@ -965,7 +965,6 @@ export default class TeamPanelListItem extends Component {
         trigger={trigger}
         className="teamPanel chunkTitle"
         content={popupContent}
-        wide
         position="right center"
         inverted
         hideOnScroll
@@ -986,17 +985,20 @@ export default class TeamPanelListItem extends Component {
     workingOn
   ) {
     return (
-      &lt;div>
-        &lt;Divider />
+      activeTaskName &amp;&amp;
+      activeTaskSummary &amp;&amp; (
         &lt;div>
-          &lt;b>
-            &lt;span className="taskhighlight">
-              {activeTaskName}: {activeTaskSummary}
-            &lt;/span>
-          &lt;/b>
+          &lt;Divider />
+          &lt;div>
+            &lt;b>
+              &lt;span className="taskhighlight">
+                {activeTaskName}: {activeTaskSummary}
+              &lt;/span>
+            &lt;/b>
+          &lt;/div>
+          &lt;div>{workingOn}&lt;/div>
         &lt;/div>
-        &lt;div>{workingOn}&lt;/div>
-      &lt;/div>
+      )
     );
   }
 
