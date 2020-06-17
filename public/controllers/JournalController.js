@@ -167,12 +167,7 @@ module.exports = class JournalController extends BaseController {
         data.recentTasksByProjectId
       );
     }
-
-    // if (username === JournalController.Strings.ME) {
-    //   let me = this.getMemberMe();
-    //   username = me.username;
-    // }
-
+    
     JournalController.instance.userHistory.add(username);
     arg.data = store.data;
     this.delegateCallbackOrEventReplyTo(
