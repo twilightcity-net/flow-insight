@@ -46,6 +46,13 @@ export default class TerminalContent extends Component {
           return `Only the white rabbit knows?`;
         }
       },
+        yoda: {
+            description: "Receive the gift of Yoda's wisdom",
+            usage: "yoda",
+            fn: function() {
+                return TerminalContent.doYoda();
+            }
+        },
       echo: {
         description: "Echo a passed string.",
         usage: "echo <string>",
@@ -114,6 +121,33 @@ export default class TerminalContent extends Component {
       />
     );
   }
+
+    static doYoda() {
+      let doOr = (10 * Math.random()).toFixed(0),
+        doNot = (10 * Math.random()) % 2 > 1,
+        thereIsNoTry = [
+          "Do or do not. There is no try.",
+          "You must unlearn what you have learned.",
+          "Named must be your fear before banish it you can.",
+          "Fear is the path to the dark side.",
+          "That is why you fail.",
+          "The greatest teacher, failure is.",
+          "Pass on what you have learned.",
+          "Now I know there is something strong than fear — far stronger.",
+          "Don't underestimate the Force.",
+          "For my ally is the Force, and a powerful ally it is."
+        ];
+
+        let yodaSays = "";
+
+        if(doNot) {
+            yodaSays = thereIsNoTry[doOr];
+        } else {
+            yodaSays = "There is no do. Try again."
+        }
+
+      return yodaSays;
+    }
 
   /**
    * renders the main flow content body of this console panel

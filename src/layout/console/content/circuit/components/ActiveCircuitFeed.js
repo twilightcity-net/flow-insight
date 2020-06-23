@@ -125,33 +125,6 @@ export default class ActiveCircuitFeed extends Component {
     });
   }
 
-  // doYoda() {
-  //   let doOr = (10 * Math.random()).toFixed(0),
-  //     doNot = (10 * Math.random()) % 2 > 1,
-  //     thereIsNoTry = [
-  //       "Do or do not. There is no try.",
-  //       "You must unlearn what you have learned.",
-  //       "Named must be your fear before banish it you can.",
-  //       "Fear is the path to the dark side.",
-  //       "That is why you fail.",
-  //       "The greatest teacher, failure is.",
-  //       "Pass on what you have learned.",
-  //       "Now I know there is something strong than fear — far stronger.",
-  //       "Don't underestimate the Force.",
-  //       "For my ally is the Force, and a powerful ally it is."
-  //     ];
-  //
-  //   // if(doNot) {
-  //   this.feedEvents.push({
-  //     name: "yoda",
-  //     time: "NOW",
-  //     text: [thereIsNoTry[doOr]]
-  //   });
-  //   this.forceUpdate(() => {
-  //     this.scrollToFeedBottom();
-  //   });
-  //   // }
-  // }
 
   /**
    * updates our Chat Messages that our in our messages array. This is generally setup initially
