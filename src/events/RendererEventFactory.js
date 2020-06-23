@@ -51,6 +51,7 @@ export class RendererEventFactory {
       TALK_TO_CLIENT: prefix + "talk-to-client",
       TEAM_CLIENT: prefix + "team-client",
       TEAM_CIRCUIT_CLIENT: prefix + "team-circuit-client",
+      TERMINAL_CLIENT: prefix + "terminal-client",
       MEMBER_CLIENT: prefix + "member-client",
       MEMBER_CONTROLLER: prefix + "member-controller",
       JOURNAL_CLIENT: prefix + "journal-client",
