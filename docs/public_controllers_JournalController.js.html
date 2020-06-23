@@ -170,7 +170,7 @@
       <li><a href="JournalClient.html">JournalClient</a>
         <ul class='methods'>
           <li data-type='method'><a href="JournalClient.html#.createIntention">createIntention</a></li>
-          <li data-type='method'><a href="JournalClient.html#.createTaskReference">createTaskReference</a></li>
+          <li data-type='method'><a href="JournalClient.html#.createTask">createTask</a></li>
           <li data-type='method'><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></li>
           <li data-type='method'><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></li>
           <li data-type='method'><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></li>
@@ -251,7 +251,7 @@
           <li data-type='method'><a href="module.html#.exports#delegateCallbackOrEventReplyTo">delegateCallbackOrEventReplyTo</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateCallbackWithView">delegateCallbackWithView</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li>
-          <li data-type='method'><a href="module.html#.exports#delegateCreateTaskReferenceCallback">delegateCreateTaskReferenceCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateCreateTaskCallback">delegateCreateTaskCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateJoinExistingRoomCallback">delegateJoinExistingRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLeaveExistingRoomCallback">delegateLeaveExistingRoomCallback</a></li>
@@ -310,7 +310,7 @@
           <li data-type='method'><a href="module.html#.exports#getViewTeamCircuits">getViewTeamCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></li>
-          <li data-type='method'><a href="module.html#.exports#handleCreateTaskReferenceEvent">handleCreateTaskReferenceEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleCreateTaskEvent">handleCreateTaskEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li>
@@ -733,7 +733,7 @@
       <li><a href="global.html#componentWillUnmount">componentWillUnmount</a></li>
       <li><a href="global.html#ConsoleStates">ConsoleStates</a></li>
       <li><a href="global.html#createIntention">createIntention</a></li>
-      <li><a href="global.html#createTaskReference">createTaskReference</a></li>
+      <li><a href="global.html#createTask">createTask</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
@@ -864,14 +864,14 @@ module.exports = class JournalController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string}}
+   * @returns {{GET_RECENT_INTENTIONS: string, CREATE_TASK: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string}}
    * @constructor
    */
   static get Events() {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
       CREATE_INTENTION: "create-intention",
-      CREATE_TASK_REFERENCE: "create-task-reference",
+      CREATE_TASK: "create-task",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks"
@@ -922,8 +922,8 @@ module.exports = class JournalController extends BaseController {
         case JournalController.Events.CREATE_INTENTION:
           this.handleCreateIntentionEvent(event, arg);
           break;
-        case JournalController.Events.CREATE_TASK_REFERENCE:
-          this.handleCreateTaskReferenceEvent(event, arg);
+        case JournalController.Events.CREATE_TASK:
+          this.handleCreateTaskEvent(event, arg);
           break;
         case JournalController.Events.GET_RECENT_INTENTIONS:
           this.handleGetRecentIntentionsEvent(event, arg);
@@ -953,7 +953,10 @@ module.exports = class JournalController extends BaseController {
   handleLoadJournalEvent(event, arg, callback) {
     let username = arg.args.username,
       limit = arg.args.limit,
-      urn = JournalController.Paths.JOURNAL + username;
+      urn =
+        JournalController.Paths.JOURNAL +
+        JournalController.Paths.SEPARATOR +
+        username;
 
     if (limit) {
       urn += JournalController.Params.LIMIT + limit;
@@ -1007,11 +1010,6 @@ module.exports = class JournalController extends BaseController {
         data.recentTasksByProjectId
       );
     }
-
-    // if (username === JournalController.Strings.ME) {
-    //   let me = this.getMemberMe();
-    //   username = me.username;
-    // }
 
     JournalController.instance.userHistory.add(username);
     arg.data = store.data;
@@ -1102,21 +1100,24 @@ module.exports = class JournalController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleCreateTaskReferenceEvent(event, arg, callback) {
+  handleCreateTaskEvent(event, arg, callback) {
     let taskName = arg.args.taskName,
+      projectId = arg.args.projectId,
       urn =
         JournalController.Paths.JOURNAL +
-        JournalController.Strings.ME +
-        JournalController.Paths.TASKREF;
+        JournalController.Paths.PROJECT +
+        JournalController.Paths.SEPARATOR +
+        projectId +
+        JournalController.Paths.TASK;
 
     this.doClientRequest(
-      "JournalClient",
+      JournalController.Contexts.JOURNAL_CLIENT,
       { taskName: taskName },
-      "createTaskReference",
+      JournalController.Names.FIND_OR_CREATE_TASK,
       JournalController.Types.POST,
       urn,
       store =>
-        this.delegateCreateTaskReferenceCallback(
+        this.delegateCreateTaskCallback(
           store,
           event,
           arg,
@@ -1126,18 +1127,13 @@ module.exports = class JournalController extends BaseController {
   }
 
   /**
-   * handles the callback of the create intention
+   * handles the callback of the create task
    * @param store
    * @param event
    * @param arg
    * @param callback
    */
-  delegateCreateTaskReferenceCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
+  delegateCreateTaskCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
       this.delegateCallbackOrEventReplyTo(

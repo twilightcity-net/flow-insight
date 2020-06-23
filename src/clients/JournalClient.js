@@ -27,14 +27,14 @@ export class JournalClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {String}
+   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string, CREATE_TASK_TASK: string}}
    * @constructor
    */
   static get Events() {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
       CREATE_INTENTION: "create-intention",
-      CREATE_TASK_REFERENCE: "create-task-reference",
+      CREATE_TASK: "create-task",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks"
@@ -135,15 +135,16 @@ export class JournalClient extends BaseClient {
 
   /**
    * creates a task reference in grid time
+   * @param projectId
    * @param taskName
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static createTaskReference(taskName, scope, callback) {
+  static createTask(projectId, taskName, scope, callback) {
     let event = JournalClient.instance.createClientEvent(
-      JournalClient.Events.CREATE_TASK_REFERENCE,
-      { taskName: taskName },
+      JournalClient.Events.CREATE_TASK,
+      { projectId: projectId, taskName: taskName },
       scope,
       callback
     );

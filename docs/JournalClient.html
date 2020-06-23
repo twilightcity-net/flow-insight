@@ -170,7 +170,7 @@
       <li><a href="JournalClient.html">JournalClient</a>
         <ul class='methods'>
           <li data-type='method'><a href="JournalClient.html#.createIntention">createIntention</a></li>
-          <li data-type='method'><a href="JournalClient.html#.createTaskReference">createTaskReference</a></li>
+          <li data-type='method'><a href="JournalClient.html#.createTask">createTask</a></li>
           <li data-type='method'><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></li>
           <li data-type='method'><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></li>
           <li data-type='method'><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></li>
@@ -251,7 +251,7 @@
           <li data-type='method'><a href="module.html#.exports#delegateCallbackOrEventReplyTo">delegateCallbackOrEventReplyTo</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateCallbackWithView">delegateCallbackWithView</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li>
-          <li data-type='method'><a href="module.html#.exports#delegateCreateTaskReferenceCallback">delegateCreateTaskReferenceCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateCreateTaskCallback">delegateCreateTaskCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateJoinExistingRoomCallback">delegateJoinExistingRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLeaveExistingRoomCallback">delegateLeaveExistingRoomCallback</a></li>
@@ -310,7 +310,7 @@
           <li data-type='method'><a href="module.html#.exports#getViewTeamCircuits">getViewTeamCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></li>
-          <li data-type='method'><a href="module.html#.exports#handleCreateTaskReferenceEvent">handleCreateTaskReferenceEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleCreateTaskEvent">handleCreateTaskEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li>
@@ -733,7 +733,7 @@
       <li><a href="global.html#componentWillUnmount">componentWillUnmount</a></li>
       <li><a href="global.html#ConsoleStates">ConsoleStates</a></li>
       <li><a href="global.html#createIntention">createIntention</a></li>
-      <li><a href="global.html#createTaskReference">createTaskReference</a></li>
+      <li><a href="global.html#createTask">createTask</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
@@ -891,7 +891,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line178">line 178</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line179">line 179</a>
               </li>
             </ul>
           </dd>
@@ -980,13 +980,13 @@
           </dd>
         </dl>
         <h4 class="name"
-            id=".createTaskReference"><span class="type-signature">(static) </span>createTaskReference<span class="signature">(taskName, scope, callback)</span><span class="type-signature"> &rarr; {<a href="RendererClientEvent.html">RendererClientEvent</a>}</span></h4>
+            id=".createTask"><span class="type-signature">(static) </span>createTask<span class="signature">(projectId, taskName, scope, callback)</span><span class="type-signature"> &rarr; {<a href="RendererClientEvent.html">RendererClientEvent</a>}</span></h4>
         <dl class="details">
           <dt class="tag-source">Source:</dt>
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line143">line 143</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line144">line 144</a>
               </li>
             </ul>
           </dd>
@@ -1002,6 +1002,12 @@
             </tr>
           </thead>
           <tbody>
+            <tr>
+              <td class="name"><code>projectId</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
             <tr>
               <td class="name"><code>taskName</code></td>
               <td class="type">
@@ -1130,7 +1136,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line160">line 160</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line161">line 161</a>
               </li>
             </ul>
           </dd>
@@ -1255,7 +1261,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line198">line 198</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line199">line 199</a>
               </li>
             </ul>
           </dd>

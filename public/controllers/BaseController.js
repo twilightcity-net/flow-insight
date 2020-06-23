@@ -13,20 +13,21 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * REST paths for our grid server. good place to store thats shared amoung all controllers
-   * @returns {{PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, TASKREF: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, JOIN: string, TALK: string, MY: string, MEMBER: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, LEAVE: string, ME: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
+   * @returns {{PROJECT: string, TASK: string, PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, JOIN: string, TALK: string, MY: string, MEMBER: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, LEAVE: string, ME: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
     return {
-      JOURNAL: "/journal/",
+      JOURNAL: "/journal",
       TEAM: "/team",
       SEPARATOR: "/",
       INTENTION: "/intention",
-      TASKREF: "/taskref",
       CIRCUIT: "/circuit",
       CIRCUIT_WTF: "/circuit/wtf",
       PARTICIPATING: "/participating",
       DO_IT_LATER: "/doitlater",
+      PROJECT: "/project",
+      TASK: "/task",
       ACTIVE: "/active",
       WTF: "wtf/",
       TALK: "/talk",
@@ -120,7 +121,7 @@ module.exports = class BaseController {
 
   /**
    * definition names of our controllers functions
-   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
+   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_TASK: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
    * @constructor
    */
   static get Names() {
@@ -145,7 +146,8 @@ module.exports = class BaseController {
       GET_ALL_MY_TEAMS: "getAllMyTeams",
       GET_ME: "getMe",
       GET_MY_HOME_TEAM_CIRCUIT: "getMyHomeTeamCircuit",
-      GET_ALL_MY_TEAM_CIRCUITS: "getAllMyTeamCircuits"
+      GET_ALL_MY_TEAM_CIRCUITS: "getAllMyTeamCircuits",
+      FIND_OR_CREATE_TASK: "findOrCreateTask"
     };
   }
 
@@ -175,7 +177,7 @@ module.exports = class BaseController {
 
   /**
    * our possible client context scopes used by gridtime clients
-   * @returns {{TEAM_CIRCUIT_CLIENT: string, CIRCUIT_CLIENT: string, TEAM_CLIENT: string, MEMBER_CLIENT: string, TALK_TO_CLIENT: string}}
+   * @returns {{TEAM_CIRCUIT_CLIENT: string, CIRCUIT_CLIENT: string, TEAM_CLIENT: string, MEMBER_CLIENT: string, JOURNAL_CLIENT: string, TALK_TO_CLIENT: string}}
    * @constructor
    */
   static get Contexts() {
@@ -184,7 +186,8 @@ module.exports = class BaseController {
       TALK_TO_CLIENT: "TalkToClient",
       TEAM_CLIENT: "TeamClient",
       TEAM_CIRCUIT_CLIENT: "TeamCircuitClient",
-      MEMBER_CLIENT: "MemberClient"
+      MEMBER_CLIENT: "MemberClient",
+      JOURNAL_CLIENT: "JournalClient"
     };
   }
 

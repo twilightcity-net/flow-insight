@@ -125,8 +125,8 @@ export default class JournalEntry extends Component {
    * @param e
    * @param value
    */
-  handleCreateTaskReference = (e, { value }) => {
-    this.createTaskReference(value);
+  handleCreateTask = (e, { value }) => {
+    this.createTask(value);
   };
 
   /**
@@ -144,9 +144,10 @@ export default class JournalEntry extends Component {
    * creates a new task reference
    * @param taskName
    */
-  createTaskReference(taskName) {
+  createTask(taskName) {
     console.log("create");
-    this.props.createTaskReference(taskName);
+    let projectId = this.state.currentProjectValue;
+    this.props.createTask(projectId, taskName);
     this.setState({
       currentTaskValue: taskName
     });
@@ -278,9 +279,11 @@ export default class JournalEntry extends Component {
         search
         fluid
         upward
+        allowAdditions
         value={this.state.currentProjectValue}
         onFocus={this.handleFocusForProject}
         onBlur={this.handleBlurForInput}
+        onAddItem={this.handleCreateTask}
         onChange={this.handleChangeForProject}
       />
     );
@@ -305,7 +308,7 @@ export default class JournalEntry extends Component {
         value={this.state.currentTaskValue}
         onFocus={this.handleFocusForTask}
         onBlur={this.handleBlurForInput}
-        onAddItem={this.handleCreateTaskReference}
+        onAddItem={this.handleCreateTask}
         onChange={this.handleChangeForTask}
       />
     );

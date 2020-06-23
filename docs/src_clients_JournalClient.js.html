@@ -170,7 +170,7 @@
       <li><a href="JournalClient.html">JournalClient</a>
         <ul class='methods'>
           <li data-type='method'><a href="JournalClient.html#.createIntention">createIntention</a></li>
-          <li data-type='method'><a href="JournalClient.html#.createTaskReference">createTaskReference</a></li>
+          <li data-type='method'><a href="JournalClient.html#.createTask">createTask</a></li>
           <li data-type='method'><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></li>
           <li data-type='method'><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></li>
           <li data-type='method'><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></li>
@@ -251,7 +251,7 @@
           <li data-type='method'><a href="module.html#.exports#delegateCallbackOrEventReplyTo">delegateCallbackOrEventReplyTo</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateCallbackWithView">delegateCallbackWithView</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li>
-          <li data-type='method'><a href="module.html#.exports#delegateCreateTaskReferenceCallback">delegateCreateTaskReferenceCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateCreateTaskCallback">delegateCreateTaskCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateJoinExistingRoomCallback">delegateJoinExistingRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLeaveExistingRoomCallback">delegateLeaveExistingRoomCallback</a></li>
@@ -310,7 +310,7 @@
           <li data-type='method'><a href="module.html#.exports#getViewTeamCircuits">getViewTeamCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></li>
-          <li data-type='method'><a href="module.html#.exports#handleCreateTaskReferenceEvent">handleCreateTaskReferenceEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleCreateTaskEvent">handleCreateTaskEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li>
@@ -733,7 +733,7 @@
       <li><a href="global.html#componentWillUnmount">componentWillUnmount</a></li>
       <li><a href="global.html#ConsoleStates">ConsoleStates</a></li>
       <li><a href="global.html#createIntention">createIntention</a></li>
-      <li><a href="global.html#createTaskReference">createTaskReference</a></li>
+      <li><a href="global.html#createTask">createTask</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
@@ -867,14 +867,14 @@ export class JournalClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {String}
+   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string, CREATE_TASK_TASK: string}}
    * @constructor
    */
   static get Events() {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
       CREATE_INTENTION: "create-intention",
-      CREATE_TASK_REFERENCE: "create-task-reference",
+      CREATE_TASK: "create-task",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks"
@@ -975,15 +975,16 @@ export class JournalClient extends BaseClient {
 
   /**
    * creates a task reference in grid time
+   * @param projectId
    * @param taskName
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static createTaskReference(taskName, scope, callback) {
+  static createTask(projectId, taskName, scope, callback) {
     let event = JournalClient.instance.createClientEvent(
-      JournalClient.Events.CREATE_TASK_REFERENCE,
-      { taskName: taskName },
+      JournalClient.Events.CREATE_TASK,
+      { projectId: projectId, taskName: taskName },
       scope,
       callback
     );

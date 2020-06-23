@@ -276,10 +276,12 @@ export default class JournalResource extends Component {
 
   /**
    * create a task reference using our journal client
+   * @param projectId
    * @param taskName
    */
-  handleCreateTaskReference = taskName => {
-    JournalClient.createTaskReference(
+  handleCreateTask = (projectId, taskName) => {
+    JournalClient.createTask(
+      projectId,
       taskName,
       this,
       arg => {
@@ -294,6 +296,8 @@ export default class JournalResource extends Component {
       }
     );
   };
+
+  getSelectedProjectId() {}
 
   /**
    * event callback for when we set a row active
@@ -432,9 +436,7 @@ export default class JournalResource extends Component {
             projects={this.projects}
             tasks={this.tasks}
             createIntention={this.handleCreateIntention}
-            createTaskReference={
-              this.handleCreateTaskReference
-            }
+            createTask={this.handleCreateTask}
           />
         </div>
       </Transition>

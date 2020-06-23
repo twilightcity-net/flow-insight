@@ -24,14 +24,14 @@ module.exports = class JournalController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string}}
+   * @returns {{GET_RECENT_INTENTIONS: string, CREATE_TASK: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string}}
    * @constructor
    */
   static get Events() {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
       CREATE_INTENTION: "create-intention",
-      CREATE_TASK_REFERENCE: "create-task-reference",
+      CREATE_TASK: "create-task",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks"
@@ -82,8 +82,8 @@ module.exports = class JournalController extends BaseController {
         case JournalController.Events.CREATE_INTENTION:
           this.handleCreateIntentionEvent(event, arg);
           break;
-        case JournalController.Events.CREATE_TASK_REFERENCE:
-          this.handleCreateTaskReferenceEvent(event, arg);
+        case JournalController.Events.CREATE_TASK:
+          this.handleCreateTaskEvent(event, arg);
           break;
         case JournalController.Events.GET_RECENT_INTENTIONS:
           this.handleGetRecentIntentionsEvent(event, arg);
@@ -113,7 +113,10 @@ module.exports = class JournalController extends BaseController {
   handleLoadJournalEvent(event, arg, callback) {
     let username = arg.args.username,
       limit = arg.args.limit,
-      urn = JournalController.Paths.JOURNAL + username;
+      urn =
+        JournalController.Paths.JOURNAL +
+        JournalController.Paths.SEPARATOR +
+        username;
 
     if (limit) {
       urn += JournalController.Params.LIMIT + limit;
@@ -167,7 +170,7 @@ module.exports = class JournalController extends BaseController {
         data.recentTasksByProjectId
       );
     }
-    
+
     JournalController.instance.userHistory.add(username);
     arg.data = store.data;
     this.delegateCallbackOrEventReplyTo(
@@ -257,21 +260,24 @@ module.exports = class JournalController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleCreateTaskReferenceEvent(event, arg, callback) {
+  handleCreateTaskEvent(event, arg, callback) {
     let taskName = arg.args.taskName,
+      projectId = arg.args.projectId,
       urn =
         JournalController.Paths.JOURNAL +
-        JournalController.Strings.ME +
-        JournalController.Paths.TASKREF;
+        JournalController.Paths.PROJECT +
+        JournalController.Paths.SEPARATOR +
+        projectId +
+        JournalController.Paths.TASK;
 
     this.doClientRequest(
-      "JournalClient",
+      JournalController.Contexts.JOURNAL_CLIENT,
       { taskName: taskName },
-      "createTaskReference",
+      JournalController.Names.FIND_OR_CREATE_TASK,
       JournalController.Types.POST,
       urn,
       store =>
-        this.delegateCreateTaskReferenceCallback(
+        this.delegateCreateTaskCallback(
           store,
           event,
           arg,
@@ -281,18 +287,13 @@ module.exports = class JournalController extends BaseController {
   }
 
   /**
-   * handles the callback of the create intention
+   * handles the callback of the create task
    * @param store
    * @param event
    * @param arg
    * @param callback
    */
-  delegateCreateTaskReferenceCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
+  delegateCreateTaskCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
       this.delegateCallbackOrEventReplyTo(
