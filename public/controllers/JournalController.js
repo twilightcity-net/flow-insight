@@ -192,6 +192,7 @@ module.exports = class JournalController extends BaseController {
       description = arg.args.description,
       urn =
         JournalController.Paths.JOURNAL +
+        JournalController.Paths.SEPARATOR +
         JournalController.Strings.ME +
         JournalController.Paths.INTENTION;
 
