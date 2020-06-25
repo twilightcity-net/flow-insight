@@ -1,8 +1,6 @@
 const log = require("electron-log"),
   platform = require("electron-platform"),
   chalk = require("chalk"),
-  isDev = require("electron-is-dev"),
-  App = require("./App"),
   Util = require("../Util"),
   WindowManagerHelper = require("../managers/WindowManagerHelper"),
   EventFactory = require("../events/EventFactory"),
@@ -31,7 +29,7 @@ const log = require("electron-log"),
 module.exports = class AppLoader {
   constructor() {
     log.info("[AppLoader] created -> okay");
-    this.eventTimerMs = isDev ? 0 : 420;
+    this.eventTimerMs = 210;
     this.currentStage = 1;
     this.stages = this.getStages();
     this.wireUpEvents();
@@ -226,7 +224,7 @@ module.exports = class AppLoader {
       this.unwireEvents();
       global.App.AppHeartbeat.start();
       log.info("[AppLoader] finished loading -> okay");
-    }, this.eventTimerMs * 2);
+    }, this.eventTimerMs * 4.2);
   }
 
   /**

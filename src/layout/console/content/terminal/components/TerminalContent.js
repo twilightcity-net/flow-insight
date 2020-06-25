@@ -36,7 +36,7 @@ export default class TerminalContent extends Component {
           "Display version information for this shell",
         usage: "version",
         fn: () => {
-          return "v0.4.8 Flipin' Fools";
+          return "v.Psyki_0.5.0";
         }
       },
       whoami: {

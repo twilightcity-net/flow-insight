@@ -25,18 +25,18 @@ export default class LoadingView extends Component {
     super(props);
     this.animationTime = 500;
     this.header = {
-      title: "Loading Torchie",
+      title: "Loading Torchie :)",
       text: "Checking for new version...",
-      icon: "universal access"
+      icon: "hand spock outline"
     };
     this.progress = {
       color: "violet",
       value: 0,
-      total: 4,
+      total: 3,
       label: "Populating cats and synthesizers"
     };
     this.state = {
-      appVersion: "0.4.9",
+      appVersion: "Psyki_0.5.0",
       visible: true,
       header: this.header,
       progress: this.progress,
@@ -177,8 +177,7 @@ export default class LoadingView extends Component {
         >
           <Icon
             size="huge"
-            circular
-            color=""
+            className="icon-loading"
             name={this.state.header.icon}
           />
         </Transition>
@@ -258,39 +257,56 @@ export default class LoadingView extends Component {
         </Container>
       </Container>
     );
+    let videoPosterSrc =
+        "./assets/images/iNtro3_dReamsCale.png",
+      videoSrc = "./assets/video/iNtro3_dReamsCale.mp4",
+      videoType = "video/mp4";
     return (
-      <Segment basic inverted>
-        <Transition
-          visible={this.state.progressVisible}
-          animation="vertical flip"
-          duration={this.animationTime}
-          unmountOnHide
-        >
-          {progressContent}
-        </Transition>
-        <Transition
-          visible={this.state.loginFailedVisible}
-          animation="vertical flip"
-          duration={this.animationTime}
-          unmountOnHide
-        >
-          {loginFailedContent}
-        </Transition>
-        <Transition
-          visible={this.state.talkFailedVisible}
-          animation="vertical flip"
-          duration={this.animationTime}
-          unmountOnHide
-        >
-          {talkFailedContent}
-        </Transition>
-        <div className="appVersion">
-          v. {this.state.appVersion}{" "}
+      <Container className="loading">
+        <div className="fullscreen-bg">
+          <video
+            loop
+            muted
+            autoPlay
+            poster={videoPosterSrc}
+            className="fullscreen-bg__video"
+          >
+            <source src={videoSrc} type={videoType} />
+          </video>
         </div>
-        <div className="appCopyright">
-          Copyright .DreamScale ©2020{" "}
-        </div>
-      </Segment>
+        <Segment basic inverted className="progress">
+          <Transition
+            visible={this.state.progressVisible}
+            animation="vertical flip"
+            duration={this.animationTime}
+            unmountOnHide
+          >
+            {progressContent}
+          </Transition>
+          <Transition
+            visible={this.state.loginFailedVisible}
+            animation="vertical flip"
+            duration={this.animationTime}
+            unmountOnHide
+          >
+            {loginFailedContent}
+          </Transition>
+          <Transition
+            visible={this.state.talkFailedVisible}
+            animation="vertical flip"
+            duration={this.animationTime}
+            unmountOnHide
+          >
+            {talkFailedContent}
+          </Transition>
+          <div className="appVersion">
+            v. {this.state.appVersion}{" "}
+          </div>
+          <div className="appCopyright">
+            © 2020 DreamScale Inc. All rights reserved.{" "}
+          </div>
+        </Segment>
+      </Container>
     );
   }
 }

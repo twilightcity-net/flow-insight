@@ -1,5 +1,5 @@
-import {BaseClient} from "./BaseClient";
-import {RendererEventFactory} from "../events/RendererEventFactory";
+import { BaseClient } from "./BaseClient";
+import { RendererEventFactory } from "../events/RendererEventFactory";
 
 /**
  * This is our class that pulls data from our terminal service on gridtime
@@ -147,9 +147,9 @@ export class TerminalClient extends BaseClient {
   notifyTerminal(clientEvent) {
     console.log(
       "[" +
-      TerminalClient.name +
-      "] notify -> " +
-      JSON.stringify(clientEvent)
+        TerminalClient.name +
+        "] notify -> " +
+        JSON.stringify(clientEvent)
     );
     TerminalClient.replies.set(clientEvent.id, clientEvent);
     this.event.dispatch(clientEvent, true);

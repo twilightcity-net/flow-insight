@@ -125,7 +125,6 @@ export default class ActiveCircuitFeed extends Component {
     });
   }
 
-
   /**
    * updates our Chat Messages that our in our messages array. This is generally setup initially
    * by our mount or update component functions

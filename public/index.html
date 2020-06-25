@@ -68,14 +68,119 @@
        * VIEW: LOADING
        */
   #view.loading {
-    background: #000000 url("./assets/images/loader_background.png") no-repeat fixed 0 -7rem;
-    background-size: cover;
+    /*background: #000000 url("./assets/images/loader_background.png") no-repeat fixed 0 -7rem;*/
+    /*background-size: cover;*/
     height: 100%;
-    padding-top: 4.20rem;
+    /*padding-top: 4.20rem;*/
   }
 
-  #view.loading>.ui.segment {
-    background: none;
+  .fullscreen-bg {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    overflow: hidden;
+    z-index: -100;
+  }
+
+  .fullscreen-bg__video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  @media (min-aspect-ratio: 16/9) {
+    .fullscreen-bg__video {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  @media (max-aspect-ratio: 16/9) {
+    .fullscreen-bg__video {
+      width: auto;
+      height: 100%;
+    }
+  }
+
+  @keyframes rainbow {
+    0% {
+      color: violet;
+    }
+
+    17% {
+      color: indigo;
+    }
+
+    34% {
+      color: blue;
+    }
+
+    51% {
+      color: green;
+    }
+
+    68% {
+      color: yellow;
+    }
+
+    84% {
+      color: orange;
+    }
+
+    100% {
+      color: red;
+    }
+  }
+
+  @keyframes rainbow-bg {
+    0% {
+      background-color: violet;
+    }
+
+    17% {
+      background-color: indigo;
+    }
+
+    34% {
+      background-color: blue;
+    }
+
+    51% {
+      background-color: green;
+    }
+
+    68% {
+      background-color: yellow;
+    }
+
+    84% {
+      background-color: orange;
+    }
+
+    100% {
+      background-color: red;
+    }
+  }
+
+  @keyframes icon-loading {
+    0% {
+      opacity: 0;
+      font-size: .777rem;
+    }
+
+    50% {
+      opacity: 1;
+      font-size: 0.420rem;
+    }
+
+    100% {
+      opacity: 0;
+      font-size: .777rem;
+    }
   }
 
   #view.loading .icon {
@@ -83,55 +188,135 @@
     font-size: 4.20rem;
   }
 
-  #view.loading .ui.progress .bar>.progress {
-    display: none;
+  #view.loading .icon-loading {
+    margin: 0.420rem auto auto;
+    font-size: 1.420rem;
+    animation: icon-loading .420s cubic-bezier(1, 0, 0.000001, 1) infinite !important;
+    position: fixed;
+    top: 1.420rem;
+    right: 0.420rem;
+    opacity: 0.420;
+  }
+
+  #view.loading>.ui.container>.ui.segment {
+    background: none;
   }
 
   #view.loading .ui.progress .label {
     text-align: center;
   }
 
-  #view.loading>.ui.segment .ui.header {
-    margin-top: 1.2rem;
+  #view.loading .ui.progress .bar>.progress {
+    display: none;
   }
 
-  #view.loading>.ui.segment .appVersion {
-    position: absolute;
-    padding: 0.420rem;
-    top: -4.20rem;
-    right: 0.420rem;
-    font-size: .777rem;
-    color: #555;
+  #view.loading .ui.progress {
+    position: fixed;
+    bottom: 0.555rem;
+    left: 0rem;
+    width: 100%;
+    border-radius: 0;
+    margin: 0;
+    padding: 0;
   }
 
-  #view.loading>.ui.segment .appCopyright {
-    position: absolute;
-    left: 0.420rem;
-    bottom: 0;
-    font-size: .777rem;
+  #view.loading .progressContent>div>div.label {
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  #view.loading>.ui.container>.ui.segment .appCopyright {
+    position: fixed;
+    left: 0.42rem;
+    bottom: 2.42rem;
+    font-size: 0.777rem;
+    line-height: .777rem;
     font-weight: bold;
     color: #777;
-    padding-left: 1.6rem;
+    width: 100%;
+    text-align: left;
+    opacity: 0.420;
+    padding-left: 0.420rem;
+    transform: rotate3d(24, 95, 13, 2deg);
+    letter-spacing: 0.420rem;
   }
 
-  #view.loading .loginFailed .icon {
-    font-size: 64px;
+  #view.loading>.ui.container>.ui.segment .appVersion {
+    position: fixed;
+    top: 0.420rem;
+    right: 0.420rem;
+    font-size: .777rem;
+    line-height: .777rem;
+    font-weight: bold;
+    -webkit-text-stroke-width: 0.420rem;
+    -webkit-text-stroke-color: rgba(253, 0, 166, 0.420);
+    color: #fff;
   }
 
-  #view.loading .ui.header .sub.header {
+  #view.loading>.ui.container>.ui.segment .ui.header {
+    position: fixed;
     font-style: italic;
+    font-family: fantasy;
+    left: 0.420rem;
+    top: 0.420rem;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    opacity: 0.840;
+    font-weight: bold;
+    -webkit-text-stroke-width: 0.420rem;
+    -webkit-text-stroke-color: rgba(0, 0, 0, 0.420);
+    animation: rainbow 1ms cubic-bezier(1, 0, 0.0000001, 1) infinite !important;
+  }
+
+  #view.loading>.ui.container>.ui.segment .ui.header .sub.header {
+    font-style: italic;
+    position: fixed;
+    bottom: 2.420rem;
+    left: 1.420rem;
+    top: 7.6420rem;
+    font-weight: bold;
+    font-family: fantasy;
+    transform: rotate(6.28deg);
+    letter-spacing: 0.0420rem;
+    font-size: 1.420rem;
+    animation: rainbow 0.00420s cubic-bezier(1, 0, 0.00001, 1) infinite !important;
+  }
+
+  #view.loading>.ui.container>.ui.segment .ui.header .content {
+    position: fixed;
+    margin-left: 1.42rem;
+    right: 22.42rem;
+    top: 2.420rem;
+    font-size: 4.42rem;
+    line-height: 3.56542rem;
+    transform: rotate(-4.86deg);
   }
 
   #view.loading .progress .bar {
-    background-color: #6435c9;
+    animation: rainbow-bg .1337s cubic-bezier(1, 0, 0.0000001, 1) infinite !important;
   }
 
   #view.loading .progress .label {
-    text-align: right !important;
     font-style: italic;
-    opacity: 0.5;
-    padding-right: 0;
-    margin-top: 1rem;
+    opacity: 0.777;
+    position: absolute;
+    top: -1.8765420rem;
+    padding-right: 2.555rem;
+    font-weight: 500;
+    font-size: 1.42rem;
+    line-height: 1.42rem;
+    width: 100%;
+    letter-spacing: 0.420rem;
+    font-family: monospace;
+    vertical-align: bottom;
+    text-align: left;
+    white-space: nowrap;
+  }
+
+  #view.loading .loginFailed .icon {
+    font-size: 3rem;
   }
 
   /*

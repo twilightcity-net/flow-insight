@@ -6,7 +6,6 @@ const BaseController = require("./BaseController"),
  * @type {TerminalController}
  */
 module.exports = class TerminalController extends BaseController {
-
   /**
    * builds our Terminal Client controller class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -46,7 +45,9 @@ module.exports = class TerminalController extends BaseController {
    * configures application wide events here
    */
   configureEvents() {
-    BaseController.configEvents(TerminalController.instance);
+    BaseController.configEvents(
+      TerminalController.instance
+    );
     this.terminalClientEventListener = EventFactory.createEvent(
       EventFactory.Types.TERMINAL_CLIENT,
       this,
@@ -80,15 +81,16 @@ module.exports = class TerminalController extends BaseController {
         case TerminalController.Events.GET_MANUAL:
           this.handleGetManualEvent(event, arg);
           break;
-        case TerminalController.Events.GET_MANUAL_HELP_TOPICS:
+        case TerminalController.Events
+          .GET_MANUAL_HELP_TOPICS:
           this.handleGetManualHelpTopicsEvent(event, arg);
           break;
         default:
           throw new Error(
             TerminalController.Error.UNKNOWN +
-            " '" +
-            arg.type +
-            "'."
+              " '" +
+              arg.type +
+              "'."
           );
       }
     }
@@ -127,12 +129,7 @@ module.exports = class TerminalController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateRunCommandCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
+  delegateRunCommandCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {
@@ -237,12 +234,7 @@ module.exports = class TerminalController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateGetManualCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
+  delegateGetManualCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {
@@ -314,5 +306,4 @@ module.exports = class TerminalController extends BaseController {
       callback
     );
   }
-
 };
