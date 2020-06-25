@@ -24,6 +24,7 @@ class VolumeManager {
   constructor() {
     VolumeManager.volumes = new Map();
     VolumeManager.initializedVolumes = 0;
+    VolumeManager.maxVolumes = 6;
     this.name = "[VolumeManager]";
     this.guid = Util.getGuid();
   }
@@ -121,7 +122,10 @@ class VolumeManager {
    */
   static handleFinishLoadingVolumes() {
     VolumeManager.initializedVolumes++;
-    if (VolumeManager.initializedVolumes >= 6) {
+    if (
+      VolumeManager.initializedVolumes >=
+      VolumeManager.maxVolumes
+    ) {
       EventManager.dispatch(
         EventFactory.Types.DATABASE_VOLUMES_READY
       );
