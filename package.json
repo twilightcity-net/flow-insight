@@ -21,6 +21,7 @@
   "scripts": {
     ".": "clear && yarn dev",
     "..": "clear && yarn docs && yarn stage && yarn dev",
+    "...": "yarn release",
     ",": "yarn stage",
     ",,": "yarn docs",
     "/": "yarn dev:grid",
