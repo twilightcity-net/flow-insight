@@ -143,7 +143,7 @@ export default class TerminalContent extends Component {
     if (doNot) {
       yodaSays = thereIsNoTry[doOr];
     } else {
-      yodaSays = "There is no do. Try again.";
+      yodaSays = "There is no try, only Do again.";
     }
 
     return yodaSays;
