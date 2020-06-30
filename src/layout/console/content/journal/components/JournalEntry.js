@@ -123,10 +123,19 @@ export default class JournalEntry extends Component {
   /**
    * called when a new task is added from dropdown
    * @param e
-   * @param value
+   * @param name
    */
   handleCreateTask = (e, { value }) => {
     this.createTask(value);
+  };
+
+  /**
+   * creates new project with a given name on the system.
+   * @param e
+   * @param name
+   */
+  handleCreateProject = (e, { value }) => {
+    this.createProject(value);
   };
 
   /**
@@ -141,15 +150,29 @@ export default class JournalEntry extends Component {
   };
 
   /**
-   * creates a new task reference
-   * @param taskName
+   * creates a new task for a given project id. Updates the
+   * gui when the client returns with the task and tasks array.
+   * @param name
    */
-  createTask(taskName) {
-    console.log("create");
+  createTask(name) {
     let projectId = this.state.currentProjectValue;
-    this.props.createTask(projectId, taskName);
-    this.setState({
-      currentTaskValue: taskName
+    this.props.createTask(projectId, name, task => {
+      this.setState({
+        currentTaskValue: task.id
+      });
+    });
+  }
+
+  /**
+   * creates new project on gridtime system and database. On success
+   * update the dropdown and select the added value.
+   * @param name
+   */
+  createProject(name) {
+    this.props.createProject(name, project => {
+      this.setState({
+        currentProjectValue: project.id
+      });
     });
   }
 
@@ -283,7 +306,7 @@ export default class JournalEntry extends Component {
         value={this.state.currentProjectValue}
         onFocus={this.handleFocusForProject}
         onBlur={this.handleBlurForInput}
-        onAddItem={this.handleCreateTask}
+        onAddItem={this.handleCreateProject}
         onChange={this.handleChangeForProject}
       />
     );

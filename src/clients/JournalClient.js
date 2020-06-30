@@ -27,14 +27,15 @@ export class JournalClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string, CREATE_TASK_TASK: string}}
+   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
    * @constructor
    */
   static get Events() {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
       CREATE_INTENTION: "create-intention",
-      CREATE_TASK: "create-task",
+      FIND_OR_CREATE_TASK: "find-or-create-task",
+      FIND_OR_CREATE_PROJECT: "find-or-create-project",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks"
@@ -134,17 +135,61 @@ export class JournalClient extends BaseClient {
   }
 
   /**
-   * creates a task reference in grid time
+   * find or create task on the system and local database in
+   * gridtime and local shell. Consult the oracle for more information
+   * oracle@gridtime.io
    * @param projectId
-   * @param taskName
+   * @param name
+   * @param description
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static createTask(projectId, taskName, scope, callback) {
+  static findOrCreateTask(
+    projectId,
+    name,
+    description,
+    scope,
+    callback
+  ) {
     let event = JournalClient.instance.createClientEvent(
-      JournalClient.Events.CREATE_TASK,
-      { projectId: projectId, taskName: taskName },
+      JournalClient.Events.FIND_OR_CREATE_TASK,
+      {
+        projectId: projectId,
+        name: name,
+        description: description
+      },
+      scope,
+      callback
+    );
+    JournalClient.instance.notifyJournal(event);
+    return event;
+  }
+
+  /**
+   * finds our creates a project given a name and description. The boolean
+   * flag isPrivate makes the project shareable or not.
+   * @param name
+   * @param description
+   * @param isPrivate
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static findOrCreateProject(
+    name,
+    description,
+    isPrivate,
+    scope,
+    callback
+  ) {
+    let event = JournalClient.instance.createClientEvent(
+      JournalClient.Events.FIND_OR_CREATE_PROJECT,
+      {
+        name: name,
+        description: description,
+        isPrivate: isPrivate
+      },
       scope,
       callback
     );

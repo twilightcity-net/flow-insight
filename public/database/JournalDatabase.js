@@ -123,7 +123,7 @@ module.exports = class JournalDatabase extends LokiJS {
    * gets our view for our recent projects
    * @returns {DynamicView}
    */
-  getViewForRecentProjects() {
+  getViewForProjects() {
     let collection = this.getCollection(
       JournalDatabase.Collections.PROJECTS
     );
@@ -136,7 +136,7 @@ module.exports = class JournalDatabase extends LokiJS {
    * gets our view for our teams recent tasks
    * @returns {DynamicView}
    */
-  getViewForRecentTasks() {
+  getViewForTasks() {
     let collection = this.getCollection(
       JournalDatabase.Collections.TASKS
     );
@@ -159,6 +159,28 @@ module.exports = class JournalDatabase extends LokiJS {
     }
     result = Object.assign({}, doc);
     collection.insert(result);
+  }
+
+  /**
+   * create project task in the system database
+   * @param task
+   */
+  addNewTask(task) {
+    let collection = this.getCollection(
+      JournalDatabase.Collections.TASKS
+    );
+    collection.insert(task);
+  }
+
+  /**
+   * create project in the system and database
+   * @param project
+   */
+  addNewProject(project) {
+    let collection = this.getCollection(
+      JournalDatabase.Collections.PROJECTS
+    );
+    collection.insert(project);
   }
 
   /**

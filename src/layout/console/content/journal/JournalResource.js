@@ -277,27 +277,65 @@ export default class JournalResource extends Component {
   /**
    * create a task reference using our journal client
    * @param projectId
-   * @param taskName
+   * @param name
+   * @param callback
    */
-  handleCreateTask = (projectId, taskName) => {
-    JournalClient.createTask(
+  handleCreateTask = (projectId, name, callback) => {
+    JournalClient.findOrCreateTask(
       projectId,
-      taskName,
+      name,
+      "",
       this,
       arg => {
-        if (arg.error) {
-          this.error = arg.error;
-          this.forceUpdate();
-        } else {
-          this.error = null;
-          this.tasks = arg.data;
-          this.forceUpdate();
-        }
+        this.createProjectOrTaskHelper(
+          this.tasks,
+          arg,
+          callback
+        );
       }
     );
   };
 
-  getSelectedProjectId() {}
+  /**
+   * creates new project on the journal client and controller
+   * @param name
+   * @param callback
+   */
+  handleCreateProject = (name, callback) => {
+    JournalClient.findOrCreateProject(
+      name,
+      "",
+      false,
+      this,
+      arg => {
+        this.createProjectOrTaskHelper(
+          this.projects,
+          arg,
+          callback
+        );
+      }
+    );
+  };
+
+  /**
+   * helps create a project or task from the client request
+   * @param objects
+   * @param arg
+   * @param callback
+   */
+  createProjectOrTaskHelper(objects, arg, callback) {
+    if (arg.error) {
+      this.error = arg.error;
+      this.forceUpdate();
+    } else {
+      let obj = arg.data;
+      objects.push(obj);
+      this.error = null;
+      if (callback) {
+        callback(obj);
+      }
+    }
+  }
 
   /**
    * event callback for when we set a row active
@@ -437,6 +475,7 @@ export default class JournalResource extends Component {
             tasks={this.tasks}
             createIntention={this.handleCreateIntention}
             createTask={this.handleCreateTask}
+            createProject={this.handleCreateProject}
           />
         </div>
       </Transition>

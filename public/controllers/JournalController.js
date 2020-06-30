@@ -24,14 +24,15 @@ module.exports = class JournalController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, CREATE_TASK: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, GET_RECENT_PROJECTS: string}}
+   * @returns {{GET_RECENT_INTENTIONS: string, CREATE_TASK: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
    * @constructor
    */
   static get Events() {
     return {
       LOAD_RECENT_JOURNAL: "load-recent-journal",
       CREATE_INTENTION: "create-intention",
-      CREATE_TASK: "create-task",
+      FIND_OR_CREATE_TASK: "find-or-create-task",
+      FIND_OR_CREATE_PROJECT: "find-or-create-project",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks"
@@ -82,8 +83,12 @@ module.exports = class JournalController extends BaseController {
         case JournalController.Events.CREATE_INTENTION:
           this.handleCreateIntentionEvent(event, arg);
           break;
-        case JournalController.Events.CREATE_TASK:
-          this.handleCreateTaskEvent(event, arg);
+        case JournalController.Events.FIND_OR_CREATE_TASK:
+          this.handleFindOrCreateTaskEvent(event, arg);
+          break;
+        case JournalController.Events
+          .FIND_OR_CREATE_PROJECT:
+          this.handleFindOrCreateProjectEvent(event, arg);
           break;
         case JournalController.Events.GET_RECENT_INTENTIONS:
           this.handleGetRecentIntentionsEvent(event, arg);
@@ -256,14 +261,16 @@ module.exports = class JournalController extends BaseController {
   }
 
   /**
-   * created a new task in our gridtime and local db
+   * handles the find or create task events called from
+   * the client side code of the shell
    * @param event
    * @param arg
    * @param callback
    */
-  handleCreateTaskEvent(event, arg, callback) {
-    let taskName = arg.args.taskName,
-      projectId = arg.args.projectId,
+  handleFindOrCreateTaskEvent(event, arg, callback) {
+    let projectId = arg.args.projectId,
+      name = arg.args.name,
+      description = arg.args.description,
       urn =
         JournalController.Paths.JOURNAL +
         JournalController.Paths.PROJECT +
@@ -273,12 +280,15 @@ module.exports = class JournalController extends BaseController {
 
     this.doClientRequest(
       JournalController.Contexts.JOURNAL_CLIENT,
-      { taskName: taskName },
+      {
+        name: name,
+        description: description
+      },
       JournalController.Names.FIND_OR_CREATE_TASK,
       JournalController.Types.POST,
       urn,
       store =>
-        this.delegateCreateTaskCallback(
+        this.delegateFindOrCreateTaskCallback(
           store,
           event,
           arg,
@@ -288,13 +298,20 @@ module.exports = class JournalController extends BaseController {
   }
 
   /**
-   * handles the callback of the create task
+   * delegates how we process the callback for the
+   * find or create task functions workflow. sounds fun
+   * cuz it is.
    * @param store
    * @param event
    * @param arg
    * @param callback
    */
-  delegateCreateTaskCallback(store, event, arg, callback) {
+  delegateFindOrCreateTaskCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
       this.delegateCallbackOrEventReplyTo(
@@ -306,14 +323,80 @@ module.exports = class JournalController extends BaseController {
       let database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.JOURNAL
         ),
-        data = store.data,
-        view = database.getViewForRecentTasks();
+        task = store.data;
 
-      database.updateJournalProjects(data.recentProjects);
-      database.updateJournalTasks(
-        data.recentTasksByProjectId
+      database.addNewTask(task);
+      arg.data = task;
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
       );
-      arg.data = view.data();
+    }
+  }
+
+  /**
+   * handles client events that find or create new projects
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleFindOrCreateProjectEvent(event, arg, callback) {
+    let name = arg.args.name,
+      description = arg.args.description,
+      isPrivate = arg.args.isPrivate,
+      urn =
+        JournalController.Paths.JOURNAL +
+        JournalController.Paths.PROJECT;
+
+    this.doClientRequest(
+      JournalController.Contexts.JOURNAL_CLIENT,
+      {
+        name: name,
+        description: description,
+        isPrivate: isPrivate
+      },
+      JournalController.Names.FIND_OR_CREATE_PROJECT,
+      JournalController.Types.POST,
+      urn,
+      store =>
+        this.delegateFindOrCreateProjectCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * processes our callback for our handler that is called by our client.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateFindOrCreateProjectCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    } else {
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.JOURNAL
+        ),
+        project = store.data;
+
+      database.addNewProject(project);
+      arg.data = project;
       this.delegateCallbackOrEventReplyTo(
         event,
         arg,
@@ -386,7 +469,7 @@ module.exports = class JournalController extends BaseController {
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.JOURNAL
       ),
-      view = database.getViewForRecentProjects();
+      view = database.getViewForProjects();
 
     this.logResults(
       this.name,
@@ -413,7 +496,7 @@ module.exports = class JournalController extends BaseController {
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.JOURNAL
       ),
-      view = database.getViewForRecentTasks();
+      view = database.getViewForTasks();
 
     this.logResults(
       this.name,
