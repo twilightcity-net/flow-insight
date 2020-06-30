@@ -2,7 +2,7 @@
   "name": "torchie-shell",
   "productName": "Torchie",
   "description": "Torchie Shell - © 2020 DreamScale Inc. All rights reserved.",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "engines": {
     "node": "11.15.0"
   },
