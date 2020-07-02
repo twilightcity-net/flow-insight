@@ -1573,14 +1573,21 @@
 
   #component.journalIntentions i.doneGreen .icon {
     color: rgba(27, 175, 26, 0.96);
-    font-size: 1.210rem;
+    font-size: 1.420rem;
+    margin-right: 0;
   }
 
-  #component.journalIntentions i.doneGreen .icon.circle {
+  #component.journalIntentions i.icons.doneGreen {
+    padding-top: 0.210rem;
+  }
+
+  #component.journalIntentions i.doneGreen .icon.check {
     color: transparent;
+    padding-left: 0.210rem;
+    transition: color 0.333s ease-out;
   }
 
-  #component.journalIntentions i.doneGreen:hover .icon.circle {
+  #component.journalIntentions i.doneGreen:hover .icon.check {
     color: rgba(27, 175, 26, 0.96);
   }
 
@@ -1589,24 +1596,24 @@
     font-size: 1.210rem;
   }
 
+  #component.journalIntentions .button.abortRed {
+    font-size: 1rem;
+    line-height: 1rem;
+    padding: 0.420rem;
+    background-color: rgba(27, 28, 29, 0.96);
+    color: rgba(180, 0, 0, 0.96);
+    cursor: pointer !important;
+    transition: background-color, color 0.333s ease-out;
+  }
+
+  #component.journalIntentions .button.abortRed:hover {
+    background-color: rgba(180, 0, 0, 0.96);
+    color: rgba(200, 200, 200, 0.96);
+  }
+
   #component.journalIntentions i.abortRed .icon {
     color: rgba(180, 0, 0, 0.96);
     font-size: 1.210rem;
-  }
-
-  #component.journalIntentions i.abortRed .icon.circle {
-    color: transparent;
-    padding-left: .210rem;
-  }
-
-  #component.journalIntentions i.abortRed:hover .icon.circle {
-    color: rgba(180, 0, 0, 0.96);
-  }
-
-  #component.journalIntentions i.abortRedDark.icon {
-    color: rgba(180, 0, 0, 0.96);
-    font-size: 1.210rem;
-    line-height: 1.420rem;
   }
 
   #component.journalIntentions div.doneGreen {

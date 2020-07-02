@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import {
+  Button,
   Divider,
   Grid,
   Icon,
@@ -60,7 +61,7 @@ export default class JournalItem extends Component {
    * @returns {*}
    */
   getFinishIcon(model) {
-    let finishStatus = model.finishStatus;
+    let finishStatus = this.props.model.finishStatus;
     switch (finishStatus) {
       case JournalItem.Status.DONE:
         return this.getFinishStatusDoneContent();
@@ -110,27 +111,6 @@ export default class JournalItem extends Component {
           trigger={
             <Icon.Group
               size="large"
-              className="abortRed"
-              onClick={this.handleClickAbort}
-            >
-              <Icon
-                size="small"
-                name="circle outline"
-                link
-              />
-              <Icon size="small" name="close" link />
-            </Icon.Group>
-          }
-          content={
-            <div className="abortRed">Abort Intention</div>
-          }
-          inverted
-          hideOnScroll
-        />
-        <Popup
-          trigger={
-            <Icon.Group
-              size="large"
               className="doneGreen"
               onClick={this.handleClickDone}
             >
@@ -142,6 +122,7 @@ export default class JournalItem extends Component {
               <Icon size="small" name="check" link />
             </Icon.Group>
           }
+          position="top center"
           content={
             <div className="doneGreen">
               Finished Intention
@@ -150,7 +131,6 @@ export default class JournalItem extends Component {
           inverted
           hideOnScroll
         />
-        <span>|</span>
       </span>
     );
   }
@@ -160,25 +140,27 @@ export default class JournalItem extends Component {
    * @returns {*}
    */
   getPopupContent() {
+    let model = this.props.model;
+    console.log(model);
     return (
       <div>
         <div>
-          <i>{this.props.model.projectName}</i>
+          <i>{model.projectName}</i>
         </div>
         <div>
           <b>
             <span className="taskhighlight">
               {" "}
-              {this.props.model.taskName}{" "}
+              {model.taskName}{" "}
             </span>
           </b>
         </div>
-        <div>{this.props.model.taskSummary}</div>
+        <div>{model.taskSummary}</div>
 
         <Divider />
         <div>
           <span className="date">
-            {this.props.model.position}
+            {model.position}
           </span>
         </div>
       </div>
@@ -210,6 +192,39 @@ export default class JournalItem extends Component {
           <Image src={imgWtfSrc} verticalAlign="middle" />
         </span>
       );
+    }
+  }
+
+  /**
+   * renders our
+   * @returns {string|*}
+   */
+  getAbortCellContent() {
+    let finishStatus = this.props.model.finishStatus;
+    if (
+      finishStatus !==
+      (JournalItem.Status.DONE ||
+        JournalItem.Status.ABORTED)
+    ) {
+      return (
+        <Popup
+          trigger={
+            <Button
+              icon="close"
+              className="abortRed"
+              onClick={this.handleClickAbort}
+            />
+          }
+          position="top center"
+          content={
+            <div className="abortRed">Abort Intention</div>
+          }
+          inverted
+          hideOnScroll
+        />
+      );
+    } else {
+      return ("");
     }
   }
 
@@ -261,7 +276,8 @@ export default class JournalItem extends Component {
       </div>
     );
 
-    let finishedCell = this.getFinishIcon(this.props.model);
+    let finishedCell = this.getFinishIcon();
+    let abortCell = this.getAbortCellContent();
     let popupContent = this.getPopupContent();
     let flameBlock = this.getFlameBlockContent();
 
@@ -290,14 +306,17 @@ export default class JournalItem extends Component {
             inverted
           />
         </Grid.Column>
-        <Grid.Column width={7} className="chunkCell">
+        <Grid.Column width={6} className="chunkCell">
           {chunkCell}
         </Grid.Column>
-        <Grid.Column width={2} className="finishedCell">
+        <Grid.Column width={3} textAlign="center" verticalAlign="top" className="flameCell">
+          {flameBlock}
+        </Grid.Column>
+        <Grid.Column width={1} textAlign="right" verticalAlign="top" className="finishedCell">
           {finishedCell}
         </Grid.Column>
-        <Grid.Column width={2} className="chunkTitle">
-          {flameBlock}
+        <Grid.Column width={1} textAlign="left" verticalAlign="top" className="abortCell">
+          {abortCell}
         </Grid.Column>
       </Grid.Row>
     );
