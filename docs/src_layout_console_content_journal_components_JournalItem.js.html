@@ -782,7 +782,6 @@
       <li><a href="global.html#getDescriptionContent">getDescriptionContent</a></li>
       <li><a href="global.html#getDisplayName">getDisplayName</a></li>
       <li><a href="global.html#getDividerContent">getDividerContent</a></li>
-      <li><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></li>
       <li><a href="global.html#getErrorContent">getErrorContent</a></li>
       <li><a href="global.html#getFeedEventsFromMessagesArrayContent">getFeedEventsFromMessagesArrayContent</a></li>
       <li><a href="global.html#getFeedExtraTextsContent">getFeedExtraTextsContent</a></li>
@@ -882,6 +881,13 @@ import {
  * this component is the individual journal item entered in by the user
  */
 export default class JournalItem extends Component {
+
+  static get Status() {
+    return {
+      DONE: "done",
+      ABORTED: "aborted"
+    }
+  }
   /**
    * builds our journal item for our console
    * @param props
@@ -903,71 +909,47 @@ export default class JournalItem extends Component {
     });
   };
 
-  handleClickForDone = () => {
-    this.handleUpdateFinishStatus("done");
-  };
+  getFinishIcon() {
+    let finishStatus = this.props.model.finishStatus;
 
-  handleClickForAbort = () => {
-    this.handleUpdateFinishStatus("aborted");
-  };
-
-  handleUpdateFinishStatus = finishStatus => {
-    this.props.journalItem.finishStatus = finishStatus;
-    this.props.onUpdateFinishStatus(
-      this.props.journalItem,
-      finishStatus
-    );
-  };
-
-  /**
-   * this is used for something, i dont know what yet.
-   * @returns {null}
-   */
-  getEffectiveDirtyFlame() {
-    // TODO this.props.id  // how dirty is our flame? We just don't know for sure.
-    return null;
-  }
-
-  /**
-   * renders our jounrnal item in our grid for the console
-   * @returns {*}
-   */
-  render() {
-    let finishIcon = "";
-    if (this.props.finishStatus === "done") {
-      finishIcon = (
-        &lt;Icon name="check" className="doneGreenDark" />
-      );
-    } else if (this.props.finishStatus === "aborted") {
-      finishIcon = (
-        &lt;Icon name="close" className="doneRed" />
-      );
-    } else {
-      finishIcon = (
-        &lt;span>
-          {" "}
-          &lt;Popup
-            trigger={
-              &lt;Icon
-                link
-                name="check"
-                className="doneGreen"
-                onClick={this.handleClickForDone}
-              />
-            }
-            content={
-              &lt;div className="doneGreen">Finish&lt;/div>
-            }
-            inverted
-            hideOnScroll
-          />
+    switch (finishStatus) {
+      case JournalItem.Status.DONE:
+        console.log("done");
+        return (
+          &lt;Icon name="check" className="doneGreenDark" />
+        );
+        break;
+      case JournalItem.Status.ABORTED:
+        console.log("aborted");
+        return (
+          &lt;Icon name="close" className="doneRed" />
+        );
+      default:
+        console.log("default");
+        return  (
+          &lt;span>
+            &lt;Popup
+              trigger={
+                &lt;Icon
+                  link
+                  name="check"
+                  className="doneGreen"
+                  onClick={this.handleClickDone}
+                />
+              }
+              content={
+                &lt;div className="doneGreen">Finish&lt;/div>
+              }
+              inverted
+              hideOnScroll
+            />
           &lt;Popup
             trigger={
               &lt;Icon
                 link
                 name="close"
                 color="red"
-                onClick={this.handleClickForAbort}
+                onClick={this.handleClickAbort}
               />
             }
             content={&lt;div className="doneRed">Abort&lt;/div>}
@@ -975,10 +957,18 @@ export default class JournalItem extends Component {
             hideOnScroll
           />
         &lt;/span>
-      );
+        );
     }
+  }
 
-    if (this.props.circleId) {
+  /**
+   * renders our jounrnal item in our grid for the console
+   * @returns {*}
+   */
+  render() {
+    let finishIcon = this.getFinishIcon();
+
+    if (this.props.model.circleId) {
       finishIcon = "";
     }
 
@@ -992,7 +982,7 @@ export default class JournalItem extends Component {
     let padding = "";
 
     let linkedBlock = "";
-    if (this.props.linked) {
+    if (this.props.model.linked) {
       linkedBlock = (
         &lt;Icon name="linkify" className="journalLink" />
       );
@@ -1003,12 +993,12 @@ export default class JournalItem extends Component {
 
     const projectCell = (
       &lt;div className={taskStyle}>
-        {this.props.projectName}
+        {this.props.model.projectName}
       &lt;/div>
     );
     const taskCell = (
       &lt;div className={taskStyle}>
-        {this.props.taskName}
+        {this.props.model.taskName}
         {linkedBlock}
       &lt;/div>
     );
@@ -1026,7 +1016,7 @@ export default class JournalItem extends Component {
 
         {padding}
 
-        {this.props.description}
+        {this.props.model.description}
         {finishIcon}
       &lt;/div>
     );
@@ -1034,22 +1024,22 @@ export default class JournalItem extends Component {
     const popupContent = (
       &lt;div>
         &lt;div>
-          &lt;i>{this.props.projectName}&lt;/i>
+          &lt;i>{this.props.model.projectName}&lt;/i>
         &lt;/div>
         &lt;div>
           &lt;b>
             &lt;span className="taskhighlight">
               {" "}
-              {this.props.taskName}{" "}
+              {this.props.model.taskName}{" "}
             &lt;/span>
           &lt;/b>
         &lt;/div>
-        &lt;div>{this.props.taskSummary}&lt;/div>
+        &lt;div>{this.props.model.taskSummary}&lt;/div>
 
         &lt;Divider />
         &lt;div>
           &lt;span className="date">
-            {this.props.position}
+            {this.props.model.position}
           &lt;/span>
         &lt;/div>
       &lt;/div>
@@ -1057,11 +1047,7 @@ export default class JournalItem extends Component {
 
     let flameBlock = "";
 
-    let flameRating = this.props.flameRating;
-
-    if (this.getEffectiveDirtyFlame() != null) {
-      flameRating = this.getEffectiveDirtyFlame();
-    }
+    let flameRating = this.props.model.flameRating;
 
     if (flameRating > 0) {
       flameBlock = (

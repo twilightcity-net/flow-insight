@@ -782,7 +782,6 @@
       <li><a href="global.html#getDescriptionContent">getDescriptionContent</a></li>
       <li><a href="global.html#getDisplayName">getDisplayName</a></li>
       <li><a href="global.html#getDividerContent">getDividerContent</a></li>
-      <li><a href="global.html#getEffectiveDirtyFlame">getEffectiveDirtyFlame</a></li>
       <li><a href="global.html#getErrorContent">getErrorContent</a></li>
       <li><a href="global.html#getFeedEventsFromMessagesArrayContent">getFeedEventsFromMessagesArrayContent</a></li>
       <li><a href="global.html#getFeedExtraTextsContent">getFeedExtraTextsContent</a></li>
@@ -1027,15 +1026,11 @@ export default class JournalEntry extends Component {
    */
   createTask(name) {
     let projectId = this.state.currentProjectValue;
-    this.props.createTask(
-      projectId,
-      name,
-      task => {
-        this.setState({
-          currentTaskValue: task.id
-        });
-      }
-    );
+    this.props.createTask(projectId, name, task => {
+      this.setState({
+        currentTaskValue: task.id
+      });
+    });
   }
 
   /**

@@ -11,6 +11,12 @@ import {
  * this component is the individual journal item entered in by the user
  */
 export default class JournalItem extends Component {
+  static get Status() {
+    return {
+      DONE: "done",
+      ABORTED: "aborted"
+    };
+  }
   /**
    * builds our journal item for our console
    * @param props
@@ -25,36 +31,186 @@ export default class JournalItem extends Component {
    * handles clicking on our journal item. toggels its active state and called function
    * handler in parent component, by passing this component into parent funciton
    */
-  handleRowClick = () => {
+  handleOnClickRow = () => {
     this.isActive = !this.isActive;
     this.forceUpdate(() => {
       this.props.onRowClick(this);
     });
   };
 
-  handleClickForDone = () => {
-    this.handleUpdateFinishStatus("done");
-  };
-
-  handleClickForAbort = () => {
-    this.handleUpdateFinishStatus("aborted");
-  };
-
-  handleUpdateFinishStatus = finishStatus => {
-    this.props.journalItem.finishStatus = finishStatus;
-    this.props.onUpdateFinishStatus(
-      this.props.journalItem,
-      finishStatus
-    );
+  /**
+   * handle the user clicking the done button on the intention in the
+   * journal which is represented as a green check mark.
+   */
+  handleClickDone = () => {
+    console.log("click done");
   };
 
   /**
-   * this is used for something, i dont know what yet.
-   * @returns {null}
+   * handles the click event for when the user wishes to abort an intention
    */
-  getEffectiveDirtyFlame() {
-    // TODO this.props.id  // how dirty is our flame? We just don't know for sure.
-    return null;
+  handleClickAbort = () => {
+    console.log("click abort");
+  };
+
+  /**
+   * determines what to render the finish status icon as by looking in
+   * the model from the properties
+   * @param model
+   * @returns {*}
+   */
+  getFinishIcon(model) {
+    let finishStatus = model.finishStatus;
+    switch (finishStatus) {
+      case JournalItem.Status.DONE:
+        return this.getFinishStatusDoneContent();
+      case JournalItem.Status.ABORTED:
+        return this.getFinishStatusAbortContent();
+      default:
+        return this.getFinishStatusSelectorContent();
+    }
+  }
+
+  /**
+   * render the status finished as done with a green check mark
+   * @returns {*}
+   */
+  getFinishStatusDoneContent() {
+    return (
+      <Icon.Group size="large" className="doneGreenDark">
+        <Icon size="small" name="circle outline" />
+        <Icon size="small" name="check" />
+      </Icon.Group>
+    );
+  }
+
+  /**
+   * renders our finish abort status content for the intention
+   * @returns {*}
+   */
+  getFinishStatusAbortContent() {
+    return (
+      <Icon
+        size="small"
+        name="close"
+        className="abortRedDark"
+      />
+    );
+  }
+
+  /**
+   * renders content for our finish and abort icon actions with
+   * popups yay.
+   * @returns {*}
+   */
+  getFinishStatusSelectorContent() {
+    return (
+      <span>
+        <Popup
+          trigger={
+            <Icon.Group
+              size="large"
+              className="abortRed"
+              onClick={this.handleClickAbort}
+            >
+              <Icon
+                size="small"
+                name="circle outline"
+                link
+              />
+              <Icon size="small" name="close" link />
+            </Icon.Group>
+          }
+          content={
+            <div className="abortRed">Abort Intention</div>
+          }
+          inverted
+          hideOnScroll
+        />
+        <Popup
+          trigger={
+            <Icon.Group
+              size="large"
+              className="doneGreen"
+              onClick={this.handleClickDone}
+            >
+              <Icon
+                size="small"
+                name="circle outline"
+                link
+              />
+              <Icon size="small" name="check" link />
+            </Icon.Group>
+          }
+          content={
+            <div className="doneGreen">
+              Finished Intention
+            </div>
+          }
+          inverted
+          hideOnScroll
+        />
+        <span>|</span>
+      </span>
+    );
+  }
+
+  /**
+   * renders our gui for the popup information.
+   * @returns {*}
+   */
+  getPopupContent() {
+    return (
+      <div>
+        <div>
+          <i>{this.props.model.projectName}</i>
+        </div>
+        <div>
+          <b>
+            <span className="taskhighlight">
+              {" "}
+              {this.props.model.taskName}{" "}
+            </span>
+          </b>
+        </div>
+        <div>{this.props.model.taskSummary}</div>
+
+        <Divider />
+        <div>
+          <span className="date">
+            {this.props.model.position}
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  /**
+   * renders our flame rating content block. This is a tensor rating
+   * of -1  to 1 as a floating point. Adjusted to a whole number
+   * scale for the gui through gridtime.
+   * @returns {*}
+   */
+  getFlameBlockContent() {
+    let flameRating = this.props.model.flameRating,
+      imgYaySrc = "./assets/images/yay/16x16.png",
+      imgWtfSrc = "./assets/images/wtf/16x16.png";
+
+    if (flameRating > 0) {
+      return (
+        <span className="yayFlame">
+          {flameRating}{" "}
+          <Image src={imgYaySrc} verticalAlign="top" />
+        </span>
+      );
+    } else if (flameRating < 0) {
+      return (
+        <span className="wtfFlame">
+          {Math.abs(flameRating)}{" "}
+          <Image src={imgWtfSrc} verticalAlign="middle" />
+        </span>
+      );
+    }
   }
 
   /**
@@ -62,55 +218,6 @@ export default class JournalItem extends Component {
    * @returns {*}
    */
   render() {
-    let finishIcon = "";
-    if (this.props.finishStatus === "done") {
-      finishIcon = (
-        <Icon name="check" className="doneGreenDark" />
-      );
-    } else if (this.props.finishStatus === "aborted") {
-      finishIcon = (
-        <Icon name="close" className="doneRed" />
-      );
-    } else {
-      finishIcon = (
-        <span>
-          {" "}
-          <Popup
-            trigger={
-              <Icon
-                link
-                name="check"
-                className="doneGreen"
-                onClick={this.handleClickForDone}
-              />
-            }
-            content={
-              <div className="doneGreen">Finish</div>
-            }
-            inverted
-            hideOnScroll
-          />
-          <Popup
-            trigger={
-              <Icon
-                link
-                name="close"
-                color="red"
-                onClick={this.handleClickForAbort}
-              />
-            }
-            content={<div className="doneRed">Abort</div>}
-            inverted
-            hideOnScroll
-          />
-        </span>
-      );
-    }
-
-    if (this.props.circleId) {
-      finishIcon = "";
-    }
-
     let active = "";
     if (this.isActive) {
       active = "active";
@@ -118,10 +225,9 @@ export default class JournalItem extends Component {
 
     let wtfPrefix = "";
     let wtfPopup = "";
-    let padding = "";
 
     let linkedBlock = "";
-    if (this.props.linked) {
+    if (this.props.model.linked) {
       linkedBlock = (
         <Icon name="linkify" className="journalLink" />
       );
@@ -130,95 +236,40 @@ export default class JournalItem extends Component {
     let taskStyle = "chunkTitle";
     let descriptionStyle = "chunkText";
 
-    const projectCell = (
+    let projectCell = (
       <div className={taskStyle}>
-        {this.props.projectName}
+        {this.props.model.projectName}
       </div>
     );
-    const taskCell = (
+    let taskCell = (
       <div className={taskStyle}>
-        {this.props.taskName}
+        {this.props.model.taskName}
         {linkedBlock}
       </div>
     );
-    const chunkCell = (
+    let chunkCell = (
       <div className={descriptionStyle}>
-        {padding}
-        {padding}
+        {" "}
         <Popup
           trigger={wtfPrefix}
           content={wtfPopup}
           position="top center"
           inverted
           hideOnScroll
-        />
-
-        {padding}
-
-        {this.props.description}
-        {finishIcon}
+        />{" "}
+        {this.props.model.description}
       </div>
     );
 
-    const popupContent = (
-      <div>
-        <div>
-          <i>{this.props.projectName}</i>
-        </div>
-        <div>
-          <b>
-            <span className="taskhighlight">
-              {" "}
-              {this.props.taskName}{" "}
-            </span>
-          </b>
-        </div>
-        <div>{this.props.taskSummary}</div>
-
-        <Divider />
-        <div>
-          <span className="date">
-            {this.props.position}
-          </span>
-        </div>
-      </div>
-    );
-
-    let flameBlock = "";
-
-    let flameRating = this.props.flameRating;
-
-    if (this.getEffectiveDirtyFlame() != null) {
-      flameRating = this.getEffectiveDirtyFlame();
-    }
-
-    if (flameRating > 0) {
-      flameBlock = (
-        <span className="yayFlame">
-          {flameRating}{" "}
-          <Image
-            src="./assets/images/yay/16x16.png"
-            verticalAlign="top"
-          />
-        </span>
-      );
-    } else if (flameRating < 0) {
-      flameBlock = (
-        <span className="wtfFlame">
-          {Math.abs(flameRating)}{" "}
-          <Image
-            src="./assets/images/wtf/16x16.png"
-            verticalAlign="middle"
-          />
-        </span>
-      );
-    }
+    let finishedCell = this.getFinishIcon(this.props.model);
+    let popupContent = this.getPopupContent();
+    let flameBlock = this.getFlameBlockContent();
 
     return (
       <Grid.Row
         id={this.props.model.id}
         className={active}
-        onClick={this.handleRowClick}
+        onClick={this.handleOnClickRow}
       >
         <Grid.Column width={3}>
           <Popup
@@ -239,8 +290,11 @@ export default class JournalItem extends Component {
             inverted
           />
         </Grid.Column>
-        <Grid.Column width={9} className="chunkCell">
+        <Grid.Column width={7} className="chunkCell">
           {chunkCell}
+        </Grid.Column>
+        <Grid.Column width={2} className="finishedCell">
+          {finishedCell}
         </Grid.Column>
         <Grid.Column width={2} className="chunkTitle">
           {flameBlock}

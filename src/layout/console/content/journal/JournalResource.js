@@ -354,16 +354,6 @@ export default class JournalResource extends Component {
   };
 
   /**
-   * event callback for for finishing a row
-   * @param rowId
-   * @param rowObj
-   * @param journalItem
-   */
-  onUpdateFinishStatus = (rowId, rowObj, journalItem) => {
-    // TODO set the active row
-  };
-
-  /**
    * determines if our journal item is active
    * @param id
    * @returns {boolean}
@@ -398,19 +388,7 @@ export default class JournalResource extends Component {
           key={item.id}
           model={item}
           isActive={this.isActive(item.id)}
-          linked={item.linked}
-          projectName={item.projectName}
-          taskName={item.taskName}
-          taskSummary={item.taskSummary}
-          description={item.description}
-          flameRating={item.flameRating}
-          finishStatus={item.finishStatus}
-          journalEntryType={item.journalEntryType}
-          circleId={item.circleId}
-          position={item.position}
-          journalItem={item}
           onRowClick={this.onRowClick}
-          onUpdateFinishStatus={this.onUpdateFinishStatus}
         />
       );
     });
