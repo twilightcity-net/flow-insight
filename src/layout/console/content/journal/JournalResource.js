@@ -84,6 +84,16 @@ export default class JournalResource extends Component {
           this.scrollToJournalItemById();
         });
       }
+    } else if (
+      mType === BaseClient.MessageTypes.JOURNAL_ENTRY_DTO
+    ) {
+      this.journalIntentions = UtilRenderer.updateMessageInArrayById(
+        this.journalIntentions,
+        data
+      );
+      this.forceUpdate(() => {
+        this.scrollToJournalItemById();
+      });
     }
   };
 

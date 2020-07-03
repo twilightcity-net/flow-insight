@@ -27,7 +27,7 @@ export class JournalClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
+   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FINISH_INTENTION: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
    * @constructor
    */
   static get Events() {
@@ -38,7 +38,8 @@ export class JournalClient extends BaseClient {
       FIND_OR_CREATE_PROJECT: "find-or-create-project",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
-      GET_RECENT_TASKS: "get-recent-tasks"
+      GET_RECENT_TASKS: "get-recent-tasks",
+      FINISH_INTENTION: "finish-intention"
     };
   }
 
@@ -207,6 +208,33 @@ export class JournalClient extends BaseClient {
     let event = JournalClient.instance.createClientEvent(
       JournalClient.Events.GET_RECENT_TASKS,
       {},
+      scope,
+      callback
+    );
+    JournalClient.instance.notifyJournal(event);
+    return event;
+  }
+
+  /**
+   * finishes our current intention and marks it['s finish status to `DONE`
+   * @param id
+   * @param finishStatus
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static finishIntention(
+    id,
+    finishStatus,
+    scope,
+    callback
+  ) {
+    let event = JournalClient.instance.createClientEvent(
+      JournalClient.Events.FINISH_INTENTION,
+      {
+        id: id,
+        finishStatus: finishStatus
+      },
       scope,
       callback
     );

@@ -374,6 +374,17 @@ module.exports = class TalkController extends BaseController {
           journalEntry.id
         );
         break;
+      case TalkController.MessageTypes.JOURNAL_ENTRY_DTO:
+        let messageData = message.data;
+        journalDatabase.findRemoveInsert(
+          messageData,
+          intentionsCollection
+        );
+        DatabaseUtil.log(
+          "update journal entry",
+          messageData.id
+        );
+        break;
       default:
         console.warn(
           TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +

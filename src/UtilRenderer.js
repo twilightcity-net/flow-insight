@@ -163,6 +163,25 @@ export default class UtilRenderer {
   }
 
   /**
+   * searches an array for a message which id equals the
+   * parameter id's
+   * @param arr
+   * @param message
+   */
+  static updateMessageInArrayById(arr, message) {
+    let length = arr.length;
+    for (let i = 0, m = null; i < length; i++) {
+      m = arr[i];
+      if (m.id === message.id) {
+        console.log("found intention::", m);
+        arr[i] = message;
+        break;
+      }
+    }
+    return arr;
+  }
+
+  /**
    * a simple check to see if a talk message is a status message
    * @param message
    * @returns {boolean}

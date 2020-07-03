@@ -3,7 +3,6 @@ const log = require("electron-log"),
   Util = require("../Util"),
   { DtoClient } = require("../managers/DtoClientFactory"),
   TalkDatabase = require("../database/TalkDatabase"),
-  MemberDatabase = require("../database/MemberDatabase"),
   DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
@@ -12,8 +11,8 @@ const log = require("electron-log"),
  */
 module.exports = class BaseController {
   /**
-   * REST paths for our grid server. good place to store thats shared amoung all controllers
-   * @returns {{PROJECT: string, TASK: string, PARTICIPATING: string, ACTIVE: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, CHAT: string, WTF: string, JOIN: string, TALK: string, MY: string, MEMBER: string, DO_IT_LATER: string, INTENTION: string, CANCEL: string, LEAVE: string, ME: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
+   * Retrieves path information for various urls used with gridtime
+   * @returns {{PARTICIPATING: string, ACTIVE: string, CHAT: string, WTF: string, JOIN: string, TALK: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -40,7 +39,10 @@ module.exports = class BaseController {
       CANCEL: "/cancel",
       HOME: "/home",
       MEMBER: "/member",
-      ME: "/me"
+      ME: "/me",
+      TRANSITION: "/transition",
+      FLAME: "/flame",
+      FINISH: "/finish"
     };
   }
 
@@ -69,7 +71,7 @@ module.exports = class BaseController {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
+   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, JOURNAL_ENTRY_DTO: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
@@ -81,7 +83,8 @@ module.exports = class BaseController {
       XP_STATUS_UPDATE: "XPStatusUpdateDto",
       WTF_STATUS_UPDATE: "WTFStatusUpdateDto",
       INTENTION_STARTED_DETAILS:
-        "IntentionStartedDetailsDto"
+        "IntentionStartedDetailsDto",
+      JOURNAL_ENTRY_DTO: "JournalEntryDto"
     };
   }
 
@@ -121,7 +124,7 @@ module.exports = class BaseController {
 
   /**
    * define the names of our controllers functions for gridtime
-   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_PROJECT: string, FIND_OR_CREATE_TASK: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
+   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, FINISH_INTENTION: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_PROJECT: string, FIND_OR_CREATE_TASK: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, PAUSE_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
    * @constructor
    */
   static get Names() {
@@ -148,7 +151,8 @@ module.exports = class BaseController {
       GET_MY_HOME_TEAM_CIRCUIT: "getMyHomeTeamCircuit",
       GET_ALL_MY_TEAM_CIRCUITS: "getAllMyTeamCircuits",
       FIND_OR_CREATE_TASK: "findOrCreateTask",
-      FIND_OR_CREATE_PROJECT: "findOrCreateProject"
+      FIND_OR_CREATE_PROJECT: "findOrCreateProject",
+      FINISH_INTENTION: "finish-intention"
     };
   }
 

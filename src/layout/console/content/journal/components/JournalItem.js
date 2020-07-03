@@ -7,6 +7,7 @@ import {
   Image,
   Popup
 } from "semantic-ui-react";
+import { JournalClient } from "../../../../../clients/JournalClient";
 
 /**
  * this component is the individual journal item entered in by the user
@@ -44,14 +45,28 @@ export default class JournalItem extends Component {
    * journal which is represented as a green check mark.
    */
   handleClickDone = () => {
-    console.log("click done");
+    JournalClient.finishIntention(
+      this.props.model.id,
+      JournalItem.Status.DONE,
+      this,
+      arg => {
+        // TODO handle an error here, by calling a prop function from JournalResource
+      }
+    );
   };
 
   /**
    * handles the click event for when the user wishes to abort an intention
    */
   handleClickAbort = () => {
-    console.log("click abort");
+    JournalClient.finishIntention(
+      this.props.model.id,
+      JournalItem.Status.ABORTED,
+      this,
+      arg => {
+        // TODO handle an error here, by calling a prop function from JournalResource
+      }
+    );
   };
 
   /**
@@ -141,7 +156,6 @@ export default class JournalItem extends Component {
    */
   getPopupContent() {
     let model = this.props.model;
-    console.log(model);
     return (
       <div>
         <div>
@@ -159,9 +173,7 @@ export default class JournalItem extends Component {
 
         <Divider />
         <div>
-          <span className="date">
-            {model.position}
-          </span>
+          <span className="date">{model.position}</span>
         </div>
       </div>
     );
@@ -224,7 +236,7 @@ export default class JournalItem extends Component {
         />
       );
     } else {
-      return ("");
+      return "";
     }
   }
 
@@ -309,13 +321,28 @@ export default class JournalItem extends Component {
         <Grid.Column width={6} className="chunkCell">
           {chunkCell}
         </Grid.Column>
-        <Grid.Column width={3} textAlign="center" verticalAlign="top" className="flameCell">
+        <Grid.Column
+          width={3}
+          textAlign="center"
+          verticalAlign="top"
+          className="flameCell"
+        >
           {flameBlock}
         </Grid.Column>
-        <Grid.Column width={1} textAlign="right" verticalAlign="top" className="finishedCell">
+        <Grid.Column
+          width={1}
+          textAlign="right"
+          verticalAlign="top"
+          className="finishedCell"
+        >
           {finishedCell}
         </Grid.Column>
-        <Grid.Column width={1} textAlign="left" verticalAlign="top" className="abortCell">
+        <Grid.Column
+          width={1}
+          textAlign="left"
+          verticalAlign="top"
+          className="abortCell"
+        >
           {abortCell}
         </Grid.Column>
       </Grid.Row>

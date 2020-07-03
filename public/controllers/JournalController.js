@@ -24,7 +24,7 @@ module.exports = class JournalController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, CREATE_TASK: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
+   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FINISH_INTENTION: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
    * @constructor
    */
   static get Events() {
@@ -35,7 +35,8 @@ module.exports = class JournalController extends BaseController {
       FIND_OR_CREATE_PROJECT: "find-or-create-project",
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
-      GET_RECENT_TASKS: "get-recent-tasks"
+      GET_RECENT_TASKS: "get-recent-tasks",
+      FINISH_INTENTION: "finish-intention"
     };
   }
 
@@ -98,6 +99,9 @@ module.exports = class JournalController extends BaseController {
           break;
         case JournalController.Events.GET_RECENT_TASKS:
           this.handleGetRecentTasksEvent(event, arg);
+          break;
+        case JournalController.Events.FINISH_INTENTION:
+          this.handleFinishIntentionEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -510,5 +514,62 @@ module.exports = class JournalController extends BaseController {
       arg,
       callback
     );
+  }
+
+  handleFinishIntentionEvent(event, arg, callback) {
+    let id = arg.args.id,
+      finishStatus = arg.args.finishStatus,
+      urn =
+        JournalController.Paths.JOURNAL +
+        JournalController.Paths.ME +
+        JournalController.Paths.INTENTION +
+        JournalController.Paths.SEPARATOR +
+        id +
+        JournalController.Paths.TRANSITION +
+        JournalController.Paths.FINISH;
+
+    this.doClientRequest(
+      JournalController.Contexts.JOURNAL_CLIENT,
+      {
+        finishStatus: finishStatus
+      },
+      JournalController.Names.FINISH_INTENTION,
+      JournalController.Types.POST,
+      urn,
+      store =>
+        this.delegateFinishIntentionCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  delegateFinishIntentionCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    } else {
+      let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.JOURNAL
+      );
+
+      arg.data = store.data;
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    }
   }
 };
