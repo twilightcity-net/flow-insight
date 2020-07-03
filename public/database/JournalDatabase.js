@@ -1,5 +1,6 @@
 const LokiJS = require("lokijs"),
-  Util = require("../Util");
+  Util = require("../Util"),
+  DatabaseUtil = require("./DatabaseUtil");
 
 /**
  * this class is used to build new databases
@@ -151,6 +152,7 @@ module.exports = class JournalDatabase extends LokiJS {
    * queried with username or member id.
    * @param doc
    * @param collection
+   * @deprecated
    */
   findRemoveInsert(doc, collection) {
     let result = collection.findOne({ id: doc.id });
@@ -215,6 +217,25 @@ module.exports = class JournalDatabase extends LokiJS {
         }
       }
     }
+  }
+
+  /**
+   * update the intention in our local databaseb y matching the id. Also
+   * updates the timestamp with our commons Util function.
+   * @param intention
+   */
+  updateIntention(intention) {
+    let collection = this.getCollection(
+      JournalDatabase.Collections.TASKS
+    );
+    intention.timestamp = Util.getTimestampFromUTCStr(
+      intention.positionStr
+    );
+    DatabaseUtil.findRemoveInsert(intention, collection);
+    DatabaseUtil.log(
+      "update journal intention",
+      intention.id
+    );
   }
 
   /**

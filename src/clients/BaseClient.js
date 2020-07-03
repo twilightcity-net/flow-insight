@@ -40,7 +40,7 @@ export class BaseClient {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, JOURNAL_ENTRY_DTO: string, TEAM_MEMBER: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
+   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, TEAM_MEMBER: string, INTENTION_ABORTED_DETAILS: string, INTENTION_FINISHED_DETAILS: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
@@ -53,7 +53,10 @@ export class BaseClient {
       WTF_STATUS_UPDATE: "WTFStatusUpdateDto",
       INTENTION_STARTED_DETAILS:
         "IntentionStartedDetailsDto",
-      JOURNAL_ENTRY_DTO: "JournalEntryDto"
+      INTENTION_FINISHED_DETAILS:
+        "IntentionFinishedDetailsDto",
+      INTENTION_ABORTED_DETAILS:
+        "IntentionAbortedDetailsDto"
     };
   }
 

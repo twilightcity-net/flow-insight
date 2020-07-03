@@ -282,6 +282,7 @@
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li>
@@ -429,6 +430,7 @@
           <li data-type='method'><a href="module.html#.exports#unwireEvents">unwireEvents</a></li>
           <li data-type='method'><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateIntention">updateIntention</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalIntentions">updateJournalIntentions</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalProjects">updateJournalProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
@@ -439,6 +441,7 @@
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li>
           <li data-type='method'><a href="module.html#.exports#verify">verify</a></li>
+          <li data-type='method'><a href="module.html#.exports#warnUnknown">warnUnknown</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
@@ -769,6 +772,7 @@
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
+      <li><a href="global.html#getChunkCellContent">getChunkCellContent</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
       <li><a href="global.html#getCircuitError">getCircuitError</a></li>
       <li><a href="global.html#getCircuitSidebarActions">getCircuitSidebarActions</a></li>
@@ -803,10 +807,12 @@
       <li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li>
       <li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li>
       <li><a href="global.html#getPopupContent">getPopupContent</a></li>
+      <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
       <li><a href="global.html#getProjectDropdown">getProjectDropdown</a></li>
       <li><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></li>
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
       <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
+      <li><a href="global.html#getTaskCellContent">getTaskCellContent</a></li>
       <li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li>
       <li><a href="global.html#getTaskPopupContent">getTaskPopupContent</a></li>
       <li><a href="global.html#getTeamPanelListMembersContent">getTeamPanelListMembersContent</a></li>
@@ -815,7 +821,7 @@
       <li><a href="global.html#getTextCursor">getTextCursor</a></li>
       <li><a href="global.html#getTextInput">getTextInput</a></li>
       <li><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></li>
-      <li><a href="global.html#getUserNameFromResource">getUserNameFromResource</a></li>
+      <li><a href="global.html#getUsernameFromResource">getUsernameFromResource</a></li>
       <li><a href="global.html#getWtfTimerContent">getWtfTimerContent</a></li>
       <li><a href="global.html#getWtfTimerCount">getWtfTimerCount</a></li>
       <li><a href="global.html#getWtfTimerStringFromOpenTime">getWtfTimerStringFromOpenTime</a></li>
@@ -865,6 +871,7 @@
       <li><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></li>
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
+      <li><a href="global.html#updateMessageInArrayById">updateMessageInArrayById</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
       <li><a href="global.html#updateTeamMembers">updateTeamMembers</a></li>
       <li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li>
@@ -888,7 +895,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="src_clients_BaseClient.js.html">src/clients/BaseClient.js</a>, <a href="src_clients_BaseClient.js.html#line64">line 64</a>
+                  <a href="src_clients_BaseClient.js.html">src/clients/BaseClient.js</a>, <a href="src_clients_BaseClient.js.html#line68">line 68</a>
                 </li>
               </ul>
             </dd>
@@ -952,7 +959,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_BaseClient.js.html">src/clients/BaseClient.js</a>, <a href="src_clients_BaseClient.js.html#line90">line 90</a>
+                <a href="src_clients_BaseClient.js.html">src/clients/BaseClient.js</a>, <a href="src_clients_BaseClient.js.html#line94">line 94</a>
               </li>
             </ul>
           </dd>
@@ -1008,7 +1015,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_BaseClient.js.html">src/clients/BaseClient.js</a>, <a href="src_clients_BaseClient.js.html#line76">line 76</a>
+                <a href="src_clients_BaseClient.js.html">src/clients/BaseClient.js</a>, <a href="src_clients_BaseClient.js.html#line80">line 80</a>
               </li>
             </ul>
           </dd>
@@ -1051,7 +1058,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_BaseClient.js.html">src/clients/BaseClient.js</a>, <a href="src_clients_BaseClient.js.html#line107">line 107</a>
+                <a href="src_clients_BaseClient.js.html">src/clients/BaseClient.js</a>, <a href="src_clients_BaseClient.js.html#line111">line 111</a>
               </li>
             </ul>
           </dd>

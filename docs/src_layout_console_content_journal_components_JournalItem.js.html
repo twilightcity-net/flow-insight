@@ -282,6 +282,7 @@
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li>
@@ -429,6 +430,7 @@
           <li data-type='method'><a href="module.html#.exports#unwireEvents">unwireEvents</a></li>
           <li data-type='method'><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateIntention">updateIntention</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalIntentions">updateJournalIntentions</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalProjects">updateJournalProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
@@ -439,6 +441,7 @@
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li>
           <li data-type='method'><a href="module.html#.exports#verify">verify</a></li>
+          <li data-type='method'><a href="module.html#.exports#warnUnknown">warnUnknown</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
@@ -769,6 +772,7 @@
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
+      <li><a href="global.html#getChunkCellContent">getChunkCellContent</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
       <li><a href="global.html#getCircuitError">getCircuitError</a></li>
       <li><a href="global.html#getCircuitSidebarActions">getCircuitSidebarActions</a></li>
@@ -803,10 +807,12 @@
       <li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li>
       <li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li>
       <li><a href="global.html#getPopupContent">getPopupContent</a></li>
+      <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
       <li><a href="global.html#getProjectDropdown">getProjectDropdown</a></li>
       <li><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></li>
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
       <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
+      <li><a href="global.html#getTaskCellContent">getTaskCellContent</a></li>
       <li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li>
       <li><a href="global.html#getTaskPopupContent">getTaskPopupContent</a></li>
       <li><a href="global.html#getTeamPanelListMembersContent">getTeamPanelListMembersContent</a></li>
@@ -815,7 +821,7 @@
       <li><a href="global.html#getTextCursor">getTextCursor</a></li>
       <li><a href="global.html#getTextInput">getTextInput</a></li>
       <li><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></li>
-      <li><a href="global.html#getUserNameFromResource">getUserNameFromResource</a></li>
+      <li><a href="global.html#getUsernameFromResource">getUsernameFromResource</a></li>
       <li><a href="global.html#getWtfTimerContent">getWtfTimerContent</a></li>
       <li><a href="global.html#getWtfTimerCount">getWtfTimerCount</a></li>
       <li><a href="global.html#getWtfTimerStringFromOpenTime">getWtfTimerStringFromOpenTime</a></li>
@@ -865,6 +871,7 @@
       <li><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></li>
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
+      <li><a href="global.html#updateMessageInArrayById">updateMessageInArrayById</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
       <li><a href="global.html#updateTeamMembers">updateTeamMembers</a></li>
       <li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li>
@@ -922,13 +929,12 @@ export default class JournalItem extends Component {
    * journal which is represented as a green check mark.
    */
   handleClickDone = () => {
-    console.log("click done");
     JournalClient.finishIntention(
       this.props.model.id,
       JournalItem.Status.DONE,
       this,
       arg => {
-        console.log("ARG", arg);
+        // TODO handle an error here, by calling a prop function from JournalResource
       }
     );
   };
@@ -937,8 +943,56 @@ export default class JournalItem extends Component {
    * handles the click event for when the user wishes to abort an intention
    */
   handleClickAbort = () => {
-    console.log("click abort");
+    JournalClient.finishIntention(
+      this.props.model.id,
+      JournalItem.Status.ABORTED,
+      this,
+      arg => {
+        // TODO handle an error here, by calling a prop function from JournalResource
+      }
+    );
   };
+
+  /**
+   * renders our project cell in the grid.
+   * @returns {*}
+   */
+  getProjectCellContent() {
+    return (
+      &lt;div className="chunkTitle">
+        {this.props.model.projectName}
+      &lt;/div>
+    );
+  }
+
+  /**
+   * renders our task cell in our grid of journal items
+   * @returns {*}
+   */
+  getTaskCellContent() {
+    let isLinked = this.props.model.linked;
+    return (
+      &lt;div className="chunkTitle">
+        {this.props.model.taskName}
+        {isLinked &amp;&amp; (
+          &lt;Icon name="linkify" className="journalLink" />
+        )}
+      &lt;/div>
+    );
+  }
+
+  /**
+   * renders our chunk cell that contains our journal intention's
+   * description.
+   * @returns {*}
+   */
+  getChunkCellContent() {
+    return (
+      &lt;div className="chunkText">
+        {this.props.model.description}
+      &lt;/div>
+    );
+  }
 
   /**
    * determines what to render the finish status icon as by looking in
@@ -980,7 +1034,7 @@ export default class JournalItem extends Component {
       &lt;Icon
         size="small"
         name="close"
-        className="abortRedDark"
+        className="abortRed"
       />
     );
   }
@@ -1027,7 +1081,6 @@ export default class JournalItem extends Component {
    */
   getPopupContent() {
     let model = this.props.model;
-    console.log(model);
     return (
       &lt;div>
         &lt;div>
@@ -1086,9 +1139,10 @@ export default class JournalItem extends Component {
   getAbortCellContent() {
     let finishStatus = this.props.model.finishStatus;
     if (
-      finishStatus !==
-      (JournalItem.Status.DONE ||
-        JournalItem.Status.ABORTED)
+      !(
+        finishStatus === JournalItem.Status.DONE ||
+        finishStatus === JournalItem.Status.ABORTED
+      )
     ) {
       return (
         &lt;Popup
@@ -1117,53 +1171,14 @@ export default class JournalItem extends Component {
    * @returns {*}
    */
   render() {
-    let active = "";
-    if (this.isActive) {
-      active = "active";
-    }
-
-    let wtfPrefix = "";
-    let wtfPopup = "";
-
-    let linkedBlock = "";
-    if (this.props.model.linked) {
-      linkedBlock = (
-        &lt;Icon name="linkify" className="journalLink" />
-      );
-    }
-
-    let taskStyle = "chunkTitle";
-    let descriptionStyle = "chunkText";
-
-    let projectCell = (
-      &lt;div className={taskStyle}>
-        {this.props.model.projectName}
-      &lt;/div>
-    );
-    let taskCell = (
-      &lt;div className={taskStyle}>
-        {this.props.model.taskName}
-        {linkedBlock}
-      &lt;/div>
-    );
-    let chunkCell = (
-      &lt;div className={descriptionStyle}>
-        {" "}
-        &lt;Popup
-          trigger={wtfPrefix}
-          content={wtfPopup}
-          position="top center"
-          inverted
-          hideOnScroll
-        />{" "}
-        {this.props.model.description}
-      &lt;/div>
-    );
-
-    let finishedCell = this.getFinishIcon();
-    let abortCell = this.getAbortCellContent();
-    let popupContent = this.getPopupContent();
-    let flameBlock = this.getFlameBlockContent();
+    let active = this.isActive ? "active" : "",
+      projectCell = this.getProjectCellContent(),
+      taskCell = this.getTaskCellContent(),
+      chunkCell = this.getChunkCellContent(),
+      finishedCell = this.getFinishIcon(),
+      abortCell = this.getAbortCellContent(),
+      popupContent = this.getPopupContent(),
+      flameBlock = this.getFlameBlockContent();
 
     return (
       &lt;Grid.Row

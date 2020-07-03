@@ -70,6 +70,47 @@ export default class JournalItem extends Component {
   };
 
   /**
+   * renders our project cell in the grid.
+   * @returns {*}
+   */
+  getProjectCellContent() {
+    return (
+      <div className="chunkTitle">
+        {this.props.model.projectName}
+      </div>
+    );
+  }
+
+  /**
+   * renders our task cell in our grid of journal items
+   * @returns {*}
+   */
+  getTaskCellContent() {
+    let isLinked = this.props.model.linked;
+    return (
+      <div className="chunkTitle">
+        {this.props.model.taskName}
+        {isLinked && (
+          <Icon name="linkify" className="journalLink" />
+        )}
+      </div>
+    );
+  }
+
+  /**
+   * renders our chunk cell that contains our journal intention's
+   * description.
+   * @returns {*}
+   */
+  getChunkCellContent() {
+    return (
+      <div className="chunkText">
+        {this.props.model.description}
+      </div>
+    );
+  }
+
+  /**
    * determines what to render the finish status icon as by looking in
    * the model from the properties
    * @param model
@@ -109,7 +150,7 @@ export default class JournalItem extends Component {
       <Icon
         size="small"
         name="close"
-        className="abortRedDark"
+        className="abortRed"
       />
     );
   }
@@ -214,9 +255,10 @@ export default class JournalItem extends Component {
   getAbortCellContent() {
     let finishStatus = this.props.model.finishStatus;
     if (
-      finishStatus !==
-      (JournalItem.Status.DONE ||
-        JournalItem.Status.ABORTED)
+      !(
+        finishStatus === JournalItem.Status.DONE ||
+        finishStatus === JournalItem.Status.ABORTED
+      )
     ) {
       return (
         <Popup
@@ -245,53 +287,14 @@ export default class JournalItem extends Component {
    * @returns {*}
    */
   render() {
-    let active = "";
-    if (this.isActive) {
-      active = "active";
-    }
-
-    let wtfPrefix = "";
-    let wtfPopup = "";
-
-    let linkedBlock = "";
-    if (this.props.model.linked) {
-      linkedBlock = (
-        <Icon name="linkify" className="journalLink" />
-      );
-    }
-
-    let taskStyle = "chunkTitle";
-    let descriptionStyle = "chunkText";
-
-    let projectCell = (
-      <div className={taskStyle}>
-        {this.props.model.projectName}
-      </div>
-    );
-    let taskCell = (
-      <div className={taskStyle}>
-        {this.props.model.taskName}
-        {linkedBlock}
-      </div>
-    );
-    let chunkCell = (
-      <div className={descriptionStyle}>
-        {" "}
-        <Popup
-          trigger={wtfPrefix}
-          content={wtfPopup}
-          position="top center"
-          inverted
-          hideOnScroll
-        />{" "}
-        {this.props.model.description}
-      </div>
-    );
-
-    let finishedCell = this.getFinishIcon();
-    let abortCell = this.getAbortCellContent();
-    let popupContent = this.getPopupContent();
-    let flameBlock = this.getFlameBlockContent();
+    let active = this.isActive ? "active" : "",
+      projectCell = this.getProjectCellContent(),
+      taskCell = this.getTaskCellContent(),
+      chunkCell = this.getChunkCellContent(),
+      finishedCell = this.getFinishIcon(),
+      abortCell = this.getAbortCellContent(),
+      popupContent = this.getPopupContent(),
+      flameBlock = this.getFlameBlockContent();
 
     return (
       <Grid.Row

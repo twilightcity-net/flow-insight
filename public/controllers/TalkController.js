@@ -362,8 +362,8 @@ module.exports = class TalkController extends BaseController {
         break;
       case TalkController.MessageTypes
         .INTENTION_STARTED_DETAILS:
-        let mData = message.data,
-          journalEntry = mData.journalEntry;
+        let messageData = message.data,
+          journalEntry = messageData.journalEntry;
 
         journalDatabase.findRemoveInsert(
           journalEntry,
@@ -372,17 +372,6 @@ module.exports = class TalkController extends BaseController {
         DatabaseUtil.log(
           "update journal entry",
           journalEntry.id
-        );
-        break;
-      case TalkController.MessageTypes.JOURNAL_ENTRY_DTO:
-        let messageData = message.data;
-        journalDatabase.findRemoveInsert(
-          messageData,
-          intentionsCollection
-        );
-        DatabaseUtil.log(
-          "update journal entry",
-          messageData.id
         );
         break;
       default:
