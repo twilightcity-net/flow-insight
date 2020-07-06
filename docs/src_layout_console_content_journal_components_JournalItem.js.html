@@ -441,7 +441,6 @@
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li>
           <li data-type='method'><a href="module.html#.exports#verify">verify</a></li>
-          <li data-type='method'><a href="module.html#.exports#warnUnknown">warnUnknown</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
@@ -820,8 +819,10 @@
       <li><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></li>
       <li><a href="global.html#getTextCursor">getTextCursor</a></li>
       <li><a href="global.html#getTextInput">getTextInput</a></li>
+      <li><a href="global.html#getTimestampFromUTCStr">getTimestampFromUTCStr</a></li>
       <li><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></li>
-      <li><a href="global.html#getUsernameFromResource">getUsernameFromResource</a></li>
+      <li><a href="global.html#getUnfinishedStatusContent">getUnfinishedStatusContent</a></li>
+      <li><a href="global.html#getUserNameFromResource">getUserNameFromResource</a></li>
       <li><a href="global.html#getWtfTimerContent">getWtfTimerContent</a></li>
       <li><a href="global.html#getWtfTimerCount">getWtfTimerCount</a></li>
       <li><a href="global.html#getWtfTimerStringFromOpenTime">getWtfTimerStringFromOpenTime</a></li>
@@ -892,6 +893,8 @@ import {
   Popup
 } from "semantic-ui-react";
 import { JournalClient } from "../../../../../clients/JournalClient";
+import { error } from "electron-log";
+import { MemberClient } from "../../../../../clients/MemberClient";
 
 /**
  * this component is the individual journal item entered in by the user
@@ -934,7 +937,10 @@ export default class JournalItem extends Component {
       JournalItem.Status.DONE,
       this,
       arg => {
-        // TODO handle an error here, by calling a prop function from JournalResource
+        if (arg.error) {
+          throw new error(arg.error);
+        }
+        this.props.onFinishIntention(this, arg);
       }
     );
   };
@@ -948,7 +954,10 @@ export default class JournalItem extends Component {
       JournalItem.Status.ABORTED,
       this,
       arg => {
-        // TODO handle an error here, by calling a prop function from JournalResource
+        if (arg.error) {
+          throw new error(arg.error);
+        }
+        this.props.onAbortIntention(this, arg);
       }
     );
   };
@@ -997,18 +1006,23 @@ export default class JournalItem extends Component {
   /**
    * determines what to render the finish status icon as by looking in
    * the model from the properties
-   * @param model
    * @returns {*}
    */
-  getFinishIcon(model) {
-    let finishStatus = this.props.model.finishStatus;
+  getFinishIcon() {
+    let finishStatus = this.props.model.finishStatus,
+      username = this.props.model.username;
+
     switch (finishStatus) {
       case JournalItem.Status.DONE:
         return this.getFinishStatusDoneContent();
       case JournalItem.Status.ABORTED:
         return this.getFinishStatusAbortContent();
       default:
-        return this.getFinishStatusSelectorContent();
+        if (username === MemberClient.me.username) {
+          return this.getFinishStatusSelectorContent();
+        } else {
+          return this.getUnfinishedStatusContent();
+        }
     }
   }
 
@@ -1021,6 +1035,20 @@ export default class JournalItem extends Component {
       &lt;Icon.Group size="large" className="doneGreenDark">
         &lt;Icon size="small" name="circle outline" />
         &lt;Icon size="small" name="check" />
+      &lt;/Icon.Group>
+    );
+  }
+
+  /**
+   * renders our cell content for when the condiion is
+   * for an intention that is yet to be completed or
+   * is aborted.
+   * @returns {*}
+   */
+  getUnfinishedStatusContent() {
+    return (
+      &lt;Icon.Group size="large" className="doneGreenDark">
+        &lt;Icon size="small" name="circle outline" />
       &lt;/Icon.Group>
     );
   }
@@ -1133,7 +1161,7 @@ export default class JournalItem extends Component {
   }
 
   /**
-   * renders our
+   * renders our abort cell for our journal grid in the gui
    * @returns {string|*}
    */
   getAbortCellContent() {
@@ -1142,7 +1170,8 @@ export default class JournalItem extends Component {
       !(
         finishStatus === JournalItem.Status.DONE ||
         finishStatus === JournalItem.Status.ABORTED
-      )
+      ) &amp;&amp;
+      this.props.model.username === MemberClient.me.username
     ) {
       return (
         &lt;Popup

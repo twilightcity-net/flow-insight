@@ -270,7 +270,7 @@ class Util {
   /**
    * gets an epoch unix timestamp from a given UTC string with a timezone
    * @param utcStr
-   * @returns {string}
+   * @returns {number}
    */
   static getTimestampFromUTCStr(utcStr) {
     return moment(utcStr).valueOf();

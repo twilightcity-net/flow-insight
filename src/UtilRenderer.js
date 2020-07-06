@@ -213,6 +213,15 @@ export default class UtilRenderer {
   }
 
   /**
+   * gets an epoch unix timestamp from a given UTC string with a timezone
+   * @param utcStr
+   * @returns {number}
+   */
+  static getTimestampFromUTCStr(utcStr) {
+    return moment(utcStr).valueOf();
+  }
+
+  /**
    * gets the name of our room from a given circuit resource
    * @param resource
    * @returns {string|null}

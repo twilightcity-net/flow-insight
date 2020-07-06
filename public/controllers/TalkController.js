@@ -1,13 +1,8 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
-  Util = require("../Util"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
-  TalkDatabase = require("../database/TalkDatabase"),
-  MemberDatabase = require("../database/MemberDatabase"),
-  JournalDatabase = require("../database/JournalDatabase"),
-  DatabaseFactory = require("../database/DatabaseFactory"),
-  DatabaseUtil = require("../database/DatabaseUtil");
+  DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
  * This class is used to coordinate controllers across the talk service
@@ -247,6 +242,22 @@ module.exports = class TalkController extends BaseController {
   }
 
   /**
+   * event handler that our application heartbeat is trigged by. This function
+   * checks our global socket that we are connected to talk with. if we are
+   * not connected, then we should try to reconnect back to talk.
+   */
+  onAppHeartbeat() {
+    let socket = global.App.TalkManager.socket;
+    if (!socket.connected) {
+      log.info(
+        chalk.yellowBright("[AppHeartbeat]") +
+          " reconnecting to Talk..."
+      );
+      socket.open();
+    }
+  }
+
+  /**
    * our event callback handler talk messages. This function sorts incoming talk
    * messages into status and details.s
    * @param message - our message that was received via the talk network socket
@@ -273,12 +284,6 @@ module.exports = class TalkController extends BaseController {
       ),
       statusCollection = talkDatabase.getCollectionForRoomStatusTalkMessages(
         uri
-      ),
-      membersCollection = memberDatabase.getCollection(
-        MemberDatabase.Collections.MEMBERS
-      ),
-      intentionsCollection = journalDatabase.getCollection(
-        JournalDatabase.Collections.INTENTIONS
       ),
       me = this.getMemberMe(),
       model = {};
@@ -362,16 +367,23 @@ module.exports = class TalkController extends BaseController {
         break;
       case TalkController.MessageTypes
         .INTENTION_STARTED_DETAILS:
-        let messageData = message.data,
-          journalEntry = messageData.journalEntry;
-
-        journalDatabase.findRemoveInsert(
-          journalEntry,
-          intentionsCollection
+        let intentionStarted = message.data;
+        journalDatabase.updateIntention(
+          intentionStarted.journalEntry
         );
-        DatabaseUtil.log(
-          "update journal entry",
-          journalEntry.id
+        break;
+      case TalkController.MessageTypes
+        .INTENTION_FINISHED_DETAILS:
+        let intentionFinished = message.data;
+        journalDatabase.updateIntention(
+          intentionFinished.journalEntry
+        );
+        break;
+      case TalkController.MessageTypes
+        .INTENTION_ABORTED_DETAILS:
+        let intentionAborted = message.data;
+        journalDatabase.updateIntention(
+          intentionAborted.journalEntry
         );
         break;
       default:
@@ -385,21 +397,5 @@ module.exports = class TalkController extends BaseController {
     }
 
     this.talkMessageRoomListener.dispatch(message);
-  }
-
-  /**
-   * event handler that our application heartbeat is trigged by. This function
-   * checks our global socket that we are connected to talk with. if we are
-   * not connected, then we should try to reconnect back to talk.
-   */
-  onAppHeartbeat() {
-    let socket = global.App.TalkManager.socket;
-    if (!socket.connected) {
-      log.info(
-        chalk.yellowBright("[AppHeartbeat]") +
-          " reconnecting to Talk..."
-      );
-      socket.open();
-    }
   }
 };

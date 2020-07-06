@@ -441,7 +441,6 @@
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li>
           <li data-type='method'><a href="module.html#.exports#verify">verify</a></li>
-          <li data-type='method'><a href="module.html#.exports#warnUnknown">warnUnknown</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
           <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
@@ -820,8 +819,10 @@
       <li><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></li>
       <li><a href="global.html#getTextCursor">getTextCursor</a></li>
       <li><a href="global.html#getTextInput">getTextInput</a></li>
+      <li><a href="global.html#getTimestampFromUTCStr">getTimestampFromUTCStr</a></li>
       <li><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></li>
-      <li><a href="global.html#getUsernameFromResource">getUsernameFromResource</a></li>
+      <li><a href="global.html#getUnfinishedStatusContent">getUnfinishedStatusContent</a></li>
+      <li><a href="global.html#getUserNameFromResource">getUserNameFromResource</a></li>
       <li><a href="global.html#getWtfTimerContent">getWtfTimerContent</a></li>
       <li><a href="global.html#getWtfTimerCount">getWtfTimerCount</a></li>
       <li><a href="global.html#getWtfTimerStringFromOpenTime">getWtfTimerStringFromOpenTime</a></li>
@@ -884,12 +885,9 @@
       <article>
         <pre class="prettyprint source linenums"><code>const log = require("electron-log"),
   chalk = require("chalk"),
-  Util = require("../Util"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
-  JournalDatabase = require("../database/JournalDatabase"),
-  DatabaseFactory = require("../database/DatabaseFactory"),
-  DatabaseUtil = require("../database/DatabaseUtil");
+  DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
  * This class is used to coordinate controllers across the talk service
@@ -1129,6 +1127,22 @@ module.exports = class TalkController extends BaseController {
   }
 
   /**
+   * event handler that our application heartbeat is trigged by. This function
+   * checks our global socket that we are connected to talk with. if we are
+   * not connected, then we should try to reconnect back to talk.
+   */
+  onAppHeartbeat() {
+    let socket = global.App.TalkManager.socket;
+    if (!socket.connected) {
+      log.info(
+        chalk.yellowBright("[AppHeartbeat]") +
+          " reconnecting to Talk..."
+      );
+      socket.open();
+    }
+  }
+
+  /**
    * our event callback handler talk messages. This function sorts incoming talk
    * messages into status and details.s
    * @param message - our message that was received via the talk network socket
@@ -1155,9 +1169,6 @@ module.exports = class TalkController extends BaseController {
       ),
       statusCollection = talkDatabase.getCollectionForRoomStatusTalkMessages(
         uri
-      ),
-      intentionsCollection = journalDatabase.getCollection(
-        JournalDatabase.Collections.INTENTIONS
       ),
       me = this.getMemberMe(),
       model = {};
@@ -1221,65 +1232,56 @@ module.exports = class TalkController extends BaseController {
                 circuit
               );
             } else {
-              this.warnUnknown(
-                TalkController.Error.UNKNOWN_STATE_TYPE,
-                circuit.circuitState
+              console.warn(
+                TalkController.Error.UNKNOWN_STATE_TYPE +
+                  " '" +
+                  circuit.circuitState +
+                  "'."
               );
             }
             break;
           default:
-            this.warnUnknown(
-              TalkController.Error.UNKNOWN_STATUS_TYPE,
-              data.statusType
+            console.warn(
+              TalkController.Error.UNKNOWN_STATUS_TYPE +
+                " '" +
+                data.statusType +
+                "'."
             );
             break;
         }
         break;
       case TalkController.MessageTypes
-        .INTENTION_STARTED_DETAILS ||
-        TalkController.MessageTypes
-          .INTENTION_FINISHED_DETAILS ||
-        TalkController.MessageTypes
-          .INTENTION_ABORTED_DETAILS:
-        let messageData = message.data,
-          journalEntry = messageData.journalEntry;
-
-        journalDatabase.updateIntention(journalEntry);
+        .INTENTION_STARTED_DETAILS:
+        let intentionStarted = message.data;
+        journalDatabase.updateIntention(
+          intentionStarted.journalEntry
+        );
+        break;
+      case TalkController.MessageTypes
+        .INTENTION_FINISHED_DETAILS:
+        let intentionFinished = message.data;
+        journalDatabase.updateIntention(
+          intentionFinished.journalEntry
+        );
+        break;
+      case TalkController.MessageTypes
+        .INTENTION_ABORTED_DETAILS:
+        let intentionAborted = message.data;
+        journalDatabase.updateIntention(
+          intentionAborted.journalEntry
+        );
         break;
       default:
-        this.warnUnknown(
-          TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE,
-          message.messageType
+        console.warn(
+          TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +
+            " '" +
+            message.messageType +
+            "'."
         );
         break;
     }
 
     this.talkMessageRoomListener.dispatch(message);
-  }
-
-  /**
-   * warn logs that we were sent an unknown talk message
-   * @param message
-   * @param type
-   */
-  warnUnknown(message, type) {
-    console.warn(message + " '" + type + "'.");
-  }
-
-  /**
-   * event handler that our application heartbeat is trigged by. This function
-   * checks our global socket that we are connected to talk with. if we are
-   * not connected, then we should try to reconnect back to talk.
-   */
-  onAppHeartbeat() {
-    let socket = global.App.TalkManager.socket;
-    if (!socket.connected) {
-      log.info(
-        chalk.yellowBright("[AppHeartbeat]") +
-          " reconnecting to Talk..."
-      );
-      socket.open();
-    }
   }
 };
 </code></pre>

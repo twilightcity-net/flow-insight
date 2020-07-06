@@ -8,6 +8,8 @@ import {
   Popup
 } from "semantic-ui-react";
 import { JournalClient } from "../../../../../clients/JournalClient";
+import { error } from "electron-log";
+import { MemberClient } from "../../../../../clients/MemberClient";
 
 /**
  * this component is the individual journal item entered in by the user
@@ -50,7 +52,10 @@ export default class JournalItem extends Component {
       JournalItem.Status.DONE,
       this,
       arg => {
-        // TODO handle an error here, by calling a prop function from JournalResource
+        if (arg.error) {
+          throw new error(arg.error);
+        }
+        this.props.onFinishIntention(this, arg);
       }
     );
   };
@@ -64,7 +69,10 @@ export default class JournalItem extends Component {
       JournalItem.Status.ABORTED,
       this,
       arg => {
-        // TODO handle an error here, by calling a prop function from JournalResource
+        if (arg.error) {
+          throw new error(arg.error);
+        }
+        this.props.onAbortIntention(this, arg);
       }
     );
   };
@@ -113,18 +121,23 @@ export default class JournalItem extends Component {
   /**
    * determines what to render the finish status icon as by looking in
    * the model from the properties
-   * @param model
    * @returns {*}
    */
-  getFinishIcon(model) {
-    let finishStatus = this.props.model.finishStatus;
+  getFinishIcon() {
+    let finishStatus = this.props.model.finishStatus,
+      username = this.props.model.username;
+
     switch (finishStatus) {
       case JournalItem.Status.DONE:
         return this.getFinishStatusDoneContent();
       case JournalItem.Status.ABORTED:
         return this.getFinishStatusAbortContent();
       default:
-        return this.getFinishStatusSelectorContent();
+        if (username === MemberClient.me.username) {
+          return this.getFinishStatusSelectorContent();
+        } else {
+          return this.getUnfinishedStatusContent();
+        }
     }
   }
 
@@ -137,6 +150,20 @@ export default class JournalItem extends Component {
       <Icon.Group size="large" className="doneGreenDark">
         <Icon size="small" name="circle outline" />
         <Icon size="small" name="check" />
+      </Icon.Group>
+    );
+  }
+
+  /**
+   * renders our cell content for when the condiion is
+   * for an intention that is yet to be completed or
+   * is aborted.
+   * @returns {*}
+   */
+  getUnfinishedStatusContent() {
+    return (
+      <Icon.Group size="large" className="doneGreenDark">
+        <Icon size="small" name="circle outline" />
       </Icon.Group>
     );
   }
@@ -249,7 +276,7 @@ export default class JournalItem extends Component {
   }
 
   /**
-   * renders our
+   * renders our abort cell for our journal grid in the gui
    * @returns {string|*}
    */
   getAbortCellContent() {
@@ -258,7 +285,8 @@ export default class JournalItem extends Component {
       !(
         finishStatus === JournalItem.Status.DONE ||
         finishStatus === JournalItem.Status.ABORTED
-      )
+      ) &&
+      this.props.model.username === MemberClient.me.username
     ) {
       return (
         <Popup

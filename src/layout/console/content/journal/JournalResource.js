@@ -79,23 +79,38 @@ export default class JournalResource extends Component {
         );
 
       if (!hasIntention) {
+        journalEntry.timestamp = UtilRenderer.getTimestampFromUTCStr(
+          journalEntry.positionStr
+        );
         this.journalIntentions.push(journalEntry);
         this.forceUpdate(() => {
           this.scrollToJournalItemById();
         });
       }
     } else if (
-      mType === BaseClient.MessageTypes.JOURNAL_ENTRY_DTO
+      (mType ===
+        BaseClient.MessageTypes
+          .INTENTION_FINISHED_DETAILS ||
+        mType ===
+          BaseClient.MessageTypes
+            .INTENTION_ABORTED_DETAILS) &&
+      this.username !== JournalResource.Strings.ME &&
+      this.username !== me.username &&
+      this.username === username
     ) {
-      this.journalIntentions = UtilRenderer.updateMessageInArrayById(
-        this.journalIntentions,
-        data
-      );
-      this.forceUpdate(() => {
-        this.scrollToJournalItemById();
-      });
+      this.updateJournalIntentions(data);
     }
   };
+
+  updateJournalIntentions(data) {
+    this.journalIntentions = UtilRenderer.updateMessageInArrayById(
+      this.journalIntentions,
+      data
+    );
+    this.forceUpdate(() => {
+      this.scrollToJournalItemById();
+    });
+  }
 
   /**
    * make sure we clear our talk room listener when destroying this component
@@ -364,6 +379,28 @@ export default class JournalResource extends Component {
   };
 
   /**
+   * event callback for when a user finishes a intention. This
+   * routes into each of the child journal items that this resource
+   * stores in the journalIntentions array.
+   * @param data
+   * @param arg
+   */
+  onFinishIntention = (data, arg) => {
+    console.log("FINISH", data, arg);
+    this.updateJournalIntentions(arg.data);
+  };
+
+  /**
+   * event callback for when a user aborts an intention. This
+   * routes into the child components of the journal resource.
+   * @param journalItem
+   */
+  onAbortIntention = (data, arg) => {
+    console.log("ABORT", data, arg);
+    this.updateJournalIntentions(arg.data);
+  };
+
+  /**
    * determines if our journal item is active
    * @param id
    * @returns {boolean}
@@ -399,6 +436,8 @@ export default class JournalResource extends Component {
           model={item}
           isActive={this.isActive(item.id)}
           onRowClick={this.onRowClick}
+          onFinishIntention={this.onFinishIntention}
+          onAbortIntention={this.onAbortIntention}
         />
       );
     });
