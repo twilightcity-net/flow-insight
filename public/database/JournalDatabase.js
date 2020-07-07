@@ -226,7 +226,7 @@ module.exports = class JournalDatabase extends LokiJS {
    */
   updateIntention(intention) {
     let collection = this.getCollection(
-      JournalDatabase.Collections.TASKS
+      JournalDatabase.Collections.INTENTIONS
     );
     intention.timestamp = Util.getTimestampFromUTCStr(
       intention.positionStr
