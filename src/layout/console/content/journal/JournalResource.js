@@ -79,13 +79,9 @@ export default class JournalResource extends Component {
             );
 
           if (!hasIntention) {
-            // journalEntry.timestamp = UtilRenderer.getTimestampFromUTCStr(
-            //   journalEntry.positionStr
-            // );
             this.journalIntentions.push(journalEntry);
-            this.forceUpdate(() => {
-              this.scrollToJournalItemById();
-            });
+            this.scrollToJournalItemById();
+            this.forceUpdate();
           }
         }
         break;
