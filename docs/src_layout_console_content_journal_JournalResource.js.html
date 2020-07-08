@@ -864,6 +864,7 @@
       <li><a href="global.html#requestBrowserToLoadTeamMemberActiveCircuit">requestBrowserToLoadTeamMemberActiveCircuit</a></li>
       <li><a href="global.html#ROOT_">ROOT_</a></li>
       <li><a href="global.html#saveState">saveState</a></li>
+      <li><a href="global.html#scrollToBottom">scrollToBottom</a></li>
       <li><a href="global.html#scrollToJournalItemById">scrollToJournalItemById</a></li>
       <li><a href="global.html#shouldComponentUpdate">shouldComponentUpdate</a></li>
       <li><a href="global.html#showBadgesPanel">showBadgesPanel</a></li>
@@ -968,9 +969,7 @@ export default class JournalResource extends Component {
           journalEntry.positionStr
         );
         this.journalIntentions.push(journalEntry);
-        this.forceUpdate(() => {
-          this.scrollToJournalItemById();
-        });
+        this.scrollToBottom();
       }
     } else if (
       (mType ===
@@ -1098,9 +1097,7 @@ export default class JournalResource extends Component {
   handleCallback() {
     this.loadCount++;
     if (this.loadCount === 3) {
-      this.forceUpdate(() => {
-        this.scrollToJournalItemById();
-      });
+      this.scrollToBottom();
     }
   }
 
@@ -1176,13 +1173,21 @@ export default class JournalResource extends Component {
       arg => {
         if (!this.hasCallbackError(arg) &amp;&amp; arg.data) {
           this.journalIntentions.push(arg.data);
-          this.forceUpdate(() => {
-            this.scrollToJournalItemById();
-          });
+          this.scrollToBottom();
         }
       }
     );
   };
+
+  /**
+   * scrolls our journal to the bottom most item. This is done through the
+   * callback of the components force update function.
+   */
+  scrollToBottom() {
+    this.forceUpdate(() => {
+      this.scrollToJournalItemById();
+    });
+  }
 
   /**
    * create a task reference using our journal client

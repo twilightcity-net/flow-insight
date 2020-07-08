@@ -245,16 +245,10 @@ module.exports = class JournalController extends BaseController {
       let journalDatabase = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.JOURNAL
         ),
-        intentionsCollection = journalDatabase.getCollection(
-          JournalDatabase.Collections.INTENTIONS
-        ),
         intention = store.data;
 
-      journalDatabase.findRemoveInsert(
-        intention,
-        intentionsCollection
-      );
-      arg.data = store.data;
+      journalDatabase.updateIntention(intention);
+      arg.data = intention;
     }
 
     this.delegateCallbackOrEventReplyTo(
