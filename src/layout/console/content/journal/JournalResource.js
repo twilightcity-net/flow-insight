@@ -69,8 +69,7 @@ export default class JournalResource extends Component {
       case BaseClient.MessageTypes
         .INTENTION_STARTED_DETAILS:
         if (
-          this.username !== JournalResource.Strings.ME &&
-          this.username !== me.username &&
+          !this.isMyJournal() &&
           this.username === username
         ) {
           let journalEntry = data.journalEntry,
@@ -93,8 +92,7 @@ export default class JournalResource extends Component {
       case BaseClient.MessageTypes
         .INTENTION_FINISHED_DETAILS:
         if (
-          this.username !== JournalResource.Strings.ME &&
-          this.username !== me.username &&
+          !this.isMyJournal() &&
           this.username === username
         ) {
           this.updateJournalIntentions(data);
@@ -103,8 +101,7 @@ export default class JournalResource extends Component {
       case BaseClient.MessageTypes
         .INTENTION_ABORTED_DETAILS:
         if (
-          this.username !== JournalResource.Strings.ME &&
-          this.username !== me.username &&
+          !this.isMyJournal() &&
           this.username === username
         ) {
           this.updateJournalIntentions(data);
