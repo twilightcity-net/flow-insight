@@ -65,40 +65,53 @@ export default class JournalResource extends Component {
       username = data.username,
       me = MemberClient.me;
 
-    if (
-      mType ===
-        BaseClient.MessageTypes.INTENTION_STARTED_DETAILS &&
-      this.username !== JournalResource.Strings.ME &&
-      this.username !== me.username &&
-      this.username === username
-    ) {
-      let journalEntry = data.journalEntry,
-        hasIntention = UtilRenderer.hasMessageInArray(
-          this.journalIntentions,
-          journalEntry
-        );
+    switch (mType) {
+      case BaseClient.MessageTypes
+        .INTENTION_STARTED_DETAILS:
+        if (
+          this.username !== JournalResource.Strings.ME &&
+          this.username !== me.username &&
+          this.username === username
+        ) {
+          let journalEntry = data.journalEntry,
+            hasIntention = UtilRenderer.hasMessageInArray(
+              this.journalIntentions,
+              journalEntry
+            );
 
-      if (!hasIntention) {
-        journalEntry.timestamp = UtilRenderer.getTimestampFromUTCStr(
-          journalEntry.positionStr
-        );
-        this.journalIntentions.push(journalEntry);
-        this.forceUpdate(() => {
-          this.scrollToJournalItemById();
-        });
-      }
-    } else if (
-      (mType ===
-        BaseClient.MessageTypes
-          .INTENTION_FINISHED_DETAILS ||
-        mType ===
-          BaseClient.MessageTypes
-            .INTENTION_ABORTED_DETAILS) &&
-      this.username !== JournalResource.Strings.ME &&
-      this.username !== me.username &&
-      this.username === username
-    ) {
-      this.updateJournalIntentions(data);
+          if (!hasIntention) {
+            journalEntry.timestamp = UtilRenderer.getTimestampFromUTCStr(
+              journalEntry.positionStr
+            );
+            this.journalIntentions.push(journalEntry);
+            this.forceUpdate(() => {
+              this.scrollToJournalItemById();
+            });
+          }
+        }
+        break;
+      case BaseClient.MessageTypes
+        .INTENTION_FINISHED_DETAILS:
+        if (
+          this.username !== JournalResource.Strings.ME &&
+          this.username !== me.username &&
+          this.username === username
+        ) {
+          this.updateJournalIntentions(data);
+        }
+        break;
+      case BaseClient.MessageTypes
+        .INTENTION_ABORTED_DETAILS:
+        if (
+          this.username !== JournalResource.Strings.ME &&
+          this.username !== me.username &&
+          this.username === username
+        ) {
+          this.updateJournalIntentions(data);
+        }
+        break;
+      default:
+        break;
     }
   };
 
