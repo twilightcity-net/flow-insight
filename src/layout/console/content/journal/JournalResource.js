@@ -115,9 +115,8 @@ export default class JournalResource extends Component {
       this.journalIntentions,
       data
     );
-    this.forceUpdate(() => {
-      this.scrollToJournalItemById();
-    });
+    this.scrollToJournalItemById();
+    this.forceUpdate();
   }
 
   /**
