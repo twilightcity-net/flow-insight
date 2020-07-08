@@ -79,9 +79,9 @@ export default class JournalResource extends Component {
             );
 
           if (!hasIntention) {
-            journalEntry.timestamp = UtilRenderer.getTimestampFromUTCStr(
-              journalEntry.positionStr
-            );
+            // journalEntry.timestamp = UtilRenderer.getTimestampFromUTCStr(
+            //   journalEntry.positionStr
+            // );
             this.journalIntentions.push(journalEntry);
             this.forceUpdate(() => {
               this.scrollToJournalItemById();
@@ -92,19 +92,21 @@ export default class JournalResource extends Component {
       case BaseClient.MessageTypes
         .INTENTION_FINISHED_DETAILS:
         if (
-          !this.isMyJournal() &&
-          this.username === username
+          (!this.isMyJournal() &&
+            this.username === username) ||
+          (this.isMyJournal() && me.username === username)
         ) {
-          this.updateJournalIntentions(data);
+          this.updateJournalIntentions(data.journalEntry);
         }
         break;
       case BaseClient.MessageTypes
         .INTENTION_ABORTED_DETAILS:
         if (
-          !this.isMyJournal() &&
-          this.username === username
+          (!this.isMyJournal() &&
+            this.username === username) ||
+          (this.isMyJournal() && me.username === username)
         ) {
-          this.updateJournalIntentions(data);
+          this.updateJournalIntentions(data.journalEntry);
         }
         break;
       default:
@@ -301,9 +303,8 @@ export default class JournalResource extends Component {
       arg => {
         if (!this.hasCallbackError(arg) && arg.data) {
           this.journalIntentions.push(arg.data);
-          this.forceUpdate(() => {
-            this.scrollToJournalItemById();
-          });
+          this.scrollToJournalItemById();
+          this.forceUpdate();
         }
       }
     );

@@ -953,7 +953,8 @@ export default class JournalResource extends Component {
     switch (mType) {
       case BaseClient.MessageTypes
         .INTENTION_STARTED_DETAILS:
-        if (!this.isMyJournal() &amp;&amp;
+        if (
+          !this.isMyJournal() &amp;&amp;
           this.username === username
         ) {
           let journalEntry = data.journalEntry,
@@ -975,18 +976,22 @@ export default class JournalResource extends Component {
         break;
       case BaseClient.MessageTypes
         .INTENTION_FINISHED_DETAILS:
-        if (!this.isMyJournal() &amp;&amp;
-          this.username === username
+        if (
+          (!this.isMyJournal() &amp;&amp;
+          this.username === username) ||
+          (this.isMyJournal() &amp;&amp;
+            me.username === username)
         ) {
-          this.updateJournalIntentions(data);
+          this.updateJournalIntentions(data.journalEntry);
         }
         break;
       case BaseClient.MessageTypes
         .INTENTION_ABORTED_DETAILS:
-        if (!this.isMyJournal() &amp;&amp;
+        if (
+          !this.isMyJournal() &amp;&amp;
           this.username === username
         ) {
-          this.updateJournalIntentions(data);
+          this.updateJournalIntentions(data.journalEntry);
         }
         break;
       default:
@@ -1183,9 +1188,8 @@ export default class JournalResource extends Component {
       arg => {
         if (!this.hasCallbackError(arg) &amp;&amp; arg.data) {
           this.journalIntentions.push(arg.data);
-          this.forceUpdate(() => {
-            this.scrollToJournalItemById();
-          });
+          this.scrollToJournalItemById();
+          this.forceUpdate();
         }
       }
     );
