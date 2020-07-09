@@ -81,6 +81,7 @@
     "minami": "^1.2.3",
     "moment": "^2.19.3",
     "moment-timezone": "^0.5.28",
+    "mousetrap": "^1.6.5",
     "node-neural-network": "^1.0.3",
     "node-notifier": "^5.1.2",
     "random-access-memory": "^3.1.1",
@@ -198,7 +199,10 @@
   },
   "build": {
     "appId": "io.dreamscale.torchie.shell",
-    "files": ["build/**/*", "package.json"],
+    "files": [
+      "build/**/*",
+      "package.json"
+    ],
     "directories": {
       "buildResources": "resources"
     },

@@ -14,6 +14,7 @@ import { MemberClient } from "../../../../clients/MemberClient";
 import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../UtilRenderer";
 import { BaseClient } from "../../../../clients/BaseClient";
+import Mousetrap from "mousetrap";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -124,6 +125,7 @@ export default class JournalResource extends Component {
    */
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
+    this.clearKeyboardShortcuts();
   }
 
   /**
@@ -148,6 +150,8 @@ export default class JournalResource extends Component {
     ) {
       return false;
     }
+    this.clearKeyboardShortcuts();
+    this.updateKeyboardShortcuts(nextProps);
     this.refreshJournal(nextProps);
     return false;
   }
@@ -157,7 +161,59 @@ export default class JournalResource extends Component {
    * initially create the window's console view or switch resource views
    */
   componentDidMount() {
+    this.refreshKeyboardShortcuts(this.props);
     this.refreshJournal(this.props);
+  }
+
+  /**
+   * updates our keyboard  shortcuts or not, depends on if this is our journal or not.
+   * @param props
+   */
+  updateKeyboardShortcuts(props) {
+    let username = this.getUserNameFromResource(props);
+    if(
+      username === JournalResource.Strings.ME ||
+      username === MemberClient.me.username
+    ) {
+      this.setKeyboardShortcuts();
+    }
+  }
+
+  /**
+   * refreshes our current keyboard shortcut bindings by clearing our existing ones,
+   * and calling set on our own journal.
+   * @param props
+   */
+  refreshKeyboardShortcuts(props) {
+    this.clearKeyboardShortcuts();
+    this.setKeyboardShortcuts();
+  }
+
+  /**
+   * binds our keyboard shortcut to our callback. Called when the journal resource is
+   * loaded for ourselves.
+   */
+  setKeyboardShortcuts() {
+
+      console.log("set shortcuts");
+
+      Mousetrap.bind("up", (e, combo) => {
+        console.log("up arrow");
+      });
+      Mousetrap.bind("down", (e, combo) => {
+        console.log("down arrow");
+      });
+  }
+
+  /**
+   * clears keyboard shortcuts for our journal.
+   */
+  clearKeyboardShortcuts() {
+
+    console.log("clear shortcuts");
+
+    Mousetrap.unbind("up");
+    Mousetrap.unbind("down");
   }
 
   /**
