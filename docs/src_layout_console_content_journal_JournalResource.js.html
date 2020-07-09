@@ -759,6 +759,7 @@
     <ul>
       <li><a href="global.html#appendChatMessage">appendChatMessage</a></li>
       <li><a href="global.html#clearIntervalTimer">clearIntervalTimer</a></li>
+      <li><a href="global.html#clearKeyboardShortcuts">clearKeyboardShortcuts</a></li>
       <li><a href="global.html#componentDidMount">componentDidMount</a></li>
       <li><a href="global.html#componentDidUpdate">componentDidUpdate</a></li>
       <li><a href="global.html#componentWillMount">componentWillMount</a></li>
@@ -855,6 +856,7 @@
       <li><a href="global.html#onTalkFailedCb">onTalkFailedCb</a></li>
       <li><a href="global.html#processActivationCode">processActivationCode</a></li>
       <li><a href="global.html#refreshJournal">refreshJournal</a></li>
+      <li><a href="global.html#refreshKeyboardShortcuts">refreshKeyboardShortcuts</a></li>
       <li><a href="global.html#refreshTeamPanel">refreshTeamPanel</a></li>
       <li><a href="global.html#render">render</a></li>
       <li><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></li>
@@ -865,6 +867,7 @@
       <li><a href="global.html#ROOT_">ROOT_</a></li>
       <li><a href="global.html#saveState">saveState</a></li>
       <li><a href="global.html#scrollToJournalItemById">scrollToJournalItemById</a></li>
+      <li><a href="global.html#setKeyboardShortcuts">setKeyboardShortcuts</a></li>
       <li><a href="global.html#shouldComponentUpdate">shouldComponentUpdate</a></li>
       <li><a href="global.html#showBadgesPanel">showBadgesPanel</a></li>
       <li><a href="global.html#showDoItLaterCircuitsPanel">showDoItLaterCircuitsPanel</a></li>
@@ -872,6 +875,7 @@
       <li><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></li>
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
+      <li><a href="global.html#updateKeyboardShortcuts">updateKeyboardShortcuts</a></li>
       <li><a href="global.html#updateMessageInArrayById">updateMessageInArrayById</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
       <li><a href="global.html#updateTeamMembers">updateTeamMembers</a></li>
@@ -899,6 +903,7 @@ import { MemberClient } from "../../../../clients/MemberClient";
 import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../UtilRenderer";
 import { BaseClient } from "../../../../clients/BaseClient";
+import Mousetrap from "mousetrap";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -964,13 +969,9 @@ export default class JournalResource extends Component {
             );
 
           if (!hasIntention) {
-            journalEntry.timestamp = UtilRenderer.getTimestampFromUTCStr(
-              journalEntry.positionStr
-            );
             this.journalIntentions.push(journalEntry);
-            this.forceUpdate(() => {
-              this.scrollToJournalItemById();
-            });
+            this.scrollToJournalItemById();
+            this.forceUpdate();
           }
         }
         break;
@@ -978,9 +979,8 @@ export default class JournalResource extends Component {
         .INTENTION_FINISHED_DETAILS:
         if (
           (!this.isMyJournal() &amp;&amp;
-          this.username === username) ||
-          (this.isMyJournal() &amp;&amp;
-            me.username === username)
+            this.username === username) ||
+          (this.isMyJournal() &amp;&amp; me.username === username)
         ) {
           this.updateJournalIntentions(data.journalEntry);
         }
@@ -988,8 +988,9 @@ export default class JournalResource extends Component {
       case BaseClient.MessageTypes
         .INTENTION_ABORTED_DETAILS:
         if (
-          !this.isMyJournal() &amp;&amp;
-          this.username === username
+          (!this.isMyJournal() &amp;&amp;
+            this.username === username) ||
+          (this.isMyJournal() &amp;&amp; me.username === username)
         ) {
           this.updateJournalIntentions(data.journalEntry);
         }
@@ -1004,9 +1005,8 @@ export default class JournalResource extends Component {
       this.journalIntentions,
       data
     );
-    this.forceUpdate(() => {
-      this.scrollToJournalItemById();
-    });
+    this.scrollToJournalItemById();
+    this.forceUpdate();
   }
 
   /**
@@ -1014,6 +1014,7 @@ export default class JournalResource extends Component {
    */
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
+    this.clearKeyboardShortcuts();
   }
 
   /**
@@ -1038,6 +1039,8 @@ export default class JournalResource extends Component {
     ) {
       return false;
     }
+    this.clearKeyboardShortcuts();
+    this.updateKeyboardShortcuts(nextProps);
     this.refreshJournal(nextProps);
     return false;
   }
@@ -1047,7 +1050,59 @@ export default class JournalResource extends Component {
    * initially create the window's console view or switch resource views
    */
   componentDidMount() {
+    this.refreshKeyboardShortcuts(this.props);
     this.refreshJournal(this.props);
+  }
+
+  /**
+   * updates our keyboard  shortcuts or not, depends on if this is our journal or not.
+   * @param props
+   */
+  updateKeyboardShortcuts(props) {
+    let username = this.getUserNameFromResource(props);
+    if(
+      username === JournalResource.Strings.ME ||
+      username === MemberClient.me.username
+    ) {
+      this.setKeyboardShortcuts();
+    }
+  }
+
+  /**
+   * refreshes our current keyboard shortcut bindings by clearing our existing ones,
+   * and calling set on our own journal.
+   * @param props
+   */
+  refreshKeyboardShortcuts(props) {
+    this.clearKeyboardShortcuts();
+    this.setKeyboardShortcuts();
+  }
+
+  /**
+   * binds our keyboard shortcut to our callback. Called when the journal resource is
+   * loaded for ourselves.
+   */
+  setKeyboardShortcuts() {
+
+      console.log("set shortcuts");
+
+      Mousetrap.bind("up", (e, combo) => {
+        console.log("up arrow");
+      });
+      Mousetrap.bind("down", (e, combo) => {
+        console.log("down arrow");
+      });
+  }
+
+  /**
+   * clears keyboard shortcuts for our journal.
+   */
+  clearKeyboardShortcuts() {
+
+    console.log("clear shortcuts");
+
+    Mousetrap.unbind("up");
+    Mousetrap.unbind("down");
   }
 
   /**

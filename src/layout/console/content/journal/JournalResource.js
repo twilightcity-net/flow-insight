@@ -171,7 +171,7 @@ export default class JournalResource extends Component {
    */
   updateKeyboardShortcuts(props) {
     let username = this.getUserNameFromResource(props);
-    if(
+    if (
       username === JournalResource.Strings.ME ||
       username === MemberClient.me.username
     ) {
@@ -194,22 +194,20 @@ export default class JournalResource extends Component {
    * loaded for ourselves.
    */
   setKeyboardShortcuts() {
+    console.log("set shortcuts");
 
-      console.log("set shortcuts");
-
-      Mousetrap.bind("up", (e, combo) => {
-        console.log("up arrow");
-      });
-      Mousetrap.bind("down", (e, combo) => {
-        console.log("down arrow");
-      });
+    Mousetrap.bind("up", (e, combo) => {
+      console.log("up arrow");
+    });
+    Mousetrap.bind("down", (e, combo) => {
+      console.log("down arrow");
+    });
   }
 
   /**
    * clears keyboard shortcuts for our journal.
    */
   clearKeyboardShortcuts() {
-
     console.log("clear shortcuts");
 
     Mousetrap.unbind("up");
