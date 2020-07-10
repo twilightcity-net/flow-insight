@@ -28,18 +28,18 @@ export default class JournalItem extends Component {
   constructor(props) {
     super(props);
     this.name = "[JournalItem]";
-    this.isActive = false;
+    this.props.pusher(this);
+    this.state = {
+      isActive: false
+    };
   }
 
   /**
    * handles clicking on our journal item. toggels its active state and called function
-   * handler in parent component, by passing this component into parent funciton
+   * handler in parent component, by passing this component into parent function
    */
   handleOnClickRow = () => {
-    this.isActive = !this.isActive;
-    this.forceUpdate(() => {
-      this.props.onRowClick(this);
-    });
+    this.props.onRowClick(this);
   };
 
   /**
@@ -315,7 +315,7 @@ export default class JournalItem extends Component {
    * @returns {*}
    */
   render() {
-    let active = this.isActive ? "active" : "",
+    let active = this.state.isActive ? "active" : "",
       projectCell = this.getProjectCellContent(),
       taskCell = this.getTaskCellContent(),
       chunkCell = this.getChunkCellContent(),

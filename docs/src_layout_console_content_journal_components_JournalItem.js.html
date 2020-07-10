@@ -182,6 +182,7 @@
         </ul>
       </li>
       <li><a href="JournalClient.Events.html">Events</a></li>
+      <li><a href="Keys.html">Keys</a></li>
       <li><a href="LearningCircuitDto.html">LearningCircuitDto</a></li>
       <li><a href="LearningCircuitModel.html">LearningCircuitModel</a>
         <ul class='methods'>
@@ -769,6 +770,7 @@
       <li><a href="global.html#createProject">createProject</a></li>
       <li><a href="global.html#createProjectOrTaskHelper">createProjectOrTaskHelper</a></li>
       <li><a href="global.html#createTask">createTask</a></li>
+      <li><a href="global.html#decreaseFlameRating">decreaseFlameRating</a></li>
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
@@ -832,7 +834,7 @@
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
-      <li><a href="global.html#isActive">isActive</a></li>
+      <li><a href="global.html#increaseFlameRating">increaseFlameRating</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
       <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
@@ -874,7 +876,9 @@
       <li><a href="global.html#showNotificationsPanel">showNotificationsPanel</a></li>
       <li><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></li>
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
+      <li><a href="global.html#updateActiveJournalItemSelection">updateActiveJournalItemSelection</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
+      <li><a href="global.html#updateJournalIntentions">updateJournalIntentions</a></li>
       <li><a href="global.html#updateKeyboardShortcuts">updateKeyboardShortcuts</a></li>
       <li><a href="global.html#updateMessageInArrayById">updateMessageInArrayById</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
@@ -917,18 +921,18 @@ export default class JournalItem extends Component {
   constructor(props) {
     super(props);
     this.name = "[JournalItem]";
-    this.isActive = false;
+    this.props.pusher(this);
+    this.state = {
+      isActive: false
+    };
   }
 
   /**
    * handles clicking on our journal item. toggels its active state and called function
-   * handler in parent component, by passing this component into parent funciton
+   * handler in parent component, by passing this component into parent function
    */
   handleOnClickRow = () => {
-    this.isActive = !this.isActive;
-    this.forceUpdate(() => {
-      this.props.onRowClick(this);
-    });
+    this.props.onRowClick(this);
   };
 
   /**
@@ -1204,7 +1208,7 @@ export default class JournalItem extends Component {
    * @returns {*}
    */
   render() {
-    let active = this.isActive ? "active" : "",
+    let active = this.state.isActive ? "active" : "",
       projectCell = this.getProjectCellContent(),
       taskCell = this.getTaskCellContent(),
       chunkCell = this.getChunkCellContent(),

@@ -32,6 +32,20 @@ export default class JournalResource extends Component {
   }
 
   /**
+   * our string values of keyboard key names
+   * @returns {{DOWN: string, LEFT: string, RIGHT: string, UP: string}}
+   * @constructor
+   */
+  static get Keys() {
+    return {
+      UP: "up",
+      DOWN: "down",
+      LEFT: "left",
+      RIGHT: "right"
+    };
+  }
+
+  /**
    * builds the basic journal layout component
    * @param props
    */
@@ -40,6 +54,7 @@ export default class JournalResource extends Component {
     this.name = "[JournalResource]";
     this.resource = props.resource;
     this.journalIntentions = [];
+    this.journalItems = [];
     this.projects = [];
     this.tasks = [];
     this.activeJournalItem = null;
@@ -111,6 +126,14 @@ export default class JournalResource extends Component {
     }
   };
 
+  /**
+   * updates our journal intentions with new data  from our network. After we look though
+   * our array of intention, we scroll to the last item in our journal intentions, and
+   * call a react force update. This update will make a reference pointer to each of the
+   * reach components though a nested prop.pusher() function which routes the react fiber
+   * component to its parent.
+   * @param data
+   */
   updateJournalIntentions(data) {
     this.journalIntentions = UtilRenderer.updateMessageInArrayById(
       this.journalIntentions,
@@ -194,24 +217,171 @@ export default class JournalResource extends Component {
    * loaded for ourselves.
    */
   setKeyboardShortcuts() {
-    console.log("set shortcuts");
+    Mousetrap.bind(
+      JournalResource.Keys.UP,
+      this.handleKeyPressUp
+    );
+    Mousetrap.bind(
+      JournalResource.Keys.DOWN,
+      this.handleKeyPressDown
+    );
+    Mousetrap.bind(
+      JournalResource.Keys.LEFT,
+      this.handleKeyPressLeft
+    );
+    Mousetrap.bind(
+      JournalResource.Keys.RIGHT,
+      this.handleKeyPressRight
+    );
+  }
 
-    Mousetrap.bind("up", (e, combo) => {
-      console.log("up arrow");
-    });
-    Mousetrap.bind("down", (e, combo) => {
-      console.log("down arrow");
-    });
+  /**
+   * event handler for our key press up
+   * @param e
+   * @param combo
+   */
+  handleKeyPressUp = (e, combo) => {
+    if (
+      this.activeJournalItem &&
+      this.journalItems.length > 1
+    ) {
+      for (let i = 1; i < this.journalItems.length; i++) {
+        if (
+          this.journalItems[i].props.model.id ===
+          this.activeJournalItem.props.model.id
+        ) {
+          this.updateActiveJournalItemSelection(
+            this.journalItems[i - 1]
+          );
+          break;
+        }
+      }
+    } else if (
+      !this.activeJournalItem &&
+      this.journalItems.length > 0
+    ) {
+      this.updateActiveJournalItemSelection(
+        this.journalItems[0]
+      );
+    }
+  };
+
+  /**
+   * event handler for our key press down
+   * @param e
+   * @param combo
+   */
+  handleKeyPressDown = (e, combo) => {
+    if (
+      this.activeJournalItem &&
+      this.journalItems.length > 1
+    ) {
+      for (
+        let i = 0;
+        i < this.journalItems.length - 1;
+        i++
+      ) {
+        if (
+          this.journalItems[i].props.model.id ===
+          this.activeJournalItem.props.model.id
+        ) {
+          this.updateActiveJournalItemSelection(
+            this.journalItems[i + 1]
+          );
+          break;
+        }
+      }
+    } else if (
+      !this.activeJournalItem &&
+      this.journalItems.length > 0
+    ) {
+      this.updateActiveJournalItemSelection(
+        this.journalItems[this.journalItems.length - 1]
+      );
+    }
+  };
+
+  /**
+   * event handler for when the user presses the left arrow keys
+   * @param e
+   * @param combo
+   */
+  handleKeyPressLeft = (e, combo) => {
+    if (this.activeJournalItem) {
+      this.decreaseFlameRating(this.activeJournalItem);
+    } else if (this.journalItems.length > 0) {
+      let journalItem = this.journalItems[
+        this.journalItems.length - 1
+      ];
+      this.updateActiveJournalItemSelection(journalItem);
+      this.decreaseFlameRating(journalItem);
+    }
+  };
+
+  /**
+   * event handler for when the user presses the right arrow key
+   * @param e
+   * @param combo
+   */
+  handleKeyPressRight = (e, combo) => {
+    if (this.activeJournalItem) {
+      this.increaseFlameRating(this.activeJournalItem);
+    } else if (this.journalItems.length > 0) {
+      let journalItem = this.journalItems[
+        this.journalItems.length - 1
+      ];
+      this.updateActiveJournalItemSelection(journalItem);
+      this.increaseFlameRating(journalItem);
+    }
+  };
+
+  /**
+   * increment our existing flame rating of a given journal item by 1
+   * @param journalItem
+   */
+  increaseFlameRating(journalItem) {
+    console.log("// increase flame rating", journalItem);
+
+    /// ... client request
+  }
+
+  /**
+   * decrement our journal item's flame rating by 1
+   * @param journalItem
+   */
+  decreaseFlameRating(journalItem) {
+    console.log("// decrease flame rating", journalItem);
+
+    /// ... client request
+  }
+
+  /**
+   * called to update the journal item as our new active item in the grid. This function
+   * will set the isActive property of the state of the active journal item that is a
+   * react component. We then switch the new component into our managed array and set
+   * its active state property to true.
+   * @param journalItem
+   */
+  updateActiveJournalItemSelection(journalItem) {
+    if (this.activeJournalItem) {
+      this.activeJournalItem.setState({ isActive: false });
+    }
+    this.activeJournalItem = journalItem;
+    this.activeJournalItem.setState({ isActive: true });
+    this.scrollToJournalItemById(
+      this.activeJournalItem.props.model.id,
+      true
+    );
   }
 
   /**
    * clears keyboard shortcuts for our journal.
    */
   clearKeyboardShortcuts() {
-    console.log("clear shortcuts");
-
-    Mousetrap.unbind("up");
-    Mousetrap.unbind("down");
+    Mousetrap.unbind(JournalResource.Keys.UP);
+    Mousetrap.unbind(JournalResource.Keys.DOWN);
+    Mousetrap.unbind(JournalResource.Keys.LEFT);
+    Mousetrap.unbind(JournalResource.Keys.RIGHT);
   }
 
   /**
@@ -352,8 +522,13 @@ export default class JournalResource extends Component {
       arg => {
         if (!this.hasCallbackError(arg) && arg.data) {
           this.journalIntentions.push(arg.data);
-          this.scrollToJournalItemById();
-          this.forceUpdate();
+          this.forceUpdate(() => {
+            this.updateActiveJournalItemSelection(
+              this.journalItems[
+                this.journalItems.length - 1
+              ]
+            );
+          });
         }
       }
     );
@@ -423,15 +598,44 @@ export default class JournalResource extends Component {
   }
 
   /**
+   * delegates our journal item by having its constructor call this function which
+   * pushes the react's fiber component. This allows access to the underlying react
+   * component api.
+   * @param journalItem
+   */
+  journalItemPusher = journalItem => {
+    this.journalItems.push(journalItem);
+  };
+
+  /**
    * event callback for when we set a row active
    * @param journalItem
    */
   onRowClick = journalItem => {
+    console.log("row click", journalItem);
+
+    if (
+      this.activeJournalItem &&
+      this.activeJournalItem.props.model.id ===
+        journalItem.props.model.id &&
+      this.activeJournalItem.state.isActive
+    ) {
+      this.activeJournalItem.setState({
+        isActive: false
+      });
+      this.activeJournalItem = null;
+      return;
+    }
+
     if (this.activeJournalItem) {
-      this.activeJournalItem.isActive = false;
-      this.activeJournalItem.forceUpdate();
+      this.activeJournalItem.setState({
+        isActive: false
+      });
     }
     this.activeJournalItem = journalItem;
+    this.activeJournalItem.setState({
+      isActive: true
+    });
     this.scrollToJournalItemById(
       journalItem.props.model.id,
       true
@@ -461,19 +665,6 @@ export default class JournalResource extends Component {
   };
 
   /**
-   * determines if our journal item is active
-   * @param id
-   * @returns {boolean}
-   */
-  isActive(id) {
-    if (this.activeJournalItem) {
-      return this.activeJournalItem.id === id;
-    } else {
-      return false;
-    }
-  }
-
-  /**
    * determines if we should render this from the point of view as ourselves
    * @returns {boolean}
    */
@@ -493,8 +684,8 @@ export default class JournalResource extends Component {
       return (
         <JournalItem
           key={item.id}
+          pusher={this.journalItemPusher}
           model={item}
-          isActive={this.isActive(item.id)}
           onRowClick={this.onRowClick}
           onFinishIntention={this.onFinishIntention}
           onAbortIntention={this.onAbortIntention}
