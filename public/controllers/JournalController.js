@@ -24,7 +24,7 @@ module.exports = class JournalController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FINISH_INTENTION: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
+   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
    * @constructor
    */
   static get Events() {
@@ -36,7 +36,8 @@ module.exports = class JournalController extends BaseController {
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks",
-      FINISH_INTENTION: "finish-intention"
+      FINISH_INTENTION: "finish-intention",
+      UPDATE_FLAME_RATING: "update-flame-rating"
     };
   }
 
@@ -102,6 +103,9 @@ module.exports = class JournalController extends BaseController {
           break;
         case JournalController.Events.FINISH_INTENTION:
           this.handleFinishIntentionEvent(event, arg);
+          break;
+        case JournalController.Events.UPDATE_FLAME_RATING:
+          this.handleUpdateFlameRatingEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -510,6 +514,15 @@ module.exports = class JournalController extends BaseController {
     );
   }
 
+  /**
+   * controller callback function that processes our finish intention action.
+   * This function makes a call to gridtime, which updates the finishStatus to
+   * done. Gridtime then will send an update message over talk to the client to
+   * update the appropriate database collections and gui components.
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleFinishIntentionEvent(event, arg, callback) {
     let id = arg.args.id,
       finishStatus = arg.args.finishStatus,
@@ -540,7 +553,89 @@ module.exports = class JournalController extends BaseController {
     );
   }
 
+  /**
+   * the delegate processor for the finish intention callback. This callback
+   * function processor will update the database collection and return the arg
+   * to the client's renderer processor.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
   delegateFinishIntentionCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    } else {
+      let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.JOURNAL
+      );
+
+      arg.data = store.data;
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    }
+  }
+
+  /**
+   * event controller which handler the user setting an intentions flame rating.
+   * The values should be an integer and range from -5 to 5.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleUpdateFlameRatingEvent(event, arg, callback) {
+    let intentionId = arg.args.intentionId,
+      flameRating = arg.args.flameRating,
+      urn =
+        JournalController.Paths.JOURNAL +
+        JournalController.Paths.ME +
+        JournalController.Paths.INTENTION +
+        JournalController.Paths.SEPARATOR +
+        intentionId +
+        JournalController.Paths.TRANSITION +
+        JournalController.Paths.FLAME;
+
+    this.doClientRequest(
+      JournalController.Contexts.JOURNAL_CLIENT,
+      {
+        flameRating: flameRating
+      },
+      JournalController.Names.UPDATE_FLAME_RATING,
+      JournalController.Types.POST,
+      urn,
+      store =>
+        this.delegateUpdateFlameRatingCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * process flame rating for the update flame callback. This updates the collections
+   * and then returns some values to the client through the arv value that is injected
+   * into the event bus life.  bus 4 lyfe!.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateUpdateFlameRatingCallback(
     store,
     event,
     arg,

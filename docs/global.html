@@ -178,6 +178,7 @@
           <li data-type='method'><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></li>
           <li data-type='method'><a href="JournalClient.html#.init">init</a></li>
           <li data-type='method'><a href="JournalClient.html#.loadRecentJournal">loadRecentJournal</a></li>
+          <li data-type='method'><a href="JournalClient.html#.updateFlameRating">updateFlameRating</a></li>
           <li data-type='method'><a href="JournalClient.html#notifyJournal">notifyJournal</a></li>
         </ul>
       </li>
@@ -259,6 +260,7 @@
           <li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateProjectCallback">delegateFindOrCreateProjectCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateTaskCallback">delegateFindOrCreateTaskCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateFinishIntentionCallback">delegateFinishIntentionCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualCallback">delegateGetManualCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualHelpTopicsCallback">delegateGetManualHelpTopicsCallback</a></li>
@@ -278,6 +280,7 @@
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li>
           <li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
@@ -326,6 +329,7 @@
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleFindOrCreateProjectEvent">handleFindOrCreateProjectEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleFindOrCreateTaskEvent">handleFindOrCreateTaskEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleFinishIntentionEvent">handleFinishIntentionEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></li>
@@ -363,6 +367,7 @@
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleUpdateFlameRatingEvent">handleUpdateFlameRatingEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#hasRoomByRoomName">hasRoomByRoomName</a></li>
           <li data-type='method'><a href="module.html#.exports#hideConsole">hideConsole</a></li>
           <li data-type='method'><a href="module.html#.exports#incrementStage">incrementStage</a></li>
@@ -759,6 +764,7 @@
     <h3>Global</h3>
     <ul>
       <li><a href="global.html#appendChatMessage">appendChatMessage</a></li>
+      <li><a href="global.html#changeFlameRating">changeFlameRating</a></li>
       <li><a href="global.html#clearIntervalTimer">clearIntervalTimer</a></li>
       <li><a href="global.html#clearKeyboardShortcuts">clearKeyboardShortcuts</a></li>
       <li><a href="global.html#componentDidMount">componentDidMount</a></li>
@@ -770,7 +776,6 @@
       <li><a href="global.html#createProject">createProject</a></li>
       <li><a href="global.html#createProjectOrTaskHelper">createProjectOrTaskHelper</a></li>
       <li><a href="global.html#createTask">createTask</a></li>
-      <li><a href="global.html#decreaseFlameRating">decreaseFlameRating</a></li>
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
@@ -834,7 +839,6 @@
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
-      <li><a href="global.html#increaseFlameRating">increaseFlameRating</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
       <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
@@ -978,6 +982,43 @@
           </tbody>
         </table>
         <h4 class="name"
+            id="changeFlameRating"><span class="type-signature"></span>changeFlameRating<span class="signature">(amount, journalItem)</span><span class="type-signature"></span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line355">line 355</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> changes our existing journal items model with our new flame rating. This performs a remote call to gridtime which will push our new model via talk to the clients whom require this update. </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>amount</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+            <tr>
+              <td class="name"><code>journalItem</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 class="name"
             id="clearIntervalTimer"><span class="type-signature"></span>clearIntervalTimer<span class="signature">(timer)</span><span class="type-signature"></span></h4>
         <dl class="details">
           <dt class="tag-source">Source:</dt>
@@ -1015,7 +1056,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line376">line 376</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line398">line 398</a>
               </li>
             </ul>
           </dd>
@@ -1054,7 +1095,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line186">line 186</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line196">line 196</a>
               </li>
             </ul>
           </dd>
@@ -1201,7 +1242,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line149">line 149</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line159">line 159</a>
               </li>
             </ul>
           </dd>
@@ -1310,7 +1351,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line582">line 582</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line604">line 604</a>
               </li>
             </ul>
           </dd>
@@ -1378,44 +1419,13 @@
           </tbody>
         </table>
         <h4 class="name"
-            id="decreaseFlameRating"><span class="type-signature"></span>decreaseFlameRating<span class="signature">(journalItem)</span><span class="type-signature"></span></h4>
-        <dl class="details">
-          <dt class="tag-source">Source:</dt>
-          <dd class="tag-source">
-            <ul class="dummy">
-              <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line348">line 348</a>
-              </li>
-            </ul>
-          </dd>
-        </dl>
-        <div class="description usertext"> decrement our journal item's flame rating by 1 </div>
-        <h5>Parameters:</h5>
-        <table class="params">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th class="last">Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="name"><code>journalItem</code></td>
-              <td class="type">
-              </td>
-              <td class="description last"></td>
-            </tr>
-          </tbody>
-        </table>
-        <h4 class="name"
             id="getAbortCellContent"><span class="type-signature"></span>getAbortCellContent<span class="signature">()</span><span class="type-signature"> &rarr; {string|*}</span></h4>
         <dl class="details">
           <dt class="tag-source">Source:</dt>
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line282">line 282</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line283">line 283</a>
               </li>
             </ul>
           </dd>
@@ -1494,7 +1504,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line113">line 113</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line114">line 114</a>
               </li>
             </ul>
           </dd>
@@ -2037,7 +2047,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line126">line 126</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line127">line 127</a>
               </li>
             </ul>
           </dd>
@@ -2057,7 +2067,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line175">line 175</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line176">line 176</a>
               </li>
             </ul>
           </dd>
@@ -2077,7 +2087,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line148">line 148</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line149">line 149</a>
               </li>
             </ul>
           </dd>
@@ -2097,7 +2107,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line190">line 190</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line191">line 191</a>
               </li>
             </ul>
           </dd>
@@ -2117,7 +2127,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line256">line 256</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line257">line 257</a>
               </li>
             </ul>
           </dd>
@@ -2235,7 +2245,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line738">line 738</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line771">line 771</a>
               </li>
             </ul>
           </dd>
@@ -2255,7 +2265,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line721">line 721</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line754">line 754</a>
               </li>
             </ul>
           </dd>
@@ -2275,7 +2285,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line678">line 678</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line710">line 710</a>
               </li>
             </ul>
           </dd>
@@ -2295,7 +2305,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line697">line 697</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line730">line 730</a>
               </li>
             </ul>
           </dd>
@@ -2393,7 +2403,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line225">line 225</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line226">line 226</a>
               </li>
             </ul>
           </dd>
@@ -2519,7 +2529,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line84">line 84</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line85">line 85</a>
               </li>
             </ul>
           </dd>
@@ -2673,7 +2683,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line96">line 96</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line97">line 97</a>
               </li>
             </ul>
           </dd>
@@ -2963,7 +2973,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line163">line 163</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line164">line 164</a>
               </li>
             </ul>
           </dd>
@@ -2983,7 +2993,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line159">line 159</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line169">line 169</a>
               </li>
             </ul>
           </dd>
@@ -3143,7 +3153,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line440">line 440</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line462">line 462</a>
               </li>
             </ul>
           </dd>
@@ -3156,7 +3166,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line428">line 428</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line450">line 450</a>
               </li>
             </ul>
           </dd>
@@ -3269,37 +3279,6 @@
             <span class="param-type">boolean</span>
           </dd>
         </dl>
-        <h4 class="name"
-            id="increaseFlameRating"><span class="type-signature"></span>increaseFlameRating<span class="signature">(journalItem)</span><span class="type-signature"></span></h4>
-        <dl class="details">
-          <dt class="tag-source">Source:</dt>
-          <dd class="tag-source">
-            <ul class="dummy">
-              <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line338">line 338</a>
-              </li>
-            </ul>
-          </dd>
-        </dl>
-        <div class="description usertext"> increment our existing flame rating of a given journal item by 1 </div>
-        <h5>Parameters:</h5>
-        <table class="params">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th class="last">Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="name"><code>journalItem</code></td>
-              <td class="type">
-              </td>
-              <td class="description last"></td>
-            </tr>
-          </tbody>
-        </table>
         <h4 class="name"
             id="isCommand"><span class="type-signature"></span>isCommand<span class="signature">(uri)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
         <dl class="details">
@@ -3459,7 +3438,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line667">line 667</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line699">line 699</a>
               </li>
             </ul>
           </dd>
@@ -3981,7 +3960,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line390">line 390</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line412">line 412</a>
               </li>
             </ul>
           </dd>
@@ -4012,7 +3991,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line210">line 210</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line220">line 220</a>
               </li>
             </ul>
           </dd>
@@ -4334,7 +4313,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line763">line 763</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line796">line 796</a>
               </li>
             </ul>
           </dd>
@@ -4375,7 +4354,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line317">line 317</a>
+                <a href="src_layout_console_content_journal_components_JournalItem.js.html">src/layout/console/content/journal/components/JournalItem.js</a>, <a href="src_layout_console_content_journal_components_JournalItem.js.html#line318">line 318</a>
               </li>
             </ul>
           </dd>
@@ -4811,7 +4790,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line460">line 460</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line482">line 482</a>
               </li>
             </ul>
           </dd>
@@ -4854,7 +4833,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line219">line 219</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line229">line 229</a>
               </li>
             </ul>
           </dd>
@@ -5017,7 +4996,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line170">line 170</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line180">line 180</a>
               </li>
             </ul>
           </dd>
@@ -5232,7 +5211,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line361">line 361</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line383">line 383</a>
               </li>
             </ul>
           </dd>
@@ -5301,7 +5280,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line137">line 137</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line147">line 147</a>
               </li>
             </ul>
           </dd>
@@ -5332,7 +5311,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line195">line 195</a>
+                <a href="src_layout_console_content_journal_JournalResource.js.html">src/layout/console/content/journal/JournalResource.js</a>, <a href="src_layout_console_content_journal_JournalResource.js.html#line205">line 205</a>
               </li>
             </ul>
           </dd>

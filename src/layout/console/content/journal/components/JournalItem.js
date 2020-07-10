@@ -30,7 +30,8 @@ export default class JournalItem extends Component {
     this.name = "[JournalItem]";
     this.props.pusher(this);
     this.state = {
-      isActive: false
+      isActive: false,
+      flameRating: props.model.flameRating
     };
   }
 
@@ -254,7 +255,7 @@ export default class JournalItem extends Component {
    * @returns {*}
    */
   getFlameBlockContent() {
-    let flameRating = this.props.model.flameRating,
+    let flameRating = this.state.flameRating,
       imgYaySrc = "./assets/images/yay/16x16.png",
       imgWtfSrc = "./assets/images/wtf/16x16.png";
 

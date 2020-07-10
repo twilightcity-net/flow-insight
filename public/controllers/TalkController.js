@@ -386,6 +386,10 @@ module.exports = class TalkController extends BaseController {
           intentionAborted.journalEntry
         );
         break;
+      case TalkController.MessageTypes.JOURNAL_ENTRY_DTO:
+        let journalEntry = message.data;
+        journalDatabase.updateIntention(journalEntry);
+        break;
       default:
         console.warn(
           TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +

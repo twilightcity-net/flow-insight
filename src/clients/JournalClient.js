@@ -27,7 +27,7 @@ export class JournalClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FINISH_INTENTION: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
+   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
    * @constructor
    */
   static get Events() {
@@ -39,7 +39,8 @@ export class JournalClient extends BaseClient {
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks",
-      FINISH_INTENTION: "finish-intention"
+      FINISH_INTENTION: "finish-intention",
+      UPDATE_FLAME_RATING: "update-flame-rating"
     };
   }
 
@@ -93,6 +94,34 @@ export class JournalClient extends BaseClient {
         projectId: projectId,
         taskId: taskId,
         description: description
+      },
+      scope,
+      callback
+    );
+    JournalClient.instance.notifyJournal(event);
+    return event;
+  }
+
+  /**
+   * gui client function used to update an intentions tensor flame rating that is
+   * on a scale of -5 to 5 as integers (whole numbers)
+   * @param intentionId
+   * @param flameRating
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static updateFlameRating(
+    intentionId,
+    flameRating,
+    scope,
+    callback
+  ) {
+    let event = JournalClient.instance.createClientEvent(
+      JournalClient.Events.UPDATE_FLAME_RATING,
+      {
+        intentionId: intentionId,
+        flameRating: flameRating
       },
       scope,
       callback

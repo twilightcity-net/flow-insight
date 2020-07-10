@@ -178,6 +178,7 @@
           <li data-type='method'><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></li>
           <li data-type='method'><a href="JournalClient.html#.init">init</a></li>
           <li data-type='method'><a href="JournalClient.html#.loadRecentJournal">loadRecentJournal</a></li>
+          <li data-type='method'><a href="JournalClient.html#.updateFlameRating">updateFlameRating</a></li>
           <li data-type='method'><a href="JournalClient.html#notifyJournal">notifyJournal</a></li>
         </ul>
       </li>
@@ -259,6 +260,7 @@
           <li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateProjectCallback">delegateFindOrCreateProjectCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateTaskCallback">delegateFindOrCreateTaskCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateFinishIntentionCallback">delegateFinishIntentionCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualCallback">delegateGetManualCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualHelpTopicsCallback">delegateGetManualHelpTopicsCallback</a></li>
@@ -278,6 +280,7 @@
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li>
           <li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
@@ -326,6 +329,7 @@
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleFindOrCreateProjectEvent">handleFindOrCreateProjectEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleFindOrCreateTaskEvent">handleFindOrCreateTaskEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleFinishIntentionEvent">handleFinishIntentionEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></li>
@@ -363,6 +367,7 @@
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleUpdateFlameRatingEvent">handleUpdateFlameRatingEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#hasRoomByRoomName">hasRoomByRoomName</a></li>
           <li data-type='method'><a href="module.html#.exports#hideConsole">hideConsole</a></li>
           <li data-type='method'><a href="module.html#.exports#incrementStage">incrementStage</a></li>
@@ -759,6 +764,7 @@
     <h3>Global</h3>
     <ul>
       <li><a href="global.html#appendChatMessage">appendChatMessage</a></li>
+      <li><a href="global.html#changeFlameRating">changeFlameRating</a></li>
       <li><a href="global.html#clearIntervalTimer">clearIntervalTimer</a></li>
       <li><a href="global.html#clearKeyboardShortcuts">clearKeyboardShortcuts</a></li>
       <li><a href="global.html#componentDidMount">componentDidMount</a></li>
@@ -770,7 +776,6 @@
       <li><a href="global.html#createProject">createProject</a></li>
       <li><a href="global.html#createProjectOrTaskHelper">createProjectOrTaskHelper</a></li>
       <li><a href="global.html#createTask">createTask</a></li>
-      <li><a href="global.html#decreaseFlameRating">decreaseFlameRating</a></li>
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
@@ -834,7 +839,6 @@
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
-      <li><a href="global.html#increaseFlameRating">increaseFlameRating</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
       <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
@@ -903,7 +907,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="public_controllers_BaseController.js.html">public/controllers/BaseController.js</a>, <a href="public_controllers_BaseController.js.html#line99">line 99</a>
+                  <a href="public_controllers_BaseController.js.html">public/controllers/BaseController.js</a>, <a href="public_controllers_BaseController.js.html#line100">line 100</a>
                 </li>
               </ul>
             </dd>

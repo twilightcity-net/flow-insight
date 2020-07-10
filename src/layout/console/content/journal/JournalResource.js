@@ -121,6 +121,16 @@ export default class JournalResource extends Component {
           this.updateJournalIntentions(data.journalEntry);
         }
         break;
+      case BaseClient.MessageTypes.JOURNAL_ENTRY_DTO:
+        console.log("DATA", data);
+        if (
+          (!this.isMyJournal() &&
+            this.username === username) ||
+          (this.isMyJournal() && me.username === username)
+        ) {
+          this.updateJournalIntentions(data);
+        }
+        break;
       default:
         break;
     }
@@ -308,13 +318,13 @@ export default class JournalResource extends Component {
    */
   handleKeyPressLeft = (e, combo) => {
     if (this.activeJournalItem) {
-      this.decreaseFlameRating(this.activeJournalItem);
+      this.changeFlameRating(-1, this.activeJournalItem);
     } else if (this.journalItems.length > 0) {
       let journalItem = this.journalItems[
         this.journalItems.length - 1
       ];
       this.updateActiveJournalItemSelection(journalItem);
-      this.decreaseFlameRating(journalItem);
+      this.changeFlameRating(-1, journalItem);
     }
   };
 
@@ -325,34 +335,42 @@ export default class JournalResource extends Component {
    */
   handleKeyPressRight = (e, combo) => {
     if (this.activeJournalItem) {
-      this.increaseFlameRating(this.activeJournalItem);
+      this.changeFlameRating(1, this.activeJournalItem);
     } else if (this.journalItems.length > 0) {
       let journalItem = this.journalItems[
         this.journalItems.length - 1
       ];
       this.updateActiveJournalItemSelection(journalItem);
-      this.increaseFlameRating(journalItem);
+      this.changeFlameRating(1, journalItem);
     }
   };
 
   /**
-   * increment our existing flame rating of a given journal item by 1
+   * changes our existing journal items model with our new flame rating. This performs
+   * a remote call to gridtime which will push our new model via talk to the clients
+   * whom require this update.
+   * @param amount
    * @param journalItem
    */
-  increaseFlameRating(journalItem) {
-    console.log("// increase flame rating", journalItem);
+  changeFlameRating(amount, journalItem) {
+    let intentionId = journalItem.props.model.id,
+      flameRating = journalItem.props.model.flameRating;
 
-    /// ... client request
-  }
-
-  /**
-   * decrement our journal item's flame rating by 1
-   * @param journalItem
-   */
-  decreaseFlameRating(journalItem) {
-    console.log("// decrease flame rating", journalItem);
-
-    /// ... client request
+    if (!flameRating) {
+      flameRating = 0;
+    }
+    flameRating += amount;
+    journalItem.setState({
+      flameRating: flameRating
+    });
+    JournalClient.updateFlameRating(
+      intentionId,
+      flameRating,
+      this,
+      arg => {
+        this.hasCallbackError(arg);
+      }
+    );
   }
 
   /**
@@ -608,6 +626,16 @@ export default class JournalResource extends Component {
   };
 
   /**
+   * updates our flame  rating through a  callback function that is passed as a
+   * property of the journal item we rendered.
+   * @param journalItem
+   */
+  onUpdateFlameRating = journalItem => {
+    console.log("journal-item", journalItem);
+    journalItem.updateFlameRating();
+  };
+
+  /**
    * event callback for when we set a row active
    * @param journalItem
    */
@@ -687,6 +715,7 @@ export default class JournalResource extends Component {
           pusher={this.journalItemPusher}
           model={item}
           onRowClick={this.onRowClick}
+          // onUpdateFlameRating={this.onUpdateFlameRating}
           onFinishIntention={this.onFinishIntention}
           onAbortIntention={this.onAbortIntention}
         />

@@ -178,6 +178,7 @@
           <li data-type='method'><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></li>
           <li data-type='method'><a href="JournalClient.html#.init">init</a></li>
           <li data-type='method'><a href="JournalClient.html#.loadRecentJournal">loadRecentJournal</a></li>
+          <li data-type='method'><a href="JournalClient.html#.updateFlameRating">updateFlameRating</a></li>
           <li data-type='method'><a href="JournalClient.html#notifyJournal">notifyJournal</a></li>
         </ul>
       </li>
@@ -259,6 +260,7 @@
           <li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateProjectCallback">delegateFindOrCreateProjectCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateTaskCallback">delegateFindOrCreateTaskCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateFinishIntentionCallback">delegateFinishIntentionCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualCallback">delegateGetManualCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualHelpTopicsCallback">delegateGetManualHelpTopicsCallback</a></li>
@@ -278,6 +280,7 @@
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li>
           <li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
@@ -326,6 +329,7 @@
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleFindOrCreateProjectEvent">handleFindOrCreateProjectEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleFindOrCreateTaskEvent">handleFindOrCreateTaskEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleFinishIntentionEvent">handleFinishIntentionEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></li>
@@ -363,6 +367,7 @@
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleUpdateFlameRatingEvent">handleUpdateFlameRatingEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#hasRoomByRoomName">hasRoomByRoomName</a></li>
           <li data-type='method'><a href="module.html#.exports#hideConsole">hideConsole</a></li>
           <li data-type='method'><a href="module.html#.exports#incrementStage">incrementStage</a></li>
@@ -759,6 +764,7 @@
     <h3>Global</h3>
     <ul>
       <li><a href="global.html#appendChatMessage">appendChatMessage</a></li>
+      <li><a href="global.html#changeFlameRating">changeFlameRating</a></li>
       <li><a href="global.html#clearIntervalTimer">clearIntervalTimer</a></li>
       <li><a href="global.html#clearKeyboardShortcuts">clearKeyboardShortcuts</a></li>
       <li><a href="global.html#componentDidMount">componentDidMount</a></li>
@@ -770,7 +776,6 @@
       <li><a href="global.html#createProject">createProject</a></li>
       <li><a href="global.html#createProjectOrTaskHelper">createProjectOrTaskHelper</a></li>
       <li><a href="global.html#createTask">createTask</a></li>
-      <li><a href="global.html#decreaseFlameRating">decreaseFlameRating</a></li>
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
@@ -834,7 +839,6 @@
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
-      <li><a href="global.html#increaseFlameRating">increaseFlameRating</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
       <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
@@ -1012,6 +1016,16 @@ export default class JournalResource extends Component {
           (this.isMyJournal() &amp;&amp; me.username === username)
         ) {
           this.updateJournalIntentions(data.journalEntry);
+        }
+        break;
+      case BaseClient.MessageTypes.JOURNAL_ENTRY_DTO:
+        console.log("DATA", data);
+        if (
+          (!this.isMyJournal() &amp;&amp;
+            this.username === username) ||
+          (this.isMyJournal() &amp;&amp; me.username === username)
+        ) {
+          this.updateJournalIntentions(data);
         }
         break;
       default:
@@ -1201,11 +1215,13 @@ export default class JournalResource extends Component {
    */
   handleKeyPressLeft = (e, combo) => {
     if (this.activeJournalItem) {
-      this.decreaseFlameRating(this.activeJournalItem);
+      this.changeFlameRating(-1, this.activeJournalItem);
     } else if (this.journalItems.length > 0) {
-      let journalItem = this.journalItems[this.journalItems.length - 1];
+      let journalItem = this.journalItems[
+        this.journalItems.length - 1
+      ];
       this.updateActiveJournalItemSelection(journalItem);
-      this.decreaseFlameRating(journalItem);
+      this.changeFlameRating(-1, journalItem);
     }
   };
 
@@ -1216,32 +1232,42 @@ export default class JournalResource extends Component {
    */
   handleKeyPressRight = (e, combo) => {
     if (this.activeJournalItem) {
-      this.increaseFlameRating(this.activeJournalItem);
+      this.changeFlameRating(1, this.activeJournalItem);
     } else if (this.journalItems.length > 0) {
-      let journalItem = this.journalItems[this.journalItems.length - 1];
+      let journalItem = this.journalItems[
+        this.journalItems.length - 1
+      ];
       this.updateActiveJournalItemSelection(journalItem);
-      this.increaseFlameRating(journalItem);
+      this.changeFlameRating(1, journalItem);
     }
   };
 
   /**
-   * increment our existing flame rating of a given journal item by 1
+   * changes our existing journal items model with our new flame rating. This performs
+   * a remote call to gridtime which will push our new model via talk to the clients
+   * whom require this update.
+   * @param amount
    * @param journalItem
    */
-  increaseFlameRating(journalItem) {
-    console.log("// increase flame rating" , journalItem);
+  changeFlameRating(amount, journalItem) {
+    let intentionId = journalItem.props.model.id,
+      flameRating = journalItem.props.model.flameRating;
 
-    /// ... client request
-  }
-
-  /**
-   * decrement our journal item's flame rating by 1
-   * @param journalItem
-   */
-  decreaseFlameRating(journalItem) {
-    console.log("// decrease flame rating", journalItem);
-
-    /// ... client request
+    if (!flameRating) {
+      flameRating = 0;
+    }
+    flameRating += amount;
+    journalItem.setState({
+      flameRating: flameRating
+    });
+    JournalClient.updateFlameRating(
+      intentionId,
+      flameRating,
+      this,
+      arg => {
+        this.hasCallbackError(arg);
+      }
+    );
   }
 
   /**
@@ -1497,6 +1523,16 @@ export default class JournalResource extends Component {
   };
 
   /**
+   * updates our flame  rating through a  callback function that is passed as a
+   * property of the journal item we rendered.
+   * @param journalItem
+   */
+  onUpdateFlameRating = journalItem => {
+    console.log("journal-item", journalItem);
+    journalItem.updateFlameRating();
+  };
+
+  /**
    * event callback for when we set a row active
    * @param journalItem
    */
@@ -1576,6 +1612,7 @@ export default class JournalResource extends Component {
           pusher={this.journalItemPusher}
           model={item}
           onRowClick={this.onRowClick}
+          // onUpdateFlameRating={this.onUpdateFlameRating}
           onFinishIntention={this.onFinishIntention}
           onAbortIntention={this.onAbortIntention}
         />

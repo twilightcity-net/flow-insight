@@ -178,6 +178,7 @@
           <li data-type='method'><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></li>
           <li data-type='method'><a href="JournalClient.html#.init">init</a></li>
           <li data-type='method'><a href="JournalClient.html#.loadRecentJournal">loadRecentJournal</a></li>
+          <li data-type='method'><a href="JournalClient.html#.updateFlameRating">updateFlameRating</a></li>
           <li data-type='method'><a href="JournalClient.html#notifyJournal">notifyJournal</a></li>
         </ul>
       </li>
@@ -259,6 +260,7 @@
           <li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateProjectCallback">delegateFindOrCreateProjectCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateTaskCallback">delegateFindOrCreateTaskCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateFinishIntentionCallback">delegateFinishIntentionCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualCallback">delegateGetManualCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualHelpTopicsCallback">delegateGetManualHelpTopicsCallback</a></li>
@@ -278,6 +280,7 @@
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li>
           <li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
@@ -326,6 +329,7 @@
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleFindOrCreateProjectEvent">handleFindOrCreateProjectEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleFindOrCreateTaskEvent">handleFindOrCreateTaskEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleFinishIntentionEvent">handleFinishIntentionEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></li>
@@ -363,6 +367,7 @@
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleUpdateFlameRatingEvent">handleUpdateFlameRatingEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#hasRoomByRoomName">hasRoomByRoomName</a></li>
           <li data-type='method'><a href="module.html#.exports#hideConsole">hideConsole</a></li>
           <li data-type='method'><a href="module.html#.exports#incrementStage">incrementStage</a></li>
@@ -759,6 +764,7 @@
     <h3>Global</h3>
     <ul>
       <li><a href="global.html#appendChatMessage">appendChatMessage</a></li>
+      <li><a href="global.html#changeFlameRating">changeFlameRating</a></li>
       <li><a href="global.html#clearIntervalTimer">clearIntervalTimer</a></li>
       <li><a href="global.html#clearKeyboardShortcuts">clearKeyboardShortcuts</a></li>
       <li><a href="global.html#componentDidMount">componentDidMount</a></li>
@@ -770,7 +776,6 @@
       <li><a href="global.html#createProject">createProject</a></li>
       <li><a href="global.html#createProjectOrTaskHelper">createProjectOrTaskHelper</a></li>
       <li><a href="global.html#createTask">createTask</a></li>
-      <li><a href="global.html#decreaseFlameRating">decreaseFlameRating</a></li>
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
@@ -834,7 +839,6 @@
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
-      <li><a href="global.html#increaseFlameRating">increaseFlameRating</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
       <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
@@ -917,7 +921,7 @@ module.exports = class JournalController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FINISH_INTENTION: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
+   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
    * @constructor
    */
   static get Events() {
@@ -929,7 +933,8 @@ module.exports = class JournalController extends BaseController {
       GET_RECENT_INTENTIONS: "get-recent-intentions",
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks",
-      FINISH_INTENTION: "finish-intention"
+      FINISH_INTENTION: "finish-intention",
+      UPDATE_FLAME_RATING: "update-flame-rating"
     };
   }
 
@@ -995,6 +1000,9 @@ module.exports = class JournalController extends BaseController {
           break;
         case JournalController.Events.FINISH_INTENTION:
           this.handleFinishIntentionEvent(event, arg);
+          break;
+        case JournalController.Events.UPDATE_FLAME_RATING:
+          this.handleUpdateFlameRatingEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -1403,6 +1411,15 @@ module.exports = class JournalController extends BaseController {
     );
   }
 
+  /**
+   * controller callback function that processes our finish intention action.
+   * This function makes a call to gridtime, which updates the finishStatus to
+   * done. Gridtime then will send an update message over talk to the client to
+   * update the appropriate database collections and gui components.
+   * @param event
+   * @param arg
+   * @param callback
+   */
   handleFinishIntentionEvent(event, arg, callback) {
     let id = arg.args.id,
       finishStatus = arg.args.finishStatus,
@@ -1433,7 +1450,89 @@ module.exports = class JournalController extends BaseController {
     );
   }
 
+  /**
+   * the delegate processor for the finish intention callback. This callback
+   * function processor will update the database collection and return the arg
+   * to the client's renderer processor.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
   delegateFinishIntentionCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    } else {
+      let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.JOURNAL
+      );
+
+      arg.data = store.data;
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    }
+  }
+
+  /**
+   * event controller which handler the user setting an intentions flame rating.
+   * The values should be an integer and range from -5 to 5.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleUpdateFlameRatingEvent(event, arg, callback) {
+    let intentionId = arg.args.intentionId,
+      flameRating = arg.args.flameRating,
+      urn =
+        JournalController.Paths.JOURNAL +
+        JournalController.Paths.ME +
+        JournalController.Paths.INTENTION +
+        JournalController.Paths.SEPARATOR +
+        intentionId +
+        JournalController.Paths.TRANSITION +
+        JournalController.Paths.FLAME;
+
+    this.doClientRequest(
+      JournalController.Contexts.JOURNAL_CLIENT,
+      {
+        flameRating: flameRating
+      },
+      JournalController.Names.UPDATE_FLAME_RATING,
+      JournalController.Types.POST,
+      urn,
+      store =>
+        this.delegateUpdateFlameRatingCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * process flame rating for the update flame callback. This updates the collections
+   * and then returns some values to the client through the arv value that is injected
+   * into the event bus life.  bus 4 lyfe!.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateUpdateFlameRatingCallback(
     store,
     event,
     arg,

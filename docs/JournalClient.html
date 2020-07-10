@@ -178,6 +178,7 @@
           <li data-type='method'><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></li>
           <li data-type='method'><a href="JournalClient.html#.init">init</a></li>
           <li data-type='method'><a href="JournalClient.html#.loadRecentJournal">loadRecentJournal</a></li>
+          <li data-type='method'><a href="JournalClient.html#.updateFlameRating">updateFlameRating</a></li>
           <li data-type='method'><a href="JournalClient.html#notifyJournal">notifyJournal</a></li>
         </ul>
       </li>
@@ -259,6 +260,7 @@
           <li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateProjectCallback">delegateFindOrCreateProjectCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateTaskCallback">delegateFindOrCreateTaskCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateFinishIntentionCallback">delegateFinishIntentionCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualCallback">delegateGetManualCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualHelpTopicsCallback">delegateGetManualHelpTopicsCallback</a></li>
@@ -278,6 +280,7 @@
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li>
           <li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
@@ -326,6 +329,7 @@
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
           <li data-type='method'><a href="module.html#.exports#handleFindOrCreateProjectEvent">handleFindOrCreateProjectEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleFindOrCreateTaskEvent">handleFindOrCreateTaskEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleFinishIntentionEvent">handleFinishIntentionEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></li>
@@ -363,6 +367,7 @@
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleUpdateFlameRatingEvent">handleUpdateFlameRatingEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#hasRoomByRoomName">hasRoomByRoomName</a></li>
           <li data-type='method'><a href="module.html#.exports#hideConsole">hideConsole</a></li>
           <li data-type='method'><a href="module.html#.exports#incrementStage">incrementStage</a></li>
@@ -759,6 +764,7 @@
     <h3>Global</h3>
     <ul>
       <li><a href="global.html#appendChatMessage">appendChatMessage</a></li>
+      <li><a href="global.html#changeFlameRating">changeFlameRating</a></li>
       <li><a href="global.html#clearIntervalTimer">clearIntervalTimer</a></li>
       <li><a href="global.html#clearKeyboardShortcuts">clearKeyboardShortcuts</a></li>
       <li><a href="global.html#componentDidMount">componentDidMount</a></li>
@@ -770,7 +776,6 @@
       <li><a href="global.html#createProject">createProject</a></li>
       <li><a href="global.html#createProjectOrTaskHelper">createProjectOrTaskHelper</a></li>
       <li><a href="global.html#createTask">createTask</a></li>
-      <li><a href="global.html#decreaseFlameRating">decreaseFlameRating</a></li>
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
@@ -834,7 +839,6 @@
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
-      <li><a href="global.html#increaseFlameRating">increaseFlameRating</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
       <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
@@ -944,7 +948,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line252">line 252</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line281">line 281</a>
               </li>
             </ul>
           </dd>
@@ -977,7 +981,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line83">line 83</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line84">line 84</a>
               </li>
             </ul>
           </dd>
@@ -1039,7 +1043,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line180">line 180</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line209">line 209</a>
               </li>
             </ul>
           </dd>
@@ -1101,7 +1105,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line149">line 149</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line178">line 178</a>
               </li>
             </ul>
           </dd>
@@ -1163,7 +1167,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line226">line 226</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line255">line 255</a>
               </li>
             </ul>
           </dd>
@@ -1219,7 +1223,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line110">line 110</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line139">line 139</a>
               </li>
             </ul>
           </dd>
@@ -1269,7 +1273,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line127">line 127</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line156">line 156</a>
               </li>
             </ul>
           </dd>
@@ -1313,7 +1317,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line207">line 207</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line236">line 236</a>
               </li>
             </ul>
           </dd>
@@ -1357,7 +1361,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line50">line 50</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line51">line 51</a>
               </li>
             </ul>
           </dd>
@@ -1388,7 +1392,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line63">line 63</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line64">line 64</a>
               </li>
             </ul>
           </dd>
@@ -1432,13 +1436,69 @@
           </dd>
         </dl>
         <h4 class="name"
+            id=".updateFlameRating"><span class="type-signature">(static) </span>updateFlameRating<span class="signature">(intentionId, flameRating, scope, callback)</span><span class="type-signature"> &rarr; {<a href="RendererClientEvent.html">RendererClientEvent</a>}</span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line114">line 114</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> gui client function used to update an intentions tensor flame rating that is on a scale of -5 to 5 as integers (whole numbers) </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>intentionId</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+            <tr>
+              <td class="name"><code>flameRating</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+            <tr>
+              <td class="name"><code>scope</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+            <tr>
+              <td class="name"><code>callback</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Returns:</h5>
+        <dl class="param-type">
+          <dt> Type </dt>
+          <dd>
+            <span class="param-type"><a href="RendererClientEvent.html">RendererClientEvent</a></span>
+          </dd>
+        </dl>
+        <h4 class="name"
             id="notifyJournal"><span class="type-signature"></span>notifyJournal<span class="signature">(clientEvent)</span><span class="type-signature"></span></h4>
         <dl class="details">
           <dt class="tag-source">Source:</dt>
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line272">line 272</a>
+                <a href="src_clients_JournalClient.js.html">src/clients/JournalClient.js</a>, <a href="src_clients_JournalClient.js.html#line301">line 301</a>
               </li>
             </ul>
           </dd>
