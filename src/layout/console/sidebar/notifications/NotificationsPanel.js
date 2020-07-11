@@ -126,15 +126,6 @@ export default class NotificationsPanel extends Component {
   };
 
   /**
-   * determines if we are currently linked to another team member
-   * @param memberId
-   * @returns {boolean}
-   */
-  isLinked = memberId => {
-    return this.spiritModel.isLinked(memberId);
-  };
-
-  /**
    * gets the badges content panel for the sidebar
    * @returns {*}
    */
