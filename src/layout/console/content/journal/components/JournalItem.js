@@ -31,7 +31,8 @@ export default class JournalItem extends Component {
     this.props.pusher(this);
     this.state = {
       isActive: false,
-      flameRating: props.model.flameRating
+      flameRating: props.model.flameRating,
+      isLinked: props.model.linked
     };
   }
 
@@ -95,11 +96,10 @@ export default class JournalItem extends Component {
    * @returns {*}
    */
   getTaskCellContent() {
-    let isLinked = this.props.model.linked;
     return (
       <div className="chunkTitle">
         {this.props.model.taskName}
-        {isLinked && (
+        {this.state.isLinked && (
           <Icon name="linkify" className="journalLink" />
         )}
       </div>

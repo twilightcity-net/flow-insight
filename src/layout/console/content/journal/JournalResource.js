@@ -123,13 +123,11 @@ export default class JournalResource extends Component {
         }
         break;
       case BaseClient.MessageTypes.JOURNAL_ENTRY_DTO:
-        console.log("DATA", data);
         if (
           (!this.isMyJournal() &&
             this.username === username) ||
           (this.isMyJournal() && me.username === username)
         ) {
-          console.log("update journal entry flame", data);
           this.updateJournalIntentions(data);
         }
         break;
@@ -185,7 +183,6 @@ export default class JournalResource extends Component {
     ) {
       return false;
     }
-
     this.refreshJournal(nextProps);
     this.clearKeyboardShortcuts();
     this.updateKeyboardShortcuts(nextProps);
@@ -212,7 +209,6 @@ export default class JournalResource extends Component {
       username === JournalResource.Strings.ME ||
       username === MemberClient.me.username
     ) {
-      console.log("enable shortcuts");
       this.setKeyboardShortcuts();
     }
   }
@@ -437,6 +433,8 @@ export default class JournalResource extends Component {
   refreshJournal(props) {
     this.error = null;
     this.loadCount = 0;
+    this.isFlameUpdating = false;
+    this.activeJournalItem = null;
     this.username = this.getUserNameFromResource(props);
     JournalClient.getRecentIntentions(
       this.username,
@@ -542,9 +540,7 @@ export default class JournalResource extends Component {
    * event handler that is called when we finish sliding the journal entry in to the user.
    */
   onEntryShown = () => {
-    if (!this.activeJournalItem && this.isMyJournal()) {
-      this.scrollToJournalItemById(null, true);
-    }
+    this.scrollToJournalItemById(null, true);
   };
 
   /**
