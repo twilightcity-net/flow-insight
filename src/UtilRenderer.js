@@ -173,7 +173,6 @@ export default class UtilRenderer {
     for (let i = 0, m = null; i < length; i++) {
       m = arr[i];
       if (m.id === message.id) {
-        console.log("found intention::", m);
         arr[i] = message;
         break;
       }

@@ -58,6 +58,7 @@ export default class JournalResource extends Component {
     this.projects = [];
     this.tasks = [];
     this.activeJournalItem = null;
+    this.isFlameUpdating = false;
     this.loadCount = 0;
     this.error = null;
     this.username = JournalResource.Strings.ME;
@@ -128,6 +129,7 @@ export default class JournalResource extends Component {
             this.username === username) ||
           (this.isMyJournal() && me.username === username)
         ) {
+          console.log("update journal entry flame", data);
           this.updateJournalIntentions(data);
         }
         break;
@@ -183,9 +185,10 @@ export default class JournalResource extends Component {
     ) {
       return false;
     }
+
+    this.refreshJournal(nextProps);
     this.clearKeyboardShortcuts();
     this.updateKeyboardShortcuts(nextProps);
-    this.refreshJournal(nextProps);
     return false;
   }
 
@@ -194,8 +197,8 @@ export default class JournalResource extends Component {
    * initially create the window's console view or switch resource views
    */
   componentDidMount() {
-    this.refreshKeyboardShortcuts(this.props);
     this.refreshJournal(this.props);
+    this.refreshKeyboardShortcuts(this.props);
   }
 
   /**
@@ -203,11 +206,13 @@ export default class JournalResource extends Component {
    * @param props
    */
   updateKeyboardShortcuts(props) {
+    console.log("update shortcuts");
     let username = this.getUserNameFromResource(props);
     if (
       username === JournalResource.Strings.ME ||
       username === MemberClient.me.username
     ) {
+      console.log("enable shortcuts");
       this.setKeyboardShortcuts();
     }
   }
@@ -235,14 +240,16 @@ export default class JournalResource extends Component {
       JournalResource.Keys.DOWN,
       this.handleKeyPressDown
     );
-    Mousetrap.bind(
-      JournalResource.Keys.LEFT,
-      this.handleKeyPressLeft
-    );
-    Mousetrap.bind(
-      JournalResource.Keys.RIGHT,
-      this.handleKeyPressRight
-    );
+    if (this.isMyJournal()) {
+      Mousetrap.bind(
+        JournalResource.Keys.LEFT,
+        this.handleKeyPressLeft
+      );
+      Mousetrap.bind(
+        JournalResource.Keys.RIGHT,
+        this.handleKeyPressRight
+      );
+    }
   }
 
   /**
@@ -319,6 +326,9 @@ export default class JournalResource extends Component {
   handleKeyPressLeft = (e, combo) => {
     if (this.activeJournalItem) {
       this.changeFlameRating(-1, this.activeJournalItem);
+      this.updateActiveJournalItemSelection(
+        this.activeJournalItem
+      );
     } else if (this.journalItems.length > 0) {
       let journalItem = this.journalItems[
         this.journalItems.length - 1
@@ -336,6 +346,9 @@ export default class JournalResource extends Component {
   handleKeyPressRight = (e, combo) => {
     if (this.activeJournalItem) {
       this.changeFlameRating(1, this.activeJournalItem);
+      this.updateActiveJournalItemSelection(
+        this.activeJournalItem
+      );
     } else if (this.journalItems.length > 0) {
       let journalItem = this.journalItems[
         this.journalItems.length - 1
@@ -356,18 +369,30 @@ export default class JournalResource extends Component {
     let intentionId = journalItem.props.model.id,
       flameRating = journalItem.props.model.flameRating;
 
+    if (
+      this.isFlameUpdating ||
+      (flameRating >= 5 && amount > 0) ||
+      (flameRating <= -5 && amount < 0)
+    ) {
+      console.log("cancel update.");
+      return;
+    }
+
     if (!flameRating) {
       flameRating = 0;
     }
+
     flameRating += amount;
     journalItem.setState({
       flameRating: flameRating
     });
+    this.isFlameUpdating = true;
     JournalClient.updateFlameRating(
       intentionId,
       flameRating,
       this,
       arg => {
+        this.isFlameUpdating = false;
         this.hasCallbackError(arg);
       }
     );
@@ -412,9 +437,9 @@ export default class JournalResource extends Component {
   refreshJournal(props) {
     this.error = null;
     this.loadCount = 0;
-    let username = this.getUserNameFromResource(props);
+    this.username = this.getUserNameFromResource(props);
     JournalClient.getRecentIntentions(
-      username,
+      this.username,
       this,
       arg => {
         if (
@@ -422,7 +447,6 @@ export default class JournalResource extends Component {
           arg.data &&
           arg.data.length > 0
         ) {
-          this.username = username;
           this.journalIntentions = arg.data;
           this.handleCallback();
         }
@@ -514,8 +538,11 @@ export default class JournalResource extends Component {
     }
   }
 
+  /**
+   * event handler that is called when we finish sliding the journal entry in to the user.
+   */
   onEntryShown = () => {
-    if (this.isMyJournal()) {
+    if (!this.activeJournalItem && this.isMyJournal()) {
       this.scrollToJournalItemById(null, true);
     }
   };
@@ -626,22 +653,10 @@ export default class JournalResource extends Component {
   };
 
   /**
-   * updates our flame  rating through a  callback function that is passed as a
-   * property of the journal item we rendered.
-   * @param journalItem
-   */
-  onUpdateFlameRating = journalItem => {
-    console.log("journal-item", journalItem);
-    journalItem.updateFlameRating();
-  };
-
-  /**
    * event callback for when we set a row active
    * @param journalItem
    */
   onRowClick = journalItem => {
-    console.log("row click", journalItem);
-
     if (
       this.activeJournalItem &&
       this.activeJournalItem.props.model.id ===
@@ -678,17 +693,16 @@ export default class JournalResource extends Component {
    * @param arg
    */
   onFinishIntention = (data, arg) => {
-    console.log("FINISH", data, arg);
     this.updateJournalIntentions(arg.data);
   };
 
   /**
    * event callback for when a user aborts an intention. This
    * routes into the child components of the journal resource.
-   * @param journalItem
+   * @param data
+   * @param arg
    */
   onAbortIntention = (data, arg) => {
-    console.log("ABORT", data, arg);
     this.updateJournalIntentions(arg.data);
   };
 
@@ -715,7 +729,6 @@ export default class JournalResource extends Component {
           pusher={this.journalItemPusher}
           model={item}
           onRowClick={this.onRowClick}
-          // onUpdateFlameRating={this.onUpdateFlameRating}
           onFinishIntention={this.onFinishIntention}
           onAbortIntention={this.onAbortIntention}
         />
