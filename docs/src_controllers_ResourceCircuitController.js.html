@@ -966,9 +966,15 @@ export class ResourceCircuitController extends ActiveViewController {
   /**
    * handler that is called when we put a circuit on hold
    * @param circuitName - the circuit to pause
+   * @param scope
+   * @param callback
    */
-  pauseCircuit = circuitName => {
-    CircuitClient.pauseWtf(circuitName);
+  pauseCircuit = (circuitName, scope, callback) => {
+    CircuitClient.pauseWTFWithDoItLater(
+      circuitName,
+      scope,
+      callback
+    );
   };
 
   /**

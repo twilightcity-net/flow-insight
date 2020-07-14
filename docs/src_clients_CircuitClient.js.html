@@ -968,7 +968,7 @@ export class CircuitClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, CREATE_CIRCUIT: string, LOAD_ACTIVE_CIRCUIT: string}}
+   * @returns {{GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string}}
    * @constructor
    */
   static get Events() {
@@ -991,7 +991,8 @@ export class CircuitClient extends BaseClient {
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
       CANCEL_WTF: "cancel-wtf",
-      PAUSE_WTF: "pause-wtf"
+      PAUSE_WTF_WITH_DO_IT_LATER:
+        "pause-wtf-with-do-it-later"
     };
   }
 
@@ -1226,9 +1227,13 @@ export class CircuitClient extends BaseClient {
     return event;
   }
 
-  static pauseWtf(circuitName, scope, callback) {
+  static pauseWTFWithDoItLater(
+    circuitName,
+    scope,
+    callback
+  ) {
     let event = CircuitClient.instance.createClientEvent(
-      CircuitClient.Events.PAUSE_WTF,
+      CircuitClient.Events.PAUSE_WTF_WITH_DO_IT_LATER,
       { circuitName: circuitName },
       scope,
       callback

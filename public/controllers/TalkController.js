@@ -336,23 +336,23 @@ module.exports = class TalkController extends BaseController {
             }
             break;
           case TalkController.StatusTypes.TEAM_WTF_STOPPED:
-            if (
-              circuit.circuitState ===
-              TalkController.CircuitStates.CANCELED
-            ) {
-              circuitDatabase.removeCircuitFromAllCollections(
-                circuit
-              );
-              memberDatabase.removeActiveCircuitFromMembers(
-                circuit
-              );
-            } else {
-              console.warn(
-                TalkController.Error.UNKNOWN_STATE_TYPE +
-                  " '" +
-                  circuit.circuitState +
-                  "'."
-              );
+            switch (circuit.circuitState) {
+              case TalkController.CircuitStates.CANCELED:
+                circuitDatabase.removeCircuitFromAllCollections(
+                  circuit
+                );
+                memberDatabase.removeActiveCircuitFromMembers(
+                  circuit
+                );
+                break;
+              default:
+                console.warn(
+                  TalkController.Error.UNKNOWN_STATE_TYPE +
+                    " '" +
+                    circuit.circuitState +
+                    "'."
+                );
+                break;
             }
             break;
           default:

@@ -23,7 +23,7 @@ module.exports = class CircuitController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, CREATE_CIRCUIT: string, LOAD_ACTIVE_CIRCUIT: string}}
+   * @returns {{GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string}}
    * @constructor
    */
   static get Events() {
@@ -46,7 +46,8 @@ module.exports = class CircuitController extends BaseController {
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
       CANCEL_WTF: "cancel-wtf",
-      PAUSE_WTF: "pause-wtf"
+      PAUSE_WTF_WITH_DO_IT_LATER:
+        "pause-wtf-with-do-it-later"
     };
   }
 
@@ -149,8 +150,9 @@ module.exports = class CircuitController extends BaseController {
         case CircuitController.Events.CANCEL_WTF:
           this.handleCancelWtfEvent(event, arg);
           break;
-        case CircuitController.Events.PAUSE_WTF:
-          this.handlePauseWtfEvent(event, arg);
+        case CircuitController.Events
+          .PAUSE_WTF_WITH_DO_IT_LATER:
+          this.handlePauseWTFWithDoItLaterEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -768,7 +770,7 @@ module.exports = class CircuitController extends BaseController {
     );
   }
 
-  handlePauseWtfEvent(event, arg, callback) {
+  handlePauseWTFWithDoItLaterEvent(event, arg, callback) {
     let name = arg.args.circuitName,
       urn =
         CircuitController.Paths.CIRCUIT_WTF +
@@ -779,7 +781,7 @@ module.exports = class CircuitController extends BaseController {
     this.doClientRequest(
       CircuitController.Contexts.CIRCUIT_CLIENT,
       {},
-      CircuitController.Names.PAUSE_WTF,
+      CircuitController.Names.PAUSE_WTF_WITH_DO_IT_LATER,
       CircuitController.Types.POST,
       urn,
       store =>

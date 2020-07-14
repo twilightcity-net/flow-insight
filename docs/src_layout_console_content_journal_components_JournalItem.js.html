@@ -928,7 +928,8 @@ export default class JournalItem extends Component {
     this.props.pusher(this);
     this.state = {
       isActive: false,
-      flameRating: props.model.flameRating
+      flameRating: props.model.flameRating,
+      isLinked: props.model.linked
     };
   }
 
@@ -992,11 +993,10 @@ export default class JournalItem extends Component {
    * @returns {*}
    */
   getTaskCellContent() {
-    let isLinked = this.props.model.linked;
     return (
       &lt;div className="chunkTitle">
         {this.props.model.taskName}
-        {isLinked &amp;&amp; (
+        {this.state.isLinked &amp;&amp; (
           &lt;Icon name="linkify" className="journalLink" />
         )}
       &lt;/div>
