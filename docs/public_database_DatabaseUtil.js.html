@@ -954,9 +954,7 @@ module.exports = class DatabaseUtil {
     if (result) {
       result = Object.assign(result, doc);
       collection.update(result);
-      console.log(collection);
     } else {
-      // console.log("new::", doc);
       result = Object.assign({}, doc);
       collection.insert(result);
     }

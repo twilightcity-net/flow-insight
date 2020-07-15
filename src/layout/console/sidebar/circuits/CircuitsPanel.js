@@ -61,21 +61,6 @@ export default class CircuitsPanel extends Component {
   };
 
   /**
-   * called when we remove this circuit from view. this clears the listeners for proper
-   * memory management
-   */
-  componentWillUnmount() {
-    this.circuitStartStopListener.updateCallback(
-      this,
-      null
-    );
-    this.myController.configureCircuitsPanelListener(
-      this,
-      null
-    );
-  }
-
-  /**
    * called we are rendering this component into view. This will ask the circuit manager
    * in the main process for new circuit data
    */
@@ -86,6 +71,12 @@ export default class CircuitsPanel extends Component {
       this,
       this.onCircuitStartStop
     );
+    this.circuitPauseUnpauseListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE,
+      this,
+      this.onCircuitPauseUnpause
+    );
     this.myController.configureCircuitsPanelListener(
       this,
       this.onRefreshCircuitsPanel
@@ -93,7 +84,41 @@ export default class CircuitsPanel extends Component {
     this.onRefreshCircuitsPanel();
   }
 
+  /**
+   * called when we remove this circuit from view. this clears the listeners for proper
+   * memory management
+   */
+  componentWillUnmount() {
+    this.circuitStartStopListener.updateCallback(
+      this,
+      null
+    );
+    this.circuitPauseUnpauseListener.updateCallback(
+      this,
+      null
+    );
+    this.myController.configureCircuitsPanelListener(
+      this,
+      null
+    );
+  }
+
+  /**
+   * gui event handler for when we receive view event for when a circuit starts or stops.
+   * When a circuit stops, it is removed from the renderer.
+   * @param event
+   * @param arg
+   */
   onCircuitStartStop = (event, arg) => {
+    this.onRefreshCircuitsPanel();
+  };
+
+  /**
+   * event handler that is called when we pause or unpause a circuit.
+   * @param event
+   * @param arg
+   */
+  onCircuitPauseUnpause = (event, arg) => {
     this.onRefreshCircuitsPanel();
   };
 
