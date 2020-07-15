@@ -62,29 +62,8 @@ export default class CircuitSidebar extends Component {
    */
   onClickPauseActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.myController.pauseCircuit(
-      circuitName,
-      this,
-      arg => {
-        console.log("ARG", arg);
-        this.hasCallbackError(arg);
-      }
-    );
+    this.myController.pauseCircuit(circuitName);
   };
-
-  /**
-   * does stuff when our client callback errors out
-   * @param arg
-   * @returns {boolean}
-   */
-  hasCallbackError(arg) {
-    if (arg.error) {
-      this.error = arg.error;
-      this.forceUpdate();
-      return true;
-    }
-    return false;
-  }
 
   /**
    * click handler for when we want to cancel a circuit with out hold or lettuce

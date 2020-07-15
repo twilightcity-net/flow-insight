@@ -69,12 +69,17 @@ export default class ConsoleSidebar extends Component {
       this,
       this.onSidebarShow
     );
-
     this.circuitStartStopListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events
         .VIEW_CONSOLE_CIRCUIT_START_STOP,
       this,
       this.onCircuitStartStop
+    );
+    this.circuitPauseUnpauseListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE,
+      this,
+      this.onCircuitPauseUnpause
     );
   }
 
@@ -92,8 +97,11 @@ export default class ConsoleSidebar extends Component {
       this,
       null
     );
-
     this.circuitStartStopListener.updateCallback(
+      this,
+      null
+    );
+    this.circuitPauseUnpauseListener.updateCallback(
       this,
       null
     );
@@ -134,6 +142,19 @@ export default class ConsoleSidebar extends Component {
   onCircuitStartStop = (event, arg) => {
     this.setState({
       isAlarm: arg > 0
+    });
+  };
+
+  /**
+   * handles our pause and unpause event that was spawned from our resource
+   * circuit controller.. usually ;)
+   * @param event
+   * @param arg
+   */
+  onCircuitPauseUnpause = (event, arg) => {
+    console.log("ALARM", arg < 0);
+    this.setState({
+      isAlarm: arg < 0
     });
   };
 

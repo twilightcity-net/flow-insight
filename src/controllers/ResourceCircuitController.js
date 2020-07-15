@@ -20,6 +20,11 @@ export class ResourceCircuitController extends ActiveViewController {
         .VIEW_CONSOLE_CIRCUIT_START_STOP,
       this
     );
+    this.circuitPauseUnpauseNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE,
+      this
+    );
   }
 
   /**
@@ -31,17 +36,37 @@ export class ResourceCircuitController extends ActiveViewController {
   }
 
   /**
-   * notifies the system know we are starting a wtf session
+   * notifies the system know we are starting a wtf session. This is
+   * paired with circuit stop notifier. Dispatch 1 to start. These
+   * are hooked to the current active circuit in memory
    */
   fireCircuitStartNotifyEvent() {
     this.circuitStartStopNotifier.dispatch(1);
   }
 
   /**
-   * notifies the system that we are stopping the wtf session
+   * notifies the system that we are stopping the wtf session. this
+   * is paired with circuit start notifier. pass -1 to stop. This is
+   * associated to the current active circuit in memory
    */
   fireCircuitStopNotifyEvent() {
     this.circuitStartStopNotifier.dispatch(-1);
+  }
+
+  /**
+   * notifies the system that we should pause the active circuit by
+   * dispatching 1 to the event in the buss.
+   */
+  fireCircuitPauseNotifyEvent() {
+    this.circuitPauseUnpauseNotifier.dispatch(1);
+  }
+
+  /**
+   * notifies the systme that we should resume the active circuit by dispatching
+   * the value -1 to the event.
+   */
+  fireCircuitUnpauseNotifyEvent() {
+    this.circuitPauseUnpauseNotifier.dispatch(-1);
   }
 
   /**
@@ -69,14 +94,19 @@ export class ResourceCircuitController extends ActiveViewController {
   /**
    * handler that is called when we put a circuit on hold
    * @param circuitName - the circuit to pause
-   * @param scope
-   * @param callback
    */
-  pauseCircuit = (circuitName, scope, callback) => {
+  pauseCircuit = circuitName => {
     CircuitClient.pauseWTFWithDoItLater(
       circuitName,
-      scope,
-      callback
+      this,
+      arg => {
+        let request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.JOURNAL,
+          BrowserRequestFactory.Locations.ME
+        );
+        this.browserController.makeRequest(request);
+        this.fireCircuitPauseNotifyEvent();
+      }
     );
   };
 

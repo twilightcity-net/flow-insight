@@ -80,6 +80,7 @@
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li>
           <li data-type='method'><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></li>
@@ -257,6 +258,7 @@
           <li data-type='method'><a href="module.html#.exports#deactivate">deactivate</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateCallbackOrEventReplyTo">delegateCallbackOrEventReplyTo</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateCallbackWithView">delegateCallbackWithView</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateCancelWtfCallback">delegateCancelWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateProjectCallback">delegateFindOrCreateProjectCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateTaskCallback">delegateFindOrCreateTaskCallback</a></li>
@@ -277,6 +279,7 @@
           <li data-type='method'><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCallback">delegateLoadMyHomeTeamCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCircuitCallback">delegateLoadMyHomeTeamCircuitCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegatePauseWTFWithDoItLaterCallback">delegatePauseWTFWithDoItLaterCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
@@ -285,10 +288,12 @@
           <li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemove">findRemove</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></li>
+          <li data-type='method'><a href="module.html#.exports#findUpdateInsert">findUpdateInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#finished">finished</a></li>
           <li data-type='method'><a href="module.html#.exports#getApiKey">getApiKey</a></li>
@@ -323,6 +328,7 @@
           <li data-type='method'><a href="module.html#.exports#getViewStatusTalkMessagesForCollection">getViewStatusTalkMessagesForCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewTalkMessagesForCollection">getViewTalkMessagesForCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewTeamCircuits">getViewTeamCircuits</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleCancelWtfEvent">handleCancelWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
@@ -362,6 +368,7 @@
           <li data-type='method'><a href="module.html#.exports#handleLoadJournalEvent">handleLoadJournalEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamCircuitEvent">handleLoadMyHomeTeamCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamEvent">handleLoadMyHomeTeamEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handlePauseWTFWithDoItLaterEvent">handlePauseWTFWithDoItLaterEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleRunCommandEvent">handleRunCommandEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
@@ -435,6 +442,7 @@
           <li data-type='method'><a href="module.html#.exports#stop">stop</a></li>
           <li data-type='method'><a href="module.html#.exports#unwireEvents">unwireEvents</a></li>
           <li data-type='method'><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateCircuitToDoItLater">updateCircuitToDoItLater</a></li>
           <li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li>
           <li data-type='method'><a href="module.html#.exports#updateIntention">updateIntention</a></li>
           <li data-type='method'><a href="module.html#.exports#updateJournalIntentions">updateJournalIntentions</a></li>
@@ -959,29 +967,8 @@ export default class CircuitSidebar extends Component {
    */
   onClickPauseActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.myController.pauseCircuit(
-      circuitName,
-      this,
-      arg => {
-        console.log("ARG", arg);
-        this.hasCallbackError(arg)
-      }
-    );
+    this.myController.pauseCircuit(circuitName);
   };
-
-  /**
-   * does stuff when our client callback errors out
-   * @param arg
-   * @returns {boolean}
-   */
-  hasCallbackError(arg) {
-    if (arg.error) {
-      this.error = arg.error;
-      this.forceUpdate();
-      return true;
-    }
-    return false;
-  }
 
   /**
    * click handler for when we want to cancel a circuit with out hold or lettuce

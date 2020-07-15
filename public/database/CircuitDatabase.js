@@ -1,7 +1,8 @@
 const log = require("electron-log"),
   chalk = require("chalk"),
   LokiJS = require("lokijs"),
-  Util = require("../Util");
+  Util = require("../Util"),
+  DatabaseUtil = require("./DatabaseUtil");
 
 /**
  * this class builds a new databases
@@ -290,6 +291,47 @@ module.exports = class CircuitDatabase extends LokiJS {
       "remove circuit",
       this.getViewCircuits().count()
     );
+  }
+
+  /**
+   * updates our circuit with a new on_hold status one. This updates,
+   * removes and inserts into the later collection.
+   * @param circuit
+   */
+  updateCircuitToDoItLater(circuit) {
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.CIRCUITS
+    );
+
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log(
+      "update circuit status -> ON_HOLD",
+      circuit.id
+    );
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.PARTICIPATING
+    );
+    DatabaseUtil.findRemove(circuit, collection);
+    DatabaseUtil.log(
+      "remove from participating circuits",
+      circuit.id
+    );
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.ACTIVE
+    );
+    DatabaseUtil.findRemove(circuit, collection);
+    DatabaseUtil.log(
+      "remove from active circuits",
+      circuit.id
+    );
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.LATER
+    );
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log("add to later circuits", circuit.id);
   }
 
   /**

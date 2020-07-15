@@ -37,4 +37,34 @@ module.exports = class DatabaseUtil {
     result = Object.assign({}, doc);
     collection.insert(result);
   }
+
+  /**
+   * finds a specific document in a collection and updates the
+   * object rather then removing it.
+   * @param doc
+   * @param collection
+   */
+  static findUpdateInsert(doc, collection) {
+    let result = collection.findOne({ id: doc.id });
+    if (result) {
+      result = Object.assign(result, doc);
+      collection.update(result);
+    } else {
+      result = Object.assign({}, doc);
+      collection.insert(result);
+    }
+  }
+
+  /**
+   * seek and destroy, t-1000 style. looks up a document of a
+   * given collection by its id and then remove it.
+   * @param doc
+   * @param collection
+   */
+  static findRemove(doc, collection) {
+    let result = collection.findOne({ id: doc.id });
+    if (result) {
+      collection.remove(result);
+    }
+  }
 };

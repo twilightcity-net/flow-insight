@@ -345,6 +345,14 @@ module.exports = class TalkController extends BaseController {
                   circuit
                 );
                 break;
+              case TalkController.CircuitStates.ON_HOLD:
+                circuitDatabase.updateCircuitToDoItLater(
+                  circuit
+                );
+                memberDatabase.removeActiveCircuitFromMembers(
+                  circuit
+                );
+                break;
               default:
                 console.warn(
                   TalkController.Error.UNKNOWN_STATE_TYPE +

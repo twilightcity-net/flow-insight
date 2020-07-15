@@ -175,13 +175,14 @@ module.exports = class BaseController {
 
   /**
    * a list of our various circuit states
-   * @returns {{CANCELED: string, TROUBLESHOOT: string}}
+   * @returns {{ON_HOLD: string, CANCELED: string, TROUBLESHOOT: string}}
    * @constructor
    */
   static get CircuitStates() {
     return {
       TROUBLESHOOT: "TROUBLESHOOT",
-      CANCELED: "CANCELED"
+      CANCELED: "CANCELED",
+      ON_HOLD: "ONHOLD"
     };
   }
 

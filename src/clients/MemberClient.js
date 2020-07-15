@@ -114,7 +114,6 @@ export class MemberClient extends BaseClient {
   onMemberEventCallback = (event, arg) => {
     switch (arg.type) {
       case MemberClient.Events.UPDATE_ME:
-        console.log("XXX");
         MemberClient.me = arg.data;
         break;
       default:

@@ -330,6 +330,14 @@ export class CircuitClient extends BaseClient {
     return event;
   }
 
+  /**
+   * pauses the given circuit and sets the status to ON_HOLD which is
+   * also known as do it later.
+   * @param circuitName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
   static pauseWTFWithDoItLater(
     circuitName,
     scope,
