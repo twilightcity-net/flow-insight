@@ -80,8 +80,10 @@
           <li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.loadAllMyRetroCircuits">loadAllMyRetroCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.startRetroForWTF">startRetroForWTF</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li>
           <li data-type='method'><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></li>
@@ -284,6 +286,7 @@
           <li data-type='method'><a href="module.html#.exports#delegatePauseWTFWithDoItLaterCallback">delegatePauseWTFWithDoItLaterCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateStartRetroForWTFCallback">delegateStartRetroForWTFCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li>
@@ -376,6 +379,7 @@
           <li data-type='method'><a href="module.html#.exports#handlePauseWTFWithDoItLaterEvent">handlePauseWTFWithDoItLaterEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleRunCommandEvent">handleRunCommandEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleStartRetroForWTFEvent">handleStartRetroForWTFEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
@@ -913,7 +917,7 @@
 /**
  * This class is used as a helper class to store event names from
  * ./public/EventManager. When adding a new event make sure to update
- * the other file if you wish to listen to the events
+ * the other file if you wish to listen to the events.
  */
 export class RendererEventFactory {
   /**
@@ -929,8 +933,8 @@ export class RendererEventFactory {
   }
 
   /**
-   * static enum subclass to store event names
-   * @returns {{VIEW_CONSOLE_NOTIFICATIONS_PANEL: string, SCREENSHOT_READY_FOR_DISPLAY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, JOURNAL_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, TEAM_CIRCUIT_CLIENT: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, VIEW_CONSOLE_SIDEBAR_PANEL: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, VIEW_CONSOLE_CIRCUITS_PANEL: string, APP_PULSE: string, DATASTORE_LOAD: string, TEAM_CLIENT: string, VIEW_CONSOLE_SPIRIT_PANEL: string, TALK_TO_CLIENT: string, DATASTORE_LOADED: string, WINDOW_CONSOLE_BROWSER_REQUEST: string, APPLOADER_LOAD: string, VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE: string, MEMBER_CONTROLLER: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, SCREENSHOT_COMPLETE: string, WINDOW_ACTIVATOR_CLOSE: string, MEMBER_CLIENT: string, VIEW_CONSOLE_TEAM_PANEL: string, APP_LOADED: string, TERMINAL_CLIENT: string, VIEW_CONSOLE_CIRCUIT_START_STOP: string, SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: string}}
+   * static enum subclass to store event names.
+   * @returns {{VIEW_CONSOLE_NOTIFICATIONS_PANEL: string, SCREENSHOT_READY_FOR_DISPLAY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, JOURNAL_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, TEAM_CIRCUIT_CLIENT: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, VIEW_CONSOLE_SIDEBAR_PANEL: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, VIEW_CONSOLE_CIRCUITS_PANEL: string, APP_PULSE: string, DATASTORE_LOAD: string, TEAM_CLIENT: string, VIEW_CONSOLE_SPIRIT_PANEL: string, TALK_TO_CLIENT: string, DATASTORE_LOADED: string, WINDOW_CONSOLE_BROWSER_REQUEST: string, APPLOADER_LOAD: string, VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE: string, VIEW_CONSOLE_CIRCUIT_START_RETRO_FOR_WTF: string, MEMBER_CONTROLLER: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, SCREENSHOT_COMPLETE: string, WINDOW_ACTIVATOR_CLOSE: string, MEMBER_CLIENT: string, VIEW_CONSOLE_TEAM_PANEL: string, APP_LOADED: string, TERMINAL_CLIENT: string, VIEW_CONSOLE_CIRCUIT_START_STOP: string, SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: string}}
    * @constructor
    */
   static get Events() {
@@ -980,6 +984,8 @@ export class RendererEventFactory {
         "view-console-circuit-start-stop",
       VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE:
         "view-console-circuit-pause-unpause",
+      VIEW_CONSOLE_CIRCUIT_START_RETRO_FOR_WTF:
+        "view-console-circuit-start-retro-for-wtf",
       APPACTIVATOR_SAVE_ACTIVATION:
         prefix + "appactivator-save-activation",
       APPACTIVATOR_ACTIVATION_SAVED:

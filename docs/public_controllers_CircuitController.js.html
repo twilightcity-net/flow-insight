@@ -80,8 +80,10 @@
           <li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.loadAllMyRetroCircuits">loadAllMyRetroCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.startRetroForWTF">startRetroForWTF</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li>
           <li data-type='method'><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></li>
@@ -284,6 +286,7 @@
           <li data-type='method'><a href="module.html#.exports#delegatePauseWTFWithDoItLaterCallback">delegatePauseWTFWithDoItLaterCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateStartRetroForWTFCallback">delegateStartRetroForWTFCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li>
@@ -376,6 +379,7 @@
           <li data-type='method'><a href="module.html#.exports#handlePauseWTFWithDoItLaterEvent">handlePauseWTFWithDoItLaterEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleRunCommandEvent">handleRunCommandEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleStartRetroForWTFEvent">handleStartRetroForWTFEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
@@ -934,7 +938,7 @@ module.exports = class CircuitController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string}}
+   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -960,7 +964,9 @@ module.exports = class CircuitController extends BaseController {
         "get-circuit-with-all-details",
       CANCEL_WTF: "cancel-wtf",
       PAUSE_WTF_WITH_DO_IT_LATER:
-        "pause-wtf-with-do-it-later"
+        "pause-wtf-with-do-it-later",
+      START_RETRO_FOR_WTF:
+        "start-retro-for-wtf"
     };
   }
 
@@ -1077,6 +1083,10 @@ module.exports = class CircuitController extends BaseController {
         case CircuitController.Events
           .PAUSE_WTF_WITH_DO_IT_LATER:
           this.handlePauseWTFWithDoItLaterEvent(event, arg);
+          break;
+        case CircuitController.Events
+          .START_RETRO_FOR_WTF:
+          this.handleStartRetroForWTFEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -1860,6 +1870,62 @@ module.exports = class CircuitController extends BaseController {
         circuit = store.data;
 
       arg.data = circuit;
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * handles our event callback for when the user wants to start the retro review
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleStartRetroForWTFEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT_WTF +
+        CircuitController.Paths.SEPARATOR +
+        name +
+        CircuitController.Paths.RETRO;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.START_RETRO_FOR_WTF,
+      CircuitController.Types.POST,
+      urn,
+      store =>
+        this.delegateStartRetroForWTFCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * processes our callback for starting a retro review. This is a complex workflow
+   * which gridtime will trigger events based on various user events.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateStartRetroForWTFCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
     }
     this.delegateCallbackOrEventReplyTo(
       event,

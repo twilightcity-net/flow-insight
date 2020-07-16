@@ -80,8 +80,10 @@
           <li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.loadAllMyRetroCircuits">loadAllMyRetroCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.startRetroForWTF">startRetroForWTF</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li>
           <li data-type='method'><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></li>
@@ -284,6 +286,7 @@
           <li data-type='method'><a href="module.html#.exports#delegatePauseWTFWithDoItLaterCallback">delegatePauseWTFWithDoItLaterCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateStartRetroForWTFCallback">delegateStartRetroForWTFCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li>
@@ -376,6 +379,7 @@
           <li data-type='method'><a href="module.html#.exports#handlePauseWTFWithDoItLaterEvent">handlePauseWTFWithDoItLaterEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleRunCommandEvent">handleRunCommandEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleStartRetroForWTFEvent">handleStartRetroForWTFEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
@@ -993,7 +997,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line382">line 382</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line422">line 422</a>
               </li>
             </ul>
           </dd>
@@ -1026,7 +1030,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line341">line 341</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line362">line 362</a>
               </li>
             </ul>
           </dd>
@@ -1089,7 +1093,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line300">line 300</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line321">line 321</a>
               </li>
             </ul>
           </dd>
@@ -1133,7 +1137,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line266">line 266</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line287">line 287</a>
               </li>
             </ul>
           </dd>
@@ -1177,7 +1181,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line248">line 248</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line269">line 269</a>
               </li>
             </ul>
           </dd>
@@ -1221,7 +1225,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line283">line 283</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line304">line 304</a>
               </li>
             </ul>
           </dd>
@@ -1265,7 +1269,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line319">line 319</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line340">line 340</a>
               </li>
             </ul>
           </dd>
@@ -1315,7 +1319,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line108">line 108</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line112">line 112</a>
               </li>
             </ul>
           </dd>
@@ -1346,7 +1350,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line207">line 207</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line228">line 228</a>
               </li>
             </ul>
           </dd>
@@ -1390,7 +1394,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line187">line 187</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line191">line 191</a>
               </li>
             </ul>
           </dd>
@@ -1434,12 +1438,56 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line169">line 169</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line173">line 173</a>
               </li>
             </ul>
           </dd>
         </dl>
         <div class="description usertext"> loads all of our participating circuits we have joined into our local database </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>scope</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+            <tr>
+              <td class="name"><code>callback</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Returns:</h5>
+        <dl class="param-type">
+          <dt> Type </dt>
+          <dd>
+            <span class="param-type"><a href="RendererClientEvent.html">RendererClientEvent</a></span>
+          </dd>
+        </dl>
+        <h4 class="name"
+            id=".loadAllMyRetroCircuits"><span class="type-signature">(static) </span>loadAllMyRetroCircuits<span class="signature">(scope, callback)</span><span class="type-signature"> &rarr; {<a href="RendererClientEvent.html">RendererClientEvent</a>}</span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line208">line 208</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> loads all of our retro circuits into our local database </div>
         <h5>Parameters:</h5>
         <table class="params">
           <thead>
@@ -1478,7 +1526,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line227">line 227</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line248">line 248</a>
               </li>
             </ul>
           </dd>
@@ -1528,12 +1576,62 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line360">line 360</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line381">line 381</a>
               </li>
             </ul>
           </dd>
         </dl>
         <div class="description usertext"> pauses the given circuit and sets the status to ON_HOLD which is also known as do it later. </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>circuitName</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+            <tr>
+              <td class="name"><code>scope</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+            <tr>
+              <td class="name"><code>callback</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Returns:</h5>
+        <dl class="param-type">
+          <dt> Type </dt>
+          <dd>
+            <span class="param-type"><a href="RendererClientEvent.html">RendererClientEvent</a></span>
+          </dd>
+        </dl>
+        <h4 class="name"
+            id=".startRetroForWTF"><span class="type-signature">(static) </span>startRetroForWTF<span class="signature">(circuitName, scope, callback)</span><span class="type-signature"> &rarr; {<a href="RendererClientEvent.html">RendererClientEvent</a>}</span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line404">line 404</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> starts a given retro for a given wtf circuit name. This begins the review process to see if we are going to actually perform a full retrospective. </div>
         <h5>Parameters:</h5>
         <table class="params">
           <thead>
@@ -1578,7 +1676,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line129">line 129</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line133">line 133</a>
               </li>
             </ul>
           </dd>
@@ -1622,7 +1720,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line147">line 147</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line151">line 151</a>
               </li>
             </ul>
           </dd>
@@ -1672,7 +1770,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line402">line 402</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line442">line 442</a>
               </li>
             </ul>
           </dd>

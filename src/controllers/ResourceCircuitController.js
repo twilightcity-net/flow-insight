@@ -25,6 +25,11 @@ export class ResourceCircuitController extends ActiveViewController {
         .VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE,
       this
     );
+    this.circuitStartRetroForWTFNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_START_RETRO_FOR_WTF,
+      this
+    );
   }
 
   /**
@@ -70,6 +75,13 @@ export class ResourceCircuitController extends ActiveViewController {
   }
 
   /**
+   * event notifier for when the user wants to start a retro for review
+   */
+  fireCircuitStartRetroForWTFNotifyEvent() {
+    this.circuitStartRetroForWTFNotifier.dispatch(1);
+  }
+
+  /**
    * Start a troubleshooting session by loading the new session into the browser
    */
   startCircuit = () => {
@@ -82,13 +94,6 @@ export class ResourceCircuitController extends ActiveViewController {
       this.browserController.makeRequest(request);
       this.fireCircuitStartNotifyEvent();
     });
-  };
-
-  /**
-   * handler for when we want to start a retro
-   */
-  retroActiveCircuitResource = () => {
-    console.log(this.name + " this active circuit - retro");
   };
 
   /**
@@ -123,5 +128,25 @@ export class ResourceCircuitController extends ActiveViewController {
       this.browserController.makeRequest(request);
       this.fireCircuitStopNotifyEvent();
     });
+  };
+
+  /**
+   * event handler that controls  how we start a retro for a wtf circuit. This should
+   * redirect the user to the retro for review screen, which asks a question.
+   * @param circuitName
+   */
+  startRetro = circuitName => {
+    CircuitClient.startRetroForWTF(
+      circuitName,
+      this,
+      arg => {
+        let request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.JOURNAL,
+          BrowserRequestFactory.Locations.ME
+        );
+        this.browserController.makeRequest(request);
+        this.fireCircuitStartRetroForWTFNotifyEvent();
+      }
+    );
   };
 }

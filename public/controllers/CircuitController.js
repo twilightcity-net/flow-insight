@@ -24,7 +24,7 @@ module.exports = class CircuitController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string}}
+   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -50,7 +50,8 @@ module.exports = class CircuitController extends BaseController {
         "get-circuit-with-all-details",
       CANCEL_WTF: "cancel-wtf",
       PAUSE_WTF_WITH_DO_IT_LATER:
-        "pause-wtf-with-do-it-later"
+        "pause-wtf-with-do-it-later",
+      START_RETRO_FOR_WTF: "start-retro-for-wtf"
     };
   }
 
@@ -167,6 +168,9 @@ module.exports = class CircuitController extends BaseController {
         case CircuitController.Events
           .PAUSE_WTF_WITH_DO_IT_LATER:
           this.handlePauseWTFWithDoItLaterEvent(event, arg);
+          break;
+        case CircuitController.Events.START_RETRO_FOR_WTF:
+          this.handleStartRetroForWTFEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -950,6 +954,62 @@ module.exports = class CircuitController extends BaseController {
         circuit = store.data;
 
       arg.data = circuit;
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * handles our event callback for when the user wants to start the retro review
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleStartRetroForWTFEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT_WTF +
+        CircuitController.Paths.SEPARATOR +
+        name +
+        CircuitController.Paths.RETRO;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.START_RETRO_FOR_WTF,
+      CircuitController.Types.POST,
+      urn,
+      store =>
+        this.delegateStartRetroForWTFCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * processes our callback for starting a retro review. This is a complex workflow
+   * which gridtime will trigger events based on various user events.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateStartRetroForWTFCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
     }
     this.delegateCallbackOrEventReplyTo(
       event,

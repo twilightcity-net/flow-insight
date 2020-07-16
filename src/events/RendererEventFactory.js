@@ -3,7 +3,7 @@ import { RendererEvent } from "./RendererEventManager";
 /**
  * This class is used as a helper class to store event names from
  * ./public/EventManager. When adding a new event make sure to update
- * the other file if you wish to listen to the events
+ * the other file if you wish to listen to the events.
  */
 export class RendererEventFactory {
   /**
@@ -19,8 +19,8 @@ export class RendererEventFactory {
   }
 
   /**
-   * static enum subclass to store event names
-   * @returns {{VIEW_CONSOLE_NOTIFICATIONS_PANEL: string, SCREENSHOT_READY_FOR_DISPLAY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, JOURNAL_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, TEAM_CIRCUIT_CLIENT: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, VIEW_CONSOLE_SIDEBAR_PANEL: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, VIEW_CONSOLE_CIRCUITS_PANEL: string, APP_PULSE: string, DATASTORE_LOAD: string, TEAM_CLIENT: string, VIEW_CONSOLE_SPIRIT_PANEL: string, TALK_TO_CLIENT: string, DATASTORE_LOADED: string, WINDOW_CONSOLE_BROWSER_REQUEST: string, APPLOADER_LOAD: string, VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE: string, MEMBER_CONTROLLER: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, SCREENSHOT_COMPLETE: string, WINDOW_ACTIVATOR_CLOSE: string, MEMBER_CLIENT: string, VIEW_CONSOLE_TEAM_PANEL: string, APP_LOADED: string, TERMINAL_CLIENT: string, VIEW_CONSOLE_CIRCUIT_START_STOP: string, SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: string}}
+   * static enum subclass to store event names.
+   * @returns {{VIEW_CONSOLE_NOTIFICATIONS_PANEL: string, SCREENSHOT_READY_FOR_DISPLAY: string, TALK_CONNECT_FAILED: string, READY_FOR_SCREENSHOT: string, CIRCUIT_CLIENT: string, JOURNAL_CLIENT: string, APP_HEARTBEAT: string, TALK_CONNECTED: string, TALK_JOIN_ROOM: string, APPACTIVATOR_ACTIVATION_SAVED: string, APP_QUIT: string, APPACTIVATOR_SAVE_ACTIVATION: string, TEAM_CIRCUIT_CLIENT: string, PREPARE_FOR_SCREENSHOT: string, WINDOW_LOADING_LOGIN_FAILED: string, VIEW_CONSOLE_SIDEBAR_PANEL: string, WINDOW_CONSOLE_SHOW_HIDE: string, TALK_MESSAGE_ROOM: string, WINDOW_CONSOLE_SHOWN: string, TALK_MESSAGE_CLIENT: string, VIEW_CONSOLE_CIRCUITS_PANEL: string, APP_PULSE: string, DATASTORE_LOAD: string, TEAM_CLIENT: string, VIEW_CONSOLE_SPIRIT_PANEL: string, TALK_TO_CLIENT: string, DATASTORE_LOADED: string, WINDOW_CONSOLE_BROWSER_REQUEST: string, APPLOADER_LOAD: string, VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE: string, VIEW_CONSOLE_CIRCUIT_START_RETRO_FOR_WTF: string, MEMBER_CONTROLLER: string, TALK_LEAVE_ROOM: string, WINDOW_CONSOLE_BROWSER_LOAD: string, SCREENSHOT_COMPLETE: string, WINDOW_ACTIVATOR_CLOSE: string, MEMBER_CLIENT: string, VIEW_CONSOLE_TEAM_PANEL: string, APP_LOADED: string, TERMINAL_CLIENT: string, VIEW_CONSOLE_CIRCUIT_START_STOP: string, SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW: string}}
    * @constructor
    */
   static get Events() {
@@ -70,6 +70,8 @@ export class RendererEventFactory {
         "view-console-circuit-start-stop",
       VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE:
         "view-console-circuit-pause-unpause",
+      VIEW_CONSOLE_CIRCUIT_START_RETRO_FOR_WTF:
+        "view-console-circuit-start-retro-for-wtf",
       APPACTIVATOR_SAVE_ACTIVATION:
         prefix + "appactivator-save-activation",
       APPACTIVATOR_ACTIVATION_SAVED:

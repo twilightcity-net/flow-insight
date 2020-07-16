@@ -80,8 +80,10 @@
           <li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.loadAllMyRetroCircuits">loadAllMyRetroCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.startRetroForWTF">startRetroForWTF</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li>
           <li data-type='method'><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></li>
@@ -284,6 +286,7 @@
           <li data-type='method'><a href="module.html#.exports#delegatePauseWTFWithDoItLaterCallback">delegatePauseWTFWithDoItLaterCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateStartRetroForWTFCallback">delegateStartRetroForWTFCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li>
@@ -376,6 +379,7 @@
           <li data-type='method'><a href="module.html#.exports#handlePauseWTFWithDoItLaterEvent">handlePauseWTFWithDoItLaterEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleRunCommandEvent">handleRunCommandEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleStartRetroForWTFEvent">handleStartRetroForWTFEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
@@ -935,6 +939,11 @@ export class ResourceCircuitController extends ActiveViewController {
         .VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE,
       this
     );
+    this.circuitStartRetroForWTFNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_START_RETRO_FOR_WTF,
+      this
+    );
   }
 
   /**
@@ -980,6 +989,13 @@ export class ResourceCircuitController extends ActiveViewController {
   }
 
   /**
+   * event notifier for when the user wants to start a retro for review
+   */
+  fireCircuitStartRetroForWTFNotifyEvent() {
+    this.circuitStartRetroForWTFNotifier.dispatch(1);
+  }
+
+  /**
    * Start a troubleshooting session by loading the new session into the browser
    */
   startCircuit = () => {
@@ -992,13 +1008,6 @@ export class ResourceCircuitController extends ActiveViewController {
       this.browserController.makeRequest(request);
       this.fireCircuitStartNotifyEvent();
     });
-  };
-
-  /**
-   * handler for when we want to start a retro
-   */
-  retroActiveCircuitResource = () => {
-    console.log(this.name + " this active circuit - retro");
   };
 
   /**
@@ -1033,6 +1042,26 @@ export class ResourceCircuitController extends ActiveViewController {
       this.browserController.makeRequest(request);
       this.fireCircuitStopNotifyEvent();
     });
+  };
+
+  /**
+   * event handler that controls  how we start a retro for a wtf circuit. This should
+   * redirect the user to the retro for review screen, which asks a question.
+   * @param circuitName
+   */
+  startRetro = circuitName => {
+    CircuitClient.startRetroForWTF(
+      circuitName,
+      this,
+      arg => {
+        let request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.JOURNAL,
+          BrowserRequestFactory.Locations.ME
+        );
+        this.browserController.makeRequest(request);
+        this.fireCircuitStartRetroForWTFNotifyEvent();
+      }
+    );
   };
 }
 </code></pre>

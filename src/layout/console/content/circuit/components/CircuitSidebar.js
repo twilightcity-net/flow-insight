@@ -54,7 +54,8 @@ export default class CircuitSidebar extends Component {
    * click handler for starting a retro
    */
   onClickRetroActiveCircuit = () => {
-    this.myController.retroActiveCircuitResource();
+    let circuitName = this.props.model.circuitName;
+    this.myController.startRetro(circuitName);
   };
 
   /**
