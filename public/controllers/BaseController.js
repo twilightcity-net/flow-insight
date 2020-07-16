@@ -6,13 +6,13 @@ const log = require("electron-log"),
   DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
- * This class is used to coordinate controllers across the app classes
+ * This class is used to coordinate controllers across the app classes.
  * @type {BaseController}
  */
 module.exports = class BaseController {
   /**
-   * Retrieves path information for various urls used with gridtime
-   * @returns {{PARTICIPATING: string, ACTIVE: string, CHAT: string, WTF: string, JOIN: string, TALK: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
+   * Retrieves path information for various urls used with gridtime.
+   * @returns {{PARTICIPATING: string, ACTIVE: string, CHAT: string, WTF: string, JOIN: string, TALK: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, RETRO: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -25,6 +25,7 @@ module.exports = class BaseController {
       CIRCUIT_WTF: "/circuit/wtf",
       PARTICIPATING: "/participating",
       DO_IT_LATER: "/doitlater",
+      RETRO: "/retro",
       PROJECT: "/project",
       TASK: "/task",
       ACTIVE: "/active",
@@ -128,7 +129,7 @@ module.exports = class BaseController {
 
   /**
    * define the names of our controllers functions for gridtime
-   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, PAUSE_WTF_WITH_DO_IT_LATER: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_PROJECT: string, FIND_OR_CREATE_TASK: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
+   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, PAUSE_WTF_WITH_DO_IT_LATER: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_PROJECT: string, FIND_OR_CREATE_TASK: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
    * @constructor
    */
   static get Names() {
@@ -140,6 +141,7 @@ module.exports = class BaseController {
         "getAllMyParticipatingCircuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS:
         "getAllMyDoItLaterCircuits",
+      GET_ALL_MY_RETRO_CIRCUITS: "getAllMyRetroCircuits",
       GET_ACTIVE_CIRCUIT: "getActiveCircuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "getCircuitWithAllDetails",

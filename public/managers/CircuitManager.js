@@ -29,6 +29,11 @@ module.exports = class CircuitManager {
       {},
       () => this.handleInitCallback(callback)
     );
+    CircuitController.instance.handleLoadAllMyRetroCircuitsEvent(
+      null,
+      {},
+      () => this.handleInitCallback(callback)
+    );
     CircuitController.instance.handleLoadActiveCircuitEvent(
       null,
       {},
@@ -42,7 +47,7 @@ module.exports = class CircuitManager {
    */
   handleInitCallback(callback) {
     this.loadCount++;
-    if (callback && this.loadCount === 3) {
+    if (callback && this.loadCount === 4) {
       callback();
     }
   }

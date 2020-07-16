@@ -7,7 +7,7 @@ import { CircuitClient } from "../clients/CircuitClient";
 export class BrowserRequestFactory {
   /**
    * the possible types of request we have
-   * @returns {{ACTIVE_CIRCUIT: string, BROWSER: string, JOURNAL: string, FLOW: string, TROUBLESHOOT: string}}
+   * @returns {{ACTIVE_CIRCUIT: string, TERMINAL: string, BROWSER: string, RETRO_CIRCUIT: string, JOURNAL: string, ERROR: string, COMMAND: string, TEAM: string, DO_IT_LATER_CIRCUIT: string, FLOW: string, TROUBLESHOOT: string}}
    * @constructor
    */
   static get Requests() {
@@ -21,6 +21,7 @@ export class BrowserRequestFactory {
       FLOW: "flow",
       ACTIVE_CIRCUIT: "active-circuit",
       DO_IT_LATER_CIRCUIT: "do-it-later-circuit",
+      RETRO_CIRCUIT: "retro-circuit",
       TEAM: "team"
     };
   }
@@ -76,7 +77,7 @@ export class BrowserRequestFactory {
 
   /**
    * the possible locations we can use
-   * @returns {{ACTIVE: string, JOURNAL: string, WTF: string, ME: string, ROOM: string, CIRCUIT: string}}
+   * @returns {{TERMINAL: string, ACTIVE: string, JOURNAL: string, WTF: string, ME: string, RETRO: string, ROOM: string, FLOW: string, CIRCUIT: string}}
    * @constructor
    */
   static get Locations() {
@@ -86,6 +87,7 @@ export class BrowserRequestFactory {
       JOURNAL: "journal",
       FLOW: "flow",
       WTF: "wtf",
+      RETRO: "retro",
       ROOM: "room",
       ACTIVE: "active",
       ME: "me"
@@ -149,6 +151,10 @@ export class BrowserRequestFactory {
         case BrowserRequestFactory.Requests
           .DO_IT_LATER_CIRCUIT:
           return BrowserRequestFactory._getDoItLaterCircuitRequest(
+            args[0]
+          );
+        case BrowserRequestFactory.Requests.RETRO_CIRCUIT:
+          return BrowserRequestFactory._getRetroCircuitRequest(
             args[0]
           );
         case BrowserRequestFactory.Requests.JOURNAL:
@@ -368,7 +374,32 @@ export class BrowserRequestFactory {
       );
     } else {
       throw new Error(
-        "request: active circuit requires 1 argument, circuitName"
+        "request: do it later circuit requires 1 argument, circuitName"
+      );
+    }
+  }
+
+  /**
+   * loads our retro circuits. pretty much the same as the active circuits
+   * @param circuitName
+   * @returns {string}
+   * @private
+   */
+  static _getRetroCircuitRequest(circuitName) {
+    if (circuitName) {
+      return (
+        BrowserRequestFactory.Commands.OPEN +
+        BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
+        BrowserRequestFactory.Locations.CIRCUIT +
+        BrowserRequestFactory.PATH_SEPARATOR +
+        BrowserRequestFactory.Locations.RETRO +
+        BrowserRequestFactory.PATH_SEPARATOR +
+        circuitName
+      );
+    } else {
+      throw new Error(
+        "request: retro circuit requires 1 argument, circuitName"
       );
     }
   }

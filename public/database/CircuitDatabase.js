@@ -19,7 +19,7 @@ module.exports = class CircuitDatabase extends LokiJS {
 
   /**
    * the collections of our database
-   * @returns {{CIRCUITS: string, LATER: string, PARTICIPATING: string, ACTIVE: string, TEAM_CIRCUITS: string}}
+   * @returns {{CIRCUITS: string, LATER: string, PARTICIPATING: string, ACTIVE: string, TEAM_CIRCUITS: string, RETRO: string}}
    * @constructor
    */
   static get Collections() {
@@ -27,6 +27,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       CIRCUITS: "circuits",
       PARTICIPATING: "participating",
       LATER: "later",
+      RETRO: "retro",
       ACTIVE: "active",
       TEAM_CIRCUITS: "team-circuits"
     };
@@ -34,7 +35,7 @@ module.exports = class CircuitDatabase extends LokiJS {
 
   /**
    * the views of our database for queries
-   * @returns {{CIRCUITS: string, LATER: string, PARTICIPATING: string, ACTIVE: string, TEAM_CIRCUITS: string}}
+   * @returns {{CIRCUITS: string, LATER: string, PARTICIPATING: string, ACTIVE: string, TEAM_CIRCUITS: string, RETRO: string}}
    * @constructor
    */
   static get Views() {
@@ -42,6 +43,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       CIRCUITS: "circuits",
       PARTICIPATING: "participating",
       LATER: "later",
+      RETRO: "retro",
       ACTIVE: "active",
       TEAM_CIRCUITS: "team-circuits"
     };
@@ -112,6 +114,16 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
+    this.addCollection(CircuitDatabase.Collections.RETRO, {
+      indices: [
+        CircuitDatabase.Indices.ID,
+        CircuitDatabase.Indices.CIRCUIT_NAME,
+        CircuitDatabase.Indices.OWNER_ID,
+        CircuitDatabase.Indices.OPEN_TIME,
+        CircuitDatabase.Indices.CLOSE_TIME,
+        CircuitDatabase.Indices.CIRCUIT_STATE
+      ]
+    });
     this.addCollection(CircuitDatabase.Collections.ACTIVE, {
       indices: [
         CircuitDatabase.Indices.ID,
@@ -145,6 +157,9 @@ module.exports = class CircuitDatabase extends LokiJS {
     this.getCollection(
       CircuitDatabase.Collections.LATER
     ).addDynamicView(CircuitDatabase.Views.LATER);
+    this.getCollection(
+      CircuitDatabase.Collections.RETRO
+    ).addDynamicView(CircuitDatabase.Views.RETRO);
     this.getCollection(
       CircuitDatabase.Collections.ACTIVE
     ).addDynamicView(CircuitDatabase.Views.ACTIVE);
@@ -189,6 +204,20 @@ module.exports = class CircuitDatabase extends LokiJS {
     );
     return collection.getDynamicView(
       CircuitDatabase.Views.LATER
+    );
+  }
+
+  /**
+   * gets our view for our circuits that are on waiting to be
+   * reviewed for retro.
+   * @returns {DynamicView}
+   */
+  getViewAllMyRetroCircuits() {
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.RETRO
+    );
+    return collection.getDynamicView(
+      CircuitDatabase.Views.RETRO
     );
   }
 

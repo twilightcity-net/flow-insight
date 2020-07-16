@@ -118,7 +118,7 @@ export class SidePanelViewController extends ActiveViewController {
 
   /**
    * enum list of the possible menu types of the console sidebar
-   * @returns {{CIRCUITS: string, TEAM: string, SPIRIT: string, NOTIFICATIONS: string, NONE: string}}
+   * @returns {{CIRCUITS: string, WTF: string, SPIRIT: string, TEAM: string, NOTIFICATIONS: string, NONE: string}}
    * @constructor
    */
   static get MenuSelection() {
@@ -134,7 +134,7 @@ export class SidePanelViewController extends ActiveViewController {
 
   /**
    * enum list of the possible sub menu types of the console sidebar
-   * @returns {{BADGES: string, DO_IT_LATER_CIRCUITS: string, PARTICIPATING_CIRCUITS: string, SPIRIT: string, TEAM: string}}
+   * @returns {{BADGES: string, DO_IT_LATER_CIRCUITS: string, PARTICIPATING_CIRCUITS: string, TEAMS: string, SPIRIT: string, RETRO_CIRCUITS: string, NOTIFICATIONS: string}}
    * @constructor
    */
   static get SubmenuSelection() {
@@ -144,6 +144,7 @@ export class SidePanelViewController extends ActiveViewController {
       TEAMS: "teams",
       PARTICIPATING_CIRCUITS: "my-circuits",
       DO_IT_LATER_CIRCUITS: "do-it-later-circuits",
+      RETRO_CIRCUITS: "retro-circuits",
       NOTIFICATIONS: "notifications"
     };
   }
@@ -236,19 +237,6 @@ export class SidePanelViewController extends ActiveViewController {
     );
   }
 
-  /**
-   * perspective controller listener which is notified when the console content
-   * changes
-   * @param scope
-   * @param callback
-   */
-  configurePerspectiveControllerListener(scope, callback) {
-    this.perspectiveControllerListener.updateCallback(
-      scope,
-      callback
-    );
-  }
-
   configureHeartbeatListener(scope, callback) {
     this.heartbeatListener.updateCallback(scope, callback);
   }
@@ -290,14 +278,6 @@ export class SidePanelViewController extends ActiveViewController {
    */
   fireCircuitsPanelNotifyEvent() {
     this.circuitsPanelChangeNotifier.dispatch({});
-  }
-
-  /**
-   * returns true if the console sidebar is showing
-   * @returns {boolean}
-   */
-  isVisible() {
-    return this.show;
   }
 
   /**
@@ -367,14 +347,15 @@ export class SidePanelViewController extends ActiveViewController {
     this.fireSpiritPanelNotifyEvent();
   }
 
-  /**
-   * function called when we wish to change the content of the team panel
-   * @param submenuItem
-   */
-  changeActiveTeamSubmenuPanel(submenuItem) {
-    this.activeTeamSubmenuSelection = submenuItem;
-    this.fireTeamPanelNotifyEvent();
-  }
+  /// TODO support multiple teams, below previous bad way, don't do this way.
+  // /**
+  //  * function called when we wish to change the content of the team panel
+  //  * @param submenuItem
+  //  */
+  // changeActiveTeamSubmenuPanel(submenuItem) {
+  //   this.activeTeamSubmenuSelection = submenuItem;
+  //   this.fireTeamPanelNotifyEvent();
+  // }
 
   /**
    * function called when we wish to change the content of the circuits panel

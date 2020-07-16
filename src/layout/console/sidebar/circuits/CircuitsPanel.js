@@ -10,17 +10,20 @@ import { RendererControllerFactory } from "../../../../controllers/RendererContr
 import { DimensionController } from "../../../../controllers/DimensionController";
 import ActiveCircuitListItem from "./ActiveCircuitListItem";
 import DoItLaterCircuitListItem from "./DoItLaterCircuitListItem";
+import RetroCircuitListItem from "./RetroCircuitListItem";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 import { CircuitClient } from "../../../../clients/CircuitClient";
 import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 
 /**
- * renders the circuit navigator panels in the gui
+ * The Circuits Panel is a react component that is used primarily by the
+ * console sidebar. This panel is used to display relavant circuits
+ * to the user. This panel is dynamically updated with a few renderer events.
  * @type {CircuitsPanel}
  */
 export default class CircuitsPanel extends Component {
   /**
-   * builds the circuit navigator panel
+   * builds the circuit navigator panel.
    * @param props
    */
   constructor(props) {
@@ -32,6 +35,7 @@ export default class CircuitsPanel extends Component {
           .PARTICIPATING_CIRCUITS,
       participatingCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
+      retroCircuitsVisible: false,
       title: ""
     };
     this.myController = RendererControllerFactory.getViewController(
@@ -43,14 +47,16 @@ export default class CircuitsPanel extends Component {
       SidePanelViewController.AnimationDelays.SUBMENU;
     this.selections = {
       activeCircuitComponent: null,
-      doItLaterCircuitComponent: null
+      doItLaterCircuitComponent: null,
+      retroCircuitComponent: null
     };
     this.activeCircuits = [];
     this.doItLaterCircuits = [];
+    this.retroCircuits = [];
   }
 
   /**
-   * event handler for our circuits sub menu click
+   * event handler for our circuits sub menu click.
    * @param e
    * @param name
    */
@@ -62,7 +68,7 @@ export default class CircuitsPanel extends Component {
 
   /**
    * called we are rendering this component into view. This will ask the circuit manager
-   * in the main process for new circuit data
+   * in the main process for new circuit data.
    */
   componentDidMount() {
     this.circuitStartStopListener = RendererEventFactory.createEvent(
@@ -86,7 +92,7 @@ export default class CircuitsPanel extends Component {
 
   /**
    * called when we remove this circuit from view. this clears the listeners for proper
-   * memory management
+   * memory management.
    */
   componentWillUnmount() {
     this.circuitStartStopListener.updateCallback(
@@ -137,6 +143,10 @@ export default class CircuitsPanel extends Component {
         .DO_IT_LATER_CIRCUITS:
         this.showDoItLaterCircuitsPanel();
         break;
+      case SidePanelViewController.SubmenuSelection
+        .RETRO_CIRCUITS:
+        this.showRetroCircuitsPanel();
+        break;
       default:
         throw new Error("Unknown circuits panel menu item");
     }
@@ -151,7 +161,8 @@ export default class CircuitsPanel extends Component {
         SidePanelViewController.SubmenuSelection
           .PARTICIPATING_CIRCUITS,
       participatingCircuitsVisible: true,
-      doItLaterCircuitsVisible: false
+      doItLaterCircuitsVisible: false,
+      retroCircuitVisible: false
     });
     CircuitClient.getAllMyParticipatingCircuits(
       this,
@@ -172,10 +183,33 @@ export default class CircuitsPanel extends Component {
         SidePanelViewController.SubmenuSelection
           .DO_IT_LATER_CIRCUITS,
       participatingCircuitsVisible: false,
-      doItLaterCircuitsVisible: true
+      doItLaterCircuitsVisible: true,
+      retroCircuitVisible: false
     });
     CircuitClient.getAllMyDoItLaterCircuits(this, arg => {
       this.doItLaterCircuits = arg.data;
+      this.forceUpdate();
+    });
+  }
+
+  /**
+   * displays the retro circuits panel in the console sidebar gui
+   */
+  showRetroCircuitsPanel() {
+    this.setState({
+      activeItem:
+        SidePanelViewController.SubmenuSelection
+          .RETRO_CIRCUITS,
+      participatingCircuitsVisible: false,
+      doItLaterCircuitsVisible: false,
+      retroCircuitVisible: true
+    });
+
+    console.log("show retro");
+
+    CircuitClient.getAllMyRetroCircuits(this, arg => {
+      console.log("ARG", arg);
+      this.retroCircuits = arg.data;
       this.forceUpdate();
     });
   }
@@ -198,6 +232,12 @@ export default class CircuitsPanel extends Component {
     this.selections.doItLaterCircuitComponent = component;
     let circuitName = component.props.model.circuitName;
     this.requestBrowserToLoadDoItLaterCircuit(circuitName);
+  };
+
+  handleClickRetroCircuit = component => {
+    this.selections.retroCircuitComponent = component;
+    let circuitName = component.props.model.circuitName;
+    this.requestBrowserToLoadRetroCircuit(circuitName);
   };
 
   /**
@@ -225,9 +265,22 @@ export default class CircuitsPanel extends Component {
   }
 
   /**
+   * generates a browser request object from a gieven circuit name
+   * @param circuitName
+   */
+  requestBrowserToLoadRetroCircuit(circuitName) {
+    let request = BrowserRequestFactory.createRequest(
+      BrowserRequestFactory.Requests.RETRO_CIRCUIT,
+      circuitName
+    );
+    this.myController.makeSidebarBrowserRequest(request);
+  }
+
+  /**
    * get our active circuits content to render in the gui
    * @returns {*}
    */
+  /// TODO refactor component ActiveCircuitListItem to ParticipatingCircuitListItem
   getParticipatingCircuitsContent = () => {
     return (
       <div className="participatingCircuitsContent">
@@ -272,8 +325,37 @@ export default class CircuitsPanel extends Component {
             <DoItLaterCircuitListItem
               key={model.id}
               model={model}
-              onDoItCircuitListItemClick={
+              onDoItLaterCircuitListItemClick={
                 this.handleClickDoItLaterCircuit
+              }
+            />
+          ))}
+        </List>
+      </div>
+    );
+  };
+
+  /**
+   * builds our retro content panel for render() in the gui
+   * @returns {*}
+   */
+  getRetroCircuitsContent = () => {
+    return (
+      <div className="retroCircuitsContent">
+        <List
+          inverted
+          divided
+          celled
+          animated
+          verticalAlign="middle"
+          size="large"
+        >
+          {this.retroCircuits.map(model => (
+            <RetroCircuitListItem
+              key={model.id}
+              model={model}
+              onRetroCircuitListItemClick={
+                this.handleClickRetroCircuit
               }
             />
           ))}
@@ -326,6 +408,18 @@ export default class CircuitsPanel extends Component {
               }
               onClick={this.handleCircuitSubmenuClick}
             />
+            <Menu.Item
+              name={
+                SidePanelViewController.SubmenuSelection
+                  .RETRO_CIRCUITS
+              }
+              active={
+                activeItem ===
+                SidePanelViewController.SubmenuSelection
+                  .RETRO_CIRCUITS
+              }
+              onClick={this.handleCircuitSubmenuClick}
+            />
           </Menu>
           <Segment
             inverted
@@ -351,6 +445,14 @@ export default class CircuitsPanel extends Component {
               unmountOnHide
             >
               {this.getDoItLaterCircuitsContent()}
+            </Transition>
+            <Transition
+              visible={this.state.retroCircuitsVisible}
+              animation={this.animationType}
+              duration={this.animationDelay}
+              unmountOnHide
+            >
+              {this.getRetroCircuitsContent()}
             </Transition>
           </Segment>
         </Segment.Group>

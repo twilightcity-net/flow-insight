@@ -71,7 +71,7 @@ export class CircuitClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string}}
+   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string}}
    * @constructor
    */
   static get Events() {
@@ -90,6 +90,8 @@ export class CircuitClient extends BaseClient {
         "get-all-my-participating-circuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS:
         "get-all-my-do-it-later-circuits",
+      GET_ALL_MY_RETRO_CIRCUITS:
+        "get-all-my-retro-circuits",
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
@@ -264,6 +266,23 @@ export class CircuitClient extends BaseClient {
   static getAllMyDoItLaterCircuits(scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.GET_ALL_MY_DO_IT_LATER_CIRCUITS,
+      {},
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
+   * gets all of our circuits that are on hold we are part of
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getAllMyRetroCircuits(scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.GET_ALL_MY_RETRO_CIRCUITS,
       {},
       scope,
       callback

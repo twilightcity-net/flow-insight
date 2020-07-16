@@ -28,7 +28,7 @@ export default class DoItLaterCircuitListItem extends Component {
    * click handler for our do it later component
    */
   handleClick = () => {
-    this.props.onDoItCircuitListItemClick(this);
+    this.props.onDoItLaterCircuitListItemClick(this);
     this.setState({
       isSelected: true
     });

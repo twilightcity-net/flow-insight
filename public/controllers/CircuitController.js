@@ -12,6 +12,7 @@ module.exports = class CircuitController extends BaseController {
   /**
    * builds our static Circuit controller which interfaces mainly with our local database
    * @param scope
+   * @constructor
    */
   constructor(scope) {
     super(scope, CircuitController);
@@ -23,7 +24,7 @@ module.exports = class CircuitController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string}}
+   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string}}
    * @constructor
    */
   static get Events() {
@@ -42,6 +43,8 @@ module.exports = class CircuitController extends BaseController {
         "get-all-my-participating-circuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS:
         "get-all-my-do-it-later-circuits",
+      GET_ALL_MY_RETRO_CIRCUITS:
+        "get-all-my-retro-circuits",
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
@@ -113,6 +116,13 @@ module.exports = class CircuitController extends BaseController {
             arg
           );
           break;
+        case CircuitController.Events
+          .LOAD_ALL_MY_RETRO_CIRCUITS:
+          this.handleLoadAllMyRetroCircuitsEvent(
+            event,
+            arg
+          );
+          break;
         case CircuitController.Events.LOAD_ACTIVE_CIRCUIT:
           this.handleLoadActiveCircuitEvent(event, arg);
           break;
@@ -136,6 +146,10 @@ module.exports = class CircuitController extends BaseController {
             event,
             arg
           );
+          break;
+        case CircuitController.Events
+          .GET_ALL_MY_RETRO_CIRCUITS:
+          this.handleGetAllMyRetroCircuitsEvent(event, arg);
           break;
         case CircuitController.Events.GET_ACTIVE_CIRCUIT:
           this.handleGetActiveCircuitEvent(event, arg);
@@ -349,7 +363,7 @@ module.exports = class CircuitController extends BaseController {
   }
 
   /**
-   * handles loading our participating circuits into our local databse
+   * handles loading our do it later circuits into our local database.
    * @param event
    * @param arg
    * @param callback
@@ -405,6 +419,71 @@ module.exports = class CircuitController extends BaseController {
           CircuitDatabase.Collections.LATER
         );
 
+      this.updateCircuitsByIdInCollection(
+        store.data,
+        collection
+      );
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * handles loading our retro circuits into our local database
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleLoadAllMyRetroCircuitsEvent(event, arg, callback) {
+    let urn =
+      CircuitController.Paths.CIRCUIT +
+      CircuitController.Paths.SEPARATOR +
+      CircuitController.Strings.MY +
+      CircuitController.Paths.RETRO;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.GET_ALL_MY_RETRO_CIRCUITS,
+      CircuitController.Types.GET,
+      urn,
+      store =>
+        this.delegateLoadAllMyRetroCircuitsCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * handles our dto callback from our rest client
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateLoadAllMyRetroCircuitsCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let database = DatabaseFactory.getDatabase(
+          DatabaseFactory.Names.CIRCUIT
+        ),
+        collection = database.getCollection(
+          CircuitDatabase.Collections.RETRO
+        );
+
+      console.log("STORE.DATA", store.data);
       this.updateCircuitsByIdInCollection(
         store.data,
         collection
@@ -606,6 +685,32 @@ module.exports = class CircuitController extends BaseController {
         DatabaseFactory.Names.CIRCUIT
       ),
       view = database.getViewAllMyDoItLaterCircuits();
+
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      view.count()
+    );
+    arg.data = view.data();
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * performs a get query to find any circuit that is in our do it later collection
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetAllMyRetroCircuitsEvent(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.CIRCUIT
+      ),
+      view = database.getViewAllMyRetroCircuits();
 
     this.logResults(
       this.name,
