@@ -46,6 +46,7 @@
           <li data-type='method'><a href="BaseClient.html#logReply">logReply</a></li>
         </ul>
       </li>
+      <li><a href="BaseClient.CircuitStates.html">CircuitStates</a></li>
       <li><a href="BaseClient.Errors.html">Errors</a></li>
       <li><a href="BaseClient.MessageTypes.html">MessageTypes</a></li>
       <li><a href="BaseClient.Strings.html">Strings</a></li>
@@ -828,10 +829,12 @@
       <li><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></li>
       <li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li>
       <li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li>
+      <li><a href="global.html#getPauseResumeButtonContent">getPauseResumeButtonContent</a></li>
       <li><a href="global.html#getPopupContent">getPopupContent</a></li>
       <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
       <li><a href="global.html#getProjectDropdown">getProjectDropdown</a></li>
       <li><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></li>
+      <li><a href="global.html#getRetroActiveCircuitButtonContent">getRetroActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
       <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
       <li><a href="global.html#getTaskCellContent">getTaskCellContent</a></li>
@@ -854,6 +857,7 @@
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
+      <li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
       <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
@@ -965,6 +969,14 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
+   * make sure we remove any static timers which are used to update the wtf
+   * time on the gui
+   */
+  componentWillUnmount() {
+    UtilRenderer.clearIntervalTimer(this.openTimeTimer);
+  }
+
+  /**
    * click handler for starting a retro
    */
   onClickRetroActiveCircuit = () => {
@@ -978,6 +990,14 @@ export default class CircuitSidebar extends Component {
   onClickPauseActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
     this.myController.pauseCircuit(circuitName);
+  };
+
+  /**
+   * click handler for putting a circuit on hold
+   */
+  onClickResumeActiveCircuit = () => {
+    let circuitName = this.props.model.circuitName;
+    this.myController.resumeCircuit(circuitName);
   };
 
   /**
@@ -1142,14 +1162,6 @@ export default class CircuitSidebar extends Component {
     return UtilRenderer.getWtfTimerStringFromOpenTime(
       this.openTime
     );
-  }
-
-  /**
-   * make sure we remove any static timers which are used to update the wtf
-   * time on the gui
-   */
-  componentWillUnmount() {
-    UtilRenderer.clearIntervalTimer(this.openTimeTimer);
   }
 
   /**
@@ -1334,6 +1346,67 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
+   * renders our pause resume button for the gui
+   * @returns {*}
+   */
+  getPauseResumeButtonContent() {
+    let circuit = this.props.model;
+    if (circuit &amp;&amp; UtilRenderer.isCircuitPaused(circuit)) {
+      return (
+        &lt;Button
+          onClick={this.onClickResumeActiveCircuit}
+          size="medium"
+          color="violet"
+        >
+          &lt;Button.Content>resume&lt;/Button.Content>
+        &lt;/Button>
+      );
+    } else if (
+      circuit &amp;&amp;
+      !UtilRenderer.isCircuitPaused(circuit)
+    ) {
+      return (
+        &lt;Button
+          onClick={this.onClickPauseActiveCircuit}
+          size="medium"
+          color="grey"
+        >
+          &lt;Button.Content>pause&lt;/Button.Content>
+        &lt;/Button>
+      );
+    }
+    return (
+      &lt;Button size="medium" color="grey" disabled>
+        &lt;Button.Content>pause&lt;/Button.Content>
+      &lt;/Button>
+    );
+  }
+
+  /**
+   * renders our solved button for the gui. disables the button if it is paused
+   * @returns {*}
+   */
+  getRetroActiveCircuitButtonContent() {
+    let circuit = this.props.model;
+    if (circuit &amp;&amp; !UtilRenderer.isCircuitPaused(circuit)) {
+      return (
+        &lt;Button
+          onClick={this.onClickRetroActiveCircuit}
+          size="medium"
+          color="violet"
+        >
+          &lt;Button.Content>solved!&lt;/Button.Content>
+        &lt;/Button>
+      );
+    }
+    return (
+      &lt;Button size="medium" color="grey" disabled>
+        &lt;Button.Content>solved!&lt;/Button.Content>
+      &lt;/Button>
+    );
+  }
+
+  /**
    * renders the circuit sidebar actions segment
    * @returns {*}
    */
@@ -1349,22 +1422,10 @@ export default class CircuitSidebar extends Component {
         &lt;Grid columns="equal" inverted>
           &lt;Grid.Row stretched verticalAlign="middle">
             &lt;Grid.Column>
-              &lt;Button
-                onClick={this.onClickRetroActiveCircuit}
-                size="medium"
-                color="purple"
-              >
-                &lt;Button.Content>solved&lt;/Button.Content>
-              &lt;/Button>
+              {this.getRetroActiveCircuitButtonContent()}
             &lt;/Grid.Column>
             &lt;Grid.Column>
-              &lt;Button
-                onClick={this.onClickPauseActiveCircuit}
-                size="medium"
-                color="grey"
-              >
-                &lt;Button.Content>pause&lt;/Button.Content>
-              &lt;/Button>
+              {this.getPauseResumeButtonContent()}
             &lt;/Grid.Column>
             &lt;Grid.Column>
               &lt;Button

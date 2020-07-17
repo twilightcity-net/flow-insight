@@ -275,6 +275,18 @@ export default class UtilRenderer {
   }
 
   /**
+   * checks a circuit to see if its state is onhold (paused)
+   * @param circuit
+   * @returns {boolean}
+   */
+  static isCircuitPaused(circuit) {
+    return (
+      circuit.circuitState ===
+      BaseClient.CircuitStates.ON_HOLD
+    );
+  }
+
+  /**
    * gets a unique id in a ISO GUID format based off random number
    * @returns {string}
    */

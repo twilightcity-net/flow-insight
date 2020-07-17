@@ -46,6 +46,7 @@
           <li data-type='method'><a href="BaseClient.html#logReply">logReply</a></li>
         </ul>
       </li>
+      <li><a href="BaseClient.CircuitStates.html">CircuitStates</a></li>
       <li><a href="BaseClient.Errors.html">Errors</a></li>
       <li><a href="BaseClient.MessageTypes.html">MessageTypes</a></li>
       <li><a href="BaseClient.Strings.html">Strings</a></li>
@@ -828,10 +829,12 @@
       <li><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></li>
       <li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li>
       <li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li>
+      <li><a href="global.html#getPauseResumeButtonContent">getPauseResumeButtonContent</a></li>
       <li><a href="global.html#getPopupContent">getPopupContent</a></li>
       <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
       <li><a href="global.html#getProjectDropdown">getProjectDropdown</a></li>
       <li><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></li>
+      <li><a href="global.html#getRetroActiveCircuitButtonContent">getRetroActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
       <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
       <li><a href="global.html#getTaskCellContent">getTaskCellContent</a></li>
@@ -854,6 +857,7 @@
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
+      <li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
       <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
@@ -934,9 +938,9 @@ export class ResourceCircuitController extends ActiveViewController {
         .VIEW_CONSOLE_CIRCUIT_START_STOP,
       this
     );
-    this.circuitPauseUnpauseNotifier = RendererEventFactory.createEvent(
+    this.circuitPauseResumeNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE,
+        .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
       this
     );
     this.circuitStartRetroForWTFNotifier = RendererEventFactory.createEvent(
@@ -977,15 +981,15 @@ export class ResourceCircuitController extends ActiveViewController {
    * dispatching 1 to the event in the buss.
    */
   fireCircuitPauseNotifyEvent() {
-    this.circuitPauseUnpauseNotifier.dispatch(1);
+    this.circuitPauseResumeNotifier.dispatch(1);
   }
 
   /**
    * notifies the systme that we should resume the active circuit by dispatching
    * the value -1 to the event.
    */
-  fireCircuitUnpauseNotifyEvent() {
-    this.circuitPauseUnpauseNotifier.dispatch(-1);
+  fireCircuitResumeNotifyEvent() {
+    this.circuitPauseResumeNotifier.dispatch(-1);
   }
 
   /**
@@ -1027,6 +1031,12 @@ export class ResourceCircuitController extends ActiveViewController {
         this.fireCircuitPauseNotifyEvent();
       }
     );
+  };
+
+  resumeCircuit = circuitName => {
+    CircuitClient.resumeWTF(circuitName, this, arg => {
+      this.fireCircuitResumeNotifyEvent();
+    });
   };
 
   /**

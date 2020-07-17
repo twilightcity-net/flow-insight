@@ -77,11 +77,11 @@ export default class CircuitsPanel extends Component {
       this,
       this.onCircuitStartStop
     );
-    this.circuitPauseUnpauseListener = RendererEventFactory.createEvent(
+    this.circuitPauseResumeListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE,
+        .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
       this,
-      this.onCircuitPauseUnpause
+      this.onCircuitPauseResume
     );
     this.myController.configureCircuitsPanelListener(
       this,
@@ -99,7 +99,7 @@ export default class CircuitsPanel extends Component {
       this,
       null
     );
-    this.circuitPauseUnpauseListener.updateCallback(
+    this.circuitPauseResumeListener.updateCallback(
       this,
       null
     );
@@ -120,11 +120,11 @@ export default class CircuitsPanel extends Component {
   };
 
   /**
-   * event handler that is called when we pause or unpause a circuit.
+   * event handler that is called when we pause or resume a circuit.
    * @param event
    * @param arg
    */
-  onCircuitPauseUnpause = (event, arg) => {
+  onCircuitPauseResume = (event, arg) => {
     this.onRefreshCircuitsPanel();
   };
 

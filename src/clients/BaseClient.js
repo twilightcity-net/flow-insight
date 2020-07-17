@@ -62,6 +62,19 @@ export class BaseClient {
   }
 
   /**
+   * a list of our various circuit states
+   * @returns {{ON_HOLD: string, CANCELED: string, TROUBLESHOOT: string}}
+   * @constructor
+   */
+  static get CircuitStates() {
+    return {
+      TROUBLESHOOT: "TROUBLESHOOT",
+      CANCELED: "CANCELED",
+      ON_HOLD: "ONHOLD"
+    };
+  }
+
+  /**
    * builds our base client class
    * @param scope
    * @param name

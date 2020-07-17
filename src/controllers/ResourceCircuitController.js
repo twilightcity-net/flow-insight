@@ -20,9 +20,9 @@ export class ResourceCircuitController extends ActiveViewController {
         .VIEW_CONSOLE_CIRCUIT_START_STOP,
       this
     );
-    this.circuitPauseUnpauseNotifier = RendererEventFactory.createEvent(
+    this.circuitPauseResumeNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_PAUSE_UNPAUSE,
+        .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
       this
     );
     this.circuitStartRetroForWTFNotifier = RendererEventFactory.createEvent(
@@ -63,15 +63,15 @@ export class ResourceCircuitController extends ActiveViewController {
    * dispatching 1 to the event in the buss.
    */
   fireCircuitPauseNotifyEvent() {
-    this.circuitPauseUnpauseNotifier.dispatch(1);
+    this.circuitPauseResumeNotifier.dispatch(1);
   }
 
   /**
    * notifies the systme that we should resume the active circuit by dispatching
    * the value -1 to the event.
    */
-  fireCircuitUnpauseNotifyEvent() {
-    this.circuitPauseUnpauseNotifier.dispatch(-1);
+  fireCircuitResumeNotifyEvent() {
+    this.circuitPauseResumeNotifier.dispatch(-1);
   }
 
   /**
@@ -113,6 +113,12 @@ export class ResourceCircuitController extends ActiveViewController {
         this.fireCircuitPauseNotifyEvent();
       }
     );
+  };
+
+  resumeCircuit = circuitName => {
+    CircuitClient.resumeWTF(circuitName, this, arg => {
+      this.fireCircuitResumeNotifyEvent();
+    });
   };
 
   /**

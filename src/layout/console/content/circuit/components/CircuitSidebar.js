@@ -51,6 +51,14 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
+   * make sure we remove any static timers which are used to update the wtf
+   * time on the gui
+   */
+  componentWillUnmount() {
+    UtilRenderer.clearIntervalTimer(this.openTimeTimer);
+  }
+
+  /**
    * click handler for starting a retro
    */
   onClickRetroActiveCircuit = () => {
@@ -64,6 +72,14 @@ export default class CircuitSidebar extends Component {
   onClickPauseActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
     this.myController.pauseCircuit(circuitName);
+  };
+
+  /**
+   * click handler for putting a circuit on hold
+   */
+  onClickResumeActiveCircuit = () => {
+    let circuitName = this.props.model.circuitName;
+    this.myController.resumeCircuit(circuitName);
   };
 
   /**
@@ -228,14 +244,6 @@ export default class CircuitSidebar extends Component {
     return UtilRenderer.getWtfTimerStringFromOpenTime(
       this.openTime
     );
-  }
-
-  /**
-   * make sure we remove any static timers which are used to update the wtf
-   * time on the gui
-   */
-  componentWillUnmount() {
-    UtilRenderer.clearIntervalTimer(this.openTimeTimer);
   }
 
   /**
@@ -420,6 +428,67 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
+   * renders our pause resume button for the gui
+   * @returns {*}
+   */
+  getPauseResumeButtonContent() {
+    let circuit = this.props.model;
+    if (circuit && UtilRenderer.isCircuitPaused(circuit)) {
+      return (
+        <Button
+          onClick={this.onClickResumeActiveCircuit}
+          size="medium"
+          color="violet"
+        >
+          <Button.Content>resume</Button.Content>
+        </Button>
+      );
+    } else if (
+      circuit &&
+      !UtilRenderer.isCircuitPaused(circuit)
+    ) {
+      return (
+        <Button
+          onClick={this.onClickPauseActiveCircuit}
+          size="medium"
+          color="grey"
+        >
+          <Button.Content>pause</Button.Content>
+        </Button>
+      );
+    }
+    return (
+      <Button size="medium" color="grey" disabled>
+        <Button.Content>pause</Button.Content>
+      </Button>
+    );
+  }
+
+  /**
+   * renders our solved button for the gui. disables the button if it is paused
+   * @returns {*}
+   */
+  getRetroActiveCircuitButtonContent() {
+    let circuit = this.props.model;
+    if (circuit && !UtilRenderer.isCircuitPaused(circuit)) {
+      return (
+        <Button
+          onClick={this.onClickRetroActiveCircuit}
+          size="medium"
+          color="violet"
+        >
+          <Button.Content>solved!</Button.Content>
+        </Button>
+      );
+    }
+    return (
+      <Button size="medium" color="grey" disabled>
+        <Button.Content>solved!</Button.Content>
+      </Button>
+    );
+  }
+
+  /**
    * renders the circuit sidebar actions segment
    * @returns {*}
    */
@@ -435,22 +504,10 @@ export default class CircuitSidebar extends Component {
         <Grid columns="equal" inverted>
           <Grid.Row stretched verticalAlign="middle">
             <Grid.Column>
-              <Button
-                onClick={this.onClickRetroActiveCircuit}
-                size="medium"
-                color="purple"
-              >
-                <Button.Content>solved</Button.Content>
-              </Button>
+              {this.getRetroActiveCircuitButtonContent()}
             </Grid.Column>
             <Grid.Column>
-              <Button
-                onClick={this.onClickPauseActiveCircuit}
-                size="medium"
-                color="grey"
-              >
-                <Button.Content>pause</Button.Content>
-              </Button>
+              {this.getPauseResumeButtonContent()}
             </Grid.Column>
             <Grid.Column>
               <Button
