@@ -84,6 +84,7 @@
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyRetroCircuits">loadAllMyRetroCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.solveWtf">solveWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startRetroForWTF">startRetroForWTF</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li>
@@ -287,6 +288,7 @@
           <li data-type='method'><a href="module.html#.exports#delegatePauseWTFWithDoItLaterCallback">delegatePauseWTFWithDoItLaterCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateSolveWtfCallback">delegateSolveWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartRetroForWTFCallback">delegateStartRetroForWTFCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li>
@@ -380,6 +382,7 @@
           <li data-type='method'><a href="module.html#.exports#handlePauseWTFWithDoItLaterEvent">handlePauseWTFWithDoItLaterEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleRunCommandEvent">handleRunCommandEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleSolveWtfEvent">handleSolveWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartRetroForWTFEvent">handleStartRetroForWTFEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
@@ -446,6 +449,7 @@
           <li data-type='method'><a href="module.html#.exports#setDisplayIndex">setDisplayIndex</a></li>
           <li data-type='method'><a href="module.html#.exports#setLatency">setLatency</a></li>
           <li data-type='method'><a href="module.html#.exports#showConsole">showConsole</a></li>
+          <li data-type='method'><a href="module.html#.exports#solveActiveCircuit">solveActiveCircuit</a></li>
           <li data-type='method'><a href="module.html#.exports#start">start</a></li>
           <li data-type='method'><a href="module.html#.exports#start">start</a></li>
           <li data-type='method'><a href="module.html#.exports#start">start</a></li>
@@ -1279,6 +1283,47 @@ module.exports = class CircuitDatabase extends LokiJS {
     );
     DatabaseUtil.findUpdateInsert(circuit, collection);
     DatabaseUtil.log("add to later circuits", circuit.id);
+  }
+
+  /**
+   * solves a given active circuit which is a wtf.
+   * @param circuit
+   */
+  solveActiveCircuit(circuit) {
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.CIRCUITS
+    );
+
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log(
+      "update circuits -> RETRO_STARTED",
+      circuit.id
+    );
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.RETRO
+    );
+
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log("insert circuit -> RETRO", circuit.id);
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.ACTIVE
+    );
+    DatabaseUtil.findRemove(circuit, collection);
+    DatabaseUtil.log(
+      "remove from active circuits",
+      circuit.id
+    );
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.PARTICIPATING
+    );
+    DatabaseUtil.findRemove(circuit, collection);
+    DatabaseUtil.log(
+      "remove from participating circuits",
+      circuit.id
+    );
   }
 
   /**

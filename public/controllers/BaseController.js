@@ -12,7 +12,7 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * Retrieves path information for various urls used with gridtime.
-   * @returns {{PARTICIPATING: string, ACTIVE: string, CHAT: string, WTF: string, JOIN: string, TALK: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, RETRO: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
+   * @returns {{PARTICIPATING: string, ACTIVE: string, CHAT: string, WTF: string, JOIN: string, TALK: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, RETRO: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, SOLVE: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -37,6 +37,7 @@ module.exports = class BaseController {
       CHAT: "/chat",
       JOIN: "/join",
       LEAVE: "/leave",
+      SOLVE: "/solve",
       CANCEL: "/cancel",
       HOME: "/home",
       MEMBER: "/member",
@@ -129,7 +130,7 @@ module.exports = class BaseController {
 
   /**
    * define the names of our controllers functions for gridtime
-   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, PAUSE_WTF_WITH_DO_IT_LATER: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_PROJECT: string, FIND_OR_CREATE_TASK: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
+   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, PAUSE_WTF_WITH_DO_IT_LATER: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_PROJECT: string, FIND_OR_CREATE_TASK: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string}}
    * @constructor
    */
   static get Names() {
@@ -147,6 +148,7 @@ module.exports = class BaseController {
         "getCircuitWithAllDetails",
       GET_ALL_TALK_MESSAGES_FROM_ROOM:
         "getAllTalkMessagesFromRoom",
+      SOLVE_WTF: "solveWtf",
       CANCEL_WTF: "cancelWtf",
       PAUSE_WTF_WITH_DO_IT_LATER: "pauseWTFWithDoItLater",
       START_RETRO_FOR_WTF: "startRetroForWTF",
@@ -166,13 +168,14 @@ module.exports = class BaseController {
 
   /**
    * a list of our various circuit status types
-   * @returns {{CANCELED: string, TROUBLESHOOT: string}}
+   * @returns {{TEAM_RETRO_STARTED: string, TEAM_WTF_STARTED: string, TEAM_WTF_STOPPED: string}}
    * @constructor
    */
   static get StatusTypes() {
     return {
       TEAM_WTF_STARTED: "TEAM_WTF_STARTED",
-      TEAM_WTF_STOPPED: "TEAM_WTF_STOPPED"
+      TEAM_WTF_STOPPED: "TEAM_WTF_STOPPED",
+      TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED"
     };
   }
 

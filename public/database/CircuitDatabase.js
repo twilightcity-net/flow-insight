@@ -364,6 +364,47 @@ module.exports = class CircuitDatabase extends LokiJS {
   }
 
   /**
+   * solves a given active circuit which is a wtf.
+   * @param circuit
+   */
+  solveActiveCircuit(circuit) {
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.CIRCUITS
+    );
+
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log(
+      "update circuits -> RETRO_STARTED",
+      circuit.id
+    );
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.RETRO
+    );
+
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log("insert circuit -> RETRO", circuit.id);
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.ACTIVE
+    );
+    DatabaseUtil.findRemove(circuit, collection);
+    DatabaseUtil.log(
+      "remove from active circuits",
+      circuit.id
+    );
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.PARTICIPATING
+    );
+    DatabaseUtil.findRemove(circuit, collection);
+    DatabaseUtil.log(
+      "remove from participating circuits",
+      circuit.id
+    );
+  }
+
+  /**
    * finds and removes a circuit by id by a given name
    * of a circuit database collection
    * @param id
