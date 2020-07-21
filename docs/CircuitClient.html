@@ -85,7 +85,6 @@
           <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
           <li data-type='method'><a href="CircuitClient.html#.solveWtf">solveWtf</a></li>
-          <li data-type='method'><a href="CircuitClient.html#.startRetroForWTF">startRetroForWTF</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li>
           <li data-type='method'><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></li>
@@ -798,6 +797,7 @@
       <li><a href="global.html#createTask">createTask</a></li>
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
+      <li><a href="global.html#getCancelActiveCircuitButtonContent">getCancelActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
       <li><a href="global.html#getChunkCellContent">getChunkCellContent</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
@@ -838,8 +838,8 @@
       <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
       <li><a href="global.html#getProjectDropdown">getProjectDropdown</a></li>
       <li><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></li>
-      <li><a href="global.html#getRetroActiveCircuitButtonContent">getRetroActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
+      <li><a href="global.html#getSolveActiveCircuitButtonContent">getSolveActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
       <li><a href="global.html#getTaskCellContent">getTaskCellContent</a></li>
       <li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li>
@@ -1005,7 +1005,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line440">line 440</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line420">line 420</a>
               </li>
             </ul>
           </dd>
@@ -1038,7 +1038,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line380">line 380</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line379">line 379</a>
               </li>
             </ul>
           </dd>
@@ -1101,7 +1101,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line321">line 321</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line320">line 320</a>
               </li>
             </ul>
           </dd>
@@ -1145,7 +1145,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line287">line 287</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line286">line 286</a>
               </li>
             </ul>
           </dd>
@@ -1189,7 +1189,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line269">line 269</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line268">line 268</a>
               </li>
             </ul>
           </dd>
@@ -1233,7 +1233,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line304">line 304</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line303">line 303</a>
               </li>
             </ul>
           </dd>
@@ -1277,7 +1277,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line340">line 340</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line339">line 339</a>
               </li>
             </ul>
           </dd>
@@ -1327,7 +1327,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line112">line 112</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line111">line 111</a>
               </li>
             </ul>
           </dd>
@@ -1358,7 +1358,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line228">line 228</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line227">line 227</a>
               </li>
             </ul>
           </dd>
@@ -1402,7 +1402,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line191">line 191</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line190">line 190</a>
               </li>
             </ul>
           </dd>
@@ -1446,7 +1446,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line173">line 173</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line172">line 172</a>
               </li>
             </ul>
           </dd>
@@ -1490,7 +1490,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line208">line 208</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line207">line 207</a>
               </li>
             </ul>
           </dd>
@@ -1534,7 +1534,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line248">line 248</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line247">line 247</a>
               </li>
             </ul>
           </dd>
@@ -1584,7 +1584,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line399">line 399</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line398">line 398</a>
               </li>
             </ul>
           </dd>
@@ -1634,62 +1634,12 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line362">line 362</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line361">line 361</a>
               </li>
             </ul>
           </dd>
         </dl>
         <div class="description usertext"> solves our a circuit on grid time </div>
-        <h5>Parameters:</h5>
-        <table class="params">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Type</th>
-              <th class="last">Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td class="name"><code>circuitName</code></td>
-              <td class="type">
-              </td>
-              <td class="description last"></td>
-            </tr>
-            <tr>
-              <td class="name"><code>scope</code></td>
-              <td class="type">
-              </td>
-              <td class="description last"></td>
-            </tr>
-            <tr>
-              <td class="name"><code>callback</code></td>
-              <td class="type">
-              </td>
-              <td class="description last"></td>
-            </tr>
-          </tbody>
-        </table>
-        <h5>Returns:</h5>
-        <dl class="param-type">
-          <dt> Type </dt>
-          <dd>
-            <span class="param-type"><a href="RendererClientEvent.html">RendererClientEvent</a></span>
-          </dd>
-        </dl>
-        <h4 class="name"
-            id=".startRetroForWTF"><span class="type-signature">(static) </span>startRetroForWTF<span class="signature">(circuitName, scope, callback)</span><span class="type-signature"> &rarr; {<a href="RendererClientEvent.html">RendererClientEvent</a>}</span></h4>
-        <dl class="details">
-          <dt class="tag-source">Source:</dt>
-          <dd class="tag-source">
-            <ul class="dummy">
-              <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line422">line 422</a>
-              </li>
-            </ul>
-          </dd>
-        </dl>
-        <div class="description usertext"> starts a given retro for a given wtf circuit name. This begins the review process to see if we are going to actually perform a full retrospective. </div>
         <h5>Parameters:</h5>
         <table class="params">
           <thead>
@@ -1734,7 +1684,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line133">line 133</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line132">line 132</a>
               </li>
             </ul>
           </dd>
@@ -1778,7 +1728,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line151">line 151</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line150">line 150</a>
               </li>
             </ul>
           </dd>
@@ -1828,7 +1778,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line460">line 460</a>
+                <a href="src_clients_CircuitClient.js.html">src/clients/CircuitClient.js</a>, <a href="src_clients_CircuitClient.js.html#line440">line 440</a>
               </li>
             </ul>
           </dd>

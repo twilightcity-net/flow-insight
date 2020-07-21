@@ -85,7 +85,6 @@
           <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
           <li data-type='method'><a href="CircuitClient.html#.solveWtf">solveWtf</a></li>
-          <li data-type='method'><a href="CircuitClient.html#.startRetroForWTF">startRetroForWTF</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li>
           <li data-type='method'><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></li>
@@ -798,6 +797,7 @@
       <li><a href="global.html#createTask">createTask</a></li>
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
+      <li><a href="global.html#getCancelActiveCircuitButtonContent">getCancelActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
       <li><a href="global.html#getChunkCellContent">getChunkCellContent</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
@@ -838,8 +838,8 @@
       <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
       <li><a href="global.html#getProjectDropdown">getProjectDropdown</a></li>
       <li><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></li>
-      <li><a href="global.html#getRetroActiveCircuitButtonContent">getRetroActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
+      <li><a href="global.html#getSolveActiveCircuitButtonContent">getSolveActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
       <li><a href="global.html#getTaskCellContent">getTaskCellContent</a></li>
       <li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li>
@@ -993,7 +993,7 @@ export class CircuitClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string}}
+   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string}}
    * @constructor
    */
   static get Events() {
@@ -1022,8 +1022,7 @@ export class CircuitClient extends BaseClient {
       SOLVE_WTF: "solve-wtf",
       CANCEL_WTF: "cancel-wtf",
       PAUSE_WTF_WITH_DO_IT_LATER:
-        "pause-wtf-with-do-it-later",
-      START_RETRO_FOR_WTF: "start-retro-for-wtf"
+        "pause-wtf-with-do-it-later"
     };
   }
 
@@ -1325,25 +1324,6 @@ export class CircuitClient extends BaseClient {
   ) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.PAUSE_WTF_WITH_DO_IT_LATER,
-      { circuitName: circuitName },
-      scope,
-      callback
-    );
-    CircuitClient.instance.notifyCircuit(event);
-    return event;
-  }
-
-  /**
-   * starts a given retro for a given wtf circuit name. This begins the review process
-   * to see if we are going to actually perform a full retrospective.
-   * @param circuitName
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static startRetroForWTF(circuitName, scope, callback) {
-    let event = CircuitClient.instance.createClientEvent(
-      CircuitClient.Events.START_RETRO_FOR_WTF,
       { circuitName: circuitName },
       scope,
       callback

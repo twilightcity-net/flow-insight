@@ -85,7 +85,6 @@
           <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
           <li data-type='method'><a href="CircuitClient.html#.solveWtf">solveWtf</a></li>
-          <li data-type='method'><a href="CircuitClient.html#.startRetroForWTF">startRetroForWTF</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li>
           <li data-type='method'><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></li>
@@ -798,6 +797,7 @@
       <li><a href="global.html#createTask">createTask</a></li>
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
+      <li><a href="global.html#getCancelActiveCircuitButtonContent">getCancelActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
       <li><a href="global.html#getChunkCellContent">getChunkCellContent</a></li>
       <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
@@ -838,8 +838,8 @@
       <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
       <li><a href="global.html#getProjectDropdown">getProjectDropdown</a></li>
       <li><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></li>
-      <li><a href="global.html#getRetroActiveCircuitButtonContent">getRetroActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
+      <li><a href="global.html#getSolveActiveCircuitButtonContent">getSolveActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
       <li><a href="global.html#getTaskCellContent">getTaskCellContent</a></li>
       <li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li>
@@ -979,14 +979,6 @@ export default class CircuitSidebar extends Component {
   componentWillUnmount() {
     UtilRenderer.clearIntervalTimer(this.openTimeTimer);
   }
-
-  /**
-   * click handler for starting a retro
-   */
-  onClickRetroActiveCircuit = () => {
-    let circuitName = this.props.model.circuitName;
-    this.myController.startRetro(circuitName);
-  };
 
   /**
    * click handler for putting a circuit on hold
@@ -1390,12 +1382,12 @@ export default class CircuitSidebar extends Component {
    * renders our solved button for the gui. disables the button if it is paused
    * @returns {*}
    */
-  getRetroActiveCircuitButtonContent() {
+  getSolveActiveCircuitButtonContent() {
     let circuit = this.props.model;
     if (circuit &amp;&amp; !UtilRenderer.isCircuitPaused(circuit)) {
       return (
         &lt;Button
-          onClick={this.onClickRetroActiveCircuit}
+          onClick={() => {console.log("solve wtf");}}
           size="medium"
           color="violet"
         >
@@ -1406,6 +1398,34 @@ export default class CircuitSidebar extends Component {
     return (
       &lt;Button size="medium" color="grey" disabled>
         &lt;Button.Content>solved!&lt;/Button.Content>
+      &lt;/Button>
+    );
+  }
+
+  /**
+   * renders our cancel wtf circuit button in the gui
+   * @returns {*}
+   */
+  getCancelActiveCircuitButtonContent() {
+    let circuit = this.props.model;
+    if (circuit &amp;&amp; !UtilRenderer.isCircuitPaused(circuit)) {
+      return (
+        &lt;Button
+          onClick={this.onClickCancelActiveCircuit}
+          size="medium"
+          color="grey"
+        >
+          &lt;Button.Content>cancel&lt;/Button.Content>
+        &lt;/Button>
+      );
+    }
+    return (
+      &lt;Button
+        size="medium"
+        color="grey"
+        disabled
+      >
+        &lt;Button.Content>cancel&lt;/Button.Content>
       &lt;/Button>
     );
   }
@@ -1426,19 +1446,13 @@ export default class CircuitSidebar extends Component {
         &lt;Grid columns="equal" inverted>
           &lt;Grid.Row stretched verticalAlign="middle">
             &lt;Grid.Column>
-              {this.getRetroActiveCircuitButtonContent()}
+              {this.getSolveActiveCircuitButtonContent()}
             &lt;/Grid.Column>
             &lt;Grid.Column>
               {this.getPauseResumeButtonContent()}
             &lt;/Grid.Column>
             &lt;Grid.Column>
-              &lt;Button
-                onClick={this.onClickCancelActiveCircuit}
-                size="medium"
-                color="grey"
-              >
-                &lt;Button.Content>cancel&lt;/Button.Content>
-              &lt;/Button>
+              {this.getCancelActiveCircuitButtonContent()}
             &lt;/Grid.Column>
           &lt;/Grid.Row>
         &lt;/Grid>

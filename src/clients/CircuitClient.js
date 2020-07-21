@@ -71,7 +71,7 @@ export class CircuitClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string}}
+   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string}}
    * @constructor
    */
   static get Events() {
@@ -100,8 +100,7 @@ export class CircuitClient extends BaseClient {
       SOLVE_WTF: "solve-wtf",
       CANCEL_WTF: "cancel-wtf",
       PAUSE_WTF_WITH_DO_IT_LATER:
-        "pause-wtf-with-do-it-later",
-      START_RETRO_FOR_WTF: "start-retro-for-wtf"
+        "pause-wtf-with-do-it-later"
     };
   }
 
@@ -403,25 +402,6 @@ export class CircuitClient extends BaseClient {
   ) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.PAUSE_WTF_WITH_DO_IT_LATER,
-      { circuitName: circuitName },
-      scope,
-      callback
-    );
-    CircuitClient.instance.notifyCircuit(event);
-    return event;
-  }
-
-  /**
-   * starts a given retro for a given wtf circuit name. This begins the review process
-   * to see if we are going to actually perform a full retrospective.
-   * @param circuitName
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static startRetroForWTF(circuitName, scope, callback) {
-    let event = CircuitClient.instance.createClientEvent(
-      CircuitClient.Events.START_RETRO_FOR_WTF,
       { circuitName: circuitName },
       scope,
       callback

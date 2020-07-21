@@ -59,14 +59,6 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
-   * click handler for starting a retro
-   */
-  onClickRetroActiveCircuit = () => {
-    let circuitName = this.props.model.circuitName;
-    this.myController.startRetro(circuitName);
-  };
-
-  /**
    * click handler for putting a circuit on hold
    */
   onClickPauseActiveCircuit = () => {
@@ -468,12 +460,14 @@ export default class CircuitSidebar extends Component {
    * renders our solved button for the gui. disables the button if it is paused
    * @returns {*}
    */
-  getRetroActiveCircuitButtonContent() {
+  getSolveActiveCircuitButtonContent() {
     let circuit = this.props.model;
     if (circuit && !UtilRenderer.isCircuitPaused(circuit)) {
       return (
         <Button
-          onClick={this.onClickRetroActiveCircuit}
+          onClick={() => {
+            console.log("solve wtf");
+          }}
           size="medium"
           color="violet"
         >
@@ -484,6 +478,30 @@ export default class CircuitSidebar extends Component {
     return (
       <Button size="medium" color="grey" disabled>
         <Button.Content>solved!</Button.Content>
+      </Button>
+    );
+  }
+
+  /**
+   * renders our cancel wtf circuit button in the gui
+   * @returns {*}
+   */
+  getCancelActiveCircuitButtonContent() {
+    let circuit = this.props.model;
+    if (circuit && !UtilRenderer.isCircuitPaused(circuit)) {
+      return (
+        <Button
+          onClick={this.onClickCancelActiveCircuit}
+          size="medium"
+          color="grey"
+        >
+          <Button.Content>cancel</Button.Content>
+        </Button>
+      );
+    }
+    return (
+      <Button size="medium" color="grey" disabled>
+        <Button.Content>cancel</Button.Content>
       </Button>
     );
   }
@@ -504,19 +522,13 @@ export default class CircuitSidebar extends Component {
         <Grid columns="equal" inverted>
           <Grid.Row stretched verticalAlign="middle">
             <Grid.Column>
-              {this.getRetroActiveCircuitButtonContent()}
+              {this.getSolveActiveCircuitButtonContent()}
             </Grid.Column>
             <Grid.Column>
               {this.getPauseResumeButtonContent()}
             </Grid.Column>
             <Grid.Column>
-              <Button
-                onClick={this.onClickCancelActiveCircuit}
-                size="medium"
-                color="grey"
-              >
-                <Button.Content>cancel</Button.Content>
-              </Button>
+              {this.getCancelActiveCircuitButtonContent()}
             </Grid.Column>
           </Grid.Row>
         </Grid>
