@@ -11,7 +11,7 @@ const TalkDB = require("./TalkDatabase"),
 class DatabaseFactory {
   /**
    * the names of our databases
-   * @returns {{JOURNAL: string, TEAM: string, TALK: string, CIRCUIT: string}}
+   * @returns {{JOURNAL: string, TEAM: string, TALK: string, CIRCUIT: string, MEMBER: string}}
    * @constructor
    */
   static get Names() {
