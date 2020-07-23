@@ -71,7 +71,7 @@ export class CircuitClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string}}
+   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -99,6 +99,7 @@ export class CircuitClient extends BaseClient {
         "get-circuit-with-all-details",
       SOLVE_WTF: "solve-wtf",
       CANCEL_WTF: "cancel-wtf",
+      RESUME_WTF: "resume-wtf",
       PAUSE_WTF_WITH_DO_IT_LATER:
         "pause-wtf-with-do-it-later"
     };
@@ -379,6 +380,25 @@ export class CircuitClient extends BaseClient {
   static cancelWtf(circuitName, scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.CANCEL_WTF,
+      { circuitName: circuitName },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
+   * resumes a given circuit from whatever on_hold  status that it may
+   * have.
+   * @param circuitName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static resumeWtf(circuitName, scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.RESUME_WTF,
       { circuitName: circuitName },
       scope,
       callback

@@ -84,6 +84,7 @@
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyRetroCircuits">loadAllMyRetroCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.resumeWtf">resumeWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.solveWtf">solveWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li>
@@ -286,6 +287,7 @@
           <li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCircuitCallback">delegateLoadMyHomeTeamCircuitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegatePauseWTFWithDoItLaterCallback">delegatePauseWTFWithDoItLaterCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateResumeWtfCallback">delegateResumeWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateSolveWtfCallback">delegateSolveWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateStartRetroForWTFCallback">delegateStartRetroForWTFCallback</a></li>
@@ -380,6 +382,7 @@
           <li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamEvent">handleLoadMyHomeTeamEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handlePauseWTFWithDoItLaterEvent">handlePauseWTFWithDoItLaterEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleResumeWtfEvent">handleResumeWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleRunCommandEvent">handleRunCommandEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleSolveWtfEvent">handleSolveWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartRetroForWTFEvent">handleStartRetroForWTFEvent</a></li>
@@ -435,6 +438,7 @@
           <li data-type='method'><a href="module.html#.exports#pulse">pulse</a></li>
           <li data-type='method'><a href="module.html#.exports#quit">quit</a></li>
           <li data-type='method'><a href="module.html#.exports#rejoinRooms">rejoinRooms</a></li>
+          <li data-type='method'><a href="module.html#.exports#removeActiveCircuit">removeActiveCircuit</a></li>
           <li data-type='method'><a href="module.html#.exports#removeActiveCircuitFromMembers">removeActiveCircuitFromMembers</a></li>
           <li data-type='method'><a href="module.html#.exports#removeCircuitByIdFromCollectionName">removeCircuitByIdFromCollectionName</a></li>
           <li data-type='method'><a href="module.html#.exports#removeCircuitFromAllCollections">removeCircuitFromAllCollections</a></li>
@@ -443,6 +447,7 @@
           <li data-type='method'><a href="module.html#.exports#resetHomeTeamFlag">resetHomeTeamFlag</a></li>
           <li data-type='method'><a href="module.html#.exports#restart">restart</a></li>
           <li data-type='method'><a href="module.html#.exports#save">save</a></li>
+          <li data-type='method'><a href="module.html#.exports#setActiveCircuit">setActiveCircuit</a></li>
           <li data-type='method'><a href="module.html#.exports#setConsoleShortcut">setConsoleShortcut</a></li>
           <li data-type='method'><a href="module.html#.exports#setConsoleShortcutAlt">setConsoleShortcutAlt</a></li>
           <li data-type='method'><a href="module.html#.exports#setDisplayIndex">setDisplayIndex</a></li>
@@ -454,6 +459,7 @@
           <li data-type='method'><a href="module.html#.exports#start">start</a></li>
           <li data-type='method'><a href="module.html#.exports#stop">stop</a></li>
           <li data-type='method'><a href="module.html#.exports#unwireEvents">unwireEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateCircuitForResume">updateCircuitForResume</a></li>
           <li data-type='method'><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateCircuitToDoItLater">updateCircuitToDoItLater</a></li>
           <li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li>
@@ -856,6 +862,7 @@
       <li><a href="global.html#getWtfTimerContent">getWtfTimerContent</a></li>
       <li><a href="global.html#getWtfTimerCount">getWtfTimerCount</a></li>
       <li><a href="global.html#getWtfTimerStringFromOpenTime">getWtfTimerStringFromOpenTime</a></li>
+      <li><a href="global.html#getWtfTimerStringFromTotalNs">getWtfTimerStringFromTotalNs</a></li>
       <li><a href="global.html#getXpPercent">getXpPercent</a></li>
       <li><a href="global.html#handleCallback">handleCallback</a></li>
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
@@ -932,7 +939,7 @@
             <dd class="tag-source">
               <ul class="dummy">
                 <li>
-                  <a href="public_controllers_BaseController.js.html">public/controllers/BaseController.js</a>, <a href="public_controllers_BaseController.js.html#line56">line 56</a>
+                  <a href="public_controllers_BaseController.js.html">public/controllers/BaseController.js</a>, <a href="public_controllers_BaseController.js.html#line57">line 57</a>
                 </li>
               </ul>
             </dd>

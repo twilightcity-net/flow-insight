@@ -326,8 +326,9 @@ module.exports = class CircuitDatabase extends LokiJS {
    * updates our circuit with a new on_hold status one. This updates,
    * removes and inserts into the later collection.
    * @param circuit
+   * @param me
    */
-  updateCircuitToDoItLater(circuit) {
+  updateCircuitToDoItLater(circuit, me) {
     let collection = this.getCollection(
       CircuitDatabase.Collections.CIRCUITS
     );
@@ -350,17 +351,63 @@ module.exports = class CircuitDatabase extends LokiJS {
     collection = this.getCollection(
       CircuitDatabase.Collections.ACTIVE
     );
-    DatabaseUtil.findRemove(circuit, collection);
+    this.removeActiveCircuit();
+
+    if (
+      me.id === (circuit.ownerId || circuit.moderatorId)
+    ) {
+      collection = this.getCollection(
+        CircuitDatabase.Collections.LATER
+      );
+      DatabaseUtil.findUpdateInsert(circuit, collection);
+      DatabaseUtil.log("add to later circuits", circuit.id);
+    }
+  }
+
+  /**
+   * updates our circuit from on_hold status to resume. This needs to
+   * update the circuits collection and add to our participating and active.
+   * If the requester's id (memberId) is equal to our id then we originated it.
+   * @param circuit
+   * @param me
+   * @param memberId
+   */
+  updateCircuitForResume(circuit, me, memberId) {
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.CIRCUITS
+    );
+
+    DatabaseUtil.findUpdateInsert(circuit, collection);
     DatabaseUtil.log(
-      "remove from active circuits",
+      "update circuit status -> RESUME",
       circuit.id
     );
 
     collection = this.getCollection(
       CircuitDatabase.Collections.LATER
     );
-    DatabaseUtil.findUpdateInsert(circuit, collection);
-    DatabaseUtil.log("add to later circuits", circuit.id);
+    DatabaseUtil.findRemove(circuit, collection);
+    DatabaseUtil.log(
+      "remove from later circuits",
+      circuit.id
+    );
+
+    if (
+      me.id === (circuit.ownerId || circuit.moderatorId)
+    ) {
+      collection = this.getCollection(
+        CircuitDatabase.Collections.PARTICIPATING
+      );
+      DatabaseUtil.findUpdateInsert(circuit, collection);
+      DatabaseUtil.log(
+        "add to participating circuits",
+        circuit.id
+      );
+
+      if (me.id === memberId) {
+        this.setActiveCircuit(circuit);
+      }
+    }
   }
 
   /**
@@ -413,6 +460,38 @@ module.exports = class CircuitDatabase extends LokiJS {
   removeCircuitByIdFromCollectionName(id, name) {
     let collection = this.getCollection(name);
     collection.findAndRemove({ id: id });
+  }
+
+  /**
+   * saves our circuit as the active circuit, This is used by the
+   * renderer process.
+   * @param circuit
+   */
+  setActiveCircuit(circuit) {
+    let collection = this.getCollection(
+        CircuitDatabase.Collections.ACTIVE
+      ),
+      batch = this.getViewActiveCircuit().data(),
+      doc = Object.assign({}, circuit);
+
+    collection.removeBatch(batch);
+    collection.insert(doc);
+
+    DatabaseUtil.log("set active circuit", circuit.id);
+  }
+
+  /**
+   * removes any or all active circuits stored in our collection. There
+   * really should only ever be one.
+   */
+  removeActiveCircuit() {
+    let collection = this.getCollection(
+        CircuitDatabase.Collections.ACTIVE
+      ),
+      view = this.getViewActiveCircuit();
+
+    collection.removeBatch(view.data());
+    DatabaseUtil.log("remove active circuit");
   }
 
   /**

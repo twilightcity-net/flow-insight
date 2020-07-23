@@ -20,6 +20,7 @@ import UtilRenderer from "../../../../../UtilRenderer";
  * the class which defines the circuit sidebar panel
  */
 export default class CircuitSidebar extends Component {
+  static wtfTimerId = "active-circuit-wtf-timer";
   /**
    * the possible view we can display in the circuit sidebar panel
    * @returns {{PARTY: string, CHEST: string, OVERVIEW: string}}
@@ -212,30 +213,48 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
-   * manages our gui update for our wtf timer
+   * renders our wtf time from the circuit that is passed into from the
+   * renderer.
+   * @param circuit
    * @returns {string}
    */
-  getWtfTimerCount() {
-    let circuit = this.props.model;
-
-    if (circuit) {
+  getWtfTimerCount(circuit) {
+    if (!circuit) {
+      return "loading...";
+    } else {
       this.openTime = moment.utc(circuit.openTime);
       this.timerEl = document.getElementById(
-        "active-circuit-wtf-timer"
+        CircuitSidebar.wtfTimerId
       );
       this.openTimeTimer = UtilRenderer.clearIntervalTimer(
         this.openTimeTimer
       );
-      this.openTimeTimer = setInterval(() => {
-        this.timerEl.innerHTML = UtilRenderer.getWtfTimerStringFromOpenTime(
-          this.openTime
-        );
-      }, 1000);
     }
 
-    return UtilRenderer.getWtfTimerStringFromOpenTime(
-      this.openTime
-    );
+    if (UtilRenderer.isCircuitPaused(circuit)) {
+      console.log("circuit", circuit);
+      return (
+        "T:" +
+        UtilRenderer.getWtfTimerStringFromTotalNs(
+          circuit.totalCircuitElapsedNanoTime
+        ) +
+        "s"
+      );
+    } else {
+      this.openTimeTimer = setInterval(() => {
+        this.timerEl.innerHTML =
+          "T:" +
+          UtilRenderer.getWtfTimerStringFromOpenTime(
+            this.openTime
+          );
+      }, 1000);
+      return (
+        "T:" +
+        UtilRenderer.getWtfTimerStringFromOpenTime(
+          this.openTime
+        )
+      );
+    }
   }
 
   /**
@@ -341,14 +360,16 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getWtfTimerContent() {
+    let circuit = this.props.model,
+      isPaused = UtilRenderer.isCircuitPaused(circuit);
+
     return (
       <Label color="red" basic className="time">
-        <Icon name="lightning" />{" "}
         <span
           className="time"
-          id="active-circuit-wtf-timer"
+          id={CircuitSidebar.wtfTimerId}
         >
-          {this.getWtfTimerCount()}
+          {this.getWtfTimerCount(circuit)}
         </span>
       </Label>
     );
@@ -488,7 +509,7 @@ export default class CircuitSidebar extends Component {
    */
   getCancelActiveCircuitButtonContent() {
     let circuit = this.props.model;
-    if (circuit && !UtilRenderer.isCircuitPaused(circuit)) {
+    if (circuit) {
       return (
         <Button
           onClick={this.onClickCancelActiveCircuit}

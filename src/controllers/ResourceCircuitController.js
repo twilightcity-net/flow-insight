@@ -103,8 +103,12 @@ export class ResourceCircuitController extends ActiveViewController {
     );
   };
 
+  /**
+   * resumes a given circuit from on_hold status.
+   * @param circuitName
+   */
   resumeCircuit = circuitName => {
-    CircuitClient.resumeWTF(circuitName, this, arg => {
+    CircuitClient.resumeWtf(circuitName, this, arg => {
       this.fireCircuitResumeNotifyEvent();
     });
   };

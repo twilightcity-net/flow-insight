@@ -24,7 +24,7 @@ module.exports = class CircuitController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string}}
+   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -52,6 +52,7 @@ module.exports = class CircuitController extends BaseController {
       CANCEL_WTF: "cancel-wtf",
       PAUSE_WTF_WITH_DO_IT_LATER:
         "pause-wtf-with-do-it-later",
+      RESUME_WTF: "resume-wtf",
       START_RETRO_FOR_WTF: "start-retro-for-wtf"
     };
   }
@@ -172,6 +173,9 @@ module.exports = class CircuitController extends BaseController {
         case CircuitController.Events
           .PAUSE_WTF_WITH_DO_IT_LATER:
           this.handlePauseWTFWithDoItLaterEvent(event, arg);
+          break;
+        case CircuitController.Events.RESUME_WTF:
+          this.handleResumeWtfEvent(event, arg);
           break;
         case CircuitController.Events.START_RETRO_FOR_WTF:
           this.handleStartRetroForWTFEvent(event, arg);
@@ -995,6 +999,57 @@ module.exports = class CircuitController extends BaseController {
     arg,
     callback
   ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * processes our event handler for resuming a wtf circuit
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleResumeWtfEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT_WTF +
+        CircuitController.Paths.SEPARATOR +
+        name +
+        CircuitController.Paths.RESUME;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.RESUME_WTF,
+      CircuitController.Types.POST,
+      urn,
+      store =>
+        this.delegateResumeWtfCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * handles and processes the callback for our resume wtf capability for a
+   * learning circuit.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateResumeWtfCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {

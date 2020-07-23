@@ -82,6 +82,16 @@ export default class UtilRenderer {
   }
 
   /**
+   * calculates a string representation of a total amount of nanoseconds. This
+   * is commonly used to calculate the total elapsed paused time for example.
+   * @param nanoseconds
+   */
+  static getWtfTimerStringFromTotalNs(nanoseconds) {
+    console.log("nano", nanoseconds);
+    return nanoseconds / 1000000000;
+  }
+
+  /**
    * gets a date time string from an array of time values
    * @param array
    * @returns {string}
@@ -275,14 +285,15 @@ export default class UtilRenderer {
   }
 
   /**
-   * checks a circuit to see if its state is onhold (paused)
+   * checks a circuit to see if its state is on_hold (paused)
    * @param circuit
    * @returns {boolean}
    */
   static isCircuitPaused(circuit) {
     return (
+      circuit &&
       circuit.circuitState ===
-      BaseClient.CircuitStates.ON_HOLD
+        BaseClient.CircuitStates.ON_HOLD
     );
   }
 

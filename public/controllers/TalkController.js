@@ -354,10 +354,31 @@ module.exports = class TalkController extends BaseController {
                 break;
               case TalkController.CircuitStates.ON_HOLD:
                 circuitDatabase.updateCircuitToDoItLater(
-                  circuit
+                  circuit,
+                  me
                 );
                 memberDatabase.removeActiveCircuitFromMembers(
                   circuit
+                );
+                break;
+              default:
+                console.warn(
+                  TalkController.Error.UNKNOWN_STATE_TYPE +
+                    " '" +
+                    circuit.circuitState +
+                    "'."
+                );
+                break;
+            }
+            break;
+          case TalkController.StatusTypes.TEAM_WTF_RESUMED:
+            switch (circuit.circuitState) {
+              case TalkController.CircuitStates
+                .TROUBLESHOOT:
+                circuitDatabase.updateCircuitForResume(
+                  circuit,
+                  me,
+                  data.memberId
                 );
                 break;
               default:
