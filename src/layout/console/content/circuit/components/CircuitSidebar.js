@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import {
   Button,
   Grid,
-  Icon,
   Label,
   List,
   Menu,
@@ -20,6 +19,11 @@ import UtilRenderer from "../../../../../UtilRenderer";
  * the class which defines the circuit sidebar panel
  */
 export default class CircuitSidebar extends Component {
+
+  /**
+   * the html id for our timer that is dynamically updated.
+   * @type {string}
+   */
   static wtfTimerId = "active-circuit-wtf-timer";
   /**
    * the possible view we can display in the circuit sidebar panel
@@ -232,7 +236,6 @@ export default class CircuitSidebar extends Component {
     }
 
     if (UtilRenderer.isCircuitPaused(circuit)) {
-      console.log("circuit", circuit);
       return (
         "T:" +
         UtilRenderer.getWtfTimerStringFromTotalNs(
@@ -360,9 +363,7 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getWtfTimerContent() {
-    let circuit = this.props.model,
-      isPaused = UtilRenderer.isCircuitPaused(circuit);
-
+    let circuit = this.props.model;
     return (
       <Label color="red" basic className="time">
         <span

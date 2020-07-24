@@ -10,6 +10,8 @@ import { RendererControllerFactory } from "../../../../../controllers/RendererCo
 import { CircuitClient } from "../../../../../clients/CircuitClient";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
+import {BaseClient} from "../../../../../clients/BaseClient";
+import {RendererEventFactory} from "../../../../../events/RendererEventFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -28,6 +30,11 @@ export default class ActiveCircuit extends Component {
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
       this
+    );
+    this.talkRoomMessageListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+      this,
+      this.onTalkRoomMessage
     );
     this.state = {
       resource: props.resource,
@@ -53,6 +60,7 @@ export default class ActiveCircuit extends Component {
       this,
       arg => {
         model = arg.data;
+        console.log("MODEL:MOUNT", model);
         TalkToClient.getAllTalkMessagesFromRoom(
           model.wtfTalkRoomName,
           model.wtfTalkRoomId,
@@ -78,6 +86,7 @@ export default class ActiveCircuit extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
+    console.log("update");
     if (
       !this.state.model ||
       this.state.scrapbookVisible !==
@@ -121,6 +130,31 @@ export default class ActiveCircuit extends Component {
 
     return false;
   }
+
+  componentWillUnmount() {
+    this.talkRoomMessageListener.clear();
+  }
+
+  onTalkRoomMessage = (event, arg) => {
+    switch (arg.messageType) {
+      case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
+        let data = arg.data,
+          circuit = data.learningCircuitDto,
+          model = this.state.model;
+
+        if(data && circuit && model && circuit.id === model.id) {
+          console.log("match", data, circuit, model);
+          model = Object.assign(model, circuit);
+          console.log(model);
+          this.setState({
+            model: model
+          });
+        }
+        break;
+      default:
+        break;
+    }
+  };
 
   /**
    * hides our resizable scrapbook in the feed panel
