@@ -10,8 +10,8 @@ import { RendererControllerFactory } from "../../../../../controllers/RendererCo
 import { CircuitClient } from "../../../../../clients/CircuitClient";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
-import {BaseClient} from "../../../../../clients/BaseClient";
-import {RendererEventFactory} from "../../../../../events/RendererEventFactory";
+import { BaseClient } from "../../../../../clients/BaseClient";
+import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -142,7 +142,12 @@ export default class ActiveCircuit extends Component {
           circuit = data.learningCircuitDto,
           model = this.state.model;
 
-        if(data && circuit && model && circuit.id === model.id) {
+        if (
+          data &&
+          circuit &&
+          model &&
+          circuit.id === model.id
+        ) {
           console.log("match", data, circuit, model);
           model = Object.assign(model, circuit);
           console.log(model);

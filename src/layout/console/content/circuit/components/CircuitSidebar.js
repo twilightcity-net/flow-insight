@@ -19,7 +19,6 @@ import UtilRenderer from "../../../../../UtilRenderer";
  * the class which defines the circuit sidebar panel
  */
 export default class CircuitSidebar extends Component {
-
   /**
    * the html id for our timer that is dynamically updated.
    * @type {string}
@@ -62,6 +61,14 @@ export default class CircuitSidebar extends Component {
   componentWillUnmount() {
     UtilRenderer.clearIntervalTimer(this.openTimeTimer);
   }
+
+  /**
+   * click handler for putting a circuit on hold
+   */
+  onClickSolveActiveCircuit = () => {
+    let circuitName = this.props.model.circuitName;
+    this.myController.solveCircuit(circuitName);
+  };
 
   /**
    * click handler for putting a circuit on hold
@@ -487,9 +494,7 @@ export default class CircuitSidebar extends Component {
     if (circuit && !UtilRenderer.isCircuitPaused(circuit)) {
       return (
         <Button
-          onClick={() => {
-            console.log("solve wtf");
-          }}
+          onClick={this.onClickSolveActiveCircuit}
           size="medium"
           color="violet"
         >

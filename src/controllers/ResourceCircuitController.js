@@ -25,6 +25,11 @@ export class ResourceCircuitController extends ActiveViewController {
         .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
       this
     );
+    this.circuitSolveNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_SOLVE,
+      this
+    );
   }
 
   /**
@@ -70,6 +75,14 @@ export class ResourceCircuitController extends ActiveViewController {
   }
 
   /**
+   * notifies the system that we should solve the active circuit by
+   * dispatching 1 to the event in the buss.
+   */
+  fireCircuitSolveNotifyEvent() {
+    this.circuitSolveNotifier.dispatch(1);
+  }
+
+  /**
    * Start a troubleshooting session by loading the new session into the browser
    */
   startCircuit = () => {
@@ -81,6 +94,21 @@ export class ResourceCircuitController extends ActiveViewController {
         );
       this.browserController.makeRequest(request);
       this.fireCircuitStartNotifyEvent();
+    });
+  };
+
+  /**
+   * handler that is called when we want to solve a given wtf circuit.
+   * @param circuitName - the circuit to pause
+   */
+  solveCircuit = circuitName => {
+    CircuitClient.solveWtf(circuitName, this, arg => {
+      let request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.JOURNAL,
+        BrowserRequestFactory.Locations.ME
+      );
+      this.browserController.makeRequest(request);
+      this.fireCircuitSolveNotifyEvent();
     });
   };
 
