@@ -941,7 +941,7 @@
 module.exports = class BaseController {
   /**
    * Retrieves path information for various urls used with gridtime.
-   * @returns {{PARTICIPATING: string, ACTIVE: string, CHAT: string, WTF: string, JOIN: string, TALK: string, RESUME: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, RETRO: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, SOLVE: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
+   * @returns {{PARTICIPATING: string, CHAT: string, WTF: string, JOIN: string, TALK: string, RESUME: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, RETRO: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, SOLVE: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -958,7 +958,6 @@ module.exports = class BaseController {
       RETRO: "/retro",
       PROJECT: "/project",
       TASK: "/task",
-      ACTIVE: "/active",
       WTF: "wtf/",
       TALK: "/talk",
       MY: "/my",
@@ -1099,7 +1098,7 @@ module.exports = class BaseController {
 
   /**
    * a list of our various circuit status types
-   * @returns {{TEAM_RETRO_STARTED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_STOPPED: string}}
+   * @returns {{TEAM_RETRO_STARTED: string, SOLVED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_STOPPED: string}}
    * @constructor
    */
   static get StatusTypes() {
@@ -1107,7 +1106,8 @@ module.exports = class BaseController {
       TEAM_WTF_STARTED: "TEAM_WTF_STARTED",
       TEAM_WTF_STOPPED: "TEAM_WTF_STOPPED",
       TEAM_WTF_RESUMED: "TEAM_WTF_RESUMED",
-      TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED"
+      TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED",
+      SOLVED: "SOLVED"
     };
   }
 

@@ -514,11 +514,7 @@ module.exports = class CircuitController extends BaseController {
    * @param callback
    */
   handleLoadActiveCircuitEvent(event, arg, callback) {
-    let urn =
-      CircuitController.Paths.CIRCUIT +
-      CircuitController.Paths.SEPARATOR +
-      CircuitController.Strings.MY +
-      CircuitController.Paths.ACTIVE;
+    let urn = CircuitController.Paths.CIRCUIT_WTF;
 
     this.doClientRequest(
       CircuitController.Contexts.CIRCUIT_CLIENT,

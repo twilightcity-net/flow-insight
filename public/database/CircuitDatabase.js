@@ -421,7 +421,7 @@ module.exports = class CircuitDatabase extends LokiJS {
 
     DatabaseUtil.findUpdateInsert(circuit, collection);
     DatabaseUtil.log(
-      "update circuits -> RETRO_STARTED",
+      "update circuits -> SOLVED",
       circuit.id
     );
 
@@ -430,7 +430,10 @@ module.exports = class CircuitDatabase extends LokiJS {
     );
 
     DatabaseUtil.findUpdateInsert(circuit, collection);
-    DatabaseUtil.log("insert circuit -> RETRO", circuit.id);
+    DatabaseUtil.log(
+      "insert circuit -> SOLVED",
+      circuit.id
+    );
 
     collection = this.getCollection(
       CircuitDatabase.Collections.ACTIVE

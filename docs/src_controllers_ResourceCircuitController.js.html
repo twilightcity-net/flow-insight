@@ -1031,18 +1031,14 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param circuitName - the circuit to pause
    */
   solveCircuit = circuitName => {
-    CircuitClient.solveWtf(
-      circuitName,
-      this,
-      arg => {
-        let request = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.JOURNAL,
-          BrowserRequestFactory.Locations.ME
-        );
-        this.browserController.makeRequest(request);
-        this.fireCircuitSolveNotifyEvent();
-      }
-    );
+    CircuitClient.solveWtf(circuitName, this, arg => {
+      let request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.JOURNAL,
+        BrowserRequestFactory.Locations.ME
+      );
+      this.browserController.makeRequest(request);
+      this.fireCircuitSolveNotifyEvent();
+    });
   };
 
   /**
