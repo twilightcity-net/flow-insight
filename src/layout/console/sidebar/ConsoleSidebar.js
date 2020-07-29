@@ -81,30 +81,24 @@ export default class ConsoleSidebar extends Component {
       this,
       this.onCircuitPauseResume
     );
+    this.circuitSolveListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_SOLVE,
+      this,
+      this.onCircuitSolve
+    );
   }
 
   /**
    * called when we remove the console sidebar panel and menu from view
    */
   componentWillUnmount() {
-    this.myController.configureHeartbeatListener(
-      this,
-      null
-    );
-    this.myController.configurePulseListener(this, null);
-    this.myController.configureMenuListener(this, null);
-    this.myController.configureSidebarShowListener(
-      this,
-      null
-    );
-    this.circuitStartStopListener.updateCallback(
-      this,
-      null
-    );
-    this.circuitPauseResumeListener.updateCallback(
-      this,
-      null
-    );
+    this.myController.clearHeartbeatListener();
+    this.myController.clearMenuListener();
+    this.myController.clearPulseListener();
+    this.myController.clearSidebarShowListener();
+    this.circuitStartStopListener.clear();
+    this.circuitPauseResumeListener.clear();
   }
 
   /**
@@ -152,9 +146,20 @@ export default class ConsoleSidebar extends Component {
    * @param arg
    */
   onCircuitPauseResume = (event, arg) => {
-    console.log("ALARM", arg < 0);
     this.setState({
       isAlarm: arg < 0
+    });
+  };
+
+  /**
+   * event handler for when the user solves a wtf. this will remove
+   * the flashing active circuit model from the wtf button.
+   * @param event
+   * @param arg
+   */
+  onCircuitSolve = (event, arg) => {
+    this.setState({
+      isAlarm: false
     });
   };
 

@@ -169,7 +169,7 @@ module.exports = class BaseController {
 
   /**
    * a list of our various circuit status types
-   * @returns {{TEAM_RETRO_STARTED: string, SOLVED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_STOPPED: string}}
+   * @returns {{TEAM_RETRO_STARTED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_STOPPED: string, TEAM_WTF_SOLVED: string}}
    * @constructor
    */
   static get StatusTypes() {
@@ -177,32 +177,34 @@ module.exports = class BaseController {
       TEAM_WTF_STARTED: "TEAM_WTF_STARTED",
       TEAM_WTF_STOPPED: "TEAM_WTF_STOPPED",
       TEAM_WTF_RESUMED: "TEAM_WTF_RESUMED",
-      TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED",
-      SOLVED: "SOLVED"
+      TEAM_WTF_SOLVED: "TEAM_WTF_SOLVED",
+      TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED"
     };
   }
 
   /**
    * a list of our various circuit states
-   * @returns {{ON_HOLD: string, CANCELED: string, TROUBLESHOOT: string}}
+   * @returns {{CANCELED: string, SOLVED: string, ON_HOLD: string, TROUBLESHOOT: string}}
    * @constructor
    */
   static get CircuitStates() {
     return {
       TROUBLESHOOT: "TROUBLESHOOT",
       CANCELED: "CANCELED",
-      ON_HOLD: "ONHOLD"
+      ON_HOLD: "ONHOLD",
+      SOLVED: "SOLVED"
     };
   }
 
   /**
    * our possible client context scopes used by gridtime clients
-   * @returns {{TEAM_CIRCUIT_CLIENT: string, CIRCUIT_CLIENT: string, TEAM_CLIENT: string, MEMBER_CLIENT: string, JOURNAL_CLIENT: string, TALK_TO_CLIENT: string}}
+   * @returns {{TALK_CLIENT: string, TEAM_CIRCUIT_CLIENT: string, CIRCUIT_CLIENT: string, TEAM_CLIENT: string, MEMBER_CLIENT: string, JOURNAL_CLIENT: string, TALK_TO_CLIENT: string}}
    * @constructor
    */
   static get Contexts() {
     return {
       CIRCUIT_CLIENT: "CircuitClient",
+      TALK_CLIENT: "TalkClient",
       TALK_TO_CLIENT: "TalkToClient",
       TEAM_CLIENT: "TeamClient",
       TEAM_CIRCUIT_CLIENT: "TeamCircuitClient",

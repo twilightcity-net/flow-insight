@@ -335,7 +335,7 @@ module.exports = class TalkController extends BaseController {
               );
             }
             break;
-          case TalkController.StatusTypes.SOLVED:
+          case TalkController.StatusTypes.TEAM_WTF_SOLVED:
             circuitDatabase.solveActiveCircuit(circuit);
             memberDatabase.removeActiveCircuitFromMembers(
               circuit

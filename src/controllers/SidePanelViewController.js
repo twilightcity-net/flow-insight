@@ -253,6 +253,36 @@ export class SidePanelViewController extends ActiveViewController {
   }
 
   /**
+   * clears our heartbeat listener. This is used to update the connection
+   * icon in the bottom of the left console side menu.
+   */
+  clearHeartbeatListener() {
+    this.heartbeatListener.clear();
+  }
+
+  /**
+   * clears our menu listener which is used to handle the menu change
+   * selections of user interactions.
+   */
+  clearMenuListener() {
+    this.menuListener.clear();
+  }
+
+  /**
+   * removes our pulse listener from memory.
+   */
+  clearPulseListener() {
+    this.pulseListener.clear();
+  }
+  /**
+   * clears our sidebar show listener. This is used to show and hide the
+   * console on the left.
+   */
+  clearSidebarShowListener() {
+    this.sidebarShowListener.clear();
+  }
+
+  /**
    * dispatch an event when the console sidebar panel changes
    */
   fireSidePanelNotifyEvent() {

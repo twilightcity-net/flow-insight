@@ -131,10 +131,20 @@ export default class ActiveCircuit extends Component {
     return false;
   }
 
+  /**
+   * this is called when we unmount the component so that we can clear any active listeners
+   * for memory management.
+   */
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
   }
 
+  /**
+   * event handler for talk messages. This is called everytime we recieve a new talk
+   * message over the event bus.
+   * @param event
+   * @param arg
+   */
   onTalkRoomMessage = (event, arg) => {
     switch (arg.messageType) {
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
@@ -148,9 +158,7 @@ export default class ActiveCircuit extends Component {
           model &&
           circuit.id === model.id
         ) {
-          console.log("match", data, circuit, model);
           model = Object.assign(model, circuit);
-          console.log(model);
           this.setState({
             model: model
           });

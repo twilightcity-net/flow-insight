@@ -12,4 +12,6 @@ export class TalkClient extends BaseClient {
       TalkClient.instance = new TalkClient(scope);
     }
   }
+
+  /// ...
 }

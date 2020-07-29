@@ -653,6 +653,10 @@
         <ul class='methods'>
           <li data-type='method'><a href="SidePanelViewController.html#changeActiveCircuitsSubmenuPanel">changeActiveCircuitsSubmenuPanel</a></li>
           <li data-type='method'><a href="SidePanelViewController.html#changeActiveSpiritSubmenuPanel">changeActiveSpiritSubmenuPanel</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearHeartbeatListener">clearHeartbeatListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearMenuListener">clearMenuListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearPulseListener">clearPulseListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearSidebarShowListener">clearSidebarShowListener</a></li>
           <li data-type='method'><a href="SidePanelViewController.html#configureCircuitsPanelListener">configureCircuitsPanelListener</a></li>
           <li data-type='method'><a href="SidePanelViewController.html#configureMenuListener">configureMenuListener</a></li>
           <li data-type='method'><a href="SidePanelViewController.html#configureNotificationsPanelListener">configureNotificationsPanelListener</a></li>
@@ -1264,7 +1268,7 @@ module.exports = class TalkController extends BaseController {
               );
             }
             break;
-          case TalkController.StatusTypes.SOLVED:
+          case TalkController.StatusTypes.TEAM_WTF_SOLVED:
             circuitDatabase.solveActiveCircuit(circuit);
             memberDatabase.removeActiveCircuitFromMembers(
               circuit

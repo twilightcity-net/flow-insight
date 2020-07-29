@@ -653,6 +653,10 @@
         <ul class='methods'>
           <li data-type='method'><a href="SidePanelViewController.html#changeActiveCircuitsSubmenuPanel">changeActiveCircuitsSubmenuPanel</a></li>
           <li data-type='method'><a href="SidePanelViewController.html#changeActiveSpiritSubmenuPanel">changeActiveSpiritSubmenuPanel</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearHeartbeatListener">clearHeartbeatListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearMenuListener">clearMenuListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearPulseListener">clearPulseListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearSidebarShowListener">clearSidebarShowListener</a></li>
           <li data-type='method'><a href="SidePanelViewController.html#configureCircuitsPanelListener">configureCircuitsPanelListener</a></li>
           <li data-type='method'><a href="SidePanelViewController.html#configureMenuListener">configureMenuListener</a></li>
           <li data-type='method'><a href="SidePanelViewController.html#configureNotificationsPanelListener">configureNotificationsPanelListener</a></li>
@@ -1179,6 +1183,36 @@ export class SidePanelViewController extends ActiveViewController {
       scope,
       callback
     );
+  }
+
+  /**
+   * clears our heartbeat listener. This is used to update the connection
+   * icon in the bottom of the left console side menu.
+   */
+  clearHeartbeatListener() {
+    this.heartbeatListener.clear();
+  }
+
+  /**
+   * clears our menu listener which is used to handle the menu change
+   * selections of user interactions.
+   */
+  clearMenuListener() {
+    this.menuListener.clear();
+  }
+
+  /**
+   * removes our pulse listener from memory.
+   */
+  clearPulseListener() {
+    this.pulseListener.clear();
+  }
+  /**
+   * clears our sidebar show listener. This is used to show and hide the
+   * console on the left.
+   */
+  clearSidebarShowListener() {
+    this.sidebarShowListener.clear();
   }
 
   /**
