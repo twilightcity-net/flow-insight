@@ -1,26 +1,26 @@
-    "                                                                                               ",
-    "     .:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.     ",
-    "     :    __________ __________ __________ _________ _____ _____ _________ __________    :     ",
-    "     :   |          |          |    __   \\\\         |     |     |_       _|        __|   :     ",
-    "     :   |_        _|    __    |         <|       __|           |_|     |_|        __|   :     ",
-    "     :    _|______|_|__________|_____|____|_________|_____|_____|_________|__________|   :     ",
-    "     :   |      ______|     |     |         __|          |________|          |_______    :     ",
-    "     :   |______      |           |         __|                   |                  |   :     ",
-    "     :   |____________|_____|_____|___________|___________________|__ZoeDreams_800XL |   :     ",
-    "     :                                           D R E A M S C A L E © 2 0 2 0           :     ",
-    "     :                                                                                   :     ",
-    "     :.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:     ",
-    "                                                                                               \n"
+                                                                                                  
+         .:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.    
+         :    __________ __________ __________ _________ _____ _____ _________ __________    :    
+         :   |          |          |    __   \\         |     |     |_       _|        __|   :    
+         :   |_        _|    __    |         <|       __|           |_|     |_|        __|   :    
+         :    _|______|_|__________|_____|____|_________|_____|_____|_________|__________|   :    
+         :   |      ______|     |     |         __|          |________|          |_______    :    
+         :   |______      |           |         __|                   |                  |   :    
+         :   |____________|_____|_____|___________|___________________|__ZoeDreams_800XL |   :    
+         :                                           D R E A M S C A L E © 2 0 2 0           :    
+         :                                                                                   :    
+         :.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:    
+                                                                                                  
     
 ## Torchie Desktop Application ##
-Electron desktop application which provides dev workflow & team collaborative troubleshooting tools
+Torchie Shell is a desktop application is a suite of open source tools for Idea Flow. It works in tandem with a peer to peer socket server called Talk, and an artifical intelligent supply chain engine that is a called GridTime. Together these tools empower teams of developers to collborate together through a democratic sofware development workflow. Toegether though shared space storyboarding, virtual white-boards, and mob based troubleshooting wtf's; we got you! 
 
 ### Install from Source ###
-The following will descrive how to install 'torchie' from source code, and run using @DreamScale production api for GridTime "https://torchie.dreamscale.io" and for Talk "https://talk.dreamscale.io".  
+The following will describe how to install 'torchie' from source code, and run using @DreamScale production api for GridTime "https://torchie.dreamscale.io" and for Talk "https://talk.dreamscale.io". Please contact us to help you set up your own server and database.
 
 Requirements:
 - Node v11.15.x
-- Xcode-CLI (`xcode-select --install`)
+- Xcode-CLI (`xcode-select --install`) (Mac Only)
 - Yarn v1.2.x
 - Git w/ CLI
 
@@ -38,7 +38,7 @@ https://yarnpkg.com/lang/en/docs/install/#mac-stable
 
 3) Open up a terminal window and navigate into a secure place where you store source code. The run the  git command:
 
-`git clone https://github.com/dreamscale-io/torchie-desktop.git`
+`git clone https://github.com/dreamscale-io/torchie-shell.git`
 
 4) Using yarn, install the projects module dependencies with the following command in the terminal: 
 
@@ -46,7 +46,9 @@ https://yarnpkg.com/lang/en/docs/install/#mac-stable
 
 5) Done! Run the following command in your terminal to start the application:
 
-`yarn dev`
+`yarn dev` or `yarn .` 
+
+***DRYCLEANING:*** Try running `yarn ..` to quickly clean and build: new documentation (for your IDEA), lint, compile, build and run in dev mode.
 
 ***OPTIONAL:*** To run the project using the local development mock api, use:
 
@@ -76,7 +78,7 @@ Note: hit `ctrl+c` to terminate the project.
 
 1) Run the application using 
 
-`yarn dev`
+`yarn dev` or `yarn .`
 
 2) Wait for the app to load, and open the chrome dev window for the console window
 
@@ -121,7 +123,7 @@ Documentation files will be exported to ~/torchie-desktop/docs.
 
 2) Commit your changes with this command: 
 
-`git commit -m 'some descriptive message'`
+`git commit -m '<imperative_voice_description>'`
 
 3) Then push your changes with:
 
@@ -142,4 +144,4 @@ GitHub personal access token is required. You can generate by going to https://g
 `yarn release`
 
 --------------------------
-contact: [janelle@dreamscale.io](mailto:janelle@dreamscale.io) // [kara@dreamscale.io](mailto:kara@dreamscale.io)
+contact: [arty@dreamscale.io](mailto:arty@dreamscale.io) // [zoe@dreamscale.io](mailto:zoe@dreamscale.io)
