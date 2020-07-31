@@ -297,6 +297,7 @@
           <li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
+          <li data-type='method'><a href="module.html#.exports#findInsert">findInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemove">findRemove</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
@@ -469,6 +470,7 @@
           <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
           <li data-type='method'><a href="module.html#.exports#updateMemberInMembers">updateMemberInMembers</a></li>
           <li data-type='method'><a href="module.html#.exports#updateMemberMe">updateMemberMe</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateRoomMemberStatus">updateRoomMemberStatus</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
@@ -974,7 +976,7 @@ export default class ConsoleSidebar extends Component {
       iconSpirit: "heart outline",
       iconTeam: "user",
       iconWTF: "lightning",
-      iconCircuit: "compass outline",
+      iconCircuit: "star outline",
       iconNotifications: "bell outline"
     };
     this.myController = RendererControllerFactory.getViewController(
@@ -1031,7 +1033,7 @@ export default class ConsoleSidebar extends Component {
     this.myController.clearPulseListener();
     this.myController.clearSidebarShowListener();
     this.circuitStartStopListener.clear();
-    this.circuitPauseResumeListener.clear()
+    this.circuitPauseResumeListener.clear();
   }
 
   /**
@@ -1153,7 +1155,7 @@ export default class ConsoleSidebar extends Component {
       iconTeam: "user",
       iconWTF: "lightning",
       iconNotifications: "bell",
-      iconCircuit: "compass"
+      iconCircuit: "star"
     };
     let oStr = " outline";
     switch (activeMenuItem) {

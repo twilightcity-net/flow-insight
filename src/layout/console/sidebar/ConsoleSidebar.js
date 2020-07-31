@@ -41,7 +41,7 @@ export default class ConsoleSidebar extends Component {
       iconSpirit: "heart outline",
       iconTeam: "user",
       iconWTF: "lightning",
-      iconCircuit: "compass outline",
+      iconCircuit: "star outline",
       iconNotifications: "bell outline"
     };
     this.myController = RendererControllerFactory.getViewController(
@@ -220,7 +220,7 @@ export default class ConsoleSidebar extends Component {
       iconTeam: "user",
       iconWTF: "lightning",
       iconNotifications: "bell",
-      iconCircuit: "compass"
+      iconCircuit: "star"
     };
     let oStr = " outline";
     switch (activeMenuItem) {

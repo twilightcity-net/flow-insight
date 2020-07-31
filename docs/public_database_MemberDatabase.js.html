@@ -297,6 +297,7 @@
           <li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
           <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
+          <li data-type='method'><a href="module.html#.exports#findInsert">findInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemove">findRemove</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
@@ -469,6 +470,7 @@
           <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
           <li data-type='method'><a href="module.html#.exports#updateMemberInMembers">updateMemberInMembers</a></li>
           <li data-type='method'><a href="module.html#.exports#updateMemberMe">updateMemberMe</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateRoomMemberStatus">updateRoomMemberStatus</a></li>
           <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
           <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
@@ -1123,6 +1125,8 @@ module.exports = class MemberDatabase extends LokiJS {
     }
     collection.insert(Object.assign({}, member));
     this.updateMemberMe(member);
+
+    DatabaseUtil.log("update member -> ME", member.id);
   }
 };
 </code></pre>

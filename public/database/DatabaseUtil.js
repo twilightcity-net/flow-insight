@@ -56,6 +56,20 @@ module.exports = class DatabaseUtil {
   }
 
   /**
+   * finds a specific doc in a collection and will insert a new one
+   * if it is not found in the collection. Almost like the others
+   * but it isn't.
+   * @param doc
+   * @param collection
+   */
+  static findInsert(doc, collection) {
+    let result = collection.findOne({ id: doc.id });
+    if (!result) {
+      collection.insert(doc);
+    }
+  }
+
+  /**
    * seek and destroy, t-1000 style. looks up a document of a
    * given collection by its id and then remove it.
    * @param doc

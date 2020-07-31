@@ -169,15 +169,16 @@ module.exports = class BaseController {
 
   /**
    * a list of our various circuit status types
-   * @returns {{TEAM_RETRO_STARTED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_STOPPED: string, TEAM_WTF_SOLVED: string}}
+   * @returns {{TEAM_RETRO_STARTED: string, TEAM_WTF_ON_HOLD: string, TEAM_WTF_CANCELED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_SOLVED: string}}
    * @constructor
    */
   static get StatusTypes() {
     return {
       TEAM_WTF_STARTED: "TEAM_WTF_STARTED",
-      TEAM_WTF_STOPPED: "TEAM_WTF_STOPPED",
+      TEAM_WTF_ON_HOLD: "TEAM_WTF_ON_HOLD",
       TEAM_WTF_RESUMED: "TEAM_WTF_RESUMED",
       TEAM_WTF_SOLVED: "TEAM_WTF_SOLVED",
+      TEAM_WTF_CANCELED: "TEAM_WTF_CANCELED",
       TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED"
     };
   }
@@ -377,10 +378,14 @@ module.exports = class BaseController {
    * queries for a specific doc and determines if we should insert the model
    * into the collection or not. we are under the assumption that each one of
    * these talk doc records does not mutate over time. The id is fixed in
-   * time as you could say
+   * time as you could say.
+   *
+   * please try to start using DatabaseUtil.findInsert() Thank you.
+   *
    * @param model
    * @param collection
    * @param doc
+   * @deprecated
    */
   findXOrInsertDoc(model, collection, doc) {
     model = collection.findOne({ id: doc.id });

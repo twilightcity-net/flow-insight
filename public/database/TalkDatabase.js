@@ -1,5 +1,6 @@
 const LokiJS = require("lokijs"),
-  Util = require("../Util");
+  Util = require("../Util"),
+  DatabaseUtil = require("./DatabaseUtil");
 
 /**
  * this class is used for building new talk databases
@@ -218,6 +219,28 @@ module.exports = class TalkDatabase extends LokiJS {
   getViewStatusTalkMessagesForCollection(collection) {
     return collection.getDynamicView(
       TalkDatabase.Views.STATUS_TALK_MESSAGES
+    );
+  }
+
+  /**
+   * updates our member status of the person that is in the room through
+   * an incoming talk message. data is the message data that comes in
+   * from the connection to the talk room.
+   * @param uri
+   * @param status
+   */
+  updateRoomMemberStatus(uri, status) {
+    let collection = this.getCollectionForRoomStatusTalkMessages(
+        uri
+      ),
+      roomMember = status.roomMember,
+      memberId = roomMember.memberId,
+      statusEvent = status.statusEvent;
+
+    DatabaseUtil.findInsert(status, collection);
+    DatabaseUtil.log(
+      "update room member status -> " + statusEvent,
+      memberId
     );
   }
 };

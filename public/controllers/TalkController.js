@@ -298,10 +298,9 @@ module.exports = class TalkController extends BaseController {
         break;
       case TalkController.MessageTypes
         .ROOM_MEMBER_STATUS_EVENT:
-        this.findXOrInsertDoc(
-          model,
-          statusCollection,
-          message
+        talkDatabase.updateRoomMemberStatus(
+          uri,
+          message.data
         );
         break;
       case TalkController.MessageTypes.CHAT_MESSAGE_DETAILS:
@@ -341,34 +340,22 @@ module.exports = class TalkController extends BaseController {
               circuit
             );
             break;
-          case TalkController.StatusTypes.TEAM_WTF_STOPPED:
-            switch (circuit.circuitState) {
-              case TalkController.CircuitStates.CANCELED:
-                circuitDatabase.removeCircuitFromAllCollections(
-                  circuit
-                );
-                memberDatabase.removeActiveCircuitFromMembers(
-                  circuit
-                );
-                break;
-              case TalkController.CircuitStates.ON_HOLD:
-                circuitDatabase.updateCircuitToDoItLater(
-                  circuit,
-                  me
-                );
-                memberDatabase.removeActiveCircuitFromMembers(
-                  circuit
-                );
-                break;
-              default:
-                console.warn(
-                  TalkController.Error.UNKNOWN_STATE_TYPE +
-                    " '" +
-                    circuit.circuitState +
-                    "'."
-                );
-                break;
-            }
+          case TalkController.StatusTypes.TEAM_WTF_CANCELED:
+            circuitDatabase.removeCircuitFromAllCollections(
+              circuit
+            );
+            memberDatabase.removeActiveCircuitFromMembers(
+              circuit
+            );
+            break;
+          case TalkController.StatusTypes.TEAM_WTF_ON_HOLD:
+            circuitDatabase.updateCircuitToDoItLater(
+              circuit,
+              me
+            );
+            memberDatabase.removeActiveCircuitFromMembers(
+              circuit
+            );
             break;
           case TalkController.StatusTypes.TEAM_WTF_RESUMED:
             switch (circuit.circuitState) {

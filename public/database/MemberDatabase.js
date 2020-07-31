@@ -190,5 +190,7 @@ module.exports = class MemberDatabase extends LokiJS {
     }
     collection.insert(Object.assign({}, member));
     this.updateMemberMe(member);
+
+    DatabaseUtil.log("update member -> ME", member.id);
   }
 };
