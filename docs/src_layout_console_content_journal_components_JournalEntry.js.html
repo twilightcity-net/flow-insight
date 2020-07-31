@@ -751,6 +751,7 @@
           <li data-type='method'><a href="Util.html#.getTimestampFromUTCStr">getTimestampFromUTCStr</a></li>
           <li data-type='method'><a href="Util.html#.getUriFromMessageArray">getUriFromMessageArray</a></li>
           <li data-type='method'><a href="Util.html#.getUserHomePath">getUserHomePath</a></li>
+          <li data-type='method'><a href="Util.html#.hasSQL">hasSQL</a></li>
           <li data-type='method'><a href="Util.html#.inspect">inspect</a></li>
           <li data-type='method'><a href="Util.html#.isEmpty">isEmpty</a></li>
           <li data-type='method'><a href="Util.html#.openExternalBrowser">openExternalBrowser</a></li>
@@ -874,6 +875,7 @@
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
+      <li><a href="global.html#hasSQL">hasSQL</a></li>
       <li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
@@ -940,6 +942,7 @@ import {
   Input,
   Segment
 } from "semantic-ui-react";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -1135,9 +1138,18 @@ export default class JournalEntry extends Component {
   /**
    * creates a new intention based on our current states values for our
    * dropdowns and our user text input. also blurs the input to focus
-   * on the grid of the main journal resource component
+   * on the grid of the main journal resource component. This function
+   * also checks to see if we have a nothing entered, and also for
+   * injection hacking attack vectors.
    */
   createIntention() {
+    let intention = this.state.currentIntentionValue,
+      hasSQL = UtilRenderer.hasSQL(intention);
+
+    if (hasSQL || intention === "") {
+      return false;
+    }
+
     this.props.createIntention(
       this.state.currentProjectValue,
       this.state.currentTaskValue,

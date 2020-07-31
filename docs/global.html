@@ -751,6 +751,7 @@
           <li data-type='method'><a href="Util.html#.getTimestampFromUTCStr">getTimestampFromUTCStr</a></li>
           <li data-type='method'><a href="Util.html#.getUriFromMessageArray">getUriFromMessageArray</a></li>
           <li data-type='method'><a href="Util.html#.getUserHomePath">getUserHomePath</a></li>
+          <li data-type='method'><a href="Util.html#.hasSQL">hasSQL</a></li>
           <li data-type='method'><a href="Util.html#.inspect">inspect</a></li>
           <li data-type='method'><a href="Util.html#.isEmpty">isEmpty</a></li>
           <li data-type='method'><a href="Util.html#.openExternalBrowser">openExternalBrowser</a></li>
@@ -874,6 +875,7 @@
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
+      <li><a href="global.html#hasSQL">hasSQL</a></li>
       <li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
@@ -1358,12 +1360,12 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line205">line 205</a>
+                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line208">line 208</a>
               </li>
             </ul>
           </dd>
         </dl>
-        <div class="description usertext"> creates a new intention based on our current states values for our dropdowns and our user text input. also blurs the input to focus on the grid of the main journal resource component </div>
+        <div class="description usertext"> creates a new intention based on our current states values for our dropdowns and our user text input. also blurs the input to focus on the grid of the main journal resource component. This function also checks to see if we have a nothing entered, and also for injection hacking attack vectors. </div>
         <h4 class="name"
             id="createProject"><span class="type-signature"></span>createProject<span class="signature">(name)</span><span class="type-signature"></span></h4>
         <dl class="details">
@@ -1371,7 +1373,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line171">line 171</a>
+                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line172">line 172</a>
               </li>
             </ul>
           </dd>
@@ -1445,7 +1447,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line157">line 157</a>
+                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line158">line 158</a>
               </li>
             </ul>
           </dd>
@@ -2269,7 +2271,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line304">line 304</a>
+                <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line346">line 346</a>
               </li>
             </ul>
           </dd>
@@ -2653,7 +2655,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line295">line 295</a>
+                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line305">line 305</a>
               </li>
             </ul>
           </dd>
@@ -2827,7 +2829,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line320">line 320</a>
+                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line330">line 330</a>
               </li>
             </ul>
           </dd>
@@ -3001,7 +3003,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line345">line 345</a>
+                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line355">line 355</a>
               </li>
             </ul>
           </dd>
@@ -3421,7 +3423,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line95">line 95</a>
+                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line96">line 96</a>
               </li>
             </ul>
           </dd>
@@ -3439,6 +3441,44 @@
           <tbody>
             <tr>
               <td class="name"><code>state</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Returns:</h5>
+        <dl class="param-type">
+          <dt> Type </dt>
+          <dd>
+            <span class="param-type">boolean</span>
+          </dd>
+        </dl>
+        <h4 class="name"
+            id="hasSQL"><span class="type-signature"></span>hasSQL<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line308">line 308</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> useful helper to detect if we have a sql injection attack. Should implement this anywhere we are sending data or receiving data. sql regex reference: http://www.symantec.com/connect/articles/detection-sql-injection-and-cross-site-scripting-attacks </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>value</code></td>
               <td class="type">
               </td>
               <td class="description last"></td>
@@ -4545,7 +4585,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line366">line 366</a>
+                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line376">line 376</a>
               </li>
             </ul>
           </dd>
@@ -5301,7 +5341,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line68">line 68</a>
+                <a href="src_layout_console_content_journal_components_JournalEntry.js.html">src/layout/console/content/journal/components/JournalEntry.js</a>, <a href="src_layout_console_content_journal_components_JournalEntry.js.html#line69">line 69</a>
               </li>
             </ul>
           </dd>

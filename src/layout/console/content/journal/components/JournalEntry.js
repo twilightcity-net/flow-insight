@@ -5,6 +5,7 @@ import {
   Input,
   Segment
 } from "semantic-ui-react";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -200,9 +201,18 @@ export default class JournalEntry extends Component {
   /**
    * creates a new intention based on our current states values for our
    * dropdowns and our user text input. also blurs the input to focus
-   * on the grid of the main journal resource component
+   * on the grid of the main journal resource component. This function
+   * also checks to see if we have a nothing entered, and also for
+   * injection hacking attack vectors.
    */
   createIntention() {
+    let intention = this.state.currentIntentionValue,
+      hasSQL = UtilRenderer.hasSQL(intention);
+
+    if (hasSQL || intention === "") {
+      return false;
+    }
+
     this.props.createIntention(
       this.state.currentProjectValue,
       this.state.currentTaskValue,

@@ -751,6 +751,7 @@
           <li data-type='method'><a href="Util.html#.getTimestampFromUTCStr">getTimestampFromUTCStr</a></li>
           <li data-type='method'><a href="Util.html#.getUriFromMessageArray">getUriFromMessageArray</a></li>
           <li data-type='method'><a href="Util.html#.getUserHomePath">getUserHomePath</a></li>
+          <li data-type='method'><a href="Util.html#.hasSQL">hasSQL</a></li>
           <li data-type='method'><a href="Util.html#.inspect">inspect</a></li>
           <li data-type='method'><a href="Util.html#.isEmpty">isEmpty</a></li>
           <li data-type='method'><a href="Util.html#.openExternalBrowser">openExternalBrowser</a></li>
@@ -874,6 +875,7 @@
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
+      <li><a href="global.html#hasSQL">hasSQL</a></li>
       <li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
@@ -1306,7 +1308,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="public_Util.js.html">public/Util.js</a>, <a href="public_Util.js.html#line315">line 315</a>
+                <a href="public_Util.js.html">public/Util.js</a>, <a href="public_Util.js.html#line357">line 357</a>
               </li>
             </ul>
           </dd>
@@ -1512,6 +1514,44 @@
           <dt> Type </dt>
           <dd>
             <span class="param-type">string</span>
+          </dd>
+        </dl>
+        <h4 class="name"
+            id=".hasSQL"><span class="type-signature">(static) </span>hasSQL<span class="signature">(value)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="public_Util.js.html">public/Util.js</a>, <a href="public_Util.js.html#line319">line 319</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> useful helper to detect if we have a sql injection attack. Should implement this anywhere we are sending data or receiving data. sql regex reference: http://www.symantec.com/connect/articles/detection-sql-injection-and-cross-site-scripting-attacks </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>value</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Returns:</h5>
+        <dl class="param-type">
+          <dt> Type </dt>
+          <dd>
+            <span class="param-type">boolean</span>
           </dd>
         </dl>
         <h4 class="name"
