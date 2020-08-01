@@ -25,6 +25,7 @@
     ",": "yarn stage",
     ",,": "yarn docs",
     "/": "yarn dev:grid",
+    "doctor": "echo take the purple pills",
     "update": "git fetch && git pull && yarn prestage",
     "prestage": "gulp prettier lint pretty",
     "stage": "git add .",
