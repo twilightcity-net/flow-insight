@@ -255,6 +255,7 @@
           <li data-type='method'><a href="module.html#.exports#createConnection">createConnection</a></li>
           <li data-type='method'><a href="module.html#.exports#createConsole">createConsole</a></li>
           <li data-type='method'><a href="module.html#.exports#createMenu">createMenu</a></li>
+          <li data-type='method'><a href="module.html#.exports#createNewCircuit">createNewCircuit</a></li>
           <li data-type='method'><a href="module.html#.exports#createQuitListener">createQuitListener</a></li>
           <li data-type='method'><a href="module.html#.exports#createShortcuts">createShortcuts</a></li>
           <li data-type='method'><a href="module.html#.exports#createWindowActivator">createWindowActivator</a></li>
@@ -303,6 +304,7 @@
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></li>
+          <li data-type='method'><a href="module.html#.exports#findUpdate">findUpdate</a></li>
           <li data-type='method'><a href="module.html#.exports#findUpdateInsert">findUpdateInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#finished">finished</a></li>
@@ -399,7 +401,6 @@
           <li data-type='method'><a href="module.html#.exports#init">init</a></li>
           <li data-type='method'><a href="module.html#.exports#init">init</a></li>
           <li data-type='method'><a href="module.html#.exports#initVolumes">initVolumes</a></li>
-          <li data-type='method'><a href="module.html#.exports#insertCircuitOrUpdateCircuitState">insertCircuitOrUpdateCircuitState</a></li>
           <li data-type='method'><a href="module.html#.exports#joinRoomById">joinRoomById</a></li>
           <li data-type='method'><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></li>
           <li data-type='method'><a href="module.html#.exports#load">load</a></li>
@@ -753,6 +754,7 @@
           <li data-type='method'><a href="Util.html#.getUserHomePath">getUserHomePath</a></li>
           <li data-type='method'><a href="Util.html#.hasSQL">hasSQL</a></li>
           <li data-type='method'><a href="Util.html#.inspect">inspect</a></li>
+          <li data-type='method'><a href="Util.html#.isCircuitOwnerModerator">isCircuitOwnerModerator</a></li>
           <li data-type='method'><a href="Util.html#.isEmpty">isEmpty</a></li>
           <li data-type='method'><a href="Util.html#.openExternalBrowser">openExternalBrowser</a></li>
           <li data-type='method'><a href="Util.html#.setAppTray">setAppTray</a></li>
@@ -1196,44 +1198,7 @@ module.exports = class CircuitController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(
-          DatabaseFactory.Names.CIRCUIT
-        ),
-        collection = database.getCollection(
-          CircuitDatabase.Collections.ACTIVE
-        ),
-        view = database.getViewActiveCircuit(),
-        circuit = {};
-
-      this.batchRemoveFromViewInCollection(
-        view,
-        collection
-      );
-
-      if (circuit) {
-        circuit = Object.assign(circuit, store.data);
-        collection.insert(circuit);
-
-        circuit = Object.assign({}, store.data);
-        collection = database.getCollection(
-          CircuitDatabase.Collections.PARTICIPATING
-        );
-        this.updateSingleCircuitByIdInCollection(
-          circuit,
-          collection
-        );
-
-        circuit = Object.assign({}, store.data);
-        collection = database.getCollection(
-          CircuitDatabase.Collections.CIRCUITS
-        );
-        this.updateSingleCircuitByIdInCollection(
-          circuit,
-          collection
-        );
-
-        arg.data = circuit;
-      }
+      arg.data = store.data;
     }
     this.delegateCallbackOrEventReplyTo(
       event,

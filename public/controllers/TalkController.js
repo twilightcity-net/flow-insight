@@ -2,6 +2,7 @@ const log = require("electron-log"),
   chalk = require("chalk"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
+  Util = require("../Util"),
   DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
@@ -328,25 +329,10 @@ module.exports = class TalkController extends BaseController {
 
         switch (data.statusType) {
           case TalkController.StatusTypes.TEAM_WTF_STARTED:
-            if (me.id !== data.memberId) {
-              circuitDatabase.insertCircuitOrUpdateCircuitState(
-                circuit
-              );
+            if (Util.isCircuitOwnerModerator(me, circuit)) {
+              circuitDatabase.createNewCircuit(circuit, me);
+              circuitDatabase.setActiveCircuit(circuit);
             }
-            break;
-          case TalkController.StatusTypes.TEAM_WTF_SOLVED:
-            circuitDatabase.solveActiveCircuit(circuit);
-            memberDatabase.removeActiveCircuitFromMembers(
-              circuit
-            );
-            break;
-          case TalkController.StatusTypes.TEAM_WTF_CANCELED:
-            circuitDatabase.removeCircuitFromAllCollections(
-              circuit
-            );
-            memberDatabase.removeActiveCircuitFromMembers(
-              circuit
-            );
             break;
           case TalkController.StatusTypes.TEAM_WTF_ON_HOLD:
             circuitDatabase.updateCircuitToDoItLater(
@@ -376,6 +362,27 @@ module.exports = class TalkController extends BaseController {
                 );
                 break;
             }
+            break;
+          case TalkController.StatusTypes.TEAM_WTF_SOLVED:
+            circuitDatabase.solveActiveCircuit(circuit);
+            memberDatabase.removeActiveCircuitFromMembers(
+              circuit
+            );
+            break;
+          case TalkController.StatusTypes.TEAM_WTF_CANCELED:
+            circuitDatabase.removeCircuitFromAllCollections(
+              circuit
+            );
+            memberDatabase.removeActiveCircuitFromMembers(
+              circuit
+            );
+            break;
+          case TalkController.StatusTypes
+            .TEAM_RETRO_STARTED:
+            console.log("XXX-TEAM_RETRO_STARTED");
+
+            /// ...
+
             break;
           default:
             console.warn(

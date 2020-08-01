@@ -251,44 +251,33 @@ module.exports = class CircuitDatabase extends LokiJS {
    * updates a specific circuit in all of our possible circuit
    * collections within this database
    * @param circuit
+   * @param me
    */
-  insertCircuitOrUpdateCircuitState(circuit) {
+  createNewCircuit(circuit, me) {
     let collection = this.getCollection(
-        CircuitDatabase.Collections.CIRCUITS
-      ),
-      result = collection.findOne({
-        id: circuit.id
-      });
+      CircuitDatabase.Collections.CIRCUITS
+    );
 
-    if (result) {
-      result.circuitState = circuit.circuitState;
-    } else {
-      collection.insert(circuit);
-    }
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log(
+      "insert new circuit state->" + circuit.circuitState,
+      circuit.id
+    );
 
     collection = this.getCollection(
       CircuitDatabase.Collections.PARTICIPATING
     );
-    result = collection.findOne({
-      id: circuit.id
-    });
-    if (result) {
-      result.circuitState = circuit.circuitState;
-    }
-
-    collection = this.getCollection(
-      CircuitDatabase.Collections.LATER
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log(
+      "insert 'participating' circuit",
+      circuit.id
     );
-    result = collection.findOne({
-      id: circuit.id
-    });
-    if (result) {
-      result.circuitState = circuit.circuitState;
-    }
 
-    this.log(
-      "insert circuit",
-      this.getViewCircuits().count()
+    DatabaseUtil.log(
+      "created new circuit [count=" +
+        this.getViewCircuits().count() +
+        "]",
+      circuit.id
     );
   }
 
@@ -348,14 +337,9 @@ module.exports = class CircuitDatabase extends LokiJS {
       circuit.id
     );
 
-    collection = this.getCollection(
-      CircuitDatabase.Collections.ACTIVE
-    );
     this.removeActiveCircuit();
 
-    if (
-      me.id === (circuit.ownerId || circuit.moderatorId)
-    ) {
+    if (Util.isCircuitOwnerModerator(me, circuit)) {
       collection = this.getCollection(
         CircuitDatabase.Collections.LATER
       );

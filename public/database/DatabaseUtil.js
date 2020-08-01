@@ -70,6 +70,21 @@ module.exports = class DatabaseUtil {
   }
 
   /**
+   * finds a specific document in our collection and updates it
+   * with the doc that is input as the doc argument. Works like
+   * findUpdateInsert but does not insert. Just the tip.s
+   * @param doc
+   * @param collection
+   */
+  static findUpdate(doc, collection) {
+    let result = collection.findOne({ id: doc.id });
+    if (result) {
+      result = Object.assign(result, doc);
+      collection.update(result);
+    }
+  }
+
+  /**
    * seek and destroy, t-1000 style. looks up a document of a
    * given collection by its id and then remove it.
    * @param doc

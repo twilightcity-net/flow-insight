@@ -259,44 +259,7 @@ module.exports = class CircuitController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let database = DatabaseFactory.getDatabase(
-          DatabaseFactory.Names.CIRCUIT
-        ),
-        collection = database.getCollection(
-          CircuitDatabase.Collections.ACTIVE
-        ),
-        view = database.getViewActiveCircuit(),
-        circuit = {};
-
-      this.batchRemoveFromViewInCollection(
-        view,
-        collection
-      );
-
-      if (circuit) {
-        circuit = Object.assign(circuit, store.data);
-        collection.insert(circuit);
-
-        circuit = Object.assign({}, store.data);
-        collection = database.getCollection(
-          CircuitDatabase.Collections.PARTICIPATING
-        );
-        this.updateSingleCircuitByIdInCollection(
-          circuit,
-          collection
-        );
-
-        circuit = Object.assign({}, store.data);
-        collection = database.getCollection(
-          CircuitDatabase.Collections.CIRCUITS
-        );
-        this.updateSingleCircuitByIdInCollection(
-          circuit,
-          collection
-        );
-
-        arg.data = circuit;
-      }
+      arg.data = store.data;
     }
     this.delegateCallbackOrEventReplyTo(
       event,

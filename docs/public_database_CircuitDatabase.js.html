@@ -255,6 +255,7 @@
           <li data-type='method'><a href="module.html#.exports#createConnection">createConnection</a></li>
           <li data-type='method'><a href="module.html#.exports#createConsole">createConsole</a></li>
           <li data-type='method'><a href="module.html#.exports#createMenu">createMenu</a></li>
+          <li data-type='method'><a href="module.html#.exports#createNewCircuit">createNewCircuit</a></li>
           <li data-type='method'><a href="module.html#.exports#createQuitListener">createQuitListener</a></li>
           <li data-type='method'><a href="module.html#.exports#createShortcuts">createShortcuts</a></li>
           <li data-type='method'><a href="module.html#.exports#createWindowActivator">createWindowActivator</a></li>
@@ -303,6 +304,7 @@
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></li>
+          <li data-type='method'><a href="module.html#.exports#findUpdate">findUpdate</a></li>
           <li data-type='method'><a href="module.html#.exports#findUpdateInsert">findUpdateInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#finished">finished</a></li>
@@ -399,7 +401,6 @@
           <li data-type='method'><a href="module.html#.exports#init">init</a></li>
           <li data-type='method'><a href="module.html#.exports#init">init</a></li>
           <li data-type='method'><a href="module.html#.exports#initVolumes">initVolumes</a></li>
-          <li data-type='method'><a href="module.html#.exports#insertCircuitOrUpdateCircuitState">insertCircuitOrUpdateCircuitState</a></li>
           <li data-type='method'><a href="module.html#.exports#joinRoomById">joinRoomById</a></li>
           <li data-type='method'><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></li>
           <li data-type='method'><a href="module.html#.exports#load">load</a></li>
@@ -753,6 +754,7 @@
           <li data-type='method'><a href="Util.html#.getUserHomePath">getUserHomePath</a></li>
           <li data-type='method'><a href="Util.html#.hasSQL">hasSQL</a></li>
           <li data-type='method'><a href="Util.html#.inspect">inspect</a></li>
+          <li data-type='method'><a href="Util.html#.isCircuitOwnerModerator">isCircuitOwnerModerator</a></li>
           <li data-type='method'><a href="Util.html#.isEmpty">isEmpty</a></li>
           <li data-type='method'><a href="Util.html#.openExternalBrowser">openExternalBrowser</a></li>
           <li data-type='method'><a href="Util.html#.setAppTray">setAppTray</a></li>
@@ -1188,44 +1190,33 @@ module.exports = class CircuitDatabase extends LokiJS {
    * updates a specific circuit in all of our possible circuit
    * collections within this database
    * @param circuit
+   * @param me
    */
-  insertCircuitOrUpdateCircuitState(circuit) {
+  createNewCircuit(circuit, me) {
     let collection = this.getCollection(
-        CircuitDatabase.Collections.CIRCUITS
-      ),
-      result = collection.findOne({
-        id: circuit.id
-      });
+      CircuitDatabase.Collections.CIRCUITS
+    );
 
-    if (result) {
-      result.circuitState = circuit.circuitState;
-    } else {
-      collection.insert(circuit);
-    }
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log(
+      "insert new circuit state->" + circuit.circuitState,
+      circuit.id
+    );
 
     collection = this.getCollection(
       CircuitDatabase.Collections.PARTICIPATING
     );
-    result = collection.findOne({
-      id: circuit.id
-    });
-    if (result) {
-      result.circuitState = circuit.circuitState;
-    }
-
-    collection = this.getCollection(
-      CircuitDatabase.Collections.LATER
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log(
+      "insert 'participating' circuit",
+      circuit.id
     );
-    result = collection.findOne({
-      id: circuit.id
-    });
-    if (result) {
-      result.circuitState = circuit.circuitState;
-    }
 
-    this.log(
-      "insert circuit",
-      this.getViewCircuits().count()
+    DatabaseUtil.log(
+      "created new circuit [count=" +
+        this.getViewCircuits().count() +
+        "]",
+      circuit.id
     );
   }
 
@@ -1285,14 +1276,9 @@ module.exports = class CircuitDatabase extends LokiJS {
       circuit.id
     );
 
-    collection = this.getCollection(
-      CircuitDatabase.Collections.ACTIVE
-    );
     this.removeActiveCircuit();
 
-    if (
-      me.id === (circuit.ownerId || circuit.moderatorId)
-    ) {
+    if (Util.isCircuitOwnerModerator(me, circuit)) {
       collection = this.getCollection(
         CircuitDatabase.Collections.LATER
       );

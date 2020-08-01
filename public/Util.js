@@ -351,6 +351,20 @@ class Util {
   }
 
   /**
+   * helper function that given a specific user and a circuit, it will
+   * return true if the member created it or is a moderator. This
+   * is done by comparing the id's of the member in the circuit.
+   * @param member
+   * @param circuit
+   * @returns {boolean}
+   */
+  static isCircuitOwnerModerator(member, circuit) {
+    return (
+      member.id === (circuit.ownerId || circuit.moderatorId)
+    );
+  }
+
+  /**
    * returns a new unique random GUID with a random number generator
    * @returns {string}
    */
