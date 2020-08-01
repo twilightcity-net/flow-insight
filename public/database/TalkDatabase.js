@@ -1,6 +1,7 @@
 const LokiJS = require("lokijs"),
   Util = require("../Util"),
-  DatabaseUtil = require("./DatabaseUtil");
+  DatabaseUtil = require("./DatabaseUtil"),
+  BaseController = require("../controllers/BaseController");
 
 /**
  * this class is used for building new talk databases
@@ -242,5 +243,46 @@ module.exports = class TalkDatabase extends LokiJS {
       "update room member status -> " + statusEvent,
       memberId
     );
+  }
+
+  /**
+   * adds a room to our rooms collection for reference
+   * @param roomName
+   * @param uri
+   */
+  findRoomAndInsert(roomName, uri) {
+    let rooms = this.getCollection(
+        TalkDatabase.Collections.ROOMS
+      ),
+      room = rooms.findOne({ uri: uri });
+
+    if (!room && roomName && uri) {
+      rooms.insert({
+        roomName: roomName,
+        uri: uri
+      });
+
+      DatabaseUtil.log("insert room -> " + roomName, uri);
+    }
+  }
+
+  /**
+   * inserts a new room message into a collection for the specified room in
+   * our local database. This is usually called by the loading functions.
+   * @param message
+   * @param collection
+   */
+  insertRoomStatusMessage(message, collection) {
+    DatabaseUtil.findInssert(message, collection);
+  }
+
+  /**
+   * inserts a new chat details message into the proper room collection for
+   * the member and circuit.
+   * @param message
+   * @param collection
+   */
+  insertRoomChatMessage(message, collection) {
+    DatabaseUtil.findInsert(message, collection);
   }
 };

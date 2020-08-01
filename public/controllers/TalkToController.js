@@ -1,6 +1,5 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
-  TalkDatabase = require("../database/TalkDatabase"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   Util = require("../Util");
 
@@ -174,81 +173,70 @@ module.exports = class TalkToController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let messages = store.data,
-        uri = Util.getUriFromMessageArray(messages),
-        roomName = Util.getRoomNameFromMessageArray(
-          messages
-        ),
-        database = DatabaseFactory.getDatabase(
-          DatabaseFactory.Names.TALK
-        ),
-        messageCollection = database.getCollectionForRoomTalkMessages(
-          uri
-        ),
-        statusCollection = database.getCollectionForRoomStatusTalkMessages(
-          uri
-        ),
-        messageView = database.getViewTalkMessagesForCollection(
-          messageCollection
-        ),
-        statusView = database.getViewStatusTalkMessagesForCollection(
-          statusCollection
-        );
-
+      let messages = store.data;
       if (messages) {
-        this.findRoomAndInsert(roomName, uri);
+        let uri = Util.getUriFromMessageArray(messages),
+          roomName = Util.getRoomNameFromMessageArray(
+            messages
+          ),
+          database = DatabaseFactory.getDatabase(
+            DatabaseFactory.Names.TALK
+          ),
+          messageCollection = database.getCollectionForRoomTalkMessages(
+            uri
+          ),
+          statusCollection = database.getCollectionForRoomStatusTalkMessages(
+            uri
+          ),
+          messageView = database.getViewTalkMessagesForCollection(
+            messageCollection
+          ),
+          statusView = database.getViewStatusTalkMessagesForCollection(
+            statusCollection
+          );
+
+        database.findRoomAndInsert(roomName, uri);
         for (
-          let i = 0,
-            message = null,
-            model = null,
-            len = messages.length;
+          let i = 0, message = null, len = messages.length;
           i < len;
           i++
         ) {
           message = messages[i];
-          switch (message.messageType) {
-            case TalkToController.MessageTypes
-              .CIRCUIT_STATUS:
-              this.findXOrInsertDoc(
-                model,
-                statusCollection,
-                message
-              );
-              break;
-            case TalkToController.MessageTypes
-              .ROOM_MEMBER_STATUS_EVENT:
-              this.findXOrInsertDoc(
-                model,
-                statusCollection,
-                message
-              );
-              break;
-            case TalkToController.MessageTypes
-              .CHAT_MESSAGE_DETAILS:
-              this.findXOrInsertDoc(
-                model,
-                messageCollection,
-                message
-              );
-              break;
-            default:
-              console.warn(
-                TalkToController.Error
-                  .UNKNOWN_TALK_MESSAGE_TYPE +
-                  " '" +
-                  message.messageType +
-                  "'."
-              );
-              break;
+          if (
+            message.messageType ===
+            (TalkToController.MessageTypes.CIRCUIT_STATUS ||
+              TalkToController.MessageTypes
+                .ROOM_MEMBER_STATUS_EVENT)
+          ) {
+            database.insertRoomStatusMessage(
+              message,
+              statusCollection
+            );
+          } else if (
+            TalkToController.MessageTypes
+              .CHAT_MESSAGE_DETAILS
+          ) {
+            database.insertRoomChatMessage(
+              message,
+              messageCollection
+            );
+          } else {
+            console.warn(
+              TalkToController.Error
+                .UNKNOWN_TALK_MESSAGE_TYPE +
+                " '" +
+                message.messageType +
+                "'."
+            );
           }
         }
+        this.logResults(
+          this.name,
+          arg.type,
+          arg.id,
+          messageView.count() + "+" + statusView.count()
+        );
       }
-      this.logResults(
-        this.name,
-        arg.type,
-        arg.id,
-        messageView.count() + "+" + statusView.count()
-      );
     }
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -263,8 +251,6 @@ module.exports = class TalkToController extends BaseController {
    * @param arg
    * @param callback
    */
-
-  //FIXME this should use URI not roomName
 
   handleGetAllTalkMessagesFromRoomEvent(
     event,
@@ -434,6 +420,12 @@ module.exports = class TalkToController extends BaseController {
     } else {
       arg.data = store.data;
     }
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      JSON.stringify(arg.args)
+    );
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,
@@ -497,13 +489,14 @@ module.exports = class TalkToController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      this.logResults(
-        this.name,
-        arg.type,
-        arg.id,
-        JSON.stringify(arg.args)
-      );
+      arg.data = store.data;
     }
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      JSON.stringify(arg.args)
+    );
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,
@@ -566,13 +559,14 @@ module.exports = class TalkToController extends BaseController {
     if (store.error) {
       arg.error = store.error;
     } else {
-      this.logResults(
-        this.name,
-        arg.type,
-        arg.id,
-        JSON.stringify(arg.args)
-      );
+      arg.data = store.data;
     }
+    this.logResults(
+      this.name,
+      arg.type,
+      arg.id,
+      JSON.stringify(arg.args)
+    );
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,

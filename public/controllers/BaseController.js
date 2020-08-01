@@ -369,6 +369,7 @@ module.exports = class BaseController {
    * given collection
    * @param view
    * @param collection
+   * @deprecated
    */
   batchRemoveFromViewInCollection(view, collection) {
     collection.removeBatch(view.data());
@@ -399,6 +400,7 @@ module.exports = class BaseController {
    * @param model
    * @param collection
    * @param doc
+   * @deprecated
    */
   findRemoveXInsertDoc(model, collection, doc) {
     model = collection.findOne({ id: doc.id });
@@ -407,28 +409,6 @@ module.exports = class BaseController {
     }
     model = Object.assign({}, doc);
     collection.insert(model);
-  }
-
-  /**
-   * adds a room to our rooms collection for reference
-   * @param roomName
-   * @param uri
-   */
-  findRoomAndInsert(roomName, uri) {
-    let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.TALK
-      ),
-      rooms = database.getCollection(
-        TalkDatabase.Collections.ROOMS
-      ),
-      room = rooms.findOne({ uri: uri });
-
-    if (!room && roomName && uri) {
-      rooms.insert({
-        roomName: roomName,
-        uri: uri
-      });
-    }
   }
 
   /**
@@ -451,6 +431,7 @@ module.exports = class BaseController {
    * resets the isHomeTeam flag on any document collection
    * @param doc
    * @param collection
+   * @deprecated
    */
   resetHomeTeamFlag(doc, collection) {
     let results = collection.find({ isHomeTeam: true });
