@@ -947,6 +947,7 @@ import {
   Menu,
   Segment
 } from "semantic-ui-react";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * This class is used to render the active circuit feed in the console view
@@ -1051,10 +1052,16 @@ export default class ActiveCircuitChat extends Component {
   };
 
   /**
-   * handles our key press for when we use the enter or return keys
+   * handles our key press for when we use the enter or return keys. check out
+   * text input for sql injection or if null or non characters.
    */
   handleEnterKey = () => {
-    let text = this.getChatTextInnerTextStr();
+    let text = this.getChatTextInnerTextStr(),
+      hasSQL = UtilRenderer.hasSQL(text);
+
+    if (hasSQL || text === "") {
+      return false;
+    }
     this.props.onEnterKey(
       text,
       this.delegateEnterKeyCallback
@@ -1086,7 +1093,7 @@ export default class ActiveCircuitChat extends Component {
   };
 
   /**
-   * handles the user action of clicking on the text field component (this)
+   * handles the user action of clicking on the text field component (this).
    */
   handleOnClickChat = () => {
     if (!this.isMouseDown) {
