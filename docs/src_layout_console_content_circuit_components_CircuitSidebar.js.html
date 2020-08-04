@@ -847,6 +847,7 @@
       <li><a href="global.html#getJournalErrorContent">getJournalErrorContent</a></li>
       <li><a href="global.html#getJournalItemsContent">getJournalItemsContent</a></li>
       <li><a href="global.html#getJournalItemsWrapperContent">getJournalItemsWrapperContent</a></li>
+      <li><a href="global.html#getLeaveActiveCircuitButtonContent">getLeaveActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></li>
       <li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li>
       <li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li>
@@ -880,6 +881,7 @@
       <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
       <li><a href="global.html#hasSQL">hasSQL</a></li>
+      <li><a href="global.html#isCircuitOwnerModerator">isCircuitOwnerModerator</a></li>
       <li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
@@ -1009,6 +1011,16 @@ export default class CircuitSidebar extends Component {
   onClickSolveActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
     this.myController.solveCircuit(circuitName);
+  };
+
+  /**
+   * click handler for putting a circuit on hold
+   */
+  onClickLeaveActiveCircuit = () => {
+    // let circuitName = this.props.model.circuitName;
+    // this.myController.leaveCircuit(circuitName);
+
+    console.log("XXX-LEAVE-ROOM");
   };
 
   /**
@@ -1451,6 +1463,31 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
+   * renders our leave button for the gui. anyone whom is joined and is not
+   * owner or moderator sees this instead of the admin controls.
+   * @returns {*}
+   */
+  getLeaveActiveCircuitButtonContent() {
+    let circuit = this.props.model;
+    if (circuit &amp;&amp; !UtilRenderer.isCircuitPaused(circuit)) {
+      return (
+        &lt;Button
+          onClick={this.onClickLeaveActiveCircuit}
+          size="medium"
+          color="grey"
+        >
+          &lt;Button.Content>leave :(&lt;/Button.Content>
+        &lt;/Button>
+      );
+    }
+    return (
+      &lt;Button size="medium" color="grey" disabled>
+        &lt;Button.Content>leave :(&lt;/Button.Content>
+      &lt;/Button>
+    );
+  }
+
+  /**
    * renders our cancel wtf circuit button in the gui
    * @returns {*}
    */
@@ -1479,6 +1516,33 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarActions() {
+    let content = (
+      &lt;Grid.Row stretched verticalAlign="middle">
+      &lt;Grid.Column>
+        {this.getLeaveActiveCircuitButtonContent()}
+      &lt;/Grid.Column>
+    &lt;/Grid.Row>
+    );
+
+    if(UtilRenderer.isCircuitOwnerModerator(
+      MemberClient.me,
+      this.props.model
+    )) {
+      content = (
+        &lt;Grid.Row stretched verticalAlign="middle">
+          &lt;Grid.Column>
+            {this.getSolveActiveCircuitButtonContent()}
+          &lt;/Grid.Column>
+          &lt;Grid.Column>
+            {this.getPauseResumeButtonContent()}
+          &lt;/Grid.Column>
+          &lt;Grid.Column>
+            {this.getCancelActiveCircuitButtonContent()}
+          &lt;/Grid.Column>
+        &lt;/Grid.Row>
+      );
+    }
+
     return (
       &lt;Segment
         className="actions"
@@ -1488,17 +1552,7 @@ export default class CircuitSidebar extends Component {
         }}
       >
         &lt;Grid columns="equal" inverted>
-          &lt;Grid.Row stretched verticalAlign="middle">
-            &lt;Grid.Column>
-              {this.getSolveActiveCircuitButtonContent()}
-            &lt;/Grid.Column>
-            &lt;Grid.Column>
-              {this.getPauseResumeButtonContent()}
-            &lt;/Grid.Column>
-            &lt;Grid.Column>
-              {this.getCancelActiveCircuitButtonContent()}
-            &lt;/Grid.Column>
-          &lt;/Grid.Row>
+          {content}
         &lt;/Grid>
       &lt;/Segment>
     );

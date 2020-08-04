@@ -73,6 +73,16 @@ export default class CircuitSidebar extends Component {
   /**
    * click handler for putting a circuit on hold
    */
+  onClickLeaveActiveCircuit = () => {
+    // let circuitName = this.props.model.circuitName;
+    // this.myController.leaveCircuit(circuitName);
+
+    console.log("XXX-LEAVE-ROOM");
+  };
+
+  /**
+   * click handler for putting a circuit on hold
+   */
   onClickPauseActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
     this.myController.pauseCircuit(circuitName);
@@ -510,6 +520,31 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
+   * renders our leave button for the gui. anyone whom is joined and is not
+   * owner or moderator sees this instead of the admin controls.
+   * @returns {*}
+   */
+  getLeaveActiveCircuitButtonContent() {
+    let circuit = this.props.model;
+    if (circuit && !UtilRenderer.isCircuitPaused(circuit)) {
+      return (
+        <Button
+          onClick={this.onClickLeaveActiveCircuit}
+          size="medium"
+          color="grey"
+        >
+          <Button.Content>leave</Button.Content>
+        </Button>
+      );
+    }
+    return (
+      <Button size="medium" color="grey" disabled>
+        <Button.Content>leave</Button.Content>
+      </Button>
+    );
+  }
+
+  /**
    * renders our cancel wtf circuit button in the gui
    * @returns {*}
    */
@@ -538,6 +573,35 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarActions() {
+    let content = (
+      <Grid.Row stretched verticalAlign="middle">
+        <Grid.Column>
+          {this.getLeaveActiveCircuitButtonContent()}
+        </Grid.Column>
+      </Grid.Row>
+    );
+
+    if (
+      UtilRenderer.isCircuitOwnerModerator(
+        MemberClient.me,
+        this.props.model
+      )
+    ) {
+      content = (
+        <Grid.Row stretched verticalAlign="middle">
+          <Grid.Column>
+            {this.getSolveActiveCircuitButtonContent()}
+          </Grid.Column>
+          <Grid.Column>
+            {this.getPauseResumeButtonContent()}
+          </Grid.Column>
+          <Grid.Column>
+            {this.getCancelActiveCircuitButtonContent()}
+          </Grid.Column>
+        </Grid.Row>
+      );
+    }
+
     return (
       <Segment
         className="actions"
@@ -547,17 +611,7 @@ export default class CircuitSidebar extends Component {
         }}
       >
         <Grid columns="equal" inverted>
-          <Grid.Row stretched verticalAlign="middle">
-            <Grid.Column>
-              {this.getSolveActiveCircuitButtonContent()}
-            </Grid.Column>
-            <Grid.Column>
-              {this.getPauseResumeButtonContent()}
-            </Grid.Column>
-            <Grid.Column>
-              {this.getCancelActiveCircuitButtonContent()}
-            </Grid.Column>
-          </Grid.Row>
+          {content}
         </Grid>
       </Segment>
     );

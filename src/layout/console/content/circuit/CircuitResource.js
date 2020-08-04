@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import ActiveCircuit from "./components/ActiveCircuit";
 import StartCircuit from "./components/StartCircuit";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
-import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 import UtilRenderer from "../../../../UtilRenderer";
 import { TalkToClient } from "../../../../clients/TalkToClient";
 import { Icon, Message } from "semantic-ui-react";
@@ -121,18 +120,6 @@ export default class CircuitResource extends Component {
         }
       );
     }
-  }
-
-  /**
-   * creates a new request and dispatch this to the browser request listener
-   * @param circuitName
-   */
-  requestBrowserToLoadActiveCircuit(circuitName) {
-    let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
-      circuitName
-    );
-    this.myController.makeSidebarBrowserRequest(request);
   }
 
   /**

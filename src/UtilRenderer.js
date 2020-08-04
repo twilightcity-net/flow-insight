@@ -298,6 +298,23 @@ export default class UtilRenderer {
   }
 
   /**
+   * helper function that given a specific user and a circuit, it will
+   * return true if the member created it or is a moderator. This
+   * is done by comparing the id's of the member in the circuit.
+   * see the Util's version of this, which is identical.
+   * @param member
+   * @param circuit
+   * @returns {boolean}
+   */
+  static isCircuitOwnerModerator(member, circuit) {
+    return (
+      member &&
+      circuit &&
+      member.id === (circuit.ownerId || circuit.moderatorId)
+    );
+  }
+
+  /**
    * useful helper to detect if we have a sql injection attack. Should
    * implement this anywhere we are sending data or receiving data.
    *
