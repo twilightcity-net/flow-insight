@@ -77,7 +77,6 @@ export default class CircuitSidebar extends Component {
     this.resourcesController.leaveCircuit(
       this.props.resource
     );
-    console.log("XXX-LEAVE-ROOM");
   };
 
   /**

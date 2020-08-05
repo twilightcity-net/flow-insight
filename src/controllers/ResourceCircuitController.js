@@ -84,6 +84,14 @@ export class ResourceCircuitController extends ActiveViewController {
     this.circuitSolveNotifier.dispatch(1);
   }
 
+  fireCircuitJoinNotifyEvent() {
+    this.circuitJoinStopNotifier.dispatch(1);
+  }
+
+  fireCircuitLeaveNotifyEvent() {
+    this.circuitLeaveStopNotifier.dispatch(-1);
+  }
+
   /**
    * Start a troubleshooting session by loading the new session into the browser
    */
@@ -170,17 +178,12 @@ export class ResourceCircuitController extends ActiveViewController {
 
     if (roomName) {
       TalkToClient.joinExistingRoom(roomName, this, arg => {
-        if (arg.error) {
-          this.setState({
-            error: arg.error
-          });
-        } else {
-          console.log(
-            this.name +
-              " JOIN ROOM -> " +
-              JSON.stringify(arg)
-          );
-        }
+        let request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.JOURNAL,
+          BrowserRequestFactory.Locations.ME
+        );
+        this.browserController.makeRequest(request);
+        this.fireCircuitJoinNotifyEvent();
       });
     }
   }
@@ -201,17 +204,12 @@ export class ResourceCircuitController extends ActiveViewController {
         roomName,
         this,
         arg => {
-          if (arg.error) {
-            this.setState({
-              error: arg.error
-            });
-          } else {
-            console.log(
-              this.name +
-                " LEAVE ROOM -> " +
-                JSON.stringify(arg)
-            );
-          }
+          let request = BrowserRequestFactory.createRequest(
+            BrowserRequestFactory.Requests.JOURNAL,
+            BrowserRequestFactory.Locations.ME
+          );
+          this.browserController.makeRequest(request);
+          this.fireCircuitLeaveNotifyEvent();
         }
       );
     }
