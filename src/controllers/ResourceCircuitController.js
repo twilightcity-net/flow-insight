@@ -169,8 +169,7 @@ export class ResourceCircuitController extends ActiveViewController {
   /**
    * joins us to the circuit's room on the talk network via gridtime. The roomname is
    * parsed from the uri and "-wtf" is appended to it. This roomName is then sent to
-   * gridtime over an http dto request.
-   */
+   * gridtime over an http dto request.   */
   joinCircuit(resource) {
     let roomName = UtilRenderer.getRoomNameFromResource(
       resource
