@@ -78,8 +78,8 @@ export class ResourceCircuitController extends ActiveViewController {
   }
 
   /**
-   * notifies the systme that we should resume the active circuit by dispatching
-   * the value -1 to the event.
+   * notifies the systme that we should resume the active circuit by
+   * dispatching the value -1 to the event.
    */
   fireCircuitResumeNotifyEvent() {
     this.circuitPauseResumeNotifier.dispatch(-1);
@@ -93,12 +93,18 @@ export class ResourceCircuitController extends ActiveViewController {
     this.circuitSolveNotifier.dispatch(1);
   }
 
+  /**
+   * notifies the system that we join an active circuit.
+   */
   fireCircuitJoinNotifyEvent() {
-    this.circuitJoinStopNotifier.dispatch(1);
+    this.circuitJoinNotifier.dispatch(1);
   }
 
+  /**
+   * notifies our local system that we have left our current active circuit.
+   */
   fireCircuitLeaveNotifyEvent() {
-    this.circuitLeaveStopNotifier.dispatch(-1);
+    this.circuitLeaveNotifier.dispatch(-1);
   }
 
   /**
@@ -118,7 +124,7 @@ export class ResourceCircuitController extends ActiveViewController {
 
   /**
    * handler that is called when we want to solve a given wtf circuit.
-   * @param circuitName - the circuit to pause
+   * @param circuitName the circuit to pause
    */
   solveCircuit(circuitName) {
     CircuitClient.solveWtf(circuitName, this, arg => {
@@ -133,18 +139,13 @@ export class ResourceCircuitController extends ActiveViewController {
 
   /**
    * handler that is called when we put a circuit on hold
-   * @param circuitName - the circuit to pause
+   * @param circuitName the circuit to pause
    */
   pauseCircuit(circuitName) {
     CircuitClient.pauseWTFWithDoItLater(
       circuitName,
       this,
       arg => {
-        let request = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.JOURNAL,
-          BrowserRequestFactory.Locations.ME
-        );
-        this.browserController.makeRequest(request);
         this.fireCircuitPauseNotifyEvent();
       }
     );
@@ -176,9 +177,11 @@ export class ResourceCircuitController extends ActiveViewController {
   }
 
   /**
-   * joins us to the circuit's room on the talk network via gridtime. The roomname is
-   * parsed from the uri and "-wtf" is appended to it. This roomName is then sent to
-   * gridtime over an http dto request.   */
+   * joins us to the circuit's room on the talk network via gridtime. The
+   * roomName is parsed from the uri and "-wtf" is appended to it. This
+   * roomName is then sent to gridtime over an http dto request.
+   * @param resource
+   */
   joinCircuit(resource) {
     let roomName = UtilRenderer.getRoomNameFromResource(
       resource

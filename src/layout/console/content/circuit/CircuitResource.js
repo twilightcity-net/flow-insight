@@ -3,7 +3,6 @@ import ActiveCircuit from "./components/ActiveCircuit";
 import StartCircuit from "./components/StartCircuit";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import UtilRenderer from "../../../../UtilRenderer";
-import { TalkToClient } from "../../../../clients/TalkToClient";
 import { Icon, Message } from "semantic-ui-react";
 
 /**
