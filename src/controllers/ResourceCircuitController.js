@@ -3,6 +3,8 @@ import { CircuitClient } from "../clients/CircuitClient";
 import { BrowserRequestFactory } from "./BrowserRequestFactory";
 import { RendererControllerFactory } from "./RendererControllerFactory";
 import { RendererEventFactory } from "../events/RendererEventFactory";
+import UtilRenderer from "../UtilRenderer";
+import { TalkToClient } from "../clients/TalkToClient";
 
 export class ResourceCircuitController extends ActiveViewController {
   /**
@@ -85,7 +87,7 @@ export class ResourceCircuitController extends ActiveViewController {
   /**
    * Start a troubleshooting session by loading the new session into the browser
    */
-  startCircuit = () => {
+  startCircuit() {
     CircuitClient.startWtf(this, arg => {
       let circuit = arg.data,
         request = BrowserRequestFactory.createRequest(
@@ -95,13 +97,13 @@ export class ResourceCircuitController extends ActiveViewController {
       this.browserController.makeRequest(request);
       this.fireCircuitStartNotifyEvent();
     });
-  };
+  }
 
   /**
    * handler that is called when we want to solve a given wtf circuit.
    * @param circuitName - the circuit to pause
    */
-  solveCircuit = circuitName => {
+  solveCircuit(circuitName) {
     CircuitClient.solveWtf(circuitName, this, arg => {
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.JOURNAL,
@@ -110,13 +112,13 @@ export class ResourceCircuitController extends ActiveViewController {
       this.browserController.makeRequest(request);
       this.fireCircuitSolveNotifyEvent();
     });
-  };
+  }
 
   /**
    * handler that is called when we put a circuit on hold
    * @param circuitName - the circuit to pause
    */
-  pauseCircuit = circuitName => {
+  pauseCircuit(circuitName) {
     CircuitClient.pauseWTFWithDoItLater(
       circuitName,
       this,
@@ -129,23 +131,23 @@ export class ResourceCircuitController extends ActiveViewController {
         this.fireCircuitPauseNotifyEvent();
       }
     );
-  };
+  }
 
   /**
    * resumes a given circuit from on_hold status.
    * @param circuitName
    */
-  resumeCircuit = circuitName => {
+  resumeCircuit(circuitName) {
     CircuitClient.resumeWtf(circuitName, this, arg => {
       this.fireCircuitResumeNotifyEvent();
     });
-  };
+  }
 
   /**
    * handler that os called when we cancel a circuit and do not hold it
    * @param circuitName - the circuit to cancel
    */
-  cancelCircuit = circuitName => {
+  cancelCircuit(circuitName) {
     CircuitClient.cancelWtf(circuitName, this, arg => {
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.JOURNAL,
@@ -154,5 +156,64 @@ export class ResourceCircuitController extends ActiveViewController {
       this.browserController.makeRequest(request);
       this.fireCircuitStopNotifyEvent();
     });
-  };
+  }
+
+  /**
+   * joins us to the circuit's room on the talk network via gridtime. The roomname is
+   * parsed from the uri and "-wtf" is appended to it. This roomName is then sent to
+   * gridtime over an http dto request.
+   */
+  joinCircuit(resource) {
+    let roomName = UtilRenderer.getRoomNameFromResource(
+      resource
+    );
+
+    if (roomName) {
+      TalkToClient.joinExistingRoom(roomName, this, arg => {
+        if (arg.error) {
+          this.setState({
+            error: arg.error
+          });
+        } else {
+          console.log(
+            this.name +
+              " JOIN ROOM -> " +
+              JSON.stringify(arg)
+          );
+        }
+      });
+    }
+  }
+
+  /**
+   * leaves a circuit on gridtime. This will implicitly call leave room on gridtime
+   * which calls leave on that clients socket on the talk server. No error is
+   * thrown if we try to leave a room in which we dont belong or we not added to.
+   * @param resource
+   */
+  leaveCircuit(resource) {
+    let roomName = UtilRenderer.getRoomNameFromResource(
+      resource
+    );
+
+    if (roomName) {
+      TalkToClient.leaveExistingRoom(
+        roomName,
+        this,
+        arg => {
+          if (arg.error) {
+            this.setState({
+              error: arg.error
+            });
+          } else {
+            console.log(
+              this.name +
+                " LEAVE ROOM -> " +
+                JSON.stringify(arg)
+            );
+          }
+        }
+      );
+    }
+  }
 }

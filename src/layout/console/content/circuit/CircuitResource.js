@@ -21,7 +21,7 @@ export default class CircuitResource extends Component {
     this.state = {
       error: null
     };
-    this.myController = RendererControllerFactory.getViewController(
+    this.resourcesController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
       this
     );
@@ -33,12 +33,16 @@ export default class CircuitResource extends Component {
    */
   componentDidMount() {
     if (UtilRenderer.isWTFResource(this.props.resource)) {
-      this.joinCircuit(this.props.resource);
+      this.resourcesController.joinCircuit(
+        this.props.resource
+      );
     }
   }
 
   componentWillUnmount() {
-    this.leaveCircuit(this.props.resource);
+    this.resourcesController.leaveCircuit(
+      this.props.resource
+    );
   }
 
   /**
@@ -57,69 +61,14 @@ export default class CircuitResource extends Component {
       UtilRenderer.isWTFResource(nextProps.resource)
     ) {
       nextState.error = null;
-      this.leaveCircuit(this.props.resource);
-      this.joinCircuit(nextProps.resource);
-    }
-    return true;
-  }
-
-  /**
-   * joins us to the circuit's room on the talk network via gridtime. The roomname is
-   * parsed from the uri and "-wtf" is appended to it. This roomName is then sent to
-   * gridtime over an http dto request.
-   */
-  joinCircuit(resource) {
-    let roomName = UtilRenderer.getRoomNameFromResource(
-      resource
-    );
-
-    if (roomName) {
-      TalkToClient.joinExistingRoom(roomName, this, arg => {
-        if (arg.error) {
-          this.setState({
-            error: arg.error
-          });
-        } else {
-          console.log(
-            this.name +
-              " JOIN ROOM -> " +
-              JSON.stringify(arg)
-          );
-        }
-      });
-    }
-  }
-
-  /**
-   * leaves a circuit on gridtime. This will implicitly call leave room on gridtime
-   * which calls leave on that clients socket on the talk server. No error is
-   * thrown if we try to leave a room in which we dont belong or we not added to.
-   * @param resource
-   */
-  leaveCircuit(resource) {
-    let roomName = UtilRenderer.getRoomNameFromResource(
-      resource
-    );
-
-    if (roomName) {
-      TalkToClient.leaveExistingRoom(
-        roomName,
-        this,
-        arg => {
-          if (arg.error) {
-            this.setState({
-              error: arg.error
-            });
-          } else {
-            console.log(
-              this.name +
-                " LEAVE ROOM -> " +
-                JSON.stringify(arg)
-            );
-          }
-        }
+      this.resourcesController.leaveCircuit(
+        this.props.resource
+      );
+      this.resourcesController.joinCircuit(
+        nextProps.resource
       );
     }
+    return true;
   }
 
   /**

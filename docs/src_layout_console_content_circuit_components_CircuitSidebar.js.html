@@ -891,8 +891,6 @@
       <li><a href="global.html#isObjEmpty">isObjEmpty</a></li>
       <li><a href="global.html#isStatusMessage">isStatusMessage</a></li>
       <li><a href="global.html#isWTFResource">isWTFResource</a></li>
-      <li><a href="global.html#joinCircuit">joinCircuit</a></li>
-      <li><a href="global.html#leaveCircuit">leaveCircuit</a></li>
       <li><a href="global.html#loadState">loadState</a></li>
       <li><a href="global.html#onHeartbeat">onHeartbeat</a></li>
       <li><a href="global.html#onLoadCb">onLoadCb</a></li>
@@ -951,8 +949,12 @@ import {
   Popup,
   Segment
 } from "semantic-ui-react";
-import { DimensionController } from "../../../../../controllers/DimensionController";
-import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
+import {
+  DimensionController 
+} from "../../../../../controllers/DimensionController";
+import {
+  RendererControllerFactory
+} from "../../../../../controllers/RendererControllerFactory";
 import PartyPanelListItem from "./PartyPanelListItem";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import moment from "moment";
@@ -987,7 +989,7 @@ export default class CircuitSidebar extends Component {
    */
   constructor(props) {
     super(props);
-    this.myController = RendererControllerFactory.getViewController(
+    this.resourcesController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
       this
     );
@@ -1010,16 +1012,14 @@ export default class CircuitSidebar extends Component {
    */
   onClickSolveActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.myController.solveCircuit(circuitName);
+    this.resourcesController.solveCircuit(circuitName);
   };
 
   /**
    * click handler for putting a circuit on hold
    */
   onClickLeaveActiveCircuit = () => {
-    // let circuitName = this.props.model.circuitName;
-    // this.myController.leaveCircuit(circuitName);
-
+    this.resourcesController.leaveCircuit(this.props.resource);
     console.log("XXX-LEAVE-ROOM");
   };
 
@@ -1028,7 +1028,7 @@ export default class CircuitSidebar extends Component {
    */
   onClickPauseActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.myController.pauseCircuit(circuitName);
+    this.resourcesController.pauseCircuit(circuitName);
   };
 
   /**
@@ -1036,7 +1036,7 @@ export default class CircuitSidebar extends Component {
    */
   onClickResumeActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.myController.resumeCircuit(circuitName);
+    this.resourcesController.resumeCircuit(circuitName);
   };
 
   /**
@@ -1044,7 +1044,7 @@ export default class CircuitSidebar extends Component {
    */
   onClickCancelActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.myController.cancelCircuit(circuitName);
+    this.resourcesController.cancelCircuit(circuitName);
   };
 
   /**
@@ -1476,13 +1476,13 @@ export default class CircuitSidebar extends Component {
           size="medium"
           color="grey"
         >
-          &lt;Button.Content>leave :(&lt;/Button.Content>
+          &lt;Button.Content>leave&lt;/Button.Content>
         &lt;/Button>
       );
     }
     return (
       &lt;Button size="medium" color="grey" disabled>
-        &lt;Button.Content>leave :(&lt;/Button.Content>
+        &lt;Button.Content>leave&lt;/Button.Content>
       &lt;/Button>
     );
   }
@@ -1518,16 +1518,18 @@ export default class CircuitSidebar extends Component {
   getCircuitSidebarActions() {
     let content = (
       &lt;Grid.Row stretched verticalAlign="middle">
-      &lt;Grid.Column>
-        {this.getLeaveActiveCircuitButtonContent()}
-      &lt;/Grid.Column>
-    &lt;/Grid.Row>
+        &lt;Grid.Column>
+          {this.getLeaveActiveCircuitButtonContent()}
+        &lt;/Grid.Column>
+      &lt;/Grid.Row>
     );
 
-    if(UtilRenderer.isCircuitOwnerModerator(
-      MemberClient.me,
-      this.props.model
-    )) {
+    if (
+      UtilRenderer.isCircuitOwnerModerator(
+        MemberClient.me,
+        this.props.model
+      )
+    ) {
       content = (
         &lt;Grid.Row stretched verticalAlign="middle">
           &lt;Grid.Column>
@@ -1559,7 +1561,8 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
-   * renders our list panel content to display all of the members in this circuit
+   * renders our list panel content to display all of the members in this
+   * wtf circuit container
    * @returns {*}
    */
   getPartyCircuitMembersContent() {

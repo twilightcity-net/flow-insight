@@ -44,7 +44,7 @@ export default class CircuitSidebar extends Component {
    */
   constructor(props) {
     super(props);
-    this.myController = RendererControllerFactory.getViewController(
+    this.resourcesController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
       this
     );
@@ -67,16 +67,16 @@ export default class CircuitSidebar extends Component {
    */
   onClickSolveActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.myController.solveCircuit(circuitName);
+    this.resourcesController.solveCircuit(circuitName);
   };
 
   /**
    * click handler for putting a circuit on hold
    */
   onClickLeaveActiveCircuit = () => {
-    // let circuitName = this.props.model.circuitName;
-    // this.myController.leaveCircuit(circuitName);
-
+    this.resourcesController.leaveCircuit(
+      this.props.resource
+    );
     console.log("XXX-LEAVE-ROOM");
   };
 
@@ -85,7 +85,7 @@ export default class CircuitSidebar extends Component {
    */
   onClickPauseActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.myController.pauseCircuit(circuitName);
+    this.resourcesController.pauseCircuit(circuitName);
   };
 
   /**
@@ -93,7 +93,7 @@ export default class CircuitSidebar extends Component {
    */
   onClickResumeActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.myController.resumeCircuit(circuitName);
+    this.resourcesController.resumeCircuit(circuitName);
   };
 
   /**
@@ -101,7 +101,7 @@ export default class CircuitSidebar extends Component {
    */
   onClickCancelActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.myController.cancelCircuit(circuitName);
+    this.resourcesController.cancelCircuit(circuitName);
   };
 
   /**
@@ -618,7 +618,8 @@ export default class CircuitSidebar extends Component {
   }
 
   /**
-   * renders our list panel content to display all of the members in this circuit
+   * renders our list panel content to display all of the members in this
+   * wtf circuit container
    * @returns {*}
    */
   getPartyCircuitMembersContent() {
