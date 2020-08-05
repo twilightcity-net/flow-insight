@@ -974,12 +974,16 @@ export default class CircuitResource extends Component {
    */
   componentDidMount() {
     if (UtilRenderer.isWTFResource(this.props.resource)) {
-      this.resourcesController.joinCircuit(this.props.resource);
+      this.resourcesController.joinCircuit(
+        this.props.resource
+      );
     }
   }
 
   componentWillUnmount() {
-    this.resourcesController.leaveCircuit(this.props.resource);
+    this.resourcesController.leaveCircuit(
+      this.props.resource
+    );
   }
 
   /**
@@ -998,8 +1002,12 @@ export default class CircuitResource extends Component {
       UtilRenderer.isWTFResource(nextProps.resource)
     ) {
       nextState.error = null;
-      this.resourcesController.leaveCircuit(this.props.resource);
-      this.resourcesController.joinCircuit(nextProps.resource);
+      this.resourcesController.leaveCircuit(
+        this.props.resource
+      );
+      this.resourcesController.joinCircuit(
+        nextProps.resource
+      );
     }
     return true;
   }

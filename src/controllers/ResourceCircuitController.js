@@ -32,6 +32,15 @@ export class ResourceCircuitController extends ActiveViewController {
         .VIEW_CONSOLE_CIRCUIT_SOLVE,
       this
     );
+    this.circuitJoinNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_JOIN,
+      this
+    );
+    this.circuitLeaveNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_LEAVE,
+      this
+    );
   }
 
   /**
@@ -177,11 +186,9 @@ export class ResourceCircuitController extends ActiveViewController {
 
     if (roomName) {
       TalkToClient.joinExistingRoom(roomName, this, arg => {
-        let request = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.JOURNAL,
-          BrowserRequestFactory.Locations.ME
+        console.log(
+          this.name + " JOIN ROOM -> " + JSON.stringify(arg)
         );
-        this.browserController.makeRequest(request);
         this.fireCircuitJoinNotifyEvent();
       });
     }

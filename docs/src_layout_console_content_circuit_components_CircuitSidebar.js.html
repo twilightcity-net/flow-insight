@@ -949,12 +949,8 @@ import {
   Popup,
   Segment
 } from "semantic-ui-react";
-import {
-  DimensionController 
-} from "../../../../../controllers/DimensionController";
-import {
-  RendererControllerFactory
-} from "../../../../../controllers/RendererControllerFactory";
+import { DimensionController } from "../../../../../controllers/DimensionController";
+import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import PartyPanelListItem from "./PartyPanelListItem";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import moment from "moment";
@@ -1019,8 +1015,9 @@ export default class CircuitSidebar extends Component {
    * click handler for putting a circuit on hold
    */
   onClickLeaveActiveCircuit = () => {
-    this.resourcesController.leaveCircuit(this.props.resource);
-    console.log("XXX-LEAVE-ROOM");
+    this.resourcesController.leaveCircuit(
+      this.props.resource
+    );
   };
 
   /**
