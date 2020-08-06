@@ -52,6 +52,7 @@ export default class CircuitSidebar extends Component {
       resource: props.resource,
       activeMenuView: CircuitSidebar.Views.OVERVIEW
     };
+    this.props.set(this);
   }
 
   /**
@@ -654,6 +655,7 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   render() {
+    console.log("XXX-render");
     return (
       <div id="component" className="circuitContentSidebar">
         {this.getCircuitSidebarContent()}

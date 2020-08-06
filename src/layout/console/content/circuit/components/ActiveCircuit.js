@@ -162,6 +162,10 @@ export default class ActiveCircuit extends Component {
           this.setState({
             model: model
           });
+          console.log("XXX", this.circuitSidebarComponent);
+          this.circuitSidebarComponent.setState({
+            model: model
+          });
         }
         break;
       default:
@@ -196,6 +200,10 @@ export default class ActiveCircuit extends Component {
       ? "content show"
       : "content hide";
   }
+
+  setCircuitSidebarComponent = component => {
+    this.circuitSidebarComponent = component;
+  };
 
   /**
    * renders our circuit content panel and resizable scrapbook
@@ -262,6 +270,7 @@ export default class ActiveCircuit extends Component {
               resource={this.state.resource}
               showScrapbook={this.showScrapbook}
               model={this.state.model}
+              set={this.setCircuitSidebarComponent}
             />
           </div>
         </div>
