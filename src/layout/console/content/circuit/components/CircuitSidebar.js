@@ -539,7 +539,7 @@ export default class CircuitSidebar extends Component {
     }
     return (
       <Button size="medium" color="grey" disabled>
-        <Button.Content>leave</Button.Content>
+        <Button.Content>loading...</Button.Content>
       </Button>
     );
   }
