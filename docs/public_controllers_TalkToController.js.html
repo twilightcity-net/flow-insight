@@ -1,48 +1,947 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    
-    <meta charset="utf-8">
-    <title>public/controllers/TalkToController.js - Documentation</title>
-    
-    
-    <script src="scripts/prettify/prettify.js"></script>
-    <script src="scripts/prettify/lang-css.js"></script>
-    <!--[if lt IE 9]>
+  <meta charset="utf-8">
+  <title>public/controllers/TalkToController.js - Documentation</title>
+  <script src="scripts/prettify/prettify.js"></script>
+  <script src="scripts/prettify/lang-css.js"></script>
+  <!--[if lt IE 9]>
       <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-    <link type="text/css" rel="stylesheet" href="styles/prettify.css">
-    <link type="text/css" rel="stylesheet" href="styles/jsdoc.css">
-    <script src="scripts/nav.js" defer></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link type="text/css"
+        rel="stylesheet"
+        href="styles/prettify.css">
+  <link type="text/css"
+        rel="stylesheet"
+        href="styles/jsdoc.css">
+  <script src="scripts/nav.js"
+          defer></script>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 </head>
+
 <body>
-
-<input type="checkbox" id="nav-trigger" class="nav-trigger" />
-<label for="nav-trigger" class="navicon-button x">
-  <div class="navicon"></div>
-</label>
-
-<label for="nav-trigger" class="overlay"></label>
-
-<nav >
-    
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="%2520returns%2520the%2520classes%2520constructor%2520function%2520to%2520render%2520dynamically.html">- returns the classes constructor function to render dynamically</a></li><li><a href="ActivatorView.html">ActivatorView</a></li><li><a href="AppActivator.html">AppActivator</a></li><li><a href="AppSettings.html">AppSettings</a></li><li><a href="BaseClient.html">BaseClient</a><ul class='methods'><li data-type='method'><a href="BaseClient.html#createClientEvent">createClientEvent</a></li><li data-type='method'><a href="BaseClient.html#delegateCallback">delegateCallback</a></li><li data-type='method'><a href="BaseClient.html#logReply">logReply</a></li></ul></li><li><a href="BaseClient.CircuitStates.html">CircuitStates</a></li><li><a href="BaseClient.Errors.html">Errors</a></li><li><a href="BaseClient.MessageTypes.html">MessageTypes</a></li><li><a href="BaseClient.Strings.html">Strings</a></li><li><a href="BrowserController.html">BrowserController</a><ul class='methods'><li data-type='method'><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></li><li data-type='method'><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></li><li data-type='method'><a href="BrowserController.html#makeRequest">makeRequest</a></li><li data-type='method'><a href="BrowserController.html#setUri">setUri</a></li></ul></li><li><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></li><li><a href="BrowserRequestFactory.Errors.html">Errors</a></li><li><a href="BrowserRequestFactory.Locations.html">Locations</a></li><li><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></li><li><a href="BrowserRequestFactory.Requests.html">Requests</a></li><li><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></li><li><a href="BrowserRequestFactory.SPACE_SEPARATOR.html">SPACE_SEPARATOR</a></li><li><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></li><li><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></li><li><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></li><li><a href="CircuitClient.html">CircuitClient</a><ul class='methods'><li data-type='method'><a href="CircuitClient.html#.cancelWtf">cancelWtf</a></li><li data-type='method'><a href="CircuitClient.html#.fireCircuitStartNotifyEvent">fireCircuitStartNotifyEvent</a></li><li data-type='method'><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></li><li data-type='method'><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></li><li data-type='method'><a href="CircuitClient.html#.getAllMyParticipatingCircuits">getAllMyParticipatingCircuits</a></li><li data-type='method'><a href="CircuitClient.html#.getAllMyRetroCircuits">getAllMyRetroCircuits</a></li><li data-type='method'><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></li><li data-type='method'><a href="CircuitClient.html#.init">init</a></li><li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li><li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li><li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li><li data-type='method'><a href="CircuitClient.html#.loadAllMyRetroCircuits">loadAllMyRetroCircuits</a></li><li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li><li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li><li data-type='method'><a href="CircuitClient.html#.resumeWtf">resumeWtf</a></li><li data-type='method'><a href="CircuitClient.html#.solveWtf">solveWtf</a></li><li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li><li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li><li data-type='method'><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></li></ul></li><li><a href="CircuitClient.Events.html">Events</a></li><li><a href="CircuitMemberStatusDto.html">CircuitMemberStatusDto</a></li><li><a href="ControllerEvent.html">ControllerEvent</a></li><li><a href="DatabaseFactory.html">DatabaseFactory</a><ul class='methods'><li data-type='method'><a href="DatabaseFactory.html#.createDatabase">createDatabase</a></li><li data-type='method'><a href="DatabaseFactory.html#.getDatabase">getDatabase</a></li></ul></li><li><a href="DatabaseFactory.Names.html">Names</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="DataStoreFactory.html">DataStoreFactory</a></li><li><a href="DimensionController.html">DimensionController</a><ul class='methods'><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentChatMinHeight">getActiveCircuitContentChatMinHeight</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentChatMinHeightDefault">getActiveCircuitContentChatMinHeightDefault</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentFeedMinHeight">getActiveCircuitContentFeedMinHeight</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentFeedMinWidth">getActiveCircuitContentFeedMinWidth</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentHeight">getActiveCircuitContentHeight</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentScrapbookMinWidth">getActiveCircuitContentScrapbookMinWidth</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentScrapbookMinWidthDefault">getActiveCircuitContentScrapbookMinWidthDefault</a></li><li data-type='method'><a href="DimensionController.html#.getActiveCircuitFeedContentHeight">getActiveCircuitFeedContentHeight</a></li><li data-type='method'><a href="DimensionController.html#.getCircuitSidebarActionsHeight">getCircuitSidebarActionsHeight</a></li><li data-type='method'><a href="DimensionController.html#.getCircuitSidebarHeight">getCircuitSidebarHeight</a></li><li data-type='method'><a href="DimensionController.html#.getCircuitSidebarTimerHeight">getCircuitSidebarTimerHeight</a></li><li data-type='method'><a href="DimensionController.html#.getCircuitsSidebarPanelHeight">getCircuitsSidebarPanelHeight</a></li><li data-type='method'><a href="DimensionController.html#.getConsoleLayoutHeight">getConsoleLayoutHeight</a></li><li data-type='method'><a href="DimensionController.html#.getConsoleSidebarHeight">getConsoleSidebarHeight</a></li><li data-type='method'><a href="DimensionController.html#.getFlowPanelHeight">getFlowPanelHeight</a></li><li data-type='method'><a href="DimensionController.html#.getHeightFor">getHeightFor</a></li><li data-type='method'><a href="DimensionController.html#.getJournalItemsPanelHeight">getJournalItemsPanelHeight</a></li><li data-type='method'><a href="DimensionController.html#.getSidebarPanelHeight">getSidebarPanelHeight</a></li><li data-type='method'><a href="DimensionController.html#.getSpiritCanvasHeight">getSpiritCanvasHeight</a></li><li data-type='method'><a href="DimensionController.html#.getSpiritCanvasWidth">getSpiritCanvasWidth</a></li><li data-type='method'><a href="DimensionController.html#.getSpiritPanelHeight">getSpiritPanelHeight</a></li><li data-type='method'><a href="DimensionController.html#.init">init</a></li></ul></li><li><a href="DimensionController.Components.html">Components</a></li><li><a href="DtoClient.html">DtoClient</a><ul class='methods'><li data-type='method'><a href="DtoClient.html#doRequest">doRequest</a></li><li data-type='method'><a href="DtoClient.html#getRequest">getRequest</a></li></ul></li><li><a href="DtoClientFactory.html">DtoClientFactory</a><ul class='methods'><li data-type='method'><a href="DtoClientFactory.html#makeStoreRequest">makeStoreRequest</a></li></ul></li><li><a href="DtoClientFactory.RequestTypes.html">RequestTypes</a></li><li><a href="EventCallbackException.html">EventCallbackException</a></li><li><a href="EventEchoException.html">EventEchoException</a></li><li><a href="EventException.html">EventException</a><ul class='methods'><li data-type='method'><a href="EventException.html#getDateTimeString">getDateTimeString</a></li><li data-type='method'><a href="EventException.html#toString">toString</a></li></ul></li><li><a href="EventFactory.html">EventFactory</a><ul class='methods'><li data-type='method'><a href="EventFactory.html#.createEvent">createEvent</a></li></ul></li><li><a href="EventFactory.Types.html">Types</a></li><li><a href="EventManager.html">EventManager</a><ul class='methods'><li data-type='method'><a href="EventManager.html#.destroy">destroy</a></li><li data-type='method'><a href="EventManager.html#.dispatch">dispatch</a></li><li data-type='method'><a href="EventManager.html#.unregister">unregister</a></li><li data-type='method'><a href="EventManager.html#createListener">createListener</a></li><li data-type='method'><a href="EventManager.html#executeCallback">executeCallback</a></li><li data-type='method'><a href="EventManager.html#executeReply">executeReply</a></li><li data-type='method'><a href="EventManager.html#handleEvent">handleEvent</a></li><li data-type='method'><a href="EventManager.html#initReturnValues">initReturnValues</a></li><li data-type='method'><a href="EventManager.html#initSender">initSender</a></li><li data-type='method'><a href="EventManager.html#initSonar">initSonar</a></li><li data-type='method'><a href="EventManager.html#register">register</a></li></ul></li><li><a href="EventManager.Events.html">Events</a></li><li><a href="EventReplyException.html">EventReplyException</a></li><li><a href="JournalClient.html">JournalClient</a><ul class='methods'><li data-type='method'><a href="JournalClient.html#.createIntention">createIntention</a></li><li data-type='method'><a href="JournalClient.html#.findOrCreateProject">findOrCreateProject</a></li><li data-type='method'><a href="JournalClient.html#.findOrCreateTask">findOrCreateTask</a></li><li data-type='method'><a href="JournalClient.html#.finishIntention">finishIntention</a></li><li data-type='method'><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></li><li data-type='method'><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></li><li data-type='method'><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></li><li data-type='method'><a href="JournalClient.html#.init">init</a></li><li data-type='method'><a href="JournalClient.html#.loadRecentJournal">loadRecentJournal</a></li><li data-type='method'><a href="JournalClient.html#.updateFlameRating">updateFlameRating</a></li><li data-type='method'><a href="JournalClient.html#notifyJournal">notifyJournal</a></li></ul></li><li><a href="JournalClient.Events.html">Events</a></li><li><a href="Keys.html">Keys</a></li><li><a href="LearningCircuitDto.html">LearningCircuitDto</a></li><li><a href="LearningCircuitModel.html">LearningCircuitModel</a><ul class='methods'><li data-type='method'><a href="LearningCircuitModel.html#.isRetro">isRetro</a></li></ul></li><li><a href="LearningCircuitWithMembersDto.html">LearningCircuitWithMembersDto</a></li><li><a href="MainEvent.html">MainEvent</a><ul class='methods'><li data-type='method'><a href="MainEvent.html#construct">construct</a></li><li data-type='method'><a href="MainEvent.html#destruct">destruct</a></li><li data-type='method'><a href="MainEvent.html#dispatch">dispatch</a></li><li data-type='method'><a href="MainEvent.html#remove">remove</a></li><li data-type='method'><a href="MainEvent.html#replyTo">replyTo</a></li></ul></li><li><a href="MemberClient.html">MemberClient</a><ul class='methods'><li data-type='method'><a href="MemberClient.html#.init">init</a></li><li data-type='method'><a href="MemberClient.html#notifyMember">notifyMember</a></li></ul></li><li><a href="MemberClient.Events.html">Events</a></li><li><a href="MemberController.html">MemberController</a><ul class='methods'><li data-type='method'><a href="MemberController.html#.wireTogetherControllers">wireTogetherControllers</a></li><li data-type='method'><a href="MemberController.html#configureEvents">configureEvents</a></li><li data-type='method'><a href="MemberController.html#delegateLoadMeCallback">delegateLoadMeCallback</a></li><li data-type='method'><a href="MemberController.html#handleGetMeEvent">handleGetMeEvent</a></li><li data-type='method'><a href="MemberController.html#handleLoadMeEvent">handleLoadMeEvent</a></li><li data-type='method'><a href="MemberController.html#onMemberClientEvent">onMemberClientEvent</a></li><li data-type='method'><a href="MemberController.html#updateMeInClient">updateMeInClient</a></li></ul></li><li><a href="MemberManager.html">MemberManager</a><ul class='methods'><li data-type='method'><a href="MemberManager.html#handleInitCallback">handleInitCallback</a></li><li data-type='method'><a href="MemberManager.html#init">init</a></li><li data-type='method'><a href="MemberManager.html#updateMe">updateMe</a></li></ul></li><li><a href="module.html#.exports">exports</a><ul class='methods'><li data-type='method'><a href="module.html#.exports#addNewProject">addNewProject</a></li><li data-type='method'><a href="module.html#.exports#addNewTask">addNewTask</a></li><li data-type='method'><a href="module.html#.exports#addRoom">addRoom</a></li><li data-type='method'><a href="module.html#.exports#addStatusTalkMessagesCollection">addStatusTalkMessagesCollection</a></li><li data-type='method'><a href="module.html#.exports#addTalkMessagesCollection">addTalkMessagesCollection</a></li><li data-type='method'><a href="module.html#.exports#batchRemoveFromViewInCollection">batchRemoveFromViewInCollection</a></li><li data-type='method'><a href="module.html#.exports#check">check</a></li><li data-type='method'><a href="module.html#.exports#configEvents">configEvents</a></li><li data-type='method'><a href="module.html#.exports#configSocketListeners">configSocketListeners</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li><li data-type='method'><a href="module.html#.exports#connectToTalk">connectToTalk</a></li><li data-type='method'><a href="module.html#.exports#createConnection">createConnection</a></li><li data-type='method'><a href="module.html#.exports#createConsole">createConsole</a></li><li data-type='method'><a href="module.html#.exports#createMenu">createMenu</a></li><li data-type='method'><a href="module.html#.exports#createNewCircuit">createNewCircuit</a></li><li data-type='method'><a href="module.html#.exports#createQuitListener">createQuitListener</a></li><li data-type='method'><a href="module.html#.exports#createShortcuts">createShortcuts</a></li><li data-type='method'><a href="module.html#.exports#createWindowActivator">createWindowActivator</a></li><li data-type='method'><a href="module.html#.exports#createWindowConsole">createWindowConsole</a></li><li data-type='method'><a href="module.html#.exports#createWindowLoading">createWindowLoading</a></li><li data-type='method'><a href="module.html#.exports#deactivate">deactivate</a></li><li data-type='method'><a href="module.html#.exports#delegateCallbackOrEventReplyTo">delegateCallbackOrEventReplyTo</a></li><li data-type='method'><a href="module.html#.exports#delegateCallbackWithView">delegateCallbackWithView</a></li><li data-type='method'><a href="module.html#.exports#delegateCancelWtfCallback">delegateCancelWtfCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateFindOrCreateProjectCallback">delegateFindOrCreateProjectCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateFindOrCreateTaskCallback">delegateFindOrCreateTaskCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateFinishIntentionCallback">delegateFinishIntentionCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateGetManualCallback">delegateGetManualCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateGetManualHelpTopicsCallback">delegateGetManualHelpTopicsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateGetManualPageCallback">delegateGetManualPageCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateJoinExistingRoomCallback">delegateJoinExistingRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLeaveExistingRoomCallback">delegateLeaveExistingRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadActiveCircuitCallback">delegateLoadActiveCircuitCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadAllMyDoItLaterCircuitsCallback">delegateLoadAllMyDoItLaterCircuitsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadAllMyParticipatingCircuitsCallback">delegateLoadAllMyParticipatingCircuitsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadAllMyRetroCircuitsCallback">delegateLoadAllMyRetroCircuitsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadAllMyTeamCircuitsCallback">delegateLoadAllMyTeamCircuitsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadAllMyTeamsCallback">delegateLoadAllMyTeamsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadAllTalkMessagesFromRoomCallback">delegateLoadAllTalkMessagesFromRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadCircuitWithAllDetailsCallback">delegateLoadCircuitWithAllDetailsCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCallback">delegateLoadMyHomeTeamCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCircuitCallback">delegateLoadMyHomeTeamCircuitCallback</a></li><li data-type='method'><a href="module.html#.exports#delegatePauseWTFWithDoItLaterCallback">delegatePauseWTFWithDoItLaterCallback</a></li><li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateResumeWtfCallback">delegateResumeWtfCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateSolveWtfCallback">delegateSolveWtfCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateStartRetroForWTFCallback">delegateStartRetroForWTFCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li><li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li><li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li><li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li><li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li><li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li><li data-type='method'><a href="module.html#.exports#findInsert">findInsert</a></li><li data-type='method'><a href="module.html#.exports#findRemove">findRemove</a></li><li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li><li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li><li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li><li data-type='method'><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></li><li data-type='method'><a href="module.html#.exports#findUpdate">findUpdate</a></li><li data-type='method'><a href="module.html#.exports#findUpdateInsert">findUpdateInsert</a></li><li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li><li data-type='method'><a href="module.html#.exports#finished">finished</a></li><li data-type='method'><a href="module.html#.exports#getApiKey">getApiKey</a></li><li data-type='method'><a href="module.html#.exports#getCollectionForRoomStatusTalkMessages">getCollectionForRoomStatusTalkMessages</a></li><li data-type='method'><a href="module.html#.exports#getCollectionForRoomTalkMessages">getCollectionForRoomTalkMessages</a></li><li data-type='method'><a href="module.html#.exports#getConnectionStatus">getConnectionStatus</a></li><li data-type='method'><a href="module.html#.exports#getConnectionUrl">getConnectionUrl</a></li><li data-type='method'><a href="module.html#.exports#getConsoleShortcut">getConsoleShortcut</a></li><li data-type='method'><a href="module.html#.exports#getConsoleShortcutAlt">getConsoleShortcutAlt</a></li><li data-type='method'><a href="module.html#.exports#getDisplayIndex">getDisplayIndex</a></li><li data-type='method'><a href="module.html#.exports#getDisplaysSubmenu">getDisplaysSubmenu</a></li><li data-type='method'><a href="module.html#.exports#getLatency">getLatency</a></li><li data-type='method'><a href="module.html#.exports#getMeFromView">getMeFromView</a></li><li data-type='method'><a href="module.html#.exports#getMemberMe">getMemberMe</a></li><li data-type='method'><a href="module.html#.exports#getMeUsername">getMeUsername</a></li><li data-type='method'><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></li><li data-type='method'><a href="module.html#.exports#getStages">getStages</a></li><li data-type='method'><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromUri">getStatusTalkMessagesCollectionNameFromUri</a></li><li data-type='method'><a href="module.html#.exports#getTalkMessagesCollectionNameFromUri">getTalkMessagesCollectionNameFromUri</a></li><li data-type='method'><a href="module.html#.exports#getTotalStages">getTotalStages</a></li><li data-type='method'><a href="module.html#.exports#getViewActiveCircuit">getViewActiveCircuit</a></li><li data-type='method'><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></li><li data-type='method'><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></li><li data-type='method'><a href="module.html#.exports#getViewAllMyRetroCircuits">getViewAllMyRetroCircuits</a></li><li data-type='method'><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></li><li data-type='method'><a href="module.html#.exports#getViewForIntentions">getViewForIntentions</a></li><li data-type='method'><a href="module.html#.exports#getViewForMe">getViewForMe</a></li><li data-type='method'><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></li><li data-type='method'><a href="module.html#.exports#getViewForProjects">getViewForProjects</a></li><li data-type='method'><a href="module.html#.exports#getViewForTasks">getViewForTasks</a></li><li data-type='method'><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></li><li data-type='method'><a href="module.html#.exports#getViewRooms">getViewRooms</a></li><li data-type='method'><a href="module.html#.exports#getViewStatusTalkMessagesForCollection">getViewStatusTalkMessagesForCollection</a></li><li data-type='method'><a href="module.html#.exports#getViewTalkMessagesForCollection">getViewTalkMessagesForCollection</a></li><li data-type='method'><a href="module.html#.exports#getViewTeamCircuits">getViewTeamCircuits</a></li><li data-type='method'><a href="module.html#.exports#handleCancelWtfEvent">handleCancelWtfEvent</a></li><li data-type='method'><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></li><li data-type='method'><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></li><li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li><li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li><li data-type='method'><a href="module.html#.exports#handleFindOrCreateProjectEvent">handleFindOrCreateProjectEvent</a></li><li data-type='method'><a href="module.html#.exports#handleFindOrCreateTaskEvent">handleFindOrCreateTaskEvent</a></li><li data-type='method'><a href="module.html#.exports#handleFinishIntentionEvent">handleFinishIntentionEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllMyRetroCircuitsEvent">handleGetAllMyRetroCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllMyTeamCircuitsEvent">handleGetAllMyTeamCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllMyTeamsEvent">handleGetAllMyTeamsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllStatusTalkMessagesFromRoomEvent">handleGetAllStatusTalkMessagesFromRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetAllTalkMessagesFromRoomEvent">handleGetAllTalkMessagesFromRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetCircuitWithAllDetailsEvent">handleGetCircuitWithAllDetailsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetManualEvent">handleGetManualEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetManualHelpTopicsEvent">handleGetManualHelpTopicsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetManualPageEvent">handleGetManualPageEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetMyHomeTeamCircuitEvent">handleGetMyHomeTeamCircuitEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetMyHomeTeamEvent">handleGetMyHomeTeamEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetRecentProjectsEvent">handleGetRecentProjectsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleGetRecentTasksEvent">handleGetRecentTasksEvent</a></li><li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li><li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li><li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li><li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li><li data-type='method'><a href="module.html#.exports#handleJoinExistingRoomEvent">handleJoinExistingRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLeaveExistingRoomEvent">handleLeaveExistingRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadAllMyRetroCircuitsEvent">handleLoadAllMyRetroCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadAllMyTeamCircuitsEvent">handleLoadAllMyTeamCircuitsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadAllMyTeamsEvent">handleLoadAllMyTeamsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadAllTalkNessagesFromRoomEvent">handleLoadAllTalkNessagesFromRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadCircuitWithAllDetailsEvent">handleLoadCircuitWithAllDetailsEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadJournalEvent">handleLoadJournalEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamCircuitEvent">handleLoadMyHomeTeamCircuitEvent</a></li><li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamEvent">handleLoadMyHomeTeamEvent</a></li><li data-type='method'><a href="module.html#.exports#handlePauseWTFWithDoItLaterEvent">handlePauseWTFWithDoItLaterEvent</a></li><li data-type='method'><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></li><li data-type='method'><a href="module.html#.exports#handleResumeWtfEvent">handleResumeWtfEvent</a></li><li data-type='method'><a href="module.html#.exports#handleRunCommandEvent">handleRunCommandEvent</a></li><li data-type='method'><a href="module.html#.exports#handleSolveWtfEvent">handleSolveWtfEvent</a></li><li data-type='method'><a href="module.html#.exports#handleStartRetroForWTFEvent">handleStartRetroForWTFEvent</a></li><li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li><li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li><li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li><li data-type='method'><a href="module.html#.exports#handleUpdateFlameRatingEvent">handleUpdateFlameRatingEvent</a></li><li data-type='method'><a href="module.html#.exports#hasRoomByRoomName">hasRoomByRoomName</a></li><li data-type='method'><a href="module.html#.exports#hideConsole">hideConsole</a></li><li data-type='method'><a href="module.html#.exports#incrementStage">incrementStage</a></li><li data-type='method'><a href="module.html#.exports#init">init</a></li><li data-type='method'><a href="module.html#.exports#init">init</a></li><li data-type='method'><a href="module.html#.exports#init">init</a></li><li data-type='method'><a href="module.html#.exports#init">init</a></li><li data-type='method'><a href="module.html#.exports#initVolumes">initVolumes</a></li><li data-type='method'><a href="module.html#.exports#insertRoomChatMessage">insertRoomChatMessage</a></li><li data-type='method'><a href="module.html#.exports#insertRoomStatusMessage">insertRoomStatusMessage</a></li><li data-type='method'><a href="module.html#.exports#joinRoomById">joinRoomById</a></li><li data-type='method'><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></li><li data-type='method'><a href="module.html#.exports#load">load</a></li><li data-type='method'><a href="module.html#.exports#load">load</a></li><li data-type='method'><a href="module.html#.exports#log">log</a></li><li data-type='method'><a href="module.html#.exports#log">log</a></li><li data-type='method'><a href="module.html#.exports#logRequest">logRequest</a></li><li data-type='method'><a href="module.html#.exports#logResults">logResults</a></li><li data-type='method'><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></li><li data-type='method'><a href="module.html#.exports#onAppHeartbeat">onAppHeartbeat</a></li><li data-type='method'><a href="module.html#.exports#onCircuitClientEvent">onCircuitClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onConnectedTalkCb">onConnectedTalkCb</a></li><li data-type='method'><a href="module.html#.exports#onConsoleReadyCb">onConsoleReadyCb</a></li><li data-type='method'><a href="module.html#.exports#onConsoleShowHideCb">onConsoleShowHideCb</a></li><li data-type='method'><a href="module.html#.exports#onCrash">onCrash</a></li><li data-type='method'><a href="module.html#.exports#onDatabaseClientEvent">onDatabaseClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onFinished">onFinished</a></li><li data-type='method'><a href="module.html#.exports#onJournalClientEvent">onJournalClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onLoadCb">onLoadCb</a></li><li data-type='method'><a href="module.html#.exports#onLoadingLoginCb">onLoadingLoginCb</a></li><li data-type='method'><a href="module.html#.exports#onLoadingShowCb">onLoadingShowCb</a></li><li data-type='method'><a href="module.html#.exports#onPrepareForScreenshot">onPrepareForScreenshot</a></li><li data-type='method'><a href="module.html#.exports#onQuit">onQuit</a></li><li data-type='method'><a href="module.html#.exports#onReady">onReady</a></li><li data-type='method'><a href="module.html#.exports#onReadyToShowCb">onReadyToShowCb</a></li><li data-type='method'><a href="module.html#.exports#onScreenshotComplete">onScreenshotComplete</a></li><li data-type='method'><a href="module.html#.exports#onShortcutsCreatedCb">onShortcutsCreatedCb</a></li><li data-type='method'><a href="module.html#.exports#onSingleInstance">onSingleInstance</a></li><li data-type='method'><a href="module.html#.exports#onTalkToClientEvent">onTalkToClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onTeamCircuitClientEvent">onTeamCircuitClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onTeamClientEvent">onTeamClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onTerminalClientEvent">onTerminalClientEvent</a></li><li data-type='method'><a href="module.html#.exports#onWillQuit">onWillQuit</a></li><li data-type='method'><a href="module.html#.exports#onWindowAllClosed">onWindowAllClosed</a></li><li data-type='method'><a href="module.html#.exports#processCLI">processCLI</a></li><li data-type='method'><a href="module.html#.exports#processLogin">processLogin</a></li><li data-type='method'><a href="module.html#.exports#pulse">pulse</a></li><li data-type='method'><a href="module.html#.exports#quit">quit</a></li><li data-type='method'><a href="module.html#.exports#rejoinRooms">rejoinRooms</a></li><li data-type='method'><a href="module.html#.exports#removeActiveCircuit">removeActiveCircuit</a></li><li data-type='method'><a href="module.html#.exports#removeActiveCircuitFromMembers">removeActiveCircuitFromMembers</a></li><li data-type='method'><a href="module.html#.exports#removeCircuitByIdFromCollectionName">removeCircuitByIdFromCollectionName</a></li><li data-type='method'><a href="module.html#.exports#removeCircuitFromAllCollections">removeCircuitFromAllCollections</a></li><li data-type='method'><a href="module.html#.exports#removeRoom">removeRoom</a></li><li data-type='method'><a href="module.html#.exports#removeSingleCircuitByIdFromCollection">removeSingleCircuitByIdFromCollection</a></li><li data-type='method'><a href="module.html#.exports#resetHomeTeamFlag">resetHomeTeamFlag</a></li><li data-type='method'><a href="module.html#.exports#restart">restart</a></li><li data-type='method'><a href="module.html#.exports#save">save</a></li><li data-type='method'><a href="module.html#.exports#setActiveCircuit">setActiveCircuit</a></li><li data-type='method'><a href="module.html#.exports#setConsoleShortcut">setConsoleShortcut</a></li><li data-type='method'><a href="module.html#.exports#setConsoleShortcutAlt">setConsoleShortcutAlt</a></li><li data-type='method'><a href="module.html#.exports#setDisplayIndex">setDisplayIndex</a></li><li data-type='method'><a href="module.html#.exports#setLatency">setLatency</a></li><li data-type='method'><a href="module.html#.exports#showConsole">showConsole</a></li><li data-type='method'><a href="module.html#.exports#solveActiveCircuit">solveActiveCircuit</a></li><li data-type='method'><a href="module.html#.exports#start">start</a></li><li data-type='method'><a href="module.html#.exports#start">start</a></li><li data-type='method'><a href="module.html#.exports#start">start</a></li><li data-type='method'><a href="module.html#.exports#stop">stop</a></li><li data-type='method'><a href="module.html#.exports#unwireEvents">unwireEvents</a></li><li data-type='method'><a href="module.html#.exports#updateCircuitForResume">updateCircuitForResume</a></li><li data-type='method'><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></li><li data-type='method'><a href="module.html#.exports#updateCircuitToDoItLater">updateCircuitToDoItLater</a></li><li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li><li data-type='method'><a href="module.html#.exports#updateIntention">updateIntention</a></li><li data-type='method'><a href="module.html#.exports#updateJournalIntentions">updateJournalIntentions</a></li><li data-type='method'><a href="module.html#.exports#updateJournalProjects">updateJournalProjects</a></li><li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li><li data-type='method'><a href="module.html#.exports#updateMemberInMembers">updateMemberInMembers</a></li><li data-type='method'><a href="module.html#.exports#updateMemberMe">updateMemberMe</a></li><li data-type='method'><a href="module.html#.exports#updateRoomMemberStatus">updateRoomMemberStatus</a></li><li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li><li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li><li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li><li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li><li data-type='method'><a href="module.html#.exports#verify">verify</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li><li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li><li data-type='method'><a href="module.html#.exports#wireSocketMessagesToEventCircuit">wireSocketMessagesToEventCircuit</a></li><li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li><li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li><li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li><li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li><li data-type='method'><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></li></ul></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li><a href="module.exports_CircuitStates.html">CircuitStates</a></li><li><a href="module.exports_Collections.html">Collections</a></li><li></li><li></li><li></li><li></li><li><a href="module.exports_Contexts.html">Contexts</a></li><li><a href="module.exports_DefaultValues.html">DefaultValues</a></li><li><a href="module.exports_Error.html">Error</a></li><li><a href="module.exports_Events.html">Events</a></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li><a href="module.exports_Indices.html">Indices</a></li><li></li><li></li><li></li><li></li><li><a href="module.exports_Keys.html">Keys</a></li><li><a href="module.exports_MessageTypes.html">MessageTypes</a></li><li><a href="module.exports_module.exports.html">exports</a></li><li></li><li></li><li></li><li><a href="module.html#.exports#Name">Name</a></li><li></li><li></li><li><a href="module.exports_Names.html">Names</a></li><li><a href="module.exports_Params.html">Params</a></li><li><a href="module.exports_Paths.html">Paths</a></li><li><a href="module.exports_StatusTypes.html">StatusTypes</a></li><li><a href="module.exports_Strings.html">Strings</a></li><li><a href="module.exports_Types.html">Types</a></li><li><a href="module.exports_Views.html">Views</a></li><li></li><li></li><li></li><li></li><li><a href="module.exports_WindowNames.html">WindowNames</a></li><li><a href="NewSnippetEvent.html">NewSnippetEvent</a></li><li><a href="Opt.html">Opt</a></li><li><a href="RendererClientEvent.html">RendererClientEvent</a></li><li><a href="RendererControllerFactory.html">RendererControllerFactory</a><ul class='methods'><li data-type='method'><a href="RendererControllerFactory.html#.createController">createController</a></li><li data-type='method'><a href="RendererControllerFactory.html#.findOrCreateController">findOrCreateController</a></li><li data-type='method'><a href="RendererControllerFactory.html#.getViewController">getViewController</a></li></ul></li><li><a href="RendererControllerFactory.Views.html">Views</a></li><li><a href="RendererEvent.html">RendererEvent</a><ul class='methods'><li data-type='method'><a href="RendererEvent.html#clear">clear</a></li><li data-type='method'><a href="RendererEvent.html#dispatch">dispatch</a></li><li data-type='method'><a href="RendererEvent.html#registerEvents">registerEvents</a></li><li data-type='method'><a href="RendererEvent.html#updateCallback">updateCallback</a></li></ul></li><li><a href="RendererEventFactory.html">RendererEventFactory</a><ul class='methods'><li data-type='method'><a href="RendererEventFactory.html#.createEvent">createEvent</a></li></ul></li><li><a href="RendererEventFactory.Events.html">Events</a></li><li><a href="RendererEventManager.html">RendererEventManager</a><ul class='methods'><li data-type='method'><a href="RendererEventManager.html#.checkEventForError">checkEventForError</a></li><li data-type='method'><a href="RendererEventManager.html#.createEventError">createEventError</a></li><li data-type='method'><a href="RendererEventManager.html#.dispatch">dispatch</a></li><li data-type='method'><a href="RendererEventManager.html#.listenForCallback">listenForCallback</a></li><li data-type='method'><a href="RendererEventManager.html#.listenForReply">listenForReply</a></li><li data-type='method'><a href="RendererEventManager.html#.removeListeners">removeListeners</a></li></ul></li><li><a href="ResourceCircuitController_ResourceCircuitController.html">ResourceCircuitController</a></li><li><a href="ScreenshotController.html">ScreenshotController</a><ul class='methods'><li data-type='method'><a href="ScreenshotController.html#captureScreenShot">captureScreenShot</a></li></ul></li><li><a href="ScreenshotReferenceInputDto.html">ScreenshotReferenceInputDto</a></li><li><a href="Shortcut.html">Shortcut</a></li><li><a href="ShortcutError.html">ShortcutError</a></li><li><a href="ShortcutManager.html">ShortcutManager</a><ul class='methods'><li data-type='method'><a href="ShortcutManager.html#activateWindowShortcuts">activateWindowShortcuts</a></li><li data-type='method'><a href="ShortcutManager.html#createGlobalShortcuts">createGlobalShortcuts</a></li><li data-type='method'><a href="ShortcutManager.html#deactivateWindowShortcuts">deactivateWindowShortcuts</a></li><li data-type='method'><a href="ShortcutManager.html#registerShortcut">registerShortcut</a></li></ul></li><li><a href="ShortcutManager.Accelerators.html">Accelerators</a></li><li><a href="ShortcutManager.Names.html">Names</a></li><li><a href="SidePanelViewController.html">SidePanelViewController</a><ul class='methods'><li data-type='method'><a href="SidePanelViewController.html#changeActiveCircuitsSubmenuPanel">changeActiveCircuitsSubmenuPanel</a></li><li data-type='method'><a href="SidePanelViewController.html#changeActiveSpiritSubmenuPanel">changeActiveSpiritSubmenuPanel</a></li><li data-type='method'><a href="SidePanelViewController.html#clearHeartbeatListener">clearHeartbeatListener</a></li><li data-type='method'><a href="SidePanelViewController.html#clearMenuListener">clearMenuListener</a></li><li data-type='method'><a href="SidePanelViewController.html#clearPulseListener">clearPulseListener</a></li><li data-type='method'><a href="SidePanelViewController.html#clearSidebarShowListener">clearSidebarShowListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configureCircuitsPanelListener">configureCircuitsPanelListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configureMenuListener">configureMenuListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configureNotificationsPanelListener">configureNotificationsPanelListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configureSidePanelContentListener">configureSidePanelContentListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configureSpiritPanelListener">configureSpiritPanelListener</a></li><li data-type='method'><a href="SidePanelViewController.html#configureTeamPanelListener">configureTeamPanelListener</a></li><li data-type='method'><a href="SidePanelViewController.html#fireCircuitsPanelNotifyEvent">fireCircuitsPanelNotifyEvent</a></li><li data-type='method'><a href="SidePanelViewController.html#fireSidePanelNotifyEvent">fireSidePanelNotifyEvent</a></li><li data-type='method'><a href="SidePanelViewController.html#fireSpiritPanelNotifyEvent">fireSpiritPanelNotifyEvent</a></li><li data-type='method'><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></li><li data-type='method'><a href="SidePanelViewController.html#hidePanel">hidePanel</a></li><li data-type='method'><a href="SidePanelViewController.html#loadWTF">loadWTF</a></li><li data-type='method'><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></li><li data-type='method'><a href="SidePanelViewController.html#showPanel">showPanel</a></li><li data-type='method'><a href="SidePanelViewController.html#startWTF">startWTF</a></li></ul></li><li><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></li><li><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></li><li><a href="SidePanelViewController.MenuSelection.html">MenuSelection</a></li><li><a href="SidePanelViewController.SubmenuSelection.html">SubmenuSelection</a></li><li><a href="Strings.html">Strings</a></li><li></li><li><a href="TalkToClient.html">TalkToClient</a><ul class='methods'><li data-type='method'><a href="TalkToClient.html#.getAllStatusTalkMessagesFromRoom">getAllStatusTalkMessagesFromRoom</a></li><li data-type='method'><a href="TalkToClient.html#.getAllTalkMessagesFromRoom">getAllTalkMessagesFromRoom</a></li><li data-type='method'><a href="TalkToClient.html#.init">init</a></li><li data-type='method'><a href="TalkToClient.html#.joinExistingRoom">joinExistingRoom</a></li><li data-type='method'><a href="TalkToClient.html#.leaveExistingRoom">leaveExistingRoom</a></li><li data-type='method'><a href="TalkToClient.html#.loadAllTalkMessagesFromRoom">loadAllTalkMessagesFromRoom</a></li><li data-type='method'><a href="TalkToClient.html#.publishChatToRoom">publishChatToRoom</a></li><li data-type='method'><a href="TalkToClient.html#notifyTalkTo">notifyTalkTo</a></li></ul></li><li><a href="TalkToClient.Events.html">Events</a></li><li><a href="TeamCircuitClient.html">TeamCircuitClient</a><ul class='methods'><li data-type='method'><a href="TeamCircuitClient.html#.getAllMyTeamCircuits">getAllMyTeamCircuits</a></li><li data-type='method'><a href="TeamCircuitClient.html#.getMyHomeTeamCircuit">getMyHomeTeamCircuit</a></li><li data-type='method'><a href="TeamCircuitClient.html#.init">init</a></li><li data-type='method'><a href="TeamCircuitClient.html#.loadAllMyTeamCircuits">loadAllMyTeamCircuits</a></li><li data-type='method'><a href="TeamCircuitClient.html#.loadMyHomeTeamCircuit">loadMyHomeTeamCircuit</a></li><li data-type='method'><a href="TeamCircuitClient.html#notifyTeamCircuit">notifyTeamCircuit</a></li></ul></li><li><a href="TeamCircuitClient.Events.html">Events</a></li><li><a href="TeamClient.html">TeamClient</a><ul class='methods'><li data-type='method'><a href="TeamClient.html#.getAllMyTeams">getAllMyTeams</a></li><li data-type='method'><a href="TeamClient.html#.getMyHomeTeam">getMyHomeTeam</a></li><li data-type='method'><a href="TeamClient.html#.init">init</a></li><li data-type='method'><a href="TeamClient.html#.loadAllMyTeams">loadAllMyTeams</a></li><li data-type='method'><a href="TeamClient.html#.loadMyHomeTeam">loadMyHomeTeam</a></li><li data-type='method'><a href="TeamClient.html#notifyTeam">notifyTeam</a></li></ul></li><li><a href="TeamClient.Events.html">Events</a></li><li><a href="TerminalClient.html">TerminalClient</a><ul class='methods'><li data-type='method'><a href="TerminalClient.html#.getManual">getManual</a></li><li data-type='method'><a href="TerminalClient.html#.getManualHelpTopics">getManualHelpTopics</a></li><li data-type='method'><a href="TerminalClient.html#.getManualPage">getManualPage</a></li><li data-type='method'><a href="TerminalClient.html#.init">init</a></li><li data-type='method'><a href="TerminalClient.html#.runCommand">runCommand</a></li><li data-type='method'><a href="TerminalClient.html#notifyTerminal">notifyTerminal</a></li></ul></li><li><a href="TerminalClient.Events.html">Events</a></li><li><a href="Util.html">Util</a><ul class='methods'><li data-type='method'><a href="Util.html#.checkIfCalledFromCLI">checkIfCalledFromCLI</a></li><li data-type='method'><a href="Util.html#.getAppApi">getAppApi</a></li><li data-type='method'><a href="Util.html#.getAppIcon">getAppIcon</a></li><li data-type='method'><a href="Util.html#.getAppName">getAppName</a></li><li data-type='method'><a href="Util.html#.getAppRootDir">getAppRootDir</a></li><li data-type='method'><a href="Util.html#.getAppSettingsPath">getAppSettingsPath</a></li><li data-type='method'><a href="Util.html#.getAppTalkUrl">getAppTalkUrl</a></li><li data-type='method'><a href="Util.html#.getAppTray">getAppTray</a></li><li data-type='method'><a href="Util.html#.getAppUserDataDir">getAppUserDataDir</a></li><li data-type='method'><a href="Util.html#.getAssetPath">getAssetPath</a></li><li data-type='method'><a href="Util.html#.getAssetsDir">getAssetsDir</a></li><li data-type='method'><a href="Util.html#.getDateTimeString">getDateTimeString</a></li><li data-type='method'><a href="Util.html#.getFlowHomePath">getFlowHomePath</a></li><li data-type='method'><a href="Util.html#.getGuid">getGuid</a></li><li data-type='method'><a href="Util.html#.getLatestScreenshotPath">getLatestScreenshotPath</a></li><li data-type='method'><a href="Util.html#.getRender3D">getRender3D</a></li><li data-type='method'><a href="Util.html#.getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></li><li data-type='method'><a href="Util.html#.getScreenshotFolderPath">getScreenshotFolderPath</a></li><li data-type='method'><a href="Util.html#.getTimestampFromUTCStr">getTimestampFromUTCStr</a></li><li data-type='method'><a href="Util.html#.getUriFromMessageArray">getUriFromMessageArray</a></li><li data-type='method'><a href="Util.html#.getUserHomePath">getUserHomePath</a></li><li data-type='method'><a href="Util.html#.hasSQL">hasSQL</a></li><li data-type='method'><a href="Util.html#.inspect">inspect</a></li><li data-type='method'><a href="Util.html#.isCircuitOwnerModerator">isCircuitOwnerModerator</a></li><li data-type='method'><a href="Util.html#.isEmpty">isEmpty</a></li><li data-type='method'><a href="Util.html#.openExternalBrowser">openExternalBrowser</a></li><li data-type='method'><a href="Util.html#.setAppTray">setAppTray</a></li><li data-type='method'><a href="Util.html#.setDevUserDataDir">setDevUserDataDir</a></li></ul></li><li><a href="Views.html">Views</a></li><li></li><li><a href="VolumeManager.html">VolumeManager</a><ul class='methods'><li data-type='method'><a href="VolumeManager.html#.createDatabaseVolume">createDatabaseVolume</a></li><li data-type='method'><a href="VolumeManager.html#.handleFinishLoadingVolumes">handleFinishLoadingVolumes</a></li><li data-type='method'><a href="VolumeManager.html#.loadDefaultCircuitDatabase">loadDefaultCircuitDatabase</a></li><li data-type='method'><a href="VolumeManager.html#.loadDefaultJournalDatabase">loadDefaultJournalDatabase</a></li><li data-type='method'><a href="VolumeManager.html#.loadDefaultMemberDatabase">loadDefaultMemberDatabase</a></li><li data-type='method'><a href="VolumeManager.html#.loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></li><li data-type='method'><a href="VolumeManager.html#getVolumeByName">getVolumeByName</a></li><li data-type='method'><a href="VolumeManager.html#init">init</a></li></ul></li><li><a href="WindowManager.html">WindowManager</a><ul class='methods'><li data-type='method'><a href="WindowManager.html#closeWindow">closeWindow</a></li><li data-type='method'><a href="WindowManager.html#createWindow">createWindow</a></li><li data-type='method'><a href="WindowManager.html#destroyAllWindows">destroyAllWindows</a></li><li data-type='method'><a href="WindowManager.html#destroyWindow">destroyWindow</a></li><li data-type='method'><a href="WindowManager.html#getDisplay">getDisplay</a></li><li data-type='method'><a href="WindowManager.html#getDisplays">getDisplays</a></li><li data-type='method'><a href="WindowManager.html#getWindow">getWindow</a></li><li data-type='method'><a href="WindowManager.html#getWindowClassFromName">getWindowClassFromName</a></li><li data-type='method'><a href="WindowManager.html#getWindowViewURL">getWindowViewURL</a></li><li data-type='method'><a href="WindowManager.html#handleHideConsoleEvent">handleHideConsoleEvent</a></li><li data-type='method'><a href="WindowManager.html#loadWindow">loadWindow</a></li><li data-type='method'><a href="WindowManager.html#onBlurWindowCb">onBlurWindowCb</a></li><li data-type='method'><a href="WindowManager.html#onFocusWindowCb">onFocusWindowCb</a></li><li data-type='method'><a href="WindowManager.html#onShortcutsRecievedCb">onShortcutsRecievedCb</a></li><li data-type='method'><a href="WindowManager.html#openWindow">openWindow</a></li></ul></li></ul><h3>Global</h3><ul><li><a href="global.html#appendChatMessage">appendChatMessage</a></li><li><a href="global.html#changeFlameRating">changeFlameRating</a></li><li><a href="global.html#clearIntervalTimer">clearIntervalTimer</a></li><li><a href="global.html#clearKeyboardShortcuts">clearKeyboardShortcuts</a></li><li><a href="global.html#componentDidMount">componentDidMount</a></li><li><a href="global.html#componentDidUpdate">componentDidUpdate</a></li><li><a href="global.html#componentWillMount">componentWillMount</a></li><li><a href="global.html#componentWillUnmount">componentWillUnmount</a></li><li><a href="global.html#ConsoleStates">ConsoleStates</a></li><li><a href="global.html#createIntention">createIntention</a></li><li><a href="global.html#createProject">createProject</a></li><li><a href="global.html#createProjectOrTaskHelper">createProjectOrTaskHelper</a></li><li><a href="global.html#createTask">createTask</a></li><li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li><li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li><li><a href="global.html#getCancelActiveCircuitButtonContent">getCancelActiveCircuitButtonContent</a></li><li><a href="global.html#getCanvasEl">getCanvasEl</a></li><li><a href="global.html#getChunkCellContent">getChunkCellContent</a></li><li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li><li><a href="global.html#getCircuitError">getCircuitError</a></li><li><a href="global.html#getCircuitSidebarActions">getCircuitSidebarActions</a></li><li><a href="global.html#getCircuitSidebarChestContent">getCircuitSidebarChestContent</a></li><li><a href="global.html#getCircuitSidebarContent">getCircuitSidebarContent</a></li><li><a href="global.html#getCircuitSidebarMenuContent">getCircuitSidebarMenuContent</a></li><li><a href="global.html#getCircuitSidebarOverviewContent">getCircuitSidebarOverviewContent</a></li><li><a href="global.html#getCircuitSidebarPartyContent">getCircuitSidebarPartyContent</a></li><li><a href="global.html#getCircuitSidebarScrapbookContent">getCircuitSidebarScrapbookContent</a></li><li><a href="global.html#getCircuitSidebarTimerContent">getCircuitSidebarTimerContent</a></li><li><a href="global.html#getClassName">getClassName</a></li><li><a href="global.html#getDateTimeString">getDateTimeString</a></li><li><a href="global.html#getDescriptionContent">getDescriptionContent</a></li><li><a href="global.html#getDisplayName">getDisplayName</a></li><li><a href="global.html#getDividerContent">getDividerContent</a></li><li><a href="global.html#getErrorContent">getErrorContent</a></li><li><a href="global.html#getFeedEventsFromMessagesArrayContent">getFeedEventsFromMessagesArrayContent</a></li><li><a href="global.html#getFeedExtraTextsContent">getFeedExtraTextsContent</a></li><li><a href="global.html#getFinishIcon">getFinishIcon</a></li><li><a href="global.html#getFinishStatusAbortContent">getFinishStatusAbortContent</a></li><li><a href="global.html#getFinishStatusDoneContent">getFinishStatusDoneContent</a></li><li><a href="global.html#getFinishStatusSelectorContent">getFinishStatusSelectorContent</a></li><li><a href="global.html#getFlameBlockContent">getFlameBlockContent</a></li><li><a href="global.html#getFormattedCircuitName">getFormattedCircuitName</a></li><li><a href="global.html#getGuid">getGuid</a></li><li><a href="global.html#getIcon">getIcon</a></li><li><a href="global.html#getJournalEntryContent">getJournalEntryContent</a></li><li><a href="global.html#getJournalErrorContent">getJournalErrorContent</a></li><li><a href="global.html#getJournalItemsContent">getJournalItemsContent</a></li><li><a href="global.html#getJournalItemsWrapperContent">getJournalItemsWrapperContent</a></li><li><a href="global.html#getLeaveActiveCircuitButtonContent">getLeaveActiveCircuitButtonContent</a></li><li><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></li><li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li><li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li><li><a href="global.html#getPauseResumeButtonContent">getPauseResumeButtonContent</a></li><li><a href="global.html#getPopupContent">getPopupContent</a></li><li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li><li><a href="global.html#getProjectDropdown">getProjectDropdown</a></li><li><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></li><li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li><li><a href="global.html#getSolveActiveCircuitButtonContent">getSolveActiveCircuitButtonContent</a></li><li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li><li><a href="global.html#getTaskCellContent">getTaskCellContent</a></li><li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li><li><a href="global.html#getTaskPopupContent">getTaskPopupContent</a></li><li><a href="global.html#getTeamPanelListMembersContent">getTeamPanelListMembersContent</a></li><li><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></li><li><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></li><li><a href="global.html#getTextCursor">getTextCursor</a></li><li><a href="global.html#getTextInput">getTextInput</a></li><li><a href="global.html#getTimestampFromUTCStr">getTimestampFromUTCStr</a></li><li><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></li><li><a href="global.html#getUnfinishedStatusContent">getUnfinishedStatusContent</a></li><li><a href="global.html#getUserNameFromResource">getUserNameFromResource</a></li><li><a href="global.html#getWtfTimerContent">getWtfTimerContent</a></li><li><a href="global.html#getWtfTimerCount">getWtfTimerCount</a></li><li><a href="global.html#getWtfTimerStringFromOpenTime">getWtfTimerStringFromOpenTime</a></li><li><a href="global.html#getWtfTimerStringFromTotalNs">getWtfTimerStringFromTotalNs</a></li><li><a href="global.html#getXpPercent">getXpPercent</a></li><li><a href="global.html#handleCallback">handleCallback</a></li><li><a href="global.html#hasCallbackError">hasCallbackError</a></li><li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li><li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li><li><a href="global.html#hasSQL">hasSQL</a></li><li><a href="global.html#isCircuitOwnerModerator">isCircuitOwnerModerator</a></li><li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li><li><a href="global.html#isCommand">isCommand</a></li><li><a href="global.html#isMe">isMe</a></li><li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li><li><a href="global.html#isMemberOnline">isMemberOnline</a></li><li><a href="global.html#isMyJournal">isMyJournal</a></li><li><a href="global.html#isObjEmpty">isObjEmpty</a></li><li><a href="global.html#isStatusMessage">isStatusMessage</a></li><li><a href="global.html#isWTFResource">isWTFResource</a></li><li><a href="global.html#loadState">loadState</a></li><li><a href="global.html#onHeartbeat">onHeartbeat</a></li><li><a href="global.html#onLoadCb">onLoadCb</a></li><li><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></li><li><a href="global.html#onPulse">onPulse</a></li><li><a href="global.html#onRefresh">onRefresh</a></li><li><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></li><li><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></li><li><a href="global.html#onRefreshSpiritPanel">onRefreshSpiritPanel</a></li><li><a href="global.html#onSidebarShow">onSidebarShow</a></li><li><a href="global.html#onTalkFailedCb">onTalkFailedCb</a></li><li><a href="global.html#processActivationCode">processActivationCode</a></li><li><a href="global.html#refreshJournal">refreshJournal</a></li><li><a href="global.html#refreshKeyboardShortcuts">refreshKeyboardShortcuts</a></li><li><a href="global.html#refreshTeamPanel">refreshTeamPanel</a></li><li><a href="global.html#render">render</a></li><li><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></li><li><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></li><li><a href="global.html#requestBrowserToLoadDoItLaterCircuit">requestBrowserToLoadDoItLaterCircuit</a></li><li><a href="global.html#requestBrowserToLoadRetroCircuit">requestBrowserToLoadRetroCircuit</a></li><li><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></li><li><a href="global.html#requestBrowserToLoadTeamMemberActiveCircuit">requestBrowserToLoadTeamMemberActiveCircuit</a></li><li><a href="global.html#ROOT_">ROOT_</a></li><li><a href="global.html#saveState">saveState</a></li><li><a href="global.html#scrollToJournalItemById">scrollToJournalItemById</a></li><li><a href="global.html#setKeyboardShortcuts">setKeyboardShortcuts</a></li><li><a href="global.html#shouldComponentUpdate">shouldComponentUpdate</a></li><li><a href="global.html#showBadgesPanel">showBadgesPanel</a></li><li><a href="global.html#showDoItLaterCircuitsPanel">showDoItLaterCircuitsPanel</a></li><li><a href="global.html#showNotificationsPanel">showNotificationsPanel</a></li><li><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></li><li><a href="global.html#showRetroCircuitsPanel">showRetroCircuitsPanel</a></li><li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li><li><a href="global.html#updateActiveJournalItemSelection">updateActiveJournalItemSelection</a></li><li><a href="global.html#updateHeaderText">updateHeaderText</a></li><li><a href="global.html#updateJournalIntentions">updateJournalIntentions</a></li><li><a href="global.html#updateKeyboardShortcuts">updateKeyboardShortcuts</a></li><li><a href="global.html#updateMessageInArrayById">updateMessageInArrayById</a></li><li><a href="global.html#updateProgress">updateProgress</a></li><li><a href="global.html#updateTeamMembers">updateTeamMembers</a></li><li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li><li><a href="global.html#viewName">viewName</a></li></ul>
-</nav>
-
-<div id="main">
-    
+  <input type="checkbox"
+         id="nav-trigger"
+         class="nav-trigger" />
+  <label for="nav-trigger"
+         class="navicon-button x">
+    <div class="navicon"></div>
+  </label>
+  <label for="nav-trigger"
+         class="overlay"></label>
+  <nav>
+    <h2><a href="index.html">Home</a></h2>
+    <h3>Classes</h3>
+    <ul>
+      <li><a href="%2520returns%2520the%2520classes%2520constructor%2520function%2520to%2520render%2520dynamically.html">- returns the classes constructor function to render dynamically</a></li>
+      <li><a href="ActivatorView.html">ActivatorView</a></li>
+      <li><a href="AppActivator.html">AppActivator</a></li>
+      <li><a href="AppSettings.html">AppSettings</a></li>
+      <li><a href="BaseClient.html">BaseClient</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="BaseClient.html#createClientEvent">createClientEvent</a></li>
+          <li data-type='method'><a href="BaseClient.html#delegateCallback">delegateCallback</a></li>
+          <li data-type='method'><a href="BaseClient.html#logReply">logReply</a></li>
+        </ul>
+      </li>
+      <li><a href="BaseClient.CircuitStates.html">CircuitStates</a></li>
+      <li><a href="BaseClient.Errors.html">Errors</a></li>
+      <li><a href="BaseClient.MessageTypes.html">MessageTypes</a></li>
+      <li><a href="BaseClient.Strings.html">Strings</a></li>
+      <li><a href="BrowserController.html">BrowserController</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="BrowserController.html#configureConsoleBrowserRequestListener">configureConsoleBrowserRequestListener</a></li>
+          <li data-type='method'><a href="BrowserController.html#fireConsoleBrowserLoadNotifyEvent">fireConsoleBrowserLoadNotifyEvent</a></li>
+          <li data-type='method'><a href="BrowserController.html#makeRequest">makeRequest</a></li>
+          <li data-type='method'><a href="BrowserController.html#setUri">setUri</a></li>
+        </ul>
+      </li>
+      <li><a href="BrowserRequestFactory.ACTION_ERROR.html">ACTION_ERROR</a></li>
+      <li><a href="BrowserRequestFactory.Errors.html">Errors</a></li>
+      <li><a href="BrowserRequestFactory.Locations.html">Locations</a></li>
+      <li><a href="BrowserRequestFactory.PATH_SEPARATOR.html">PATH_SEPARATOR</a></li>
+      <li><a href="BrowserRequestFactory.Requests.html">Requests</a></li>
+      <li><a href="BrowserRequestFactory.ROOT_SEPARATOR.html">ROOT_SEPARATOR</a></li>
+      <li><a href="BrowserRequestFactory.SPACE_SEPARATOR.html">SPACE_SEPARATOR</a></li>
+      <li><a href="BrowserRequestFactory.URI_ERROR.html">URI_ERROR</a></li>
+      <li><a href="BrowserRequestFactory.URI_SEPARATOR.html">URI_SEPARATOR</a></li>
+      <li><a href="ChatMessageDetailsDto.html">ChatMessageDetailsDto</a></li>
+      <li><a href="CircuitClient.html">CircuitClient</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="CircuitClient.html#.cancelWtf">cancelWtf</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.fireCircuitStartNotifyEvent">fireCircuitStartNotifyEvent</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.getActiveCircuit">getActiveCircuit</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.getAllMyParticipatingCircuits">getAllMyParticipatingCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.getAllMyRetroCircuits">getAllMyRetroCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.init">init</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.loadAllMyRetroCircuits">loadAllMyRetroCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.resumeWtf">resumeWtf</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.solveWtf">solveWtf</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.startWtf">startWtf</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.startWtfWithCustomCircuitName">startWtfWithCustomCircuitName</a></li>
+          <li data-type='method'><a href="CircuitClient.html#notifyCircuit">notifyCircuit</a></li>
+        </ul>
+      </li>
+      <li><a href="CircuitClient.Events.html">Events</a></li>
+      <li><a href="CircuitMemberStatusDto.html">CircuitMemberStatusDto</a></li>
+      <li><a href="ControllerEvent.html">ControllerEvent</a></li>
+      <li><a href="DatabaseFactory.html">DatabaseFactory</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="DatabaseFactory.html#.createDatabase">createDatabase</a></li>
+          <li data-type='method'><a href="DatabaseFactory.html#.getDatabase">getDatabase</a></li>
+        </ul>
+      </li>
+      <li><a href="DatabaseFactory.Names.html">Names</a></li>
+      <li><a href="DataStore.html">DataStore</a></li>
+      <li><a href="DataStoreFactory.html">DataStoreFactory</a></li>
+      <li><a href="DimensionController.html">DimensionController</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentChatMinHeight">getActiveCircuitContentChatMinHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentChatMinHeightDefault">getActiveCircuitContentChatMinHeightDefault</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentFeedMinHeight">getActiveCircuitContentFeedMinHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentFeedMinWidth">getActiveCircuitContentFeedMinWidth</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentHeight">getActiveCircuitContentHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentScrapbookMinWidth">getActiveCircuitContentScrapbookMinWidth</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getActiveCircuitContentScrapbookMinWidthDefault">getActiveCircuitContentScrapbookMinWidthDefault</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getActiveCircuitFeedContentHeight">getActiveCircuitFeedContentHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getCircuitSidebarActionsHeight">getCircuitSidebarActionsHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getCircuitSidebarHeight">getCircuitSidebarHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getCircuitSidebarTimerHeight">getCircuitSidebarTimerHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getCircuitsSidebarPanelHeight">getCircuitsSidebarPanelHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getConsoleLayoutHeight">getConsoleLayoutHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getConsoleSidebarHeight">getConsoleSidebarHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getFlowPanelHeight">getFlowPanelHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getHeightFor">getHeightFor</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getJournalItemsPanelHeight">getJournalItemsPanelHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getSidebarPanelHeight">getSidebarPanelHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getSpiritCanvasHeight">getSpiritCanvasHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getSpiritCanvasWidth">getSpiritCanvasWidth</a></li>
+          <li data-type='method'><a href="DimensionController.html#.getSpiritPanelHeight">getSpiritPanelHeight</a></li>
+          <li data-type='method'><a href="DimensionController.html#.init">init</a></li>
+        </ul>
+      </li>
+      <li><a href="DimensionController.Components.html">Components</a></li>
+      <li><a href="DtoClient.html">DtoClient</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="DtoClient.html#doRequest">doRequest</a></li>
+          <li data-type='method'><a href="DtoClient.html#getRequest">getRequest</a></li>
+        </ul>
+      </li>
+      <li><a href="DtoClientFactory.html">DtoClientFactory</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="DtoClientFactory.html#makeStoreRequest">makeStoreRequest</a></li>
+        </ul>
+      </li>
+      <li><a href="DtoClientFactory.RequestTypes.html">RequestTypes</a></li>
+      <li><a href="EventCallbackException.html">EventCallbackException</a></li>
+      <li><a href="EventEchoException.html">EventEchoException</a></li>
+      <li><a href="EventException.html">EventException</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="EventException.html#getDateTimeString">getDateTimeString</a></li>
+          <li data-type='method'><a href="EventException.html#toString">toString</a></li>
+        </ul>
+      </li>
+      <li><a href="EventFactory.html">EventFactory</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="EventFactory.html#.createEvent">createEvent</a></li>
+        </ul>
+      </li>
+      <li><a href="EventFactory.Types.html">Types</a></li>
+      <li><a href="EventManager.html">EventManager</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="EventManager.html#.destroy">destroy</a></li>
+          <li data-type='method'><a href="EventManager.html#.dispatch">dispatch</a></li>
+          <li data-type='method'><a href="EventManager.html#.unregister">unregister</a></li>
+          <li data-type='method'><a href="EventManager.html#createListener">createListener</a></li>
+          <li data-type='method'><a href="EventManager.html#executeCallback">executeCallback</a></li>
+          <li data-type='method'><a href="EventManager.html#executeReply">executeReply</a></li>
+          <li data-type='method'><a href="EventManager.html#handleEvent">handleEvent</a></li>
+          <li data-type='method'><a href="EventManager.html#initReturnValues">initReturnValues</a></li>
+          <li data-type='method'><a href="EventManager.html#initSender">initSender</a></li>
+          <li data-type='method'><a href="EventManager.html#initSonar">initSonar</a></li>
+          <li data-type='method'><a href="EventManager.html#register">register</a></li>
+        </ul>
+      </li>
+      <li><a href="EventManager.Events.html">Events</a></li>
+      <li><a href="EventReplyException.html">EventReplyException</a></li>
+      <li><a href="JournalClient.html">JournalClient</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="JournalClient.html#.createIntention">createIntention</a></li>
+          <li data-type='method'><a href="JournalClient.html#.findOrCreateProject">findOrCreateProject</a></li>
+          <li data-type='method'><a href="JournalClient.html#.findOrCreateTask">findOrCreateTask</a></li>
+          <li data-type='method'><a href="JournalClient.html#.finishIntention">finishIntention</a></li>
+          <li data-type='method'><a href="JournalClient.html#.getRecentIntentions">getRecentIntentions</a></li>
+          <li data-type='method'><a href="JournalClient.html#.getRecentProjects">getRecentProjects</a></li>
+          <li data-type='method'><a href="JournalClient.html#.getRecentTasks">getRecentTasks</a></li>
+          <li data-type='method'><a href="JournalClient.html#.init">init</a></li>
+          <li data-type='method'><a href="JournalClient.html#.loadRecentJournal">loadRecentJournal</a></li>
+          <li data-type='method'><a href="JournalClient.html#.updateFlameRating">updateFlameRating</a></li>
+          <li data-type='method'><a href="JournalClient.html#notifyJournal">notifyJournal</a></li>
+        </ul>
+      </li>
+      <li><a href="JournalClient.Events.html">Events</a></li>
+      <li><a href="Keys.html">Keys</a></li>
+      <li><a href="LearningCircuitDto.html">LearningCircuitDto</a></li>
+      <li><a href="LearningCircuitModel.html">LearningCircuitModel</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="LearningCircuitModel.html#.isRetro">isRetro</a></li>
+        </ul>
+      </li>
+      <li><a href="LearningCircuitWithMembersDto.html">LearningCircuitWithMembersDto</a></li>
+      <li><a href="MainEvent.html">MainEvent</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="MainEvent.html#construct">construct</a></li>
+          <li data-type='method'><a href="MainEvent.html#destruct">destruct</a></li>
+          <li data-type='method'><a href="MainEvent.html#dispatch">dispatch</a></li>
+          <li data-type='method'><a href="MainEvent.html#remove">remove</a></li>
+          <li data-type='method'><a href="MainEvent.html#replyTo">replyTo</a></li>
+        </ul>
+      </li>
+      <li><a href="MemberClient.html">MemberClient</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="MemberClient.html#.init">init</a></li>
+          <li data-type='method'><a href="MemberClient.html#notifyMember">notifyMember</a></li>
+        </ul>
+      </li>
+      <li><a href="MemberClient.Events.html">Events</a></li>
+      <li><a href="MemberController.html">MemberController</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="MemberController.html#.wireTogetherControllers">wireTogetherControllers</a></li>
+          <li data-type='method'><a href="MemberController.html#configureEvents">configureEvents</a></li>
+          <li data-type='method'><a href="MemberController.html#delegateLoadMeCallback">delegateLoadMeCallback</a></li>
+          <li data-type='method'><a href="MemberController.html#handleGetMeEvent">handleGetMeEvent</a></li>
+          <li data-type='method'><a href="MemberController.html#handleLoadMeEvent">handleLoadMeEvent</a></li>
+          <li data-type='method'><a href="MemberController.html#onMemberClientEvent">onMemberClientEvent</a></li>
+          <li data-type='method'><a href="MemberController.html#updateMeInClient">updateMeInClient</a></li>
+        </ul>
+      </li>
+      <li><a href="MemberManager.html">MemberManager</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="MemberManager.html#handleInitCallback">handleInitCallback</a></li>
+          <li data-type='method'><a href="MemberManager.html#init">init</a></li>
+          <li data-type='method'><a href="MemberManager.html#updateMe">updateMe</a></li>
+        </ul>
+      </li>
+      <li><a href="module.html#.exports">exports</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="module.html#.exports#addNewProject">addNewProject</a></li>
+          <li data-type='method'><a href="module.html#.exports#addNewTask">addNewTask</a></li>
+          <li data-type='method'><a href="module.html#.exports#addRoom">addRoom</a></li>
+          <li data-type='method'><a href="module.html#.exports#addStatusTalkMessagesCollection">addStatusTalkMessagesCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#addTalkMessagesCollection">addTalkMessagesCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#batchRemoveFromViewInCollection">batchRemoveFromViewInCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#check">check</a></li>
+          <li data-type='method'><a href="module.html#.exports#configEvents">configEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#configSocketListeners">configSocketListeners</a></li>
+          <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#configureEvents">configureEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#connectToTalk">connectToTalk</a></li>
+          <li data-type='method'><a href="module.html#.exports#createConnection">createConnection</a></li>
+          <li data-type='method'><a href="module.html#.exports#createConsole">createConsole</a></li>
+          <li data-type='method'><a href="module.html#.exports#createMenu">createMenu</a></li>
+          <li data-type='method'><a href="module.html#.exports#createNewCircuit">createNewCircuit</a></li>
+          <li data-type='method'><a href="module.html#.exports#createQuitListener">createQuitListener</a></li>
+          <li data-type='method'><a href="module.html#.exports#createShortcuts">createShortcuts</a></li>
+          <li data-type='method'><a href="module.html#.exports#createWindowActivator">createWindowActivator</a></li>
+          <li data-type='method'><a href="module.html#.exports#createWindowConsole">createWindowConsole</a></li>
+          <li data-type='method'><a href="module.html#.exports#createWindowLoading">createWindowLoading</a></li>
+          <li data-type='method'><a href="module.html#.exports#deactivate">deactivate</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateCallbackOrEventReplyTo">delegateCallbackOrEventReplyTo</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateCallbackWithView">delegateCallbackWithView</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateCancelWtfCallback">delegateCancelWtfCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateCreateIntentionCallback">delegateCreateIntentionCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateProjectCallback">delegateFindOrCreateProjectCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateFindOrCreateTaskCallback">delegateFindOrCreateTaskCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateFinishIntentionCallback">delegateFinishIntentionCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateGetAllStatusTalkMessagesFromRoomCallback">delegateGetAllStatusTalkMessagesFromRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateGetManualCallback">delegateGetManualCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateGetManualHelpTopicsCallback">delegateGetManualHelpTopicsCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateGetManualPageCallback">delegateGetManualPageCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateJoinExistingRoomCallback">delegateJoinExistingRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLeaveExistingRoomCallback">delegateLeaveExistingRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadActiveCircuitCallback">delegateLoadActiveCircuitCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyDoItLaterCircuitsCallback">delegateLoadAllMyDoItLaterCircuitsCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyParticipatingCircuitsCallback">delegateLoadAllMyParticipatingCircuitsCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyRetroCircuitsCallback">delegateLoadAllMyRetroCircuitsCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyTeamCircuitsCallback">delegateLoadAllMyTeamCircuitsCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyTeamsCallback">delegateLoadAllMyTeamsCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadAllTalkMessagesFromRoomCallback">delegateLoadAllTalkMessagesFromRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadCircuitWithAllDetailsCallback">delegateLoadCircuitWithAllDetailsCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCallback">delegateLoadMyHomeTeamCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCircuitCallback">delegateLoadMyHomeTeamCircuitCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegatePauseWTFWithDoItLaterCallback">delegatePauseWTFWithDoItLaterCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegatePublishChatToRoomCallback">delegatePublishChatToRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateResumeWtfCallback">delegateResumeWtfCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateRunCommandCallback">delegateRunCommandCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateSolveWtfCallback">delegateSolveWtfCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateStartRetroForWTFCallback">delegateStartRetroForWTFCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateStartWtfWithCustomCircuitNameCallback">delegateStartWtfWithCustomCircuitNameCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateUpdateFlameRatingCallback">delegateUpdateFlameRatingCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#disconnect">disconnect</a></li>
+          <li data-type='method'><a href="module.html#.exports#doClientRequest">doClientRequest</a></li>
+          <li data-type='method'><a href="module.html#.exports#doLogin">doLogin</a></li>
+          <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
+          <li data-type='method'><a href="module.html#.exports#findInsert">findInsert</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemove">findRemove</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></li>
+          <li data-type='method'><a href="module.html#.exports#findUpdate">findUpdate</a></li>
+          <li data-type='method'><a href="module.html#.exports#findUpdateInsert">findUpdateInsert</a></li>
+          <li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li>
+          <li data-type='method'><a href="module.html#.exports#finished">finished</a></li>
+          <li data-type='method'><a href="module.html#.exports#getApiKey">getApiKey</a></li>
+          <li data-type='method'><a href="module.html#.exports#getCollectionForRoomStatusTalkMessages">getCollectionForRoomStatusTalkMessages</a></li>
+          <li data-type='method'><a href="module.html#.exports#getCollectionForRoomTalkMessages">getCollectionForRoomTalkMessages</a></li>
+          <li data-type='method'><a href="module.html#.exports#getConnectionStatus">getConnectionStatus</a></li>
+          <li data-type='method'><a href="module.html#.exports#getConnectionUrl">getConnectionUrl</a></li>
+          <li data-type='method'><a href="module.html#.exports#getConsoleShortcut">getConsoleShortcut</a></li>
+          <li data-type='method'><a href="module.html#.exports#getConsoleShortcutAlt">getConsoleShortcutAlt</a></li>
+          <li data-type='method'><a href="module.html#.exports#getDisplayIndex">getDisplayIndex</a></li>
+          <li data-type='method'><a href="module.html#.exports#getDisplaysSubmenu">getDisplaysSubmenu</a></li>
+          <li data-type='method'><a href="module.html#.exports#getLatency">getLatency</a></li>
+          <li data-type='method'><a href="module.html#.exports#getMeFromView">getMeFromView</a></li>
+          <li data-type='method'><a href="module.html#.exports#getMemberMe">getMemberMe</a></li>
+          <li data-type='method'><a href="module.html#.exports#getMeUsername">getMeUsername</a></li>
+          <li data-type='method'><a href="module.html#.exports#getOrCreateFlowHomeDir">getOrCreateFlowHomeDir</a></li>
+          <li data-type='method'><a href="module.html#.exports#getStages">getStages</a></li>
+          <li data-type='method'><a href="module.html#.exports#getStatusTalkMessagesCollectionNameFromUri">getStatusTalkMessagesCollectionNameFromUri</a></li>
+          <li data-type='method'><a href="module.html#.exports#getTalkMessagesCollectionNameFromUri">getTalkMessagesCollectionNameFromUri</a></li>
+          <li data-type='method'><a href="module.html#.exports#getTotalStages">getTotalStages</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewActiveCircuit">getViewActiveCircuit</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewAllMyRetroCircuits">getViewAllMyRetroCircuits</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewForIntentions">getViewForIntentions</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewForMe">getViewForMe</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewForMembers">getViewForMembers</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewForProjects">getViewForProjects</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewForTasks">getViewForTasks</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewRooms">getViewRooms</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewStatusTalkMessagesForCollection">getViewStatusTalkMessagesForCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewTalkMessagesForCollection">getViewTalkMessagesForCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewTeamCircuits">getViewTeamCircuits</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleCancelWtfEvent">handleCancelWtfEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleFindOrCreateProjectEvent">handleFindOrCreateProjectEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleFindOrCreateTaskEvent">handleFindOrCreateTaskEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleFinishIntentionEvent">handleFinishIntentionEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetActiveCircuitEvent">handleGetActiveCircuitEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetAllMyDoItLaterCircuitsEvent">handleGetAllMyDoItLaterCircuitsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetAllMyParticipatingCircuitsEvent">handleGetAllMyParticipatingCircuitsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetAllMyRetroCircuitsEvent">handleGetAllMyRetroCircuitsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetAllMyTeamCircuitsEvent">handleGetAllMyTeamCircuitsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetAllMyTeamsEvent">handleGetAllMyTeamsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetAllStatusTalkMessagesFromRoomEvent">handleGetAllStatusTalkMessagesFromRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetAllTalkMessagesFromRoomEvent">handleGetAllTalkMessagesFromRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetCircuitWithAllDetailsEvent">handleGetCircuitWithAllDetailsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetManualEvent">handleGetManualEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetManualHelpTopicsEvent">handleGetManualHelpTopicsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetManualPageEvent">handleGetManualPageEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetMyHomeTeamCircuitEvent">handleGetMyHomeTeamCircuitEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetMyHomeTeamEvent">handleGetMyHomeTeamEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetRecentIntentionsEvent">handleGetRecentIntentionsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetRecentProjectsEvent">handleGetRecentProjectsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetRecentTasksEvent">handleGetRecentTasksEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleJoinExistingRoomEvent">handleJoinExistingRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLeaveExistingRoomEvent">handleLeaveExistingRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadAllMyRetroCircuitsEvent">handleLoadAllMyRetroCircuitsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadAllMyTeamCircuitsEvent">handleLoadAllMyTeamCircuitsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadAllMyTeamsEvent">handleLoadAllMyTeamsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadAllTalkNessagesFromRoomEvent">handleLoadAllTalkNessagesFromRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadCircuitWithAllDetailsEvent">handleLoadCircuitWithAllDetailsEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadJournalEvent">handleLoadJournalEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamCircuitEvent">handleLoadMyHomeTeamCircuitEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamEvent">handleLoadMyHomeTeamEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handlePauseWTFWithDoItLaterEvent">handlePauseWTFWithDoItLaterEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handlePublishChatToRoomEvent">handlePublishChatToRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleResumeWtfEvent">handleResumeWtfEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleRunCommandEvent">handleRunCommandEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleSolveWtfEvent">handleSolveWtfEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleStartRetroForWTFEvent">handleStartRetroForWTFEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleUpdateFlameRatingEvent">handleUpdateFlameRatingEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#hasRoomByRoomName">hasRoomByRoomName</a></li>
+          <li data-type='method'><a href="module.html#.exports#hideConsole">hideConsole</a></li>
+          <li data-type='method'><a href="module.html#.exports#incrementStage">incrementStage</a></li>
+          <li data-type='method'><a href="module.html#.exports#init">init</a></li>
+          <li data-type='method'><a href="module.html#.exports#init">init</a></li>
+          <li data-type='method'><a href="module.html#.exports#init">init</a></li>
+          <li data-type='method'><a href="module.html#.exports#init">init</a></li>
+          <li data-type='method'><a href="module.html#.exports#initVolumes">initVolumes</a></li>
+          <li data-type='method'><a href="module.html#.exports#insertRoomChatMessage">insertRoomChatMessage</a></li>
+          <li data-type='method'><a href="module.html#.exports#insertRoomStatusMessage">insertRoomStatusMessage</a></li>
+          <li data-type='method'><a href="module.html#.exports#joinRoomById">joinRoomById</a></li>
+          <li data-type='method'><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></li>
+          <li data-type='method'><a href="module.html#.exports#load">load</a></li>
+          <li data-type='method'><a href="module.html#.exports#load">load</a></li>
+          <li data-type='method'><a href="module.html#.exports#log">log</a></li>
+          <li data-type='method'><a href="module.html#.exports#log">log</a></li>
+          <li data-type='method'><a href="module.html#.exports#logRequest">logRequest</a></li>
+          <li data-type='method'><a href="module.html#.exports#logResults">logResults</a></li>
+          <li data-type='method'><a href="module.html#.exports#onActivatorSaveCb">onActivatorSaveCb</a></li>
+          <li data-type='method'><a href="module.html#.exports#onAppHeartbeat">onAppHeartbeat</a></li>
+          <li data-type='method'><a href="module.html#.exports#onCircuitClientEvent">onCircuitClientEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#onConnectedTalkCb">onConnectedTalkCb</a></li>
+          <li data-type='method'><a href="module.html#.exports#onConsoleReadyCb">onConsoleReadyCb</a></li>
+          <li data-type='method'><a href="module.html#.exports#onConsoleShowHideCb">onConsoleShowHideCb</a></li>
+          <li data-type='method'><a href="module.html#.exports#onCrash">onCrash</a></li>
+          <li data-type='method'><a href="module.html#.exports#onDatabaseClientEvent">onDatabaseClientEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#onFinished">onFinished</a></li>
+          <li data-type='method'><a href="module.html#.exports#onJournalClientEvent">onJournalClientEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#onLoadCb">onLoadCb</a></li>
+          <li data-type='method'><a href="module.html#.exports#onLoadingLoginCb">onLoadingLoginCb</a></li>
+          <li data-type='method'><a href="module.html#.exports#onLoadingShowCb">onLoadingShowCb</a></li>
+          <li data-type='method'><a href="module.html#.exports#onPrepareForScreenshot">onPrepareForScreenshot</a></li>
+          <li data-type='method'><a href="module.html#.exports#onQuit">onQuit</a></li>
+          <li data-type='method'><a href="module.html#.exports#onReady">onReady</a></li>
+          <li data-type='method'><a href="module.html#.exports#onReadyToShowCb">onReadyToShowCb</a></li>
+          <li data-type='method'><a href="module.html#.exports#onScreenshotComplete">onScreenshotComplete</a></li>
+          <li data-type='method'><a href="module.html#.exports#onShortcutsCreatedCb">onShortcutsCreatedCb</a></li>
+          <li data-type='method'><a href="module.html#.exports#onSingleInstance">onSingleInstance</a></li>
+          <li data-type='method'><a href="module.html#.exports#onTalkToClientEvent">onTalkToClientEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#onTeamCircuitClientEvent">onTeamCircuitClientEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#onTeamClientEvent">onTeamClientEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#onTerminalClientEvent">onTerminalClientEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#onWillQuit">onWillQuit</a></li>
+          <li data-type='method'><a href="module.html#.exports#onWindowAllClosed">onWindowAllClosed</a></li>
+          <li data-type='method'><a href="module.html#.exports#processCLI">processCLI</a></li>
+          <li data-type='method'><a href="module.html#.exports#processLogin">processLogin</a></li>
+          <li data-type='method'><a href="module.html#.exports#pulse">pulse</a></li>
+          <li data-type='method'><a href="module.html#.exports#quit">quit</a></li>
+          <li data-type='method'><a href="module.html#.exports#rejoinRooms">rejoinRooms</a></li>
+          <li data-type='method'><a href="module.html#.exports#removeActiveCircuit">removeActiveCircuit</a></li>
+          <li data-type='method'><a href="module.html#.exports#removeActiveCircuitFromMembers">removeActiveCircuitFromMembers</a></li>
+          <li data-type='method'><a href="module.html#.exports#removeCircuitByIdFromCollectionName">removeCircuitByIdFromCollectionName</a></li>
+          <li data-type='method'><a href="module.html#.exports#removeCircuitFromAllCollections">removeCircuitFromAllCollections</a></li>
+          <li data-type='method'><a href="module.html#.exports#removeRoom">removeRoom</a></li>
+          <li data-type='method'><a href="module.html#.exports#removeSingleCircuitByIdFromCollection">removeSingleCircuitByIdFromCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#resetHomeTeamFlag">resetHomeTeamFlag</a></li>
+          <li data-type='method'><a href="module.html#.exports#restart">restart</a></li>
+          <li data-type='method'><a href="module.html#.exports#save">save</a></li>
+          <li data-type='method'><a href="module.html#.exports#setActiveCircuit">setActiveCircuit</a></li>
+          <li data-type='method'><a href="module.html#.exports#setConsoleShortcut">setConsoleShortcut</a></li>
+          <li data-type='method'><a href="module.html#.exports#setConsoleShortcutAlt">setConsoleShortcutAlt</a></li>
+          <li data-type='method'><a href="module.html#.exports#setDisplayIndex">setDisplayIndex</a></li>
+          <li data-type='method'><a href="module.html#.exports#setLatency">setLatency</a></li>
+          <li data-type='method'><a href="module.html#.exports#showConsole">showConsole</a></li>
+          <li data-type='method'><a href="module.html#.exports#solveActiveCircuit">solveActiveCircuit</a></li>
+          <li data-type='method'><a href="module.html#.exports#start">start</a></li>
+          <li data-type='method'><a href="module.html#.exports#start">start</a></li>
+          <li data-type='method'><a href="module.html#.exports#start">start</a></li>
+          <li data-type='method'><a href="module.html#.exports#stop">stop</a></li>
+          <li data-type='method'><a href="module.html#.exports#unwireEvents">unwireEvents</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateCircuitForResume">updateCircuitForResume</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateCircuitToDoItLater">updateCircuitToDoItLater</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateIntention">updateIntention</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateJournalIntentions">updateJournalIntentions</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateJournalProjects">updateJournalProjects</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateJournalTasks">updateJournalTasks</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateMemberInMembers">updateMemberInMembers</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateMemberMe">updateMemberMe</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateRoomMemberStatus">updateRoomMemberStatus</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateSingleCircuitByIdInCollection">updateSingleCircuitByIdInCollection</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateTeamMemberInTeams">updateTeamMemberInTeams</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateTeamMemberXPSummaryInTeams">updateTeamMemberXPSummaryInTeams</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateXPStatusByTeamMemberId">updateXPStatusByTeamMemberId</a></li>
+          <li data-type='method'><a href="module.html#.exports#verify">verify</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireControllersTo">wireControllersTo</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireControllersTogether">wireControllersTogether</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireSocketMessagesToEventCircuit">wireSocketMessagesToEventCircuit</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireTogetherControllers">wireTogetherControllers</a></li>
+          <li data-type='method'><a href="module.html#.exports#wireUpEvents">wireUpEvents</a></li>
+        </ul>
+      </li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li><a href="module.exports_CircuitStates.html">CircuitStates</a></li>
+      <li><a href="module.exports_Collections.html">Collections</a></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li><a href="module.exports_Contexts.html">Contexts</a></li>
+      <li><a href="module.exports_DefaultValues.html">DefaultValues</a></li>
+      <li><a href="module.exports_Error.html">Error</a></li>
+      <li><a href="module.exports_Events.html">Events</a></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li><a href="module.exports_Indices.html">Indices</a></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li><a href="module.exports_Keys.html">Keys</a></li>
+      <li><a href="module.exports_MessageTypes.html">MessageTypes</a></li>
+      <li><a href="module.exports_module.exports.html">exports</a></li>
+      <li></li>
+      <li></li>
+      <li><a href="module.html#.exports#Name">Name</a></li>
+      <li></li>
+      <li></li>
+      <li><a href="module.exports_Names.html">Names</a></li>
+      <li><a href="module.exports_Params.html">Params</a></li>
+      <li><a href="module.exports_Paths.html">Paths</a></li>
+      <li><a href="module.exports_StatusTypes.html">StatusTypes</a></li>
+      <li><a href="module.exports_Strings.html">Strings</a></li>
+      <li><a href="module.exports_Types.html">Types</a></li>
+      <li><a href="module.exports_Views.html">Views</a></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li></li>
+      <li><a href="module.exports_WindowNames.html">WindowNames</a></li>
+      <li><a href="NewSnippetEvent.html">NewSnippetEvent</a></li>
+      <li><a href="Opt.html">Opt</a></li>
+      <li><a href="RendererClientEvent.html">RendererClientEvent</a></li>
+      <li><a href="RendererControllerFactory.html">RendererControllerFactory</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="RendererControllerFactory.html#.createController">createController</a></li>
+          <li data-type='method'><a href="RendererControllerFactory.html#.findOrCreateController">findOrCreateController</a></li>
+          <li data-type='method'><a href="RendererControllerFactory.html#.getViewController">getViewController</a></li>
+        </ul>
+      </li>
+      <li><a href="RendererControllerFactory.Views.html">Views</a></li>
+      <li><a href="RendererEvent.html">RendererEvent</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="RendererEvent.html#clear">clear</a></li>
+          <li data-type='method'><a href="RendererEvent.html#dispatch">dispatch</a></li>
+          <li data-type='method'><a href="RendererEvent.html#registerEvents">registerEvents</a></li>
+          <li data-type='method'><a href="RendererEvent.html#updateCallback">updateCallback</a></li>
+        </ul>
+      </li>
+      <li><a href="RendererEventFactory.html">RendererEventFactory</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="RendererEventFactory.html#.createEvent">createEvent</a></li>
+        </ul>
+      </li>
+      <li><a href="RendererEventFactory.Events.html">Events</a></li>
+      <li><a href="RendererEventManager.html">RendererEventManager</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="RendererEventManager.html#.checkEventForError">checkEventForError</a></li>
+          <li data-type='method'><a href="RendererEventManager.html#.createEventError">createEventError</a></li>
+          <li data-type='method'><a href="RendererEventManager.html#.dispatch">dispatch</a></li>
+          <li data-type='method'><a href="RendererEventManager.html#.listenForCallback">listenForCallback</a></li>
+          <li data-type='method'><a href="RendererEventManager.html#.listenForReply">listenForReply</a></li>
+          <li data-type='method'><a href="RendererEventManager.html#.removeListeners">removeListeners</a></li>
+        </ul>
+      </li>
+      <li><a href="ResourceCircuitController_ResourceCircuitController.html">ResourceCircuitController</a></li>
+      <li><a href="ScreenshotController.html">ScreenshotController</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="ScreenshotController.html#captureScreenShot">captureScreenShot</a></li>
+        </ul>
+      </li>
+      <li><a href="ScreenshotReferenceInputDto.html">ScreenshotReferenceInputDto</a></li>
+      <li><a href="Shortcut.html">Shortcut</a></li>
+      <li><a href="ShortcutError.html">ShortcutError</a></li>
+      <li><a href="ShortcutManager.html">ShortcutManager</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="ShortcutManager.html#activateWindowShortcuts">activateWindowShortcuts</a></li>
+          <li data-type='method'><a href="ShortcutManager.html#createGlobalShortcuts">createGlobalShortcuts</a></li>
+          <li data-type='method'><a href="ShortcutManager.html#deactivateWindowShortcuts">deactivateWindowShortcuts</a></li>
+          <li data-type='method'><a href="ShortcutManager.html#registerShortcut">registerShortcut</a></li>
+        </ul>
+      </li>
+      <li><a href="ShortcutManager.Accelerators.html">Accelerators</a></li>
+      <li><a href="ShortcutManager.Names.html">Names</a></li>
+      <li><a href="SidePanelViewController.html">SidePanelViewController</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="SidePanelViewController.html#changeActiveCircuitsSubmenuPanel">changeActiveCircuitsSubmenuPanel</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#changeActiveSpiritSubmenuPanel">changeActiveSpiritSubmenuPanel</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearHeartbeatListener">clearHeartbeatListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearMenuListener">clearMenuListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearPulseListener">clearPulseListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#clearSidebarShowListener">clearSidebarShowListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#configureCircuitsPanelListener">configureCircuitsPanelListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#configureMenuListener">configureMenuListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#configureNotificationsPanelListener">configureNotificationsPanelListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#configureSidePanelContentListener">configureSidePanelContentListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#configureSpiritPanelListener">configureSpiritPanelListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#configureTeamPanelListener">configureTeamPanelListener</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#fireCircuitsPanelNotifyEvent">fireCircuitsPanelNotifyEvent</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#fireSidePanelNotifyEvent">fireSidePanelNotifyEvent</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#fireSpiritPanelNotifyEvent">fireSpiritPanelNotifyEvent</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#fireTeamPanelNotifyEvent">fireTeamPanelNotifyEvent</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#hidePanel">hidePanel</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#loadWTF">loadWTF</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#makeSidebarBrowserRequest">makeSidebarBrowserRequest</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#showPanel">showPanel</a></li>
+          <li data-type='method'><a href="SidePanelViewController.html#startWTF">startWTF</a></li>
+        </ul>
+      </li>
+      <li><a href="SidePanelViewController.AnimationDelays.html">AnimationDelays</a></li>
+      <li><a href="SidePanelViewController.AnimationTypes.html">AnimationTypes</a></li>
+      <li><a href="SidePanelViewController.MenuSelection.html">MenuSelection</a></li>
+      <li><a href="SidePanelViewController.SubmenuSelection.html">SubmenuSelection</a></li>
+      <li><a href="Strings.html">Strings</a></li>
+      <li></li>
+      <li><a href="TalkToClient.html">TalkToClient</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="TalkToClient.html#.getAllStatusTalkMessagesFromRoom">getAllStatusTalkMessagesFromRoom</a></li>
+          <li data-type='method'><a href="TalkToClient.html#.getAllTalkMessagesFromRoom">getAllTalkMessagesFromRoom</a></li>
+          <li data-type='method'><a href="TalkToClient.html#.init">init</a></li>
+          <li data-type='method'><a href="TalkToClient.html#.joinExistingRoom">joinExistingRoom</a></li>
+          <li data-type='method'><a href="TalkToClient.html#.leaveExistingRoom">leaveExistingRoom</a></li>
+          <li data-type='method'><a href="TalkToClient.html#.loadAllTalkMessagesFromRoom">loadAllTalkMessagesFromRoom</a></li>
+          <li data-type='method'><a href="TalkToClient.html#.publishChatToRoom">publishChatToRoom</a></li>
+          <li data-type='method'><a href="TalkToClient.html#notifyTalkTo">notifyTalkTo</a></li>
+        </ul>
+      </li>
+      <li><a href="TalkToClient.Events.html">Events</a></li>
+      <li><a href="TeamCircuitClient.html">TeamCircuitClient</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="TeamCircuitClient.html#.getAllMyTeamCircuits">getAllMyTeamCircuits</a></li>
+          <li data-type='method'><a href="TeamCircuitClient.html#.getMyHomeTeamCircuit">getMyHomeTeamCircuit</a></li>
+          <li data-type='method'><a href="TeamCircuitClient.html#.init">init</a></li>
+          <li data-type='method'><a href="TeamCircuitClient.html#.loadAllMyTeamCircuits">loadAllMyTeamCircuits</a></li>
+          <li data-type='method'><a href="TeamCircuitClient.html#.loadMyHomeTeamCircuit">loadMyHomeTeamCircuit</a></li>
+          <li data-type='method'><a href="TeamCircuitClient.html#notifyTeamCircuit">notifyTeamCircuit</a></li>
+        </ul>
+      </li>
+      <li><a href="TeamCircuitClient.Events.html">Events</a></li>
+      <li><a href="TeamClient.html">TeamClient</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="TeamClient.html#.getAllMyTeams">getAllMyTeams</a></li>
+          <li data-type='method'><a href="TeamClient.html#.getMyHomeTeam">getMyHomeTeam</a></li>
+          <li data-type='method'><a href="TeamClient.html#.init">init</a></li>
+          <li data-type='method'><a href="TeamClient.html#.loadAllMyTeams">loadAllMyTeams</a></li>
+          <li data-type='method'><a href="TeamClient.html#.loadMyHomeTeam">loadMyHomeTeam</a></li>
+          <li data-type='method'><a href="TeamClient.html#notifyTeam">notifyTeam</a></li>
+        </ul>
+      </li>
+      <li><a href="TeamClient.Events.html">Events</a></li>
+      <li><a href="TerminalClient.html">TerminalClient</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="TerminalClient.html#.getManual">getManual</a></li>
+          <li data-type='method'><a href="TerminalClient.html#.getManualHelpTopics">getManualHelpTopics</a></li>
+          <li data-type='method'><a href="TerminalClient.html#.getManualPage">getManualPage</a></li>
+          <li data-type='method'><a href="TerminalClient.html#.init">init</a></li>
+          <li data-type='method'><a href="TerminalClient.html#.runCommand">runCommand</a></li>
+          <li data-type='method'><a href="TerminalClient.html#notifyTerminal">notifyTerminal</a></li>
+        </ul>
+      </li>
+      <li><a href="TerminalClient.Events.html">Events</a></li>
+      <li><a href="Util.html">Util</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="Util.html#.checkIfCalledFromCLI">checkIfCalledFromCLI</a></li>
+          <li data-type='method'><a href="Util.html#.getAppApi">getAppApi</a></li>
+          <li data-type='method'><a href="Util.html#.getAppIcon">getAppIcon</a></li>
+          <li data-type='method'><a href="Util.html#.getAppName">getAppName</a></li>
+          <li data-type='method'><a href="Util.html#.getAppRootDir">getAppRootDir</a></li>
+          <li data-type='method'><a href="Util.html#.getAppSettingsPath">getAppSettingsPath</a></li>
+          <li data-type='method'><a href="Util.html#.getAppTalkUrl">getAppTalkUrl</a></li>
+          <li data-type='method'><a href="Util.html#.getAppTray">getAppTray</a></li>
+          <li data-type='method'><a href="Util.html#.getAppUserDataDir">getAppUserDataDir</a></li>
+          <li data-type='method'><a href="Util.html#.getAssetPath">getAssetPath</a></li>
+          <li data-type='method'><a href="Util.html#.getAssetsDir">getAssetsDir</a></li>
+          <li data-type='method'><a href="Util.html#.getDateTimeString">getDateTimeString</a></li>
+          <li data-type='method'><a href="Util.html#.getFlowHomePath">getFlowHomePath</a></li>
+          <li data-type='method'><a href="Util.html#.getGuid">getGuid</a></li>
+          <li data-type='method'><a href="Util.html#.getLatestScreenshotPath">getLatestScreenshotPath</a></li>
+          <li data-type='method'><a href="Util.html#.getRender3D">getRender3D</a></li>
+          <li data-type='method'><a href="Util.html#.getRoomNameFromMessageArray">getRoomNameFromMessageArray</a></li>
+          <li data-type='method'><a href="Util.html#.getScreenshotFolderPath">getScreenshotFolderPath</a></li>
+          <li data-type='method'><a href="Util.html#.getTimestampFromUTCStr">getTimestampFromUTCStr</a></li>
+          <li data-type='method'><a href="Util.html#.getUriFromMessageArray">getUriFromMessageArray</a></li>
+          <li data-type='method'><a href="Util.html#.getUserHomePath">getUserHomePath</a></li>
+          <li data-type='method'><a href="Util.html#.hasSQL">hasSQL</a></li>
+          <li data-type='method'><a href="Util.html#.inspect">inspect</a></li>
+          <li data-type='method'><a href="Util.html#.isCircuitOwnerModerator">isCircuitOwnerModerator</a></li>
+          <li data-type='method'><a href="Util.html#.isEmpty">isEmpty</a></li>
+          <li data-type='method'><a href="Util.html#.openExternalBrowser">openExternalBrowser</a></li>
+          <li data-type='method'><a href="Util.html#.setAppTray">setAppTray</a></li>
+          <li data-type='method'><a href="Util.html#.setDevUserDataDir">setDevUserDataDir</a></li>
+        </ul>
+      </li>
+      <li><a href="Views.html">Views</a></li>
+      <li></li>
+      <li><a href="VolumeManager.html">VolumeManager</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="VolumeManager.html#.createDatabaseVolume">createDatabaseVolume</a></li>
+          <li data-type='method'><a href="VolumeManager.html#.handleFinishLoadingVolumes">handleFinishLoadingVolumes</a></li>
+          <li data-type='method'><a href="VolumeManager.html#.loadDefaultCircuitDatabase">loadDefaultCircuitDatabase</a></li>
+          <li data-type='method'><a href="VolumeManager.html#.loadDefaultJournalDatabase">loadDefaultJournalDatabase</a></li>
+          <li data-type='method'><a href="VolumeManager.html#.loadDefaultMemberDatabase">loadDefaultMemberDatabase</a></li>
+          <li data-type='method'><a href="VolumeManager.html#.loadDefaultTeamDatabase">loadDefaultTeamDatabase</a></li>
+          <li data-type='method'><a href="VolumeManager.html#getVolumeByName">getVolumeByName</a></li>
+          <li data-type='method'><a href="VolumeManager.html#init">init</a></li>
+        </ul>
+      </li>
+      <li><a href="WindowManager.html">WindowManager</a>
+        <ul class='methods'>
+          <li data-type='method'><a href="WindowManager.html#closeWindow">closeWindow</a></li>
+          <li data-type='method'><a href="WindowManager.html#createWindow">createWindow</a></li>
+          <li data-type='method'><a href="WindowManager.html#destroyAllWindows">destroyAllWindows</a></li>
+          <li data-type='method'><a href="WindowManager.html#destroyWindow">destroyWindow</a></li>
+          <li data-type='method'><a href="WindowManager.html#getDisplay">getDisplay</a></li>
+          <li data-type='method'><a href="WindowManager.html#getDisplays">getDisplays</a></li>
+          <li data-type='method'><a href="WindowManager.html#getWindow">getWindow</a></li>
+          <li data-type='method'><a href="WindowManager.html#getWindowClassFromName">getWindowClassFromName</a></li>
+          <li data-type='method'><a href="WindowManager.html#getWindowViewURL">getWindowViewURL</a></li>
+          <li data-type='method'><a href="WindowManager.html#handleHideConsoleEvent">handleHideConsoleEvent</a></li>
+          <li data-type='method'><a href="WindowManager.html#loadWindow">loadWindow</a></li>
+          <li data-type='method'><a href="WindowManager.html#onBlurWindowCb">onBlurWindowCb</a></li>
+          <li data-type='method'><a href="WindowManager.html#onFocusWindowCb">onFocusWindowCb</a></li>
+          <li data-type='method'><a href="WindowManager.html#onShortcutsRecievedCb">onShortcutsRecievedCb</a></li>
+          <li data-type='method'><a href="WindowManager.html#openWindow">openWindow</a></li>
+        </ul>
+      </li>
+    </ul>
+    <h3>Global</h3>
+    <ul>
+      <li><a href="global.html#appendChatMessage">appendChatMessage</a></li>
+      <li><a href="global.html#changeFlameRating">changeFlameRating</a></li>
+      <li><a href="global.html#clearIntervalTimer">clearIntervalTimer</a></li>
+      <li><a href="global.html#clearKeyboardShortcuts">clearKeyboardShortcuts</a></li>
+      <li><a href="global.html#componentDidMount">componentDidMount</a></li>
+      <li><a href="global.html#componentDidUpdate">componentDidUpdate</a></li>
+      <li><a href="global.html#componentWillMount">componentWillMount</a></li>
+      <li><a href="global.html#componentWillUnmount">componentWillUnmount</a></li>
+      <li><a href="global.html#ConsoleStates">ConsoleStates</a></li>
+      <li><a href="global.html#createIntention">createIntention</a></li>
+      <li><a href="global.html#createProject">createProject</a></li>
+      <li><a href="global.html#createProjectOrTaskHelper">createProjectOrTaskHelper</a></li>
+      <li><a href="global.html#createTask">createTask</a></li>
+      <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
+      <li><a href="global.html#getActiveCircuitChatContent">getActiveCircuitChatContent</a></li>
+      <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
+      <li><a href="global.html#getCancelActiveCircuitButtonContent">getCancelActiveCircuitButtonContent</a></li>
+      <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
+      <li><a href="global.html#getChunkCellContent">getChunkCellContent</a></li>
+      <li><a href="global.html#getCircuitContentPanel">getCircuitContentPanel</a></li>
+      <li><a href="global.html#getCircuitError">getCircuitError</a></li>
+      <li><a href="global.html#getCircuitSidebarActions">getCircuitSidebarActions</a></li>
+      <li><a href="global.html#getCircuitSidebarChestContent">getCircuitSidebarChestContent</a></li>
+      <li><a href="global.html#getCircuitSidebarContent">getCircuitSidebarContent</a></li>
+      <li><a href="global.html#getCircuitSidebarMenuContent">getCircuitSidebarMenuContent</a></li>
+      <li><a href="global.html#getCircuitSidebarOverviewContent">getCircuitSidebarOverviewContent</a></li>
+      <li><a href="global.html#getCircuitSidebarPartyContent">getCircuitSidebarPartyContent</a></li>
+      <li><a href="global.html#getCircuitSidebarScrapbookContent">getCircuitSidebarScrapbookContent</a></li>
+      <li><a href="global.html#getCircuitSidebarTimerContent">getCircuitSidebarTimerContent</a></li>
+      <li><a href="global.html#getClassName">getClassName</a></li>
+      <li><a href="global.html#getDateTimeString">getDateTimeString</a></li>
+      <li><a href="global.html#getDescriptionContent">getDescriptionContent</a></li>
+      <li><a href="global.html#getDisplayName">getDisplayName</a></li>
+      <li><a href="global.html#getDividerContent">getDividerContent</a></li>
+      <li><a href="global.html#getErrorContent">getErrorContent</a></li>
+      <li><a href="global.html#getFeedEventsFromMessagesArrayContent">getFeedEventsFromMessagesArrayContent</a></li>
+      <li><a href="global.html#getFeedExtraTextsContent">getFeedExtraTextsContent</a></li>
+      <li><a href="global.html#getFinishIcon">getFinishIcon</a></li>
+      <li><a href="global.html#getFinishStatusAbortContent">getFinishStatusAbortContent</a></li>
+      <li><a href="global.html#getFinishStatusDoneContent">getFinishStatusDoneContent</a></li>
+      <li><a href="global.html#getFinishStatusSelectorContent">getFinishStatusSelectorContent</a></li>
+      <li><a href="global.html#getFlameBlockContent">getFlameBlockContent</a></li>
+      <li><a href="global.html#getFormattedCircuitName">getFormattedCircuitName</a></li>
+      <li><a href="global.html#getGuid">getGuid</a></li>
+      <li><a href="global.html#getIcon">getIcon</a></li>
+      <li><a href="global.html#getJournalEntryContent">getJournalEntryContent</a></li>
+      <li><a href="global.html#getJournalErrorContent">getJournalErrorContent</a></li>
+      <li><a href="global.html#getJournalItemsContent">getJournalItemsContent</a></li>
+      <li><a href="global.html#getJournalItemsWrapperContent">getJournalItemsWrapperContent</a></li>
+      <li><a href="global.html#getLeaveActiveCircuitButtonContent">getLeaveActiveCircuitButtonContent</a></li>
+      <li><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></li>
+      <li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li>
+      <li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li>
+      <li><a href="global.html#getPauseResumeButtonContent">getPauseResumeButtonContent</a></li>
+      <li><a href="global.html#getPopupContent">getPopupContent</a></li>
+      <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
+      <li><a href="global.html#getProjectDropdown">getProjectDropdown</a></li>
+      <li><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></li>
+      <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
+      <li><a href="global.html#getSolveActiveCircuitButtonContent">getSolveActiveCircuitButtonContent</a></li>
+      <li><a href="global.html#getTagsMapContent">getTagsMapContent</a></li>
+      <li><a href="global.html#getTaskCellContent">getTaskCellContent</a></li>
+      <li><a href="global.html#getTaskDropdown">getTaskDropdown</a></li>
+      <li><a href="global.html#getTaskPopupContent">getTaskPopupContent</a></li>
+      <li><a href="global.html#getTeamPanelListMembersContent">getTeamPanelListMembersContent</a></li>
+      <li><a href="global.html#getTeamPanelMembersContent">getTeamPanelMembersContent</a></li>
+      <li><a href="global.html#getTeamPanelMembersListContent">getTeamPanelMembersListContent</a></li>
+      <li><a href="global.html#getTextCursor">getTextCursor</a></li>
+      <li><a href="global.html#getTextInput">getTextInput</a></li>
+      <li><a href="global.html#getTimestampFromUTCStr">getTimestampFromUTCStr</a></li>
+      <li><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></li>
+      <li><a href="global.html#getUnfinishedStatusContent">getUnfinishedStatusContent</a></li>
+      <li><a href="global.html#getUserNameFromResource">getUserNameFromResource</a></li>
+      <li><a href="global.html#getWtfTimerContent">getWtfTimerContent</a></li>
+      <li><a href="global.html#getWtfTimerCount">getWtfTimerCount</a></li>
+      <li><a href="global.html#getWtfTimerStringFromOpenTime">getWtfTimerStringFromOpenTime</a></li>
+      <li><a href="global.html#getWtfTimerStringFromTotalNs">getWtfTimerStringFromTotalNs</a></li>
+      <li><a href="global.html#getXpPercent">getXpPercent</a></li>
+      <li><a href="global.html#handleCallback">handleCallback</a></li>
+      <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
+      <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
+      <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
+      <li><a href="global.html#hasSQL">hasSQL</a></li>
+      <li><a href="global.html#isCircuitOwnerModerator">isCircuitOwnerModerator</a></li>
+      <li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li>
+      <li><a href="global.html#isCommand">isCommand</a></li>
+      <li><a href="global.html#isMe">isMe</a></li>
+      <li><a href="global.html#isMemberAlarm">isMemberAlarm</a></li>
+      <li><a href="global.html#isMemberOnline">isMemberOnline</a></li>
+      <li><a href="global.html#isMyJournal">isMyJournal</a></li>
+      <li><a href="global.html#isObjEmpty">isObjEmpty</a></li>
+      <li><a href="global.html#isStatusMessage">isStatusMessage</a></li>
+      <li><a href="global.html#isWTFResource">isWTFResource</a></li>
+      <li><a href="global.html#loadState">loadState</a></li>
+      <li><a href="global.html#onHeartbeat">onHeartbeat</a></li>
+      <li><a href="global.html#onLoadCb">onLoadCb</a></li>
+      <li><a href="global.html#onLoginFailedCb">onLoginFailedCb</a></li>
+      <li><a href="global.html#onPulse">onPulse</a></li>
+      <li><a href="global.html#onRefresh">onRefresh</a></li>
+      <li><a href="global.html#onRefreshActivePerspective">onRefreshActivePerspective</a></li>
+      <li><a href="global.html#onRefreshNotificationsPanel">onRefreshNotificationsPanel</a></li>
+      <li><a href="global.html#onRefreshSpiritPanel">onRefreshSpiritPanel</a></li>
+      <li><a href="global.html#onSidebarShow">onSidebarShow</a></li>
+      <li><a href="global.html#onTalkFailedCb">onTalkFailedCb</a></li>
+      <li><a href="global.html#processActivationCode">processActivationCode</a></li>
+      <li><a href="global.html#refreshJournal">refreshJournal</a></li>
+      <li><a href="global.html#refreshKeyboardShortcuts">refreshKeyboardShortcuts</a></li>
+      <li><a href="global.html#refreshTeamPanel">refreshTeamPanel</a></li>
+      <li><a href="global.html#render">render</a></li>
+      <li><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></li>
+      <li><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></li>
+      <li><a href="global.html#requestBrowserToLoadDoItLaterCircuit">requestBrowserToLoadDoItLaterCircuit</a></li>
+      <li><a href="global.html#requestBrowserToLoadRetroCircuit">requestBrowserToLoadRetroCircuit</a></li>
+      <li><a href="global.html#requestBrowserToLoadTeamJournalAndSetActiveMember">requestBrowserToLoadTeamJournalAndSetActiveMember</a></li>
+      <li><a href="global.html#requestBrowserToLoadTeamMemberActiveCircuit">requestBrowserToLoadTeamMemberActiveCircuit</a></li>
+      <li><a href="global.html#ROOT_">ROOT_</a></li>
+      <li><a href="global.html#saveState">saveState</a></li>
+      <li><a href="global.html#scrollToJournalItemById">scrollToJournalItemById</a></li>
+      <li><a href="global.html#setKeyboardShortcuts">setKeyboardShortcuts</a></li>
+      <li><a href="global.html#shouldComponentUpdate">shouldComponentUpdate</a></li>
+      <li><a href="global.html#showBadgesPanel">showBadgesPanel</a></li>
+      <li><a href="global.html#showDoItLaterCircuitsPanel">showDoItLaterCircuitsPanel</a></li>
+      <li><a href="global.html#showNotificationsPanel">showNotificationsPanel</a></li>
+      <li><a href="global.html#showParticipatingCircuitsPanel">showParticipatingCircuitsPanel</a></li>
+      <li><a href="global.html#showRetroCircuitsPanel">showRetroCircuitsPanel</a></li>
+      <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
+      <li><a href="global.html#updateActiveJournalItemSelection">updateActiveJournalItemSelection</a></li>
+      <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
+      <li><a href="global.html#updateJournalIntentions">updateJournalIntentions</a></li>
+      <li><a href="global.html#updateKeyboardShortcuts">updateKeyboardShortcuts</a></li>
+      <li><a href="global.html#updateMessageInArrayById">updateMessageInArrayById</a></li>
+      <li><a href="global.html#updateProgress">updateProgress</a></li>
+      <li><a href="global.html#updateStateModels">updateStateModels</a></li>
+      <li><a href="global.html#updateTeamMembers">updateTeamMembers</a></li>
+      <li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li>
+      <li><a href="global.html#viewName">viewName</a></li>
+    </ul>
+  </nav>
+  <div id="main">
     <h1 class="page-title">public/controllers/TalkToController.js</h1>
-    
-
-    
-
-
-
-    
     <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>const BaseController = require("./BaseController"),
+      <article>
+        <pre class="prettyprint source linenums"><code>const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   DatabaseFactory = require("../database/DatabaseFactory"),
   Util = require("../Util");
@@ -619,27 +1518,16 @@ module.exports = class TalkToController extends BaseController {
   }
 };
 </code></pre>
-        </article>
+      </article>
     </section>
-
-
-
-
-    
-    
-</div>
-
-<br class="clear">
-
-<footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme.
-</footer>
-
-<script>prettyPrint();</script>
-<script src="scripts/polyfill.js"></script>
-<script src="scripts/linenumber.js"></script>
-
-
-
+  </div>
+  <br class="clear">
+  <footer> Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> using the <a href="https://github.com/clenemt/docdash">docdash</a> theme. </footer>
+  <script>
+  prettyPrint();
+  </script>
+  <script src="scripts/polyfill.js"></script>
+  <script src="scripts/linenumber.js"></script>
 </body>
+
 </html>

@@ -1,6 +1,11 @@
 import React, { Component } from "react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
-import { Divider, Feed, Segment } from "semantic-ui-react";
+import {
+  Divider,
+  Feed,
+  Segment,
+  Transition
+} from "semantic-ui-react";
 import SplitterLayout from "react-splitter-layout";
 import ActiveCircuitChat from "./ActiveCircuitChat";
 import UtilRenderer from "../../../../../UtilRenderer";
@@ -11,6 +16,10 @@ import { scrollTo } from "../../../../../UtilScroll";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../../clients/BaseClient";
 
+/**
+ * this is the gui component that displays the actual on going real-time
+ * chat feed of the active circuit that the people are in.
+ */
 export default class ActiveCircuitFeed extends Component {
   /**
    * the dom el id name of the circuit feed content panel
@@ -36,6 +45,11 @@ export default class ActiveCircuitFeed extends Component {
       this,
       this.onTalkRoomMessage
     );
+    this.state = {
+      resource: props.resource,
+      model: props.model
+    };
+    this.props.set(this);
   }
 
   /**
@@ -259,11 +273,48 @@ export default class ActiveCircuitFeed extends Component {
   }
 
   /**
+   * renders our active chat component which is used to input text and
+   * hypermedia to push over the circuit.
+   * @returns {JSX.Element}
+   */
+  getActiveCircuitChatContent() {
+    let circuit = this.state.model;
+    return (
+      <Transition
+        visible={!UtilRenderer.isCircuitPaused(circuit)}
+        animation="fade"
+        duration={210}
+        onComplete={this.onCircuitChatShown}
+      >
+        <div id="wrapper" className="activeCircuitChat">
+          <ActiveCircuitChat
+            onEnterKey={this.handleEnterKey}
+          />
+        </div>
+      </Transition>
+    );
+  }
+
+  /**
+   * animation callback function that is dispatched after the chat component
+   * has faded out of view for the user, typically happends when the circuit is
+   * paused or resumed.
+   */
+  onCircuitChatShown = () => {
+    let circuit = this.state.model,
+      isPaused = UtilRenderer.isCircuitPaused(circuit);
+
+    if (isPaused) {
+      console.log("make top panel 100% height", isPaused);
+    }
+  };
+
+  /**
    * renders the active circuit feed into the console view
    * @returns {*}
    */
   render() {
-    let circuit = this.props.model,
+    let circuit = this.state.model,
       openTimeStr = "NOW";
 
     if (circuit) {
@@ -299,11 +350,7 @@ export default class ActiveCircuitFeed extends Component {
               {this.getFeedEventsFromMessagesArrayContent()}
             </Feed>
           </Segment>
-          <div id="wrapper" className="activeCircuitChat">
-            <ActiveCircuitChat
-              onEnterKey={this.handleEnterKey}
-            />
-          </div>
+          {this.getActiveCircuitChatContent()}
         </SplitterLayout>
       </div>
     );

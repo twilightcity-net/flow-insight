@@ -159,19 +159,30 @@ export default class ActiveCircuit extends Component {
           circuit.id === model.id
         ) {
           model = Object.assign(model, circuit);
-          this.setState({
-            model: model
-          });
-          console.log("XXX", this.circuitSidebarComponent);
-          this.circuitSidebarComponent.setState({
-            model: model
-          });
+          this.updateStateModels(model);
         }
         break;
       default:
         break;
     }
   };
+
+  /**
+   * updates our models in our various child components states. This
+   * utilizes callback functions which are way faster then using refs
+   * @param model
+   */
+  updateStateModels(model) {
+    this.setState({
+      model: model
+    });
+    this.circuitSidebarComponent.setState({
+      model: model
+    });
+    this.circuitFeedComponent.setState({
+      model: model
+    });
+  }
 
   /**
    * hides our resizable scrapbook in the feed panel
@@ -205,6 +216,10 @@ export default class ActiveCircuit extends Component {
     this.circuitSidebarComponent = component;
   };
 
+  setCircuitFeedComponent = component => {
+    this.circuitFeedComponent = component;
+  };
+
   /**
    * renders our circuit content panel and resizable scrapbook
    * @returns {*}
@@ -223,6 +238,7 @@ export default class ActiveCircuit extends Component {
               resource={this.state.resource}
               model={this.state.model}
               messages={this.state.messages}
+              set={this.setCircuitFeedComponent}
             />
           </div>
           <Transition
@@ -247,6 +263,24 @@ export default class ActiveCircuit extends Component {
   }
 
   /**
+   * gets our rendering content for the circuits sidebar that contains mod
+   * actions and stuff like that.
+   * @returns {JSX.Element}
+   */
+  getCircuitSidebarContent() {
+    return (
+      <div id="component" className="circuitContentSidebar">
+        <CircuitSidebar
+          resource={this.state.resource}
+          showScrapbook={this.showScrapbook}
+          model={this.state.model}
+          set={this.setCircuitSidebarComponent}
+        />
+      </div>
+    );
+  }
+
+  /**
    * renders the default troubleshoot component in the console view
    */
   render() {
@@ -262,17 +296,7 @@ export default class ActiveCircuit extends Component {
           {this.getCircuitContentPanel()}
         </div>
         <div id="wrapper" className="circuitContentSidebar">
-          <div
-            id="component"
-            className="circuitContentSidebar"
-          >
-            <CircuitSidebar
-              resource={this.state.resource}
-              showScrapbook={this.showScrapbook}
-              model={this.state.model}
-              set={this.setCircuitSidebarComponent}
-            />
-          </div>
+          {this.getCircuitSidebarContent()}
         </div>
       </div>
     );
