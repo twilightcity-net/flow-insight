@@ -22,11 +22,25 @@ import { BaseClient } from "../../../../../clients/BaseClient";
  */
 export default class ActiveCircuitFeed extends Component {
   /**
+   * this is our active circuit feed's elemental id. This is so we can look
+   * up the active circuit feed by getElementById in our DOM.
+   * @type {string}
+   */
+  static activeCircuitFeedElIdString =
+    "active-circuit-feed";
+  /**
    * the dom el id name of the circuit feed content panel
    * @type {string}
    */
   static circuitContentFeedPanelID =
     "circuitContentFeedPanel";
+
+  /**
+   * this is the name of the meta property field which the talk message uses
+   * to store the value of the user whom made the request typically.
+   * @type {string}
+   */
+  static fromUserNameMetaPropsStr = "from.username";
 
   /**
    * builds the active circuit feed component which is used by the circuit resource
@@ -158,7 +172,11 @@ export default class ActiveCircuitFeed extends Component {
     for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
       metaProps = m.metaProps;
-      username = !!metaProps && metaProps["from.username"];
+      username =
+        !!metaProps &&
+        metaProps[
+          ActiveCircuitFeed.fromUserNameMetaPropsStr
+        ];
       time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
         m.messageTime
       );
@@ -197,7 +215,7 @@ export default class ActiveCircuitFeed extends Component {
       this,
       arg => {
         if (callback) {
-          callback();
+          callback(arg);
         }
       }
     );
@@ -210,7 +228,7 @@ export default class ActiveCircuitFeed extends Component {
    */
   scrollToFeedBottom = callback => {
     let feedElement = document.getElementById(
-        "active-circuit-feed"
+        ActiveCircuitFeed.activeCircuitFeedElIdString
       ),
       height = feedElement.scrollHeight;
 
@@ -275,13 +293,14 @@ export default class ActiveCircuitFeed extends Component {
   /**
    * renders our active chat component which is used to input text and
    * hypermedia to push over the circuit.
-   * @returns {JSX.Element}
+   * @returns {*}
    */
   getActiveCircuitChatContent() {
-    let circuit = this.state.model;
     return (
       <Transition
-        visible={!UtilRenderer.isCircuitPaused(circuit)}
+        visible={
+          !UtilRenderer.isCircuitPaused(this.state.model)
+        }
         animation="fade"
         duration={210}
         onComplete={this.onCircuitChatShown}
@@ -297,17 +316,41 @@ export default class ActiveCircuitFeed extends Component {
 
   /**
    * animation callback function that is dispatched after the chat component
-   * has faded out of view for the user, typically happends when the circuit is
+   * has faded out of view for the user, typically happens when the circuit is
    * paused or resumed.
    */
   onCircuitChatShown = () => {
-    let circuit = this.state.model,
-      isPaused = UtilRenderer.isCircuitPaused(circuit);
-
-    if (isPaused) {
-      console.log("make top panel 100% height", isPaused);
-    }
+    this.adjustFeedHeight();
   };
+
+  /**
+   * adjusts our feed height, and styles. Checks to see if we are paused. if
+   * we are paused then we need ot make the active circuit feed at the top
+   * the full height, and fade out the chat. otherwise render everything.
+   */
+  adjustFeedHeight() {
+    let el = document.getElementById(
+        ActiveCircuitFeed.circuitContentFeedPanelID
+      ),
+      parentEl = el.parentElement,
+      rootEl = parentEl.parentElement,
+      children = rootEl.children,
+      child = null;
+
+    if (!UtilRenderer.isCircuitPaused(this.state.model)) {
+      for (let i = 1; i < children.length; i++) {
+        child = children[i];
+        child.style.display = "block";
+      }
+    } else {
+      el.style.height = "100%";
+      parentEl.style.height = "100%";
+      for (let i = 1; i < children.length; i++) {
+        child = children[i];
+        child.style.display = "none";
+      }
+    }
+  }
 
   /**
    * renders the active circuit feed into the console view

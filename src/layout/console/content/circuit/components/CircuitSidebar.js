@@ -24,6 +24,22 @@ export default class CircuitSidebar extends Component {
    * @type {string}
    */
   static wtfTimerId = "active-circuit-wtf-timer";
+
+  /**
+   * id name string for property for our id field, we use need to use a
+   * different primary key for sorting.
+   */
+  static idFieldStr = "id";
+
+  /**
+   * this is the name of the field that we store the circuit members in our
+   * dto. it is nice to break these out because this  will allow us to
+   * easily change the source data without modifying the logic of the
+   * function. this is very useful when needing to test the function.
+   * @type {string}
+   */
+  static circuitMembersFieldStr = "circuitMembers";
+
   /**
    * the possible view we can display in the circuit sidebar panel
    * @returns {{PARTY: string, CHEST: string, OVERVIEW: string}}
@@ -131,6 +147,7 @@ export default class CircuitSidebar extends Component {
    */
   handleClickRow = model => {
     // TODO something
+    console.log("XXX", model);
   };
 
   /**
@@ -140,7 +157,7 @@ export default class CircuitSidebar extends Component {
    */
   isMe(id) {
     let me = MemberClient.me;
-    return me && me.id === id;
+    return me && me[CircuitSidebar.idFieldStr] === id;
   }
 
   /**
@@ -149,8 +166,13 @@ export default class CircuitSidebar extends Component {
    */
   getMenuItemPartyContent() {
     let circuit = this.props.model;
-    if (circuit && circuit.circuitMembers) {
-      let length = circuit.circuitMembers.length;
+    if (
+      circuit &&
+      circuit[CircuitSidebar.circuitMembersFieldStr]
+    ) {
+      let length =
+        circuit[CircuitSidebar.circuitMembersFieldStr]
+          .length;
       return "Party [" + length + "]";
     }
     return "Party []";
@@ -626,8 +648,12 @@ export default class CircuitSidebar extends Component {
     let circuit = this.props.model,
       circuitMembers = [];
 
-    if (circuit && circuit.circuitMembers) {
-      circuitMembers = circuit.circuitMembers;
+    if (
+      circuit &&
+      circuit[CircuitSidebar.circuitMembersFieldStr]
+    ) {
+      circuitMembers =
+        circuit[CircuitSidebar.circuitMembersFieldStr];
     }
     return (
       <List
@@ -655,7 +681,6 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   render() {
-    console.log("XXX-render");
     return (
       <div id="component" className="circuitContentSidebar">
         {this.getCircuitSidebarContent()}

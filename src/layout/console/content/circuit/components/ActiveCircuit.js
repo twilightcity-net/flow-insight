@@ -18,6 +18,12 @@ import { RendererEventFactory } from "../../../../../events/RendererEventFactory
  */
 export default class ActiveCircuit extends Component {
   /**
+   * the string name of our learning circuit dto used for property name.
+   * @type {string}
+   */
+  static learningCircuitDtoStr = "learningCircuitDto";
+
+  /**
    *  builds the active circuit component
    * @param props
    */
@@ -46,7 +52,7 @@ export default class ActiveCircuit extends Component {
   }
 
   /**
-   * called after this circuit component is loaded. This will thgen fetch the circuit
+   * called after this circuit component is loaded. This will then fetch the circuit
    * details from our local database and update our model in our state for our
    * child components
    */
@@ -60,7 +66,6 @@ export default class ActiveCircuit extends Component {
       this,
       arg => {
         model = arg.data;
-        console.log("MODEL:MOUNT", model);
         TalkToClient.getAllTalkMessagesFromRoom(
           model.wtfTalkRoomName,
           model.wtfTalkRoomId,
@@ -86,7 +91,6 @@ export default class ActiveCircuit extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    console.log("update");
     if (
       !this.state.model ||
       this.state.scrapbookVisible !==
@@ -140,7 +144,7 @@ export default class ActiveCircuit extends Component {
   }
 
   /**
-   * event handler for talk messages. This is called everytime we recieve a new talk
+   * event handler for talk messages. This is called everytime we receive a new talk
    * message over the event bus.
    * @param event
    * @param arg
@@ -149,7 +153,8 @@ export default class ActiveCircuit extends Component {
     switch (arg.messageType) {
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
         let data = arg.data,
-          circuit = data.learningCircuitDto,
+          circuit =
+            data[ActiveCircuit.learningCircuitDtoStr],
           model = this.state.model;
 
         if (
@@ -194,7 +199,7 @@ export default class ActiveCircuit extends Component {
   };
 
   /**
-   * shows our scrapbook in our feedpanel
+   * shows our scrapbook in our feed panel
    */
   showScrapbook = () => {
     this.setState(prevState => ({
@@ -265,7 +270,7 @@ export default class ActiveCircuit extends Component {
   /**
    * gets our rendering content for the circuits sidebar that contains mod
    * actions and stuff like that.
-   * @returns {JSX.Element}
+   * @returns {*}
    */
   getCircuitSidebarContent() {
     return (

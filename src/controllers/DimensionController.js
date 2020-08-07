@@ -9,8 +9,9 @@ export class DimensionController {
   static instance;
 
   /**
-   * Contains the logig to properly set the component heights of various view layouts
-   * @param scope - the scope to determine the dimenational properties to of components
+   * Contains the logging to properly set the component heights of various
+   * view layouts
+   * @param scope - the scope to determine the dimensional properties to of components
    */
   constructor(scope) {
     this.name = "[DimensionController]";
@@ -137,7 +138,7 @@ export class DimensionController {
   }
 
   /**
-   * gets the general relative height dimension for sidebar content panelm w/ extra padding
+   * gets the general relative height dimension for sidebar content panel w/ extra padding
    * @returns {number}
    */
   static getSidebarPanelHeight() {
@@ -206,7 +207,7 @@ export class DimensionController {
   }
 
   /**
-   * calculates the dynamic relative size based on screensize. This is called
+   * calculates the dynamic relative size based on screen size. This is called
    * by the onchange vertical panel resizer for splitter-layout
    * @param size
    * @returns {number}
@@ -378,7 +379,9 @@ export class DimensionController {
       component ===
       DimensionController.Components.JOURNAL_ITEMS
     ) {
-      return DimensionController.getJournalItemsPanelHeight();
+      return DimensionController.getJournalItemsPanelHeight(
+        false
+      );
     } else if (
       component ===
       DimensionController.Components.FLOW_PANEL
