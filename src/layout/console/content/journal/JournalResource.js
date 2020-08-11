@@ -203,7 +203,6 @@ export default class JournalResource extends Component {
    * @param props
    */
   updateKeyboardShortcuts(props) {
-    console.log("update shortcuts");
     let username = this.getUserNameFromResource(props);
     if (
       username === JournalResource.Strings.ME ||
