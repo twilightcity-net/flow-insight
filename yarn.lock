@@ -9953,6 +9953,13 @@ random-access-storage@^1.1.1:
   dependencies:
     inherits "^2.0.3"
 
+random-quotes@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/random-quotes/-/random-quotes-1.3.0.tgz#09e737352f361fef528dc0a9a726ef46f891e04b"
+  integrity sha512-xp/42YIuyfHCCROqFamCDy7UKDfWiE7oLEWsDbjWYsx/iz4tOsnWP3qedxBElZLJMhm5Hec8zdS954v38W5fSQ==
+  dependencies:
+    unique-random-array "1.0.0"
+
 randomatic@^3.0.0:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/randomatic/-/randomatic-3.1.1.tgz#b776efc59375984e36c537b2f51a1f0aff0da1ed"
@@ -12228,6 +12235,18 @@ uniqs@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/uniqs/-/uniqs-2.0.0.tgz#ffede4b36b25290696e6e165d4a59edb998e6b02"
   integrity sha1-/+3ks2slKQaW5uFl1KWe25mOawI=
+
+unique-random-array@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/unique-random-array/-/unique-random-array-1.0.0.tgz#42b3721c579388d8b667c93c2dbde3d5d81a9136"
+  integrity sha1-QrNyHFeTiNi2Z8k8Lb3j1dgakTY=
+  dependencies:
+    unique-random "^1.0.0"
+
+unique-random@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/unique-random/-/unique-random-1.0.0.tgz#ce3e224c8242cd33a0e77b0d7180d77e6b62d0c4"
+  integrity sha1-zj4iTIJCzTOg53sNcYDXfmti0MQ=
 
 unique-stream@^1.0.0:
   version "1.0.0"

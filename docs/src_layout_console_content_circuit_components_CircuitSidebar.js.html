@@ -857,6 +857,7 @@
       <li><a href="global.html#getPopupContent">getPopupContent</a></li>
       <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
       <li><a href="global.html#getProjectDropdown">getProjectDropdown</a></li>
+      <li><a href="global.html#getRandomQuoteText">getRandomQuoteText</a></li>
       <li><a href="global.html#getResourceFromRequest">getResourceFromRequest</a></li>
       <li><a href="global.html#getRoomNameFromResource">getRoomNameFromResource</a></li>
       <li><a href="global.html#getSecondsFromNanoseconds">getSecondsFromNanoseconds</a></li>
@@ -872,6 +873,7 @@
       <li><a href="global.html#getTextInput">getTextInput</a></li>
       <li><a href="global.html#getTimestampFromUTCStr">getTimestampFromUTCStr</a></li>
       <li><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></li>
+      <li><a href="global.html#getTitleContent">getTitleContent</a></li>
       <li><a href="global.html#getUnfinishedStatusContent">getUnfinishedStatusContent</a></li>
       <li><a href="global.html#getUserNameFromResource">getUserNameFromResource</a></li>
       <li><a href="global.html#getWtfTimerContent">getWtfTimerContent</a></li>
@@ -1257,32 +1259,52 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarOverviewContent() {
-    let circuitName = "WTF...",
-      description = "Can has some descriptions?",
+    let title = "loading...",
+      description = "...",
       tags = ["..."];
 
     if (this.props.model) {
-      circuitName = this.props.model.circuitName;
+      title = this.props.model.circuitName;
       description = this.props.model.description;
       tags = this.props.model.tags
         ? this.props.model.tags
         : tags;
       if (!description || description === "") {
-        description = "Can has some descriptions?";
+        description = UtilRenderer.getRandomQuoteText();
       }
     }
 
     return (
       &lt;div className="overview">
-        &lt;Segment inverted className="title">
-          {UtilRenderer.getFormattedCircuitName(
-            circuitName
-          )}
-        &lt;/Segment>
+        {this.getTitleContent(title)}
         {this.getDescriptionContent(description)}
-
         {this.getTagsMapContent(tags)}
       &lt;/div>
+    );
+  }
+
+  /**
+   * renders our title content in the gui with the circuit name.
+   * @param title
+   * @returns {*}
+   */
+  getTitleContent(title) {
+    return (
+      &lt;Popup
+        content="Click to change the title."
+        mouseEnterDelay={420}
+        mouseLeaveDelay={210}
+        on="hover"
+        inverted
+        position={"top center"}
+        trigger={
+          &lt;Segment inverted className="title">
+            {UtilRenderer.getFormattedCircuitName(
+              title
+            )}
+          &lt;/Segment>
+        }
+      />
     );
   }
 
@@ -1294,7 +1316,7 @@ export default class CircuitSidebar extends Component {
   getDescriptionContent(description) {
     return (
       &lt;Popup
-        content="Click here to add a description."
+        content="Click to change the description."
         mouseEnterDelay={420}
         mouseLeaveDelay={210}
         on="hover"
@@ -1317,7 +1339,7 @@ export default class CircuitSidebar extends Component {
   getTagsMapContent(tags) {
     let tagsContent = (
       &lt;Popup
-        content="Click here to add a tag"
+        content="Click to add tags."
         mouseEnterDelay={420}
         mouseLeaveDelay={210}
         on="hover"

@@ -311,32 +311,50 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarOverviewContent() {
-    let circuitName = "WTF...",
-      description = "Can has some descriptions?",
+    let title = "loading...",
+      description = "...",
       tags = ["..."];
 
     if (this.props.model) {
-      circuitName = this.props.model.circuitName;
+      title = this.props.model.circuitName;
       description = this.props.model.description;
       tags = this.props.model.tags
         ? this.props.model.tags
         : tags;
       if (!description || description === "") {
-        description = "Can has some descriptions?";
+        description = UtilRenderer.getRandomQuoteText();
       }
     }
 
     return (
       <div className="overview">
-        <Segment inverted className="title">
-          {UtilRenderer.getFormattedCircuitName(
-            circuitName
-          )}
-        </Segment>
+        {this.getTitleContent(title)}
         {this.getDescriptionContent(description)}
-
         {this.getTagsMapContent(tags)}
       </div>
+    );
+  }
+
+  /**
+   * renders our title content in the gui with the circuit name.
+   * @param title
+   * @returns {*}
+   */
+  getTitleContent(title) {
+    return (
+      <Popup
+        content="Click to change the title."
+        mouseEnterDelay={420}
+        mouseLeaveDelay={210}
+        on="hover"
+        inverted
+        position={"top center"}
+        trigger={
+          <Segment inverted className="title">
+            {UtilRenderer.getFormattedCircuitName(title)}
+          </Segment>
+        }
+      />
     );
   }
 
@@ -348,7 +366,7 @@ export default class CircuitSidebar extends Component {
   getDescriptionContent(description) {
     return (
       <Popup
-        content="Click here to add a description."
+        content="Click to change the description."
         mouseEnterDelay={420}
         mouseLeaveDelay={210}
         on="hover"
@@ -371,7 +389,7 @@ export default class CircuitSidebar extends Component {
   getTagsMapContent(tags) {
     let tagsContent = (
       <Popup
-        content="Click here to add a tag"
+        content="Click to add tags."
         mouseEnterDelay={420}
         mouseLeaveDelay={210}
         on="hover"
