@@ -26,6 +26,14 @@ export default class CircuitSidebar extends Component {
   static wtfTimerId = "active-circuit-wtf-timer";
 
   /**
+   * the interval increment that the wtf timer uses to update the gui with
+   * via various UtilRenderer functions which parse nano time into workable
+   * seconds, while maintaining nano precision.
+   * @type {number}
+   */
+  static wtfTimerIntervalMs = 1000;
+
+  /**
    * id name string for property for our id field, we use need to use a
    * different primary key for sorting.
    */
@@ -76,7 +84,7 @@ export default class CircuitSidebar extends Component {
    * time on the gui
    */
   componentWillUnmount() {
-    UtilRenderer.clearIntervalTimer(this.openTimeTimer);
+    UtilRenderer.clearIntervalTimer(this.wtfTimer);
   }
 
   /**
@@ -265,36 +273,32 @@ export default class CircuitSidebar extends Component {
     if (!circuit) {
       return "loading...";
     } else {
-      this.openTime = moment.utc(circuit.openTime);
+      this.openUtcTime = moment.utc(circuit.openTime);
       this.timerEl = document.getElementById(
         CircuitSidebar.wtfTimerId
       );
-      this.openTimeTimer = UtilRenderer.clearIntervalTimer(
-        this.openTimeTimer
+      this.wtfTimer = UtilRenderer.clearIntervalTimer(
+        this.wtfTimer
       );
     }
 
     if (UtilRenderer.isCircuitPaused(circuit)) {
-      return (
-        "T:" +
-        UtilRenderer.getWtfTimerStringFromTotalNs(
-          circuit.totalCircuitElapsedNanoTime
-        ) +
-        "s"
+      let seconds = UtilRenderer.getSecondsFromNanoseconds(
+        circuit.totalCircuitElapsedNanoTime
+      );
+      return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(
+        seconds
       );
     } else {
-      this.openTimeTimer = setInterval(() => {
-        this.timerEl.innerHTML =
-          "T:" +
-          UtilRenderer.getWtfTimerStringFromOpenTime(
-            this.openTime
-          );
-      }, 1000);
-      return (
-        "T:" +
-        UtilRenderer.getWtfTimerStringFromOpenTime(
-          this.openTime
-        )
+      this.wtfTimer = setInterval(() => {
+        this.timerEl.innerHTML = UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
+          this.openUtcTime,
+          circuit.totalCircuitPausedNanoTime
+        );
+      }, CircuitSidebar.wtfTimerIntervalMs);
+      return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
+        this.openUtcTime,
+        circuit.totalCircuitPausedNanoTime
       );
     }
   }

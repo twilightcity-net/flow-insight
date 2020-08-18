@@ -4,6 +4,20 @@ import moment from "moment";
 
 export default class UtilRenderer {
   /**
+   * the string prefix that is used to create our WTF timer string.
+   * @type {string}
+   */
+  static wtfTimePrefixStr = "T:";
+
+  /**
+   * our moment UTC format string that gridtime uses. This must match the
+   * format schema that is set on gridtime server that you are accessing. DO
+   * NOT CHANGE, EVEN IF YOU THINK THIS DOESN'T LOOK RIGHT; IT DOES.
+   * @type {string}
+   */
+  static wtfTimeFormatStr = "MMM Do YYYY, h:mm:ss a";
+
+  /**
    * helper function to return a date time string from a date object that is localized
    * to our current timezoe
    * @param date
@@ -59,25 +73,61 @@ export default class UtilRenderer {
 
   /**
    * gets our timer string from the time now see getWtfTimerStringFromSeconds
-   * @param openTime
+   * @param openUtcTime
+   * @param pausedNanoTime
    * @returns {string}
    */
-  static getWtfTimerStringFromOpenTime(openTime) {
-    let t = moment().diff(openTime, "s"),
-      d = (t / 86400) | 0,
-      h = ((t / 3600) | 0) % 24,
-      m = ((t / 60) | 0) % 60,
-      s = t % 60;
+  static getWtfTimerStringFromOpenMinusPausedTime(
+    openUtcTime,
+    pausedNanoTime
+  ) {
+    let t =
+      moment().diff(openUtcTime, "s") -
+      UtilRenderer.getSecondsFromNanoseconds(
+        pausedNanoTime
+      );
 
+    return UtilRenderer.getWtfTimerString(
+      (t / 86400) | 0,
+      ((t / 3600) | 0) % 24,
+      ((t / 60) | 0) % 60,
+      t % 60
+    );
+  }
+
+  /**
+   * gets our wtf timer string for other functions that the gui uses.
+   * @param days
+   * @param hours
+   * @param minutes
+   * @param seconds
+   * @returns {string}
+   */
+  static getWtfTimerString(days, hours, minutes, seconds) {
     return (
-      (d < 10 ? "0" + d : d) +
+      UtilRenderer.wtfTimePrefixStr +
+      (days < 10 ? "0" + days : days) +
       ":" +
-      (h < 10 ? "0" + h : h) +
+      (hours < 10 ? "0" + hours : hours) +
       ":" +
-      (m < 10 ? "0" + m : m) +
+      (minutes < 10 ? "0" + minutes : minutes) +
       ":" +
-      (s < 10 ? "0" + s : s) +
+      (seconds < 10 ? "0" + seconds : seconds) +
       "s"
+    );
+  }
+
+  /**
+   * returns our the total amount of time that has elapsed, excluding pause
+   * time which is precompiled by gridtime.
+   * @param seconds
+   */
+  static getWtfTimerStringFromTimeDurationSeconds(seconds) {
+    return UtilRenderer.getWtfTimerString(
+      (seconds / 86400) | 0,
+      ((seconds / 3600) | 0) % 24,
+      ((seconds / 60) | 0) % 60,
+      seconds % 60
     );
   }
 
@@ -86,9 +136,8 @@ export default class UtilRenderer {
    * is commonly used to calculate the total elapsed paused time for example.
    * @param nanoseconds
    */
-  static getWtfTimerStringFromTotalNs(nanoseconds) {
-    console.log("nano", nanoseconds);
-    return nanoseconds / 1000000000;
+  static getSecondsFromNanoseconds(nanoseconds) {
+    return (nanoseconds / 1000000000) | 0;
   }
 
   /**
@@ -117,7 +166,7 @@ export default class UtilRenderer {
         array[4],
         array[5]
       ]);
-      return t.format("MMM Do YYYY, h:mm:ss a");
+      return t.format(UtilRenderer.wtfTimeFormatStr);
     }
     return "";
   }
