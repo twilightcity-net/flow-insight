@@ -999,7 +999,7 @@ export default class UtilRenderer {
    */
   static getRandomQuoteText() {
     let quote = randomQuotes();
-    return "\"" + quote.body + "\" ~" + quote.author;
+    return '"' + quote.body + '" ~' + quote.author;
   }
 
   /**
@@ -1021,7 +1021,7 @@ export default class UtilRenderer {
   static getFormattedCircuitName(circuitName) {
     return circuitName
       .split("_")
-      .map((t) => {
+      .map(t => {
         if (t.length > 1) {
           return t.charAt(0).toUpperCase() + t.slice(1);
         }

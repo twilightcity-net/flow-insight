@@ -1231,11 +1231,9 @@ export default class CircuitSidebar extends Component {
     }
 
     if (UtilRenderer.isCircuitPaused(circuit)) {
-      let seconds = UtilRenderer.getSecondsFromNanoseconds(
-        circuit.totalCircuitElapsedNanoTime
-      );
-      return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(
-        seconds
+      return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
+        this.openUtcTime,
+        circuit.totalCircuitPausedNanoTime
       );
     } else {
       this.wtfTimer = setInterval(() => {
@@ -1298,14 +1296,16 @@ export default class CircuitSidebar extends Component {
         inverted
         position={"top center"}
         trigger={
-          &lt;Segment inverted className="title">
-            {UtilRenderer.getFormattedCircuitName(
-              title
-            )}
+          &lt;Segment inverted className="title" onClick={this.onClickTitle}>
+            {UtilRenderer.getFormattedCircuitName(title)}
           &lt;/Segment>
         }
       />
     );
+  }
+
+  onClickTitle = () => {
+    console.log("clicked on title");
   }
 
   /**
@@ -1347,7 +1347,7 @@ export default class CircuitSidebar extends Component {
         inverted
         trigger={
           &lt;Label color="red" size="tiny">
-            &lt;i>Add Some Tags!&lt;/i>
+            &lt;i>Click to Tag!&lt;/i>
           &lt;/Label>
         }
       />
