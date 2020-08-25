@@ -1066,28 +1066,28 @@ export default class ActiveCircuit extends Component {
    */
   loadCircuit(circuitName, model, messages) {
     CircuitClient.getCircuitWithAllDetails(
-        circuitName,
-        this,
-        arg => {
-          model = arg.data;
-          this.updateStateModels(model);
-          TalkToClient.getAllTalkMessagesFromRoom(
-              model.wtfTalkRoomName,
-              model.wtfTalkRoomId,
-              this,
-              arg => {
-                this.updateStateMessages(arg.data)
-              }
-          );
-          CircuitClient.loadCircuitMembers(
-              circuitName,
-              model.wtfTalkRoomId,
-              this,
-              arg => {
-                this.updateStateCircuitMembers(arg.data);
-              }
-          );
-        }
+      circuitName,
+      this,
+      arg => {
+        model = arg.data;
+        this.updateStateModels(model);
+        TalkToClient.getAllTalkMessagesFromRoom(
+          model.wtfTalkRoomName,
+          model.wtfTalkRoomId,
+          this,
+          arg => {
+            this.updateStateMessages(arg.data);
+          }
+        );
+        CircuitClient.loadCircuitMembers(
+          circuitName,
+          model.wtfTalkRoomId,
+          this,
+          arg => {
+            this.updateStateCircuitMembers(arg.data);
+          }
+        );
+      }
     );
   }
 

@@ -1095,10 +1095,17 @@ export default class ActiveCircuitFeed extends Component {
   appendChatMessage(message) {
     let metaProps = message.metaProps,
       username = this.getUsernameFromMetaProps(metaProps),
-      time = UtilRenderer.getChatMessageTimeString(message.messageTime),
+      time = UtilRenderer.getChatMessageTimeString(
+        message.messageTime
+      ),
       json = message.data;
 
-    this.updateFeedEvent(username, null, time, json.message);
+    this.updateFeedEvent(
+      username,
+      null,
+      time,
+      json.message
+    );
 
     this.messages.push(message);
     this.forceUpdate(() => {
@@ -1113,10 +1120,10 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {boolean|*}
    */
   getUsernameFromMetaProps(metaProps) {
-    return !!metaProps &amp;&amp;
-        metaProps[
-            ActiveCircuitFeed.fromUserNameMetaPropsStr
-            ];
+    return (
+      !!metaProps &amp;&amp;
+      metaProps[ActiveCircuitFeed.fromUserNameMetaPropsStr]
+    );
   }
 
   /**
@@ -1141,10 +1148,17 @@ export default class ActiveCircuitFeed extends Component {
         metaProps[
           ActiveCircuitFeed.fromUserNameMetaPropsStr
         ];
-      time = UtilRenderer.getChatMessageTimeString(m.messageTime);
+      time = UtilRenderer.getChatMessageTimeString(
+        m.messageTime
+      );
       json = m.data;
 
-      this.updateFeedEvent(username, null, time, json.message);
+      this.updateFeedEvent(
+        username,
+        null,
+        time,
+        json.message
+      );
     }
   };
 
@@ -1158,9 +1172,10 @@ export default class ActiveCircuitFeed extends Component {
    */
   updateFeedEvent(username, feedEvent, time, text) {
     if (
-        this.feedEvents.length > 0 &amp;&amp;
-        this.feedEvents[this.feedEvents.length - 1] &amp;&amp;
-        this.feedEvents[this.feedEvents.length - 1].name === username
+      this.feedEvents.length > 0 &amp;&amp;
+      this.feedEvents[this.feedEvents.length - 1] &amp;&amp;
+      this.feedEvents[this.feedEvents.length - 1].name ===
+        username
     ) {
       feedEvent = this.feedEvents.pop();
       feedEvent.text.push(text);
