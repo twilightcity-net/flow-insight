@@ -77,7 +77,7 @@ export default class ActiveCircuitFeed extends Component {
    * @param arg
    */
   onTalkRoomMessage = (event, arg) => {
-    let hasMessage = UtilRenderer.hasMessageInArray(
+    let hasMessage = UtilRenderer.hasMessageByIdInArray(
       this.messages,
       arg
     );

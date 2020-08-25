@@ -226,7 +226,7 @@ export default class UtilRenderer {
    * @param message - our message we are looking for
    * @returns {boolean}
    */
-  static hasMessageInArray(arr, message) {
+  static hasMessageByIdInArray(arr, message) {
     let length = arr.length;
     for (let i = 0, m = null; i < length; i++) {
       m = arr[i];

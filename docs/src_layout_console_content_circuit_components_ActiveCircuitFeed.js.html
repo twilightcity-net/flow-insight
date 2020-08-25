@@ -893,7 +893,7 @@
       <li><a href="global.html#getXpPercent">getXpPercent</a></li>
       <li><a href="global.html#handleCallback">handleCallback</a></li>
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
-      <li><a href="global.html#hasMessageInArray">hasMessageInArray</a></li>
+      <li><a href="global.html#hasMessageByIdInArray">hasMessageByIdInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
       <li><a href="global.html#hasSQL">hasSQL</a></li>
       <li><a href="global.html#isCircuitOwnerModerator">isCircuitOwnerModerator</a></li>
@@ -1038,7 +1038,7 @@ export default class ActiveCircuitFeed extends Component {
    * @param arg
    */
   onTalkRoomMessage = (event, arg) => {
-    let hasMessage = UtilRenderer.hasMessageInArray(
+    let hasMessage = UtilRenderer.hasMessageByIdInArray(
       this.messages,
       arg
     );

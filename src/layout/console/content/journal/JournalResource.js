@@ -81,7 +81,7 @@ export default class JournalResource extends Component {
       data = arg.data,
       username = data.username,
       me = MemberClient.me;
-
+    yarn;
     switch (mType) {
       case BaseClient.MessageTypes
         .INTENTION_STARTED_DETAILS:
@@ -90,7 +90,7 @@ export default class JournalResource extends Component {
           this.username === username
         ) {
           let journalEntry = data.journalEntry,
-            hasIntention = UtilRenderer.hasMessageInArray(
+            hasIntention = UtilRenderer.hasMessageByIdInArray(
               this.journalIntentions,
               journalEntry
             );
