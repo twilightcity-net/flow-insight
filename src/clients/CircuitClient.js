@@ -71,7 +71,7 @@ export class CircuitClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, RESUME_WTF: string}}
+   * @returns {{LOAD_CIRCUIT_MEMBERS: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -88,6 +88,7 @@ export class CircuitClient extends BaseClient {
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
       LOAD_CIRCUIT_WITH_ALL_DETAILS:
         "load-circuit-with-all-details",
+      LOAD_CIRCUIT_MEMBERS: "load-circuit-members",
       GET_ALL_MY_PARTICIPATING_CIRCUITS:
         "get-all-my-participating-circuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS:
@@ -97,6 +98,7 @@ export class CircuitClient extends BaseClient {
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
+      GET_CIRCUIT_MEMBERS: "get-circuit-members",
       SOLVE_WTF: "solve-wtf",
       CANCEL_WTF: "cancel-wtf",
       RESUME_WTF: "resume-wtf",
@@ -261,6 +263,33 @@ export class CircuitClient extends BaseClient {
   }
 
   /**
+   * loads circuit members for a given circuit from gridtime. These data
+   * sets are updated  dynamically with talk messages. The uri argument is
+   * used by the controller and database to locate the correct collection
+   * associated with the circuit. Similiar to how the TalkTo controller works.
+   * @param circuitName
+   * @param uri
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static loadCircuitMembers(
+    circuitName,
+    uri,
+    scope,
+    callback
+  ) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.LOAD_CIRCUIT_MEMBERS,
+      { circuitName: circuitName, uri: uri },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
    * gets all of our participating circuits from our local db
    * @param scope
    * @param callback
@@ -345,6 +374,31 @@ export class CircuitClient extends BaseClient {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.GET_CIRCUIT_WITH_ALL_DETAILS,
       { circuitName: circuitName },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
+   * gets the members for a given circuit. The controller will call load if
+   * needed.
+   * @param circuitName
+   * @param uri
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getCircuitMembers(
+    circuitName,
+    uri,
+    scope,
+    callback
+  ) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.GET_CIRCUIT_MEMBERS,
+      { circuitName: circuitName, uri: uri },
       scope,
       callback
     );

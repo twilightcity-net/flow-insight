@@ -76,12 +76,14 @@
           <li data-type='method'><a href="CircuitClient.html#.getAllMyDoItLaterCircuits">getAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.getAllMyParticipatingCircuits">getAllMyParticipatingCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.getAllMyRetroCircuits">getAllMyRetroCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.getCircuitMembers">getCircuitMembers</a></li>
           <li data-type='method'><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.init">init</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyRetroCircuits">loadAllMyRetroCircuits</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.loadCircuitMembers">loadCircuitMembers</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadCircuitWithAllDetails">loadCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.pauseWTFWithDoItLater">pauseWTFWithDoItLater</a></li>
           <li data-type='method'><a href="CircuitClient.html#.resumeWtf">resumeWtf</a></li>
@@ -233,6 +235,7 @@
       </li>
       <li><a href="module.html#.exports">exports</a>
         <ul class='methods'>
+          <li data-type='method'><a href="module.html#.exports#addCircuitMembersCollection">addCircuitMembersCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#addNewProject">addNewProject</a></li>
           <li data-type='method'><a href="module.html#.exports#addNewTask">addNewTask</a></li>
           <li data-type='method'><a href="module.html#.exports#addRoom">addRoom</a></li>
@@ -282,6 +285,7 @@
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyTeamCircuitsCallback">delegateLoadAllMyTeamCircuitsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyTeamsCallback">delegateLoadAllMyTeamsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllTalkMessagesFromRoomCallback">delegateLoadAllTalkMessagesFromRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLoadCircuitMembersCallback">delegateLoadCircuitMembersCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadCircuitWithAllDetailsCallback">delegateLoadCircuitWithAllDetailsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadJournalCallback">delegateLoadJournalCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadMyHomeTeamCallback">delegateLoadMyHomeTeamCallback</a></li>
@@ -309,6 +313,8 @@
           <li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#finished">finished</a></li>
           <li data-type='method'><a href="module.html#.exports#getApiKey">getApiKey</a></li>
+          <li data-type='method'><a href="module.html#.exports#getCircuitMembersCollectionNameFromUri">getCircuitMembersCollectionNameFromUri</a></li>
+          <li data-type='method'><a href="module.html#.exports#getCollectionForCircuitMembers">getCollectionForCircuitMembers</a></li>
           <li data-type='method'><a href="module.html#.exports#getCollectionForRoomStatusTalkMessages">getCollectionForRoomStatusTalkMessages</a></li>
           <li data-type='method'><a href="module.html#.exports#getCollectionForRoomTalkMessages">getCollectionForRoomTalkMessages</a></li>
           <li data-type='method'><a href="module.html#.exports#getConnectionStatus">getConnectionStatus</a></li>
@@ -330,6 +336,7 @@
           <li data-type='method'><a href="module.html#.exports#getViewAllMyDoItLaterCircuits">getViewAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewAllMyParticipatingCircuits">getViewAllMyParticipatingCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewAllMyRetroCircuits">getViewAllMyRetroCircuits</a></li>
+          <li data-type='method'><a href="module.html#.exports#getViewCircuitMembersForCollection">getViewCircuitMembersForCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewCircuits">getViewCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForIntentions">getViewForIntentions</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForMe">getViewForMe</a></li>
@@ -337,7 +344,6 @@
           <li data-type='method'><a href="module.html#.exports#getViewForProjects">getViewForProjects</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForTasks">getViewForTasks</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewForTeams">getViewForTeams</a></li>
-          <li data-type='method'><a href="module.html#.exports#getViewRooms">getViewRooms</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewStatusTalkMessagesForCollection">getViewStatusTalkMessagesForCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewTalkMessagesForCollection">getViewTalkMessagesForCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewTeamCircuits">getViewTeamCircuits</a></li>
@@ -357,6 +363,7 @@
           <li data-type='method'><a href="module.html#.exports#handleGetAllMyTeamsEvent">handleGetAllMyTeamsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllStatusTalkMessagesFromRoomEvent">handleGetAllStatusTalkMessagesFromRoomEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetAllTalkMessagesFromRoomEvent">handleGetAllTalkMessagesFromRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleGetCircuitMembersEvent">handleGetCircuitMembersEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetCircuitWithAllDetailsEvent">handleGetCircuitWithAllDetailsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetManualEvent">handleGetManualEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleGetManualHelpTopicsEvent">handleGetManualHelpTopicsEvent</a></li>
@@ -379,6 +386,7 @@
           <li data-type='method'><a href="module.html#.exports#handleLoadAllMyTeamCircuitsEvent">handleLoadAllMyTeamCircuitsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadAllMyTeamsEvent">handleLoadAllMyTeamsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadAllTalkNessagesFromRoomEvent">handleLoadAllTalkNessagesFromRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLoadCircuitMembersEvent">handleLoadCircuitMembersEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadCircuitWithAllDetailsEvent">handleLoadCircuitWithAllDetailsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadJournalEvent">handleLoadJournalEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadMyHomeTeamCircuitEvent">handleLoadMyHomeTeamCircuitEvent</a></li>
@@ -407,7 +415,6 @@
           <li data-type='method'><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></li>
           <li data-type='method'><a href="module.html#.exports#load">load</a></li>
           <li data-type='method'><a href="module.html#.exports#load">load</a></li>
-          <li data-type='method'><a href="module.html#.exports#log">log</a></li>
           <li data-type='method'><a href="module.html#.exports#log">log</a></li>
           <li data-type='method'><a href="module.html#.exports#logRequest">logRequest</a></li>
           <li data-type='method'><a href="module.html#.exports#logResults">logResults</a></li>
@@ -464,6 +471,7 @@
           <li data-type='method'><a href="module.html#.exports#stop">stop</a></li>
           <li data-type='method'><a href="module.html#.exports#unwireEvents">unwireEvents</a></li>
           <li data-type='method'><a href="module.html#.exports#updateCircuitForResume">updateCircuitForResume</a></li>
+          <li data-type='method'><a href="module.html#.exports#updateCircuitMembersInCollection">updateCircuitMembersInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateCircuitsByIdInCollection">updateCircuitsByIdInCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#updateCircuitToDoItLater">updateCircuitToDoItLater</a></li>
           <li data-type='method'><a href="module.html#.exports#updateConsole">updateConsole</a></li>
@@ -875,6 +883,7 @@
       <li><a href="global.html#getTimeStringFromTimeArray">getTimeStringFromTimeArray</a></li>
       <li><a href="global.html#getTitleContent">getTitleContent</a></li>
       <li><a href="global.html#getUnfinishedStatusContent">getUnfinishedStatusContent</a></li>
+      <li><a href="global.html#getUsernameFromMetaProps">getUsernameFromMetaProps</a></li>
       <li><a href="global.html#getUserNameFromResource">getUserNameFromResource</a></li>
       <li><a href="global.html#getWtfTimerContent">getWtfTimerContent</a></li>
       <li><a href="global.html#getWtfTimerCount">getWtfTimerCount</a></li>
@@ -897,6 +906,7 @@
       <li><a href="global.html#isObjEmpty">isObjEmpty</a></li>
       <li><a href="global.html#isStatusMessage">isStatusMessage</a></li>
       <li><a href="global.html#isWTFResource">isWTFResource</a></li>
+      <li><a href="global.html#loadCircuit">loadCircuit</a></li>
       <li><a href="global.html#loadState">loadState</a></li>
       <li><a href="global.html#onHeartbeat">onHeartbeat</a></li>
       <li><a href="global.html#onLoadCb">onLoadCb</a></li>
@@ -931,11 +941,14 @@
       <li><a href="global.html#showRetroCircuitsPanel">showRetroCircuitsPanel</a></li>
       <li><a href="global.html#showSpiritPanel">showSpiritPanel</a></li>
       <li><a href="global.html#updateActiveJournalItemSelection">updateActiveJournalItemSelection</a></li>
+      <li><a href="global.html#updateFeedEvent">updateFeedEvent</a></li>
       <li><a href="global.html#updateHeaderText">updateHeaderText</a></li>
       <li><a href="global.html#updateJournalIntentions">updateJournalIntentions</a></li>
       <li><a href="global.html#updateKeyboardShortcuts">updateKeyboardShortcuts</a></li>
       <li><a href="global.html#updateMessageInArrayById">updateMessageInArrayById</a></li>
       <li><a href="global.html#updateProgress">updateProgress</a></li>
+      <li><a href="global.html#updateStateCircuitMembers">updateStateCircuitMembers</a></li>
+      <li><a href="global.html#updateStateMessages">updateStateMessages</a></li>
       <li><a href="global.html#updateStateModels">updateStateModels</a></li>
       <li><a href="global.html#updateTeamMembers">updateTeamMembers</a></li>
       <li><a href="global.html#updateTorchieImage">updateTorchieImage</a></li>
@@ -1078,7 +1091,7 @@ module.exports = class BaseController {
 
   /**
    * define the names of our controllers functions for gridtime
-   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, JOIN_EXISTING_ROOM: string, PAUSE_WTF_WITH_DO_IT_LATER: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_PROJECT: string, FIND_OR_CREATE_TASK: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, LEAVE_EXISTING_ROOM: string, GET_ME: string, RESUME_WTF: string}}
+   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, PAUSE_WTF_WITH_DO_IT_LATER: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_TASK: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_MY_HOME_TEAM: string, LEAVE_EXISTING_ROOM: string, GET_ME: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, FIND_OR_CREATE_PROJECT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Names() {
@@ -1096,6 +1109,7 @@ module.exports = class BaseController {
         "getCircuitWithAllDetails",
       GET_ALL_TALK_MESSAGES_FROM_ROOM:
         "getAllTalkMessagesFromRoom",
+      GET_CIRCUIT_MEMBERS: "getCircuitMembers",
       SOLVE_WTF: "solveWtf",
       CANCEL_WTF: "cancelWtf",
       PAUSE_WTF_WITH_DO_IT_LATER: "pauseWTFWithDoItLater",

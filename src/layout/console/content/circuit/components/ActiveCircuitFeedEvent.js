@@ -9,7 +9,15 @@ export default class ActiveCircuitFeedEvent extends Component {
   constructor(props) {
     super(props);
     this.name = "[ActiveCircuitFeedEvent]";
-    this.imageEmojiSrc = "./assets/images/emoji_cool.png";
+    this.imageEmojiSrc =
+      "./assets/images/pepe_frog_profile_icon.png";
+    if (props.setLastFeedEvent) {
+      props.setLastFeedEvent(this);
+    }
+    this.state = {
+      texts: props.texts,
+      time: props.time
+    };
   }
 
   /**
@@ -17,12 +25,12 @@ export default class ActiveCircuitFeedEvent extends Component {
    * @returns {*}
    */
   getFeedExtraTextsContent() {
-    return this.props.texts.map((message, i) => {
+    return this.state.texts.map((message, i) => {
       return (
         <Feed.Extra
           key={i}
           text
-          content={this.props.texts[i]}
+          content={this.state.texts[i]}
         />
       );
     });
@@ -39,7 +47,7 @@ export default class ActiveCircuitFeedEvent extends Component {
         <Feed.Content>
           <Feed.Summary>
             <a>@{this.props.name}</a>
-            <Feed.Date>{this.props.time}</Feed.Date>
+            <Feed.Date>{this.state.time}</Feed.Date>
           </Feed.Summary>
           {this.getFeedExtraTextsContent()}
         </Feed.Content>

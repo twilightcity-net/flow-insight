@@ -28,6 +28,7 @@ export default class ActiveCircuitFeed extends Component {
    */
   static activeCircuitFeedElIdString =
     "active-circuit-feed";
+
   /**
    * the dom el id name of the circuit feed content panel
    * @type {string}
@@ -61,7 +62,8 @@ export default class ActiveCircuitFeed extends Component {
     );
     this.state = {
       resource: props.resource,
-      model: props.model
+      model: null,
+      messages: []
     };
     this.props.set(this);
   }
@@ -100,7 +102,7 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    this.messages = nextProps.messages;
+    this.messages = nextState.messages;
     this.updateChatMessages();
     return true;
   }
@@ -130,27 +132,37 @@ export default class ActiveCircuitFeed extends Component {
    * @param message
    */
   appendChatMessage(message) {
-    let time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
+    let metaProps = message.metaProps,
+      username = this.getUsernameFromMetaProps(metaProps),
+      time = UtilRenderer.getChatMessageTimeString(
         message.messageTime
       ),
-      metaProps = message.metaProps,
-      username = !!metaProps && metaProps["from.username"],
-      data = message.data,
-      text = data.message,
-      event = {
-        name: username,
-        time: time,
-        text: [text]
-      };
+      json = message.data;
 
-    this.lastFeedEvent = event;
-    this.feedEvents.push(event);
+    this.updateFeedEvent(
+      username,
+      null,
+      time,
+      json.message
+    );
 
     this.messages.push(message);
-
     this.forceUpdate(() => {
       this.scrollToFeedBottom();
     });
+  }
+
+  /**
+   * renders our username from the talk message's metaprop which contains
+   * the string of this.
+   * @param metaProps
+   * @returns {boolean|*}
+   */
+  getUsernameFromMetaProps(metaProps) {
+    return (
+      !!metaProps &&
+      metaProps[ActiveCircuitFeed.fromUserNameMetaPropsStr]
+    );
   }
 
   /**
@@ -162,8 +174,6 @@ export default class ActiveCircuitFeed extends Component {
       username = null,
       time = null,
       json = null,
-      text = [],
-      event = null,
       messages = this.messages,
       messagesLength = this.messages.length;
 
@@ -177,30 +187,47 @@ export default class ActiveCircuitFeed extends Component {
         metaProps[
           ActiveCircuitFeed.fromUserNameMetaPropsStr
         ];
-      time = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
+      time = UtilRenderer.getChatMessageTimeString(
         m.messageTime
       );
       json = m.data;
-      text = json.message;
 
-      if (
-        this.lastFeedEvent &&
-        this.lastFeedEvent.name === username
-      ) {
-        event = this.feedEvents.pop();
-        event.text.push(text);
-      } else {
-        event = {
-          name: username,
-          time: time,
-          text: [text]
-        };
-      }
-
-      this.lastFeedEvent = event;
-      this.feedEvents.push(event);
+      this.updateFeedEvent(
+        username,
+        null,
+        time,
+        json.message
+      );
     }
   };
+
+  /**
+   * updates our feed events array which is used to generate the list of
+   * feed events in the gui which displays all of the chat messages
+   * @param username
+   * @param feedEvent
+   * @param time
+   * @param text
+   */
+  updateFeedEvent(username, feedEvent, time, text) {
+    if (
+      this.feedEvents.length > 0 &&
+      this.feedEvents[this.feedEvents.length - 1] &&
+      this.feedEvents[this.feedEvents.length - 1].name ===
+        username
+    ) {
+      feedEvent = this.feedEvents.pop();
+      feedEvent.text.push(text);
+    } else {
+      feedEvent = {
+        name: username,
+        time: time,
+        text: [text]
+      };
+    }
+
+    this.feedEvents.push(feedEvent);
+  }
 
   /**
    * adds a new message to our messages array and triggers a rerender
@@ -278,17 +305,40 @@ export default class ActiveCircuitFeed extends Component {
    */
   getFeedEventsFromMessagesArrayContent() {
     return this.feedEvents.map((message, i) => {
-      this.lastFeedEvent = (
-        <ActiveCircuitFeedEvent
-          key={i}
-          name={message.name}
-          time={message.time}
-          texts={message.text}
-        />
-      );
-      return this.lastFeedEvent;
+      if (i === this.feedEvents.length - 1) {
+        return (
+          <ActiveCircuitFeedEvent
+            key={i}
+            name={message.name}
+            time={message.time}
+            texts={message.text}
+            setLastFeedEvent={
+              this.setLastFeedEventComponent
+            }
+          />
+        );
+      } else {
+        return (
+          <ActiveCircuitFeedEvent
+            key={i}
+            name={message.name}
+            time={message.time}
+            texts={message.text}
+          />
+        );
+      }
     });
   }
+
+  /**
+   * callback function which is used by the active circuit feed event to
+   * update the last feed event. This is suspose to concat messages which
+   * have the same username.
+   * @param component
+   */
+  setLastFeedEventComponent = component => {
+    this.lastFeedEvent = component;
+  };
 
   /**
    * renders our active chat component which is used to input text and

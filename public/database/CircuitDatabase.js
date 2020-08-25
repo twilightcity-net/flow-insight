@@ -19,7 +19,7 @@ module.exports = class CircuitDatabase extends LokiJS {
 
   /**
    * the collections of our database
-   * @returns {{CIRCUITS: string, LATER: string, PARTICIPATING: string, ACTIVE: string, TEAM_CIRCUITS: string, RETRO: string}}
+   * @returns {{CIRCUITS: string, LATER: string, CIRCUIT_MEMBERS: string, PARTICIPATING: string, ACTIVE: string, TEAM_CIRCUITS: string, RETRO: string}}
    * @constructor
    */
   static get Collections() {
@@ -29,13 +29,14 @@ module.exports = class CircuitDatabase extends LokiJS {
       LATER: "later",
       RETRO: "retro",
       ACTIVE: "active",
-      TEAM_CIRCUITS: "team-circuits"
+      TEAM_CIRCUITS: "team-circuits",
+      CIRCUIT_MEMBERS: "circuit-members"
     };
   }
 
   /**
    * the views of our database for queries
-   * @returns {{CIRCUITS: string, LATER: string, PARTICIPATING: string, ACTIVE: string, TEAM_CIRCUITS: string, RETRO: string}}
+   * @returns {{CIRCUITS: string, LATER: string, CIRCUIT_MEMBERS: string, PARTICIPATING: string, ACTIVE: string, TEAM_CIRCUITS: string, RETRO: string}}
    * @constructor
    */
   static get Views() {
@@ -45,13 +46,14 @@ module.exports = class CircuitDatabase extends LokiJS {
       LATER: "later",
       RETRO: "retro",
       ACTIVE: "active",
-      TEAM_CIRCUITS: "team-circuits"
+      TEAM_CIRCUITS: "team-circuits",
+      CIRCUIT_MEMBERS: "circuit-members"
     };
   }
 
   /**
    * Indices of our database. This allows us to index things for fast queries
-   * @returns {{TEAM_NAME: string, CIRCUIT_NAME: string, OPEN_TIME: string, OWNER_NAME: string, CIRCUIT_STATE: string, MODERATOR_ID: string, CLOSE_TIME: string, ID: string, OWNER_ID: string, ORGANIZATION_ID: string, TEAM_ID: string, MODERATOR_NAME: string}}
+   * @returns {{CIRCUIT_NAME: string, OPEN_TIME: string, CIRCUIT_STATE: string, DISPLAY_NAME: string, OWNER_ID: string, ORGANIZATION_ID: string, TEAM_NAME: string, OWNER_NAME: string, MODERATOR_ID: string, CLOSE_TIME: string, FULL_NAME: string, MEMBER_ID: string, USERNAME: string, ID: string, TEAM_ID: string, MODERATOR_NAME: string}}
    * @constructor
    */
   static get Indices() {
@@ -67,7 +69,11 @@ module.exports = class CircuitDatabase extends LokiJS {
       TEAM_ID: "teamId",
       TEAM_NAME: "teamName",
       MODERATOR_ID: "moderatorId",
-      MODERATOR_NAME: "moderatorName"
+      MODERATOR_NAME: "moderatorName",
+      MEMBER_ID: "memberId",
+      FULL_NAME: "fullName",
+      DISPLAY_NAME: "displayName",
+      USERNAME: "username"
     };
   }
 
@@ -305,7 +311,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       CircuitDatabase.Collections.ACTIVE
     );
 
-    this.log(
+    DatabaseUtil.log(
       "remove circuit",
       this.getViewCircuits().count()
     );
@@ -482,18 +488,109 @@ module.exports = class CircuitDatabase extends LokiJS {
   }
 
   /**
-   * logs a database message with a fanyc blue color
-   * @param message
-   * @param count
+   * creates a new collection for circuit members. This is updated through
+   * gui requests and incoming talk messages. Each circuit will have its own
+   * collection in the format of,
+   * @returns {Collection}
+   * @param name
+   * @param view
    */
-  log(message, count) {
-    log.info(
-      chalk.blueBright(this.name) +
-        " " +
-        message +
-        " : {" +
-        count +
-        "}"
+  addCircuitMembersCollection(name, view) {
+    let indices = {
+        indices: [
+          CircuitDatabase.Indices.ID,
+          CircuitDatabase.Indices.FULL_NAME,
+          CircuitDatabase.Indices.DISPLAY_NAME,
+          CircuitDatabase.Indices.USERNAME
+        ]
+      },
+      collection = this.addCollection(name, indices);
+
+    DatabaseUtil.log(
+      "add circuit members collection",
+      name
+    );
+
+    collection.addDynamicView(view);
+    return collection;
+  }
+
+  /**
+   * gets our name for our circuit members collection for our database's
+   * collection for each of the circuits.
+   * @param uri
+   * @returns {string}
+   */
+  getCircuitMembersCollectionNameFromUri(uri) {
+    return (
+      CircuitDatabase.Collections.CIRCUIT_MEMBERS +
+      "-" +
+      uri
+    );
+  }
+
+  /**
+   * adds or returns and existing collection in our database
+   * @returns {Collection}
+   * @param uri
+   */
+  getCollectionForCircuitMembers(uri) {
+    let name = this.getCircuitMembersCollectionNameFromUri(
+        uri
+      ),
+      collection = this.getCollection(name),
+      view = CircuitDatabase.Views.CIRCUIT_MEMBERS;
+
+    if (!collection) {
+      collection = this.addCircuitMembersCollection(
+        name,
+        view
+      );
+    }
+    return collection;
+  }
+
+  /**
+   * gets the view for a specific collection of circuit members. Each
+   * collection has its own view.
+   * @param collection
+   * @returns {DynamicView}
+   */
+  getViewCircuitMembersForCollection(collection) {
+    return collection.getDynamicView(
+      CircuitDatabase.Views.CIRCUIT_MEMBERS
+    );
+  }
+
+  /**
+   * updates the collection of circuit members based on their associated
+   * uri. This function will insert or update the members. When a member
+   * leaves the room, then we should remove them from the collection.
+   * @param uri
+   * @param circuitMembers
+   * @param collection
+   */
+  updateCircuitMembersInCollection(
+    uri,
+    circuitMembers,
+    collection
+  ) {
+    for (
+      let i = 0,
+        len = circuitMembers.length,
+        circuitMember = null;
+      i < len;
+      i++
+    ) {
+      circuitMember = circuitMembers[i];
+      DatabaseUtil.findUpdateInsert(
+        circuitMember,
+        collection
+      );
+    }
+    DatabaseUtil.log(
+      "updated circuit members",
+      circuitMembers.length
     );
   }
 };

@@ -24,7 +24,7 @@ module.exports = class CircuitController extends BaseController {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
+   * @returns {{LOAD_CIRCUIT_MEMBERS: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -39,6 +39,7 @@ module.exports = class CircuitController extends BaseController {
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
       LOAD_CIRCUIT_WITH_ALL_DETAILS:
         "load-circuit-with-all-details",
+      LOAD_CIRCUIT_MEMBERS: "load-circuit-members",
       GET_ALL_MY_PARTICIPATING_CIRCUITS:
         "get-all-my-participating-circuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS:
@@ -48,6 +49,7 @@ module.exports = class CircuitController extends BaseController {
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
+      GET_CIRCUIT_MEMBERS: "get-circuit-members",
       SOLVE_WTF: "solve-wtf",
       CANCEL_WTF: "cancel-wtf",
       PAUSE_WTF_WITH_DO_IT_LATER:
@@ -136,6 +138,9 @@ module.exports = class CircuitController extends BaseController {
             arg
           );
           break;
+        case CircuitController.Events.LOAD_CIRCUIT_MEMBERS:
+          this.handleLoadCircuitMembersEvent(event, arg);
+          break;
         case CircuitController.Events
           .GET_ALL_MY_PARTICIPATING_CIRCUITS:
           this.handleGetAllMyParticipatingCircuitsEvent(
@@ -163,6 +168,9 @@ module.exports = class CircuitController extends BaseController {
             event,
             arg
           );
+          break;
+        case CircuitController.Events.GET_CIRCUIT_MEMBERS:
+          this.handleGetCircuitMembersEvent(event, arg);
           break;
         case CircuitController.Events.SOLVE_WTF:
           this.handleSolveWtfEvent(event, arg);
@@ -611,6 +619,81 @@ module.exports = class CircuitController extends BaseController {
   }
 
   /**
+   * handles loading our circuit memberss into our local databse
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleLoadCircuitMembersEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT +
+        CircuitController.Paths.SEPARATOR +
+        CircuitController.Paths.WTF +
+        name +
+        CircuitController.Paths.MEMBER;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.GET_CIRCUIT_MEMBERS,
+      CircuitController.Types.GET,
+      urn,
+      store =>
+        this.delegateLoadCircuitMembersCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * handles our dto callback from our rest client.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateLoadCircuitMembersCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      let circuitMembers = store.data;
+      if (circuitMembers) {
+        let uri = arg.args.uri,
+          database = DatabaseFactory.getDatabase(
+            DatabaseFactory.Names.CIRCUIT
+          ),
+          collection = database.getCollectionForCircuitMembers(
+            uri
+          ),
+          view = database.getViewCircuitMembersForCollection(
+            collection
+          );
+        database.updateCircuitMembersInCollection(
+          uri,
+          circuitMembers,
+          collection
+        );
+
+        arg.data = view.data();
+      }
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
    * gets all of our participating circuits that is stored in our local database
    * @param event
    * @param arg
@@ -776,6 +859,34 @@ module.exports = class CircuitController extends BaseController {
         }
       );
     }
+  }
+
+  /**
+   * gets our circuit members by call load circuit members in this class if
+   * the collection for that room does not exist or is empty. Might need to
+   * call load if this is empty.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetCircuitMembersEvent(event, arg, callback) {
+    let uri = arg.args.uri,
+      database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.CIRCUIT
+      ),
+      collection = database.getCollectionForCircuitMembers(
+        uri
+      ),
+      view = database.getViewCircuitMembersForCollection(
+        collection
+      );
+
+    arg.data = view.data();
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**

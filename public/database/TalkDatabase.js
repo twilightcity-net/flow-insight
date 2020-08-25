@@ -77,19 +77,6 @@ module.exports = class TalkDatabase extends LokiJS {
   }
 
   /**
-   * gets our view for our known rooms
-   * @returns {DynamicView}
-   */
-  getViewRooms() {
-    let collection = this.getCollection(
-      TalkDatabase.Collections.ROOMS
-    );
-    return collection.getDynamicView(
-      TalkDatabase.Views.ROOMS
-    );
-  }
-
-  /**
    * adds or returns and existing collection in our database
    * @returns {Collection}
    * @param uri

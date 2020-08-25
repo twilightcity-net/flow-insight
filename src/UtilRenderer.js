@@ -8,13 +8,13 @@ export default class UtilRenderer {
    * the string prefix that is used to create our WTF timer string.
    * @type {string}
    */
-  static wtfTimePrefixStr = "T:";
+  static wtfTimePrefixStr = "T+";
 
   /**
    * our moment UTC format string that gridtime uses. This must match the
    * format schema that is set on gridtime server that you are accessing. DO
    * NOT CHANGE, EVEN IF YOU THINK THIS DOESN'T LOOK RIGHT; IT DOES.
-   * @type {string} - moment js UTC format string
+   * @type {string}
    */
   static wtfTimeFormatStr = "MMM Do YYYY, h:mm:ss a";
 
@@ -180,6 +180,11 @@ export default class UtilRenderer {
       return t.format(UtilRenderer.wtfTimeFormatStr);
     }
     return "";
+  }
+
+  static getChatMessageTimeString(dateTimeString) {
+    let referenceDay = moment.utc(dateTimeString);
+    return moment().calendar(referenceDay);
   }
 
   /**

@@ -42,12 +42,15 @@ export default class ActiveCircuit extends Component {
       this,
       this.onTalkRoomMessage
     );
+    this.circuitSidebarComponent = null;
+    this.circuitFeedComponent = null;
     this.state = {
       resource: props.resource,
       scrapbookVisible: false,
       model: null,
       messages: [],
-      status: []
+      status: [],
+      circuitMembers: []
     };
   }
 
@@ -57,29 +60,8 @@ export default class ActiveCircuit extends Component {
    * child components
    */
   componentDidMount() {
-    let circuitName = this.props.resource.uriArr[2],
-      model = null,
-      messages = null;
-
-    CircuitClient.getCircuitWithAllDetails(
-      circuitName,
-      this,
-      arg => {
-        model = arg.data;
-        TalkToClient.getAllTalkMessagesFromRoom(
-          model.wtfTalkRoomName,
-          model.wtfTalkRoomId,
-          this,
-          arg => {
-            messages = arg.data;
-            this.setState({
-              model: model,
-              messages: messages
-            });
-          }
-        );
-      }
-    );
+    let circuitName = this.props.resource.uriArr[2];
+    this.loadCircuit(circuitName, null, []);
   }
 
   /**
@@ -103,36 +85,49 @@ export default class ActiveCircuit extends Component {
       return false;
     }
 
-    let circuitName = nextProps.resource.uriArr[2],
-      model = null,
-      messages = null;
+    let circuitName = nextProps.resource.uriArr[2];
+    this.loadCircuit(circuitName, null, []);
 
+    this.setState({
+      model: null,
+      messages: [],
+      members: []
+    });
+
+    return false;
+  }
+
+  /**
+   * updates and loads our circuit form gridtime
+   * @param circuitName
+   * @param model
+   * @param messages
+   */
+  loadCircuit(circuitName, model, messages) {
     CircuitClient.getCircuitWithAllDetails(
       circuitName,
       this,
       arg => {
         model = arg.data;
+        this.updateStateModels(model);
         TalkToClient.getAllTalkMessagesFromRoom(
           model.wtfTalkRoomName,
           model.wtfTalkRoomId,
           this,
           arg => {
-            messages = arg.data;
-            this.setState({
-              model: model,
-              messages: messages
-            });
+            this.updateStateMessages(arg.data);
+          }
+        );
+        CircuitClient.loadCircuitMembers(
+          circuitName,
+          model.wtfTalkRoomId,
+          this,
+          arg => {
+            this.updateStateCircuitMembers(arg.data);
           }
         );
       }
     );
-
-    this.setState({
-      model: null,
-      messages: null
-    });
-
-    return false;
   }
 
   /**
@@ -190,6 +185,33 @@ export default class ActiveCircuit extends Component {
   }
 
   /**
+   * updates our components states with our updated array of chat messages
+   * which is updated by gridtime and talk.
+   * @param messages
+   */
+  updateStateMessages(messages) {
+    this.setState({
+      messages: messages
+    });
+    this.circuitFeedComponent.setState({
+      messages: messages
+    });
+  }
+
+  /**
+   * updates our circuit members array in our component states
+   * @param circuitMembers
+   */
+  updateStateCircuitMembers(circuitMembers) {
+    this.setState({
+      circuitMembers: circuitMembers
+    });
+    this.circuitSidebarComponent.setState({
+      circuitMembers: circuitMembers
+    });
+  }
+
+  /**
    * hides our resizable scrapbook in the feed panel
    */
   hideScrapbook = () => {
@@ -217,10 +239,19 @@ export default class ActiveCircuit extends Component {
       : "content hide";
   }
 
+  /**
+   * stores our circuit sidebar component into memory to access.
+   * @param component
+   */
   setCircuitSidebarComponent = component => {
     this.circuitSidebarComponent = component;
   };
 
+  /**
+   * stores our circuit feed component with all of our messages in memory to
+   * access and update.
+   * @param component
+   */
   setCircuitFeedComponent = component => {
     this.circuitFeedComponent = component;
   };
@@ -241,8 +272,6 @@ export default class ActiveCircuit extends Component {
           <div id="wrapper" className="activeCircuitFeed">
             <ActiveCircuitFeed
               resource={this.state.resource}
-              model={this.state.model}
-              messages={this.state.messages}
               set={this.setCircuitFeedComponent}
             />
           </div>
@@ -278,7 +307,6 @@ export default class ActiveCircuit extends Component {
         <CircuitSidebar
           resource={this.state.resource}
           showScrapbook={this.showScrapbook}
-          model={this.state.model}
           set={this.setCircuitSidebarComponent}
         />
       </div>
