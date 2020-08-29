@@ -217,6 +217,11 @@ export class ResourceCircuitController extends ActiveViewController {
             BrowserRequestFactory.Requests.JOURNAL,
             BrowserRequestFactory.Locations.ME
           );
+          console.log(
+            this.name +
+              " LEAVE ROOM -> " +
+              JSON.stringify(arg)
+          );
           this.browserController.makeRequest(request);
           this.fireCircuitLeaveNotifyEvent();
         }

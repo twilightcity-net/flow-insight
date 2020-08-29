@@ -88,6 +88,20 @@ export default class ActiveCircuitFeed extends Component {
           this.appendChatMessage(arg);
         }
         break;
+      case BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT:
+        let status = arg.data;
+        switch (status.statusEvent) {
+          case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
+            console.log("JOIN", status.statusMessage);
+            break;
+          case BaseClient.RoomMemberStatus
+            .ROOM_MEMBER_LEAVE:
+            console.log("LEAVE", status.statusMessage);
+            break;
+          default:
+            break;
+        }
+        break;
       default:
         break;
     }
