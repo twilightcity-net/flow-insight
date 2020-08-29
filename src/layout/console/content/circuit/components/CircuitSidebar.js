@@ -101,7 +101,7 @@ export default class CircuitSidebar extends Component {
    * click handler for putting a circuit on hold
    */
   onClickLeaveActiveCircuit = () => {
-    this.resourcesController.leaveCircuit(
+    this.resourcesController.leaveExistingRoom(
       this.props.resource
     );
   };

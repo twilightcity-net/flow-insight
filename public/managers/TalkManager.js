@@ -58,7 +58,7 @@ module.exports = class TalkManager {
   }
 
   /**
-   * gets the connectioon url for the io service
+   * gets the connection url for the io service
    * @returns {string}
    */
   getConnectionUrl() {

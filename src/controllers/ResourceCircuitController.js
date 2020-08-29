@@ -32,13 +32,14 @@ export class ResourceCircuitController extends ActiveViewController {
         .VIEW_CONSOLE_CIRCUIT_SOLVE,
       this
     );
-    this.circuitJoinNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_JOIN,
+    this.joinExistingRoomNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_JOIN_EXISTING_ROOM,
       this
     );
-    this.circuitLeaveNotifier = RendererEventFactory.createEvent(
+    this.leaveExistingRoomNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_LEAVE,
+        .VIEW_CONSOLE_LEAVE_EXISTING_ROOM,
       this
     );
   }
@@ -96,15 +97,15 @@ export class ResourceCircuitController extends ActiveViewController {
   /**
    * notifies the system that we join an active circuit.
    */
-  fireCircuitJoinNotifyEvent() {
-    this.circuitJoinNotifier.dispatch(1);
+  fireJoinExistingRoomNotifyEvent() {
+    this.joinExistingRoomNotifier.dispatch(1);
   }
 
   /**
    * notifies our local system that we have left our current active circuit.
    */
-  fireCircuitLeaveNotifyEvent() {
-    this.circuitLeaveNotifier.dispatch(-1);
+  fireLeaveExistingRoomNotifyEvent() {
+    this.leaveExistingRoomNotifier.dispatch(1);
   }
 
   /**
@@ -182,7 +183,7 @@ export class ResourceCircuitController extends ActiveViewController {
    * roomName is then sent to gridtime over an http dto request.
    * @param resource
    */
-  joinCircuit(resource) {
+  joinExistingRoom(resource) {
     let roomName = UtilRenderer.getRoomNameFromResource(
       resource
     );
@@ -190,9 +191,11 @@ export class ResourceCircuitController extends ActiveViewController {
     if (roomName) {
       TalkToClient.joinExistingRoom(roomName, this, arg => {
         console.log(
-          this.name + " JOIN ROOM -> " + JSON.stringify(arg)
+          this.name +
+            " JOIN EXISTING ROOM -> " +
+            JSON.stringify(arg)
         );
-        this.fireCircuitJoinNotifyEvent();
+        this.fireJoinExistingRoomNotifyEvent();
       });
     }
   }
@@ -203,7 +206,7 @@ export class ResourceCircuitController extends ActiveViewController {
    * thrown if we try to leave a room in which we dont belong or we not added to.
    * @param resource
    */
-  leaveCircuit(resource) {
+  leaveExistingRoom(resource) {
     let roomName = UtilRenderer.getRoomNameFromResource(
       resource
     );
@@ -219,11 +222,11 @@ export class ResourceCircuitController extends ActiveViewController {
           );
           console.log(
             this.name +
-              " LEAVE ROOM -> " +
+              " LEAVE EXISTING ROOM -> " +
               JSON.stringify(arg)
           );
           this.browserController.makeRequest(request);
-          this.fireCircuitLeaveNotifyEvent();
+          this.fireLeaveExistingRoomNotifyEvent();
         }
       );
     }

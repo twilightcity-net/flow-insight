@@ -1054,11 +1054,11 @@ export default class ActiveCircuitFeed extends Component {
         let status = arg.data;
         switch (status.statusEvent) {
           case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
-            console.log("JOIN", status.statusMessage);
+            console.log("JOIN ROOM", status);
             break;
           case BaseClient.RoomMemberStatus
             .ROOM_MEMBER_LEAVE:
-            console.log("LEAVE", status.statusMessage);
+            console.log("LEAVE ROOM", status);
             break;
           default:
             break;

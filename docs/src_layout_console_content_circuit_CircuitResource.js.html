@@ -994,14 +994,19 @@ export default class CircuitResource extends Component {
    */
   componentDidMount() {
     if (UtilRenderer.isWTFResource(this.props.resource)) {
-      this.resourcesController.joinCircuit(
+      this.resourcesController.joinExistingRoom(
         this.props.resource
       );
     }
   }
 
+  /**
+   * when the component is unmounted besure to leave the existing talk room,
+   * becuase we do not need to keep reciecing talk chat message details from
+   * other users that are still in the circuit chat room.
+   */
   componentWillUnmount() {
-    this.resourcesController.leaveCircuit(
+    this.resourcesController.leaveExistingRoom(
       this.props.resource
     );
   }
@@ -1022,10 +1027,10 @@ export default class CircuitResource extends Component {
       UtilRenderer.isWTFResource(nextProps.resource)
     ) {
       nextState.error = null;
-      this.resourcesController.leaveCircuit(
+      this.resourcesController.leaveExistingRoom(
         this.props.resource
       );
-      this.resourcesController.joinCircuit(
+      this.resourcesController.joinExistingRoom(
         nextProps.resource
       );
     }
