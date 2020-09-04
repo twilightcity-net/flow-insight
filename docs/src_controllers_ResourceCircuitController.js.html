@@ -995,7 +995,8 @@ export class ResourceCircuitController extends ActiveViewController {
       this
     );
     this.joinExistingRoomNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_JOIN_EXISTING_ROOM,
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_JOIN_EXISTING_ROOM,
       this
     );
     this.leaveExistingRoomNotifier = RendererEventFactory.createEvent(
@@ -1152,7 +1153,9 @@ export class ResourceCircuitController extends ActiveViewController {
     if (roomName) {
       TalkToClient.joinExistingRoom(roomName, this, arg => {
         console.log(
-          this.name + " JOIN EXISTING ROOM -> " + JSON.stringify(arg)
+          this.name +
+            " JOIN EXISTING ROOM -> " +
+            JSON.stringify(arg)
         );
         this.fireJoinExistingRoomNotifyEvent();
       });
