@@ -2,8 +2,7 @@
 
 ## Supported Versions
 
-Use this section to tell people about which versions of your project are
-currently being supported with security updates.
+Torchie is currently in the alpha phase, and every attempt is made to find and fix vulnerabilities.
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -11,8 +10,6 @@ currently being supported with security updates.
 
 ## Reporting a Vulnerability
 
-Use this section to tell people how to report a vulnerability.
+please report any security vulerability to 1337@dreamscale.io
 
-Tell them where to go, how often they can expect to get an update on a
-reported vulnerability, what to expect if the vulnerability is accepted or
-declined, etc.
+We will immediately begin working on any vulnerability that is discovered. This will then be released and minor version incremented. Please contact admin@dreamscale.io for further instructions.. Thank you.
