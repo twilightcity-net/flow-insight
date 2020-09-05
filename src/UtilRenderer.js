@@ -8,7 +8,7 @@ export default class UtilRenderer {
    * the string prefix that is used to create our WTF timer string.
    * @type {string}
    */
-  static wtfTimePrefixStr = "T+";
+  static wtfTimePrefixStr = "T + ";
 
   /**
    * our moment UTC format string that gridtime uses. This must match the
