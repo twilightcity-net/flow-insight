@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Segment } from "semantic-ui-react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -16,7 +17,8 @@ export default class StartCircuit extends Component {
     super(props);
     this.name = "[StartCircuit]";
     this.state = {
-      resource: props.resource
+      resource: props.resource,
+      isLoading: false
     };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
@@ -28,8 +30,50 @@ export default class StartCircuit extends Component {
    * handler that is called when we want to create a new learning circuit
    */
   onClickForStartCircuit = () => {
+    if (this.state.isLoading) {
+      return;
+    }
+    this.setState({
+      isLoading: true
+    });
     return this.myController.startCircuit();
   };
+
+  /**
+   * renders our button content for our wtf button
+   * @returns {*}
+   */
+  getButtonContent() {
+    let buttonText = "WTF?";
+    if (this.state.isLoading) {
+      buttonText = ":]";
+    }
+    return (
+      <div
+        className="wtfBtn noselect"
+        onClick={this.onClickForStartCircuit}
+      >
+        {buttonText}
+      </div>
+    );
+  }
+
+  getDescriptionContent() {
+    let descriptionText =
+      "Start A Troubleshooting Session!";
+    if (this.state.isLoading) {
+      descriptionText = "Thank you. Please wait...";
+    }
+    return (
+      <Segment inverted size={"huge"} className="desc">
+        <b>{descriptionText}</b>
+        <br />
+        <i className="confucius">
+          {UtilRenderer.getRandomQuoteText()}
+        </i>
+      </Segment>
+    );
+  }
 
   /**
    * renders the default troubleshoot component in the console view
@@ -50,19 +94,8 @@ export default class StartCircuit extends Component {
           }}
         >
           <div className="content">
-            <div
-              className="wtfBtn"
-              onClick={this.onClickForStartCircuit}
-            >
-              WTF?
-            </div>
-            <Segment
-              inverted
-              size={"huge"}
-              className="desc"
-            >
-              <b>Start A Troubleshooting Session!</b>
-            </Segment>
+            {this.getButtonContent()}
+            {this.getDescriptionContent()}
           </div>
         </Segment>
       </div>

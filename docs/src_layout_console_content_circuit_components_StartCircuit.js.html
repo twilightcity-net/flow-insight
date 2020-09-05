@@ -825,6 +825,7 @@
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getActiveCircuitChatContent">getActiveCircuitChatContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
+      <li><a href="global.html#getButtonContent">getButtonContent</a></li>
       <li><a href="global.html#getCancelActiveCircuitButtonContent">getCancelActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getCanvasEl">getCanvasEl</a></li>
       <li><a href="global.html#getChunkCellContent">getChunkCellContent</a></li>
@@ -964,6 +965,7 @@
 import { Segment } from "semantic-ui-react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -978,7 +980,8 @@ export default class StartCircuit extends Component {
     super(props);
     this.name = "[StartCircuit]";
     this.state = {
-      resource: props.resource
+      resource: props.resource,
+      isLoading: false
     };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
@@ -990,8 +993,50 @@ export default class StartCircuit extends Component {
    * handler that is called when we want to create a new learning circuit
    */
   onClickForStartCircuit = () => {
+    if(this.state.isLoading) {
+      return;
+    }
+    this.setState({
+      isLoading: true
+    })
     return this.myController.startCircuit();
   };
+
+  /**
+   * renders our button content for our wtf button
+   * @returns {*}
+   */
+  getButtonContent() {
+    let buttonText = "WTF?";
+    if(this.state.isLoading) {
+      buttonText = ":]"
+    }
+    return (
+            &lt;div
+                className="wtfBtn noselect"
+                onClick={this.onClickForStartCircuit}
+            >
+              {buttonText}
+            &lt;/div>
+    )
+  }
+
+  getDescriptionContent() {
+    let descriptionText = "Start A Troubleshooting Session!";
+    if(this.state.isLoading) {
+      descriptionText = "Thank you. Please wait..."
+    }
+    return (
+        &lt;Segment
+            inverted
+            size={"huge"}
+            className="desc"
+        >
+          &lt;b>{descriptionText}&lt;/b>&lt;br/>
+          &lt;i className="confucius">{UtilRenderer.getRandomQuoteText()}&lt;/i>
+        &lt;/Segment>
+    );
+  }
 
   /**
    * renders the default troubleshoot component in the console view
@@ -1012,19 +1057,8 @@ export default class StartCircuit extends Component {
           }}
         >
           &lt;div className="content">
-            &lt;div
-              className="wtfBtn"
-              onClick={this.onClickForStartCircuit}
-            >
-              WTF?
-            &lt;/div>
-            &lt;Segment
-              inverted
-              size={"huge"}
-              className="desc"
-            >
-              &lt;b>Start A Troubleshooting Session!&lt;/b>
-            &lt;/Segment>
+            {this.getButtonContent()}
+            {this.getDescriptionContent()}
           &lt;/div>
         &lt;/Segment>
       &lt;/div>
