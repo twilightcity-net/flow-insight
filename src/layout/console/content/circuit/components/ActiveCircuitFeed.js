@@ -12,7 +12,6 @@ import UtilRenderer from "../../../../../UtilRenderer";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
-import { scrollTo } from "../../../../../UtilScroll";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../../clients/BaseClient";
 
@@ -30,6 +29,14 @@ export default class ActiveCircuitFeed extends Component {
     "active-circuit-feed";
 
   /**
+   * the string that is appended to the end of a circuit name which is the
+   * convention used by the talk network to reference a specific wtf room
+   * which is associated with this active circuit
+   * @type {string}
+   */
+  static activeCircuitRoomSuffix = "-wtf";
+
+  /**
    * the dom el id name of the circuit feed content panel
    * @type {string}
    */
@@ -42,6 +49,12 @@ export default class ActiveCircuitFeed extends Component {
    * @type {string}
    */
   static fromUserNameMetaPropsStr = "from.username";
+
+  /**
+   * the status event property name that talk uses for talk room status
+   * @type {string}
+   */
+  static statusEventPropStr = "statusEvent";
 
   /**
    * builds the active circuit feed component which is used by the circuit resource
@@ -90,7 +103,9 @@ export default class ActiveCircuitFeed extends Component {
         break;
       case BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT:
         let status = arg.data;
-        switch (status.statusEvent) {
+        switch (
+          status[ActiveCircuitFeed.statusEventPropStr]
+        ) {
           case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
             console.log("JOIN ROOM", status);
             break;
@@ -106,6 +121,22 @@ export default class ActiveCircuitFeed extends Component {
         break;
     }
   };
+
+  /**
+   * scroll to the bottom of the feed whenever we get some changes to the
+   * messages array that drives the feed.
+   * @param prevProps
+   * @param prevState
+   * @param snapshot
+   */
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (
+      prevState.messages.length !==
+      this.state.messages.length
+    ) {
+      this.scrollToFeedBottom();
+    }
+  }
 
   /**
    * make sure we update our chat messages in our renderer when whenever we
@@ -156,7 +187,7 @@ export default class ActiveCircuitFeed extends Component {
   }
 
   /**
-   * renders our username from the talk message's metaprop which contains
+   * renders our username from the talk message's meta-prop which contains
    * the string of this.
    * @param metaProps
    * @returns {boolean|*}
@@ -240,7 +271,7 @@ export default class ActiveCircuitFeed extends Component {
   addChatMessage = (text, callback) => {
     let roomName = this.props.resource.uriArr[2];
     TalkToClient.publishChatToRoom(
-      roomName + "-wtf",
+      roomName + ActiveCircuitFeed.activeCircuitRoomSuffix,
       text,
       this,
       arg => {
@@ -254,20 +285,12 @@ export default class ActiveCircuitFeed extends Component {
   /**
    * function used to scroll our feed panel to the bottom when we build the
    * list or get a new talk message event in from the talk client
-   * @param callback
    */
-  scrollToFeedBottom = callback => {
+  scrollToFeedBottom = () => {
     let feedElement = document.getElementById(
-        ActiveCircuitFeed.activeCircuitFeedElIdString
-      ),
-      height = feedElement.scrollHeight;
-
-    console.log("SCROLL TO BOTTOM", height);
-
-    scrollTo(feedElement, {
-      behavior: "auto",
-      top: height
-    }).then(callback);
+      ActiveCircuitFeed.activeCircuitFeedElIdString
+    );
+    feedElement.scrollTop = feedElement.scrollHeight;
   };
 
   /**
@@ -337,7 +360,7 @@ export default class ActiveCircuitFeed extends Component {
 
   /**
    * callback function which is used by the active circuit feed event to
-   * update the last feed event. This is suspose to concat messages which
+   * update the last feed event. This is suppose to concat messages which
    * have the same username.
    * @param component
    */

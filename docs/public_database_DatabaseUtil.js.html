@@ -1035,7 +1035,9 @@ module.exports = class DatabaseUtil {
    * @param collection
    */
   static findUpdateInsertByMemberId(doc, collection) {
-    let result = collection.findOne({ memberId: doc.memberId });
+    let result = collection.findOne({
+      memberId: doc.memberId
+    });
     if (result) {
       result = Object.assign(result, doc);
       collection.update(result);

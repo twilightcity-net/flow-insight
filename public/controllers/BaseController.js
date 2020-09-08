@@ -61,7 +61,7 @@ module.exports = class BaseController {
 
   /**
    * Data types flag
-   * @returns {{POST: string, GET: string, PRIMARY: string}}
+   * @returns {{POST: string, GET: string}}
    * @constructor
    */
   static get Types() {
@@ -171,13 +171,15 @@ module.exports = class BaseController {
   }
 
   /**
-   * a list of our various circuit status types
-   * @returns {{TEAM_RETRO_STARTED: string, TEAM_WTF_ON_HOLD: string, TEAM_WTF_CANCELED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_SOLVED: string}}
+   *
+   * @returns {{TEAM_RETRO_STARTED: string, TEAM_WTF_JOINED: string, TEAM_WTF_ON_HOLD: string, TEAM_WTF_CANCELED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_LEAVE: string, TEAM_WTF_SOLVED: string}}
    * @constructor
    */
   static get StatusTypes() {
     return {
       TEAM_WTF_STARTED: "TEAM_WTF_STARTED",
+      TEAM_WTF_JOINED: "TEAM_WTF_JOIN",
+      TEAM_WTF_LEAVE: "TEAM_WTF_LEAVE",
       TEAM_WTF_ON_HOLD: "TEAM_WTF_ON_HOLD",
       TEAM_WTF_RESUMED: "TEAM_WTF_RESUMED",
       TEAM_WTF_SOLVED: "TEAM_WTF_SOLVED",
