@@ -56,6 +56,25 @@ module.exports = class DatabaseUtil {
   }
 
   /**
+   * finds a specific document by memberId, which is used by the room member
+   * status collections of the active circuits typically.
+   * @param doc
+   * @param collection
+   */
+  static findUpdateInsertByMemberId(doc, collection) {
+    let result = collection.findOne({
+      memberId: doc.memberId
+    });
+    if (result) {
+      result = Object.assign(result, doc);
+      collection.update(result);
+    } else {
+      result = Object.assign({}, doc);
+      collection.insert(result);
+    }
+  }
+
+  /**
    * finds a specific doc in a collection and will insert a new one
    * if it is not found in the collection. Almost like the others
    * but it isn't.

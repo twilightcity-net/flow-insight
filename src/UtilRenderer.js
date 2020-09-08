@@ -380,25 +380,23 @@ export default class UtilRenderer {
   }
 
   /**
-   * a helper function which is used to look up a specific member id, to see
-   * if it is part of the participants array, and is also actually joined,
-   * not as a guest (which hasn't called joinWTF on the circuit yet)
+   * a helper function which is used to look up a specific memberId (NOT
+   * doc.id like everything else.), to see if it is part of the participants
+   * array, and is also actually joined, not as a guest (which hasn't called
+   * joinWTF on the circuit yet)
    * @param member
    * @param participants
    * @returns {boolean}
    */
   static isCircuitParticipant(member, participants) {
     let memberId = member.id;
-    console.log("MEMBER", member);
     for (
       let i = 0, participant = null;
       i < participants.length;
       i++
     ) {
       participant = participants[i];
-      console.log("PARTICIPANT", participant);
       if (participant.memberId === memberId) {
-        console.log("found participant");
         return true;
       }
     }

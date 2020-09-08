@@ -315,6 +315,7 @@
           <li data-type='method'><a href="module.html#.exports#findRoomAndInsert">findRoomAndInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findUpdate">findUpdate</a></li>
           <li data-type='method'><a href="module.html#.exports#findUpdateInsert">findUpdateInsert</a></li>
+          <li data-type='method'><a href="module.html#.exports#findUpdateInsertByMemberId">findUpdateInsertByMemberId</a></li>
           <li data-type='method'><a href="module.html#.exports#findXOrInsertDoc">findXOrInsertDoc</a></li>
           <li data-type='method'><a href="module.html#.exports#finished">finished</a></li>
           <li data-type='method'><a href="module.html#.exports#getApiKey">getApiKey</a></li>
@@ -1555,7 +1556,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       i++
     ) {
       circuitMember = circuitMembers[i];
-      DatabaseUtil.findUpdateInsert(
+      DatabaseUtil.findUpdateInsertByMemberId(
         circuitMember,
         collection
       );

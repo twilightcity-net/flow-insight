@@ -583,7 +583,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       i++
     ) {
       circuitMember = circuitMembers[i];
-      DatabaseUtil.findUpdateInsert(
+      DatabaseUtil.findUpdateInsertByMemberId(
         circuitMember,
         collection
       );
