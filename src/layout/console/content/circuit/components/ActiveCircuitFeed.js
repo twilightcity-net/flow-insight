@@ -122,17 +122,6 @@ export default class ActiveCircuitFeed extends Component {
   }
 
   /**
-   * when our component updates, lets also scroll down to the bottom of this
-   * feed component
-   * @param prevProps
-   * @param prevState
-   * @param snapshot
-   */
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    this.scrollToFeedBottom();
-  }
-
-  /**
    * make sure we clear our talk room listener when destroying this component
    */
   componentWillUnmount() {
@@ -272,6 +261,8 @@ export default class ActiveCircuitFeed extends Component {
         ActiveCircuitFeed.activeCircuitFeedElIdString
       ),
       height = feedElement.scrollHeight;
+
+    console.log("SCROLL TO BOTTOM", height);
 
     scrollTo(feedElement, {
       behavior: "auto",
