@@ -98,12 +98,20 @@ export default class CircuitSidebar extends Component {
   };
 
   /**
-   * click handler for putting a circuit on hold
+   * click handler for joining a wtf circuit which makes the member a
+   * participant.
+   */
+  onClickJoinActiveCircuit = () => {
+    let circuitName = this.state.model.circuitName;
+    this.resourcesController.joinCircuit(circuitName);
+  };
+
+  /**
+   * click handler for leaving a circuit that the member is participating in.
    */
   onClickLeaveActiveCircuit = () => {
-    this.resourcesController.leaveExistingRoom(
-      this.props.resource
-    );
+    let circuitName = this.state.model.circuitName;
+    this.resourcesController.leaveCircuit(circuitName);
   };
 
   /**
@@ -535,11 +543,7 @@ export default class CircuitSidebar extends Component {
         </Button>
       );
     }
-    return (
-      <Button size="medium" color="grey" disabled>
-        <Button.Content>pause</Button.Content>
-      </Button>
-    );
+    return this.getPausedCircuitButtonContent();
   }
 
   /**
@@ -584,9 +588,41 @@ export default class CircuitSidebar extends Component {
         </Button>
       );
     }
+    return this.getPausedCircuitButtonContent();
+  }
+
+  /**
+   * renders our join wtf circuit button. This will join the member as a
+   * participate in the active circuit. Doing so will set the members active
+   * circuit to this one.
+   * @returns {*}
+   */
+  getJoinActiveCircuitButtonContent() {
+    let circuit = this.state.model;
+    if (circuit && !UtilRenderer.isCircuitPaused(circuit)) {
+      return (
+        <Button
+          onClick={this.onClickJoinActiveCircuit}
+          size="medium"
+          color="grey"
+        >
+          <Button.Content>join</Button.Content>
+        </Button>
+      );
+    }
+    return this.getPausedCircuitButtonContent();
+  }
+
+  /**
+   * renders our paused button which is generally shown for other
+   * participating members. It is disabled and is only shown when the active
+   * circuit is actually paused.
+   * @returns {*}
+   */
+  getPausedCircuitButtonContent() {
     return (
       <Button size="medium" color="grey" disabled>
-        <Button.Content>loading...</Button.Content>
+        <Button.Content>paused</Button.Content>
       </Button>
     );
   }
@@ -623,10 +659,25 @@ export default class CircuitSidebar extends Component {
     let content = (
       <Grid.Row stretched verticalAlign="middle">
         <Grid.Column>
-          {this.getLeaveActiveCircuitButtonContent()}
+          {this.getJoinActiveCircuitButtonContent()}
         </Grid.Column>
       </Grid.Row>
     );
+
+    if (
+      UtilRenderer.isCircuitParticipant(
+        MemberClient.me,
+        this.state.circuitMembers
+      )
+    ) {
+      content = (
+        <Grid.Row stretched verticalAlign="middle">
+          <Grid.Column>
+            {this.getLeaveActiveCircuitButtonContent()}
+          </Grid.Column>
+        </Grid.Row>
+      );
+    }
 
     if (
       UtilRenderer.isCircuitOwnerModerator(

@@ -80,6 +80,8 @@
           <li data-type='method'><a href="CircuitClient.html#.getCircuitMembers">getCircuitMembers</a></li>
           <li data-type='method'><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.init">init</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.joinWtf">joinWtf</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.leaveWtf">leaveWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li>
@@ -278,7 +280,9 @@
           <li data-type='method'><a href="module.html#.exports#delegateGetManualHelpTopicsCallback">delegateGetManualHelpTopicsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualPageCallback">delegateGetManualPageCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateJoinExistingRoomCallback">delegateJoinExistingRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateJoinWtfCallback">delegateJoinWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLeaveExistingRoomCallback">delegateLeaveExistingRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLeaveWtfCallback">delegateLeaveWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadActiveCircuitCallback">delegateLoadActiveCircuitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyDoItLaterCircuitsCallback">delegateLoadAllMyDoItLaterCircuitsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyParticipatingCircuitsCallback">delegateLoadAllMyParticipatingCircuitsCallback</a></li>
@@ -379,7 +383,9 @@
           <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#handleJoinExistingRoomEvent">handleJoinExistingRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleJoinWtfEvent">handleJoinWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLeaveExistingRoomEvent">handleLeaveExistingRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLeaveWtfEvent">handleLeaveWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></li>
@@ -855,6 +861,7 @@
       <li><a href="global.html#getFormattedCircuitName">getFormattedCircuitName</a></li>
       <li><a href="global.html#getGuid">getGuid</a></li>
       <li><a href="global.html#getIcon">getIcon</a></li>
+      <li><a href="global.html#getJoinActiveCircuitButtonContent">getJoinActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getJournalEntryContent">getJournalEntryContent</a></li>
       <li><a href="global.html#getJournalErrorContent">getJournalErrorContent</a></li>
       <li><a href="global.html#getJournalItemsContent">getJournalItemsContent</a></li>
@@ -863,6 +870,7 @@
       <li><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></li>
       <li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li>
       <li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li>
+      <li><a href="global.html#getPausedCircuitButtonContent">getPausedCircuitButtonContent</a></li>
       <li><a href="global.html#getPauseResumeButtonContent">getPauseResumeButtonContent</a></li>
       <li><a href="global.html#getPopupContent">getPopupContent</a></li>
       <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
@@ -899,6 +907,7 @@
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
       <li><a href="global.html#hasSQL">hasSQL</a></li>
       <li><a href="global.html#isCircuitOwnerModerator">isCircuitOwnerModerator</a></li>
+      <li><a href="global.html#isCircuitParticipant">isCircuitParticipant</a></li>
       <li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
@@ -1072,6 +1081,12 @@ module.exports = class CircuitController extends BaseController {
             arg
           );
           break;
+        case CircuitController.Events.JOIN_WTF:
+          this.handleJoinWtfEvent(event, arg);
+          break;
+        case CircuitController.Events.LEAVE_WTF:
+          this.handleLeaveWtfEvent(event, arg);
+          break;
         case CircuitController.Events
           .LOAD_ALL_MY_PARTICIPATING_CIRCUITS:
           this.handleLoadAllMyParticipatingCircuitsEvent(
@@ -1229,6 +1244,108 @@ module.exports = class CircuitController extends BaseController {
     arg,
     callback
   ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * joins a given circuit name as a participant. This updates the status on
+   * gridtime which will send talk messages to update the local database.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleJoinWtfEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT_WTF +
+        CircuitController.Paths.SEPARATOR +
+        name +
+        CircuitController.Paths.JOIN;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.JOIN_WTF,
+      CircuitController.Types.POST,
+      urn,
+      store =>
+        this.delegateJoinWtfCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * handles the callback for when we join wtf circuit.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateJoinWtfCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * handles the leave circuit event for a member see joinWtf for more
+   * information about this subject.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleLeaveWtfEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT_WTF +
+        CircuitController.Paths.SEPARATOR +
+        name +
+        CircuitController.Paths.LEAVE;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.LEAVE_WTF,
+      CircuitController.Types.POST,
+      urn,
+      store =>
+        this.delegateLeaveWtfCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * handles the callback for when we leave wtf circuit.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateLeaveWtfCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {

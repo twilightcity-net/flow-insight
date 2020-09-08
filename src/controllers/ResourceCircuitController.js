@@ -17,6 +17,11 @@ export class ResourceCircuitController extends ActiveViewController {
       RendererControllerFactory.Views.LAYOUT_BROWSER,
       this
     );
+    this.circuitJoinLeaveNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
+      this
+    );
     this.circuitStartStopNotifier = RendererEventFactory.createEvent(
       RendererEventFactory.Events
         .VIEW_CONSOLE_CIRCUIT_START_STOP,
@@ -50,6 +55,22 @@ export class ResourceCircuitController extends ActiveViewController {
    */
   makeSidebarBrowserRequest(request) {
     this.browserController.makeRequest(request);
+  }
+
+  /**
+   * notifies the system when the member joins an active circuit. A positive
+   * value is passed into the event argument to denote this.
+   */
+  fireJoinCircuitNotifyEvent() {
+    this.circuitJoinLeaveNotifier.dispatch(1);
+  }
+
+  /**
+   * notifies the system that the member left an active circuit as a
+   * participant. negative argument value represents leaving.
+   */
+  fireLeaveCircuitNotifyEvent() {
+    this.circuitJoinLeaveNotifier.dispatch(-1);
   }
 
   /**
@@ -174,6 +195,38 @@ export class ResourceCircuitController extends ActiveViewController {
       );
       this.browserController.makeRequest(request);
       this.fireCircuitStopNotifyEvent();
+    });
+  }
+
+  /**
+   * joins the active circuit which makes the member a participant of the
+   * circuit. Gridtime will send a talk message for circuit member joined.
+   * this updates the necessary database collections and emits the
+   * associated events
+   * @param circuitName
+   */
+  joinCircuit(circuitName) {
+    CircuitClient.joinWtf(circuitName, this, arg => {
+      console.log(
+        this.name + " JOIN WTF -> " + circuitName
+      );
+      this.fireJoinCircuitNotifyEvent();
+    });
+  }
+
+  /**
+   * leaves the active circuit and notifies gridtime and the local system.
+   * Various talk messages will be emiited from gridtime which will update
+   * the necessary database collections. These events will also notify gui
+   * subsystems.
+   * @param circuitName
+   */
+  leaveCircuit(circuitName) {
+    CircuitClient.leaveWtf(circuitName, this, arg => {
+      console.log(
+        this.name + " LEAVE WTF -> " + circuitName
+      );
+      this.fireLeaveCircuitNotifyEvent();
     });
   }
 

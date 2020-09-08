@@ -80,6 +80,8 @@
           <li data-type='method'><a href="CircuitClient.html#.getCircuitMembers">getCircuitMembers</a></li>
           <li data-type='method'><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.init">init</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.joinWtf">joinWtf</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.leaveWtf">leaveWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li>
@@ -278,7 +280,9 @@
           <li data-type='method'><a href="module.html#.exports#delegateGetManualHelpTopicsCallback">delegateGetManualHelpTopicsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualPageCallback">delegateGetManualPageCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateJoinExistingRoomCallback">delegateJoinExistingRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateJoinWtfCallback">delegateJoinWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLeaveExistingRoomCallback">delegateLeaveExistingRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLeaveWtfCallback">delegateLeaveWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadActiveCircuitCallback">delegateLoadActiveCircuitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyDoItLaterCircuitsCallback">delegateLoadAllMyDoItLaterCircuitsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyParticipatingCircuitsCallback">delegateLoadAllMyParticipatingCircuitsCallback</a></li>
@@ -379,7 +383,9 @@
           <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#handleJoinExistingRoomEvent">handleJoinExistingRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleJoinWtfEvent">handleJoinWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLeaveExistingRoomEvent">handleLeaveExistingRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLeaveWtfEvent">handleLeaveWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></li>
@@ -855,6 +861,7 @@
       <li><a href="global.html#getFormattedCircuitName">getFormattedCircuitName</a></li>
       <li><a href="global.html#getGuid">getGuid</a></li>
       <li><a href="global.html#getIcon">getIcon</a></li>
+      <li><a href="global.html#getJoinActiveCircuitButtonContent">getJoinActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getJournalEntryContent">getJournalEntryContent</a></li>
       <li><a href="global.html#getJournalErrorContent">getJournalErrorContent</a></li>
       <li><a href="global.html#getJournalItemsContent">getJournalItemsContent</a></li>
@@ -863,6 +870,7 @@
       <li><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></li>
       <li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li>
       <li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li>
+      <li><a href="global.html#getPausedCircuitButtonContent">getPausedCircuitButtonContent</a></li>
       <li><a href="global.html#getPauseResumeButtonContent">getPauseResumeButtonContent</a></li>
       <li><a href="global.html#getPopupContent">getPopupContent</a></li>
       <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
@@ -899,6 +907,7 @@
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
       <li><a href="global.html#hasSQL">hasSQL</a></li>
       <li><a href="global.html#isCircuitOwnerModerator">isCircuitOwnerModerator</a></li>
+      <li><a href="global.html#isCircuitParticipant">isCircuitParticipant</a></li>
       <li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
@@ -1093,7 +1102,7 @@ module.exports = class BaseController {
 
   /**
    * define the names of our controllers functions for gridtime
-   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, PAUSE_WTF_WITH_DO_IT_LATER: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_TASK: string, GET_ALL_MY_TEAM_CIRCUITS: string, GET_MY_HOME_TEAM: string, LEAVE_EXISTING_ROOM: string, GET_ME: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, FIND_OR_CREATE_PROJECT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
+   * @returns {{GET_MY_HOME_TEAM_CIRCUIT: string, PAUSE_WTF_WITH_DO_IT_LATER: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_TASK: string, LEAVE_WTF: string, GET_ALL_MY_TEAM_CIRCUITS: string, JOIN_WTF: string, GET_MY_HOME_TEAM: string, LEAVE_EXISTING_ROOM: string, GET_ME: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, FIND_OR_CREATE_PROJECT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Names() {
@@ -1101,6 +1110,8 @@ module.exports = class BaseController {
       START_WTF: "startWTF",
       START_WTF_WITH_CUSTOM_CIRCUIT_NAME:
         "startWTFWithCustomCircuitName",
+      JOIN_WTF: "joinWTF",
+      LEAVE_WTF: "leaveWTF",
       GET_ALL_MY_PARTICIPATING_CIRCUITS:
         "getAllMyParticipatingCircuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS:

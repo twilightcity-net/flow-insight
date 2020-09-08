@@ -355,10 +355,13 @@ module.exports = class TalkController extends BaseController {
                 break;
               default:
                 console.warn(
-                  TalkController.Error.UNKNOWN_STATE_TYPE +
-                    " '" +
-                    circuit.circuitState +
-                    "'."
+                  chalk.bgRed(
+                    TalkController.Error
+                      .UNKNOWN_STATE_TYPE +
+                      " '" +
+                      circuit.circuitState +
+                      "'."
+                  )
                 );
                 break;
             }
@@ -386,10 +389,12 @@ module.exports = class TalkController extends BaseController {
             break;
           default:
             console.warn(
-              TalkController.Error.UNKNOWN_STATUS_TYPE +
-                " '" +
-                data.statusType +
-                "'."
+              chalk.bgRed(
+                TalkController.Error.UNKNOWN_STATUS_TYPE +
+                  " '" +
+                  data.statusType +
+                  "'."
+              )
             );
             break;
         }
@@ -421,10 +426,12 @@ module.exports = class TalkController extends BaseController {
         break;
       default:
         console.warn(
-          TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +
-            " '" +
-            message.messageType +
-            "'."
+          chalk.bgRed(
+            TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +
+              " '" +
+              message.messageType +
+              "'."
+          )
         );
         break;
     }

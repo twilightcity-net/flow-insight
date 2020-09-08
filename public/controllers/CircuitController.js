@@ -109,6 +109,12 @@ module.exports = class CircuitController extends BaseController {
             arg
           );
           break;
+        case CircuitController.Events.JOIN_WTF:
+          this.handleJoinWtfEvent(event, arg);
+          break;
+        case CircuitController.Events.LEAVE_WTF:
+          this.handleLeaveWtfEvent(event, arg);
+          break;
         case CircuitController.Events
           .LOAD_ALL_MY_PARTICIPATING_CIRCUITS:
           this.handleLoadAllMyParticipatingCircuitsEvent(
@@ -266,6 +272,108 @@ module.exports = class CircuitController extends BaseController {
     arg,
     callback
   ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * joins a given circuit name as a participant. This updates the status on
+   * gridtime which will send talk messages to update the local database.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleJoinWtfEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT_WTF +
+        CircuitController.Paths.SEPARATOR +
+        name +
+        CircuitController.Paths.JOIN;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.JOIN_WTF,
+      CircuitController.Types.POST,
+      urn,
+      store =>
+        this.delegateJoinWtfCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * handles the callback for when we join wtf circuit.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateJoinWtfCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * handles the leave circuit event for a member see joinWtf for more
+   * information about this subject.
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleLeaveWtfEvent(event, arg, callback) {
+    let name = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT_WTF +
+        CircuitController.Paths.SEPARATOR +
+        name +
+        CircuitController.Paths.LEAVE;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.LEAVE_WTF,
+      CircuitController.Types.POST,
+      urn,
+      store =>
+        this.delegateLeaveWtfCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * handles the callback for when we leave wtf circuit.
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateLeaveWtfCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {

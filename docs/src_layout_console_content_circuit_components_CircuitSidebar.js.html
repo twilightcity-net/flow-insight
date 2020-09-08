@@ -80,6 +80,8 @@
           <li data-type='method'><a href="CircuitClient.html#.getCircuitMembers">getCircuitMembers</a></li>
           <li data-type='method'><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.init">init</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.joinWtf">joinWtf</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.leaveWtf">leaveWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li>
@@ -278,7 +280,9 @@
           <li data-type='method'><a href="module.html#.exports#delegateGetManualHelpTopicsCallback">delegateGetManualHelpTopicsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualPageCallback">delegateGetManualPageCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateJoinExistingRoomCallback">delegateJoinExistingRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateJoinWtfCallback">delegateJoinWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLeaveExistingRoomCallback">delegateLeaveExistingRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLeaveWtfCallback">delegateLeaveWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadActiveCircuitCallback">delegateLoadActiveCircuitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyDoItLaterCircuitsCallback">delegateLoadAllMyDoItLaterCircuitsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyParticipatingCircuitsCallback">delegateLoadAllMyParticipatingCircuitsCallback</a></li>
@@ -379,7 +383,9 @@
           <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#handleJoinExistingRoomEvent">handleJoinExistingRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleJoinWtfEvent">handleJoinWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLeaveExistingRoomEvent">handleLeaveExistingRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLeaveWtfEvent">handleLeaveWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></li>
@@ -855,6 +861,7 @@
       <li><a href="global.html#getFormattedCircuitName">getFormattedCircuitName</a></li>
       <li><a href="global.html#getGuid">getGuid</a></li>
       <li><a href="global.html#getIcon">getIcon</a></li>
+      <li><a href="global.html#getJoinActiveCircuitButtonContent">getJoinActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getJournalEntryContent">getJournalEntryContent</a></li>
       <li><a href="global.html#getJournalErrorContent">getJournalErrorContent</a></li>
       <li><a href="global.html#getJournalItemsContent">getJournalItemsContent</a></li>
@@ -863,6 +870,7 @@
       <li><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></li>
       <li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li>
       <li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li>
+      <li><a href="global.html#getPausedCircuitButtonContent">getPausedCircuitButtonContent</a></li>
       <li><a href="global.html#getPauseResumeButtonContent">getPauseResumeButtonContent</a></li>
       <li><a href="global.html#getPopupContent">getPopupContent</a></li>
       <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
@@ -899,6 +907,7 @@
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
       <li><a href="global.html#hasSQL">hasSQL</a></li>
       <li><a href="global.html#isCircuitOwnerModerator">isCircuitOwnerModerator</a></li>
+      <li><a href="global.html#isCircuitParticipant">isCircuitParticipant</a></li>
       <li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
@@ -1061,12 +1070,20 @@ export default class CircuitSidebar extends Component {
   };
 
   /**
-   * click handler for putting a circuit on hold
+   * click handler for joining a wtf circuit which makes the member a
+   * participant.
+   */
+  onClickJoinActiveCircuit = () => {
+    let circuitName = this.state.model.circuitName;
+    this.resourcesController.joinCircuit(circuitName);
+  };
+
+  /**
+   * click handler for leaving a circuit that the member is participating in.
    */
   onClickLeaveActiveCircuit = () => {
-    this.resourcesController.leaveExistingRoom(
-      this.props.resource
-    );
+    let circuitName = this.state.model.circuitName;
+    this.resourcesController.leaveCircuit(circuitName);
   };
 
   /**
@@ -1498,11 +1515,7 @@ export default class CircuitSidebar extends Component {
         &lt;/Button>
       );
     }
-    return (
-      &lt;Button size="medium" color="grey" disabled>
-        &lt;Button.Content>pause&lt;/Button.Content>
-      &lt;/Button>
-    );
+    return this.getPausedCircuitButtonContent();
   }
 
   /**
@@ -1547,9 +1560,41 @@ export default class CircuitSidebar extends Component {
         &lt;/Button>
       );
     }
+    return this.getPausedCircuitButtonContent();
+  }
+
+  /**
+   * renders our join wtf circuit button. This will join the member as a
+   * participate in the active circuit. Doing so will set the members active
+   * circuit to this one.
+   * @returns {*}
+   */
+  getJoinActiveCircuitButtonContent() {
+    let circuit = this.state.model;
+    if (circuit &amp;&amp; !UtilRenderer.isCircuitPaused(circuit)) {
+      return (
+        &lt;Button
+          onClick={this.onClickJoinActiveCircuit}
+          size="medium"
+          color="grey"
+        >
+          &lt;Button.Content>join&lt;/Button.Content>
+        &lt;/Button>
+      );
+    }
+    return this.getPausedCircuitButtonContent();
+  }
+
+  /**
+   * renders our paused button which is generally shown for other
+   * participating members. It is disabled and is only shown when the active
+   * circuit is actually paused.
+   * @returns {*}
+   */
+  getPausedCircuitButtonContent() {
     return (
       &lt;Button size="medium" color="grey" disabled>
-        &lt;Button.Content>loading...&lt;/Button.Content>
+        &lt;Button.Content>paused&lt;/Button.Content>
       &lt;/Button>
     );
   }
@@ -1586,10 +1631,25 @@ export default class CircuitSidebar extends Component {
     let content = (
       &lt;Grid.Row stretched verticalAlign="middle">
         &lt;Grid.Column>
-          {this.getLeaveActiveCircuitButtonContent()}
+          {this.getJoinActiveCircuitButtonContent()}
         &lt;/Grid.Column>
       &lt;/Grid.Row>
     );
+
+    if (
+      UtilRenderer.isCircuitParticipant(
+        MemberClient.me,
+        this.state.circuitMembers
+      )
+    ) {
+      content = (
+        &lt;Grid.Row stretched verticalAlign="middle">
+          &lt;Grid.Column>
+            {this.getLeaveActiveCircuitButtonContent()}
+          &lt;/Grid.Column>
+        &lt;/Grid.Row>
+      );
+    }
 
     if (
       UtilRenderer.isCircuitOwnerModerator(

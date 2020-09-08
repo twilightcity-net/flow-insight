@@ -80,6 +80,8 @@
           <li data-type='method'><a href="CircuitClient.html#.getCircuitMembers">getCircuitMembers</a></li>
           <li data-type='method'><a href="CircuitClient.html#.getCircuitWithAllDetails">getCircuitWithAllDetails</a></li>
           <li data-type='method'><a href="CircuitClient.html#.init">init</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.joinWtf">joinWtf</a></li>
+          <li data-type='method'><a href="CircuitClient.html#.leaveWtf">leaveWtf</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadActiveCircuit">loadActiveCircuit</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyDoItLaterCircuits">loadAllMyDoItLaterCircuits</a></li>
           <li data-type='method'><a href="CircuitClient.html#.loadAllMyParticipatingCircuits">loadAllMyParticipatingCircuits</a></li>
@@ -278,7 +280,9 @@
           <li data-type='method'><a href="module.html#.exports#delegateGetManualHelpTopicsCallback">delegateGetManualHelpTopicsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateGetManualPageCallback">delegateGetManualPageCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateJoinExistingRoomCallback">delegateJoinExistingRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateJoinWtfCallback">delegateJoinWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLeaveExistingRoomCallback">delegateLeaveExistingRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#delegateLeaveWtfCallback">delegateLeaveWtfCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadActiveCircuitCallback">delegateLoadActiveCircuitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyDoItLaterCircuitsCallback">delegateLoadAllMyDoItLaterCircuitsCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#delegateLoadAllMyParticipatingCircuitsCallback">delegateLoadAllMyParticipatingCircuitsCallback</a></li>
@@ -379,7 +383,9 @@
           <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#handleInitCallback">handleInitCallback</a></li>
           <li data-type='method'><a href="module.html#.exports#handleJoinExistingRoomEvent">handleJoinExistingRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleJoinWtfEvent">handleJoinWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLeaveExistingRoomEvent">handleLeaveExistingRoomEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleLeaveWtfEvent">handleLeaveWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadActiveCircuitEvent">handleLoadActiveCircuitEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadAllMyDoItLaterCircuitsEvent">handleLoadAllMyDoItLaterCircuitsEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleLoadAllMyParticipatingCircuitsEvent">handleLoadAllMyParticipatingCircuitsEvent</a></li>
@@ -855,6 +861,7 @@
       <li><a href="global.html#getFormattedCircuitName">getFormattedCircuitName</a></li>
       <li><a href="global.html#getGuid">getGuid</a></li>
       <li><a href="global.html#getIcon">getIcon</a></li>
+      <li><a href="global.html#getJoinActiveCircuitButtonContent">getJoinActiveCircuitButtonContent</a></li>
       <li><a href="global.html#getJournalEntryContent">getJournalEntryContent</a></li>
       <li><a href="global.html#getJournalErrorContent">getJournalErrorContent</a></li>
       <li><a href="global.html#getJournalItemsContent">getJournalItemsContent</a></li>
@@ -863,6 +870,7 @@
       <li><a href="global.html#getMenuItemPartyContent">getMenuItemPartyContent</a></li>
       <li><a href="global.html#getOpenTimeStringFromOpenTimeArray">getOpenTimeStringFromOpenTimeArray</a></li>
       <li><a href="global.html#getPartyCircuitMembersContent">getPartyCircuitMembersContent</a></li>
+      <li><a href="global.html#getPausedCircuitButtonContent">getPausedCircuitButtonContent</a></li>
       <li><a href="global.html#getPauseResumeButtonContent">getPauseResumeButtonContent</a></li>
       <li><a href="global.html#getPopupContent">getPopupContent</a></li>
       <li><a href="global.html#getProjectCellContent">getProjectCellContent</a></li>
@@ -899,6 +907,7 @@
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
       <li><a href="global.html#hasSQL">hasSQL</a></li>
       <li><a href="global.html#isCircuitOwnerModerator">isCircuitOwnerModerator</a></li>
+      <li><a href="global.html#isCircuitParticipant">isCircuitParticipant</a></li>
       <li><a href="global.html#isCircuitPaused">isCircuitPaused</a></li>
       <li><a href="global.html#isCommand">isCommand</a></li>
       <li><a href="global.html#isMe">isMe</a></li>
@@ -1628,7 +1637,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line598">line 598</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line634">line 634</a>
               </li>
             </ul>
           </dd>
@@ -1747,7 +1756,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line622">line 622</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line658">line 658</a>
               </li>
             </ul>
           </dd>
@@ -1767,7 +1776,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line466">line 466</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line474">line 474</a>
               </li>
             </ul>
           </dd>
@@ -1807,7 +1816,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line189">line 189</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line197">line 197</a>
               </li>
             </ul>
           </dd>
@@ -1827,7 +1836,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line243">line 243</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line251">line 251</a>
               </li>
             </ul>
           </dd>
@@ -1847,7 +1856,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line308">line 308</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line316">line 316</a>
               </li>
             </ul>
           </dd>
@@ -1867,7 +1876,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line448">line 448</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line456">line 456</a>
               </li>
             </ul>
           </dd>
@@ -1887,7 +1896,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line480">line 480</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line488">line 488</a>
               </li>
             </ul>
           </dd>
@@ -1907,7 +1916,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line494">line 494</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line502">line 502</a>
               </li>
             </ul>
           </dd>
@@ -2052,7 +2061,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line369">line 369</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line377">line 377</a>
               </li>
             </ul>
           </dd>
@@ -2384,7 +2393,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line428">line 428</a>
+                <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line454">line 454</a>
               </li>
             </ul>
           </dd>
@@ -2430,6 +2439,26 @@
           </dd>
         </dl>
         <div class="description usertext"> gets our icon for our team panel list item </div>
+        <h5>Returns:</h5>
+        <dl class="param-type">
+          <dt> Type </dt>
+          <dd>
+            <span class="param-type">*</span>
+          </dd>
+        </dl>
+        <h4 class="name"
+            id="getJoinActiveCircuitButtonContent"><span class="type-signature"></span>getJoinActiveCircuitButtonContent<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line600">line 600</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> renders our join wtf circuit button. This will join the member as a participate in the active circuit. Doing so will set the members active circuit to this one. </div>
         <h5>Returns:</h5>
         <dl class="param-type">
           <dt> Type </dt>
@@ -2524,7 +2553,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line574">line 574</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line578">line 578</a>
               </li>
             </ul>
           </dd>
@@ -2544,7 +2573,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line177">line 177</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line185">line 185</a>
               </li>
             </ul>
           </dd>
@@ -2602,12 +2631,32 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line672">line 672</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line723">line 723</a>
               </li>
             </ul>
           </dd>
         </dl>
         <div class="description usertext"> renders our list panel content to display all of the members in this wtf circuit container </div>
+        <h5>Returns:</h5>
+        <dl class="param-type">
+          <dt> Type </dt>
+          <dd>
+            <span class="param-type">*</span>
+          </dd>
+        </dl>
+        <h4 class="name"
+            id="getPausedCircuitButtonContent"><span class="type-signature"></span>getPausedCircuitButtonContent<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line622">line 622</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> renders our paused button which is generally shown for other participating members. It is disabled and is only shown when the active circuit is actually paused. </div>
         <h5>Returns:</h5>
         <dl class="param-type">
           <dt> Type </dt>
@@ -2622,7 +2671,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line512">line 512</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line520">line 520</a>
               </li>
             </ul>
           </dd>
@@ -2936,7 +2985,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line549">line 549</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line553">line 553</a>
               </li>
             </ul>
           </dd>
@@ -2956,7 +3005,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line392">line 392</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line400">line 400</a>
               </li>
             </ul>
           </dd>
@@ -3284,7 +3333,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line338">line 338</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line346">line 346</a>
               </li>
             </ul>
           </dd>
@@ -3418,7 +3467,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line429">line 429</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line437">line 437</a>
               </li>
             </ul>
           </dd>
@@ -3438,7 +3487,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line268">line 268</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line276">line 276</a>
               </li>
             </ul>
           </dd>
@@ -3784,7 +3833,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line390">line 390</a>
+                <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line416">line 416</a>
               </li>
             </ul>
           </dd>
@@ -3846,6 +3895,50 @@
             </tr>
             <tr>
               <td class="name"><code>circuit</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h5>Returns:</h5>
+        <dl class="param-type">
+          <dt> Type </dt>
+          <dd>
+            <span class="param-type">boolean</span>
+          </dd>
+        </dl>
+        <h4 class="name"
+            id="isCircuitParticipant"><span class="type-signature"></span>isCircuitParticipant<span class="signature">(member, participants)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_UtilRenderer.js.html">src/UtilRenderer.js</a>, <a href="src_UtilRenderer.js.html#line390">line 390</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> a helper function which is used to look up a specific member id, to see if it is part of the participants array, and is also actually joined, not as a guest (which hasn't called joinWTF on the circuit yet) </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>member</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+            <tr>
+              <td class="name"><code>participants</code></td>
               <td class="type">
               </td>
               <td class="description last"></td>
@@ -3942,7 +4035,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line168">line 168</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line176">line 176</a>
               </li>
             </ul>
           </dd>
@@ -4828,7 +4921,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line705">line 705</a>
+                <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html">src/layout/console/content/circuit/components/CircuitSidebar.js</a>, <a href="src_layout_console_content_circuit_components_CircuitSidebar.js.html#line756">line 756</a>
               </li>
             </ul>
           </dd>
