@@ -119,7 +119,7 @@ export default class ActiveCircuitChat extends Component {
   handleEnterKey = () => {
     let text = this.getChatTextInnerTextStr();
 
-    if (text === "") {
+    if (text === "" || this.isEnterKeyPressed) {
       return false;
     }
 
@@ -183,9 +183,6 @@ export default class ActiveCircuitChat extends Component {
    * @param e
    */
   handleOnKeyDownChatInput = e => {
-    if (this.isEnterKeyPressed) {
-      return false;
-    }
     switch (e.keyCode) {
       case 8:
         this.delCharFromText();
