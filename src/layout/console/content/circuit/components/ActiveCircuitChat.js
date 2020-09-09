@@ -23,6 +23,7 @@ export default class ActiveCircuitChat extends Component {
     this.keyArray = [];
     this.isFocused = false;
     this.isMouseDown = false;
+    this.isEnterKeyPressed = false;
   }
 
   /**
@@ -111,7 +112,9 @@ export default class ActiveCircuitChat extends Component {
 
   /**
    * handles our key press for when we use the enter or return keys. check out
-   * text input for sql injection or if null or non characters.
+   * text input for sql injection or if null or non characters. This sets a
+   * boolean flag for enter key press and will toggle it when the request
+   * from gridtime returns. This throttles the member to send 1 message.
    */
   handleEnterKey = () => {
     let text = this.getChatTextInnerTextStr();
@@ -119,6 +122,9 @@ export default class ActiveCircuitChat extends Component {
     if (text === "") {
       return false;
     }
+
+    this.isEnterKeyPressed = true;
+    this.clearInnerText();
     this.props.onEnterKey(
       text,
       this.delegateEnterKeyCallback
@@ -126,10 +132,10 @@ export default class ActiveCircuitChat extends Component {
   };
 
   /**
-   * processes our callback for our enter key. clears the text.
+   * called when gridtime has sent the talk message from pressing enter.
    */
   delegateEnterKeyCallback = () => {
-    this.clearInnerText();
+    this.isEnterKeyPressed = false;
   };
 
   /**
@@ -177,6 +183,9 @@ export default class ActiveCircuitChat extends Component {
    * @param e
    */
   handleOnKeyDownChatInput = e => {
+    if (this.isEnterKeyPressed) {
+      return false;
+    }
     switch (e.keyCode) {
       case 8:
         this.delCharFromText();

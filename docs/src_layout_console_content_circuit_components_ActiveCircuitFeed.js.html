@@ -1027,7 +1027,7 @@ export default class ActiveCircuitFeed extends Component {
    * the status event property name that talk uses for talk room status
    * @type {string}
    */
-  static statusEventPropStr = "statusEvent"
+  static statusEventPropStr = "statusEvent";
 
   /**
    * builds the active circuit feed component which is used by the circuit resource
@@ -1076,7 +1076,9 @@ export default class ActiveCircuitFeed extends Component {
         break;
       case BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT:
         let status = arg.data;
-        switch (status[ActiveCircuitFeed.statusEventPropStr]) {
+        switch (
+          status[ActiveCircuitFeed.statusEventPropStr]
+        ) {
           case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
             console.log("JOIN ROOM", status);
             break;
@@ -1101,7 +1103,10 @@ export default class ActiveCircuitFeed extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if(prevState.messages.length !== this.state.messages.length) {
+    if (
+      prevState.messages.length !==
+      this.state.messages.length
+    ) {
       this.scrollToFeedBottom();
     }
   }
@@ -1256,9 +1261,9 @@ export default class ActiveCircuitFeed extends Component {
    */
   scrollToFeedBottom = () => {
     let feedElement = document.getElementById(
-        ActiveCircuitFeed.activeCircuitFeedElIdString
-      );
-    feedElement.scrollTop = feedElement.scrollHeight
+      ActiveCircuitFeed.activeCircuitFeedElIdString
+    );
+    feedElement.scrollTop = feedElement.scrollHeight;
   };
 
   /**
