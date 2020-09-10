@@ -178,6 +178,7 @@ module.exports = class BaseController {
   static get StatusTypes() {
     return {
       TEAM_WTF_STARTED: "TEAM_WTF_STARTED",
+      TEAM_WTF_JOINED: "TEAM_WTF_JOINED",
       TEAM_WTF_LEAVE: "TEAM_WTF_LEAVE",
       TEAM_WTF_ON_HOLD: "TEAM_WTF_ON_HOLD",
       TEAM_WTF_RESUMED: "TEAM_WTF_RESUMED",
