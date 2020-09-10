@@ -265,6 +265,7 @@ module.exports = class TalkController extends BaseController {
    */
   handleTalkMessageRoomCallback(message) {
     let uri = message.uri,
+      metaProps = message.metaProps,
       talkDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.TALK
       ),
@@ -325,7 +326,8 @@ module.exports = class TalkController extends BaseController {
         break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:
         let data = message.data,
-          circuit = data.learningCircuitDto;
+          circuit = data.learningCircuitDto,
+          wtfUri = circuit.wtfTalkRoomId;
 
         switch (data.statusType) {
           case TalkController.StatusTypes.TEAM_WTF_STARTED:
@@ -333,6 +335,47 @@ module.exports = class TalkController extends BaseController {
               circuitDatabase.createNewCircuit(circuit, me);
               circuitDatabase.setActiveCircuit(circuit);
             }
+            break;
+          case TalkController.StatusTypes.TEAM_WTF_JOINED:
+            // FIXME waiting for gridtime talk message update
+            console.log(Util.inspect(message));
+
+            circuitDatabase.updateCircuitMembersInCollection(
+              wtfUri,
+              [
+                {
+                  memberId: data.memberId,
+                  fullName: metaProps["from.fullname"],
+                  displayName: metaProps["from.username"],
+                  username: data.username,
+                  onlineStatus: "Online"
+                }
+              ],
+              circuitDatabase.getCollectionForCircuitMembers(
+                wtfUri
+              )
+            );
+            break;
+          case TalkController.StatusTypes.TEAM_WTF_LEAVE:
+            // FIXME waiting for gridtime talk message update
+            console.log(Util.inspect(message));
+
+            circuitDatabase.updateCircuitMembersInCollection(
+              wtfUri,
+              [
+                {
+                  memberId: data.memberId,
+                  fullName: metaProps["from.fullname"],
+                  displayName: metaProps["from.username"],
+                  username: data.username,
+                  onlineStatus: "Online"
+                }
+              ],
+              circuitDatabase.getCollectionForCircuitMembers(
+                wtfUri
+              ),
+              true
+            );
             break;
           case TalkController.StatusTypes.TEAM_WTF_ON_HOLD:
             circuitDatabase.updateCircuitToDoItLater(

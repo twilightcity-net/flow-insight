@@ -115,4 +115,19 @@ module.exports = class DatabaseUtil {
       collection.remove(result);
     }
   }
+
+  /**
+   * search and destroy a document by its member id. Just kidding but it
+   * does delete it.
+   * @param doc
+   * @param collection
+   */
+  static findRemoveByMemberId(doc, collection) {
+    let result = collection.findOne({
+      memberId: doc.memberId
+    });
+    if (result) {
+      collection.remove(result);
+    }
+  }
 };

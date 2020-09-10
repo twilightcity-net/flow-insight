@@ -309,6 +309,7 @@
           <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
           <li data-type='method'><a href="module.html#.exports#findInsert">findInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemove">findRemove</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemoveByMemberId">findRemoveByMemberId</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
@@ -1383,7 +1384,7 @@ export default class ActiveCircuitFeed extends Component {
       );
     }
 
-    if(!isParticipant) {
+    if (isParticipant) {
       height = DimensionController.getActiveCircuitFeedContentHeight();
     }
 
@@ -1465,10 +1466,12 @@ export default class ActiveCircuitFeed extends Component {
       &lt;/SplitterLayout>
     );
 
-    if(!UtilRenderer.isCircuitParticipant(
+    if (
+      !UtilRenderer.isCircuitParticipant(
         MemberClient.me,
         this.state.circuitMembers
-    )) {
+      )
+    ) {
       content = this.getActiveCircuitFeedContent(false);
     }
 

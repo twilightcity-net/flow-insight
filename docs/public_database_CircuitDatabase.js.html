@@ -309,6 +309,7 @@
           <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
           <li data-type='method'><a href="module.html#.exports#findInsert">findInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemove">findRemove</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemoveByMemberId">findRemoveByMemberId</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
@@ -1544,11 +1545,13 @@ module.exports = class CircuitDatabase extends LokiJS {
    * @param uri
    * @param circuitMembers
    * @param collection
+   * @param shouldRemove
    */
   updateCircuitMembersInCollection(
     uri,
     circuitMembers,
-    collection
+    collection,
+    shouldRemove
   ) {
     for (
       let i = 0,
@@ -1558,15 +1561,26 @@ module.exports = class CircuitDatabase extends LokiJS {
       i++
     ) {
       circuitMember = circuitMembers[i];
-      DatabaseUtil.findUpdateInsertByMemberId(
-        circuitMember,
-        collection
-      );
+      if (shouldRemove) {
+        DatabaseUtil.findRemoveByMemberId(
+          circuitMember,
+          collection
+        );
+        DatabaseUtil.log(
+          "removed circuit members",
+          circuitMembers.length
+        );
+      } else {
+        DatabaseUtil.findUpdateInsertByMemberId(
+          circuitMember,
+          collection
+        );
+        DatabaseUtil.log(
+          "updated circuit members",
+          circuitMembers.length
+        );
+      }
     }
-    DatabaseUtil.log(
-      "updated circuit members",
-      circuitMembers.length
-    );
   }
 };
 </code></pre>

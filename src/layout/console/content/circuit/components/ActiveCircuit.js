@@ -146,6 +146,16 @@ export default class ActiveCircuit extends Component {
   onTalkRoomMessage = (event, arg) => {
     switch (arg.messageType) {
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
+        // TODO implement a CircuitMemberStatusEventDto case
+
+        // TODO make sure we call updateStateCircuitMembers()
+
+        // TODO make sure we update the gui's sidebar buttons
+
+        // TODO update the team panel with a purple light for helping
+
+        // TODO do not set active circuit if your not the owner
+
         let data = arg.data,
           circuit =
             data[ActiveCircuit.learningCircuitDtoStr],

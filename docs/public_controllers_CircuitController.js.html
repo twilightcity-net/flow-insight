@@ -309,6 +309,7 @@
           <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
           <li data-type='method'><a href="module.html#.exports#findInsert">findInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemove">findRemove</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemoveByMemberId">findRemoveByMemberId</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
@@ -1769,6 +1770,8 @@ module.exports = class CircuitController extends BaseController {
         );
 
         arg.data = view.data();
+
+        console.log("XXX", arg.data);
       }
     }
     this.delegateCallbackOrEventReplyTo(

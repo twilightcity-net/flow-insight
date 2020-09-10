@@ -309,6 +309,7 @@
           <li data-type='method'><a href="module.html#.exports#doLogout">doLogout</a></li>
           <li data-type='method'><a href="module.html#.exports#findInsert">findInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemove">findRemove</a></li>
+          <li data-type='method'><a href="module.html#.exports#findRemoveByMemberId">findRemoveByMemberId</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveInsert">findRemoveInsert</a></li>
           <li data-type='method'><a href="module.html#.exports#findRemoveXInsertDoc">findRemoveXInsertDoc</a></li>
@@ -1086,6 +1087,21 @@ module.exports = class DatabaseUtil {
    */
   static findRemove(doc, collection) {
     let result = collection.findOne({ id: doc.id });
+    if (result) {
+      collection.remove(result);
+    }
+  }
+
+  /**
+   * search and destroy a document by its member id. Just kidding but it
+   * does delete it.
+   * @param doc
+   * @param collection
+   */
+  static findRemoveByMemberId(doc, collection) {
+    let result = collection.findOne({
+      memberId: doc.memberId
+    });
     if (result) {
       collection.remove(result);
     }

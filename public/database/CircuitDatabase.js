@@ -569,11 +569,13 @@ module.exports = class CircuitDatabase extends LokiJS {
    * @param uri
    * @param circuitMembers
    * @param collection
+   * @param shouldRemove
    */
   updateCircuitMembersInCollection(
     uri,
     circuitMembers,
-    collection
+    collection,
+    shouldRemove
   ) {
     for (
       let i = 0,
@@ -583,14 +585,25 @@ module.exports = class CircuitDatabase extends LokiJS {
       i++
     ) {
       circuitMember = circuitMembers[i];
-      DatabaseUtil.findUpdateInsertByMemberId(
-        circuitMember,
-        collection
-      );
+      if (shouldRemove) {
+        DatabaseUtil.findRemoveByMemberId(
+          circuitMember,
+          collection
+        );
+        DatabaseUtil.log(
+          "removed circuit members",
+          circuitMembers.length
+        );
+      } else {
+        DatabaseUtil.findUpdateInsertByMemberId(
+          circuitMember,
+          collection
+        );
+        DatabaseUtil.log(
+          "updated circuit members",
+          circuitMembers.length
+        );
+      }
     }
-    DatabaseUtil.log(
-      "updated circuit members",
-      circuitMembers.length
-    );
   }
 };
