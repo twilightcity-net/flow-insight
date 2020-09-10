@@ -76,7 +76,8 @@ export default class ActiveCircuitFeed extends Component {
     this.state = {
       resource: props.resource,
       model: null,
-      messages: []
+      messages: [],
+      circuitMembers: []
     };
     this.props.set(this);
   }
@@ -443,6 +444,8 @@ export default class ActiveCircuitFeed extends Component {
         circuit.openTime
       );
     }
+
+    console.log("RENDER-XXX", this.state.circuitMembers);
 
     return (
       <div id="component" className="activeCircuitFeed">

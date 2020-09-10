@@ -87,11 +87,10 @@ export default class ActiveCircuit extends Component {
 
     let circuitName = nextProps.resource.uriArr[2];
     this.loadCircuit(circuitName, null, []);
-
     this.setState({
       model: null,
       messages: [],
-      members: []
+      circuitMembers: []
     });
 
     return false;
@@ -207,6 +206,9 @@ export default class ActiveCircuit extends Component {
       circuitMembers: circuitMembers
     });
     this.circuitSidebarComponent.setState({
+      circuitMembers: circuitMembers
+    });
+    this.circuitFeedComponent.setState({
       circuitMembers: circuitMembers
     });
   }
