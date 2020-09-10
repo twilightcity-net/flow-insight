@@ -394,6 +394,39 @@ export default class ActiveCircuitFeed extends Component {
   }
 
   /**
+   * renders our active feed component into the current resource view
+   * @returns {*}
+   */
+  getActiveCircuitFeedContent() {
+    let circuit = this.state.model,
+      openTimeStr = "NOW";
+
+    if (circuit) {
+      openTimeStr = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
+        circuit.openTime
+      );
+    }
+
+    return (
+      <Segment
+        inverted
+        id={ActiveCircuitFeed.circuitContentFeedPanelID}
+        style={{
+          height: DimensionController.getActiveCircuitFeedContentHeight()
+        }}
+      >
+        <Feed
+          className="chat-feed"
+          id="active-circuit-feed"
+        >
+          {this.getDividerContent(openTimeStr)}
+          {this.getFeedEventsFromMessagesArrayContent()}
+        </Feed>
+      </Segment>
+    );
+  }
+
+  /**
    * animation callback function that is dispatched after the chat component
    * has faded out of view for the user, typically happens when the circuit is
    * paused or resumed.
@@ -436,17 +469,6 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {*}
    */
   render() {
-    let circuit = this.state.model,
-      openTimeStr = "NOW";
-
-    if (circuit) {
-      openTimeStr = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
-        circuit.openTime
-      );
-    }
-
-    console.log("RENDER-XXX", this.state.circuitMembers);
-
     return (
       <div id="component" className="activeCircuitFeed">
         <SplitterLayout
@@ -459,21 +481,7 @@ export default class ActiveCircuitFeed extends Component {
             this.onSecondaryPaneSizeChange
           }
         >
-          <Segment
-            inverted
-            id={ActiveCircuitFeed.circuitContentFeedPanelID}
-            style={{
-              height: DimensionController.getActiveCircuitFeedContentHeight()
-            }}
-          >
-            <Feed
-              className="chat-feed"
-              id="active-circuit-feed"
-            >
-              {this.getDividerContent(openTimeStr)}
-              {this.getFeedEventsFromMessagesArrayContent()}
-            </Feed>
-          </Segment>
+          {this.getActiveCircuitFeedContent()}
           {this.getActiveCircuitChatContent()}
         </SplitterLayout>
       </div>

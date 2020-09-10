@@ -831,6 +831,7 @@
       <li><a href="global.html#createTask">createTask</a></li>
       <li><a href="global.html#getAbortCellContent">getAbortCellContent</a></li>
       <li><a href="global.html#getActiveCircuitChatContent">getActiveCircuitChatContent</a></li>
+      <li><a href="global.html#getActiveCircuitFeedContent">getActiveCircuitFeedContent</a></li>
       <li><a href="global.html#getAlarmPopupContent">getAlarmPopupContent</a></li>
       <li><a href="global.html#getButtonContent">getButtonContent</a></li>
       <li><a href="global.html#getCancelActiveCircuitButtonContent">getCancelActiveCircuitButtonContent</a></li>
@@ -1366,6 +1367,39 @@ export default class ActiveCircuitFeed extends Component {
     );
   }
 
+    /**
+     * renders our active feed component into the current resource view
+     * @returns {*}
+     */
+  getActiveCircuitFeedContent() {
+    let circuit = this.state.model,
+      openTimeStr = "NOW";
+
+    if (circuit) {
+      openTimeStr = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
+        circuit.openTime
+      );
+    }
+
+    return (
+      &lt;Segment
+        inverted
+        id={ActiveCircuitFeed.circuitContentFeedPanelID}
+        style={{
+          height: DimensionController.getActiveCircuitFeedContentHeight()
+        }}
+      >
+        &lt;Feed
+          className="chat-feed"
+          id="active-circuit-feed"
+        >
+          {this.getDividerContent(openTimeStr)}
+          {this.getFeedEventsFromMessagesArrayContent()}
+        &lt;/Feed>
+      &lt;/Segment>
+    );
+  }
+
   /**
    * animation callback function that is dispatched after the chat component
    * has faded out of view for the user, typically happens when the circuit is
@@ -1409,17 +1443,6 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {*}
    */
   render() {
-    let circuit = this.state.model,
-      openTimeStr = "NOW";
-
-    if (circuit) {
-      openTimeStr = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
-        circuit.openTime
-      );
-    }
-
-    console.log("RENDER-XXX", this.state.circuitMembers)
-
     return (
       &lt;div id="component" className="activeCircuitFeed">
         &lt;SplitterLayout
@@ -1432,21 +1455,7 @@ export default class ActiveCircuitFeed extends Component {
             this.onSecondaryPaneSizeChange
           }
         >
-          &lt;Segment
-            inverted
-            id={ActiveCircuitFeed.circuitContentFeedPanelID}
-            style={{
-              height: DimensionController.getActiveCircuitFeedContentHeight()
-            }}
-          >
-            &lt;Feed
-              className="chat-feed"
-              id="active-circuit-feed"
-            >
-              {this.getDividerContent(openTimeStr)}
-              {this.getFeedEventsFromMessagesArrayContent()}
-            &lt;/Feed>
-          &lt;/Segment>
+          {this.getActiveCircuitFeedContent()}
           {this.getActiveCircuitChatContent()}
         &lt;/SplitterLayout>
       &lt;/div>
