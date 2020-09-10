@@ -397,9 +397,10 @@ export default class ActiveCircuitFeed extends Component {
    * renders our active feed component into the current resource view
    * @returns {*}
    */
-  getActiveCircuitFeedContent() {
+  getActiveCircuitFeedContent(isParticipant) {
     let circuit = this.state.model,
-      openTimeStr = "NOW";
+      openTimeStr = "NOW",
+      height = "100%";
 
     if (circuit) {
       openTimeStr = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
@@ -407,12 +408,16 @@ export default class ActiveCircuitFeed extends Component {
       );
     }
 
+    if (isParticipant) {
+      height = DimensionController.getActiveCircuitFeedContentHeight();
+    }
+
     return (
       <Segment
         inverted
         id={ActiveCircuitFeed.circuitContentFeedPanelID}
         style={{
-          height: DimensionController.getActiveCircuitFeedContentHeight()
+          height: height
         }}
       >
         <Feed
@@ -465,25 +470,46 @@ export default class ActiveCircuitFeed extends Component {
   }
 
   /**
+   * renders our feed chat component in our active circuit resource view.
+   * @returns {JSX.Element}
+   */
+  getActiveCircuitFeedChatContent() {
+    let content = (
+      <SplitterLayout
+        customClassName="feed"
+        vertical
+        primaryMinSize={DimensionController.getActiveCircuitContentFeedMinHeight()}
+        secondaryMinSize={DimensionController.getActiveCircuitContentChatMinHeight()}
+        secondaryInitialSize={DimensionController.getActiveCircuitContentChatMinHeightDefault()}
+        onSecondaryPaneSizeChange={
+          this.onSecondaryPaneSizeChange
+        }
+      >
+        {this.getActiveCircuitFeedContent(true)}
+        {this.getActiveCircuitChatContent()}
+      </SplitterLayout>
+    );
+
+    if (
+      !UtilRenderer.isCircuitParticipant(
+        MemberClient.me,
+        this.state.circuitMembers
+      )
+    ) {
+      content = this.getActiveCircuitFeedContent(false);
+    }
+
+    return content;
+  }
+
+  /**
    * renders the active circuit feed into the console view
    * @returns {*}
    */
   render() {
     return (
       <div id="component" className="activeCircuitFeed">
-        <SplitterLayout
-          customClassName="feed"
-          vertical
-          primaryMinSize={DimensionController.getActiveCircuitContentFeedMinHeight()}
-          secondaryMinSize={DimensionController.getActiveCircuitContentChatMinHeight()}
-          secondaryInitialSize={DimensionController.getActiveCircuitContentChatMinHeightDefault()}
-          onSecondaryPaneSizeChange={
-            this.onSecondaryPaneSizeChange
-          }
-        >
-          {this.getActiveCircuitFeedContent()}
-          {this.getActiveCircuitChatContent()}
-        </SplitterLayout>
+        {this.getActiveCircuitFeedChatContent()}
       </div>
     );
   }
