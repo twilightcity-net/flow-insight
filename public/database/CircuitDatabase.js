@@ -590,20 +590,18 @@ module.exports = class CircuitDatabase extends LokiJS {
           circuitMember,
           collection
         );
-        DatabaseUtil.log(
-          "removed circuit members",
-          circuitMembers.length
-        );
       } else {
         DatabaseUtil.findUpdateInsertByMemberId(
           circuitMember,
           collection
         );
-        DatabaseUtil.log(
-          "updated circuit members",
-          circuitMembers.length
-        );
       }
     }
+    DatabaseUtil.log(
+      shouldRemove
+        ? "updated circuit members"
+        : "removed circuit members",
+      circuitMembers.length
+    );
   }
 };

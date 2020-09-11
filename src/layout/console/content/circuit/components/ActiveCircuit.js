@@ -24,6 +24,12 @@ export default class ActiveCircuit extends Component {
   static learningCircuitDtoStr = "learningCircuitDto";
 
   /**
+   * the string that represents  the roomMember prop of some talk message data.
+   * @type {string}
+   */
+  static roomMemberPropStr = "roomMember";
+
+  /**
    *  builds the active circuit component
    * @param props
    */
@@ -139,42 +145,114 @@ export default class ActiveCircuit extends Component {
 
   /**
    * event handler for talk messages. This is called everytime we receive a new talk
-   * message over the event bus.
+   * message over the event bus. Make sure to check that this is the circuit
+   * we wish to effect, as you can get various wtf status events for other
+   * types of circuits going on in the network.
    * @param event
    * @param arg
    */
   onTalkRoomMessage = (event, arg) => {
     switch (arg.messageType) {
+      case BaseClient.MessageTypes
+        .CIRCUIT_MEMBER_STATUS_EVENT:
+        return this.handleCircuitMemberStatusEventMessage(
+          arg
+        );
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
-        // TODO implement a CircuitMemberStatusEventDto case
-
-        // TODO make sure we call updateStateCircuitMembers()
-
-        // TODO make sure we update the gui's sidebar buttons
-
-        // TODO update the team panel with a purple light for helping
-
-        // TODO do not set active circuit if your not the owner
-
-        let data = arg.data,
-          circuit =
-            data[ActiveCircuit.learningCircuitDtoStr],
-          model = this.state.model;
-
-        if (
-          data &&
-          circuit &&
-          model &&
-          circuit.id === model.id
-        ) {
-          model = Object.assign(model, circuit);
-          this.updateStateModels(model);
-        }
-        break;
+        return this.handleWtfStatusUpdateMessage(arg);
       default:
-        break;
+        return;
     }
   };
+
+  /**
+   * processes our circuit member status event which is used to notify the
+   * current active circuit that another member has joined this active
+   * circuit that we are part of. This includes ourself. This function
+   * should update the circuit members state model that is linked to the
+   * child components of this resource view.
+   * @param arg
+   */
+  handleCircuitMemberStatusEventMessage(arg) {
+    let data = arg.data,
+      roomMember = data[ActiveCircuit.roomMemberPropStr];
+
+    switch (data.statusEvent) {
+      case BaseClient.StatusEvents.CIRCUIT_MEMBER_JOINED:
+        this.addCircuitMemberToCircuit(roomMember);
+        return;
+      case BaseClient.StatusEvents.CIRCUIT_MEMBER_LEAVE:
+        this.removeCircuitMemberFromCircuit(roomMember);
+        return;
+      default:
+        return;
+    }
+  }
+
+  /**
+   * adds a circuit member object to our array of circuit members. the
+   * function then will update the states of the child components
+   * @param roomMember
+   */
+  addCircuitMemberToCircuit(roomMember) {
+    let circuitMembers = this.state.circuitMembers,
+      circuitMember = null,
+      len = circuitMembers.length,
+      members = [roomMember];
+
+    for (let i = 0; i < len; i++) {
+      circuitMember = circuitMembers[i];
+      if (circuitMember.memberId !== roomMember.memberId) {
+        members.push(circuitMember);
+      }
+    }
+    this.updateStateCircuitMembers(members);
+  }
+
+  /**
+   * removes a given circuit member from the array by search by member id.
+   * This then will update the child component states.
+   * @param roomMember
+   */
+  removeCircuitMemberFromCircuit(roomMember) {
+    let circuitMembers = this.state.circuitMembers,
+      circuitMember = null,
+      len = circuitMembers.length,
+      members = [];
+
+    for (let i = 0; i < len; i++) {
+      circuitMember = circuitMembers[i];
+      if (circuitMember.memberId !== roomMember.memberId) {
+        members.push(circuitMember);
+      }
+    }
+    this.updateStateCircuitMembers(members);
+  }
+
+  /**
+   * processes our wtf status events. inside this function we check to see
+   * if this is the circuit we are looking for. some jedi shit. then we use
+   * the classic Object.assign to mutate into a new prototype. Lastly we
+   * call an update on the linked state models which represent our active
+   * circuit that we are participating in. This event is is broadcast over
+   * the team circuit.
+   * @param arg
+   */
+  handleWtfStatusUpdateMessage(arg) {
+    let data = arg.data,
+      circuit = data[ActiveCircuit.learningCircuitDtoStr],
+      model = this.state.model;
+
+    if (
+      data &&
+      circuit &&
+      model &&
+      circuit.id === model.id
+    ) {
+      model = Object.assign(model, circuit);
+      this.updateStateModels(model);
+    }
+  }
 
   /**
    * updates our models in our various child components states. This

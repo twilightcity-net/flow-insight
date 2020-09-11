@@ -73,12 +73,14 @@ module.exports = class BaseController {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, JOURNAL_ENTRY_DTO: string, TEAM_MEMBER: string, INTENTION_ABORTED_DETAILS: string, INTENTION_FINISHED_DETAILS: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
+   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, JOURNAL_ENTRY_DTO: string, TEAM_MEMBER: string, INTENTION_ABORTED_DETAILS: string, INTENTION_FINISHED_DETAILS: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, CIRCUIT_MEMBER_STATUS_EVENT: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
     return {
       CIRCUIT_STATUS: "CircuitStatusDto",
+      CIRCUIT_MEMBER_STATUS_EVENT:
+        "CircuitMemberStatusEventDto",
       ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
       CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto",
       TEAM_MEMBER: "TeamMemberDto",
@@ -171,7 +173,19 @@ module.exports = class BaseController {
   }
 
   /**
-   *
+   * possible status events that our circuit members generate in circuits.
+   * @returns {{CIRCUIT_MEMBER_LEAVE: string, CIRCUIT_MEMBER_JOINED: string}}
+   * @constructor
+   */
+  static get StatusEvents() {
+    return {
+      CIRCUIT_MEMBER_JOINED: "CIRCUIT_MEMBER_JOINED",
+      CIRCUIT_MEMBER_LEAVE: "CIRCUIT_MEMBER_LEAVE"
+    };
+  }
+
+  /**
+   * a list of status types that are referenced by the Wtf Status updates.
    * @returns {{TEAM_RETRO_STARTED: string, TEAM_WTF_JOINED: string, TEAM_WTF_ON_HOLD: string, TEAM_WTF_CANCELED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_LEAVE: string, TEAM_WTF_SOLVED: string}}
    * @constructor
    */

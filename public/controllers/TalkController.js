@@ -299,6 +299,13 @@ module.exports = class TalkController extends BaseController {
         );
         break;
       case TalkController.MessageTypes
+        .CIRCUIT_MEMBER_STATUS_EVENT:
+        this.handleCircuitMemberStatusEvent(
+          message,
+          circuitDatabase
+        );
+        break;
+      case TalkController.MessageTypes
         .ROOM_MEMBER_STATUS_EVENT:
         talkDatabase.updateRoomMemberStatus(
           uri,
@@ -326,8 +333,7 @@ module.exports = class TalkController extends BaseController {
         break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:
         let data = message.data,
-          circuit = data.learningCircuitDto,
-          wtfUri = circuit.wtfTalkRoomId;
+          circuit = data.learningCircuitDto;
 
         switch (data.statusType) {
           case TalkController.StatusTypes.TEAM_WTF_STARTED:
@@ -337,45 +343,20 @@ module.exports = class TalkController extends BaseController {
             }
             break;
           case TalkController.StatusTypes.TEAM_WTF_JOINED:
-            // FIXME waiting for gridtime talk message update
             console.log(Util.inspect(message));
 
-            circuitDatabase.updateCircuitMembersInCollection(
-              wtfUri,
-              [
-                {
-                  memberId: data.memberId,
-                  fullName: metaProps["from.fullname"],
-                  displayName: metaProps["from.username"],
-                  username: data.username,
-                  onlineStatus: "Online"
-                }
-              ],
-              circuitDatabase.getCollectionForCircuitMembers(
-                wtfUri
-              )
-            );
+            /// TODO set active circuit for in circuit db if me
+
+            /// TODO add to participating circuit if me
+
             break;
           case TalkController.StatusTypes.TEAM_WTF_LEAVE:
-            // FIXME waiting for gridtime talk message update
             console.log(Util.inspect(message));
 
-            circuitDatabase.updateCircuitMembersInCollection(
-              wtfUri,
-              [
-                {
-                  memberId: data.memberId,
-                  fullName: metaProps["from.fullname"],
-                  displayName: metaProps["from.username"],
-                  username: data.username,
-                  onlineStatus: "Online"
-                }
-              ],
-              circuitDatabase.getCollectionForCircuitMembers(
-                wtfUri
-              ),
-              true
-            );
+            /// TODO set active circuit for in circuit db if me
+
+            /// TODO remove from participating circuits if me
+
             break;
           case TalkController.StatusTypes.TEAM_WTF_ON_HOLD:
             circuitDatabase.updateCircuitToDoItLater(
@@ -480,5 +461,49 @@ module.exports = class TalkController extends BaseController {
     }
 
     this.talkMessageRoomListener.dispatch(message);
+  }
+
+  /**
+   * processes our talk message for circuit member status events. This event
+   * will update the circuit members collection in the circuit database.
+   * @param message
+   * @param circuitDatabase
+   */
+  handleCircuitMemberStatusEvent(message, circuitDatabase) {
+    let data = message.data,
+      circuitMembers = [data.roomMember];
+
+    switch (data.statusEvent) {
+      case TalkController.StatusEvents
+        .CIRCUIT_MEMBER_JOINED:
+        circuitDatabase.updateCircuitMembersInCollection(
+          message.uri,
+          circuitMembers,
+          circuitDatabase.getCollectionForCircuitMembers(
+            message.uri
+          )
+        );
+        break;
+      case TalkController.StatusEvents.CIRCUIT_MEMBER_LEAVE:
+        circuitDatabase.updateCircuitMembersInCollection(
+          message.uri,
+          circuitMembers,
+          circuitDatabase.getCollectionForCircuitMembers(
+            message.uri
+          ),
+          true
+        );
+        break;
+      default:
+        console.warn(
+          chalk.bgRed(
+            TalkController.Error.UNKNOWN_STATUS_TYPE +
+              " '" +
+              data.statusType +
+              "'."
+          )
+        );
+        break;
+    }
   }
 };

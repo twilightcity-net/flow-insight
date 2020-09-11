@@ -50,6 +50,7 @@
       <li><a href="BaseClient.Errors.html">Errors</a></li>
       <li><a href="BaseClient.MessageTypes.html">MessageTypes</a></li>
       <li><a href="BaseClient.RoomMemberStatus.html">RoomMemberStatus</a></li>
+      <li><a href="BaseClient.StatusEvents.html">StatusEvents</a></li>
       <li><a href="BaseClient.Strings.html">Strings</a></li>
       <li><a href="BrowserController.html">BrowserController</a>
         <ul class='methods'>
@@ -355,6 +356,7 @@
           <li data-type='method'><a href="module.html#.exports#getViewTalkMessagesForCollection">getViewTalkMessagesForCollection</a></li>
           <li data-type='method'><a href="module.html#.exports#getViewTeamCircuits">getViewTeamCircuits</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCancelWtfEvent">handleCancelWtfEvent</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleCircuitMemberStatusEvent">handleCircuitMemberStatusEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateDatabaseEvent">handleCreateDatabaseEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleCreateIntentionEvent">handleCreateIntentionEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleError">handleError</a></li>
@@ -608,6 +610,7 @@
       <li><a href="module.exports_Names.html">Names</a></li>
       <li><a href="module.exports_Params.html">Params</a></li>
       <li><a href="module.exports_Paths.html">Paths</a></li>
+      <li><a href="module.exports_StatusEvents.html">StatusEvents</a></li>
       <li><a href="module.exports_StatusTypes.html">StatusTypes</a></li>
       <li><a href="module.exports_Strings.html">Strings</a></li>
       <li><a href="module.exports_Types.html">Types</a></li>
@@ -816,6 +819,7 @@
     </ul>
     <h3>Global</h3>
     <ul>
+      <li><a href="global.html#addCircuitMemberToCircuit">addCircuitMemberToCircuit</a></li>
       <li><a href="global.html#adjustFeedHeight">adjustFeedHeight</a></li>
       <li><a href="global.html#appendChatMessage">appendChatMessage</a></li>
       <li><a href="global.html#changeFlameRating">changeFlameRating</a></li>
@@ -906,6 +910,8 @@
       <li><a href="global.html#getWtfTimerStringFromTimeDurationSeconds">getWtfTimerStringFromTimeDurationSeconds</a></li>
       <li><a href="global.html#getXpPercent">getXpPercent</a></li>
       <li><a href="global.html#handleCallback">handleCallback</a></li>
+      <li><a href="global.html#handleCircuitMemberStatusEventMessage">handleCircuitMemberStatusEventMessage</a></li>
+      <li><a href="global.html#handleWtfStatusUpdateMessage">handleWtfStatusUpdateMessage</a></li>
       <li><a href="global.html#hasCallbackError">hasCallbackError</a></li>
       <li><a href="global.html#hasMessageByIdInArray">hasMessageByIdInArray</a></li>
       <li><a href="global.html#hasProjectUpdated">hasProjectUpdated</a></li>
@@ -937,6 +943,7 @@
       <li><a href="global.html#refreshJournal">refreshJournal</a></li>
       <li><a href="global.html#refreshKeyboardShortcuts">refreshKeyboardShortcuts</a></li>
       <li><a href="global.html#refreshTeamPanel">refreshTeamPanel</a></li>
+      <li><a href="global.html#removeCircuitMemberFromCircuit">removeCircuitMemberFromCircuit</a></li>
       <li><a href="global.html#render">render</a></li>
       <li><a href="global.html#requestBrowserToLoadActiveCircuit">requestBrowserToLoadActiveCircuit</a></li>
       <li><a href="global.html#requestBrowserToLoadDefaultContent">requestBrowserToLoadDefaultContent</a></li>
@@ -1029,6 +1036,37 @@
         </dl>
         <div class="description usertext"> this is a static get function that returns the view name dynamically based on the value that the windows manager pass from the main process </div>
         <h3 class="subsection-title">Methods</h3>
+        <h4 class="name"
+            id="addCircuitMemberToCircuit"><span class="type-signature"></span>addCircuitMemberToCircuit<span class="signature">(roomMember)</span><span class="type-signature"></span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line197">line 197</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> adds a circuit member object to our array of circuit members. the function then will update the states of the child components </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>roomMember</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
         <h4 class="name"
             id="adjustFeedHeight"><span class="type-signature"></span>adjustFeedHeight<span class="signature">()</span><span class="type-signature"></span></h4>
         <dl class="details">
@@ -1174,7 +1212,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line62">line 62</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line68">line 68</a>
               </li>
             </ul>
           </dd>
@@ -1321,7 +1359,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line136">line 136</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line142">line 142</a>
               </li>
             </ul>
           </dd>
@@ -1742,7 +1780,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line275">line 275</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line353">line 353</a>
               </li>
             </ul>
           </dd>
@@ -1840,7 +1878,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line316">line 316</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line394">line 394</a>
               </li>
             </ul>
           </dd>
@@ -1980,7 +2018,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line248">line 248</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line326">line 326</a>
               </li>
             </ul>
           </dd>
@@ -3751,6 +3789,68 @@
         </dl>
         <div class="description usertext"> handles our callback for loading data from our local database </div>
         <h4 class="name"
+            id="handleCircuitMemberStatusEventMessage"><span class="type-signature"></span>handleCircuitMemberStatusEventMessage<span class="signature">(arg)</span><span class="type-signature"></span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line176">line 176</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> processes our circuit member status event which is used to notify the current active circuit that another member has joined this active circuit that we are part of. This includes ourself. This function should update the circuit members state model that is linked to the child components of this resource view. </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>arg</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 class="name"
+            id="handleWtfStatusUpdateMessage"><span class="type-signature"></span>handleWtfStatusUpdateMessage<span class="signature">(arg)</span><span class="type-signature"></span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line241">line 241</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> processes our wtf status events. inside this function we check to see if this is the circuit we are looking for. some jedi shit. then we use the classic Object.assign to mutate into a new prototype. Lastly we call an update on the linked state models which represent our active circuit that we are participating in. This event is is broadcast over the team circuit. </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>arg</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 class="name"
             id="hasCallbackError"><span class="type-signature"></span>hasCallbackError<span class="signature">(arg)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
         <dl class="details">
           <dt class="tag-source">Source:</dt>
@@ -4327,7 +4427,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line105">line 105</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line111">line 111</a>
               </li>
             </ul>
           </dd>
@@ -4783,6 +4883,37 @@
         </dl>
         <div class="description usertext"> called to refresh the team panel with new data </div>
         <h4 class="name"
+            id="removeCircuitMemberFromCircuit"><span class="type-signature"></span>removeCircuitMemberFromCircuit<span class="signature">(roomMember)</span><span class="type-signature"></span></h4>
+        <dl class="details">
+          <dt class="tag-source">Source:</dt>
+          <dd class="tag-source">
+            <ul class="dummy">
+              <li>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line217">line 217</a>
+              </li>
+            </ul>
+          </dd>
+        </dl>
+        <div class="description usertext"> removes a given circuit member from the array by search by member id. This then will update the child component states. </div>
+        <h5>Parameters:</h5>
+        <table class="params">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Type</th>
+              <th class="last">Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="name"><code>roomMember</code></td>
+              <td class="type">
+              </td>
+              <td class="description last"></td>
+            </tr>
+          </tbody>
+        </table>
+        <h4 class="name"
             id="render"><span class="type-signature"></span>render<span class="signature">()</span><span class="type-signature"> &rarr; {*}</span></h4>
         <dl class="details">
           <dt class="tag-source">Source:</dt>
@@ -4872,7 +5003,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line331">line 331</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line409">line 409</a>
               </li>
             </ul>
           </dd>
@@ -5663,7 +5794,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line75">line 75</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line81">line 81</a>
               </li>
             </ul>
           </dd>
@@ -6258,7 +6389,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line214">line 214</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line292">line 292</a>
               </li>
             </ul>
           </dd>
@@ -6289,7 +6420,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line201">line 201</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line279">line 279</a>
               </li>
             </ul>
           </dd>
@@ -6320,7 +6451,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line184">line 184</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html">src/layout/console/content/circuit/components/ActiveCircuit.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuit.js.html#line262">line 262</a>
               </li>
             </ul>
           </dd>

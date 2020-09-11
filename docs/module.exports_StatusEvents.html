@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>public/dto/ChatMessageDetailsDto.js - Documentation</title>
+  <title>StatusEvents - Documentation</title>
   <script src="scripts/prettify/prettify.js"></script>
   <script src="scripts/prettify/lang-css.js"></script>
   <!--[if lt IE 9]>
@@ -978,28 +978,35 @@
     </ul>
   </nav>
   <div id="main">
-    <h1 class="page-title">public/dto/ChatMessageDetailsDto.js</h1>
+    <h1 class="page-title">StatusEvents</h1>
     <section>
+      <header>
+        <h2>
+          <span class="ancestors"><a href="module.html#.exports">.exports</a>#</span> StatusEvents </h2>
+      </header>
       <article>
-        <pre class="prettyprint source linenums"><code>/**
- * this class is used to send a chat message to another client or room on our network
- */
-class ChatMessageDetailsDto {
-  constructor(json) {
-    try {
-      if (typeof json === "string") json = JSON.parse(json);
-      this.chatMessage = json.chatMessage;
-    } catch (e) {
-      throw new Error(
-        "Unable to create dto 'ChatMessageDetailDto' : " +
-          e.message
-      );
-    }
-  }
-}
-
-module.exports = ChatMessageDetailsDto;
-</code></pre>
+        <div class="container-overview">
+          <h4 class="name"
+              id="StatusEvents"><span class="type-signature"></span>new StatusEvents<span class="signature">()</span><span class="type-signature"> &rarr; {Object}</span></h4>
+          <dl class="details">
+            <dt class="tag-source">Source:</dt>
+            <dd class="tag-source">
+              <ul class="dummy">
+                <li>
+                  <a href="public_controllers_BaseController.js.html">public/controllers/BaseController.js</a>, <a href="public_controllers_BaseController.js.html#line180">line 180</a>
+                </li>
+              </ul>
+            </dd>
+          </dl>
+          <div class="description usertext"> possible status events that our circuit members generate in circuits. </div>
+          <h5>Returns:</h5>
+          <dl class="param-type">
+            <dt> Type </dt>
+            <dd>
+              <span class="param-type">Object</span>
+            </dd>
+          </dl>
+        </div>
       </article>
     </section>
   </div>

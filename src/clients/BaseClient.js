@@ -40,12 +40,14 @@ export class BaseClient {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, JOURNAL_ENTRY_DTO: string, TEAM_MEMBER: string, INTENTION_ABORTED_DETAILS: string, INTENTION_FINISHED_DETAILS: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, XP_STATUS_UPDATE: string}}
+   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, JOURNAL_ENTRY_DTO: string, TEAM_MEMBER: string, INTENTION_ABORTED_DETAILS: string, INTENTION_FINISHED_DETAILS: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, CIRCUIT_MEMBER_STATUS_EVENT: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
     return {
       CIRCUIT_STATUS: "CircuitStatusDto",
+      CIRCUIT_MEMBER_STATUS_EVENT:
+        "CircuitMemberStatusEventDto",
       ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
       CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto",
       TEAM_MEMBER: "TeamMemberDto",
@@ -84,6 +86,18 @@ export class BaseClient {
     return {
       ROOM_MEMBER_JOIN: "ROOM_MEMBER_JOIN",
       ROOM_MEMBER_LEAVE: "ROOM_MEMBER_LEAVE"
+    };
+  }
+
+  /**
+   * our possible circuit member status events  which talk messages use.
+   * @returns {{CIRCUIT_MEMBER_LEAVE: string, CIRCUIT_MEMBER_JOINED: string}}
+   * @constructor
+   */
+  static get StatusEvents() {
+    return {
+      CIRCUIT_MEMBER_JOINED: "CIRCUIT_MEMBER_JOINED",
+      CIRCUIT_MEMBER_LEAVE: "CIRCUIT_MEMBER_LEAVE"
     };
   }
 
