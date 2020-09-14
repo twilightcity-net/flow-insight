@@ -517,7 +517,7 @@ module.exports = class TalkController extends BaseController {
   handleTeamWtfJoined(message, me, circuitDatabase) {
     let data = message.data,
       memberId = data.memberId,
-      circuit = data.learningCircuitDto
+      circuit = data.learningCircuitDto;
 
     if (memberId === me.id) {
       circuitDatabase.joinActiveCircuit(circuit);
@@ -536,7 +536,7 @@ module.exports = class TalkController extends BaseController {
   handleTeamWtfLeave(message, me, circuitDatabase) {
     let data = message.data,
       memberId = data.memberId,
-      circuit = data.learningCircuitDto
+      circuit = data.learningCircuitDto;
 
     if (memberId === me.id) {
       circuitDatabase.leaveActiveCircuit(circuit);
