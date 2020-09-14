@@ -257,9 +257,8 @@ module.exports = class CircuitDatabase extends LokiJS {
    * updates a specific circuit in all of our possible circuit
    * collections within this database
    * @param circuit
-   * @param me
    */
-  createNewCircuit(circuit, me) {
+  createNewCircuit(circuit) {
     let collection = this.getCollection(
       CircuitDatabase.Collections.CIRCUITS
     );
@@ -285,6 +284,40 @@ module.exports = class CircuitDatabase extends LokiJS {
         "]",
       circuit.id
     );
+  }
+
+  /**
+   * joins the active circuit, and sets the active circuit to this one.
+   * @param circuit
+   */
+  joinActiveCircuit(circuit) {
+    this.createNewCircuit(circuit);
+    this.setActiveCircuit(circuit);
+    DatabaseUtil.log("joined active circuit", circuit.id);
+  }
+
+  /**
+   *
+   * @param circuit
+   */
+  leaveActiveCircuit(circuit) {
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.CIRCUITS
+    );
+
+    DatabaseUtil.findRemove(circuit, collection);
+    DatabaseUtil.log("remove circuit", circuit.id);
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.PARTICIPATING
+    );
+    DatabaseUtil.findRemove(circuit, collection);
+    DatabaseUtil.log(
+      "remove from participating circuits",
+      circuit.id
+    );
+
+    this.removeActiveCircuit();
   }
 
   /**
@@ -484,7 +517,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       view = this.getViewActiveCircuit();
 
     collection.removeBatch(view.data());
-    DatabaseUtil.log("remove active circuit");
+    DatabaseUtil.log("remove active circuit", 1);
   }
 
   /**

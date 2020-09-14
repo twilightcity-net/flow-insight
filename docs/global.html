@@ -411,6 +411,8 @@
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleTeamWtfJoined">handleTeamWtfJoined</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleTeamWtfLeave">handleTeamWtfLeave</a></li>
           <li data-type='method'><a href="module.html#.exports#handleUpdateFlameRatingEvent">handleUpdateFlameRatingEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#hasRoomByRoomName">hasRoomByRoomName</a></li>
           <li data-type='method'><a href="module.html#.exports#hideConsole">hideConsole</a></li>
@@ -422,7 +424,9 @@
           <li data-type='method'><a href="module.html#.exports#initVolumes">initVolumes</a></li>
           <li data-type='method'><a href="module.html#.exports#insertRoomChatMessage">insertRoomChatMessage</a></li>
           <li data-type='method'><a href="module.html#.exports#insertRoomStatusMessage">insertRoomStatusMessage</a></li>
+          <li data-type='method'><a href="module.html#.exports#joinActiveCircuit">joinActiveCircuit</a></li>
           <li data-type='method'><a href="module.html#.exports#joinRoomById">joinRoomById</a></li>
+          <li data-type='method'><a href="module.html#.exports#leaveActiveCircuit">leaveActiveCircuit</a></li>
           <li data-type='method'><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></li>
           <li data-type='method'><a href="module.html#.exports#load">load</a></li>
           <li data-type='method'><a href="module.html#.exports#load">load</a></li>
@@ -1074,7 +1078,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line448">line 448</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line452">line 452</a>
               </li>
             </ul>
           </dd>
@@ -1087,7 +1091,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line169">line 169</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line173">line 173</a>
               </li>
             </ul>
           </dd>
@@ -1290,7 +1294,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line133">line 133</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line137">line 137</a>
               </li>
             </ul>
           </dd>
@@ -1372,7 +1376,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line159">line 159</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line163">line 163</a>
               </li>
             </ul>
           </dd>
@@ -1601,7 +1605,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line377">line 377</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line381">line 381</a>
               </li>
             </ul>
           </dd>
@@ -1621,7 +1625,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line476">line 476</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line480">line 480</a>
               </li>
             </ul>
           </dd>
@@ -1641,7 +1645,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line400">line 400</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line404">line 404</a>
               </li>
             </ul>
           </dd>
@@ -2221,7 +2225,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line325">line 325</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line329">line 329</a>
               </li>
             </ul>
           </dd>
@@ -2297,7 +2301,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line335">line 335</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line339">line 339</a>
               </li>
             </ul>
           </dd>
@@ -3473,7 +3477,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line196">line 196</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line200">line 200</a>
               </li>
             </ul>
           </dd>
@@ -5036,7 +5040,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line509">line 509</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line513">line 513</a>
               </li>
             </ul>
           </dd>
@@ -5844,7 +5848,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line150">line 150</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line154">line 154</a>
               </li>
             </ul>
           </dd>
@@ -6153,7 +6157,7 @@
           <dd class="tag-source">
             <ul class="dummy">
               <li>
-                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line247">line 247</a>
+                <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html">src/layout/console/content/circuit/components/ActiveCircuitFeed.js</a>, <a href="src_layout_console_content_circuit_components_ActiveCircuitFeed.js.html#line251">line 251</a>
               </li>
             </ul>
           </dd>

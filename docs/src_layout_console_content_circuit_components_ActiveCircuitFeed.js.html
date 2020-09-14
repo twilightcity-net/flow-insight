@@ -411,6 +411,8 @@
           <li data-type='method'><a href="module.html#.exports#handleStartWtfEvent">handleStartWtfEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleStartWtfWithCustomCircuitNameEvent">handleStartWtfWithCustomCircuitNameEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#handleTalkMessageRoomCallback">handleTalkMessageRoomCallback</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleTeamWtfJoined">handleTeamWtfJoined</a></li>
+          <li data-type='method'><a href="module.html#.exports#handleTeamWtfLeave">handleTeamWtfLeave</a></li>
           <li data-type='method'><a href="module.html#.exports#handleUpdateFlameRatingEvent">handleUpdateFlameRatingEvent</a></li>
           <li data-type='method'><a href="module.html#.exports#hasRoomByRoomName">hasRoomByRoomName</a></li>
           <li data-type='method'><a href="module.html#.exports#hideConsole">hideConsole</a></li>
@@ -422,7 +424,9 @@
           <li data-type='method'><a href="module.html#.exports#initVolumes">initVolumes</a></li>
           <li data-type='method'><a href="module.html#.exports#insertRoomChatMessage">insertRoomChatMessage</a></li>
           <li data-type='method'><a href="module.html#.exports#insertRoomStatusMessage">insertRoomStatusMessage</a></li>
+          <li data-type='method'><a href="module.html#.exports#joinActiveCircuit">joinActiveCircuit</a></li>
           <li data-type='method'><a href="module.html#.exports#joinRoomById">joinRoomById</a></li>
+          <li data-type='method'><a href="module.html#.exports#leaveActiveCircuit">leaveActiveCircuit</a></li>
           <li data-type='method'><a href="module.html#.exports#leaveRoomByIds">leaveRoomByIds</a></li>
           <li data-type='method'><a href="module.html#.exports#load">load</a></li>
           <li data-type='method'><a href="module.html#.exports#load">load</a></li>
@@ -1092,10 +1096,14 @@ export default class ActiveCircuitFeed extends Component {
         ) {
           case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
             console.log("JOIN ROOM", status);
+
+            // TODO add status message in the feed
             break;
           case BaseClient.RoomMemberStatus
             .ROOM_MEMBER_LEAVE:
             console.log("LEAVE ROOM", status);
+
+            // TODO add status message in the feed
             break;
           default:
             break;

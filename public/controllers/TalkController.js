@@ -338,25 +338,23 @@ module.exports = class TalkController extends BaseController {
         switch (data.statusType) {
           case TalkController.StatusTypes.TEAM_WTF_STARTED:
             if (Util.isCircuitOwnerModerator(me, circuit)) {
-              circuitDatabase.createNewCircuit(circuit, me);
+              circuitDatabase.createNewCircuit(circuit);
               circuitDatabase.setActiveCircuit(circuit);
             }
             break;
           case TalkController.StatusTypes.TEAM_WTF_JOINED:
-            console.log(Util.inspect(message));
-
-            /// TODO set active circuit for in circuit db if me
-
-            /// TODO add to participating circuit if me
-
+            this.handleTeamWtfJoined(
+              message,
+              me,
+              circuitDatabase
+            );
             break;
           case TalkController.StatusTypes.TEAM_WTF_LEAVE:
-            console.log(Util.inspect(message));
-
-            /// TODO set active circuit for in circuit db if me
-
-            /// TODO remove from participating circuits if me
-
+            this.handleTeamWtfLeave(
+              message,
+              me,
+              circuitDatabase
+            );
             break;
           case TalkController.StatusTypes.TEAM_WTF_ON_HOLD:
             circuitDatabase.updateCircuitToDoItLater(
@@ -504,6 +502,44 @@ module.exports = class TalkController extends BaseController {
           )
         );
         break;
+    }
+  }
+
+  /**
+   * processes our team wtf joined event. This is emitted from gridtime over
+   * the talk network for when a circuit member participates in the circuit.
+   * This functions checks to see if our member id of the active torchie
+   * user matches that of the talk message.
+   * @param message
+   * @param me
+   * @param circuitDatabase
+   */
+  handleTeamWtfJoined(message, me, circuitDatabase) {
+    let data = message.data,
+      memberId = data.memberId,
+      circuit = data.learningCircuitDto
+
+    if (memberId === me.id) {
+      circuitDatabase.joinActiveCircuit(circuit);
+    }
+  }
+
+  /**
+   * processes our leave active circuit request from gridtime. This message
+   * is emitted from gridtime and sent via talk. We ignore other team
+   * members whom leave, we need to remove the circuit from the circuit
+   * database and active collection.
+   * @param message
+   * @param me
+   * @param circuitDatabase
+   */
+  handleTeamWtfLeave(message, me, circuitDatabase) {
+    let data = message.data,
+      memberId = data.memberId,
+      circuit = data.learningCircuitDto
+
+    if (memberId === me.id) {
+      circuitDatabase.leaveActiveCircuit(circuit);
     }
   }
 };

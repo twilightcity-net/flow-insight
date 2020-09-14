@@ -109,10 +109,14 @@ export default class ActiveCircuitFeed extends Component {
         ) {
           case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
             console.log("JOIN ROOM", status);
+
+            // TODO add status message in the feed
             break;
           case BaseClient.RoomMemberStatus
             .ROOM_MEMBER_LEAVE:
             console.log("LEAVE ROOM", status);
+
+            // TODO add status message in the feed
             break;
           default:
             break;

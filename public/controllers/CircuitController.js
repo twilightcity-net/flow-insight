@@ -794,8 +794,6 @@ module.exports = class CircuitController extends BaseController {
         );
 
         arg.data = view.data();
-
-        console.log("XXX", arg.data);
       }
     }
     this.delegateCallbackOrEventReplyTo(
