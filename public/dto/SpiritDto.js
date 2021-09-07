@@ -8,7 +8,7 @@ module.exports = class SpiritDto {
 
       this.spiritId = json.spiritId;
       this.xpSummary = json.xpSummary;
-      this.activeSpiritLinks = json.activeSpiritLinks;
+      this.activeSparkLinks = json.activeSparkLinks;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'XPSummaryDto' : " + e.message

@@ -223,7 +223,12 @@ class WindowManager {
     );
     window.window.loadURL(window.url);
     window.window.on("ready-to-show", () => {
-      if (window.autoShow) this.openWindow(window);
+      if (window.autoShow) {
+        var that = this;
+        setTimeout(function(){
+            that.openWindow(window);
+        },500);
+      }
     });
   }
 

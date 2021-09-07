@@ -60,7 +60,7 @@ class Util {
    * @returns {string}
    */
   static getAppApi() {
-    let url = "https://torchie.dreamscale.io";
+    let url = "https://home.twilightcity.net";
     if (isDev) {
       process.argv.forEach(function(val, index, array) {
         if (val.toLowerCase().startsWith("server=")) {

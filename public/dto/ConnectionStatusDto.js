@@ -12,6 +12,8 @@ module.exports = class ConnectionStatusDto {
       this.organizationId = json.organizationId;
       this.teamId = json.teamId;
       this.memberId = json.memberId;
+      this.participatingOrganizations = json.participatingOrganizations;
+
     } catch (e) {
       throw new Error(
         "Unable to create dto 'ConnectionStatusDto' : " +

@@ -211,7 +211,7 @@
     position: fixed;
     top: 1.420rem;
     right: 0.420rem;
-    opacity: 0.420;
+    opacity: 0;
   }
 
   #view.loading>.ui.container>.ui.segment {
@@ -245,7 +245,7 @@
   #view.loading>.ui.container>.ui.segment .appCopyright {
     position: fixed;
     left: 0.42rem;
-    bottom: 2.42rem;
+    top: 0.42rem;
     font-size: 0.777rem;
     line-height: .777rem;
     font-weight: bold;
@@ -254,84 +254,59 @@
     text-align: left;
     opacity: 0.420;
     padding-left: 0.420rem;
-    transform: rotate3d(24, 95, 13, 2deg);
-    letter-spacing: 0.420rem;
+    letter-spacing: 0.333rem;
   }
 
   #view.loading>.ui.container>.ui.segment .appVersion {
     position: fixed;
     top: 0.420rem;
     right: 0.420rem;
-    font-size: .777rem;
-    line-height: .777rem;
-    font-weight: bold;
-    -webkit-text-stroke-width: 0.420rem;
-    -webkit-text-stroke-color: rgba(253, 0, 166, 0.420);
+    font-size: .888rem;
+    line-height: .888rem;
+    opacity: 0.555;
     color: #fff;
   }
 
   #view.loading>.ui.container>.ui.segment .ui.header {
-    position: fixed;
-    font-style: italic;
-    font-family: fantasy;
-    left: 0.420rem;
-    top: 0.420rem;
-    width: 100%;
-    height: 100%;
-    margin: 0;
-    opacity: 0.840;
-    font-weight: bold;
-    -webkit-text-stroke-width: 0.420rem;
-    -webkit-text-stroke-color: rgba(0, 0, 0, 0.420);
-    animation: rainbow 1ms cubic-bezier(1, 0, 0.0000001, 1) infinite !important;
+    margin-top: 1.2rem;
   }
 
   #view.loading>.ui.container>.ui.segment .ui.header .sub.header {
-    font-style: italic;
-    position: fixed;
-    bottom: 2.420rem;
-    left: 1.420rem;
-    top: 7.6420rem;
-    font-weight: bold;
-    font-family: fantasy;
-    transform: rotate(6.28deg);
-    letter-spacing: 0.0420rem;
-    font-size: 1.420rem;
-    animation: rainbow 0.00420s cubic-bezier(1, 0, 0.00001, 1) infinite !important;
-  }
-
-  #view.loading>.ui.container>.ui.segment .ui.header .content {
-    position: fixed;
-    margin-left: 1.42rem;
-    right: 22.42rem;
-    top: 2.420rem;
-    font-size: 4.42rem;
-    line-height: 3.56542rem;
-    transform: rotate(-4.86deg);
+      font-style: italic;
   }
 
   #view.loading .progress .bar {
-    animation: rainbow-bg .1337s cubic-bezier(1, 0, 0.0000001, 1) infinite !important;
+    background-color: #6435c9;
   }
 
   #view.loading .progress .label {
     font-style: italic;
-    opacity: 0.777;
+    opacity: 0.5;
     position: absolute;
     top: -1.8765420rem;
-    padding-right: 2.555rem;
     font-weight: 500;
-    font-size: 1.42rem;
+    font-size: 1rem;
     line-height: 1.42rem;
     width: 100%;
-    letter-spacing: 0.420rem;
-    font-family: monospace;
     vertical-align: bottom;
-    text-align: left;
+    text-align: center;
     white-space: nowrap;
   }
 
+
+  #view.loading .loginFailed {
+    background: #000000;
+  }
+
   #view.loading .loginFailed .icon {
+    font-size: 3rem;
+  }
+
+  #view.loading .talkFailed {
+    background: #000000;
+  }
+
+  #view.loading .talkFailed .icon {
     font-size: 3rem;
   }
 

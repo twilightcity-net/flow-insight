@@ -141,7 +141,7 @@ module.exports = class TalkController extends BaseController {
         );
         this.talkConnectFailedListener.dispatch({
           message:
-            "Opps, The Talk service seems to be offline, please try again soon."
+            "Oops, The Talk service seems to be offline, please try again soon."
         });
       }
     );

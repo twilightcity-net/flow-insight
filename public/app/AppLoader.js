@@ -127,7 +127,7 @@ module.exports = class AppLoader {
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "talking to llamas...",
-        text: "Torchie Login..."
+        text: "Logging in to twilightcity.net..."
       });
     }, this.eventTimerMs);
   }
@@ -144,7 +144,7 @@ module.exports = class AppLoader {
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "dosing aliens...",
-        text: "Connecting to Talk..."
+        text: "Connecting to Gridtalk..."
       });
     }, this.eventTimerMs);
   }

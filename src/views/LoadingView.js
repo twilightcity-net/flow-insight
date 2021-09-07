@@ -25,8 +25,8 @@ export default class LoadingView extends Component {
     super(props);
     this.animationTime = 500;
     this.header = {
-      title: "Loading Torchie :)",
-      text: "Checking for new version...",
+      title: "Twilight City",
+      text: "Loading...",
       icon: "hand spock outline"
     };
     this.progress = {
@@ -36,7 +36,7 @@ export default class LoadingView extends Component {
       label: "Populating cats and synthesizers"
     };
     this.state = {
-      appVersion: "Psyki_0.5.4",
+      appVersion: "TC_0.5.5",
       visible: true,
       header: this.header,
       progress: this.progress,
@@ -183,9 +183,9 @@ export default class LoadingView extends Component {
         </Transition>
         <Header as="h2" inverted>
           <Header.Content>
-            {this.state.header.title}
+
             <Header.Subheader>
-              {this.state.header.text}
+
             </Header.Subheader>
           </Header.Content>
         </Header>
@@ -199,7 +199,7 @@ export default class LoadingView extends Component {
           inverted
           align="center"
         >
-          {this.state.progress.label}
+          {this.state.header.text}
         </Progress>
       </Container>
     );
@@ -225,7 +225,7 @@ export default class LoadingView extends Component {
             size="big"
             color="red"
           >
-            Quit Torchie
+            Quit
           </Button>
         </Container>
       </Container>
@@ -252,20 +252,19 @@ export default class LoadingView extends Component {
             size="big"
             color="red"
           >
-            Quit Torchie
+            Quit
           </Button>
         </Container>
       </Container>
     );
     let videoPosterSrc =
-        "./assets/images/iNtro3_dReamsCale.png",
-      videoSrc = "./assets/video/iNtro3_dReamsCale.mp4",
+        "./assets/images/TC_intro.png",
+      videoSrc = "./assets/video/TC_intro.mp4",
       videoType = "video/mp4";
     return (
       <Container className="loading">
         <div className="fullscreen-bg">
           <video
-            loop
             muted
             autoPlay
             poster={videoPosterSrc}
@@ -301,9 +300,6 @@ export default class LoadingView extends Component {
           </Transition>
           <div className="appVersion">
             v. {this.state.appVersion}{" "}
-          </div>
-          <div className="appCopyright">
-            © 2020 DreamScale Inc. All rights reserved.{" "}
           </div>
         </Segment>
       </Container>
