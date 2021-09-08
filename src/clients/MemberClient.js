@@ -13,7 +13,7 @@ export class MemberClient extends BaseClient {
 
   /**
    * stores a static reference of our current user logged in
-   * @type {MemberWorkStatusDto}
+   * @type {TeamMemberDto}
    */
   static me = null;
 

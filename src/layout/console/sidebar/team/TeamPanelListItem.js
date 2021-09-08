@@ -27,7 +27,8 @@ export default class TeamPanelListItem extends Component {
     this.name = "[TeamPanelListItem]";
     this.state = {
       isOnline: UtilRenderer.isMemberOnline(props.model),
-      isAlarm: UtilRenderer.isMemberAlarm(props.model)
+      isAlarm: UtilRenderer.isMemberAlarm(props.model),
+      isHelping: UtilRenderer.isMemberHelping(props.model)
     };
   }
 
@@ -46,14 +47,16 @@ export default class TeamPanelListItem extends Component {
     if (this.props.model !== model) {
       this.setState({
         isOnline: UtilRenderer.isMemberOnline(model),
-        isAlarm: UtilRenderer.isMemberAlarm(model)
+        isAlarm: UtilRenderer.isMemberAlarm(model),
+        isHelping: UtilRenderer.isMemberHelping(model)
       });
       return false;
     }
 
     return !(
       this.state.isOnline === nextState.isOnline &&
-      this.state.isAlarm === nextState.isAlarm
+      this.state.isAlarm === nextState.isAlarm &&
+      this.state.isHelping === nextState.isHelping
     );
   }
 
@@ -194,6 +197,9 @@ export default class TeamPanelListItem extends Component {
     if (this.state.isOnline && !this.state.isAlarm) {
       name = "circle";
       color = "green";
+    } else if (this.state.isOnline && this.state.isHelping) {
+      name = "circle";
+      color = "violet";
     } else if (this.state.isOnline && this.state.isAlarm) {
       name = "circle";
       color = "red";

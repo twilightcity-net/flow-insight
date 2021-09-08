@@ -350,6 +350,17 @@ export default class UtilRenderer {
   }
 
   /**
+   * checks our member dto to see if we have an active circuit
+   * and whether that circuit belongs to another member
+   * @param member
+   * @returns {boolean}
+   */
+  static isMemberHelping(member) {
+    var helping =  !!member.activeCircuit && member.activeJoinType === "TEAM_MEMBER";
+    return helping;
+  }
+
+  /**
    * checks a circuit to see if its state is on_hold (paused)
    * @param circuit
    * @returns {boolean}
