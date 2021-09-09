@@ -58,6 +58,10 @@ export default class JournalEntry extends Component {
     };
   }
 
+  componentDidMount = () => {
+      document.getElementById("intentionTextInput").focus();
+  };
+
   /**
    * this is called right before our parent passes us new props that contain
    * our recent projects and tasks

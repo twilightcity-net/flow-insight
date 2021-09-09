@@ -60,7 +60,6 @@ export default class JournalResource extends Component {
     this.lastProject = null;
     this.lastTask = null;
     this.activeJournalItem = null;
-    this.isFlameUpdating = false;
     this.loadCount = 0;
     this.timeout = null;
     this.error = null;
@@ -544,6 +543,10 @@ export default class JournalResource extends Component {
    */
   onEntryShown = () => {
     this.scrollToJournalItemById(null, true);
+
+    if (this.isMyJournal()) {
+       document.getElementById("intentionTextInput").focus();
+    }
   };
 
   /**
