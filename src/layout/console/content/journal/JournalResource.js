@@ -151,7 +151,6 @@ export default class JournalResource extends Component {
       this.journalIntentions,
       data
     );
-    this.scrollToJournalItemById();
     this.forceUpdate();
   }
 
@@ -186,8 +185,6 @@ export default class JournalResource extends Component {
       return false;
     }
     this.refreshJournal(nextProps);
-    this.clearKeyboardShortcuts();
-    this.updateKeyboardShortcuts(nextProps);
     return false;
   }
 
@@ -197,31 +194,18 @@ export default class JournalResource extends Component {
    */
   componentDidMount() {
     this.refreshJournal(this.props);
-    this.refreshKeyboardShortcuts(this.props);
-  }
-
-  /**
-   * updates our keyboard  shortcuts or not, depends on if this is our journal or not.
-   * @param props
-   */
-  updateKeyboardShortcuts(props) {
-    let username = this.getUserNameFromResource(props);
-    if (
-      username === JournalResource.Strings.ME ||
-      username === MemberClient.me.username
-    ) {
-      this.setKeyboardShortcuts();
-    }
-  }
-
-  /**
-   * refreshes our current keyboard shortcut bindings by clearing our existing ones,
-   * and calling set on our own journal.
-   * @param props
-   */
-  refreshKeyboardShortcuts(props) {
-    this.clearKeyboardShortcuts();
     this.setKeyboardShortcuts();
+  }
+
+  isMe() {
+      let username = this.getUserNameFromResource(this.props);
+      if (
+          username === JournalResource.Strings.ME ||
+          username === MemberClient.me.username
+      ) {
+          return true;
+      }
+      return false;
   }
 
   /**
@@ -275,7 +259,7 @@ export default class JournalResource extends Component {
       this.journalItems.length > 0
     ) {
       this.updateActiveJournalItemSelection(
-        this.journalItems[0]
+        this.journalItems[this.journalItems.length - 1]
       );
     }
   };
@@ -321,18 +305,10 @@ export default class JournalResource extends Component {
    * @param combo
    */
   handleKeyPressLeft = (e, combo) => {
-    if (this.activeJournalItem) {
+    if (this.isMe() && this.activeJournalItem) {
       this.changeFlameRating(-1, this.activeJournalItem);
-      this.updateActiveJournalItemSelection(
-        this.activeJournalItem
-      );
-    } else if (this.journalItems.length > 0) {
-      let journalItem = this.journalItems[
-        this.journalItems.length - 1
-      ];
-      this.updateActiveJournalItemSelection(journalItem);
-      this.changeFlameRating(-1, journalItem);
     }
+    //ignore if nothing selected
   };
 
   /**
@@ -341,18 +317,10 @@ export default class JournalResource extends Component {
    * @param combo
    */
   handleKeyPressRight = (e, combo) => {
-    if (this.activeJournalItem) {
+    if (this.isMe() && this.activeJournalItem) {
       this.changeFlameRating(1, this.activeJournalItem);
-      this.updateActiveJournalItemSelection(
-        this.activeJournalItem
-      );
-    } else if (this.journalItems.length > 0) {
-      let journalItem = this.journalItems[
-        this.journalItems.length - 1
-      ];
-      this.updateActiveJournalItemSelection(journalItem);
-      this.changeFlameRating(1, journalItem);
     }
+    //ignore if nothing selected
   };
 
   /**
@@ -403,11 +371,13 @@ export default class JournalResource extends Component {
    * @param journalItem
    */
   updateActiveJournalItemSelection(journalItem) {
+
     if (this.activeJournalItem) {
       this.activeJournalItem.setState({ isActive: false });
     }
     this.activeJournalItem = journalItem;
     this.activeJournalItem.setState({ isActive: true });
+
     this.scrollToJournalItemById(
       this.activeJournalItem.props.model.id,
       true
@@ -436,6 +406,7 @@ export default class JournalResource extends Component {
     this.loadCount = 0;
     this.isFlameUpdating = false;
     this.activeJournalItem = null;
+    this.journalItems = [];
     this.username = this.getUserNameFromResource(props);
 
     JournalClient.getRecentProjects(this, arg => {
@@ -504,7 +475,7 @@ export default class JournalResource extends Component {
    */
   handleCallback() {
     this.loadCount++;
-    if (this.loadCount === 3) {
+    if (this.loadCount === 3) { //the 3 load calls are asynchronous, so make sure we only update this on the last one
       this.forceUpdate(() => {
         this.scrollToJournalItemById();
       });
@@ -669,17 +640,21 @@ export default class JournalResource extends Component {
     this.journalItems.push(journalItem);
   };
 
+
+
   /**
    * event callback for when we set a row active
    * @param journalItem
    */
   onRowClick = journalItem => {
+
     if (
       this.activeJournalItem &&
       this.activeJournalItem.props.model.id ===
         journalItem.props.model.id &&
       this.activeJournalItem.state.isActive
     ) {
+      //this deselects if you click a row again
       this.activeJournalItem.setState({
         isActive: false
       });
@@ -688,14 +663,18 @@ export default class JournalResource extends Component {
     }
 
     if (this.activeJournalItem) {
+      //this deselects the old item
       this.activeJournalItem.setState({
         isActive: false
       });
     }
+    //then sets the new item
     this.activeJournalItem = journalItem;
     this.activeJournalItem.setState({
       isActive: true
     });
+
+    //then scrolls to the new item
     this.scrollToJournalItemById(
       journalItem.props.model.id,
       true
