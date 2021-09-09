@@ -62,6 +62,7 @@ export default class JournalResource extends Component {
     this.activeJournalItem = null;
     this.isFlameUpdating = false;
     this.loadCount = 0;
+    this.timeout = null;
     this.error = null;
     this.username = JournalResource.Strings.ME;
     this.talkRoomMessageListener = RendererEventFactory.createEvent(
@@ -326,16 +327,18 @@ export default class JournalResource extends Component {
   /**
    * changes our existing journal items model with our new flame rating. This performs
    * a remote call to gridtime which will push our new model via talk to the clients
-   * whom require this update.
+   * whom require this update.  Allows rapidly changing flame rating and sends to server after pausing 1/2 second.
    * @param amount
    * @param journalItem
    */
   changeFlameRating(amount, journalItem) {
     let intentionId = journalItem.props.model.id,
-      flameRating = journalItem.props.model.flameRating;
+      flameRating = journalItem.state.flameRating;
 
+    if (flameRating === undefined) {
+      flameRating = journalItem.props.model.flameRating;
+    }
     if (
-      this.isFlameUpdating ||
       (flameRating >= 5 && amount > 0) ||
       (flameRating <= -5 && amount < 0)
     ) {
@@ -348,19 +351,27 @@ export default class JournalResource extends Component {
     }
 
     flameRating += amount;
+
     journalItem.setState({
       flameRating: flameRating
     });
-    this.isFlameUpdating = true;
-    JournalClient.updateFlameRating(
-      intentionId,
-      flameRating,
-      this,
-      arg => {
-        this.isFlameUpdating = false;
-        this.hasCallbackError(arg);
-      }
-    );
+
+    if (this.timeout) {
+        clearTimeout(this.timeout);
+    }
+
+    let that = this;
+    this.timeout = setTimeout(function() {
+        JournalClient.updateFlameRating(
+            intentionId,
+            flameRating,
+            that,
+            arg => {
+                that.hasCallbackError(arg);
+            }
+        );
+    }, 500);
+
   }
 
   /**
