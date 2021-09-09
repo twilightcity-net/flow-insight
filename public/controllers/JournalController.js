@@ -178,10 +178,15 @@ module.exports = class JournalController extends BaseController {
       database.updateJournalIntentions(
         data.recentIntentions
       );
-      database.updateJournalProjects(data.recentProjects);
-      database.updateJournalTasks(
-        data.recentTasksByProjectId
-      );
+
+      //only update recent projects and tasks for the logged in user
+      if (username === JournalController.Strings.ME || username === this.getMeUsername()) {
+          database.updateJournalProjects(data.recentProjects);
+          database.updateJournalTasks(
+              data.recentTasksByProjectId
+          );
+      }
+
     }
 
     JournalController.instance.userHistory.add(username);

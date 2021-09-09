@@ -70,26 +70,41 @@ export default class JournalEntry extends Component {
     this.projects = [];
     this.tasks = [];
 
-    if (this.hasProjectUpdated(nextState)) return true;
+    if (this.hasProjectUpdated(nextState) && nextState.currentProjectValue !== nextProps.lastProject) {
+      this.setState({
+          currentTaskValue: null
+      });
+      return true;
+    }
 
-    nextProps.projects.forEach(project =>
-      this.projects.push(
-        this.transformLokiDataStruct(project)
-      )
-    );
+    nextProps.projects.forEach(project => {
+        this.projects.push(
+            this.transformLokiDataStruct(project)
+        )
+    });
     nextProps.tasks.forEach(task => {
-      if (
-        nextState.currentProjectValue === task.projectId
-      ) {
+      if ( nextState.currentProjectValue === task.projectId ) {
         this.tasks.push(this.transformLokiDataStruct(task));
       }
     });
+
+    if (!this.state.currentProjectValue) {
+        this.setState({
+            currentProjectValue: nextProps.lastProject,
+        });
+    }
+    if (nextState.currentProjectValue === nextProps.lastProject
+      && this.state.currentTaskValue == null) {
+        this.setState({
+            currentTaskValue: nextProps.lastTask,
+        });
+    }
+
     return true;
   }
 
   /**
-   * checks to see if we are updating the current selected project, and update
-   * the state while we are at it.
+   * checks to see if we are updating the current selected project
    * @param state
    * @returns {boolean}
    */
@@ -98,9 +113,6 @@ export default class JournalEntry extends Component {
       state.currentProjectValue !==
       this.state.currentProjectValue
     ) {
-      this.setState({
-        currentTaskValue: null
-      });
       return true;
     }
     return false;

@@ -57,6 +57,8 @@ export default class JournalResource extends Component {
     this.journalItems = [];
     this.projects = [];
     this.tasks = [];
+    this.lastProject = null;
+    this.lastTask = null;
     this.activeJournalItem = null;
     this.isFlameUpdating = false;
     this.loadCount = 0;
@@ -435,20 +437,7 @@ export default class JournalResource extends Component {
     this.isFlameUpdating = false;
     this.activeJournalItem = null;
     this.username = this.getUserNameFromResource(props);
-    JournalClient.getRecentIntentions(
-      this.username,
-      this,
-      arg => {
-        if (
-          !this.hasCallbackError(arg) &&
-          arg.data &&
-          arg.data.length > 0
-        ) {
-          this.journalIntentions = arg.data;
-          this.handleCallback();
-        }
-      }
-    );
+
     JournalClient.getRecentProjects(this, arg => {
       if (!this.hasCallbackError(arg)) {
         this.projects = arg.data;
@@ -461,7 +450,40 @@ export default class JournalResource extends Component {
         this.handleCallback();
       }
     });
+    JournalClient.getRecentIntentions(
+      this.username,
+      this,
+      arg => {
+          if (
+              !this.hasCallbackError(arg) &&
+              arg.data &&
+              arg.data.length > 0
+          ) {
+              this.journalIntentions = arg.data;
+
+              //this is where we need to handle updating the recent project/task to match the last intention
+              this.lastProject = this.getLastProjectId(arg.data);
+              this.lastTask = this.getLastTaskId(arg.data);
+
+              this.handleCallback();
+          }
+      }
+      );
   }
+
+    getLastProjectId(intentions) {
+      if (intentions && intentions.length > 0) {
+        return intentions[intentions.length - 1].projectId;
+      }
+      return null;
+    }
+
+    getLastTaskId(intentions) {
+        if (intentions && intentions.length > 0) {
+            return intentions[intentions.length - 1].taskId;
+        }
+        return null;
+    }
 
   /**
    * does stuff when our client callback errors out
@@ -788,6 +810,8 @@ export default class JournalResource extends Component {
           <JournalEntry
             projects={this.projects}
             tasks={this.tasks}
+            lastProject={this.lastProject}
+            lastTask={this.lastTask}
             createIntention={this.handleCreateIntention}
             createTask={this.handleCreateTask}
             createProject={this.handleCreateProject}

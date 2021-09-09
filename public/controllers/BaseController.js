@@ -343,6 +343,18 @@ module.exports = class BaseController {
     );
   }
 
+    /**
+     * logs a generic message for the named component
+     * @param name
+     * @param msg
+     */
+    logMessage(name, msg) {
+        log.info(
+            chalk.yellowBright(name) +
+            " msg : " + msg
+        );
+    }
+
   /**
    * performs our callback or makes the event reply
    * @param event
