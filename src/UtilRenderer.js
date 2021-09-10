@@ -98,27 +98,19 @@ export default class UtilRenderer {
         pausedNanoTime
       );
 
-    return UtilRenderer.getWtfTimerString(
-      (t / 86400) | 0,
-      ((t / 3600) | 0) % 24,
-      ((t / 60) | 0) % 60,
-      t % 60
-    );
+    return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(t);
   }
 
   /**
    * gets our wtf timer string for other functions that the gui uses.
-   * @param days
    * @param hours
    * @param minutes
    * @param seconds
    * @returns {string}
    */
-  static getWtfTimerString(days, hours, minutes, seconds) {
+  static getWtfTimerString(hours, minutes, seconds) {
     return (
       UtilRenderer.wtfTimePrefixStr +
-      (days < 10 ? "0" + days : days) +
-      ":" +
       (hours < 10 ? "0" + hours : hours) +
       ":" +
       (minutes < 10 ? "0" + minutes : minutes) +
@@ -135,8 +127,7 @@ export default class UtilRenderer {
    */
   static getWtfTimerStringFromTimeDurationSeconds(seconds) {
     return UtilRenderer.getWtfTimerString(
-      (seconds / 86400) | 0,
-      ((seconds / 3600) | 0) % 24,
+      ((seconds / 3600) | 0) ,
       ((seconds / 60) | 0) % 60,
       seconds % 60
     );
@@ -157,34 +148,44 @@ export default class UtilRenderer {
    * @returns {string}
    */
   static getTimeStringFromTimeArray(array) {
-    // console.log(array);
-    return "5 min";
+      if (array) {
+          let t = moment.utc([
+              array[0],
+              array[1] - 1,
+              array[2],
+              array[3],
+              array[4],
+              array[5]
+          ]);
+          return t.format(UtilRenderer.wtfTimeFormatStr);
+      }
+      return "";
   }
 
   /**
-   * figured out what our open time string is given a utc array
-   * of date time numbers in central timezone
-   * @param array
+   * figured out what our open time string is given input default format,
+   * and return in the form required for the UI to display Open Time
+   * @param formattedTime like 2021-09-10T18:00:10.31
    * @returns {string}
    */
-  static getOpenTimeStringFromOpenTimeArray(array) {
-    if (array) {
-      let t = moment.utc([
-        array[0],
-        array[1] - 1,
-        array[2],
-        array[3],
-        array[4],
-        array[5]
-      ]);
-      return t.format(UtilRenderer.wtfTimeFormatStr);
-    }
-    return "";
+  static getOpenTimeString(formattedTime) {
+
+      let t = moment(formattedTime, "YYYY-MM-DDTHH:mm:ss.SSS");
+
+      return t.calendar() ;
   }
 
-  static getChatMessageTimeString(dateTimeString) {
-    let referenceDay = moment.utc(dateTimeString);
-    return moment().calendar(referenceDay);
+    /**
+     * figured out what our chat message time string is given input default format,
+     * and return in the form required for the UI to display Chat Message Times
+     * @param formattedTime like 2021-09-10T18:00:10.31
+     * @returns {string}
+     */
+  static getChatMessageTimeString(formattedTime) {
+
+    let t = moment(formattedTime, "YYYY-MM-DDTHH:mm:ss.SSS");
+
+    return t.calendar();
   }
 
   /**

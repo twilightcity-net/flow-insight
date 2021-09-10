@@ -362,6 +362,7 @@ export default class ActiveCircuit extends Component {
           <div id="wrapper" className="activeCircuitFeed">
             <ActiveCircuitFeed
               resource={this.state.resource}
+              circuit={this.state.model}
               set={this.setCircuitFeedComponent}
             />
           </div>

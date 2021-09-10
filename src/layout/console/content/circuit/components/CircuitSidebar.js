@@ -277,7 +277,6 @@ export default class CircuitSidebar extends Component {
     if (!circuit) {
       return "loading...";
     } else {
-      console.log(circuit.openTime);
       this.openUtcTime = moment.utc(circuit.openTime);
       this.timerEl = document.getElementById(
         CircuitSidebar.wtfTimerId
@@ -325,7 +324,7 @@ export default class CircuitSidebar extends Component {
         ? this.state.model.tags
         : tags;
       if (!description || description === "") {
-        description = UtilRenderer.getRandomQuoteText();
+        description = "What's the problem?";
       }
     }
 

@@ -44,7 +44,7 @@ export default class StartCircuit extends Component {
    * @returns {*}
    */
   getButtonContent() {
-    let buttonText = "WTF?";
+    let buttonText = "?!";
     if (this.state.isLoading) {
       buttonText = ":]";
     }
@@ -68,9 +68,6 @@ export default class StartCircuit extends Component {
       <Segment inverted size={"huge"} className="desc">
         <b>{descriptionText}</b>
         <br />
-        <i className="confucius">
-          {UtilRenderer.getRandomQuoteText()}
-        </i>
       </Segment>
     );
   }

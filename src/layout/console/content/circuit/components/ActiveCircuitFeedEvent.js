@@ -10,7 +10,7 @@ export default class ActiveCircuitFeedEvent extends Component {
     super(props);
     this.name = "[ActiveCircuitFeedEvent]";
     this.imageEmojiSrc =
-      "./assets/images/pepe_frog_profile_icon.png";
+      "./assets/images/fervie_profile.png";
     if (props.setLastFeedEvent) {
       props.setLastFeedEvent(this);
     }

@@ -153,7 +153,8 @@ export default class ActiveCircuitFeed extends Component {
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     this.messages = nextState.messages;
-    this.updateChatMessages();
+
+    this.updateChatMessages(nextProps.circuit);
     return true;
   }
 
@@ -162,6 +163,21 @@ export default class ActiveCircuitFeed extends Component {
    */
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
+  }
+
+  addFerviePrompt(circuit) {
+    if (circuit) {
+        let time = UtilRenderer.getChatMessageTimeString(
+            circuit.openTime
+        );
+
+        this.updateFeedEvent(
+            "Fervie",
+            null,
+            time,
+            "What's the problem?"
+        );
+    }
   }
 
   /**
@@ -208,7 +224,7 @@ export default class ActiveCircuitFeed extends Component {
    * updates our Chat Messages that our in our messages array. This is generally setup initially
    * by our mount or update component functions
    */
-  updateChatMessages = () => {
+  updateChatMessages = (circuit) => {
     let metaProps = null,
       username = null,
       time = null,
@@ -218,7 +234,9 @@ export default class ActiveCircuitFeed extends Component {
 
     this.feedEvents = [];
 
-    for (let i = 0, m = null; i < messagesLength; i++) {
+      this.addFerviePrompt(circuit);
+
+      for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
       metaProps = m.metaProps;
       username =
@@ -407,7 +425,7 @@ export default class ActiveCircuitFeed extends Component {
       height = "100%";
 
     if (circuit) {
-      openTimeStr = UtilRenderer.getOpenTimeStringFromOpenTimeArray(
+      openTimeStr = UtilRenderer.getOpenTimeString(
         circuit.openTime
       );
     }
