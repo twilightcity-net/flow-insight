@@ -239,6 +239,7 @@ export default class ActiveCircuit extends Component {
    * @param arg
    */
   handleWtfStatusUpdateMessage(arg) {
+
     let data = arg.data,
       circuit = data[ActiveCircuit.learningCircuitDtoStr],
       model = this.state.model;
@@ -249,8 +250,8 @@ export default class ActiveCircuit extends Component {
       model &&
       circuit.id === model.id
     ) {
-      model = Object.assign(model, circuit);
-      this.updateStateModels(model);
+        //currently the only updatable property via status update message
+        this.circuitSidebarComponent.setDescription(circuit.description);
     }
   }
 

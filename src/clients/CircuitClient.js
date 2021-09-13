@@ -105,7 +105,9 @@ export class CircuitClient extends BaseClient {
       CANCEL_WTF: "cancel-wtf",
       RESUME_WTF: "resume-wtf",
       PAUSE_WTF_WITH_DO_IT_LATER:
-        "pause-wtf-with-do-it-later"
+        "pause-wtf-with-do-it-later",
+        UPDATE_CIRCUIT_DESCRIPTION:
+        "update-circuit-description"
     };
   }
 
@@ -521,6 +523,32 @@ export class CircuitClient extends BaseClient {
     CircuitClient.instance.notifyCircuit(event);
     return event;
   }
+
+    /**
+     * Updates the description name of the specified circuit
+     * also known as do it later.
+     * @param circuitName
+     * @param description
+     * @param scope
+     * @param callback
+     * @returns {RendererClientEvent}
+     */
+    static updateCircuitDescription (
+        circuitName,
+        description,
+        scope,
+        callback
+    ) {
+      console.log("updateCircuitDescription");
+        let event = CircuitClient.instance.createClientEvent(
+            CircuitClient.Events.UPDATE_CIRCUIT_DESCRIPTION,
+            { circuitName: circuitName, description: description },
+            scope,
+            callback
+        );
+        CircuitClient.instance.notifyCircuit(event);
+        return event;
+    }
 
   /**
    * the event callback used by the event manager. removes the event from

@@ -14,6 +14,7 @@ import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../../clients/BaseClient";
+import {CircuitClient} from "../../../../../clients/CircuitClient";
 
 /**
  * this is the gui component that displays the actual on going real-time
@@ -187,6 +188,7 @@ export default class ActiveCircuitFeed extends Component {
    * @param message
    */
   appendChatMessage(message) {
+
     let metaProps = message.metaProps,
       username = this.getUsernameFromMetaProps(metaProps),
       time = UtilRenderer.getChatMessageTimeString(
@@ -202,9 +204,29 @@ export default class ActiveCircuitFeed extends Component {
     );
 
     this.messages.push(message);
+
+      //if this is our first message, then use it to update the description
+      if (this.messages.length === 1) {
+          CircuitClient.updateCircuitDescription(
+              this.state.model.circuitName,
+              message.data.message,
+              this,
+              arg => {
+                  this.updateCircuitDescriptionCallback(message.data.message);
+              }
+          );
+      }
+
+
     this.forceUpdate(() => {
       this.scrollToFeedBottom();
     });
+
+  }
+
+  updateCircuitDescriptionCallback(description) {
+    //we dont update in here, we update when we get the talk message update for the circuit
+    // that way, it will update for everybody
   }
 
   /**

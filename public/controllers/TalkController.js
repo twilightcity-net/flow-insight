@@ -342,6 +342,12 @@ module.exports = class TalkController extends BaseController {
               circuitDatabase.setActiveCircuit(circuit);
             }
             break;
+            case TalkController.StatusTypes.TEAM_WTF_UPDATED:
+              circuitDatabase.updateCircuitForDescription(
+                circuit,
+                me
+              );
+              break;
           case TalkController.StatusTypes.TEAM_WTF_JOINED:
             this.handleTeamWtfJoined(
               message,

@@ -44,7 +44,9 @@ module.exports = class BaseController {
       ME: "/me",
       TRANSITION: "/transition",
       FLAME: "/flame",
-      FINISH: "/finish"
+      FINISH: "/finish",
+      PROPERTY: "/property",
+      DESCRIPTION: "/description"
     };
   }
 
@@ -198,7 +200,8 @@ module.exports = class BaseController {
       TEAM_WTF_RESUMED: "TEAM_WTF_RESUMED",
       TEAM_WTF_SOLVED: "TEAM_WTF_SOLVED",
       TEAM_WTF_CANCELED: "TEAM_WTF_CANCELED",
-      TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED"
+      TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED",
+      TEAM_WTF_UPDATED: "TEAM_WTF_UPDATED"
     };
   }
 

@@ -42,26 +42,26 @@ export default class SpiritCanvas extends Component {
    * @param flameString
    */
   updateTorchieImage(flameRating) {
-    let spiritImage = "",
-      height = DimensionController.getSpiritCanvasHeight(),
-      width = DimensionController.getSpiritCanvasWidth();
-
-    if (flameRating >= 0) {
-      spiritImage = "./assets/images/spirit.png";
-    } else if (flameRating < 0) {
-      spiritImage = "./assets/images/painSpirit.png";
-    }
-
-    let image = new Image();
-    image.onload = () => {
-      let canvas = this.getCanvasEl();
-      if (canvas) {
-        this.getCanvasEl()
-          .getContext("2d")
-          .drawImage(image, 0, 0, width, height);
-      }
-    };
-    image.src = spiritImage;
+    // let spiritImage = "",
+    //   height = DimensionController.getSpiritCanvasHeight(),
+    //   width = DimensionController.getSpiritCanvasWidth();
+    //
+    // if (flameRating >= 0) {
+    //   spiritImage = "./assets/images/fervie_idle_in_TC.gif";
+    // } else if (flameRating < 0) {
+    //   spiritImage = "./assets/images/fervie_idle_in_TC.gif";
+    // }
+    //
+    // let image = new Image();
+    // image.onload = () => {
+    //   let canvas = this.getCanvasEl();
+    //   if (canvas) {
+    //     this.getCanvasEl()
+    //       .getContext("2d")
+    //       .drawImage(image, 0, 0, width, height);
+    //   }
+    // };
+    // image.src = spiritImage;
   }
 
   /**
@@ -78,11 +78,18 @@ export default class SpiritCanvas extends Component {
    */
   render() {
     return (
-      <canvas
-        id="SpiritCanvas"
-        height={DimensionController.getSpiritCanvasHeight()}
-        width={DimensionController.getSpiritCanvasWidth()}
-      />
+        <img id="SpiritCanvas"
+             height={DimensionController.getSpiritCanvasHeight()}
+             width={DimensionController.getSpiritCanvasWidth()}
+             src={"./assets/images/fervie_idle_in_TC.gif"}
+             alt="loading..." />
+
+      //
+      // <canvas
+      //   id="SpiritCanvas"
+      //   height={DimensionController.getSpiritCanvasHeight()}
+      //   width={DimensionController.getSpiritCanvasWidth()}
+      // />
     );
   }
 }

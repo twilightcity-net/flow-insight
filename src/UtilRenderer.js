@@ -170,9 +170,9 @@ export default class UtilRenderer {
    */
   static getOpenTimeString(formattedTime) {
 
-      let t = moment(formattedTime, "YYYY-MM-DDTHH:mm:ss.SSS");
+      let t = moment.utc(formattedTime, "YYYY-MM-DDTHH:mm:ss.SSS");
 
-      return t.calendar() ;
+      return t.utc().local().calendar() ;
   }
 
     /**
@@ -183,9 +183,9 @@ export default class UtilRenderer {
      */
   static getChatMessageTimeString(formattedTime) {
 
-    let t = moment(formattedTime, "YYYY-MM-DDTHH:mm:ss.SSS");
+    let t = moment.utc(formattedTime, "YYYY-MM-DDTHH:mm:ss.SSS");
 
-    return t.calendar();
+    return t.utc().local().calendar();
   }
 
   /**

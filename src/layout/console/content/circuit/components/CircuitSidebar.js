@@ -428,6 +428,13 @@ export default class CircuitSidebar extends Component {
     );
   }
 
+  setDescription(description) {
+     this.state.model.description = description;
+     this.setState({
+         model: this.state.model
+     });
+  }
+
   /**
    * decorates our timer counter for wtf sessions based on the circuits
    * open time that is passed in the state.model
