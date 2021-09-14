@@ -1367,6 +1367,22 @@
     padding: .420em;
   }
 
+  #component.browserHeader .browserBar {
+    display: inline-block;
+    width: calc(100% - 60px);
+  }
+
+  #component.browserHeader .browserProtocol {
+    display: inline-block;
+    background-color: rgba(80, 80, 80, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+    color: #ffffff;
+    border-radius: 4px;
+    margin-right: 5px;
+    padding: .69em;
+    height: 38px;
+  }
+
   #component.browserHeader .ui.input.browserInput input {
     transition: border 0.840s ease-out;
     background: rgba(27, 28, 29, 0.96);
@@ -1375,6 +1391,7 @@
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
     color: rgba(241, 241, 241, 0.96);
+    display: inline-block;
   }
 
   #component.browserHeader .ui.input.browserInput input:focus {
