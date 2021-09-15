@@ -90,7 +90,8 @@ export class BrowserRequestFactory {
       RETRO: "retro",
       ROOM: "room",
       ACTIVE: "active",
-      ME: "me"
+      ME: "me",
+      ERROR: "error"
     };
   }
 
@@ -134,6 +135,8 @@ export class BrowserRequestFactory {
    */
   static createRequest(requestType, ...args) {
     try {
+
+
       switch (requestType) {
         case BrowserRequestFactory.Requests.COMMAND:
           return BrowserRequestFactory._getCommandRequest(
@@ -194,9 +197,10 @@ export class BrowserRequestFactory {
    */
   static _getErrorRequest(message) {
     return (
-      BrowserRequestFactory.Commands.ERROR +
+      BrowserRequestFactory.Commands.OPEN +
       BrowserRequestFactory.URI_SEPARATOR +
-      BrowserRequestFactory.Errors.ERROR
+      BrowserRequestFactory.ROOT_SEPARATOR +
+      BrowserRequestFactory.Locations.ERROR
     );
   }
 
@@ -211,6 +215,7 @@ export class BrowserRequestFactory {
         BrowserRequestFactory.SPACE_SEPARATOR
       ),
       cmd = args[0];
+
     if (cmd) {
       switch (cmd) {
         case BrowserRequestFactory.Commands.WTF:
@@ -242,9 +247,10 @@ export class BrowserRequestFactory {
    */
   static _getUnknownCommandErrorRequest() {
     return (
-      BrowserRequestFactory.Commands.ERROR +
-      BrowserRequestFactory.URI_SEPARATOR +
-      BrowserRequestFactory.Errors.UNKNOWN
+        BrowserRequestFactory.Commands.OPEN +
+        BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
+        BrowserRequestFactory.Locations.ERROR
     );
   }
 
@@ -261,8 +267,6 @@ export class BrowserRequestFactory {
         BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.CIRCUIT +
-        BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.WTF +
         BrowserRequestFactory.PATH_SEPARATOR +
         circuit.circuitName
@@ -272,8 +276,6 @@ export class BrowserRequestFactory {
       BrowserRequestFactory.Commands.OPEN +
       BrowserRequestFactory.URI_SEPARATOR +
       BrowserRequestFactory.ROOT_SEPARATOR +
-      BrowserRequestFactory.Locations.CIRCUIT +
-      BrowserRequestFactory.PATH_SEPARATOR +
       BrowserRequestFactory.Locations.WTF
     );
   }
@@ -341,8 +343,6 @@ export class BrowserRequestFactory {
         BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.CIRCUIT +
-        BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.WTF +
         BrowserRequestFactory.PATH_SEPARATOR +
         circuitName
@@ -366,8 +366,6 @@ export class BrowserRequestFactory {
         BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.CIRCUIT +
-        BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.WTF +
         BrowserRequestFactory.PATH_SEPARATOR +
         circuitName
@@ -391,8 +389,6 @@ export class BrowserRequestFactory {
         BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.CIRCUIT +
-        BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.RETRO +
         BrowserRequestFactory.PATH_SEPARATOR +
         circuitName
@@ -440,8 +436,6 @@ export class BrowserRequestFactory {
         BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.CIRCUIT +
-        BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.WTF +
         BrowserRequestFactory.PATH_SEPARATOR +
         circuitName
@@ -451,8 +445,6 @@ export class BrowserRequestFactory {
         BrowserRequestFactory.Commands.OPEN +
         BrowserRequestFactory.URI_SEPARATOR +
         BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.CIRCUIT +
-        BrowserRequestFactory.PATH_SEPARATOR +
         BrowserRequestFactory.Locations.WTF
       );
     }

@@ -191,6 +191,7 @@ module.exports = class JournalController extends BaseController {
 
     JournalController.instance.userHistory.add(username);
     arg.data = store.data;
+
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,
@@ -454,8 +455,13 @@ module.exports = class JournalController extends BaseController {
           }
         },
         args => {
-          let data = args.data;
-          arg.data = data.recentIntentions;
+          if (args.data) {
+              arg.data = args.data.recentIntentions;
+          }
+          if (args.error) {
+              arg.error = args.error;
+          }
+
           this.delegateCallbackOrEventReplyTo(
             event,
             arg,

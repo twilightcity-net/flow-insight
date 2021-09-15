@@ -314,7 +314,7 @@ export default class ActiveCircuitFeed extends Component {
    * @param callback
    */
   addChatMessage = (text, callback) => {
-    let roomName = this.props.resource.uriArr[2];
+    let roomName = this.props.resource.uriArr[1];
     TalkToClient.publishChatToRoom(
       roomName + ActiveCircuitFeed.activeCircuitRoomSuffix,
       text,

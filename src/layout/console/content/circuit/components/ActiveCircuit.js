@@ -66,7 +66,7 @@ export default class ActiveCircuit extends Component {
    * child components
    */
   componentDidMount() {
-    let circuitName = this.props.resource.uriArr[2];
+    let circuitName = this.props.resource.uriArr[1];
     this.loadCircuit(circuitName, null, []);
   }
 
@@ -91,7 +91,7 @@ export default class ActiveCircuit extends Component {
       return false;
     }
 
-    let circuitName = nextProps.resource.uriArr[2];
+    let circuitName = nextProps.resource.uriArr[1];
     this.loadCircuit(circuitName, null, []);
     this.setState({
       model: null,

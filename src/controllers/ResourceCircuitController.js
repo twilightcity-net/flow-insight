@@ -269,16 +269,6 @@ export class ResourceCircuitController extends ActiveViewController {
         roomName,
         this,
         arg => {
-          let request = BrowserRequestFactory.createRequest(
-            BrowserRequestFactory.Requests.JOURNAL,
-            BrowserRequestFactory.Locations.ME
-          );
-          console.log(
-            this.name +
-              " LEAVE EXISTING ROOM -> " +
-              JSON.stringify(arg)
-          );
-          this.browserController.makeRequest(request);
           this.fireLeaveExistingRoomNotifyEvent();
         }
       );

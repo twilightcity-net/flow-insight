@@ -539,7 +539,6 @@ export class CircuitClient extends BaseClient {
         scope,
         callback
     ) {
-      console.log("updateCircuitDescription");
         let event = CircuitClient.instance.createClientEvent(
             CircuitClient.Events.UPDATE_CIRCUIT_DESCRIPTION,
             { circuitName: circuitName, description: description },

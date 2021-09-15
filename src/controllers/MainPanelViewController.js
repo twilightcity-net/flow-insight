@@ -29,7 +29,8 @@ export class MainPanelViewController extends ActiveViewController {
       NONE: "none",
       TERMINAL: "terminal",
       JOURNAL: "journal",
-      CIRCUIT: "circuit",
+      WTF: "wtf",
+        CIRCUIT: "circuit",
       FLOW: "flow"
     };
   }

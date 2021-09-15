@@ -74,6 +74,7 @@ export default class LayoutContent extends Component {
     if (resource.uriArr) {
       resource = resource.uriArr[0];
     }
+    console.log("resource: "+resource);
     switch (resource) {
       case MainPanelViewController.Resources.TERMINAL:
         component = (
@@ -93,7 +94,7 @@ export default class LayoutContent extends Component {
           MainPanelViewController.Resources.JOURNAL +
           className;
         break;
-      case MainPanelViewController.Resources.CIRCUIT:
+      case MainPanelViewController.Resources.WTF:
         component = (
           <CircuitResource resource={this.state.resource} />
         );
@@ -122,12 +123,18 @@ export default class LayoutContent extends Component {
           className;
         break;
       default:
-        component = (
-          <div>404 - Unknown location '{resource}'</div>
-        );
-        className =
-          MainPanelViewController.Resources.NONE +
-          className;
+
+        component = this.getJournalError(resource);
+          className =
+              MainPanelViewController.Resources.ERROR +
+              className;
+
+        // component = (
+        //   <div>404 - Unknown location {resource}</div>
+        // );
+        // className =
+        //   MainPanelViewController.Resources.NONE +
+        //   className;
         break;
     }
     return (

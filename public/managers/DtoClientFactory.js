@@ -84,7 +84,14 @@ class DtoClient {
     req.end((err, res) => {
       this.store.timestamp = new Date().getTime();
       try {
-        if (err) throw new Error(err);
+        if (err) {
+          let errObj = err;
+          if (err.response && err.response.status && err.response.text) {
+            errObj = JSON.parse(err.response.text).message;
+          }
+
+          throw new Error(errObj);
+        }
         this.store.data = res.body;
       } catch (e) {
         this.store.error = e.toString();
@@ -118,13 +125,15 @@ class DtoClient {
           .post(url)
           .timeout(this.timeout)
           .send(this.store.dto)
-          .set("Content-Type", "application/json");
+          .set("Content-Type", "application/json")
+          .set("Accept", "application/json");
       case DtoClientFactory.RequestTypes.GET:
         return request
           .get(url)
           .timeout(this.timeout)
           .send(this.store.dto)
-          .set("Content-Type", "application/json");
+          .set("Content-Type", "application/json")
+          .set("Accept", "application/json");
       default:
         throw new Error(
           "Unknown request type '" + this.type + "'"

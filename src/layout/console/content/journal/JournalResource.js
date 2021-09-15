@@ -69,6 +69,12 @@ export default class JournalResource extends Component {
       this,
       this.onTalkRoomMessage
     );
+    this.state = {
+        lastProject: null,
+        lastTask: null,
+        projects: [],
+        tasks: [],
+    };
   }
 
   /**
@@ -162,14 +168,7 @@ export default class JournalResource extends Component {
     this.clearKeyboardShortcuts();
   }
 
-  /**
-   * gets our user name from a given journal resource from our browser
-   * @param props
-   * @returns {string}
-   */
-  getUserNameFromResource(props) {
-    return props.resource.uriArr[1];
-  }
+
 
   /**
    * this function is called when we load a new resource into this resource view. recycles the component
@@ -179,13 +178,12 @@ export default class JournalResource extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (
-      nextProps.resource.uri === this.props.resource.uri
-    ) {
-      return false;
+
+    if (nextProps.resource.uri !== this.props.resource.uri) {
+        this.refreshJournal(nextProps);
     }
-    this.refreshJournal(nextProps);
-    return false;
+
+    return true;
   }
 
   /**
@@ -207,6 +205,19 @@ export default class JournalResource extends Component {
       }
       return false;
   }
+
+    /**
+     * gets our user name from a given journal resource from our browser
+     * @param props
+     * @returns {string}
+     */
+    getUserNameFromResource(props) {
+        if (props.resource.uriArr.length > 1) {
+            return props.resource.uriArr[1];
+        } else {
+            return JournalResource.Strings.ME;
+        }
+    }
 
   /**
    * binds our keyboard shortcut to our callback. Called when the journal resource is
@@ -420,6 +431,7 @@ export default class JournalResource extends Component {
     this.username = this.getUserNameFromResource(props);
 
     JournalClient.getRecentProjects(this, arg => {
+
       if (!this.hasCallbackError(arg)) {
         this.projects = arg.data;
         this.handleCallback();
@@ -486,6 +498,14 @@ export default class JournalResource extends Component {
   handleCallback() {
     this.loadCount++;
     if (this.loadCount === 3) { //the 3 load calls are asynchronous, so make sure we only update this on the last one
+
+      this.setState({
+          projects: this.projects,
+          tasks: this.tasks,
+          lastProject: this.lastProject,
+          lastTask: this.lastTask
+      });
+
       this.forceUpdate(() => {
         this.scrollToJournalItemById();
       });
@@ -801,10 +821,11 @@ export default class JournalResource extends Component {
       >
         <div id="wrapper" className="journalEntry ">
           <JournalEntry
-            projects={this.projects}
-            tasks={this.tasks}
-            lastProject={this.lastProject}
-            lastTask={this.lastTask}
+            resource={this.props.resource}
+            projects={this.state.projects}
+            tasks={this.state.tasks}
+            lastProject={this.state.lastProject}
+            lastTask={this.state.lastTask}
             createIntention={this.handleCreateIntention}
             createTask={this.handleCreateTask}
             createProject={this.handleCreateProject}

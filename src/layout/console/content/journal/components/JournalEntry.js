@@ -6,6 +6,7 @@ import {
   Segment
 } from "semantic-ui-react";
 import UtilRenderer from "../../../../../UtilRenderer";
+import {MemberClient} from "../../../../../clients/MemberClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -74,38 +75,79 @@ export default class JournalEntry extends Component {
     this.projects = [];
     this.tasks = [];
 
-    if (this.hasProjectUpdated(nextState) && nextState.currentProjectValue !== nextProps.lastProject) {
-      this.setState({
-          currentTaskValue: null
-      });
-      return true;
+    if (this.isMe(nextProps)) {
+        if (this.hasProjectUpdated(nextState) && nextState.currentProjectValue !== nextProps.lastProject) {
+            this.setState({
+                currentTaskValue: null
+            });
+            return true;
+        }
+
+        nextProps.projects.forEach(project => {
+            this.projects.push(
+                this.transformLokiDataStruct(project)
+            )
+        });
+        nextProps.tasks.forEach(task => {
+            if ( nextState.currentProjectValue === task.projectId ) {
+                this.tasks.push(this.transformLokiDataStruct(task));
+            }
+        });
+
+        if (!this.state.currentProjectValue) {
+            if (this.containsProject(this.projects, nextProps.lastProject)) {
+                this.setState({
+                    currentProjectValue: nextProps.lastProject,
+                });
+
+                if (this.state.currentTaskValue == null) {
+                    this.setState({
+                        currentTaskValue: nextProps.lastTask,
+                    });
+                }
+            }
+        }
+
     }
 
-    nextProps.projects.forEach(project => {
-        this.projects.push(
-            this.transformLokiDataStruct(project)
-        )
-    });
-    nextProps.tasks.forEach(task => {
-      if ( nextState.currentProjectValue === task.projectId ) {
-        this.tasks.push(this.transformLokiDataStruct(task));
-      }
-    });
-
-    if (!this.state.currentProjectValue) {
-        this.setState({
-            currentProjectValue: nextProps.lastProject,
-        });
-    }
-    if (nextState.currentProjectValue === nextProps.lastProject
-      && this.state.currentTaskValue == null) {
-        this.setState({
-            currentTaskValue: nextProps.lastTask,
-        });
-    }
 
     return true;
   }
+
+    containsProject(projects, projectId) {
+       let found = false;
+
+       projects.forEach( proj => {
+          if (proj.value === projectId) {
+            found = true;
+          }
+       });
+       return found;
+    }
+
+    isMe(props) {
+        let username = this.getUserNameFromResource(props);
+        if (
+            username === "me" ||
+            username === MemberClient.me.username
+        ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * gets our user name from a given journal resource from our browser
+     * @param props
+     * @returns {string}
+     */
+    getUserNameFromResource(props) {
+        if (props.resource.uriArr.length > 1) {
+            return props.resource.uriArr[1];
+        } else {
+            return "me";
+        }
+    }
 
   /**
    * checks to see if we are updating the current selected project

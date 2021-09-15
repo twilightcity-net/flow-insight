@@ -277,9 +277,9 @@ export default class UtilRenderer {
    */
   static isWTFResource(resource) {
     let arr = resource.uriArr;
-    if (arr.length > 1) {
-      if (arr[1] === BrowserRequestFactory.Locations.WTF) {
-        if (arr.length > 2) {
+    if (arr.length > 0) {
+      if (arr[0] === BrowserRequestFactory.Locations.WTF) {
+        if (arr.length > 1) {
           return true;
         }
       }
@@ -303,11 +303,11 @@ export default class UtilRenderer {
    */
   static getRoomNameFromResource(resource) {
     let arr = resource.uriArr;
-    if (arr.length > 1) {
-      if (arr[1] === BrowserRequestFactory.Locations.WTF) {
-        if (arr.length > 2) {
+    if (arr.length > 0) {
+      if (arr[0] === BrowserRequestFactory.Locations.WTF) {
+        if (arr.length > 1) {
           return (
-            arr[2] +
+            arr[1] +
             "-" +
             BrowserRequestFactory.Locations.WTF
           );

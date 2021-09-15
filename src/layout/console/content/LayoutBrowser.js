@@ -172,19 +172,11 @@ export default class LayoutBrowser extends Component {
    * @param uri
    */
   doRequest = uri => {
-    let request;
-    if (this.isCommand(uri)) {
-      request = BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.COMMAND,
-        uri
-      );
-    } else {
-      request = BrowserRequestFactory.createRequest(
+    let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.BROWSER,
         BrowserRequestFactory.Commands.OPEN,
         uri
       );
-    }
     this.myController.makeRequest(request);
   };
 
