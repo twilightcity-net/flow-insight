@@ -20,12 +20,12 @@ export class DimensionController {
 
   /**
    * the list of components we wish to manage dimensions for
-   * @returns {{FLOW_PANEL: string, SPIRIT_PANEL: string, JOURNAL_ITEMS: string, CONSOLE_LAYOUT: string, TROUBLESHOOT: string}}
+   * @returns {{FLOW_PANEL: string, FERVIE_PANEL: string, JOURNAL_ITEMS: string, CONSOLE_LAYOUT: string, TROUBLESHOOT: string}}
    * @constructor
    */
   static get Components() {
     return {
-      SPIRIT_PANEL: "[SpiritPanel]",
+      FERVIE_PANEL: "[FerviePanel]",
       JOURNAL_ITEMS: "[JournalItems]",
       FLOW_PANEL: "[FlowPanel]",
       CONSOLE_LAYOUT: "[ConsoleLayout]",
@@ -92,10 +92,10 @@ export class DimensionController {
   }
 
   /**
-   * gets the spirit panel width of the canvas
+   * gets the fervie panel width of the canvas
    * @returns {number}
    */
-  static getSpiritCanvasWidth() {
+  static getFervieCanvasWidth() {
     let consoleSidebarWidthPixels = 29,
       oneRem = window.innerWidth / 100,
       relativeWidth = 20.2;
@@ -106,10 +106,10 @@ export class DimensionController {
   }
 
   /**
-   * gets the spirit canvas height dimension for canvas
+   * gets the fervie canvas height dimension for canvas
    * @returns {number}
    */
-  static getSpiritCanvasHeight() {
+  static getFervieCanvasHeight() {
     let consoleSidebarBorderPixels = 4,
       oneRem = window.innerHeight / 100,
       relativeHeight = 77;
@@ -156,10 +156,10 @@ export class DimensionController {
   }
 
   /**
-   * gets the spirit panel height
+   * gets the fervie panel height
    * @returns {number}
    */
-  static getSpiritPanelHeight() {
+  static getFerviePanelHeight() {
     let heights = {
       window: window.innerHeight,
       border: 2,
@@ -372,9 +372,9 @@ export class DimensionController {
   static getHeightFor(component) {
     if (
       component ===
-      DimensionController.Components.SPIRIT_PANEL
+      DimensionController.Components.FERVIE_PANEL
     ) {
-      return DimensionController.getSpiritPanelHeight();
+      return DimensionController.getFerviePanelHeight();
     } else if (
       component ===
       DimensionController.Components.JOURNAL_ITEMS

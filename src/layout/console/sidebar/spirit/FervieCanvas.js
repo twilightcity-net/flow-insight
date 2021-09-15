@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { DimensionController } from "../../../../controllers/DimensionController";
 
 /**
- * the 2d html canvas react component class that ios user by the spirit
+ * the 2d html canvas react component class used to load the graphic art for Fervie
  */
-export default class SpiritCanvas extends Component {
+export default class FervieCanvas extends Component {
   /**
    * builds the canvas from properties
    * @param props - the components properties
@@ -25,7 +25,7 @@ export default class SpiritCanvas extends Component {
     if (this.render3D === "true") {
       // TODO implement unity3d models and scene into this element
     } else {
-      this.updateTorchieImage(this.flameRating);
+      this.updateFervieImage(this.flameRating);
     }
   }
 
@@ -34,17 +34,17 @@ export default class SpiritCanvas extends Component {
    * @param nextProps
    */
   componentWillReceiveProps = nextProps => {
-    this.updateTorchieImage(this.flameRating);
+    this.updateFervieImage(this.flameRating);
   };
 
   /**
-   * updates the torchie image on the screen
+   * updates the fervie image on the screen
    * @param flameString
    */
-  updateTorchieImage(flameRating) {
+  updateFervieImage(flameRating) {
     // let spiritImage = "",
-    //   height = DimensionController.getSpiritCanvasHeight(),
-    //   width = DimensionController.getSpiritCanvasWidth();
+    //   height = DimensionController.getFervieCanvasHeight(),
+    //   width = DimensionController.getFervieCanvasWidth();
     //
     // if (flameRating >= 0) {
     //   spiritImage = "./assets/images/fervie_idle_in_TC.gif";
@@ -69,7 +69,7 @@ export default class SpiritCanvas extends Component {
    * @returns {HTMLElement} - the dom from the viewport
    */
   getCanvasEl() {
-    return document.getElementById("SpiritCanvas");
+    return document.getElementById("FervieCanvas");
   }
 
   /**
@@ -78,17 +78,17 @@ export default class SpiritCanvas extends Component {
    */
   render() {
     return (
-        <img id="SpiritCanvas"
-             height={DimensionController.getSpiritCanvasHeight()}
-             width={DimensionController.getSpiritCanvasWidth()}
+        <img id="FervieCanvas"
+             height={DimensionController.getFervieCanvasHeight()}
+             width={DimensionController.getFervieCanvasWidth()}
              src={"./assets/images/fervie_idle_in_TC.gif"}
              alt="loading..." />
 
       //
       // <canvas
-      //   id="SpiritCanvas"
-      //   height={DimensionController.getSpiritCanvasHeight()}
-      //   width={DimensionController.getSpiritCanvasWidth()}
+      //   id="FervieCanvas"
+      //   height={DimensionController.getFervieCanvasHeight()}
+      //   width={DimensionController.getFervieCanvasWidth()}
       // />
     );
   }

@@ -33,8 +33,8 @@ export class SidePanelViewController extends ActiveViewController {
     this.show = true;
     this.activeMenuSelection =
       SidePanelViewController.MenuSelection.TEAM;
-    this.activeSpiritSubmenuSelection =
-      SidePanelViewController.SubmenuSelection.SPIRIT;
+    this.activeFervieSubmenuSelection =
+      SidePanelViewController.SubmenuSelection.FERVIE;
     this.activeTeamSubmenuSelection =
       SidePanelViewController.SubmenuSelection.TEAMS;
     this.activeCircuitsSubmenuSelection =
@@ -51,8 +51,8 @@ export class SidePanelViewController extends ActiveViewController {
         .VIEW_CONSOLE_SIDEBAR_PANEL,
       this
     );
-    this.spiritPanelChangeNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_SPIRIT_PANEL,
+    this.ferviePanelChangeNotifier = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_FERVIE_PANEL,
       this
     );
     this.teamPanelChangeNotifier = RendererEventFactory.createEvent(
@@ -83,8 +83,8 @@ export class SidePanelViewController extends ActiveViewController {
       RendererEventFactory.Events.VIEW_CONSOLE_TEAM_PANEL,
       this
     );
-    this.spiritPanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_SPIRIT_PANEL,
+    this.ferviePanelListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.VIEW_CONSOLE_FERVIE_PANEL,
       this
     );
     this.circuitsPanelListener = RendererEventFactory.createEvent(
@@ -118,13 +118,13 @@ export class SidePanelViewController extends ActiveViewController {
 
   /**
    * enum list of the possible menu types of the console sidebar
-   * @returns {{CIRCUITS: string, WTF: string, SPIRIT: string, TEAM: string, NOTIFICATIONS: string, NONE: string}}
+   * @returns {{CIRCUITS: string, WTF: string, FERVIE: string, TEAM: string, NOTIFICATIONS: string, NONE: string}}
    * @constructor
    */
   static get MenuSelection() {
     return {
       WTF: "wtf",
-      SPIRIT: "spirit",
+      FERVIE: "fervie",
       TEAM: "team",
       CIRCUITS: "circuits",
       NOTIFICATIONS: "notifications",
@@ -134,12 +134,12 @@ export class SidePanelViewController extends ActiveViewController {
 
   /**
    * enum list of the possible sub menu types of the console sidebar
-   * @returns {{BADGES: string, DO_IT_LATER_CIRCUITS: string, PARTICIPATING_CIRCUITS: string, TEAMS: string, SPIRIT: string, RETRO_CIRCUITS: string, NOTIFICATIONS: string}}
+   * @returns {{BADGES: string, DO_IT_LATER_CIRCUITS: string, PARTICIPATING_CIRCUITS: string, TEAMS: string, FERVIE: string, RETRO_CIRCUITS: string, NOTIFICATIONS: string}}
    * @constructor
    */
   static get SubmenuSelection() {
     return {
-      SPIRIT: "spirit",
+      FERVIE: "fervie",
       BADGES: "badges",
       TEAMS: "teams",
       PARTICIPATING_CIRCUITS: "my-circuits",
@@ -202,12 +202,12 @@ export class SidePanelViewController extends ActiveViewController {
   }
 
   /**
-   * menu listener for the spirit panel
+   * menu listener for the fervie panel
    * @param scope
    * @param callback
    */
-  configureSpiritPanelListener(scope, callback) {
-    this.spiritPanelListener.updateCallback(
+  configureFerviePanelListener(scope, callback) {
+    this.ferviePanelListener.updateCallback(
       scope,
       callback
     );
@@ -290,10 +290,10 @@ export class SidePanelViewController extends ActiveViewController {
   }
 
   /**
-   * dispatch an event when the spirit panel content changes
+   * dispatch an event when the fervie panel content changes
    */
-  fireSpiritPanelNotifyEvent() {
-    this.spiritPanelChangeNotifier.dispatch({});
+  fireFerviePanelNotifyEvent() {
+    this.ferviePanelChangeNotifier.dispatch({});
   }
 
   /**
@@ -369,12 +369,12 @@ export class SidePanelViewController extends ActiveViewController {
   }
 
   /**
-   * function called when we wish to change the content of the spirit panel
+   * function called when we wish to change the content of the fervie panel
    * @param submenuItem
    */
-  changeActiveSpiritSubmenuPanel(submenuItem) {
-    this.activeSpiritSubmenuSelection = submenuItem;
-    this.fireSpiritPanelNotifyEvent();
+  changeActiveFervieSubmenuPanel(submenuItem) {
+    this.activeFervieSubmenuSelection = submenuItem;
+    this.fireFerviePanelNotifyEvent();
   }
 
   /// TODO support multiple teams, below previous bad way, don't do this way.

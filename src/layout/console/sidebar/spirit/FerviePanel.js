@@ -8,24 +8,26 @@ import {
 } from "semantic-ui-react";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
-import SpiritCanvas from "./SpiritCanvas";
+import FervieCanvas from "./FervieCanvas";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import { MemberClient } from "../../../../clients/MemberClient";
 import UtilRenderer from "../../../../UtilRenderer";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import {BaseClient} from "../../../../clients/BaseClient";
 
 /**
- * this class is responsible for storing the users avatar, soul, inventory,
+ * this class is responsible for storing the users fervie avatar, xp, inventory,
  * and accessories. Currently this only uses a simple canvas but will use
  * an embedded unity3d instance
  */
-export default class SpiritPanel extends Component {
+export default class FerviePanel extends Component {
   /**
-   * the constructor function which is used to build the spirit panel
+   * the constructor function which is used to build the fervie panel
    * @param props - these are the components properties
    */
   constructor(props) {
     super(props);
-    this.name = "[SpiritPanel]";
+    this.name = "[FerviePanel]";
     this.render3d = false;
     this.animationType =
       SidePanelViewController.AnimationTypes.FLY_DOWN;
@@ -36,21 +38,60 @@ export default class SpiritPanel extends Component {
     );
     this.state = {
       activeItem:
-        SidePanelViewController.SubmenuSelection.SPIRIT,
-      spiritVisible: false,
-      badgesVisible: false
+        SidePanelViewController.SubmenuSelection.FERVIE,
+      fervieVisible: false,
+      badgesVisible: false,
+      xpSummary: MemberClient.me.xpSummary
     };
     this.me = MemberClient.me;
+
+    this.talkRoomMessageListener = RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+    );
   }
+
+    /**
+     * event handler for talk messages. This is called everytime we receive a new talk
+     * message over the event bus. If we get XP updates for our fervie, we want to update
+     * our xp bar in the panel
+     * @param event
+     * @param arg
+     */
+    onTalkRoomMessage = (event, arg) => {
+        switch (arg.messageType) {
+            case BaseClient.MessageTypes.XP_STATUS_UPDATE:
+                return this.handleXPUpdateMessage(arg);
+            default:
+                return;
+        }
+    };
+
+    /**
+     * processes our xp status update event which is used to update
+     * our fervie's xp bar
+     * @param arg
+     */
+    handleXPUpdateMessage(arg) {
+
+      let data = arg.data;
+
+      this.setState(
+          {
+              xpSummary: data.newXPSummary
+          }
+      );
+    }
 
   /**
    * thew function that is called to open and display the badges panel in the side
    */
-  showSpiritPanel() {
+  showFerviePanel() {
     this.setState({
       activeItem:
-        SidePanelViewController.SubmenuSelection.SPIRIT,
-      spiritVisible: true,
+        SidePanelViewController.SubmenuSelection.FERVIE,
+      fervieVisible: true,
       badgesVisible: false
     });
   }
@@ -62,18 +103,18 @@ export default class SpiritPanel extends Component {
     this.setState({
       activeItem:
         SidePanelViewController.SubmenuSelection.BADGES,
-      spiritVisible: false,
+      fervieVisible: false,
       badgesVisible: true
     });
   }
 
   /**
-   * updates display to show spirit content
+   * updates display to show fervie content
    * @param e - the menu event that was dispatched
    * @param name - the name of the menu that was clicked
    */
-  handleSpiritClick = (e, { name }) => {
-    this.myController.changeActiveSpiritSubmenuPanel(name);
+  handleFervieClick = (e, { name }) => {
+    this.myController.changeActiveFervieSubmenuPanel(name);
   };
 
   /**
@@ -82,7 +123,7 @@ export default class SpiritPanel extends Component {
    * @param name - the name of the menu that was clicked
    */
   handleBadgesClick = (e, { name }) => {
-    this.myController.changeActiveSpiritSubmenuPanel(name);
+    this.myController.changeActiveFervieSubmenuPanel(name);
   };
 
   /**
@@ -90,31 +131,31 @@ export default class SpiritPanel extends Component {
    * controller to refresh the view
    */
   componentDidMount = () => {
-    this.myController.configureSpiritPanelListener(
+    this.myController.configureFerviePanelListener(
       this,
-      this.onRefreshSpiritPanel
+      this.onRefreshFerviePanel
     );
-    this.onRefreshSpiritPanel();
+    this.onRefreshFerviePanel();
   };
 
   /**
    * event listener that is notified when the perspective changes views
    */
-  onRefreshSpiritPanel() {
+  onRefreshFerviePanel() {
     this.me = MemberClient.me;
     switch (
-      this.myController.activeSpiritSubmenuSelection
+      this.myController.activeFervieSubmenuSelection
     ) {
-      case SidePanelViewController.SubmenuSelection.SPIRIT:
-        this.showSpiritPanel();
+      case SidePanelViewController.SubmenuSelection.FERVIE:
+        this.showFerviePanel();
         break;
       case SidePanelViewController.SubmenuSelection.BADGES:
         this.showBadgesPanel();
         break;
       default:
         throw new Error(
-          "Unknown spirit panel type '" +
-            this.myController.activeSpiritSubmenuSelection +
+          "Unknown fervie panel type '" +
+            this.myController.activeFervieSubmenuSelection +
             "'"
         );
     }
@@ -124,11 +165,13 @@ export default class SpiritPanel extends Component {
    * called right before the component will mount. This will clear the listeners callback
    */
   componentWillUnmount() {
-    this.myController.configureSpiritPanelListener(
+    this.myController.configureFerviePanelListener(
       this,
       null
     );
+    this.talkRoomMessageListener.clear();
   }
+
 
   /**
    * gets the badges content panel for the sidebar
@@ -150,27 +193,26 @@ export default class SpiritPanel extends Component {
   };
 
   /**
-   * renders the spirit title content for the panel
+   * renders the fervie title content for the panel
    * @returns {*}
    */
-  getSpiritTitle = () => {
-    let displayName = this.me.displayName,
-      xpSummary = this.me.xpSummary,
+  getFervieTitle = () => {
+    let displayName = "Your Fervie",//this.me.displayName,
       xpPercent = UtilRenderer.getXpPercent(
-        xpSummary.xpProgress,
-        xpSummary.xpRequiredToLevel
+        this.state.xpSummary.xpProgress,
+          this.state.xpSummary.xpRequiredToLevel
       );
 
     return (
-      <div className="spiritTitle">
+      <div className="fervieTitle">
         <div className="level">
           <div className="infoTitle">
             <b>{displayName}</b>
           </div>
           <div className="infoLevel">
-            <b>Level {xpSummary.level} </b>
+            <b>Level {this.state.xpSummary.level} </b>
             <br />
-            <i>({xpSummary.title})</i>
+            <i>({this.state.xpSummary.title})</i>
           </div>
         </div>
 
@@ -189,7 +231,7 @@ export default class SpiritPanel extends Component {
               <b>
                 <i>Total:</i>
               </b>{" "}
-              {xpSummary.totalXP} XP
+              {this.state.xpSummary.totalXP} XP
             </div>
           }
           inverted
@@ -201,22 +243,22 @@ export default class SpiritPanel extends Component {
   };
 
   /**
-   * gets a 2d canvas to draw our torchie on
+   * gets a 2d canvas to draw our fervie on
    * @returns {*}
    */
-  getSpiritCanvas = () => {
-    return <SpiritCanvas render3d={this.render3d} />;
+  getFervieCanvas = () => {
+    return <FervieCanvas render3d={this.render3d} />;
   };
 
   /**
    * renders the parts of the component together
    * @returns {*}
    */
-  getSpiritContent = () => {
+  getFervieContent = () => {
     return (
-      <div className="spiritContent">
-        {this.getSpiritTitle()}
-        {this.getSpiritCanvas()}
+      <div className="fervieContent">
+        {this.getFervieTitle()}
+        {this.getFervieCanvas()}
       </div>
     );
   };
@@ -228,12 +270,12 @@ export default class SpiritPanel extends Component {
   render() {
     let { activeItem } = this.state;
 
-    const spiritContent = this.getSpiritContent();
+    const fervieContent = this.getFervieContent();
     const badgesContent = this.getBadgesContent();
     return (
       <div
         id="component"
-        className="consoleSidebarPanel spiritPanel"
+        className="consoleSidebarPanel ferviePanel"
         style={{
           width: "100%",
           height: DimensionController.getConsoleLayoutHeight(),
@@ -245,14 +287,14 @@ export default class SpiritPanel extends Component {
             <Menu.Item
               name={
                 SidePanelViewController.SubmenuSelection
-                  .SPIRIT
+                  .FERVIE
               }
               active={
                 activeItem ===
                 SidePanelViewController.SubmenuSelection
-                  .SPIRIT
+                  .FERVIE
               }
-              onClick={this.handleSpiritClick}
+              onClick={this.handleFervieClick}
             />
             <Menu.Item
               name={
@@ -269,15 +311,15 @@ export default class SpiritPanel extends Component {
           </Menu>
           <Segment
             inverted
-            className={"spiritContentWrapper"}
+            className={"fervieContentWrapper"}
           >
             <Transition
-              visible={this.state.spiritVisible}
+              visible={this.state.fervieVisible}
               animation={this.state.animationType}
               duration={this.state.animationDelay}
               unmountOnHide
             >
-              {spiritContent}
+              {fervieContent}
             </Transition>
             <Transition
               visible={this.state.badgesVisible}

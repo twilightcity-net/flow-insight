@@ -4,7 +4,7 @@ import LayoutContent from "./console/content/LayoutContent";
 import CircuitsPanel from "./console/sidebar/circuits/CircuitsPanel";
 import NotificationsPanel from "./console/sidebar/notifications/NotificationsPanel";
 import TeamPanel from "./console/sidebar/team/TeamPanel";
-import SpiritPanel from "./console/sidebar/spirit/SpiritPanel";
+import FerviePanel from "./console/sidebar/spirit/FerviePanel";
 import { RendererControllerFactory } from "../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../controllers/SidePanelViewController";
 import { DimensionController } from "../controllers/DimensionController";
@@ -138,7 +138,7 @@ export default class ConsoleLayout extends Component {
    */
   getSpiritPanelContent = () => {
     return (
-      <SpiritPanel
+      <FerviePanel
         width={this.state.sidebarPanelWidth}
         opacity={this.state.sidebarPanelOpacity}
       />
