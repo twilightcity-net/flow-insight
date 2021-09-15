@@ -40,6 +40,7 @@ export default class TeamPanel extends Component {
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
+    this.lastClickedUser = null;
     this.animationType =
       SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay =
@@ -148,28 +149,42 @@ export default class TeamPanel extends Component {
   /**
    * selects a team member in the list
    * @param member
-   * @param isMe
    */
   handleClickRow = member => {
     let name = member.username,
       activeCircuit = member.activeCircuit,
       uri = BrowserController.uri + "";
 
-    if (
-      activeCircuit &&
-      uri.startsWith(
-        BrowserRequestFactory.ROOT_SEPARATOR +
-          BrowserRequestFactory.Requests.JOURNAL
-      )
-    ) {
-      this.requestBrowserToLoadTeamMemberActiveCircuit(
-        activeCircuit.circuitName
-      );
+    if (this.lastClickedUser && this.lastClickedUser === name) {
+
+        if (
+            activeCircuit &&
+            uri.startsWith(
+                BrowserRequestFactory.ROOT_SEPARATOR +
+                BrowserRequestFactory.Requests.JOURNAL
+            )
+        ) {
+            this.requestBrowserToLoadTeamMemberActiveCircuit(
+                activeCircuit.circuitName
+            );
+        } else {
+            this.requestBrowserToLoadTeamJournalAndSetActiveMember(
+                name
+            );
+        }
     } else {
-      this.requestBrowserToLoadTeamJournalAndSetActiveMember(
-        name
-      );
+      if (activeCircuit) {
+          this.requestBrowserToLoadTeamMemberActiveCircuit(
+              activeCircuit.circuitName
+          );
+      } else {
+          this.requestBrowserToLoadTeamJournalAndSetActiveMember(
+              name
+          );
+      }
     }
+
+    this.lastClickedUser = name;
   };
 
   /**

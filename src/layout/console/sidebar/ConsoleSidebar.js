@@ -87,6 +87,12 @@ export default class ConsoleSidebar extends Component {
       this,
       this.onCircuitSolve
     );
+    this.circuitJoinLeaveListener = RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+            .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
+        this,
+        this.onCircuitJoinLeave
+    );
   }
 
   /**
@@ -128,7 +134,19 @@ export default class ConsoleSidebar extends Component {
     });
   }
 
-  /**
+    /**
+     * event handler for when we join or leave a circuit
+     * @param event
+     * @param arg
+     */
+    onCircuitJoinLeave = (event, arg) => {
+        this.setState({
+            isAlarm: arg > 0
+        });
+    };
+
+
+    /**
    * event handler for when we start and stop our active circuit
    * @param event
    * @param arg
@@ -263,6 +281,7 @@ export default class ConsoleSidebar extends Component {
    * @param name
    */
   handleItemClick = (e, { name }) => {
+
     if (this.state.activeItem === name) {
       this.myController.hidePanel();
     } else if (

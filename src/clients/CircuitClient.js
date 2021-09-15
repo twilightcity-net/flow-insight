@@ -44,6 +44,27 @@ export class CircuitClient extends BaseClient {
       this,
       this.handleCircuitStartStopCallback
     );
+
+    this.circuitPauseResumeNotifier = RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+            .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
+        this,
+        this.handleCircuitStartStopCallback
+    );
+
+    this.circuitJoinLeaveNotifier = RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+            .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
+        this,
+        this.handleCircuitStartStopCallback
+    );
+
+    this.circuitSolveNotifier = RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+            .VIEW_CONSOLE_CIRCUIT_SOLVE,
+        this,
+        this.handleCircuitStartStopCallback
+    );
   }
 
   /**
