@@ -12,6 +12,7 @@ import { MemberClient } from "../../../../../clients/MemberClient";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { BaseClient } from "../../../../../clients/BaseClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -142,9 +143,11 @@ export default class ActiveCircuit extends Component {
    */
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
+    UtilRenderer.clearIntervalTimer(this.wtfTimer);
   }
 
-  /**
+
+    /**
    * event handler for talk messages. This is called everytime we receive a new talk
    * message over the event bus. Make sure to check that this is the circuit
    * we wish to effect, as you can get various wtf status events for other

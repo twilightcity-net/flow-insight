@@ -38,7 +38,7 @@ export class SidePanelViewController extends ActiveViewController {
     this.activeTeamSubmenuSelection =
       SidePanelViewController.SubmenuSelection.TEAMS;
     this.activeCircuitsSubmenuSelection =
-      SidePanelViewController.SubmenuSelection.PARTICIPATING_CIRCUITS;
+      SidePanelViewController.SubmenuSelection.LIVE_CIRCUITS;
     this.activeNotificationsSubmenuSelection =
       SidePanelViewController.SubmenuSelection.NOTIFICATIONS;
     this.circuitStartStopListener = RendererEventFactory.createEvent(
@@ -134,7 +134,7 @@ export class SidePanelViewController extends ActiveViewController {
 
   /**
    * enum list of the possible sub menu types of the console sidebar
-   * @returns {{BADGES: string, DO_IT_LATER_CIRCUITS: string, PARTICIPATING_CIRCUITS: string, TEAMS: string, FERVIE: string, RETRO_CIRCUITS: string, NOTIFICATIONS: string}}
+   * @returns {{BADGES: string, DO_IT_LATER_CIRCUITS: string, LIVE_CIRCUITS: string, TEAMS: string, FERVIE: string, RETRO_CIRCUITS: string, NOTIFICATIONS: string}}
    * @constructor
    */
   static get SubmenuSelection() {
@@ -142,7 +142,7 @@ export class SidePanelViewController extends ActiveViewController {
       FERVIE: "fervie",
       BADGES: "badges",
       TEAMS: "teams",
-      PARTICIPATING_CIRCUITS: "my-circuits",
+      LIVE_CIRCUITS: "live-circuits",
       DO_IT_LATER_CIRCUITS: "do-it-later-circuits",
       RETRO_CIRCUITS: "retro-circuits",
       NOTIFICATIONS: "notifications"

@@ -320,7 +320,7 @@ export class CircuitClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static getAllMyParticipatingCircuits(scope, callback) {
+  static getAllMyLiveCircuits(scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events
         .GET_ALL_MY_PARTICIPATING_CIRCUITS,

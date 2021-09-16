@@ -4,12 +4,11 @@ import { LearningCircuitModel } from "../../../../models/LearningCircuitModel";
 import UtilRenderer from "../../../../UtilRenderer";
 import moment from "moment";
 
-/**
- * builds our do it later circuit list component
- */
-export default class DoItLaterCircuitListItem extends Component {
+export default class LiveCircuitListItem extends Component {
   constructor(props) {
     super(props);
+    this.wtfTimer = null;
+
     this.state = {
       isSelected: false,
       isRetro: LearningCircuitModel.isRetro(
@@ -23,19 +22,40 @@ export default class DoItLaterCircuitListItem extends Component {
     };
   }
 
-  /**
-   * click handler for our do it later component
-   */
-  handleClick = () => {
-    this.props.onDoItLaterCircuitListItemClick(this);
+    /**
+     * The prefix for live-timer element ids so that we can update the tickers
+     * for each element
+     *
+     * @type {string}
+     */
+  static liveTimerPrefix = "live-timer-";
+
+    /**
+     * the interval increment that the wtf timer uses to update the gui with
+     * via various UtilRenderer functions which parse nano time into workable
+     * seconds, while maintaining nano precision.
+     * @type {number}
+     */
+  static wtfTimerIntervalMs = 1000;
+
+
+    /**
+     * this is called when we unmount the component so that we can clear any active listeners
+     * for memory management.
+     */
+    componentWillUnmount() {
+        UtilRenderer.clearIntervalTimer(this.wtfTimer);
+    }
+
+
+
+    handleClick = () => {
+    this.props.onActiveCircuitListItemClick(this);
     this.setState({
       isSelected: true
     });
   };
 
-  /**
-   * gets our classname
-   */
   getClassName() {
     return (
       this.timerColor +
@@ -49,17 +69,30 @@ export default class DoItLaterCircuitListItem extends Component {
      * @param circuit
      * @returns {string}
      */
+
     getWtfTimerCount(circuit) {
         if (!circuit) {
             return "loading...";
         } else {
-            this.openUtcTime = moment.utc(circuit.openTime);
+            let openUtcTime = moment.utc(circuit.openTime);
+
+            this.wtfTimer = UtilRenderer.clearIntervalTimer(this.wtfTimer);
+
+            this.wtfTimer = setInterval(() => {
+                let timerEl = document.getElementById(LiveCircuitListItem.liveTimerPrefix + circuit.circuitName);
+
+                timerEl.innerHTML = UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
+                    openUtcTime,
+                    circuit.totalCircuitPausedNanoTime
+                );
+            }, LiveCircuitListItem.wtfTimerIntervalMs);
 
             return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
-                this.openUtcTime,
+                openUtcTime,
                 circuit.totalCircuitPausedNanoTime
             );
         }
+
     }
 
   render() {
@@ -76,7 +109,9 @@ export default class DoItLaterCircuitListItem extends Component {
         >
           <Label color={this.state.timerColor}>
             <Icon name={this.state.timerIcon} />{" "}
-            {this.state.time}
+            <span id={LiveCircuitListItem.liveTimerPrefix + this.props.model.circuitName}>
+                {this.state.time}
+            </span>
           </Label>
         </List.Content>
         <List.Content>

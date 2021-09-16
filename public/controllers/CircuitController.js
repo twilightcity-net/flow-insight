@@ -438,9 +438,12 @@ module.exports = class CircuitController extends BaseController {
     arg,
     callback
   ) {
+
     if (store.error) {
       arg.error = store.error;
     } else {
+
+
       let database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.CIRCUIT
         ),
@@ -453,6 +456,10 @@ module.exports = class CircuitController extends BaseController {
         collection
       );
     }
+
+    //this doesn't return the store data, into arg.data, but it does put the items in the DB.
+      //participating would be, any wtf that I've participated in... that isn't closed.
+
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,
@@ -1405,7 +1412,8 @@ module.exports = class CircuitController extends BaseController {
    * @param collection
    */
   updateCircuitsByIdInCollection(circuits, collection) {
-    if (circuits && circuits.length > 0) {
+      this.logMessage("[CircuitController]", "updateCircuitsByIdInCollection count ="+circuits.length);
+      if (circuits && circuits.length > 0) {
       circuits.forEach(circuit => {
         let model = collection.findOne({ id: circuit.id });
         if (model) {

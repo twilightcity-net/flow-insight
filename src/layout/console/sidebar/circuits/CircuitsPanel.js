@@ -8,7 +8,7 @@ import {
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { DimensionController } from "../../../../controllers/DimensionController";
-import ActiveCircuitListItem from "./ActiveCircuitListItem";
+import LiveCircuitListItem from "./LiveCircuitListItem";
 import DoItLaterCircuitListItem from "./DoItLaterCircuitListItem";
 import RetroCircuitListItem from "./RetroCircuitListItem";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
@@ -17,7 +17,7 @@ import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 
 /**
  * The Circuits Panel is a react component that is used primarily by the
- * console sidebar. This panel is used to display relavant circuits
+ * console sidebar. This panel is used to display relevant circuits
  * to the user. This panel is dynamically updated with a few renderer events.
  * @type {CircuitsPanel}
  */
@@ -32,8 +32,8 @@ export default class CircuitsPanel extends Component {
     this.state = {
       activeItem:
         SidePanelViewController.SubmenuSelection
-          .PARTICIPATING_CIRCUITS,
-      participatingCircuitsVisible: false,
+          .LIVE_CIRCUITS,
+      liveCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
       retroCircuitsVisible: false,
       title: ""
@@ -136,8 +136,8 @@ export default class CircuitsPanel extends Component {
       this.myController.activeCircuitsSubmenuSelection
     ) {
       case SidePanelViewController.SubmenuSelection
-        .PARTICIPATING_CIRCUITS:
-        this.showParticipatingCircuitsPanel();
+        .LIVE_CIRCUITS:
+        this.showLiveCircuitsPanel();
         break;
       case SidePanelViewController.SubmenuSelection
         .DO_IT_LATER_CIRCUITS:
@@ -155,16 +155,16 @@ export default class CircuitsPanel extends Component {
   /**
    * shows our active circuits that we are joined to
    */
-  showParticipatingCircuitsPanel() {
+  showLiveCircuitsPanel() {
     this.setState({
       activeItem:
         SidePanelViewController.SubmenuSelection
-          .PARTICIPATING_CIRCUITS,
-      participatingCircuitsVisible: true,
+          .LIVE_CIRCUITS,
+      liveCircuitsVisible: true,
       doItLaterCircuitsVisible: false,
       retroCircuitVisible: false
     });
-    CircuitClient.getAllMyParticipatingCircuits(
+    CircuitClient.getAllMyLiveCircuits(
       this,
       arg => {
         this.activeCircuits = arg.data;
@@ -182,7 +182,7 @@ export default class CircuitsPanel extends Component {
       activeItem:
         SidePanelViewController.SubmenuSelection
           .DO_IT_LATER_CIRCUITS,
-      participatingCircuitsVisible: false,
+      liveCircuitsVisible: false,
       doItLaterCircuitsVisible: true,
       retroCircuitVisible: false
     });
@@ -200,7 +200,7 @@ export default class CircuitsPanel extends Component {
       activeItem:
         SidePanelViewController.SubmenuSelection
           .RETRO_CIRCUITS,
-      participatingCircuitsVisible: false,
+      liveCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
       retroCircuitVisible: true
     });
@@ -280,10 +280,10 @@ export default class CircuitsPanel extends Component {
    * get our active circuits content to render in the gui
    * @returns {*}
    */
-  /// TODO refactor component ActiveCircuitListItem to ParticipatingCircuitListItem
-  getParticipatingCircuitsContent = () => {
+  /// TODO refactor component ActiveCircuitListItem to LiveCircuitListItem
+  getLiveCircuitsContent = () => {
     return (
-      <div className="participatingCircuitsContent">
+      <div className="liveCircuitsContent">
         <List
           inverted
           divided
@@ -293,7 +293,7 @@ export default class CircuitsPanel extends Component {
           size="large"
         >
           {this.activeCircuits.map(model => (
-            <ActiveCircuitListItem
+            <LiveCircuitListItem
               key={model.id}
               model={model}
               onActiveCircuitListItemClick={
@@ -312,7 +312,7 @@ export default class CircuitsPanel extends Component {
    */
   getDoItLaterCircuitsContent = () => {
     return (
-      <div className="participatingCircuitsContent">
+      <div className="liveCircuitsContent">
         <List
           inverted
           divided
@@ -387,12 +387,12 @@ export default class CircuitsPanel extends Component {
             <Menu.Item
               name={
                 SidePanelViewController.SubmenuSelection
-                  .PARTICIPATING_CIRCUITS
+                  .LIVE_CIRCUITS
               }
               active={
                 activeItem ===
                 SidePanelViewController.SubmenuSelection
-                  .PARTICIPATING_CIRCUITS
+                  .LIVE_CIRCUITS
               }
               onClick={this.handleCircuitSubmenuClick}
             />
@@ -430,13 +430,13 @@ export default class CircuitsPanel extends Component {
           >
             <Transition
               visible={
-                this.state.participatingCircuitsVisible
+                this.state.liveCircuitsVisible
               }
               animation={this.animationType}
               duration={this.animationDelay}
               unmountOnHide
             >
-              {this.getParticipatingCircuitsContent()}
+              {this.getLiveCircuitsContent()}
             </Transition>
             <Transition
               visible={this.state.doItLaterCircuitsVisible}
