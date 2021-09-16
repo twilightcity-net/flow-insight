@@ -28,9 +28,6 @@ export default class DoItLaterCircuitListItem extends Component {
    */
   handleClick = () => {
     this.props.onDoItLaterCircuitListItemClick(this);
-    this.setState({
-      isSelected: true
-    });
   };
 
   /**
@@ -38,8 +35,7 @@ export default class DoItLaterCircuitListItem extends Component {
    */
   getClassName() {
     return (
-      this.timerColor +
-      (this.state.isSelected ? " selected" : "")
+      this.timerColor
     );
   }
 

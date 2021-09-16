@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Icon, Label, List } from "semantic-ui-react";
 import { LearningCircuitModel } from "../../../../models/LearningCircuitModel";
 import UtilRenderer from "../../../../UtilRenderer";
+import moment from "moment";
 
 /**
  * builds our retros circuit list component.
@@ -14,9 +15,7 @@ export default class RetroCircuitListItem extends Component {
       isRetro: LearningCircuitModel.isRetro(
         this.props.model
       ),
-      time: UtilRenderer.getTimeStringFromTimeArray(
-        this.props.model.openTime
-      ),
+      time: this.getWtfTimerCount(this.props.model),
       timerIcon: this.isRetro
         ? "balance scale"
         : "lightning",
@@ -29,9 +28,6 @@ export default class RetroCircuitListItem extends Component {
    */
   handleClick = () => {
     this.props.onRetroCircuitListItemClick(this);
-    this.setState({
-      isSelected: true
-    });
   };
 
   /**
@@ -40,10 +36,28 @@ export default class RetroCircuitListItem extends Component {
    */
   getClassName() {
     return (
-      this.timerColor +
-      (this.state.isSelected ? " selected" : "")
+      this.timerColor
     );
   }
+
+    /**
+     * renders our wtf time from the circuit that is passed into from the
+     * renderer.
+     * @param circuit
+     * @returns {string}
+     */
+    getWtfTimerCount(circuit) {
+        if (!circuit) {
+            return "loading...";
+        } else {
+            this.openUtcTime = moment.utc(circuit.openTime);
+
+            return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
+                this.openUtcTime,
+                circuit.totalCircuitPausedNanoTime
+            );
+        }
+    }
 
   /**
    * renders our shit.
@@ -69,8 +83,7 @@ export default class RetroCircuitListItem extends Component {
           <List.Header>
             {this.props.model.circuitName}
           </List.Header>
-          <i className="name">(Zoe Love)</i>
-          {/*<i className="name">({this.props.model.ownerName})</i>*/}
+          <i className="name">({this.props.model.ownerName})</i>
         </List.Content>
       </List.Item>
     );

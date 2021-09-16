@@ -51,15 +51,11 @@ export default class LiveCircuitListItem extends Component {
 
     handleClick = () => {
     this.props.onActiveCircuitListItemClick(this);
-    this.setState({
-      isSelected: true
-    });
   };
 
   getClassName() {
     return (
-      this.timerColor +
-      (this.state.isSelected ? " selected" : "")
+      this.timerColor
     );
   }
 
