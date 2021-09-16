@@ -78,7 +78,9 @@ export default class ActiveCircuitFeed extends Component {
       resource: props.resource,
       model: null,
       messages: [],
-      circuitMembers: []
+      circuitMembers: [],
+      circuitName: null,
+      circuitState: null
     };
     this.props.set(this);
   }
@@ -153,7 +155,11 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
+
     this.messages = nextState.messages;
+
+    this.circuitName = nextProps.circuit.circuitName;
+    this.circuitState = nextProps.circuit.circuitState;
 
     this.updateChatMessages(nextProps.circuit);
     return true;
@@ -181,6 +187,17 @@ export default class ActiveCircuitFeed extends Component {
     }
   }
 
+  updateCircuitStatus(circuit) {
+
+    this.circuitName = circuit.circuitName;
+    this.circuitState = circuit.circuitState;
+
+    this.forceUpdate(() => {
+        this.scrollToFeedBottom();
+    });
+
+  }
+
   /**
    * adds a chat message to the end of all of our chat
    * messages, and update the gui. This assumes we have
@@ -188,7 +205,6 @@ export default class ActiveCircuitFeed extends Component {
    * @param message
    */
   appendChatMessage(message) {
-
     let metaProps = message.metaProps,
       username = this.getUsernameFromMetaProps(metaProps),
       time = UtilRenderer.getChatMessageTimeString(
@@ -422,7 +438,7 @@ export default class ActiveCircuitFeed extends Component {
     return (
       <Transition
         visible={
-          !UtilRenderer.isCircuitPaused(this.state.model)
+          !UtilRenderer.isCircuitStatePaused(this.circuitState)
         }
         animation="fade"
         duration={210}

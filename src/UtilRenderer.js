@@ -362,16 +362,27 @@ export default class UtilRenderer {
   }
 
   /**
-   * checks a circuit to see if its state is on_hold (paused)
+   * checks to see if circuit is on_hold (paused)
    * @param circuit
    * @returns {boolean}
    */
   static isCircuitPaused(circuit) {
     return (
-      circuit &&
-      circuit.circuitState ===
-        BaseClient.CircuitStates.ON_HOLD
+        circuit &&
+        circuit.circuitState === BaseClient.CircuitStates.ON_HOLD
     );
+  }
+
+  /**
+   * checks to see if circuit state is on_hold (paused)
+   * @param circuitState
+   * @returns {boolean}
+   */
+  static isCircuitStatePaused(circuitState) {
+      return (
+          circuitState &&
+          circuitState === BaseClient.CircuitStates.ON_HOLD
+      );
   }
 
   /**

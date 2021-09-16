@@ -79,6 +79,7 @@ export default class ActiveCircuit extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
+
     if (
       !this.state.model ||
       this.state.scrapbookVisible !==
@@ -250,10 +251,32 @@ export default class ActiveCircuit extends Component {
       model &&
       circuit.id === model.id
     ) {
-        //currently the only updatable property via status update message
-        this.circuitSidebarComponent.setDescription(circuit.description);
+
+        model = Object.assign(model, circuit);
+        this.updateStateModelsOnTalkMessageUpdate(model);
+
     }
   }
+
+    /**
+     * updates our models in our various child components states. This
+     * utilizes callback functions which are way faster then using refs
+     * @param model
+     */
+    updateStateModelsOnTalkMessageUpdate(model) {
+        this.setState({
+            model: model
+        });
+        this.circuitSidebarComponent.setState({
+            model: model
+        });
+
+        //for some reason setState freezes the component so it stops updating,
+        //this updates the required state without making the component weird out
+        this.circuitFeedComponent.updateCircuitStatus(model);
+
+    }
+
 
   /**
    * updates our models in our various child components states. This
@@ -267,6 +290,7 @@ export default class ActiveCircuit extends Component {
     this.circuitSidebarComponent.setState({
       model: model
     });
+
     this.circuitFeedComponent.setState({
       model: model
     });
