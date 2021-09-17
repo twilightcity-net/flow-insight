@@ -176,6 +176,19 @@ export default class UtilRenderer {
   }
 
     /**
+     * figured out what our open time string is given input default format,
+     * and return in the form required for the UI to display Journal Time
+     * @param formattedTime like 2021-09-10T18:00:10.31
+     * @returns {string}
+     */
+    static getJournalTimeString(formattedTime) {
+
+        let t = moment.utc(formattedTime, "YYYY-MM-DDTHH:mm:ss.SSS");
+
+        return t.utc().local().calendar() ;
+    }
+
+    /**
      * figured out what our chat message time string is given input default format,
      * and return in the form required for the UI to display Chat Message Times
      * @param formattedTime like 2021-09-10T18:00:10.31

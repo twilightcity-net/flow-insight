@@ -150,10 +150,11 @@ export default class TeamPanelListItem extends Component {
           <div>
             <b>
               <span className="taskhighlight">
-                WORKING ON:<br/>{activeTaskName}
+                WORK ON:<br/>{activeTaskName}
               </span>
             </b>
           </div>
+            <div><i>{activeTaskSummary}</i><br/><br/></div>
           <div>{workingOn}</div>
         </div>
       )
@@ -175,7 +176,7 @@ export default class TeamPanelListItem extends Component {
     return (
       <div className="circuit">
         <Divider />
-        <div className="state">TROUBLESHOOTING:</div>
+        <div className="state">TROUBLESHOOT:</div>
         <div className="name">
             {description}
         </div>

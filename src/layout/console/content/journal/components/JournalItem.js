@@ -10,6 +10,7 @@ import {
 import { JournalClient } from "../../../../../clients/JournalClient";
 import { error } from "electron-log";
 import { MemberClient } from "../../../../../clients/MemberClient";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component is the individual journal item entered in by the user
@@ -228,9 +229,6 @@ export default class JournalItem extends Component {
     return (
       <div>
         <div>
-          <i>{model.projectName}</i>
-        </div>
-        <div>
           <b>
             <span className="taskhighlight">
               {" "}
@@ -238,11 +236,14 @@ export default class JournalItem extends Component {
             </span>
           </b>
         </div>
+        <div>
+            <i>{model.projectName}</i>
+        </div>
         <div>{model.taskSummary}</div>
 
         <Divider />
         <div>
-          <span className="date">{model.position}</span>
+          <span className="date">{UtilRenderer.getJournalTimeString(model.position)}</span>
         </div>
       </div>
     );

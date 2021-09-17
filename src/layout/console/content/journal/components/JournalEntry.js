@@ -55,7 +55,8 @@ export default class JournalEntry extends Component {
     this.state = {
       currentProjectValue: null,
       currentTaskValue: null,
-      currentIntentionValue: ""
+      currentIntentionValue: "",
+      isFirstEntryOnTask: false,
     };
   }
 
@@ -216,8 +217,13 @@ export default class JournalEntry extends Component {
   createTask(name) {
     let projectId = this.state.currentProjectValue;
     this.props.createTask(projectId, name, task => {
+        let isDescriptionBlank = false;
+        if (!task.description) {
+            isDescriptionBlank = true;
+        }
       this.setState({
-        currentTaskValue: task.id
+        currentTaskValue: task.id,
+        isFirstEntryOnTask: isDescriptionBlank
       });
     });
   }
@@ -277,7 +283,8 @@ export default class JournalEntry extends Component {
       this.state.currentIntentionValue
     );
     this.setState({
-      currentIntentionValue: ""
+      currentIntentionValue: "",
+      isFirstEntryOnTask: false
     });
   }
 
@@ -411,13 +418,18 @@ export default class JournalEntry extends Component {
    * @returns {*}
    */
   getTextInput() {
+    let placeholderText = "What's your next Intention?";
+    if (this.state.isFirstEntryOnTask) {
+        placeholderText = "What's the task?";
+    }
+
     return (
       <Input
         id="intentionTextInput"
         className="intentionText"
         fluid
         inverted
-        placeholder="What's your next Intention?"
+        placeholder={placeholderText}
         value={this.state.currentIntentionValue}
         onFocus={this.handleFocusForIntention}
         onBlur={this.handleBlurForInput}
