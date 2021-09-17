@@ -28,7 +28,7 @@ export default class TeamPanelListItem extends Component {
     this.state = {
       isOnline: UtilRenderer.isMemberOnline(props.model),
       isAlarm: UtilRenderer.isMemberAlarm(props.model),
-      isHelping: UtilRenderer.isMemberHelping(props.model)
+      isHelping: UtilRenderer.isMemberHelping(props.model),
     };
   }
 
@@ -43,6 +43,7 @@ export default class TeamPanelListItem extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
+
     let model = nextProps.model;
     if (this.props.model !== model) {
       this.setState({
@@ -50,14 +51,9 @@ export default class TeamPanelListItem extends Component {
         isAlarm: UtilRenderer.isMemberAlarm(model),
         isHelping: UtilRenderer.isMemberHelping(model)
       });
-      return false;
     }
 
-    return !(
-      this.state.isOnline === nextState.isOnline &&
-      this.state.isAlarm === nextState.isAlarm &&
-      this.state.isHelping === nextState.isHelping
-    );
+    return true;
   }
 
   /**
@@ -147,15 +143,14 @@ export default class TeamPanelListItem extends Component {
     activeTaskSummary,
     workingOn
   ) {
-    return (
-      activeTaskName &&
-      activeTaskSummary && (
+      return (
+      activeTaskName && (
         <div>
           <Divider />
           <div>
             <b>
               <span className="taskhighlight">
-                {activeTaskName}: {activeTaskSummary}
+                WORKING ON:<br/>{activeTaskName}
               </span>
             </b>
           </div>
@@ -171,17 +166,23 @@ export default class TeamPanelListItem extends Component {
    * @returns {*}
    */
   getAlarmPopupContent(circuit) {
+
+    let description = " /wtf/"+circuit.circuitName;
+    if (circuit.description) {
+      description = circuit.description;
+    }
+
     return (
       <div className="circuit">
         <Divider />
-        <div className="state">{circuit.circuitState}:</div>
+        <div className="state">TROUBLESHOOTING:</div>
         <div className="name">
-          {" /circuit/wtf/" + circuit.circuitName}
+            {description}
         </div>
         <div className="owner">
-          Owner: {circuit.ownerName}
+            <i>{ "Owner: ("+ circuit.ownerName + ")"}</i>
         </div>
-        <div className="time">T+ {circuit.openTime}</div>
+        <div className="time"><Icon name="lightning" />{UtilRenderer.getWtfTimerCount(circuit)}</div>
       </div>
     );
   }
