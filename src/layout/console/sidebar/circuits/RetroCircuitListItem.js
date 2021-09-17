@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Icon, Label, List } from "semantic-ui-react";
+import {Icon, Label, List, Popup} from "semantic-ui-react";
 import { LearningCircuitModel } from "../../../../models/LearningCircuitModel";
 import UtilRenderer from "../../../../UtilRenderer";
 import moment from "moment";
@@ -59,11 +59,46 @@ export default class RetroCircuitListItem extends Component {
         }
     }
 
+
+
+    /**
+     * renders our popup content for our GUI to display to the user
+     * @param trigger
+     * @returns {*}
+     */
+    getPopupContent(trigger) {
+        let circuit = this.props.model,
+            circuitState = circuit.circuitState,
+            description = circuit.description;
+
+        let popupContent = (
+            <div>
+                <div className="circuit">
+                    <div className="state"><b>{circuitState}</b></div>
+                    <div className="name">
+                        <i>{description}</i>
+                    </div>
+                </div>
+            </div>
+        );
+
+        return (
+            <Popup
+                trigger={trigger}
+                className="circuitPopup chunkTitle"
+                content={popupContent}
+                position="right center"
+                inverted
+                hideOnScroll
+            />
+        );
+    }
+
   /**
    * renders our shit.
    */
   render() {
-    return (
+    return (this.getPopupContent(
       <List.Item
         className={this.getClassName()}
         key={this.props.model.id}
@@ -86,6 +121,6 @@ export default class RetroCircuitListItem extends Component {
           <i className="name">({this.props.model.ownerName})</i>
         </List.Content>
       </List.Item>
-    );
+    ));
   }
 }
