@@ -3,8 +3,7 @@ import TerminalContent from "./components/TerminalContent";
 
 /**
  * this component is the tab panel wrapper for the terminal resource
- * @author ZoeDreams
- * @copyright DreamScale, Inc. 2020©®™√
+ * @copyright Twilight City, Inc. 2021©®™√
  */
 export default class TerminalResource extends Component {
   /**

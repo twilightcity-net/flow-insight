@@ -7,8 +7,7 @@ import { RendererControllerFactory } from "../../../../../controllers/RendererCo
 
 /**
  * this component is the tab panel wrapper for the terminal content
- * @author ZoeDreams
- * @copyright DreamScale, Inc. 2020©®™√
+ * @copyright Twilight City, Inc. 2021©®™√
  */
 export default class TerminalContent extends Component {
   /**

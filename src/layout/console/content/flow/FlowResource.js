@@ -3,8 +3,7 @@ import FlowContent from "./components/FlowContent";
 
 /**
  * this component is the tab panel wrapper for the flow content
- * @author ZoeDreams
- * @copyright DreamScale, Inc. 2020©®™√
+ * @copyright Twilight City, Inc. 2021©®™√
  */
 export default class FlowResource extends Component {
   /**
