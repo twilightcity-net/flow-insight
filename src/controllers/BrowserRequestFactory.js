@@ -135,8 +135,6 @@ export class BrowserRequestFactory {
    */
   static createRequest(requestType, ...args) {
     try {
-
-
       switch (requestType) {
         case BrowserRequestFactory.Requests.COMMAND:
           return BrowserRequestFactory._getCommandRequest(
@@ -247,10 +245,10 @@ export class BrowserRequestFactory {
    */
   static _getUnknownCommandErrorRequest() {
     return (
-        BrowserRequestFactory.Commands.OPEN +
-        BrowserRequestFactory.URI_SEPARATOR +
-        BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.ERROR
+      BrowserRequestFactory.Commands.OPEN +
+      BrowserRequestFactory.URI_SEPARATOR +
+      BrowserRequestFactory.ROOT_SEPARATOR +
+      BrowserRequestFactory.Locations.ERROR
     );
   }
 

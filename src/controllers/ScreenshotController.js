@@ -70,7 +70,7 @@ export class ScreenshotController {
   /**
    * so the thing we want to do, is everytime the console opens, before it automatically opens,
    * there's an async call made to capture a screenshot, and write it to .flow/latest_capture.png
-   * then the torchie app here, should display whatever is in latest screen
+   * then the TC app here, should display whatever is in latest screen
    * the content of latest screen should be refreshed whenever the troubleshooting window is re-rendered
    * if no SS is available, will be black, hopefully there will be a SS in the directory
    * these files are only sent to the server if "start troubleshooting is pressed"

@@ -433,40 +433,44 @@ module.exports = class CircuitDatabase extends LokiJS {
     }
   }
 
-    /**
-     * updates our circuit with a new description. This updates,
-     * removes and inserts into the later collection.
-     * @param circuit
-     * @param me
-     */
-    updateCircuitForDescription(circuit, me) {
-        let collection = this.getCollection(
-            CircuitDatabase.Collections.CIRCUITS
-        );
+  /**
+   * updates our circuit with a new description. This updates,
+   * removes and inserts into the later collection.
+   * @param circuit
+   * @param me
+   */
+  updateCircuitForDescription(circuit, me) {
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.CIRCUITS
+    );
 
-        DatabaseUtil.findUpdate(circuit, collection);
-        DatabaseUtil.log(
-            "update circuit description -> "+circuit.description,
-            circuit.id
-        );
+    DatabaseUtil.findUpdate(circuit, collection);
+    DatabaseUtil.log(
+      "update circuit description -> " +
+        circuit.description,
+      circuit.id
+    );
 
-        collection = this.getCollection(
-            CircuitDatabase.Collections.PARTICIPATING
-        );
-        DatabaseUtil.findUpdate(circuit, collection);
-        DatabaseUtil.log(
-            "update description for participating circuits",
-            circuit.id
-        );
+    collection = this.getCollection(
+      CircuitDatabase.Collections.PARTICIPATING
+    );
+    DatabaseUtil.findUpdate(circuit, collection);
+    DatabaseUtil.log(
+      "update description for participating circuits",
+      circuit.id
+    );
 
-        if (Util.isCircuitOwnerModerator(me, circuit)) {
-            collection = this.getCollection(
-                CircuitDatabase.Collections.LATER
-            );
-            DatabaseUtil.findUpdate(circuit, collection);
-            DatabaseUtil.log("update description for later circuits", circuit.id);
-        }
+    if (Util.isCircuitOwnerModerator(me, circuit)) {
+      collection = this.getCollection(
+        CircuitDatabase.Collections.LATER
+      );
+      DatabaseUtil.findUpdate(circuit, collection);
+      DatabaseUtil.log(
+        "update description for later circuits",
+        circuit.id
+      );
     }
+  }
 
   /**
    * solves a given active circuit which is a wtf.

@@ -28,7 +28,7 @@ export default class TeamPanelListItem extends Component {
     this.state = {
       isOnline: UtilRenderer.isMemberOnline(props.model),
       isAlarm: UtilRenderer.isMemberAlarm(props.model),
-      isHelping: UtilRenderer.isMemberHelping(props.model),
+      isHelping: UtilRenderer.isMemberHelping(props.model)
     };
   }
 
@@ -43,7 +43,6 @@ export default class TeamPanelListItem extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-
     let model = nextProps.model;
     if (this.props.model !== model) {
       this.setState({
@@ -143,18 +142,24 @@ export default class TeamPanelListItem extends Component {
     activeTaskSummary,
     workingOn
   ) {
-      return (
+    return (
       activeTaskName && (
         <div>
           <Divider />
           <div>
             <b>
               <span className="taskhighlight">
-                WORK ON:<br/>{activeTaskName}
+                WORK ON:
+                <br />
+                {activeTaskName}
               </span>
             </b>
           </div>
-            <div><i>({activeTaskSummary})</i><br/><br/></div>
+          <div>
+            <i>({activeTaskSummary})</i>
+            <br />
+            <br />
+          </div>
           <div>{workingOn}</div>
         </div>
       )
@@ -167,8 +172,7 @@ export default class TeamPanelListItem extends Component {
    * @returns {*}
    */
   getAlarmPopupContent(circuit) {
-
-    let description = " /wtf/"+circuit.circuitName;
+    let description = " /wtf/" + circuit.circuitName;
     if (circuit.description) {
       description = circuit.description;
     }
@@ -177,13 +181,14 @@ export default class TeamPanelListItem extends Component {
       <div className="circuit">
         <Divider />
         <div className="state">TROUBLESHOOT:</div>
-        <div className="name">
-            {description}
-        </div>
+        <div className="name">{description}</div>
         <div className="owner">
-            <i>{ "Owner: ("+ circuit.ownerName + ")"}</i>
+          <i>{"Owner: (" + circuit.ownerName + ")"}</i>
         </div>
-        <div className="time"><Icon name="lightning" />{UtilRenderer.getWtfTimerCount(circuit)}</div>
+        <div className="time">
+          <Icon name="lightning" />
+          {UtilRenderer.getWtfTimerCount(circuit)}
+        </div>
       </div>
     );
   }
@@ -199,7 +204,10 @@ export default class TeamPanelListItem extends Component {
     if (this.state.isOnline && !this.state.isAlarm) {
       name = "circle";
       color = "green";
-    } else if (this.state.isOnline && this.state.isHelping) {
+    } else if (
+      this.state.isOnline &&
+      this.state.isHelping
+    ) {
       name = "circle";
       color = "violet";
     } else if (this.state.isOnline && this.state.isAlarm) {

@@ -330,18 +330,17 @@ export default class ActivatorView extends Component {
           <p>****** End-User License Agreement ******</p>
           <p>
             This License Agreement ("Agreement") is made
-            between you (the "Licensee") and DreamScale,
+            between you (the "Licensee") and Twilight City,
             Inc. (the "Licensor"). The terms of this
             Agreement apply to all current and future
-            versions and updates of Torchie collborative
-            troubleshooting software ("Torchie").
+            versions and updates of Twilight City
+            collaborative learning software ("TC").
           </p>
           <p>
-            By installing, enabling or using Torchie,
-            Licensee agrees with all the terms of this
-            Agreement. Licensor reserves all rights not
-            specifically granted and transferred to
-            Licensee.
+            By installing, enabling or using TC, Licensee
+            agrees with all the terms of this Agreement.
+            Licensor reserves all rights not specifically
+            granted and transferred to Licensee.
           </p>
           <p>
             Licensee understands, acknowledges and agrees
@@ -350,70 +349,49 @@ export default class ActivatorView extends Component {
           <ul>
             <li>
               Licensor grants Licensee a non-exclusive and
-              non-transferable license to use Torchie for
+              non-transferable license to use TC for
               non-commercial purposes only. Licensee
-              therefore does not own Torchie, Licensor
-              remains the owner of Torchie.
+              therefore does not own TC, Licensor remains
+              the owner of TC.
             </li>
             <li>
-              Licensor provides Torchie on an "as is" basis
+              Licensor provides TC on an "as is" basis
               without warranty of any kind. Licensor neither
               guarantees the correct, error-free functioning
-              of Torchie nor is Licensor responsible for any
-              damage caused by the use of Torchie.
+              of TC nor is Licensor responsible for any
+              damage caused by the use of TC.
             </li>
             <li>
               Licensee may not decompile, disassemble,
-              reverse-engineer, modify or redistribute
-              Torchie in any way.
+              reverse-engineer, modify or redistribute TC in
+              any way.
             </li>
             <li>
-              Torchie will automatically, without notice to
+              TC will automatically, without notice to
               Licensee, download and install updates from
               time to time.
             </li>
             <li>
-              Torchie may scan Licensee's entire random
-              access memory (RAM), and any software-related
-              and system-related files and folders on
-              Licensee's system using hueristic-algorithms,
-              report results of such algorithms to other
-              connected computers and/or to Licensor and
-              store such information for the sole purpose of
-              troubleshooting software issues. Torchie only
-              scans and/or reports data which absolutely
-              needs to be scanned and/or reported to meet
-              this purpose.
-            </li>
-            <li>
-              Torchie may further report and store
-              Licensee's Internet Protocol address, account
-              name and identifier, in-app nickname, and
-              system-related and hardware-related
-              information including, but not limited to,
-              device identifiers and hardware serial
-              numbers.
+              TC may report and store Licensee's Internet
+              Protocol address, account name and identifier,
+              in-app nickname, and system-related and
+              hardware-related information including, but
+              not limited to, device identifiers and
+              hardware serial numbers.
             </li>
             <li>
               Licensor values Licensee's privacy and does
-              its utmost to protect it at all times. Torchie
-              does not report any personally identifiable
+              its utmost to protect it at all times. TC does
+              not report any personally identifiable
               information or personal data except for any
               information/data specifically mentioned
               herein.
             </li>
             <li>
               Licensor stores all information collected by
-              Torchie on servers located in Europe and/or
-              the US. Licensor may share the information
-              with its partners and/or affiliates.
-            </li>
-            <li>
-              {" "}
-              Licensee acknowledges that the invasive nature
-              of Torchie is necessary to meet its purpose
-              and goal of troubleshooting software
-              development.
+              TC on servers located in Europe and/or the US.
+              Licensor may share the information with its
+              partners and/or affiliates.
             </li>
             <li>
               Licensor is allowed to terminate the license
@@ -450,7 +428,7 @@ export default class ActivatorView extends Component {
           <Divider clearing />
           <Header as="h3" floated="left" inverted>
             <Header.Content>
-              Activating Torchie...
+              Activating Twilight City...
               <Header.Subheader>
                 <i>
                   Please standby while we verify your

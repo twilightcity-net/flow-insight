@@ -180,13 +180,15 @@ module.exports = class JournalController extends BaseController {
       );
 
       //only update recent projects and tasks for the logged in user
-      if (username === JournalController.Strings.ME || username === this.getMeUsername()) {
-          database.updateJournalProjects(data.recentProjects);
-          database.updateJournalTasks(
-              data.recentTasksByProjectId
-          );
+      if (
+        username === JournalController.Strings.ME ||
+        username === this.getMeUsername()
+      ) {
+        database.updateJournalProjects(data.recentProjects);
+        database.updateJournalTasks(
+          data.recentTasksByProjectId
+        );
       }
-
     }
 
     JournalController.instance.userHistory.add(username);
@@ -456,10 +458,10 @@ module.exports = class JournalController extends BaseController {
         },
         args => {
           if (args.data) {
-              arg.data = args.data.recentIntentions;
+            arg.data = args.data.recentIntentions;
           }
           if (args.error) {
-              arg.error = args.error;
+            arg.error = args.error;
           }
 
           this.delegateCallbackOrEventReplyTo(

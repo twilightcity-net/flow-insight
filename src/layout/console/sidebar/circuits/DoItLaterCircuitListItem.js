@@ -1,5 +1,11 @@
 import React, { Component } from "react";
-import {Divider, Icon, Label, List, Popup} from "semantic-ui-react";
+import {
+  Divider,
+  Icon,
+  Label,
+  List,
+  Popup
+} from "semantic-ui-react";
 import { LearningCircuitModel } from "../../../../models/LearningCircuitModel";
 import UtilRenderer from "../../../../UtilRenderer";
 import moment from "moment";
@@ -34,65 +40,64 @@ export default class DoItLaterCircuitListItem extends Component {
    * gets our classname
    */
   getClassName() {
+    return this.timerColor;
+  }
+
+  /**
+   * renders our wtf time from the circuit that is passed into from the
+   * renderer.
+   * @param circuit
+   * @returns {string}
+   */
+  getWtfTimerCount(circuit) {
+    if (!circuit) {
+      return "loading...";
+    } else {
+      this.openUtcTime = moment.utc(circuit.openTime);
+
+      return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
+        this.openUtcTime,
+        circuit.totalCircuitPausedNanoTime
+      );
+    }
+  }
+
+  /**
+   * renders our popup content for our GUI to display to the user
+   * @param trigger
+   * @returns {*}
+   */
+  getPopupContent(trigger) {
+    let circuit = this.props.model,
+      description = circuit.description;
+
+    let popupContent = (
+      <div>
+        <div className="circuit">
+          <div className="state">
+            <b>ON HOLD</b>
+          </div>
+          <div className="name">
+            <i>{description}</i>
+          </div>
+        </div>
+      </div>
+    );
+
     return (
-      this.timerColor
+      <Popup
+        trigger={trigger}
+        className="circuitPopup chunkTitle"
+        content={popupContent}
+        position="right center"
+        inverted
+        hideOnScroll
+      />
     );
   }
 
-    /**
-     * renders our wtf time from the circuit that is passed into from the
-     * renderer.
-     * @param circuit
-     * @returns {string}
-     */
-    getWtfTimerCount(circuit) {
-        if (!circuit) {
-            return "loading...";
-        } else {
-            this.openUtcTime = moment.utc(circuit.openTime);
-
-            return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
-                this.openUtcTime,
-                circuit.totalCircuitPausedNanoTime
-            );
-        }
-    }
-
-
-    /**
-     * renders our popup content for our GUI to display to the user
-     * @param trigger
-     * @returns {*}
-     */
-    getPopupContent(trigger) {
-        let circuit = this.props.model,
-            description = circuit.description;
-
-        let popupContent = (
-            <div>
-                <div className="circuit">
-                    <div className="state"><b>ON HOLD</b></div>
-                    <div className="name">
-                        <i>{description}</i>
-                    </div>
-                </div>
-            </div>
-        );
-
-        return (
-            <Popup
-                trigger={trigger}
-                className="circuitPopup chunkTitle"
-                content={popupContent}
-                position="right center"
-                inverted
-                hideOnScroll
-            />
-        );
-    }
-
   render() {
-    return (this.getPopupContent(
+    return this.getPopupContent(
       <List.Item
         className={this.getClassName()}
         key={this.props.model.id}
@@ -112,10 +117,11 @@ export default class DoItLaterCircuitListItem extends Component {
           <List.Header>
             {this.props.model.circuitName}
           </List.Header>
-          <i className="name">({this.props.model.ownerName})</i>
+          <i className="name">
+            ({this.props.model.ownerName})
+          </i>
         </List.Content>
       </List.Item>
-    ));
-
+    );
   }
 }

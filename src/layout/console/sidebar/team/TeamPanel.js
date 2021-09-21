@@ -155,32 +155,34 @@ export default class TeamPanel extends Component {
       activeCircuit = member.activeCircuit,
       uri = BrowserController.uri + "";
 
-    if (this.lastClickedUser && this.lastClickedUser === name) {
-
-        if (
-            activeCircuit &&
-            uri.startsWith(
-                BrowserRequestFactory.ROOT_SEPARATOR +
-                BrowserRequestFactory.Requests.JOURNAL
-            )
-        ) {
-            this.requestBrowserToLoadTeamMemberActiveCircuit(
-                activeCircuit.circuitName
-            );
-        } else {
-            this.requestBrowserToLoadTeamJournalAndSetActiveMember(
-                name
-            );
-        }
+    if (
+      this.lastClickedUser &&
+      this.lastClickedUser === name
+    ) {
+      if (
+        activeCircuit &&
+        uri.startsWith(
+          BrowserRequestFactory.ROOT_SEPARATOR +
+            BrowserRequestFactory.Requests.JOURNAL
+        )
+      ) {
+        this.requestBrowserToLoadTeamMemberActiveCircuit(
+          activeCircuit.circuitName
+        );
+      } else {
+        this.requestBrowserToLoadTeamJournalAndSetActiveMember(
+          name
+        );
+      }
     } else {
       if (activeCircuit) {
-          this.requestBrowserToLoadTeamMemberActiveCircuit(
-              activeCircuit.circuitName
-          );
+        this.requestBrowserToLoadTeamMemberActiveCircuit(
+          activeCircuit.circuitName
+        );
       } else {
-          this.requestBrowserToLoadTeamJournalAndSetActiveMember(
-              name
-          );
+        this.requestBrowserToLoadTeamJournalAndSetActiveMember(
+          name
+        );
       }
     }
 

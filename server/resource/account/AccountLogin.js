@@ -12,7 +12,7 @@ module.exports = class AccountLogin {
           status: "VALID"
         });
         // let dtoRes = new SimpleStatusDto({
-        //   message: "Sorry unable to login into Torchie",
+        //   message: "Sorry unable to login into TC",
         //   status: "FAILED"
         // });
 

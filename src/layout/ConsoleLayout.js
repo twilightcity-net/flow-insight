@@ -121,15 +121,15 @@ export default class ConsoleLayout extends Component {
   };
 
   /**
-   * the name of the users torchie spirit
+   * the name of the users Fervie
    * @returns {string}
    */
-  getTorchieName = () => {
-    let torchieName = "Member";
+  getFervieName = () => {
+    let fervieName = "Member";
     if (this.state.activeTeamMember) {
-      torchieName = this.state.activeTeamMember.displayName;
+      fervieName = this.state.activeTeamMember.displayName;
     }
-    return torchieName;
+    return fervieName;
   };
 
   /**

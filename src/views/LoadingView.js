@@ -183,10 +183,7 @@ export default class LoadingView extends Component {
         </Transition>
         <Header as="h2" inverted>
           <Header.Content>
-
-            <Header.Subheader>
-
-            </Header.Subheader>
+            <Header.Subheader></Header.Subheader>
           </Header.Content>
         </Header>
         <Progress
@@ -257,8 +254,7 @@ export default class LoadingView extends Component {
         </Container>
       </Container>
     );
-    let videoPosterSrc =
-        "./assets/images/TC_intro.png",
+    let videoPosterSrc = "./assets/images/TC_intro.png",
       videoSrc = "./assets/video/TC_intro.mp4",
       videoType = "video/mp4";
     return (

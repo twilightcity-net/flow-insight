@@ -46,24 +46,24 @@ export class CircuitClient extends BaseClient {
     );
 
     this.circuitPauseResumeNotifier = RendererEventFactory.createEvent(
-        RendererEventFactory.Events
-            .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
-        this,
-        this.handleCircuitStartStopCallback
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
+      this,
+      this.handleCircuitStartStopCallback
     );
 
     this.circuitJoinLeaveNotifier = RendererEventFactory.createEvent(
-        RendererEventFactory.Events
-            .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
-        this,
-        this.handleCircuitStartStopCallback
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
+      this,
+      this.handleCircuitStartStopCallback
     );
 
     this.circuitSolveNotifier = RendererEventFactory.createEvent(
-        RendererEventFactory.Events
-            .VIEW_CONSOLE_CIRCUIT_SOLVE,
-        this,
-        this.handleCircuitStartStopCallback
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_SOLVE,
+      this,
+      this.handleCircuitStartStopCallback
     );
   }
 
@@ -127,7 +127,7 @@ export class CircuitClient extends BaseClient {
       RESUME_WTF: "resume-wtf",
       PAUSE_WTF_WITH_DO_IT_LATER:
         "pause-wtf-with-do-it-later",
-        UPDATE_CIRCUIT_DESCRIPTION:
+      UPDATE_CIRCUIT_DESCRIPTION:
         "update-circuit-description"
     };
   }
@@ -545,30 +545,33 @@ export class CircuitClient extends BaseClient {
     return event;
   }
 
-    /**
-     * Updates the description name of the specified circuit
-     * also known as do it later.
-     * @param circuitName
-     * @param description
-     * @param scope
-     * @param callback
-     * @returns {RendererClientEvent}
-     */
-    static updateCircuitDescription (
-        circuitName,
-        description,
-        scope,
-        callback
-    ) {
-        let event = CircuitClient.instance.createClientEvent(
-            CircuitClient.Events.UPDATE_CIRCUIT_DESCRIPTION,
-            { circuitName: circuitName, description: description },
-            scope,
-            callback
-        );
-        CircuitClient.instance.notifyCircuit(event);
-        return event;
-    }
+  /**
+   * Updates the description name of the specified circuit
+   * also known as do it later.
+   * @param circuitName
+   * @param description
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static updateCircuitDescription(
+    circuitName,
+    description,
+    scope,
+    callback
+  ) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.UPDATE_CIRCUIT_DESCRIPTION,
+      {
+        circuitName: circuitName,
+        description: description
+      },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
 
   /**
    * the event callback used by the event manager. removes the event from

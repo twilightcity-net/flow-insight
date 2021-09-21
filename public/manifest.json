@@ -1,11 +1,11 @@
 {
-  "short_name": "Torchie",
-  "name": "Torchie Shell",
+  "short_name": "TC",
+  "name": "TwilightCity",
   "start_url": "./index.html",
   "display": "standalone",
   "theme_color": "#000000",
   "background_color": "#ffffff",
-  "year": "2020",
-  "org": "DreamScale",
-  "author": "ZoeDreams"
+  "year": "2021",
+  "org": "Twilight City, Inc",
+  "author": "Twilight City, Inc"
 }

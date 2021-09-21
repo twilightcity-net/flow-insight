@@ -13,12 +13,10 @@ module.exports = class WindowManagerHelper {
    */
   static get WindowNames() {
     return {
-      LOADING:
-        "torchie-" + ViewManagerHelper.ViewNames.LOADING,
+      LOADING: "tc-" + ViewManagerHelper.ViewNames.LOADING,
       ACTIVATOR:
-        "torchie-" + ViewManagerHelper.ViewNames.ACTIVATOR,
-      CONSOLE:
-        "torchie-" + ViewManagerHelper.ViewNames.CONSOLE
+        "tc-" + ViewManagerHelper.ViewNames.ACTIVATOR,
+      CONSOLE: "tc-" + ViewManagerHelper.ViewNames.CONSOLE
     };
   }
 

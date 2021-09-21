@@ -187,7 +187,7 @@ class Util {
   }
 
   /**
-   * gets the path of our .flow directory that torchie and our plugins share
+   * gets the path of our .flow directory that TC and our plugins share
    * @returns {string}
    */
   static getFlowHomePath() {

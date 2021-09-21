@@ -26,7 +26,7 @@ module.exports = class AppTray extends Tray {
         role: "quit"
       }
     ]);
-    this.setToolTip("Torchie");
+    this.setToolTip("Twilight City");
     this.setContextMenu(menu);
     this.on("click", (event, bounds, position) => {
       log.info("[AppTray] tray event -> click");

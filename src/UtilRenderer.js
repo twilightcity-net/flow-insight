@@ -98,7 +98,9 @@ export default class UtilRenderer {
         pausedNanoTime
       );
 
-    return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(t);
+    return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(
+      t
+    );
   }
 
   /**
@@ -127,7 +129,7 @@ export default class UtilRenderer {
    */
   static getWtfTimerStringFromTimeDurationSeconds(seconds) {
     return UtilRenderer.getWtfTimerString(
-      ((seconds / 3600) | 0) ,
+      (seconds / 3600) | 0,
       ((seconds / 60) | 0) % 60,
       seconds % 60
     );
@@ -148,18 +150,18 @@ export default class UtilRenderer {
    * @returns {string}
    */
   static getTimeStringFromTimeArray(array) {
-      if (array) {
-          let t = moment.utc([
-              array[0],
-              array[1] - 1,
-              array[2],
-              array[3],
-              array[4],
-              array[5]
-          ]);
-          return t.format(UtilRenderer.wtfTimeFormatStr);
-      }
-      return "";
+    if (array) {
+      let t = moment.utc([
+        array[0],
+        array[1] - 1,
+        array[2],
+        array[3],
+        array[4],
+        array[5]
+      ]);
+      return t.format(UtilRenderer.wtfTimeFormatStr);
+    }
+    return "";
   }
 
   /**
@@ -169,36 +171,51 @@ export default class UtilRenderer {
    * @returns {string}
    */
   static getOpenTimeString(formattedTime) {
+    let t = moment.utc(
+      formattedTime,
+      "YYYY-MM-DDTHH:mm:ss.SSS"
+    );
 
-      let t = moment.utc(formattedTime, "YYYY-MM-DDTHH:mm:ss.SSS");
-
-      return t.utc().local().calendar() ;
+    return t
+      .utc()
+      .local()
+      .calendar();
   }
 
-    /**
-     * figured out what our open time string is given input default format,
-     * and return in the form required for the UI to display Journal Time
-     * @param formattedTime like 2021-09-10T18:00:10.31
-     * @returns {string}
-     */
-    static getJournalTimeString(formattedTime) {
+  /**
+   * figured out what our open time string is given input default format,
+   * and return in the form required for the UI to display Journal Time
+   * @param formattedTime like 2021-09-10T18:00:10.31
+   * @returns {string}
+   */
+  static getJournalTimeString(formattedTime) {
+    let t = moment.utc(
+      formattedTime,
+      "YYYY-MM-DDTHH:mm:ss.SSS"
+    );
 
-        let t = moment.utc(formattedTime, "YYYY-MM-DDTHH:mm:ss.SSS");
+    return t
+      .utc()
+      .local()
+      .calendar();
+  }
 
-        return t.utc().local().calendar() ;
-    }
-
-    /**
-     * figured out what our chat message time string is given input default format,
-     * and return in the form required for the UI to display Chat Message Times
-     * @param formattedTime like 2021-09-10T18:00:10.31
-     * @returns {string}
-     */
+  /**
+   * figured out what our chat message time string is given input default format,
+   * and return in the form required for the UI to display Chat Message Times
+   * @param formattedTime like 2021-09-10T18:00:10.31
+   * @returns {string}
+   */
   static getChatMessageTimeString(formattedTime) {
+    let t = moment.utc(
+      formattedTime,
+      "YYYY-MM-DDTHH:mm:ss.SSS"
+    );
 
-    let t = moment.utc(formattedTime, "YYYY-MM-DDTHH:mm:ss.SSS");
-
-    return t.utc().local().calendar();
+    return t
+      .utc()
+      .local()
+      .calendar();
   }
 
   /**
@@ -370,7 +387,9 @@ export default class UtilRenderer {
    * @returns {boolean}
    */
   static isMemberHelping(member) {
-    var helping =  !!member.activeCircuit && member.activeJoinType === "TEAM_MEMBER";
+    var helping =
+      !!member.activeCircuit &&
+      member.activeJoinType === "TEAM_MEMBER";
     return helping;
   }
 
@@ -381,8 +400,9 @@ export default class UtilRenderer {
    */
   static isCircuitPaused(circuit) {
     return (
-        circuit &&
-        circuit.circuitState === BaseClient.CircuitStates.ON_HOLD
+      circuit &&
+      circuit.circuitState ===
+        BaseClient.CircuitStates.ON_HOLD
     );
   }
 
@@ -392,10 +412,10 @@ export default class UtilRenderer {
    * @returns {boolean}
    */
   static isCircuitStatePaused(circuitState) {
-      return (
-          circuitState &&
-          circuitState === BaseClient.CircuitStates.ON_HOLD
-      );
+    return (
+      circuitState &&
+      circuitState === BaseClient.CircuitStates.ON_HOLD
+    );
   }
 
   /**
@@ -405,19 +425,17 @@ export default class UtilRenderer {
    */
 
   static getWtfTimerCount(circuit) {
-      if (!circuit) {
-          return "loading...";
-      } else {
-          let openUtcTime = moment.utc(circuit.openTime);
+    if (!circuit) {
+      return "loading...";
+    } else {
+      let openUtcTime = moment.utc(circuit.openTime);
 
-          return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
-              openUtcTime,
-              circuit.totalCircuitPausedNanoTime
-          );
-      }
-
+      return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
+        openUtcTime,
+        circuit.totalCircuitPausedNanoTime
+      );
+    }
   }
-
 
   /**
    * helper function that given a specific user and a circuit, it will

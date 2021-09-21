@@ -14,7 +14,7 @@ import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../../clients/BaseClient";
-import {CircuitClient} from "../../../../../clients/CircuitClient";
+import { CircuitClient } from "../../../../../clients/CircuitClient";
 
 /**
  * this is the gui component that displays the actual on going real-time
@@ -155,7 +155,6 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-
     this.messages = nextState.messages;
 
     this.circuitName = nextProps.circuit.circuitName;
@@ -174,28 +173,26 @@ export default class ActiveCircuitFeed extends Component {
 
   addFerviePrompt(circuit) {
     if (circuit) {
-        let time = UtilRenderer.getChatMessageTimeString(
-            circuit.openTime
-        );
+      let time = UtilRenderer.getChatMessageTimeString(
+        circuit.openTime
+      );
 
-        this.updateFeedEvent(
-            "Fervie",
-            null,
-            time,
-            "What's the problem?"
-        );
+      this.updateFeedEvent(
+        "Fervie",
+        null,
+        time,
+        "What's the problem?"
+      );
     }
   }
 
   updateCircuitStatus(circuit) {
-
     this.circuitName = circuit.circuitName;
     this.circuitState = circuit.circuitState;
 
     this.forceUpdate(() => {
-        this.scrollToFeedBottom();
+      this.scrollToFeedBottom();
     });
-
   }
 
   /**
@@ -221,23 +218,23 @@ export default class ActiveCircuitFeed extends Component {
 
     this.messages.push(message);
 
-      //if this is our first message, then use it to update the description
-      if (this.messages.length === 1) {
-          CircuitClient.updateCircuitDescription(
-              this.state.model.circuitName,
-              message.data.message,
-              this,
-              arg => {
-                  this.updateCircuitDescriptionCallback(message.data.message);
-              }
+    //if this is our first message, then use it to update the description
+    if (this.messages.length === 1) {
+      CircuitClient.updateCircuitDescription(
+        this.state.model.circuitName,
+        message.data.message,
+        this,
+        arg => {
+          this.updateCircuitDescriptionCallback(
+            message.data.message
           );
-      }
-
+        }
+      );
+    }
 
     this.forceUpdate(() => {
       this.scrollToFeedBottom();
     });
-
   }
 
   updateCircuitDescriptionCallback(description) {
@@ -262,7 +259,7 @@ export default class ActiveCircuitFeed extends Component {
    * updates our Chat Messages that our in our messages array. This is generally setup initially
    * by our mount or update component functions
    */
-  updateChatMessages = (circuit) => {
+  updateChatMessages = circuit => {
     let metaProps = null,
       username = null,
       time = null,
@@ -272,9 +269,9 @@ export default class ActiveCircuitFeed extends Component {
 
     this.feedEvents = [];
 
-      this.addFerviePrompt(circuit);
+    this.addFerviePrompt(circuit);
 
-      for (let i = 0, m = null; i < messagesLength; i++) {
+    for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
       metaProps = m.metaProps;
       username =
@@ -438,7 +435,9 @@ export default class ActiveCircuitFeed extends Component {
     return (
       <Transition
         visible={
-          !UtilRenderer.isCircuitStatePaused(this.circuitState)
+          !UtilRenderer.isCircuitStatePaused(
+            this.circuitState
+          )
         }
         animation="fade"
         duration={210}

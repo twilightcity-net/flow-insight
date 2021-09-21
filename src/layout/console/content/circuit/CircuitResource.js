@@ -64,7 +64,9 @@ export default class CircuitResource extends Component {
       this.props.resource.uri !== nextProps.resource.uri &&
       UtilRenderer.isWTFResource(nextProps.resource)
     ) {
-      console.log("joining a new circuit, leave and rejoin rooms");
+      console.log(
+        "joining a new circuit, leave and rejoin rooms"
+      );
       nextState.error = null;
       this.resourcesController.leaveExistingRoom(
         this.props.resource

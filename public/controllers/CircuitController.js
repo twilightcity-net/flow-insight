@@ -59,7 +59,7 @@ module.exports = class CircuitController extends BaseController {
       RESUME_WTF: "resume-wtf",
       START_RETRO_FOR_WTF: "start-retro-for-wtf",
       UPDATE_CIRCUIT_DESCRIPTION:
-            "update-circuit-description"
+        "update-circuit-description"
     };
   }
 
@@ -198,7 +198,8 @@ module.exports = class CircuitController extends BaseController {
         case CircuitController.Events.START_RETRO_FOR_WTF:
           this.handleStartRetroForWTFEvent(event, arg);
           break;
-        case CircuitController.Events.UPDATE_CIRCUIT_DESCRIPTION:
+        case CircuitController.Events
+          .UPDATE_CIRCUIT_DESCRIPTION:
           this.handleUpdateCircuitDescription(event, arg);
           break;
         default:
@@ -438,12 +439,9 @@ module.exports = class CircuitController extends BaseController {
     arg,
     callback
   ) {
-
     if (store.error) {
       arg.error = store.error;
     } else {
-
-
       let database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.CIRCUIT
         ),
@@ -458,7 +456,7 @@ module.exports = class CircuitController extends BaseController {
     }
 
     //this doesn't return the store data, into arg.data, but it does put the items in the DB.
-      //participating would be, any wtf that I've participated in... that isn't closed.
+    //participating would be, any wtf that I've participated in... that isn't closed.
 
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -1284,40 +1282,36 @@ module.exports = class CircuitController extends BaseController {
     );
   }
 
-
-    /**
-     * handles our event callback for when the user wants to update the circuit description
-     * @param event
-     * @param arg
-     * @param callback
-     */
-    handleUpdateCircuitDescription(event, arg, callback) {
-        let name = arg.args.circuitName,
-            description = arg.args.description,
-            urn =
-                CircuitController.Paths.CIRCUIT_WTF +
-                CircuitController.Paths.SEPARATOR +
-                name +
-                CircuitController.Paths.PROPERTY +
-                CircuitController.Paths.DESCRIPTION
-            ;
-
-        this.doClientRequest(
-            CircuitController.Contexts.CIRCUIT_CLIENT,
-            { description: description },
-            CircuitController.Names.UPDATE_CIRCUIT_DESCRIPTION,
-            CircuitController.Types.POST,
-            urn,
-            store =>
-                this.delegateUpdateDescriptionCallback(
-                    store,
-                    event,
-                    arg,
-                    callback
-                )
-        );
-    }
-
+  /**
+   * handles our event callback for when the user wants to update the circuit description
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleUpdateCircuitDescription(event, arg, callback) {
+    let name = arg.args.circuitName,
+      description = arg.args.description,
+      urn =
+        CircuitController.Paths.CIRCUIT_WTF +
+        CircuitController.Paths.SEPARATOR +
+        name +
+        CircuitController.Paths.PROPERTY +
+        CircuitController.Paths.DESCRIPTION;
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      { description: description },
+      CircuitController.Names.UPDATE_CIRCUIT_DESCRIPTION,
+      CircuitController.Types.POST,
+      urn,
+      store =>
+        this.delegateUpdateDescriptionCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
 
   /**
    * processes our callback for starting a retro review. This is a complex workflow
@@ -1345,34 +1339,33 @@ module.exports = class CircuitController extends BaseController {
     );
   }
 
-    /**
-     * processes our callback for saving a circuit description.
-     * After the call, the updated circuit should be broadcast over gridtalk
-     * @param store
-     * @param event
-     * @param arg
-     * @param callback
-     */
-    delegateUpdateDescriptionCallback(
-        store,
-        event,
-        arg,
-        callback
-    ) {
-        if (store.error) {
-            arg.error = store.error;
-        } else {
-            arg.data = store.data;
-        }
-        this.delegateCallbackOrEventReplyTo(
-            event,
-            arg,
-            callback
-        );
+  /**
+   * processes our callback for saving a circuit description.
+   * After the call, the updated circuit should be broadcast over gridtalk
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateUpdateDescriptionCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
     }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
 
-
-    /**
+  /**
    * removes a single circuit from our gridtime system and local database
    * @param circuit
    * @param collection
@@ -1412,8 +1405,12 @@ module.exports = class CircuitController extends BaseController {
    * @param collection
    */
   updateCircuitsByIdInCollection(circuits, collection) {
-      this.logMessage("[CircuitController]", "updateCircuitsByIdInCollection count ="+circuits.length);
-      if (circuits && circuits.length > 0) {
+    this.logMessage(
+      "[CircuitController]",
+      "updateCircuitsByIdInCollection count =" +
+        circuits.length
+    );
+    if (circuits && circuits.length > 0) {
       circuits.forEach(circuit => {
         let model = collection.findOne({ id: circuit.id });
         if (model) {

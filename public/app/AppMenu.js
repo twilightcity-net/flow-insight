@@ -5,20 +5,20 @@ const { Menu } = require("electron"),
 
 const helpSubmenu = [
   {
-    label: "Torchie - Learn More",
+    label: "TC - Learn More",
     click() {
       log.info(
-        "[AppMenu] open browser-> http://www.dreamscale.love/"
+        "[AppMenu] open browser-> http://twilightcity.net/"
       );
-      Util.openExternalBrowser(
-        "http://www.dreamscale.love/"
-      );
+      Util.openExternalBrowser("http://twilightcity.net/");
     }
   },
   {
-    label: "Deactivate Torchie",
+    label: "Deactivate TC",
     click() {
-      log.info("[AppMenu] deactivate and reset Torchie");
+      log.info(
+        "[AppMenu] deactivate and reset Twilight City"
+      );
       Util.deleteSettings();
     }
   }
@@ -84,7 +84,7 @@ module.exports = class AppMenu extends Menu {
   getTemplateForMacOS() {
     return [
       {
-        label: "Torchie",
+        label: "Twilight City",
         submenu: [
           { role: "about" },
           { type: "separator" },

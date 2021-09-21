@@ -28,7 +28,7 @@ export default class TerminalContent extends Component {
           "Display about information for this shell",
         usage: "about",
         fn: () => {
-          return "Torchie Shell // DreamScale © 2020 // Author: Zoe@DreamScale.io";
+          return "Gridtime Shell // Twilight City, Inc © 2021";
         }
       },
       version: {

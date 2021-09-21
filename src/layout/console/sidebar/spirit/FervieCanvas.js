@@ -78,11 +78,13 @@ export default class FervieCanvas extends Component {
    */
   render() {
     return (
-        <img id="FervieCanvas"
-             height={DimensionController.getFervieCanvasHeight()}
-             width={DimensionController.getFervieCanvasWidth()}
-             src={"./assets/images/fervie_idle_in_TC.gif"}
-             alt="loading..." />
+      <img
+        id="FervieCanvas"
+        height={DimensionController.getFervieCanvasHeight()}
+        width={DimensionController.getFervieCanvasWidth()}
+        src={"./assets/images/fervie_idle_in_TC.gif"}
+        alt="loading..."
+      />
 
       //
       // <canvas

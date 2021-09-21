@@ -86,7 +86,11 @@ class DtoClient {
       try {
         if (err) {
           let errObj = err;
-          if (err.response && err.response.status && err.response.text) {
+          if (
+            err.response &&
+            err.response.status &&
+            err.response.text
+          ) {
             errObj = JSON.parse(err.response.text).message;
           }
 

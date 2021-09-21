@@ -12,8 +12,8 @@ import FervieCanvas from "./FervieCanvas";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import { MemberClient } from "../../../../clients/MemberClient";
 import UtilRenderer from "../../../../UtilRenderer";
-import {RendererEventFactory} from "../../../../events/RendererEventFactory";
-import {BaseClient} from "../../../../clients/BaseClient";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
+import { BaseClient } from "../../../../clients/BaseClient";
 
 /**
  * this class is responsible for storing the users fervie avatar, xp, inventory,
@@ -46,43 +46,40 @@ export default class FerviePanel extends Component {
     this.me = MemberClient.me;
 
     this.talkRoomMessageListener = RendererEventFactory.createEvent(
-        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-        this,
-        this.onTalkRoomMessage
+      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+      this,
+      this.onTalkRoomMessage
     );
   }
 
-    /**
-     * event handler for talk messages. This is called everytime we receive a new talk
-     * message over the event bus. If we get XP updates for our fervie, we want to update
-     * our xp bar in the panel
-     * @param event
-     * @param arg
-     */
-    onTalkRoomMessage = (event, arg) => {
-        switch (arg.messageType) {
-            case BaseClient.MessageTypes.XP_STATUS_UPDATE:
-                return this.handleXPUpdateMessage(arg);
-            default:
-                return;
-        }
-    };
-
-    /**
-     * processes our xp status update event which is used to update
-     * our fervie's xp bar
-     * @param arg
-     */
-    handleXPUpdateMessage(arg) {
-
-      let data = arg.data;
-
-      this.setState(
-          {
-              xpSummary: data.newXPSummary
-          }
-      );
+  /**
+   * event handler for talk messages. This is called everytime we receive a new talk
+   * message over the event bus. If we get XP updates for our fervie, we want to update
+   * our xp bar in the panel
+   * @param event
+   * @param arg
+   */
+  onTalkRoomMessage = (event, arg) => {
+    switch (arg.messageType) {
+      case BaseClient.MessageTypes.XP_STATUS_UPDATE:
+        return this.handleXPUpdateMessage(arg);
+      default:
+        return;
     }
+  };
+
+  /**
+   * processes our xp status update event which is used to update
+   * our fervie's xp bar
+   * @param arg
+   */
+  handleXPUpdateMessage(arg) {
+    let data = arg.data;
+
+    this.setState({
+      xpSummary: data.newXPSummary
+    });
+  }
 
   /**
    * thew function that is called to open and display the badges panel in the side
@@ -172,7 +169,6 @@ export default class FerviePanel extends Component {
     this.talkRoomMessageListener.clear();
   }
 
-
   /**
    * gets the badges content panel for the sidebar
    * @returns {*}
@@ -197,10 +193,10 @@ export default class FerviePanel extends Component {
    * @returns {*}
    */
   getFervieTitle = () => {
-    let displayName = "Your Fervie",//this.me.displayName,
+    let displayName = "Your Fervie", //this.me.displayName,
       xpPercent = UtilRenderer.getXpPercent(
         this.state.xpSummary.xpProgress,
-          this.state.xpSummary.xpRequiredToLevel
+        this.state.xpSummary.xpRequiredToLevel
       );
 
     return (

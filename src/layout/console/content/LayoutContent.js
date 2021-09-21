@@ -74,7 +74,7 @@ export default class LayoutContent extends Component {
     if (resource.uriArr) {
       resource = resource.uriArr[0];
     }
-    console.log("resource: "+resource);
+    console.log("resource: " + resource);
     switch (resource) {
       case MainPanelViewController.Resources.TERMINAL:
         component = (
@@ -123,11 +123,10 @@ export default class LayoutContent extends Component {
           className;
         break;
       default:
-
         component = this.getJournalError(resource);
-          className =
-              MainPanelViewController.Resources.ERROR +
-              className;
+        className =
+          MainPanelViewController.Resources.ERROR +
+          className;
 
         // component = (
         //   <div>404 - Unknown location {resource}</div>

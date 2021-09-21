@@ -70,16 +70,16 @@ export default class JournalResource extends Component {
       this.onTalkRoomMessage
     );
     this.state = {
-        lastProject: null,
-        lastTask: null,
-        projects: [],
-        tasks: [],
+      lastProject: null,
+      lastTask: null,
+      projects: [],
+      tasks: []
     };
   }
 
   /**
    * this function is called when ever a talk message is recieve over
-   * one of the rooms that the torchie client is connected to. This
+   * one of the rooms that the TC client is connected to. This
    * is regulated and brokered by gridtime server.
    * @param event
    * @param arg
@@ -168,8 +168,6 @@ export default class JournalResource extends Component {
     this.clearKeyboardShortcuts();
   }
 
-
-
   /**
    * this function is called when we load a new resource into this resource view. recycles the component
    * @param nextProps
@@ -178,9 +176,10 @@ export default class JournalResource extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-
-    if (nextProps.resource.uri !== this.props.resource.uri) {
-        this.refreshJournal(nextProps);
+    if (
+      nextProps.resource.uri !== this.props.resource.uri
+    ) {
+      this.refreshJournal(nextProps);
     }
 
     return true;
@@ -196,28 +195,28 @@ export default class JournalResource extends Component {
   }
 
   isMe() {
-      let username = this.getUserNameFromResource(this.props);
-      if (
-          username === JournalResource.Strings.ME ||
-          username === MemberClient.me.username
-      ) {
-          return true;
-      }
-      return false;
+    let username = this.getUserNameFromResource(this.props);
+    if (
+      username === JournalResource.Strings.ME ||
+      username === MemberClient.me.username
+    ) {
+      return true;
+    }
+    return false;
   }
 
-    /**
-     * gets our user name from a given journal resource from our browser
-     * @param props
-     * @returns {string}
-     */
-    getUserNameFromResource(props) {
-        if (props.resource.uriArr.length > 1) {
-            return props.resource.uriArr[1];
-        } else {
-            return JournalResource.Strings.ME;
-        }
+  /**
+   * gets our user name from a given journal resource from our browser
+   * @param props
+   * @returns {string}
+   */
+  getUserNameFromResource(props) {
+    if (props.resource.uriArr.length > 1) {
+      return props.resource.uriArr[1];
+    } else {
+      return JournalResource.Strings.ME;
     }
+  }
 
   /**
    * binds our keyboard shortcut to our callback. Called when the journal resource is
@@ -367,21 +366,20 @@ export default class JournalResource extends Component {
     });
 
     if (this.timeout) {
-        clearTimeout(this.timeout);
+      clearTimeout(this.timeout);
     }
 
     let that = this;
     this.timeout = setTimeout(function() {
-        JournalClient.updateFlameRating(
-            intentionId,
-            flameRating,
-            that,
-            arg => {
-                that.hasCallbackError(arg);
-            }
-        );
+      JournalClient.updateFlameRating(
+        intentionId,
+        flameRating,
+        that,
+        arg => {
+          that.hasCallbackError(arg);
+        }
+      );
     }, 500);
-
   }
 
   /**
@@ -392,7 +390,6 @@ export default class JournalResource extends Component {
    * @param journalItem
    */
   updateActiveJournalItemSelection(journalItem) {
-
     if (this.activeJournalItem) {
       this.activeJournalItem.setState({ isActive: false });
     }
@@ -431,7 +428,6 @@ export default class JournalResource extends Component {
     this.username = this.getUserNameFromResource(props);
 
     JournalClient.getRecentProjects(this, arg => {
-
       if (!this.hasCallbackError(arg)) {
         this.projects = arg.data;
         this.handleCallback();
@@ -447,36 +443,38 @@ export default class JournalResource extends Component {
       this.username,
       this,
       arg => {
-          if (
-              !this.hasCallbackError(arg) &&
-              arg.data &&
-              arg.data.length > 0
-          ) {
-              this.journalIntentions = arg.data;
+        if (
+          !this.hasCallbackError(arg) &&
+          arg.data &&
+          arg.data.length > 0
+        ) {
+          this.journalIntentions = arg.data;
 
-              //this is where we need to handle updating the recent project/task to match the last intention
-              this.lastProject = this.getLastProjectId(arg.data);
-              this.lastTask = this.getLastTaskId(arg.data);
+          //this is where we need to handle updating the recent project/task to match the last intention
+          this.lastProject = this.getLastProjectId(
+            arg.data
+          );
+          this.lastTask = this.getLastTaskId(arg.data);
 
-              this.handleCallback();
-          }
+          this.handleCallback();
+        }
       }
-      );
+    );
   }
 
-    getLastProjectId(intentions) {
-      if (intentions && intentions.length > 0) {
-        return intentions[intentions.length - 1].projectId;
-      }
-      return null;
+  getLastProjectId(intentions) {
+    if (intentions && intentions.length > 0) {
+      return intentions[intentions.length - 1].projectId;
     }
+    return null;
+  }
 
-    getLastTaskId(intentions) {
-        if (intentions && intentions.length > 0) {
-            return intentions[intentions.length - 1].taskId;
-        }
-        return null;
+  getLastTaskId(intentions) {
+    if (intentions && intentions.length > 0) {
+      return intentions[intentions.length - 1].taskId;
     }
+    return null;
+  }
 
   /**
    * does stuff when our client callback errors out
@@ -497,13 +495,14 @@ export default class JournalResource extends Component {
    */
   handleCallback() {
     this.loadCount++;
-    if (this.loadCount === 3) { //the 3 load calls are asynchronous, so make sure we only update this on the last one
+    if (this.loadCount === 3) {
+      //the 3 load calls are asynchronous, so make sure we only update this on the last one
 
       this.setState({
-          projects: this.projects,
-          tasks: this.tasks,
-          lastProject: this.lastProject,
-          lastTask: this.lastTask
+        projects: this.projects,
+        tasks: this.tasks,
+        lastProject: this.lastProject,
+        lastTask: this.lastTask
       });
 
       this.forceUpdate(() => {
@@ -565,7 +564,7 @@ export default class JournalResource extends Component {
     this.scrollToJournalItemById(null, true);
 
     if (this.isMyJournal()) {
-       document.getElementById("intentionTextInput").focus();
+      document.getElementById("intentionTextInput").focus();
     }
   };
 
@@ -674,14 +673,11 @@ export default class JournalResource extends Component {
     this.journalItems.push(journalItem);
   };
 
-
-
   /**
    * event callback for when we set a row active
    * @param journalItem
    */
   onRowClick = journalItem => {
-
     if (
       this.activeJournalItem &&
       this.activeJournalItem.props.model.id ===

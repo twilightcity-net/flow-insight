@@ -80,7 +80,6 @@ export default class ActiveCircuit extends Component {
    * @returns {boolean}
    */
   shouldComponentUpdate(nextProps, nextState, nextContext) {
-
     if (
       !this.state.model ||
       this.state.scrapbookVisible !==
@@ -146,8 +145,7 @@ export default class ActiveCircuit extends Component {
     UtilRenderer.clearIntervalTimer(this.wtfTimer);
   }
 
-
-    /**
+  /**
    * event handler for talk messages. This is called everytime we receive a new talk
    * message over the event bus. Make sure to check that this is the circuit
    * we wish to effect, as you can get various wtf status events for other
@@ -243,7 +241,6 @@ export default class ActiveCircuit extends Component {
    * @param arg
    */
   handleWtfStatusUpdateMessage(arg) {
-
     let data = arg.data,
       circuit = data[ActiveCircuit.learningCircuitDtoStr],
       model = this.state.model;
@@ -254,32 +251,28 @@ export default class ActiveCircuit extends Component {
       model &&
       circuit.id === model.id
     ) {
-
-        model = Object.assign(model, circuit);
-        this.updateStateModelsOnTalkMessageUpdate(model);
-
+      model = Object.assign(model, circuit);
+      this.updateStateModelsOnTalkMessageUpdate(model);
     }
   }
 
-    /**
-     * updates our models in our various child components states. This
-     * utilizes callback functions which are way faster then using refs
-     * @param model
-     */
-    updateStateModelsOnTalkMessageUpdate(model) {
-        this.setState({
-            model: model
-        });
-        this.circuitSidebarComponent.setState({
-            model: model
-        });
+  /**
+   * updates our models in our various child components states. This
+   * utilizes callback functions which are way faster then using refs
+   * @param model
+   */
+  updateStateModelsOnTalkMessageUpdate(model) {
+    this.setState({
+      model: model
+    });
+    this.circuitSidebarComponent.setState({
+      model: model
+    });
 
-        //for some reason setState freezes the component so it stops updating,
-        //this updates the required state without making the component weird out
-        this.circuitFeedComponent.updateCircuitStatus(model);
-
-    }
-
+    //for some reason setState freezes the component so it stops updating,
+    //this updates the required state without making the component weird out
+    this.circuitFeedComponent.updateCircuitStatus(model);
+  }
 
   /**
    * updates our models in our various child components states. This

@@ -164,13 +164,10 @@ export default class CircuitsPanel extends Component {
       doItLaterCircuitsVisible: false,
       retroCircuitVisible: false
     });
-    CircuitClient.getAllMyLiveCircuits(
-      this,
-      arg => {
-        this.activeCircuits = arg.data;
-        this.forceUpdate();
-      }
-    );
+    CircuitClient.getAllMyLiveCircuits(this, arg => {
+      this.activeCircuits = arg.data;
+      this.forceUpdate();
+    });
   }
 
   /**
@@ -429,9 +426,7 @@ export default class CircuitsPanel extends Component {
             }}
           >
             <Transition
-              visible={
-                this.state.liveCircuitsVisible
-              }
+              visible={this.state.liveCircuitsVisible}
               animation={this.animationType}
               duration={this.animationDelay}
               unmountOnHide

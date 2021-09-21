@@ -237,13 +237,17 @@ export default class JournalItem extends Component {
           </b>
         </div>
         <div>
-            <i>{model.projectName}</i>
+          <i>{model.projectName}</i>
         </div>
         <div>{model.taskSummary}</div>
 
         <Divider />
         <div>
-          <span className="date">{UtilRenderer.getJournalTimeString(model.position)}</span>
+          <span className="date">
+            {UtilRenderer.getJournalTimeString(
+              model.position
+            )}
+          </span>
         </div>
       </div>
     );

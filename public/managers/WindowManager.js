@@ -225,9 +225,9 @@ class WindowManager {
     window.window.on("ready-to-show", () => {
       if (window.autoShow) {
         var that = this;
-        setTimeout(function(){
-            that.openWindow(window);
-        },500);
+        setTimeout(function() {
+          that.openWindow(window);
+        }, 500);
       }
     });
   }

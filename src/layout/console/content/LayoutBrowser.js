@@ -173,10 +173,10 @@ export default class LayoutBrowser extends Component {
    */
   doRequest = uri => {
     let request = BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.BROWSER,
-        BrowserRequestFactory.Commands.OPEN,
-        uri
-      );
+      BrowserRequestFactory.Requests.BROWSER,
+      BrowserRequestFactory.Commands.OPEN,
+      uri
+    );
     this.myController.makeRequest(request);
   };
 
@@ -187,7 +187,7 @@ export default class LayoutBrowser extends Component {
    */
   isCommand(uri) {
     //so if starts with / it's routed as a location
-      //if there's no slash it's a command
+    //if there's no slash it's a command
     return !uri.startsWith(
       BrowserRequestFactory.ROOT_SEPARATOR
     );
@@ -209,34 +209,36 @@ export default class LayoutBrowser extends Component {
    */
   getBrowserInput = () => {
     return (
-        <div>
-            <button className="browserProtocol" disabled>talk://</button>
-            <div className="browserBar">
-                <Input
-                  disabled={this.state.disableControls}
-                  id="browserInput"
-                  className="browserInput"
-                  fluid
-                  inverted
-                  placeholder={LayoutBrowser.locationStr}
-                  value={this.state.location.toLowerCase()}
-                  onFocus={this.handleFocus}
-                  onBlur={this.handleBlur}
-                  onKeyPress={this.handleKeyPressForInput}
-                  onChange={this.handleChangeForInput}
-                  action={
-                    <Button
-                      color="violet"
-                      className="browserGo"
-                      id="browserGo"
-                      onClick={this.handleClickForGo}
-                    >
-                      <Icon name="play" />
-                    </Button>
-                  }
-                />
-            </div>
+      <div>
+        <button className="browserProtocol" disabled>
+          talk://
+        </button>
+        <div className="browserBar">
+          <Input
+            disabled={this.state.disableControls}
+            id="browserInput"
+            className="browserInput"
+            fluid
+            inverted
+            placeholder={LayoutBrowser.locationStr}
+            value={this.state.location.toLowerCase()}
+            onFocus={this.handleFocus}
+            onBlur={this.handleBlur}
+            onKeyPress={this.handleKeyPressForInput}
+            onChange={this.handleChangeForInput}
+            action={
+              <Button
+                color="violet"
+                className="browserGo"
+                id="browserGo"
+                onClick={this.handleClickForGo}
+              >
+                <Icon name="play" />
+              </Button>
+            }
+          />
         </div>
+      </div>
     );
   };
 

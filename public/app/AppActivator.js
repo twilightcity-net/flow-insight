@@ -60,7 +60,7 @@ module.exports = class AppActivator {
       );
       this.events.closeActivator.dispatch(-1);
       dialog.showErrorBox(
-        "Torchie",
+        "Twilight City",
         "[FATAL] Unable to save api-key"
       );
       process.exit(1);

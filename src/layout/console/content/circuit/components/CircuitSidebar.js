@@ -429,10 +429,10 @@ export default class CircuitSidebar extends Component {
   }
 
   setDescription(description) {
-     this.state.model.description = description;
-     this.setState({
-         model: this.state.model
-     });
+    this.state.model.description = description;
+    this.setState({
+      model: this.state.model
+    });
   }
 
   /**

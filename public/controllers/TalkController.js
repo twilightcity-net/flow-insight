@@ -342,12 +342,12 @@ module.exports = class TalkController extends BaseController {
               circuitDatabase.setActiveCircuit(circuit);
             }
             break;
-            case TalkController.StatusTypes.TEAM_WTF_UPDATED:
-              circuitDatabase.updateCircuitForDescription(
-                circuit,
-                me
-              );
-              break;
+          case TalkController.StatusTypes.TEAM_WTF_UPDATED:
+            circuitDatabase.updateCircuitForDescription(
+              circuit,
+              me
+            );
+            break;
           case TalkController.StatusTypes.TEAM_WTF_JOINED:
             this.handleTeamWtfJoined(
               message,
@@ -514,7 +514,7 @@ module.exports = class TalkController extends BaseController {
   /**
    * processes our team wtf joined event. This is emitted from gridtime over
    * the talk network for when a circuit member participates in the circuit.
-   * This functions checks to see if our member id of the active torchie
+   * This functions checks to see if our member id of the active TC
    * user matches that of the talk message.
    * @param message
    * @param me
