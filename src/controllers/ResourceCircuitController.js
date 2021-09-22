@@ -5,7 +5,7 @@ import { RendererControllerFactory } from "./RendererControllerFactory";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 import UtilRenderer from "../UtilRenderer";
 import { TalkToClient } from "../clients/TalkToClient";
-import {BaseClient} from "../clients/BaseClient";
+import { BaseClient } from "../clients/BaseClient";
 
 export class ResourceCircuitController extends ActiveViewController {
   /**
@@ -48,30 +48,28 @@ export class ResourceCircuitController extends ActiveViewController {
         .VIEW_CONSOLE_LEAVE_EXISTING_ROOM,
       this
     );
-
   }
 
-    /**
-     * a list of status types that are referenced by the Wtf Status updates.
-     * @returns {{TEAM_RETRO_STARTED: string, TEAM_WTF_JOINED: string, TEAM_WTF_ON_HOLD: string, TEAM_WTF_CANCELED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_LEAVE: string, TEAM_WTF_SOLVED: string}}
-     * @constructor
-     */
-    static get StatusTypes() {
-        return {
-            TEAM_WTF_STARTED: "TEAM_WTF_STARTED",
-            TEAM_WTF_JOINED: "TEAM_WTF_JOINED",
-            TEAM_WTF_LEAVE: "TEAM_WTF_LEAVE",
-            TEAM_WTF_ON_HOLD: "TEAM_WTF_ON_HOLD",
-            TEAM_WTF_RESUMED: "TEAM_WTF_RESUMED",
-            TEAM_WTF_SOLVED: "TEAM_WTF_SOLVED",
-            TEAM_WTF_CANCELED: "TEAM_WTF_CANCELED",
-            TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED",
-            TEAM_WTF_UPDATED: "TEAM_WTF_UPDATED"
-        };
-    }
+  /**
+   * a list of status types that are referenced by the Wtf Status updates.
+   * @returns {{TEAM_RETRO_STARTED: string, TEAM_WTF_JOINED: string, TEAM_WTF_ON_HOLD: string, TEAM_WTF_CANCELED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_LEAVE: string, TEAM_WTF_SOLVED: string}}
+   * @constructor
+   */
+  static get StatusTypes() {
+    return {
+      TEAM_WTF_STARTED: "TEAM_WTF_STARTED",
+      TEAM_WTF_JOINED: "TEAM_WTF_JOINED",
+      TEAM_WTF_LEAVE: "TEAM_WTF_LEAVE",
+      TEAM_WTF_ON_HOLD: "TEAM_WTF_ON_HOLD",
+      TEAM_WTF_RESUMED: "TEAM_WTF_RESUMED",
+      TEAM_WTF_SOLVED: "TEAM_WTF_SOLVED",
+      TEAM_WTF_CANCELED: "TEAM_WTF_CANCELED",
+      TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED",
+      TEAM_WTF_UPDATED: "TEAM_WTF_UPDATED"
+    };
+  }
 
-
-    /**
+  /**
    * helper function to wrap our function from our other controller
    * @param request - {BrowserRequestFactory} type request
    */
@@ -121,13 +119,13 @@ export class ResourceCircuitController extends ActiveViewController {
     this.circuitPauseResumeNotifier.dispatch(1);
   }
 
-    /**
-     * notifies the system that we should pause the active circuit by
-     * dispatching 1 to the event in the buss.
-     */
-    fireJoinedCircuitStoppedNotifyEvent() {
-        this.circuitPauseResumeNotifier.dispatch(1);
-    }
+  /**
+   * notifies the system that we should pause the active circuit by
+   * dispatching 1 to the event in the buss.
+   */
+  fireJoinedCircuitStoppedNotifyEvent() {
+    this.circuitPauseResumeNotifier.dispatch(1);
+  }
 
   /**
    * notifies the systme that we should resume the active circuit by

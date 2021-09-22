@@ -14,7 +14,7 @@ import RetroCircuitListItem from "./RetroCircuitListItem";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 import { CircuitClient } from "../../../../clients/CircuitClient";
 import { RendererEventFactory } from "../../../../events/RendererEventFactory";
-import {BaseClient} from "../../../../clients/BaseClient";
+import { BaseClient } from "../../../../clients/BaseClient";
 
 /**
  * The Circuits Panel is a react component that is used primarily by the
@@ -43,12 +43,12 @@ export default class CircuitsPanel extends Component {
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
     this.talkRoomMessageListener = RendererEventFactory.createEvent(
-        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-        this,
-        this.onTalkRoomMessage
+      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+      this,
+      this.onTalkRoomMessage
     );
 
-      this.animationType =
+    this.animationType =
       SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay =
       SidePanelViewController.AnimationDelays.SUBMENU;
@@ -71,13 +71,14 @@ export default class CircuitsPanel extends Component {
    * @param arg
    */
   onTalkRoomMessage = (event, arg) => {
-      let mType = arg.messageType,
-          data = arg.data;
+    let mType = arg.messageType,
+      data = arg.data;
 
-      if (mType === BaseClient.MessageTypes.WTF_STATUS_UPDATE) {
-
-          this.onCircuitStartStop();
-      }
+    if (
+      mType === BaseClient.MessageTypes.WTF_STATUS_UPDATE
+    ) {
+      this.onCircuitStartStop();
+    }
   };
 
   /**

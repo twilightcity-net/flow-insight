@@ -157,9 +157,13 @@ module.exports = class CircuitDatabase extends LokiJS {
     this.getCollection(
       CircuitDatabase.Collections.CIRCUITS
     ).addDynamicView(CircuitDatabase.Views.CIRCUITS);
-    this.getCollection(
+
+    let participatingView = this.getCollection(
       CircuitDatabase.Collections.PARTICIPATING
     ).addDynamicView(CircuitDatabase.Views.PARTICIPATING);
+
+    participatingView.applyFind({"circuitState" : "TROUBLESHOOT"});
+
     this.getCollection(
       CircuitDatabase.Collections.LATER
     ).addDynamicView(CircuitDatabase.Views.LATER);
@@ -372,9 +376,9 @@ module.exports = class CircuitDatabase extends LokiJS {
     collection = this.getCollection(
       CircuitDatabase.Collections.PARTICIPATING
     );
-    DatabaseUtil.findRemove(circuit, collection);
+    DatabaseUtil.findUpdate(circuit, collection);
     DatabaseUtil.log(
-      "remove from participating circuits",
+      "update state in participating circuits",
       circuit.id
     );
 
@@ -417,18 +421,18 @@ module.exports = class CircuitDatabase extends LokiJS {
       circuit.id
     );
 
-    if (
-      me.id === (circuit.ownerId || circuit.moderatorId)
-    ) {
-      collection = this.getCollection(
-        CircuitDatabase.Collections.PARTICIPATING
-      );
-      DatabaseUtil.findUpdateInsert(circuit, collection);
-      DatabaseUtil.log(
-        "add to participating circuits",
-        circuit.id
-      );
+    collection = this.getCollection(
+      CircuitDatabase.Collections.PARTICIPATING
+    );
+    DatabaseUtil.findUpdate(circuit, collection);
+    DatabaseUtil.log(
+      "update circuit state in participating circuits",
+      circuit.id
+    );
 
+    if (
+        me.id === (circuit.ownerId || circuit.moderatorId)
+    ) {
       if (me.id === memberId) {
         this.setActiveCircuit(circuit);
       }

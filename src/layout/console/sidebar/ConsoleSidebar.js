@@ -9,7 +9,7 @@ import { RendererControllerFactory } from "../../../controllers/RendererControll
 import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 import { DimensionController } from "../../../controllers/DimensionController";
 import { RendererEventFactory } from "../../../events/RendererEventFactory";
-import {BaseClient} from "../../../clients/BaseClient";
+import { BaseClient } from "../../../clients/BaseClient";
 import { MemberClient } from "../../../clients/MemberClient";
 
 /**
@@ -51,11 +51,10 @@ export default class ConsoleSidebar extends Component {
     );
 
     this.talkRoomMessageListener = RendererEventFactory.createEvent(
-        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-        this,
-        this.onTalkRoomMessage
+      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+      this,
+      this.onTalkRoomMessage
     );
-
   }
 
   /**
@@ -80,7 +79,6 @@ export default class ConsoleSidebar extends Component {
     );
 
     this.setAlarmStateBasedOnStatus(MemberClient.me);
-
   }
 
   /**
@@ -95,51 +93,48 @@ export default class ConsoleSidebar extends Component {
     this.circuitPauseResumeListener.clear();
   }
 
-    /**
-     * event handler that is called whenever we receive a talk message
-     * from our talk network. This panel is looking for member status updates for us
-     * that might indicate a change in our alarm status
-     * and we need to refresh
-     * @param event
-     * @param arg
-     */
-    onTalkRoomMessage = (event, arg) => {
-        let mType = arg.messageType,
-            data = arg.data;
+  /**
+   * event handler that is called whenever we receive a talk message
+   * from our talk network. This panel is looking for member status updates for us
+   * that might indicate a change in our alarm status
+   * and we need to refresh
+   * @param event
+   * @param arg
+   */
+  onTalkRoomMessage = (event, arg) => {
+    let mType = arg.messageType,
+      data = arg.data;
 
-        if (mType === BaseClient.MessageTypes.TEAM_MEMBER) {
-
-            if (this.isMe(data.id)) {
-              this.setAlarmStateBasedOnStatus(data);
-            }
-        }
-    };
-
-
-    setAlarmStateBasedOnStatus(me) {
-        let isAlarm = false;
-        if (me && me.activeCircuit) {
-            isAlarm = true;
-        } else {
-            isAlarm = false;
-        }
-        this.setState({
-            isAlarm: isAlarm
-        });
+    if (mType === BaseClient.MessageTypes.TEAM_MEMBER) {
+      if (this.isMe(data.id)) {
+        this.setAlarmStateBasedOnStatus(data);
+      }
     }
+  };
 
-    /**
-     * checks to see if this is use based on a member id
-     * @param id
-     * @returns {boolean}
-     */
-    isMe(id) {
-        let me = MemberClient.me;
-        return me && me["id"] === id;
+  setAlarmStateBasedOnStatus(me) {
+    let isAlarm = false;
+    if (me && me.activeCircuit) {
+      isAlarm = true;
+    } else {
+      isAlarm = false;
     }
+    this.setState({
+      isAlarm: isAlarm
+    });
+  }
 
+  /**
+   * checks to see if this is use based on a member id
+   * @param id
+   * @returns {boolean}
+   */
+  isMe(id) {
+    let me = MemberClient.me;
+    return me && me["id"] === id;
+  }
 
-    /**
+  /**
    * called when our app heartbeat pulses
    * @param event
    * @param arg
