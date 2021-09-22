@@ -14,6 +14,7 @@ import RetroCircuitListItem from "./RetroCircuitListItem";
 import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 import { CircuitClient } from "../../../../clients/CircuitClient";
 import { RendererEventFactory } from "../../../../events/RendererEventFactory";
+import {BaseClient} from "../../../../clients/BaseClient";
 
 /**
  * The Circuits Panel is a react component that is used primarily by the
@@ -41,7 +42,13 @@ export default class CircuitsPanel extends Component {
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
-    this.animationType =
+    this.talkRoomMessageListener = RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+    );
+
+      this.animationType =
       SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay =
       SidePanelViewController.AnimationDelays.SUBMENU;
@@ -54,6 +61,24 @@ export default class CircuitsPanel extends Component {
     this.doItLaterCircuits = [];
     this.retroCircuits = [];
   }
+
+  /**
+   * event handler that is called whenever we receive a talk message
+   * from our talk network. This panel is looking for wtf status updates
+   * that might indicate a participating circuit was started or stopped,
+   * and we need to refresh
+   * @param event
+   * @param arg
+   */
+  onTalkRoomMessage = (event, arg) => {
+      let mType = arg.messageType,
+          data = arg.data;
+
+      if (mType === BaseClient.MessageTypes.WTF_STATUS_UPDATE) {
+
+          this.onCircuitStartStop();
+      }
+  };
 
   /**
    * event handler for our circuits sub menu click.
@@ -87,6 +112,7 @@ export default class CircuitsPanel extends Component {
       this,
       this.onRefreshCircuitsPanel
     );
+
     this.onRefreshCircuitsPanel();
   }
 

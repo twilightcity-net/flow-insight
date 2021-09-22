@@ -157,10 +157,13 @@ export default class ActiveCircuitFeed extends Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     this.messages = nextState.messages;
 
-    this.circuitName = nextProps.circuit.circuitName;
-    this.circuitState = nextProps.circuit.circuitState;
+    if (nextProps.circuit) {
+        this.circuitName = nextProps.circuit.circuitName;
+        this.circuitState = nextProps.circuit.circuitState;
 
-    this.updateChatMessages(nextProps.circuit);
+        this.updateChatMessages(nextProps.circuit);
+    }
+
     return true;
   }
 

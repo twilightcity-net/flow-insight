@@ -308,14 +308,16 @@ module.exports = class CircuitDatabase extends LokiJS {
     DatabaseUtil.findRemove(circuit, collection);
     DatabaseUtil.log("remove circuit", circuit.id);
 
-    collection = this.getCollection(
-      CircuitDatabase.Collections.PARTICIPATING
-    );
-    DatabaseUtil.findRemove(circuit, collection);
-    DatabaseUtil.log(
-      "remove from participating circuits",
-      circuit.id
-    );
+    //leaving doesn't clear participating, the circuit has to be solved
+
+    // collection = this.getCollection(
+    //   CircuitDatabase.Collections.PARTICIPATING
+    // );
+    // DatabaseUtil.findRemove(circuit, collection);
+    // DatabaseUtil.log(
+    //   "remove from participating circuits",
+    //   circuit.id
+    // );
 
     this.removeActiveCircuit();
   }

@@ -9,6 +9,8 @@ import { RendererControllerFactory } from "../../../controllers/RendererControll
 import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
 import { DimensionController } from "../../../controllers/DimensionController";
 import { RendererEventFactory } from "../../../events/RendererEventFactory";
+import {BaseClient} from "../../../clients/BaseClient";
+import { MemberClient } from "../../../clients/MemberClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -47,6 +49,13 @@ export default class ConsoleSidebar extends Component {
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
+
+    this.talkRoomMessageListener = RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+    );
+
   }
 
   /**
@@ -69,30 +78,9 @@ export default class ConsoleSidebar extends Component {
       this,
       this.onSidebarShow
     );
-    this.circuitStartStopListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_START_STOP,
-      this,
-      this.onCircuitStartStop
-    );
-    this.circuitPauseResumeListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
-      this,
-      this.onCircuitPauseResume
-    );
-    this.circuitSolveListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_SOLVE,
-      this,
-      this.onCircuitSolve
-    );
-    this.circuitJoinLeaveListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
-      this,
-      this.onCircuitJoinLeave
-    );
+
+    this.setAlarmStateBasedOnStatus(MemberClient.me);
+
   }
 
   /**
@@ -107,7 +95,51 @@ export default class ConsoleSidebar extends Component {
     this.circuitPauseResumeListener.clear();
   }
 
-  /**
+    /**
+     * event handler that is called whenever we receive a talk message
+     * from our talk network. This panel is looking for member status updates for us
+     * that might indicate a change in our alarm status
+     * and we need to refresh
+     * @param event
+     * @param arg
+     */
+    onTalkRoomMessage = (event, arg) => {
+        let mType = arg.messageType,
+            data = arg.data;
+
+        if (mType === BaseClient.MessageTypes.TEAM_MEMBER) {
+
+            if (this.isMe(data.id)) {
+              this.setAlarmStateBasedOnStatus(data);
+            }
+        }
+    };
+
+
+    setAlarmStateBasedOnStatus(me) {
+        let isAlarm = false;
+        if (me && me.activeCircuit) {
+            isAlarm = true;
+        } else {
+            isAlarm = false;
+        }
+        this.setState({
+            isAlarm: isAlarm
+        });
+    }
+
+    /**
+     * checks to see if this is use based on a member id
+     * @param id
+     * @returns {boolean}
+     */
+    isMe(id) {
+        let me = MemberClient.me;
+        return me && me["id"] === id;
+    }
+
+
+    /**
    * called when our app heartbeat pulses
    * @param event
    * @param arg
