@@ -7,7 +7,7 @@ module.exports = class ActiveLinksNetworkDto {
       if (typeof json === "string") json = JSON.parse(json);
 
       this.networkId = json.networkId;
-      this.spiritLinks = json.spiritLinks;
+      this.sparkLinks = json.sparkLinks;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'XPSummaryDto' : " + e.message
@@ -17,8 +17,8 @@ module.exports = class ActiveLinksNetworkDto {
 
   isValid() {
     if (
-      this.spiritLinks != null &&
-      this.spiritLinks != null
+      this.sparkLinks != null &&
+      this.sparkLinks != null
     )
       return true;
     return false;

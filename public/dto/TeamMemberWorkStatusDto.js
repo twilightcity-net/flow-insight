@@ -23,8 +23,6 @@ module.exports = class TeamMemberWorkStatusDto {
       this.activeTaskSummary = json.activeTaskSummary;
       this.workingOn = json.workingOn;
 
-      this.spiritStatus = json.spiritStatus;
-      this.spiritMessage = json.spiritMessage;
       this.alarmDurationInSeconds =
         json.alarmDurationInSeconds;
     } catch (e) {

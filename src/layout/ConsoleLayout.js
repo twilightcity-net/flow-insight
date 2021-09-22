@@ -4,7 +4,7 @@ import LayoutContent from "./console/content/LayoutContent";
 import CircuitsPanel from "./console/sidebar/circuits/CircuitsPanel";
 import NotificationsPanel from "./console/sidebar/notifications/NotificationsPanel";
 import TeamPanel from "./console/sidebar/team/TeamPanel";
-import FerviePanel from "./console/sidebar/spirit/FerviePanel";
+import FerviePanel from "./console/sidebar/fervie/FerviePanel";
 import { RendererControllerFactory } from "../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../controllers/SidePanelViewController";
 import { DimensionController } from "../controllers/DimensionController";
@@ -31,7 +31,7 @@ export default class ConsoleLayout extends Component {
       totalXP: 0,
       flameRating: 0,
       activePanel:
-        SidePanelViewController.MenuSelection.SPIRIT,
+        SidePanelViewController.MenuSelection.FERVIE,
       consoleIsCollapsed: 0,
       me: {
         displayName: SidePanelViewController.ME,
@@ -133,10 +133,10 @@ export default class ConsoleLayout extends Component {
   };
 
   /**
-   * the spirit panel that gets displayed in the side panel
+   * the fervie panel that gets displayed in the side panel
    * @returns {*}
    */
-  getSpiritPanelContent = () => {
+  getFerviePanelContent = () => {
     return (
       <FerviePanel
         width={this.state.sidebarPanelWidth}
@@ -219,8 +219,8 @@ export default class ConsoleLayout extends Component {
    */
   getActivePanelContent = () => {
     switch (this.state.activePanel) {
-      case SidePanelViewController.MenuSelection.SPIRIT:
-        return this.getSpiritPanelContent();
+      case SidePanelViewController.MenuSelection.FERVIE:
+        return this.getFerviePanelContent();
       case SidePanelViewController.MenuSelection.TEAM:
         return this.getTeamPanelContent();
       case SidePanelViewController.MenuSelection.CIRCUITS:

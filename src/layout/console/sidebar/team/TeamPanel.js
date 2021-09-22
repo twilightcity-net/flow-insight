@@ -137,7 +137,7 @@ export default class TeamPanel extends Component {
   }
 
   /**
-   * updates display to show spirit content
+   * updates display to show fervie content
    * @param e
    * @param name
    */

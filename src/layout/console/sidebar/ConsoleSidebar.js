@@ -38,7 +38,7 @@ export default class ConsoleSidebar extends Component {
       isAlarm: false,
       activeItem:
         SidePanelViewController.MenuSelection.TEAM,
-      iconSpirit: "heart outline",
+      iconFervie: "heart outline",
       iconTeam: "user",
       iconWTF: "lightning",
       iconCircuit: "star outline",
@@ -204,7 +204,7 @@ export default class ConsoleSidebar extends Component {
         break;
       case 3:
         this.showPanel(
-          SidePanelViewController.MenuSelection.SPIRIT
+          SidePanelViewController.MenuSelection.FERVIE
         );
         break;
       case 4:
@@ -233,7 +233,7 @@ export default class ConsoleSidebar extends Component {
       .activeMenuSelection;
     let state = {
       activeItem: activeMenuItem,
-      iconSpirit: "heart",
+      iconFervie: "heart",
       iconTeam: "user",
       iconWTF: "lightning",
       iconNotifications: "bell",
@@ -242,28 +242,28 @@ export default class ConsoleSidebar extends Component {
     let oStr = " outline";
     switch (activeMenuItem) {
       case SidePanelViewController.MenuSelection.TEAM:
-        state.iconSpirit += oStr;
+        state.iconFervie += oStr;
         state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection.CIRCUITS:
-        state.iconSpirit += oStr;
+        state.iconFervie += oStr;
         state.iconTeam += oStr;
         state.iconNotifications += oStr;
         break;
-      case SidePanelViewController.MenuSelection.SPIRIT:
+      case SidePanelViewController.MenuSelection.FERVIE:
         state.iconTeam += oStr;
         state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection
         .NOTIFICATIONS:
-        state.iconSpirit += oStr;
+        state.iconFervie += oStr;
         state.iconTeam += oStr;
         state.iconCircuit += oStr;
         break;
       case SidePanelViewController.MenuSelection.NONE:
-        state.iconSpirit += oStr;
+        state.iconFervie += oStr;
         state.iconTeam += oStr;
         state.iconCircuit += oStr;
         state.iconNotifications += oStr;
@@ -433,15 +433,15 @@ export default class ConsoleSidebar extends Component {
           </Menu.Item>
           <Menu.Item
             name={
-              SidePanelViewController.MenuSelection.SPIRIT
+              SidePanelViewController.MenuSelection.FERVIE
             }
             active={
               activeItem ===
-              SidePanelViewController.MenuSelection.SPIRIT
+              SidePanelViewController.MenuSelection.FERVIE
             }
             onClick={this.handleItemClick}
           >
-            <Icon name={this.state.iconSpirit} />
+            <Icon name={this.state.iconFervie} />
           </Menu.Item>
           <Menu.Item
             name={

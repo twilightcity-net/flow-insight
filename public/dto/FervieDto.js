@@ -1,17 +1,17 @@
 //
-// dto class for SpiritDto
+// dto class for FervieDto
 //
-module.exports = class SpiritDto {
+module.exports = class FervieDto {
   constructor(json) {
     try {
       if (typeof json === "string") json = JSON.parse(json);
 
-      this.spiritId = json.spiritId;
+      this.sparkId = json.sparkId;
       this.xpSummary = json.xpSummary;
       this.activeSparkLinks = json.activeSparkLinks;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'XPSummaryDto' : " + e.message
+        "Unable to create dto 'FervieDto' : " + e.message
       );
     }
   }

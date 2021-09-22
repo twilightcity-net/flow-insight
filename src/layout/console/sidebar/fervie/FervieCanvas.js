@@ -42,14 +42,14 @@ export default class FervieCanvas extends Component {
    * @param flameString
    */
   updateFervieImage(flameRating) {
-    // let spiritImage = "",
+    // let fervieImage = "",
     //   height = DimensionController.getFervieCanvasHeight(),
     //   width = DimensionController.getFervieCanvasWidth();
     //
     // if (flameRating >= 0) {
-    //   spiritImage = "./assets/images/fervie_idle_in_TC.gif";
+    //   fervieImage = "./assets/images/fervie_idle_in_TC.gif";
     // } else if (flameRating < 0) {
-    //   spiritImage = "./assets/images/fervie_idle_in_TC.gif";
+    //   fervieImage = "./assets/images/fervie_idle_in_TC.gif";
     // }
     //
     // let image = new Image();
@@ -61,7 +61,7 @@ export default class FervieCanvas extends Component {
     //       .drawImage(image, 0, 0, width, height);
     //   }
     // };
-    // image.src = spiritImage;
+    // image.src = fervieImage;
   }
 
   /**
