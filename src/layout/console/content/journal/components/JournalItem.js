@@ -210,7 +210,7 @@ export default class JournalItem extends Component {
           position="top center"
           content={
             <div className="doneGreen">
-              Finished Intention
+              Finish Intention
             </div>
           }
           inverted

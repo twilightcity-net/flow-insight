@@ -16,10 +16,7 @@ module.exports = class ActiveLinksNetworkDto {
   }
 
   isValid() {
-    if (
-      this.sparkLinks != null &&
-      this.sparkLinks != null
-    )
+    if (this.sparkLinks != null && this.sparkLinks != null)
       return true;
     return false;
   }
