@@ -78,6 +78,31 @@ export default class ConsoleSidebar extends Component {
       this.onSidebarShow
     );
 
+      this.circuitStartStopListener = RendererEventFactory.createEvent(
+          RendererEventFactory.Events
+              .VIEW_CONSOLE_CIRCUIT_START_STOP,
+          this,
+          this.onCircuitStartStop
+      );
+      this.circuitPauseResumeListener = RendererEventFactory.createEvent(
+          RendererEventFactory.Events
+              .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
+          this,
+          this.onCircuitPauseResume
+      );
+      this.circuitSolveListener = RendererEventFactory.createEvent(
+          RendererEventFactory.Events
+              .VIEW_CONSOLE_CIRCUIT_SOLVE,
+          this,
+          this.onCircuitSolve
+      );
+      this.circuitJoinLeaveListener = RendererEventFactory.createEvent(
+          RendererEventFactory.Events
+              .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
+          this,
+          this.onCircuitJoinLeave
+      );
+
     this.setAlarmStateBasedOnStatus(MemberClient.me);
   }
 

@@ -72,7 +72,9 @@ export class BaseClient {
     return {
       TROUBLESHOOT: "TROUBLESHOOT",
       CANCELED: "CANCELED",
-      ON_HOLD: "ONHOLD"
+      ON_HOLD: "ONHOLD",
+      SOLVED: "SOLVED",
+      RETRO: "RETRO"
     };
   }
 

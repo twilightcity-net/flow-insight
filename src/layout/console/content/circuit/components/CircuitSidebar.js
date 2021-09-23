@@ -605,18 +605,26 @@ export default class CircuitSidebar extends Component {
    */
   getJoinActiveCircuitButtonContent() {
     let circuit = this.state.model;
-    if (circuit && !UtilRenderer.isCircuitPaused(circuit)) {
-      return (
-        <Button
-          onClick={this.onClickJoinActiveCircuit}
-          size="medium"
-          color="grey"
-        >
-          <Button.Content>join</Button.Content>
-        </Button>
-      );
+
+    if (circuit) {
+        if (UtilRenderer.isCircuitPaused(circuit)) {
+            return this.getPausedCircuitButtonContent();
+        } else if (UtilRenderer.isCircuitSolved(circuit)) {
+            return this.getSolvedCircuitButtonContent();
+        } else if (UtilRenderer.isCircuitCanceled(circuit)) {
+            return this.getCanceledCircuitButtonContent();
+        } else {
+            return (
+                <Button
+                    onClick={this.onClickJoinActiveCircuit}
+                    size="medium"
+                    color="grey"
+                >
+                    <Button.Content>join</Button.Content>
+                </Button>
+            );
+        }
     }
-    return this.getPausedCircuitButtonContent();
   }
 
   /**
@@ -632,6 +640,35 @@ export default class CircuitSidebar extends Component {
       </Button>
     );
   }
+
+    /**
+     * renders our solved button which is shown when viewing a circuit
+     * that's already been solved. It is disabled and is only shown when the active
+     * circuit is actually solved.
+     * @returns {*}
+     */
+    getSolvedCircuitButtonContent() {
+        return (
+            <Button size="medium" color="grey" disabled>
+                <Button.Content>solved</Button.Content>
+            </Button>
+        );
+    }
+
+
+    /**
+     * renders our canceled button which is shown when viewing a circuit
+     * that's already been solved. It is disabled and is only shown when the active
+     * circuit is actually canceled.
+     * @returns {*}
+     */
+    getCanceledCircuitButtonContent() {
+        return (
+            <Button size="medium" color="grey" disabled>
+                <Button.Content>canceled</Button.Content>
+            </Button>
+        );
+    }
 
   /**
    * renders our cancel wtf circuit button in the gui
@@ -670,12 +707,13 @@ export default class CircuitSidebar extends Component {
       </Grid.Row>
     );
 
-    if (
+    if (UtilRenderer.isCircuitActive(this.state.model) &&
       UtilRenderer.isCircuitParticipant(
         MemberClient.me,
         this.state.circuitMembers
       )
     ) {
+
       content = (
         <Grid.Row stretched verticalAlign="middle">
           <Grid.Column>

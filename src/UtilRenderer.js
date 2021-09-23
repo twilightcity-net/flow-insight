@@ -393,7 +393,22 @@ export default class UtilRenderer {
     return helping;
   }
 
-  /**
+    /**
+     * checks to see if circuit is on_hold (paused)
+     * @param circuit
+     * @returns {boolean}
+     */
+    static isCircuitActive(circuit) {
+        return (
+            circuit &&
+            ((circuit.circuitState ===
+            BaseClient.CircuitStates.TROUBLESHOOT) ||
+                (circuit.circuitState === BaseClient.CircuitStates.RETRO))
+        );
+    }
+
+
+    /**
    * checks to see if circuit is on_hold (paused)
    * @param circuit
    * @returns {boolean}
@@ -405,6 +420,32 @@ export default class UtilRenderer {
         BaseClient.CircuitStates.ON_HOLD
     );
   }
+
+  /**
+   * checks to see if circuit is solved
+   * @param circuit
+   * @returns {boolean}
+   */
+  static isCircuitSolved(circuit) {
+      return (
+          circuit &&
+          circuit.circuitState ===
+          BaseClient.CircuitStates.SOLVED
+      );
+  }
+
+    /**
+     * checks to see if circuit is solved
+     * @param circuit
+     * @returns {boolean}
+     */
+    static isCircuitCanceled(circuit) {
+        return (
+            circuit &&
+            circuit.circuitState ===
+            BaseClient.CircuitStates.CANCELED
+        );
+    }
 
   /**
    * checks to see if circuit state is on_hold (paused)
