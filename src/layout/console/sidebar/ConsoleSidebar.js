@@ -41,9 +41,9 @@ export default class ConsoleSidebar extends Component {
       activeItem:
         SidePanelViewController.MenuSelection.TEAM,
       iconFervie: "heart outline",
-      iconTeam: "user",
+      iconTeam: "home",
       iconWTF: "lightning",
-      iconCircuit: "star outline",
+      iconCircuit: "lightbulb outline",
       iconNotifications: "bell outline"
     };
     this.myController = RendererControllerFactory.getViewController(
@@ -286,10 +286,10 @@ export default class ConsoleSidebar extends Component {
     let state = {
       activeItem: activeMenuItem,
       iconFervie: "heart",
-      iconTeam: "user",
+      iconTeam: "home",
       iconWTF: "lightning",
       iconNotifications: "bell",
-      iconCircuit: "star"
+      iconCircuit: "lightbulb"
     };
     let oStr = " outline";
     switch (activeMenuItem) {
@@ -300,23 +300,23 @@ export default class ConsoleSidebar extends Component {
         break;
       case SidePanelViewController.MenuSelection.CIRCUITS:
         state.iconFervie += oStr;
-        state.iconTeam += oStr;
+        //state.iconTeam += oStr;
         state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection.FERVIE:
-        state.iconTeam += oStr;
+        //state.iconTeam += oStr;
         state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection
         .NOTIFICATIONS:
         state.iconFervie += oStr;
-        state.iconTeam += oStr;
+        //state.iconTeam += oStr;
         state.iconCircuit += oStr;
         break;
       case SidePanelViewController.MenuSelection.NONE:
         state.iconFervie += oStr;
-        state.iconTeam += oStr;
+        //state.iconTeam += oStr;
         state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
@@ -473,18 +473,6 @@ export default class ConsoleSidebar extends Component {
           </Menu.Item>
           <Menu.Item
             name={
-              SidePanelViewController.MenuSelection.CIRCUITS
-            }
-            active={
-              activeItem ===
-              SidePanelViewController.MenuSelection.CIRCUITS
-            }
-            onClick={this.handleItemClick}
-          >
-            <Icon name={this.state.iconCircuit} />
-          </Menu.Item>
-          <Menu.Item
-            name={
               SidePanelViewController.MenuSelection.FERVIE
             }
             active={
@@ -494,6 +482,18 @@ export default class ConsoleSidebar extends Component {
             onClick={this.handleItemClick}
           >
             <Icon name={this.state.iconFervie} />
+          </Menu.Item>
+          <Menu.Item
+              name={
+                  SidePanelViewController.MenuSelection.CIRCUITS
+              }
+              active={
+                  activeItem ===
+                  SidePanelViewController.MenuSelection.CIRCUITS
+              }
+              onClick={this.handleItemClick}
+          >
+              <Icon name={this.state.iconCircuit} />
           </Menu.Item>
           <Menu.Item
             name={
