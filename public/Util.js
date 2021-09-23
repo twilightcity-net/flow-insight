@@ -78,7 +78,7 @@ class Util {
   static getAppTalkUrl() {
     // FIXME use the new secure talk url on heroku (needs to be setup)
 
-    let url = "https://talk.dreamscale.io";
+    let url = "https://gridtalk.twilightcity.net";
     if (isDev) {
       process.argv.forEach(val => {
         if (val.toLowerCase().startsWith("talk=")) {
