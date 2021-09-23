@@ -277,31 +277,19 @@ export default class CircuitSidebar extends Component {
     if (!circuit) {
       return "loading...";
     } else {
-      this.openUtcTime = moment.utc(circuit.openTime);
       this.timerEl = document.getElementById(
-        CircuitSidebar.wtfTimerId
+          CircuitSidebar.wtfTimerId
       );
       this.wtfTimer = UtilRenderer.clearIntervalTimer(
-        this.wtfTimer
+          this.wtfTimer
       );
-    }
 
-    if (UtilRenderer.isCircuitPaused(circuit)) {
-      return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
-        this.openUtcTime,
-        circuit.totalCircuitPausedNanoTime
-      );
-    } else {
-      this.wtfTimer = setInterval(() => {
-        this.timerEl.innerHTML = UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
-          this.openUtcTime,
-          circuit.totalCircuitPausedNanoTime
-        );
-      }, CircuitSidebar.wtfTimerIntervalMs);
-      return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
-        this.openUtcTime,
-        circuit.totalCircuitPausedNanoTime
-      );
+      if (UtilRenderer.isCircuitTroubleshoot(circuit)) {
+          this.wtfTimer = setInterval(() => {
+              this.timerEl.innerHTML = UtilRenderer.getWtfTimerFromCircuit(circuit);
+          }, CircuitSidebar.wtfTimerIntervalMs);
+      }
+      return UtilRenderer.getWtfTimerFromCircuit(circuit);
     }
   }
 
@@ -607,23 +595,23 @@ export default class CircuitSidebar extends Component {
     let circuit = this.state.model;
 
     if (circuit) {
-        if (UtilRenderer.isCircuitPaused(circuit)) {
-            return this.getPausedCircuitButtonContent();
-        } else if (UtilRenderer.isCircuitSolved(circuit)) {
-            return this.getSolvedCircuitButtonContent();
-        } else if (UtilRenderer.isCircuitCanceled(circuit)) {
-            return this.getCanceledCircuitButtonContent();
-        } else {
-            return (
-                <Button
-                    onClick={this.onClickJoinActiveCircuit}
-                    size="medium"
-                    color="grey"
-                >
-                    <Button.Content>join</Button.Content>
-                </Button>
-            );
-        }
+      if (UtilRenderer.isCircuitPaused(circuit)) {
+        return this.getPausedCircuitButtonContent();
+      } else if (UtilRenderer.isCircuitSolved(circuit)) {
+        return this.getSolvedCircuitButtonContent();
+      } else if (UtilRenderer.isCircuitCanceled(circuit)) {
+        return this.getCanceledCircuitButtonContent();
+      } else {
+        return (
+          <Button
+            onClick={this.onClickJoinActiveCircuit}
+            size="medium"
+            color="grey"
+          >
+            <Button.Content>join</Button.Content>
+          </Button>
+        );
+      }
     }
   }
 
@@ -641,34 +629,33 @@ export default class CircuitSidebar extends Component {
     );
   }
 
-    /**
-     * renders our solved button which is shown when viewing a circuit
-     * that's already been solved. It is disabled and is only shown when the active
-     * circuit is actually solved.
-     * @returns {*}
-     */
-    getSolvedCircuitButtonContent() {
-        return (
-            <Button size="medium" color="grey" disabled>
-                <Button.Content>solved</Button.Content>
-            </Button>
-        );
-    }
+  /**
+   * renders our solved button which is shown when viewing a circuit
+   * that's already been solved. It is disabled and is only shown when the active
+   * circuit is actually solved.
+   * @returns {*}
+   */
+  getSolvedCircuitButtonContent() {
+    return (
+      <Button size="medium" color="grey" disabled>
+        <Button.Content>solved</Button.Content>
+      </Button>
+    );
+  }
 
-
-    /**
-     * renders our canceled button which is shown when viewing a circuit
-     * that's already been solved. It is disabled and is only shown when the active
-     * circuit is actually canceled.
-     * @returns {*}
-     */
-    getCanceledCircuitButtonContent() {
-        return (
-            <Button size="medium" color="grey" disabled>
-                <Button.Content>canceled</Button.Content>
-            </Button>
-        );
-    }
+  /**
+   * renders our canceled button which is shown when viewing a circuit
+   * that's already been solved. It is disabled and is only shown when the active
+   * circuit is actually canceled.
+   * @returns {*}
+   */
+  getCanceledCircuitButtonContent() {
+    return (
+      <Button size="medium" color="grey" disabled>
+        <Button.Content>canceled</Button.Content>
+      </Button>
+    );
+  }
 
   /**
    * renders our cancel wtf circuit button in the gui
@@ -707,13 +694,13 @@ export default class CircuitSidebar extends Component {
       </Grid.Row>
     );
 
-    if (UtilRenderer.isCircuitActive(this.state.model) &&
+    if (
+      UtilRenderer.isCircuitActive(this.state.model) &&
       UtilRenderer.isCircuitParticipant(
         MemberClient.me,
         this.state.circuitMembers
       )
     ) {
-
       content = (
         <Grid.Row stretched verticalAlign="middle">
           <Grid.Column>

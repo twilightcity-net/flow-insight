@@ -82,6 +82,36 @@ export default class UtilRenderer {
       .join(" ");
   }
 
+
+    /**
+     * gets our timer string from the time inside the circuit.  If the circuit is paused,
+     *
+     * @param openUtcTime
+     * @param pausedNanoTime
+     * @returns {string}
+     */
+    static getWtfTimerFromCircuit(circuit)
+    {
+        let openUtcTime = moment.utc(circuit.openTime);
+        let totalPauseNanoTime = circuit.totalCircuitPausedNanoTime;
+        let totalElapsedNanoTime = circuit.totalCircuitElapsedNanoTime;
+
+        if (UtilRenderer.isCircuitTroubleshoot(circuit)) {
+          // in this case, we want the ticking clock based on open time.
+            let seconds =
+                moment().diff(openUtcTime, "s") -
+                UtilRenderer.getSecondsFromNanoseconds(totalPauseNanoTime);
+
+            return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(seconds);
+        } else {
+            //we want the clock to be fixed based on total elapsed time
+            let seconds = UtilRenderer.getSecondsFromNanoseconds(totalElapsedNanoTime);
+
+            return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(seconds);
+        }
+
+    }
+
   /**
    * gets our timer string from the time now see getWtfTimerStringFromSeconds
    * @param openUtcTime
@@ -133,6 +163,25 @@ export default class UtilRenderer {
       ((seconds / 60) | 0) % 60,
       seconds % 60
     );
+  }
+
+  /**
+   * renders our wtf time from the circuit
+   * @param circuit
+   * @returns {string}
+   */
+
+  static getWtfTimerCount(circuit) {
+    if (!circuit) {
+      return "loading...";
+    } else {
+      let openUtcTime = moment.utc(circuit.openTime);
+
+      return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
+        openUtcTime,
+        circuit.totalCircuitPausedNanoTime
+      );
+    }
   }
 
   /**
@@ -393,22 +442,35 @@ export default class UtilRenderer {
     return helping;
   }
 
+  /**
+   * checks to see if circuit is on_hold (paused)
+   * @param circuit
+   * @returns {boolean}
+   */
+  static isCircuitActive(circuit) {
+    return (
+      circuit &&
+      (circuit.circuitState ===
+        BaseClient.CircuitStates.TROUBLESHOOT ||
+        circuit.circuitState ===
+          BaseClient.CircuitStates.RETRO)
+    );
+  }
+
     /**
      * checks to see if circuit is on_hold (paused)
      * @param circuit
      * @returns {boolean}
      */
-    static isCircuitActive(circuit) {
+    static isCircuitTroubleshoot(circuit) {
         return (
             circuit &&
-            ((circuit.circuitState ===
-            BaseClient.CircuitStates.TROUBLESHOOT) ||
-                (circuit.circuitState === BaseClient.CircuitStates.RETRO))
+            (circuit.circuitState ===
+                BaseClient.CircuitStates.TROUBLESHOOT)
         );
     }
 
-
-    /**
+  /**
    * checks to see if circuit is on_hold (paused)
    * @param circuit
    * @returns {boolean}
@@ -427,25 +489,25 @@ export default class UtilRenderer {
    * @returns {boolean}
    */
   static isCircuitSolved(circuit) {
-      return (
-          circuit &&
-          circuit.circuitState ===
-          BaseClient.CircuitStates.SOLVED
-      );
+    return (
+      circuit &&
+      circuit.circuitState ===
+        BaseClient.CircuitStates.SOLVED
+    );
   }
 
-    /**
-     * checks to see if circuit is solved
-     * @param circuit
-     * @returns {boolean}
-     */
-    static isCircuitCanceled(circuit) {
-        return (
-            circuit &&
-            circuit.circuitState ===
-            BaseClient.CircuitStates.CANCELED
-        );
-    }
+  /**
+   * checks to see if circuit is solved
+   * @param circuit
+   * @returns {boolean}
+   */
+  static isCircuitCanceled(circuit) {
+    return (
+      circuit &&
+      circuit.circuitState ===
+        BaseClient.CircuitStates.CANCELED
+    );
+  }
 
   /**
    * checks to see if circuit state is on_hold (paused)
@@ -457,25 +519,6 @@ export default class UtilRenderer {
       circuitState &&
       circuitState === BaseClient.CircuitStates.ON_HOLD
     );
-  }
-
-  /**
-   * renders our wtf time from the circuit
-   * @param circuit
-   * @returns {string}
-   */
-
-  static getWtfTimerCount(circuit) {
-    if (!circuit) {
-      return "loading...";
-    } else {
-      let openUtcTime = moment.utc(circuit.openTime);
-
-      return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
-        openUtcTime,
-        circuit.totalCircuitPausedNanoTime
-      );
-    }
   }
 
   /**

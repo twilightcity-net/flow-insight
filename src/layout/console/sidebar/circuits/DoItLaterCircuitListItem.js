@@ -53,12 +53,7 @@ export default class DoItLaterCircuitListItem extends Component {
     if (!circuit) {
       return "loading...";
     } else {
-      this.openUtcTime = moment.utc(circuit.openTime);
-
-      return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
-        this.openUtcTime,
-        circuit.totalCircuitPausedNanoTime
-      );
+      return UtilRenderer.getWtfTimerFromCircuit(circuit);
     }
   }
 

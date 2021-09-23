@@ -70,8 +70,6 @@ export default class LiveCircuitListItem extends Component {
     if (!circuit) {
       return "loading...";
     } else {
-      let openUtcTime = moment.utc(circuit.openTime);
-
       this.wtfTimer = UtilRenderer.clearIntervalTimer(
         this.wtfTimer
       );
@@ -82,16 +80,10 @@ export default class LiveCircuitListItem extends Component {
             circuit.circuitName
         );
 
-        timerEl.innerHTML = UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
-          openUtcTime,
-          circuit.totalCircuitPausedNanoTime
-        );
+        timerEl.innerHTML = UtilRenderer.getWtfTimerFromCircuit(circuit)
       }, LiveCircuitListItem.wtfTimerIntervalMs);
 
-      return UtilRenderer.getWtfTimerStringFromOpenMinusPausedTime(
-        openUtcTime,
-        circuit.totalCircuitPausedNanoTime
-      );
+      return UtilRenderer.getWtfTimerFromCircuit(circuit);
     }
   }
 

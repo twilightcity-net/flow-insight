@@ -187,7 +187,7 @@ export default class TeamPanelListItem extends Component {
         </div>
         <div className="time">
           <Icon name="lightning" />
-          {UtilRenderer.getWtfTimerCount(circuit)}
+          {UtilRenderer.getWtfTimerFromCircuit(circuit)}
         </div>
       </div>
     );

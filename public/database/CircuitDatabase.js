@@ -162,7 +162,9 @@ module.exports = class CircuitDatabase extends LokiJS {
       CircuitDatabase.Collections.PARTICIPATING
     ).addDynamicView(CircuitDatabase.Views.PARTICIPATING);
 
-    participatingView.applyFind({"circuitState" : "TROUBLESHOOT"});
+    participatingView.applyFind({
+      circuitState: "TROUBLESHOOT"
+    });
 
     this.getCollection(
       CircuitDatabase.Collections.LATER
@@ -431,7 +433,7 @@ module.exports = class CircuitDatabase extends LokiJS {
     );
 
     if (
-        me.id === (circuit.ownerId || circuit.moderatorId)
+      me.id === (circuit.ownerId || circuit.moderatorId)
     ) {
       if (me.id === memberId) {
         this.setActiveCircuit(circuit);
