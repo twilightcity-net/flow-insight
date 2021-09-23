@@ -43,7 +43,7 @@ export default class ConsoleSidebar extends Component {
       iconFervie: "heart outline",
       iconTeam: "home",
       iconWTF: "lightning",
-      iconCircuit: "lightbulb outline",
+      iconCircuit: "shuffle",
       iconNotifications: "bell outline"
     };
     this.myController = RendererControllerFactory.getViewController(
@@ -289,13 +289,13 @@ export default class ConsoleSidebar extends Component {
       iconTeam: "home",
       iconWTF: "lightning",
       iconNotifications: "bell",
-      iconCircuit: "lightbulb"
+      iconCircuit: "shuffle"
     };
     let oStr = " outline";
     switch (activeMenuItem) {
       case SidePanelViewController.MenuSelection.TEAM:
         state.iconFervie += oStr;
-        state.iconCircuit += oStr;
+        //state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection.CIRCUITS:
@@ -305,19 +305,19 @@ export default class ConsoleSidebar extends Component {
         break;
       case SidePanelViewController.MenuSelection.FERVIE:
         //state.iconTeam += oStr;
-        state.iconCircuit += oStr;
+        //state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
       case SidePanelViewController.MenuSelection
         .NOTIFICATIONS:
         state.iconFervie += oStr;
         //state.iconTeam += oStr;
-        state.iconCircuit += oStr;
+        //state.iconCircuit += oStr;
         break;
       case SidePanelViewController.MenuSelection.NONE:
         state.iconFervie += oStr;
         //state.iconTeam += oStr;
-        state.iconCircuit += oStr;
+        //state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
       default:
@@ -472,18 +472,6 @@ export default class ConsoleSidebar extends Component {
             <Icon name={this.state.iconTeam} />
           </Menu.Item>
           <Menu.Item
-            name={
-              SidePanelViewController.MenuSelection.FERVIE
-            }
-            active={
-              activeItem ===
-              SidePanelViewController.MenuSelection.FERVIE
-            }
-            onClick={this.handleItemClick}
-          >
-            <Icon name={this.state.iconFervie} />
-          </Menu.Item>
-          <Menu.Item
               name={
                   SidePanelViewController.MenuSelection.CIRCUITS
               }
@@ -494,6 +482,18 @@ export default class ConsoleSidebar extends Component {
               onClick={this.handleItemClick}
           >
               <Icon name={this.state.iconCircuit} />
+          </Menu.Item>
+          <Menu.Item
+            name={
+              SidePanelViewController.MenuSelection.FERVIE
+            }
+            active={
+              activeItem ===
+              SidePanelViewController.MenuSelection.FERVIE
+            }
+            onClick={this.handleItemClick}
+          >
+            <Icon name={this.state.iconFervie} />
           </Menu.Item>
           <Menu.Item
             name={

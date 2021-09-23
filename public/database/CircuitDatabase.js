@@ -166,9 +166,16 @@ module.exports = class CircuitDatabase extends LokiJS {
       circuitState: "TROUBLESHOOT"
     });
 
-    this.getCollection(
+    let laterView = this.getCollection(
       CircuitDatabase.Collections.LATER
     ).addDynamicView(CircuitDatabase.Views.LATER);
+
+    laterView.applySort(function(obj1, obj2) {
+        if (obj1.totalCircuitElapsedNanoTime === obj2.totalCircuitElapsedNanoTime) return 0;
+        if (obj1.totalCircuitElapsedNanoTime > obj2.totalCircuitElapsedNanoTime) return -1;
+        if (obj1.totalCircuitElapsedNanoTime < obj2.totalCircuitElapsedNanoTime) return 1;
+    });
+
     this.getCollection(
       CircuitDatabase.Collections.RETRO
     ).addDynamicView(CircuitDatabase.Views.RETRO);
