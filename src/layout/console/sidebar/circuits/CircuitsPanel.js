@@ -37,7 +37,10 @@ export default class CircuitsPanel extends Component {
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
       retroCircuitsVisible: false,
-      title: ""
+      title: "",
+      activeCircuits: [],
+      doItLaterCircuits: [],
+      retroCircuits : []
     };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
@@ -57,9 +60,6 @@ export default class CircuitsPanel extends Component {
       doItLaterCircuitComponent: null,
       retroCircuitComponent: null
     };
-    this.activeCircuits = [];
-    this.doItLaterCircuits = [];
-    this.retroCircuits = [];
   }
 
   /**
@@ -191,9 +191,10 @@ export default class CircuitsPanel extends Component {
       doItLaterCircuitsVisible: false,
       retroCircuitVisible: false
     });
+
+    let that = this;
     CircuitClient.getAllMyLiveCircuits(this, arg => {
-      this.activeCircuits = arg.data;
-      this.forceUpdate();
+        that.setState({activeCircuits : arg.data});
     });
   }
 
@@ -210,9 +211,9 @@ export default class CircuitsPanel extends Component {
       doItLaterCircuitsVisible: true,
       retroCircuitVisible: false
     });
+    let that = this;
     CircuitClient.getAllMyDoItLaterCircuits(this, arg => {
-      this.doItLaterCircuits = arg.data;
-      this.forceUpdate();
+      that.setState({doItLaterCircuits : arg.data});
     });
   }
 
@@ -231,10 +232,10 @@ export default class CircuitsPanel extends Component {
 
     console.log("show retro");
 
+    let that = this;
     CircuitClient.getAllMyRetroCircuits(this, arg => {
       console.log("ARG", arg);
-      this.retroCircuits = arg.data;
-      this.forceUpdate();
+      that.setState({retroCircuits : arg.data});
     });
   }
 
@@ -316,7 +317,7 @@ export default class CircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {this.activeCircuits.map(model => (
+          {this.state.activeCircuits.map(model => (
             <LiveCircuitListItem
               key={model.id}
               model={model}
@@ -345,7 +346,7 @@ export default class CircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {this.doItLaterCircuits.map(model => (
+          {this.state.doItLaterCircuits.map(model => (
             <DoItLaterCircuitListItem
               key={model.id}
               model={model}
@@ -374,7 +375,7 @@ export default class CircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {this.retroCircuits.map(model => (
+          {this.state.retroCircuits.map(model => (
             <RetroCircuitListItem
               key={model.id}
               model={model}
