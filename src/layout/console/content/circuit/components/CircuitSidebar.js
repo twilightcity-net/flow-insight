@@ -12,7 +12,6 @@ import { DimensionController } from "../../../../../controllers/DimensionControl
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import PartyPanelListItem from "./PartyPanelListItem";
 import { MemberClient } from "../../../../../clients/MemberClient";
-import moment from "moment";
 import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
@@ -73,10 +72,7 @@ export default class CircuitSidebar extends Component {
       this
     );
     this.state = {
-      resource: props.resource,
       activeMenuView: CircuitSidebar.Views.OVERVIEW,
-      model: null,
-      circuitMembers: []
     };
     this.props.set(this);
   }
@@ -93,7 +89,7 @@ export default class CircuitSidebar extends Component {
    * click handler for putting a circuit on hold
    */
   onClickSolveActiveCircuit = () => {
-    let circuitName = this.state.model.circuitName;
+    let circuitName = this.props.model.circuitName;
     this.resourcesController.solveCircuit(circuitName);
   };
 
@@ -102,7 +98,7 @@ export default class CircuitSidebar extends Component {
    * participant.
    */
   onClickJoinActiveCircuit = () => {
-    let circuitName = this.state.model.circuitName;
+    let circuitName = this.props.model.circuitName;
     this.resourcesController.joinCircuit(circuitName);
   };
 
@@ -110,7 +106,7 @@ export default class CircuitSidebar extends Component {
    * click handler for leaving a circuit that the member is participating in.
    */
   onClickLeaveActiveCircuit = () => {
-    let circuitName = this.state.model.circuitName;
+    let circuitName = this.props.model.circuitName;
     this.resourcesController.leaveCircuit(circuitName);
   };
 
@@ -118,7 +114,7 @@ export default class CircuitSidebar extends Component {
    * click handler for putting a circuit on hold
    */
   onClickPauseActiveCircuit = () => {
-    let circuitName = this.state.model.circuitName;
+    let circuitName = this.props.model.circuitName;
     this.resourcesController.pauseCircuit(circuitName);
   };
 
@@ -126,7 +122,7 @@ export default class CircuitSidebar extends Component {
    * click handler for putting a circuit on hold
    */
   onClickResumeActiveCircuit = () => {
-    let circuitName = this.state.model.circuitName;
+    let circuitName = this.props.model.circuitName;
     this.resourcesController.resumeCircuit(circuitName);
   };
 
@@ -134,7 +130,7 @@ export default class CircuitSidebar extends Component {
    * click handler for when we want to cancel a circuit with out hold or lettuce
    */
   onClickCancelActiveCircuit = () => {
-    let circuitName = this.state.model.circuitName;
+    let circuitName = this.props.model.circuitName;
     this.resourcesController.cancelCircuit(circuitName);
   };
 
@@ -183,7 +179,7 @@ export default class CircuitSidebar extends Component {
    * @returns {string}
    */
   getMenuItemPartyContent() {
-    let circuitMembers = this.state.circuitMembers;
+    let circuitMembers = this.props.circuitMembers;
     if (circuitMembers) {
       return "Party [" + circuitMembers.length + "]";
     }
@@ -305,11 +301,11 @@ export default class CircuitSidebar extends Component {
       description = "...",
       tags = ["..."];
 
-    if (this.state.model) {
-      title = this.state.model.circuitName;
-      description = this.state.model.description;
-      tags = this.state.model.tags
-        ? this.state.model.tags
+    if (this.props.model) {
+      title = this.props.model.circuitName;
+      description = this.props.model.description;
+      tags = this.props.model.tags
+        ? this.props.model.tags
         : tags;
       if (!description || description === "") {
         description = "What's the problem?";
@@ -416,12 +412,12 @@ export default class CircuitSidebar extends Component {
     );
   }
 
-  setDescription(description) {
-    this.state.model.description = description;
-    this.setState({
-      model: this.state.model
-    });
-  }
+  // setDescription(description) {
+  //   this.props.model.description = description;
+  //   this.setState({
+  //     model: this.state.model
+  //   });
+  // }
 
   /**
    * decorates our timer counter for wtf sessions based on the circuits
@@ -429,7 +425,7 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getWtfTimerContent() {
-    let circuit = this.state.model;
+    let circuit = this.props.model;
     return (
       <Label color="red" basic className="time">
         <span
@@ -512,7 +508,7 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getPauseResumeButtonContent() {
-    let circuit = this.state.model;
+    let circuit = this.props.model;
     if (circuit && UtilRenderer.isCircuitPaused(circuit)) {
       return (
         <Button
@@ -545,7 +541,7 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getSolveActiveCircuitButtonContent() {
-    let circuit = this.state.model;
+    let circuit = this.props.model;
     if (circuit && !UtilRenderer.isCircuitPaused(circuit)) {
       return (
         <Button
@@ -570,7 +566,7 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getLeaveActiveCircuitButtonContent() {
-    let circuit = this.state.model;
+    let circuit = this.props.model;
     if (circuit && !UtilRenderer.isCircuitPaused(circuit)) {
       return (
         <Button
@@ -592,7 +588,7 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getJoinActiveCircuitButtonContent() {
-    let circuit = this.state.model;
+    let circuit = this.props.model;
 
     if (circuit) {
       if (UtilRenderer.isCircuitPaused(circuit)) {
@@ -662,7 +658,7 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getCancelActiveCircuitButtonContent() {
-    let circuit = this.state.model;
+    let circuit = this.props.model;
     if (circuit) {
       return (
         <Button
@@ -695,10 +691,10 @@ export default class CircuitSidebar extends Component {
     );
 
     if (
-      UtilRenderer.isCircuitActive(this.state.model) &&
+      UtilRenderer.isCircuitActive(this.props.model) &&
       UtilRenderer.isCircuitParticipant(
         MemberClient.me,
-        this.state.circuitMembers
+        this.props.circuitMembers
       )
     ) {
       content = (
@@ -713,7 +709,7 @@ export default class CircuitSidebar extends Component {
     if (
       UtilRenderer.isCircuitOwnerModerator(
         MemberClient.me,
-        this.state.model
+        this.props.model
       )
     ) {
       content = (
@@ -752,8 +748,8 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getPartyCircuitMembersContent() {
-    let circuit = this.state.model,
-      circuitMembers = this.state.circuitMembers;
+    let circuit = this.props.model,
+      circuitMembers = this.props.circuitMembers;
 
     if (circuit && circuitMembers) {
       return (

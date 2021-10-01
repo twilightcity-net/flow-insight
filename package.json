@@ -4,7 +4,7 @@
   "description": "TwilightCity - © 2021 Twilight City, Inc. All rights reserved.",
   "version": "0.5.5",
   "engines": {
-    "node": "11.15.0"
+    "node": "14.18.0"
   },
   "private": true,
   "author": {
@@ -92,7 +92,7 @@
     "semantic-ui-react": "^0.84.0",
     "socket.io-client": "^2.2.0",
     "stack-trace": "^0.0.10",
-    "superagent": "^3.8.2",
+    "superagent": "^6.1.0",
     "yargs": "^14.0.0"
   },
   "devDependencies": {

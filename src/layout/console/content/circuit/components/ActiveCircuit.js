@@ -30,6 +30,13 @@ export default class ActiveCircuit extends Component {
    */
   static roomMemberPropStr = "roomMember";
 
+
+  /**
+   * the status event property name that talk uses for talk room status
+   * @type {string}
+   */
+  static statusEventPropStr = "statusEvent";
+
   /**
    *  builds the active circuit component
    * @param props
@@ -51,13 +58,15 @@ export default class ActiveCircuit extends Component {
     );
     this.circuitSidebarComponent = null;
     this.circuitFeedComponent = null;
+
     this.state = {
-      resource: props.resource,
       scrapbookVisible: false,
       model: null,
       messages: [],
+      feedEvents: [],
       status: [],
-      circuitMembers: []
+      circuitMembers: [],
+      circuitState: null
     };
   }
 
@@ -71,37 +80,23 @@ export default class ActiveCircuit extends Component {
     this.loadCircuit(circuitName, null, []);
   }
 
+
   /**
-   * checks our update argument to see if we should update and get circuit
-   * model from database
-   * @param nextProps
-   * @param nextState
-   * @param nextContext
-   * @returns {boolean}
+   * Updates the state of the circuit, based on a state change, or the resource uri
+   * changing entirely
+   * @param prevProps
+   * @param prevState
+   * @param snapshot
    */
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (
-      !this.state.model ||
-      this.state.scrapbookVisible !==
-        nextState.scrapbookVisible
-    ) {
-      return true;
-    } else if (
-      this.props.resource.uri === nextProps.resource.uri
-    ) {
-      return false;
-    }
+  componentDidUpdate(prevProps, prevState, snapshot) {
+      if (prevProps.resource.uri !== this.props.resource.uri) {
+          console.log("URI change from: "+prevProps.resource.uri + " to "+ this.props.resource.uri);
 
-    let circuitName = nextProps.resource.uriArr[1];
-    this.loadCircuit(circuitName, null, []);
-    this.setState({
-      model: null,
-      messages: [],
-      circuitMembers: []
-    });
-
-    return false;
+          let circuitName = this.props.resource.uriArr[1];
+          this.loadCircuit(circuitName, null, []);
+      }
   }
+
 
   /**
    * updates and loads our circuit form gridtime
@@ -121,7 +116,7 @@ export default class ActiveCircuit extends Component {
           model.wtfTalkRoomId,
           this,
           arg => {
-            this.updateStateMessages(arg.data);
+            this.updateStateFeedEventsFromMessages(model, arg.data);
           }
         );
         CircuitClient.loadCircuitMembers(
@@ -155,19 +150,102 @@ export default class ActiveCircuit extends Component {
    */
   onTalkRoomMessage = (event, arg) => {
     switch (arg.messageType) {
-      case BaseClient.MessageTypes
-        .CIRCUIT_MEMBER_STATUS_EVENT:
-        return this.handleCircuitMemberStatusEventMessage(
-          arg
-        );
+      case BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT:
+        this.handleCircuitMemberStatusEventMessage(arg);
+        break;
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
-        return this.handleWtfStatusUpdateMessage(arg);
+        this.handleWtfStatusUpdateMessage(arg);
+        break;
+      case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
+
+        let hasMessage = UtilRenderer.hasMessageByIdInArray(this.state.messages, arg);
+        if (!hasMessage) {
+            this.appendChatMessage(arg);
+        } else {
+          console.log("Duplicate talk message observed: "+JSON.stringify(arg));
+        }
+        break;
+      case BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT:
+          let status = arg.data;
+          switch (
+              status[ActiveCircuit.statusEventPropStr]
+              ) {
+              case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
+                  console.log("JOIN ROOM", status);
+                  // TODO add status message in the feed
+                  break;
+              case BaseClient.RoomMemberStatus.ROOM_MEMBER_LEAVE:
+                  console.log("LEAVE ROOM", status);
+
+                  // TODO add status message in the feed
+                  break;
+              default:
+                  break;
+          }
+          break;
       default:
-        return;
+        break;
     }
   };
 
+
+    /**
+     * adds a chat message to the end of all of our chat
+     * message feed events, and update the gui. This assumes we have
+     * already loaded the circuit resource view.
+     * @param message
+     */
+    appendChatMessage(message) {
+        let metaProps = message.metaProps,
+            username = this.getUsernameFromMetaProps(metaProps),
+            time = UtilRenderer.getChatMessageTimeString(
+                message.messageTime
+            ),
+            json = message.data;
+
+        let that = this;
+
+        this.setState(prevState => {
+            //if this is our first message, then use it to update the description
+            if (prevState.messages && prevState.messages.length === 0) {
+                CircuitClient.updateCircuitDescription(
+                    prevState.model.circuitName,
+                    message.data.message,
+                    that,
+                    arg => {}
+                );
+            }
+
+            prevState.messages.push(message);
+
+            return {
+                messages : prevState.messages,
+                feedEvents :
+                    that.addFeedEvent(
+                        prevState.feedEvents,
+                        username,
+                        null,
+                        time,
+                        json.message)
+            }
+        });
+
+    }
+
   /**
+   * renders our username from the talk message's meta-prop which contains
+   * the string of this.
+   * @param metaProps
+   * @returns {boolean|*}
+   */
+  getUsernameFromMetaProps(metaProps) {
+      return (
+          !!metaProps &&
+          metaProps[ActiveCircuitFeed.fromUserNameMetaPropsStr]
+      );
+  }
+
+    /**
    * processes our circuit member status event which is used to notify the
    * current active circuit that another member has joined this active
    * circuit that we are part of. This includes ourself. This function
@@ -263,15 +341,9 @@ export default class ActiveCircuit extends Component {
    */
   updateStateModelsOnTalkMessageUpdate(model) {
     this.setState({
-      model: model
+      model: model,
+      circuitState: model.circuitState
     });
-    this.circuitSidebarComponent.setState({
-      model: model
-    });
-
-    //for some reason setState freezes the component so it stops updating,
-    //this updates the required state without making the component weird out
-    this.circuitFeedComponent.updateCircuitStatus(model);
   }
 
   /**
@@ -281,14 +353,8 @@ export default class ActiveCircuit extends Component {
    */
   updateStateModels(model) {
     this.setState({
-      model: model
-    });
-    this.circuitSidebarComponent.setState({
-      model: model
-    });
-
-    this.circuitFeedComponent.setState({
-      model: model
+      model: model,
+      circuitState: model.circuitState
     });
   }
 
@@ -297,27 +363,114 @@ export default class ActiveCircuit extends Component {
    * which is updated by gridtime and talk.
    * @param messages
    */
-  updateStateMessages(messages) {
+  updateStateFeedEventsFromMessages(circuit, messages) {
+
+    let feedEvents = this.convertToFeedEvents(circuit, messages);
+
     this.setState({
-      messages: messages
-    });
-    this.circuitFeedComponent.setState({
-      messages: messages
+        messages: messages,
+        feedEvents: feedEvents
     });
   }
 
-  /**
+    /**
+     * updates our Chat Messages that our in our messages array. This is generally setup initially
+     * by our mount or update component functions
+     */
+    convertToFeedEvents = (circuit, messages) => {
+        let metaProps = null,
+            username = null,
+            time = null,
+            json = null,
+            messagesLength = messages.length;
+
+        const feedEvents = [];
+
+        this.addFerviePrompt(feedEvents, circuit);
+
+        for (let i = 0, m = null; i < messagesLength; i++) {
+            m = messages[i];
+            metaProps = m.metaProps;
+            username =
+                !!metaProps &&
+                metaProps[
+                    ActiveCircuitFeed.fromUserNameMetaPropsStr
+                    ];
+            time = UtilRenderer.getChatMessageTimeString(
+                m.messageTime
+            );
+            json = m.data;
+
+            if (m.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS ) {
+                this.addFeedEvent(
+                    feedEvents,
+                    username,
+                    null,
+                    time,
+                    json.message
+                );
+            }
+        }
+
+        return feedEvents;
+    };
+
+
+    /**
+     * Create the fervie "What's the problem?" prompt in chat
+     * @param circuit
+     */
+    addFerviePrompt(feedEvents, circuit) {
+        if (circuit) {
+            let time = UtilRenderer.getChatMessageTimeString(
+                circuit.openTime
+            );
+
+            this.addFeedEvent(
+                feedEvents,
+                "Fervie",
+                null,
+                time,
+                "What's the problem?"
+            );
+        }
+    }
+
+    /**
+     * Add a new feed events array which is used to generate the list of
+     * feed events in the gui which displays all of the chat messages
+     * @param username
+     * @param feedEvent
+     * @param time
+     * @param text
+     */
+    addFeedEvent(feedEvents, username, feedEvent, time, text) {
+        if (
+            feedEvents.length > 0 &&
+            feedEvents[feedEvents.length - 1] &&
+            feedEvents[feedEvents.length - 1].name ===
+            username
+        ) {
+            feedEvent = feedEvents.pop();
+            feedEvent.text.push(text);
+        } else {
+            feedEvent = {
+                name: username,
+                time: time,
+                text: [text]
+            };
+        }
+
+        feedEvents.push(feedEvent);
+
+        return feedEvents;
+    }
+    /**
    * updates our circuit members array in our component states
    * @param circuitMembers
    */
   updateStateCircuitMembers(circuitMembers) {
     this.setState({
-      circuitMembers: circuitMembers
-    });
-    this.circuitSidebarComponent.setState({
-      circuitMembers: circuitMembers
-    });
-    this.circuitFeedComponent.setState({
       circuitMembers: circuitMembers
     });
   }
@@ -382,8 +535,11 @@ export default class ActiveCircuit extends Component {
         >
           <div id="wrapper" className="activeCircuitFeed">
             <ActiveCircuitFeed
-              resource={this.state.resource}
-              circuit={this.state.model}
+              resource={this.props.resource}
+              model={this.state.model}
+              circuitState={this.state.circuitState}
+              circuitMembers={this.state.circuitMembers}
+              feedEvents={this.state.feedEvents}
               set={this.setCircuitFeedComponent}
             />
           </div>
@@ -397,7 +553,7 @@ export default class ActiveCircuit extends Component {
               className="activeCircuitScrapbook"
             >
               <ActiveCircuitScrapbook
-                resource={this.state.resource}
+                resource={this.props.resource}
                 hideScrapbook={this.hideScrapbook}
                 model={this.state.model}
               />
@@ -417,7 +573,9 @@ export default class ActiveCircuit extends Component {
     return (
       <div id="component" className="circuitContentSidebar">
         <CircuitSidebar
-          resource={this.state.resource}
+          resource={this.props.resource}
+          model={this.state.model}
+          circuitMembers={this.state.circuitMembers}
           showScrapbook={this.showScrapbook}
           set={this.setCircuitSidebarComponent}
         />
