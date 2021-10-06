@@ -321,7 +321,7 @@ export default class JournalItem extends Component {
    * @returns {*}
    */
   render() {
-    let active = this.state.isActive ? "active" : "",
+    let active = this.props.isActiveRow ? "active" : "",
       projectCell = this.getProjectCellContent(),
       taskCell = this.getTaskCellContent(),
       chunkCell = this.getChunkCellContent(),
