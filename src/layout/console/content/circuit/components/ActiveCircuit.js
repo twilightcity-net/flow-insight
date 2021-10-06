@@ -13,6 +13,7 @@ import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { BaseClient } from "../../../../../clients/BaseClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../../UtilRenderer";
+import {JournalClient} from "../../../../../clients/JournalClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -95,9 +96,22 @@ export default class ActiveCircuit extends Component {
           let circuitName = this.props.resource.uriArr[1];
           this.loadCircuit(circuitName, null, []);
       }
+
+      if (this.state.circuitState === "TROUBLESHOOT") {
+          let that = this;
+          setTimeout(function() {
+              that.focusOnChatInput();
+          }, 500);
+
+      }
   }
 
-
+    focusOnChatInput() {
+        let element = document.getElementById("activeCircuitChatInput");
+        if (element) {
+            element.focus();
+        }
+    }
   /**
    * updates and loads our circuit form gridtime
    * @param circuitName
@@ -352,6 +366,7 @@ export default class ActiveCircuit extends Component {
    * @param model
    */
   updateStateModels(model) {
+
     this.setState({
       model: model,
       circuitState: model.circuitState

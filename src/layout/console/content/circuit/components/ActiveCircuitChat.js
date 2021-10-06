@@ -26,7 +26,7 @@ export default class ActiveCircuitChat extends Component {
     this.isEnterKeyPressed = false;
   }
 
-  /**
+    /**
    * gets our chat text DOM element
    * @returns {HTMLElement}
    */
@@ -47,6 +47,9 @@ export default class ActiveCircuitChat extends Component {
    */
   focusChat = () => {
     this.isFocused = true;
+
+    document.getElementById("activeCircuitChatCursor").classList.remove("cursor-hide");
+
     document
       .getElementById("activeCircuitChatContainer")
       .classList.add("focused");
@@ -58,6 +61,9 @@ export default class ActiveCircuitChat extends Component {
   blurChat = () => {
     if (this.isFocused) {
       this.isFocused = false;
+
+      document.getElementById("activeCircuitChatCursor").classList.add("cursor-hide");
+
       document
         .getElementById("activeCircuitChatContainer")
         .classList.remove("focused");

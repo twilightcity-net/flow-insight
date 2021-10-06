@@ -189,13 +189,13 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {*}
    */
   getActiveCircuitChatContent() {
-    return (
+
+    let isPaused = UtilRenderer.isCircuitStatePaused(this.props.circuitState);
+    let isParticipant = UtilRenderer.isCircuitParticipant(MemberClient.me, this.props.circuitMembers);
+
+      return (
       <Transition
-        visible={
-          !UtilRenderer.isCircuitStatePaused(
-            this.props.circuitState
-          )
-        }
+        visible={isParticipant && !isPaused}
         animation="fade"
         duration={210}
         onComplete={this.onCircuitChatShown}
@@ -213,7 +213,7 @@ export default class ActiveCircuitFeed extends Component {
    * renders our active feed component into the current resource view
    * @returns {*}
    */
-  getActiveCircuitFeedContent(isParticipant) {
+  getActiveCircuitFeedContent(isChatActive) {
     let circuit = this.props.model,
       openTimeStr = "NOW",
       height = "100%";
@@ -224,7 +224,7 @@ export default class ActiveCircuitFeed extends Component {
       );
     }
 
-    if (isParticipant) {
+    if (isChatActive) {
       height = DimensionController.getActiveCircuitFeedContentHeight();
     }
 
@@ -290,6 +290,11 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {JSX.Element}
    */
   getActiveCircuitFeedChatContent() {
+
+    let isParticipant = UtilRenderer.isCircuitParticipant(MemberClient.me, this.props.circuitMembers);
+    let isPaused = UtilRenderer.isCircuitStatePaused(this.props.circuitState);
+
+
     let content = (
       <SplitterLayout
         customClassName="feed"
@@ -306,12 +311,7 @@ export default class ActiveCircuitFeed extends Component {
       </SplitterLayout>
     );
 
-    if (
-      !UtilRenderer.isCircuitParticipant(
-        MemberClient.me,
-        this.props.circuitMembers
-      )
-    ) {
+    if (!isParticipant || isPaused) {
       content = this.getActiveCircuitFeedContent(false);
     }
 
