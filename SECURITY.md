@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-Torchie is currently in the alpha phase, and every attempt is made to find and fix vulnerabilities.
+TwilightCity is currently in the alpha phase, and every attempt is made to find and fix vulnerabilities.
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -10,6 +10,6 @@ Torchie is currently in the alpha phase, and every attempt is made to find and f
 
 ## Reporting a Vulnerability
 
-please report any security vulerability to 1337@dreamscale.io
+please report any security vulnerability to arty@twilightcity.net
 
-We will immediately begin working on any vulnerability that is discovered. This will then be released and minor version incremented. Please contact admin@dreamscale.io for further instructions.. Thank you.
+We will immediately begin working on any vulnerability that is discovered. This will then be released and minor version incremented. Please contact admin@twilightcity.net for further instructions.. Thank you.

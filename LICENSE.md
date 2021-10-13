@@ -1,4 +1,4 @@
-[TORCHIE] Copyright (2020) (DreamScale, Inc., Public Benefit Corporation)(“Licensor”)
+[TwilightCity] Copyright (2021) (Twilight City, Inc., Public Benefit Corporation)(“Licensor”)
 
 Hippocratic License Version Number: 2.1.
 
