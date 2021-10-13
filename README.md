@@ -109,9 +109,9 @@ To generate the static html documentation, run the following command:
 
 * please note that you may need to prefix `sudo` or `su`
 
-Documentation files will be exported to ~/torchie-desktop/docs.
+Documentation files will be exported to ~/twilightcity-desktop/docs.
 
-### Package & Release Torchie ###
+### Package & Release TwilightCity ###
 
 1) Run the following command in the terminal:
 
@@ -131,7 +131,7 @@ Documentation files will be exported to ~/torchie-desktop/docs.
 
 `git push`
 
-### Publish Torchie Release ###
+### Publish TwilightCity Release ###
 
 1) Save a copy of `electron-builder.env.sample` -> `electron-builder.env` in the root directory of the project.
 
