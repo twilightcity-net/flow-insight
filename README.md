@@ -1,25 +1,27 @@
                                                                                                   
-         .:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.    
-         :    __________ __________ __________ _________ _____ _____ _________ __________    :    
-         :   |          |          |    __   \\         |     |     |_       _|        __|   :    
-         :   |_        _|    __    |         <|       __|           |_|     |_|        __|   :    
-         :    _|______|_|__________|_____|____|_________|_____|_____|_________|__________|   :    
-         :   |      ______|     |     |         __|          |________|          |_______    :    
-         :   |______      |           |         __|                   |                  |   :    
-         :   |____________|_____|_____|___________|___________________|__ZoeDreams_800XL |   :    
-         :                                           D R E A M S C A L E © 2 0 2 0           :    
-         :                                                                                   :    
-         :.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:.:    
-                                                                                                  
+      .*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.
+      :    __________ ___ ___ ___ ____ ____     ____ _________ _____ _____ ___________    :
+      :   |          |   |   |   |    |    |   |    |      ___|     |     |           |   :
+      :   |_        _|           |    |    |___|    |     |_+-|           |_         _|   :
+      :     |______| |___________|____|________|____|_________|_____|_____|_|_______|     :
+      :  *                       |             |    |              |       |        |     :
+      :           \|/     x      |       ______|    |__          __|__            __|     :
+      :     x    --*--           |_____________|____|  |________|     |__________|     x  :
+      :           /|\         *                       *                                   :
+      :                               x     T W I L I G H T  C I T Y , I N C  © 2 0 2 1   :
+      :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:                                                                                                  
     
-## Torchie Desktop Application ##
-Torchie Shell is a desktop application is a suite of open source tools for Idea Flow. It works in tandem with a peer to peer socket server called Talk, and an artifical intelligent supply chain engine that is a called GridTime. Together these tools empower teams of developers to collborate together through a democratic sofware development workflow. Toegether though shared space storyboarding, virtual white-boards, and mob based troubleshooting wtf's; we got you! 
-
+## TwilightCity Desktop Application ##
+TwilightCity is a desktop application and suite of tools to support Idea Flow Metrics and data-driven learning on a team.
+ 
+ It works in tandem with a peer-to-peer socket server called Gridtalk, and a metrics engine and city server called GridTime. 
+ 
 ### Install from Source ###
-The following will describe how to install 'torchie' from source code, and run using @DreamScale production api for GridTime "https://torchie.dreamscale.io" and for Talk "https://talk.dreamscale.io". Please contact us to help you set up your own server and database.
+The following will describe how to install 'TwilightCity' from source code, and connect to production community servers: "https://home.twilightcity.net" 
+and for Gridtalk "https://gridtalk.twilightcity.net".  Please contact us for an API key.
 
 Requirements:
-- Node v11.15.x
+- Node v14.18.0
 - Xcode-CLI (`xcode-select --install`) (Mac Only)
 - Yarn v1.2.x
 - Git w/ CLI
@@ -38,7 +40,7 @@ https://yarnpkg.com/lang/en/docs/install/#mac-stable
 
 3) Open up a terminal window and navigate into a secure place where you store source code. The run the  git command:
 
-`git clone https://github.com/dreamscale-io/torchie-shell.git`
+`git clone https://github.com/twilightcity-net/twilightcity-desktop.git`
 
 4) Using yarn, install the projects module dependencies with the following command in the terminal: 
 
@@ -144,4 +146,4 @@ GitHub personal access token is required. You can generate by going to https://g
 `yarn release`
 
 --------------------------
-contact: [arty@dreamscale.io](mailto:arty@dreamscale.io) // [zoe@dreamscale.io](mailto:zoe@dreamscale.io)
+contact: [arty@twilightcity.net](mailto:arty@twilightcity.net)
