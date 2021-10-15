@@ -101,23 +101,22 @@ export class TeamClient extends BaseClient {
     return event;
   }
 
-    /**
-     * gets the actively logged in house information
-     * @param scope
-     * @param callback
-     * @returns {RendererClientEvent}
-     */
-    static getActiveHouse(scope, callback) {
-        let event = TeamClient.instance.createClientEvent(
-            TeamClient.Events.GET_ACTIVE_HOUSE,
-            {},
-            scope,
-            callback
-        );
-        TeamClient.instance.notifyTeam(event);
-        return event;
-    }
-
+  /**
+   * gets the actively logged in house information
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getActiveHouse(scope, callback) {
+    let event = TeamClient.instance.createClientEvent(
+      TeamClient.Events.GET_ACTIVE_HOUSE,
+      {},
+      scope,
+      callback
+    );
+    TeamClient.instance.notifyTeam(event);
+    return event;
+  }
 
   /**
    * gets all of our teams that we are participating in

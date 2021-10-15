@@ -31,7 +31,8 @@ module.exports = class TeamController extends BaseController {
       LOAD_MY_HOME_TEAM: "load-my-home-team",
       LOAD_ALL_MY_TEAMS: "load-all-my-teams",
       GET_MY_HOME_TEAM: "get-my-home-team",
-      GET_ALL_MY_TEAMS: "get-all-my-teams"
+      GET_ALL_MY_TEAMS: "get-all-my-teams",
+      GET_ACTIVE_HOUSE: "get-active-house"
     };
   }
 
@@ -84,6 +85,9 @@ module.exports = class TeamController extends BaseController {
           break;
         case TeamController.Events.GET_ALL_MY_TEAMS:
           this.handleGetAllMyTeamsEvent(event, arg);
+          break;
+          case TeamController.Events.GET_ACTIVE_HOUSE:
+          this.handleGetActiveHouseEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -285,4 +289,28 @@ module.exports = class TeamController extends BaseController {
 
     this.delegateCallbackWithView(null, view, event, arg);
   }
+
+    /**
+     * gets the house information from the active connection status
+     * @param event
+     * @param arg
+     * @param callback
+     */
+    handleGetActiveHouseEvent(event, arg, callback) {
+        let connectionStatus = global.App.connectionStatus;
+
+        let house = {houseId: connectionStatus.houseId,
+            houseName: connectionStatus.houseName,
+            houseDomainName: connectionStatus.houseDomainName};
+
+        arg.data = house;
+
+        this.delegateCallbackOrEventReplyTo(
+            event,
+            arg,
+            callback
+        );
+    }
+
+
 };

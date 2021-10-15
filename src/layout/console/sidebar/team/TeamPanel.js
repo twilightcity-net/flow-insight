@@ -111,14 +111,14 @@ export default class TeamPanel extends Component {
    */
   refreshTeamPanel() {
     TeamClient.getActiveHouse(this, arg => {
-        if (arg.error) {
-            this.error = arg.error;
-        } else {
-            this.error = null;
-            this.setState({
-                houseName: arg.data.houseName
-            });
-        }
+      if (arg.error) {
+        this.error = arg.error;
+      } else {
+        this.error = null;
+        this.setState({
+          houseName: arg.data.houseName
+        });
+      }
     });
 
     TeamClient.getAllMyTeams(this, arg => {
@@ -343,7 +343,7 @@ export default class TeamPanel extends Component {
     let houseTitle = "Teams";
 
     if (this.state.houseName != null) {
-        houseTitle = this.state.houseName + " House";
+      houseTitle = this.state.houseName + " House";
     }
 
     return (

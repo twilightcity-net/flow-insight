@@ -16,8 +16,7 @@ module.exports = class ConnectionStatusDto {
       this.houseName = json.houseName;
       this.houseDomainName = json.houseDomainName;
 
-      this.participatingHouses =
-        json.participatingHouses;
+      this.participatingHouses = json.participatingHouses;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'ConnectionStatusDto' : " +
