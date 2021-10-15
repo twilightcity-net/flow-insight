@@ -276,17 +276,10 @@ export default class JournalEntry extends Component {
   /**
    * creates a new intention based on our current states values for our
    * dropdowns and our user text input. also blurs the input to focus
-   * on the grid of the main journal resource component. This function
-   * also checks to see if we have a nothing entered, and also for
-   * injection hacking attack vectors.
+   * on the grid of the main journal resource component.
    */
   createIntention() {
-    let intention = this.state.currentIntentionValue,
-      hasSQL = UtilRenderer.hasSQL(intention);
-
-    if (hasSQL || intention === "") {
-      return false;
-    }
+    // server only contains parameterized queries which are immune to sql injection type attacks
 
     this.props.createIntention(
       this.state.currentProjectValue,
