@@ -35,7 +35,8 @@ export class TeamClient extends BaseClient {
       LOAD_MY_HOME_TEAM: "load-my-home-team",
       LOAD_ALL_MY_TEAMS: "load-all-my-teams",
       GET_MY_HOME_TEAM: "get-my-home-team",
-      GET_ALL_MY_TEAMS: "get-all-my-teams"
+      GET_ALL_MY_TEAMS: "get-all-my-teams",
+      GET_ACTIVE_HOUSE: "get-active-house"
     };
   }
 
@@ -99,6 +100,24 @@ export class TeamClient extends BaseClient {
     TeamClient.instance.notifyTeam(event);
     return event;
   }
+
+    /**
+     * gets the actively logged in house information
+     * @param scope
+     * @param callback
+     * @returns {RendererClientEvent}
+     */
+    static getActiveHouse(scope, callback) {
+        let event = TeamClient.instance.createClientEvent(
+            TeamClient.Events.GET_ACTIVE_HOUSE,
+            {},
+            scope,
+            callback
+        );
+        TeamClient.instance.notifyTeam(event);
+        return event;
+    }
+
 
   /**
    * gets all of our teams that we are participating in

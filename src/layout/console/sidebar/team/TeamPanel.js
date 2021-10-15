@@ -35,7 +35,8 @@ export default class TeamPanel extends Component {
       activeItem:
         SidePanelViewController.SubmenuSelection.TEAMS,
       teamVisible: false,
-      teams: []
+      teams: [],
+      houseName: null
     };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
@@ -109,6 +110,17 @@ export default class TeamPanel extends Component {
    * called to refresh the team panel with new data
    */
   refreshTeamPanel() {
+    TeamClient.getActiveHouse(this, arg => {
+        if (arg.error) {
+            this.error = arg.error;
+        } else {
+            this.error = null;
+            this.setState({
+                houseName: arg.data.houseName
+            });
+        }
+    });
+
     TeamClient.getAllMyTeams(this, arg => {
       if (arg.error) {
         this.error = arg.error;
@@ -328,6 +340,12 @@ export default class TeamPanel extends Component {
   render() {
     let { activeItem } = this.state;
 
+    let houseTitle = "Teams";
+
+    if (this.state.houseName != null) {
+        houseTitle = this.state.houseName + " House";
+    }
+
     return (
       <div
         id="component"
@@ -340,7 +358,7 @@ export default class TeamPanel extends Component {
         <Segment.Group>
           <Menu size="mini" inverted pointing secondary>
             <Menu.Item
-              name="Teams"
+              name={houseTitle}
               active={
                 activeItem ===
                 SidePanelViewController.SubmenuSelection
