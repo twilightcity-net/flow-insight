@@ -51,7 +51,6 @@ export default class ActiveCircuitFeed extends Component {
    */
   static fromUserNameMetaPropsStr = "from.username";
 
-
   /**
    * builds the active circuit feed component which is used by the circuit resource
    * @param props
@@ -65,7 +64,6 @@ export default class ActiveCircuitFeed extends Component {
     this.props.set(this);
   }
 
-
   /**
    * scroll to the bottom of the feed whenever we get some changes to the
    * messages array that drives the feed.
@@ -74,9 +72,8 @@ export default class ActiveCircuitFeed extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-      this.scrollToFeedBottom();
+    this.scrollToFeedBottom();
   }
-
 
   /**
    * adds a new message to our messages array and triggers a rerender
@@ -189,11 +186,15 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {*}
    */
   getActiveCircuitChatContent() {
+    let isPaused = UtilRenderer.isCircuitStatePaused(
+      this.props.circuitState
+    );
+    let isParticipant = UtilRenderer.isCircuitParticipant(
+      MemberClient.me,
+      this.props.circuitMembers
+    );
 
-    let isPaused = UtilRenderer.isCircuitStatePaused(this.props.circuitState);
-    let isParticipant = UtilRenderer.isCircuitParticipant(MemberClient.me, this.props.circuitMembers);
-
-      return (
+    return (
       <Transition
         visible={isParticipant && !isPaused}
         animation="fade"
@@ -290,10 +291,13 @@ export default class ActiveCircuitFeed extends Component {
    * @returns {JSX.Element}
    */
   getActiveCircuitFeedChatContent() {
-
-    let isParticipant = UtilRenderer.isCircuitParticipant(MemberClient.me, this.props.circuitMembers);
-    let isPaused = UtilRenderer.isCircuitStatePaused(this.props.circuitState);
-
+    let isParticipant = UtilRenderer.isCircuitParticipant(
+      MemberClient.me,
+      this.props.circuitMembers
+    );
+    let isPaused = UtilRenderer.isCircuitStatePaused(
+      this.props.circuitState
+    );
 
     let content = (
       <SplitterLayout

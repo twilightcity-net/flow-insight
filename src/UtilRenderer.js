@@ -82,35 +82,42 @@ export default class UtilRenderer {
       .join(" ");
   }
 
+  /**
+   * gets our timer string from the time inside the circuit.  If the circuit is paused,
+   *
+   * @param openUtcTime
+   * @param pausedNanoTime
+   * @returns {string}
+   */
+  static getWtfTimerFromCircuit(circuit) {
+    let openUtcTime = moment.utc(circuit.openTime);
+    let totalPauseNanoTime =
+      circuit.totalCircuitPausedNanoTime;
+    let totalElapsedNanoTime =
+      circuit.totalCircuitElapsedNanoTime;
 
-    /**
-     * gets our timer string from the time inside the circuit.  If the circuit is paused,
-     *
-     * @param openUtcTime
-     * @param pausedNanoTime
-     * @returns {string}
-     */
-    static getWtfTimerFromCircuit(circuit)
-    {
-        let openUtcTime = moment.utc(circuit.openTime);
-        let totalPauseNanoTime = circuit.totalCircuitPausedNanoTime;
-        let totalElapsedNanoTime = circuit.totalCircuitElapsedNanoTime;
+    if (UtilRenderer.isCircuitTroubleshoot(circuit)) {
+      // in this case, we want the ticking clock based on open time.
+      let seconds =
+        moment().diff(openUtcTime, "s") -
+        UtilRenderer.getSecondsFromNanoseconds(
+          totalPauseNanoTime
+        );
 
-        if (UtilRenderer.isCircuitTroubleshoot(circuit)) {
-          // in this case, we want the ticking clock based on open time.
-            let seconds =
-                moment().diff(openUtcTime, "s") -
-                UtilRenderer.getSecondsFromNanoseconds(totalPauseNanoTime);
+      return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(
+        seconds
+      );
+    } else {
+      //we want the clock to be fixed based on total elapsed time
+      let seconds = UtilRenderer.getSecondsFromNanoseconds(
+        totalElapsedNanoTime
+      );
 
-            return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(seconds);
-        } else {
-            //we want the clock to be fixed based on total elapsed time
-            let seconds = UtilRenderer.getSecondsFromNanoseconds(totalElapsedNanoTime);
-
-            return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(seconds);
-        }
-
+      return UtilRenderer.getWtfTimerStringFromTimeDurationSeconds(
+        seconds
+      );
     }
+  }
 
   /**
    * gets our timer string from the time now see getWtfTimerStringFromSeconds
@@ -457,18 +464,18 @@ export default class UtilRenderer {
     );
   }
 
-    /**
-     * checks to see if circuit is on_hold (paused)
-     * @param circuit
-     * @returns {boolean}
-     */
-    static isCircuitTroubleshoot(circuit) {
-        return (
-            circuit &&
-            (circuit.circuitState ===
-                BaseClient.CircuitStates.TROUBLESHOOT)
-        );
-    }
+  /**
+   * checks to see if circuit is on_hold (paused)
+   * @param circuit
+   * @returns {boolean}
+   */
+  static isCircuitTroubleshoot(circuit) {
+    return (
+      circuit &&
+      circuit.circuitState ===
+        BaseClient.CircuitStates.TROUBLESHOOT
+    );
+  }
 
   /**
    * checks to see if circuit is on_hold (paused)

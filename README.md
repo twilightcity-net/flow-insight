@@ -12,9 +12,9 @@
       :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:                                                                                                  
     
 ## TwilightCity Desktop Application ##
-TwilightCity is a desktop application and suite of tools to support Idea Flow Metrics and data-driven learning on a team.
+TwilightCity is a desktop application and suite of tools to support optimizing flow and data-driven learning on a team.
  
- It works in tandem with a peer-to-peer socket server called Gridtalk, and a metrics engine and city server called GridTime. 
+ It works in tandem with a peer-to-peer socket server called Gridtalk, and a metrics engine called Gridtime. 
  
 ### Install from Source ###
 The following will describe how to install 'TwilightCity' from source code, and connect to production community servers: "https://home.twilightcity.net" 
@@ -30,13 +30,13 @@ Requirements:
 
 https://git-scm.com/downloads
 
-1) Install the latest version of NodeJS following these instructions: 
+1) Install the required version of NodeJS following these instructions: 
 
 https://nodejs.org/en/ 
 
 2) Install yarn package system using the following these instructions:
 
-https://yarnpkg.com/lang/en/docs/install/#mac-stable
+https://yarnpkg.com/lang/en/docs/install/
 
 3) Open up a terminal window and navigate into a secure place where you store source code. The run the  git command:
 
@@ -64,7 +64,7 @@ Note: hit `ctrl+c` to terminate the project.
 
 `yarn test`
 
-1) Run the following command in the terminal to execute a specific test (talk service for example:
+1) Run the following command in the terminal to execute a specific test (gridtalk service for example:
 
 `yarn test:talk`
 
@@ -146,4 +146,4 @@ GitHub personal access token is required. You can generate by going to https://g
 `yarn release`
 
 --------------------------
-contact: [arty@twilightcity.net](mailto:arty@twilightcity.net)
+contact: [admin@twilightcity.net](mailto:admin@twilightcity.net)

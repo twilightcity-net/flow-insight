@@ -72,7 +72,7 @@ export default class CircuitSidebar extends Component {
       this
     );
     this.state = {
-      activeMenuView: CircuitSidebar.Views.OVERVIEW,
+      activeMenuView: CircuitSidebar.Views.OVERVIEW
     };
     this.props.set(this);
   }
@@ -274,16 +274,18 @@ export default class CircuitSidebar extends Component {
       return "loading...";
     } else {
       this.timerEl = document.getElementById(
-          CircuitSidebar.wtfTimerId
+        CircuitSidebar.wtfTimerId
       );
       this.wtfTimer = UtilRenderer.clearIntervalTimer(
-          this.wtfTimer
+        this.wtfTimer
       );
 
       if (UtilRenderer.isCircuitTroubleshoot(circuit)) {
-          this.wtfTimer = setInterval(() => {
-              this.timerEl.innerHTML = UtilRenderer.getWtfTimerFromCircuit(circuit);
-          }, CircuitSidebar.wtfTimerIntervalMs);
+        this.wtfTimer = setInterval(() => {
+          this.timerEl.innerHTML = UtilRenderer.getWtfTimerFromCircuit(
+            circuit
+          );
+        }, CircuitSidebar.wtfTimerIntervalMs);
       }
       return UtilRenderer.getWtfTimerFromCircuit(circuit);
     }

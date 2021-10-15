@@ -9,14 +9,14 @@
   "private": true,
   "author": {
     "name": "Twilight City, Inc.",
-    "email": "arty@twilightcity.net"
+    "email": "admin@twilightcity.net"
   },
   "copyright": "Copyright © 2021 - Twilight City, Inc.",
   "homepage": "./",
   "main": "public/electron.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/dreamscale-io/torchie-release.git"
+    "url": "https://github.com/twilightcity-net/twilightcity-desktop-release.git"
   },
   "scripts": {
     ".": "clear && yarn dev",
@@ -185,7 +185,7 @@
       "eval": true
     },
     "output": {
-      "preamble": "/* Copyright © 2021 Twilight City, Inc // Twilight City */",
+      "preamble": "/* Copyright © 2021 Twilight City, Inc // TwilightCity */",
       "bracketize": true,
       "ecma": 6,
       "indent_level": 0,

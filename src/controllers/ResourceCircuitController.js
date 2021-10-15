@@ -283,7 +283,7 @@ export class ResourceCircuitController extends ActiveViewController {
 
   /**
    * leaves a circuit on gridtime. This will implicitly call leave room on gridtime
-   * which calls leave on that clients socket on the talk server. No error is
+   * which calls leave on that clients socket on the gridtalk server. No error is
    * thrown if we try to leave a room in which we dont belong or we not added to.
    * @param resource
    */

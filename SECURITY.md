@@ -10,6 +10,6 @@ TwilightCity is currently in the alpha phase, and every attempt is made to find 
 
 ## Reporting a Vulnerability
 
-please report any security vulnerability to arty@twilightcity.net
+please report any security vulnerability to admin@twilightcity.net
 
 We will immediately begin working on any vulnerability that is discovered. This will then be released and minor version incremented. Please contact admin@twilightcity.net for further instructions.. Thank you.

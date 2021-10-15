@@ -101,7 +101,9 @@ export default class JournalResource extends Component {
           !this.isMyJournal() &&
           this.username === username
         ) {
-            this.addIntentionAndSetToActive(data.journalEntry);
+          this.addIntentionAndSetToActive(
+            data.journalEntry
+          );
         }
         break;
       case BaseClient.MessageTypes
@@ -127,27 +129,28 @@ export default class JournalResource extends Component {
   };
 
   isForJournalInView(username) {
-      let me = MemberClient.me;
-      return (!this.isMyJournal() &&
-              this.username === username) ||
-          (this.isMyJournal() && me.username === username);
+    let me = MemberClient.me;
+    return (
+      (!this.isMyJournal() && this.username === username) ||
+      (this.isMyJournal() && me.username === username)
+    );
   }
 
   addIntentionAndSetToActive(journalEntry) {
-      let hasIntention = UtilRenderer.hasMessageByIdInArray(
-              this.state.journalIntentions,
-              journalEntry
-          );
+    let hasIntention = UtilRenderer.hasMessageByIdInArray(
+      this.state.journalIntentions,
+      journalEntry
+    );
 
-      if (!hasIntention) {
-         this.setState((prevState) => {
-           prevState.journalIntentions.push(journalEntry);
-           return {
-             journalIntentions: prevState.journalIntentions,
-             activeIntention: journalEntry
-           }
-         });
-      }
+    if (!hasIntention) {
+      this.setState(prevState => {
+        prevState.journalIntentions.push(journalEntry);
+        return {
+          journalIntentions: prevState.journalIntentions,
+          activeIntention: journalEntry
+        };
+      });
+    }
   }
 
   /**
@@ -159,12 +162,14 @@ export default class JournalResource extends Component {
    * @param data
    */
   updateJournalIntentions(data) {
-
-    this.setState((prevState) => {
-        let updatedItems = UtilRenderer.updateMessageInArrayById(prevState.journalIntentions, data);
-        return {
-            journalIntentions: updatedItems
-        }
+    this.setState(prevState => {
+      let updatedItems = UtilRenderer.updateMessageInArrayById(
+        prevState.journalIntentions,
+        data
+      );
+      return {
+        journalIntentions: updatedItems
+      };
     });
   }
 
@@ -176,7 +181,6 @@ export default class JournalResource extends Component {
     this.clearKeyboardShortcuts();
   }
 
-
   /**
    * Updates the state of the journal, based on a state change, or the resource uri
    * changing entirely
@@ -185,29 +189,48 @@ export default class JournalResource extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-      if (prevProps.resource.uri !== this.props.resource.uri) {
-          console.log("URI change from: "+prevProps.resource.uri + " to "+ this.props.resource.uri);
+    if (
+      prevProps.resource.uri !== this.props.resource.uri
+    ) {
+      console.log(
+        "URI change from: " +
+          prevProps.resource.uri +
+          " to " +
+          this.props.resource.uri
+      );
 
-          this.refreshJournal(this.props);
-      }
+      this.refreshJournal(this.props);
+    }
 
-      //if I'm scrolling up or down, and the active item is changed, I should get update events here, in which case
+    //if I'm scrolling up or down, and the active item is changed, I should get update events here, in which case
 
-      if (this.state.activeIntention && (prevState.activeIntention === null ||
-          (prevState.activeIntention && prevState.activeIntention.id !== this.state.activeIntention))) {
-        //there was a change in the selection, scroll to the selection
-        this.scrollToJournalItemById(this.state.activeIntention.id, true);
+    if (
+      this.state.activeIntention &&
+      (prevState.activeIntention === null ||
+        (prevState.activeIntention &&
+          prevState.activeIntention.id !==
+            this.state.activeIntention))
+    ) {
+      //there was a change in the selection, scroll to the selection
+      this.scrollToJournalItemById(
+        this.state.activeIntention.id,
+        true
+      );
 
-        this.activeJournalItem = this.getJournalItemForIntention(this.state.activeIntention);
-      }
+      this.activeJournalItem = this.getJournalItemForIntention(
+        this.state.activeIntention
+      );
+    }
   }
 
   getJournalItemForIntention(intention) {
-     for (let i = 0; i < this.journalItems.length; i++) {
-       if (this.journalItems[i].props.model.id === intention.id) {
-         return this.journalItems[i];
-       }
-     }
+    for (let i = 0; i < this.journalItems.length; i++) {
+      if (
+        this.journalItems[i].props.model.id === intention.id
+      ) {
+        return this.journalItems[i];
+      }
+    }
   }
 
   /**
@@ -257,12 +280,12 @@ export default class JournalResource extends Component {
       this.handleKeyPressDown
     );
     Mousetrap.bind(
-        JournalResource.Keys.LEFT,
-        this.handleKeyPressLeft
+      JournalResource.Keys.LEFT,
+      this.handleKeyPressLeft
     );
     Mousetrap.bind(
-        JournalResource.Keys.RIGHT,
-        this.handleKeyPressRight
+      JournalResource.Keys.RIGHT,
+      this.handleKeyPressRight
     );
   }
 
@@ -274,36 +297,43 @@ export default class JournalResource extends Component {
   handleKeyPressUp = (e, combo) => {
     console.log("up");
     this.setState(prevState => {
-        if (prevState.activeIntention) {
-           let indexOfActive = this.findIndexOfJournalItem(prevState.journalIntentions, prevState.activeIntention);
+      if (prevState.activeIntention) {
+        let indexOfActive = this.findIndexOfJournalItem(
+          prevState.journalIntentions,
+          prevState.activeIntention
+        );
 
-           if (indexOfActive > 0) {
-              this.activeFlameUpdate = null;
-              return {
-                activeIntention: prevState.journalIntentions[indexOfActive - 1],
-                activeFlameUpdate: null
-              };
-           }
-        } else if (prevState.journalIntentions.length > 0) {
-
-          //no active intentions, set to last item
+        if (indexOfActive > 0) {
+          this.activeFlameUpdate = null;
           return {
-             activeIntention: prevState.journalIntentions[prevState.journalIntentions.length - 1],
-             activeFlameUpdate: null
+            activeIntention:
+              prevState.journalIntentions[
+                indexOfActive - 1
+              ],
+            activeFlameUpdate: null
           };
         }
-        return {};
+      } else if (prevState.journalIntentions.length > 0) {
+        //no active intentions, set to last item
+        return {
+          activeIntention:
+            prevState.journalIntentions[
+              prevState.journalIntentions.length - 1
+            ],
+          activeFlameUpdate: null
+        };
+      }
+      return {};
     });
   };
 
   findIndexOfJournalItem(items, item) {
-
-      for (let i = 0; i < items.length; i++) {
-          if (items[i].id === item.id) {
-            return i;
-          }
+    for (let i = 0; i < items.length; i++) {
+      if (items[i].id === item.id) {
+        return i;
       }
-      return -1;
+    }
+    return -1;
   }
 
   /**
@@ -314,26 +344,37 @@ export default class JournalResource extends Component {
   handleKeyPressDown = (e, combo) => {
     console.log("down");
     this.setState(prevState => {
-        if (prevState.activeIntention) {
-            let indexOfActive = this.findIndexOfJournalItem(prevState.journalIntentions, prevState.activeIntention);
+      if (prevState.activeIntention) {
+        let indexOfActive = this.findIndexOfJournalItem(
+          prevState.journalIntentions,
+          prevState.activeIntention
+        );
 
-            if (indexOfActive >= 0 && indexOfActive < prevState.journalIntentions.length - 1) {
-
-                return {
-                    activeIntention: prevState.journalIntentions[indexOfActive + 1],
-                    activeFlameUpdate: null
-                };
-            }
-        } else if (prevState.journalIntentions.length > 0) {
-            //no active intentions, set to last item
-            return {
-                activeIntention: prevState.journalIntentions[prevState.journalIntentions.length - 1],
-                activeFlameUpdate: null
-            };
+        if (
+          indexOfActive >= 0 &&
+          indexOfActive <
+            prevState.journalIntentions.length - 1
+        ) {
+          return {
+            activeIntention:
+              prevState.journalIntentions[
+                indexOfActive + 1
+              ],
+            activeFlameUpdate: null
+          };
         }
-        return {};
+      } else if (prevState.journalIntentions.length > 0) {
+        //no active intentions, set to last item
+        return {
+          activeIntention:
+            prevState.journalIntentions[
+              prevState.journalIntentions.length - 1
+            ],
+          activeFlameUpdate: null
+        };
+      }
+      return {};
     });
-
   };
 
   /**
@@ -366,52 +407,62 @@ export default class JournalResource extends Component {
    * @param journalItem
    */
   changeFlameRating(amount) {
-
     let that = this;
 
     this.setState(prevState => {
-      let currentFlame = prevState.activeIntention.flameRating;
+      let currentFlame =
+        prevState.activeIntention.flameRating;
       let overrideFlame = prevState.activeFlameUpdate;
 
-      if (overrideFlame === undefined || overrideFlame === null) {
-         overrideFlame = currentFlame;
+      if (
+        overrideFlame === undefined ||
+        overrideFlame === null
+      ) {
+        overrideFlame = currentFlame;
       }
 
       if (!overrideFlame) {
-         overrideFlame = 0;
+        overrideFlame = 0;
       }
 
-      if ((overrideFlame >= 5 && amount > 0) || (overrideFlame <= -5 && amount < 0)) {
-         console.log("cancel update.");
-         return;
+      if (
+        (overrideFlame >= 5 && amount > 0) ||
+        (overrideFlame <= -5 && amount < 0)
+      ) {
+        console.log("cancel update.");
+        return;
       }
 
       overrideFlame += amount;
 
-      if (that.timeout && that.timeoutIntentionId === prevState.activeIntention.id) {
-          clearTimeout(that.timeout);
+      if (
+        that.timeout &&
+        that.timeoutIntentionId ===
+          prevState.activeIntention.id
+      ) {
+        clearTimeout(that.timeout);
       }
 
-      that.timeoutIntentionId = prevState.activeIntention.id;
+      that.timeoutIntentionId =
+        prevState.activeIntention.id;
       that.timeout = setTimeout(function() {
-          JournalClient.updateFlameRating(
-              prevState.activeIntention.id,
-              overrideFlame,
-              that,
-              arg => {
-                  that.hasCallbackError(arg);
-              }
-          );
+        JournalClient.updateFlameRating(
+          prevState.activeIntention.id,
+          overrideFlame,
+          that,
+          arg => {
+            that.hasCallbackError(arg);
+          }
+        );
       }, 500);
 
       this.activeJournalItem.setState({
-          flameRating: overrideFlame
+        flameRating: overrideFlame
       });
 
       return {
-        activeFlameUpdate : overrideFlame
-      }
-
+        activeFlameUpdate: overrideFlame
+      };
     });
   }
 
@@ -433,7 +484,6 @@ export default class JournalResource extends Component {
    * @param props
    */
   refreshJournal(props) {
-
     this.loadCount = 0;
     this.isFlameUpdating = false;
     this.activeJournalItem = null;
@@ -465,7 +515,9 @@ export default class JournalResource extends Component {
           this.journalIntentions = arg.data;
 
           //this is where we need to handle updating the recent project/task to match the last intention
-          this.lastProject = this.getLastProjectId(arg.data);
+          this.lastProject = this.getLastProjectId(
+            arg.data
+          );
           this.lastTask = this.getLastTaskId(arg.data);
 
           this.handleCallback();
@@ -496,7 +548,7 @@ export default class JournalResource extends Component {
   hasCallbackError(arg) {
     if (arg.error) {
       this.setState({
-          error: arg.error
+        error: arg.error
       });
       return true;
     }
@@ -548,9 +600,7 @@ export default class JournalResource extends Component {
       for (let i = 0; i < array.length; i++) {
         let obj = array[i];
         theHeight += obj.offsetHeight;
-        if (
-          obj.id === this.state.activeIntention.id
-        ) {
+        if (obj.id === this.state.activeIntention.id) {
           theHeight -=
             parentElement.offsetHeight / 2 +
             obj.offsetHeight / 2;
@@ -601,13 +651,14 @@ export default class JournalResource extends Component {
       arg => {
         if (!this.hasCallbackError(arg) && arg.data) {
           this.setState(prevState => {
-             prevState.journalIntentions.push(arg.data);
+            prevState.journalIntentions.push(arg.data);
 
-             return {
-               journalIntentions: prevState.journalIntentions,
-               activeIntention: arg.data,
-               error: null
-             }
+            return {
+              journalIntentions:
+                prevState.journalIntentions,
+              activeIntention: arg.data,
+              error: null
+            };
           });
         }
       }
@@ -666,13 +717,13 @@ export default class JournalResource extends Component {
   createProjectOrTaskHelper(objects, arg, callback) {
     if (arg.error) {
       this.setState({
-          error: arg.error
+        error: arg.error
       });
     } else {
       let obj = arg.data;
       objects.push(obj);
       this.setState({
-          error: null
+        error: null
       });
       if (callback) {
         callback(obj);
@@ -695,18 +746,21 @@ export default class JournalResource extends Component {
    * @param journalItem
    */
   onRowClick = journalItem => {
-
-    this.setState((prevState) => {
-      if (prevState.activeIntention && prevState.activeIntention.id === journalItem.props.model.id) {
-          return {
-              activeIntention: null,
-              activeFlameUpdate: null
-          }
+    this.setState(prevState => {
+      if (
+        prevState.activeIntention &&
+        prevState.activeIntention.id ===
+          journalItem.props.model.id
+      ) {
+        return {
+          activeIntention: null,
+          activeFlameUpdate: null
+        };
       } else {
-          return {
-              activeIntention: journalItem.props.model,
-              activeFlameUpdate: null
-          }
+        return {
+          activeIntention: journalItem.props.model,
+          activeFlameUpdate: null
+        };
       }
     });
   };
@@ -748,20 +802,23 @@ export default class JournalResource extends Component {
    * @returns {array}
    */
   getJournalItemsContent() {
-
     let activeItem = this.state.activeIntention;
 
     return this.state.journalIntentions.map(item => {
-
-      let isActiveRow = activeItem !== null && activeItem.id === item.id;
+      let isActiveRow =
+        activeItem !== null && activeItem.id === item.id;
 
       return (
         <JournalItem
           key={item.id}
           pusher={this.journalItemPusher}
           model={item}
-          overrideFlame={ isActiveRow ? this.state.activeFlameUpdate : null}
-          isActiveRow={ isActiveRow }
+          overrideFlame={
+            isActiveRow
+              ? this.state.activeFlameUpdate
+              : null
+          }
+          isActiveRow={isActiveRow}
           onRowClick={this.onRowClick}
           onFinishIntention={this.onFinishIntention}
           onAbortIntention={this.onAbortIntention}
@@ -803,7 +860,9 @@ export default class JournalResource extends Component {
       <Message icon negative size="large">
         <Icon name="warning sign" />
         <Message.Content>
-          <Message.Header>{this.state.error} :(</Message.Header>
+          <Message.Header>
+            {this.state.error} :(
+          </Message.Header>
           These were not the cats you were looking for
           =|^.^|=
         </Message.Content>

@@ -6,7 +6,7 @@ function testTalk() {
   let connectionId = "1234567890";
   // let url = "http://localhost:5000/?connectionId=" + connectionId;
   let url =
-      "https://talk.dreamscale.io?connectionId=" +
+      "https://gridtalk.twilightcity.net?connectionId=" +
       connectionId,
     isSecure = true;
 

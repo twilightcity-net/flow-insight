@@ -472,16 +472,16 @@ export default class ConsoleSidebar extends Component {
             <Icon name={this.state.iconTeam} />
           </Menu.Item>
           <Menu.Item
-              name={
-                  SidePanelViewController.MenuSelection.CIRCUITS
-              }
-              active={
-                  activeItem ===
-                  SidePanelViewController.MenuSelection.CIRCUITS
-              }
-              onClick={this.handleItemClick}
+            name={
+              SidePanelViewController.MenuSelection.CIRCUITS
+            }
+            active={
+              activeItem ===
+              SidePanelViewController.MenuSelection.CIRCUITS
+            }
+            onClick={this.handleItemClick}
           >
-              <Icon name={this.state.iconCircuit} />
+            <Icon name={this.state.iconCircuit} />
           </Menu.Item>
           <Menu.Item
             name={

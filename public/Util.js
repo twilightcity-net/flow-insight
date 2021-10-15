@@ -72,7 +72,7 @@ class Util {
   }
 
   /**
-   * gets the url of the Talk Server. returns localhost if it is local
+   * gets the url of the Gridtalk Server. returns localhost if it is local
    * @returns {string}
    */
   static getAppTalkUrl() {

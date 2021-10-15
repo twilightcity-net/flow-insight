@@ -80,7 +80,9 @@ export default class LiveCircuitListItem extends Component {
             circuit.circuitName
         );
 
-        timerEl.innerHTML = UtilRenderer.getWtfTimerFromCircuit(circuit)
+        timerEl.innerHTML = UtilRenderer.getWtfTimerFromCircuit(
+          circuit
+        );
       }, LiveCircuitListItem.wtfTimerIntervalMs);
 
       return UtilRenderer.getWtfTimerFromCircuit(circuit);

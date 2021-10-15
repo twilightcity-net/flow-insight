@@ -4,7 +4,7 @@ const log = require("electron-log"),
   io = require("socket.io-client");
 
 /**
- * This class is used to manage the Talk server connection
+ * This class is used to manage the Gridtalk server connection
  * as a client. Event should be piped into the client using a client manager.
  * @type {TalkManager}
  */

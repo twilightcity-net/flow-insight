@@ -14,7 +14,7 @@
 /build
 /data
 /dist
-torchie-desktop-v*.tgz
+twilightcity-desktop-v*.tgz
 
 # misc
 .DS_Store
@@ -23,7 +23,7 @@ torchie-desktop-v*.tgz
 .env.test.local
 .env.production.local
 electron-builder.env
-torchie-desktop.iml
+twilightcity-desktop.iml
 /.vscode
 
 *debug.*log*
@@ -33,10 +33,8 @@ yarn-error.log*
 .yarnclean
 .idea
 .vscode/
-torchie-desktop.iml
+twilightcity-desktop.iml
 
 .jshintrc
 /tmp/
-!/torchie-shell.iml
-*torchie-shell.iml*
 /more

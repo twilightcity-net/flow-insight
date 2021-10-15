@@ -7,7 +7,7 @@ const SimpleStatusDto = require("../../public/dto/SimpleStatusDto");
 //globals
 const port = process.env.PORT || 5000;
 const apiUrlLocal = "http://localhost:" + port;
-const apiUrlRemote = "http://htmflow.dreamscale.io";
+const apiUrlRemote = "http://home.twilightcity.net";
 
 // TODO add tests for DataManager to be implemented
 describe("API Resource : /account/login ", function() {

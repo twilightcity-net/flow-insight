@@ -11,7 +11,7 @@ module.exports = class AccountActivate {
           status: "VALID",
           message:
             "Your account has been successfully activated.",
-          email: "kara@dreamscale.io",
+          email: "admin@twilightcity.net",
           apiKey: "FASFD423fsfd32d2322d"
         });
 

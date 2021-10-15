@@ -238,7 +238,7 @@ module.exports = class AppLoader {
         this.processLogin();
         break;
       case this.stages.TALK:
-        this.connectToTalk();
+        this.connectToGridtalk();
         break;
       case this.stages.VOLUMES:
         this.initVolumes();
@@ -332,10 +332,10 @@ module.exports = class AppLoader {
   }
 
   /**
-   * connect to talk service
+   * connect to gridtalk service
    */
-  connectToTalk() {
-    log.info("[AppLoader] connect to talk server");
+  connectToGridtalk() {
+    log.info("[AppLoader] connect to gridtalk server");
     try {
       global.App.TalkManager.createConnection();
     } catch (error) {

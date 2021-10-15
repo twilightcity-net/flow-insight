@@ -13,7 +13,7 @@ import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { BaseClient } from "../../../../../clients/BaseClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../../UtilRenderer";
-import {JournalClient} from "../../../../../clients/JournalClient";
+import { JournalClient } from "../../../../../clients/JournalClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -30,7 +30,6 @@ export default class ActiveCircuit extends Component {
    * @type {string}
    */
   static roomMemberPropStr = "roomMember";
-
 
   /**
    * the status event property name that talk uses for talk room status
@@ -81,7 +80,6 @@ export default class ActiveCircuit extends Component {
     this.loadCircuit(circuitName, null, []);
   }
 
-
   /**
    * Updates the state of the circuit, based on a state change, or the resource uri
    * changing entirely
@@ -90,28 +88,36 @@ export default class ActiveCircuit extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-      if (prevProps.resource.uri !== this.props.resource.uri) {
-          console.log("URI change from: "+prevProps.resource.uri + " to "+ this.props.resource.uri);
+    if (
+      prevProps.resource.uri !== this.props.resource.uri
+    ) {
+      console.log(
+        "URI change from: " +
+          prevProps.resource.uri +
+          " to " +
+          this.props.resource.uri
+      );
 
-          let circuitName = this.props.resource.uriArr[1];
-          this.loadCircuit(circuitName, null, []);
-      }
+      let circuitName = this.props.resource.uriArr[1];
+      this.loadCircuit(circuitName, null, []);
+    }
 
-      if (this.state.circuitState === "TROUBLESHOOT") {
-          let that = this;
-          setTimeout(function() {
-              that.focusOnChatInput();
-          }, 500);
-
-      }
+    if (this.state.circuitState === "TROUBLESHOOT") {
+      let that = this;
+      setTimeout(function() {
+        that.focusOnChatInput();
+      }, 500);
+    }
   }
 
-    focusOnChatInput() {
-        let element = document.getElementById("activeCircuitChatInput");
-        if (element) {
-            element.focus();
-        }
+  focusOnChatInput() {
+    let element = document.getElementById(
+      "activeCircuitChatInput"
+    );
+    if (element) {
+      element.focus();
     }
+  }
   /**
    * updates and loads our circuit form gridtime
    * @param circuitName
@@ -130,7 +136,10 @@ export default class ActiveCircuit extends Component {
           model.wtfTalkRoomId,
           this,
           arg => {
-            this.updateStateFeedEventsFromMessages(model, arg.data);
+            this.updateStateFeedEventsFromMessages(
+              model,
+              arg.data
+            );
           }
         );
         CircuitClient.loadCircuitMembers(
@@ -164,87 +173,93 @@ export default class ActiveCircuit extends Component {
    */
   onTalkRoomMessage = (event, arg) => {
     switch (arg.messageType) {
-      case BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT:
+      case BaseClient.MessageTypes
+        .CIRCUIT_MEMBER_STATUS_EVENT:
         this.handleCircuitMemberStatusEventMessage(arg);
         break;
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
         this.handleWtfStatusUpdateMessage(arg);
         break;
       case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
-
-        let hasMessage = UtilRenderer.hasMessageByIdInArray(this.state.messages, arg);
+        let hasMessage = UtilRenderer.hasMessageByIdInArray(
+          this.state.messages,
+          arg
+        );
         if (!hasMessage) {
-            this.appendChatMessage(arg);
+          this.appendChatMessage(arg);
         } else {
-          console.log("Duplicate talk message observed: "+JSON.stringify(arg));
+          console.log(
+            "Duplicate talk message observed: " +
+              JSON.stringify(arg)
+          );
         }
         break;
       case BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT:
-          let status = arg.data;
-          switch (
-              status[ActiveCircuit.statusEventPropStr]
-              ) {
-              case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
-                  console.log("JOIN ROOM", status);
-                  // TODO add status message in the feed
-                  break;
-              case BaseClient.RoomMemberStatus.ROOM_MEMBER_LEAVE:
-                  console.log("LEAVE ROOM", status);
+        let status = arg.data;
+        switch (status[ActiveCircuit.statusEventPropStr]) {
+          case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
+            console.log("JOIN ROOM", status);
+            // TODO add status message in the feed
+            break;
+          case BaseClient.RoomMemberStatus
+            .ROOM_MEMBER_LEAVE:
+            console.log("LEAVE ROOM", status);
 
-                  // TODO add status message in the feed
-                  break;
-              default:
-                  break;
-          }
-          break;
+            // TODO add status message in the feed
+            break;
+          default:
+            break;
+        }
+        break;
       default:
         break;
     }
   };
 
+  /**
+   * adds a chat message to the end of all of our chat
+   * message feed events, and update the gui. This assumes we have
+   * already loaded the circuit resource view.
+   * @param message
+   */
+  appendChatMessage(message) {
+    let metaProps = message.metaProps,
+      username = this.getUsernameFromMetaProps(metaProps),
+      time = UtilRenderer.getChatMessageTimeString(
+        message.messageTime
+      ),
+      json = message.data;
 
-    /**
-     * adds a chat message to the end of all of our chat
-     * message feed events, and update the gui. This assumes we have
-     * already loaded the circuit resource view.
-     * @param message
-     */
-    appendChatMessage(message) {
-        let metaProps = message.metaProps,
-            username = this.getUsernameFromMetaProps(metaProps),
-            time = UtilRenderer.getChatMessageTimeString(
-                message.messageTime
-            ),
-            json = message.data;
+    let that = this;
 
-        let that = this;
+    this.setState(prevState => {
+      //if this is our first message, then use it to update the description
+      if (
+        prevState.messages &&
+        prevState.messages.length === 0
+      ) {
+        CircuitClient.updateCircuitDescription(
+          prevState.model.circuitName,
+          message.data.message,
+          that,
+          arg => {}
+        );
+      }
 
-        this.setState(prevState => {
-            //if this is our first message, then use it to update the description
-            if (prevState.messages && prevState.messages.length === 0) {
-                CircuitClient.updateCircuitDescription(
-                    prevState.model.circuitName,
-                    message.data.message,
-                    that,
-                    arg => {}
-                );
-            }
+      prevState.messages.push(message);
 
-            prevState.messages.push(message);
-
-            return {
-                messages : prevState.messages,
-                feedEvents :
-                    that.addFeedEvent(
-                        prevState.feedEvents,
-                        username,
-                        null,
-                        time,
-                        json.message)
-            }
-        });
-
-    }
+      return {
+        messages: prevState.messages,
+        feedEvents: that.addFeedEvent(
+          prevState.feedEvents,
+          username,
+          null,
+          time,
+          json.message
+        )
+      };
+    });
+  }
 
   /**
    * renders our username from the talk message's meta-prop which contains
@@ -253,13 +268,13 @@ export default class ActiveCircuit extends Component {
    * @returns {boolean|*}
    */
   getUsernameFromMetaProps(metaProps) {
-      return (
-          !!metaProps &&
-          metaProps[ActiveCircuitFeed.fromUserNameMetaPropsStr]
-      );
+    return (
+      !!metaProps &&
+      metaProps[ActiveCircuitFeed.fromUserNameMetaPropsStr]
+    );
   }
 
-    /**
+  /**
    * processes our circuit member status event which is used to notify the
    * current active circuit that another member has joined this active
    * circuit that we are part of. This includes ourself. This function
@@ -366,7 +381,6 @@ export default class ActiveCircuit extends Component {
    * @param model
    */
   updateStateModels(model) {
-
     this.setState({
       model: model,
       circuitState: model.circuitState
@@ -379,108 +393,117 @@ export default class ActiveCircuit extends Component {
    * @param messages
    */
   updateStateFeedEventsFromMessages(circuit, messages) {
-
-    let feedEvents = this.convertToFeedEvents(circuit, messages);
+    let feedEvents = this.convertToFeedEvents(
+      circuit,
+      messages
+    );
 
     this.setState({
-        messages: messages,
-        feedEvents: feedEvents
+      messages: messages,
+      feedEvents: feedEvents
     });
   }
 
-    /**
-     * updates our Chat Messages that our in our messages array. This is generally setup initially
-     * by our mount or update component functions
-     */
-    convertToFeedEvents = (circuit, messages) => {
-        let metaProps = null,
-            username = null,
-            time = null,
-            json = null,
-            messagesLength = messages.length;
+  /**
+   * updates our Chat Messages that our in our messages array. This is generally setup initially
+   * by our mount or update component functions
+   */
+  convertToFeedEvents = (circuit, messages) => {
+    let metaProps = null,
+      username = null,
+      time = null,
+      json = null,
+      messagesLength = messages.length;
 
-        const feedEvents = [];
+    const feedEvents = [];
 
-        this.addFerviePrompt(feedEvents, circuit);
+    this.addFerviePrompt(feedEvents, circuit);
 
-        for (let i = 0, m = null; i < messagesLength; i++) {
-            m = messages[i];
-            metaProps = m.metaProps;
-            username =
-                !!metaProps &&
-                metaProps[
-                    ActiveCircuitFeed.fromUserNameMetaPropsStr
-                    ];
-            time = UtilRenderer.getChatMessageTimeString(
-                m.messageTime
-            );
-            json = m.data;
+    for (let i = 0, m = null; i < messagesLength; i++) {
+      m = messages[i];
+      metaProps = m.metaProps;
+      username =
+        !!metaProps &&
+        metaProps[
+          ActiveCircuitFeed.fromUserNameMetaPropsStr
+        ];
+      time = UtilRenderer.getChatMessageTimeString(
+        m.messageTime
+      );
+      json = m.data;
 
-            if (m.messageType === BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS ) {
-                this.addFeedEvent(
-                    feedEvents,
-                    username,
-                    null,
-                    time,
-                    json.message
-                );
-            }
-        }
-
-        return feedEvents;
-    };
-
-
-    /**
-     * Create the fervie "What's the problem?" prompt in chat
-     * @param circuit
-     */
-    addFerviePrompt(feedEvents, circuit) {
-        if (circuit) {
-            let time = UtilRenderer.getChatMessageTimeString(
-                circuit.openTime
-            );
-
-            this.addFeedEvent(
-                feedEvents,
-                "Fervie",
-                null,
-                time,
-                "What's the problem?"
-            );
-        }
+      if (
+        m.messageType ===
+        BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS
+      ) {
+        this.addFeedEvent(
+          feedEvents,
+          username,
+          null,
+          time,
+          json.message
+        );
+      }
     }
 
-    /**
-     * Add a new feed events array which is used to generate the list of
-     * feed events in the gui which displays all of the chat messages
-     * @param username
-     * @param feedEvent
-     * @param time
-     * @param text
-     */
-    addFeedEvent(feedEvents, username, feedEvent, time, text) {
-        if (
-            feedEvents.length > 0 &&
-            feedEvents[feedEvents.length - 1] &&
-            feedEvents[feedEvents.length - 1].name ===
-            username
-        ) {
-            feedEvent = feedEvents.pop();
-            feedEvent.text.push(text);
-        } else {
-            feedEvent = {
-                name: username,
-                time: time,
-                text: [text]
-            };
-        }
+    return feedEvents;
+  };
 
-        feedEvents.push(feedEvent);
+  /**
+   * Create the fervie "What's the problem?" prompt in chat
+   * @param circuit
+   */
+  addFerviePrompt(feedEvents, circuit) {
+    if (circuit) {
+      let time = UtilRenderer.getChatMessageTimeString(
+        circuit.openTime
+      );
 
-        return feedEvents;
+      this.addFeedEvent(
+        feedEvents,
+        "Fervie",
+        null,
+        time,
+        "What's the problem?"
+      );
     }
-    /**
+  }
+
+  /**
+   * Add a new feed events array which is used to generate the list of
+   * feed events in the gui which displays all of the chat messages
+   * @param username
+   * @param feedEvent
+   * @param time
+   * @param text
+   */
+  addFeedEvent(
+    feedEvents,
+    username,
+    feedEvent,
+    time,
+    text
+  ) {
+    if (
+      feedEvents.length > 0 &&
+      feedEvents[feedEvents.length - 1] &&
+      feedEvents[feedEvents.length - 1].name === username
+    ) {
+      feedEvent = feedEvents.pop();
+      feedEvent.text.push(text);
+    } else {
+      feedEvent = {
+        name: username,
+        time: time,
+        text: [text]
+      };
+    }
+
+    feedEvents.push(feedEvent);
+
+    return feedEvents;
+  }
+  /**
    * updates our circuit members array in our component states
    * @param circuitMembers
    */

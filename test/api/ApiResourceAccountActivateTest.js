@@ -8,7 +8,7 @@ const AccountActivationDto = require("../../public/dto/AccountActivationDto");
 //globals
 const port = process.env.PORT || 5000;
 const apiUrlLocal = "http://localhost:" + port;
-const apiUrlRemote = "http://htmflow.dreamscale.io";
+const apiUrlRemote = "http://home.twilightcity.net";
 
 // TODO add tests for DataManager to be implemented
 describe("API Resource : /account ", function() {
@@ -17,7 +17,7 @@ describe("API Resource : /account ", function() {
     let msg =
       "Your account has been successfully activated.";
     let status = "VALID";
-    let email = "kara@dreamscale.io";
+    let email = "admin@twilightcity.net";
     let key = "FASFD423fsfd32d2322d";
     let token = "abcd12345678";
     let dtoReq = new ActivationCodeDto({

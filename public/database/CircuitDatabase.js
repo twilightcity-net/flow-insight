@@ -171,9 +171,21 @@ module.exports = class CircuitDatabase extends LokiJS {
     ).addDynamicView(CircuitDatabase.Views.LATER);
 
     laterView.applySort(function(obj1, obj2) {
-        if (obj1.totalCircuitElapsedNanoTime === obj2.totalCircuitElapsedNanoTime) return 0;
-        if (obj1.totalCircuitElapsedNanoTime > obj2.totalCircuitElapsedNanoTime) return -1;
-        if (obj1.totalCircuitElapsedNanoTime < obj2.totalCircuitElapsedNanoTime) return 1;
+      if (
+        obj1.totalCircuitElapsedNanoTime ===
+        obj2.totalCircuitElapsedNanoTime
+      )
+        return 0;
+      if (
+        obj1.totalCircuitElapsedNanoTime >
+        obj2.totalCircuitElapsedNanoTime
+      )
+        return -1;
+      if (
+        obj1.totalCircuitElapsedNanoTime <
+        obj2.totalCircuitElapsedNanoTime
+      )
+        return 1;
     });
 
     this.getCollection(

@@ -5,7 +5,7 @@ const BaseController = require("./BaseController"),
   Util = require("../Util");
 
 /**
- * This class is used to coordinate controllers across the talk service
+ * This class is used to coordinate controllers across the gridtalk service
  * @type {CircuitController}
  */
 module.exports = class CircuitController extends BaseController {

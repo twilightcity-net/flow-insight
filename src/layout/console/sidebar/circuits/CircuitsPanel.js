@@ -40,7 +40,7 @@ export default class CircuitsPanel extends Component {
       title: "",
       activeCircuits: [],
       doItLaterCircuits: [],
-      retroCircuits : []
+      retroCircuits: []
     };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
@@ -194,7 +194,7 @@ export default class CircuitsPanel extends Component {
 
     let that = this;
     CircuitClient.getAllMyLiveCircuits(this, arg => {
-        that.setState({activeCircuits : arg.data});
+      that.setState({ activeCircuits: arg.data });
     });
   }
 
@@ -213,7 +213,7 @@ export default class CircuitsPanel extends Component {
     });
     let that = this;
     CircuitClient.getAllMyDoItLaterCircuits(this, arg => {
-      that.setState({doItLaterCircuits : arg.data});
+      that.setState({ doItLaterCircuits: arg.data });
     });
   }
 
@@ -235,7 +235,7 @@ export default class CircuitsPanel extends Component {
     let that = this;
     CircuitClient.getAllMyRetroCircuits(this, arg => {
       console.log("ARG", arg);
-      that.setState({retroCircuits : arg.data});
+      that.setState({ retroCircuits: arg.data });
     });
   }
 
