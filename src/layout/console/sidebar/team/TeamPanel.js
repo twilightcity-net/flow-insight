@@ -36,7 +36,7 @@ export default class TeamPanel extends Component {
         SidePanelViewController.SubmenuSelection.TEAMS,
       teamVisible: false,
       teams: [],
-      houseName: null
+      houseName: TeamClient.houseName
     };
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
@@ -110,16 +110,19 @@ export default class TeamPanel extends Component {
    * called to refresh the team panel with new data
    */
   refreshTeamPanel() {
-    TeamClient.getActiveHouse(this, arg => {
-      if (arg.error) {
-        this.error = arg.error;
-      } else {
-        this.error = null;
-        this.setState({
-          houseName: arg.data.houseName
+
+    if (this.state.houseName == null) {
+        TeamClient.getActiveHouse(this, arg => {
+            if (arg.error) {
+                this.error = arg.error;
+            } else {
+                this.error = null;
+                this.setState({
+                    houseName: arg.data.houseName
+                });
+            }
         });
-      }
-    });
+    }
 
     TeamClient.getAllMyTeams(this, arg => {
       if (arg.error) {

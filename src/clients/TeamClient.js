@@ -11,6 +11,13 @@ export class TeamClient extends BaseClient {
    */
   static replies = new Map();
 
+
+  /**
+   * Static name of the logged in house
+   * @type {null}
+   */
+  static houseName = null;
+
   /**
    * builds the Client for a Team in Gridtime
    * @param scope
@@ -47,6 +54,9 @@ export class TeamClient extends BaseClient {
   static init(scope) {
     if (!TeamClient.instance) {
       TeamClient.instance = new TeamClient(scope);
+        TeamClient.getActiveHouse(this, arg => {
+          TeamClient.houseName = arg.data.houseName;
+      });
     }
   }
 
