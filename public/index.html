@@ -573,6 +573,11 @@
     padding-bottom: 6px;
   }
 
+  #component.consoleSidebarPanel .fervieContent svg {
+    width: 100%;
+    height: 100%;
+  }
+
   #component.consoleSidebarPanel .fervieContent .flameRating {
     background: rgba(222, 222, 222, 0.96);
     color: rgba(100, 100, 100, 0.96);
@@ -593,6 +598,226 @@
   #component.consoleSidebarPanel .fervieContent .yayButton:hover {
     background: rgba(100, 100, 100, 0.96);
   }
+
+  /***** FERVIE SVG ANIMATIONS *****/
+
+  .haircolor {
+    fill: #B042FF;
+  }
+
+  #eyelids {
+    display: none;
+    animation-name: blinkeyes;
+    animation-duration: 4.5s;
+    animation-delay: 0s;
+    animation-timing-function: steps(1);
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+  }
+
+  #eyeclosed {
+    animation-name: blinkclose;
+    animation-duration: 4.5s;
+    animation-delay: 0s;
+    animation-timing-function: steps(1);
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+  }
+
+  #upperbody {
+    animation-name: sway;
+    animation-duration: 4.5s;
+    animation-delay: 0s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+  }
+
+  #eyes {
+    display: block;
+  }
+
+  #shades {
+    display: none;
+  }
+
+  #heartsunglasses {
+    display: none;
+  }
+
+  .sunglassframe {
+    fill: #ff00ff;
+  }
+
+
+  .heartglassframe {
+    fill: #ff00ff;
+  }
+
+  #left-pupil-wrap {
+    animation-name: eyemove;
+    animation-duration: 4.5s;
+    animation-delay: 0s;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+  }
+
+  #right-pupil-wrap {
+    animation-name: eyemove;
+    animation-duration: 4.5s;
+    animation-delay: 0s;
+    animation-timing-function: ease;
+    animation-iteration-count: infinite;
+    animation-direction: normal;
+    animation-fill-mode: none;
+  }
+
+
+  @keyframes blinkclose {
+    0%,14% {
+      visibility: hidden;
+    }
+    15%,16% {
+      visibility: visible;
+    }
+    17%, 38% {
+      visibility: hidden;
+    }
+    39%,40% {
+      visibility: visible;
+    }
+    41%,68% {
+      visibility: hidden;
+    }
+    69%,76% {
+      visibility: visible;
+    }
+    77%,93% {
+      visibility: hidden;
+    }
+    94%,95% {
+      visibility: visible;
+    }
+    96%,100% {
+      visibility: hidden;
+    }
+  }
+
+  @keyframes blinkeyes {
+    0%,13% {
+      visibility: hidden;
+    }
+    14% {
+      visibility: visible;
+    }
+    15% {
+      visibility: hidden;
+    }
+    16%,17% {
+      visibility: visible;
+    }
+    18%, 37% {
+      visibility: hidden;
+    }
+    38% {
+      visibility: visible;
+    }
+    39% {
+      visibility: hidden;
+    }
+    40%,41% {
+      visibility: visible;
+    }
+    42%,67% {
+      visibility: hidden;
+    }
+    68% {
+      visibility: visible;
+    }
+    69%,76% {
+      visibility: hidden;
+    }
+    77%,78% {
+      visibility: visible;
+    }
+    79%,92% {
+      visibility: hidden;
+    }
+    93% {
+      visibility: visible;
+    }
+    94% {
+      visibility: hidden;
+    }
+    95%,96% {
+      visibility: visible;
+    }
+    97%,100% {
+      visibility: hidden;
+    }
+
+  }
+
+  @keyframes eyemove {
+    0%,18% {
+      transform: translateX(0px) translateY(0px);
+      transform-box: fill-box;
+    }
+    19%,42% {
+      transform: translateX(7px) translateY(-2px);
+      transform-box: fill-box;
+    }
+    43%,100% {
+      transform: translateX(0px) translateY(0px);
+      transform-box: fill-box;
+    }
+  }
+
+  @keyframes sway {
+    0%,4% {
+      transform: rotate(0deg);
+      transform-origin: bottom center;
+      transform-box: fill-box;
+    }
+    5%,19% {
+      transform: rotate(2deg);
+      transform-origin: bottom center;
+      transform-box: fill-box;
+    }
+    20%,28% {
+      transform: rotate(0deg);
+      transform-origin: bottom center;
+      transform-box: fill-box;
+    }
+    29%,42% {
+      transform: rotate(2deg);
+      transform-origin: bottom center;
+      transform-box: fill-box;
+    }
+    43%,59% {
+      transform: rotate(0deg);
+      transform-origin: bottom center;
+      transform-box: fill-box;
+    }
+    60%,79% {
+      transform: rotate(2deg);
+      transform-origin: bottom center;
+      transform-box: fill-box;
+    }
+
+    80%,100% {
+      transform: rotate(0deg);
+      transform-origin: bottom center;
+      transform-box: fill-box;
+    }
+  }
+
+
 
   /*
        * COMPONENT: CONSOLE-SIDEBAR-CIRCUITS

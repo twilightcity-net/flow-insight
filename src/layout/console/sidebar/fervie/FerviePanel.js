@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import {
-  Menu,
-  Popup,
-  Progress,
-  Segment,
-  Transition
+    Button,
+    Menu,
+    Popup,
+    Progress,
+    Segment,
+    Transition
 } from "semantic-ui-react";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
