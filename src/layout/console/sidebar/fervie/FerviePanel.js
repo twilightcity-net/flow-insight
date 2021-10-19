@@ -15,7 +15,8 @@ import { MemberClient } from "../../../../clients/MemberClient";
 import UtilRenderer from "../../../../UtilRenderer";
 import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../clients/BaseClient";
-
+import { HexColorPicker } from "react-colorful";
+import {FervieClient} from "../../../../clients/FervieClient";
 /**
  * this class is responsible for storing the users fervie avatar, xp, inventory,
  * and accessories. Currently this only uses a simple canvas but will use
@@ -37,12 +38,19 @@ export default class FerviePanel extends Component {
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CONSOLE_SIDEBAR
     );
+
+    let fervieColor = MemberClient.me.fervieColor;
+    if (fervieColor === undefined || fervieColor === null) {
+      fervieColor = "#B042FF";
+    }
     this.state = {
       activeItem:
         SidePanelViewController.SubmenuSelection.FERVIE,
       fervieVisible: false,
       badgesVisible: false,
-      xpSummary: MemberClient.me.xpSummary
+      xpSummary: MemberClient.me.xpSummary,
+      pickColorVisible: false,
+      color: fervieColor
     };
     this.me = MemberClient.me;
 
@@ -244,21 +252,116 @@ export default class FerviePanel extends Component {
    * @returns {*}
    */
   getFervieCanvas = () => {
-    return <FervieCanvas render3d={this.render3d} />;
+    return (
+        <div style={{
+                  height:
+                      DimensionController.getConsoleLayoutHeight() -
+                      118
+              }} >
+            <FervieCanvas haircolor={this.state.color} render3d={this.render3d} />
+        </div>
+        );
   };
+
+  handleChooseColorOnClick = () => {
+    this.setState({pickColorVisible: true});
+  };
+
+    /**
+     * When color change is done, save the details on the server
+     */
+    handleColorDoneOnClick = () => {
+        this.setState({pickColorVisible: false});
+        FervieClient.saveFervieDetails(
+            this.state.color,
+            null,
+            null,
+            null,
+            this,
+            arg => {
+                if (!arg.error && arg.data) {
+                    console.log("Saved");
+                } else {
+                    console.error("Error: "+arg.error);
+                }
+            }
+        );
+    };
+
+  /**
+   * gets button panel below our fervie
+   * @returns {*}
+   */
+  getFervieButtonPanel = () => {
+      return <div className="fervieButtons">
+          <Button
+              onClick={this.handleChooseColorOnClick}
+              size="mini"
+              color="violet"
+          >
+              Choose Color
+          </Button>
+      </div>;
+  };
+
+    /**
+     * gets button panel when color picker is open
+     * @returns {*}
+     */
+    getColorPickerButtonPanel = () => {
+        return <div className="fervieButtons">
+            <Button
+                onClick={this.handleColorDoneOnClick}
+                size="mini"
+                color="violet"
+            >
+                Okay
+            </Button>
+        </div>;
+    };
+
+
 
   /**
    * renders the parts of the component together
    * @returns {*}
    */
   getFervieContent = () => {
-    return (
-      <div className="fervieContent">
-        {this.getFervieTitle()}
-        {this.getFervieCanvas()}
-      </div>
-    );
+    if (this.state.pickColorVisible === false) {
+      return this.getNormalFervieContent();
+    } else {
+      return this.getColorPickerFervieContent();
+    }
   };
+
+  getNormalFervieContent() {
+    return (
+        <div className="fervieContent">
+            {this.getFervieTitle()}
+            {this.getFervieCanvas()}
+            {this.getFervieButtonPanel()}
+        </div>
+    );
+  }
+
+  getColorPickerFervieContent() {
+    return (
+        <div className="fervieContent">
+            {this.getFervieTitle()}
+            <HexColorPicker color={this.state.color} onChange={(color) => {
+                this.setState( {color: color});
+            }}/>
+            {/*<div style={{*/}
+                {/*height:*/}
+                    {/*DimensionController.getConsoleLayoutHeight() -*/}
+                    {/*250*/}
+            {/*}} >*/}
+                {/*<FervieCanvas render3d={this.render3d} />*/}
+            {/*</div>*/}
+            {this.getColorPickerButtonPanel()}
+        </div>
+    );
+  }
 
   /**
    * renders the console sidebar panel of the console view
@@ -269,6 +372,7 @@ export default class FerviePanel extends Component {
 
     const fervieContent = this.getFervieContent();
     const badgesContent = this.getBadgesContent();
+
     return (
       <div
         id="component"

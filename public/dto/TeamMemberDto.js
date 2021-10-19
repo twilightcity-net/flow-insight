@@ -19,6 +19,11 @@ module.exports = class TeamMemberDto {
       this.activeTaskName = json.activeTaskName;
       this.activeTaskSummary = json.activeTaskSummary;
       this.workingOn = json.workingOn;
+
+      this.fervieColor = json.fervieColor;
+      this.fervieSecondaryColor = json.fervieSecondaryColor;
+      this.fervieTertiaryColor = json.fervieTertiaryColor;
+      this.fervieAccessory = json.fervieAccessory;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'TeamMemberDto' : " +

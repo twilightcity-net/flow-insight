@@ -46,7 +46,8 @@ module.exports = class BaseController {
       FLAME: "/flame",
       FINISH: "/finish",
       PROPERTY: "/property",
-      DESCRIPTION: "/description"
+      DESCRIPTION: "/description",
+      FERVIE: "/fervie"
     };
   }
 
@@ -144,7 +145,7 @@ module.exports = class BaseController {
         "startWTFWithCustomCircuitName",
       JOIN_WTF: "joinWTF",
       LEAVE_WTF: "leaveWTF",
-      GET_ALL_MY_LIVE_CIRCUITS: "getAllMyLiveCircuits",
+      GET_ALL_MY_PARTICIPATING_CIRCUITS: "getAllMyParticipatingCircuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS:
         "getAllMyDoItLaterCircuits",
       GET_ALL_MY_RETRO_CIRCUITS: "getAllMyRetroCircuits",
@@ -169,7 +170,8 @@ module.exports = class BaseController {
       FIND_OR_CREATE_TASK: "findOrCreateTask",
       FIND_OR_CREATE_PROJECT: "findOrCreateProject",
       FINISH_INTENTION: "finish-intention",
-      UPDATE_FLAME_RATING: "update-flame-rating"
+      UPDATE_FLAME_RATING: "update-flame-rating",
+      SAVE_FERVIE_DETAILS: "saveFervieDetails"
     };
   }
 

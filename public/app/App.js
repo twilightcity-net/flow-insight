@@ -19,6 +19,7 @@ const { app } = require("electron"),
   TeamCircuitManager = require("../managers/TeamCircuitManager"),
   TalkToManager = require("../managers/TalkToManager"),
   WindowManager = require("../managers/WindowManager"),
+  FervieManager = require("../managers/FervieManager"),
   { EventManager } = require("../events/EventManager"),
   EventFactory = require("../events/EventFactory"),
   {
@@ -130,6 +131,7 @@ module.exports = class App {
       global.App.TeamCircuitManager = new TeamCircuitManager();
       global.App.TalkToManager = new TalkToManager();
       global.App.ShortcutManager = new ShortcutManager();
+      global.App.FervieManager = new FervieManager();
       global.App.AppUpdater = new AppUpdater();
       global.App.DataStoreManager = new DataStoreManager();
       global.App.AppActivator = new AppActivator();

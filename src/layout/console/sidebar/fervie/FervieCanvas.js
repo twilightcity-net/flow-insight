@@ -42,26 +42,6 @@ export default class FervieCanvas extends Component {
    * @param flameString
    */
   updateFervieImage(flameRating) {
-    // let fervieImage = "",
-    //   height = DimensionController.getFervieCanvasHeight(),
-    //   width = DimensionController.getFervieCanvasWidth();
-    //
-    // if (flameRating >= 0) {
-    //   fervieImage = "./assets/images/fervie_idle_in_TC.gif";
-    // } else if (flameRating < 0) {
-    //   fervieImage = "./assets/images/fervie_idle_in_TC.gif";
-    // }
-    //
-    // let image = new Image();
-    // image.onload = () => {
-    //   let canvas = this.getCanvasEl();
-    //   if (canvas) {
-    //     this.getCanvasEl()
-    //       .getContext("2d")
-    //       .drawImage(image, 0, 0, width, height);
-    //   }
-    // };
-    // image.src = fervieImage;
   }
 
   /**
@@ -79,20 +59,6 @@ export default class FervieCanvas extends Component {
   render() {
     return (
         this.getFervieSvg()
-      // <img
-      //   id="FervieCanvas"
-      //   height={DimensionController.getFervieCanvasHeight()}
-      //   width={DimensionController.getFervieCanvasWidth()}
-      //   src={"./assets/images/fervie_idle_in_TC.gif"}
-      //   alt="loading..."
-      // />
-
-      //
-      // <canvas
-      //   id="FervieCanvas"
-      //   height={DimensionController.getFervieCanvasHeight()}
-      //   width={DimensionController.getFervieCanvasWidth()}
-      // />
     );
   }
 
@@ -164,7 +130,7 @@ export default class FervieCanvas extends Component {
 
             <g id="upperbody">
                 <g id="body">
-                    <path className="haircolor" fill="#B042FF" stroke="none" d="
+                    <path className="haircolor" fill={this.props.haircolor} stroke="none" d="
 	M 301.2 113.7
 	Q 273.35 78.25 228.65 72.8 183.9 67.35 148.5 95.1 112.95 122.95 107.5 167.6 102.05 212.3 129.85 247.8 157.6 283.35 202.35 288.8 247 294.25 282.55 266.4 318.05 238.7 323.5 194 328.9 149.25 301.2 113.7 Z"/>
                     <path stroke="#000000" strokeWidth="1" strokeLinejoin="round" strokeLinecap="round" fill="none"
@@ -185,7 +151,7 @@ export default class FervieCanvas extends Component {
                 <g id="hair">
                     <g id="Layer_1" transform="matrix( 1, 0, 0, 1, 81.8,55.4) ">
                         <g transform="matrix( 1, 0, 0, 1, -81.8,-55.4) ">
-                            <path className="haircolor" fill="#B042FF" stroke="none" d="
+                            <path className="haircolor" fill={this.props.haircolor} stroke="none" d="
 	M 251.1 271.05
 	Q 252.6 237.4 281.65 262.7
 	L 261.2 218.7 220.8 213.75 216.3 250.6
@@ -311,7 +277,7 @@ export default class FervieCanvas extends Component {
                     </g>
 
                     <g id="eyelids">
-                        <path className="haircolor" fill="#B042FF" stroke="none" d="
+                        <path className="haircolor" fill={this.props.haircolor} stroke="none" d="
 	M 213.95 165.95
 	Q 213.95 171.35 222.6 175.15 231.25 178.95 243.45 178.95 255.65 178.95 264.3 175.15 272.95 171.35 272.95 165.95 272.95 160.55 264.3 156.75 255.65 152.95 243.45 152.95 231.25 152.95 222.6 156.75 213.95 160.55 213.95 165.95
 	M 204.6 161.6
@@ -323,7 +289,7 @@ export default class FervieCanvas extends Component {
                     </g>
 
                     <g id="eyeclosed">
-                        <path className="haircolor" fill="#B042FF" stroke="none" d="
+                        <path className="haircolor" fill={this.props.haircolor} stroke="none" d="
 	M 216.85 116.55
 	Q 214.35 109.7 208.9 104.05 198.8 93.75 184.55 93.75 170.3 93.75 160.2 104.05 150.1 114.5 150.1 129.1 150.1 140.1 155.85 148.65 148.95 151.25 148.95 154.7 148.95 158.75 158.5 161.6 168.05 164.5 181.55 164.5 183.3 164.5 185 164.45 185.9 164.4 186.8 164.4
 	L 187.4 164.35

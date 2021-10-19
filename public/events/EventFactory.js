@@ -43,6 +43,7 @@ class EventFactory {
       MEMBER_CLIENT: prefix + "member-client",
       MEMBER_CONTROLLER: prefix + "member-controller",
       JOURNAL_CLIENT: prefix + "journal-client",
+      FERVIE_CLIENT: prefix + "fervie-client",
       WINDOW_FOCUS: prefix + "window-focus",
       WINDOW_BLUR: prefix + "window-blur",
       WINDOW_LOADING_SHOWN: prefix + "window-loading-shown",

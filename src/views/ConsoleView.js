@@ -10,6 +10,7 @@ import { JournalClient } from "../clients/JournalClient";
 import { TeamClient } from "../clients/TeamClient";
 import { TeamCircuitClient } from "../clients/TeamCircuitClient";
 import { MemberClient } from "../clients/MemberClient";
+import {FervieClient} from "../clients/FervieClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -116,6 +117,7 @@ export default class ConsoleView extends Component {
     JournalClient.init(this);
     CircuitClient.init(this);
     DimensionController.init(this);
+    FervieClient.init(this);
   };
 
   componentWillUnmount = () => {

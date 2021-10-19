@@ -56,6 +56,7 @@ export class RendererEventFactory {
       MEMBER_CONTROLLER: prefix + "member-controller",
       JOURNAL_CLIENT: prefix + "journal-client",
       CIRCUIT_CLIENT: prefix + "circuit-client",
+      FERVIE_CLIENT: prefix + "fervie-client",
       VIEW_CONSOLE_SIDEBAR_PANEL:
         prefix + "view-console-sidebar-panel",
       VIEW_CONSOLE_TEAM_PANEL:
