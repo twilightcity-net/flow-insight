@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import {
-    Button,
+    Button, Dropdown,
     Menu,
     Popup,
     Progress,
@@ -16,7 +16,7 @@ import UtilRenderer from "../../../../UtilRenderer";
 import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../clients/BaseClient";
 import { HexColorPicker } from "react-colorful";
-import {FervieClient} from "../../../../clients/FervieClient";
+import { FervieClient } from "../../../../clients/FervieClient";
 /**
  * this class is responsible for storing the users fervie avatar, xp, inventory,
  * and accessories. Currently this only uses a simple canvas but will use
@@ -30,6 +30,13 @@ export default class FerviePanel extends Component {
   constructor(props) {
     super(props);
     this.name = "[FerviePanel]";
+
+    this.whatToColorOptions = [
+        {key: 0, value: FerviePanel.Colorables.FUR, text: FerviePanel.Colorables.FUR},
+        {key: 1, value: FerviePanel.Colorables.SHOES, text: FerviePanel.Colorables.SHOES},
+        {key: 2, value: FerviePanel.Colorables.SUNGLASSES, text: FerviePanel.Colorables.SUNGLASSES}
+    ];
+
     this.render3d = false;
     this.animationType =
       SidePanelViewController.AnimationTypes.FLY_DOWN;
@@ -40,9 +47,21 @@ export default class FerviePanel extends Component {
     );
 
     let fervieColor = MemberClient.me.fervieColor;
+    let fervieSecondaryColor = MemberClient.me.fervieSecondaryColor;
+    let fervieTertiaryColor = MemberClient.me.fervieTertiaryColor;
+
     if (fervieColor === undefined || fervieColor === null) {
       fervieColor = "#B042FF";
     }
+
+    if (fervieSecondaryColor === undefined || fervieSecondaryColor === null) {
+        fervieSecondaryColor = "#FFFFFF";
+    }
+
+    if (fervieTertiaryColor === undefined || fervieTertiaryColor === null) {
+        fervieTertiaryColor = "#000000";
+    }
+
     this.state = {
       activeItem:
         SidePanelViewController.SubmenuSelection.FERVIE,
@@ -50,7 +69,11 @@ export default class FerviePanel extends Component {
       badgesVisible: false,
       xpSummary: MemberClient.me.xpSummary,
       pickColorVisible: false,
-      color: fervieColor
+      color: fervieColor,
+      fervieColor: fervieColor,
+      fervieSecondaryColor: fervieSecondaryColor,
+      fervieTertiaryColor: fervieTertiaryColor,
+      whatToColor: FerviePanel.Colorables.FUR
     };
     this.me = MemberClient.me;
 
@@ -59,6 +82,14 @@ export default class FerviePanel extends Component {
       this,
       this.onTalkRoomMessage
     );
+  }
+
+  static get Colorables() {
+      return {
+          FUR: "Fur",
+          SHOES: "Shoes",
+          SUNGLASSES: "Sunglasses"
+      };
   }
 
   /**
@@ -253,39 +284,104 @@ export default class FerviePanel extends Component {
    */
   getFervieCanvas = () => {
     return (
-        <div style={{
-                  height:
-                      DimensionController.getConsoleLayoutHeight() -
-                      118
-              }} >
-            <FervieCanvas haircolor={this.state.color} render3d={this.render3d} />
-        </div>
-        );
+      <div
+        style={{
+          height:
+            DimensionController.getConsoleLayoutHeight() -
+            118
+        }}
+      >
+        <FervieCanvas
+          haircolor={this.state.fervieColor}
+          shoecolor={this.state.fervieSecondaryColor}
+          sunglasscolor={this.state.fervieTertiaryColor}
+          render3d={this.render3d}
+        />
+      </div>
+    );
   };
 
   handleChooseColorOnClick = () => {
-    this.setState({pickColorVisible: true});
+    this.setState({ pickColorVisible: true });
   };
 
-    /**
-     * When color change is done, save the details on the server
-     */
-    handleColorDoneOnClick = () => {
-        this.setState({pickColorVisible: false});
-        FervieClient.saveFervieDetails(
-            this.state.color,
-            null,
-            null,
-            null,
-            this,
-            arg => {
-                if (!arg.error && arg.data) {
-                    console.log("Saved");
-                } else {
-                    console.error("Error: "+arg.error);
-                }
-            }
-        );
+  /**
+   * When color change is done, save the details on the server
+   */
+  handleColorDoneOnClick = () => {
+
+    let fervieColor = this.state.fervieColor;
+    let fervieSecondaryColor = this.state.fervieSecondaryColor;
+    let fervieTertiaryColor = this.state.fervieTertiaryColor;
+
+    //make sure we apply the last color setting, and figure out what needs to be sent to server
+    if (this.state.whatToColor === FerviePanel.Colorables.FUR) {
+        fervieColor = this.state.color;
+        this.setState({
+            fervieColor: this.state.color
+        });
+    } else if (this.state.whatToColor === FerviePanel.Colorables.SHOES) {
+        fervieSecondaryColor = this.state.color;
+        this.setState({
+            fervieSecondaryColor: this.state.color
+        });
+    } else if (this.state.whatToColor === FerviePanel.Colorables.SUNGLASSES) {
+        fervieTertiaryColor = this.state.color;
+        this.setState({
+            fervieTertiaryColor: this.state.color
+        });
+    }
+
+    this.setState({ pickColorVisible: false });
+    FervieClient.saveFervieDetails(
+      fervieColor,
+      fervieSecondaryColor,
+      fervieTertiaryColor,
+      null,
+      this,
+      arg => {
+        if (!arg.error && arg.data) {
+          console.log("Saved");
+        } else {
+          console.error("Error: " + arg.error);
+        }
+      }
+    );
+  };
+
+
+    handleChangeForWhatToColor = (e, { value }) => {
+
+        //when its changed, whatever the color was set to for the prior color, need to save this
+        if (this.state.whatToColor === FerviePanel.Colorables.FUR) {
+            //existing color state, we need to copy out to the particular variable type
+            this.setState({
+                fervieColor: this.state.color
+            });
+        } else if (this.state.whatToColor === FerviePanel.Colorables.SHOES) {
+            this.setState({
+                fervieSecondaryColor: this.state.color
+            });
+        } else if (this.state.whatToColor === FerviePanel.Colorables.SUNGLASSES) {
+            this.setState({
+                fervieTertiaryColor: this.state.color
+            });
+        }
+
+        let newColor = null;
+        if (value === FerviePanel.Colorables.FUR) {
+            newColor = this.state.fervieColor;
+        } else if (value === FerviePanel.Colorables.SHOES) {
+            newColor = this.state.fervieSecondaryColor;
+        } else if (value === FerviePanel.Colorables.SUNGLASSES) {
+            newColor = this.state.fervieTertiaryColor;
+        }
+
+        this.setState({
+            color: newColor,
+            whatToColor: value
+        });
+
     };
 
   /**
@@ -293,37 +389,114 @@ export default class FerviePanel extends Component {
    * @returns {*}
    */
   getFervieButtonPanel = () => {
-      return <div className="fervieButtons">
-          <Button
-              onClick={this.handleChooseColorOnClick}
-              size="mini"
-              color="violet"
-          >
-              Choose Color
-          </Button>
-      </div>;
+    return (
+      <div className="fervieButtons">
+        <Button
+          onClick={this.handleChooseColorOnClick}
+          size="mini"
+          color="violet"
+        >
+          Choose Color
+        </Button>
+      </div>
+    );
   };
 
-    /**
-     * gets button panel when color picker is open
-     * @returns {*}
-     */
-    getColorPickerButtonPanel = () => {
-        return <div className="fervieButtons">
-            <Button
-                onClick={this.handleColorDoneOnClick}
-                size="mini"
-                color="violet"
-            >
-                Okay
-            </Button>
-        </div>;
-    };
+  /**
+   * gets button panel when color picker is open
+   * @returns {*}
+   */
+  getColorPickerButtonPanel = () => {
+    return (
+      <div className="fervieColorButtons">
+
+        <Button
+          className="okayButton"
+          onClick={this.handleColorDoneOnClick}
+          size="mini"
+          color="violet"
+        >
+          Okay
+        </Button>
+      </div>
+    );
+  };
 
 
+
+  getColorPickerFervieContent() {
+    return (
+      <div className="fervieContent">
+
+          <div className="chooseColors">
+            <b>Choose Colors</b>
+          </div>
+
+        <div
+          style={{
+            margin: "auto",
+            height: 150,
+            width: 122
+          }}
+        >
+          <FervieCanvas
+            haircolor={this.state.fervieColor}
+            shoecolor={this.state.fervieSecondaryColor}
+            sunglasscolor={this.state.fervieTertiaryColor}
+            render3d={this.render3d}
+          />
+        </div>
+
+        <div>
+          <Dropdown
+            id="whatToColor"
+            className="whatToColor"
+            placeholder="Choose what to color"
+            options={this.whatToColorOptions}
+            selection
+            fluid
+            upward
+            value={this.state.whatToColor}
+            onChange={this.handleChangeForWhatToColor}
+          />
+        </div>
+
+        <div  style={{
+          height:
+            DimensionController.getConsoleLayoutHeight() -
+            287
+        }}
+        >
+          <HexColorPicker
+            color={this.state.color}
+            onChange={color => {
+              if (this.state.whatToColor === FerviePanel.Colorables.FUR) {
+                this.setState({color: color, fervieColor: color});
+              } else if (this.state.whatToColor === FerviePanel.Colorables.SHOES) {
+                this.setState({color: color, fervieSecondaryColor: color});
+              } else if (this.state.whatToColor === FerviePanel.Colorables.SUNGLASSES) {
+                this.setState({color: color, fervieTertiaryColor : color});
+              }
+            }}
+          />
+        </div>
+        {this.getColorPickerButtonPanel()}
+      </div>
+    );
+  }
+
+  getNormalFervieContent() {
+    return (
+      <div className="fervieContent">
+        {this.getFervieTitle()}
+        {this.getFervieCanvas()}
+        {this.getFervieButtonPanel()}
+      </div>
+    );
+  }
 
   /**
-   * renders the parts of the component together
+   * renders the fervie part of the panel
    * @returns {*}
    */
   getFervieContent = () => {
@@ -333,35 +506,6 @@ export default class FerviePanel extends Component {
       return this.getColorPickerFervieContent();
     }
   };
-
-  getNormalFervieContent() {
-    return (
-        <div className="fervieContent">
-            {this.getFervieTitle()}
-            {this.getFervieCanvas()}
-            {this.getFervieButtonPanel()}
-        </div>
-    );
-  }
-
-  getColorPickerFervieContent() {
-    return (
-        <div className="fervieContent">
-            {this.getFervieTitle()}
-            <HexColorPicker color={this.state.color} onChange={(color) => {
-                this.setState( {color: color});
-            }}/>
-            {/*<div style={{*/}
-                {/*height:*/}
-                    {/*DimensionController.getConsoleLayoutHeight() -*/}
-                    {/*250*/}
-            {/*}} >*/}
-                {/*<FervieCanvas render3d={this.render3d} />*/}
-            {/*</div>*/}
-            {this.getColorPickerButtonPanel()}
-        </div>
-    );
-  }
 
   /**
    * renders the console sidebar panel of the console view

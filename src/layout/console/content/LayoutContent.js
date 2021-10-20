@@ -41,7 +41,7 @@ export default class LayoutContent extends Component {
   };
 
   componentWillUnmount = () => {
-    this.myController.configureConsoleBrowserRequestListener(
+    this.myController.configureConsoleBrowserLoadListener(
       this,
       null
     );

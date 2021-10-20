@@ -57,7 +57,7 @@ export default class LayoutBrowser extends Component {
    * remove listeners when not in view
    */
   componentWillUnmount = () => {
-    this.myController.consoleBrowserRequestListener(
+    this.myController.configureConsoleBrowserRequestListener(
       this,
       null
     );

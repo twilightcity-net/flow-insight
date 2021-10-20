@@ -13,8 +13,8 @@ module.exports = class FervieController extends BaseController {
   constructor(scope) {
     super(scope, FervieController);
     if (!FervieController.instance) {
-        FervieController.instance = this;
-        FervieController.wireTogetherControllers();
+      FervieController.instance = this;
+      FervieController.wireTogetherControllers();
     }
   }
 
@@ -34,7 +34,7 @@ module.exports = class FervieController extends BaseController {
    */
   static wireTogetherControllers() {
     BaseController.wireControllersTo(
-        FervieController.instance
+      FervieController.instance
     );
   }
 
@@ -99,10 +99,10 @@ module.exports = class FervieController extends BaseController {
     this.doClientRequest(
       "FervieClient",
       {
-          fervieColor: fervieColor,
-          fervieSecondaryColor: fervieSecondaryColor,
-          fervieTertiaryColor: fervieTertiaryColor,
-          fervieAccessory: fervieAccessory
+        fervieColor: fervieColor,
+        fervieSecondaryColor: fervieSecondaryColor,
+        fervieTertiaryColor: fervieTertiaryColor,
+        fervieAccessory: fervieAccessory
       },
       FervieController.Names.SAVE_FERVIE_DETAILS,
       FervieController.Types.POST,
@@ -144,6 +144,4 @@ module.exports = class FervieController extends BaseController {
       callback
     );
   }
-
-
 };

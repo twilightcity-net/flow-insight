@@ -565,57 +565,111 @@
     white-space: nowrap;
   }
 
-  #component.consoleSidebarPanel .fervieContent .rageButton {
-    transition: background, color .840s ease-out;
-    background: rgba(72, 72, 72, 0.96);
-    color: red;
-    padding-top: 4px;
-    padding-bottom: 6px;
-  }
-
   #component.consoleSidebarPanel .fervieContent svg {
     width: 100%;
     height: 100%;
   }
 
-  #component.consoleSidebarPanel .fervieContent .flameRating {
-    background: rgba(222, 222, 222, 0.96);
-    color: rgba(100, 100, 100, 0.96);
-  }
-
-  #component.consoleSidebarPanel .fervieContent .rageButton:hover {
-    background: rgba(100, 100, 100, 0.96);
-  }
-
-  #component.consoleSidebarPanel .fervieContent .yayButton {
-    transition: background, color .840s ease-out;
-    background: rgba(72, 72, 72, 0.96);
-    color: purple;
-    padding-top: 4px;
-    padding-bottom: 6px;
-  }
-
-  #component.consoleSidebarPanel .fervieContent .yayButton:hover {
-    background: rgba(100, 100, 100, 0.96);
-  }
 
   #component.consoleSidebarPanel .fervieContent .fervieButtons {
+      float: right;
+      position: relative;
+      top: -30px;
+      line-height: 1rem;
+  }
+
+  #component.consoleSidebarPanel .fervieContent .fervieColorButtons .okayButton {
     float: right;
     position: relative;
     top: -30px;
     line-height: 1rem;
   }
 
+  /** dropdown styles */
+
+  #component.consoleSidebarPanel .fervieContent .chooseColors {
+    text-align: center;
+    line-height: 2rem;
+    font-size: 2rem;
+  }
+
+  #component.consoleSidebarPanel .fervieContent .ui.dropdown .default.text {
+    font-style: italic;
+    color: rgba(222, 222, 222, 0.96);
+  }
+
+  #component.consoleSidebarPanel .fervieContent .ui.dropdown {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+    width: 75%;
+    margin:auto;
+  }
+
+  #component.consoleSidebarPanel .fervieContent .ui.dropdown input {
+    color: rgba(222, 222, 222, 0.96);
+  }
+
+  #component.consoleSidebarPanel .fervieContent .ui.dropdown div.text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+  }
+
+  #component.consoleSidebarPanel .fervieContent .ui.dropdown.active div.text {
+      color: rgba(100, 100, 100, 0.96);
+  }
+
+  #component.consoleSidebarPanel .fervieContent .ui.dropdown .menu {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border-color: rgba(72, 72, 72, 0.96);
+  }
+
+  #component.consoleSidebarPanel .fervieContent .column.focused .ui.dropdown {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.consoleSidebarPanel .fervieContent .column.focused .ui.dropdown .menu {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.consoleSidebarPanel .fervieContent .ui.selection.dropdown .menu>.item {
+    transition: background, color 0.420s ease-out;
+    border-top: 1px solid rgba(72, 72, 72, 0.96);
+    color: rgba(100, 100, 100, 0.96);
+  }
+
+
+
+  #component.consoleSidebarPanel .fervieContent .ui.selection.dropdown .menu>.item:last-child {
+    border-bottom: 1px solid rgba(72, 72, 72, 0.96);
+  }
+
+  #component.consoleSidebarPanel .fervieContent .ui.selection.dropdown .menu>.item:hover {
+    background: #2b2b2b;
+    font-weight: 800;
+    color: rgba(200, 200, 200, 0.96);
+  }
+
+  #component.consoleSidebarPanel .fervieContent .ui.selection.dropdown .menu>.selected.item {
+    background: rgba(100, 53, 201, 0.96);
+    color: rgba(255, 255, 255, 0.96);
+  }
+
+  /** end drop down styles */
+
+
   #component.consoleSidebarPanel .fervieContent .react-colorful {
     padding-top: 20px;
-    height: 240px;
+    height: 150px;
+    width: 75%;
+    margin: auto;
   }
 
   /***** FERVIE SVG ANIMATIONS *****/
-
-  /*.haircolor {*/
-    /*fill: #B042FF;*/
-  /*}*/
 
   #eyelids {
     display: none;
@@ -664,7 +718,6 @@
     fill: #ff00ff;
   }
 
-
   .heartglassframe {
     fill: #ff00ff;
   }
@@ -689,147 +742,207 @@
     animation-fill-mode: none;
   }
 
-
   @keyframes blinkclose {
-    0%,14% {
+
+    0%,
+    14% {
       visibility: hidden;
     }
-    15%,16% {
+
+    15%,
+    16% {
       visibility: visible;
     }
-    17%, 38% {
+
+    17%,
+    38% {
       visibility: hidden;
     }
-    39%,40% {
+
+    39%,
+    40% {
       visibility: visible;
     }
-    41%,68% {
+
+    41%,
+    68% {
       visibility: hidden;
     }
-    69%,76% {
+
+    69%,
+    76% {
       visibility: visible;
     }
-    77%,93% {
+
+    77%,
+    93% {
       visibility: hidden;
     }
-    94%,95% {
+
+    94%,
+    95% {
       visibility: visible;
     }
-    96%,100% {
+
+    96%,
+    100% {
       visibility: hidden;
     }
   }
 
   @keyframes blinkeyes {
-    0%,13% {
+
+    0%,
+    13% {
       visibility: hidden;
     }
+
     14% {
       visibility: visible;
     }
+
     15% {
       visibility: hidden;
     }
-    16%,17% {
+
+    16%,
+    17% {
       visibility: visible;
     }
-    18%, 37% {
+
+    18%,
+    37% {
       visibility: hidden;
     }
+
     38% {
       visibility: visible;
     }
+
     39% {
       visibility: hidden;
     }
-    40%,41% {
+
+    40%,
+    41% {
       visibility: visible;
     }
-    42%,67% {
+
+    42%,
+    67% {
       visibility: hidden;
     }
+
     68% {
       visibility: visible;
     }
-    69%,76% {
+
+    69%,
+    76% {
       visibility: hidden;
     }
-    77%,78% {
+
+    77%,
+    78% {
       visibility: visible;
     }
-    79%,92% {
+
+    79%,
+    92% {
       visibility: hidden;
     }
+
     93% {
       visibility: visible;
     }
+
     94% {
       visibility: hidden;
     }
-    95%,96% {
+
+    95%,
+    96% {
       visibility: visible;
     }
-    97%,100% {
+
+    97%,
+    100% {
       visibility: hidden;
     }
-
   }
 
   @keyframes eyemove {
-    0%,18% {
+
+    0%,
+    18% {
       transform: translateX(0px) translateY(0px);
       transform-box: fill-box;
     }
-    19%,42% {
+
+    19%,
+    42% {
       transform: translateX(7px) translateY(-2px);
       transform-box: fill-box;
     }
-    43%,100% {
+
+    43%,
+    100% {
       transform: translateX(0px) translateY(0px);
       transform-box: fill-box;
     }
   }
 
   @keyframes sway {
-    0%,4% {
+
+    0%,
+    4% {
       transform: rotate(0deg);
       transform-origin: bottom center;
       transform-box: fill-box;
     }
-    5%,19% {
-      transform: rotate(2deg);
-      transform-origin: bottom center;
-      transform-box: fill-box;
-    }
-    20%,28% {
-      transform: rotate(0deg);
-      transform-origin: bottom center;
-      transform-box: fill-box;
-    }
-    29%,42% {
-      transform: rotate(2deg);
-      transform-origin: bottom center;
-      transform-box: fill-box;
-    }
-    43%,59% {
-      transform: rotate(0deg);
-      transform-origin: bottom center;
-      transform-box: fill-box;
-    }
-    60%,79% {
+
+    5%,
+    19% {
       transform: rotate(2deg);
       transform-origin: bottom center;
       transform-box: fill-box;
     }
 
-    80%,100% {
+    20%,
+    28% {
+      transform: rotate(0deg);
+      transform-origin: bottom center;
+      transform-box: fill-box;
+    }
+
+    29%,
+    42% {
+      transform: rotate(2deg);
+      transform-origin: bottom center;
+      transform-box: fill-box;
+    }
+
+    43%,
+    59% {
+      transform: rotate(0deg);
+      transform-origin: bottom center;
+      transform-box: fill-box;
+    }
+
+    60%,
+    79% {
+      transform: rotate(2deg);
+      transform-origin: bottom center;
+      transform-box: fill-box;
+    }
+
+    80%,
+    100% {
       transform: rotate(0deg);
       transform-origin: bottom center;
       transform-box: fill-box;
     }
   }
-
-
 
   /*
        * COMPONENT: CONSOLE-SIDEBAR-CIRCUITS

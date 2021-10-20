@@ -42,10 +42,9 @@ export class FervieClient extends BaseClient {
    */
   static init(scope) {
     if (!FervieClient.instance) {
-        FervieClient.instance = new FervieClient(scope);
+      FervieClient.instance = new FervieClient(scope);
     }
   }
-
 
   /**
    * saves configured fervie details like color and accessories then pushes an update over gridtalk
@@ -65,19 +64,19 @@ export class FervieClient extends BaseClient {
     callback
   ) {
     let event = FervieClient.instance.createClientEvent(
-        FervieClient.Events.SAVE_FERVIE_DETAILS,
+      FervieClient.Events.SAVE_FERVIE_DETAILS,
       {
-          fervieColor: fervieColor,
-          fervieSecondaryColor: fervieSecondaryColor,
-          fervieTertiaryColor: fervieTertiaryColor,
-          fervieAccessory: fervieAccessory
+        fervieColor: fervieColor,
+        fervieSecondaryColor: fervieSecondaryColor,
+        fervieTertiaryColor: fervieTertiaryColor,
+        fervieAccessory: fervieAccessory
       },
       scope,
       callback
     );
 
     //okay, I'm defining an event here, but I dont think I'm dispatching it maybe
-      FervieClient.instance.notifyFervie(event);
+    FervieClient.instance.notifyFervie(event);
     return event;
   }
 

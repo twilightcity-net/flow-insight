@@ -145,7 +145,8 @@ module.exports = class BaseController {
         "startWTFWithCustomCircuitName",
       JOIN_WTF: "joinWTF",
       LEAVE_WTF: "leaveWTF",
-      GET_ALL_MY_PARTICIPATING_CIRCUITS: "getAllMyParticipatingCircuits",
+      GET_ALL_MY_PARTICIPATING_CIRCUITS:
+        "getAllMyParticipatingCircuits",
       GET_ALL_MY_DO_IT_LATER_CIRCUITS:
         "getAllMyDoItLaterCircuits",
       GET_ALL_MY_RETRO_CIRCUITS: "getAllMyRetroCircuits",

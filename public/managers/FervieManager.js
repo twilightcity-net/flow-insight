@@ -1,5 +1,5 @@
 const FervieController = require("../controllers/FervieController"),
-log = require("electron-log");
+  log = require("electron-log");
 
 /**
  * managing class for the fervie client
@@ -15,6 +15,6 @@ module.exports = class FervieManager {
   }
 
   init(callback) {
-      //nothing to do for preloading
+    //nothing to do for preloading
   }
 };

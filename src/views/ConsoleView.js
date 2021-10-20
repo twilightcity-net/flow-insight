@@ -10,7 +10,7 @@ import { JournalClient } from "../clients/JournalClient";
 import { TeamClient } from "../clients/TeamClient";
 import { TeamCircuitClient } from "../clients/TeamCircuitClient";
 import { MemberClient } from "../clients/MemberClient";
-import {FervieClient} from "../clients/FervieClient";
+import { FervieClient } from "../clients/FervieClient";
 
 /**
  * This View will contain logic to inject the various tabs of the

@@ -110,18 +110,17 @@ export default class TeamPanel extends Component {
    * called to refresh the team panel with new data
    */
   refreshTeamPanel() {
-
     if (this.state.houseName == null) {
-        TeamClient.getActiveHouse(this, arg => {
-            if (arg.error) {
-                this.error = arg.error;
-            } else {
-                this.error = null;
-                this.setState({
-                    houseName: arg.data.houseName
-                });
-            }
-        });
+      TeamClient.getActiveHouse(this, arg => {
+        if (arg.error) {
+          this.error = arg.error;
+        } else {
+          this.error = null;
+          this.setState({
+            houseName: arg.data.houseName
+          });
+        }
+      });
     }
 
     TeamClient.getAllMyTeams(this, arg => {
