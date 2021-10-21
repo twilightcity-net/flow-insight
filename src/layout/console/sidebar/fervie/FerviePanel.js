@@ -34,7 +34,7 @@ export default class FerviePanel extends Component {
     this.whatToColorOptions = [
         {key: 0, value: FerviePanel.Colorables.FUR, text: FerviePanel.Colorables.FUR},
         {key: 1, value: FerviePanel.Colorables.SHOES, text: FerviePanel.Colorables.SHOES},
-        {key: 2, value: FerviePanel.Colorables.SUNGLASSES, text: FerviePanel.Colorables.SUNGLASSES}
+        {key: 2, value: FerviePanel.Colorables.ACCESSORY, text: FerviePanel.Colorables.ACCESSORY}
     ];
 
     this.render3d = false;
@@ -88,7 +88,7 @@ export default class FerviePanel extends Component {
       return {
           FUR: "Fur",
           SHOES: "Shoes",
-          SUNGLASSES: "Sunglasses"
+          ACCESSORY: "Accessory"
       };
   }
 
@@ -325,7 +325,7 @@ export default class FerviePanel extends Component {
         this.setState({
             fervieSecondaryColor: this.state.color
         });
-    } else if (this.state.whatToColor === FerviePanel.Colorables.SUNGLASSES) {
+    } else if (this.state.whatToColor === FerviePanel.Colorables.ACCESSORY) {
         fervieTertiaryColor = this.state.color;
         this.setState({
             fervieTertiaryColor: this.state.color
@@ -362,7 +362,7 @@ export default class FerviePanel extends Component {
             this.setState({
                 fervieSecondaryColor: this.state.color
             });
-        } else if (this.state.whatToColor === FerviePanel.Colorables.SUNGLASSES) {
+        } else if (this.state.whatToColor === FerviePanel.Colorables.ACCESSORY) {
             this.setState({
                 fervieTertiaryColor: this.state.color
             });
@@ -373,7 +373,7 @@ export default class FerviePanel extends Component {
             newColor = this.state.fervieColor;
         } else if (value === FerviePanel.Colorables.SHOES) {
             newColor = this.state.fervieSecondaryColor;
-        } else if (value === FerviePanel.Colorables.SUNGLASSES) {
+        } else if (value === FerviePanel.Colorables.ACCESSORY) {
             newColor = this.state.fervieTertiaryColor;
         }
 
@@ -474,7 +474,7 @@ export default class FerviePanel extends Component {
                 this.setState({color: color, fervieColor: color});
               } else if (this.state.whatToColor === FerviePanel.Colorables.SHOES) {
                 this.setState({color: color, fervieSecondaryColor: color});
-              } else if (this.state.whatToColor === FerviePanel.Colorables.SUNGLASSES) {
+              } else if (this.state.whatToColor === FerviePanel.Colorables.ACCESSORY) {
                 this.setState({color: color, fervieTertiaryColor : color});
               }
             }}

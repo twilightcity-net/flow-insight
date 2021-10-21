@@ -45,7 +45,8 @@ export class MemberClient extends BaseClient {
     return {
       UPDATE_ME: "update-me",
       LOAD_ME: "load-me",
-      GET_ME: "get-me"
+      GET_ME: "get-me",
+      GET_MEMBER: "get-member"
     };
   }
 
@@ -77,6 +78,17 @@ export class MemberClient extends BaseClient {
     let event = MemberClient.instance.createClientEvent(
       MemberClient.Events.GET_ME,
       {},
+      scope,
+      callback
+    );
+    MemberClient.instance.notifyMember(event);
+    return event;
+  }
+
+  static getMember(username, scope, callback) {
+    let event = MemberClient.instance.createClientEvent(
+      MemberClient.Events.GET_MEMBER,
+      {username : username},
       scope,
       callback
     );

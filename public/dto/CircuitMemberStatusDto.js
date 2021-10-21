@@ -9,10 +9,15 @@ class CircuitMemberStatusDto {
       this.memberId = json.memberId;
       this.displayName = json.displayName;
       this.fullName = json.fullName;
-      this.wtfJoinTime = json.wtfJoinTime;
-      this.wtfRoomStatus = json.wtfRoomStatus;
-      this.retroJoinTime = json.retroJoinTime;
-      this.retroRoomStatus = json.retroRoomStatus;
+      this.username = json.username;
+
+      this.lastActive = json.lastActive;
+      this.onlineStatus = json.onlineStatus;
+
+      this.fervieColor = json.fervieColor;
+      this.fervieSecondaryColor = json.fervieSecondaryColor;
+      this.fervieTertiaryColor = json.fervieTertiaryColor;
+      this.fervieAccessory = json.fervieAccessory;
     } catch (e) {
       throw new Error(
         "Unable to create dto 'LearningCircuitDto' : " +
