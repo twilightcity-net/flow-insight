@@ -29,7 +29,8 @@ class MemberController extends BaseController {
     return {
       UPDATE_ME: "update-me",
       LOAD_ME: "load-me",
-      GET_ME: "get-me"
+      GET_ME: "get-me",
+      GET_MEMBER: "get-member"
     };
   }
 
@@ -80,6 +81,9 @@ class MemberController extends BaseController {
           break;
         case MemberController.Events.GET_ME:
           this.handleGetMeEvent(event, arg);
+          break;
+        case MemberController.Events.GET_MEMBER:
+          this.handleGetMemberEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -175,6 +179,29 @@ class MemberController extends BaseController {
       callback
     );
   }
+
+  /**
+   * get a member by username from the local DB, doesnt fallback to gridtime
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetMemberEvent(event, arg, callback) {
+    let username = arg.args.username;
+
+    let database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.MEMBER
+    );
+
+    arg.data = database.getMemberByUsername(username);
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
 
   /**
    * this is a helper function which uses our client event bus to

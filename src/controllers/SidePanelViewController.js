@@ -141,6 +141,7 @@ export class SidePanelViewController extends ActiveViewController {
     return {
       FERVIE: "fervie",
       BADGES: "badges",
+      SKILLS: "skills",
       TEAMS: "teams",
       LIVE_CIRCUITS: "live-circuits",
       DO_IT_LATER_CIRCUITS: "do-it-later-circuits",
@@ -156,7 +157,9 @@ export class SidePanelViewController extends ActiveViewController {
    */
   static get AnimationTypes() {
     return {
-      FLY_DOWN: "fade down"
+      FLY_DOWN: "fade down",
+      FADE_IN: "fade right",
+      SLIDE_IN: "slide left"
     };
   }
 

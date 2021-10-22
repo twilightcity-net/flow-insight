@@ -103,6 +103,8 @@ export default class FervieCanvas extends Component {
 
     let insideShoeColor = this.getShoeInsideColor(this.props.shoecolor);
 
+    console.log("fervie accessory = "+this.props.accessory);
+
     return (
       <svg
         id="FervieCanvas"
@@ -358,7 +360,7 @@ export default class FervieCanvas extends Component {
             </g>
           </g>
 
-          <g id="eyes">
+          <g id="eyes" style={(!this.props.accessory ? {display:"block"} : {display:"none"})}>
             <g id="left-eye">
               <g
                 id="left-eye-white"
@@ -525,11 +527,11 @@ export default class FervieCanvas extends Component {
             </g>
           </g>
 
-          <g id="shades">
+          <g id="shades" style={(this.props.accessory === "SUNGLASSES" ? {display:"block"} : {display:"none"})}>
             <g transform="matrix( 0.606048583984375, 0.090057373046875, -0.090057373046875, 0.606048583984375, -85.95,-15) ">
               <path
                 className="sunglassframe"
-                fill={this.props.sunglasscolor}
+                fill={this.props.accessorycolor}
                 stroke="none"
                 d="
 M 662.4 157.05
@@ -583,10 +585,11 @@ Q 267.80968780517577 113.78881683349607 294.98446197509764 135.17098846435547 29
             </g>
           </g>
 
-          <g id="heartsunglasses">
+          <g id="heartsunglasses" style={(this.props.accessory === "HEARTGLASSES" ? {display:"block"} : {display:"none"})}>
             <g>
               <path
-                fill={this.props.sunglasscolor}   /* original color "#A12E79" */
+                className={"heartglassframe"}
+                fill={this.props.accessorycolor}   /* original color "#A12E79" */
                 stroke="none"
                 d="
 		M 135.05 98.95
@@ -599,7 +602,7 @@ Q 267.80968780517577 113.78881683349607 294.98446197509764 135.17098846435547 29
 
               <path
                 className="heartglassframe"
-                fill="#CC00CC"
+                fill={this.props.accessorycolor}
                 stroke="none"
                 d="
 		M 237.9 111.65

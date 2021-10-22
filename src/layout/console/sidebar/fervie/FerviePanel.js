@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import {
-    Button, Dropdown,
-    Menu,
-    Popup,
-    Progress,
-    Segment,
-    Transition
+  Button, Dropdown, Icon, List,
+  Menu,
+  Popup,
+  Progress,
+  Segment,
+  Transition
 } from "semantic-ui-react";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
@@ -17,6 +17,8 @@ import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../clients/BaseClient";
 import { HexColorPicker } from "react-colorful";
 import { FervieClient } from "../../../../clients/FervieClient";
+import LiveCircuitListItem from "../circuits/LiveCircuitListItem";
+import SkillListItem from "./SkillListItem";
 /**
  * this class is responsible for storing the users fervie avatar, xp, inventory,
  * and accessories. Currently this only uses a simple canvas but will use
@@ -49,6 +51,7 @@ export default class FerviePanel extends Component {
     let fervieColor = MemberClient.me.fervieColor;
     let fervieSecondaryColor = MemberClient.me.fervieSecondaryColor;
     let fervieTertiaryColor = MemberClient.me.fervieTertiaryColor;
+    let fervieAccessory = MemberClient.me.fervieAccessory;
 
     if (fervieColor === undefined || fervieColor === null) {
       fervieColor = "#B042FF";
@@ -62,10 +65,13 @@ export default class FerviePanel extends Component {
         fervieTertiaryColor = "#000000";
     }
 
+    //TODO active skill is based on the active accessory name
+
     this.state = {
       activeItem:
         SidePanelViewController.SubmenuSelection.FERVIE,
       fervieVisible: false,
+      skillsVisible: false,
       badgesVisible: false,
       xpSummary: MemberClient.me.xpSummary,
       pickColorVisible: false,
@@ -73,7 +79,9 @@ export default class FerviePanel extends Component {
       fervieColor: fervieColor,
       fervieSecondaryColor: fervieSecondaryColor,
       fervieTertiaryColor: fervieTertiaryColor,
-      whatToColor: FerviePanel.Colorables.FUR
+      fervieAccessory: fervieAccessory,
+      whatToColor: FerviePanel.Colorables.FUR,
+      activeSkill: null
     };
     this.me = MemberClient.me;
 
@@ -129,7 +137,8 @@ export default class FerviePanel extends Component {
       activeItem:
         SidePanelViewController.SubmenuSelection.FERVIE,
       fervieVisible: true,
-      badgesVisible: false
+      badgesVisible: false,
+      skillsVisible:false
     });
   }
 
@@ -141,7 +150,21 @@ export default class FerviePanel extends Component {
       activeItem:
         SidePanelViewController.SubmenuSelection.BADGES,
       fervieVisible: false,
-      badgesVisible: true
+      badgesVisible: true,
+      skillsVisible: false
+    });
+  }
+
+  /**
+   * the function that is called to open and display the skills panel in the side
+   */
+  showSkillsPanel() {
+    this.setState({
+      activeItem:
+      SidePanelViewController.SubmenuSelection.SKILLS,
+      fervieVisible: false,
+      badgesVisible: false,
+      skillsVisible: true
     });
   }
 
@@ -153,6 +176,16 @@ export default class FerviePanel extends Component {
   handleFervieClick = (e, { name }) => {
     this.myController.changeActiveFervieSubmenuPanel(name);
   };
+
+  /**
+   * updates the display to show the skills content
+   * @param e - the menu event that was dispatched
+   * @param name - the name of the menu that was clicked
+   */
+  handleSkillsClick = (e, { name }) => {
+    this.myController.changeActiveFervieSubmenuPanel(name);
+  };
+
 
   /**
    * updates the display to show the badges content
@@ -189,6 +222,9 @@ export default class FerviePanel extends Component {
       case SidePanelViewController.SubmenuSelection.BADGES:
         this.showBadgesPanel();
         break;
+      case SidePanelViewController.SubmenuSelection.SKILLS:
+        this.showSkillsPanel();
+        break;
       default:
         throw new Error(
           "Unknown fervie panel type '" +
@@ -214,16 +250,107 @@ export default class FerviePanel extends Component {
    * @returns {*}
    */
   getBadgesContent = () => {
+
     return (
       <div
         className="badgesContent"
         style={{
-          height:
-            DimensionController.getConsoleLayoutHeight() -
-            61
+          height: 443
         }}
       >
         <i>Check back later :)</i>
+      </div>
+    );
+  };
+
+  /**
+   * gets the skills content panel for the sidebar
+   * @returns {*}
+   */
+  getSkillsContent = () => {
+    return (
+      <div className="fervieSkillsContent"
+           style={{
+             height: 443
+           }}
+      >
+        <List
+          inverted
+          divided
+          celled
+          animated
+          verticalAlign="middle"
+          size="large"
+        >
+          <SkillListItem
+            idkey={"1"}
+            isActive={this.state.fervieAccessory === "SUNGLASSES"}
+            skillName={"Fervie Neo"}
+            skillEffect={"Earn 10% bonus XP while you learn the command line tools, and receive badges for exploring new commands"}
+            skillBonus={"+10% bonus XP"}
+            currentLevel={this.state.xpSummary.level}
+            skillLevelRequired={5}
+            xpToLevel={this.state.xpSummary.xpRequiredToLevel}
+            accessoryName={"Sunglasses"}
+            fervieAccessory={"SUNGLASSES"}
+            onSkillItemClick={
+              (itemComp) => {
+                this.setState(prevState => {
+
+                  if (prevState.fervieAccessory === itemComp.props.fervieAccessory) {
+                    this.saveFervieDetailsToServer(this.state.fervieColor, this.state.fervieSecondaryColor, null, null);
+                    return {
+                      fervieAccessory: null,
+                      fervieTertiaryColor: null
+                    }
+                  } else {
+                    this.saveFervieDetailsToServer(this.state.fervieColor, this.state.fervieSecondaryColor, "#000000", itemComp.props.fervieAccessory);
+
+                    return {
+                      fervieAccessory: itemComp.props.fervieAccessory,
+                      fervieTertiaryColor: "#000000"
+                    }
+                  }
+
+                });
+              }
+            }
+          />
+          <SkillListItem
+            idkey={"2"}
+            isActive={this.state.fervieAccessory === "HEARTGLASSES"}
+            skillName={"Fervie Love"}
+            skillEffect={"Earn 10% bonus XP when you help your teammates troubleshoot, and receive badges for helping out"}
+            skillBonus={"+10% bonus XP"}
+            currentLevel={this.state.xpSummary.level}
+            skillLevelRequired={5}
+            xpToLevel={this.state.xpSummary.xpRequiredToLevel}
+            accessoryName={"Sunglasses"}
+            fervieAccessory={"HEARTGLASSES"}
+            onSkillItemClick={
+              (itemComp) => {
+                this.setState(prevState => {
+                  if (prevState.fervieAccessory === itemComp.props.fervieAccessory) {
+                    this.saveFervieDetailsToServer(this.state.fervieColor, this.state.fervieSecondaryColor, null, null);
+                    return {
+                      fervieAccessory: null,
+                      fervieTertiaryColor: null
+                    }
+                  } else {
+                    this.saveFervieDetailsToServer(this.state.fervieColor, this.state.fervieSecondaryColor, "#A12E79", itemComp.props.fervieAccessory);
+                    return {
+                      fervieAccessory: itemComp.props.fervieAccessory,
+                      fervieTertiaryColor: "#A12E79"
+                    }
+                  }
+
+
+;
+                });
+              }
+            }
+          />
+        </List>
       </div>
     );
   };
@@ -283,18 +410,18 @@ export default class FerviePanel extends Component {
    * @returns {*}
    */
   getFervieCanvas = () => {
+
     return (
       <div
         style={{
-          height:
-            DimensionController.getConsoleLayoutHeight() -
-            118
+          height: 364
         }}
       >
         <FervieCanvas
           haircolor={this.state.fervieColor}
           shoecolor={this.state.fervieSecondaryColor}
-          sunglasscolor={this.state.fervieTertiaryColor}
+          accessorycolor={this.state.fervieTertiaryColor}
+          accessory={this.state.fervieAccessory}
           render3d={this.render3d}
         />
       </div>
@@ -337,7 +464,28 @@ export default class FerviePanel extends Component {
       fervieColor,
       fervieSecondaryColor,
       fervieTertiaryColor,
-      null,
+      this.state.fervieAccessory,
+      this,
+      arg => {
+        if (!arg.error && arg.data) {
+          console.log("Saved");
+        } else {
+          console.error("Error: " + arg.error);
+        }
+      }
+    );
+  };
+
+  /**
+   * When accessory skill is chosen, save changes to the server
+   */
+  saveFervieDetailsToServer = (fervieColor, secondaryColor, tertiaryColor, accessory) => {
+
+    FervieClient.saveFervieDetails(
+      fervieColor,
+      secondaryColor,
+      tertiaryColor,
+      accessory,
       this,
       arg => {
         if (!arg.error && arg.data) {
@@ -384,19 +532,33 @@ export default class FerviePanel extends Component {
 
     };
 
+
   /**
    * gets button panel below our fervie
    * @returns {*}
    */
   getFervieButtonPanel = () => {
+    const options = [
+      { key: 'new', text: 'New', value: 'new' },
+      { key: 'save', text: 'Save as...', value: 'save' },
+      { key: 'edit', text: 'Edit', value: 'edit' },
+    ]
+
     return (
       <div className="fervieButtons">
+
+        <Button icon size="mini" color="violet" onClick={() => {
+          this.showSkillsPanel();
+        }}>
+          <Icon name='gem outline' />
+
+        </Button>
         <Button
           onClick={this.handleChooseColorOnClick}
           size="mini"
           color="violet"
         >
-          Choose Color
+          Choose Colors
         </Button>
       </div>
     );
@@ -442,7 +604,8 @@ export default class FerviePanel extends Component {
           <FervieCanvas
             haircolor={this.state.fervieColor}
             shoecolor={this.state.fervieSecondaryColor}
-            sunglasscolor={this.state.fervieTertiaryColor}
+            accessorycolor={this.state.fervieTertiaryColor}
+            accessory={this.state.fervieAccessory}
             render3d={this.render3d}
           />
         </div>
@@ -516,6 +679,7 @@ export default class FerviePanel extends Component {
 
     const fervieContent = this.getFervieContent();
     const badgesContent = this.getBadgesContent();
+    const skillsContent = this.getSkillsContent();
 
     return (
       <div
@@ -544,6 +708,18 @@ export default class FerviePanel extends Component {
             <Menu.Item
               name={
                 SidePanelViewController.SubmenuSelection
+                  .SKILLS
+              }
+              active={
+                activeItem ===
+                SidePanelViewController.SubmenuSelection
+                  .SKILLS
+              }
+              onClick={this.handleSkillsClick}
+            />
+            <Menu.Item
+              name={
+                SidePanelViewController.SubmenuSelection
                   .BADGES
               }
               active={
@@ -565,6 +741,14 @@ export default class FerviePanel extends Component {
               unmountOnHide
             >
               {fervieContent}
+            </Transition>
+            <Transition
+              visible={this.state.skillsVisible}
+              animation={this.state.animationType}
+              duration={this.state.animationDelay}
+              unmountOnHide
+            >
+              {skillsContent}
             </Transition>
             <Transition
               visible={this.state.badgesVisible}

@@ -193,4 +193,15 @@ module.exports = class MemberDatabase extends LokiJS {
 
     DatabaseUtil.log("update member -> ME", member.id);
   }
+
+  getMemberByUsername(username) {
+    let collection = this.getCollection(
+      MemberDatabase.Collections.MEMBERS
+    );
+
+    let model = collection.find({ username: username });
+
+    return model;
+  }
+
 };

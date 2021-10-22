@@ -563,6 +563,8 @@
   #component.consoleSidebarPanel .fervieContent .ui.progress .label,
   #component.consoleSidebarPanel .badgesContent {
     white-space: nowrap;
+    position: relative;
+    top: 0px;
   }
 
   #component.consoleSidebarPanel .fervieContent svg {
@@ -700,26 +702,6 @@
     animation-iteration-count: infinite;
     animation-direction: normal;
     animation-fill-mode: none;
-  }
-
-  #eyes {
-    display: block;
-  }
-
-  #shades {
-    display: none;
-  }
-
-  #heartsunglasses {
-    display: none;
-  }
-
-  .sunglassframe {
-    fill: #ff00ff;
-  }
-
-  .heartglassframe {
-    fill: #ff00ff;
   }
 
   #left-pupil-wrap {
@@ -944,6 +926,85 @@
     }
   }
 
+/** FERVIE SKILLS PANEL styles **/
+
+  #component.consoleSidebarPanel .fervieSkillsContent {
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .active {
+    background: #272727;
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .ui.list .item .content .header {
+    font-size: 1rem;
+    line-height: 1rem;
+    padding-left: 0.210em;
+    color: rgba(211, 211, 211, 1);
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .ui.list .item .content i.description {
+    font-weight: normal;
+    font-size: 1rem;
+    padding-left: 0.420em;
+    color: rgba(211, 211, 211, 1);
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .skillBonusButton {
+    margin-top: -0.420em;
+    transform: translateY(50%);
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .ui.list .item .skillBonusButton .ui.violet.label.active  {
+    background: #6435c9 !important;
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .ui.list .item.selected {
+    background: rgba(48, 48, 49, 1);
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .ui.list .item.selected .skillBonusButton .ui.label {
+    background: red !important;
+    color: white !important;
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .ui.list .item .skillBonusButton .ui.label {
+    padding: 0.420em 0.840em;
+    background: rgba(48, 48, 48, 1) !important;
+    border: none;
+    color: rgb(233, 233, 233) !important;
+    transition: background 0.420s ease-out;
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .ui.list .item:hover .skillBonusButton .ui.label.violet {
+    background: #6435c9 !important;
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .ui.list .item:hover .skillBonusButton .ui.label.red {
+    background: red !important;
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .skillBonusButton i.lightning.icon {
+    margin-right: 0.210em;
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .ui.list .item {
+    padding: 0.840em;
+    transition: background 0.840s ease-out, padding 0.210s ease-out;
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .ui.list .item:hover {
+    padding-left: 1.260em;
+    background: #272727;
+  }
+
+  #component.consoleSidebarPanel .fervieSkillsContent .ui.list .item.selected {
+    padding-left: 1.260em;
+  }
+
+
+
   /*
        * COMPONENT: CONSOLE-SIDEBAR-CIRCUITS
        */
@@ -954,6 +1015,10 @@
   #component.consoleSidebarPanel .liveCircuitsContent {
     height: 100%;
     overflow-y: scroll;
+  }
+
+  #component.consoleSidebarPanel .liveCircuitsContent .active {
+    background: #272727;
   }
 
   #component.consoleSidebarPanel .liveCircuitsContent .ui.list .item .content .header {
@@ -973,6 +1038,10 @@
   #component.consoleSidebarPanel .liveCircuitsContent .circuitLabelTimer {
     margin-top: -0.420em;
     transform: translateY(50%);
+  }
+
+  #component.consoleSidebarPanel .liveCircuitsContent .ui.list .item .circuitLabelTimer .ui.violet.label.active  {
+    background: #6435c9 !important;
   }
 
   #component.consoleSidebarPanel .liveCircuitsContent .ui.list .item.selected {
