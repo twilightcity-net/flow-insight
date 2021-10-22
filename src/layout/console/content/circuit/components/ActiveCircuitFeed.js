@@ -139,20 +139,25 @@ export default class ActiveCircuitFeed extends Component {
     );
   }
 
-
   /**
    * Get the circuit member that matches the username
    * @param username
    * @returns {*}
    */
   getCircuitMemberForUsername(username) {
-    for (let i = 0; i < this.props.circuitMembers.length; i++) {
-      if (this.props.circuitMembers[i].username === username) {
+    for (
+      let i = 0;
+      i < this.props.circuitMembers.length;
+      i++
+    ) {
+      if (
+        this.props.circuitMembers[i].username === username
+      ) {
         return this.props.circuitMembers[i];
       }
     }
 
-    return null
+    return null;
   }
 
   /**
@@ -165,7 +170,9 @@ export default class ActiveCircuitFeed extends Component {
         return (
           <ActiveCircuitFeedEvent
             key={i}
-            circuitMember={this.getCircuitMemberForUsername(message.name)}
+            circuitMember={this.getCircuitMemberForUsername(
+              message.name
+            )}
             name={message.name}
             time={message.time}
             texts={message.text}
@@ -178,7 +185,9 @@ export default class ActiveCircuitFeed extends Component {
         return (
           <ActiveCircuitFeedEvent
             key={i}
-            circuitMember={this.getCircuitMemberForUsername(message.name)}
+            circuitMember={this.getCircuitMemberForUsername(
+              message.name
+            )}
             name={message.name}
             time={message.time}
             texts={message.text}

@@ -36,7 +36,7 @@ export default class LoadingView extends Component {
       label: "Populating cats and synthesizers"
     };
     this.state = {
-      appVersion: "TC_0.5.6",
+      appVersion: "TC_0.5.7",
       visible: true,
       header: this.header,
       progress: this.progress,

@@ -202,7 +202,6 @@ class MemberController extends BaseController {
     );
   }
 
-
   /**
    * this is a helper function which uses our client event bus to
    * give the client a reference of our new member me dto that is us.

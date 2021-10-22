@@ -85,25 +85,32 @@ export default class FervieCanvas extends Component {
     return this.rgbToHex(rgb.r, rgb.g, rgb.b);
   }
 
-
   rgbToHex(r, g, b) {
-    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+    return (
+      "#" +
+      ((1 << 24) + (r << 16) + (g << 8) + b)
+        .toString(16)
+        .slice(1)
+    );
   }
 
   hexToRgb(hex) {
-    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    } : null;
+    let result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(
+      hex
+    );
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16)
+        }
+      : null;
   }
 
   getFervieSvg() {
-
-    let insideShoeColor = this.getShoeInsideColor(this.props.shoecolor);
-
-    console.log("fervie accessory = "+this.props.accessory);
+    let insideShoeColor = this.getShoeInsideColor(
+      this.props.shoecolor
+    );
 
     return (
       <svg
@@ -115,7 +122,6 @@ export default class FervieCanvas extends Component {
         height="525px"
         viewBox="0 0 430 525"
       >
-
         <defs>
           <linearGradient
             id="Gradient_1"
@@ -360,7 +366,14 @@ export default class FervieCanvas extends Component {
             </g>
           </g>
 
-          <g id="eyes" style={(!this.props.accessory ? {display:"block"} : {display:"none"})}>
+          <g
+            id="eyes"
+            style={
+              !this.props.accessory
+                ? { display: "block" }
+                : { display: "none" }
+            }
+          >
             <g id="left-eye">
               <g
                 id="left-eye-white"
@@ -527,7 +540,14 @@ export default class FervieCanvas extends Component {
             </g>
           </g>
 
-          <g id="shades" style={(this.props.accessory === "SUNGLASSES" ? {display:"block"} : {display:"none"})}>
+          <g
+            id="shades"
+            style={
+              this.props.accessory === "SUNGLASSES"
+                ? { display: "block" }
+                : { display: "none" }
+            }
+          >
             <g transform="matrix( 0.606048583984375, 0.090057373046875, -0.090057373046875, 0.606048583984375, -85.95,-15) ">
               <path
                 className="sunglassframe"
@@ -585,11 +605,20 @@ Q 267.80968780517577 113.78881683349607 294.98446197509764 135.17098846435547 29
             </g>
           </g>
 
-          <g id="heartsunglasses" style={(this.props.accessory === "HEARTGLASSES" ? {display:"block"} : {display:"none"})}>
+          <g
+            id="heartsunglasses"
+            style={
+              this.props.accessory === "HEARTGLASSES"
+                ? { display: "block" }
+                : { display: "none" }
+            }
+          >
             <g>
               <path
                 className={"heartglassframe"}
-                fill={this.props.accessorycolor}   /* original color "#A12E79" */
+                fill={
+                  this.props.accessorycolor
+                } /* original color "#A12E79" */
                 stroke="none"
                 d="
 		M 135.05 98.95

@@ -88,7 +88,7 @@ export class MemberClient extends BaseClient {
   static getMember(username, scope, callback) {
     let event = MemberClient.instance.createClientEvent(
       MemberClient.Events.GET_MEMBER,
-      {username : username},
+      { username: username },
       scope,
       callback
     );
