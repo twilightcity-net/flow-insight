@@ -114,7 +114,6 @@ export default class SkillListItem extends Component {
       <List.Item
         className={this.getClassName() + "disabled"}
         key={this.props.idkey}
-        onClick={this.handleClick}
       >
         <List.Content
           floated="right"
