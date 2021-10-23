@@ -47,6 +47,11 @@ export default class ActiveCircuit extends Component {
     this.animationType = "fade";
     this.animationDelay = 210;
     this.me = MemberClient.me;
+    this.loadCount = 0;
+    this.missingMemberLoadCount = 0;
+    this.missingMembers = [];
+    this.messages = [];
+    this.circuitMembers = [];
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
       this
@@ -66,6 +71,7 @@ export default class ActiveCircuit extends Component {
       feedEvents: [],
       status: [],
       circuitMembers: [],
+      missingMembers: [],
       circuitState: null
     };
   }
@@ -125,33 +131,131 @@ export default class ActiveCircuit extends Component {
    * @param messages
    */
   loadCircuit(circuitName, model, messages) {
+    this.loadCount = 0;
     CircuitClient.getCircuitWithAllDetails(
       circuitName,
       this,
       arg => {
-        model = arg.data;
-        this.updateStateModels(model);
+        this.model = arg.data;
+        this.updateStateModels(this.model);
         TalkToClient.getAllTalkMessagesFromRoom(
-          model.wtfTalkRoomName,
-          model.wtfTalkRoomId,
+          this.model.wtfTalkRoomName,
+          this.model.wtfTalkRoomId,
           this,
           arg => {
-            this.updateStateFeedEventsFromMessages(
-              model,
-              arg.data
-            );
+            this.messages = arg.data;
+            this.loadCount++;
+            this.updateStateIfDoneLoading();
+
           }
         );
         CircuitClient.loadCircuitMembers(
           circuitName,
-          model.wtfTalkRoomId,
+          this.model.wtfTalkRoomId,
           this,
           arg => {
-            this.updateStateCircuitMembers(arg.data);
+            this.circuitMembers = arg.data;
+            this.loadCount++;
+
+            this.updateStateIfDoneLoading();
           }
         );
       }
     );
+  }
+
+  /**
+   * Make sure the state updates happen at the same time, so we dont load the chat
+   * with incorrect profile pics, then fix it.  This loads the state at end, after loadcount == 2
+   */
+  updateStateIfDoneLoading() {
+    if (this.loadCount === 2) {
+
+      this.missingMemberNames = this.findMissingMembers(this.messages, this.circuitMembers);
+      this.loadMissingMemberProfiles(this.missingMemberNames);
+
+      console.log("missing members = "+JSON.stringify(this.missingMemberNames));
+
+      let feedEvents = this.convertToFeedEvents(
+        this.model,
+        this.messages
+      );
+
+
+
+      this.setState({
+        circuitMembers: this.circuitMembers,
+        messages: this.messages,
+        feedEvents: feedEvents
+      });
+    }
+  }
+
+  loadMissingMemberProfiles(missingUsernames) {
+    this.missingMemberLoadCount = 0;
+
+    for (let i = 0; i < missingUsernames.length; i++) {
+      MemberClient.getMember(missingUsernames[i], this, arg => {
+        this.missingMemberLoadCount++;
+        if (!arg.error && arg.data) {
+           this.missingMembers.push(arg.data);
+        } else {
+          console.error("Error: "+arg.error);
+        }
+        if (this.missingMemberLoadCount === missingUsernames.length) {
+           this.setState({
+             missingMembers: this.missingMembers
+           });
+        }
+      });
+
+
+    }
+
+  }
+
+  findMissingMembers(messages, circuitMembers) {
+    let uniqueUsernames = [];
+
+    for (let i = 0; i < messages.length;i++) {
+      let metaProps = messages[i].metaProps;
+      let username =
+        !!metaProps &&
+        metaProps[
+          ActiveCircuitFeed.fromUserNameMetaPropsStr
+          ];
+
+      if (!uniqueUsernames.includes(username)) {
+        uniqueUsernames.push(username);
+      }
+    }
+
+    let missingMembers = [];
+
+    for (let i = 0; i < uniqueUsernames.length; i++) {
+      let member = this.getCircuitMemberForUsername(circuitMembers, uniqueUsernames[i]);
+      if (member === null) {
+        missingMembers.push(uniqueUsernames[i]);
+      }
+    }
+    return missingMembers;
+  }
+
+  getCircuitMemberForUsername(circuitMembers, username) {
+
+    for (
+      let i = 0;
+      i < circuitMembers.length;
+      i++
+    ) {
+      if (
+        circuitMembers[i].username === username
+      ) {
+        return circuitMembers[i];
+      }
+    }
+
+    return null;
   }
 
   /**
@@ -577,6 +681,7 @@ export default class ActiveCircuit extends Component {
               model={this.state.model}
               circuitState={this.state.circuitState}
               circuitMembers={this.state.circuitMembers}
+              missingMembers={this.state.missingMembers}
               feedEvents={this.state.feedEvents}
               set={this.setCircuitFeedComponent}
             />

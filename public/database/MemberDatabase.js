@@ -201,6 +201,12 @@ module.exports = class MemberDatabase extends LokiJS {
 
     let model = collection.find({ username: username });
 
-    return model;
+    if (model.length > 0) {
+      return model[0];
+    } else {
+      return null;
+    }
+
+
   }
 };

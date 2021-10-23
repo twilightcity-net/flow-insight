@@ -12,9 +12,6 @@ import UtilRenderer from "../../../../../UtilRenderer";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import ActiveCircuitFeedEvent from "./ActiveCircuitFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
-import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
-import { BaseClient } from "../../../../../clients/BaseClient";
-import { CircuitClient } from "../../../../../clients/CircuitClient";
 
 /**
  * this is the gui component that displays the actual on going real-time
@@ -60,6 +57,10 @@ export default class ActiveCircuitFeed extends Component {
     this.name = "[ActiveCircuitFeed]";
     this.me = MemberClient.me;
     this.lastFeedEvent = null;
+    this.memberRequests = 0;
+    this.loadCount = 0;
+
+    this.pastChatMembersNotActive = [];
 
     this.props.set(this);
   }
@@ -72,6 +73,9 @@ export default class ActiveCircuitFeed extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
+
+    //make sure we've got all our circuit members, and if not, send a retrieval request for them
+
     this.scrollToFeedBottom();
   }
 
@@ -154,6 +158,12 @@ export default class ActiveCircuitFeed extends Component {
         this.props.circuitMembers[i].username === username
       ) {
         return this.props.circuitMembers[i];
+      }
+    }
+
+    for (let i = 0; i < this.props.missingMembers.length; i++) {
+      if (this.props.missingMembers[i].username === username) {
+        return this.props.missingMembers[i];
       }
     }
 
