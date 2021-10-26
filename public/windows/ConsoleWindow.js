@@ -15,7 +15,6 @@ const { BrowserWindow } = require("electron"),
  * @type {ConsoleWindow}
  */
 module.exports = class ConsoleWindow {
-
   /**
    * create a new console window
    */
@@ -39,8 +38,10 @@ module.exports = class ConsoleWindow {
       frame: false,
       movable: false,
       resizable: false,
+      hasShadow: false,
       offscreen: true,
       transparent: true,
+      hasShadow: false,
       icon: this.icon,
       fullscreenable: false,
       toolbar: false,
