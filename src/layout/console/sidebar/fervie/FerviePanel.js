@@ -412,7 +412,7 @@ export default class FerviePanel extends Component {
    * @returns {*}
    */
   getFervieTitle = () => {
-    let displayName = "Your Fervie!", //this.me.displayName,
+    let displayName = "Your Fervie", //this.me.displayName,
       xpPercent = UtilRenderer.getXpPercent(
         this.state.xpSummary.xpProgress,
         this.state.xpSummary.xpRequiredToLevel
