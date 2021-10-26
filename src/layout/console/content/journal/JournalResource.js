@@ -91,8 +91,7 @@ export default class JournalResource extends Component {
   onTalkRoomMessage = (event, arg) => {
     let mType = arg.messageType,
       data = arg.data,
-      username = data.username,
-      me = MemberClient.me;
+      username = data.username;
 
     switch (mType) {
       case BaseClient.MessageTypes

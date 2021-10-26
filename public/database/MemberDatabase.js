@@ -206,7 +206,5 @@ module.exports = class MemberDatabase extends LokiJS {
     } else {
       return null;
     }
-
-
   }
 };

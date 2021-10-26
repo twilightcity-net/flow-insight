@@ -20,7 +20,6 @@ import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../clients/BaseClient";
 import { HexColorPicker } from "react-colorful";
 import { FervieClient } from "../../../../clients/FervieClient";
-import LiveCircuitListItem from "../circuits/LiveCircuitListItem";
 import SkillListItem from "./SkillListItem";
 /**
  * this class is responsible for storing the users fervie avatar, xp, inventory,
@@ -413,7 +412,7 @@ export default class FerviePanel extends Component {
    * @returns {*}
    */
   getFervieTitle = () => {
-    let displayName = "Your Fervie", //this.me.displayName,
+    let displayName = "Your Fervie!", //this.me.displayName,
       xpPercent = UtilRenderer.getXpPercent(
         this.state.xpSummary.xpProgress,
         this.state.xpSummary.xpRequiredToLevel
@@ -607,12 +606,6 @@ export default class FerviePanel extends Component {
    * @returns {*}
    */
   getFervieButtonPanel = () => {
-    const options = [
-      { key: "new", text: "New", value: "new" },
-      { key: "save", text: "Save as...", value: "save" },
-      { key: "edit", text: "Edit", value: "edit" }
-    ];
-
     return (
       <div className="fervieButtons">
         <Button

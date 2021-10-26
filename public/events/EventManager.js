@@ -345,6 +345,10 @@ class EventManager {
     );
 
     for (var j = 0; j < windows.length; j++) {
+      // log.info("sending arg (raw): "+arg);
+      // log.info("sending arg: "+JSON.stringify(arg));
+      // log.info("eventtype: "+eventType);
+
       windows[j].window.webContents.send(eventType, arg);
     }
 

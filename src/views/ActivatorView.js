@@ -17,7 +17,7 @@ const { remote } = window.require("electron"),
     "./dto/ActivationCodeDto"
   );
 
-const electronLog = remote.require("electron-log");
+//const electronLog = remote.require("electron-log");
 
 /**
  * This view class is used to activate the application
@@ -44,6 +44,7 @@ export default class ActivatorView extends Component {
       successVisible: false,
       failedVisible: false
     };
+    //electronLog.info("HELLOO LOADING ActivatorV");
     this.store = DataStoreFactory.createStore(
       DataStoreFactory.Stores.ACCOUNT_ACTIVATION,
       this
@@ -68,7 +69,7 @@ export default class ActivatorView extends Component {
   }
 
   log = msg => {
-    electronLog.info(`[${this.constructor.name}] ${msg}`);
+    //electronLog.info(`[${this.constructor.name}] ${msg}`);
   };
 
   onActivationSaved(event, arg) {

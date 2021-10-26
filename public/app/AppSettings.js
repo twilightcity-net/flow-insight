@@ -30,7 +30,15 @@ module.exports = class AppSettings {
         " : " +
         path
     );
-    settings.setPath(path);
+
+    log.info("configuring settings");
+
+    settings.setPath(Util.getAppSettingsPath());
+
+    // settings.configure({
+    //   dir: Util.getFlowHomePath(),
+    //   fileName: Util.getSettingsFileName()
+    // });
     this.path = settings.file();
 
     // TODO implement this to store the key https://stackoverflow.com/questions/6226189/how-to-convert-a-string-to-bytearray
@@ -46,6 +54,7 @@ module.exports = class AppSettings {
   check() {
     let path = Util.getAppSettingsPath();
     log.info("[AppSettings] check path -> " + path);
+
     if (fs.existsSync(path) && this.verify()) {
       log.info("[AppSettings] has settings -> true");
       return true;
@@ -189,26 +198,27 @@ module.exports = class AppSettings {
    * @returns {boolean}
    */
   verify() {
-    let keys = Object.values(AppSettings.Keys),
-      len = keys.length,
-      i = 0;
-    for (i = 0; i < len; i++) {
+    let keys = Object.values(AppSettings.Keys);
+
+    for (let i = 0; i < keys.length; i++) {
       if (!settings.has(keys[i])) {
         log.info(
           "[AppSettings] verify settings -> failed : " +
             keys[i]
         );
         return false;
-      } else if (
-        keys[i] === AppSettings.Keys.APP_API_KEY &&
-        settings.get(AppSettings.Keys.APP_API_KEY) &&
-        settings.get(AppSettings.Keys.APP_API_KEY)
-          .length !== 32
-      ) {
-        log.info(
-          "[AppSettings] verify api key -> failed : invalid"
-        );
-        return false;
+      } else {
+        if (
+          keys[i] === AppSettings.Keys.APP_API_KEY &&
+          settings.get(AppSettings.Keys.APP_API_KEY) &&
+          settings.get(AppSettings.Keys.APP_API_KEY)
+            .length !== 32
+        ) {
+          log.info(
+            "[AppSettings] verify api key -> failed : invalid"
+          );
+          return false;
+        }
       }
     }
     log.info("[AppSettings] verify settings -> okay");

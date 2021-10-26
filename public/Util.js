@@ -206,6 +206,14 @@ class Util {
   }
 
   /**
+   * returns the file path to the settings file that electron stores as JSON
+   * @returns {string}
+   */
+  static getSettingsFileName() {
+    return "settings.json";
+  }
+
+  /**
    * the path where we store our screenshots
    * @returns {string}
    */

@@ -37,7 +37,12 @@ module.exports = class LoadingWindow {
       icon: this.icon,
       backgroundColor: "#ffffff",
       fullscreenable: false,
-      webPreferences: { toolbar: false }
+      webPreferences: {
+        toolbar: false,
+        nodeIntegration: true,
+        enableRemoteModule: true,
+        contextIsolation: false
+      }
     });
     this.window.name = this.name;
     this.window.setMenu(null);

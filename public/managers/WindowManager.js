@@ -221,6 +221,7 @@ class WindowManager {
     log.info(
       "[WindowManager] load window -> " + window.name
     );
+
     window.window.loadURL(window.url);
     window.window.on("ready-to-show", () => {
       if (window.autoShow) {

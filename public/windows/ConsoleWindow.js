@@ -15,6 +15,7 @@ const { BrowserWindow } = require("electron"),
  * @type {ConsoleWindow}
  */
 module.exports = class ConsoleWindow {
+
   /**
    * create a new console window
    */
@@ -26,7 +27,6 @@ module.exports = class ConsoleWindow {
     );
     this.display = global.App.WindowManager.getDisplay();
     this.icon = Util.getAppIcon("icon.ico");
-    this.autoShow = false;
     this.window = new BrowserWindow({
       name: this.name,
       width: this.display.workAreaSize.width,
@@ -47,7 +47,15 @@ module.exports = class ConsoleWindow {
       webPreferences: {
         zoomFactor: 1.0,
         toolbar: false,
-        webSecurity: false
+        webSecurity: true,
+
+        //TODO these 3 properties enable use of electron remote from the renderer process,
+        // can remove these configurations after we remove the remote references in renderer
+        //should be doable, can be done in all the browser windows, to improve security
+
+        nodeIntegration: true,
+        enableRemoteModule: true,
+        contextIsolation: false
       }
     });
     this.window.name = this.name;

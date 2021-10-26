@@ -13,7 +13,6 @@ import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { BaseClient } from "../../../../../clients/BaseClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../../UtilRenderer";
-import { JournalClient } from "../../../../../clients/JournalClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -146,7 +145,6 @@ export default class ActiveCircuit extends Component {
             this.messages = arg.data;
             this.loadCount++;
             this.updateStateIfDoneLoading();
-
           }
         );
         CircuitClient.loadCircuitMembers(
@@ -170,18 +168,23 @@ export default class ActiveCircuit extends Component {
    */
   updateStateIfDoneLoading() {
     if (this.loadCount === 2) {
+      this.missingMemberNames = this.findMissingMembers(
+        this.messages,
+        this.circuitMembers
+      );
+      this.loadMissingMemberProfiles(
+        this.missingMemberNames
+      );
 
-      this.missingMemberNames = this.findMissingMembers(this.messages, this.circuitMembers);
-      this.loadMissingMemberProfiles(this.missingMemberNames);
-
-      console.log("missing members = "+JSON.stringify(this.missingMemberNames));
+      console.log(
+        "missing members = " +
+          JSON.stringify(this.missingMemberNames)
+      );
 
       let feedEvents = this.convertToFeedEvents(
         this.model,
         this.messages
       );
-
-
 
       this.setState({
         circuitMembers: this.circuitMembers,
@@ -195,35 +198,39 @@ export default class ActiveCircuit extends Component {
     this.missingMemberLoadCount = 0;
 
     for (let i = 0; i < missingUsernames.length; i++) {
-      MemberClient.getMember(missingUsernames[i], this, arg => {
-        this.missingMemberLoadCount++;
-        if (!arg.error && arg.data) {
-           this.missingMembers.push(arg.data);
-        } else {
-          console.error("Error: "+arg.error);
+      MemberClient.getMember(
+        missingUsernames[i],
+        this,
+        arg => {
+          this.missingMemberLoadCount++;
+          if (!arg.error && arg.data) {
+            this.missingMembers.push(arg.data);
+          } else {
+            console.error("Error: " + arg.error);
+          }
+          if (
+            this.missingMemberLoadCount ===
+            missingUsernames.length
+          ) {
+            this.setState({
+              missingMembers: this.missingMembers
+            });
+          }
         }
-        if (this.missingMemberLoadCount === missingUsernames.length) {
-           this.setState({
-             missingMembers: this.missingMembers
-           });
-        }
-      });
-
-
+      );
     }
-
   }
 
   findMissingMembers(messages, circuitMembers) {
     let uniqueUsernames = [];
 
-    for (let i = 0; i < messages.length;i++) {
+    for (let i = 0; i < messages.length; i++) {
       let metaProps = messages[i].metaProps;
       let username =
         !!metaProps &&
         metaProps[
           ActiveCircuitFeed.fromUserNameMetaPropsStr
-          ];
+        ];
 
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
@@ -233,7 +240,10 @@ export default class ActiveCircuit extends Component {
     let missingMembers = [];
 
     for (let i = 0; i < uniqueUsernames.length; i++) {
-      let member = this.getCircuitMemberForUsername(circuitMembers, uniqueUsernames[i]);
+      let member = this.getCircuitMemberForUsername(
+        circuitMembers,
+        uniqueUsernames[i]
+      );
       if (member === null) {
         missingMembers.push(uniqueUsernames[i]);
       }
@@ -242,15 +252,8 @@ export default class ActiveCircuit extends Component {
   }
 
   getCircuitMemberForUsername(circuitMembers, username) {
-
-    for (
-      let i = 0;
-      i < circuitMembers.length;
-      i++
-    ) {
-      if (
-        circuitMembers[i].username === username
-      ) {
+    for (let i = 0; i < circuitMembers.length; i++) {
+      if (circuitMembers[i].username === username) {
         return circuitMembers[i];
       }
     }

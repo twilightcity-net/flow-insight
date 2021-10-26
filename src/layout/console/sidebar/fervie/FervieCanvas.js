@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { DimensionController } from "../../../../controllers/DimensionController";
 
 /**
  * the 2d html canvas react component class used to load the graphic art for Fervie
@@ -33,7 +32,7 @@ export default class FervieCanvas extends Component {
    * update the properties
    * @param nextProps
    */
-  componentWillReceiveProps = nextProps => {
+  componentDidUpdate = nextProps => {
     this.updateFervieImage(this.flameRating);
   };
 

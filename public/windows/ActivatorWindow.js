@@ -33,8 +33,22 @@ module.exports = class ActivatorWindow {
       icon: this.icon,
       backgroundColor: "#000000",
       fullscreenable: false,
-      webPreferences: { toolbar: false }
+      webPreferences: {
+        toolbar: false,
+        nodeIntegration: true,
+        enableRemoteModule: true,
+        contextIsolation: false
+      }
     });
+
+    // mainWindow = new BrowserWindow({
+    //   width: 800,
+    //   height: 600,
+    //   webPreferences: {
+    //     nodeIntegration: true
+    //   }
+    // })
+
     this.window.name = this.name;
     this.window.setMenu(null);
     this.window.on("closed", () => this.onClosedCb());

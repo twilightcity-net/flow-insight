@@ -529,7 +529,6 @@ export default class ConsoleSidebar extends Component {
             className="chunkTitle"
             content={popupContent}
             position="top left"
-            offset={-2}
             inverted
           />
         </Menu>

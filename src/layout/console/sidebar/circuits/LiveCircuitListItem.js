@@ -7,7 +7,6 @@ import {
 } from "semantic-ui-react";
 import { LearningCircuitModel } from "../../../../models/LearningCircuitModel";
 import UtilRenderer from "../../../../UtilRenderer";
-import moment from "moment";
 
 export default class LiveCircuitListItem extends Component {
   constructor(props) {

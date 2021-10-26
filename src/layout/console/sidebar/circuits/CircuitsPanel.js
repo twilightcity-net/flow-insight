@@ -71,8 +71,7 @@ export default class CircuitsPanel extends Component {
    * @param arg
    */
   onTalkRoomMessage = (event, arg) => {
-    let mType = arg.messageType,
-      data = arg.data;
+    let mType = arg.messageType;
 
     if (
       mType === BaseClient.MessageTypes.WTF_STATUS_UPDATE

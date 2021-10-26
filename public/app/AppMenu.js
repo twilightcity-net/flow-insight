@@ -40,21 +40,23 @@ module.exports = class AppMenu extends Menu {
   constructor() {
     super();
     log.info("[AppMenu] create menu from template");
-    return Menu.buildFromTemplate(this.getTemplate());
+    let template = AppMenu.getTemplate();
+    let built = Menu.buildFromTemplate(template);
+    return built;
   }
 
-  getTemplate() {
+  static getTemplate() {
     switch (process.platform) {
       case "darwin":
-        return this.getTemplateForMacOS();
+        return AppMenu.getTemplateForMacOS();
       case "win32":
-        return this.getTemplateForWindows();
+        return AppMenu.getTemplateForWindows();
     }
     // TODO: determine if there are any other platforms we ought to support; e.g. linux.  In the meantime, throw
     throw new AppMenuException();
   }
 
-  getTemplateForWindows() {
+  static getTemplateForWindows() {
     return [
       {
         label: "Edit",
@@ -81,7 +83,7 @@ module.exports = class AppMenu extends Menu {
     ];
   }
 
-  getTemplateForMacOS() {
+  static getTemplateForMacOS() {
     return [
       {
         label: "Twilight City",
@@ -160,7 +162,7 @@ module.exports = class AppMenu extends Menu {
    * gets the app menu for displays in the window section
    * @returns {*}
    */
-  getDisplaysSubmenu() {
+  static getDisplaysSubmenu() {
     let displays = global.App.WindowManager.getDisplays(),
       defaultDisplay = global.App.AppSettings.getDisplayIndex(),
       arrLen = displays.length,

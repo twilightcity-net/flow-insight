@@ -56,7 +56,8 @@ export default class ViewManager extends Component {
    *  update the class name of the wrapper with the view name. This also will
    *  store there render3d flag for various components that might need to know
    */
-  componentWillMount() {
+
+  componentDidMount() {
     let query = queryString.parse(window.location.search);
     ViewManager.render3d = query.render3d;
     document.body.className = ViewManager.viewName;

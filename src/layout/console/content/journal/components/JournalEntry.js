@@ -5,7 +5,6 @@ import {
   Input,
   Segment
 } from "semantic-ui-react";
-import UtilRenderer from "../../../../../UtilRenderer";
 import { MemberClient } from "../../../../../clients/MemberClient";
 
 /**

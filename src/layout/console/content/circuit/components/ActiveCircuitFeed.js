@@ -73,7 +73,6 @@ export default class ActiveCircuitFeed extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-
     //make sure we've got all our circuit members, and if not, send a retrieval request for them
 
     this.scrollToFeedBottom();
@@ -161,8 +160,14 @@ export default class ActiveCircuitFeed extends Component {
       }
     }
 
-    for (let i = 0; i < this.props.missingMembers.length; i++) {
-      if (this.props.missingMembers[i].username === username) {
+    for (
+      let i = 0;
+      i < this.props.missingMembers.length;
+      i++
+    ) {
+      if (
+        this.props.missingMembers[i].username === username
+      ) {
         return this.props.missingMembers[i];
       }
     }

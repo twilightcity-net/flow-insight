@@ -1,9 +1,6 @@
 import { DataStore } from "./DataStore";
 
-const { remote } = window.require("electron"),
-  AccountActivationDto = remote.require(
-    "./dto/AccountActivationDto"
-  );
+const { remote } = window.require("electron");
 
 //
 // this class is used to manage DtoClient requests for Stores
@@ -11,7 +8,14 @@ const { remote } = window.require("electron"),
 export class AccountActivationStore extends DataStore {
   constructor(scope) {
     super(scope);
-    this.dtoClass = AccountActivationDto;
+
+    remote.info("remote is " + remote);
+
+    // AccountActivationDto = remote.require(
+    //   "./dto/AccountActivationDto"
+    // );
+
+    //this.dtoClass = AccountActivationDto;
     this.urn = "/account/activate";
     this.loadRequestType = DataStore.RequestTypes.POST;
   }

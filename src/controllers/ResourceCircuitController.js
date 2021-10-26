@@ -5,7 +5,6 @@ import { RendererControllerFactory } from "./RendererControllerFactory";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 import UtilRenderer from "../UtilRenderer";
 import { TalkToClient } from "../clients/TalkToClient";
-import { BaseClient } from "../clients/BaseClient";
 
 export class ResourceCircuitController extends ActiveViewController {
   /**

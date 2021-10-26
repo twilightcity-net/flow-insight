@@ -1,11 +1,8 @@
-const { app } = require("electron"),
-  fs = require("fs"),
-  path = require("path"),
+const { app, session } = require("electron"),
   chalk = require("chalk"),
   log = require("electron-log"),
   isDev = require("electron-is-dev"),
   rootPath = require("electron-root-path").rootPath,
-  platform = require("electron-platform"),
   argv = require("yargs").argv,
   Logger = require("./AppLogger"),
   AppError = require("./AppError"),
@@ -49,6 +46,11 @@ const { app } = require("electron"),
       "                                                                                               \n"
   ];
 
+const {
+  default: installExtension,
+  REACT_DEVELOPER_TOOLS
+} = require("electron-devtools-installer");
+
 module.exports = class App {
   constructor() {
     AppBanner.forEach(v =>
@@ -66,18 +68,23 @@ module.exports = class App {
       crashed: this.onCrash
     };
     this.processCLI();
-    this.isSecondInstance = app.makeSingleInstance(
-      this.onSingleInstance
-    );
-    if (this.isSecondInstance) {
-      log.info("[App] quit -> second instance");
 
-      //TODO need to implement a check for args
+    const gotTheLock = app.requestSingleInstanceLock();
 
-      //TODO need to implement a CLIManager that works with yarv
-
-      this.quit();
+    if (!gotTheLock) {
+      log.info(
+        "Couldn't acquire app lock, instance already running.  Quitting..."
+      );
+      app.quit();
     } else {
+      app.on(
+        "second-instance",
+        (event, commandLine, workingDirectory) => {
+          // Someone tried to run a second instance, we should focus our window.
+        }
+      );
+
+      //load the rest of the app
       if (isDev) {
         this.start();
       } else if (Util.checkIfCalledFromCLI(process.argv)) {
@@ -142,18 +149,22 @@ module.exports = class App {
     } catch (error) {
       App.handleError(error, true);
     } finally {
-      if (isDev) {
-        const {
-          default: installExtension,
-          REACT_DEVELOPER_TOOLS
-        } = require("electron-devtools-installer");
-        installExtension(REACT_DEVELOPER_TOOLS)
-          .then(name => {
-            log.info("[App] ready -> dev tools : " + name);
-          })
-          .catch(err => {
-            AppError.handleError(err, false);
-          });
+      if (!isDev) {
+        //in prod mode, this disallows opening the dev tools
+        app.whenReady().then(() => {
+          session.defaultSession.webRequest.onHeadersReceived(
+            (details, callback) => {
+              callback({
+                responseHeaders: {
+                  ...details.responseHeaders,
+                  "Content-Security-Policy": [
+                    "script-src 'self'"
+                  ]
+                }
+              });
+            }
+          );
+        });
       }
     }
   }
@@ -206,7 +217,6 @@ module.exports = class App {
 
     if (global.App.isLoggedIn) {
       event.preventDefault();
-      global.App.WindowManager.destroyAllWindows();
       global.App.TalkManager.disconnect();
       AppLogin.doLogout(store => {
         log.info(
@@ -313,6 +323,7 @@ module.exports = class App {
       EventFactory.Types.APP_QUIT,
       this,
       (event, arg) => {
+        log.info("Qutting application");
         global.App.quit();
       }
     );
