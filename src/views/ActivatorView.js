@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { DataStoreFactory } from "../stores/DataStoreFactory";
+import { ActivationCodeDto } from "../dto/ActivationCodeDto";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 import {
   Button,
@@ -11,13 +12,6 @@ import {
   Segment,
   Transition
 } from "semantic-ui-react";
-
-const { remote } = window.require("electron"),
-  ActivationCodeDto = remote.require(
-    "./dto/ActivationCodeDto"
-  );
-
-//const electronLog = remote.require("electron-log");
 
 /**
  * This view class is used to activate the application
@@ -44,7 +38,6 @@ export default class ActivatorView extends Component {
       successVisible: false,
       failedVisible: false
     };
-    //electronLog.info("HELLOO LOADING ActivatorV");
     this.store = DataStoreFactory.createStore(
       DataStoreFactory.Stores.ACCOUNT_ACTIVATION,
       this
@@ -69,7 +62,7 @@ export default class ActivatorView extends Component {
   }
 
   log = msg => {
-    //electronLog.info(`[${this.constructor.name}] ${msg}`);
+    console.log(`[${this.constructor.name}] ${msg}`);
   };
 
   onActivationSaved(event, arg) {

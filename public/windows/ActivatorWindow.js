@@ -35,9 +35,7 @@ module.exports = class ActivatorWindow {
       fullscreenable: false,
       webPreferences: {
         toolbar: false,
-        nodeIntegration: true,
-        enableRemoteModule: true,
-        contextIsolation: false
+         nodeIntegration: true
       }
     });
 

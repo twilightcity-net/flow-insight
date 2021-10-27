@@ -39,9 +39,7 @@ module.exports = class LoadingWindow {
       fullscreenable: false,
       webPreferences: {
         toolbar: false,
-        nodeIntegration: true,
-        enableRemoteModule: true,
-        contextIsolation: false
+         nodeIntegration: true
       }
     });
     this.window.name = this.name;

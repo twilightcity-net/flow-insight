@@ -41,7 +41,6 @@ module.exports = class ConsoleWindow {
       hasShadow: false,
       offscreen: true,
       transparent: true,
-      hasShadow: false,
       icon: this.icon,
       fullscreenable: false,
       toolbar: false,
@@ -49,14 +48,7 @@ module.exports = class ConsoleWindow {
         zoomFactor: 1.0,
         toolbar: false,
         webSecurity: true,
-
-        //TODO these 3 properties enable use of electron remote from the renderer process,
-        // can remove these configurations after we remove the remote references in renderer
-        //should be doable, can be done in all the browser windows, to improve security
-
-        nodeIntegration: true,
-        enableRemoteModule: true,
-        contextIsolation: false
+         nodeIntegration: true
       }
     });
     this.window.name = this.name;
