@@ -2,7 +2,7 @@
   "name": "twilightcity-desktop",
   "productName": "TwilightCity",
   "description": "TwilightCity - © 2021 Twilight City, Inc. All rights reserved.",
-  "version": "0.5.7",
+  "version": "0.5.8",
   "engines": {
     "node": "16.13.0"
   },
