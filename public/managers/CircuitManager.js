@@ -29,7 +29,12 @@ module.exports = class CircuitManager {
       {},
       () => this.handleInitCallback(callback)
     );
-    CircuitController.instance.handleLoadAllMyRetroCircuitsEvent(
+    CircuitController.instance.handleLoadAllTeamRetroCircuitsEvent(
+      null,
+      {},
+      () => this.handleInitCallback(callback)
+    );
+    CircuitController.instance.handleLoadAllTeamSolvedCircuitsEvent(
       null,
       {},
       () => this.handleInitCallback(callback)

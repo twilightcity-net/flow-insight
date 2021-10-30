@@ -108,6 +108,8 @@ export class CircuitClient extends BaseClient {
         "load-all-my-do-it-later-circuits",
       LOAD_ALL_MY_RETRO_CIRCUITS:
         "load-all-my-retro-circuits",
+      LOAD_ALL_MY_SOLVED_CIRCUITS:
+        "load-all-my-solved-circuits",
       LOAD_ACTIVE_CIRCUIT: "load-active-circuit",
       LOAD_CIRCUIT_WITH_ALL_DETAILS:
         "load-circuit-with-all-details",
@@ -124,6 +126,7 @@ export class CircuitClient extends BaseClient {
       GET_CIRCUIT_MEMBERS: "get-circuit-members",
       SOLVE_WTF: "solve-wtf",
       CANCEL_WTF: "cancel-wtf",
+      CLOSE_WTF: "close-wtf",
       RESUME_WTF: "resume-wtf",
       PAUSE_WTF_WITH_DO_IT_LATER:
         "pause-wtf-with-do-it-later",
@@ -495,6 +498,24 @@ export class CircuitClient extends BaseClient {
   static cancelWtf(circuitName, scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.CANCEL_WTF,
+      { circuitName: circuitName },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
+   * close our current circuit on grid time
+   * @param circuitName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static closeWtf(circuitName, scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.CLOSE_WTF,
       { circuitName: circuitName },
       scope,
       callback

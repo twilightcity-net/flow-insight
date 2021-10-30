@@ -1,0 +1,128 @@
+import React, { Component } from "react";
+import ActiveRetro from "./components/ActiveRetro";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
+import UtilRenderer from "../../../../UtilRenderer";
+import { Icon, Message } from "semantic-ui-react";
+
+/**
+ * this component is the top level resource for a circuit retro
+ */
+export default class RetroResource extends Component {
+
+  /**
+   * builds our resource with the given properties
+   * @param props
+   */
+  constructor(props) {
+    super(props);
+    this.name = "[RetroResource]";
+    this.state = {
+      error: null
+    };
+    this.resourcesController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.RESOURCES,
+      this
+    );
+  }
+
+  /**
+   * mounts our circuit component. This function checks to see if this is a
+   * circuit with an active feed. if so we need to load and join the room.
+   */
+  componentDidMount() {
+    //so this is going to be either a solved circuit, or a live retro.
+
+    //this figures out the name based on the resource, rather than using the name as specified on the circuit
+    //probably not a good plan.
+
+    //we really should be loading the circuit first, and using the room names as specified in the return object
+
+
+    if (UtilRenderer.isWTFResource(this.props.resource)) {
+      this.resourcesController.joinExistingRoom(
+        this.props.resource
+      );
+    }
+  }
+
+  /**
+   * when the component is unmounted besure to leave the existing talk room,
+   * becuase we do not need to keep reciecing talk chat message details from
+   * other users that are still in the circuit chat room.
+   */
+  componentWillUnmount() {
+    this.resourcesController.leaveExistingRoom(
+      this.props.resource
+    );
+  }
+
+  /**
+   * this function is similiar to the mount function. This function will first
+   * check to see if we are just reloading the same page or loading a new
+   * circuit. If it is a new circuit and a wtf. the function will join
+   * the user to that room on talk.
+   * @param nextProps
+   * @param nextState
+   * @param nextContext
+   * @returns {boolean}
+   */
+  shouldComponentUpdate(nextProps, nextState, nextContext) {
+    if (
+      this.props.resource.uri !== nextProps.resource.uri &&
+      UtilRenderer.isWTFResource(nextProps.resource)
+    ) {
+      console.log(
+        "joining a new circuit, leave and rejoin rooms"
+      );
+      nextState.error = null;
+      this.resourcesController.leaveExistingRoom(
+        this.props.resource
+      );
+      this.resourcesController.joinExistingRoom(
+        nextProps.resource
+      );
+    }
+    return true;
+  }
+
+  /**
+   * renders our circuit error with a given string. This is usually not
+   * seen and renders errors from gridtime.
+   * @param error
+   * @returns {*}
+   */
+  getCircuitError(error) {
+    return (
+      <div id="component" className="errorLayout">
+        <Message icon negative size="large">
+          <Icon name="warning sign" />
+          <Message.Content>
+            <Message.Header>Error :(</Message.Header>
+            WTF! {error} =(^.^)=
+          </Message.Content>
+        </Message>
+      </div>
+    );
+  }
+
+  /**
+   * renders the journal layout of the console view
+   * @returns {*} - the JSX to render
+   */
+  render() {
+    let wtfPanel =
+      (<ActiveRetro resource={this.props.resource} />);
+
+    if (this.state.error) {
+      wtfPanel = this.getCircuitError(this.state.error);
+    }
+
+    return (
+      <div id="component" className="circuitLayout">
+        <div id="wrapper" className="circuitContent">
+          {wtfPanel}
+        </div>
+      </div>
+    );
+  }
+}

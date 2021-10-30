@@ -39,6 +39,8 @@ module.exports = class BaseController {
       LEAVE: "/leave",
       SOLVE: "/solve",
       CANCEL: "/cancel",
+      MARK: "/mark",
+      CLOSE: "/close",
       HOME: "/home",
       MEMBER: "/member",
       ME: "/me",
@@ -150,6 +152,7 @@ module.exports = class BaseController {
       GET_ALL_MY_DO_IT_LATER_CIRCUITS:
         "getAllMyDoItLaterCircuits",
       GET_ALL_MY_RETRO_CIRCUITS: "getAllMyRetroCircuits",
+      GET_ALL_MY_SOLVED_CIRCUITS: "getAllMySolvedCircuits",
       GET_ACTIVE_CIRCUIT: "getActiveCircuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "getCircuitWithAllDetails",
@@ -158,6 +161,7 @@ module.exports = class BaseController {
       GET_CIRCUIT_MEMBERS: "getCircuitMembers",
       SOLVE_WTF: "solveWtf",
       CANCEL_WTF: "cancelWtf",
+      CLOSE_WTF: "closeWtf",
       PAUSE_WTF_WITH_DO_IT_LATER: "pauseWTFWithDoItLater",
       RESUME_WTF: "resumeWTF",
       START_RETRO_FOR_WTF: "startRetroForWTF",
@@ -202,6 +206,7 @@ module.exports = class BaseController {
       TEAM_WTF_RESUMED: "TEAM_WTF_RESUMED",
       TEAM_WTF_SOLVED: "TEAM_WTF_SOLVED",
       TEAM_WTF_CANCELED: "TEAM_WTF_CANCELED",
+      TEAM_WTF_CLOSED: "TEAM_WTF_CLOSED",
       TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED",
       TEAM_WTF_UPDATED: "TEAM_WTF_UPDATED"
     };

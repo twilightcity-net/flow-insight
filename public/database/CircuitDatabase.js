@@ -26,6 +26,7 @@ module.exports = class CircuitDatabase extends LokiJS {
     return {
       CIRCUITS: "circuits",
       PARTICIPATING: "participating",
+      SOLVED: "solved",
       LATER: "later",
       RETRO: "retro",
       ACTIVE: "active",
@@ -43,6 +44,7 @@ module.exports = class CircuitDatabase extends LokiJS {
     return {
       CIRCUITS: "circuits",
       PARTICIPATING: "participating",
+      SOLVED: "solved",
       LATER: "later",
       RETRO: "retro",
       ACTIVE: "active",
@@ -120,6 +122,17 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.CIRCUIT_STATE
       ]
     });
+    this.addCollection(CircuitDatabase.Collections.SOLVED, {
+      indices: [
+        CircuitDatabase.Indices.ID,
+        CircuitDatabase.Indices.CIRCUIT_NAME,
+        CircuitDatabase.Indices.OWNER_ID,
+        CircuitDatabase.Indices.OPEN_TIME,
+        CircuitDatabase.Indices.CLOSE_TIME,
+        CircuitDatabase.Indices.CIRCUIT_STATE
+      ]
+    });
+
     this.addCollection(CircuitDatabase.Collections.RETRO, {
       indices: [
         CircuitDatabase.Indices.ID,
@@ -191,6 +204,28 @@ module.exports = class CircuitDatabase extends LokiJS {
     this.getCollection(
       CircuitDatabase.Collections.RETRO
     ).addDynamicView(CircuitDatabase.Views.RETRO);
+    let solvedView = this.getCollection(
+      CircuitDatabase.Collections.SOLVED
+    ).addDynamicView(CircuitDatabase.Views.SOLVED);
+
+    solvedView.applySort(function(obj1, obj2) {
+      if (
+        obj1.totalCircuitElapsedNanoTime ===
+        obj2.totalCircuitElapsedNanoTime
+      )
+        return 0;
+      if (
+        obj1.totalCircuitElapsedNanoTime >
+        obj2.totalCircuitElapsedNanoTime
+      )
+        return -1;
+      if (
+        obj1.totalCircuitElapsedNanoTime <
+        obj2.totalCircuitElapsedNanoTime
+      )
+        return 1;
+    });
+
     this.getCollection(
       CircuitDatabase.Collections.ACTIVE
     ).addDynamicView(CircuitDatabase.Views.ACTIVE);
@@ -239,8 +274,8 @@ module.exports = class CircuitDatabase extends LokiJS {
   }
 
   /**
-   * gets our view for our circuits that are on waiting to be
-   * reviewed for retro.
+   * gets our view for our circuits that are in retro state
+   * and joinable for reflection
    * @returns {DynamicView}
    */
   getViewAllMyRetroCircuits() {
@@ -249,6 +284,20 @@ module.exports = class CircuitDatabase extends LokiJS {
     );
     return collection.getDynamicView(
       CircuitDatabase.Views.RETRO
+    );
+  }
+
+  /**
+   * gets our view for circuits that are solved and waiting to be
+   * retro-ed.
+   * @returns {DynamicView}
+   */
+  getViewAllMySolvedCircuits() {
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.SOLVED
+    );
+    return collection.getDynamicView(
+      CircuitDatabase.Views.SOLVED
     );
   }
 
@@ -369,6 +418,14 @@ module.exports = class CircuitDatabase extends LokiJS {
     this.removeCircuitByIdFromCollectionName(
       id,
       CircuitDatabase.Collections.ACTIVE
+    );
+    this.removeCircuitByIdFromCollectionName(
+      id,
+      CircuitDatabase.Collections.SOLVED
+    );
+    this.removeCircuitByIdFromCollectionName(
+      id,
+      CircuitDatabase.Collections.RETRO
     );
 
     DatabaseUtil.log(
@@ -504,25 +561,28 @@ module.exports = class CircuitDatabase extends LokiJS {
    * @param circuit
    */
   solveActiveCircuit(circuit) {
+
     let collection = this.getCollection(
       CircuitDatabase.Collections.CIRCUITS
     );
 
     DatabaseUtil.findUpdateInsert(circuit, collection);
     DatabaseUtil.log(
-      "update circuits -> SOLVED",
+      "update circuits -> state SOLVED",
       circuit.id
     );
 
     collection = this.getCollection(
-      CircuitDatabase.Collections.RETRO
+      CircuitDatabase.Collections.SOLVED
     );
 
     DatabaseUtil.findUpdateInsert(circuit, collection);
     DatabaseUtil.log(
-      "insert circuit -> SOLVED",
+      "insert circuit to SOLVED",
       circuit.id
     );
+
+    collection.getDynamicView(CircuitDatabase.Views.SOLVED);
 
     collection = this.getCollection(
       CircuitDatabase.Collections.ACTIVE
@@ -542,6 +602,45 @@ module.exports = class CircuitDatabase extends LokiJS {
       circuit.id
     );
   }
+
+
+  /**
+   * starts a retro for circuit based on talk message event
+   * @param circuit
+   */
+  startRetroForCircuit(circuit) {
+    let collection = this.getCollection(
+      CircuitDatabase.Collections.CIRCUITS
+    );
+
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log(
+      "update circuit -> RETRO",
+      circuit.id
+    );
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.SOLVED
+    );
+
+    DatabaseUtil.findRemove(circuit, collection);
+    DatabaseUtil.log(
+      "remove circuit from SOLVED",
+      circuit.id
+    );
+
+    collection = this.getCollection(
+      CircuitDatabase.Collections.RETRO
+    );
+
+    DatabaseUtil.findUpdateInsert(circuit, collection);
+    DatabaseUtil.log(
+      "insert circuit -> RETRO",
+      circuit.id
+    );
+
+  }
+
 
   /**
    * finds and removes a circuit by id by a given name

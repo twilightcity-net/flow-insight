@@ -10,14 +10,14 @@ import {
 } from "semantic-ui-react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
-import PartyPanelListItem from "./PartyPanelListItem";
+import RetroPartyListItem from "./RetroPartyListItem";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * the class which defines the circuit sidebar panel
  */
-export default class CircuitSidebar extends Component {
+export default class RetroSidebar extends Component {
   /**
    * the html id for our timer that is dynamically updated.
    * @type {string}
@@ -72,7 +72,7 @@ export default class CircuitSidebar extends Component {
       this
     );
     this.state = {
-      activeMenuView: CircuitSidebar.Views.OVERVIEW
+      activeMenuView: RetroSidebar.Views.OVERVIEW
     };
     this.props.set(this);
   }
@@ -171,7 +171,7 @@ export default class CircuitSidebar extends Component {
    */
   isMe(id) {
     let me = MemberClient.me;
-    return me && me[CircuitSidebar.idFieldStr] === id;
+    return me && me[RetroSidebar.idFieldStr] === id;
   }
 
   /**
@@ -201,36 +201,36 @@ export default class CircuitSidebar extends Component {
       >
         <Menu size="mini" inverted pointing secondary>
           <Menu.Item
-            name={CircuitSidebar.Views.OVERVIEW}
+            name={RetroSidebar.Views.OVERVIEW}
             active={
               this.state.activeMenuView ===
-              CircuitSidebar.Views.OVERVIEW
+              RetroSidebar.Views.OVERVIEW
             }
             onClick={this.handleMenuClick}
           />
           <Menu.Item
-            name={CircuitSidebar.Views.PARTY}
+            name={RetroSidebar.Views.PARTY}
             active={
               this.state.activeMenuView ===
-              CircuitSidebar.Views.PARTY
+              RetroSidebar.Views.PARTY
             }
             onClick={this.handleMenuClick}
           >
             {this.getMenuItemPartyContent()}
           </Menu.Item>
           <Menu.Item
-            name={CircuitSidebar.Views.SCRAPBOOK}
+            name={RetroSidebar.Views.SCRAPBOOK}
             active={
               this.state.activeMenuView ===
-              CircuitSidebar.Views.SCRAPBOOK
+              RetroSidebar.Views.SCRAPBOOK
             }
             onClick={this.handleMenuScrapbookClick}
           />
           <Menu.Item
-            name={CircuitSidebar.Views.CHEST}
+            name={RetroSidebar.Views.CHEST}
             active={
               this.state.activeMenuView ===
-              CircuitSidebar.Views.CHEST
+              RetroSidebar.Views.CHEST
             }
             onClick={this.handleMenuClick}
           />
@@ -246,13 +246,13 @@ export default class CircuitSidebar extends Component {
    */
   getCircuitSidebarMenuContent() {
     switch (this.state.activeMenuView) {
-      case CircuitSidebar.Views.OVERVIEW:
+      case RetroSidebar.Views.OVERVIEW:
         return this.getCircuitSidebarOverviewContent();
-      case CircuitSidebar.Views.PARTY:
+      case RetroSidebar.Views.PARTY:
         return this.getCircuitSidebarPartyContent();
-      case CircuitSidebar.Views.SCRAPBOOK:
+      case RetroSidebar.Views.SCRAPBOOK:
         return this.getCircuitSidebarScrapbookContent();
-      case CircuitSidebar.Views.CHEST:
+      case RetroSidebar.Views.CHEST:
         return this.getCircuitSidebarChestContent();
       default:
         throw new Error(
@@ -274,7 +274,7 @@ export default class CircuitSidebar extends Component {
       return "loading...";
     } else {
       this.timerEl = document.getElementById(
-        CircuitSidebar.wtfTimerId
+        RetroSidebar.wtfTimerId
       );
       this.wtfTimer = UtilRenderer.clearIntervalTimer(
         this.wtfTimer
@@ -285,7 +285,7 @@ export default class CircuitSidebar extends Component {
           this.timerEl.innerHTML = UtilRenderer.getWtfTimerFromCircuit(
             circuit
           );
-        }, CircuitSidebar.wtfTimerIntervalMs);
+        }, RetroSidebar.wtfTimerIntervalMs);
       }
       return UtilRenderer.getWtfTimerFromCircuit(circuit);
     }
@@ -432,7 +432,7 @@ export default class CircuitSidebar extends Component {
       <Label color="red" basic className="time">
         <span
           className="time"
-          id={CircuitSidebar.wtfTimerId}
+          id={RetroSidebar.wtfTimerId}
         >
           {this.getWtfTimerCount(circuit)}
         </span>
@@ -735,36 +735,36 @@ export default class CircuitSidebar extends Component {
         );
       }
     } else {
-        //not my circuit
-        if (!UtilRenderer.isCircuitActive(this.props.model)) {
+      //not my circuit
+      if (!UtilRenderer.isCircuitActive(this.props.model)) {
+        content = (
+          <Grid.Row stretched verticalAlign="middle">
+            <Grid.Column>
+              {this.getInactiveCircuitButtonContent()}
+            </Grid.Column>
+          </Grid.Row>
+        );
+      } else {
+        //active circuit, not mine
+        if (UtilRenderer.isCircuitParticipant(MemberClient.me, this.props.circuitMembers)) {
           content = (
             <Grid.Row stretched verticalAlign="middle">
               <Grid.Column>
-                {this.getInactiveCircuitButtonContent()}
+                {this.getLeaveActiveCircuitButtonContent()}
               </Grid.Column>
             </Grid.Row>
           );
         } else {
-          //active circuit, not mine
-          if (UtilRenderer.isCircuitParticipant(MemberClient.me, this.props.circuitMembers)) {
-            content = (
-              <Grid.Row stretched verticalAlign="middle">
-                <Grid.Column>
-                  {this.getLeaveActiveCircuitButtonContent()}
-                </Grid.Column>
-              </Grid.Row>
-            );
-          } else {
-            content = (
-              <Grid.Row stretched verticalAlign="middle">
-                <Grid.Column>
-                  {this.getJoinActiveCircuitButtonContent()}
-                </Grid.Column>
-              </Grid.Row>
-            );
-          }
-
+          content = (
+            <Grid.Row stretched verticalAlign="middle">
+              <Grid.Column>
+                {this.getJoinActiveCircuitButtonContent()}
+              </Grid.Column>
+            </Grid.Row>
+          );
         }
+
+      }
     }
 
     return (
@@ -802,7 +802,7 @@ export default class CircuitSidebar extends Component {
           size="large"
         >
           {circuitMembers.map(model => (
-            <PartyPanelListItem
+            <RetroPartyListItem
               key={model.memberId}
               model={model}
               isMe={this.isMe(model.memberId)}

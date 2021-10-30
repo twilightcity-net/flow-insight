@@ -15,6 +15,7 @@ import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFac
 import { CircuitClient } from "../../../../clients/CircuitClient";
 import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import { BaseClient } from "../../../../clients/BaseClient";
+import UtilRenderer from "../../../../UtilRenderer";
 
 /**
  * The Circuits Panel is a react component that is used primarily by the
@@ -226,14 +227,11 @@ export default class CircuitsPanel extends Component {
           .RETRO_CIRCUITS,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
-      retroCircuitVisible: true
+      retroCircuitsVisible: true
     });
-
-    console.log("show retro");
 
     let that = this;
     CircuitClient.getAllMyRetroCircuits(this, arg => {
-      console.log("ARG", arg);
       that.setState({ retroCircuits: arg.data });
     });
   }
@@ -262,6 +260,23 @@ export default class CircuitsPanel extends Component {
     this.selections.retroCircuitComponent = component;
     let circuitName = component.props.model.circuitName;
     this.requestBrowserToLoadRetroCircuit(circuitName);
+  };
+
+  handleCloseRetroCircuit = component => {
+    console.log("Clicked close!");
+
+    let circuitName = component.props.model.circuitName;
+
+    CircuitClient.closeWtf(circuitName, this, arg => {
+
+      this.setState(prevState => {
+        let filteredRetros = prevState.retroCircuits.filter(item => item.circuitName !== circuitName);
+        return {retroCircuits: filteredRetros}
+      });
+
+    });
+
+    //will need to make this call the close API, then remove from the list
   };
 
   /**
@@ -364,6 +379,14 @@ export default class CircuitsPanel extends Component {
    * @returns {*}
    */
   getRetroCircuitsContent = () => {
+
+    let maxTime = 1;
+
+    if (this.state.retroCircuits.length > 0) {
+       maxTime = UtilRenderer.getWtfSecondsFromCircuit(this.state.retroCircuits[0]);
+    }
+
+
     return (
       <div className="retroCircuitsContent">
         <List
@@ -378,9 +401,11 @@ export default class CircuitsPanel extends Component {
             <RetroCircuitListItem
               key={model.id}
               model={model}
+              maxTime={maxTime}
               onRetroCircuitListItemClick={
                 this.handleClickRetroCircuit
               }
+              onRetroCloseItemClick={this.handleCloseRetroCircuit}
             />
           ))}
         </List>

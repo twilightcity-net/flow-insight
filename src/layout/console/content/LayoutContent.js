@@ -11,6 +11,7 @@ import {
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import LayoutBrowser from "./LayoutBrowser";
 import { MainPanelViewController } from "../../../controllers/MainPanelViewController";
+import RetroResource from "./retro/RetroResource";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -100,6 +101,14 @@ export default class LayoutContent extends Component {
         );
         className =
           MainPanelViewController.Resources.CIRCUIT +
+          className;
+        break;
+      case MainPanelViewController.Resources.RETRO:
+        component = (
+          <RetroResource resource={this.state.resource} />
+        );
+        className =
+          MainPanelViewController.Resources.RETRO +
           className;
         break;
       case MainPanelViewController.Resources.FLOW:

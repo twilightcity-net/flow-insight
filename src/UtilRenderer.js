@@ -120,6 +120,37 @@ export default class UtilRenderer {
   }
 
   /**
+   * gets the number of seconds from the circuit timer to be used for math
+   *
+   * @returns {string}
+   */
+  static getWtfSecondsFromCircuit(circuit) {
+    let openUtcTime = moment.utc(circuit.openTime);
+    let totalPauseNanoTime =
+      circuit.totalCircuitPausedNanoTime;
+    let totalElapsedNanoTime =
+      circuit.totalCircuitElapsedNanoTime;
+
+    if (UtilRenderer.isCircuitTroubleshoot(circuit)) {
+      // in this case, we want the ticking clock based on open time.
+      let seconds =
+        moment().diff(openUtcTime, "s") -
+        UtilRenderer.getSecondsFromNanoseconds(
+          totalPauseNanoTime
+        );
+
+      return seconds;
+    } else {
+      //we want the clock to be fixed based on total elapsed time
+      let seconds = UtilRenderer.getSecondsFromNanoseconds(
+        totalElapsedNanoTime
+      );
+
+      return seconds;
+    }
+  }
+
+  /**
    * gets our timer string from the time now see getWtfTimerStringFromSeconds
    * @param openUtcTime
    * @param pausedNanoTime
@@ -504,7 +535,7 @@ export default class UtilRenderer {
   }
 
   /**
-   * checks to see if circuit is solved
+   * checks to see if circuit is canceled
    * @param circuit
    * @returns {boolean}
    */
@@ -513,6 +544,19 @@ export default class UtilRenderer {
       circuit &&
       circuit.circuitState ===
         BaseClient.CircuitStates.CANCELED
+    );
+  }
+
+  /**
+   * checks to see if circuit is closed
+   * @param circuit
+   * @returns {boolean}
+   */
+  static isCircuitClosed(circuit) {
+    return (
+      circuit &&
+      circuit.circuitState ===
+      BaseClient.CircuitStates.CLOSED
     );
   }
 

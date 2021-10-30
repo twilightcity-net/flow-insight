@@ -74,7 +74,8 @@ export class BaseClient {
       CANCELED: "CANCELED",
       ON_HOLD: "ONHOLD",
       SOLVED: "SOLVED",
-      RETRO: "RETRO"
+      RETRO: "RETRO",
+      CLOSED: "CLOSED"
     };
   }
 

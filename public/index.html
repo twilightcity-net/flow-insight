@@ -1077,6 +1077,141 @@
     padding-left: 1.260em;
   }
 
+
+  /**
+  * Retro circuit panel contents
+  */
+
+
+
+  #component.consoleSidebarPanel .retroCircuitsContent {
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .active {
+    background: #272727;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item .content .header {
+    font-size: 1rem;
+    line-height: 1rem;
+    padding-left: 0.210em;
+    color: rgba(211, 211, 211, 1);
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item .content i.name {
+    font-weight: normal;
+    font-size: 1rem;
+    padding-left: 0.420em;
+    color: rgba(211, 211, 211, 1);
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .circuitLabelTimer {
+    margin-top: -0.420em;
+    transform: translateY(50%);
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item .circuitLabelTimer .ui.violet.label.active {
+    background: #6435c9 !important;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.selected {
+    background: rgba(48, 48, 49, 1);
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.selected .circuitLabelTimer .ui.label {
+    background: red !important;
+    color: white !important;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item .circuitLabelTimer .ui.label {
+    padding: 0.420em 0.840em;
+    background: rgba(48, 48, 48, 1) !important;
+    border: none;
+    color: rgb(233, 233, 233) !important;
+    transition: background 0.420s ease-out;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item .closeButton {
+    position: absolute;
+    top: 10px;
+    right: -10px;
+    background-color: rgba(40, 41, 42, 0.96);
+    color: rgba(180, 0, 0, 0.96);
+    cursor: pointer !important;
+    transition: background-color, color 0.333s ease-out;
+    padding: 5px;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item .closeButton:hover {
+    background-color: rgba(180, 0, 0, 0.96);
+    color: rgba(200, 200, 200, 0.96);
+  }
+
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.selected .circuitLabelTimer .heatbar {
+    background: red !important;
+    color: white !important;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item .circuitLabelTimer .heatbar {
+    background: rgba(48, 48, 48, 1) !important;
+    border: none;
+    color: rgb(233, 233, 233) !important;
+    transition: background 0.420s ease-out;
+    width: 80px;
+    height: 22px;
+    border-radius: 3px;
+    position: absolute;
+    right: 27px;
+    top: 11px;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item .circuitLabelTimer .heatbar .bar {
+    height: 22px;
+    background: rgb(77, 0, 0, 1) !important;
+    position: absolute;
+    right: 0px;
+    border-radius: 3px;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item:hover .circuitLabelTimer .heatbar .bar {
+    background: rgb(100, 0, 0, 1) !important;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item:hover .circuitLabelTimer .heatbar {
+    background: rgba(55, 55, 55, 1) !important;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item:hover .circuitLabelTimer .ui.label.violet {
+    background: #6435c9 !important;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item:hover .circuitLabelTimer .ui.label.red {
+    background: red !important;
+  }
+
+
+  #component.consoleSidebarPanel .retroCircuitsContent .circuitLabelTimer i.lightning.icon {
+    margin-right: 0.210em;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item {
+    padding: 0.840em;
+    transition: background 0.840s ease-out, padding 0.210s ease-out;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item:hover {
+    padding-left: 1.260em;
+    background: #272727;
+  }
+
+  #component.consoleSidebarPanel .retroCircuitsContent .ui.list .item.selected {
+    padding-left: 1.260em;
+  }
+
+
   /*
        * COMPONENT: TEAM-PANEL
        */

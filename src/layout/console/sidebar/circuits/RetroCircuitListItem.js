@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import {
+  Button,
   Icon,
-  Label,
   List,
   Popup
 } from "semantic-ui-react";
@@ -14,12 +14,14 @@ import UtilRenderer from "../../../../UtilRenderer";
 export default class RetroCircuitListItem extends Component {
   constructor(props) {
     super(props);
+    this.isClosed = false;
     this.state = {
       isSelected: false,
       isRetro: LearningCircuitModel.isRetro(
         this.props.model
       ),
-      time: this.getWtfTimerCount(this.props.model),
+      time: UtilRenderer.getWtfTimerFromCircuit(this.props.model),
+      seconds:  UtilRenderer.getWtfSecondsFromCircuit(this.props.model),
       timerIcon: this.isRetro
         ? "balance scale"
         : "lightning",
@@ -31,7 +33,14 @@ export default class RetroCircuitListItem extends Component {
    * click handler for our retro component.
    */
   handleClick = () => {
-    this.props.onRetroCircuitListItemClick(this);
+    if (!this.isClosed) {
+      this.props.onRetroCircuitListItemClick(this);
+    }
+  };
+
+  handleCloseClick = () => {
+    this.isClosed = true;
+    this.props.onRetroCloseItemClick(this);
   };
 
   /**
@@ -41,6 +50,13 @@ export default class RetroCircuitListItem extends Component {
   getClassName() {
     return this.timerColor;
   }
+
+
+  getPercentTime() {
+    let percent = (Math.ceil((this.state.seconds / this.props.maxTime)*100)) + "%";
+    return percent;
+  }
+
 
   /**
    * renders our wtf time from the circuit that is passed into from the
@@ -70,7 +86,10 @@ export default class RetroCircuitListItem extends Component {
       <div>
         <div className="circuit">
           <div className="state">
-            <b>{circuitState}</b>
+            <b>
+              <Icon name={this.state.timerIcon} />{" "}
+              {this.state.time}
+            </b>
           </div>
           <div className="name">
             <i>{description}</i>
@@ -101,17 +120,26 @@ export default class RetroCircuitListItem extends Component {
         key={this.props.model.id}
         onClick={this.handleClick}
       >
+
         <List.Content
           floated="right"
           verticalAlign="middle"
           className="circuitLabelTimer"
         >
-          <Label color={this.state.timerColor}>
-            <Icon name={this.state.timerIcon} />{" "}
-            {this.state.time}
-          </Label>
+
+          <div  className="heatbar">
+            <div className="bar" style={{width: this.getPercentTime()}}/>
+          </div>
+
+          <Button
+            icon="close"
+            className="closeButton"
+            onClick={this.handleCloseClick}
+          />
+
         </List.Content>
-        <List.Content>
+        <List.Content className="circuit">
+
           <List.Header>
             {this.props.model.circuitName}
           </List.Header>
@@ -119,6 +147,7 @@ export default class RetroCircuitListItem extends Component {
             ({this.props.model.ownerName})
           </i>
         </List.Content>
+
       </List.Item>
     );
   }

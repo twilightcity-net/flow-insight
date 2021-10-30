@@ -408,6 +408,14 @@ module.exports = class TalkController extends BaseController {
               circuit
             );
             break;
+          case TalkController.StatusTypes.TEAM_WTF_CLOSED:
+            circuitDatabase.removeCircuitFromAllCollections(
+              circuit
+            );
+            memberDatabase.removeActiveCircuitFromMembers(
+              circuit
+            );
+            break;
           case TalkController.StatusTypes
             .TEAM_RETRO_STARTED:
             console.log("XXX-TEAM_RETRO_STARTED");

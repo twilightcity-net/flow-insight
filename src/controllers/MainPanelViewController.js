@@ -30,6 +30,7 @@ export class MainPanelViewController extends ActiveViewController {
       TERMINAL: "terminal",
       JOURNAL: "journal",
       WTF: "wtf",
+      RETRO: "retro",
       CIRCUIT: "circuit",
       FLOW: "flow"
     };
