@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import {
   Button,
-  Icon,
+  Icon, Label,
   List,
   Popup
 } from "semantic-ui-react";
-import { LearningCircuitModel } from "../../../../models/LearningCircuitModel";
 import UtilRenderer from "../../../../UtilRenderer";
 
 /**
@@ -15,17 +14,9 @@ export default class RetroCircuitListItem extends Component {
   constructor(props) {
     super(props);
     this.isClosed = false;
+
     this.state = {
       isSelected: false,
-      isRetro: LearningCircuitModel.isRetro(
-        this.props.model
-      ),
-      time: UtilRenderer.getWtfTimerFromCircuit(this.props.model),
-      seconds:  UtilRenderer.getWtfSecondsFromCircuit(this.props.model),
-      timerIcon: this.isRetro
-        ? "balance scale"
-        : "lightning",
-      timerColor: this.isRetro ? "violet" : "red"
     };
   }
 
@@ -53,7 +44,8 @@ export default class RetroCircuitListItem extends Component {
 
 
   getPercentTime() {
-    let percent = (Math.ceil((this.state.seconds / this.props.maxTime)*100)) + "%";
+    let seconds = UtilRenderer.getWtfSecondsFromCircuit(this.props.model);
+    let percent = (Math.ceil((seconds / this.props.maxTime)*100)) + "%";
     return percent;
   }
 
@@ -72,6 +64,12 @@ export default class RetroCircuitListItem extends Component {
     }
   }
 
+  getTimerIcon() {
+    let isRetro = UtilRenderer.isCircuitInRetro(this.props.model);
+
+    return isRetro ? "balance scale" : "lightning";
+  }
+
   /**
    * renders our popup content for our GUI to display to the user
    * @param trigger
@@ -79,16 +77,27 @@ export default class RetroCircuitListItem extends Component {
    */
   getPopupContent(trigger) {
     let circuit = this.props.model,
-      circuitState = circuit.circuitState,
       description = circuit.description;
+
+
+    let time = UtilRenderer.getWtfTimerFromCircuit(this.props.model);
+
+    let label = "";
+    if (UtilRenderer.isCircuitInRetro(this.props.model)) {
+      label = this.props.model.circuitState;
+    } else {
+      label = <span>
+        <Icon name={this.getTimerIcon()} />{" "}
+        {time}
+        </span>
+    }
 
     let popupContent = (
       <div>
         <div className="circuit">
           <div className="state">
             <b>
-              <Icon name={this.state.timerIcon} />{" "}
-              {this.state.time}
+              {label}
             </b>
           </div>
           <div className="name">
@@ -110,6 +119,46 @@ export default class RetroCircuitListItem extends Component {
     );
   }
 
+  getBar() {
+    if (this.props.model.circuitState === "RETRO") {
+      return (
+        <Label color="violet">
+          <Icon name="balance scale" />{" "}
+          {this.getWtfTimerCount(this.props.model)}
+        </Label>
+      );
+    } else {
+      // return (
+      //   <Label color="red">
+      //     <Icon name="lightning"/>{" "}
+      //     {this.getWtfTimerCount(this.props.model)}
+      //   </Label>
+      // );
+
+
+      return (
+        <div  className="heatbar">
+          <div className="bar" style={{width: this.getPercentTime()}}/>
+        </div>
+      );
+    }
+  }
+
+  getCloseButton() {
+    if (this.props.model.circuitState === "RETRO") {
+      return (
+        ""
+      );
+    } else {
+      return (
+        <Button
+          icon="close"
+          className="closeButton"
+          onClick={this.handleCloseClick}
+        />
+      );
+    }
+  }
   /**
    * renders our shit.
    */
@@ -127,15 +176,10 @@ export default class RetroCircuitListItem extends Component {
           className="circuitLabelTimer"
         >
 
-          <div  className="heatbar">
-            <div className="bar" style={{width: this.getPercentTime()}}/>
-          </div>
+          {this.getBar()}
 
-          <Button
-            icon="close"
-            className="closeButton"
-            onClick={this.handleCloseClick}
-          />
+          {this.getCloseButton()}
+
 
         </List.Content>
         <List.Content className="circuit">

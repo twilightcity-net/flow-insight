@@ -82,6 +82,7 @@ export default class UtilRenderer {
       .join(" ");
   }
 
+
   /**
    * gets our timer string from the time inside the circuit.  If the circuit is paused,
    *
@@ -533,6 +534,20 @@ export default class UtilRenderer {
         BaseClient.CircuitStates.SOLVED
     );
   }
+
+  /**
+   * checks to see if circuit is in retro
+   * @param circuit
+   * @returns {boolean}
+   */
+  static isCircuitInRetro(circuit) {
+    return (
+      circuit &&
+      circuit.circuitState ===
+      BaseClient.CircuitStates.RETRO
+    );
+  }
+
 
   /**
    * checks to see if circuit is canceled

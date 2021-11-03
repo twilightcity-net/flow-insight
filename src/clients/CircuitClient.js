@@ -128,6 +128,7 @@ export class CircuitClient extends BaseClient {
       CANCEL_WTF: "cancel-wtf",
       CLOSE_WTF: "close-wtf",
       RESUME_WTF: "resume-wtf",
+      START_RETRO_FOR_WTF: "start-retro-for-wtf",
       PAUSE_WTF_WITH_DO_IT_LATER:
         "pause-wtf-with-do-it-later",
       UPDATE_CIRCUIT_DESCRIPTION:
@@ -480,6 +481,25 @@ export class CircuitClient extends BaseClient {
   static solveWtf(circuitName, scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.SOLVE_WTF,
+      { circuitName: circuitName },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+
+  /**
+   * start retro for our a circuit on grid time
+   * @param circuitName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static startRetro(circuitName, scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.START_RETRO_FOR_WTF,
       { circuitName: circuitName },
       scope,
       callback

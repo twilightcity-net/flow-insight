@@ -86,11 +86,19 @@ export default class RetroSidebar extends Component {
   }
 
   /**
-   * click handler for putting a circuit on hold
+   * click handler for starting a retro
    */
-  onClickSolveActiveCircuit = () => {
+  onClickStartRetroCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.resourcesController.solveCircuit(circuitName);
+    this.resourcesController.startRetro(circuitName);
+  };
+
+  /**
+   * click handler for when we want to close a circuit when a retro is or isnt started
+   */
+  onClickCloseActiveCircuit = () => {
+    let circuitName = this.props.model.circuitName;
+    this.resourcesController.closeCircuit(circuitName);
   };
 
   /**
@@ -539,25 +547,46 @@ export default class RetroSidebar extends Component {
   }
 
   /**
-   * renders our solved button for the gui. disables the button if it is paused
-   * @returns {*}
+   * renders our start retro button for the gui
    */
-  getSolveActiveCircuitButtonContent() {
-    let circuit = this.props.model;
-    if (circuit && !UtilRenderer.isCircuitPaused(circuit)) {
-      return (
-        <Button
-          onClick={this.onClickSolveActiveCircuit}
-          size="medium"
-          color="violet"
-        >
-          <Button.Content>solved!</Button.Content>
-        </Button>
-      );
-    }
+  getStartRetroButtonContent() {
     return (
-      <Button size="medium" color="grey" disabled>
-        <Button.Content>solved!</Button.Content>
+      <Button
+        onClick={this.onClickStartRetroCircuit}
+        size="medium"
+        color="violet"
+      >
+        <Button.Content>start retro</Button.Content>
+      </Button>
+    );
+  }
+
+  /**
+   * renders our close button for the gui
+   */
+  getCloseCircuitButtonContent() {
+    return (
+      <Button
+        onClick={this.onClickCloseActiveCircuit}
+        size="medium"
+        color="grey"
+      >
+        <Button.Content>close</Button.Content>
+      </Button>
+    );
+  }
+
+  /**
+   * renders our close button for the gui
+   */
+  getRetroFinishedCircuitButtonContent() {
+    return (
+      <Button
+        onClick={this.onClickCloseActiveCircuit}
+        size="mediTum"
+        color="violet"
+      >
+        <Button.Content>finish retro</Button.Content>
       </Button>
     );
   }
@@ -607,8 +636,8 @@ export default class RetroSidebar extends Component {
     if (circuit) {
       if (UtilRenderer.isCircuitPaused(circuit)) {
         return this.getPausedCircuitButtonContent();
-      } else if (UtilRenderer.isCircuitSolved(circuit)) {
-        return this.getSolvedCircuitButtonContent();
+      } else if (UtilRenderer.isCircuitTroubleshoot(circuit)) {
+        return this.getTroubleshootCircuitButtonContent();
       } else if (UtilRenderer.isCircuitCanceled(circuit)) {
         return this.getCanceledCircuitButtonContent();
       } else if (UtilRenderer.isCircuitClosed(circuit)) {
@@ -634,15 +663,15 @@ export default class RetroSidebar extends Component {
   }
 
   /**
-   * renders our solved button which is shown when viewing a circuit
-   * that's already been solved. It is disabled and is only shown when the active
-   * circuit is actually solved.
+   * renders a troubleshooting button if for some reason we end up with a retro
+   * rendering for a circuit that is currently active, shouldnt happen unless
+   * the resource is directly addressed
    * @returns {*}
    */
-  getSolvedCircuitButtonContent() {
+  getTroubleshootCircuitButtonContent() {
     return (
       <Button size="medium" color="grey" disabled>
-        <Button.Content>solved</Button.Content>
+        <Button.Content>troubleshooting</Button.Content>
       </Button>
     );
   }
@@ -709,62 +738,45 @@ export default class RetroSidebar extends Component {
 
     let content = "";
 
-    if (UtilRenderer.isCircuitOwnerModerator(MemberClient.me, circuit)) {
+    //for a solved circuit, anyone on the team, whether the owner or not, can start a retro
+    //if they hit the close button, it should mark for close, and show number of marks.
 
-      if (UtilRenderer.isCircuitCanceled(circuit) || UtilRenderer.isCircuitClosed(circuit) || UtilRenderer.isCircuitSolved(circuit)) {
-        content = (
-          <Grid.Row stretched verticalAlign="middle">
-            <Grid.Column>
-              {this.getInactiveCircuitButtonContent()}
-            </Grid.Column>
-          </Grid.Row>
-        );
-      } else {
-        content = (
-          <Grid.Row stretched verticalAlign="middle">
-            <Grid.Column>
-              {this.getSolveActiveCircuitButtonContent()}
-            </Grid.Column>
-            <Grid.Column>
-              {this.getPauseResumeButtonContent()}
-            </Grid.Column>
-            <Grid.Column>
-              {this.getCancelActiveCircuitButtonContent()}
-            </Grid.Column>
-          </Grid.Row>
-        );
-      }
-    } else {
-      //not my circuit
-      if (!UtilRenderer.isCircuitActive(this.props.model)) {
-        content = (
-          <Grid.Row stretched verticalAlign="middle">
-            <Grid.Column>
-              {this.getInactiveCircuitButtonContent()}
-            </Grid.Column>
-          </Grid.Row>
-        );
-      } else {
-        //active circuit, not mine
-        if (UtilRenderer.isCircuitParticipant(MemberClient.me, this.props.circuitMembers)) {
-          content = (
-            <Grid.Row stretched verticalAlign="middle">
-              <Grid.Column>
-                {this.getLeaveActiveCircuitButtonContent()}
-              </Grid.Column>
-            </Grid.Row>
-          );
-        } else {
-          content = (
-            <Grid.Row stretched verticalAlign="middle">
-              <Grid.Column>
-                {this.getJoinActiveCircuitButtonContent()}
-              </Grid.Column>
-            </Grid.Row>
-          );
-        }
+    //need to know whether the close is marked by them or not already?
 
-      }
+    if (UtilRenderer.isCircuitSolved(circuit)) {
+      content = (
+        <Grid.Row stretched verticalAlign="middle">
+          <Grid.Column>
+            {this.getStartRetroButtonContent()}
+          </Grid.Column>
+          <Grid.Column>
+            {this.getCloseCircuitButtonContent()}
+          </Grid.Column>
+        </Grid.Row>
+      );
+    }
+
+    if (UtilRenderer.isCircuitInRetro(circuit)) {
+
+      content = (
+        <Grid.Row stretched verticalAlign="middle">
+          <Grid.Column>
+            {this.getRetroFinishedCircuitButtonContent()}
+          </Grid.Column>
+        </Grid.Row>
+      );
+
+    }
+
+    if (UtilRenderer.isCircuitCanceled(circuit) || UtilRenderer.isCircuitClosed(circuit) ||
+      UtilRenderer.isCircuitTroubleshoot(circuit) || UtilRenderer.isCircuitPaused(circuit)) {
+      content = (
+        <Grid.Row stretched verticalAlign="middle">
+          <Grid.Column>
+            {this.getInactiveCircuitButtonContent()}
+          </Grid.Column>
+        </Grid.Row>
+      );
     }
 
     return (

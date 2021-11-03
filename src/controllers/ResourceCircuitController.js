@@ -173,7 +173,7 @@ export class ResourceCircuitController extends ActiveViewController {
 
   /**
    * handler that is called when we want to solve a given wtf circuit.
-   * @param circuitName the circuit to pause
+   * @param circuitName the circuit to solve
    */
   solveCircuit(circuitName) {
     CircuitClient.solveWtf(circuitName, this, arg => {
@@ -185,6 +185,40 @@ export class ResourceCircuitController extends ActiveViewController {
       this.fireCircuitSolveNotifyEvent();
     });
   }
+
+  /**
+   * handler that is called when we want to start the retro for a given circuit.
+   * @param circuitName
+   */
+  startRetro(circuitName) {
+
+    CircuitClient.startRetro(
+      circuitName,
+      this,
+      arg => {
+        //not sure if we need to do anything here yet
+        console.log("started retro");
+      }
+    );
+  }
+
+
+  /**
+   * handler that is called when we want to close a given circuit.
+   * @param circuitName
+   */
+  closeCircuit(circuitName) {
+
+    CircuitClient.closeWtf(
+      circuitName,
+      this,
+      arg => {
+        //not sure if we need to do anything here yet
+        console.log("closed");
+      }
+    );
+  }
+
 
   /**
    * handler that is called when we put a circuit on hold

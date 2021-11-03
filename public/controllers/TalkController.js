@@ -400,6 +400,9 @@ module.exports = class TalkController extends BaseController {
               circuit
             );
             break;
+          case TalkController.StatusTypes.TEAM_RETRO_STARTED:
+            circuitDatabase.startRetroForCircuit(circuit);
+            break;
           case TalkController.StatusTypes.TEAM_WTF_CANCELED:
             circuitDatabase.removeCircuitFromAllCollections(
               circuit
@@ -409,6 +412,7 @@ module.exports = class TalkController extends BaseController {
             );
             break;
           case TalkController.StatusTypes.TEAM_WTF_CLOSED:
+          case TalkController.StatusTypes.TEAM_RETRO_CLOSED:
             circuitDatabase.removeCircuitFromAllCollections(
               circuit
             );

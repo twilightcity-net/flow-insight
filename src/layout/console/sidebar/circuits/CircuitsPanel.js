@@ -382,8 +382,12 @@ export default class CircuitsPanel extends Component {
 
     let maxTime = 1;
 
-    if (this.state.retroCircuits.length > 0) {
-       maxTime = UtilRenderer.getWtfSecondsFromCircuit(this.state.retroCircuits[0]);
+    for (let i = 0; i < this.state.retroCircuits.length; i++) {
+       let circuit = this.state.retroCircuits[i];
+       if (circuit.circuitState === "SOLVED") {
+         maxTime = UtilRenderer.getWtfSecondsFromCircuit(circuit);
+         break;
+       }
     }
 
 

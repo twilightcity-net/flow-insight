@@ -338,10 +338,12 @@ export default class ConsoleSidebar extends Component {
       name === SidePanelViewController.MenuSelection.WTF &&
       this.state.isAlarm
     ) {
+      console.log("loadWTF");
       this.myController.loadWTF();
     } else if (
       name === SidePanelViewController.MenuSelection.WTF
     ) {
+      console.log("startWTF");
       this.myController.startWTF();
     } else {
       this.myController.showPanel(name);

@@ -628,7 +628,7 @@ module.exports = class CircuitController extends BaseController {
         collection = database.getCollection(
           CircuitDatabase.Collections.RETRO
         );
-      
+
       this.updateCircuitsByIdInCollection(
         store.data,
         collection
@@ -963,15 +963,20 @@ module.exports = class CircuitController extends BaseController {
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.CIRCUIT
       ),
-      view = database.getViewAllMySolvedCircuits();
+      rview = database.getViewAllMyRetroCircuits(),
+      sview = database.getViewAllMySolvedCircuits();
 
     this.logResults(
       this.name,
       arg.type,
       arg.id,
-      view.count()
+      (sview.count() + rview.count())
     );
-    arg.data = view.data();
+    arg.data = rview.data();
+
+    arg.data = arg.data.concat(sview.data());
+
+
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,

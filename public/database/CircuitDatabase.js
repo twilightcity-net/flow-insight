@@ -201,9 +201,28 @@ module.exports = class CircuitDatabase extends LokiJS {
         return 1;
     });
 
-    this.getCollection(
+    let retroView = this.getCollection(
       CircuitDatabase.Collections.RETRO
     ).addDynamicView(CircuitDatabase.Views.RETRO);
+
+    retroView.applySort(function(obj1, obj2) {
+      if (
+        obj1.totalCircuitElapsedNanoTime ===
+        obj2.totalCircuitElapsedNanoTime
+      )
+        return 0;
+      if (
+        obj1.totalCircuitElapsedNanoTime >
+        obj2.totalCircuitElapsedNanoTime
+      )
+        return -1;
+      if (
+        obj1.totalCircuitElapsedNanoTime <
+        obj2.totalCircuitElapsedNanoTime
+      )
+        return 1;
+    });
+
     let solvedView = this.getCollection(
       CircuitDatabase.Collections.SOLVED
     ).addDynamicView(CircuitDatabase.Views.SOLVED);
