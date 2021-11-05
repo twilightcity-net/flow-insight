@@ -298,6 +298,17 @@ export class DimensionController {
     return 44.42 * oneRem;
   }
 
+
+  /**
+   * calculates the height for the circuit scrapbook panel
+   * @returns {number}
+   */
+  static getActiveCircuitContentRetroSlideMinWidthDefault() {
+    let oneRem = window.innerHeight / 100;
+    return 100.42 * oneRem;
+  }
+
+
   /**
    * calculate the default resize panel width for the circuit scrapbook
    * @returns {number}

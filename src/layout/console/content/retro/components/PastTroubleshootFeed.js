@@ -7,25 +7,22 @@ import {
   Transition,
   Menu
 } from "semantic-ui-react";
-import SplitterLayout from "react-splitter-layout";
-import ActiveRetroChat from "./ActiveRetroChat";
 import UtilRenderer from "../../../../../UtilRenderer";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import ActiveRetroFeedEvent from "./ActiveRetroFeedEvent";
-import { TalkToClient } from "../../../../../clients/TalkToClient";
 
 /**
- * this is the gui component that displays the actual on going real-time
- * chat feed of the active circuit that the people are in.
+ * this is the gui component that displays the past chat feed from our troubleshooting session
+ * in the context of a retro
  */
-export default class ActiveRetroFeed extends Component {
+export default class PastTroubleshootFeed extends Component {
   /**
    * this is our active circuit feed's elemental id. This is so we can look
    * up the active circuit feed by getElementById in our DOM.
    * @type {string}
    */
   static activeCircuitFeedElIdString =
-    "active-circuit-feed";
+    "past-troubleshoot-feed";
 
   /**
    * the string that is appended to the end of a circuit name which is the
@@ -33,14 +30,14 @@ export default class ActiveRetroFeed extends Component {
    * which is associated with this active circuit
    * @type {string}
    */
-  static activeCircuitRoomSuffix = "-retro";
+  static activeCircuitRoomSuffix = "-wtf";
 
   /**
    * the dom el id name of the circuit feed content panel
    * @type {string}
    */
   static circuitContentFeedPanelID =
-    "circuitContentFeedPanel";
+    "pastContentFeedPanel";
 
   /**
    * this is the name of the meta property field which the talk message uses
@@ -55,68 +52,15 @@ export default class ActiveRetroFeed extends Component {
    */
   constructor(props) {
     super(props);
-    this.name = "[ActiveRetroFeed]";
+    this.name = "[PastTroubleshootFeed]";
     this.me = MemberClient.me;
     this.lastFeedEvent = null;
     this.memberRequests = 0;
     this.loadCount = 0;
 
     this.pastChatMembersNotActive = [];
-
-    this.props.set(this);
   }
 
-  /**
-   * scroll to the bottom of the feed whenever we get some changes to the
-   * messages array that drives the feed.
-   * @param prevProps
-   * @param prevState
-   * @param snapshot
-   */
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    //make sure we've got all our circuit members, and if not, send a retrieval request for them
-
-    this.scrollToFeedBottom();
-  }
-
-  /**
-   * adds a new message to our messages array and triggers a rerender
-   * @param text
-   * @param callback
-   */
-  addChatMessage = (text, callback) => {
-    let roomName = this.props.resource.uriArr[1];
-    TalkToClient.publishChatToRoom(
-      roomName + ActiveRetroFeed.activeCircuitRoomSuffix,
-      text,
-      this,
-      arg => {
-        if (callback) {
-          callback(arg);
-        }
-      }
-    );
-  };
-
-  /**
-   * function used to scroll our feed panel to the bottom when we build the
-   * list or get a new talk message event in from the talk client
-   */
-  scrollToFeedBottom = () => {
-    let feedElement = document.getElementById(
-      ActiveRetroFeed.activeCircuitFeedElIdString
-    );
-    feedElement.scrollTop = feedElement.scrollHeight;
-  };
-
-  /**
-   * processes our enter key for our chat texting
-   * @param text
-   * @param callback
-   */
-  handleEnterKey = (text, callback) => {
-    this.addChatMessage(text, callback, true);
-  };
 
   /**
    * event handle for the vertical panel resize. Adjust the feed panel height
@@ -125,11 +69,11 @@ export default class ActiveRetroFeed extends Component {
    */
   onSecondaryPaneSizeChange = size => {
     document.getElementById(
-      ActiveRetroFeed.circuitContentFeedPanelID
+      PastTroubleshootFeed.circuitContentFeedPanelID
     ).style.height =
-      ( DimensionController.getActiveCircuitFeedContentHeight(
+      DimensionController.getActiveCircuitFeedContentHeight(
         size
-      )) + "px";
+      ) + "px";
   };
 
   /**
@@ -223,35 +167,6 @@ export default class ActiveRetroFeed extends Component {
     this.lastFeedEvent = component;
   };
 
-  /**
-   * renders our active chat component which is used to input text and
-   * hypermedia to push over the circuit.
-   * @returns {*}
-   */
-  getActiveCircuitChatContent() {
-    let isPaused = UtilRenderer.isCircuitStatePaused(
-      this.props.circuitState
-    );
-    let isParticipant = UtilRenderer.isCircuitParticipant(
-      MemberClient.me,
-      this.props.circuitMembers
-    );
-
-    return (
-      <Transition
-        visible={isParticipant && !isPaused}
-        animation="fade"
-        duration={210}
-        onComplete={this.onCircuitChatShown}
-      >
-        <div id="wrapper" className="activeCircuitChat">
-          <ActiveRetroChat
-            onEnterKey={this.handleEnterKey}
-          />
-        </div>
-      </Transition>
-    );
-  }
 
   /**
    * renders our active feed component into the current resource view
@@ -260,60 +175,38 @@ export default class ActiveRetroFeed extends Component {
   getActiveCircuitFeedContent(isChatActive) {
     let circuit = this.props.model,
       openTimeStr = "NOW",
-      height = "100%";
+      height = "95%";
 
     if (circuit) {
       openTimeStr = UtilRenderer.getOpenTimeString(
-        circuit.retroStartedTime
+        circuit.openTime
       );
     }
 
-    if (isChatActive) {
-      height = DimensionController.getActiveCircuitFeedContentHeight();
-    }
-
     return (
-      <div
-        id="component"
-        className="retroSlidePanel"
-      >
       <Segment
         inverted
-        id={ActiveRetroFeed.circuitContentFeedPanelID}
+        id={PastTroubleshootFeed.circuitContentFeedPanelID}
         style={{
-          height: height
+          height: height,
+          padding: "0px"
         }}
       >
-        <Menu icon inverted fluid secondary
-        >
-          <Menu.Item header className="retroHeader">Retro Session</Menu.Item>
-        </Menu>
         <Feed
           className="chat-feed"
-          id="active-circuit-feed"
+          id={PastTroubleshootFeed.activeCircuitFeedElIdString}
           style={{
-            margin: "0px",
-            height: "274px"
+            height: height
           }}
         >
           {this.getDividerContent(openTimeStr)}
           {this.getFeedEventsFromMessagesArrayContent()}
           <br/>
         </Feed>
-
       </Segment>
-      </div>
     );
   }
 
-  /**
-   * animation callback function that is dispatched after the chat component
-   * has faded out of view for the user, typically happens when the circuit is
-   * paused or resumed.
-   */
-  onCircuitChatShown = () => {
-    this.adjustFeedHeight();
-  };
 
   /**
    * adjusts our feed height, and styles. Checks to see if we are paused. if
@@ -322,25 +215,18 @@ export default class ActiveRetroFeed extends Component {
    */
   adjustFeedHeight() {
     let el = document.getElementById(
-        ActiveRetroFeed.circuitContentFeedPanelID
+      PastTroubleshootFeed.circuitContentFeedPanelID
       ),
       parentEl = el.parentElement,
       rootEl = parentEl.parentElement,
       children = rootEl.children,
       child = null;
 
-    if (!UtilRenderer.isCircuitPaused(this.props.model)) {
-      for (let i = 1; i < children.length; i++) {
-        child = children[i];
-        child.style.display = "block";
-      }
-    } else {
       el.style.height = "100%";
       parentEl.style.height = "100%";
       for (let i = 1; i < children.length; i++) {
         child = children[i];
         child.style.display = "none";
-      }
     }
   }
 
@@ -349,36 +235,19 @@ export default class ActiveRetroFeed extends Component {
    * @returns {JSX.Element}
    */
   getActiveCircuitFeedChatContent() {
-    let isParticipant = UtilRenderer.isCircuitParticipant(
-      MemberClient.me,
-      this.props.circuitMembers
-    );
-    let isPaused = UtilRenderer.isCircuitStatePaused(
-      this.props.circuitState
-    );
 
-    let content = (
-      <SplitterLayout
-        customClassName="feed"
-        vertical
-        primaryMinSize={DimensionController.getActiveCircuitContentFeedMinHeight()}
-        secondaryMinSize={DimensionController.getActiveCircuitContentChatMinHeight()}
-        secondaryInitialSize={DimensionController.getActiveCircuitContentChatMinHeightDefault()}
-        onSecondaryPaneSizeChange={
-          this.onSecondaryPaneSizeChange
-        }
-      >
-        {this.getActiveCircuitFeedContent(true)}
-        {this.getActiveCircuitChatContent()}
-      </SplitterLayout>
-    );
-
-    if (!isParticipant || isPaused) {
-      content = this.getActiveCircuitFeedContent(false);
-    }
+    let content = this.getActiveCircuitFeedContent(false);
 
     return content;
   }
+
+  /**
+   * our click handler for our minimize button
+   */
+  handleClick = () => {
+    this.props.hideSlidePanel();
+  };
+
 
   /**
    * renders the active circuit feed into the console view
@@ -386,23 +255,27 @@ export default class ActiveRetroFeed extends Component {
    */
   render() {
     return (
-      <div id="component" className="activeCircuitFeed">
-        {this.getActiveCircuitFeedChatContent()}
+      <div
+        id="component"
+        className="retroSlidePanel"
+      >
+        <Segment inverted>
+          <Menu icon inverted fluid secondary>
+            <Menu.Item header className="troubleHeader">Troubleshooting Session</Menu.Item>
+            <Menu.Item
+              link
+              position="right"
+              icon="window minimize"
+              onClick={this.handleClick}
+            />
+          </Menu>
+            <div id="component" className="pastSessionFeed">
+              {this.getActiveCircuitFeedChatContent()}
+            </div>
+        </Segment>
       </div>
+
+
     );
   }
 }
-
-// <Segment inverted>
-//   <Menu icon inverted fluid secondary>
-//     <Menu.Item header>Troubleshooting Session</Menu.Item>
-//     <Menu.Item
-//       link
-//       position="right"
-//       icon="window minimize"
-//       onClick={this.handleClick}
-//     />
-//   </Menu>
-//
-// </Segment>
-//

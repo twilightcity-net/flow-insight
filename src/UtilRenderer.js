@@ -406,6 +406,23 @@ export default class UtilRenderer {
   }
 
   /**
+   * determines if this should be a retro session connection
+   * @param resource
+   * @returns {boolean}
+   */
+  static isRetroResource(resource) {
+    let arr = resource.uriArr;
+    if (arr.length > 0) {
+      if (arr[0] === BrowserRequestFactory.Locations.RETRO) {
+        if (arr.length > 1) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
    * gets an epoch unix timestamp from a given UTC string with a timezone
    * @param utcStr
    * @returns {number}
@@ -415,7 +432,7 @@ export default class UtilRenderer {
   }
 
   /**
-   * gets the name of our room from a given circuit resource
+   * gets the name of our wtf room from a given circuit resource
    * @param resource
    * @returns {string|null}
    */
@@ -428,6 +445,27 @@ export default class UtilRenderer {
             arr[1] +
             "-" +
             BrowserRequestFactory.Locations.WTF
+          );
+        }
+      }
+    }
+    return null;
+  }
+
+  /**
+   * gets the name of our retro room from a given circuit resource
+   * @param resource
+   * @returns {string|null}
+   */
+  static getRetroRoomNameFromResource(resource) {
+    let arr = resource.uriArr;
+    if (arr.length > 0) {
+      if (arr[0] === BrowserRequestFactory.Locations.RETRO) {
+        if (arr.length > 1) {
+          return (
+            arr[1] +
+            "-" +
+            BrowserRequestFactory.Locations.RETRO
           );
         }
       }

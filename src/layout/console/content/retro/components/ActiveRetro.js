@@ -4,7 +4,6 @@ import SplitterLayout from "react-splitter-layout";
 import "react-splitter-layout/lib/index.css";
 import RetroSidebar from "./RetroSidebar";
 import ActiveRetroFeed from "./ActiveRetroFeed";
-import ActiveRetroScrapbook from "./ActiveRetroScrapbook";
 import { Transition } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
@@ -13,6 +12,7 @@ import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { BaseClient } from "../../../../../clients/BaseClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../../UtilRenderer";
+import PastTroubleshootFeed from "./PastTroubleshootFeed";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -49,7 +49,8 @@ export default class ActiveRetro extends Component {
     this.loadCount = 0;
     this.missingMemberLoadCount = 0;
     this.missingMembers = [];
-    this.messages = [];
+    this.retroMessages = [];
+    this.troubleshootMessages = [];
     this.circuitMembers = [];
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
@@ -64,10 +65,12 @@ export default class ActiveRetro extends Component {
     this.circuitFeedComponent = null;
 
     this.state = {
-      scrapbookVisible: false,
+      slidePanelVisible: true,
       model: null,
-      messages: [],
-      feedEvents: [],
+      retroMessages: [],
+      troubleshootMessages: [],
+      troubleshootFeedEvents: [],
+      retroFeedEvents: [],
       status: [],
       circuitMembers: [],
       missingMembers: [],
@@ -131,6 +134,9 @@ export default class ActiveRetro extends Component {
    */
   loadCircuit(circuitName, model, messages) {
     this.loadCount = 0;
+    this.retroMessages = [];
+    this.troubleshootMessages = [];
+    this.circuitMembers = [];
     CircuitClient.getCircuitWithAllDetails(
       circuitName,
       this,
@@ -142,11 +148,29 @@ export default class ActiveRetro extends Component {
           this.model.wtfTalkRoomId,
           this,
           arg => {
-            this.messages = arg.data;
+            this.troubleshootMessages = arg.data;
             this.loadCount++;
             this.updateStateIfDoneLoading();
           }
         );
+
+        if (this.model.retroTalkRoomId) {
+          TalkToClient.getAllTalkMessagesFromRoom(
+            this.model.retroTalkRoomName,
+            this.model.retroTalkRoomId,
+            this,
+            arg => {
+              this.retroMessages = arg.data;
+              this.loadCount++;
+              this.updateStateIfDoneLoading();
+            }
+          );
+        } else {
+          this.loadCount++;
+          this.updateStateIfDoneLoading();
+        }
+
+
         CircuitClient.loadCircuitMembers(
           circuitName,
           this.model.wtfTalkRoomId,
@@ -167,9 +191,9 @@ export default class ActiveRetro extends Component {
    * with incorrect profile pics, then fix it.  This loads the state at end, after loadcount == 2
    */
   updateStateIfDoneLoading() {
-    if (this.loadCount === 2) {
+    if (this.loadCount === 3) {
       this.missingMemberNames = this.findMissingMembers(
-        this.messages,
+        this.troubleshootMessages, this.retroMessages,
         this.circuitMembers
       );
       this.loadMissingMemberProfiles(
@@ -181,15 +205,23 @@ export default class ActiveRetro extends Component {
           JSON.stringify(this.missingMemberNames)
       );
 
-      let feedEvents = this.convertToFeedEvents(
-        this.model,
-        this.messages
+      let troubleshootFeedEvents = this.convertToFeedEvents("What's the problem?",
+        this.model.openTime,
+        this.troubleshootMessages
+      );
+
+      let retroFeedEvents = this.convertToFeedEvents("What made troubleshooting take so long?  What ideas do you have for improvement?",
+        this.model.retroStartedTime,
+        this.retroMessages
       );
 
       this.setState({
         circuitMembers: this.circuitMembers,
-        messages: this.messages,
-        feedEvents: feedEvents
+        troubleshootMessages: this.troubleshootMessages,
+        troubleshootFeedEvents: troubleshootFeedEvents,
+        retroMessages: this.retroMessages,
+        retroFeedEvents: retroFeedEvents,
+        slidePanelVisible: true
       });
     }
   }
@@ -221,7 +253,7 @@ export default class ActiveRetro extends Component {
     }
   }
 
-  findMissingMembers(messages, circuitMembers) {
+  findMissingMembers(messages, messages2, circuitMembers) {
     let uniqueUsernames = [];
 
     for (let i = 0; i < messages.length; i++) {
@@ -231,6 +263,19 @@ export default class ActiveRetro extends Component {
         metaProps[
           ActiveRetroFeed.fromUserNameMetaPropsStr
         ];
+
+      if (!uniqueUsernames.includes(username)) {
+        uniqueUsernames.push(username);
+      }
+    }
+
+    for (let i = 0; i < messages2.length; i++) {
+      let metaProps = messages2[i].metaProps;
+      let username =
+        !!metaProps &&
+        metaProps[
+          ActiveRetroFeed.fromUserNameMetaPropsStr
+          ];
 
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
@@ -289,7 +334,7 @@ export default class ActiveRetro extends Component {
         break;
       case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
         let hasMessage = UtilRenderer.hasMessageByIdInArray(
-          this.state.messages,
+          this.state.retroMessages,
           arg
         );
         if (!hasMessage) {
@@ -340,25 +385,14 @@ export default class ActiveRetro extends Component {
     let that = this;
 
     this.setState(prevState => {
-      //if this is our first message, then use it to update the description
-      if (
-        prevState.messages &&
-        prevState.messages.length === 0
-      ) {
-        CircuitClient.updateCircuitDescription(
-          prevState.model.circuitName,
-          message.data.message,
-          that,
-          arg => {}
-        );
-      }
 
-      prevState.messages.push(message);
+
+      prevState.retroMessages.push(message);
 
       return {
-        messages: prevState.messages,
-        feedEvents: that.addFeedEvent(
-          prevState.feedEvents,
+        retroMessages: prevState.retroMessages,
+        retroFeedEvents: that.addFeedEvent(
+          prevState.retroFeedEvents,
           username,
           null,
           time,
@@ -494,28 +528,12 @@ export default class ActiveRetro extends Component {
     });
   }
 
-  /**
-   * updates our components states with our updated array of chat messages
-   * which is updated by gridtime and talk.
-   * @param messages
-   */
-  updateStateFeedEventsFromMessages(circuit, messages) {
-    let feedEvents = this.convertToFeedEvents(
-      circuit,
-      messages
-    );
-
-    this.setState({
-      messages: messages,
-      feedEvents: feedEvents
-    });
-  }
 
   /**
    * updates our Chat Messages that our in our messages array. This is generally setup initially
    * by our mount or update component functions
    */
-  convertToFeedEvents = (circuit, messages) => {
+  convertToFeedEvents = (ferviePromptStr, startedTimestamp, messages) => {
     let metaProps = null,
       username = null,
       time = null,
@@ -524,7 +542,7 @@ export default class ActiveRetro extends Component {
 
     const feedEvents = [];
 
-    this.addFerviePrompt(feedEvents, circuit);
+    this.addFerviePrompt(ferviePromptStr, feedEvents, startedTimestamp);
 
     for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
@@ -560,20 +578,16 @@ export default class ActiveRetro extends Component {
    * Create the fervie "What's the problem?" prompt in chat
    * @param circuit
    */
-  addFerviePrompt(feedEvents, circuit) {
-    if (circuit) {
-      let time = UtilRenderer.getChatMessageTimeString(
-        circuit.openTime
-      );
+  addFerviePrompt(ferviePromptStr, feedEvents, timeStamp) {
+      let time = UtilRenderer.getChatMessageTimeString(timeStamp);
 
       this.addFeedEvent(
         feedEvents,
         "Fervie",
         null,
         time,
-        "What's the problem?"
+        ferviePromptStr
       );
-    }
   }
 
   /**
@@ -623,18 +637,18 @@ export default class ActiveRetro extends Component {
   /**
    * hides our resizable scrapbook in the feed panel
    */
-  hideScrapbook = () => {
+  hideSlidePanel = () => {
     this.setState({
-      scrapbookVisible: false
+      slidePanelVisible: false
     });
   };
 
   /**
    * shows our scrapbook in our feed panel
    */
-  showScrapbook = () => {
+  toggleSlidePanel = () => {
     this.setState(prevState => ({
-      scrapbookVisible: !prevState.scrapbookVisible
+      slidePanelVisible: !prevState.slidePanelVisible
     }));
   };
 
@@ -643,7 +657,7 @@ export default class ActiveRetro extends Component {
    * @returns {string}
    */
   getClassName() {
-    return this.state.scrapbookVisible
+    return this.state.slidePanelVisible
       ? "content show"
       : "content hide";
   }
@@ -669,41 +683,39 @@ export default class ActiveRetro extends Component {
    * renders our circuit content panel and resizable scrapbook
    * @returns {*}
    */
-  getCircuitContentPanel() {
+  getInRetroCircuitContentPanel() {
+    console.log("in retro = "+UtilRenderer.isCircuitInRetro(this.state.model));
     return (
       <div id="component" className="circuitContentPanel">
         <SplitterLayout
           customClassName={this.getClassName()}
           primaryMinSize={DimensionController.getActiveCircuitContentFeedMinWidth()}
           secondaryMinSize={DimensionController.getActiveCircuitContentScrapbookMinWidth()}
-          secondaryInitialSize={DimensionController.getActiveCircuitContentScrapbookMinWidthDefault()}
+          secondaryInitialSize={DimensionController.getActiveCircuitContentRetroSlideMinWidthDefault()}
         >
-          <div id="wrapper" className="activeCircuitFeed">
-            <ActiveRetroFeed
-              resource={this.props.resource}
-              model={this.state.model}
-              circuitState={this.state.circuitState}
-              circuitMembers={this.state.circuitMembers}
-              missingMembers={this.state.missingMembers}
-              feedEvents={this.state.feedEvents}
-              set={this.setCircuitFeedComponent}
-            />
-          </div>
+          <ActiveRetroFeed
+            resource={this.props.resource}
+            model={this.state.model}
+            circuitState={this.state.circuitState}
+            circuitMembers={this.state.circuitMembers}
+            missingMembers={this.state.missingMembers}
+            feedEvents={this.state.retroFeedEvents}
+            set={this.setCircuitFeedComponent}
+          />
           <Transition
-            visible={this.state.scrapbookVisible}
+            visible={this.state.slidePanelVisible}
             animation={this.animationType}
             duration={this.animationDelay}
           >
-            <div
-              id="wrapper"
-              className="activeCircuitScrapbook"
-            >
-              <ActiveRetroScrapbook
+              <PastTroubleshootFeed
                 resource={this.props.resource}
-                hideScrapbook={this.hideScrapbook}
                 model={this.state.model}
+                circuitState={this.state.circuitState}
+                circuitMembers={this.state.circuitMembers}
+                missingMembers={this.state.missingMembers}
+                feedEvents={this.state.troubleshootFeedEvents}
+                hideSlidePanel={this.hideSlidePanel}
               />
-            </div>
           </Transition>
         </SplitterLayout>
       </div>
@@ -722,7 +734,7 @@ export default class ActiveRetro extends Component {
           resource={this.props.resource}
           model={this.state.model}
           circuitMembers={this.state.circuitMembers}
-          showScrapbook={this.showScrapbook}
+          toggleSidePanel={this.toggleSlidePanel}
           set={this.setCircuitSidebarComponent}
         />
       </div>
@@ -742,7 +754,9 @@ export default class ActiveRetro extends Component {
         }}
       >
         <div id="wrapper" className="circuitContentPanel">
-          {this.getCircuitContentPanel()}
+          {
+            this.getInRetroCircuitContentPanel()
+          }
         </div>
         <div id="wrapper" className="circuitContentSidebar">
           {this.getCircuitSidebarContent()}

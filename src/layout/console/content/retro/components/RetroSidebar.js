@@ -160,7 +160,7 @@ export default class RetroSidebar extends Component {
    */
   handleMenuScrapbookClick = (e, arg) => {
     this.handleMenuClick(e, arg);
-    this.props.showScrapbook();
+    this.props.toggleSidePanel();
   };
 
   /**
@@ -583,7 +583,7 @@ export default class RetroSidebar extends Component {
     return (
       <Button
         onClick={this.onClickCloseActiveCircuit}
-        size="mediTum"
+        size="medium"
         color="violet"
       >
         <Button.Content>finish retro</Button.Content>

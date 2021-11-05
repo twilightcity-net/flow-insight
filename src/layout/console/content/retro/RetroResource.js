@@ -38,8 +38,8 @@ export default class RetroResource extends Component {
     //we really should be loading the circuit first, and using the room names as specified in the return object
 
 
-    if (UtilRenderer.isWTFResource(this.props.resource)) {
-      this.resourcesController.joinExistingRoom(
+    if (UtilRenderer.isRetroResource(this.props.resource)) {
+      this.resourcesController.joinExistingRetroRoom(
         this.props.resource
       );
     }
@@ -69,16 +69,16 @@ export default class RetroResource extends Component {
   shouldComponentUpdate(nextProps, nextState, nextContext) {
     if (
       this.props.resource.uri !== nextProps.resource.uri &&
-      UtilRenderer.isWTFResource(nextProps.resource)
+      UtilRenderer.isRetroResource(nextProps.resource)
     ) {
       console.log(
         "joining a new circuit, leave and rejoin rooms"
       );
       nextState.error = null;
-      this.resourcesController.leaveExistingRoom(
+      this.resourcesController.leaveExistingRetroRoom(
         this.props.resource
       );
-      this.resourcesController.joinExistingRoom(
+      this.resourcesController.joinExistingRetroRoom(
         nextProps.resource
       );
     }

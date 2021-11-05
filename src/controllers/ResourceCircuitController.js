@@ -315,6 +315,30 @@ export class ResourceCircuitController extends ActiveViewController {
   }
 
   /**
+   * joins us to the circuit's room on the talk network via gridtime. The
+   * roomName is parsed from the uri and "-wtf" is appended to it. This
+   * roomName is then sent to gridtime over an http dto request.
+   * @param resource
+   */
+  joinExistingRetroRoom(resource) {
+    let roomName = UtilRenderer.getRetroRoomNameFromResource(
+      resource
+    );
+
+    if (roomName) {
+      TalkToClient.joinExistingRoom(roomName, this, arg => {
+        console.log(
+          this.name +
+          " JOIN EXISTING ROOM -> " +
+          JSON.stringify(arg)
+        );
+        this.fireJoinExistingRoomNotifyEvent();
+      });
+    }
+  }
+
+
+  /**
    * leaves a circuit on gridtime. This will implicitly call leave room on gridtime
    * which calls leave on that clients socket on the gridtalk server. No error is
    * thrown if we try to leave a room in which we dont belong or we not added to.
@@ -322,6 +346,28 @@ export class ResourceCircuitController extends ActiveViewController {
    */
   leaveExistingRoom(resource) {
     let roomName = UtilRenderer.getRoomNameFromResource(
+      resource
+    );
+
+    if (roomName) {
+      TalkToClient.leaveExistingRoom(
+        roomName,
+        this,
+        arg => {
+          this.fireLeaveExistingRoomNotifyEvent();
+        }
+      );
+    }
+  }
+
+  /**
+   * leaves a circuit on gridtime. This will implicitly call leave room on gridtime
+   * which calls leave on that clients socket on the gridtalk server. No error is
+   * thrown if we try to leave a room in which we dont belong or we not added to.
+   * @param resource
+   */
+  leaveExistingRetroRoom(resource) {
+    let roomName = UtilRenderer.getRetroRoomNameFromResource(
       resource
     );
 
