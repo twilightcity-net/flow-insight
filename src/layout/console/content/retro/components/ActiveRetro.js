@@ -110,7 +110,7 @@ export default class ActiveRetro extends Component {
       this.loadCircuit(circuitName, null, []);
     }
 
-    if (this.state.circuitState === "TROUBLESHOOT") {
+    if (this.state.circuitState === "RETRO") {
       let that = this;
       setTimeout(function() {
         that.focusOnChatInput();

@@ -3,6 +3,8 @@ import ActiveRetro from "./components/ActiveRetro";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import UtilRenderer from "../../../../UtilRenderer";
 import { Icon, Message } from "semantic-ui-react";
+import {BaseClient} from "../../../../clients/BaseClient";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 
 /**
  * this component is the top level resource for a circuit retro
@@ -23,6 +25,58 @@ export default class RetroResource extends Component {
       RendererControllerFactory.Views.RESOURCES,
       this
     );
+    this.talkRoomMessageListener = RendererEventFactory.createEvent(
+      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+      this,
+      this.onTalkRoomMessage
+    );
+  }
+
+
+
+  /**
+   * event handler for talk messages. This is called everytime we receive a new talk
+   * message over the event bus. Make sure to check that this is the circuit
+   * we wish to effect, as you can get various wtf status events for other
+   * types of circuits going on in the network.
+   * @param event
+   * @param arg
+   */
+  onTalkRoomMessage = (event, arg) => {
+    switch (arg.messageType) {
+      case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
+        this.handleWtfStatusUpdateMessage(arg);
+        break;
+      default:
+        break;
+    }
+  };
+
+  /**
+   * processes our wtf status events. inside this function we check to see
+   * if this is the circuit we are looking for.
+   * If we are transitioning the state from solved to retro,
+   * then we need to connect to the retro room.
+   * @param arg
+   */
+  handleWtfStatusUpdateMessage(arg) {
+    let circuitName = this.props.resource.uriArr[1];
+    let data = arg.data,
+      circuit = data[ActiveRetro.learningCircuitDtoStr];
+
+    if (data && circuit && circuitName === circuit.circuitName ) {
+      if (UtilRenderer.isCircuitInRetro(circuit)) {
+        this.resourcesController.joinExistingRetroRoom(
+          this.props.resource
+        );
+      } else {
+        this.resourcesController.leaveExistingRetroRoom(
+          this.props.resource
+        );
+      }
+
+    }
+
   }
 
   /**
@@ -30,14 +84,6 @@ export default class RetroResource extends Component {
    * circuit with an active feed. if so we need to load and join the room.
    */
   componentDidMount() {
-    //so this is going to be either a solved circuit, or a live retro.
-
-    //this figures out the name based on the resource, rather than using the name as specified on the circuit
-    //probably not a good plan.
-
-    //we really should be loading the circuit first, and using the room names as specified in the return object
-
-
     if (UtilRenderer.isRetroResource(this.props.resource)) {
       this.resourcesController.joinExistingRetroRoom(
         this.props.resource
@@ -51,7 +97,7 @@ export default class RetroResource extends Component {
    * other users that are still in the circuit chat room.
    */
   componentWillUnmount() {
-    this.resourcesController.leaveExistingRoom(
+    this.resourcesController.leaveExistingRetroRoom(
       this.props.resource
     );
   }
@@ -84,6 +130,8 @@ export default class RetroResource extends Component {
     }
     return true;
   }
+
+
 
   /**
    * renders our circuit error with a given string. This is usually not
