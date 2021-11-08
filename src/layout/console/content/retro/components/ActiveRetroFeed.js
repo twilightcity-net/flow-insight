@@ -229,17 +229,12 @@ export default class ActiveRetroFeed extends Component {
    * @returns {*}
    */
   getActiveCircuitChatContent() {
-    let isPaused = UtilRenderer.isCircuitStatePaused(
-      this.props.circuitState
+    let isInRetro = UtilRenderer.isCircuitInRetro(
+      this.props.model
     );
-    let isParticipant = UtilRenderer.isCircuitParticipant(
-      MemberClient.me,
-      this.props.circuitMembers
-    );
-
     return (
       <Transition
-        visible={isParticipant && !isPaused}
+        visible={isInRetro}
         animation="fade"
         duration={210}
         onComplete={this.onCircuitChatShown}
@@ -262,11 +257,17 @@ export default class ActiveRetroFeed extends Component {
       openTimeStr = "NOW",
       height = "100%";
 
-    if (circuit) {
+    if (circuit && circuit.retroStartedTime) {
       openTimeStr = UtilRenderer.getOpenTimeString(
         circuit.retroStartedTime
       );
     }
+
+    if (UtilRenderer.isCircuitSolved(circuit)) {
+      openTimeStr = "TBD";
+    }
+
+
 
     if (isChatActive) {
       height = DimensionController.getActiveCircuitFeedContentHeight();
@@ -349,12 +350,13 @@ export default class ActiveRetroFeed extends Component {
    * @returns {JSX.Element}
    */
   getActiveCircuitFeedChatContent() {
-    let isParticipant = UtilRenderer.isCircuitParticipant(
-      MemberClient.me,
-      this.props.circuitMembers
-    );
-    let isPaused = UtilRenderer.isCircuitStatePaused(
-      this.props.circuitState
+    //so even if I'm not a participant, should be able to type in the box.
+      //do I get added as a participant when I first type something?
+      //could do that, but I feel like maybe this panel should just go away, but maybe want to give XP for retros too.
+
+
+    let isInRetro = UtilRenderer.isCircuitInRetro(
+      this.props.model
     );
 
     let content = (
@@ -373,7 +375,7 @@ export default class ActiveRetroFeed extends Component {
       </SplitterLayout>
     );
 
-    if (!isParticipant || isPaused) {
+    if (!isInRetro) {
       content = this.getActiveCircuitFeedContent(false);
     }
 

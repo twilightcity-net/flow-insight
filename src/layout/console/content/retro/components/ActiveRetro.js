@@ -205,15 +205,13 @@ export default class ActiveRetro extends Component {
           JSON.stringify(this.missingMemberNames)
       );
 
-      let troubleshootFeedEvents = this.convertToFeedEvents("What's the problem?",
-        this.model.openTime,
-        this.troubleshootMessages
-      );
+      let troubleshootFeedEvents = this.createTroubleshootFeedEvents(this.model, this.troubleshootMessages);
 
-      let retroFeedEvents = this.convertToFeedEvents("What made troubleshooting take so long?  What ideas do you have for improvement?",
-        this.model.retroStartedTime,
-        this.retroMessages
-      );
+      let retroFeedEvents = [];
+
+      if (this.model.retroStartedTime) {
+        retroFeedEvents = this.createRetroFeedEvents(this.model, this.retroMessages);
+      }
 
       this.setState({
         circuitMembers: this.circuitMembers,
@@ -224,6 +222,20 @@ export default class ActiveRetro extends Component {
         slidePanelVisible: true
       });
     }
+  }
+
+  createTroubleshootFeedEvents(model, troubleshootMessages) {
+    return this.convertToFeedEvents("What's the problem?",
+      model.openTime,
+      troubleshootMessages
+    );
+  }
+
+  createRetroFeedEvents(model, retroMessages) {
+    return this.convertToFeedEvents("What made troubleshooting take so long?  What ideas do you have for improvement?",
+      model.retroStartedTime,
+      retroMessages
+    );
   }
 
   loadMissingMemberProfiles(missingUsernames) {
@@ -489,6 +501,9 @@ export default class ActiveRetro extends Component {
    * @param arg
    */
   handleWtfStatusUpdateMessage(arg) {
+    //on a status update, the fervie message may need to get added here too.
+
+
     let data = arg.data,
       circuit = data[ActiveRetro.learningCircuitDtoStr],
       model = this.state.model;
@@ -514,6 +529,17 @@ export default class ActiveRetro extends Component {
       model: model,
       circuitState: model.circuitState
     });
+
+
+    if (UtilRenderer.isCircuitInRetro(model)) {
+      setTimeout(() => {
+        this.setState({
+          retroFeedEvents: this.createRetroFeedEvents(model, this.retroMessages)
+        });
+        document.getElementById("activeRetroChatInput").focus();
+      }, 400);
+    }
+
   }
 
   /**
@@ -525,6 +551,7 @@ export default class ActiveRetro extends Component {
     this.setState({
       model: model,
       circuitState: model.circuitState
+
     });
   }
 
