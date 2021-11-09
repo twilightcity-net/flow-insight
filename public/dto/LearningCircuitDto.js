@@ -39,6 +39,8 @@ class LearningCircuitDto {
       this.cancelCircuitNanoTime =
         json.cancelCircuitNanoTime;
 
+      this.memberMarksForClose = json.memberMarksForClose;
+
       return json;
     } catch (e) {
       throw new Error(

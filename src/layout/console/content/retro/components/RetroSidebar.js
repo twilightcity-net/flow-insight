@@ -586,7 +586,7 @@ export default class RetroSidebar extends Component {
         size="medium"
         color="violet"
       >
-        <Button.Content>finish retro</Button.Content>
+        <Button.Content>finished</Button.Content>
       </Button>
     );
   }
@@ -743,41 +743,57 @@ export default class RetroSidebar extends Component {
 
     //need to know whether the close is marked by them or not already?
 
-    if (UtilRenderer.isCircuitSolved(circuit)) {
+    if (circuit && UtilRenderer.isMarkedForCloseByMe(circuit, MemberClient.me) &&
+    !UtilRenderer.isCircuitClosed(circuit)) {
       content = (
         <Grid.Row stretched verticalAlign="middle">
           <Grid.Column>
-            {this.getStartRetroButtonContent()}
-          </Grid.Column>
-          <Grid.Column>
-            {this.getCloseCircuitButtonContent()}
-          </Grid.Column>
-        </Grid.Row>
-      );
-    }
-
-    if (UtilRenderer.isCircuitInRetro(circuit)) {
-
-      content = (
-        <Grid.Row stretched verticalAlign="middle">
-          <Grid.Column>
-            {this.getRetroFinishedCircuitButtonContent()}
+            <Button size="medium" color="grey" disabled>
+              <Button.Content>waiting for team ({circuit.memberMarksForClose.length})</Button.Content>
+            </Button>
           </Grid.Column>
         </Grid.Row>
       );
 
+    } else {
+
+      if (UtilRenderer.isCircuitSolved(circuit)) {
+        content = (
+          <Grid.Row stretched verticalAlign="middle">
+            <Grid.Column>
+              {this.getStartRetroButtonContent()}
+            </Grid.Column>
+            <Grid.Column>
+              {this.getCloseCircuitButtonContent()}
+            </Grid.Column>
+          </Grid.Row>
+        );
+      }
+
+      if (UtilRenderer.isCircuitInRetro(circuit)) {
+
+        content = (
+          <Grid.Row stretched verticalAlign="middle">
+            <Grid.Column>
+              {this.getRetroFinishedCircuitButtonContent()}
+            </Grid.Column>
+          </Grid.Row>
+        );
+
+      }
+
+      if (UtilRenderer.isCircuitCanceled(circuit) || UtilRenderer.isCircuitClosed(circuit) ||
+        UtilRenderer.isCircuitTroubleshoot(circuit) || UtilRenderer.isCircuitPaused(circuit)) {
+        content = (
+          <Grid.Row stretched verticalAlign="middle">
+            <Grid.Column>
+              {this.getInactiveCircuitButtonContent()}
+            </Grid.Column>
+          </Grid.Row>
+        );
+      }
     }
 
-    if (UtilRenderer.isCircuitCanceled(circuit) || UtilRenderer.isCircuitClosed(circuit) ||
-      UtilRenderer.isCircuitTroubleshoot(circuit) || UtilRenderer.isCircuitPaused(circuit)) {
-      content = (
-        <Grid.Row stretched verticalAlign="middle">
-          <Grid.Column>
-            {this.getInactiveCircuitButtonContent()}
-          </Grid.Column>
-        </Grid.Row>
-      );
-    }
 
     return (
       <Segment

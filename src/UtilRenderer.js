@@ -375,6 +375,21 @@ export default class UtilRenderer {
   }
 
   /**
+   * Check if the circuit has been marked for close by my id
+   * @param circuit
+   * @param me
+   * @returns {boolean}
+   */
+  static isMarkedForCloseByMe(circuit, me) {
+    for (let i = 0; i < circuit.memberMarksForClose.length; i++) {
+      if (circuit.memberMarksForClose[i] === me.id) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * a simple check to see if a talk message is a status message
    * @param message
    * @returns {boolean}

@@ -375,7 +375,7 @@ export default class ActiveRetroFeed extends Component {
       </SplitterLayout>
     );
 
-    if (!isInRetro) {
+    if (!isInRetro || UtilRenderer.isMarkedForCloseByMe(this.props.model, MemberClient.me)) {
       content = this.getActiveCircuitFeedContent(false);
     }
 

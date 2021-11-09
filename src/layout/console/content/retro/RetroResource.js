@@ -5,6 +5,7 @@ import UtilRenderer from "../../../../UtilRenderer";
 import { Icon, Message } from "semantic-ui-react";
 import {BaseClient} from "../../../../clients/BaseClient";
 import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import {ResourceCircuitController} from "../../../../controllers/ResourceCircuitController";
 
 /**
  * this component is the top level resource for a circuit retro
@@ -45,7 +46,13 @@ export default class RetroResource extends Component {
   onTalkRoomMessage = (event, arg) => {
     switch (arg.messageType) {
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
-        this.handleWtfStatusUpdateMessage(arg);
+        let data = arg.data,
+          circuit = data[ActiveRetro.learningCircuitDtoStr];
+        
+        if (data.statusType === ResourceCircuitController.StatusTypes.TEAM_RETRO_STARTED) {
+          this.handleWtfStatusUpdateMessage(circuit);
+        }
+
         break;
       default:
         break;
@@ -59,12 +66,10 @@ export default class RetroResource extends Component {
    * then we need to connect to the retro room.
    * @param arg
    */
-  handleWtfStatusUpdateMessage(arg) {
+  handleWtfStatusUpdateMessage(circuit) {
     let circuitName = this.props.resource.uriArr[1];
-    let data = arg.data,
-      circuit = data[ActiveRetro.learningCircuitDtoStr];
 
-    if (data && circuit && circuitName === circuit.circuitName ) {
+    if (circuit && circuitName === circuit.circuitName ) {
       if (UtilRenderer.isCircuitInRetro(circuit)) {
         this.resourcesController.joinExistingRetroRoom(
           this.props.resource

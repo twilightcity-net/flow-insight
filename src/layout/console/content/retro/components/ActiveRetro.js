@@ -531,7 +531,7 @@ export default class ActiveRetro extends Component {
     });
 
 
-    if (UtilRenderer.isCircuitInRetro(model)) {
+    if (UtilRenderer.isCircuitInRetro(model) && !UtilRenderer.isMarkedForCloseByMe(model, MemberClient.me)) {
       setTimeout(() => {
         this.setState({
           retroFeedEvents: this.createRetroFeedEvents(model, this.retroMessages)

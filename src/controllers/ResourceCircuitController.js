@@ -213,7 +213,7 @@ export class ResourceCircuitController extends ActiveViewController {
       circuitName,
       this,
       arg => {
-        //not sure if we need to do anything here yet
+        this.fireCircuitSolveNotifyEvent();
         console.log("closed");
       }
     );
