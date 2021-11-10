@@ -48,7 +48,7 @@ export default class RetroResource extends Component {
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
         let data = arg.data,
           circuit = data[ActiveRetro.learningCircuitDtoStr];
-        
+
         if (data.statusType === ResourceCircuitController.StatusTypes.TEAM_RETRO_STARTED) {
           this.handleWtfStatusUpdateMessage(circuit);
         }

@@ -540,6 +540,7 @@ export class CircuitClient extends BaseClient {
       scope,
       callback
     );
+    console.log("notify on close");
     CircuitClient.instance.notifyCircuit(event);
     return event;
   }

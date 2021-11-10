@@ -1272,12 +1272,14 @@ module.exports = class CircuitController extends BaseController {
    */
   delegateCloseWtfCallback(store, event, arg, callback) {
     if (store.error) {
+      this.logMessage("CircuitController", "error on close: "+store.error);
       arg.error = store.error;
     } else {
       //if I hit close on the left panel, I could be doing it while there's an active circuit on the right
       //so clearing active probably doesnt make sense for close use case, but need to look at this again when we click
       //close from within the panel.  Shouldnt assume the circuit being close is active though.
 
+      this.logMessage("Removing circuit from all collections");
       let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.CIRCUIT
         ),

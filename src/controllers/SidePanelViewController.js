@@ -144,7 +144,7 @@ export class SidePanelViewController extends ActiveViewController {
       SKILLS: "skills",
       TEAMS: "teams",
       LIVE_CIRCUITS: "live-circuits",
-      DO_IT_LATER_CIRCUITS: "do-it-later-circuits",
+      DO_IT_LATER_CIRCUITS: "do-it-later",
       RETRO_CIRCUITS: "retro-circuits",
       NOTIFICATIONS: "notifications"
     };

@@ -137,6 +137,8 @@ export default class ActiveRetro extends Component {
     this.retroMessages = [];
     this.troubleshootMessages = [];
     this.circuitMembers = [];
+    this.missingMembers = [];
+
     CircuitClient.getCircuitWithAllDetails(
       circuitName,
       this,
@@ -194,15 +196,10 @@ export default class ActiveRetro extends Component {
     if (this.loadCount === 3) {
       this.missingMemberNames = this.findMissingMembers(
         this.troubleshootMessages, this.retroMessages,
-        this.circuitMembers
+        this.circuitMembers, MemberClient.me
       );
       this.loadMissingMemberProfiles(
         this.missingMemberNames
-      );
-
-      console.log(
-        "missing members = " +
-          JSON.stringify(this.missingMemberNames)
       );
 
       let troubleshootFeedEvents = this.createTroubleshootFeedEvents(this.model, this.troubleshootMessages);
@@ -265,7 +262,7 @@ export default class ActiveRetro extends Component {
     }
   }
 
-  findMissingMembers(messages, messages2, circuitMembers) {
+  findMissingMembers(messages, messages2, circuitMembers, me) {
     let uniqueUsernames = [];
 
     for (let i = 0; i < messages.length; i++) {
@@ -292,6 +289,10 @@ export default class ActiveRetro extends Component {
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
       }
+    }
+
+    if (!uniqueUsernames.includes(me.username)) {
+      uniqueUsernames.push(me.username);
     }
 
     let missingMembers = [];
