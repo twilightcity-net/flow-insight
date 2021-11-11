@@ -8,6 +8,7 @@ import { Transition } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
 import { MemberClient } from "../../../../../clients/MemberClient";
+import { DictionaryClient } from "../../../../../clients/DictionaryClient";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { BaseClient } from "../../../../../clients/BaseClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
@@ -52,6 +53,8 @@ export default class ActiveRetro extends Component {
     this.retroMessages = [];
     this.troubleshootMessages = [];
     this.circuitMembers = [];
+    this.dictionaryWords = [];
+
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
       this
@@ -74,7 +77,8 @@ export default class ActiveRetro extends Component {
       status: [],
       circuitMembers: [],
       missingMembers: [],
-      circuitState: null
+      dictionaryWords: [],
+      circuitState: null,
     };
   }
 
@@ -86,6 +90,7 @@ export default class ActiveRetro extends Component {
   componentDidMount() {
     let circuitName = this.props.resource.uriArr[1];
     this.loadCircuit(circuitName, null, []);
+    this.loadDictionary();
   }
 
   /**
@@ -126,6 +131,20 @@ export default class ActiveRetro extends Component {
       element.focus();
     }
   }
+
+  /**
+   * updates and loads dictionary for use by all circuit tags
+   */
+  loadDictionary() {
+    DictionaryClient.getTeamDictionary(
+      this,
+      arg => {
+        this.dictionaryWords = arg.data;
+        this.updateDictionaryState(this.dictionaryWords);
+      }
+    );
+  }
+
   /**
    * updates and loads our circuit form gridtime
    * @param circuitName
@@ -345,6 +364,10 @@ export default class ActiveRetro extends Component {
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
         this.handleWtfStatusUpdateMessage(arg);
         break;
+      case BaseClient.MessageTypes.DICTIONARY_UPDATE:
+        this.handleDictionaryUpdateMessage(arg);
+        break;
+
       case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
         let hasMessage = UtilRenderer.hasMessageByIdInArray(
           this.state.retroMessages,
@@ -521,6 +544,40 @@ export default class ActiveRetro extends Component {
   }
 
   /**
+   * processes updates to our dictionary from new terms being added.
+   * @param arg
+   */
+  handleDictionaryUpdateMessage(arg) {
+
+    let wordUpdate = arg.data;
+
+    if (wordUpdate) {
+
+      this.setState(prevState => {
+
+        let isUpdated = false;
+
+        for (let i = 0; i < prevState.dictionaryWords.length; i++) {
+          let word = prevState.dictionaryWords[i];
+          if (word.id === wordUpdate.id) {
+            prevState.dictionaryWords[i] = wordUpdate;
+            isUpdated = true;
+            break;
+          }
+        }
+        if (!isUpdated) {
+          prevState.dictionaryWords.push(wordUpdate);
+        }
+        return {
+          dictionaryWords: prevState.dictionaryWords
+        }
+
+      });
+    }
+  }
+
+
+  /**
    * updates our models in our various child components states. This
    * utilizes callback functions which are way faster then using refs
    * @param model
@@ -542,6 +599,18 @@ export default class ActiveRetro extends Component {
     }
 
   }
+
+
+  /**
+   * updates our dictionary of words from the latest in the DB
+   * @param words
+   */
+  updateDictionaryState(words) {
+    this.setState({
+      dictionaryWords: words
+    });
+  }
+
 
   /**
    * updates our models in our various child components states. This
@@ -712,7 +781,6 @@ export default class ActiveRetro extends Component {
    * @returns {*}
    */
   getInRetroCircuitContentPanel() {
-    console.log("in retro = "+UtilRenderer.isCircuitInRetro(this.state.model));
     return (
       <div id="component" className="circuitContentPanel">
         <SplitterLayout
@@ -761,6 +829,7 @@ export default class ActiveRetro extends Component {
         <RetroSidebar
           resource={this.props.resource}
           model={this.state.model}
+          dictionaryWords={this.state.dictionaryWords}
           circuitMembers={this.state.circuitMembers}
           toggleSidePanel={this.toggleSlidePanel}
           set={this.setCircuitSidebarComponent}

@@ -59,7 +59,8 @@ export class BaseClient {
         "IntentionFinishedDetailsDto",
       INTENTION_ABORTED_DETAILS:
         "IntentionAbortedDetailsDto",
-      JOURNAL_ENTRY_DTO: "JournalEntryDto"
+      JOURNAL_ENTRY_DTO: "JournalEntryDto",
+      DICTIONARY_UPDATE: "WordDefinitionDto"
     };
   }
 

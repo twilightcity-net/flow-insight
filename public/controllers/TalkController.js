@@ -281,6 +281,9 @@ module.exports = class TalkController extends BaseController {
       journalDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.JOURNAL
       ),
+      dictionaryDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.DICTIONARY
+      ),
       messageCollection = talkDatabase.getCollectionForRoomTalkMessages(
         uri
       ),
@@ -328,6 +331,11 @@ module.exports = class TalkController extends BaseController {
           message.data
         );
         teamDatabase.updateTeamMemberXPSummaryInTeams(
+          message.data
+        );
+        break;
+      case TalkController.MessageTypes.DICTIONARY_UPDATE:
+        dictionaryDatabase.updateDictionaryWord(
           message.data
         );
         break;

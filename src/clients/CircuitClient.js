@@ -132,7 +132,9 @@ export class CircuitClient extends BaseClient {
       PAUSE_WTF_WITH_DO_IT_LATER:
         "pause-wtf-with-do-it-later",
       UPDATE_CIRCUIT_DESCRIPTION:
-        "update-circuit-description"
+        "update-circuit-description",
+      SAVE_CIRCUIT_TAGS:
+        "save-circuit-tags"
     };
   }
 
@@ -614,6 +616,28 @@ export class CircuitClient extends BaseClient {
     CircuitClient.instance.notifyCircuit(event);
     return event;
   }
+
+  /**
+   * saves tags for a circuit
+   * @param circuitName
+   * @param the list tags to save
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static saveTags(circuitName, tags, scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.SAVE_CIRCUIT_TAGS,
+      { circuitName: circuitName,
+        tags: tags
+      },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
 
   /**
    * the event callback used by the event manager. removes the event from

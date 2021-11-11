@@ -6,13 +6,15 @@ import {
   List,
   Menu,
   Popup,
-  Segment
+  Segment,
+  Dropdown
 } from "semantic-ui-react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import RetroPartyListItem from "./RetroPartyListItem";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import UtilRenderer from "../../../../../UtilRenderer";
+import {CircuitClient} from "../../../../../clients/CircuitClient";
 
 /**
  * the class which defines the circuit sidebar panel
@@ -67,14 +69,58 @@ export default class RetroSidebar extends Component {
    */
   constructor(props) {
     super(props);
+
     this.resourcesController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
       this
     );
+
     this.state = {
-      activeMenuView: RetroSidebar.Views.OVERVIEW
+      activeMenuView: RetroSidebar.Views.OVERVIEW,
+      tagEditEnabled: false,
+      currentTags: [],
+      tagOptions: []
     };
     this.props.set(this);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+
+
+    if ((!prevProps.model && this.props.model ) ||
+      (prevProps.model && this.props.model && prevProps.model.circuitName !== this.props.model.circuitName)) {
+
+      let currentTags = [];
+
+      if (this.props.model.tags) {
+        for (let i = 0 ; i < this.props.model.tags.length; i++ ) {
+          let tag = this.props.model.tags[i];
+          currentTags.push(tag);
+        }
+      }
+
+      this.setState({currentTags: currentTags});
+    }
+
+    if (prevProps.dictionaryWords.length !== this.props.dictionaryWords.length) {
+
+      let tagOptions = [];
+
+      for (let i = 0; i < this.props.dictionaryWords.length; i++) {
+        let word = this.props.dictionaryWords[i];
+
+        tagOptions.push({
+          key: word.wordName,
+          value: word.wordName,
+          text: word.wordName
+        });
+      }
+
+      this.setState({
+        tagOptions: tagOptions,
+      });
+    }
+
   }
 
   /**
@@ -143,6 +189,79 @@ export default class RetroSidebar extends Component {
   };
 
   /**
+   * click handler for adding tags to a circuit
+   */
+  onClickAddTags = () => {
+    console.log("Add tags clicked!");
+    this.setState({
+      tagEditEnabled: true
+    });
+  };
+
+
+  /**
+   * click handler for adding tags to a circuit
+   */
+  onClickTagsDone = () => {
+    console.log("Tags done!");
+    this.setState({
+      tagEditEnabled: false
+    });
+
+    CircuitClient.saveTags(
+      this.props.model.circuitName,
+      this.state.currentTags,
+      this,
+      arg => {
+        console.log("callback for tags!");
+      }
+    );
+  };
+
+
+  /**
+   * Handler for updating tags
+   */
+  handleChangeForTags = (e, { value }) => {
+
+    let cleanVals = [];
+
+    var letters = /^[0-9a-zA-Z]+$/;
+
+    for (let i = 0; i < value.length; i++) {
+      let item = value[i];
+
+      if (item.match(letters)) {
+        cleanVals.push(item);
+      }
+    }
+
+    this.setState({
+      currentTags: cleanVals
+    });
+  };
+
+  /**
+   * Handler for adding a new tag
+   * @param e
+   * @param name
+   */
+  handleAddTag = (e, { value }) => {
+
+    var letters = /^[0-9a-zA-Z]+$/;
+    if (value.match(letters)) {
+      this.setState(prevState => {
+        prevState.tagOptions.push({key: value, value: value, text: value});
+        return {
+          tagOptions: prevState.tagOptions
+        }
+      });
+    }
+
+    //ignore if not valid
+  };
+
+  /**
    * the click handler for the menu of the circuit content sidebar panel
    * @param e
    * @param name
@@ -199,12 +318,20 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarContent() {
+
+    let panelHeight = DimensionController.getCircuitSidebarHeight();
+    if (this.state.tagEditEnabled) {
+      panelHeight += DimensionController.getCircuitSidebarTimerHeight() +
+        DimensionController.getCircuitSidebarActionsHeight() + 12;
+    }
+
+
     return (
       <Segment
         className="content"
         inverted
         style={{
-          height: DimensionController.getCircuitSidebarHeight()
+          height: panelHeight
         }}
       >
         <Menu size="mini" inverted pointing secondary>
@@ -322,11 +449,20 @@ export default class RetroSidebar extends Component {
       }
     }
 
+    let height = "100%";
+
+    if (this.state.tagEditEnabled) {
+      height = DimensionController.getCircuitSidebarHeight() +
+        DimensionController.getCircuitSidebarTimerHeight() +
+        DimensionController.getCircuitSidebarActionsHeight() - 100;
+    }
+
     return (
-      <div className="overview">
+      <div className="overview" style = {{ height : height}}>
         {this.getTitleContent(title)}
         {this.getDescriptionContent(description)}
         {this.getTagsMapContent(tags)}
+        {this.getTagsEditDoneContent()}
       </div>
     );
   }
@@ -385,34 +521,77 @@ export default class RetroSidebar extends Component {
     );
   }
 
+  getTagsEditDoneContent() {
+    if (this.state.tagEditEnabled) {
+      return (
+        <Label color="red" size="small" className="tagsDone" onClick={this.onClickTagsDone}>
+          <i>Done</i>
+        </Label>
+      );
+    } else return "";
+  }
+
+
+
   /**
    * gets our tags content body from our array of tags
    * @param tags
    * @returns {*}
    */
   getTagsMapContent(tags) {
-    let tagsContent = (
-      <Popup
-        content="Click to add tags."
-        mouseEnterDelay={420}
-        mouseLeaveDelay={210}
-        on="hover"
-        position={"top center"}
-        inverted
-        trigger={
-          <Label color="red" size="tiny">
-            <i>Click to Tag!</i>
-          </Label>
-        }
-      />
-    );
 
-    if (tags.length > 1 && tags[1] !== "...") {
-      tagsContent = tags.map((s, i) => (
-        <Label color="grey" size="tiny" key={i}>
-          {s}
-        </Label>
-      ));
+    let tagsContent = "";
+
+    if (this.state.tagEditEnabled) {
+
+      tagsContent = (
+        <div><Dropdown className="tagsDropdown"
+        placeholder='Search tags'
+        fluid
+        multiple
+        search
+        selection
+        allowAdditions
+        options={this.state.tagOptions}
+        value={this.state.currentTags}
+        onAddItem={this.handleAddTag}
+        onChange={this.handleChangeForTags}
+      />
+        </div>
+      );
+
+
+    } else {
+     if (this.state.currentTags.length > 0) {
+        tagsContent =
+          <div>
+             {
+               this.state.currentTags.map((s, i) => (
+                <Label color="grey" size="tiny" key={i} onClick={this.onClickAddTags}>
+                  {s}
+                </Label>
+              ))
+             }
+            <Label color="grey" size="tiny" key={99999} onClick={this.onClickAddTags}>
+              ...
+            </Label>
+          </div>
+      } else {
+        tagsContent = <Popup
+          content="Click to add tags."
+          mouseEnterDelay={420}
+          mouseLeaveDelay={210}
+          on="hover"
+          position={"top center"}
+          inverted
+          trigger={
+            <Label color="red" size="tiny" onClick={this.onClickAddTags}>
+              <i>Click to Tag!</i>
+            </Label>
+          }
+        />
+      }
+
     }
 
     return (
@@ -421,13 +600,6 @@ export default class RetroSidebar extends Component {
       </Segment>
     );
   }
-
-  // setDescription(description) {
-  //   this.props.model.description = description;
-  //   this.setState({
-  //     model: this.state.model
-  //   });
-  // }
 
   /**
    * decorates our timer counter for wtf sessions based on the circuits
@@ -500,17 +672,25 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarTimerContent() {
-    return (
-      <Segment
-        className="timer"
-        inverted
-        style={{
-          height: DimensionController.getCircuitSidebarTimerHeight()
-        }}
-      >
-        {this.getWtfTimerContent()}
-      </Segment>
-    );
+
+    if (this.state.tagEditEnabled) {
+      return (
+        <div>
+        </div>
+      );
+    } else {
+      return (
+        <Segment
+          className="timer"
+          inverted
+          style={{
+            height: DimensionController.getCircuitSidebarTimerHeight()
+          }}
+        >
+          {this.getWtfTimerContent()}
+        </Segment>
+      );
+    }
   }
 
   /**
@@ -794,20 +974,23 @@ export default class RetroSidebar extends Component {
       }
     }
 
-
-    return (
-      <Segment
-        className="actions"
-        inverted
-        style={{
-          height: DimensionController.getCircuitSidebarActionsHeight()
-        }}
-      >
-        <Grid columns="equal" inverted>
-          {content}
-        </Grid>
-      </Segment>
-    );
+    if (this.state.tagEditEnabled) {
+      return (<div></div>)
+    } else {
+      return (
+        <Segment
+          className="actions"
+          inverted
+          style={{
+            height: DimensionController.getCircuitSidebarActionsHeight()
+          }}
+        >
+          <Grid columns="equal" inverted>
+            {content}
+          </Grid>
+        </Segment>
+      );
+    }
   }
 
   /**

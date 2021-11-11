@@ -64,7 +64,9 @@ module.exports = class CircuitController extends BaseController {
       RESUME_WTF: "resume-wtf",
       START_RETRO_FOR_WTF: "start-retro-for-wtf",
       UPDATE_CIRCUIT_DESCRIPTION:
-        "update-circuit-description"
+        "update-circuit-description",
+      SAVE_CIRCUIT_TAGS:
+        "save-circuit-tags"
     };
   }
 
@@ -216,6 +218,10 @@ module.exports = class CircuitController extends BaseController {
         case CircuitController.Events
           .UPDATE_CIRCUIT_DESCRIPTION:
           this.handleUpdateCircuitDescription(event, arg);
+          break;
+        case CircuitController.Events
+          .SAVE_CIRCUIT_TAGS:
+          this.handleSaveTags(event, arg);
           break;
         default:
           throw new Error(
@@ -1493,6 +1499,37 @@ module.exports = class CircuitController extends BaseController {
   }
 
   /**
+   * handles our event callback for when the user wants to save tags
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleSaveTags(event, arg, callback) {
+    let name = arg.args.circuitName,
+      tags = arg.args.tags,
+      urn =
+        CircuitController.Paths.CIRCUIT_WTF +
+        CircuitController.Paths.SEPARATOR +
+        name +
+        CircuitController.Paths.PROPERTY +
+        CircuitController.Paths.TAGS;
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      { tags: tags },
+      CircuitController.Names.SAVE_CIRCUIT_TAGS,
+      CircuitController.Types.POST,
+      urn,
+      store =>
+        this.delegateSaveTagsCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
    * processes our callback for starting a retro review. This is a complex workflow
    * which gridtime will trigger events based on various user events.
    * @param store
@@ -1527,6 +1564,32 @@ module.exports = class CircuitController extends BaseController {
    * @param callback
    */
   delegateUpdateDescriptionCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * processes our callback for saving circuit tags
+   * After the call, the updated circuit should be broadcast over gridtalk
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateSaveTagsCallback(
     store,
     event,
     arg,
@@ -1584,11 +1647,6 @@ module.exports = class CircuitController extends BaseController {
    * @param collection
    */
   updateCircuitsByIdInCollection(circuits, collection) {
-    this.logMessage(
-      "[CircuitController]",
-      "updateCircuitsByIdInCollection count =" +
-        circuits.length
-    );
     if (circuits && circuits.length > 0) {
       circuits.forEach(circuit => {
         let model = collection.findOne({ id: circuit.id });

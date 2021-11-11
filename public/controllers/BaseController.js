@@ -49,7 +49,10 @@ module.exports = class BaseController {
       FINISH: "/finish",
       PROPERTY: "/property",
       DESCRIPTION: "/description",
-      FERVIE: "/fervie"
+      TAGS: "/tags",
+      FERVIE: "/fervie",
+      DICTIONARY: "/dictionary",
+      SCOPE: "/scope"
     };
   }
 
@@ -97,7 +100,8 @@ module.exports = class BaseController {
         "IntentionFinishedDetailsDto",
       INTENTION_ABORTED_DETAILS:
         "IntentionAbortedDetailsDto",
-      JOURNAL_ENTRY_DTO: "JournalEntryDto"
+      JOURNAL_ENTRY_DTO: "JournalEntryDto",
+      DICTIONARY_UPDATE: "WordDefinitionDto"
     };
   }
 
@@ -176,7 +180,10 @@ module.exports = class BaseController {
       FIND_OR_CREATE_PROJECT: "findOrCreateProject",
       FINISH_INTENTION: "finish-intention",
       UPDATE_FLAME_RATING: "update-flame-rating",
-      SAVE_FERVIE_DETAILS: "saveFervieDetails"
+      SAVE_FERVIE_DETAILS: "saveFervieDetails",
+      UPDATE_CIRCUIT_DESCRIPTION: "updateCircuitDescription",
+      SAVE_CIRCUIT_TAGS: "saveCircuitTags",
+      GET_TEAM_DICTIONARY: "getTeamDictionary"
     };
   }
 
@@ -240,7 +247,8 @@ module.exports = class BaseController {
       TEAM_CLIENT: "TeamClient",
       TEAM_CIRCUIT_CLIENT: "TeamCircuitClient",
       MEMBER_CLIENT: "MemberClient",
-      JOURNAL_CLIENT: "JournalClient"
+      JOURNAL_CLIENT: "JournalClient",
+      DICTIONARY_CLIENT: "DictionaryClient"
     };
   }
 

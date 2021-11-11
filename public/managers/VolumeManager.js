@@ -24,7 +24,7 @@ class VolumeManager {
   constructor() {
     VolumeManager.volumes = new Map();
     VolumeManager.initializedVolumes = 0;
-    VolumeManager.maxVolumes = 6;
+    VolumeManager.maxVolumes = 7;
     this.name = "[VolumeManager]";
     this.guid = Util.getGuid();
   }
@@ -50,10 +50,15 @@ class VolumeManager {
     VolumeManager.createDatabaseVolume(
       DatabaseFactory.Names.MEMBER
     );
+    VolumeManager.createDatabaseVolume(
+      DatabaseFactory.Names.DICTIONARY
+    );
+
     VolumeManager.loadDefaultJournalDatabase();
     VolumeManager.loadDefaultCircuitDatabase();
     VolumeManager.loadDefaultTeamDatabase();
     VolumeManager.loadDefaultMemberDatabase();
+    VolumeManager.loadDefaultDictionaryDatabase();
   }
 
   /**
@@ -94,6 +99,16 @@ class VolumeManager {
       VolumeManager.handleFinishLoadingVolumes();
     });
     global.App.TeamCircuitManager.init(() => {
+      VolumeManager.handleFinishLoadingVolumes();
+    });
+  }
+
+  /**
+   * loads our team data into team database that
+   * exists in our memory
+   */
+  static loadDefaultDictionaryDatabase() {
+    global.App.DictionaryManager.init(() => {
       VolumeManager.handleFinishLoadingVolumes();
     });
   }
