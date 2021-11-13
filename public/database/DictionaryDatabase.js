@@ -63,9 +63,27 @@ module.exports = class DictionaryDatabase extends LokiJS {
         DictionaryDatabase.Indices.WORD
       ]
     });
-    this.getCollection(
+    let dictionaryView = this.getCollection(
       DictionaryDatabase.Collections.DICTIONARY
     ).addDynamicView(DictionaryDatabase.Views.DICTIONARY);
+
+    dictionaryView.applySort(function(obj1, obj2) {
+      if (
+        obj1.wordName ===
+        obj2.wordName
+      )
+        return 0;
+      if (
+        obj1.wordName >
+        obj2.wordName
+      )
+        return 1;
+      if (
+        obj1.wordName <
+        obj2.wordName
+      )
+        return -1;
+    });
   }
 
   /**

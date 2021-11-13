@@ -13,6 +13,7 @@ import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { BaseClient } from "../../../../../clients/BaseClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../../UtilRenderer";
+import { DictionaryClient } from "../../../../../clients/DictionaryClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -51,6 +52,8 @@ export default class ActiveCircuit extends Component {
     this.missingMembers = [];
     this.messages = [];
     this.circuitMembers = [];
+    this.dictionaryWords = [];
+
     this.myController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.RESOURCES,
       this
@@ -71,6 +74,7 @@ export default class ActiveCircuit extends Component {
       status: [],
       circuitMembers: [],
       missingMembers: [],
+      dictionaryWords: [],
       circuitState: null
     };
   }
@@ -83,6 +87,7 @@ export default class ActiveCircuit extends Component {
   componentDidMount() {
     let circuitName = this.props.resource.uriArr[1];
     this.loadCircuit(circuitName, null, []);
+    this.loadDictionary();
   }
 
   /**
@@ -123,6 +128,32 @@ export default class ActiveCircuit extends Component {
       element.focus();
     }
   }
+
+
+  /**
+   * updates and loads dictionary for use by all circuit tags
+   */
+  loadDictionary() {
+    DictionaryClient.getTeamDictionary(
+      this,
+      arg => {
+        this.dictionaryWords = arg.data;
+        this.updateDictionaryState(this.dictionaryWords);
+      }
+    );
+  }
+
+  /**
+   * updates our dictionary of words from the latest in the DB
+   * @param words
+   */
+  updateDictionaryState(words) {
+    this.setState({
+      dictionaryWords: words
+    });
+  }
+
+
   /**
    * updates and loads our circuit form gridtime
    * @param circuitName
@@ -287,6 +318,9 @@ export default class ActiveCircuit extends Component {
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
         this.handleWtfStatusUpdateMessage(arg);
         break;
+      case BaseClient.MessageTypes.DICTIONARY_UPDATE:
+        this.handleDictionaryUpdateMessage(arg);
+        break;
       case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
         let hasMessage = UtilRenderer.hasMessageByIdInArray(
           this.state.messages,
@@ -322,6 +356,41 @@ export default class ActiveCircuit extends Component {
         break;
     }
   };
+
+
+  /**
+   * processes updates to our dictionary from new terms being added.
+   * @param arg
+   */
+  handleDictionaryUpdateMessage(arg) {
+
+    let wordUpdate = arg.data;
+
+    if (wordUpdate) {
+
+      this.setState(prevState => {
+
+        let isUpdated = false;
+
+        for (let i = 0; i < prevState.dictionaryWords.length; i++) {
+          let word = prevState.dictionaryWords[i];
+          if (word.id === wordUpdate.id) {
+            prevState.dictionaryWords[i] = wordUpdate;
+            isUpdated = true;
+            break;
+          }
+        }
+        if (!isUpdated) {
+          prevState.dictionaryWords.push(wordUpdate);
+        }
+        return {
+          dictionaryWords: prevState.dictionaryWords
+        }
+
+      });
+    }
+  }
+
 
   /**
    * adds a chat message to the end of all of our chat
@@ -721,6 +790,7 @@ export default class ActiveCircuit extends Component {
         <CircuitSidebar
           resource={this.props.resource}
           model={this.state.model}
+          dictionaryWords={this.state.dictionaryWords}
           circuitMembers={this.state.circuitMembers}
           showScrapbook={this.showScrapbook}
           set={this.setCircuitSidebarComponent}
