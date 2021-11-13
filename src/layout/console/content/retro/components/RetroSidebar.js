@@ -99,7 +99,10 @@ export default class RetroSidebar extends Component {
         }
       }
 
-      this.setState({currentTags: currentTags});
+      this.setState({
+        currentTags: currentTags,
+        tagEditEnabled: false
+      });
     }
 
     if (prevProps.dictionaryWords.length !== this.props.dictionaryWords.length) {
@@ -524,7 +527,7 @@ export default class RetroSidebar extends Component {
   getTagsEditDoneContent() {
     if (this.state.tagEditEnabled) {
       return (
-        <Label color="red" size="small" className="tagsDone" onClick={this.onClickTagsDone}>
+        <Label color="violet" size="small" className="tagsDone" onClick={this.onClickTagsDone}>
           <i>Done</i>
         </Label>
       );
