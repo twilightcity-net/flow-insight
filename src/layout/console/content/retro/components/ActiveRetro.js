@@ -55,15 +55,17 @@ export default class ActiveRetro extends Component {
     this.circuitMembers = [];
     this.dictionaryWords = [];
 
-    this.myController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.RESOURCES,
-      this
-    );
-    this.talkRoomMessageListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-      this,
-      this.onTalkRoomMessage
-    );
+    this.myController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.RESOURCES,
+        this
+      );
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
     this.circuitSidebarComponent = null;
     this.circuitFeedComponent = null;
 
@@ -117,7 +119,7 @@ export default class ActiveRetro extends Component {
 
     if (this.state.circuitState === "RETRO") {
       let that = this;
-      setTimeout(function() {
+      setTimeout(function () {
         that.focusOnChatInput();
       }, 500);
     }
@@ -136,13 +138,10 @@ export default class ActiveRetro extends Component {
    * updates and loads dictionary for use by all circuit tags
    */
   loadDictionary() {
-    DictionaryClient.getTeamDictionary(
-      this,
-      arg => {
-        this.dictionaryWords = arg.data;
-        this.updateDictionaryState(this.dictionaryWords);
-      }
-    );
+    DictionaryClient.getTeamDictionary(this, (arg) => {
+      this.dictionaryWords = arg.data;
+      this.updateDictionaryState(this.dictionaryWords);
+    });
   }
 
   /**
@@ -161,14 +160,14 @@ export default class ActiveRetro extends Component {
     CircuitClient.getCircuitWithAllDetails(
       circuitName,
       this,
-      arg => {
+      (arg) => {
         this.model = arg.data;
         this.updateStateModels(this.model);
         TalkToClient.getAllTalkMessagesFromRoom(
           this.model.wtfTalkRoomName,
           this.model.wtfTalkRoomId,
           this,
-          arg => {
+          (arg) => {
             this.troubleshootMessages = arg.data;
             this.loadCount++;
             this.updateStateIfDoneLoading();
@@ -180,7 +179,7 @@ export default class ActiveRetro extends Component {
             this.model.retroTalkRoomName,
             this.model.retroTalkRoomId,
             this,
-            arg => {
+            (arg) => {
               this.retroMessages = arg.data;
               this.loadCount++;
               this.updateStateIfDoneLoading();
@@ -191,12 +190,11 @@ export default class ActiveRetro extends Component {
           this.updateStateIfDoneLoading();
         }
 
-
         CircuitClient.loadCircuitMembers(
           circuitName,
           this.model.wtfTalkRoomId,
           this,
-          arg => {
+          (arg) => {
             this.circuitMembers = arg.data;
             this.loadCount++;
 
@@ -214,19 +212,28 @@ export default class ActiveRetro extends Component {
   updateStateIfDoneLoading() {
     if (this.loadCount === 3) {
       this.missingMemberNames = this.findMissingMembers(
-        this.troubleshootMessages, this.retroMessages,
-        this.circuitMembers, MemberClient.me
+        this.troubleshootMessages,
+        this.retroMessages,
+        this.circuitMembers,
+        MemberClient.me
       );
       this.loadMissingMemberProfiles(
         this.missingMemberNames
       );
 
-      let troubleshootFeedEvents = this.createTroubleshootFeedEvents(this.model, this.troubleshootMessages);
+      let troubleshootFeedEvents =
+        this.createTroubleshootFeedEvents(
+          this.model,
+          this.troubleshootMessages
+        );
 
       let retroFeedEvents = [];
 
       if (this.model.retroStartedTime) {
-        retroFeedEvents = this.createRetroFeedEvents(this.model, this.retroMessages);
+        retroFeedEvents = this.createRetroFeedEvents(
+          this.model,
+          this.retroMessages
+        );
       }
 
       this.setState({
@@ -235,20 +242,25 @@ export default class ActiveRetro extends Component {
         troubleshootFeedEvents: troubleshootFeedEvents,
         retroMessages: this.retroMessages,
         retroFeedEvents: retroFeedEvents,
-        slidePanelVisible: true
+        slidePanelVisible: true,
       });
     }
   }
 
-  createTroubleshootFeedEvents(model, troubleshootMessages) {
-    return this.convertToFeedEvents("What's the problem?",
+  createTroubleshootFeedEvents(
+    model,
+    troubleshootMessages
+  ) {
+    return this.convertToFeedEvents(
+      "What's the problem?",
       model.openTime,
       troubleshootMessages
     );
   }
 
   createRetroFeedEvents(model, retroMessages) {
-    return this.convertToFeedEvents("What made troubleshooting take so long?  What ideas do you have for improvement?",
+    return this.convertToFeedEvents(
+      "What made troubleshooting take so long?  What ideas do you have for improvement?",
       model.retroStartedTime,
       retroMessages
     );
@@ -261,7 +273,7 @@ export default class ActiveRetro extends Component {
       MemberClient.getMember(
         missingUsernames[i],
         this,
-        arg => {
+        (arg) => {
           this.missingMemberLoadCount++;
           if (!arg.error && arg.data) {
             this.missingMembers.push(arg.data);
@@ -273,7 +285,7 @@ export default class ActiveRetro extends Component {
             missingUsernames.length
           ) {
             this.setState({
-              missingMembers: this.missingMembers
+              missingMembers: this.missingMembers,
             });
           }
         }
@@ -281,16 +293,19 @@ export default class ActiveRetro extends Component {
     }
   }
 
-  findMissingMembers(messages, messages2, circuitMembers, me) {
+  findMissingMembers(
+    messages,
+    messages2,
+    circuitMembers,
+    me
+  ) {
     let uniqueUsernames = [];
 
     for (let i = 0; i < messages.length; i++) {
       let metaProps = messages[i].metaProps;
       let username =
         !!metaProps &&
-        metaProps[
-          ActiveRetroFeed.fromUserNameMetaPropsStr
-        ];
+        metaProps[ActiveRetroFeed.fromUserNameMetaPropsStr];
 
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
@@ -301,9 +316,7 @@ export default class ActiveRetro extends Component {
       let metaProps = messages2[i].metaProps;
       let username =
         !!metaProps &&
-        metaProps[
-          ActiveRetroFeed.fromUserNameMetaPropsStr
-          ];
+        metaProps[ActiveRetroFeed.fromUserNameMetaPropsStr];
 
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
@@ -420,9 +433,7 @@ export default class ActiveRetro extends Component {
 
     let that = this;
 
-    this.setState(prevState => {
-
-
+    this.setState((prevState) => {
       prevState.retroMessages.push(message);
 
       return {
@@ -433,7 +444,7 @@ export default class ActiveRetro extends Component {
           null,
           time,
           json.message
-        )
+        ),
       };
     });
   }
@@ -527,7 +538,6 @@ export default class ActiveRetro extends Component {
   handleWtfStatusUpdateMessage(arg) {
     //on a status update, the fervie message may need to get added here too.
 
-
     let data = arg.data,
       circuit = data[ActiveRetro.learningCircuitDtoStr],
       model = this.state.model;
@@ -548,16 +558,17 @@ export default class ActiveRetro extends Component {
    * @param arg
    */
   handleDictionaryUpdateMessage(arg) {
-
     let wordUpdate = arg.data;
 
     if (wordUpdate) {
-
-      this.setState(prevState => {
-
+      this.setState((prevState) => {
         let isUpdated = false;
 
-        for (let i = 0; i < prevState.dictionaryWords.length; i++) {
+        for (
+          let i = 0;
+          i < prevState.dictionaryWords.length;
+          i++
+        ) {
           let word = prevState.dictionaryWords[i];
           if (word.id === wordUpdate.id) {
             prevState.dictionaryWords[i] = wordUpdate;
@@ -569,13 +580,11 @@ export default class ActiveRetro extends Component {
           prevState.dictionaryWords.push(wordUpdate);
         }
         return {
-          dictionaryWords: prevState.dictionaryWords
-        }
-
+          dictionaryWords: prevState.dictionaryWords,
+        };
       });
     }
   }
-
 
   /**
    * updates our models in our various child components states. This
@@ -585,21 +594,29 @@ export default class ActiveRetro extends Component {
   updateStateModelsOnTalkMessageUpdate(model) {
     this.setState({
       model: model,
-      circuitState: model.circuitState
+      circuitState: model.circuitState,
     });
 
-
-    if (UtilRenderer.isCircuitInRetro(model) && !UtilRenderer.isMarkedForCloseByMe(model, MemberClient.me)) {
+    if (
+      UtilRenderer.isCircuitInRetro(model) &&
+      !UtilRenderer.isMarkedForCloseByMe(
+        model,
+        MemberClient.me
+      )
+    ) {
       setTimeout(() => {
         this.setState({
-          retroFeedEvents: this.createRetroFeedEvents(model, this.retroMessages)
+          retroFeedEvents: this.createRetroFeedEvents(
+            model,
+            this.retroMessages
+          ),
         });
-        document.getElementById("activeRetroChatInput").focus();
+        document
+          .getElementById("activeRetroChatInput")
+          .focus();
       }, 400);
     }
-
   }
-
 
   /**
    * updates our dictionary of words from the latest in the DB
@@ -607,10 +624,9 @@ export default class ActiveRetro extends Component {
    */
   updateDictionaryState(words) {
     this.setState({
-      dictionaryWords: words
+      dictionaryWords: words,
     });
   }
-
 
   /**
    * updates our models in our various child components states. This
@@ -620,17 +636,19 @@ export default class ActiveRetro extends Component {
   updateStateModels(model) {
     this.setState({
       model: model,
-      circuitState: model.circuitState
-
+      circuitState: model.circuitState,
     });
   }
-
 
   /**
    * updates our Chat Messages that our in our messages array. This is generally setup initially
    * by our mount or update component functions
    */
-  convertToFeedEvents = (ferviePromptStr, startedTimestamp, messages) => {
+  convertToFeedEvents = (
+    ferviePromptStr,
+    startedTimestamp,
+    messages
+  ) => {
     let metaProps = null,
       username = null,
       time = null,
@@ -639,16 +657,18 @@ export default class ActiveRetro extends Component {
 
     const feedEvents = [];
 
-    this.addFerviePrompt(ferviePromptStr, feedEvents, startedTimestamp);
+    this.addFerviePrompt(
+      ferviePromptStr,
+      feedEvents,
+      startedTimestamp
+    );
 
     for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
       metaProps = m.metaProps;
       username =
         !!metaProps &&
-        metaProps[
-          ActiveRetroFeed.fromUserNameMetaPropsStr
-        ];
+        metaProps[ActiveRetroFeed.fromUserNameMetaPropsStr];
       time = UtilRenderer.getChatMessageTimeString(
         m.messageTime
       );
@@ -676,15 +696,16 @@ export default class ActiveRetro extends Component {
    * @param circuit
    */
   addFerviePrompt(ferviePromptStr, feedEvents, timeStamp) {
-      let time = UtilRenderer.getChatMessageTimeString(timeStamp);
+    let time =
+      UtilRenderer.getChatMessageTimeString(timeStamp);
 
-      this.addFeedEvent(
-        feedEvents,
-        "Fervie",
-        null,
-        time,
-        ferviePromptStr
-      );
+    this.addFeedEvent(
+      feedEvents,
+      "Fervie",
+      null,
+      time,
+      ferviePromptStr
+    );
   }
 
   /**
@@ -713,7 +734,7 @@ export default class ActiveRetro extends Component {
       feedEvent = {
         name: username,
         time: time,
-        text: [text]
+        text: [text],
       };
     }
 
@@ -727,7 +748,7 @@ export default class ActiveRetro extends Component {
    */
   updateStateCircuitMembers(circuitMembers) {
     this.setState({
-      circuitMembers: circuitMembers
+      circuitMembers: circuitMembers,
     });
   }
 
@@ -736,7 +757,7 @@ export default class ActiveRetro extends Component {
    */
   hideSlidePanel = () => {
     this.setState({
-      slidePanelVisible: false
+      slidePanelVisible: false,
     });
   };
 
@@ -744,8 +765,8 @@ export default class ActiveRetro extends Component {
    * shows our scrapbook in our feed panel
    */
   toggleSlidePanel = () => {
-    this.setState(prevState => ({
-      slidePanelVisible: !prevState.slidePanelVisible
+    this.setState((prevState) => ({
+      slidePanelVisible: !prevState.slidePanelVisible,
     }));
   };
 
@@ -763,7 +784,7 @@ export default class ActiveRetro extends Component {
    * stores our circuit sidebar component into memory to access.
    * @param component
    */
-  setCircuitSidebarComponent = component => {
+  setCircuitSidebarComponent = (component) => {
     this.circuitSidebarComponent = component;
   };
 
@@ -772,7 +793,7 @@ export default class ActiveRetro extends Component {
    * access and update.
    * @param component
    */
-  setCircuitFeedComponent = component => {
+  setCircuitFeedComponent = (component) => {
     this.circuitFeedComponent = component;
   };
 
@@ -803,15 +824,15 @@ export default class ActiveRetro extends Component {
             animation={this.animationType}
             duration={this.animationDelay}
           >
-              <PastTroubleshootFeed
-                resource={this.props.resource}
-                model={this.state.model}
-                circuitState={this.state.circuitState}
-                circuitMembers={this.state.circuitMembers}
-                missingMembers={this.state.missingMembers}
-                feedEvents={this.state.troubleshootFeedEvents}
-                hideSlidePanel={this.hideSlidePanel}
-              />
+            <PastTroubleshootFeed
+              resource={this.props.resource}
+              model={this.state.model}
+              circuitState={this.state.circuitState}
+              circuitMembers={this.state.circuitMembers}
+              missingMembers={this.state.missingMembers}
+              feedEvents={this.state.troubleshootFeedEvents}
+              hideSlidePanel={this.hideSlidePanel}
+            />
           </Transition>
         </SplitterLayout>
       </div>
@@ -847,13 +868,12 @@ export default class ActiveRetro extends Component {
         id="component"
         className="circuitContent"
         style={{
-          height: DimensionController.getActiveCircuitContentHeight()
+          height:
+            DimensionController.getActiveCircuitContentHeight(),
         }}
       >
         <div id="wrapper" className="circuitContentPanel">
-          {
-            this.getInRetroCircuitContentPanel()
-          }
+          {this.getInRetroCircuitContentPanel()}
         </div>
         <div id="wrapper" className="circuitContentSidebar">
           {this.getCircuitSidebarContent()}

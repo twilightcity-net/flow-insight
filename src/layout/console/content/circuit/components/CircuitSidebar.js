@@ -1,19 +1,20 @@
 import React, { Component } from "react";
 import {
-  Button, Dropdown,
+  Button,
+  Dropdown,
   Grid,
   Label,
   List,
   Menu,
   Popup,
-  Segment
+  Segment,
 } from "semantic-ui-react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import PartyPanelListItem from "./PartyPanelListItem";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import UtilRenderer from "../../../../../UtilRenderer";
-import {CircuitClient} from "../../../../../clients/CircuitClient";
+import { CircuitClient } from "../../../../../clients/CircuitClient";
 
 /**
  * the class which defines the circuit sidebar panel
@@ -58,7 +59,7 @@ export default class CircuitSidebar extends Component {
       OVERVIEW: "overview",
       PARTY: "party",
       CHEST: "chest",
-      SCRAPBOOK: "scrapbook"
+      SCRAPBOOK: "scrapbook",
     };
   }
 
@@ -68,30 +69,36 @@ export default class CircuitSidebar extends Component {
    */
   constructor(props) {
     super(props);
-    this.resourcesController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.RESOURCES,
-      this
-    );
+    this.resourcesController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.RESOURCES,
+        this
+      );
     this.state = {
       activeMenuView: CircuitSidebar.Views.OVERVIEW,
       tagEditEnabled: false,
       currentTags: [],
-      tagOptions: []
+      tagOptions: [],
     };
     this.props.set(this);
   }
 
-
   componentDidUpdate(prevProps, prevState, snapshot) {
-
-
-    if ((!prevProps.model && this.props.model ) ||
-      (prevProps.model && this.props.model && prevProps.model.circuitName !== this.props.model.circuitName)) {
-
+    if (
+      (!prevProps.model && this.props.model) ||
+      (prevProps.model &&
+        this.props.model &&
+        prevProps.model.circuitName !==
+          this.props.model.circuitName)
+    ) {
       let currentTags = [];
 
       if (this.props.model.tags) {
-        for (let i = 0 ; i < this.props.model.tags.length; i++ ) {
+        for (
+          let i = 0;
+          i < this.props.model.tags.length;
+          i++
+        ) {
           let tag = this.props.model.tags[i];
           currentTags.push(tag);
         }
@@ -99,21 +106,27 @@ export default class CircuitSidebar extends Component {
 
       this.setState({
         tagEditEnabled: false,
-        currentTags: currentTags
+        currentTags: currentTags,
       });
     }
 
-    if (prevProps.dictionaryWords.length !== this.props.dictionaryWords.length) {
-
+    if (
+      prevProps.dictionaryWords.length !==
+      this.props.dictionaryWords.length
+    ) {
       let tagOptions = [];
 
-      for (let i = 0; i < this.props.dictionaryWords.length; i++) {
+      for (
+        let i = 0;
+        i < this.props.dictionaryWords.length;
+        i++
+      ) {
         let word = this.props.dictionaryWords[i];
 
         tagOptions.push({
           key: word.wordName,
           value: word.wordName,
-          text: word.wordName
+          text: word.wordName,
         });
       }
 
@@ -121,7 +134,6 @@ export default class CircuitSidebar extends Component {
         tagOptions: tagOptions,
       });
     }
-
   }
 
   /**
@@ -181,17 +193,15 @@ export default class CircuitSidebar extends Component {
     this.resourcesController.cancelCircuit(circuitName);
   };
 
-
   /**
    * click handler for adding tags to a circuit
    */
   onClickAddTags = () => {
     console.log("Add tags clicked!");
     this.setState({
-      tagEditEnabled: true
+      tagEditEnabled: true,
     });
   };
-
 
   /**
    * click handler for adding tags to a circuit
@@ -199,25 +209,23 @@ export default class CircuitSidebar extends Component {
   onClickTagsDone = () => {
     console.log("Tags done!");
     this.setState({
-      tagEditEnabled: false
+      tagEditEnabled: false,
     });
 
     CircuitClient.saveTags(
       this.props.model.circuitName,
       this.state.currentTags,
       this,
-      arg => {
+      (arg) => {
         console.log("callback for tags!");
       }
     );
   };
 
-
   /**
    * Handler for updating tags
    */
   handleChangeForTags = (e, { value }) => {
-
     let cleanVals = [];
 
     var letters = /^[0-9a-zA-Z]+$/;
@@ -231,7 +239,7 @@ export default class CircuitSidebar extends Component {
     }
 
     this.setState({
-      currentTags: cleanVals
+      currentTags: cleanVals,
     });
   };
 
@@ -241,14 +249,17 @@ export default class CircuitSidebar extends Component {
    * @param name
    */
   handleAddTag = (e, { value }) => {
-
     var letters = /^[0-9a-zA-Z]+$/;
     if (value.match(letters)) {
-      this.setState(prevState => {
-        prevState.tagOptions.push({key: value, value: value, text: value});
+      this.setState((prevState) => {
+        prevState.tagOptions.push({
+          key: value,
+          value: value,
+          text: value,
+        });
         return {
-          tagOptions: prevState.tagOptions
-        }
+          tagOptions: prevState.tagOptions,
+        };
       });
     }
 
@@ -262,7 +273,7 @@ export default class CircuitSidebar extends Component {
    */
   handleMenuClick = (e, { name }) => {
     this.setState({
-      activeMenuView: name
+      activeMenuView: name,
     });
   };
 
@@ -280,7 +291,7 @@ export default class CircuitSidebar extends Component {
    * selects a team member in the list
    * @param model
    */
-  handleClickRow = model => {
+  handleClickRow = (model) => {
     // TODO something
     console.log("XXX", model);
   };
@@ -312,11 +323,13 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarContent() {
-
-    let panelHeight = DimensionController.getCircuitSidebarHeight();
+    let panelHeight =
+      DimensionController.getCircuitSidebarHeight();
     if (this.state.tagEditEnabled) {
-      panelHeight += DimensionController.getCircuitSidebarTimerHeight() +
-        DimensionController.getCircuitSidebarActionsHeight() + 12;
+      panelHeight +=
+        DimensionController.getCircuitSidebarTimerHeight() +
+        DimensionController.getCircuitSidebarActionsHeight() +
+        12;
     }
 
     return (
@@ -324,7 +337,7 @@ export default class CircuitSidebar extends Component {
         className="content"
         inverted
         style={{
-          height: panelHeight
+          height: panelHeight,
         }}
       >
         <Menu size="mini" inverted pointing secondary>
@@ -385,8 +398,8 @@ export default class CircuitSidebar extends Component {
       default:
         throw new Error(
           "Unknown circuit sidebar menu type '" +
-          this.state.activeMenuView +
-          "'"
+            this.state.activeMenuView +
+            "'"
         );
     }
   }
@@ -410,9 +423,8 @@ export default class CircuitSidebar extends Component {
 
       if (UtilRenderer.isCircuitTroubleshoot(circuit)) {
         this.wtfTimer = setInterval(() => {
-          this.timerEl.innerHTML = UtilRenderer.getWtfTimerFromCircuit(
-            circuit
-          );
+          this.timerEl.innerHTML =
+            UtilRenderer.getWtfTimerFromCircuit(circuit);
         }, CircuitSidebar.wtfTimerIntervalMs);
       }
       return UtilRenderer.getWtfTimerFromCircuit(circuit);
@@ -445,13 +457,15 @@ export default class CircuitSidebar extends Component {
     let height = "100%";
 
     if (this.state.tagEditEnabled) {
-      height = DimensionController.getCircuitSidebarHeight() +
+      height =
+        DimensionController.getCircuitSidebarHeight() +
         DimensionController.getCircuitSidebarTimerHeight() +
-        DimensionController.getCircuitSidebarActionsHeight() - 100;
+        DimensionController.getCircuitSidebarActionsHeight() -
+        100;
     }
 
     return (
-      <div className="overview" style = {{ height : height}}>
+      <div className="overview" style={{ height: height }}>
         {this.getTitleContent(title)}
         {this.getDescriptionContent(description)}
         {this.getTagsMapContent(tags)}
@@ -517,13 +531,17 @@ export default class CircuitSidebar extends Component {
   getTagsEditDoneContent() {
     if (this.state.tagEditEnabled) {
       return (
-        <Label color="violet" size="small" className="tagsDone" onClick={this.onClickTagsDone}>
+        <Label
+          color="violet"
+          size="small"
+          className="tagsDone"
+          onClick={this.onClickTagsDone}
+        >
           <i>Done</i>
         </Label>
       );
     } else return "";
   }
-
 
   /**
    * gets our tags content body from our array of tags
@@ -531,59 +549,71 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getTagsMapContent(tags) {
-
     let tagsContent = "";
 
     if (this.state.tagEditEnabled) {
-
       tagsContent = (
-        <div><Dropdown className="tagsDropdown"
-                       placeholder='Search tags'
-                       fluid
-                       multiple
-                       search
-                       selection
-                       allowAdditions
-                       options={this.state.tagOptions}
-                       value={this.state.currentTags}
-                       onAddItem={this.handleAddTag}
-                       onChange={this.handleChangeForTags}
-        />
+        <div>
+          <Dropdown
+            className="tagsDropdown"
+            placeholder="Search tags"
+            fluid
+            multiple
+            search
+            selection
+            allowAdditions
+            options={this.state.tagOptions}
+            value={this.state.currentTags}
+            onAddItem={this.handleAddTag}
+            onChange={this.handleChangeForTags}
+          />
         </div>
       );
-
-
     } else {
       if (this.state.currentTags.length > 0) {
-        tagsContent =
+        tagsContent = (
           <div>
-            {
-              this.state.currentTags.map((s, i) => (
-                <Label color="grey" size="tiny" key={i} onClick={this.onClickAddTags}>
-                  {s}
-                </Label>
-              ))
-            }
-            <Label color="grey" size="tiny" key={99999} onClick={this.onClickAddTags}>
+            {this.state.currentTags.map((s, i) => (
+              <Label
+                color="grey"
+                size="tiny"
+                key={i}
+                onClick={this.onClickAddTags}
+              >
+                {s}
+              </Label>
+            ))}
+            <Label
+              color="grey"
+              size="tiny"
+              key={99999}
+              onClick={this.onClickAddTags}
+            >
               ...
             </Label>
           </div>
+        );
       } else {
-        tagsContent = <Popup
-          content="Click to add tags."
-          mouseEnterDelay={420}
-          mouseLeaveDelay={210}
-          on="hover"
-          position={"top center"}
-          inverted
-          trigger={
-            <Label color="red" size="tiny" onClick={this.onClickAddTags}>
-              <i>Click to Tag!</i>
-            </Label>
-          }
-        />
+        tagsContent = (
+          <Popup
+            content="Click to add tags."
+            mouseEnterDelay={420}
+            mouseLeaveDelay={210}
+            on="hover"
+            position={"top center"}
+            inverted
+            trigger={
+              <Label
+                color="red"
+                size="tiny"
+                onClick={this.onClickAddTags}
+              >
+                <i>Click to Tag!</i>
+              </Label>
+            }
+          />
+        );
       }
-
     }
 
     return (
@@ -664,19 +694,16 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarTimerContent() {
-
     if (this.state.tagEditEnabled) {
-      return (
-        <div>
-        </div>
-      );
+      return <div></div>;
     } else {
       return (
         <Segment
           className="timer"
           inverted
           style={{
-            height: DimensionController.getCircuitSidebarTimerHeight()
+            height:
+              DimensionController.getCircuitSidebarTimerHeight(),
           }}
         >
           {this.getWtfTimerContent()}
@@ -769,7 +796,8 @@ export default class CircuitSidebar extends Component {
       <Button
         onClick={this.onClickJoinActiveCircuit}
         size="medium"
-        color="grey">
+        color="grey"
+      >
         <Button.Content>join</Button.Content>
       </Button>
     );
@@ -884,14 +912,21 @@ export default class CircuitSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarActions() {
-
     let circuit = this.props.model;
 
     let content = "";
 
-    if (UtilRenderer.isCircuitOwnerModerator(MemberClient.me, circuit)) {
-
-      if (UtilRenderer.isCircuitCanceled(circuit) || UtilRenderer.isCircuitClosed(circuit) || UtilRenderer.isCircuitSolved(circuit)) {
+    if (
+      UtilRenderer.isCircuitOwnerModerator(
+        MemberClient.me,
+        circuit
+      )
+    ) {
+      if (
+        UtilRenderer.isCircuitCanceled(circuit) ||
+        UtilRenderer.isCircuitClosed(circuit) ||
+        UtilRenderer.isCircuitSolved(circuit)
+      ) {
         content = (
           <Grid.Row stretched verticalAlign="middle">
             <Grid.Column>
@@ -915,47 +950,52 @@ export default class CircuitSidebar extends Component {
         );
       }
     } else {
-        //not my circuit
-        if (!UtilRenderer.isCircuitActive(this.props.model)) {
+      //not my circuit
+      if (!UtilRenderer.isCircuitActive(this.props.model)) {
+        content = (
+          <Grid.Row stretched verticalAlign="middle">
+            <Grid.Column>
+              {this.getInactiveCircuitButtonContent()}
+            </Grid.Column>
+          </Grid.Row>
+        );
+      } else {
+        //active circuit, not mine
+        if (
+          UtilRenderer.isCircuitParticipant(
+            MemberClient.me,
+            this.props.circuitMembers
+          )
+        ) {
           content = (
             <Grid.Row stretched verticalAlign="middle">
               <Grid.Column>
-                {this.getInactiveCircuitButtonContent()}
+                {this.getLeaveActiveCircuitButtonContent()}
               </Grid.Column>
             </Grid.Row>
           );
         } else {
-          //active circuit, not mine
-          if (UtilRenderer.isCircuitParticipant(MemberClient.me, this.props.circuitMembers)) {
-            content = (
-              <Grid.Row stretched verticalAlign="middle">
-                <Grid.Column>
-                  {this.getLeaveActiveCircuitButtonContent()}
-                </Grid.Column>
-              </Grid.Row>
-            );
-          } else {
-            content = (
-              <Grid.Row stretched verticalAlign="middle">
-                <Grid.Column>
-                  {this.getJoinActiveCircuitButtonContent()}
-                </Grid.Column>
-              </Grid.Row>
-            );
-          }
-
+          content = (
+            <Grid.Row stretched verticalAlign="middle">
+              <Grid.Column>
+                {this.getJoinActiveCircuitButtonContent()}
+              </Grid.Column>
+            </Grid.Row>
+          );
         }
+      }
     }
 
     if (this.state.tagEditEnabled) {
-      return (<div></div>)
+      return <div></div>;
     } else {
       return (
         <Segment
           className="actions"
           inverted
           style={{
-            height: DimensionController.getCircuitSidebarActionsHeight()
+            height:
+              DimensionController.getCircuitSidebarActionsHeight(),
           }}
         >
           <Grid columns="equal" inverted>
@@ -985,7 +1025,7 @@ export default class CircuitSidebar extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {circuitMembers.map(model => (
+          {circuitMembers.map((model) => (
             <PartyPanelListItem
               key={model.memberId}
               model={model}

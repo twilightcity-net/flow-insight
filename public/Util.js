@@ -42,7 +42,7 @@ class Util {
         colors: true,
         showProxy: true,
         maxArrayLength: null,
-        breakLength: 80
+        breakLength: 80,
       })
     );
   }
@@ -62,7 +62,7 @@ class Util {
   static getAppApi() {
     let url = "https://home.twilightcity.net";
     if (isDev) {
-      process.argv.forEach(function(val, index, array) {
+      process.argv.forEach(function (val, index, array) {
         if (val.toLowerCase().startsWith("server=")) {
           url = val.toLowerCase().substring(7);
         }
@@ -80,7 +80,7 @@ class Util {
 
     let url = "https://gridtalk.twilightcity.net";
     if (isDev) {
-      process.argv.forEach(val => {
+      process.argv.forEach((val) => {
         if (val.toLowerCase().startsWith("talk=")) {
           url = val.toLowerCase().substring(5);
         }
@@ -98,7 +98,7 @@ class Util {
   static getRender3D() {
     let flag = false;
     if (isDev) {
-      process.argv.forEach(function(val, index, array) {
+      process.argv.forEach(function (val, index, array) {
         if (val.toLowerCase().startsWith("render3d=")) {
           flag = val.toLowerCase().substring(9);
         }

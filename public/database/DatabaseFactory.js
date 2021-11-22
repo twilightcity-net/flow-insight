@@ -22,7 +22,7 @@ class DatabaseFactory {
       CIRCUIT: "circuit",
       TEAM: "team",
       MEMBER: "member",
-      DICTIONARY: "dictionary"
+      DICTIONARY: "dictionary",
     };
   }
 

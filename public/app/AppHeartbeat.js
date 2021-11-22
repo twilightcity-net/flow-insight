@@ -20,11 +20,11 @@ module.exports = class AppHeartbeat {
     this.intervalMs = 60000;
     this.timeout = {
       response: 30000,
-      deadline: 30000
+      deadline: 30000,
     };
     this.dto = new HeartbeatDto({
       idleTime: 0,
-      deltaTime: 0
+      deltaTime: 0,
     });
     this.previousDeltaTime = 0;
     this.pingTime = 0;
@@ -33,7 +33,7 @@ module.exports = class AppHeartbeat {
       heartbeat: EventFactory.createEvent(
         EventFactory.Types.APP_HEARTBEAT,
         this
-      )
+      ),
     };
   }
 
@@ -101,16 +101,18 @@ module.exports = class AppHeartbeat {
           global.App.isOnline = true;
           dto = new SimpleStatusDto(res.body);
           dto.pingTime = this.pingTime;
-          dto.latencyTime = global.App.TalkManager.getLatency();
+          dto.latencyTime =
+            global.App.TalkManager.getLatency();
           dto.isOnline = dto.isValid();
         } catch (e) {
           global.App.isOnline = false;
           dto = new SimpleStatusDto({
             message: e.toString(),
-            status: "FAILED"
+            status: "FAILED",
           });
           dto.pingTime = -1;
-          dto.latencyTime = global.App.TalkManager.getLatency();
+          dto.latencyTime =
+            global.App.TalkManager.getLatency();
           dto.isOnline = global.App.isOnline;
         } finally {
           if (dto) {

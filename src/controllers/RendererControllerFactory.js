@@ -26,7 +26,7 @@ export class RendererControllerFactory {
       CONSOLE_SIDEBAR: "console-sidebar",
       LAYOUT_CONTENT: "layout-content",
       LAYOUT_BROWSER: "layout-browser",
-      RESOURCES: "resources"
+      RESOURCES: "resources",
     };
   }
 

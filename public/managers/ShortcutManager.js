@@ -53,7 +53,7 @@ class ShortcutManager {
       shortcutsRecieved: EventFactory.createEvent(
         EventFactory.Types.SHORTCUTS_RECIEVED,
         this
-      )
+      ),
     };
   }
 
@@ -85,7 +85,7 @@ class ShortcutManager {
       WINDOW_SIDEBAR_WTF_ITEM:
         prefix + "window-sidebar-wtf-item",
       WINDOW_SIDEBAR_WTF_ITEM_ALT:
-        prefix + "window-sidebar-wtf-item-alt"
+        prefix + "window-sidebar-wtf-item-alt",
     };
   }
 
@@ -105,7 +105,7 @@ class ShortcutManager {
       WINDOW_SIDEBAR_THIRD_ITEM: "Control+3",
       WINDOW_SIDEBAR_FOURTH_ITEM: "Control+4",
       WINDOW_SIDEBAR_WTF_ITEM: "Control+Esc",
-      WINDOW_SIDEBAR_WTF_ITEM_ALT: "Command+Esc"
+      WINDOW_SIDEBAR_WTF_ITEM_ALT: "Command+Esc",
     };
   }
 
@@ -131,7 +131,7 @@ class ShortcutManager {
         ShortcutManager.Names.GLOBAL_WINDOW_DEV_MODE,
         ShortcutManager.Accelerators.WINDOW_DEV_MODE,
         this
-      )
+      ),
     };
     return shortcuts;
   }
@@ -238,5 +238,5 @@ class ShortcutManager {
 module.exports = {
   Shortcut,
   ShortcutError,
-  ShortcutManager
+  ShortcutManager,
 };

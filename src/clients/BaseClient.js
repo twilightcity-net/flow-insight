@@ -23,7 +23,7 @@ export class BaseClient {
       LOADING: "loading...",
       ONLINE: "online",
       OFFLINE: "offline",
-      ALARM: "alarm"
+      ALARM: "alarm",
     };
   }
 
@@ -34,7 +34,7 @@ export class BaseClient {
    */
   static get Errors() {
     return {
-      UNKNOWN: "Unknown team panel menu item"
+      UNKNOWN: "Unknown team panel menu item",
     };
   }
 
@@ -60,7 +60,7 @@ export class BaseClient {
       INTENTION_ABORTED_DETAILS:
         "IntentionAbortedDetailsDto",
       JOURNAL_ENTRY_DTO: "JournalEntryDto",
-      DICTIONARY_UPDATE: "WordDefinitionDto"
+      DICTIONARY_UPDATE: "WordDefinitionDto",
     };
   }
 
@@ -76,7 +76,7 @@ export class BaseClient {
       ON_HOLD: "ONHOLD",
       SOLVED: "SOLVED",
       RETRO: "RETRO",
-      CLOSED: "CLOSED"
+      CLOSED: "CLOSED",
     };
   }
 
@@ -89,7 +89,7 @@ export class BaseClient {
   static get RoomMemberStatus() {
     return {
       ROOM_MEMBER_JOIN: "ROOM_MEMBER_JOIN",
-      ROOM_MEMBER_LEAVE: "ROOM_MEMBER_LEAVE"
+      ROOM_MEMBER_LEAVE: "ROOM_MEMBER_LEAVE",
     };
   }
 
@@ -101,7 +101,7 @@ export class BaseClient {
   static get StatusEvents() {
     return {
       CIRCUIT_MEMBER_JOINED: "CIRCUIT_MEMBER_JOINED",
-      CIRCUIT_MEMBER_LEAVE: "CIRCUIT_MEMBER_LEAVE"
+      CIRCUIT_MEMBER_LEAVE: "CIRCUIT_MEMBER_LEAVE",
     };
   }
 

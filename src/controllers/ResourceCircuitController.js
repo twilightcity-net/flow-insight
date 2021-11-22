@@ -13,40 +13,47 @@ export class ResourceCircuitController extends ActiveViewController {
    */
   constructor(scope) {
     super(scope);
-    this.browserController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.LAYOUT_BROWSER,
-      this
-    );
-    this.circuitJoinLeaveNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
-      this
-    );
-    this.circuitStartStopNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_START_STOP,
-      this
-    );
-    this.circuitPauseResumeNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
-      this
-    );
-    this.circuitSolveNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_SOLVE,
-      this
-    );
-    this.joinExistingRoomNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_JOIN_EXISTING_ROOM,
-      this
-    );
-    this.leaveExistingRoomNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_LEAVE_EXISTING_ROOM,
-      this
-    );
+    this.browserController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.LAYOUT_BROWSER,
+        this
+      );
+    this.circuitJoinLeaveNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
+        this
+      );
+    this.circuitStartStopNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_START_STOP,
+        this
+      );
+    this.circuitPauseResumeNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
+        this
+      );
+    this.circuitSolveNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_SOLVE,
+        this
+      );
+    this.joinExistingRoomNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_JOIN_EXISTING_ROOM,
+        this
+      );
+    this.leaveExistingRoomNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_LEAVE_EXISTING_ROOM,
+        this
+      );
   }
 
   /**
@@ -64,7 +71,7 @@ export class ResourceCircuitController extends ActiveViewController {
       TEAM_WTF_SOLVED: "TEAM_WTF_SOLVED",
       TEAM_WTF_CANCELED: "TEAM_WTF_CANCELED",
       TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED",
-      TEAM_WTF_UPDATED: "TEAM_WTF_UPDATED"
+      TEAM_WTF_UPDATED: "TEAM_WTF_UPDATED",
     };
   }
 
@@ -160,7 +167,7 @@ export class ResourceCircuitController extends ActiveViewController {
    * Start a troubleshooting session by loading the new session into the browser
    */
   startCircuit() {
-    CircuitClient.startWtf(this, arg => {
+    CircuitClient.startWtf(this, (arg) => {
       let circuit = arg.data,
         request = BrowserRequestFactory.createRequest(
           BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
@@ -176,7 +183,7 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param circuitName the circuit to solve
    */
   solveCircuit(circuitName) {
-    CircuitClient.solveWtf(circuitName, this, arg => {
+    CircuitClient.solveWtf(circuitName, this, (arg) => {
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.JOURNAL,
         BrowserRequestFactory.Locations.ME
@@ -191,34 +198,22 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param circuitName
    */
   startRetro(circuitName) {
-
-    CircuitClient.startRetro(
-      circuitName,
-      this,
-      arg => {
-        //not sure if we need to do anything here yet
-        console.log("started retro");
-      }
-    );
+    CircuitClient.startRetro(circuitName, this, (arg) => {
+      //not sure if we need to do anything here yet
+      console.log("started retro");
+    });
   }
-
 
   /**
    * handler that is called when we want to close a given circuit.
    * @param circuitName
    */
   closeCircuit(circuitName) {
-
-    CircuitClient.closeWtf(
-      circuitName,
-      this,
-      arg => {
-        this.fireCircuitStopNotifyEvent();
-        console.log("closed");
-      }
-    );
+    CircuitClient.closeWtf(circuitName, this, (arg) => {
+      this.fireCircuitStopNotifyEvent();
+      console.log("closed");
+    });
   }
-
 
   /**
    * handler that is called when we put a circuit on hold
@@ -228,7 +223,7 @@ export class ResourceCircuitController extends ActiveViewController {
     CircuitClient.pauseWTFWithDoItLater(
       circuitName,
       this,
-      arg => {
+      (arg) => {
         this.fireCircuitPauseNotifyEvent();
       }
     );
@@ -239,7 +234,7 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param circuitName
    */
   resumeCircuit(circuitName) {
-    CircuitClient.resumeWtf(circuitName, this, arg => {
+    CircuitClient.resumeWtf(circuitName, this, (arg) => {
       this.fireCircuitResumeNotifyEvent();
     });
   }
@@ -249,7 +244,7 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param circuitName - the circuit to cancel
    */
   cancelCircuit(circuitName) {
-    CircuitClient.cancelWtf(circuitName, this, arg => {
+    CircuitClient.cancelWtf(circuitName, this, (arg) => {
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.JOURNAL,
         BrowserRequestFactory.Locations.ME
@@ -267,7 +262,7 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param circuitName
    */
   joinCircuit(circuitName) {
-    CircuitClient.joinWtf(circuitName, this, arg => {
+    CircuitClient.joinWtf(circuitName, this, (arg) => {
       console.log(
         this.name + " JOIN WTF -> " + circuitName
       );
@@ -283,7 +278,7 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param circuitName
    */
   leaveCircuit(circuitName) {
-    CircuitClient.leaveWtf(circuitName, this, arg => {
+    CircuitClient.leaveWtf(circuitName, this, (arg) => {
       console.log(
         this.name + " LEAVE WTF -> " + circuitName
       );
@@ -298,19 +293,22 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param resource
    */
   joinExistingRoom(resource) {
-    let roomName = UtilRenderer.getRoomNameFromResource(
-      resource
-    );
+    let roomName =
+      UtilRenderer.getRoomNameFromResource(resource);
 
     if (roomName) {
-      TalkToClient.joinExistingRoom(roomName, this, arg => {
-        console.log(
-          this.name +
-            " JOIN EXISTING ROOM -> " +
-            JSON.stringify(arg)
-        );
-        this.fireJoinExistingRoomNotifyEvent();
-      });
+      TalkToClient.joinExistingRoom(
+        roomName,
+        this,
+        (arg) => {
+          console.log(
+            this.name +
+              " JOIN EXISTING ROOM -> " +
+              JSON.stringify(arg)
+          );
+          this.fireJoinExistingRoomNotifyEvent();
+        }
+      );
     }
   }
 
@@ -321,22 +319,24 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param resource
    */
   joinExistingRetroRoom(resource) {
-    let roomName = UtilRenderer.getRetroRoomNameFromResource(
-      resource
-    );
+    let roomName =
+      UtilRenderer.getRetroRoomNameFromResource(resource);
 
     if (roomName) {
-      TalkToClient.joinExistingRoom(roomName, this, arg => {
-        console.log(
-          this.name +
-          " JOIN EXISTING ROOM -> " +
-          JSON.stringify(arg)
-        );
-        this.fireJoinExistingRoomNotifyEvent();
-      });
+      TalkToClient.joinExistingRoom(
+        roomName,
+        this,
+        (arg) => {
+          console.log(
+            this.name +
+              " JOIN EXISTING ROOM -> " +
+              JSON.stringify(arg)
+          );
+          this.fireJoinExistingRoomNotifyEvent();
+        }
+      );
     }
   }
-
 
   /**
    * leaves a circuit on gridtime. This will implicitly call leave room on gridtime
@@ -345,15 +345,14 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param resource
    */
   leaveExistingRoom(resource) {
-    let roomName = UtilRenderer.getRoomNameFromResource(
-      resource
-    );
+    let roomName =
+      UtilRenderer.getRoomNameFromResource(resource);
 
     if (roomName) {
       TalkToClient.leaveExistingRoom(
         roomName,
         this,
-        arg => {
+        (arg) => {
           this.fireLeaveExistingRoomNotifyEvent();
         }
       );
@@ -367,15 +366,14 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param resource
    */
   leaveExistingRetroRoom(resource) {
-    let roomName = UtilRenderer.getRetroRoomNameFromResource(
-      resource
-    );
+    let roomName =
+      UtilRenderer.getRetroRoomNameFromResource(resource);
 
     if (roomName) {
       TalkToClient.leaveExistingRoom(
         roomName,
         this,
-        arg => {
+        (arg) => {
           this.fireLeaveExistingRoomNotifyEvent();
         }
       );

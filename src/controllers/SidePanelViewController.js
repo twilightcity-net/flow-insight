@@ -41,79 +41,95 @@ export class SidePanelViewController extends ActiveViewController {
       SidePanelViewController.SubmenuSelection.LIVE_CIRCUITS;
     this.activeNotificationsSubmenuSelection =
       SidePanelViewController.SubmenuSelection.NOTIFICATIONS;
-    this.circuitStartStopListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_START_STOP,
-      this
-    );
-    this.sidePanelChangeNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_SIDEBAR_PANEL,
-      this
-    );
-    this.ferviePanelChangeNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_FERVIE_PANEL,
-      this
-    );
-    this.teamPanelChangeNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_TEAM_PANEL,
-      this
-    );
-    this.circuitsPanelChangeNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUITS_PANEL,
-      this
-    );
-    this.contentPanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_SIDEBAR_PANEL,
-      this
-    );
+    this.circuitStartStopListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_START_STOP,
+        this
+      );
+    this.sidePanelChangeNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_SIDEBAR_PANEL,
+        this
+      );
+    this.ferviePanelChangeNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_FERVIE_PANEL,
+        this
+      );
+    this.teamPanelChangeNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_TEAM_PANEL,
+        this
+      );
+    this.circuitsPanelChangeNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUITS_PANEL,
+        this
+      );
+    this.contentPanelListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_SIDEBAR_PANEL,
+        this
+      );
     this.menuListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events
         .VIEW_CONSOLE_SIDEBAR_PANEL,
       this
     );
-    this.perspectiveControllerListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_SIDEBAR_PANEL,
-      this
-    );
-    this.teamPanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_TEAM_PANEL,
-      this
-    );
-    this.ferviePanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.VIEW_CONSOLE_FERVIE_PANEL,
-      this
-    );
-    this.circuitsPanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUITS_PANEL,
-      this
-    );
-    this.notificationsPanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_NOTIFICATIONS_PANEL,
-      this
-    );
-    this.browserController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.LAYOUT_BROWSER,
-      this
-    );
-    this.heartbeatListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.APP_HEARTBEAT,
-      this
-    );
+    this.perspectiveControllerListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_SIDEBAR_PANEL,
+        this
+      );
+    this.teamPanelListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_TEAM_PANEL,
+        this
+      );
+    this.ferviePanelListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_FERVIE_PANEL,
+        this
+      );
+    this.circuitsPanelListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUITS_PANEL,
+        this
+      );
+    this.notificationsPanelListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_NOTIFICATIONS_PANEL,
+        this
+      );
+    this.browserController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.LAYOUT_BROWSER,
+        this
+      );
+    this.heartbeatListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.APP_HEARTBEAT,
+        this
+      );
     this.pulseListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.APP_PULSE,
       this
     );
-    this.sidebarShowListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW,
-      this
-    );
+    this.sidebarShowListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW,
+        this
+      );
   }
 
   /**
@@ -128,7 +144,7 @@ export class SidePanelViewController extends ActiveViewController {
       TEAM: "team",
       CIRCUITS: "circuits",
       NOTIFICATIONS: "notifications",
-      NONE: "none"
+      NONE: "none",
     };
   }
 
@@ -146,7 +162,7 @@ export class SidePanelViewController extends ActiveViewController {
       LIVE_CIRCUITS: "live-circuits",
       DO_IT_LATER_CIRCUITS: "do-it-later",
       RETRO_CIRCUITS: "retro-circuits",
-      NOTIFICATIONS: "notifications"
+      NOTIFICATIONS: "notifications",
     };
   }
 
@@ -159,7 +175,7 @@ export class SidePanelViewController extends ActiveViewController {
     return {
       FLY_DOWN: "fade down",
       FADE_IN: "fade right",
-      SLIDE_IN: "slide left"
+      SLIDE_IN: "slide left",
     };
   }
 
@@ -170,7 +186,7 @@ export class SidePanelViewController extends ActiveViewController {
    */
   static get AnimationDelays() {
     return {
-      SUBMENU: 350
+      SUBMENU: 350,
     };
   }
 
@@ -338,8 +354,7 @@ export class SidePanelViewController extends ActiveViewController {
    * loads your active WTF that is in the active session from gridtime
    */
   loadWTF() {
-
-    CircuitClient.getActiveCircuit(this, arg => {
+    CircuitClient.getActiveCircuit(this, (arg) => {
       let circuit = arg.data[0];
       if (circuit) {
         let circuitName = circuit.circuitName,

@@ -21,9 +21,8 @@ const { app, session } = require("electron"),
   { EventManager } = require("../events/EventManager"),
   EventFactory = require("../events/EventFactory"),
   {
-    ShortcutManager
+    ShortcutManager,
   } = require("../managers/ShortcutManager"),
-  AppUpdater = require("./AppUpdater"),
   AppSettings = require("./AppSettings"),
   DataStoreManager = require("../managers/DtoClientManager"),
   AppActivator = require("./AppActivator"),
@@ -44,17 +43,17 @@ const { app, session } = require("electron"),
       "      :           /|\\         *                       *                                   :\n" +
       "      :                               x     T W I L I G H T  C I T Y , I N C  © 2 0 2 1   :\n" +
       "      :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:" +
-      "                                                                                               \n"
+      "                                                                                               \n",
   ];
 
 const {
   default: installExtension,
-  REACT_DEVELOPER_TOOLS
+  REACT_DEVELOPER_TOOLS,
 } = require("electron-devtools-installer");
 
 module.exports = class App {
   constructor() {
-    AppBanner.forEach(v =>
+    AppBanner.forEach((v) =>
       console.log(chalk.bold.greenBright(v))
     );
     if (isDev) Util.setDevUserDataDir();
@@ -66,7 +65,7 @@ module.exports = class App {
       windowAllClosed: this.onWindowAllClosed,
       quit: this.onQuit,
       willQuit: this.onWillQuit,
-      crashed: this.onCrash
+      crashed: this.onCrash,
     };
     this.processCLI();
 
@@ -134,14 +133,15 @@ module.exports = class App {
       global.App.TalkManager = new TalkManager();
       global.App.JournalManager = new JournalManager();
       global.App.TeamManager = new TeamManager();
-      global.App.DictionaryManager = new DictionaryManager();
+      global.App.DictionaryManager =
+        new DictionaryManager();
       global.App.MemberManager = new MemberManager();
       global.App.CircuitManager = new CircuitManager();
-      global.App.TeamCircuitManager = new TeamCircuitManager();
+      global.App.TeamCircuitManager =
+        new TeamCircuitManager();
       global.App.TalkToManager = new TalkToManager();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.FervieManager = new FervieManager();
-      global.App.AppUpdater = new AppUpdater();
       global.App.DataStoreManager = new DataStoreManager();
       global.App.AppActivator = new AppActivator();
       global.App.AppLoader = new AppLoader();
@@ -160,9 +160,9 @@ module.exports = class App {
                 responseHeaders: {
                   ...details.responseHeaders,
                   "Content-Security-Policy": [
-                    "script-src 'self'"
-                  ]
-                }
+                    "script-src 'self'",
+                  ],
+                },
               });
             }
           );
@@ -220,7 +220,7 @@ module.exports = class App {
     if (global.App.isLoggedIn) {
       event.preventDefault();
       global.App.TalkManager.disconnect();
-      AppLogin.doLogout(store => {
+      AppLogin.doLogout((store) => {
         log.info(
           "[App] before quit -> logout complete : quit"
         );
@@ -293,7 +293,8 @@ module.exports = class App {
   load() {
     log.info("[App] checking for settings...");
     if (global.App.AppSettings.check()) {
-      global.App.ApiKey = global.App.AppSettings.getApiKey();
+      global.App.ApiKey =
+        global.App.AppSettings.getApiKey();
       global.App.AppLoader.load();
     } else {
       global.App.AppActivator.start();

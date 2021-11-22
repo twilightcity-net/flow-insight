@@ -2,12 +2,8 @@ import { RendererEventFactory } from "../events/RendererEventFactory";
 
 // FIXME this is a security issue, should be handled in the main process
 
-const {
-  remote,
-  ipcRenderer,
-  desktopCapturer,
-  electron
-} = window.require("electron");
+const { remote, ipcRenderer, desktopCapturer, electron } =
+  window.require("electron");
 const log = remote.require("electron-log");
 const electronScreen = electron.screen;
 const fs = window.require("fs");
@@ -22,7 +18,7 @@ export class ScreenshotController {
     log.info("[ScreenshotController] created -> okay");
     this.enabled = false;
     this.state = {
-      screenPath: "./assets/images/screenshot.png"
+      screenPath: "./assets/images/screenshot.png",
     };
 
     ipcRenderer.on("ping", (event, screenPath) => {
@@ -31,10 +27,12 @@ export class ScreenshotController {
     });
 
     this.events = {
-      prepareForScreenShot: RendererEventFactory.createEvent(
-        RendererEventFactory.Events.PREPARE_FOR_SCREENSHOT,
-        this
-      ),
+      prepareForScreenShot:
+        RendererEventFactory.createEvent(
+          RendererEventFactory.Events
+            .PREPARE_FOR_SCREENSHOT,
+          this
+        ),
       readyForScreenShot: RendererEventFactory.createEvent(
         RendererEventFactory.Events.READY_FOR_SCREENSHOT,
         this,
@@ -45,13 +43,14 @@ export class ScreenshotController {
         RendererEventFactory.Events.SCREENSHOT_COMPLETE,
         this
       ),
-      screenReadyForDisplay: RendererEventFactory.createEvent(
-        RendererEventFactory.Events
-          .SCREENSHOT_READY_FOR_DISPLAY,
-        this,
-        (event, arg) =>
-          this.onScreenShotReadyForDisplay(event, arg)
-      )
+      screenReadyForDisplay:
+        RendererEventFactory.createEvent(
+          RendererEventFactory.Events
+            .SCREENSHOT_READY_FOR_DISPLAY,
+          this,
+          (event, arg) =>
+            this.onScreenShotReadyForDisplay(event, arg)
+        ),
     };
   }
 
@@ -85,7 +84,7 @@ export class ScreenshotController {
     console.info("ready for display:" + screenPath);
 
     this.setState({
-      screenPath: "file://" + screenPath
+      screenPath: "file://" + screenPath,
     });
   };
 
@@ -107,7 +106,7 @@ export class ScreenshotController {
     log.info("captureScreenShotAsync2");
     let options = {
       types: ["screen"],
-      thumbnailSize: thumbSize
+      thumbnailSize: thumbSize,
     };
 
     log.info("captureScreenShotAsync3");
@@ -119,7 +118,7 @@ export class ScreenshotController {
 
         if (error) return console.log(error.message);
 
-        sources.forEach(source => {
+        sources.forEach((source) => {
           log.info("Saved!");
 
           log.info("Saved! : " + source.name);
@@ -130,7 +129,7 @@ export class ScreenshotController {
             fs.writeFile(
               screenPath,
               source.thumbnail.toPNG(),
-              err => {
+              (err) => {
                 if (err) return console.log(err.message);
 
                 log.info("Saved to " + screenPath);
@@ -146,11 +145,11 @@ export class ScreenshotController {
    * capture the screen
    * @param screenPath - the path to save the screne to
    */
-  takeScreenShot = screenPath => {
+  takeScreenShot = (screenPath) => {
     let thumbSize = this.determineScreenShotSize();
     let options = {
       types: ["screen"],
-      thumbnailSize: thumbSize
+      thumbnailSize: thumbSize,
     };
 
     desktopCapturer.getSources(
@@ -158,7 +157,7 @@ export class ScreenshotController {
       (error, sources) => {
         if (error) return console.log(error.message);
 
-        sources.forEach(source => {
+        sources.forEach((source) => {
           console.log("Saved!");
 
           console.log("Saved! : " + source.name);
@@ -173,7 +172,7 @@ export class ScreenshotController {
             fs.writeFile(
               screenPath,
               source.thumbnail.toPNG(),
-              err => {
+              (err) => {
                 if (err) return console.log(err.message);
 
                 //electron.shell.openExternal('file://' + screenPath);
@@ -210,7 +209,8 @@ export class ScreenshotController {
   determineScreenShotSize = () => {
     log.info("determineScreenShotSize");
 
-    const primaryDisplay = electronScreen.getPrimaryDisplay();
+    const primaryDisplay =
+      electronScreen.getPrimaryDisplay();
     const screenSize = primaryDisplay.workAreaSize;
     const maxDimension = Math.max(
       screenSize.width,
@@ -223,7 +223,7 @@ export class ScreenshotController {
 
     return {
       width: maxDimension * window.devicePixelRatio,
-      height: maxDimension * window.devicePixelRatio
+      height: maxDimension * window.devicePixelRatio,
     };
   };
 }

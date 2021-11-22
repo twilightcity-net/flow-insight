@@ -14,7 +14,7 @@ export default class TerminalResource extends Component {
     super(props);
     this.name = "[TerminalResource]";
     this.state = {
-      resource: props.resource
+      resource: props.resource,
     };
   }
 

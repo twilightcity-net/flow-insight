@@ -3,7 +3,7 @@ import {
   List,
   Menu,
   Segment,
-  Transition
+  Transition,
 } from "semantic-ui-react";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
@@ -41,16 +41,18 @@ export default class CircuitsPanel extends Component {
       title: "",
       activeCircuits: [],
       doItLaterCircuits: [],
-      retroCircuits: []
+      retroCircuits: [],
     };
-    this.myController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.CONSOLE_SIDEBAR
-    );
-    this.talkRoomMessageListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-      this,
-      this.onTalkRoomMessage
-    );
+    this.myController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.CONSOLE_SIDEBAR
+      );
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
 
     this.animationType =
       SidePanelViewController.AnimationTypes.FLY_DOWN;
@@ -59,7 +61,7 @@ export default class CircuitsPanel extends Component {
     this.selections = {
       activeCircuitComponent: null,
       doItLaterCircuitComponent: null,
-      retroCircuitComponent: null
+      retroCircuitComponent: null,
     };
   }
 
@@ -97,18 +99,20 @@ export default class CircuitsPanel extends Component {
    * in the main process for new circuit data.
    */
   componentDidMount() {
-    this.circuitStartStopListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_START_STOP,
-      this,
-      this.onCircuitStartStop
-    );
-    this.circuitPauseResumeListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
-      this,
-      this.onCircuitPauseResume
-    );
+    this.circuitStartStopListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_START_STOP,
+        this,
+        this.onCircuitStartStop
+      );
+    this.circuitPauseResumeListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
+        this,
+        this.onCircuitPauseResume
+      );
     this.myController.configureCircuitsPanelListener(
       this,
       this.onRefreshCircuitsPanel
@@ -189,11 +193,11 @@ export default class CircuitsPanel extends Component {
           .LIVE_CIRCUITS,
       liveCircuitsVisible: true,
       doItLaterCircuitsVisible: false,
-      retroCircuitVisible: false
+      retroCircuitVisible: false,
     });
 
     let that = this;
-    CircuitClient.getAllMyLiveCircuits(this, arg => {
+    CircuitClient.getAllMyLiveCircuits(this, (arg) => {
       that.setState({ activeCircuits: arg.data });
     });
   }
@@ -209,10 +213,10 @@ export default class CircuitsPanel extends Component {
           .DO_IT_LATER_CIRCUITS,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: true,
-      retroCircuitVisible: false
+      retroCircuitVisible: false,
     });
     let that = this;
-    CircuitClient.getAllMyDoItLaterCircuits(this, arg => {
+    CircuitClient.getAllMyDoItLaterCircuits(this, (arg) => {
       that.setState({ doItLaterCircuits: arg.data });
     });
   }
@@ -227,11 +231,11 @@ export default class CircuitsPanel extends Component {
           .RETRO_CIRCUITS,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
-      retroCircuitsVisible: true
+      retroCircuitsVisible: true,
     });
 
     let that = this;
-    CircuitClient.getAllMyRetroCircuits(this, arg => {
+    CircuitClient.getAllMyRetroCircuits(this, (arg) => {
       that.setState({ retroCircuits: arg.data });
     });
   }
@@ -240,7 +244,7 @@ export default class CircuitsPanel extends Component {
    * mouse click handler for when a user clicks on an item in the active circuit list
    * @param component
    */
-  handleClickActiveCircuit = component => {
+  handleClickActiveCircuit = (component) => {
     this.selections.activeCircuitComponent = component;
     let circuitName = component.props.model.circuitName;
     this.requestBrowserToLoadActiveCircuit(circuitName);
@@ -250,30 +254,30 @@ export default class CircuitsPanel extends Component {
    * handles our do it later circuit click
    * @param component
    */
-  handleClickDoItLaterCircuit = component => {
+  handleClickDoItLaterCircuit = (component) => {
     this.selections.doItLaterCircuitComponent = component;
     let circuitName = component.props.model.circuitName;
     this.requestBrowserToLoadDoItLaterCircuit(circuitName);
   };
 
-  handleClickRetroCircuit = component => {
+  handleClickRetroCircuit = (component) => {
     this.selections.retroCircuitComponent = component;
     let circuitName = component.props.model.circuitName;
     this.requestBrowserToLoadRetroCircuit(circuitName);
   };
 
-  handleCloseRetroCircuit = component => {
+  handleCloseRetroCircuit = (component) => {
     console.log("Clicked close!");
 
     let circuitName = component.props.model.circuitName;
 
-    CircuitClient.closeWtf(circuitName, this, arg => {
-
-      this.setState(prevState => {
-        let filteredRetros = prevState.retroCircuits.filter(item => item.circuitName !== circuitName);
-        return {retroCircuits: filteredRetros}
+    CircuitClient.closeWtf(circuitName, this, (arg) => {
+      this.setState((prevState) => {
+        let filteredRetros = prevState.retroCircuits.filter(
+          (item) => item.circuitName !== circuitName
+        );
+        return { retroCircuits: filteredRetros };
       });
-
     });
 
     //will need to make this call the close API, then remove from the list
@@ -331,7 +335,7 @@ export default class CircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {this.state.activeCircuits.map(model => (
+          {this.state.activeCircuits.map((model) => (
             <LiveCircuitListItem
               key={model.id}
               model={model}
@@ -360,7 +364,7 @@ export default class CircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {this.state.doItLaterCircuits.map(model => (
+          {this.state.doItLaterCircuits.map((model) => (
             <DoItLaterCircuitListItem
               key={model.id}
               model={model}
@@ -379,17 +383,20 @@ export default class CircuitsPanel extends Component {
    * @returns {*}
    */
   getRetroCircuitsContent = () => {
-
     let maxTime = 1;
 
-    for (let i = 0; i < this.state.retroCircuits.length; i++) {
-       let circuit = this.state.retroCircuits[i];
-       if (circuit.circuitState === "SOLVED") {
-         maxTime = UtilRenderer.getWtfSecondsFromCircuit(circuit);
-         break;
-       }
+    for (
+      let i = 0;
+      i < this.state.retroCircuits.length;
+      i++
+    ) {
+      let circuit = this.state.retroCircuits[i];
+      if (circuit.circuitState === "SOLVED") {
+        maxTime =
+          UtilRenderer.getWtfSecondsFromCircuit(circuit);
+        break;
+      }
     }
-
 
     return (
       <div className="retroCircuitsContent">
@@ -401,7 +408,7 @@ export default class CircuitsPanel extends Component {
           verticalAlign="middle"
           size="large"
         >
-          {this.state.retroCircuits.map(model => (
+          {this.state.retroCircuits.map((model) => (
             <RetroCircuitListItem
               key={model.id}
               model={model}
@@ -409,7 +416,9 @@ export default class CircuitsPanel extends Component {
               onRetroCircuitListItemClick={
                 this.handleClickRetroCircuit
               }
-              onRetroCloseItemClick={this.handleCloseRetroCircuit}
+              onRetroCloseItemClick={
+                this.handleCloseRetroCircuit
+              }
             />
           ))}
         </List>
@@ -432,7 +441,7 @@ export default class CircuitsPanel extends Component {
           height: DimensionController.getHeightFor(
             DimensionController.Components.CONSOLE_LAYOUT
           ),
-          opacity: 1
+          opacity: 1,
         }}
       >
         <Segment.Group>
@@ -478,7 +487,8 @@ export default class CircuitsPanel extends Component {
             inverted
             className={"circuitsContentWrapper"}
             style={{
-              height: DimensionController.getCircuitsSidebarPanelHeight()
+              height:
+                DimensionController.getCircuitsSidebarPanelHeight(),
             }}
           >
             <Transition

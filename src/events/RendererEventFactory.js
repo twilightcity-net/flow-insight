@@ -93,7 +93,7 @@ export class RendererEventFactory {
       SCREENSHOT_READY_FOR_DISPLAY:
         prefix + "screenshot-ready-for-display",
       SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW:
-        prefix + "shortcuts-window-console-sidebar-show"
+        prefix + "shortcuts-window-console-sidebar-show",
     };
   }
 }

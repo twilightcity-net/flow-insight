@@ -6,7 +6,7 @@ const electron = require("electron"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
   {
-    ShortcutManager
+    ShortcutManager,
   } = require("../managers/ShortcutManager"),
   WindowManagerHelper = require("./WindowManagerHelper"),
   LoadingWindow = require("../windows/LoadingWindow"),
@@ -50,7 +50,7 @@ class WindowManager {
       ),
       hideConsole: EventFactory.createEvent(
         EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE
-      )
+      ),
     };
   }
 
@@ -119,7 +119,7 @@ class WindowManager {
       );
       if (win) {
         win.window.webContents.openDevTools({
-          mode: "undocked"
+          mode: "undocked",
         });
       }
     }
@@ -159,11 +159,13 @@ class WindowManager {
    */
   getDisplay() {
     let displays = electron.screen.getAllDisplays();
-    let primaryDisplay = electron.screen.getPrimaryDisplay();
+    let primaryDisplay =
+      electron.screen.getPrimaryDisplay();
     if (displays.length < 2) {
       return primaryDisplay;
     }
-    let defaultDisplay = global.App.AppSettings.getDisplayIndex();
+    let defaultDisplay =
+      global.App.AppSettings.getDisplayIndex();
     if (
       defaultDisplay &&
       defaultDisplay < displays.length
@@ -226,7 +228,7 @@ class WindowManager {
     window.window.on("ready-to-show", () => {
       if (window.autoShow) {
         var that = this;
-        setTimeout(function() {
+        setTimeout(function () {
           that.openWindow(window);
         }, 500);
       }
@@ -318,10 +320,10 @@ class WindowManager {
         "[WindowManager] └> get or make window -> " + name
       );
       window = this.getWindowClassFromName(name);
-      window.window.on("focus", event => {
+      window.window.on("focus", (event) => {
         this.events.focusWindow.dispatch(event);
       });
-      window.window.on("blur", event => {
+      window.window.on("blur", (event) => {
         this.events.blurWindow.dispatch(event);
       });
     }

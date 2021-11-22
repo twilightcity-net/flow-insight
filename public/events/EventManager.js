@@ -131,9 +131,9 @@ class EventManager {
    */
   initSender(event) {
     event.sender = {
-      send: function(_eventType, _arg) {
+      send: function (_eventType, _arg) {
         global.App.EventManager.dispatch(_eventType, _arg);
-      }
+      },
     };
   }
 
@@ -145,7 +145,7 @@ class EventManager {
   initReturnValues(event) {
     event.returnValues = {
       callback: null,
-      reply: null
+      reply: null,
     };
   }
 
@@ -424,5 +424,5 @@ module.exports = {
   MainEvent,
   EventEchoException,
   EventCallbackException,
-  EventReplyException
+  EventReplyException,
 };

@@ -5,7 +5,7 @@ import {
   Grid,
   Icon,
   Message,
-  Transition
+  Transition,
 } from "semantic-ui-react";
 import JournalItem from "./components/JournalItem";
 import { JournalClient } from "../../../../clients/JournalClient";
@@ -27,7 +27,7 @@ export default class JournalResource extends Component {
    */
   static get Strings() {
     return {
-      ME: "me"
+      ME: "me",
     };
   }
 
@@ -41,7 +41,7 @@ export default class JournalResource extends Component {
       UP: "up",
       DOWN: "down",
       LEFT: "left",
-      RIGHT: "right"
+      RIGHT: "right",
     };
   }
 
@@ -64,11 +64,12 @@ export default class JournalResource extends Component {
     this.timeoutIntentionId = null;
     this.timeout = null;
     this.username = JournalResource.Strings.ME;
-    this.talkRoomMessageListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-      this,
-      this.onTalkRoomMessage
-    );
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
     this.state = {
       lastProject: null,
       lastTask: null,
@@ -77,7 +78,7 @@ export default class JournalResource extends Component {
       journalIntentions: [],
       activeIntention: null,
       error: null,
-      activeFlameUpdate: null
+      activeFlameUpdate: null,
     };
   }
 
@@ -142,11 +143,11 @@ export default class JournalResource extends Component {
     );
 
     if (!hasIntention) {
-      this.setState(prevState => {
+      this.setState((prevState) => {
         prevState.journalIntentions.push(journalEntry);
         return {
           journalIntentions: prevState.journalIntentions,
-          activeIntention: journalEntry
+          activeIntention: journalEntry,
         };
       });
     }
@@ -161,13 +162,14 @@ export default class JournalResource extends Component {
    * @param data
    */
   updateJournalIntentions(data) {
-    this.setState(prevState => {
-      let updatedItems = UtilRenderer.updateMessageInArrayById(
-        prevState.journalIntentions,
-        data
-      );
+    this.setState((prevState) => {
+      let updatedItems =
+        UtilRenderer.updateMessageInArrayById(
+          prevState.journalIntentions,
+          data
+        );
       return {
-        journalIntentions: updatedItems
+        journalIntentions: updatedItems,
       };
     });
   }
@@ -216,9 +218,10 @@ export default class JournalResource extends Component {
         true
       );
 
-      this.activeJournalItem = this.getJournalItemForIntention(
-        this.state.activeIntention
-      );
+      this.activeJournalItem =
+        this.getJournalItemForIntention(
+          this.state.activeIntention
+        );
     }
   }
 
@@ -295,7 +298,7 @@ export default class JournalResource extends Component {
    */
   handleKeyPressUp = (e, combo) => {
     console.log("up");
-    this.setState(prevState => {
+    this.setState((prevState) => {
       if (prevState.activeIntention) {
         let indexOfActive = this.findIndexOfJournalItem(
           prevState.journalIntentions,
@@ -309,7 +312,7 @@ export default class JournalResource extends Component {
               prevState.journalIntentions[
                 indexOfActive - 1
               ],
-            activeFlameUpdate: null
+            activeFlameUpdate: null,
           };
         }
       } else if (prevState.journalIntentions.length > 0) {
@@ -319,7 +322,7 @@ export default class JournalResource extends Component {
             prevState.journalIntentions[
               prevState.journalIntentions.length - 1
             ],
-          activeFlameUpdate: null
+          activeFlameUpdate: null,
         };
       }
       return {};
@@ -342,7 +345,7 @@ export default class JournalResource extends Component {
    */
   handleKeyPressDown = (e, combo) => {
     console.log("down");
-    this.setState(prevState => {
+    this.setState((prevState) => {
       if (prevState.activeIntention) {
         let indexOfActive = this.findIndexOfJournalItem(
           prevState.journalIntentions,
@@ -359,7 +362,7 @@ export default class JournalResource extends Component {
               prevState.journalIntentions[
                 indexOfActive + 1
               ],
-            activeFlameUpdate: null
+            activeFlameUpdate: null,
           };
         }
       } else if (prevState.journalIntentions.length > 0) {
@@ -369,7 +372,7 @@ export default class JournalResource extends Component {
             prevState.journalIntentions[
               prevState.journalIntentions.length - 1
             ],
-          activeFlameUpdate: null
+          activeFlameUpdate: null,
         };
       }
       return {};
@@ -408,7 +411,7 @@ export default class JournalResource extends Component {
   changeFlameRating(amount) {
     let that = this;
 
-    this.setState(prevState => {
+    this.setState((prevState) => {
       let currentFlame =
         prevState.activeIntention.flameRating;
       let overrideFlame = prevState.activeFlameUpdate;
@@ -444,23 +447,23 @@ export default class JournalResource extends Component {
 
       that.timeoutIntentionId =
         prevState.activeIntention.id;
-      that.timeout = setTimeout(function() {
+      that.timeout = setTimeout(function () {
         JournalClient.updateFlameRating(
           prevState.activeIntention.id,
           overrideFlame,
           that,
-          arg => {
+          (arg) => {
             that.hasCallbackError(arg);
           }
         );
       }, 500);
 
       this.activeJournalItem.setState({
-        flameRating: overrideFlame
+        flameRating: overrideFlame,
       });
 
       return {
-        activeFlameUpdate: overrideFlame
+        activeFlameUpdate: overrideFlame,
       };
     });
   }
@@ -490,13 +493,13 @@ export default class JournalResource extends Component {
     this.journalItems = [];
     this.username = this.getUserNameFromResource(props);
 
-    JournalClient.getRecentProjects(this, arg => {
+    JournalClient.getRecentProjects(this, (arg) => {
       if (!this.hasCallbackError(arg)) {
         this.projects = arg.data;
         this.handleCallback();
       }
     });
-    JournalClient.getRecentTasks(this, arg => {
+    JournalClient.getRecentTasks(this, (arg) => {
       if (!this.hasCallbackError(arg)) {
         this.tasks = arg.data;
         this.handleCallback();
@@ -505,7 +508,7 @@ export default class JournalResource extends Component {
     JournalClient.getRecentIntentions(
       this.username,
       this,
-      arg => {
+      (arg) => {
         if (
           !this.hasCallbackError(arg) &&
           arg.data &&
@@ -547,7 +550,7 @@ export default class JournalResource extends Component {
   hasCallbackError(arg) {
     if (arg.error) {
       this.setState({
-        error: arg.error
+        error: arg.error,
       });
       return true;
     }
@@ -568,7 +571,7 @@ export default class JournalResource extends Component {
         journalIntentions: this.journalIntentions,
         lastProject: this.lastProject,
         lastTask: this.lastTask,
-        error: null
+        error: null,
       });
 
       this.scrollToJournalItemById();
@@ -608,13 +611,13 @@ export default class JournalResource extends Component {
       }
       scrollTo(parentElement, {
         behavior: smoothStr,
-        top: theHeight
+        top: theHeight,
       }).then(callback);
     } else if (parentElement && rootElement) {
       theHeight = rootElement.scrollHeight;
       scrollTo(parentElement, {
         behavior: smoothStr,
-        top: theHeight
+        top: theHeight,
       }).then(callback);
     }
   }
@@ -647,16 +650,16 @@ export default class JournalResource extends Component {
       taskId,
       intention,
       this,
-      arg => {
+      (arg) => {
         if (!this.hasCallbackError(arg) && arg.data) {
-          this.setState(prevState => {
+          this.setState((prevState) => {
             prevState.journalIntentions.push(arg.data);
 
             return {
               journalIntentions:
                 prevState.journalIntentions,
               activeIntention: arg.data,
-              error: null
+              error: null,
             };
           });
         }
@@ -676,7 +679,7 @@ export default class JournalResource extends Component {
       name,
       "",
       this,
-      arg => {
+      (arg) => {
         this.createProjectOrTaskHelper(
           this.tasks,
           arg,
@@ -697,7 +700,7 @@ export default class JournalResource extends Component {
       "",
       false,
       this,
-      arg => {
+      (arg) => {
         this.createProjectOrTaskHelper(
           this.projects,
           arg,
@@ -716,13 +719,13 @@ export default class JournalResource extends Component {
   createProjectOrTaskHelper(objects, arg, callback) {
     if (arg.error) {
       this.setState({
-        error: arg.error
+        error: arg.error,
       });
     } else {
       let obj = arg.data;
       objects.push(obj);
       this.setState({
-        error: null
+        error: null,
       });
       if (callback) {
         callback(obj);
@@ -736,7 +739,7 @@ export default class JournalResource extends Component {
    * component api.
    * @param journalItem
    */
-  journalItemPusher = journalItem => {
+  journalItemPusher = (journalItem) => {
     this.journalItems.push(journalItem);
   };
 
@@ -744,8 +747,8 @@ export default class JournalResource extends Component {
    * event callback for when we set a row active
    * @param journalItem
    */
-  onRowClick = journalItem => {
-    this.setState(prevState => {
+  onRowClick = (journalItem) => {
+    this.setState((prevState) => {
       if (
         prevState.activeIntention &&
         prevState.activeIntention.id ===
@@ -753,12 +756,12 @@ export default class JournalResource extends Component {
       ) {
         return {
           activeIntention: null,
-          activeFlameUpdate: null
+          activeFlameUpdate: null,
         };
       } else {
         return {
           activeIntention: journalItem.props.model,
-          activeFlameUpdate: null
+          activeFlameUpdate: null,
         };
       }
     });
@@ -803,7 +806,7 @@ export default class JournalResource extends Component {
   getJournalItemsContent() {
     let activeItem = this.state.activeIntention;
 
-    return this.state.journalIntentions.map(item => {
+    return this.state.journalIntentions.map((item) => {
       let isActiveRow =
         activeItem !== null && activeItem.id === item.id;
 
@@ -837,9 +840,10 @@ export default class JournalResource extends Component {
           id="component"
           className="journalIntentions"
           style={{
-            height: DimensionController.getJournalItemsPanelHeight(
-              this.isMyJournal()
-            )
+            height:
+              DimensionController.getJournalItemsPanelHeight(
+                this.isMyJournal()
+              ),
           }}
         >
           <Grid id="journal-items-grid" inverted>

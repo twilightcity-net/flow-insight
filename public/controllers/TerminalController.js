@@ -5,7 +5,9 @@ const BaseController = require("./BaseController"),
  * This class is used to coordinate controllers across the terminal service
  * @type {TerminalController}
  */
-module.exports = class TerminalController extends BaseController {
+module.exports = class TerminalController extends (
+  BaseController
+) {
   /**
    * builds our Terminal Client controller class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -28,7 +30,7 @@ module.exports = class TerminalController extends BaseController {
       RUN_COMMAND: "run-command",
       GET_MANUAL_PAGE: "get-manual-page",
       GET_MANUAL: "get-manual",
-      GET_MANUAL_HELP_TOPICS: "get-manual-help-topics"
+      GET_MANUAL_HELP_TOPICS: "get-manual-help-topics",
     };
   }
 
@@ -48,12 +50,13 @@ module.exports = class TerminalController extends BaseController {
     BaseController.configEvents(
       TerminalController.instance
     );
-    this.terminalClientEventListener = EventFactory.createEvent(
-      EventFactory.Types.TERMINAL_CLIENT,
-      this,
-      this.onTerminalClientEvent,
-      null
-    );
+    this.terminalClientEventListener =
+      EventFactory.createEvent(
+        EventFactory.Types.TERMINAL_CLIENT,
+        this,
+        this.onTerminalClientEvent,
+        null
+      );
   }
 
   /**
@@ -112,7 +115,7 @@ module.exports = class TerminalController extends BaseController {
       TerminalController.Names.GET_ALL_MY_TEAMS,
       TerminalController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateRunCommandCallback(
           store,
           event,
@@ -162,7 +165,7 @@ module.exports = class TerminalController extends BaseController {
       TerminalController.Names.GET_ALL_MY_TEAMS,
       TerminalController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateGetManualPageCallback(
           store,
           event,
@@ -217,7 +220,7 @@ module.exports = class TerminalController extends BaseController {
       TerminalController.Names.GET_ALL_MY_TEAMS,
       TerminalController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateGetManualCallback(
           store,
           event,
@@ -267,7 +270,7 @@ module.exports = class TerminalController extends BaseController {
       TerminalController.Names.GET_ALL_MY_TEAMS,
       TerminalController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateGetManualHelpTopicsCallback(
           store,
           event,

@@ -8,7 +8,9 @@ const BaseController = require("./BaseController"),
  * This class is used to coordinate controllers across the gridtalk service
  * @type {CircuitController}
  */
-module.exports = class CircuitController extends BaseController {
+module.exports = class CircuitController extends (
+  BaseController
+) {
   /**
    * builds our static Circuit controller which interfaces mainly with our local database
    * @param scope
@@ -65,8 +67,7 @@ module.exports = class CircuitController extends BaseController {
       START_RETRO_FOR_WTF: "start-retro-for-wtf",
       UPDATE_CIRCUIT_DESCRIPTION:
         "update-circuit-description",
-      SAVE_CIRCUIT_TAGS:
-        "save-circuit-tags"
+      SAVE_CIRCUIT_TAGS: "save-circuit-tags",
     };
   }
 
@@ -84,12 +85,13 @@ module.exports = class CircuitController extends BaseController {
    */
   configureEvents() {
     BaseController.configEvents(CircuitController.instance);
-    this.circuitClientEventListener = EventFactory.createEvent(
-      EventFactory.Types.CIRCUIT_CLIENT,
-      this,
-      this.onCircuitClientEvent,
-      null
-    );
+    this.circuitClientEventListener =
+      EventFactory.createEvent(
+        EventFactory.Types.CIRCUIT_CLIENT,
+        this,
+        this.onCircuitClientEvent,
+        null
+      );
   }
 
   /**
@@ -219,8 +221,7 @@ module.exports = class CircuitController extends BaseController {
           .UPDATE_CIRCUIT_DESCRIPTION:
           this.handleUpdateCircuitDescription(event, arg);
           break;
-        case CircuitController.Events
-          .SAVE_CIRCUIT_TAGS:
+        case CircuitController.Events.SAVE_CIRCUIT_TAGS:
           this.handleSaveTags(event, arg);
           break;
         default:
@@ -275,7 +276,7 @@ module.exports = class CircuitController extends BaseController {
         .START_WTF_WITH_CUSTOM_CIRCUIT_NAME,
       CircuitController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateStartWtfWithCustomCircuitNameCallback(
           store,
           event,
@@ -332,7 +333,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.JOIN_WTF,
       CircuitController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateJoinWtfCallback(
           store,
           event,
@@ -383,7 +384,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.LEAVE_WTF,
       CircuitController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateLeaveWtfCallback(
           store,
           event,
@@ -437,7 +438,7 @@ module.exports = class CircuitController extends BaseController {
         .GET_ALL_MY_PARTICIPATING_CIRCUITS,
       CircuitController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadAllMyParticipatingCircuitsCallback(
           store,
           event,
@@ -510,7 +511,7 @@ module.exports = class CircuitController extends BaseController {
         .GET_ALL_MY_DO_IT_LATER_CIRCUITS,
       CircuitController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadAllMyDoItLaterCircuitsCallback(
           store,
           event,
@@ -561,7 +562,11 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  handleLoadAllTeamSolvedCircuitsEvent(event, arg, callback) {
+  handleLoadAllTeamSolvedCircuitsEvent(
+    event,
+    arg,
+    callback
+  ) {
     let urn =
       CircuitController.Paths.CIRCUIT +
       CircuitController.Paths.TEAM +
@@ -573,7 +578,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.GET_ALL_MY_SOLVED_CIRCUITS,
       CircuitController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadAllMySolvedCircuitsCallback(
           store,
           event,
@@ -583,14 +588,17 @@ module.exports = class CircuitController extends BaseController {
     );
   }
 
-
   /**
    * handles loading our retro circuits into our local database
    * @param event
    * @param arg
    * @param callback
    */
-  handleLoadAllTeamRetroCircuitsEvent(event, arg, callback) {
+  handleLoadAllTeamRetroCircuitsEvent(
+    event,
+    arg,
+    callback
+  ) {
     let urn =
       CircuitController.Paths.CIRCUIT +
       CircuitController.Paths.TEAM +
@@ -602,7 +610,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.GET_ALL_MY_RETRO_CIRCUITS,
       CircuitController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadAllMyRetroCircuitsCallback(
           store,
           event,
@@ -647,7 +655,6 @@ module.exports = class CircuitController extends BaseController {
     );
   }
 
-
   /**
    * handles our dto callback from our rest client
    * @param store
@@ -665,7 +672,7 @@ module.exports = class CircuitController extends BaseController {
       arg.error = store.error;
     } else {
       let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.CIRCUIT
+          DatabaseFactory.Names.CIRCUIT
         ),
         collection = database.getCollection(
           CircuitDatabase.Collections.SOLVED
@@ -683,7 +690,6 @@ module.exports = class CircuitController extends BaseController {
     );
   }
 
-
   /**
    * handles loading our participating circuits into our local databse
    * @param event
@@ -699,7 +705,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.GET_ACTIVE_CIRCUIT,
       CircuitController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadActiveCircuitCallback(
           store,
           event,
@@ -776,7 +782,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.GET_CIRCUIT_WITH_ALL_DETAILS,
       CircuitController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadCircuitWithAllDetailsCallback(
           store,
           event,
@@ -845,7 +851,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.GET_CIRCUIT_MEMBERS,
       CircuitController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadCircuitMembersCallback(
           store,
           event,
@@ -877,12 +883,12 @@ module.exports = class CircuitController extends BaseController {
           database = DatabaseFactory.getDatabase(
             DatabaseFactory.Names.CIRCUIT
           ),
-          collection = database.getCollectionForCircuitMembers(
-            uri
-          ),
-          view = database.getViewCircuitMembersForCollection(
-            collection
-          );
+          collection =
+            database.getCollectionForCircuitMembers(uri),
+          view =
+            database.getViewCircuitMembersForCollection(
+              collection
+            );
         database.updateCircuitMembersInCollection(
           uri,
           circuitMembers,
@@ -976,12 +982,11 @@ module.exports = class CircuitController extends BaseController {
       this.name,
       arg.type,
       arg.id,
-      (sview.count() + rview.count())
+      sview.count() + rview.count()
     );
     arg.data = rview.data();
 
     arg.data = arg.data.concat(sview.data());
-
 
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -1037,7 +1042,7 @@ module.exports = class CircuitController extends BaseController {
       ),
       view = database.getViewCircuits(),
       circuit = collection.findOne({
-        circuitName: circuitName
+        circuitName: circuitName,
       });
 
     if (circuit) {
@@ -1057,9 +1062,9 @@ module.exports = class CircuitController extends BaseController {
       this.handleLoadCircuitWithAllDetailsEvent(
         null,
         { args: { circuitName: circuitName } },
-        args => {
+        (args) => {
           circuit = collection.findOne({
-            circuitName: circuitName
+            circuitName: circuitName,
           });
           arg.data = circuit;
           this.delegateCallbackOrEventReplyTo(
@@ -1085,12 +1090,12 @@ module.exports = class CircuitController extends BaseController {
       database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.CIRCUIT
       ),
-      collection = database.getCollectionForCircuitMembers(
-        uri
-      ),
-      view = database.getViewCircuitMembersForCollection(
-        collection
-      );
+      collection =
+        database.getCollectionForCircuitMembers(uri),
+      view =
+        database.getViewCircuitMembersForCollection(
+          collection
+        );
 
     arg.data = view.data();
     this.delegateCallbackOrEventReplyTo(
@@ -1121,7 +1126,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.SOLVE_WTF,
       CircuitController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateSolveWtfCallback(
           store,
           event,
@@ -1172,7 +1177,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.CANCEL_WTF,
       CircuitController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateCancelWtfCallback(
           store,
           event,
@@ -1204,7 +1209,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.CLOSE_WTF,
       CircuitController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateCloseWtfCallback(
           store,
           event,
@@ -1266,7 +1271,6 @@ module.exports = class CircuitController extends BaseController {
     );
   }
 
-
   /**
    * processes our event callback for when we close a wtf. This happens when the circuit
    * is already in a solved state, or after a retro state, and it could be used for review at a later point,
@@ -1278,21 +1282,25 @@ module.exports = class CircuitController extends BaseController {
    */
   delegateCloseWtfCallback(store, event, arg, callback) {
     if (store.error) {
-      this.logMessage("CircuitController", "error on close: "+store.error);
+      this.logMessage(
+        "CircuitController",
+        "error on close: " + store.error
+      );
       arg.error = store.error;
     } else {
       //if I hit close on the left panel, I could be doing it while there's an active circuit on the right
       //so clearing active probably doesnt make sense for close use case, but need to look at this again when we click
       //close from within the panel.  Shouldnt assume the circuit being close is active though.
 
-      this.logMessage("Removing circuit from all collections");
+      this.logMessage(
+        "Removing circuit from all collections"
+      );
       let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.CIRCUIT
+          DatabaseFactory.Names.CIRCUIT
         ),
         circuit = store.data;
 
       if (circuit) {
-
         let collection = database.getCollection(
           CircuitDatabase.Collections.CIRCUITS
         );
@@ -1327,7 +1335,6 @@ module.exports = class CircuitController extends BaseController {
     );
   }
 
-
   /**
    * handles our event callback for when the user wants to pause a circuit and
    * mark it to do it later.
@@ -1349,7 +1356,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.PAUSE_WTF_WITH_DO_IT_LATER,
       CircuitController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegatePauseWTFWithDoItLaterCallback(
           store,
           event,
@@ -1406,7 +1413,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.RESUME_WTF,
       CircuitController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateResumeWtfCallback(
           store,
           event,
@@ -1457,7 +1464,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.START_RETRO_FOR_WTF,
       CircuitController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateStartRetroForWTFCallback(
           store,
           event,
@@ -1488,7 +1495,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.UPDATE_CIRCUIT_DESCRIPTION,
       CircuitController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateUpdateDescriptionCallback(
           store,
           event,
@@ -1519,7 +1526,7 @@ module.exports = class CircuitController extends BaseController {
       CircuitController.Names.SAVE_CIRCUIT_TAGS,
       CircuitController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateSaveTagsCallback(
           store,
           event,
@@ -1589,12 +1596,7 @@ module.exports = class CircuitController extends BaseController {
    * @param arg
    * @param callback
    */
-  delegateSaveTagsCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
+  delegateSaveTagsCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {
@@ -1648,7 +1650,7 @@ module.exports = class CircuitController extends BaseController {
    */
   updateCircuitsByIdInCollection(circuits, collection) {
     if (circuits && circuits.length > 0) {
-      circuits.forEach(circuit => {
+      circuits.forEach((circuit) => {
         let model = collection.findOne({ id: circuit.id });
         if (model) {
           model = circuit;

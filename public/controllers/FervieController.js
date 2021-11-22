@@ -5,7 +5,9 @@ const BaseController = require("./BaseController"),
  * This class is used to coordinate calls to gridtime for the Fervie service
  * @type {FervieController}
  */
-module.exports = class FervieController extends BaseController {
+module.exports = class FervieController extends (
+  BaseController
+) {
   /**
    * builds our Fervie Client controller class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -25,7 +27,7 @@ module.exports = class FervieController extends BaseController {
    */
   static get Events() {
     return {
-      SAVE_FERVIE_DETAILS: "save-fervie-details"
+      SAVE_FERVIE_DETAILS: "save-fervie-details",
     };
   }
 
@@ -43,12 +45,13 @@ module.exports = class FervieController extends BaseController {
    */
   configureEvents() {
     BaseController.configEvents(FervieController.instance);
-    this.fervieClientEventListener = EventFactory.createEvent(
-      EventFactory.Types.FERVIE_CLIENT,
-      this,
-      this.onFervieClientEvent,
-      null
-    );
+    this.fervieClientEventListener =
+      EventFactory.createEvent(
+        EventFactory.Types.FERVIE_CLIENT,
+        this,
+        this.onFervieClientEvent,
+        null
+      );
   }
 
   /**
@@ -102,12 +105,12 @@ module.exports = class FervieController extends BaseController {
         fervieColor: fervieColor,
         fervieSecondaryColor: fervieSecondaryColor,
         fervieTertiaryColor: fervieTertiaryColor,
-        fervieAccessory: fervieAccessory
+        fervieAccessory: fervieAccessory,
       },
       FervieController.Names.SAVE_FERVIE_DETAILS,
       FervieController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateSaveFervieDetailsCallback(
           store,
           event,

@@ -4,7 +4,7 @@ import {
   Icon,
   Label,
   List,
-  Popup
+  Popup,
 } from "semantic-ui-react";
 import { BaseClient } from "../../../../clients/BaseClient";
 import UtilRenderer from "../../../../UtilRenderer";
@@ -28,7 +28,7 @@ export default class TeamPanelListItem extends Component {
     this.state = {
       isOnline: UtilRenderer.isMemberOnline(props.model),
       isAlarm: UtilRenderer.isMemberAlarm(props.model),
-      isHelping: UtilRenderer.isMemberHelping(props.model)
+      isHelping: UtilRenderer.isMemberHelping(props.model),
     };
   }
 
@@ -48,7 +48,7 @@ export default class TeamPanelListItem extends Component {
       this.setState({
         isOnline: UtilRenderer.isMemberOnline(model),
         isAlarm: UtilRenderer.isMemberAlarm(model),
-        isHelping: UtilRenderer.isMemberHelping(model)
+        isHelping: UtilRenderer.isMemberHelping(model),
       });
     }
 

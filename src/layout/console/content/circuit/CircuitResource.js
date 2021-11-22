@@ -18,12 +18,13 @@ export default class CircuitResource extends Component {
     super(props);
     this.name = "[CircuitResource]";
     this.state = {
-      error: null
+      error: null,
     };
-    this.resourcesController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.RESOURCES,
-      this
-    );
+    this.resourcesController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.RESOURCES,
+        this
+      );
   }
 
   /**

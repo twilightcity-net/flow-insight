@@ -40,7 +40,7 @@ export class JournalClient extends BaseClient {
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks",
       FINISH_INTENTION: "finish-intention",
-      UPDATE_FLAME_RATING: "update-flame-rating"
+      UPDATE_FLAME_RATING: "update-flame-rating",
     };
   }
 
@@ -93,7 +93,7 @@ export class JournalClient extends BaseClient {
       {
         projectId: projectId,
         taskId: taskId,
-        description: description
+        description: description,
       },
       scope,
       callback
@@ -121,7 +121,7 @@ export class JournalClient extends BaseClient {
       JournalClient.Events.UPDATE_FLAME_RATING,
       {
         intentionId: intentionId,
-        flameRating: flameRating
+        flameRating: flameRating,
       },
       scope,
       callback
@@ -187,7 +187,7 @@ export class JournalClient extends BaseClient {
       {
         projectId: projectId,
         name: name,
-        description: description
+        description: description,
       },
       scope,
       callback
@@ -218,7 +218,7 @@ export class JournalClient extends BaseClient {
       {
         name: name,
         description: description,
-        isPrivate: isPrivate
+        isPrivate: isPrivate,
       },
       scope,
       callback
@@ -262,7 +262,7 @@ export class JournalClient extends BaseClient {
       JournalClient.Events.FINISH_INTENTION,
       {
         id: id,
-        finishStatus: finishStatus
+        finishStatus: finishStatus,
       },
       scope,
       callback

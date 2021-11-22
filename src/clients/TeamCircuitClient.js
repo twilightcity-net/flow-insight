@@ -39,7 +39,7 @@ export class TeamCircuitClient extends BaseClient {
       GET_MY_HOME_TEAM_CIRCUIT: "get-my-home-team-circuit",
       LOAD_ALL_MY_TEAM_CIRCUITS:
         "load-all-my-team-circuits",
-      GET_ALL_MY_TEAM_CIRCUITS: "get-all-my-team-circuits"
+      GET_ALL_MY_TEAM_CIRCUITS: "get-all-my-team-circuits",
     };
   }
 
@@ -62,12 +62,13 @@ export class TeamCircuitClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static loadMyHomeTeamCircuit(scope, callback) {
-    let event = TeamCircuitClient.instance.createClientEvent(
-      TeamCircuitClient.Events.LOAD_MY_HOME_TEAM_CIRCUIT,
-      {},
-      scope,
-      callback
-    );
+    let event =
+      TeamCircuitClient.instance.createClientEvent(
+        TeamCircuitClient.Events.LOAD_MY_HOME_TEAM_CIRCUIT,
+        {},
+        scope,
+        callback
+      );
     TeamCircuitClient.instance.notifyTeamCircuit(event);
     return event;
   }
@@ -79,12 +80,13 @@ export class TeamCircuitClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static getMyHomeTeamCircuit(scope, callback) {
-    let event = TeamCircuitClient.instance.createClientEvent(
-      TeamCircuitClient.Events.GET_MY_HOME_TEAM_CIRCUIT,
-      {},
-      scope,
-      callback
-    );
+    let event =
+      TeamCircuitClient.instance.createClientEvent(
+        TeamCircuitClient.Events.GET_MY_HOME_TEAM_CIRCUIT,
+        {},
+        scope,
+        callback
+      );
     TeamCircuitClient.instance.notifyTeamCircuit(event);
     return event;
   }
@@ -96,12 +98,13 @@ export class TeamCircuitClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static loadAllMyTeamCircuits(scope, callback) {
-    let event = TeamCircuitClient.instance.createClientEvent(
-      TeamCircuitClient.Events.LOAD_ALL_MY_TEAM_CIRCUITS,
-      {},
-      scope,
-      callback
-    );
+    let event =
+      TeamCircuitClient.instance.createClientEvent(
+        TeamCircuitClient.Events.LOAD_ALL_MY_TEAM_CIRCUITS,
+        {},
+        scope,
+        callback
+      );
     TeamCircuitClient.instance.notifyTeamCircuit(event);
     return event;
   }
@@ -113,12 +116,13 @@ export class TeamCircuitClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static getAllMyTeamCircuits(scope, callback) {
-    let event = TeamCircuitClient.instance.createClientEvent(
-      TeamCircuitClient.Events.GET_ALL_MY_TEAM_CIRCUITS,
-      {},
-      scope,
-      callback
-    );
+    let event =
+      TeamCircuitClient.instance.createClientEvent(
+        TeamCircuitClient.Events.GET_ALL_MY_TEAM_CIRCUITS,
+        {},
+        scope,
+        callback
+      );
     TeamCircuitClient.instance.notifyTeamCircuit(event);
     return event;
   }

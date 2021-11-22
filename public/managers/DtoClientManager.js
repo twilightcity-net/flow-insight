@@ -18,13 +18,13 @@ module.exports = class DtoClientManager {
       dtoClientLoaded: EventFactory.createEvent(
         EventFactory.Types.DATASTORE_LOADED,
         this
-      )
+      ),
     };
   }
 
   onDataStoreLoadCb(event, arg) {
     let store = arg;
-    this.client.makeStoreRequest(store, store => {
+    this.client.makeStoreRequest(store, (store) => {
       this.events.dtoClientLoaded.dispatch(store);
     });
   }

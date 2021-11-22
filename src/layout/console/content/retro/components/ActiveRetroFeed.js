@@ -5,7 +5,7 @@ import {
   Feed,
   Segment,
   Transition,
-  Menu
+  Menu,
 } from "semantic-ui-react";
 import SplitterLayout from "react-splitter-layout";
 import ActiveRetroChat from "./ActiveRetroChat";
@@ -90,7 +90,7 @@ export default class ActiveRetroFeed extends Component {
       roomName + ActiveRetroFeed.activeCircuitRoomSuffix,
       text,
       this,
-      arg => {
+      (arg) => {
         if (callback) {
           callback(arg);
         }
@@ -123,13 +123,13 @@ export default class ActiveRetroFeed extends Component {
    * when we are resizing so things look nice
    * @param size
    */
-  onSecondaryPaneSizeChange = size => {
+  onSecondaryPaneSizeChange = (size) => {
     document.getElementById(
       ActiveRetroFeed.circuitContentFeedPanelID
     ).style.height =
-      ( DimensionController.getActiveCircuitFeedContentHeight(
+      DimensionController.getActiveCircuitFeedContentHeight(
         size
-      )) + "px";
+      ) + "px";
   };
 
   /**
@@ -219,7 +219,7 @@ export default class ActiveRetroFeed extends Component {
    * have the same username.
    * @param component
    */
-  setLastFeedEventComponent = component => {
+  setLastFeedEventComponent = (component) => {
     this.lastFeedEvent = component;
   };
 
@@ -267,42 +267,38 @@ export default class ActiveRetroFeed extends Component {
       openTimeStr = "TBD";
     }
 
-
-
     if (isChatActive) {
-      height = DimensionController.getActiveCircuitFeedContentHeight();
+      height =
+        DimensionController.getActiveCircuitFeedContentHeight();
     }
 
     return (
-      <div
-        id="component"
-        className="retroSlidePanel"
-      >
-      <Segment
-        inverted
-        id={ActiveRetroFeed.circuitContentFeedPanelID}
-        style={{
-          height: height
-        }}
-      >
-        <Menu icon inverted fluid secondary
-        >
-          <Menu.Item header className="retroHeader">Retro Session</Menu.Item>
-        </Menu>
-        <Feed
-          className="chat-feed"
-          id="active-circuit-feed"
+      <div id="component" className="retroSlidePanel">
+        <Segment
+          inverted
+          id={ActiveRetroFeed.circuitContentFeedPanelID}
           style={{
-            margin: "0px",
-            height: "274px"
+            height: height,
           }}
         >
-          {this.getDividerContent(openTimeStr)}
-          {this.getFeedEventsFromMessagesArrayContent()}
-          <br/>
-        </Feed>
-
-      </Segment>
+          <Menu icon inverted fluid secondary>
+            <Menu.Item header className="retroHeader">
+              Retro Session
+            </Menu.Item>
+          </Menu>
+          <Feed
+            className="chat-feed"
+            id="active-circuit-feed"
+            style={{
+              margin: "0px",
+              height: "274px",
+            }}
+          >
+            {this.getDividerContent(openTimeStr)}
+            {this.getFeedEventsFromMessagesArrayContent()}
+            <br />
+          </Feed>
+        </Segment>
       </div>
     );
   }
@@ -351,9 +347,8 @@ export default class ActiveRetroFeed extends Component {
    */
   getActiveCircuitFeedChatContent() {
     //so even if I'm not a participant, should be able to type in the box.
-      //do I get added as a participant when I first type something?
-      //could do that, but I feel like maybe this panel should just go away, but maybe want to give XP for retros too.
-
+    //do I get added as a participant when I first type something?
+    //could do that, but I feel like maybe this panel should just go away, but maybe want to give XP for retros too.
 
     let isInRetro = UtilRenderer.isCircuitInRetro(
       this.props.model
@@ -375,7 +370,13 @@ export default class ActiveRetroFeed extends Component {
       </SplitterLayout>
     );
 
-    if (!isInRetro || UtilRenderer.isMarkedForCloseByMe(this.props.model, MemberClient.me)) {
+    if (
+      !isInRetro ||
+      UtilRenderer.isMarkedForCloseByMe(
+        this.props.model,
+        MemberClient.me
+      )
+    ) {
       content = this.getActiveCircuitFeedContent(false);
     }
 

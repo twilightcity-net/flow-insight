@@ -40,7 +40,7 @@ export class TalkToClient extends BaseClient {
         "get-all-status-talk-messages-from-room",
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
-      LEAVE_EXISTING_ROOM: "leave-existing-room"
+      LEAVE_EXISTING_ROOM: "leave-existing-room",
     };
   }
 

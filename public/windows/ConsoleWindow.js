@@ -6,7 +6,7 @@ const { BrowserWindow } = require("electron"),
   EventFactory = require("../events/EventFactory"),
   {
     Shortcut,
-    ShortcutManager
+    ShortcutManager,
   } = require("../managers/ShortcutManager");
 
 /**
@@ -48,8 +48,8 @@ module.exports = class ConsoleWindow {
         zoomFactor: 1.0,
         toolbar: false,
         webSecurity: true,
-         nodeIntegration: true
-      }
+        nodeIntegration: true,
+      },
     });
     this.window.name = this.name;
     this.window.setMenu(null);
@@ -95,7 +95,7 @@ module.exports = class ConsoleWindow {
         EventFactory.Types
           .SHORTCUTS_WINDOW_CONSOLE_SIDEBAR_SHOW,
         this
-      )
+      ),
     };
     this.shortcuts = {
       sidebarFirstItem: new Shortcut(
@@ -169,7 +169,7 @@ module.exports = class ConsoleWindow {
           this.events.sidebarShowNotifier.dispatch(0);
         },
         this
-      )
+      ),
     };
     this.state = 0;
     this.states = {
@@ -177,11 +177,11 @@ module.exports = class ConsoleWindow {
       SHOWN: 1,
       SHOWING: 2,
       HIDING: 3,
-      CANCEL: 4
+      CANCEL: 4,
     };
     this.consoleShortcut = {
       pressedState: 0,
-      delay: 420
+      delay: 420,
     };
     this.animateTimeMs = 400;
   }

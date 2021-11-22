@@ -3,15 +3,14 @@ import ActiveRetro from "./components/ActiveRetro";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import UtilRenderer from "../../../../UtilRenderer";
 import { Icon, Message } from "semantic-ui-react";
-import {BaseClient} from "../../../../clients/BaseClient";
-import {RendererEventFactory} from "../../../../events/RendererEventFactory";
-import {ResourceCircuitController} from "../../../../controllers/ResourceCircuitController";
+import { BaseClient } from "../../../../clients/BaseClient";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
+import { ResourceCircuitController } from "../../../../controllers/ResourceCircuitController";
 
 /**
  * this component is the top level resource for a circuit retro
  */
 export default class RetroResource extends Component {
-
   /**
    * builds our resource with the given properties
    * @param props
@@ -20,20 +19,20 @@ export default class RetroResource extends Component {
     super(props);
     this.name = "[RetroResource]";
     this.state = {
-      error: null
+      error: null,
     };
-    this.resourcesController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.RESOURCES,
-      this
-    );
-    this.talkRoomMessageListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-      this,
-      this.onTalkRoomMessage
-    );
+    this.resourcesController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.RESOURCES,
+        this
+      );
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
   }
-
-
 
   /**
    * event handler for talk messages. This is called everytime we receive a new talk
@@ -49,7 +48,11 @@ export default class RetroResource extends Component {
         let data = arg.data,
           circuit = data[ActiveRetro.learningCircuitDtoStr];
 
-        if (data.statusType === ResourceCircuitController.StatusTypes.TEAM_RETRO_STARTED) {
+        if (
+          data.statusType ===
+          ResourceCircuitController.StatusTypes
+            .TEAM_RETRO_STARTED
+        ) {
           this.handleWtfStatusUpdateMessage(circuit);
         }
 
@@ -69,7 +72,7 @@ export default class RetroResource extends Component {
   handleWtfStatusUpdateMessage(circuit) {
     let circuitName = this.props.resource.uriArr[1];
 
-    if (circuit && circuitName === circuit.circuitName ) {
+    if (circuit && circuitName === circuit.circuitName) {
       if (UtilRenderer.isCircuitInRetro(circuit)) {
         this.resourcesController.joinExistingRetroRoom(
           this.props.resource
@@ -79,9 +82,7 @@ export default class RetroResource extends Component {
           this.props.resource
         );
       }
-
     }
-
   }
 
   /**
@@ -136,8 +137,6 @@ export default class RetroResource extends Component {
     return true;
   }
 
-
-
   /**
    * renders our circuit error with a given string. This is usually not
    * seen and renders errors from gridtime.
@@ -163,8 +162,9 @@ export default class RetroResource extends Component {
    * @returns {*} - the JSX to render
    */
   render() {
-    let wtfPanel =
-      (<ActiveRetro resource={this.props.resource} />);
+    let wtfPanel = (
+      <ActiveRetro resource={this.props.resource} />
+    );
 
     if (this.state.error) {
       wtfPanel = this.getCircuitError(this.state.error);

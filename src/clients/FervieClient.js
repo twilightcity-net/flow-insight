@@ -32,7 +32,7 @@ export class FervieClient extends BaseClient {
    */
   static get Events() {
     return {
-      SAVE_FERVIE_DETAILS: "save-fervie-details"
+      SAVE_FERVIE_DETAILS: "save-fervie-details",
     };
   }
 
@@ -69,7 +69,7 @@ export class FervieClient extends BaseClient {
         fervieColor: fervieColor,
         fervieSecondaryColor: fervieSecondaryColor,
         fervieTertiaryColor: fervieTertiaryColor,
-        fervieAccessory: fervieAccessory
+        fervieAccessory: fervieAccessory,
       },
       scope,
       callback

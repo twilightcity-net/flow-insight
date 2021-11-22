@@ -35,7 +35,7 @@ export class TerminalClient extends BaseClient {
       RUN_COMMAND: "run-command",
       GET_MANUAL_PAGE: "get-manual-page",
       GET_MANUAL: "get-manual",
-      GET_MANUAL_HELP_TOPICS: "get-manual-help-topics"
+      GET_MANUAL_HELP_TOPICS: "get-manual-help-topics",
     };
   }
 

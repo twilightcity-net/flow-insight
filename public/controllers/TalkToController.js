@@ -7,7 +7,9 @@ const BaseController = require("./BaseController"),
  * This class is used to coordinate controllers across the gridtalk service
  * @type {TalkToController}
  */
-module.exports = class TalkToController extends BaseController {
+module.exports = class TalkToController extends (
+  BaseController
+) {
   /**
    * builds our static Circuit controller which interfaces mainly with our local database
    * @param scope
@@ -35,7 +37,7 @@ module.exports = class TalkToController extends BaseController {
         "get-all-status-talk-messages-from-room",
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
-      LEAVE_EXISTING_ROOM: "leave-existing-room"
+      LEAVE_EXISTING_ROOM: "leave-existing-room",
     };
   }
 
@@ -53,12 +55,13 @@ module.exports = class TalkToController extends BaseController {
    */
   configureEvents() {
     BaseController.configEvents(TalkToController.instance);
-    this.talkToClientEventListener = EventFactory.createEvent(
-      EventFactory.Types.TALK_TO_CLIENT,
-      this,
-      this.onTalkToClientEvent,
-      null
-    );
+    this.talkToClientEventListener =
+      EventFactory.createEvent(
+        EventFactory.Types.TALK_TO_CLIENT,
+        this,
+        this.onTalkToClientEvent,
+        null
+      );
   }
 
   /**
@@ -144,7 +147,7 @@ module.exports = class TalkToController extends BaseController {
         .GET_ALL_TALK_MESSAGES_FROM_ROOM,
       TalkToController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadAllTalkMessagesFromRoomCallback(
           store,
           event,
@@ -176,24 +179,25 @@ module.exports = class TalkToController extends BaseController {
       let messages = store.data;
       if (messages) {
         let uri = Util.getUriFromMessageArray(messages),
-          roomName = Util.getRoomNameFromMessageArray(
-            messages
-          ),
+          roomName =
+            Util.getRoomNameFromMessageArray(messages),
           database = DatabaseFactory.getDatabase(
             DatabaseFactory.Names.TALK
           ),
-          messageCollection = database.getCollectionForRoomTalkMessages(
-            uri
-          ),
-          statusCollection = database.getCollectionForRoomStatusTalkMessages(
-            uri
-          ),
-          messageView = database.getViewTalkMessagesForCollection(
-            messageCollection
-          ),
-          statusView = database.getViewStatusTalkMessagesForCollection(
-            statusCollection
-          );
+          messageCollection =
+            database.getCollectionForRoomTalkMessages(uri),
+          statusCollection =
+            database.getCollectionForRoomStatusTalkMessages(
+              uri
+            ),
+          messageView =
+            database.getViewTalkMessagesForCollection(
+              messageCollection
+            ),
+          statusView =
+            database.getViewStatusTalkMessagesForCollection(
+              statusCollection
+            );
 
         database.findRoomAndInsert(roomName, uri);
         for (
@@ -262,12 +266,12 @@ module.exports = class TalkToController extends BaseController {
       database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.TALK
       ),
-      collection = database.getCollectionForRoomTalkMessages(
-        uri
-      ),
-      view = database.getViewTalkMessagesForCollection(
-        collection
-      );
+      collection =
+        database.getCollectionForRoomTalkMessages(uri),
+      view =
+        database.getViewTalkMessagesForCollection(
+          collection
+        );
 
     this.delegateGetAllStatusTalkMessagesFromRoomCallback(
       roomName,
@@ -295,12 +299,14 @@ module.exports = class TalkToController extends BaseController {
       database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.TALK
       ),
-      collection = database.getCollectionForRoomStatusTalkMessages(
-        uri
-      ),
-      view = database.getViewStatusTalkMessagesForCollection(
-        collection
-      );
+      collection =
+        database.getCollectionForRoomStatusTalkMessages(
+          uri
+        ),
+      view =
+        database.getViewStatusTalkMessagesForCollection(
+          collection
+        );
 
     this.delegateGetAllStatusTalkMessagesFromRoomCallback(
       roomName,
@@ -349,7 +355,7 @@ module.exports = class TalkToController extends BaseController {
         {
           args: { roomName: roomName, uri: uri },
           type: arg.type,
-          id: arg.id
+          id: arg.id,
         },
         () => {
           arg.data = view.data();
@@ -391,7 +397,7 @@ module.exports = class TalkToController extends BaseController {
       TalkToController.Names.PUBLISH_CHAT_TO_ROOM,
       TalkToController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegatePublishChatToRoomCallback(
           store,
           event,
@@ -461,7 +467,7 @@ module.exports = class TalkToController extends BaseController {
       TalkToController.Names.JOIN_EXISTING_ROOM,
       TalkToController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateJoinExistingRoomCallback(
           store,
           event,
@@ -531,7 +537,7 @@ module.exports = class TalkToController extends BaseController {
       TalkToController.Names.LEAVE_EXISTING_ROOM,
       TalkToController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateLeaveExistingRoomCallback(
           store,
           event,

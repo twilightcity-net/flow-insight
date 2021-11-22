@@ -26,7 +26,7 @@ export default class FlowContent extends Component {
         style={{
           height: DimensionController.getHeightFor(
             DimensionController.Components.FLOW_PANEL
-          )
+          ),
         }}
       >
         <i>Sorry, no flow data to display rn.</i>

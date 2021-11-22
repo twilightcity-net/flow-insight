@@ -50,7 +50,7 @@ export default class ConsoleView extends Component {
   static get ConsoleStates() {
     return {
       SHOW_CONSOLE: 0,
-      HIDE_CONSOLE: 1
+      HIDE_CONSOLE: 1,
     };
   }
   /**
@@ -61,10 +61,11 @@ export default class ConsoleView extends Component {
   constructor(props) {
     super(props);
     this.name = "[ConsoleView]";
-    this.myController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.CONSOLE_VIEW,
-      this
-    );
+    this.myController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.CONSOLE_VIEW,
+        this
+      );
 
     let root = document.getElementById("root");
     root.style.transform =
@@ -78,26 +79,26 @@ export default class ConsoleView extends Component {
           "translate(0px," +
           window.innerHeight * -1 +
           "px)",
-        opacity: "0"
+        opacity: "0",
       },
       to: {
         transform: "translate(0px,0px)",
-        opacity: "1"
-      }
+        opacity: "1",
+      },
     });
     Keyframes.define({
       name: ConsoleView.animationTypeOut,
       from: {
         transform: "translate(0px,0px)",
-        opacity: "1"
+        opacity: "1",
       },
       to: {
         transform:
           "translate(0px," +
           window.innerHeight * -1 +
           "px)",
-        opacity: "0"
-      }
+        opacity: "0",
+      },
     });
   }
 
@@ -140,7 +141,7 @@ export default class ConsoleView extends Component {
       this.keyframes.play({
         name: ConsoleView.animationTypeIn,
         duration: ConsoleView.animationTime + "s",
-        timingFunction: ConsoleView.animationTiming
+        timingFunction: ConsoleView.animationTiming,
       });
     } else if (
       arg === ConsoleView.ConsoleStates.HIDE_CONSOLE
@@ -148,7 +149,7 @@ export default class ConsoleView extends Component {
       this.keyframes.play({
         name: ConsoleView.animationTypeOut,
         duration: ConsoleView.animationTime + "s",
-        timingFunction: ConsoleView.animationTiming
+        timingFunction: ConsoleView.animationTiming,
       });
     }
   }

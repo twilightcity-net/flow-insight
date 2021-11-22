@@ -9,7 +9,9 @@ const log = require("electron-log"),
  * This class is used to coordinate controllers across the gridtalk service
  * @type {TalkController}
  */
-module.exports = class TalkController extends BaseController {
+module.exports = class TalkController extends (
+  BaseController
+) {
   /**
    *
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -43,7 +45,7 @@ module.exports = class TalkController extends BaseController {
       MESSAGE_CLIENT: "message_client",
       MESSAGE_ROOM: "message_room",
       JOIN_ROOM: "join_room",
-      LEAVE_ROOM: "leave_room"
+      LEAVE_ROOM: "leave_room",
     };
   }
 
@@ -74,14 +76,16 @@ module.exports = class TalkController extends BaseController {
       EventFactory.Types.TALK_CONNECTED,
       this
     );
-    this.talkConnectFailedListener = EventFactory.createEvent(
-      EventFactory.Types.TALK_CONNECT_FAILED,
-      this
-    );
-    this.talkMessageClientListener = EventFactory.createEvent(
-      EventFactory.Types.TALK_MESSAGE_CLIENT,
-      this
-    );
+    this.talkConnectFailedListener =
+      EventFactory.createEvent(
+        EventFactory.Types.TALK_CONNECT_FAILED,
+        this
+      );
+    this.talkMessageClientListener =
+      EventFactory.createEvent(
+        EventFactory.Types.TALK_MESSAGE_CLIENT,
+        this
+      );
     this.talkMessageRoomListener = EventFactory.createEvent(
       EventFactory.Types.TALK_MESSAGE_ROOM,
       this
@@ -116,7 +120,7 @@ module.exports = class TalkController extends BaseController {
     });
     socket.on(
       TalkController.Events.RECONNECT_ATTEMPT,
-      attempt => {
+      (attempt) => {
         log.info(
           chalk.green(name) +
             " attempt {" +
@@ -127,7 +131,7 @@ module.exports = class TalkController extends BaseController {
     );
     socket.on(
       TalkController.Events.RECONNECT_ERROR,
-      err => {
+      (err) => {
         log.info(
           chalk.green(name) + " reconnection error : " + err
         );
@@ -141,49 +145,58 @@ module.exports = class TalkController extends BaseController {
         );
         this.talkConnectFailedListener.dispatch({
           message:
-            "Oops, The Gridtalk service seems to be offline, please try again soon."
+            "Oops, The Gridtalk service seems to be offline, please try again soon.",
         });
       }
     );
-    socket.on(TalkController.Events.CONNECT_ERROR, err => {
-      log.info(
-        chalk.green(name) + " connection error : " + err
-      );
-    });
-    socket.on(TalkController.Events.DISCONNECT, reason => {
-      log.info(
-        chalk.greenBright(name) +
-          " disconnected : " +
-          reason
-      );
-    });
+    socket.on(
+      TalkController.Events.CONNECT_ERROR,
+      (err) => {
+        log.info(
+          chalk.green(name) + " connection error : " + err
+        );
+      }
+    );
+    socket.on(
+      TalkController.Events.DISCONNECT,
+      (reason) => {
+        log.info(
+          chalk.greenBright(name) +
+            " disconnected : " +
+            reason
+        );
+      }
+    );
     socket.on(
       TalkController.Events.CONNECT_TIMEOUT,
-      timeout => {
+      (timeout) => {
         log.info(
           chalk.greenBright(name) + " timeout : " + timeout
         );
       }
     );
-    socket.on(TalkController.Events.ERROR, err => {
+    socket.on(TalkController.Events.ERROR, (err) => {
       log.info(chalk.redBright(name) + " error : " + err);
     });
-    socket.on(TalkController.Events.RECONNECT, attempt => {
-      log.info(
-        chalk.greenBright(name) +
-          " reconnected {" +
-          attempt +
-          "} times : " +
-          connectionId
-      );
-    });
-    socket.on(TalkController.Events.PONG, latency => {
+    socket.on(
+      TalkController.Events.RECONNECT,
+      (attempt) => {
+        log.info(
+          chalk.greenBright(name) +
+            " reconnected {" +
+            attempt +
+            "} times : " +
+            connectionId
+        );
+      }
+    );
+    socket.on(TalkController.Events.PONG, (latency) => {
       log.info(
         chalk.green(name) + " latency " + latency + "ms"
       );
       global.App.TalkManager.setLatency(latency);
       this.appPulseNotifier.dispatch({
-        latencyTime: latency
+        latencyTime: latency,
       });
     });
   }
@@ -204,14 +217,17 @@ module.exports = class TalkController extends BaseController {
         fn();
       }
     );
-    socket.on(TalkController.Events.MESSAGE_ROOM, data => {
-      log.info(
-        chalk.green(name) +
-          " room message : " +
-          JSON.stringify(data)
-      );
-      this.handleTalkMessageRoomCallback(data);
-    });
+    socket.on(
+      TalkController.Events.MESSAGE_ROOM,
+      (data) => {
+        log.info(
+          chalk.green(name) +
+            " room message : " +
+            JSON.stringify(data)
+        );
+        this.handleTalkMessageRoomCallback(data);
+      }
+    );
     socket.on(
       TalkController.Events.JOIN_ROOM,
       (roomId, fn) => {
@@ -284,12 +300,12 @@ module.exports = class TalkController extends BaseController {
       dictionaryDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.DICTIONARY
       ),
-      messageCollection = talkDatabase.getCollectionForRoomTalkMessages(
-        uri
-      ),
-      statusCollection = talkDatabase.getCollectionForRoomStatusTalkMessages(
-        uri
-      ),
+      messageCollection =
+        talkDatabase.getCollectionForRoomTalkMessages(uri),
+      statusCollection =
+        talkDatabase.getCollectionForRoomStatusTalkMessages(
+          uri
+        ),
       me = this.getMemberMe(),
       model = {};
 
@@ -408,7 +424,8 @@ module.exports = class TalkController extends BaseController {
               circuit
             );
             break;
-          case TalkController.StatusTypes.TEAM_RETRO_STARTED:
+          case TalkController.StatusTypes
+            .TEAM_RETRO_STARTED:
             circuitDatabase.startRetroForCircuit(circuit);
             break;
           case TalkController.StatusTypes.TEAM_WTF_CANCELED:

@@ -20,4 +20,4 @@ export class AccountActivationDto {
   isValidToken() {
     return this.status === "VALID";
   }
-};
+}

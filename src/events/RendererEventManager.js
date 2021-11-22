@@ -33,12 +33,10 @@ export class RendererEvent {
    * registers the events listeners callback and reply functions
    */
   registerEvents() {
-    this.callbackWrapperFunction = RendererEventManager.listenForCallback(
-      this
-    );
-    this.replyWrapperFunction = RendererEventManager.listenForReply(
-      this
-    );
+    this.callbackWrapperFunction =
+      RendererEventManager.listenForCallback(this);
+    this.replyWrapperFunction =
+      RendererEventManager.listenForReply(this);
   }
 
   /**
@@ -53,9 +51,8 @@ export class RendererEvent {
     this.callback = callback
       ? callback.bind(scope)
       : callback;
-    this.callbackWrapperFunction = RendererEventManager.listenForCallback(
-      this
-    );
+    this.callbackWrapperFunction =
+      RendererEventManager.listenForCallback(this);
   }
 
   /**
@@ -176,10 +173,11 @@ export class RendererEventManager {
       try {
         event.replyReturnValue = event.reply(_event, _arg);
       } catch (error) {
-        event.replyReturnValue = RendererEventManager.createEventError(
-          error,
-          event
-        );
+        event.replyReturnValue =
+          RendererEventManager.createEventError(
+            error,
+            event
+          );
         console.error(
           "[RendererEventManager] " +
             event.replyReturnValue.toString() +
@@ -231,10 +229,11 @@ export class RendererEventManager {
       try {
         event.returnValue = event.callback(_event, _arg);
       } catch (error) {
-        event.returnValue = RendererEventManager.createEventError(
-          error,
-          event
-        );
+        event.returnValue =
+          RendererEventManager.createEventError(
+            error,
+            event
+          );
         console.error(
           "[RendererEventManager] " +
             event.returnValue.toString() +
@@ -283,7 +282,7 @@ export class RendererEventManager {
       } else {
         ipcRenderer.send("echo-event", {
           type: event.type,
-          arg: arg
+          arg: arg,
         });
       }
     } catch (error) {

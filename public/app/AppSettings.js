@@ -5,7 +5,7 @@ let settings = require("electron-settings"),
   Util = require("../Util"),
   AppError = require("./AppError"),
   {
-    ShortcutManager
+    ShortcutManager,
   } = require("../managers/ShortcutManager");
 
 /**
@@ -236,7 +236,7 @@ module.exports = class AppSettings {
       CONSOLE_SHORTCUT:
         ShortcutManager.Accelerators.CONSOLE_SHORTCUT,
       CONSOLE_SHORTCUT_ALT:
-        ShortcutManager.Accelerators.CONSOLE_SHORTCUT_ALT
+        ShortcutManager.Accelerators.CONSOLE_SHORTCUT_ALT,
     };
   }
 
@@ -251,7 +251,7 @@ module.exports = class AppSettings {
       APP_API_KEY: "apiKey",
       DISPLAY_INDEX: "displayIndex",
       CONSOLE_SHORTCUT: "shortcutConsole",
-      CONSOLE_SHORTCUT_ALT: "shortcutConsoleAlt"
+      CONSOLE_SHORTCUT_ALT: "shortcutConsoleAlt",
     };
   }
 };

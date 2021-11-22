@@ -23,7 +23,7 @@ module.exports = class DictionaryDatabase extends LokiJS {
    */
   static get Collections() {
     return {
-      DICTIONARY: "dictionary"
+      DICTIONARY: "dictionary",
     };
   }
 
@@ -34,7 +34,7 @@ module.exports = class DictionaryDatabase extends LokiJS {
    */
   static get Views() {
     return {
-      DICTIONARY: "dictionary"
+      DICTIONARY: "dictionary",
     };
   }
 
@@ -46,7 +46,7 @@ module.exports = class DictionaryDatabase extends LokiJS {
   static get Indices() {
     return {
       ID: "id",
-      WORD: "word"
+      WORD: "word",
     };
   }
 
@@ -57,32 +57,23 @@ module.exports = class DictionaryDatabase extends LokiJS {
     super(DictionaryDatabase.Name);
     this.name = "[DictionaryDatabase]";
     this.guid = Util.getGuid();
-    this.addCollection(DictionaryDatabase.Collections.DICTIONARY, {
-      indices: [
-        DictionaryDatabase.Indices.ID,
-        DictionaryDatabase.Indices.WORD
-      ]
-    });
+    this.addCollection(
+      DictionaryDatabase.Collections.DICTIONARY,
+      {
+        indices: [
+          DictionaryDatabase.Indices.ID,
+          DictionaryDatabase.Indices.WORD,
+        ],
+      }
+    );
     let dictionaryView = this.getCollection(
       DictionaryDatabase.Collections.DICTIONARY
     ).addDynamicView(DictionaryDatabase.Views.DICTIONARY);
 
-    dictionaryView.applySort(function(obj1, obj2) {
-      if (
-        obj1.wordName ===
-        obj2.wordName
-      )
-        return 0;
-      if (
-        obj1.wordName >
-        obj2.wordName
-      )
-        return 1;
-      if (
-        obj1.wordName <
-        obj2.wordName
-      )
-        return -1;
+    dictionaryView.applySort(function (obj1, obj2) {
+      if (obj1.wordName === obj2.wordName) return 0;
+      if (obj1.wordName > obj2.wordName) return 1;
+      if (obj1.wordName < obj2.wordName) return -1;
     });
   }
 
@@ -105,11 +96,16 @@ module.exports = class DictionaryDatabase extends LokiJS {
    */
   loadFullDictionary(wordList) {
     if (wordList && wordList.length > 0) {
-       let collection = this.getCollection(DictionaryDatabase.Collections.DICTIONARY);
+      let collection = this.getCollection(
+        DictionaryDatabase.Collections.DICTIONARY
+      );
 
-       for (let i = 0; i < wordList.length; i++) {
-         DatabaseUtil.findRemoveInsert(wordList[i], collection);
-       }
+      for (let i = 0; i < wordList.length; i++) {
+        DatabaseUtil.findRemoveInsert(
+          wordList[i],
+          collection
+        );
+      }
     }
   }
 
@@ -138,5 +134,4 @@ module.exports = class DictionaryDatabase extends LokiJS {
       DictionaryDatabase.Views.DICTIONARY
     );
   }
-
 };

@@ -7,7 +7,9 @@ const BaseController = require("./BaseController"),
  * This class is used to coordinate controllers across the team circuit service
  * @type {TeamCircuitController}
  */
-module.exports = class TeamCircuitController extends BaseController {
+module.exports = class TeamCircuitController extends (
+  BaseController
+) {
   /**
    * builds our Team Circuit Client controller class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -32,7 +34,7 @@ module.exports = class TeamCircuitController extends BaseController {
       GET_MY_HOME_TEAM_CIRCUIT: "get-my-home-team-circuit",
       LOAD_ALL_MY_TEAM_CIRCUITS:
         "load-all-my-team-circuits",
-      GET_ALL_MY_TEAM_CIRCUITS: "get-all-my-team-circuits"
+      GET_ALL_MY_TEAM_CIRCUITS: "get-all-my-team-circuits",
     };
   }
 
@@ -52,12 +54,13 @@ module.exports = class TeamCircuitController extends BaseController {
     BaseController.configEvents(
       TeamCircuitController.instance
     );
-    this.teamCircuitClientEventListener = EventFactory.createEvent(
-      EventFactory.Types.TEAM_CIRCUIT_CLIENT,
-      this,
-      this.onTeamCircuitClientEvent,
-      null
-    );
+    this.teamCircuitClientEventListener =
+      EventFactory.createEvent(
+        EventFactory.Types.TEAM_CIRCUIT_CLIENT,
+        this,
+        this.onTeamCircuitClientEvent,
+        null
+      );
   }
 
   /**
@@ -121,7 +124,7 @@ module.exports = class TeamCircuitController extends BaseController {
       TeamCircuitController.Names.GET_MY_HOME_TEAM_CIRCUIT,
       TeamCircuitController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadMyHomeTeamCircuitCallback(
           store,
           event,
@@ -191,7 +194,7 @@ module.exports = class TeamCircuitController extends BaseController {
       TeamCircuitController.Names.GET_ALL_MY_TEAM_CIRCUITS,
       TeamCircuitController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadAllMyTeamCircuitsCallback(
           store,
           event,
@@ -226,9 +229,9 @@ module.exports = class TeamCircuitController extends BaseController {
         );
 
       if (circuits && circuits.length > 0) {
-        circuits.forEach(c => {
+        circuits.forEach((c) => {
           let circuit = collection.findOne({
-            teamId: c.teamId
+            teamId: c.teamId,
           });
           if (circuit) {
             collection.remove(circuit);

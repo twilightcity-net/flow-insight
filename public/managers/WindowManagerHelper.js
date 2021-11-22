@@ -16,7 +16,7 @@ module.exports = class WindowManagerHelper {
       LOADING: "tc-" + ViewManagerHelper.ViewNames.LOADING,
       ACTIVATOR:
         "tc-" + ViewManagerHelper.ViewNames.ACTIVATOR,
-      CONSOLE: "tc-" + ViewManagerHelper.ViewNames.CONSOLE
+      CONSOLE: "tc-" + ViewManagerHelper.ViewNames.CONSOLE,
     };
   }
 

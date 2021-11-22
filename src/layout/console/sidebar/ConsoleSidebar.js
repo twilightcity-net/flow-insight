@@ -3,7 +3,7 @@ import {
   Divider,
   Icon,
   Menu,
-  Popup
+  Popup,
 } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../../../controllers/SidePanelViewController";
@@ -44,17 +44,19 @@ export default class ConsoleSidebar extends Component {
       iconTeam: "home",
       iconWTF: "lightning",
       iconCircuit: "shuffle",
-      iconNotifications: "bell outline"
+      iconNotifications: "bell outline",
     };
-    this.myController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.CONSOLE_SIDEBAR
-    );
+    this.myController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.CONSOLE_SIDEBAR
+      );
 
-    this.talkRoomMessageListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-      this,
-      this.onTalkRoomMessage
-    );
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
   }
 
   /**
@@ -78,30 +80,34 @@ export default class ConsoleSidebar extends Component {
       this.onSidebarShow
     );
 
-    this.circuitStartStopListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_START_STOP,
-      this,
-      this.onCircuitStartStop
-    );
-    this.circuitPauseResumeListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
-      this,
-      this.onCircuitPauseResume
-    );
-    this.circuitSolveListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_SOLVE,
-      this,
-      this.onCircuitSolve
-    );
-    this.circuitJoinLeaveListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
-      this,
-      this.onCircuitJoinLeave
-    );
+    this.circuitStartStopListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_START_STOP,
+        this,
+        this.onCircuitStartStop
+      );
+    this.circuitPauseResumeListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
+        this,
+        this.onCircuitPauseResume
+      );
+    this.circuitSolveListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_SOLVE,
+        this,
+        this.onCircuitSolve
+      );
+    this.circuitJoinLeaveListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
+        this,
+        this.onCircuitJoinLeave
+      );
 
     this.setAlarmStateBasedOnStatus(MemberClient.me);
   }
@@ -145,7 +151,7 @@ export default class ConsoleSidebar extends Component {
       isAlarm = false;
     }
     this.setState({
-      isAlarm: isAlarm
+      isAlarm: isAlarm,
     });
   }
 
@@ -171,7 +177,7 @@ export default class ConsoleSidebar extends Component {
       latencyTime: arg.latencyTime,
       talkUrl: arg.talkUrl,
       server: arg.server,
-      errorMsg: arg.message
+      errorMsg: arg.message,
     });
   }
 
@@ -182,7 +188,7 @@ export default class ConsoleSidebar extends Component {
    */
   onPulse(event, arg) {
     this.setState({
-      latencyTime: arg.latencyTime
+      latencyTime: arg.latencyTime,
     });
   }
 
@@ -193,7 +199,7 @@ export default class ConsoleSidebar extends Component {
    */
   onCircuitJoinLeave = (event, arg) => {
     this.setState({
-      isAlarm: arg > 0
+      isAlarm: arg > 0,
     });
   };
 
@@ -204,7 +210,7 @@ export default class ConsoleSidebar extends Component {
    */
   onCircuitStartStop = (event, arg) => {
     this.setState({
-      isAlarm: arg > 0
+      isAlarm: arg > 0,
     });
   };
 
@@ -216,7 +222,7 @@ export default class ConsoleSidebar extends Component {
    */
   onCircuitPauseResume = (event, arg) => {
     this.setState({
-      isAlarm: arg < 0
+      isAlarm: arg < 0,
     });
   };
 
@@ -228,7 +234,7 @@ export default class ConsoleSidebar extends Component {
    */
   onCircuitSolve = (event, arg) => {
     this.setState({
-      isAlarm: false
+      isAlarm: false,
     });
   };
 
@@ -281,15 +287,15 @@ export default class ConsoleSidebar extends Component {
    * function handler that os called when the console layout perspective changes
    */
   onRefresh() {
-    let activeMenuItem = this.myController
-      .activeMenuSelection;
+    let activeMenuItem =
+      this.myController.activeMenuSelection;
     let state = {
       activeItem: activeMenuItem,
       iconFervie: "heart",
       iconTeam: "home",
       iconWTF: "lightning",
       iconNotifications: "bell",
-      iconCircuit: "shuffle"
+      iconCircuit: "shuffle",
     };
     let oStr = " outline";
     switch (activeMenuItem) {
@@ -419,7 +425,7 @@ export default class ConsoleSidebar extends Component {
       latencyTime,
       talkUrl,
       server,
-      errorMsg
+      errorMsg,
     } = this.state;
 
     let iconClassName = isOnline
@@ -458,7 +464,8 @@ export default class ConsoleSidebar extends Component {
           icon
           vertical
           style={{
-            height: DimensionController.getConsoleSidebarHeight()
+            height:
+              DimensionController.getConsoleSidebarHeight(),
           }}
         >
           <Menu.Item

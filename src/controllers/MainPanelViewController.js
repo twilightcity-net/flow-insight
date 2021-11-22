@@ -4,11 +4,12 @@ import { RendererEventFactory } from "../events/RendererEventFactory";
 export class MainPanelViewController extends ActiveViewController {
   constructor(scope) {
     super(scope);
-    this.consoleBrowserLoadListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .WINDOW_CONSOLE_BROWSER_LOAD,
-      this
-    );
+    this.consoleBrowserLoadListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .WINDOW_CONSOLE_BROWSER_LOAD,
+        this
+      );
   }
 
   /**
@@ -32,7 +33,7 @@ export class MainPanelViewController extends ActiveViewController {
       WTF: "wtf",
       RETRO: "retro",
       CIRCUIT: "circuit",
-      FLOW: "flow"
+      FLOW: "flow",
     };
   }
 
@@ -40,13 +41,13 @@ export class MainPanelViewController extends ActiveViewController {
     return {
       FLY_RIGHT: "fly right",
       FLY_LEFT: "fly left",
-      DROP: "drop"
+      DROP: "drop",
     };
   }
 
   static get AnimationTimes() {
     return {
-      CONSOLE_CONTENT: 420
+      CONSOLE_CONTENT: 420,
     };
   }
 }

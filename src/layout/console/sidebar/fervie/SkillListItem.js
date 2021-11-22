@@ -3,7 +3,7 @@ import {
   Icon,
   Label,
   List,
-  Popup
+  Popup,
 } from "semantic-ui-react";
 
 export default class SkillListItem extends Component {
@@ -16,7 +16,7 @@ export default class SkillListItem extends Component {
       isRetro: false,
       time: "00:00",
       timerIcon: "gem",
-      timerColor: "violet"
+      timerColor: "violet",
     };
   }
 

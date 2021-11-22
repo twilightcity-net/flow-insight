@@ -63,7 +63,7 @@ module.exports = class DatabaseUtil {
    */
   static findUpdateInsertByMemberId(doc, collection) {
     let result = collection.findOne({
-      memberId: doc.memberId
+      memberId: doc.memberId,
     });
     if (result) {
       result = Object.assign(result, doc);
@@ -124,7 +124,7 @@ module.exports = class DatabaseUtil {
    */
   static findRemoveByMemberId(doc, collection) {
     let result = collection.findOne({
-      memberId: doc.memberId
+      memberId: doc.memberId,
     });
     if (result) {
       collection.remove(result);

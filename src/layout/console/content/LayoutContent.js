@@ -6,7 +6,7 @@ import FlowResource from "./flow/FlowResource";
 import {
   Icon,
   Message,
-  Transition
+  Transition,
 } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import LayoutBrowser from "./LayoutBrowser";
@@ -26,12 +26,13 @@ export default class LayoutContent extends Component {
       MainPanelViewController.AnimationTimes.CONSOLE_CONTENT;
     this.state = {
       resource: MainPanelViewController.Resources.NONE,
-      browserVisible: true
+      browserVisible: true,
     };
-    this.myController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.LAYOUT_CONTENT,
-      this
-    );
+    this.myController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.LAYOUT_CONTENT,
+        this
+      );
   }
 
   componentDidMount = () => {
@@ -56,7 +57,7 @@ export default class LayoutContent extends Component {
     );
     let state = {
       resource: resource,
-      browserVisible: true
+      browserVisible: true,
     };
     if (
       resource.uriArr[0] ===
@@ -159,7 +160,7 @@ export default class LayoutContent extends Component {
     );
   };
 
-  getBrowserHeader = scope => {
+  getBrowserHeader = (scope) => {
     let resource = this.state.resource;
     if (resource.uriArr) {
       resource = resource.uriArr[0];
@@ -173,7 +174,7 @@ export default class LayoutContent extends Component {
    * renders our error for the screen
    * @returns {*}
    */
-  getJournalError = error => {
+  getJournalError = (error) => {
     return (
       <div id="component" className="errorLayout">
         <Message icon negative size="large">

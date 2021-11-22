@@ -33,7 +33,7 @@ export class DictionaryClient extends BaseClient {
   static get Events() {
     return {
       LOAD_DICTIONARY: "load-dictionary",
-      GET_FULL_DICTIONARY: "get-full-dictionary"
+      GET_FULL_DICTIONARY: "get-full-dictionary",
     };
   }
 
@@ -43,7 +43,9 @@ export class DictionaryClient extends BaseClient {
    */
   static init(scope) {
     if (!DictionaryClient.instance) {
-      DictionaryClient.instance = new DictionaryClient(scope);
+      DictionaryClient.instance = new DictionaryClient(
+        scope
+      );
     }
   }
 
@@ -99,7 +101,10 @@ export class DictionaryClient extends BaseClient {
         "] notify -> " +
         JSON.stringify(clientEvent)
     );
-    DictionaryClient.replies.set(clientEvent.id, clientEvent);
+    DictionaryClient.replies.set(
+      clientEvent.id,
+      clientEvent
+    );
     this.event.dispatch(clientEvent, true);
   }
 }

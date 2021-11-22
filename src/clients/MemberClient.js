@@ -46,7 +46,7 @@ export class MemberClient extends BaseClient {
       UPDATE_ME: "update-me",
       LOAD_ME: "load-me",
       GET_ME: "get-me",
-      GET_MEMBER: "get-member"
+      GET_MEMBER: "get-member",
     };
   }
 
@@ -57,7 +57,7 @@ export class MemberClient extends BaseClient {
   static init(scope) {
     if (!MemberClient.instance) {
       MemberClient.instance = new MemberClient(scope);
-      MemberClient.getMe(this, arg => {
+      MemberClient.getMe(this, (arg) => {
         MemberClient.me = arg.data;
       });
     }

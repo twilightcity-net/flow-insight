@@ -7,7 +7,7 @@ const { BrowserWindow } = require("electron"),
   EventFactory = require("../events/EventFactory"),
   {
     ShortcutManager,
-    Shortcut
+    Shortcut,
   } = require("../managers/ShortcutManager");
 
 /*
@@ -39,8 +39,8 @@ module.exports = class LoadingWindow {
       fullscreenable: false,
       webPreferences: {
         toolbar: false,
-         nodeIntegration: true
-      }
+        nodeIntegration: true,
+      },
     });
     this.window.name = this.name;
     this.window.setMenu(null);
@@ -50,7 +50,7 @@ module.exports = class LoadingWindow {
       shown: EventFactory.createEvent(
         EventFactory.Types.WINDOW_LOADING_SHOWN,
         this
-      )
+      ),
     };
   }
 

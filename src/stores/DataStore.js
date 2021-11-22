@@ -22,7 +22,7 @@ export class DataStore {
         RendererEventFactory.Events.DATASTORE_LOADED,
         this,
         this.onLoadedCb
-      )
+      ),
     };
   }
 
@@ -37,7 +37,7 @@ export class DataStore {
         timestamp: this.timestamp,
         dto: dto,
         urn: this.urn,
-        requestType: this.loadRequestType
+        requestType: this.loadRequestType,
       },
       true
     );
@@ -63,7 +63,7 @@ export class DataStore {
   static get RequestTypes() {
     return {
       POST: "post",
-      GET: "get"
+      GET: "get",
     };
   }
 }

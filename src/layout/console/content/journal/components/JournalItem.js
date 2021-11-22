@@ -5,7 +5,7 @@ import {
   Grid,
   Icon,
   Image,
-  Popup
+  Popup,
 } from "semantic-ui-react";
 import { JournalClient } from "../../../../../clients/JournalClient";
 import { error } from "electron-log";
@@ -19,7 +19,7 @@ export default class JournalItem extends Component {
   static get Status() {
     return {
       DONE: "done",
-      ABORTED: "aborted"
+      ABORTED: "aborted",
     };
   }
   /**
@@ -33,7 +33,7 @@ export default class JournalItem extends Component {
     this.state = {
       isActive: false,
       flameRating: props.model.flameRating,
-      isLinked: props.model.linked
+      isLinked: props.model.linked,
     };
   }
 
@@ -54,7 +54,7 @@ export default class JournalItem extends Component {
       this.props.model.id,
       JournalItem.Status.DONE,
       this,
-      arg => {
+      (arg) => {
         if (arg.error) {
           throw new error(arg.error);
         }
@@ -71,7 +71,7 @@ export default class JournalItem extends Component {
       this.props.model.id,
       JournalItem.Status.ABORTED,
       this,
-      arg => {
+      (arg) => {
         if (arg.error) {
           throw new error(arg.error);
         }

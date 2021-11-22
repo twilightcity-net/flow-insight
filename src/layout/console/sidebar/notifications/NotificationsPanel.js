@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import {
   Menu,
   Segment,
-  Transition
+  Transition,
 } from "semantic-ui-react";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
@@ -26,9 +26,10 @@ export default class NotificationsPanel extends Component {
     super(props);
     this.state = this.loadState();
     this.name = "[NotificationsPanel]";
-    this.myController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.CONSOLE_SIDEBAR
-    );
+    this.myController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.CONSOLE_SIDEBAR
+      );
   }
 
   /**
@@ -47,7 +48,7 @@ export default class NotificationsPanel extends Component {
           SidePanelViewController.AnimationTypes.FLY_DOWN,
         animationDelay:
           SidePanelViewController.AnimationDelays.SUBMENU,
-        title: ""
+        title: "",
       };
     }
     return state;
@@ -109,7 +110,7 @@ export default class NotificationsPanel extends Component {
       activeItem:
         SidePanelViewController.SubmenuSelection
           .NOTIFICATIONS,
-      notificationsVisible: true
+      notificationsVisible: true,
     });
   }
 
@@ -121,7 +122,7 @@ export default class NotificationsPanel extends Component {
   handleNotificationsClick = (e, { name }) => {
     this.setState({
       activeItem: name,
-      notificationsVisible: true
+      notificationsVisible: true,
     });
   };
 
@@ -147,7 +148,7 @@ export default class NotificationsPanel extends Component {
         className="consoleSidebarPanel notificationsPanel"
         style={{
           width: this.props.width,
-          opacity: this.props.opacity
+          opacity: this.props.opacity,
         }}
       >
         <Segment.Group>
@@ -161,7 +162,8 @@ export default class NotificationsPanel extends Component {
           <Segment
             inverted
             style={{
-              height: DimensionController.getSidebarPanelHeight()
+              height:
+                DimensionController.getSidebarPanelHeight(),
             }}
           >
             <Transition

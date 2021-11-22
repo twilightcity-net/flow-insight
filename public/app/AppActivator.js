@@ -28,7 +28,7 @@ module.exports = class AppActivator {
       closeActivator: EventFactory.createEvent(
         EventFactory.Types.WINDOW_ACTIVATOR_CLOSE,
         this
-      )
+      ),
     };
   }
 
@@ -72,7 +72,8 @@ module.exports = class AppActivator {
    */
   start() {
     log.info("[AppActivator] show activator");
-    this.activatorWindow = WindowManagerHelper.createWindowActivator();
+    this.activatorWindow =
+      WindowManagerHelper.createWindowActivator();
   }
 
   /**

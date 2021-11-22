@@ -4,7 +4,7 @@ import {
   Image,
   Input,
   Menu,
-  Segment
+  Segment,
 } from "semantic-ui-react";
 
 /**
@@ -101,7 +101,7 @@ export default class ActiveRetroChat extends Component {
    * @param key
    * @returns {boolean|boolean}
    */
-  isValidKey = key => {
+  isValidKey = (key) => {
     return (
       key > 31 &&
       key !== 91 &&
@@ -192,7 +192,7 @@ export default class ActiveRetroChat extends Component {
    * listens for input from the semantic gui input control
    * @param e
    */
-  handleOnKeyDownChatInput = e => {
+  handleOnKeyDownChatInput = (e) => {
     switch (e.keyCode) {
       case 8:
         this.delCharFromText();

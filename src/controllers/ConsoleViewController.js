@@ -7,35 +7,45 @@ export class ConsoleViewController extends ActiveViewController {
 
     this.consoleIsCollapsed = true;
 
-    this.consoleLayoutlListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-      this
-    );
+    this.consoleLayoutlListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .WINDOW_CONSOLE_SHOW_HIDE,
+        this
+      );
 
-    this.consoleViewListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-      this
-    );
+    this.consoleViewListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .WINDOW_CONSOLE_SHOW_HIDE,
+        this
+      );
 
-    this.teamPanelListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_SHOWN,
-      this
-    );
+    this.teamPanelListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CONSOLE_SHOWN,
+        this
+      );
 
-    this.journalLayoutListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_SHOWN,
-      this
-    );
+    this.journalLayoutListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_CONSOLE_SHOWN,
+        this
+      );
 
-    this.journalEntryListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-      this
-    );
+    this.journalEntryListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .WINDOW_CONSOLE_SHOW_HIDE,
+        this
+      );
 
-    this.modelUpdateListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-      this
-    );
+    this.modelUpdateListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .WINDOW_CONSOLE_SHOW_HIDE,
+        this
+      );
 
     this.myListener = RendererEventFactory.createEvent(
       RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,

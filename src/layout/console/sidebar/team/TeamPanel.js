@@ -5,7 +5,7 @@ import {
   Segment,
   Transition,
   Message,
-  List
+  List,
 } from "semantic-ui-react";
 import { DimensionController } from "../../../../controllers/DimensionController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
@@ -36,21 +36,23 @@ export default class TeamPanel extends Component {
         SidePanelViewController.SubmenuSelection.TEAMS,
       teamVisible: false,
       teams: [],
-      houseName: TeamClient.houseName
+      houseName: TeamClient.houseName,
     };
-    this.myController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.CONSOLE_SIDEBAR
-    );
+    this.myController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.CONSOLE_SIDEBAR
+      );
     this.lastClickedUser = null;
     this.animationType =
       SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay =
       SidePanelViewController.AnimationDelays.SUBMENU;
-    this.talkRoomMessageListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-      this,
-      this.onTalkRoomMessage
-    );
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
   }
 
   /**
@@ -71,7 +73,7 @@ export default class TeamPanel extends Component {
         this.updateTeamMembers(teams[i].teamMembers, data);
       }
       this.setState({
-        teams: teams
+        teams: teams,
       });
     }
   };
@@ -111,19 +113,19 @@ export default class TeamPanel extends Component {
    */
   refreshTeamPanel() {
     if (this.state.houseName == null) {
-      TeamClient.getActiveHouse(this, arg => {
+      TeamClient.getActiveHouse(this, (arg) => {
         if (arg.error) {
           this.error = arg.error;
         } else {
           this.error = null;
           this.setState({
-            houseName: arg.data.houseName
+            houseName: arg.data.houseName,
           });
         }
       });
     }
 
-    TeamClient.getAllMyTeams(this, arg => {
+    TeamClient.getAllMyTeams(this, (arg) => {
       if (arg.error) {
         this.error = arg.error;
       } else {
@@ -132,7 +134,7 @@ export default class TeamPanel extends Component {
           activeItem:
             SidePanelViewController.SubmenuSelection.TEAMS,
           teamVisible: true,
-          teams: arg.data
+          teams: arg.data,
         });
       }
     });
@@ -164,7 +166,7 @@ export default class TeamPanel extends Component {
    * selects a team member in the list
    * @param member
    */
-  handleClickRow = member => {
+  handleClickRow = (member) => {
     let name = member.username,
       activeCircuit = member.activeCircuit,
       uri = BrowserController.uri + "";
@@ -276,8 +278,8 @@ export default class TeamPanel extends Component {
             content: this.getTeamPanelListMembersContent(
               team.teamMembers,
               showOffline
-            )
-          }
+            ),
+          },
         };
       });
 
@@ -319,7 +321,7 @@ export default class TeamPanel extends Component {
           onClickRow={this.handleClickRow}
         />
         {members.map(
-          member =>
+          (member) =>
             me.id !== member.id &&
             (showOffline ||
               UtilRenderer.isMemberOnline(member)) && (
@@ -354,7 +356,7 @@ export default class TeamPanel extends Component {
         className="consoleSidebarPanel teamPanel"
         style={{
           width: this.props.width,
-          opacity: this.props.opacity
+          opacity: this.props.opacity,
         }}
       >
         <Segment.Group>
@@ -372,7 +374,8 @@ export default class TeamPanel extends Component {
           <Segment
             inverted
             style={{
-              height: DimensionController.getSidebarPanelHeight()
+              height:
+                DimensionController.getSidebarPanelHeight(),
             }}
           >
             <Transition

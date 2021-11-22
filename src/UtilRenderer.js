@@ -73,7 +73,7 @@ export default class UtilRenderer {
   static getFormattedCircuitName(circuitName) {
     return circuitName
       .split("_")
-      .map(t => {
+      .map((t) => {
         if (t.length > 1) {
           return t.charAt(0).toUpperCase() + t.slice(1);
         }
@@ -81,7 +81,6 @@ export default class UtilRenderer {
       })
       .join(" ");
   }
-
 
   /**
    * gets our timer string from the time inside the circuit.  If the circuit is paused,
@@ -245,7 +244,7 @@ export default class UtilRenderer {
         array[2],
         array[3],
         array[4],
-        array[5]
+        array[5],
       ]);
       return t.format(UtilRenderer.wtfTimeFormatStr);
     }
@@ -264,10 +263,7 @@ export default class UtilRenderer {
       "YYYY-MM-DDTHH:mm:ss.SSS"
     );
 
-    return t
-      .utc()
-      .local()
-      .calendar();
+    return t.utc().local().calendar();
   }
 
   /**
@@ -282,10 +278,7 @@ export default class UtilRenderer {
       "YYYY-MM-DDTHH:mm:ss.SSS"
     );
 
-    return t
-      .utc()
-      .local()
-      .calendar();
+    return t.utc().local().calendar();
   }
 
   /**
@@ -300,10 +293,7 @@ export default class UtilRenderer {
       "YYYY-MM-DDTHH:mm:ss.SSS"
     );
 
-    return t
-      .utc()
-      .local()
-      .calendar();
+    return t.utc().local().calendar();
   }
 
   /**
@@ -316,7 +306,7 @@ export default class UtilRenderer {
       return {
         action: BrowserRequestFactory.ACTION_ERROR,
         uri: BrowserRequestFactory.URI_ERROR,
-        uriArr: [BrowserRequestFactory.URI_ERROR]
+        uriArr: [BrowserRequestFactory.URI_ERROR],
       };
     }
     let req = request
@@ -334,7 +324,7 @@ export default class UtilRenderer {
     return {
       action: req[0],
       uri: req[1],
-      uriArr: res
+      uriArr: res,
     };
   }
 
@@ -381,7 +371,11 @@ export default class UtilRenderer {
    * @returns {boolean}
    */
   static isMarkedForCloseByMe(circuit, me) {
-    for (let i = 0; i < circuit.memberMarksForClose.length; i++) {
+    for (
+      let i = 0;
+      i < circuit.memberMarksForClose.length;
+      i++
+    ) {
       if (circuit.memberMarksForClose[i] === me.id) {
         return true;
       }
@@ -428,7 +422,9 @@ export default class UtilRenderer {
   static isRetroResource(resource) {
     let arr = resource.uriArr;
     if (arr.length > 0) {
-      if (arr[0] === BrowserRequestFactory.Locations.RETRO) {
+      if (
+        arr[0] === BrowserRequestFactory.Locations.RETRO
+      ) {
         if (arr.length > 1) {
           return true;
         }
@@ -475,7 +471,9 @@ export default class UtilRenderer {
   static getRetroRoomNameFromResource(resource) {
     let arr = resource.uriArr;
     if (arr.length > 0) {
-      if (arr[0] === BrowserRequestFactory.Locations.RETRO) {
+      if (
+        arr[0] === BrowserRequestFactory.Locations.RETRO
+      ) {
         if (arr.length > 1) {
           return (
             arr[1] +
@@ -597,10 +595,9 @@ export default class UtilRenderer {
     return (
       circuit &&
       circuit.circuitState ===
-      BaseClient.CircuitStates.RETRO
+        BaseClient.CircuitStates.RETRO
     );
   }
-
 
   /**
    * checks to see if circuit is canceled
@@ -624,7 +621,7 @@ export default class UtilRenderer {
     return (
       circuit &&
       circuit.circuitState ===
-      BaseClient.CircuitStates.CLOSED
+        BaseClient.CircuitStates.CLOSED
     );
   }
 

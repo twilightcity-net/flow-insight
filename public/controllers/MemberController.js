@@ -30,7 +30,7 @@ class MemberController extends BaseController {
       UPDATE_ME: "update-me",
       LOAD_ME: "load-me",
       GET_ME: "get-me",
-      GET_MEMBER: "get-member"
+      GET_MEMBER: "get-member",
     };
   }
 
@@ -49,15 +49,17 @@ class MemberController extends BaseController {
    */
   configureEvents() {
     BaseController.configEvents(MemberController.instance);
-    this.memberClientEventListener = EventFactory.createEvent(
-      EventFactory.Types.MEMBER_CLIENT,
-      this,
-      this.onMemberClientEvent
-    );
-    this.memberClientEventNotifier = EventFactory.createEvent(
-      EventFactory.Types.MEMBER_CONTROLLER,
-      this
-    );
+    this.memberClientEventListener =
+      EventFactory.createEvent(
+        EventFactory.Types.MEMBER_CLIENT,
+        this,
+        this.onMemberClientEvent
+      );
+    this.memberClientEventNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.MEMBER_CONTROLLER,
+        this
+      );
   }
 
   /**
@@ -113,7 +115,7 @@ class MemberController extends BaseController {
       MemberController.Names.GET_ME,
       MemberController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadMeCallback(
           store,
           event,

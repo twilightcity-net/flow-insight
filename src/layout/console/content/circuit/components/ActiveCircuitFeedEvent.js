@@ -61,10 +61,10 @@ export default class ActiveCircuitFeedEvent extends Component {
         fervieColor = this.props.circuitMember.fervieColor;
       }
 
-      fervieAccessory = this.props.circuitMember
-        .fervieAccessory;
-      fervieTertiaryColor = this.props.circuitMember
-        .fervieTertiaryColor;
+      fervieAccessory =
+        this.props.circuitMember.fervieAccessory;
+      fervieTertiaryColor =
+        this.props.circuitMember.fervieTertiaryColor;
     }
 
     return (

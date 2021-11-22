@@ -54,15 +54,17 @@ export default class ActiveCircuit extends Component {
     this.circuitMembers = [];
     this.dictionaryWords = [];
 
-    this.myController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.RESOURCES,
-      this
-    );
-    this.talkRoomMessageListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-      this,
-      this.onTalkRoomMessage
-    );
+    this.myController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.RESOURCES,
+        this
+      );
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
     this.circuitSidebarComponent = null;
     this.circuitFeedComponent = null;
 
@@ -75,7 +77,7 @@ export default class ActiveCircuit extends Component {
       circuitMembers: [],
       missingMembers: [],
       dictionaryWords: [],
-      circuitState: null
+      circuitState: null,
     };
   }
 
@@ -114,7 +116,7 @@ export default class ActiveCircuit extends Component {
 
     if (this.state.circuitState === "TROUBLESHOOT") {
       let that = this;
-      setTimeout(function() {
+      setTimeout(function () {
         that.focusOnChatInput();
       }, 500);
     }
@@ -129,18 +131,14 @@ export default class ActiveCircuit extends Component {
     }
   }
 
-
   /**
    * updates and loads dictionary for use by all circuit tags
    */
   loadDictionary() {
-    DictionaryClient.getTeamDictionary(
-      this,
-      arg => {
-        this.dictionaryWords = arg.data;
-        this.updateDictionaryState(this.dictionaryWords);
-      }
-    );
+    DictionaryClient.getTeamDictionary(this, (arg) => {
+      this.dictionaryWords = arg.data;
+      this.updateDictionaryState(this.dictionaryWords);
+    });
   }
 
   /**
@@ -149,10 +147,9 @@ export default class ActiveCircuit extends Component {
    */
   updateDictionaryState(words) {
     this.setState({
-      dictionaryWords: words
+      dictionaryWords: words,
     });
   }
-
 
   /**
    * updates and loads our circuit form gridtime
@@ -165,14 +162,14 @@ export default class ActiveCircuit extends Component {
     CircuitClient.getCircuitWithAllDetails(
       circuitName,
       this,
-      arg => {
+      (arg) => {
         this.model = arg.data;
         this.updateStateModels(this.model);
         TalkToClient.getAllTalkMessagesFromRoom(
           this.model.wtfTalkRoomName,
           this.model.wtfTalkRoomId,
           this,
-          arg => {
+          (arg) => {
             this.messages = arg.data;
             this.loadCount++;
             this.updateStateIfDoneLoading();
@@ -182,7 +179,7 @@ export default class ActiveCircuit extends Component {
           circuitName,
           this.model.wtfTalkRoomId,
           this,
-          arg => {
+          (arg) => {
             this.circuitMembers = arg.data;
             this.loadCount++;
 
@@ -220,7 +217,7 @@ export default class ActiveCircuit extends Component {
       this.setState({
         circuitMembers: this.circuitMembers,
         messages: this.messages,
-        feedEvents: feedEvents
+        feedEvents: feedEvents,
       });
     }
   }
@@ -232,7 +229,7 @@ export default class ActiveCircuit extends Component {
       MemberClient.getMember(
         missingUsernames[i],
         this,
-        arg => {
+        (arg) => {
           this.missingMemberLoadCount++;
           if (!arg.error && arg.data) {
             this.missingMembers.push(arg.data);
@@ -244,7 +241,7 @@ export default class ActiveCircuit extends Component {
             missingUsernames.length
           ) {
             this.setState({
-              missingMembers: this.missingMembers
+              missingMembers: this.missingMembers,
             });
           }
         }
@@ -357,22 +354,22 @@ export default class ActiveCircuit extends Component {
     }
   };
 
-
   /**
    * processes updates to our dictionary from new terms being added.
    * @param arg
    */
   handleDictionaryUpdateMessage(arg) {
-
     let wordUpdate = arg.data;
 
     if (wordUpdate) {
-
-      this.setState(prevState => {
-
+      this.setState((prevState) => {
         let isUpdated = false;
 
-        for (let i = 0; i < prevState.dictionaryWords.length; i++) {
+        for (
+          let i = 0;
+          i < prevState.dictionaryWords.length;
+          i++
+        ) {
           let word = prevState.dictionaryWords[i];
           if (word.id === wordUpdate.id) {
             prevState.dictionaryWords[i] = wordUpdate;
@@ -384,13 +381,11 @@ export default class ActiveCircuit extends Component {
           prevState.dictionaryWords.push(wordUpdate);
         }
         return {
-          dictionaryWords: prevState.dictionaryWords
-        }
-
+          dictionaryWords: prevState.dictionaryWords,
+        };
       });
     }
   }
-
 
   /**
    * adds a chat message to the end of all of our chat
@@ -408,7 +403,7 @@ export default class ActiveCircuit extends Component {
 
     let that = this;
 
-    this.setState(prevState => {
+    this.setState((prevState) => {
       //if this is our first message, then use it to update the description
       if (
         prevState.messages &&
@@ -418,7 +413,7 @@ export default class ActiveCircuit extends Component {
           prevState.model.circuitName,
           message.data.message,
           that,
-          arg => {}
+          (arg) => {}
         );
       }
 
@@ -432,7 +427,7 @@ export default class ActiveCircuit extends Component {
           null,
           time,
           json.message
-        )
+        ),
       };
     });
   }
@@ -547,7 +542,7 @@ export default class ActiveCircuit extends Component {
   updateStateModelsOnTalkMessageUpdate(model) {
     this.setState({
       model: model,
-      circuitState: model.circuitState
+      circuitState: model.circuitState,
     });
   }
 
@@ -559,7 +554,7 @@ export default class ActiveCircuit extends Component {
   updateStateModels(model) {
     this.setState({
       model: model,
-      circuitState: model.circuitState
+      circuitState: model.circuitState,
     });
   }
 
@@ -576,7 +571,7 @@ export default class ActiveCircuit extends Component {
 
     this.setState({
       messages: messages,
-      feedEvents: feedEvents
+      feedEvents: feedEvents,
     });
   }
 
@@ -671,7 +666,7 @@ export default class ActiveCircuit extends Component {
       feedEvent = {
         name: username,
         time: time,
-        text: [text]
+        text: [text],
       };
     }
 
@@ -685,7 +680,7 @@ export default class ActiveCircuit extends Component {
    */
   updateStateCircuitMembers(circuitMembers) {
     this.setState({
-      circuitMembers: circuitMembers
+      circuitMembers: circuitMembers,
     });
   }
 
@@ -694,7 +689,7 @@ export default class ActiveCircuit extends Component {
    */
   hideScrapbook = () => {
     this.setState({
-      scrapbookVisible: false
+      scrapbookVisible: false,
     });
   };
 
@@ -702,8 +697,8 @@ export default class ActiveCircuit extends Component {
    * shows our scrapbook in our feed panel
    */
   showScrapbook = () => {
-    this.setState(prevState => ({
-      scrapbookVisible: !prevState.scrapbookVisible
+    this.setState((prevState) => ({
+      scrapbookVisible: !prevState.scrapbookVisible,
     }));
   };
 
@@ -721,7 +716,7 @@ export default class ActiveCircuit extends Component {
    * stores our circuit sidebar component into memory to access.
    * @param component
    */
-  setCircuitSidebarComponent = component => {
+  setCircuitSidebarComponent = (component) => {
     this.circuitSidebarComponent = component;
   };
 
@@ -730,7 +725,7 @@ export default class ActiveCircuit extends Component {
    * access and update.
    * @param component
    */
-  setCircuitFeedComponent = component => {
+  setCircuitFeedComponent = (component) => {
     this.circuitFeedComponent = component;
   };
 
@@ -808,7 +803,8 @@ export default class ActiveCircuit extends Component {
         id="component"
         className="circuitContent"
         style={{
-          height: DimensionController.getActiveCircuitContentHeight()
+          height:
+            DimensionController.getActiveCircuitContentHeight(),
         }}
       >
         <div id="wrapper" className="circuitContentPanel">

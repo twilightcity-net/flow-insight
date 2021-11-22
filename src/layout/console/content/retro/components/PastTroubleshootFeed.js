@@ -5,7 +5,7 @@ import {
   Feed,
   Segment,
   Transition,
-  Menu
+  Menu,
 } from "semantic-ui-react";
 import UtilRenderer from "../../../../../UtilRenderer";
 import { MemberClient } from "../../../../../clients/MemberClient";
@@ -36,8 +36,7 @@ export default class PastTroubleshootFeed extends Component {
    * the dom el id name of the circuit feed content panel
    * @type {string}
    */
-  static circuitContentFeedPanelID =
-    "pastContentFeedPanel";
+  static circuitContentFeedPanelID = "pastContentFeedPanel";
 
   /**
    * this is the name of the meta property field which the talk message uses
@@ -61,13 +60,12 @@ export default class PastTroubleshootFeed extends Component {
     this.pastChatMembersNotActive = [];
   }
 
-
   /**
    * event handle for the vertical panel resize. Adjust the feed panel height
    * when we are resizing so things look nice
    * @param size
    */
-  onSecondaryPaneSizeChange = size => {
+  onSecondaryPaneSizeChange = (size) => {
     document.getElementById(
       PastTroubleshootFeed.circuitContentFeedPanelID
     ).style.height =
@@ -163,10 +161,9 @@ export default class PastTroubleshootFeed extends Component {
    * have the same username.
    * @param component
    */
-  setLastFeedEventComponent = component => {
+  setLastFeedEventComponent = (component) => {
     this.lastFeedEvent = component;
   };
-
 
   /**
    * renders our active feed component into the current resource view
@@ -189,24 +186,25 @@ export default class PastTroubleshootFeed extends Component {
         id={PastTroubleshootFeed.circuitContentFeedPanelID}
         style={{
           height: height,
-          padding: "0px"
+          padding: "0px",
         }}
       >
         <Feed
           className="chat-feed"
-          id={PastTroubleshootFeed.activeCircuitFeedElIdString}
+          id={
+            PastTroubleshootFeed.activeCircuitFeedElIdString
+          }
           style={{
-            height: height
+            height: height,
           }}
         >
           {this.getDividerContent(openTimeStr)}
           {this.getFeedEventsFromMessagesArrayContent()}
-          <br/>
+          <br />
         </Feed>
       </Segment>
     );
   }
-
 
   /**
    * adjusts our feed height, and styles. Checks to see if we are paused. if
@@ -215,18 +213,18 @@ export default class PastTroubleshootFeed extends Component {
    */
   adjustFeedHeight() {
     let el = document.getElementById(
-      PastTroubleshootFeed.circuitContentFeedPanelID
+        PastTroubleshootFeed.circuitContentFeedPanelID
       ),
       parentEl = el.parentElement,
       rootEl = parentEl.parentElement,
       children = rootEl.children,
       child = null;
 
-      el.style.height = "100%";
-      parentEl.style.height = "100%";
-      for (let i = 1; i < children.length; i++) {
-        child = children[i];
-        child.style.display = "none";
+    el.style.height = "100%";
+    parentEl.style.height = "100%";
+    for (let i = 1; i < children.length; i++) {
+      child = children[i];
+      child.style.display = "none";
     }
   }
 
@@ -235,7 +233,6 @@ export default class PastTroubleshootFeed extends Component {
    * @returns {JSX.Element}
    */
   getActiveCircuitFeedChatContent() {
-
     let content = this.getActiveCircuitFeedContent(false);
 
     return content;
@@ -248,20 +245,18 @@ export default class PastTroubleshootFeed extends Component {
     this.props.hideSlidePanel();
   };
 
-
   /**
    * renders the active circuit feed into the console view
    * @returns {*}
    */
   render() {
     return (
-      <div
-        id="component"
-        className="retroSlidePanel"
-      >
+      <div id="component" className="retroSlidePanel">
         <Segment inverted>
           <Menu icon inverted fluid secondary>
-            <Menu.Item header className="troubleHeader">Troubleshooting Session</Menu.Item>
+            <Menu.Item header className="troubleHeader">
+              Troubleshooting Session
+            </Menu.Item>
             <Menu.Item
               link
               position="right"
@@ -269,13 +264,11 @@ export default class PastTroubleshootFeed extends Component {
               onClick={this.handleClick}
             />
           </Menu>
-            <div id="component" className="pastSessionFeed">
-              {this.getActiveCircuitFeedChatContent()}
-            </div>
+          <div id="component" className="pastSessionFeed">
+            {this.getActiveCircuitFeedChatContent()}
+          </div>
         </Segment>
       </div>
-
-
     );
   }
 }

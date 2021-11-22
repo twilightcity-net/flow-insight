@@ -8,7 +8,9 @@ const BaseController = require("./BaseController"),
  * This class is used to coordinate controllers across the journal service
  * @type {TeamController}
  */
-module.exports = class TeamController extends BaseController {
+module.exports = class TeamController extends (
+  BaseController
+) {
   /**
    * builds our Journal Client controller class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -32,7 +34,7 @@ module.exports = class TeamController extends BaseController {
       LOAD_ALL_MY_TEAMS: "load-all-my-teams",
       GET_MY_HOME_TEAM: "get-my-home-team",
       GET_ALL_MY_TEAMS: "get-all-my-teams",
-      GET_ACTIVE_HOUSE: "get-active-house"
+      GET_ACTIVE_HOUSE: "get-active-house",
     };
   }
 
@@ -116,7 +118,7 @@ module.exports = class TeamController extends BaseController {
       TeamController.Names.GET_MY_HOME_TEAM,
       TeamController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadMyHomeTeamCallback(
           store,
           event,
@@ -184,7 +186,7 @@ module.exports = class TeamController extends BaseController {
       TeamController.Names.GET_ALL_MY_TEAMS,
       TeamController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadAllMyTeamsCallback(
           store,
           event,
@@ -225,7 +227,7 @@ module.exports = class TeamController extends BaseController {
         );
 
       if (teams && teams.length > 0) {
-        teams.forEach(t => {
+        teams.forEach((t) => {
           let teamMembers = t.teamMembers;
           for (let i = 0; i < teamMembers.length; i++) {
             this.findRemoveXInsertDoc(
@@ -302,7 +304,7 @@ module.exports = class TeamController extends BaseController {
     let house = {
       houseId: connectionStatus.houseId,
       houseName: connectionStatus.houseName,
-      houseDomainName: connectionStatus.houseDomainName
+      houseDomainName: connectionStatus.houseDomainName,
     };
 
     arg.data = house;

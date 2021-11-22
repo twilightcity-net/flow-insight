@@ -11,7 +11,7 @@ const helpSubmenu = [
         "[AppMenu] open browser-> http://twilightcity.net/"
       );
       Util.openExternalBrowser("http://twilightcity.net/");
-    }
+    },
   },
   {
     label: "Deactivate TC",
@@ -20,8 +20,8 @@ const helpSubmenu = [
         "[AppMenu] deactivate and reset Twilight City"
       );
       Util.deleteSettings();
-    }
-  }
+    },
+  },
 ];
 
 class AppMenuException extends Error {
@@ -69,17 +69,17 @@ module.exports = class AppMenu extends Menu {
           { role: "paste" },
           { role: "pasteandmatchstyle" },
           { role: "delete" },
-          { role: "selectall" }
-        ]
+          { role: "selectall" },
+        ],
       },
       {
         role: "window",
-        submenu: [{ role: "minimize" }, { role: "close" }]
+        submenu: [{ role: "minimize" }, { role: "close" }],
       },
       {
         role: "help",
-        submenu: helpSubmenu
-      }
+        submenu: helpSubmenu,
+      },
     ];
   }
 
@@ -96,8 +96,8 @@ module.exports = class AppMenu extends Menu {
           { role: "hideothers" },
           { role: "unhide" },
           { type: "separator" },
-          { role: "quit" }
-        ]
+          { role: "quit" },
+        ],
       },
       {
         label: "Edit",
@@ -105,35 +105,35 @@ module.exports = class AppMenu extends Menu {
           {
             label: "Undo",
             accelerator: "CmdOrCtrl+Z",
-            selector: "undo:"
+            selector: "undo:",
           },
           {
             label: "Redo",
             accelerator: "Shift+CmdOrCtrl+Z",
-            selector: "redo:"
+            selector: "redo:",
           },
           { type: "separator" },
           {
             label: "Cut",
             accelerator: "CmdOrCtrl+X",
-            selector: "cut:"
+            selector: "cut:",
           },
           {
             label: "Copy",
             accelerator: "CmdOrCtrl+C",
-            selector: "copy:"
+            selector: "copy:",
           },
           {
             label: "Paste",
             accelerator: "CmdOrCtrl+V",
-            selector: "paste:"
+            selector: "paste:",
           },
           {
             label: "Select All",
             accelerator: "CmdOrCtrl+A",
-            selector: "selectAll:"
-          }
-        ]
+            selector: "selectAll:",
+          },
+        ],
       },
       {
         role: "window",
@@ -141,20 +141,20 @@ module.exports = class AppMenu extends Menu {
           {
             role: "displays",
             label: "Displays",
-            submenu: this.getDisplaysSubmenu()
+            submenu: this.getDisplaysSubmenu(),
           },
           { type: "separator" },
           { role: "close" },
           { role: "minimize" },
           { type: "separator" },
           { role: "front" },
-          { type: "separator" }
-        ]
+          { type: "separator" },
+        ],
       },
       {
         role: "help",
-        submenu: helpSubmenu
-      }
+        submenu: helpSubmenu,
+      },
     ];
   }
 
@@ -164,13 +164,14 @@ module.exports = class AppMenu extends Menu {
    */
   static getDisplaysSubmenu() {
     let displays = global.App.WindowManager.getDisplays(),
-      defaultDisplay = global.App.AppSettings.getDisplayIndex(),
+      defaultDisplay =
+        global.App.AppSettings.getDisplayIndex(),
       arrLen = displays.length,
       menuItems = [],
       arrPos = 1,
       label = "";
 
-    displays.forEach(display => {
+    displays.forEach((display) => {
       label +=
         "Display " +
         arrPos +
@@ -184,12 +185,12 @@ module.exports = class AppMenu extends Menu {
       menuItems.push({
         label: label,
         index: arrPos - 1,
-        click: event => {
+        click: (event) => {
           console.log(event);
           global.App.AppSettings.setDisplayIndex(
             event.index
           );
-        }
+        },
       });
       arrPos += 1;
       label = "";

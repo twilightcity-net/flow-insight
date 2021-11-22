@@ -32,7 +32,7 @@ class DtoClientFactory {
   static get RequestTypes() {
     return {
       POST: "post",
-      GET: "get"
+      GET: "get",
     };
   }
 }
@@ -49,7 +49,7 @@ class DtoClient {
     this.callback = callback;
     this.timeout = {
       response: 30000,
-      deadline: 30000
+      deadline: 30000,
     };
   }
 
@@ -148,5 +148,5 @@ class DtoClient {
 
 module.exports = {
   DtoClientFactory: DtoClientFactory,
-  DtoClient: DtoClient
+  DtoClient: DtoClient,
 };

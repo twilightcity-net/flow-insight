@@ -24,7 +24,7 @@ module.exports = class MemberDatabase extends LokiJS {
   static get Collections() {
     return {
       ME: "me",
-      MEMBERS: "members"
+      MEMBERS: "members",
     };
   }
 
@@ -36,7 +36,7 @@ module.exports = class MemberDatabase extends LokiJS {
   static get Views() {
     return {
       ME: "me",
-      MEMBERS: "members"
+      MEMBERS: "members",
     };
   }
 
@@ -52,7 +52,7 @@ module.exports = class MemberDatabase extends LokiJS {
       USER_NAME: "username",
       EMAIL: "email",
       DISPLAY_NAME: "displayName",
-      FULL_NAME: "fullName"
+      FULL_NAME: "fullName",
     };
   }
 

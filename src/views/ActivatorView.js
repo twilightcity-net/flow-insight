@@ -10,7 +10,7 @@ import {
   Icon,
   Header,
   Segment,
-  Transition
+  Transition,
 } from "semantic-ui-react";
 
 /**
@@ -36,7 +36,7 @@ export default class ActivatorView extends Component {
       termsVisible: false,
       activatingVisible: false,
       successVisible: false,
-      failedVisible: false
+      failedVisible: false,
     };
     this.store = DataStoreFactory.createStore(
       DataStoreFactory.Stores.ACCOUNT_ACTIVATION,
@@ -57,11 +57,11 @@ export default class ActivatorView extends Component {
           .APPACTIVATOR_ACTIVATION_SAVED,
         this,
         this.onActivationSaved
-      )
+      ),
     };
   }
 
-  log = msg => {
+  log = (msg) => {
     console.log(`[${this.constructor.name}] ${msg}`);
   };
 
@@ -87,9 +87,9 @@ export default class ActivatorView extends Component {
     );
     this.store.load(
       new ActivationCodeDto({
-        activationCode: this.tokenKeyValue
+        activationCode: this.tokenKeyValue,
       }),
-      err => {
+      (err) => {
         setTimeout(() => {
           this.onStoreLoadCb(err);
         }, this.activateWaitDelay);
@@ -107,7 +107,7 @@ export default class ActivatorView extends Component {
     if (err) {
       this.store.dto = new this.store.dtoClass({
         message: err,
-        status: "FAILED"
+        status: "FAILED",
       });
       this.showSuccessOrFailureContent();
     } else {
@@ -125,19 +125,19 @@ export default class ActivatorView extends Component {
       termsVisible: false,
       activatingVisible: false,
       successVisible: false,
-      failedVisible: false
+      failedVisible: false,
     });
     setTimeout(() => {
       let accountActivationDto = this.store.dto;
       if (accountActivationDto.isValidToken()) {
         this.setState({
           successVisible: true,
-          finishedMessage: accountActivationDto.message
+          finishedMessage: accountActivationDto.message,
         });
       } else {
         this.setState({
           failedVisible: true,
-          finishedMessage: accountActivationDto.message
+          finishedMessage: accountActivationDto.message,
         });
       }
     }, this.animationTime);
@@ -158,7 +158,7 @@ export default class ActivatorView extends Component {
       value.length === 0
     ) {
       this.setState({
-        submitBtnDisabled: true
+        submitBtnDisabled: true,
       });
     }
     /// filter out for alpha numeric
@@ -179,7 +179,7 @@ export default class ActivatorView extends Component {
       value.length === 32
     ) {
       this.setState({
-        submitBtnDisabled: false
+        submitBtnDisabled: false,
       });
     }
     this.tokenKeyValue = value;
@@ -192,11 +192,11 @@ export default class ActivatorView extends Component {
       termsVisible: false,
       activatingVisible: false,
       successVisible: false,
-      failedVisible: false
+      failedVisible: false,
     });
     setTimeout(() => {
       this.setState({
-        termsVisible: true
+        termsVisible: true,
       });
     }, this.animationTime);
   };
@@ -208,11 +208,11 @@ export default class ActivatorView extends Component {
       termsVisible: false,
       activatingVisible: false,
       successVisible: false,
-      failedVisible: false
+      failedVisible: false,
     });
     setTimeout(() => {
       this.setState({
-        activatingVisible: true
+        activatingVisible: true,
       });
       setTimeout(() => {
         this.processActivationCode();
@@ -231,13 +231,13 @@ export default class ActivatorView extends Component {
       termsVisible: false,
       activatingVisible: false,
       successVisible: false,
-      failedVisible: false
+      failedVisible: false,
     });
     setTimeout(() => {
       this.tokenKeyValue = "";
       this.setState({
         tokenKeyVisible: true,
-        submitBtnDisabled: true
+        submitBtnDisabled: true,
       });
       let input = document.getElementById(
         "activator-view-form-tokenKey-input"

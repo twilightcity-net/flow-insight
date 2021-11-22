@@ -25,7 +25,7 @@ module.exports = class TalkDatabase extends LokiJS {
     return {
       TALK_MESSAGES: "talk-messages",
       STATUS_TALK_MESSAGES: "status-talk-messages",
-      ROOMS: "rooms"
+      ROOMS: "rooms",
     };
   }
 
@@ -41,7 +41,7 @@ module.exports = class TalkDatabase extends LokiJS {
       MESSAGE_TIME: "messageTime",
       NANO_TIME: "nanoTime",
       MESSAGE_TYPE: "messageType",
-      ROOM_NAME: "roomName"
+      ROOM_NAME: "roomName",
     };
   }
 
@@ -54,7 +54,7 @@ module.exports = class TalkDatabase extends LokiJS {
     return {
       TALK_MESSAGES: "talk-messages",
       STATUS_TALK_MESSAGES: "status-talk-messages",
-      ROOMS: "rooms"
+      ROOMS: "rooms",
     };
   }
 
@@ -68,8 +68,8 @@ module.exports = class TalkDatabase extends LokiJS {
     this.addCollection(TalkDatabase.Collections.ROOMS, {
       indices: [
         TalkDatabase.Indices.URI,
-        TalkDatabase.Indices.ROOM_NAME
-      ]
+        TalkDatabase.Indices.ROOM_NAME,
+      ],
     });
     this.getCollection(
       TalkDatabase.Collections.ROOMS
@@ -82,9 +82,8 @@ module.exports = class TalkDatabase extends LokiJS {
    * @param uri
    */
   getCollectionForRoomTalkMessages(uri) {
-    let name = this.getTalkMessagesCollectionNameFromUri(
-        uri
-      ),
+    let name =
+        this.getTalkMessagesCollectionNameFromUri(uri),
       collection = this.getCollection(name),
       view = TalkDatabase.Views.TALK_MESSAGES;
 
@@ -103,9 +102,10 @@ module.exports = class TalkDatabase extends LokiJS {
    * @returns {Collection}
    */
   getCollectionForRoomStatusTalkMessages(uri) {
-    let name = this.getStatusTalkMessagesCollectionNameFromUri(
-        uri
-      ),
+    let name =
+        this.getStatusTalkMessagesCollectionNameFromUri(
+          uri
+        ),
       collection = this.getCollection(name),
       view = TalkDatabase.Views.STATUS_TALK_MESSAGES;
 
@@ -131,8 +131,8 @@ module.exports = class TalkDatabase extends LokiJS {
           TalkDatabase.Indices.URI,
           TalkDatabase.Indices.MESSAGE_TIME,
           TalkDatabase.Indices.NANO_TIME,
-          TalkDatabase.Indices.MESSAGE_TYPE
-        ]
+          TalkDatabase.Indices.MESSAGE_TYPE,
+        ],
       },
       collection = this.addCollection(name, indices);
 
@@ -153,8 +153,8 @@ module.exports = class TalkDatabase extends LokiJS {
           TalkDatabase.Indices.URI,
           TalkDatabase.Indices.MESSAGE_TIME,
           TalkDatabase.Indices.NANO_TIME,
-          TalkDatabase.Indices.MESSAGE_TYPE
-        ]
+          TalkDatabase.Indices.MESSAGE_TYPE,
+        ],
       },
       collection = this.addCollection(name, indices);
 
@@ -218,9 +218,8 @@ module.exports = class TalkDatabase extends LokiJS {
    * @param status
    */
   updateRoomMemberStatus(uri, status) {
-    let collection = this.getCollectionForRoomStatusTalkMessages(
-        uri
-      ),
+    let collection =
+        this.getCollectionForRoomStatusTalkMessages(uri),
       roomMember = status.roomMember,
       memberId = roomMember.memberId,
       statusEvent = status.statusEvent;
@@ -246,7 +245,7 @@ module.exports = class TalkDatabase extends LokiJS {
     if (!room && roomName && uri) {
       rooms.insert({
         roomName: roomName,
-        uri: uri
+        uri: uri,
       });
 
       DatabaseUtil.log("insert room -> " + roomName, uri);

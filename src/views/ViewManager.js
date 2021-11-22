@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import queryString from "query-string";
 import {
   BrowserRouter as Router,
-  Route
+  Route,
 } from "react-router-dom";
 import LoadingView from "./LoadingView";
 import ActivatorView from "./ActivatorView";
@@ -23,7 +23,7 @@ export default class ViewManager extends Component {
     return {
       LOADING: <LoadingView />,
       ACTIVATOR: <ActivatorView />,
-      CONSOLE: <ConsoleView />
+      CONSOLE: <ConsoleView />,
     };
   }
 

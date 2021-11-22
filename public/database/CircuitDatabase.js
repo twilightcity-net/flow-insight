@@ -31,7 +31,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       RETRO: "retro",
       ACTIVE: "active",
       TEAM_CIRCUITS: "team-circuits",
-      CIRCUIT_MEMBERS: "circuit-members"
+      CIRCUIT_MEMBERS: "circuit-members",
     };
   }
 
@@ -49,7 +49,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       RETRO: "retro",
       ACTIVE: "active",
       TEAM_CIRCUITS: "team-circuits",
-      CIRCUIT_MEMBERS: "circuit-members"
+      CIRCUIT_MEMBERS: "circuit-members",
     };
   }
 
@@ -75,7 +75,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       MEMBER_ID: "memberId",
       FULL_NAME: "fullName",
       DISPLAY_NAME: "displayName",
-      USERNAME: "username"
+      USERNAME: "username",
     };
   }
 
@@ -95,8 +95,8 @@ module.exports = class CircuitDatabase extends LokiJS {
           CircuitDatabase.Indices.OWNER_ID,
           CircuitDatabase.Indices.OPEN_TIME,
           CircuitDatabase.Indices.CLOSE_TIME,
-          CircuitDatabase.Indices.CIRCUIT_STATE
-        ]
+          CircuitDatabase.Indices.CIRCUIT_STATE,
+        ],
       }
     );
     this.addCollection(
@@ -108,8 +108,8 @@ module.exports = class CircuitDatabase extends LokiJS {
           CircuitDatabase.Indices.OWNER_ID,
           CircuitDatabase.Indices.OPEN_TIME,
           CircuitDatabase.Indices.CLOSE_TIME,
-          CircuitDatabase.Indices.CIRCUIT_STATE
-        ]
+          CircuitDatabase.Indices.CIRCUIT_STATE,
+        ],
       }
     );
     this.addCollection(CircuitDatabase.Collections.LATER, {
@@ -119,8 +119,8 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATE
-      ]
+        CircuitDatabase.Indices.CIRCUIT_STATE,
+      ],
     });
     this.addCollection(CircuitDatabase.Collections.SOLVED, {
       indices: [
@@ -129,8 +129,8 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATE
-      ]
+        CircuitDatabase.Indices.CIRCUIT_STATE,
+      ],
     });
 
     this.addCollection(CircuitDatabase.Collections.RETRO, {
@@ -140,8 +140,8 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATE
-      ]
+        CircuitDatabase.Indices.CIRCUIT_STATE,
+      ],
     });
     this.addCollection(CircuitDatabase.Collections.ACTIVE, {
       indices: [
@@ -150,8 +150,8 @@ module.exports = class CircuitDatabase extends LokiJS {
         CircuitDatabase.Indices.OWNER_ID,
         CircuitDatabase.Indices.OPEN_TIME,
         CircuitDatabase.Indices.CLOSE_TIME,
-        CircuitDatabase.Indices.CIRCUIT_STATE
-      ]
+        CircuitDatabase.Indices.CIRCUIT_STATE,
+      ],
     });
     this.addCollection(
       CircuitDatabase.Collections.TEAM_CIRCUITS,
@@ -163,8 +163,8 @@ module.exports = class CircuitDatabase extends LokiJS {
           CircuitDatabase.Indices.OWNER_ID,
           CircuitDatabase.Indices.OWNER_NAME,
           CircuitDatabase.Indices.MODERATOR_ID,
-          CircuitDatabase.Indices.MODERATOR_NAME
-        ]
+          CircuitDatabase.Indices.MODERATOR_NAME,
+        ],
       }
     );
     this.getCollection(
@@ -176,14 +176,14 @@ module.exports = class CircuitDatabase extends LokiJS {
     ).addDynamicView(CircuitDatabase.Views.PARTICIPATING);
 
     participatingView.applyFind({
-      circuitState: "TROUBLESHOOT"
+      circuitState: "TROUBLESHOOT",
     });
 
     let laterView = this.getCollection(
       CircuitDatabase.Collections.LATER
     ).addDynamicView(CircuitDatabase.Views.LATER);
 
-    laterView.applySort(function(obj1, obj2) {
+    laterView.applySort(function (obj1, obj2) {
       if (
         obj1.totalCircuitElapsedNanoTime ===
         obj2.totalCircuitElapsedNanoTime
@@ -205,7 +205,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       CircuitDatabase.Collections.RETRO
     ).addDynamicView(CircuitDatabase.Views.RETRO);
 
-    retroView.applySort(function(obj1, obj2) {
+    retroView.applySort(function (obj1, obj2) {
       if (
         obj1.totalCircuitElapsedNanoTime ===
         obj2.totalCircuitElapsedNanoTime
@@ -227,7 +227,7 @@ module.exports = class CircuitDatabase extends LokiJS {
       CircuitDatabase.Collections.SOLVED
     ).addDynamicView(CircuitDatabase.Views.SOLVED);
 
-    solvedView.applySort(function(obj1, obj2) {
+    solvedView.applySort(function (obj1, obj2) {
       if (
         obj1.totalCircuitElapsedNanoTime ===
         obj2.totalCircuitElapsedNanoTime
@@ -580,7 +580,6 @@ module.exports = class CircuitDatabase extends LokiJS {
    * @param circuit
    */
   solveActiveCircuit(circuit) {
-
     let collection = this.getCollection(
       CircuitDatabase.Collections.CIRCUITS
     );
@@ -622,7 +621,6 @@ module.exports = class CircuitDatabase extends LokiJS {
     );
   }
 
-
   /**
    * starts a retro for circuit based on talk message event
    * @param circuit
@@ -633,10 +631,7 @@ module.exports = class CircuitDatabase extends LokiJS {
     );
 
     DatabaseUtil.findUpdateInsert(circuit, collection);
-    DatabaseUtil.log(
-      "update circuit -> RETRO",
-      circuit.id
-    );
+    DatabaseUtil.log("update circuit -> RETRO", circuit.id);
 
     collection = this.getCollection(
       CircuitDatabase.Collections.SOLVED
@@ -653,13 +648,8 @@ module.exports = class CircuitDatabase extends LokiJS {
     );
 
     DatabaseUtil.findUpdateInsert(circuit, collection);
-    DatabaseUtil.log(
-      "insert circuit -> RETRO",
-      circuit.id
-    );
-
+    DatabaseUtil.log("insert circuit -> RETRO", circuit.id);
   }
-
 
   /**
    * finds and removes a circuit by id by a given name
@@ -718,8 +708,8 @@ module.exports = class CircuitDatabase extends LokiJS {
           CircuitDatabase.Indices.ID,
           CircuitDatabase.Indices.FULL_NAME,
           CircuitDatabase.Indices.DISPLAY_NAME,
-          CircuitDatabase.Indices.USERNAME
-        ]
+          CircuitDatabase.Indices.USERNAME,
+        ],
       },
       collection = this.addCollection(name, indices);
 
@@ -752,9 +742,8 @@ module.exports = class CircuitDatabase extends LokiJS {
    * @param uri
    */
   getCollectionForCircuitMembers(uri) {
-    let name = this.getCircuitMembersCollectionNameFromUri(
-        uri
-      ),
+    let name =
+        this.getCircuitMembersCollectionNameFromUri(uri),
       collection = this.getCollection(name),
       view = CircuitDatabase.Views.CIRCUIT_MEMBERS;
 

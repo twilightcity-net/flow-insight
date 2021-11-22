@@ -45,7 +45,7 @@ async function scrollTo(el, options = {}) {
   };
   const currentScrollPosition = getScrollPosition(el);
   const scrollProperty = getScrollPropertyByElement(el);
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     scroll(
       currentScrollPosition,
       typeof options.top === "number"
@@ -63,12 +63,12 @@ function getScrollPropertyByElement(el) {
   const props = {
     window: {
       y: "scrollY",
-      x: "scrollX"
+      x: "scrollX",
     },
     element: {
       y: "scrollTop",
-      x: "scrollLeft"
-    }
+      x: "scrollLeft",
+    },
   };
   const axis = "y";
   if (el instanceof Window) {
@@ -120,7 +120,7 @@ const utils = {
   // we're really just exporting this so that tests can mock the document.documentElement
   getDocument() {
     return document;
-  }
+  },
 };
 const easingMap = {
   linear(t) {
@@ -134,9 +134,9 @@ const easingMap = {
   },
   "ease-in-out"(t) {
     return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-  }
+  },
 };
-const getEasing = easing => {
+const getEasing = (easing) => {
   const defaultEasing = "linear";
   const easeFunc = easingMap[easing || defaultEasing];
   if (!easeFunc) {

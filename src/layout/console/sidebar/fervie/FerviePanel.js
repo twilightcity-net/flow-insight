@@ -8,7 +8,7 @@ import {
   Popup,
   Progress,
   Segment,
-  Transition
+  Transition,
 } from "semantic-ui-react";
 import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
@@ -39,18 +39,18 @@ export default class FerviePanel extends Component {
       {
         key: 0,
         value: FerviePanel.Colorables.FUR,
-        text: FerviePanel.Colorables.FUR
+        text: FerviePanel.Colorables.FUR,
       },
       {
         key: 1,
         value: FerviePanel.Colorables.SHOES,
-        text: FerviePanel.Colorables.SHOES
+        text: FerviePanel.Colorables.SHOES,
       },
       {
         key: 2,
         value: FerviePanel.Colorables.ACCESSORY,
-        text: FerviePanel.Colorables.ACCESSORY
-      }
+        text: FerviePanel.Colorables.ACCESSORY,
+      },
     ];
 
     this.render3d = false;
@@ -58,9 +58,10 @@ export default class FerviePanel extends Component {
       SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay =
       SidePanelViewController.AnimationDelays.SUBMENU;
-    this.myController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.CONSOLE_SIDEBAR
-    );
+    this.myController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.CONSOLE_SIDEBAR
+      );
 
     let fervieColor = MemberClient.me.fervieColor;
     let fervieSecondaryColor =
@@ -103,22 +104,23 @@ export default class FerviePanel extends Component {
       fervieTertiaryColor: fervieTertiaryColor,
       fervieAccessory: fervieAccessory,
       whatToColor: FerviePanel.Colorables.FUR,
-      activeSkill: null
+      activeSkill: null,
     };
     this.me = MemberClient.me;
 
-    this.talkRoomMessageListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.TALK_MESSAGE_ROOM,
-      this,
-      this.onTalkRoomMessage
-    );
+    this.talkRoomMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_ROOM,
+        this,
+        this.onTalkRoomMessage
+      );
   }
 
   static get Colorables() {
     return {
       FUR: "Fur",
       SHOES: "Shoes",
-      ACCESSORY: "Accessory"
+      ACCESSORY: "Accessory",
     };
   }
 
@@ -147,7 +149,7 @@ export default class FerviePanel extends Component {
     let data = arg.data;
 
     this.setState({
-      xpSummary: data.newXPSummary
+      xpSummary: data.newXPSummary,
     });
   }
 
@@ -160,7 +162,7 @@ export default class FerviePanel extends Component {
         SidePanelViewController.SubmenuSelection.FERVIE,
       fervieVisible: true,
       badgesVisible: false,
-      skillsVisible: false
+      skillsVisible: false,
     });
   }
 
@@ -173,7 +175,7 @@ export default class FerviePanel extends Component {
         SidePanelViewController.SubmenuSelection.BADGES,
       fervieVisible: false,
       badgesVisible: true,
-      skillsVisible: false
+      skillsVisible: false,
     });
   }
 
@@ -186,7 +188,7 @@ export default class FerviePanel extends Component {
         SidePanelViewController.SubmenuSelection.SKILLS,
       fervieVisible: false,
       badgesVisible: false,
-      skillsVisible: true
+      skillsVisible: true,
     });
   }
 
@@ -275,7 +277,7 @@ export default class FerviePanel extends Component {
       <div
         className="badgesContent"
         style={{
-          height: 443
+          height: 443,
         }}
       >
         <i>Check back later :)</i>
@@ -292,7 +294,7 @@ export default class FerviePanel extends Component {
       <div
         className="fervieSkillsContent"
         style={{
-          height: 443
+          height: 443,
         }}
       >
         <List
@@ -320,8 +322,8 @@ export default class FerviePanel extends Component {
             }
             accessoryName={"Sunglasses"}
             fervieAccessory={"SUNGLASSES"}
-            onSkillItemClick={itemComp => {
-              this.setState(prevState => {
+            onSkillItemClick={(itemComp) => {
+              this.setState((prevState) => {
                 if (
                   prevState.fervieAccessory ===
                   itemComp.props.fervieAccessory
@@ -334,7 +336,7 @@ export default class FerviePanel extends Component {
                   );
                   return {
                     fervieAccessory: null,
-                    fervieTertiaryColor: null
+                    fervieTertiaryColor: null,
                   };
                 } else {
                   this.saveFervieDetailsToServer(
@@ -347,7 +349,7 @@ export default class FerviePanel extends Component {
                   return {
                     fervieAccessory:
                       itemComp.props.fervieAccessory,
-                    fervieTertiaryColor: "#000000"
+                    fervieTertiaryColor: "#000000",
                   };
                 }
               });
@@ -370,8 +372,8 @@ export default class FerviePanel extends Component {
             }
             accessoryName={"Sunglasses"}
             fervieAccessory={"HEARTGLASSES"}
-            onSkillItemClick={itemComp => {
-              this.setState(prevState => {
+            onSkillItemClick={(itemComp) => {
+              this.setState((prevState) => {
                 if (
                   prevState.fervieAccessory ===
                   itemComp.props.fervieAccessory
@@ -384,7 +386,7 @@ export default class FerviePanel extends Component {
                   );
                   return {
                     fervieAccessory: null,
-                    fervieTertiaryColor: null
+                    fervieTertiaryColor: null,
                   };
                 } else {
                   this.saveFervieDetailsToServer(
@@ -396,7 +398,7 @@ export default class FerviePanel extends Component {
                   return {
                     fervieAccessory:
                       itemComp.props.fervieAccessory,
-                    fervieTertiaryColor: "#A12E79"
+                    fervieTertiaryColor: "#A12E79",
                   };
                 }
               });
@@ -465,7 +467,7 @@ export default class FerviePanel extends Component {
     return (
       <div
         style={{
-          height: 364
+          height: 364,
         }}
       >
         <FervieCanvas
@@ -488,10 +490,10 @@ export default class FerviePanel extends Component {
    */
   handleColorDoneOnClick = () => {
     let fervieColor = this.state.fervieColor;
-    let fervieSecondaryColor = this.state
-      .fervieSecondaryColor;
-    let fervieTertiaryColor = this.state
-      .fervieTertiaryColor;
+    let fervieSecondaryColor =
+      this.state.fervieSecondaryColor;
+    let fervieTertiaryColor =
+      this.state.fervieTertiaryColor;
 
     //make sure we apply the last color setting, and figure out what needs to be sent to server
     if (
@@ -499,7 +501,7 @@ export default class FerviePanel extends Component {
     ) {
       fervieColor = this.state.color;
       this.setState({
-        fervieColor: this.state.color
+        fervieColor: this.state.color,
       });
     } else if (
       this.state.whatToColor ===
@@ -507,7 +509,7 @@ export default class FerviePanel extends Component {
     ) {
       fervieSecondaryColor = this.state.color;
       this.setState({
-        fervieSecondaryColor: this.state.color
+        fervieSecondaryColor: this.state.color,
       });
     } else if (
       this.state.whatToColor ===
@@ -515,7 +517,7 @@ export default class FerviePanel extends Component {
     ) {
       fervieTertiaryColor = this.state.color;
       this.setState({
-        fervieTertiaryColor: this.state.color
+        fervieTertiaryColor: this.state.color,
       });
     }
 
@@ -526,7 +528,7 @@ export default class FerviePanel extends Component {
       fervieTertiaryColor,
       this.state.fervieAccessory,
       this,
-      arg => {
+      (arg) => {
         if (!arg.error && arg.data) {
           console.log("Saved");
         } else {
@@ -551,7 +553,7 @@ export default class FerviePanel extends Component {
       tertiaryColor,
       accessory,
       this,
-      arg => {
+      (arg) => {
         if (!arg.error && arg.data) {
           console.log("Saved");
         } else {
@@ -568,21 +570,21 @@ export default class FerviePanel extends Component {
     ) {
       //existing color state, we need to copy out to the particular variable type
       this.setState({
-        fervieColor: this.state.color
+        fervieColor: this.state.color,
       });
     } else if (
       this.state.whatToColor ===
       FerviePanel.Colorables.SHOES
     ) {
       this.setState({
-        fervieSecondaryColor: this.state.color
+        fervieSecondaryColor: this.state.color,
       });
     } else if (
       this.state.whatToColor ===
       FerviePanel.Colorables.ACCESSORY
     ) {
       this.setState({
-        fervieTertiaryColor: this.state.color
+        fervieTertiaryColor: this.state.color,
       });
     }
 
@@ -597,7 +599,7 @@ export default class FerviePanel extends Component {
 
     this.setState({
       color: newColor,
-      whatToColor: value
+      whatToColor: value,
     });
   };
 
@@ -659,7 +661,7 @@ export default class FerviePanel extends Component {
           style={{
             margin: "auto",
             height: 150,
-            width: 122
+            width: 122,
           }}
         >
           <FervieCanvas
@@ -689,19 +691,19 @@ export default class FerviePanel extends Component {
           style={{
             height:
               DimensionController.getConsoleLayoutHeight() -
-              287
+              287,
           }}
         >
           <HexColorPicker
             color={this.state.color}
-            onChange={color => {
+            onChange={(color) => {
               if (
                 this.state.whatToColor ===
                 FerviePanel.Colorables.FUR
               ) {
                 this.setState({
                   color: color,
-                  fervieColor: color
+                  fervieColor: color,
                 });
               } else if (
                 this.state.whatToColor ===
@@ -709,7 +711,7 @@ export default class FerviePanel extends Component {
               ) {
                 this.setState({
                   color: color,
-                  fervieSecondaryColor: color
+                  fervieSecondaryColor: color,
                 });
               } else if (
                 this.state.whatToColor ===
@@ -717,7 +719,7 @@ export default class FerviePanel extends Component {
               ) {
                 this.setState({
                   color: color,
-                  fervieTertiaryColor: color
+                  fervieTertiaryColor: color,
                 });
               }
             }}
@@ -767,8 +769,9 @@ export default class FerviePanel extends Component {
         className="consoleSidebarPanel ferviePanel"
         style={{
           width: "100%",
-          height: DimensionController.getConsoleLayoutHeight(),
-          opacity: 1
+          height:
+            DimensionController.getConsoleLayoutHeight(),
+          opacity: 1,
         }}
       >
         <Segment.Group>

@@ -42,7 +42,7 @@ export class TeamClient extends BaseClient {
       LOAD_ALL_MY_TEAMS: "load-all-my-teams",
       GET_MY_HOME_TEAM: "get-my-home-team",
       GET_ALL_MY_TEAMS: "get-all-my-teams",
-      GET_ACTIVE_HOUSE: "get-active-house"
+      GET_ACTIVE_HOUSE: "get-active-house",
     };
   }
 
@@ -53,7 +53,7 @@ export class TeamClient extends BaseClient {
   static init(scope) {
     if (!TeamClient.instance) {
       TeamClient.instance = new TeamClient(scope);
-      TeamClient.getActiveHouse(this, arg => {
+      TeamClient.getActiveHouse(this, (arg) => {
         TeamClient.houseName = arg.data.houseName;
       });
     }

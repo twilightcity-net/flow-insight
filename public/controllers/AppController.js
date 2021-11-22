@@ -5,7 +5,9 @@ const AppError = require("../app/AppError"),
  * This class is used to coordinate controllers across the app classes
  * @type {AppController}
  */
-module.exports = class AppController extends BaseController {
+module.exports = class AppController extends (
+  BaseController
+) {
   /**
    *
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -32,10 +34,10 @@ module.exports = class AppController extends BaseController {
    */
   static configureEvents() {
     BaseController.configEvents(AppController.instance);
-    process.on("uncaughtException", error => {
+    process.on("uncaughtException", (error) => {
       AppError.handleError(error, true);
     });
-    process.on("unhandledRejection", error => {
+    process.on("unhandledRejection", (error) => {
       AppError.handleError(error, true);
     });
   }

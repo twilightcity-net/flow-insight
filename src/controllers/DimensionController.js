@@ -31,7 +31,7 @@ export class DimensionController {
       CONSOLE_LAYOUT: "[ConsoleLayout]",
       TROUBLESHOOT: "[Troubleshoot]",
       SIDEBAR_PANEL: "[SidebarPanel]",
-      CIRCUIT_SIDEBAR: "[CircuitSidebar]"
+      CIRCUIT_SIDEBAR: "[CircuitSidebar]",
     };
   }
 
@@ -41,9 +41,8 @@ export class DimensionController {
    */
   static init(scope) {
     if (!DimensionController.instance) {
-      DimensionController.instance = new DimensionController(
-        scope
-      );
+      DimensionController.instance =
+        new DimensionController(scope);
     }
   }
 
@@ -57,14 +56,13 @@ export class DimensionController {
       margin: 24,
       padding: 8,
       header: 51,
-      content: 0
+      content: 0,
     };
     return (
       window.innerHeight -
       heights.border -
       heights.margin -
       heights.padding -
-      heights.header -
       heights.content
     );
   }
@@ -79,7 +77,7 @@ export class DimensionController {
       margin: 12,
       padding: 12,
       header: 51,
-      entry: isEntryShowing ? 50 : 0
+      entry: isEntryShowing ? 50 : 0,
     };
     return (
       window.innerHeight -
@@ -127,7 +125,7 @@ export class DimensionController {
     let heights = {
       rootBorder: 4,
       contentMargin: 1,
-      contentHeader: 34
+      contentHeader: 34,
     };
     return (
       window.innerHeight -
@@ -145,7 +143,7 @@ export class DimensionController {
     let heights = {
       rootBorder: 4,
       contentMargin: 1,
-      contentHeader: 34
+      contentHeader: 34,
     };
     return (
       window.innerHeight -
@@ -164,7 +162,7 @@ export class DimensionController {
       window: window.innerHeight,
       border: 2,
       margin: 20,
-      canvas: 0
+      canvas: 0,
     };
     return (
       heights.window -
@@ -181,7 +179,7 @@ export class DimensionController {
   static getConsoleLayoutHeight() {
     let heights = {
       window: window.innerHeight,
-      border: 0
+      border: 0,
     };
     return heights.window - heights.border;
   }
@@ -196,7 +194,7 @@ export class DimensionController {
       window: window.innerHeight,
       border: Math.ceil(1.68 * oneRem),
       margin: Math.ceil(1.68 * oneRem),
-      header: 52
+      header: 52,
     };
     return (
       heights.window -
@@ -222,7 +220,7 @@ export class DimensionController {
         margin: Math.ceil(1.68 * oneRem),
         padding: Math.ceil(0.84 * oneRem),
         chat: size,
-        header: Math.ceil(10.14 * oneRem)
+        header: Math.ceil(10.14 * oneRem),
       };
       newSize =
         heights.window -
@@ -238,7 +236,7 @@ export class DimensionController {
         margin: Math.ceil(1.68 * oneRem),
         padding: Math.ceil(0.84 * oneRem),
         chat: DimensionController.getActiveCircuitContentChatMinHeightDefault(),
-        header: Math.ceil(10.14 * oneRem)
+        header: Math.ceil(10.14 * oneRem),
       };
       newSize =
         heights.window -
@@ -298,7 +296,6 @@ export class DimensionController {
     return 44.42 * oneRem;
   }
 
-
   /**
    * calculates the height for the circuit scrapbook panel
    * @returns {number}
@@ -307,7 +304,6 @@ export class DimensionController {
     let oneRem = window.innerHeight / 100;
     return 100.42 * oneRem;
   }
-
 
   /**
    * calculate the default resize panel width for the circuit scrapbook
@@ -333,7 +329,7 @@ export class DimensionController {
       header: 52,
       padding: Math.ceil(1.26 * oneRem),
       footer: Math.ceil(14 * oneRem),
-      timer: Math.ceil(20 * oneRem)
+      timer: Math.ceil(20 * oneRem),
     };
     return (
       heights.window -
@@ -370,7 +366,7 @@ export class DimensionController {
    */
   static getConsoleSidebarHeight() {
     let heights = {
-      rootBorder: 2
+      rootBorder: 2,
     };
     return window.innerHeight - heights.rootBorder;
   }

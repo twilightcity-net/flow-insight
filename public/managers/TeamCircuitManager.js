@@ -25,7 +25,7 @@ module.exports = class TeamCircuitManager {
     TeamCircuitController.instance.handleLoadAllMyTeamCircuitsEvent(
       {},
       { args: {} },
-      arg => {
+      (arg) => {
         let circuits = arg.data;
         if (circuits && circuits.length > 0) {
           for (
@@ -46,13 +46,13 @@ module.exports = class TeamCircuitManager {
               {},
               {
                 id: roomId,
-                type:
-                  TalkToController.Names.JOIN_EXISTING_ROOM,
+                type: TalkToController.Names
+                  .JOIN_EXISTING_ROOM,
                 args: {
-                  roomName: roomName
-                }
+                  roomName: roomName,
+                },
               },
-              arg => {
+              (arg) => {
                 this.handleInitCallback(callback, arg);
               }
             );

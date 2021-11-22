@@ -17,12 +17,13 @@ export default class StartCircuit extends Component {
     this.name = "[StartCircuit]";
     this.state = {
       resource: props.resource,
-      isLoading: false
+      isLoading: false,
     };
-    this.myController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.RESOURCES,
-      this
-    );
+    this.myController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.RESOURCES,
+        this
+      );
   }
 
   /**
@@ -33,7 +34,7 @@ export default class StartCircuit extends Component {
       return;
     }
     this.setState({
-      isLoading: true
+      isLoading: true,
     });
     return this.myController.startCircuit();
   };
@@ -86,7 +87,7 @@ export default class StartCircuit extends Component {
           style={{
             height: DimensionController.getHeightFor(
               DimensionController.Components.TROUBLESHOOT
-            )
+            ),
           }}
         >
           <div className="content">

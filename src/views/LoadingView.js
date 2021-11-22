@@ -8,7 +8,7 @@ import {
   Icon,
   Progress,
   Segment,
-  Transition
+  Transition,
 } from "semantic-ui-react";
 
 /**
@@ -27,16 +27,16 @@ export default class LoadingView extends Component {
     this.header = {
       title: "Twilight City",
       text: "Loading...",
-      icon: "hand spock outline"
+      icon: "hand spock outline",
     };
     this.progress = {
       color: "violet",
       value: 0,
       total: 3,
-      label: "Populating cats and synthesizers"
+      label: "Populating cats and synthesizers",
     };
     this.state = {
-      appVersion: "TC_0.5.8",
+      appVersion: "TC_0.5.9",
       visible: true,
       header: this.header,
       progress: this.progress,
@@ -44,7 +44,7 @@ export default class LoadingView extends Component {
       loginFailedVisible: false,
       loginFailedMsg: "",
       talkFailedVisible: false,
-      talkFailedMsg: ""
+      talkFailedMsg: "",
     };
     this.events = {
       load: RendererEventFactory.createEvent(
@@ -66,7 +66,7 @@ export default class LoadingView extends Component {
       quit: RendererEventFactory.createEvent(
         RendererEventFactory.Events.APP_QUIT,
         this
-      )
+      ),
     };
   }
 
@@ -79,7 +79,7 @@ export default class LoadingView extends Component {
     console.log(
       "[LoadingView] event -> APPLOADER_LOAD : " + arg.load
     );
-    this.setState(state => {
+    this.setState((state) => {
       this.updateHeaderText(arg.text);
       this.updateProgress(arg.value, arg.total, arg.label);
     });
@@ -97,12 +97,12 @@ export default class LoadingView extends Component {
     setTimeout(() => {
       this.setState({
         progressVisible: false,
-        loginFailedMsg: arg.message
+        loginFailedMsg: arg.message,
       });
     }, this.animationTime * 3);
     setTimeout(() => {
       this.setState({
-        loginFailedVisible: true
+        loginFailedVisible: true,
       });
     }, this.animationTime * 4);
   }
@@ -118,12 +118,12 @@ export default class LoadingView extends Component {
     setTimeout(() => {
       this.setState({
         progressVisible: false,
-        talkFailedMsg: arg.message
+        talkFailedMsg: arg.message,
       });
     }, this.animationTime * 3);
     setTimeout(() => {
       this.setState({
-        talkFailedVisible: true
+        talkFailedVisible: true,
       });
     }, this.animationTime * 4);
   }

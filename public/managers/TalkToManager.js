@@ -47,10 +47,10 @@ module.exports = class TalkToManager {
         id: roomId,
         type: TalkToController.Names.JOIN_EXISTING_ROOM,
         args: {
-          roomName: roomId
-        }
+          roomName: roomId,
+        },
       },
-      arg => {
+      (arg) => {
         log.info(
           chalk.green(this.name) +
             " joined -> " +

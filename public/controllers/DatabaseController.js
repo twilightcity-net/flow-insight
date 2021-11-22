@@ -8,7 +8,9 @@ const log = require("electron-log"),
  * our controller used by our database farm
  * @type {DatabaseController}
  */
-module.exports = class DatabaseController extends BaseController {
+module.exports = class DatabaseController extends (
+  BaseController
+) {
   /**
    *
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -28,7 +30,7 @@ module.exports = class DatabaseController extends BaseController {
    */
   static get Events() {
     return {
-      CREATE_DATABASE: "create-database"
+      CREATE_DATABASE: "create-database",
     };
   }
 
@@ -48,12 +50,13 @@ module.exports = class DatabaseController extends BaseController {
     BaseController.configEvents(
       DatabaseController.instance
     );
-    this.databaseClientEventListener = EventFactory.createEvent(
-      EventFactory.Types.DATABASE_CLIENT,
-      this,
-      this.onDatabaseClientEvent,
-      null
-    );
+    this.databaseClientEventListener =
+      EventFactory.createEvent(
+        EventFactory.Types.DATABASE_CLIENT,
+        this,
+        this.onDatabaseClientEvent,
+        null
+      );
   }
 
   /**

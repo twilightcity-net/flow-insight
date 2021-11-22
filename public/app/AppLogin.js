@@ -24,7 +24,7 @@ module.exports = class AppLogin {
       name: "AppLoginStore",
       requestType: this.requestType,
       timestamp: new Date().getTime(),
-      urn: this.urn
+      urn: this.urn,
     };
     log.info("[AppLogin] login data client -> do request");
     let client = new DtoClient(this.store, this.callback);
@@ -47,7 +47,7 @@ module.exports = class AppLogin {
       name: "AppLogoutStore",
       requestType: this.requestType,
       timestamp: new Date().getTime(),
-      urn: this.urn
+      urn: this.urn,
     };
     log.info("[AppLogin] logout data client -> do request");
     let client = new DtoClient(this.store, this.callback);
@@ -72,7 +72,7 @@ module.exports = class AppLogin {
       log.error("[AppLogin] " + e);
       let connectionStatus = new ConnectionStatusDto({
         message: e.toString(),
-        status: "ERROR"
+        status: "ERROR",
       });
       return connectionStatus;
     }

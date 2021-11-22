@@ -14,7 +14,7 @@ export default class FlowResource extends Component {
     super(props);
     this.name = "[FlowResource]";
     this.state = {
-      resource: props.resource
+      resource: props.resource,
     };
   }
 

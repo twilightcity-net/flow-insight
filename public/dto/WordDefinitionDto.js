@@ -11,7 +11,8 @@ module.exports = class WordDefinitionDto {
       this.definition = json.definition;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'WordDefinitionDto' : " + e.message
+        "Unable to create dto 'WordDefinitionDto' : " +
+          e.message
       );
     }
   }

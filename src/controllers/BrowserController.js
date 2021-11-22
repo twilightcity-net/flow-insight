@@ -15,20 +15,24 @@ export class BrowserController extends ActiveViewController {
   constructor(scope) {
     super(scope);
     this.name = "[BrowserController]";
-    this.consoleBrowserRequestListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .WINDOW_CONSOLE_BROWSER_REQUEST,
-      this
-    );
-    this.consoleBrowserLoadNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .WINDOW_CONSOLE_BROWSER_LOAD,
-      this
-    );
-    this.showConsoleWindowListener = RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_CONSOLE_SHOW_HIDE,
-      this
-    );
+    this.consoleBrowserRequestListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .WINDOW_CONSOLE_BROWSER_REQUEST,
+        this
+      );
+    this.consoleBrowserLoadNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .WINDOW_CONSOLE_BROWSER_LOAD,
+        this
+      );
+    this.showConsoleWindowListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .WINDOW_CONSOLE_SHOW_HIDE,
+        this
+      );
   }
 
   /**
@@ -94,14 +98,13 @@ export class BrowserController extends ActiveViewController {
    * component will use to figure out what to render
    * @param request
    */
-  processRequest = request => {
+  processRequest = (request) => {
     console.log(
       this.name + " process request -> " + request
     );
     try {
-      let resource = UtilRenderer.getResourceFromRequest(
-        request
-      );
+      let resource =
+        UtilRenderer.getResourceFromRequest(request);
       this.setUri(resource);
       this.fireConsoleBrowserLoadNotifyEvent(resource);
     } catch (e) {

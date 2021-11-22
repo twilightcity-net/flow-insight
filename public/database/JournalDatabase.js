@@ -25,7 +25,7 @@ module.exports = class JournalDatabase extends LokiJS {
     return {
       INTENTIONS: "intentions",
       PROJECTS: "projects",
-      TASKS: "tasks"
+      TASKS: "tasks",
     };
   }
 
@@ -38,7 +38,7 @@ module.exports = class JournalDatabase extends LokiJS {
     return {
       INTENTIONS: "intentions",
       PROJECTS: "projects",
-      TASKS: "tasks"
+      TASKS: "tasks",
     };
   }
 
@@ -57,7 +57,7 @@ module.exports = class JournalDatabase extends LokiJS {
       DESCRIPTION: "description",
       JOURNAL_ENTRY_TYPE: "journalEntryType",
       POSITION: "position",
-      TIMESTAMP: "timestamp"
+      TIMESTAMP: "timestamp",
     };
   }
 
@@ -80,21 +80,21 @@ module.exports = class JournalDatabase extends LokiJS {
           JournalDatabase.Indices.DESCRIPTION,
           JournalDatabase.Indices.JOURNAL_ENTRY_TYPE,
           JournalDatabase.Indices.POSITION,
-          JournalDatabase.Indices.TIMESTAMP
-        ]
+          JournalDatabase.Indices.TIMESTAMP,
+        ],
       }
     );
     this.addCollection(
       JournalDatabase.Collections.PROJECTS,
       {
-        indices: [JournalDatabase.Indices.ID]
+        indices: [JournalDatabase.Indices.ID],
       }
     );
     this.addCollection(JournalDatabase.Collections.TASKS, {
       indices: [
         JournalDatabase.Indices.ID,
-        JournalDatabase.Indices.PROJECT_ID
-      ]
+        JournalDatabase.Indices.PROJECT_ID,
+      ],
     });
     this.getCollection(
       JournalDatabase.Collections.INTENTIONS
@@ -250,11 +250,10 @@ module.exports = class JournalDatabase extends LokiJS {
         JournalDatabase.Collections.INTENTIONS
       );
       for (let i = 0; i < intentions.length; i++) {
-        intentions[
-          i
-        ].timestamp = Util.getTimestampFromUTCStr(
-          intentions[i].positionStr
-        );
+        intentions[i].timestamp =
+          Util.getTimestampFromUTCStr(
+            intentions[i].positionStr
+          );
         this.findRemoveInsert(intentions[i], collection);
       }
     }

@@ -35,20 +35,21 @@ export default class ConsoleLayout extends Component {
       consoleIsCollapsed: 0,
       me: {
         displayName: SidePanelViewController.ME,
-        id: SidePanelViewController.ID
+        id: SidePanelViewController.ID,
       },
       teamMembers: [],
       activeTeamMember: {
         displayName: SidePanelViewController.ME,
-        id: SidePanelViewController.ID
-      }
+        id: SidePanelViewController.ID,
+      },
     };
 
     // TODO move this stuff into the controller class
-    this.sidePanelController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.CONSOLE_SIDEBAR,
-      this
-    );
+    this.sidePanelController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.CONSOLE_SIDEBAR,
+        this
+      );
   }
 
   /**
@@ -80,25 +81,25 @@ export default class ConsoleLayout extends Component {
     if (show) {
       this.setState({
         sidebarPanelVisible: true,
-        activePanel: this.sidePanelController
-          .activeMenuSelection
+        activePanel:
+          this.sidePanelController.activeMenuSelection,
       });
       setTimeout(() => {
         this.setState({
           sidebarPanelWidth: ConsoleLayout.sidebarWidth,
-          sidebarPanelOpacity: 1
+          sidebarPanelOpacity: 1,
         });
       }, 0);
     } else {
       this.setState({
         sidebarPanelWidth: 0,
-        sidebarPanelOpacity: 0
+        sidebarPanelOpacity: 0,
       });
       setTimeout(() => {
         this.setState({
           sidebarPanelVisible: false,
-          activePanel: this.sidePanelController
-            .activeMenuSelection
+          activePanel:
+            this.sidePanelController.activeMenuSelection,
         });
       }, 420);
     }
@@ -108,7 +109,7 @@ export default class ConsoleLayout extends Component {
    * store child component for future reloading
    * @param state - the current state of the object
    */
-  saveStateSidebarPanelCb = state => {
+  saveStateSidebarPanelCb = (state) => {
     this.setState({ sidebarPanelState: state });
   };
 
@@ -203,7 +204,7 @@ export default class ConsoleLayout extends Component {
           width: this.state.sidebarPanelWidth,
           height: DimensionController.getHeightFor(
             DimensionController.Components.CONSOLE_LAYOUT
-          )
+          ),
         }}
       >
         {this.getActivePanelContent()}
@@ -249,7 +250,7 @@ export default class ConsoleLayout extends Component {
         style={{
           height: DimensionController.getHeightFor(
             DimensionController.Components.CONSOLE_LAYOUT
-          )
+          ),
         }}
       >
         <LayoutContent />

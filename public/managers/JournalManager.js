@@ -18,8 +18,8 @@ module.exports = class JournalManager {
       {},
       {
         args: {
-          username: "me"
-        }
+          username: "me",
+        },
       },
       callback
     );

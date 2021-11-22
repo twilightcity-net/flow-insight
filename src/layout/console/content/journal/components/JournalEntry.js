@@ -3,7 +3,7 @@ import {
   Dropdown,
   Grid,
   Input,
-  Segment
+  Segment,
 } from "semantic-ui-react";
 import { MemberClient } from "../../../../../clients/MemberClient";
 
@@ -23,7 +23,7 @@ export default class JournalEntry extends Component {
     return {
       key: key,
       value: value,
-      text: text
+      text: text,
     };
   }
 
@@ -37,7 +37,7 @@ export default class JournalEntry extends Component {
     return {
       LOKI: "$loki",
       ID: "id",
-      NAME: "name"
+      NAME: "name",
     };
   }
 
@@ -55,7 +55,7 @@ export default class JournalEntry extends Component {
       currentProjectValue: null,
       currentTaskValue: null,
       currentIntentionValue: "",
-      isFirstEntryOnTask: false
+      isFirstEntryOnTask: false,
     };
   }
 
@@ -82,17 +82,17 @@ export default class JournalEntry extends Component {
           nextProps.lastProject
       ) {
         this.setState({
-          currentTaskValue: null
+          currentTaskValue: null,
         });
         return true;
       }
 
-      nextProps.projects.forEach(project => {
+      nextProps.projects.forEach((project) => {
         this.projects.push(
           this.transformLokiDataStruct(project)
         );
       });
-      nextProps.tasks.forEach(task => {
+      nextProps.tasks.forEach((task) => {
         if (
           nextState.currentProjectValue === task.projectId
         ) {
@@ -110,12 +110,12 @@ export default class JournalEntry extends Component {
           )
         ) {
           this.setState({
-            currentProjectValue: nextProps.lastProject
+            currentProjectValue: nextProps.lastProject,
           });
 
           if (this.state.currentTaskValue == null) {
             this.setState({
-              currentTaskValue: nextProps.lastTask
+              currentTaskValue: nextProps.lastTask,
             });
           }
         }
@@ -128,7 +128,7 @@ export default class JournalEntry extends Component {
   containsProject(projects, projectId) {
     let found = false;
 
-    projects.forEach(proj => {
+    projects.forEach((proj) => {
       if (proj.value === projectId) {
         found = true;
       }
@@ -182,7 +182,7 @@ export default class JournalEntry extends Component {
    * @param p
    * @returns {{text: *, value: *, key: JournalEntry.Opt.props}}
    */
-  transformLokiDataStruct = p => {
+  transformLokiDataStruct = (p) => {
     return JournalEntry.Opt(
       p[JournalEntry.Strings.LOKI],
       p[JournalEntry.Strings.ID],
@@ -215,7 +215,7 @@ export default class JournalEntry extends Component {
    */
   handleChangeForProject = (e, { value }) => {
     this.setState({
-      currentProjectValue: value
+      currentProjectValue: value,
     });
   };
 
@@ -226,14 +226,14 @@ export default class JournalEntry extends Component {
    */
   createTask(name) {
     let projectId = this.state.currentProjectValue;
-    this.props.createTask(projectId, name, task => {
+    this.props.createTask(projectId, name, (task) => {
       let isDescriptionBlank = false;
       if (!task.description) {
         isDescriptionBlank = true;
       }
       this.setState({
         currentTaskValue: task.id,
-        isFirstEntryOnTask: isDescriptionBlank
+        isFirstEntryOnTask: isDescriptionBlank,
       });
     });
   }
@@ -244,9 +244,9 @@ export default class JournalEntry extends Component {
    * @param name
    */
   createProject(name) {
-    this.props.createProject(name, project => {
+    this.props.createProject(name, (project) => {
       this.setState({
-        currentProjectValue: project.id
+        currentProjectValue: project.id,
       });
     });
   }
@@ -258,7 +258,7 @@ export default class JournalEntry extends Component {
    */
   handleChangeForTask = (e, { value }) => {
     this.setState({
-      currentTaskValue: value
+      currentTaskValue: value,
     });
   };
 
@@ -266,7 +266,7 @@ export default class JournalEntry extends Component {
    * works the same as the click for create handler.. see above ^
    * @param e
    */
-  handleKeyPressForIntention = e => {
+  handleKeyPressForIntention = (e) => {
     if (e.charCode === 13) {
       this.createIntention();
     }
@@ -287,7 +287,7 @@ export default class JournalEntry extends Component {
     );
     this.setState({
       currentIntentionValue: "",
-      isFirstEntryOnTask: false
+      isFirstEntryOnTask: false,
     });
   }
 
@@ -298,7 +298,7 @@ export default class JournalEntry extends Component {
    */
   handleChangeForIntention = (e, { value }) => {
     this.setState({
-      currentIntentionValue: value
+      currentIntentionValue: value,
     });
   };
 
@@ -306,7 +306,7 @@ export default class JournalEntry extends Component {
    * highlight field border when element is focused on
    * @param e
    */
-  handleFocusForProject = e => {
+  handleFocusForProject = (e) => {
     document
       .getElementById("selectProjectInput")
       .classList.add("focused");
@@ -322,7 +322,7 @@ export default class JournalEntry extends Component {
    * highlight field border when element is focused on
    * @param e
    */
-  handleFocusForTask = e => {
+  handleFocusForTask = (e) => {
     document
       .getElementById("selectProjectInput")
       .classList.remove("focused");
@@ -338,7 +338,7 @@ export default class JournalEntry extends Component {
    * highlight field border when element is focused on
    * @param e
    */
-  handleFocusForIntention = e => {
+  handleFocusForIntention = (e) => {
     document
       .getElementById("selectProjectInput")
       .classList.remove("focused");
@@ -354,7 +354,7 @@ export default class JournalEntry extends Component {
    * clear all of the highlights to the fields on any element blur.. called by all form element inputs
    * @param e
    */
-  handleBlurForInput = e => {
+  handleBlurForInput = (e) => {
     document
       .getElementById("selectProjectInput")
       .classList.remove("focused");

@@ -23,7 +23,7 @@ module.exports = class TeamDatabase extends LokiJS {
    */
   static get Collections() {
     return {
-      TEAMS: "teams"
+      TEAMS: "teams",
     };
   }
 
@@ -34,7 +34,7 @@ module.exports = class TeamDatabase extends LokiJS {
    */
   static get Views() {
     return {
-      TEAMS: "teams"
+      TEAMS: "teams",
     };
   }
 
@@ -51,7 +51,7 @@ module.exports = class TeamDatabase extends LokiJS {
       TYPE: "type",
       USER_NAME: "username",
       EMAIL: "email",
-      DISPLAY_NAME: "displayName"
+      DISPLAY_NAME: "displayName",
     };
   }
 
@@ -67,8 +67,8 @@ module.exports = class TeamDatabase extends LokiJS {
         TeamDatabase.Indices.ID,
         TeamDatabase.Indices.ORG_ID,
         TeamDatabase.Indices.NAME,
-        TeamDatabase.Indices.TYPE
-      ]
+        TeamDatabase.Indices.TYPE,
+      ],
     });
     this.getCollection(
       TeamDatabase.Collections.TEAMS

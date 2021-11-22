@@ -35,8 +35,8 @@ module.exports = class ActivatorWindow {
       fullscreenable: false,
       webPreferences: {
         toolbar: false,
-         nodeIntegration: true
-      }
+        nodeIntegration: true,
+      },
     });
 
     // mainWindow = new BrowserWindow({
@@ -56,7 +56,7 @@ module.exports = class ActivatorWindow {
         EventFactory.Types.WINDOW_ACTIVATOR_CLOSE,
         this,
         (event, arg) => this.onActivatorCloseCb(event, arg)
-      )
+      ),
     };
   }
 

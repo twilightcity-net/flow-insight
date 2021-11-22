@@ -1,7 +1,6 @@
 import { DataStore } from "./DataStore";
 import { AccountActivationDto } from "../dto/AccountActivationDto";
 
-
 //
 // this class is used to manage DtoClient requests for Stores
 //

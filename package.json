@@ -2,7 +2,7 @@
   "name": "twilightcity-desktop",
   "productName": "TwilightCity",
   "description": "TwilightCity - © 2021 Twilight City, Inc. All rights reserved.",
-  "version": "0.5.8",
+  "version": "0.5.9",
   "engines": {
     "node": "16.13.0"
   },
@@ -73,7 +73,6 @@
     "electron-platform": "^1.2.0",
     "electron-root-path": "^1.0.16",
     "electron-settings": "^3.2.0",
-    "electron-updater": "^4.3.9",
     "formsy-react": "^2.2.5",
     "formsy-semantic-ui-react": "^2.1.3",
     "lokijs": "^1.5.12",
@@ -85,7 +84,7 @@
     "random-quotes": "^1.3.0",
     "react": "17.0.2",
     "react-colorful": "^5.5.0",
-    "react-console-emulator": "^5.0.1",
+    "react-console-emulator": "^3.0.5",
     "react-dom": "17.0.2",
     "react-router-dom": "^5.3.0",
     "react-splitter-layout": "^4.0.0",

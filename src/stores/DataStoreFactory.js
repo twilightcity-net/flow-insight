@@ -38,7 +38,7 @@ export class DataStoreFactory {
 
   static get Stores() {
     return {
-      ACCOUNT_ACTIVATION: "account-activation"
+      ACCOUNT_ACTIVATION: "account-activation",
     };
   }
 }

@@ -7,7 +7,9 @@ const BaseController = require("./BaseController"),
  * This class is used to coordinate controllers across the dictionary service
  * @type {DictionaryController}
  */
-module.exports = class DictionaryController extends BaseController {
+module.exports = class DictionaryController extends (
+  BaseController
+) {
   /**
    * builds our Dictionary Client controller class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -28,7 +30,7 @@ module.exports = class DictionaryController extends BaseController {
   static get Events() {
     return {
       LOAD_DICTIONARY: "load-dictionary",
-      GET_FULL_DICTIONARY: "get-full-dictionary"
+      GET_FULL_DICTIONARY: "get-full-dictionary",
     };
   }
 
@@ -45,13 +47,16 @@ module.exports = class DictionaryController extends BaseController {
    * configures application wide events here
    */
   configureEvents() {
-    BaseController.configEvents(DictionaryController.instance);
-    this.dictionaryClientEventListener = EventFactory.createEvent(
-      EventFactory.Types.DICTIONARY_CLIENT,
-      this,
-      this.onDictionaryClientEvent,
-      null
+    BaseController.configEvents(
+      DictionaryController.instance
     );
+    this.dictionaryClientEventListener =
+      EventFactory.createEvent(
+        EventFactory.Types.DICTIONARY_CLIENT,
+        this,
+        this.onDictionaryClientEvent,
+        null
+      );
   }
 
   /**
@@ -73,7 +78,8 @@ module.exports = class DictionaryController extends BaseController {
         case DictionaryController.Events.LOAD_DICTIONARY:
           this.handleLoadDictionaryEvent(event, arg);
           break;
-        case DictionaryController.Events.GET_FULL_DICTIONARY:
+        case DictionaryController.Events
+          .GET_FULL_DICTIONARY:
           this.handleGetFullDictionaryEvent(event, arg);
           break;
         default:
@@ -110,7 +116,6 @@ module.exports = class DictionaryController extends BaseController {
     );
   }
 
-
   /**
    * process dictionary events for the listener. returns dto to callback.
    * @param event
@@ -129,7 +134,7 @@ module.exports = class DictionaryController extends BaseController {
       DictionaryController.Names.GET_TEAM_DICTIONARY,
       DictionaryController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadTeamDictionaryCallback(
           store,
           event,
@@ -171,5 +176,4 @@ module.exports = class DictionaryController extends BaseController {
       callback
     );
   }
-
 };

@@ -23,8 +23,8 @@ module.exports = class AppTray extends Tray {
     let menu = Menu.buildFromTemplate([
       {
         label: "Quit",
-        role: "quit"
-      }
+        role: "quit",
+      },
     ]);
     this.setToolTip("Twilight City");
     this.setContextMenu(menu);

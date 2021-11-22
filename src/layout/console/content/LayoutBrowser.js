@@ -3,7 +3,7 @@ import {
   Button,
   Icon,
   Input,
-  Segment
+  Segment,
 } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../controllers/RendererControllerFactory";
 import { BrowserRequestFactory } from "../../../controllers/BrowserRequestFactory";
@@ -27,12 +27,13 @@ export default class LayoutBrowser extends Component {
     this.name = "[BrowserHeader]";
     this.state = {
       disableControls: false,
-      location: ""
+      location: "",
     };
-    this.myController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.LAYOUT_BROWSER,
-      this
-    );
+    this.myController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.LAYOUT_BROWSER,
+        this
+      );
   }
 
   /**
@@ -87,7 +88,7 @@ export default class LayoutBrowser extends Component {
    */
   onConsoleBrowserLoadEvent = (event, resource) => {
     this.setState({
-      location: resource.uri
+      location: resource.uri,
     });
   };
 
@@ -125,7 +126,7 @@ export default class LayoutBrowser extends Component {
    * highlight field border when element is focused on
    * @param e
    */
-  handleFocus = e => {
+  handleFocus = (e) => {
     document
       .getElementById("browserInput")
       .classList.add("focused");
@@ -139,7 +140,7 @@ export default class LayoutBrowser extends Component {
    * form element inputs
    * @param e
    */
-  handleBlur = e => {
+  handleBlur = (e) => {
     document
       .getElementById("browserInput")
       .classList.remove("focused");
@@ -152,7 +153,7 @@ export default class LayoutBrowser extends Component {
    * works the same as the click for create handler.. see above ^
    * @param e
    */
-  handleKeyPressForInput = e => {
+  handleKeyPressForInput = (e) => {
     if (e.charCode === 13) {
       //press enter
       this.handleClickForGo();
@@ -171,7 +172,7 @@ export default class LayoutBrowser extends Component {
    * the create that type of request otherwise create a generic open request
    * @param uri
    */
-  doRequest = uri => {
+  doRequest = (uri) => {
     let request = BrowserRequestFactory.createRequest(
       BrowserRequestFactory.Requests.BROWSER,
       BrowserRequestFactory.Commands.OPEN,

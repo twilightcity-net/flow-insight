@@ -4,7 +4,7 @@ import {
   Divider,
   Feed,
   Segment,
-  Transition
+  Transition,
 } from "semantic-ui-react";
 import SplitterLayout from "react-splitter-layout";
 import ActiveCircuitChat from "./ActiveCircuitChat";
@@ -89,7 +89,7 @@ export default class ActiveCircuitFeed extends Component {
       roomName + ActiveCircuitFeed.activeCircuitRoomSuffix,
       text,
       this,
-      arg => {
+      (arg) => {
         if (callback) {
           callback(arg);
         }
@@ -122,7 +122,7 @@ export default class ActiveCircuitFeed extends Component {
    * when we are resizing so things look nice
    * @param size
    */
-  onSecondaryPaneSizeChange = size => {
+  onSecondaryPaneSizeChange = (size) => {
     document.getElementById(
       ActiveCircuitFeed.circuitContentFeedPanelID
     ).style.height =
@@ -218,7 +218,7 @@ export default class ActiveCircuitFeed extends Component {
    * have the same username.
    * @param component
    */
-  setLastFeedEventComponent = component => {
+  setLastFeedEventComponent = (component) => {
     this.lastFeedEvent = component;
   };
 
@@ -268,7 +268,8 @@ export default class ActiveCircuitFeed extends Component {
     }
 
     if (isChatActive) {
-      height = DimensionController.getActiveCircuitFeedContentHeight();
+      height =
+        DimensionController.getActiveCircuitFeedContentHeight();
     }
 
     return (
@@ -276,7 +277,7 @@ export default class ActiveCircuitFeed extends Component {
         inverted
         id={ActiveCircuitFeed.circuitContentFeedPanelID}
         style={{
-          height: height
+          height: height,
         }}
       >
         <Feed

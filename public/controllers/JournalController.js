@@ -8,7 +8,9 @@ const Util = require("../Util"),
  * This class is used to coordinate controllers across the journal service
  * @type {JournalController}
  */
-module.exports = class JournalController extends BaseController {
+module.exports = class JournalController extends (
+  BaseController
+) {
   /**
    * builds our Journal Client controller class from our bass class
    * @param scope - this is the wrapping scope to execute callbacks within
@@ -37,7 +39,7 @@ module.exports = class JournalController extends BaseController {
       GET_RECENT_PROJECTS: "get-recent-projects",
       GET_RECENT_TASKS: "get-recent-tasks",
       FINISH_INTENTION: "finish-intention",
-      UPDATE_FLAME_RATING: "update-flame-rating"
+      UPDATE_FLAME_RATING: "update-flame-rating",
     };
   }
 
@@ -55,12 +57,13 @@ module.exports = class JournalController extends BaseController {
    */
   configureEvents() {
     BaseController.configEvents(JournalController.instance);
-    this.journalClientEventListener = EventFactory.createEvent(
-      EventFactory.Types.JOURNAL_CLIENT,
-      this,
-      this.onJournalClientEvent,
-      null
-    );
+    this.journalClientEventListener =
+      EventFactory.createEvent(
+        EventFactory.Types.JOURNAL_CLIENT,
+        this,
+        this.onJournalClientEvent,
+        null
+      );
   }
 
   /**
@@ -141,7 +144,7 @@ module.exports = class JournalController extends BaseController {
       "getRecentJournal",
       JournalController.Types.GET,
       urn,
-      store =>
+      (store) =>
         this.delegateLoadJournalCallback(
           store,
           username,
@@ -222,12 +225,12 @@ module.exports = class JournalController extends BaseController {
       {
         description: description,
         projectId: projectId,
-        taskId: taskId
+        taskId: taskId,
       },
       "createIntention",
       JournalController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateCreateIntentionCallback(
           store,
           event,
@@ -292,12 +295,12 @@ module.exports = class JournalController extends BaseController {
       JournalController.Contexts.JOURNAL_CLIENT,
       {
         name: name,
-        description: description
+        description: description,
       },
       JournalController.Names.FIND_OR_CREATE_TASK,
       JournalController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateFindOrCreateTaskCallback(
           store,
           event,
@@ -364,12 +367,12 @@ module.exports = class JournalController extends BaseController {
       {
         name: name,
         description: description,
-        isPrivate: isPrivate
+        isPrivate: isPrivate,
       },
       JournalController.Names.FIND_OR_CREATE_PROJECT,
       JournalController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateFindOrCreateProjectCallback(
           store,
           event,
@@ -453,10 +456,10 @@ module.exports = class JournalController extends BaseController {
         {},
         {
           args: {
-            username: username
-          }
+            username: username,
+          },
         },
-        args => {
+        (args) => {
           if (args.data) {
             arg.data = args.data.recentIntentions;
           }
@@ -551,12 +554,12 @@ module.exports = class JournalController extends BaseController {
     this.doClientRequest(
       JournalController.Contexts.JOURNAL_CLIENT,
       {
-        finishStatus: finishStatus
+        finishStatus: finishStatus,
       },
       JournalController.Names.FINISH_INTENTION,
       JournalController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateFinishIntentionCallback(
           store,
           event,
@@ -624,12 +627,12 @@ module.exports = class JournalController extends BaseController {
     this.doClientRequest(
       JournalController.Contexts.JOURNAL_CLIENT,
       {
-        flameRating: flameRating
+        flameRating: flameRating,
       },
       JournalController.Names.UPDATE_FLAME_RATING,
       JournalController.Types.POST,
       urn,
-      store =>
+      (store) =>
         this.delegateUpdateFlameRatingCallback(
           store,
           event,

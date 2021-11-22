@@ -38,33 +38,37 @@ export class CircuitClient extends BaseClient {
       null,
       this.onCircuitEventReply
     );
-    this.circuitStartStopNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_START_STOP,
-      this,
-      this.handleCircuitStartStopCallback
-    );
+    this.circuitStartStopNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_START_STOP,
+        this,
+        this.handleCircuitStartStopCallback
+      );
 
-    this.circuitPauseResumeNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
-      this,
-      this.handleCircuitStartStopCallback
-    );
+    this.circuitPauseResumeNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_PAUSE_RESUME,
+        this,
+        this.handleCircuitStartStopCallback
+      );
 
-    this.circuitJoinLeaveNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
-      this,
-      this.handleCircuitStartStopCallback
-    );
+    this.circuitJoinLeaveNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
+        this,
+        this.handleCircuitStartStopCallback
+      );
 
-    this.circuitSolveNotifier = RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_SOLVE,
-      this,
-      this.handleCircuitStartStopCallback
-    );
+    this.circuitSolveNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_SOLVE,
+        this,
+        this.handleCircuitStartStopCallback
+      );
   }
 
   /**
@@ -133,8 +137,7 @@ export class CircuitClient extends BaseClient {
         "pause-wtf-with-do-it-later",
       UPDATE_CIRCUIT_DESCRIPTION:
         "update-circuit-description",
-      SAVE_CIRCUIT_TAGS:
-        "save-circuit-tags"
+      SAVE_CIRCUIT_TAGS: "save-circuit-tags",
     };
   }
 
@@ -145,7 +148,7 @@ export class CircuitClient extends BaseClient {
   static init(scope) {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
-      CircuitClient.getActiveCircuit(this, arg => {
+      CircuitClient.getActiveCircuit(this, (arg) => {
         let circuit = arg.data[0];
         if (circuit) {
           CircuitClient.activeCircuit = circuit;
@@ -491,7 +494,6 @@ export class CircuitClient extends BaseClient {
     return event;
   }
 
-
   /**
    * start retro for our a circuit on grid time
    * @param circuitName
@@ -608,7 +610,7 @@ export class CircuitClient extends BaseClient {
       CircuitClient.Events.UPDATE_CIRCUIT_DESCRIPTION,
       {
         circuitName: circuitName,
-        description: description
+        description: description,
       },
       scope,
       callback
@@ -628,16 +630,13 @@ export class CircuitClient extends BaseClient {
   static saveTags(circuitName, tags, scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.SAVE_CIRCUIT_TAGS,
-      { circuitName: circuitName,
-        tags: tags
-      },
+      { circuitName: circuitName, tags: tags },
       scope,
       callback
     );
     CircuitClient.instance.notifyCircuit(event);
     return event;
   }
-
 
   /**
    * the event callback used by the event manager. removes the event from

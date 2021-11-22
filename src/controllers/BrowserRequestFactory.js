@@ -22,7 +22,7 @@ export class BrowserRequestFactory {
       ACTIVE_CIRCUIT: "active-circuit",
       DO_IT_LATER_CIRCUIT: "do-it-later-circuit",
       RETRO_CIRCUIT: "retro-circuit",
-      TEAM: "team"
+      TEAM: "team",
     };
   }
 
@@ -35,7 +35,7 @@ export class BrowserRequestFactory {
       LEAVE: "leave",
       WTF: "wtf",
       JOURNAL: "journal",
-      TERMINAL: "terminal"
+      TERMINAL: "terminal",
     };
   }
 
@@ -91,7 +91,7 @@ export class BrowserRequestFactory {
       ROOM: "room",
       ACTIVE: "active",
       ME: "me",
-      ERROR: "error"
+      ERROR: "error",
     };
   }
 
@@ -121,7 +121,7 @@ export class BrowserRequestFactory {
   static get Errors() {
     return {
       ERROR: "error",
-      UNKNOWN: "unknown-command"
+      UNKNOWN: "unknown-command",
     };
   }
 

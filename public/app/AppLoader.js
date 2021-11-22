@@ -6,7 +6,7 @@ const log = require("electron-log"),
   EventFactory = require("../events/EventFactory"),
   VolumeManager = require("../managers/VolumeManager"),
   {
-    ShortcutManager
+    ShortcutManager,
   } = require("../managers/ShortcutManager"),
   AppError = require("./AppError"),
   AppMenu = require("./AppMenu"),
@@ -84,7 +84,7 @@ module.exports = class AppLoader {
         EventFactory.Types.APPLOADER_LOAD,
         this,
         (..._) => this.onLoadCb(..._)
-      )
+      ),
     };
   }
 
@@ -111,7 +111,8 @@ module.exports = class AppLoader {
   load() {
     log.info("[AppLoader] start loading...");
     Util.setAppTray(new AppTray());
-    this.loadingWindow = WindowManagerHelper.createWindowLoading();
+    this.loadingWindow =
+      WindowManagerHelper.createWindowLoading();
     this.createMenu();
   }
 
@@ -127,7 +128,7 @@ module.exports = class AppLoader {
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "talking to llamas...",
-        text: "Logging in to twilightcity.net..."
+        text: "Logging in to twilightcity.net...",
       });
     }, this.eventTimerMs);
   }
@@ -144,7 +145,7 @@ module.exports = class AppLoader {
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "dosing aliens...",
-        text: "Connecting to Gridtalk..."
+        text: "Connecting to Gridtalk...",
       });
     }, this.eventTimerMs);
   }
@@ -161,7 +162,7 @@ module.exports = class AppLoader {
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "breeding platypuses...",
-        text: "Loading Volumes..."
+        text: "Loading Volumes...",
       });
     }, this.eventTimerMs);
   }
@@ -173,7 +174,7 @@ module.exports = class AppLoader {
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "feeding lemmings...",
-        text: "Creating Console..."
+        text: "Creating Console...",
       });
     }, this.eventTimerMs);
   }
@@ -190,7 +191,7 @@ module.exports = class AppLoader {
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "counting schmeckles...",
-        text: "Registering shortcuts..."
+        text: "Registering shortcuts...",
       });
     }, this.eventTimerMs);
   }
@@ -207,7 +208,7 @@ module.exports = class AppLoader {
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "matrix activated",
-        text: "Ready!"
+        text: "Ready!",
       });
     }, this.eventTimerMs * 2);
   }
@@ -271,7 +272,7 @@ module.exports = class AppLoader {
       VOLUMES: "volumes",
       CONSOLE: "console",
       SHORTCUTS: "shortcuts",
-      FINISHED: "finished"
+      FINISHED: "finished",
     };
   }
 
@@ -308,7 +309,7 @@ module.exports = class AppLoader {
    */
   processLogin() {
     log.info("[AppLoader] process login");
-    AppLogin.doLogin(store => {
+    AppLogin.doLogin((store) => {
       let status = AppLogin.getConnectionStatus();
       if (status.isValid()) {
         log.info(
@@ -361,7 +362,8 @@ module.exports = class AppLoader {
   createShortcuts() {
     log.info("[AppLoader] create shortcuts");
     try {
-      global.App.Shortcuts = global.App.ShortcutManager.createGlobalShortcuts();
+      global.App.Shortcuts =
+        global.App.ShortcutManager.createGlobalShortcuts();
       this.events.shortcutsCreated.dispatch();
     } catch (error) {
       AppError.handleError(error, true);

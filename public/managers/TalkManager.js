@@ -26,7 +26,7 @@ module.exports = class TalkManager {
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
       reconnectionAttempts: 3,
-      secure: true
+      secure: true,
     };
     log.info(
       chalk.greenBright(this.name) +

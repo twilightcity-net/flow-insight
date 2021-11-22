@@ -17,10 +17,11 @@ export default class TerminalContent extends Component {
   constructor(props) {
     super(props);
     this.name = "[TerminalContent]";
-    this.browserController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.LAYOUT_BROWSER,
-      this
-    );
+    this.browserController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.LAYOUT_BROWSER,
+        this
+      );
     this.commands = {
       about: {
         description:
@@ -28,36 +29,36 @@ export default class TerminalContent extends Component {
         usage: "about",
         fn: () => {
           return "Gridtime Shell // Twilight City, Inc © 2021";
-        }
+        },
       },
       version: {
         description:
           "Display version information for this shell",
         usage: "version",
         fn: () => {
-          return "v.Psyki_0.5.4";
-        }
+          return "v.TC_0.5.9";
+        },
       },
       whoami: {
         description: "Who am i really?.",
         usage: "whoami <string>",
-        fn: function() {
+        fn: function () {
           return `Only the white rabbit knows?`;
-        }
+        },
       },
       yoda: {
         description: "Receive the gift of Yoda's wisdom",
         usage: "yoda",
-        fn: function() {
+        fn: function () {
           return TerminalContent.doYoda();
-        }
+        },
       },
       echo: {
         description: "Echo a passed string.",
         usage: "echo <string>",
-        fn: function() {
+        fn: function () {
           return `${Array.from(arguments).join(" ")}`;
-        }
+        },
       },
       exit: {
         description: "Exit the terminal of the shell",
@@ -71,8 +72,8 @@ export default class TerminalContent extends Component {
             this.browserController.makeRequest(request);
           }, 420);
           return "Goodbye...";
-        }
-      }
+        },
+      },
     };
   }
 
@@ -85,7 +86,7 @@ export default class TerminalContent extends Component {
             moment(new Date()).format(
               "MMMM Do YYYY, h:mm:ss a"
             ),
-          "~"
+          "~",
         ]}
         promptLabel={"me@Pheonix~$"}
         autoFocus={true}
@@ -95,27 +96,27 @@ export default class TerminalContent extends Component {
           fontSize: "0.420rem",
           lineHeight: "0.420rem",
           fontWeight: "bold",
-          cursor: "default"
+          cursor: "default",
         }}
         promptLabelStyle={{
           color: "green",
           fontSize: "1rem",
           lineHeight: "1rem",
           fontWeight: "bolder",
-          cursor: "default"
+          cursor: "default",
         }}
         inputStyle={{
           color: "#d3d3d3",
           fontSize: "1rem",
           lineHeight: "1rem",
           fontWeight: "bold",
-          cursor: "default"
+          cursor: "default",
         }}
         contentStyle={{
           color: "#d3d3d3",
           fontSize: "1rem",
           lineHeight: "1rem",
-          fontWeight: "bold"
+          fontWeight: "bold",
         }}
       />
     );
@@ -134,7 +135,7 @@ export default class TerminalContent extends Component {
         "Pass on what you have learned.",
         "Now I know there is something strong than fear — far stronger.",
         "Don't underestimate the Force.",
-        "For my ally is the Force, and a powerful ally it is."
+        "For my ally is the Force, and a powerful ally it is.",
       ];
 
     let yodaSays = "";
@@ -153,12 +154,15 @@ export default class TerminalContent extends Component {
    * @returns {*} - the JSX to be rendered in the window
    */
   render() {
+    console.log(
+      "height = " + DimensionController.getFlowPanelHeight()
+    );
     return (
       <div
         id="component"
         className="terminalContent"
         style={{
-          height: DimensionController.getFlowPanelHeight()
+          height: DimensionController.getFlowPanelHeight(),
         }}
       >
         {this.getTerminalContent()}

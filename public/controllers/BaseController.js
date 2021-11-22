@@ -52,7 +52,7 @@ module.exports = class BaseController {
       TAGS: "/tags",
       FERVIE: "/fervie",
       DICTIONARY: "/dictionary",
-      SCOPE: "/scope"
+      SCOPE: "/scope",
     };
   }
 
@@ -63,7 +63,7 @@ module.exports = class BaseController {
    */
   static get Params() {
     return {
-      LIMIT: "?limit="
+      LIMIT: "?limit=",
     };
   }
 
@@ -75,7 +75,7 @@ module.exports = class BaseController {
   static get Types() {
     return {
       GET: "get",
-      POST: "post"
+      POST: "post",
     };
   }
 
@@ -101,7 +101,7 @@ module.exports = class BaseController {
       INTENTION_ABORTED_DETAILS:
         "IntentionAbortedDetailsDto",
       JOURNAL_ENTRY_DTO: "JournalEntryDto",
-      DICTIONARY_UPDATE: "WordDefinitionDto"
+      DICTIONARY_UPDATE: "WordDefinitionDto",
     };
   }
 
@@ -123,7 +123,7 @@ module.exports = class BaseController {
       UNKNOWN_TALK_TO_EVENT:
         "Unknown talk to client event type",
       INVALID_PARTICIPATING_CIRCUIT:
-        "Invalid get my participating circuits event"
+        "Invalid get my participating circuits event",
     };
   }
 
@@ -135,7 +135,7 @@ module.exports = class BaseController {
   static get Strings() {
     return {
       ME: "me",
-      MY: "my"
+      MY: "my",
     };
   }
 
@@ -181,9 +181,10 @@ module.exports = class BaseController {
       FINISH_INTENTION: "finish-intention",
       UPDATE_FLAME_RATING: "update-flame-rating",
       SAVE_FERVIE_DETAILS: "saveFervieDetails",
-      UPDATE_CIRCUIT_DESCRIPTION: "updateCircuitDescription",
+      UPDATE_CIRCUIT_DESCRIPTION:
+        "updateCircuitDescription",
       SAVE_CIRCUIT_TAGS: "saveCircuitTags",
-      GET_TEAM_DICTIONARY: "getTeamDictionary"
+      GET_TEAM_DICTIONARY: "getTeamDictionary",
     };
   }
 
@@ -195,7 +196,7 @@ module.exports = class BaseController {
   static get StatusEvents() {
     return {
       CIRCUIT_MEMBER_JOINED: "CIRCUIT_MEMBER_JOINED",
-      CIRCUIT_MEMBER_LEAVE: "CIRCUIT_MEMBER_LEAVE"
+      CIRCUIT_MEMBER_LEAVE: "CIRCUIT_MEMBER_LEAVE",
     };
   }
 
@@ -216,7 +217,7 @@ module.exports = class BaseController {
       TEAM_WTF_CLOSED: "TEAM_WTF_CLOSED",
       TEAM_RETRO_CLOSED: "TEAM_RETRO_CLOSED",
       TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED",
-      TEAM_WTF_UPDATED: "TEAM_WTF_UPDATED"
+      TEAM_WTF_UPDATED: "TEAM_WTF_UPDATED",
     };
   }
 
@@ -230,7 +231,7 @@ module.exports = class BaseController {
       TROUBLESHOOT: "TROUBLESHOOT",
       CANCELED: "CANCELED",
       ON_HOLD: "ONHOLD",
-      SOLVED: "SOLVED"
+      SOLVED: "SOLVED",
     };
   }
 
@@ -248,7 +249,7 @@ module.exports = class BaseController {
       TEAM_CIRCUIT_CLIENT: "TeamCircuitClient",
       MEMBER_CLIENT: "MemberClient",
       JOURNAL_CLIENT: "JournalClient",
-      DICTIONARY_CLIENT: "DictionaryClient"
+      DICTIONARY_CLIENT: "DictionaryClient",
     };
   }
 
@@ -307,7 +308,7 @@ module.exports = class BaseController {
       name: name,
       requestType: type,
       timestamp: new Date().getTime(),
-      urn: urn
+      urn: urn,
     };
     let client = new DtoClient(store, callback);
     client.doRequest();
@@ -482,7 +483,7 @@ module.exports = class BaseController {
    */
   resetHomeTeamFlag(doc, collection) {
     let results = collection.find({ isHomeTeam: true });
-    results.forEach(t => {
+    results.forEach((t) => {
       t.isHomeTeam = false;
       collection.update(t);
     });
