@@ -159,7 +159,7 @@ export default class RetroSidebar extends Component {
    */
   onClickCloseActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
-    this.resourcesController.closeCircuit(circuitName);
+    this.resourcesController.closeRetro(circuitName);
   };
 
   /**

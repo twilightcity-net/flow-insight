@@ -433,6 +433,15 @@ export default class ActiveRetro extends Component {
 
     let that = this;
 
+    //so if a message is new from a person, then in addition to adding the message, we also need
+    //to join the circuit as a member, to indicate they are helping which will result in getting XP
+    //for participating in the retro.
+
+    //this call doesnt do the client call to add the chat message, it just updates the state.
+
+    //where is the client call?  This gets called when theres a talk message for a chat update.
+
+
     this.setState((prevState) => {
       prevState.retroMessages.push(message);
 

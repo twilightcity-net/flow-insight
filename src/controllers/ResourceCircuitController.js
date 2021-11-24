@@ -205,13 +205,12 @@ export class ResourceCircuitController extends ActiveViewController {
   }
 
   /**
-   * handler that is called when we want to close a given circuit.
+   * handler that is called when we want to close a given retro, (doesnt close the active wtf)
    * @param circuitName
    */
-  closeCircuit(circuitName) {
+  closeRetro(circuitName) {
     CircuitClient.closeWtf(circuitName, this, (arg) => {
-      this.fireCircuitStopNotifyEvent();
-      console.log("closed");
+      console.log("close retro");
     });
   }
 

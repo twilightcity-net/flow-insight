@@ -47,6 +47,7 @@ export class MemberClient extends BaseClient {
       LOAD_ME: "load-me",
       GET_ME: "get-me",
       GET_MEMBER: "get-member",
+      VIEW_CONSOLE_ME_UPDATE: "view-console-me-update",
     };
   }
 
@@ -59,6 +60,15 @@ export class MemberClient extends BaseClient {
       MemberClient.instance = new MemberClient(scope);
       MemberClient.getMe(this, (arg) => {
         MemberClient.me = arg.data;
+
+        //work around because console sidebar getting loaded before init, so dispatch update event on it
+        this.meUpdateNotifier =
+          RendererEventFactory.createEvent(
+            RendererEventFactory.Events
+              .VIEW_CONSOLE_ME_UPDATE,
+            this
+          );
+        this.meUpdateNotifier.dispatch(1);
       });
     }
   }

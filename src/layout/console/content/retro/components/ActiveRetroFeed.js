@@ -13,6 +13,8 @@ import UtilRenderer from "../../../../../UtilRenderer";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import ActiveRetroFeedEvent from "./ActiveRetroFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
+import { CircuitClient } from "../../../../../clients/CircuitClient";
+
 
 /**
  * this is the gui component that displays the actual on going real-time
@@ -85,9 +87,21 @@ export default class ActiveRetroFeed extends Component {
    * @param callback
    */
   addChatMessage = (text, callback) => {
-    let roomName = this.props.resource.uriArr[1];
+
+    //if this is my first message in the feed, then need to join the circuit too
+    let circuitName = this.props.resource.uriArr[1];
+
+    let isFirstMessage = this.isFirstMessage(MemberClient.me.username, this.props.feedEvents);
+
+    if (isFirstMessage) {
+      //join the circuit
+      CircuitClient.joinWtf(circuitName, this, (arg) => {
+        console.log("retro circuit joined");
+      });
+    }
+
     TalkToClient.publishChatToRoom(
-      roomName + ActiveRetroFeed.activeCircuitRoomSuffix,
+      circuitName + ActiveRetroFeed.activeCircuitRoomSuffix,
       text,
       this,
       (arg) => {
@@ -96,6 +110,21 @@ export default class ActiveRetroFeed extends Component {
         }
       }
     );
+  };
+
+  /**
+   * Returns true if user has no existing messages in the feed events,
+   * and false if the user has existing messages
+   * @param username
+   * @param feedEvents
+   */
+  isFirstMessage = (username, feedEvents) => {
+      for (let i = 0; i < feedEvents.length; i++) {
+         if (feedEvents[i].name === username) {
+           return false;
+         }
+      }
+      return true;
   };
 
   /**
