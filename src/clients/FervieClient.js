@@ -16,7 +16,7 @@ export class FervieClient extends BaseClient {
    * @param scope
    */
   constructor(scope) {
-    super(scope, "[JournalClient]");
+    super(scope, "[FervieClient]");
     this.event = RendererEventFactory.createEvent(
       RendererEventFactory.Events.FERVIE_CLIENT,
       this,
@@ -102,7 +102,7 @@ export class FervieClient extends BaseClient {
   };
 
   /**
-   * notifies the main process journal that we have a new event to process. This
+   * notifies the main process fervie that we have a new event to process. This
    * function will add the client event and callback into a map to look up when
    * this events reply is ready from the main prcess thread
    * @param clientEvent

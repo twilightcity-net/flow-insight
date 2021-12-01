@@ -18,6 +18,13 @@ export default class UtilRenderer {
    */
   static wtfTimeFormatStr = "MMM Do YYYY, h:mm:ss a";
 
+
+  /** ChartDto map properties for feature data */
+
+  static FILE_DATA = "@place/location";
+  static EXEC_DATA = "@exec/runtime";
+
+
   /**
    * helper function to return a date time string from a date object that is localized
    * to our current timezone

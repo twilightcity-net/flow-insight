@@ -30,6 +30,7 @@ module.exports = class BaseController {
       PROJECT: "/project",
       TASK: "/task",
       WTF: "wtf/",
+      WTF_PATH: "/wtf",
       TALK: "/talk",
       MY: "/my",
       TO: "/to",
@@ -53,6 +54,8 @@ module.exports = class BaseController {
       FERVIE: "/fervie",
       DICTIONARY: "/dictionary",
       SCOPE: "/scope",
+      CHART: "/chart",
+      FRICTION: "/friction",
     };
   }
 
@@ -185,6 +188,7 @@ module.exports = class BaseController {
         "updateCircuitDescription",
       SAVE_CIRCUIT_TAGS: "saveCircuitTags",
       GET_TEAM_DICTIONARY: "getTeamDictionary",
+      CHART_WTF: "chartWTF",
     };
   }
 
@@ -250,6 +254,8 @@ module.exports = class BaseController {
       MEMBER_CLIENT: "MemberClient",
       JOURNAL_CLIENT: "JournalClient",
       DICTIONARY_CLIENT: "DictionaryClient",
+      FERVIE_CLIENT: "FervieClient",
+      CHART_CLIENT: "ChartClient"
     };
   }
 

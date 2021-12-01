@@ -59,7 +59,7 @@ export default class CircuitSidebar extends Component {
       OVERVIEW: "overview",
       PARTY: "party",
       CHEST: "chest",
-      SCRAPBOOK: "scrapbook",
+      METRICS: "scrapbook",
     };
   }
 
@@ -360,10 +360,10 @@ export default class CircuitSidebar extends Component {
             {this.getMenuItemPartyContent()}
           </Menu.Item>
           <Menu.Item
-            name={CircuitSidebar.Views.SCRAPBOOK}
+            name={CircuitSidebar.Views.METRICS}
             active={
               this.state.activeMenuView ===
-              CircuitSidebar.Views.SCRAPBOOK
+              CircuitSidebar.Views.METRICS
             }
             onClick={this.handleMenuScrapbookClick}
           />
@@ -391,7 +391,7 @@ export default class CircuitSidebar extends Component {
         return this.getCircuitSidebarOverviewContent();
       case CircuitSidebar.Views.PARTY:
         return this.getCircuitSidebarPartyContent();
-      case CircuitSidebar.Views.SCRAPBOOK:
+      case CircuitSidebar.Views.METRICS:
         return this.getCircuitSidebarScrapbookContent();
       case CircuitSidebar.Views.CHEST:
         return this.getCircuitSidebarChestContent();

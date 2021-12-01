@@ -84,7 +84,7 @@ module.exports = class FervieController extends (
   }
 
   /**
-   * client event handler for our create new intention function
+   * client event handler for our save fervie details function
    * @param event
    * @param arg
    * @param callback
@@ -100,7 +100,7 @@ module.exports = class FervieController extends (
         FervieController.Strings.ME;
 
     this.doClientRequest(
-      "FervieClient",
+      FervieController.Contexts.FERVIE_CLIENT,
       {
         fervieColor: fervieColor,
         fervieSecondaryColor: fervieSecondaryColor,

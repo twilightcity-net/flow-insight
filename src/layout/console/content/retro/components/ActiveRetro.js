@@ -7,6 +7,7 @@ import ActiveRetroFeed from "./ActiveRetroFeed";
 import { Transition } from "semantic-ui-react";
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
+import { ChartClient } from "../../../../../clients/ChartClient";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import { DictionaryClient } from "../../../../../clients/DictionaryClient";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
@@ -14,6 +15,8 @@ import { BaseClient } from "../../../../../clients/BaseClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../../UtilRenderer";
 import PastTroubleshootFeed from "./PastTroubleshootFeed";
+import FilesDetail from "./FilesDetail";
+import ExecDetail from "./ExecDetail";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -81,6 +84,8 @@ export default class ActiveRetro extends Component {
       missingMembers: [],
       dictionaryWords: [],
       circuitState: null,
+      isFilesVisible: false,
+      isExecVisible: false,
     };
   }
 
@@ -199,6 +204,17 @@ export default class ActiveRetro extends Component {
             this.loadCount++;
 
             this.updateStateIfDoneLoading();
+          }
+        );
+
+        ChartClient.chartFrictionForWTF(
+          this.model,
+          this,
+          (arg) => {
+           this.chartDto = arg.data;
+           this.setState({
+             chartDto: arg.data
+           });
           }
         );
       }
@@ -771,13 +787,38 @@ export default class ActiveRetro extends Component {
   };
 
   /**
-   * shows our scrapbook in our feed panel
+   * shows our files in our feed panel
    */
-  toggleSlidePanel = () => {
+  toggleFilesPanel = () => {
     this.setState((prevState) => ({
-      slidePanelVisible: !prevState.slidePanelVisible,
+      slidePanelVisible: true,
+      isFilesVisible: true,
+      isExecVisible: false
     }));
   };
+
+  /**
+   * shows our exec in our feed panel
+   */
+  toggleExecPanel = () => {
+    this.setState((prevState) => ({
+      slidePanelVisible: true,
+      isExecVisible: true,
+      isFilesVisible: false
+    }));
+  };
+
+  /**
+   * shows our troubleshooting session in our feed panel
+   */
+  toggleTroubleshootPanel = () => {
+    this.setState((prevState) => ({
+      slidePanelVisible: true,
+      isFilesVisible: false,
+      isExecVisible: false
+    }));
+  };
+
 
   /**
    * gets our classname for the splitter panel
@@ -811,6 +852,30 @@ export default class ActiveRetro extends Component {
    * @returns {*}
    */
   getInRetroCircuitContentPanel() {
+    let sidePanelContent = "";
+
+    if (this.state.isFilesVisible) {
+      sidePanelContent = <FilesDetail
+        chartDto={this.state.chartDto}
+        hideSlidePanel={this.hideSlidePanel}
+      />
+    } else if (this.state.isExecVisible) {
+      sidePanelContent = <ExecDetail
+        chartDto={this.state.chartDto}
+        hideSlidePanel={this.hideSlidePanel}
+      />
+    } else {
+        sidePanelContent = <PastTroubleshootFeed
+          resource={this.props.resource}
+          model={this.state.model}
+          circuitState={this.state.circuitState}
+          circuitMembers={this.state.circuitMembers}
+          missingMembers={this.state.missingMembers}
+          feedEvents={this.state.troubleshootFeedEvents}
+          hideSlidePanel={this.hideSlidePanel}
+        />
+    }
+
     return (
       <div id="component" className="circuitContentPanel">
         <SplitterLayout
@@ -833,15 +898,7 @@ export default class ActiveRetro extends Component {
             animation={this.animationType}
             duration={this.animationDelay}
           >
-            <PastTroubleshootFeed
-              resource={this.props.resource}
-              model={this.state.model}
-              circuitState={this.state.circuitState}
-              circuitMembers={this.state.circuitMembers}
-              missingMembers={this.state.missingMembers}
-              feedEvents={this.state.troubleshootFeedEvents}
-              hideSlidePanel={this.hideSlidePanel}
-            />
+            {sidePanelContent}
           </Transition>
         </SplitterLayout>
       </div>
@@ -859,9 +916,12 @@ export default class ActiveRetro extends Component {
         <RetroSidebar
           resource={this.props.resource}
           model={this.state.model}
+          chartDto={this.state.chartDto}
           dictionaryWords={this.state.dictionaryWords}
           circuitMembers={this.state.circuitMembers}
-          toggleSidePanel={this.toggleSlidePanel}
+          toggleFilesPanel={this.toggleFilesPanel}
+          toggleExecPanel={this.toggleExecPanel}
+          toggleTroubleshootPanel={this.toggleTroubleshootPanel}
           set={this.setCircuitSidebarComponent}
         />
       </div>

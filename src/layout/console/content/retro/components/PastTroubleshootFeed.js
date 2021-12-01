@@ -4,7 +4,6 @@ import {
   Divider,
   Feed,
   Segment,
-  Transition,
   Menu,
 } from "semantic-ui-react";
 import UtilRenderer from "../../../../../UtilRenderer";
@@ -24,13 +23,6 @@ export default class PastTroubleshootFeed extends Component {
   static activeCircuitFeedElIdString =
     "past-troubleshoot-feed";
 
-  /**
-   * the string that is appended to the end of a circuit name which is the
-   * convention used by the talk network to reference a specific wtf room
-   * which is associated with this active circuit
-   * @type {string}
-   */
-  static activeCircuitRoomSuffix = "-wtf";
 
   /**
    * the dom el id name of the circuit feed content panel
@@ -38,12 +30,6 @@ export default class PastTroubleshootFeed extends Component {
    */
   static circuitContentFeedPanelID = "pastContentFeedPanel";
 
-  /**
-   * this is the name of the meta property field which the talk message uses
-   * to store the value of the user whom made the request typically.
-   * @type {string}
-   */
-  static fromUserNameMetaPropsStr = "from.username";
 
   /**
    * builds the active circuit feed component which is used by the circuit resource
@@ -260,7 +246,7 @@ export default class PastTroubleshootFeed extends Component {
             <Menu.Item
               link
               position="right"
-              icon="window minimize"
+              icon="close"
               onClick={this.handleClick}
             />
           </Menu>

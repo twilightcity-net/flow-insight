@@ -1080,6 +1080,8 @@
   /**
   * Retro circuit panel contents
   */
+
+
   #component.consoleSidebarPanel .retroCircuitsContent {
     height: 100%;
     overflow-y: scroll;
@@ -1290,6 +1292,7 @@
   /*
          * COMPONENT - CIRCUIT-LAYOUT
          */
+
   #component.circuitLayout #wrapper.circuitContent {
     padding-top: 0.400em;
     padding-left: 0.069em;
@@ -1431,6 +1434,7 @@
     line-height: 1.420rem;
     font-size: 1rem;
     margin-top: 0;
+    margin-bottom: 10px;
   }
 
   #component.circuitLayout #component.activeCircuitFeed .chat-feed .images.extra {
@@ -1474,12 +1478,26 @@
     padding: 0.840rem 0.420rem 0.840rem 0.840rem;
   }
 
+  #component.circuitLayout #component.retroSlidePanel i:hover {
+    color: rgba(255, 60, 60, 0.90);
+    cursor: pointer !important;
+  }
+
+  #component.circuitLayout #component.retroSlidePanel i {
+    transition: background-color, color 0.333s ease-out;
+  }
+
+
   #component.circuitLayout #component.retroSlidePanel .troubleHeader {
     color: rgba(255, 60, 60, 0.90);
   }
 
   #component.circuitLayout #component.retroSlidePanel .retroHeader {
     color: rgba(120, 70, 251, 1.0);
+  }
+
+  #component.circuitLayout #component.retroSlidePanel .metricHeader {
+    color: #ffffff;
   }
 
   #component.circuitLayout #component.pastSessionFeed .chat-feed {
@@ -1529,7 +1547,8 @@
     padding-left: 0.840rem;
     line-height: 1.420rem;
     font-size: 1rem;
-    margin-top: 0;
+    margin-top: 0px;
+    margin-bottom: 10px;
   }
 
   #component.circuitLayout #component.pastSessionFeed .chat-feed .images.extra {
@@ -1825,6 +1844,29 @@
     background: none !important;
     border: 0.105rem solid;
     animation: shadow-pulse-timer 2s infinite;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .ui.label.retrotime {
+    position: absolute;
+    margin-right: 1rem;
+    transform: scaleX(0.9);
+    margin-left: -1rem;
+    bottom: 1rem;
+    z-index: 1001;
+    width: 100%;
+    font-size: 2rem;
+    text-align: center;
+    background: none !important;
+    border: 0.105rem solid;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .ui.label.retrotime span.time {
+    font-size: 2.420rem;
+    color: red;
+  }
+
+  #component.circuitLayout #wrapper.circuitContentSidebar .metricSummary {
+    text-align: center;
   }
 
   @keyframes shadow-pulse-timer {
@@ -2255,6 +2297,96 @@
 
   #component.journalLayout.error {
     padding: 7rem 7rem 6rem 7rem;
+  }
+
+
+  /*
+  COMPONENT: METRICS FILE PANEL
+  */
+
+  #component.metricsFilePanel {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    margin-top: 0.420em;
+    margin-bottom: 0.420em;
+    transition: height 0.210s ease-out;
+    max-height: 90%;
+  }
+
+  .ui.popup .rightcol {
+    float: right;
+  }
+
+  .ui.popup .execstats {
+    float: right;
+  }
+
+  .ui.popup .pass {
+    color: rgba(27, 175, 26, 0.96);
+  }
+
+  .ui.popup .fail {
+    color: red;
+  }
+
+  #component.metricsFilePanel .ui.grid {
+    margin: 0 0;
+    border-: 1px solid rgba(40, 40, 40, 0.96);
+    border-radius: 8px;
+    background: rgba(10, 10, 10, 0.96);
+    padding-top: 10px;
+    padding-bottom:10px;
+  }
+
+  #component.metricsFilePanel .ui.grid>.row.metricHeaderRow {
+    transition: background 0.6s ease-out;
+    padding: 6px;
+    border-bottom: 1px solid rgba(70, 70, 70, 0.96);
+    margin-right: 3px;
+  }
+
+
+  #component.metricsFilePanel .ui.grid>.row {
+    transition: background 0.6s ease-out;
+    padding: 6px;
+    border-bottom: 1px solid rgba(27, 28, 29, 0.96);
+    margin-right: 3px;
+  }
+
+  #component.metricsFilePanel .ui.grid>.row.metricRow:hover {
+    background: rgba(40, 40, 40, 0.96);
+  }
+
+  #component.metricsFilePanel .ui.grid>.row .column:first-child {
+    padding-left: 0;
+    left: 14px;
+  }
+
+  #component.metricsFilePanel .ui.grid>.row .column:nth-child(2) {
+    padding-left: 0;
+    left: 10px;
+  }
+
+  #component.metricsFilePanel .ui.grid>.row .column:last-child {
+    padding-right: 0;
+  }
+
+  #component.metricsFilePanel .ui.grid .row .chunkTitle {
+    font-weight: 800;
+    color: #cccccc;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #component.metricsFilePanel .ui.grid .row .chunkText {
+    font-weight: 400;
+    color: #cccccc;
+  }
+
+  #component.metricsFilePanel .ui.celled.grid>.row>.column {
+    padding: 8px;
   }
 
   /*

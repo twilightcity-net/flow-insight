@@ -41,25 +41,16 @@ export default class RetroSidebar extends Component {
   static idFieldStr = "id";
 
   /**
-   * this is the name of the field that we store the circuit members in our
-   * dto. it is nice to break these out because this  will allow us to
-   * easily change the source data without modifying the logic of the
-   * function. this is very useful when needing to test the function.
-   * @type {string}
-   */
-  static circuitMembersFieldStr = "circuitMembers";
-
-  /**
    * the possible view we can display in the circuit sidebar panel
-   * @returns {{PARTY: string, CHEST: string, OVERVIEW: string}}
+   * @returns {{PARTY: string, METRICS: string, OVERVIEW: string}}
    * @constructor
    */
   static get Views() {
     return {
       OVERVIEW: "overview",
       PARTY: "party",
-      CHEST: "chest",
-      SCRAPBOOK: "scrapbook",
+      FILES: "files",
+      EXEC: "exec",
     };
   }
 
@@ -86,6 +77,15 @@ export default class RetroSidebar extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    if (
+      prevProps.resource.uri !== this.props.resource.uri
+    ) {
+      this.setState({
+        activeMenuView: RetroSidebar.Views.OVERVIEW,
+      });
+      this.props.toggleTroubleshootPanel();
+    }
+
     if (
       (!prevProps.model && this.props.model) ||
       (prevProps.model &&
@@ -160,47 +160,6 @@ export default class RetroSidebar extends Component {
   onClickCloseActiveCircuit = () => {
     let circuitName = this.props.model.circuitName;
     this.resourcesController.closeRetro(circuitName);
-  };
-
-  /**
-   * click handler for joining a wtf circuit which makes the member a
-   * participant.
-   */
-  onClickJoinActiveCircuit = () => {
-    let circuitName = this.props.model.circuitName;
-    this.resourcesController.joinCircuit(circuitName);
-  };
-
-  /**
-   * click handler for leaving a circuit that the member is participating in.
-   */
-  onClickLeaveActiveCircuit = () => {
-    let circuitName = this.props.model.circuitName;
-    this.resourcesController.leaveCircuit(circuitName);
-  };
-
-  /**
-   * click handler for putting a circuit on hold
-   */
-  onClickPauseActiveCircuit = () => {
-    let circuitName = this.props.model.circuitName;
-    this.resourcesController.pauseCircuit(circuitName);
-  };
-
-  /**
-   * click handler for putting a circuit on hold
-   */
-  onClickResumeActiveCircuit = () => {
-    let circuitName = this.props.model.circuitName;
-    this.resourcesController.resumeCircuit(circuitName);
-  };
-
-  /**
-   * click handler for when we want to cancel a circuit with out hold or lettuce
-   */
-  onClickCancelActiveCircuit = () => {
-    let circuitName = this.props.model.circuitName;
-    this.resourcesController.cancelCircuit(circuitName);
   };
 
   /**
@@ -288,13 +247,35 @@ export default class RetroSidebar extends Component {
   };
 
   /**
-   * custom event handler for when a user clicks on the scrapbook menu item
+   * custom event handler for when a user clicks on the files menu item
    * @param e
    * @param arg
    */
-  handleMenuScrapbookClick = (e, arg) => {
+  handleMenuFilesClick = (e, arg) => {
     this.handleMenuClick(e, arg);
-    this.props.toggleSidePanel();
+    this.props.toggleFilesPanel();
+  };
+
+
+  /**
+   * custom event handler for when a user clicks on the exec menu item
+   * @param e
+   * @param arg
+   */
+  handleMenuExecClick = (e, arg) => {
+    this.handleMenuClick(e, arg);
+    this.props.toggleExecPanel();
+  };
+
+
+  /**
+   * custom event handler for when a user clicks on the overview menu item
+   * @param e
+   * @param arg
+   */
+  handleMenuOverviewClick = (e, arg) => {
+    this.handleMenuClick(e, arg);
+    this.props.toggleTroubleshootPanel();
   };
 
   /**
@@ -357,7 +338,23 @@ export default class RetroSidebar extends Component {
               this.state.activeMenuView ===
               RetroSidebar.Views.OVERVIEW
             }
-            onClick={this.handleMenuClick}
+            onClick={this.handleMenuOverviewClick}
+          />
+          <Menu.Item
+            name={RetroSidebar.Views.FILES}
+            active={
+              this.state.activeMenuView ===
+              RetroSidebar.Views.FILES
+            }
+            onClick={this.handleMenuFilesClick}
+          />
+          <Menu.Item
+            name={RetroSidebar.Views.EXEC}
+            active={
+              this.state.activeMenuView ===
+              RetroSidebar.Views.EXEC
+            }
+            onClick={this.handleMenuExecClick}
           />
           <Menu.Item
             name={RetroSidebar.Views.PARTY}
@@ -369,22 +366,7 @@ export default class RetroSidebar extends Component {
           >
             {this.getMenuItemPartyContent()}
           </Menu.Item>
-          <Menu.Item
-            name={RetroSidebar.Views.SCRAPBOOK}
-            active={
-              this.state.activeMenuView ===
-              RetroSidebar.Views.SCRAPBOOK
-            }
-            onClick={this.handleMenuScrapbookClick}
-          />
-          <Menu.Item
-            name={RetroSidebar.Views.CHEST}
-            active={
-              this.state.activeMenuView ===
-              RetroSidebar.Views.CHEST
-            }
-            onClick={this.handleMenuClick}
-          />
+
         </Menu>
         {this.getCircuitSidebarMenuContent()}
       </Segment>
@@ -401,10 +383,10 @@ export default class RetroSidebar extends Component {
         return this.getCircuitSidebarOverviewContent();
       case RetroSidebar.Views.PARTY:
         return this.getCircuitSidebarPartyContent();
-      case RetroSidebar.Views.SCRAPBOOK:
-        return this.getCircuitSidebarScrapbookContent();
-      case RetroSidebar.Views.CHEST:
-        return this.getCircuitSidebarChestContent();
+      case RetroSidebar.Views.FILES:
+        return this.getCircuitSidebarFilesContent();
+      case RetroSidebar.Views.EXEC:
+        return this.getCircuitSidebarExecContent();
       default:
         throw new Error(
           "Unknown circuit sidebar menu type '" +
@@ -641,7 +623,7 @@ export default class RetroSidebar extends Component {
   getWtfTimerContent() {
     let circuit = this.props.model;
     return (
-      <Label color="red" basic className="time">
+      <Label color="red" basic className="retrotime">
         <span className="time" id={RetroSidebar.wtfTimerId}>
           {this.getWtfTimerCount(circuit)}
         </span>
@@ -665,32 +647,56 @@ export default class RetroSidebar extends Component {
   }
 
   /**
-   * renders the circuit sidebar menu content for chest content. The
-   * chest content contains an array of linked resources. for example
-   * a snippet or screenshot. These items when clicked on will appear
-   * to the left of this panel and to the right of the chat panel within
-   * a resizable panel
+   * renders our sidebar metrics content panel
    * @returns {*}
    */
-  getCircuitSidebarChestContent() {
+  getCircuitSidebarFilesContent() {
+
+    let fileData = this.props.chartDto.featureSetsByType[UtilRenderer.FILE_DATA];
+
+    let rowCount = fileData.rowsOfPaddedCells.length;
+
+    let allBoxes = [];
+
+    fileData.rowsOfPaddedCells.forEach(row => {
+      allBoxes.push(row[0]);
+    });
+
+    let uniqueBoxCount = new Set(allBoxes).size;
+
     return (
       <div>
-        <Segment className="chest" inverted>
-          <i>No Items</i>
+        <Segment className="metricSummary" inverted>
+          <i>Viewed {rowCount} files, across {uniqueBoxCount} boxes, while troubleshooting this issue.</i>
         </Segment>
       </div>
     );
   }
 
   /**
-   * renders our sidebar scrapbook content panel
+   * renders our sidebar metrics content panel
    * @returns {*}
    */
-  getCircuitSidebarScrapbookContent() {
+  getCircuitSidebarExecContent() {
+    let execData = this.props.chartDto.featureSetsByType[UtilRenderer.EXEC_DATA];
+
+    let rowCount = execData.rowsOfPaddedCells.length;
+
+    let allCounts = [];
+
+    execData.rowsOfPaddedCells.forEach(row => {
+      allCounts.push(row[5].trim());
+    });
+
+    let totalRuns = 0;
+    for (let i = 0; i < allCounts.length; i++) {
+      totalRuns += parseInt(allCounts[i], 10);
+    }
+
     return (
       <div>
-        <Segment className="scrapbook" inverted>
-          <i>No Items</i>
+        <Segment className="metricSummary" inverted>
+          <i>Ran {rowCount} unique tests, {totalRuns} cycles, while troubleshooting this issue.</i>
         </Segment>
       </div>
     );
@@ -719,38 +725,6 @@ export default class RetroSidebar extends Component {
     }
   }
 
-  /**
-   * renders our pause resume button for the gui
-   * @returns {*}
-   */
-  getPauseResumeButtonContent() {
-    let circuit = this.props.model;
-    if (circuit && UtilRenderer.isCircuitPaused(circuit)) {
-      return (
-        <Button
-          onClick={this.onClickResumeActiveCircuit}
-          size="medium"
-          color="violet"
-        >
-          <Button.Content>resume</Button.Content>
-        </Button>
-      );
-    } else if (
-      circuit &&
-      !UtilRenderer.isCircuitPaused(circuit)
-    ) {
-      return (
-        <Button
-          onClick={this.onClickPauseActiveCircuit}
-          size="medium"
-          color="grey"
-        >
-          <Button.Content>pause</Button.Content>
-        </Button>
-      );
-    }
-    return this.getPausedCircuitButtonContent();
-  }
 
   /**
    * renders our start retro button for the gui
@@ -797,39 +771,6 @@ export default class RetroSidebar extends Component {
     );
   }
 
-  /**
-   * renders our leave button for the gui. anyone whom is joined and is not
-   * owner or moderator sees this instead of the admin controls.
-   * @returns {*}
-   */
-  getLeaveActiveCircuitButtonContent() {
-    return (
-      <Button
-        onClick={this.onClickLeaveActiveCircuit}
-        size="medium"
-        color="grey"
-      >
-        <Button.Content>leave</Button.Content>
-      </Button>
-    );
-  }
-
-  /**
-   * renders our leave button for the gui. anyone whom is joined and is not
-   * owner or moderator sees this instead of the admin controls.
-   * @returns {*}
-   */
-  getJoinActiveCircuitButtonContent() {
-    return (
-      <Button
-        onClick={this.onClickJoinActiveCircuit}
-        size="medium"
-        color="grey"
-      >
-        <Button.Content>join</Button.Content>
-      </Button>
-    );
-  }
 
   /**
    * renders our join wtf circuit button. This will join the member as a
@@ -913,29 +854,6 @@ export default class RetroSidebar extends Component {
     );
   }
 
-  /**
-   * renders our cancel wtf circuit button in the gui
-   * @returns {*}
-   */
-  getCancelActiveCircuitButtonContent() {
-    let circuit = this.props.model;
-    if (circuit) {
-      return (
-        <Button
-          onClick={this.onClickCancelActiveCircuit}
-          size="medium"
-          color="grey"
-        >
-          <Button.Content>cancel</Button.Content>
-        </Button>
-      );
-    }
-    return (
-      <Button size="medium" color="grey" disabled>
-        <Button.Content>cancel</Button.Content>
-      </Button>
-    );
-  }
 
   /**
    * renders the circuit sidebar actions segment

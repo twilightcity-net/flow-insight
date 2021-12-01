@@ -12,6 +12,7 @@ import { TeamCircuitClient } from "../clients/TeamCircuitClient";
 import { MemberClient } from "../clients/MemberClient";
 import { DictionaryClient } from "../clients/DictionaryClient";
 import { FervieClient } from "../clients/FervieClient";
+import { ChartClient } from "../clients/ChartClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -121,6 +122,7 @@ export default class ConsoleView extends Component {
     DictionaryClient.init(this);
     DimensionController.init(this);
     FervieClient.init(this);
+    ChartClient.init(this);
   };
 
   componentWillUnmount = () => {
