@@ -363,7 +363,6 @@ export class SidePanelViewController extends ActiveViewController {
             circuitName
           );
 
-        CircuitClient.activeCircuit = circuit;
         this.makeSidebarBrowserRequest(request);
       }
     });

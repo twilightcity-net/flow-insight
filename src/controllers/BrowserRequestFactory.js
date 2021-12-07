@@ -209,6 +209,10 @@ export class BrowserRequestFactory {
    * @private
    */
   static _getCommandRequest(arg) {
+
+    //this doesnt appear to actually be called...
+
+    console.log("_getCommandRequest: "+JSON.stringify(arg));
     let args = arg.split(
         BrowserRequestFactory.SPACE_SEPARATOR
       ),
@@ -259,17 +263,6 @@ export class BrowserRequestFactory {
    * @private
    */
   static _getCommandWTFRequest(...args) {
-    let circuit = CircuitClient.activeCircuit;
-    if (circuit) {
-      return (
-        BrowserRequestFactory.Commands.OPEN +
-        BrowserRequestFactory.URI_SEPARATOR +
-        BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.WTF +
-        BrowserRequestFactory.PATH_SEPARATOR +
-        circuit.circuitName
-      );
-    }
     return (
       BrowserRequestFactory.Commands.OPEN +
       BrowserRequestFactory.URI_SEPARATOR +

@@ -205,6 +205,18 @@ class Util {
     );
   }
 
+  static deleteSettings() {
+    let settingsPath = this.getAppSettingsPath();
+    fs.unlink(settingsPath, (err) => {
+      if (err) {
+        //couldnt delete file
+        return -1;
+      }
+
+      return 0;
+    })
+  }
+
   /**
    * returns the file path to the settings file that electron stores as JSON
    * @returns {string}

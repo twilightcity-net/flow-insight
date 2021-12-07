@@ -319,15 +319,21 @@ export default class UtilRenderer {
     let req = request
       .toLowerCase()
       .split(BrowserRequestFactory.URI_SEPARATOR);
+
+    if (!req[1].startsWith("/")) {
+      req[1] = "/" + req[1];
+    }
+    if (req[1].includes(' ')) {
+      req[1] = req[1].replace(' ', '/');
+    }
+
     let res = req[1].split(
       BrowserRequestFactory.PATH_SEPARATOR
     );
     if (res[0] === "/" || res[0] === "") {
       res.shift();
     }
-    if (!req[1].startsWith("/")) {
-      req[1] += "/" + req[1];
-    }
+
     return {
       action: req[0],
       uri: req[1],

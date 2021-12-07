@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
 import {
-  Divider,
   Segment,
   Menu,
   Grid
@@ -33,7 +32,6 @@ export default class ExecDetail extends Component {
     super(props);
     this.name = "[ExecDetail]";
     this.me = MemberClient.me;
-    this.lastFeedEvent = null;
     this.loadCount = 0;
   }
 
@@ -50,17 +48,6 @@ export default class ExecDetail extends Component {
         size
       ) + "px";
   };
-
-  /**
-   * renders our divider content which goes between messages. for keyframe markers
-   * @param timeStr
-   * @returns {*}
-   */
-  getDividerContent(timeStr) {
-    return (
-      <Divider inverted horizontal content={timeStr} />
-    );
-  }
 
   /**
    * renders our metric details data

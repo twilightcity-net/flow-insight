@@ -5,7 +5,7 @@ const { Menu } = require("electron"),
 
 const helpSubmenu = [
   {
-    label: "TC - Learn More",
+    label: "TwilightCity - Learn More",
     click() {
       log.info(
         "[AppMenu] open browser-> http://twilightcity.net/"
@@ -14,7 +14,7 @@ const helpSubmenu = [
     },
   },
   {
-    label: "Deactivate TC",
+    label: "Deactivate TwilightCity",
     click() {
       log.info(
         "[AppMenu] deactivate and reset Twilight City"
