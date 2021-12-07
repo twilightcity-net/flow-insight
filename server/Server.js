@@ -36,8 +36,8 @@ const Server = (module.exports = class Server {
         logout: new AccountLogout(
           this.express,
           "/account/logout"
-        )
-      }
+        ),
+      },
     };
     this.express.listen(this.port);
   }

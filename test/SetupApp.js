@@ -1,12 +1,12 @@
 const chalk = require("chalk");
 
-before(function() {
+before(function () {
   console.log(
     chalk.bold.yellow("[TEST-APP]") + " global setup"
   );
 });
 
-after(function() {
+after(function () {
   console.log(
     chalk.bold.yellow("[TEST-APP]") + " global teardown"
   );

@@ -9,7 +9,7 @@ module.exports = class AccountLogout {
         let apiKey = this.getApiKey(req);
         let dtoRes = new SimpleStatusDto({
           message: "Successfully logged out",
-          status: "VALID"
+          status: "VALID",
         });
 
         Util.logPostRequest("POST", req.url, null, dtoRes);

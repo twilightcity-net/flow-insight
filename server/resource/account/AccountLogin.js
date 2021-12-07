@@ -9,7 +9,7 @@ module.exports = class AccountLogin {
         let apiKey = this.getApiKey(req);
         let dtoRes = new SimpleStatusDto({
           message: "Successfully logged in",
-          status: "VALID"
+          status: "VALID",
         });
         // let dtoRes = new SimpleStatusDto({
         //   message: "Sorry unable to login into TC",

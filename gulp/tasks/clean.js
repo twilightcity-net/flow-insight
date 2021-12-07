@@ -1,8 +1,8 @@
 const gulp = require("gulp");
 const clean = require("gulp-clean");
 
-module.exports = function() {
-  return function() {
+module.exports = function () {
+  return function () {
     var stream = gulp
       .src(
         [
@@ -12,7 +12,7 @@ module.exports = function() {
           "build/windows/*.js",
           "!build/assets/**/*",
           "!build/static/**/*",
-          "!build/**/*.dat"
+          "!build/**/*.dat",
         ],
         { read: false }
       )

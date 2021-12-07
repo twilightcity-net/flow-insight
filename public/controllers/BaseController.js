@@ -255,7 +255,7 @@ module.exports = class BaseController {
       JOURNAL_CLIENT: "JournalClient",
       DICTIONARY_CLIENT: "DictionaryClient",
       FERVIE_CLIENT: "FervieClient",
-      CHART_CLIENT: "ChartClient"
+      CHART_CLIENT: "ChartClient",
     };
   }
 

@@ -1,15 +1,10 @@
 import React, { Component } from "react";
-import {
-  Divider,
-  Grid,
-  Popup,
-} from "semantic-ui-react";
+import { Divider, Grid, Popup } from "semantic-ui-react";
 
 /**
  * this component is the individual metrics item for a top file entry
  */
 export default class FileMetricsRow extends Component {
-
   /**
    * builds our metrics item for our console
    * @param props
@@ -17,8 +12,7 @@ export default class FileMetricsRow extends Component {
   constructor(props) {
     super(props);
     this.name = "[FileMetricsRow]";
-    this.state = {
-    };
+    this.state = {};
   }
 
   /**
@@ -29,16 +23,13 @@ export default class FileMetricsRow extends Component {
     // this.props.onRowClick(this);
   };
 
-
   /**
    * renders our box cell in the grid.
    * @returns {*}
    */
   getBoxCellContent() {
     return (
-      <div className="chunkTitle">
-        {this.props.box}
-      </div>
+      <div className="chunkTitle">{this.props.box}</div>
     );
   }
 
@@ -49,15 +40,13 @@ export default class FileMetricsRow extends Component {
   getFileNameCellContent() {
     let fileName = this.props.filePath;
 
-    if (fileName != null && fileName.includes('/')) {
-      fileName = fileName.substr(this.props.filePath.lastIndexOf('/') + 1);
+    if (fileName != null && fileName.includes("/")) {
+      fileName = fileName.substr(
+        this.props.filePath.lastIndexOf("/") + 1
+      );
     }
 
-    return (
-      <div className="chunkTitle">
-        {fileName}
-      </div>
-    );
+    return <div className="chunkTitle">{fileName}</div>;
   }
 
   /**
@@ -66,9 +55,7 @@ export default class FileMetricsRow extends Component {
    */
   getDurationCellContent() {
     return (
-      <div className="chunkText">
-        {this.props.duration}
-      </div>
+      <div className="chunkText">{this.props.duration}</div>
     );
   }
 
@@ -79,20 +66,22 @@ export default class FileMetricsRow extends Component {
   getPopupContent() {
     let fileName = this.props.filePath;
 
-    if (fileName != null && fileName.includes('/')) {
-      fileName = fileName.substr(this.props.filePath.lastIndexOf('/') + 1);
+    if (fileName != null && fileName.includes("/")) {
+      fileName = fileName.substr(
+        this.props.filePath.lastIndexOf("/") + 1
+      );
     }
-
 
     return (
       <div>
         <div>
           <b>
             <span className="tipHighlight">
-              {" "}{fileName}{" "}
+              {" "}
+              {fileName}{" "}
             </span>
           </b>
-          <Divider/>
+          <Divider />
         </div>
         <div>{this.props.filePath}</div>
       </div>
@@ -116,7 +105,8 @@ export default class FileMetricsRow extends Component {
         onClick={this.handleOnClickRow}
       >
         <Grid.Column width={3}>
-          <Popup flowing
+          <Popup
+            flowing
             trigger={boxCell}
             className="metricContent"
             content={popupContent}
@@ -126,7 +116,8 @@ export default class FileMetricsRow extends Component {
           />
         </Grid.Column>
         <Grid.Column width={9}>
-          <Popup flowing
+          <Popup
+            flowing
             trigger={filenameCell}
             className="metricContent"
             content={popupContent}
@@ -136,7 +127,8 @@ export default class FileMetricsRow extends Component {
           />
         </Grid.Column>
         <Grid.Column width={4}>
-          <Popup flowing
+          <Popup
+            flowing
             trigger={durationCell}
             className="metricContent"
             content={popupContent}

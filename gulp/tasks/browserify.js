@@ -7,8 +7,8 @@ const config = pkg.browserify;
 
 // TODO we should lint the src view files
 // TODO we should have a global lint functions for everything
-module.exports = function() {
-  return function() {
+module.exports = function () {
+  return function () {
     var stream = browserify(config)
       .bundle()
       .pipe(source("build/electron.bundle.js"))

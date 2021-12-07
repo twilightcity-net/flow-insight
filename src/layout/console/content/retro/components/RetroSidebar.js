@@ -256,7 +256,6 @@ export default class RetroSidebar extends Component {
     this.props.toggleFilesPanel();
   };
 
-
   /**
    * custom event handler for when a user clicks on the exec menu item
    * @param e
@@ -266,7 +265,6 @@ export default class RetroSidebar extends Component {
     this.handleMenuClick(e, arg);
     this.props.toggleExecPanel();
   };
-
 
   /**
    * custom event handler for when a user clicks on the overview menu item
@@ -366,7 +364,6 @@ export default class RetroSidebar extends Component {
           >
             {this.getMenuItemPartyContent()}
           </Menu.Item>
-
         </Menu>
         {this.getCircuitSidebarMenuContent()}
       </Segment>
@@ -651,14 +648,16 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarFilesContent() {
-
-    let fileData = this.props.chartDto.featureSetsByType[UtilRenderer.FILE_DATA];
+    let fileData =
+      this.props.chartDto.featureSetsByType[
+        UtilRenderer.FILE_DATA
+      ];
 
     let rowCount = fileData.rowsOfPaddedCells.length;
 
     let allBoxes = [];
 
-    fileData.rowsOfPaddedCells.forEach(row => {
+    fileData.rowsOfPaddedCells.forEach((row) => {
       allBoxes.push(row[0]);
     });
 
@@ -667,7 +666,10 @@ export default class RetroSidebar extends Component {
     return (
       <div>
         <Segment className="metricSummary" inverted>
-          <i>Viewed {rowCount} files, across {uniqueBoxCount} boxes, while troubleshooting this issue.</i>
+          <i>
+            Viewed {rowCount} files, across {uniqueBoxCount}{" "}
+            boxes, while troubleshooting this issue.
+          </i>
         </Segment>
       </div>
     );
@@ -678,13 +680,16 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarExecContent() {
-    let execData = this.props.chartDto.featureSetsByType[UtilRenderer.EXEC_DATA];
+    let execData =
+      this.props.chartDto.featureSetsByType[
+        UtilRenderer.EXEC_DATA
+      ];
 
     let rowCount = execData.rowsOfPaddedCells.length;
 
     let allCounts = [];
 
-    execData.rowsOfPaddedCells.forEach(row => {
+    execData.rowsOfPaddedCells.forEach((row) => {
       allCounts.push(row[5].trim());
     });
 
@@ -696,7 +701,10 @@ export default class RetroSidebar extends Component {
     return (
       <div>
         <Segment className="metricSummary" inverted>
-          <i>Ran {rowCount} unique tests, {totalRuns} cycles, while troubleshooting this issue.</i>
+          <i>
+            Ran {rowCount} unique tests, {totalRuns} cycles,
+            while troubleshooting this issue.
+          </i>
         </Segment>
       </div>
     );
@@ -724,7 +732,6 @@ export default class RetroSidebar extends Component {
       );
     }
   }
-
 
   /**
    * renders our start retro button for the gui
@@ -770,7 +777,6 @@ export default class RetroSidebar extends Component {
       </Button>
     );
   }
-
 
   /**
    * renders our join wtf circuit button. This will join the member as a
@@ -853,7 +859,6 @@ export default class RetroSidebar extends Component {
       </Button>
     );
   }
-
 
   /**
    * renders the circuit sidebar actions segment

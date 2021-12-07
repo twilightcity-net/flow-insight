@@ -214,7 +214,7 @@ class Util {
       }
 
       return 0;
-    })
+    });
   }
 
   /**

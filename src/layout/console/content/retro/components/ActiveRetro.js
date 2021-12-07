@@ -211,10 +211,10 @@ export default class ActiveRetro extends Component {
           this.model,
           this,
           (arg) => {
-           this.chartDto = arg.data;
-           this.setState({
-             chartDto: arg.data
-           });
+            this.chartDto = arg.data;
+            this.setState({
+              chartDto: arg.data,
+            });
           }
         );
       }
@@ -456,7 +456,6 @@ export default class ActiveRetro extends Component {
     //this call doesnt do the client call to add the chat message, it just updates the state.
 
     //where is the client call?  This gets called when theres a talk message for a chat update.
-
 
     this.setState((prevState) => {
       prevState.retroMessages.push(message);
@@ -793,7 +792,7 @@ export default class ActiveRetro extends Component {
     this.setState((prevState) => ({
       slidePanelVisible: true,
       isFilesVisible: true,
-      isExecVisible: false
+      isExecVisible: false,
     }));
   };
 
@@ -804,7 +803,7 @@ export default class ActiveRetro extends Component {
     this.setState((prevState) => ({
       slidePanelVisible: true,
       isExecVisible: true,
-      isFilesVisible: false
+      isFilesVisible: false,
     }));
   };
 
@@ -815,10 +814,9 @@ export default class ActiveRetro extends Component {
     this.setState((prevState) => ({
       slidePanelVisible: true,
       isFilesVisible: false,
-      isExecVisible: false
+      isExecVisible: false,
     }));
   };
-
 
   /**
    * gets our classname for the splitter panel
@@ -855,17 +853,22 @@ export default class ActiveRetro extends Component {
     let sidePanelContent = "";
 
     if (this.state.isFilesVisible) {
-      sidePanelContent = <FilesDetail
-        chartDto={this.state.chartDto}
-        hideSlidePanel={this.hideSlidePanel}
-      />
+      sidePanelContent = (
+        <FilesDetail
+          chartDto={this.state.chartDto}
+          hideSlidePanel={this.hideSlidePanel}
+        />
+      );
     } else if (this.state.isExecVisible) {
-      sidePanelContent = <ExecDetail
-        chartDto={this.state.chartDto}
-        hideSlidePanel={this.hideSlidePanel}
-      />
+      sidePanelContent = (
+        <ExecDetail
+          chartDto={this.state.chartDto}
+          hideSlidePanel={this.hideSlidePanel}
+        />
+      );
     } else {
-        sidePanelContent = <PastTroubleshootFeed
+      sidePanelContent = (
+        <PastTroubleshootFeed
           resource={this.props.resource}
           model={this.state.model}
           circuitState={this.state.circuitState}
@@ -874,6 +877,7 @@ export default class ActiveRetro extends Component {
           feedEvents={this.state.troubleshootFeedEvents}
           hideSlidePanel={this.hideSlidePanel}
         />
+      );
     }
 
     return (
@@ -921,7 +925,9 @@ export default class ActiveRetro extends Component {
           circuitMembers={this.state.circuitMembers}
           toggleFilesPanel={this.toggleFilesPanel}
           toggleExecPanel={this.toggleExecPanel}
-          toggleTroubleshootPanel={this.toggleTroubleshootPanel}
+          toggleTroubleshootPanel={
+            this.toggleTroubleshootPanel
+          }
           set={this.setCircuitSidebarComponent}
         />
       </div>

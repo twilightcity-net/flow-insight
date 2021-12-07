@@ -23,13 +23,11 @@ export default class PastTroubleshootFeed extends Component {
   static activeCircuitFeedElIdString =
     "past-troubleshoot-feed";
 
-
   /**
    * the dom el id name of the circuit feed content panel
    * @type {string}
    */
   static circuitContentFeedPanelID = "pastContentFeedPanel";
-
 
   /**
    * builds the active circuit feed component which is used by the circuit resource

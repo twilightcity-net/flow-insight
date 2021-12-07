@@ -4,12 +4,12 @@ const uglify = require("gulp-uglify-es").default;
 const pkg = require("../../package");
 const config = pkg.uglify;
 
-module.exports = function() {
-  return function() {
+module.exports = function () {
+  return function () {
     var stream = gulp
       .src("build/electron.bundle.js")
       .pipe(
-        uglify(config).on("error", function(e) {
+        uglify(config).on("error", function (e) {
           console.log(e);
         })
       )

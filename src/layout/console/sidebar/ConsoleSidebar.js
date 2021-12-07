@@ -111,14 +111,12 @@ export default class ConsoleSidebar extends Component {
 
     this.meUpdateListener =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events
-          .VIEW_CONSOLE_ME_UPDATE,
+        RendererEventFactory.Events.VIEW_CONSOLE_ME_UPDATE,
         this,
         this.onMeUpdate
       );
 
     this.setAlarmStateBasedOnStatus(MemberClient.me);
-
   }
 
   /**
@@ -209,7 +207,6 @@ export default class ConsoleSidebar extends Component {
   onMeUpdate = (event, arg) => {
     this.setAlarmStateBasedOnStatus(MemberClient.me);
   };
-
 
   /**
    * event handler for when we join or leave a circuit

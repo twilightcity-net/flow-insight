@@ -1,12 +1,12 @@
 const chalk = require("chalk");
 
-before(function() {
+before(function () {
   console.log(
     chalk.bold.yellow("[TEST-HYPER]") + " global setup"
   );
 });
 
-after(function() {
+after(function () {
   console.log(
     chalk.bold.yellow("[TEST-HYPER]") + " global teardown"
   );

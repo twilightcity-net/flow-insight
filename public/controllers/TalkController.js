@@ -445,7 +445,10 @@ module.exports = class TalkController extends (
             );
             break;
           case TalkController.StatusTypes.TEAM_RETRO_CLOSED:
-            this.logMessage("TalkController", "TEAM_RETRO_CLOSED");
+            this.logMessage(
+              "TalkController",
+              "TEAM_RETRO_CLOSED"
+            );
             circuitDatabase.removeCircuitFromAllCollections(
               circuit
             );

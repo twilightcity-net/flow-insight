@@ -1,13 +1,10 @@
 import React, { Component } from "react";
-import {
-  Grid,
-} from "semantic-ui-react";
+import { Grid } from "semantic-ui-react";
 
 /**
  * this component is the metrics header for top file activity
  */
 export default class FileMetricsHeader extends Component {
-
   /**
    * builds our metrics item for our console
    * @param props
@@ -15,8 +12,7 @@ export default class FileMetricsHeader extends Component {
   constructor(props) {
     super(props);
     this.name = "[FileMetricsHeader]";
-    this.state = {
-    };
+    this.state = {};
   }
 
   /**
@@ -27,19 +23,13 @@ export default class FileMetricsHeader extends Component {
     return (
       <Grid.Row className="metricHeaderRow">
         <Grid.Column width={3}>
-          <div className="metricHeader">
-            Box
-          </div>
+          <div className="metricHeader">Box</div>
         </Grid.Column>
         <Grid.Column width={9}>
-          <div className="metricHeader">
-            Filename
-          </div>
+          <div className="metricHeader">Filename</div>
         </Grid.Column>
         <Grid.Column width={4}>
-          <div className="metricHeader">
-            Duration
-          </div>
+          <div className="metricHeader">Duration</div>
         </Grid.Column>
       </Grid.Row>
     );

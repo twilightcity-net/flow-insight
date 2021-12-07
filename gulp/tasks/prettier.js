@@ -4,8 +4,8 @@ const configJS = pkg.prettier.configJS;
 const configJSON = pkg.prettier.configJSON;
 const prettier = require("gulp-prettier-plugin");
 
-module.exports = function() {
-  return function() {
+module.exports = function () {
+  return function () {
     var stream = gulp
       .src([
         "./gulp/**/*.js",
@@ -14,15 +14,15 @@ module.exports = function() {
         "./src/**/*.js",
         "./server/**/*.js",
         "./test/**/*.js",
-        "./gulpfile.js"
+        "./gulpfile.js",
       ])
       .pipe(prettier(configJS))
       // passing a function that returns base will write the files in-place
-      .pipe(gulp.dest(file => file.base));
+      .pipe(gulp.dest((file) => file.base));
     stream += gulp
       .src(["./package.json"])
       .pipe(prettier(configJSON))
-      .pipe(gulp.dest(file => file.base));
+      .pipe(gulp.dest((file) => file.base));
     return stream;
   };
 };

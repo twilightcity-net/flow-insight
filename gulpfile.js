@@ -10,16 +10,16 @@ const OsTypeToTargetMap = {
   Darwin: {
     distDir: "./dist/mac/resources",
     releaseAsarFile:
-      "dist/mac/TwilightCity.app/Contents/Resources/app.asar"
+      "dist/mac/TwilightCity.app/Contents/Resources/app.asar",
   },
   Linux: {
     distDir: "./dist/win-unpacked/resources",
-    releaseAsarFile: `${this.distDir}/app.asar`
+    releaseAsarFile: `${this.distDir}/app.asar`,
   },
   Windows_NT: {
     distDir: "./dist/win-unpacked/resources",
-    releaseAsarFile: "dist/???/app.asar"
-  }
+    releaseAsarFile: "dist/???/app.asar",
+  },
 };
 
 function getTask(name) {
@@ -33,7 +33,7 @@ gulp.task("browserify", taskBrowserify());
 gulp.task("uglify", taskUglify());
 gulp.task("clean", taskClean());
 
-gulp.task("releaseBuildUpdate", function(cb) {
+gulp.task("releaseBuildUpdate", function (cb) {
   const fs = require("fs-extra");
   const gutil = require("gulp-util");
   const execSync = require("child_process").execSync;
@@ -62,7 +62,7 @@ gulp.task("releaseBuildUpdate", function(cb) {
       console.log(`Extracting ${asar}...`);
       execSync(
         `${asarBin} extract ${releaseAsarFile} ${asarExtractedDir}`,
-        function(err, stdout, stderr) {
+        function (err, stdout, stderr) {
           console.log(stdout);
           console.log(stderr);
           cb(err);
@@ -79,7 +79,7 @@ gulp.task("releaseBuildUpdate", function(cb) {
     console.log(`Packing ${asar}...`);
     execSync(
       `${asarBin} pack ${asarExtractedDir} ${asarDir}`,
-      function(err, stdout, stderr) {
+      function (err, stdout, stderr) {
         console.log(stdout);
         console.log(stderr);
         cb(err);

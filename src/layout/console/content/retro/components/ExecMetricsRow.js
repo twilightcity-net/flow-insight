@@ -9,7 +9,6 @@ import {
  * this component is the individual metrics item for a top exec entry
  */
 export default class FileMetricsRow extends Component {
-
   /**
    * builds our metrics item for our console
    * @param props
@@ -17,8 +16,7 @@ export default class FileMetricsRow extends Component {
   constructor(props) {
     super(props);
     this.name = "[ExecMetricsRow]";
-    this.state = {
-    };
+    this.state = {};
   }
 
   /**
@@ -29,16 +27,13 @@ export default class FileMetricsRow extends Component {
     // this.props.onRowClick(this);
   };
 
-
   /**
    * renders our exec process cell in the grid.
    * @returns {*}
    */
   getExecProcessContent() {
     return (
-      <div className="chunkTitle">
-        {this.props.process}
-      </div>
+      <div className="chunkTitle">{this.props.process}</div>
     );
   }
 
@@ -48,9 +43,7 @@ export default class FileMetricsRow extends Component {
    */
   getRedCountCellContent() {
     return (
-      <div className="chunkText">
-        {this.props.red}
-      </div>
+      <div className="chunkText">{this.props.red}</div>
     );
   }
 
@@ -65,11 +58,7 @@ export default class FileMetricsRow extends Component {
       greenCount = this.props.count;
     }
 
-    return (
-      <div className="chunkText">
-        {greenCount}
-      </div>
-    );
+    return <div className="chunkText">{greenCount}</div>;
   }
 
   /**
@@ -83,11 +72,7 @@ export default class FileMetricsRow extends Component {
       totalTime = this.props.tExecTime;
     }
 
-    return (
-      <div className="chunkText">
-        {totalTime}
-      </div>
-    );
+    return <div className="chunkText">{totalTime}</div>;
   }
 
   /**
@@ -95,7 +80,6 @@ export default class FileMetricsRow extends Component {
    * @returns {*}
    */
   getPopupContent() {
-
     let humanTime = this.props.tHumanTime;
     if (humanTime === null || humanTime.length === 0) {
       humanTime = "--";
@@ -112,22 +96,36 @@ export default class FileMetricsRow extends Component {
         <div>
           <b>
             <span className="tipHighlight">
-              {" "}{this.props.process}{" "}
+              {" "}
+              {this.props.process}{" "}
             </span>
           </b>
         </div>
         <Divider />
         <div>
-          <span className="leftcol"><i>ExecTime:</i></span><span className="rightcol"><i>{this.props.tExecTime}</i></span>
+          <span className="leftcol">
+            <i>ExecTime:</i>
+          </span>
+          <span className="rightcol">
+            <i>{this.props.tExecTime}</i>
+          </span>
         </div>
         <div>
-          <span className="leftcol"><i>HumanTime:</i></span><span className="rightcol"><i>{humanTime}</i></span>
+          <span className="leftcol">
+            <i>HumanTime:</i>
+          </span>
+          <span className="rightcol">
+            <i>{humanTime}</i>
+          </span>
         </div>
 
         <Divider />
         <div>
           <span className="execstats">
-            {this.props.count} cycles | <span className="fail">{this.props.red}</span> | <span className="pass">{greenCount}</span> | {this.props.debug} <Icon name="bug" />
+            {this.props.count} cycles |{" "}
+            <span className="fail">{this.props.red}</span> |{" "}
+            <span className="pass">{greenCount}</span> |{" "}
+            {this.props.debug} <Icon name="bug" />
           </span>
         </div>
       </div>
@@ -152,7 +150,9 @@ export default class FileMetricsRow extends Component {
         onClick={this.handleOnClickRow}
       >
         <Grid.Column width={8}>
-          <Popup flowing style={{minWidth: 200}}
+          <Popup
+            flowing
+            style={{ minWidth: 200 }}
             trigger={execNameCell}
             className="metricContent"
             content={popupContent}
@@ -162,7 +162,9 @@ export default class FileMetricsRow extends Component {
           />
         </Grid.Column>
         <Grid.Column width={3}>
-          <Popup flowing style={{minWidth: 200}}
+          <Popup
+            flowing
+            style={{ minWidth: 200 }}
             trigger={durationCell}
             className="metricContent"
             content={popupContent}
@@ -171,7 +173,9 @@ export default class FileMetricsRow extends Component {
           />
         </Grid.Column>
         <Grid.Column width={2}>
-          <Popup flowing style={{minWidth: 200}}
+          <Popup
+            flowing
+            style={{ minWidth: 200 }}
             trigger={redCountCell}
             className="metricContent"
             content={popupContent}
@@ -181,7 +185,9 @@ export default class FileMetricsRow extends Component {
           />
         </Grid.Column>
         <Grid.Column width={3}>
-          <Popup flowing style={{minWidth: 200}}
+          <Popup
+            flowing
+            style={{ minWidth: 200 }}
             trigger={greenCountCell}
             className="metricContent"
             content={popupContent}

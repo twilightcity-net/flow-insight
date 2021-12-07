@@ -10,7 +10,7 @@ module.exports = class AccountHeartbeat {
         let dtoReq = new HeartbeatDto(req.body);
         let dtoRes = new SimpleStatusDto({
           message: "Everything is awesome",
-          status: "VALID"
+          status: "VALID",
         });
 
         Util.logPostRequest(

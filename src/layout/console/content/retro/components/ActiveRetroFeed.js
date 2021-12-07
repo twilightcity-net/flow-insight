@@ -15,7 +15,6 @@ import ActiveRetroFeedEvent from "./ActiveRetroFeedEvent";
 import { TalkToClient } from "../../../../../clients/TalkToClient";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
 
-
 /**
  * this is the gui component that displays the actual on going real-time
  * chat feed of the active circuit that the people are in.
@@ -87,11 +86,13 @@ export default class ActiveRetroFeed extends Component {
    * @param callback
    */
   addChatMessage = (text, callback) => {
-
     //if this is my first message in the feed, then need to join the circuit too
     let circuitName = this.props.resource.uriArr[1];
 
-    let isFirstMessage = this.isFirstMessage(MemberClient.me.username, this.props.feedEvents);
+    let isFirstMessage = this.isFirstMessage(
+      MemberClient.me.username,
+      this.props.feedEvents
+    );
 
     if (isFirstMessage) {
       //join the circuit
@@ -119,12 +120,12 @@ export default class ActiveRetroFeed extends Component {
    * @param feedEvents
    */
   isFirstMessage = (username, feedEvents) => {
-      for (let i = 0; i < feedEvents.length; i++) {
-         if (feedEvents[i].name === username) {
-           return false;
-         }
+    for (let i = 0; i < feedEvents.length; i++) {
+      if (feedEvents[i].name === username) {
+        return false;
       }
-      return true;
+    }
+    return true;
   };
 
   /**

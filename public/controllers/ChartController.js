@@ -97,11 +97,14 @@ module.exports = class ChartController extends (
         ChartController.Paths.FRICTION +
         ChartController.Paths.WTF_PATH;
 
-    urn += "?circuit_path="+ circuitPath + "&bucket_size="+bucket;
+    urn +=
+      "?circuit_path=" +
+      circuitPath +
+      "&bucket_size=" +
+      bucket;
 
     //the circuit path, and bucket are query params... so I need to actually append them to the path,
     //and then pass in blank {}?  Should look at another GET query... yeah looks like thats how it works
-
 
     this.doClientRequest(
       ChartController.Contexts.CHART_CLIENT,
@@ -127,12 +130,7 @@ module.exports = class ChartController extends (
    * @param arg
    * @param callback
    */
-  delegateChartWTFCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
+  delegateChartWTFCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {

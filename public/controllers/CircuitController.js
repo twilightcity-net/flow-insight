@@ -729,10 +729,12 @@ module.exports = class CircuitController extends (
     callback
   ) {
     if (store.error) {
-      this.logMessage("[CircuitController]", "load active circuit error: "+store.error);
+      this.logMessage(
+        "[CircuitController]",
+        "load active circuit error: " + store.error
+      );
       arg.error = store.error;
     } else {
-
       let database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.CIRCUIT
         ),
@@ -1290,7 +1292,6 @@ module.exports = class CircuitController extends (
       );
       arg.error = store.error;
     } else {
-
       let database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.CIRCUIT
         ),

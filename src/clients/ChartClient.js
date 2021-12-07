@@ -58,31 +58,26 @@ export class ChartClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static chartFrictionForWTF(
-    circuit,
-    scope,
-    callback
-  ) {
+  static chartFrictionForWTF(circuit, scope, callback) {
+    let seconds =
+      UtilRenderer.getWtfSecondsFromCircuit(circuit);
+    let bucket = "TWENTIES";
 
-    let seconds = UtilRenderer.getWtfSecondsFromCircuit(circuit);
-    let bucket = 'TWENTIES';
-
-    if (seconds > (this.SECONDS_IN_FOUR * 4 )) {
-      bucket = 'FOURS';
+    if (seconds > this.SECONDS_IN_FOUR * 4) {
+      bucket = "FOURS";
     }
-    if (seconds > (this.SECONDS_IN_DAY * 4)) {
-      bucket = 'DAYS';
+    if (seconds > this.SECONDS_IN_DAY * 4) {
+      bucket = "DAYS";
     }
-    if (seconds > (this.SECONDS_IN_WEEK * 4)) {
-      bucket = 'WEEKS';
+    if (seconds > this.SECONDS_IN_WEEK * 4) {
+      bucket = "WEEKS";
     }
-
 
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_WTF,
       {
-        circuitPath: '/wtf/'+circuit.circuitName,
-        bucket: bucket
+        circuitPath: "/wtf/" + circuit.circuitName,
+        bucket: bucket,
       },
       scope,
       callback

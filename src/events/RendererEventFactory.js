@@ -81,8 +81,7 @@ export class RendererEventFactory {
         "view-console-join-existing-room",
       VIEW_CONSOLE_LEAVE_EXISTING_ROOM:
         "view-console-leave-existing-room",
-      VIEW_CONSOLE_ME_UPDATE:
-        "view-console-me-update",
+      VIEW_CONSOLE_ME_UPDATE: "view-console-me-update",
       APPACTIVATOR_SAVE_ACTIVATION:
         prefix + "appactivator-save-activation",
       APPACTIVATOR_ACTIVATION_SAVED:

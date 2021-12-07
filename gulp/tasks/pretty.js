@@ -1,8 +1,8 @@
 const gulp = require("gulp");
 const prettyHtml = require("gulp-pretty-html");
 
-module.exports = function() {
-  return function() {
+module.exports = function () {
+  return function () {
     var stream = gulp
       .src([
         "./gulp/**/*.html",
@@ -11,17 +11,17 @@ module.exports = function() {
         "./src/**/*.html",
         "./server/**/*.html",
         "./test/**/*.html",
-        "./docs/**/*.html"
+        "./docs/**/*.html",
       ])
       .pipe(
         prettyHtml({
           indent_size: 2,
           preserve_newlines: false,
           wrap_attributes: "force-aligned",
-          indent_scripts: "keep"
+          indent_scripts: "keep",
         })
       )
-      .pipe(gulp.dest(file => file.base));
+      .pipe(gulp.dest((file) => file.base));
     return stream;
   };
 };

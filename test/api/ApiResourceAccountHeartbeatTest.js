@@ -11,38 +11,38 @@ const apiUrlLocal = "http://localhost:" + port;
 const apiUrlRemote = "http://home.twilightcity.net";
 
 // TODO add tests for DataManager to be implemented
-describe("API Resource : /account ", function() {
+describe("API Resource : /account ", function () {
   let apiKey = "123e4567-e89b-12d3-a456-426655440000";
 
-  describe("POST /account/heartbeat", function() {
+  describe("POST /account/heartbeat", function () {
     let msg = "Everything is awesome";
     let status = "VALID";
     let idleTime = "0";
     let deltaTime = "0";
     let dtoReq = new HeartbeatDto({
       idleTime: idleTime,
-      deltaTime: deltaTime
+      deltaTime: deltaTime,
     });
     let dtoRes = new SimpleStatusDto({
       message: msg,
-      status: status
+      status: status,
     });
     let localDtoRes = null;
     let remoteDtoRes = null;
 
-    it("should use dto 'HeartbeatDto' for request", function(done) {
+    it("should use dto 'HeartbeatDto' for request", function (done) {
       chai.should();
       testDtoReq(dtoReq, idleTime, deltaTime);
       done();
     });
 
-    it("should use dto 'SimpleStatusDto' for response", function(done) {
+    it("should use dto 'SimpleStatusDto' for response", function (done) {
       chai.should();
       testDtoRes(dtoRes, msg, status);
       done();
     });
 
-    it("should return 'SimpleStatusDto' on local POST", function(done) {
+    it("should return 'SimpleStatusDto' on local POST", function (done) {
       chai.should();
       request
         .post(apiUrlLocal + "/account/heartbeat")
@@ -61,7 +61,7 @@ describe("API Resource : /account ", function() {
     /// This fails now until the server returns back test data ///
     //////////////////////////////////////////////////////////////
 
-    it("should return 'SimpleStatusDto' on remote POST", function(done) {
+    it("should return 'SimpleStatusDto' on remote POST", function (done) {
       chai.should();
       request
         .post(apiUrlRemote + "/account/heartbeat")
@@ -80,7 +80,7 @@ describe("API Resource : /account ", function() {
     /// This fails now until the server returns back test data ///
     //////////////////////////////////////////////////////////////
 
-    it("expect 'SimpleStatusDto' to be equal", function(done) {
+    it("expect 'SimpleStatusDto' to be equal", function (done) {
       var expect = chai.expect;
       expect(localDtoRes).to.eql(remoteDtoRes);
       done();

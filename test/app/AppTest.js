@@ -2,13 +2,13 @@ const chai = require("chai");
 const BaseController = require("../../public/controllers/BaseController");
 const AppController = require("../../public/controllers/AppController");
 
-describe("app.controllers", function() {
-  it("should test [BaseController]", function(done) {
+describe("app.controllers", function () {
+  it("should test [BaseController]", function (done) {
     chai.should();
     testBaseControllerClass();
     done();
   });
-  it("should test [AppController]", function(done) {
+  it("should test [AppController]", function (done) {
     chai.should();
     testAppController();
     done();

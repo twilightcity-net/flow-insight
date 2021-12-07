@@ -4,8 +4,8 @@ const Util = require("../UtilTest");
 const hypercore = require("hypercore");
 
 // TODO add tests for DataManager to be implemented
-describe("HYPERCORE Resource", function() {
-  it("should run hypercore in ./tmp dir", function(done) {
+describe("HYPERCORE Resource", function () {
+  it("should run hypercore in ./tmp dir", function (done) {
     chai.should();
     testHypercore();
     done();
@@ -16,18 +16,18 @@ function testHypercore() {
   var feed = hypercore("./tmp", { valueEncoding: "json" });
 
   feed.append({
-    hello: "world"
+    hello: "world",
   });
 
   feed.append({
-    hej: "verden"
+    hej: "verden",
   });
 
   feed.append({
-    hola: "mundo"
+    hola: "mundo",
   });
 
-  feed.flush(function() {
+  feed.flush(function () {
     console.log(
       "Appended 3 more blocks, %d in total (%d bytes)\n",
       feed.length,

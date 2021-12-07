@@ -18,12 +18,10 @@ export default class UtilRenderer {
    */
   static wtfTimeFormatStr = "MMM Do YYYY, h:mm:ss a";
 
-
   /** ChartDto map properties for feature data */
 
   static FILE_DATA = "@place/location";
   static EXEC_DATA = "@exec/runtime";
-
 
   /**
    * helper function to return a date time string from a date object that is localized
@@ -323,8 +321,8 @@ export default class UtilRenderer {
     if (!req[1].startsWith("/")) {
       req[1] = "/" + req[1];
     }
-    if (req[1].includes(' ')) {
-      req[1] = req[1].replace(' ', '/');
+    if (req[1].includes(" ")) {
+      req[1] = req[1].replace(" ", "/");
     }
 
     let res = req[1].split(

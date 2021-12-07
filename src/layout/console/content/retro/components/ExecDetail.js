@@ -1,10 +1,6 @@
 import React, { Component } from "react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
-import {
-  Segment,
-  Menu,
-  Grid
-} from "semantic-ui-react";
+import { Segment, Menu, Grid } from "semantic-ui-react";
 import ExecMetricsRow from "./ExecMetricsRow";
 import ExecMetricsHeader from "./ExecMetricsHeader";
 import UtilRenderer from "../../../../../UtilRenderer";
@@ -15,14 +11,11 @@ import { MemberClient } from "../../../../../clients/MemberClient";
  * like what files were worked on, what tests were executed, how long they took, that sorta stuff
  */
 export default class ExecDetail extends Component {
-
-
   /**
    * the dom el id name of the circuit feed content panel
    * @type {string}
    */
   static circuitContentFeedPanelID = "pastContentFeedPanel";
-
 
   /**
    * builds the active circuit feed component which is used by the circuit resource
@@ -54,27 +47,36 @@ export default class ExecDetail extends Component {
    * @returns {JSX.Element}
    */
   getMetricsDetailContent() {
-
-    let execData = this.props.chartDto.featureSetsByType[UtilRenderer.EXEC_DATA];
+    let execData =
+      this.props.chartDto.featureSetsByType[
+        UtilRenderer.EXEC_DATA
+      ];
 
     return (
       <Grid id="metrics-row-grid" inverted columns={16}>
-        <ExecMetricsHeader/>
-        {
-          execData.rowsOfPaddedCells.map((row, i) => {
-            let process = row[0].trim();
-            let tExecTime = row[1].trim();
-            let tHumanTime = row[2].trim();
-            let count = row[5].trim();
-            let red = row[6].trim();
-            let green = row[7].trim();
-            let debug = row[8].trim();
+        <ExecMetricsHeader />
+        {execData.rowsOfPaddedCells.map((row, i) => {
+          let process = row[0].trim();
+          let tExecTime = row[1].trim();
+          let tHumanTime = row[2].trim();
+          let count = row[5].trim();
+          let red = row[6].trim();
+          let green = row[7].trim();
+          let debug = row[8].trim();
 
-            return <ExecMetricsRow key={i} process={process} tExecTime={tExecTime} tHumanTime={tHumanTime}
-                                   count={count} red={red} green={green} debug={debug}/>
-
-          })
-        }
+          return (
+            <ExecMetricsRow
+              key={i}
+              process={process}
+              tExecTime={tExecTime}
+              tHumanTime={tHumanTime}
+              count={count}
+              red={red}
+              green={green}
+              debug={debug}
+            />
+          );
+        })}
       </Grid>
     );
   }

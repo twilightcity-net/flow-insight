@@ -9,10 +9,10 @@ module.exports = class GridTableResults {
       this.title = json.title;
       this.headers = json.headers;
       this.rowsOfPaddedCells = json.rowsOfPaddedCells;
-
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'GridTableResults' : " + e.message
+        "Unable to create dto 'GridTableResults' : " +
+          e.message
       );
     }
   }

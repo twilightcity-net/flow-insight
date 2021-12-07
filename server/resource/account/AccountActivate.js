@@ -12,7 +12,7 @@ module.exports = class AccountActivate {
           message:
             "Your account has been successfully activated.",
           email: "admin@twilightcity.net",
-          apiKey: "FASFD423fsfd32d2322d"
+          apiKey: "FASFD423fsfd32d2322d",
         });
 
         Util.logPostRequest(

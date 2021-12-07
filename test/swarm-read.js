@@ -17,7 +17,7 @@ var feed = hypercore(ram, key, { valueEncoding: "json" });
 var swarm = null;
 
 // called when the core system is initialized
-feed.on("ready", function() {
+feed.on("ready", function () {
   console.log(
     "[ CONNECTING ] feed : " + feed.key.toString("hex")
   );
@@ -26,21 +26,21 @@ feed.on("ready", function() {
   swarm = hyperdiscovery(feed, { live: true });
 
   // triggered when a peer connects
-  swarm.on("connection", function(peer, type) {
+  swarm.on("connection", function (peer, type) {
     console.log("[ SWARM ] peer connection");
   });
 });
 
 // wait for the feed to update before setting up a stream to list on.
-feed.update(function() {
+feed.update(function () {
   console.log("[ FEED ] length : ", feed.length);
 
   // create the stream to listen on for events.
   var stream = feed.createReadStream({
     tail: true, // sets `start` to `feed.length`
-    live: true // set to true to keep reading forever
+    live: true, // set to true to keep reading forever
   });
-  stream.on("data", function(data) {
+  stream.on("data", function (data) {
     console.log(
       "[ STREAM ] size = %d | ping = %s : data =",
       feed.length,

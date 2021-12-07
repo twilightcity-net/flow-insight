@@ -36,7 +36,7 @@ export default class TerminalContent extends Component {
           "Display version information for this shell",
         usage: "version",
         fn: () => {
-          return "v.TC_0.5.9";
+          return "v.TC_0.5.10";
         },
       },
       whoami: {

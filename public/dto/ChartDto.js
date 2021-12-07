@@ -2,7 +2,6 @@
 // dto class for ChartDto
 //
 module.exports = class ChartDto {
-
   //event series
 
   static INTENTION_DATA = "@work/intent";
@@ -13,7 +12,6 @@ module.exports = class ChartDto {
   static FILE_DATA = "@place/location";
   static BOX_DATA = "@place/box";
   static EXEC_DATA = "@exec/runtime";
-
 
   constructor(json) {
     try {
@@ -27,7 +25,6 @@ module.exports = class ChartDto {
       this.chartSeries = json.chartSeries;
       this.eventSeriesByType = json.eventSeriesByType;
       this.featureSetsByType = json.featureSetsByType;
-
     } catch (e) {
       throw new Error(
         "Unable to create dto 'ChartDto' : " + e.message

@@ -209,10 +209,11 @@ export class BrowserRequestFactory {
    * @private
    */
   static _getCommandRequest(arg) {
-
     //this doesnt appear to actually be called...
 
-    console.log("_getCommandRequest: "+JSON.stringify(arg));
+    console.log(
+      "_getCommandRequest: " + JSON.stringify(arg)
+    );
     let args = arg.split(
         BrowserRequestFactory.SPACE_SEPARATOR
       ),

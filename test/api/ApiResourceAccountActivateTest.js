@@ -11,9 +11,9 @@ const apiUrlLocal = "http://localhost:" + port;
 const apiUrlRemote = "http://home.twilightcity.net";
 
 // TODO add tests for DataManager to be implemented
-describe("API Resource : /account ", function() {
+describe("API Resource : /account ", function () {
   let apiKey = "123e4567-e89b-12d3-a456-426655440000";
-  describe("POST /account/activate", function() {
+  describe("POST /account/activate", function () {
     let msg =
       "Your account has been successfully activated.";
     let status = "VALID";
@@ -21,30 +21,30 @@ describe("API Resource : /account ", function() {
     let key = "FASFD423fsfd32d2322d";
     let token = "abcd12345678";
     let dtoReq = new ActivationCodeDto({
-      activationCode: token
+      activationCode: token,
     });
     let dtoRes = new AccountActivationDto({
       status: status,
       message: msg,
       email: email,
-      apiKey: key
+      apiKey: key,
     });
     let localDtoRes = null;
     let remoteDtoRes = null;
 
-    it("should use dto 'ActivationTokenDto' for request", function(done) {
+    it("should use dto 'ActivationTokenDto' for request", function (done) {
       chai.should();
       testDtoReq(dtoReq, token);
       done();
     });
 
-    it("should use dto 'AccountActivationDto' for response", function(done) {
+    it("should use dto 'AccountActivationDto' for response", function (done) {
       chai.should();
       testDtoRes(dtoRes, status, msg, email, key);
       done();
     });
 
-    it("should return 'AccountActivationDto' on local POST", function(done) {
+    it("should return 'AccountActivationDto' on local POST", function (done) {
       chai.should();
       request
         .post(apiUrlLocal + "/account/activate")
@@ -58,7 +58,7 @@ describe("API Resource : /account ", function() {
         });
     });
 
-    it("should return 'AccountActivationDto' on remote POST", function(done) {
+    it("should return 'AccountActivationDto' on remote POST", function (done) {
       chai.should();
       request
         .post(apiUrlRemote + "/account/activate")
@@ -72,7 +72,7 @@ describe("API Resource : /account ", function() {
         });
     });
 
-    it("expect 'AccountActivationDto' to be equal", function(done) {
+    it("expect 'AccountActivationDto' to be equal", function (done) {
       var expect = chai.expect;
       expect(localDtoRes).to.eql(remoteDtoRes);
       done();
