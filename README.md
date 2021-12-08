@@ -21,7 +21,7 @@ The following will describe how to install 'TwilightCity' from source code, and 
 and for Gridtalk "https://gridtalk.twilightcity.net".  Please contact us for an API key.
 
 Requirements:
-- Node v14.18.0
+- Node v16.13.0
 - Xcode-CLI (`xcode-select --install`) (Mac Only)
 - Yarn v1.2.x
 - Git w/ CLI
@@ -41,6 +41,10 @@ https://yarnpkg.com/lang/en/docs/install/
 3) Open up a terminal window and navigate into a secure place where you store source code. The run the  git command:
 
 `git clone https://github.com/twilightcity-net/twilightcity-desktop.git`
+
+4) On mac arm64 architecture, electron is not yet supported, workaround this issue by using x64 packages:
+
+export npm_config_arch=x64
 
 4) Using yarn, install the projects module dependencies with the following command in the terminal: 
 
