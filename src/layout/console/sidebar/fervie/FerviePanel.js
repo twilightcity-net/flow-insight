@@ -469,6 +469,7 @@ export default class FerviePanel extends Component {
       <div
         style={{
           height: DimensionController.getFervieCanvasHeight(),
+          width: DimensionController.getFervieCanvasWidth()
         }}
       >
         <FervieCanvas

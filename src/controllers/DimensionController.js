@@ -96,7 +96,7 @@ export class DimensionController {
   static getFervieCanvasWidth() {
     let consoleSidebarWidthPixels = 29,
       oneRem = window.innerWidth / 100,
-      relativeWidth = 20.2;
+      relativeWidth = 21.2;
 
     return (
       oneRem * relativeWidth - consoleSidebarWidthPixels
@@ -110,7 +110,7 @@ export class DimensionController {
   static getFervieCanvasHeight() {
     let consoleSidebarBorderPixels = 4,
       oneRem = window.innerHeight / 100,
-      relativeHeight = 77;
+      relativeHeight = 76;
 
     return (
       oneRem * relativeHeight - consoleSidebarBorderPixels
@@ -154,7 +154,7 @@ export class DimensionController {
     static getColorPickerDivHeight() {
         let consoleSidebarBorderPixels = 4,
             oneRem = window.innerHeight / 100,
-            relativeHeight = 38;
+            relativeHeight = 37;
 
         return (
             oneRem * relativeHeight - consoleSidebarBorderPixels
