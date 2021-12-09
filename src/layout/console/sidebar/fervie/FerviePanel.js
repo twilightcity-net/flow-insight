@@ -690,8 +690,7 @@ export default class FerviePanel extends Component {
 
         <div
           style={{
-            height:
-              DimensionController.getColorPickerDivHeight(),
+            height: DimensionController.getColorPickerDivHeight()
           }}
         >
           <HexColorPicker
@@ -816,6 +815,7 @@ export default class FerviePanel extends Component {
           <Segment
             inverted
             className={"fervieContentWrapper"}
+            style={{height: DimensionController.getConsoleLayoutHeight()}}
           >
             <Transition
               visible={this.state.fervieVisible}
