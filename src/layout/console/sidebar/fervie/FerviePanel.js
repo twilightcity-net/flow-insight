@@ -464,10 +464,11 @@ export default class FerviePanel extends Component {
    * @returns {*}
    */
   getFervieCanvas = () => {
+
     return (
       <div
         style={{
-          height: 364,
+          height: DimensionController.getFervieCanvasHeight(),
         }}
       >
         <FervieCanvas
@@ -660,8 +661,8 @@ export default class FerviePanel extends Component {
         <div
           style={{
             margin: "auto",
-            height: 150,
-            width: 122,
+            height: DimensionController.getMiniFervieCanvasHeight(),
+            width: DimensionController.getMiniFervieCanvasWidth(),
           }}
         >
           <FervieCanvas
@@ -690,8 +691,7 @@ export default class FerviePanel extends Component {
         <div
           style={{
             height:
-              DimensionController.getConsoleLayoutHeight() -
-              287,
+              DimensionController.getColorPickerDivHeight(),
           }}
         >
           <HexColorPicker

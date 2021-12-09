@@ -110,12 +110,54 @@ export class DimensionController {
   static getFervieCanvasHeight() {
     let consoleSidebarBorderPixels = 4,
       oneRem = window.innerHeight / 100,
-      relativeHeight = 77;
+      relativeHeight = 75;
 
     return (
       oneRem * relativeHeight - consoleSidebarBorderPixels
     );
   }
+
+  /**
+   * gets the mini fervie canvas height dimension for canvas on the color picker panel
+   * @returns {number}
+   */
+  static getMiniFervieCanvasHeight() {
+      let consoleSidebarBorderPixels = 4,
+          oneRem = window.innerHeight / 100,
+          relativeHeight = 37;
+
+      return (
+          oneRem * relativeHeight - consoleSidebarBorderPixels
+      );
+  }
+
+  /**
+   * gets the fervie panel width of the canvas
+   * @returns {number}
+   */
+  static getMiniFervieCanvasWidth() {
+      let consoleSidebarWidthPixels = 29,
+          oneRem = window.innerWidth / 100,
+          relativeWidth = 12;
+
+      return (
+          oneRem * relativeWidth - consoleSidebarWidthPixels
+      );
+  }
+
+    /**
+     * gets the height dimension for the fervie color picker
+     * @returns {number}
+     */
+    static getColorPickerDivHeight() {
+        let consoleSidebarBorderPixels = 4,
+            oneRem = window.innerHeight / 100,
+            relativeHeight = 36;
+
+        return (
+            oneRem * relativeHeight - consoleSidebarBorderPixels
+        );
+    }
 
   /**
    * gets the circuits height dimension for sidebar panel
