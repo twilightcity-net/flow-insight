@@ -1,5 +1,6 @@
 const BaseController = require("./BaseController"),
-  EventFactory = require("../events/EventFactory");
+  EventFactory = require("../events/EventFactory"),
+  Util = require("../Util.js");
 
 /**
  * This class is used to coordinate controllers across the terminal service
@@ -22,15 +23,14 @@ module.exports = class TerminalController extends (
 
   /**
    * general enum list of all of our possible terminal events
-   * @returns {{RUN_COMMAND: string, GET_MANUAL_PAGE: string, GET_MANUAL: string, GET_MANUAL_HELP_TOPICS: string}}
+   * @returns {{CREATE_SESSION: string, RUN_COMMAND: string, GET_MANUAL: string, }}
    * @constructor
    */
   static get Events() {
     return {
+      CREATE_SESSION: "create-session",
       RUN_COMMAND: "run-command",
-      GET_MANUAL_PAGE: "get-manual-page",
       GET_MANUAL: "get-manual",
-      GET_MANUAL_HELP_TOPICS: "get-manual-help-topics",
     };
   }
 
@@ -75,18 +75,14 @@ module.exports = class TerminalController extends (
       );
     } else {
       switch (arg.type) {
+        case TerminalController.Events.CREATE_SESSION:
+          this.handleCreateSessionEvent(event, arg);
+          break;
         case TerminalController.Events.RUN_COMMAND:
           this.handleRunCommandEvent(event, arg);
           break;
-        case TerminalController.Events.GET_MANUAL_PAGE:
-          this.handleGetManualPageEvent(event, arg);
-          break;
         case TerminalController.Events.GET_MANUAL:
           this.handleGetManualEvent(event, arg);
-          break;
-        case TerminalController.Events
-          .GET_MANUAL_HELP_TOPICS:
-          this.handleGetManualHelpTopicsEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -99,6 +95,36 @@ module.exports = class TerminalController extends (
     }
   }
 
+
+  /**
+   * Create a new terminal session on gridtime,
+   * establishing a new talk channel for all terminal activity
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleCreateSessionEvent(event, arg, callback) {
+    let urn =
+      TerminalController.Paths.TERMINAL +
+      TerminalController.Paths.CIRCUIT;
+
+    this.doClientRequest(
+      TerminalController.Contexts.TERMINAL_CLIENT,
+      {},
+      TerminalController.Names.CREATE_TERMINAL_SESSION,
+      TerminalController.Types.POST,
+      urn,
+      (store) =>
+        this.delegateCreateSessionCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
   /**
    * run terminal commands on gridtime server
    * @param event
@@ -107,13 +133,21 @@ module.exports = class TerminalController extends (
    */
 
   handleRunCommandEvent(event, arg, callback) {
-    let urn = TerminalController.Paths.TEAM;
+    let circuitName = arg.args.circuitName,
+      cmdInput = arg.args.commandInput;
+
+    let urn = TerminalController.Paths.TERMINAL +
+      TerminalController.Paths.CIRCUIT +
+      TerminalController.Paths.SEPARATOR +
+      circuitName +
+      TerminalController.Paths.RUN;
+
 
     this.doClientRequest(
-      TerminalController.Contexts.TEAM_CLIENT,
-      {},
-      TerminalController.Names.GET_ALL_MY_TEAMS,
-      TerminalController.Types.GET,
+      TerminalController.Contexts.TERMINAL_CLIENT,
+      cmdInput,
+      TerminalController.Names.RUN_TERMINAL_COMMAND,
+      TerminalController.Types.POST,
       urn,
       (store) =>
         this.delegateRunCommandCallback(
@@ -132,15 +166,12 @@ module.exports = class TerminalController extends (
    * @param arg
    * @param callback
    */
-  delegateRunCommandCallback(store, event, arg, callback) {
+  delegateCreateSessionCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let result = store.data;
-
-      if (result) {
-        //do magic things
-      }
+      arg.data = store.data;
+      arg.data.url = Util.getAppApi();
     }
 
     this.delegateCallbackOrEventReplyTo(
@@ -150,30 +181,6 @@ module.exports = class TerminalController extends (
     );
   }
 
-  /**
-   * Retrieves a specific terminal manual page from the gridtime server
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleGetManualPageEvent(event, arg, callback) {
-    let urn = TerminalController.Paths.TEAM;
-
-    this.doClientRequest(
-      TerminalController.Contexts.TEAM_CLIENT,
-      {},
-      TerminalController.Names.GET_ALL_MY_TEAMS,
-      TerminalController.Types.GET,
-      urn,
-      (store) =>
-        this.delegateGetManualPageCallback(
-          store,
-          event,
-          arg,
-          callback
-        )
-    );
-  }
 
   /**
    * handles our dto callback from our rest client
@@ -182,20 +189,11 @@ module.exports = class TerminalController extends (
    * @param arg
    * @param callback
    */
-  delegateGetManualPageCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
+  delegateRunCommandCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {
-      let result = store.data;
-
-      if (result) {
-        //do magic things
-      }
+      arg.data = store.data;
     }
 
     this.delegateCallbackOrEventReplyTo(
@@ -205,6 +203,7 @@ module.exports = class TerminalController extends (
     );
   }
 
+
   /**
    * Retrieves the entire terminal manual from the gridtime server
    * @param event
@@ -212,12 +211,13 @@ module.exports = class TerminalController extends (
    * @param callback
    */
   handleGetManualEvent(event, arg, callback) {
-    let urn = TerminalController.Paths.TEAM;
+    let urn = TerminalController.Paths.TERMINAL +
+      TerminalController.Paths.MANUAL;
 
     this.doClientRequest(
-      TerminalController.Contexts.TEAM_CLIENT,
+      TerminalController.Contexts.TERMINAL_CLIENT,
       {},
-      TerminalController.Names.GET_ALL_MY_TEAMS,
+      TerminalController.Names.GET_TERMINAL_COMMAND_MANUAL,
       TerminalController.Types.GET,
       urn,
       (store) =>
@@ -241,11 +241,10 @@ module.exports = class TerminalController extends (
     if (store.error) {
       arg.error = store.error;
     } else {
-      let result = store.data;
+      arg.data = store.data;
 
-      if (result) {
-        //do magic things
-      }
+      //could store this is a db table?
+      //dont really need to call this one everytime...
     }
 
     this.delegateCallbackOrEventReplyTo(
@@ -255,58 +254,4 @@ module.exports = class TerminalController extends (
     );
   }
 
-  /**
-   * Retrieves all the available terminal help topics from the gridtime server
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleGetManualHelpTopicsEvent(event, arg, callback) {
-    let urn = TerminalController.Paths.TEAM;
-
-    this.doClientRequest(
-      TerminalController.Contexts.TEAM_CLIENT,
-      {},
-      TerminalController.Names.GET_ALL_MY_TEAMS,
-      TerminalController.Types.GET,
-      urn,
-      (store) =>
-        this.delegateGetManualHelpTopicsCallback(
-          store,
-          event,
-          arg,
-          callback
-        )
-    );
-  }
-
-  /**
-   * handles our dto callback from our rest client
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateGetManualHelpTopicsCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
-    if (store.error) {
-      arg.error = store.error;
-    } else {
-      let result = store.data;
-
-      if (result) {
-        //do magic things
-      }
-    }
-
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
-  }
 };

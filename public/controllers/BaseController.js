@@ -56,6 +56,9 @@ module.exports = class BaseController {
       SCOPE: "/scope",
       CHART: "/chart",
       FRICTION: "/friction",
+      TERMINAL: "/terminal",
+      RUN: "/run",
+      MANUAL: "/manual"
     };
   }
 
@@ -105,6 +108,13 @@ module.exports = class BaseController {
         "IntentionAbortedDetailsDto",
       JOURNAL_ENTRY_DTO: "JournalEntryDto",
       DICTIONARY_UPDATE: "WordDefinitionDto",
+      TERMINAL_GRIDTABLE: "GridTableResults",
+      TERMINAL_STATUS: "SimpleStatusDto",
+      TERMINAL_GRIDSTATUS: "GridStatusSummaryDto",
+      TERMINAL_PROJECT: "ProjectDetailsDto",
+      TERMINAL_TILE: "GridTileDto",
+      TERMINAL_CALENDAR: "CalendarInfoDto",
+      TERMINAL_CHART: "ChartDto"
     };
   }
 
@@ -189,6 +199,9 @@ module.exports = class BaseController {
       SAVE_CIRCUIT_TAGS: "saveCircuitTags",
       GET_TEAM_DICTIONARY: "getTeamDictionary",
       CHART_WTF: "chartWTF",
+      CREATE_TERMINAL_SESSION: "createTerminalSession",
+      RUN_TERMINAL_COMMAND: "runTerminalCommand",
+      GET_TERMINAL_COMMAND_MANUAL: "getTerminalCommandManual"
     };
   }
 
@@ -256,6 +269,7 @@ module.exports = class BaseController {
       DICTIONARY_CLIENT: "DictionaryClient",
       FERVIE_CLIENT: "FervieClient",
       CHART_CLIENT: "ChartClient",
+      TERMINAL_CLIENT: "TerminalClient"
     };
   }
 

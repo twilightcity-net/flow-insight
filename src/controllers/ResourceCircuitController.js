@@ -287,6 +287,26 @@ export class ResourceCircuitController extends ActiveViewController {
 
   /**
    * joins us to the circuit's room on the talk network via gridtime. The
+   * roomName or id is passed in as an argument
+   * @param roomId
+   */
+  joinExistingRoomWithRoomId(roomId) {
+      TalkToClient.joinExistingRoom(
+        roomId,
+        this,
+        (arg) => {
+          console.log(
+            this.name +
+            " JOIN EXISTING ROOM -> " +
+            JSON.stringify(arg)
+          );
+          this.fireJoinExistingRoomNotifyEvent();
+        }
+      );
+  }
+
+  /**
+   * joins us to the circuit's room on the talk network via gridtime. The
    * roomName is parsed from the uri and "-wtf" is appended to it. This
    * roomName is then sent to gridtime over an http dto request.
    * @param resource
@@ -336,6 +356,24 @@ export class ResourceCircuitController extends ActiveViewController {
       );
     }
   }
+
+  /**
+   * leaves a circuit on gridtime. This will implicitly call leave room on gridtime
+   * which calls leave on that clients socket on the gridtalk server. No error is
+   * thrown if we try to leave a room in which we dont belong or we not added to.
+   * @param resource
+   */
+  leaveExistingRoomWithRoomId(roomId) {
+
+      TalkToClient.leaveExistingRoom(
+        roomId,
+        this,
+        (arg) => {
+          this.fireLeaveExistingRoomNotifyEvent();
+        }
+      );
+  }
+
 
   /**
    * leaves a circuit on gridtime. This will implicitly call leave room on gridtime

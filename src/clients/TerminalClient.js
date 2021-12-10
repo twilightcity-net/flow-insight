@@ -32,10 +32,9 @@ export class TerminalClient extends BaseClient {
    */
   static get Events() {
     return {
+      CREATE_SESSION: "create-session",
       RUN_COMMAND: "run-command",
-      GET_MANUAL_PAGE: "get-manual-page",
       GET_MANUAL: "get-manual",
-      GET_MANUAL_HELP_TOPICS: "get-manual-help-topics",
     };
   }
 
@@ -50,14 +49,15 @@ export class TerminalClient extends BaseClient {
   }
 
   /**
-   * Runs a terminal command on gridtime
+   * Creates a new terminal session, and establishes a talk room
+   * for all terminal activity
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static runCommand(scope, callback) {
+  static createSession(scope, callback) {
     let event = TerminalClient.instance.createClientEvent(
-      TerminalClient.Events.RUN_COMMAND,
+      TerminalClient.Events.CREATE_SESSION,
       {},
       scope,
       callback
@@ -66,16 +66,20 @@ export class TerminalClient extends BaseClient {
     return event;
   }
 
+
   /**
-   * Retrieve a specific manual page from gridtime
+   * Runs a terminal command on gridtime
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static getManualPage(scope, callback) {
+  static runCommand(circuitName, commandInput, scope, callback) {
     let event = TerminalClient.instance.createClientEvent(
-      TerminalClient.Events.GET_MANUAL_PAGE,
-      {},
+      TerminalClient.Events.RUN_COMMAND,
+      {
+        circuitName: circuitName,
+        commandInput: commandInput
+      },
       scope,
       callback
     );
@@ -100,22 +104,6 @@ export class TerminalClient extends BaseClient {
     return event;
   }
 
-  /**
-   * Retrieve the short list of available terminal help topics
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static getManualHelpTopics(scope, callback) {
-    let event = TerminalClient.instance.createClientEvent(
-      TerminalClient.Events.GET_MANUAL_HELP_TOPICS,
-      {},
-      scope,
-      callback
-    );
-    TerminalClient.instance.notifyTerminal(event);
-    return event;
-  }
 
   /**
    * the event callback used by the event manager. removes the event from

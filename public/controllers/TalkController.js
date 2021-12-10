@@ -355,6 +355,14 @@ module.exports = class TalkController extends (
           message.data
         );
         break;
+      case TalkController.MessageTypes.TERMINAL_CALENDAR:
+      case TalkController.MessageTypes.TERMINAL_CHART:
+      case TalkController.MessageTypes.TERMINAL_GRIDSTATUS:
+      case TalkController.MessageTypes.TERMINAL_PROJECT:
+      case TalkController.MessageTypes.TERMINAL_STATUS:
+      case TalkController.MessageTypes.TERMINAL_TILE:
+      case TalkController.MessageTypes.TERMINAL_GRIDTABLE:
+        break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:
         let data = message.data,
           circuit = data.learningCircuitDto;

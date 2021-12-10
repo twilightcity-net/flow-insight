@@ -2,7 +2,6 @@
  * a factory class that is used to create new requests for our browser
  * @type{BrowserRequestFactory}
  */
-import { CircuitClient } from "../clients/CircuitClient";
 
 export class BrowserRequestFactory {
   /**

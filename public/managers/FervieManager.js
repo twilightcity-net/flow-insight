@@ -6,7 +6,7 @@ const FervieController = require("../controllers/FervieController"),
  */
 module.exports = class FervieManager {
   /**
-   * builds the circuit manager for the global app scope
+   * builds the fervie manager for the global app scope
    */
   constructor() {
     this.name = "[FervieManager]";

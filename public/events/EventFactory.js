@@ -45,6 +45,7 @@ class EventFactory {
       JOURNAL_CLIENT: prefix + "journal-client",
       DICTIONARY_CLIENT: prefix + "dictionary-client",
       FERVIE_CLIENT: prefix + "fervie-client",
+      TERMINAL_CLIENT: prefix + "terminal-client",
       CHART_CLIENT: prefix + "chart-client",
       WINDOW_FOCUS: prefix + "window-focus",
       WINDOW_BLUR: prefix + "window-blur",

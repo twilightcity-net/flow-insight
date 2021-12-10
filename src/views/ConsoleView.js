@@ -12,6 +12,7 @@ import { TeamCircuitClient } from "../clients/TeamCircuitClient";
 import { MemberClient } from "../clients/MemberClient";
 import { DictionaryClient } from "../clients/DictionaryClient";
 import { FervieClient } from "../clients/FervieClient";
+import { TerminalClient } from "../clients/TerminalClient";
 import { ChartClient } from "../clients/ChartClient";
 
 /**
@@ -122,6 +123,7 @@ export default class ConsoleView extends Component {
     DictionaryClient.init(this);
     DimensionController.init(this);
     FervieClient.init(this);
+    TerminalClient.init(this);
     ChartClient.init(this);
   };
 
