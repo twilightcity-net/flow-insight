@@ -362,6 +362,7 @@ module.exports = class TalkController extends (
       case TalkController.MessageTypes.TERMINAL_STATUS:
       case TalkController.MessageTypes.TERMINAL_TILE:
       case TalkController.MessageTypes.TERMINAL_GRIDTABLE:
+      case TalkController.MessageTypes.TERMINAL_ENVVARIABLE:
         break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:
         let data = message.data,

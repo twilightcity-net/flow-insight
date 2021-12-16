@@ -11,6 +11,9 @@ import {RendererEventFactory} from "../../../../../events/RendererEventFactory";
  * @copyright Twilight City, Inc. 2021©®™√
  */
 export default class TerminalContent extends Component {
+
+  static SUBSHELL_ENV_VARIABLE = "subshell";
+
   /**
    * builds the Terminal Content component
    * @param props
@@ -33,6 +36,7 @@ export default class TerminalContent extends Component {
       );
 
     this.state = {
+      baseConnectPath: "",
       promptLabel: "fervie>",
       subshell: null,
       locked : false
@@ -41,19 +45,114 @@ export default class TerminalContent extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+
+    if (this.props.terminalCircuit && prevProps.terminalCircuit &&
+    this.props.terminalCircuit.circuitName !== prevProps.terminalCircuit.circuitName) {
+      //circuit connection changed
+
+      let subshell = this.getSubshellFromEnvironment(this.props.terminalCircuit);
+      this.configSubshellAndPrompt(subshell);
+
+    }
+
     if (this.props.commandManual !== null && prevProps.commandManual === null) {
 
       let allCommands = {
         ...this.getDefaultTopShellCommands(),
-        ...this.getTopShellCommands()
+        ...this.getTopShellCommands(),
+        ...this.getTtyCommands()
       };
 
       this.setState({commands: allCommands});
-
     }
   }
 
 
+  configSubshellAndPrompt(subshell) {
+
+    let baseConnectPath = "";
+    if (!this.props.isBaseCircuit) {
+      baseConnectPath = this.props.me.username + "@terminal/" + this.props.terminalCircuit.circuitName + "::";
+    }
+
+    let prompt = "";
+    let commands = [];
+
+    if (subshell) {
+      prompt = baseConnectPath + "fervie/"+subshell + ">";
+      commands = {
+        ...this.getDefaultSubShellCommands(subshell),
+        ...this.getSubshellCommands(subshell)
+      };
+
+    } else {
+      prompt = baseConnectPath + "fervie>";
+      commands = {
+        ...this.getDefaultTopShellCommands(),
+        ...this.getTopShellCommands(),
+        ...this.getTtyCommands()
+      };
+    }
+
+    this.setState({
+      baseConnectPath: baseConnectPath,
+      subshell: subshell,
+      promptLabel: prompt,
+      commands: commands
+    });
+  }
+
+  getTtyCommands() {
+    if (this.props.isBaseCircuit) {
+      return {
+        tty: {
+          description: "List available ttys to connect to",
+          fn: () => {
+            TerminalClient.getConnectableTtys(this,
+              (arg) => {
+                if (arg.error) {
+                  this.terminal.current.pushToStdout(arg.error);
+                } else {
+                  let output = arg.data.serializedDisplayString;
+                  output += "\nType 'join {ttyLink}' to join";
+
+                  this.terminal.current.pushToStdout(output);
+                }
+                this.terminal.current.scrollToBottom();
+              });
+            return "";
+          }
+        },
+        join: {
+          fn: (ttyLink) => {
+            let output = "";
+            if (ttyLink) {
+              output = this.props.joinTty(ttyLink);
+            } else {
+              output = "Usage: join {ttyLink}";
+            }
+            return output;
+          }
+        }
+      }
+    } else {
+      return {};
+    }
+
+  }
+
+  getSubshellFromEnvironment(terminalCircuit) {
+    let subshell = null;
+    if (terminalCircuit.environmentVariables && terminalCircuit.environmentVariables.length > 0) {
+      for (let i = 0; i < terminalCircuit.environmentVariables.length; i++) {
+        if (TerminalContent.SUBSHELL_ENV_VARIABLE === terminalCircuit.environmentVariables[i].variableName) {
+          subshell = terminalCircuit.environmentVariables[i].value;
+          break;
+        }
+      }
+    }
+    return subshell;
+  }
 
   /**
    * event handler for talk messages. This is called everytime we receive a new talk
@@ -97,27 +196,36 @@ export default class TerminalContent extends Component {
         description: "Exit the terminal of the shell",
         usage: "exit",
         fn: () => {
-          let request = BrowserRequestFactory.createRequest(
-            BrowserRequestFactory.Requests.JOURNAL,
-            "me"
-          );
-          setTimeout(() => {
-            this.browserController.makeRequest(request);
-          }, 420);
-          return "Goodbye...";
+          if (this.props.isBaseCircuit) {
+            let request = BrowserRequestFactory.createRequest(
+              BrowserRequestFactory.Requests.JOURNAL,
+              "me"
+            );
+            setTimeout(() => {
+              this.browserController.makeRequest(request);
+            }, 420);
+            return "Goodbye...";
+          } else {
+            this.props.leaveTty();
+          }
         },
       },
     };
   }
 
   getShellOptionHelp() {
-    let help = "Enter the name of a type of activity, to create a subshell that helps you with related tasks.\n\n";
+    let help = "Enter one of the activity types below, to create a subshell that helps you with related tasks.\n\n";
     if (this.props.commandManual) {
       let activityContexts = this.props.commandManual.activityContexts;
       for (let i = 0; i < activityContexts.length; i++) {
          help += activityContexts[i].context.toLowerCase().padEnd(10) + " :: "+activityContexts[i].description + "\n";
       }
     }
+
+    if (this.props.isBaseCircuit) {
+      help += "\nType 'tty' to show other terminal circuits on the network";
+    }
+
     return help;
   }
 
@@ -234,7 +342,7 @@ export default class TerminalContent extends Component {
   getDefaultSubShellCommands(subshellName) {
     return {
       help: {
-        description: "Attempt to override the help",
+        description: "Override the help with command manual help",
         usage: "help",
         fn: (optionalCmd) => {
           if (optionalCmd) {
@@ -283,7 +391,14 @@ export default class TerminalContent extends Component {
   }
 
   startSubshell(subshellName) {
-    console.log("starting shell: "+subshellName);
+
+    TerminalClient.setVariable(
+        this.props.terminalCircuit.circuitName,
+        TerminalContent.SUBSHELL_ENV_VARIABLE,
+        subshellName,
+        this,
+        (arg) => {}
+      );
 
     let subshellCommands = {
       ...this.getDefaultSubShellCommands(subshellName),
@@ -292,12 +407,21 @@ export default class TerminalContent extends Component {
 
     this.setState({
       subshell: subshellName,
-      promptLabel: "fervie/" + subshellName + ">",
+      promptLabel: this.state.baseConnectPath + "fervie/" + subshellName + ">",
       commands: subshellCommands
     });
   }
 
   exitSubshell() {
+
+    TerminalClient.setVariable(
+        this.props.terminalCircuit.circuitName,
+        TerminalContent.SUBSHELL_ENV_VARIABLE,
+        null,
+        this,
+        (arg) => {}
+      );
+
     let allCommands = {
       ...this.getDefaultTopShellCommands(),
       ...this.getTopShellCommands()
@@ -305,7 +429,7 @@ export default class TerminalContent extends Component {
 
     this.setState({
       subshell: null,
-      promptLabel: "fervie>",
+      promptLabel: this.state.baseConnectPath + "fervie>",
       commands: allCommands
     });
   }

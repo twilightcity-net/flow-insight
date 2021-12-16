@@ -25,6 +25,7 @@ export class TerminalClient extends BaseClient {
     );
   }
 
+
   /**
    * general enum list of all of our possible terminal events
    * @returns {{RUN_COMMAND: string, GET_MANUAL_PAGE: string, GET_MANUAL: string, GET_MANUAL_HELP_TOPICS: string}}
@@ -32,9 +33,13 @@ export class TerminalClient extends BaseClient {
    */
   static get Events() {
     return {
-      CREATE_SESSION: "create-session",
+      CREATE_CIRCUIT: "create-circuit",
       RUN_COMMAND: "run-command",
       GET_MANUAL: "get-manual",
+      GET_TTYS: "get-ttys",
+      JOIN_CIRCUIT: "join-circuit",
+      LEAVE_CIRCUIT: "leave-circuit",
+      SET_VARIABLE: "set-variable"
     };
   }
 
@@ -49,15 +54,15 @@ export class TerminalClient extends BaseClient {
   }
 
   /**
-   * Creates a new terminal session, and establishes a talk room
+   * Creates a new terminal circuit, and establishes a talk room
    * for all terminal activity
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static createSession(scope, callback) {
+  static createCircuit(scope, callback) {
     let event = TerminalClient.instance.createClientEvent(
-      TerminalClient.Events.CREATE_SESSION,
+      TerminalClient.Events.CREATE_CIRCUIT,
       {},
       scope,
       callback
@@ -65,6 +70,92 @@ export class TerminalClient extends BaseClient {
     TerminalClient.instance.notifyTerminal(event);
     return event;
   }
+
+
+
+  /**
+   * Get a list of all the connectable ttys on the network
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getConnectableTtys(scope, callback) {
+    let event = TerminalClient.instance.createClientEvent(
+      TerminalClient.Events.GET_TTYS,
+      {},
+      scope,
+      callback
+    );
+    TerminalClient.instance.notifyTerminal(event);
+    return event;
+  }
+
+  /**
+   * Set an environment variable within the context of a circuit
+   * @param circuitName
+   * @param variableName
+   * @param value
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static setVariable(circuitName, variableName, value, scope, callback) {
+    console.log("set variable called!");
+    let event = TerminalClient.instance.createClientEvent(
+      TerminalClient.Events.SET_VARIABLE,
+      {
+        circuitName: circuitName,
+        variableName: variableName,
+        value: value
+      },
+      scope,
+      callback
+    );
+    TerminalClient.instance.notifyTerminal(event);
+    return event;
+  }
+
+  /**
+   * Join a terminal circuit on the network
+   * @param circuitName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static joinCircuit(circuitName, scope, callback) {
+    let event = TerminalClient.instance.createClientEvent(
+      TerminalClient.Events.JOIN_CIRCUIT,
+      {
+        circuitName: circuitName
+      },
+      scope,
+      callback
+    );
+    TerminalClient.instance.notifyTerminal(event);
+    return event;
+  }
+
+
+  /**
+   * Leave a terminal circuit on the network, or our own circuit to close
+   * @param circuitName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static leaveCircuit(circuitName, scope, callback) {
+    let event = TerminalClient.instance.createClientEvent(
+      TerminalClient.Events.LEAVE_CIRCUIT,
+      {
+        circuitName: circuitName
+      },
+      scope,
+      callback
+    );
+    TerminalClient.instance.notifyTerminal(event);
+    return event;
+  }
+
 
 
   /**

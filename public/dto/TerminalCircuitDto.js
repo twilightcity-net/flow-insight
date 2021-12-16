@@ -12,6 +12,8 @@ module.exports = class TerminalCircuitDto {
       this.createdDate = json.createdDate;
       this.creator = json.creator;
       this.circuitMembers = json.circuitMembers;
+      this.environmentVariables = json.environmentVariables;
+
 
     } catch (e) {
       throw new Error(

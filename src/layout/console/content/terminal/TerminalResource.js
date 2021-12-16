@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import TerminalContent from "./components/TerminalContent";
 import { TerminalClient } from "../../../../clients/TerminalClient";
+import { MemberClient } from "../../../../clients/MemberClient";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 
 /**
@@ -19,6 +20,10 @@ export default class TerminalResource extends Component {
       resource: props.resource,
       commandManual: null,
       terminalCircuit: null,
+      baseCircuitShelf: null,
+      isBaseCircuit: true,
+      me: MemberClient.me
+
     };
     this.loadCount = 0;
 
@@ -40,7 +45,7 @@ export default class TerminalResource extends Component {
        this.initializeWhenLoadingDone();
     });
 
-    TerminalClient.createSession(this, (arg) => {
+    TerminalClient.createCircuit(this, (arg) => {
 
        this.terminalCircuit = arg.data;
        this.loadCount++;
@@ -64,8 +69,61 @@ export default class TerminalResource extends Component {
 
   componentWillUnmount() {
     if (this.state.terminalCircuit) {
+      this.resourcesController.leaveTerminalCircuit(this.state.terminalCircuit.circuitName);
       this.resourcesController.leaveExistingRoomWithRoomId(this.state.terminalCircuit.talkRoomId);
     }
+  }
+
+
+  joinTty = (terminalPath) => {
+    let output = "";
+    if (terminalPath.includes("/terminal/")) {
+      let circuitName = terminalPath.substring(terminalPath.indexOf("/terminal/") + 10);
+
+      if (circuitName !== this.terminalCircuit.circuitName) {
+        output = "Joining "+terminalPath + "...";
+        //
+        // let that = this;
+
+        TerminalClient.joinCircuit(circuitName, this, (arg) => {
+          if (!arg.error) {
+            let newCircuit = arg.data;
+
+            this.resourcesController.leaveExistingRoomWithRoomId(this.state.terminalCircuit.talkRoomId);
+            this.resourcesController.joinExistingRoomWithRoomId(newCircuit.talkRoomId);
+
+            this.setState(prevState => {
+              return {
+                baseCircuitShelf: prevState.terminalCircuit,
+                terminalCircuit: newCircuit,
+                isBaseCircuit: false
+              };
+            });
+          } else {
+            //TODO should report errors back to terminal async
+            console.log(arg.error);
+          }
+        });
+      } else {
+        output = "You are already connected to this circuit.";
+      }
+    } else {
+      output = "Invalid path. Expecting /terminal/{name}";
+    }
+
+    return output;
+  }
+
+  leaveTty = () => {
+    this.resourcesController.leaveTerminalCircuit(this.state.terminalCircuit.circuitName);
+
+    this.setState(prevState => {
+      return {
+        baseCircuitShelf: null,
+        terminalCircuit: prevState.baseCircuitShelf,
+        isBaseCircuit: true
+      };
+    });
   }
 
   /**
@@ -77,8 +135,12 @@ export default class TerminalResource extends Component {
       <div id="component" className="terminalLayout">
         <div id="wrapper" className="terminalContent">
           <TerminalContent
+            me={this.state.me}
             terminalCircuit={this.state.terminalCircuit}
             commandManual={this.state.commandManual}
+            isBaseCircuit={this.state.isBaseCircuit}
+            joinTty={this.joinTty}
+            leaveTty={this.leaveTty}
           />
         </div>
       </div>

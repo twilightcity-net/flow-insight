@@ -58,7 +58,8 @@ module.exports = class BaseController {
       FRICTION: "/friction",
       TERMINAL: "/terminal",
       RUN: "/run",
-      MANUAL: "/manual"
+      MANUAL: "/manual",
+      SET: "/set"
     };
   }
 
@@ -114,7 +115,8 @@ module.exports = class BaseController {
       TERMINAL_PROJECT: "ProjectDetailsDto",
       TERMINAL_TILE: "GridTileDto",
       TERMINAL_CALENDAR: "CalendarInfoDto",
-      TERMINAL_CHART: "ChartDto"
+      TERMINAL_CHART: "ChartDto",
+      TERMINAL_ENVVARIABLE: "EnvironmentVariableDto"
     };
   }
 
@@ -201,7 +203,11 @@ module.exports = class BaseController {
       CHART_WTF: "chartWTF",
       CREATE_TERMINAL_SESSION: "createTerminalSession",
       RUN_TERMINAL_COMMAND: "runTerminalCommand",
-      GET_TERMINAL_COMMAND_MANUAL: "getTerminalCommandManual"
+      GET_TERMINAL_COMMAND_MANUAL: "getTerminalCommandManual",
+      GET_TERMINAL_TTYS: "getTerminalTtys",
+      JOIN_TERMINAL_CIRCUIT: "joinTerminalCircuit",
+      LEAVE_TERMINAL_CIRCUIT: "leaveTerminalCircuit",
+      SET_TERMINAL_ENVIRONMENT_VARIABLE: "setTerminalEnvironmentVariable"
     };
   }
 

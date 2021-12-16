@@ -1,5 +1,6 @@
 import { ActiveViewController } from "./ActiveViewController";
 import { CircuitClient } from "../clients/CircuitClient";
+import { TerminalClient } from "../clients/TerminalClient";
 import { BrowserRequestFactory } from "./BrowserRequestFactory";
 import { RendererControllerFactory } from "./RendererControllerFactory";
 import { RendererEventFactory } from "../events/RendererEventFactory";
@@ -282,6 +283,20 @@ export class ResourceCircuitController extends ActiveViewController {
         this.name + " LEAVE WTF -> " + circuitName
       );
       this.fireLeaveCircuitNotifyEvent();
+    });
+  }
+
+
+  /**
+   * leaves the specified terminal circuit
+   * If the owner of the circuit, this will close the circuit
+   * @param circuitName
+   */
+  leaveTerminalCircuit(circuitName) {
+    TerminalClient.leaveCircuit(circuitName, this, (arg) => {
+      console.log(
+        this.name + " LEAVE TERMINAL CIRCUIT -> " + circuitName
+      );
     });
   }
 
