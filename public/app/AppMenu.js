@@ -12,16 +12,7 @@ const helpSubmenu = [
       );
       Util.openExternalBrowser("http://twilightcity.net/");
     },
-  },
-  {
-    label: "Deactivate TwilightCity",
-    click() {
-      log.info(
-        "[AppMenu] deactivate and reset Twilight City"
-      );
-      Util.deleteSettings();
-    },
-  },
+  }
 ];
 
 class AppMenuException extends Error {
