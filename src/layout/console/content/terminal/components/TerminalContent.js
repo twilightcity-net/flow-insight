@@ -50,8 +50,7 @@ export default class TerminalContent extends Component {
     this.props.terminalCircuit.circuitName !== prevProps.terminalCircuit.circuitName) {
       //circuit connection changed
 
-      let subshell = this.getSubshellFromEnvironment(this.props.terminalCircuit);
-      this.configSubshellAndPrompt(subshell);
+      this.configShellCommandsAndPrompt(null);
 
     }
 
@@ -68,7 +67,7 @@ export default class TerminalContent extends Component {
   }
 
 
-  configSubshellAndPrompt(subshell) {
+  configShellCommandsAndPrompt(subshell) {
 
     let baseConnectPath = "";
     if (!this.props.isBaseCircuit) {
@@ -139,19 +138,6 @@ export default class TerminalContent extends Component {
       return {};
     }
 
-  }
-
-  getSubshellFromEnvironment(terminalCircuit) {
-    let subshell = null;
-    if (terminalCircuit.environmentVariables && terminalCircuit.environmentVariables.length > 0) {
-      for (let i = 0; i < terminalCircuit.environmentVariables.length; i++) {
-        if (TerminalContent.SUBSHELL_ENV_VARIABLE === terminalCircuit.environmentVariables[i].variableName) {
-          subshell = terminalCircuit.environmentVariables[i].value;
-          break;
-        }
-      }
-    }
-    return subshell;
   }
 
   /**
@@ -392,46 +378,12 @@ export default class TerminalContent extends Component {
 
   startSubshell(subshellName) {
 
-    TerminalClient.setVariable(
-        this.props.terminalCircuit.circuitName,
-        TerminalContent.SUBSHELL_ENV_VARIABLE,
-        subshellName,
-        this,
-        (arg) => {}
-      );
-
-    let subshellCommands = {
-      ...this.getDefaultSubShellCommands(subshellName),
-      ...this.getSubshellCommands(subshellName)
-    };
-
-    this.setState({
-      subshell: subshellName,
-      promptLabel: this.state.baseConnectPath + "fervie/" + subshellName + ">",
-      commands: subshellCommands
-    });
+    this.configShellCommandsAndPrompt(subshellName);
   }
 
   exitSubshell() {
 
-    TerminalClient.setVariable(
-        this.props.terminalCircuit.circuitName,
-        TerminalContent.SUBSHELL_ENV_VARIABLE,
-        null,
-        this,
-        (arg) => {}
-      );
-
-    let allCommands = {
-      ...this.getDefaultTopShellCommands(),
-      ...this.getTopShellCommands()
-    };
-
-    this.setState({
-      subshell: null,
-      promptLabel: this.state.baseConnectPath + "fervie>",
-      commands: allCommands
-    });
+    this.configShellCommandsAndPrompt(null);
   }
 
   getTerminalContent() {
