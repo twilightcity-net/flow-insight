@@ -12,8 +12,6 @@ import {RendererEventFactory} from "../../../../../events/RendererEventFactory";
  */
 export default class TerminalContent extends Component {
 
-  static SUBSHELL_ENV_VARIABLE = "subshell";
-
   /**
    * builds the Terminal Content component
    * @param props
@@ -112,7 +110,7 @@ export default class TerminalContent extends Component {
                 if (arg.error) {
                   this.terminal.current.pushToStdout(arg.error);
                 } else {
-                  let output = arg.data.serializedDisplayString;
+                  let output = arg.data.resultString;
                   output += "\nType 'join {ttyLink}' to join";
 
                   this.terminal.current.pushToStdout(output);
@@ -154,8 +152,8 @@ export default class TerminalContent extends Component {
 
        let output = arg.data;
 
-       if (output.serializedDisplayString) {
-         this.terminal.current.pushToStdout(arg.data.serializedDisplayString);
+       if (output.resultString) {
+         this.terminal.current.pushToStdout(output.resultString);
          this.terminal.current.scrollToBottom();
        }
     }

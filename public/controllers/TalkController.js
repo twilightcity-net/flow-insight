@@ -355,13 +355,7 @@ module.exports = class TalkController extends (
           message.data
         );
         break;
-      case TalkController.MessageTypes.TERMINAL_CALENDAR:
-      case TalkController.MessageTypes.TERMINAL_CHART:
-      case TalkController.MessageTypes.TERMINAL_GRIDSTATUS:
-      case TalkController.MessageTypes.TERMINAL_PROJECT:
-      case TalkController.MessageTypes.TERMINAL_STATUS:
-      case TalkController.MessageTypes.TERMINAL_TILE:
-      case TalkController.MessageTypes.TERMINAL_GRIDTABLE:
+      case TalkController.MessageTypes.TERMINAL_CMD_RESULT:
       case TalkController.MessageTypes.TERMINAL_ENVVARIABLE:
         break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:

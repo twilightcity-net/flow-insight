@@ -109,13 +109,7 @@ module.exports = class BaseController {
         "IntentionAbortedDetailsDto",
       JOURNAL_ENTRY_DTO: "JournalEntryDto",
       DICTIONARY_UPDATE: "WordDefinitionDto",
-      TERMINAL_GRIDTABLE: "GridTableResults",
-      TERMINAL_STATUS: "SimpleStatusDto",
-      TERMINAL_GRIDSTATUS: "GridStatusSummaryDto",
-      TERMINAL_PROJECT: "ProjectDetailsDto",
-      TERMINAL_TILE: "GridTileDto",
-      TERMINAL_CALENDAR: "CalendarInfoDto",
-      TERMINAL_CHART: "ChartDto",
+      TERMINAL_CMD_RESULT: "TerminalResultsDto",
       TERMINAL_ENVVARIABLE: "EnvironmentVariableDto"
     };
   }
