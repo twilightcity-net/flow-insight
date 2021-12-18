@@ -13,6 +13,14 @@ import {RendererEventFactory} from "../../../../../events/RendererEventFactory";
 export default class TerminalContent extends Component {
 
   /**
+   * this is the name of the meta property field which the talk message uses
+   * to store the value of the user whom made the request typically.
+   * @type {string}
+   */
+  static fromUserNameMetaPropsStr = "from.username";
+
+
+  /**
    * builds the Terminal Content component
    * @param props
    */
@@ -152,12 +160,39 @@ export default class TerminalContent extends Component {
 
        let output = arg.data;
 
-       if (output.resultString) {
-         this.terminal.current.pushToStdout(output.resultString);
-         this.terminal.current.scrollToBottom();
+       let messageFromUsername = this.getUsernameFromMetaProps(arg.metaProps);
+       if (messageFromUsername !== this.props.me.username) {
+         console.log("message from : "+messageFromUsername);
+
+         let echoMsg =
+         <div>
+           <span className={"sharedTerminalPrompt"}>{output.commandFrom + ">"} </span>
+           <span className={"sharedTerminalInput"}>{output.commandExecuted}</span>
+         </div>;
+
+         this.terminal.current.pushToStdout(echoMsg, true);
        }
+
+
+      if (output.resultString) {
+        this.terminal.current.pushToStdout(output.resultString);
+        this.terminal.current.scrollToBottom();
+      }
     }
   };
+
+  /**
+   * renders our username from the talk message's meta-prop which contains
+   * the string of this.
+   * @param metaProps
+   * @returns {boolean|*}
+   */
+  getUsernameFromMetaProps(metaProps) {
+    return (
+      !!metaProps &&
+      metaProps[TerminalContent.fromUserNameMetaPropsStr]
+    );
+  }
 
 
   getDefaultTopShellCommands() {
@@ -398,7 +433,7 @@ export default class TerminalContent extends Component {
           welcomeMessage={[welcome,
             "~",
           ]}
-          styleEchoBack={"labelOnly"}
+          styleEchoBack={"fullInherit"}
           noNewlineParsing={true}
           noDefaults={true}
           promptLabel={this.state.promptLabel}
@@ -409,8 +444,9 @@ export default class TerminalContent extends Component {
             whiteSpace: "pre",
           }}
           className="terminal"
+          inputTextClassName="terminalInputText"
           promptLabelStyle={{
-            color: "green",
+            color: "rgba(140, 110, 250, 0.96)",
             fontSize: "1rem",
             lineHeight: "1rem",
             fontWeight: "bolder",

@@ -14,7 +14,6 @@ module.exports = class TerminalCircuitDto {
       this.circuitMembers = json.circuitMembers;
       this.environmentVariables = json.environmentVariables;
 
-
     } catch (e) {
       throw new Error(
         "Unable to create dto 'TerminalCircuitDto' : " + e.message
