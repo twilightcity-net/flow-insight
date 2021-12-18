@@ -160,19 +160,33 @@ export default class TerminalContent extends Component {
 
        let output = arg.data;
 
-       let messageFromUsername = this.getUsernameFromMetaProps(arg.metaProps);
-       if (messageFromUsername !== this.props.me.username) {
-         console.log("message from : "+messageFromUsername);
+       console.log("arg = "+JSON.stringify(arg));
+       console.log("msgType = "+arg.messageType);
+      console.log("msgType = "+arg.messageType);
 
-         let echoMsg =
-         <div>
-           <span className={"sharedTerminalPrompt"}>{output.commandFrom + ">"} </span>
-           <span className={"sharedTerminalInput"}>{output.commandExecuted}</span>
-         </div>;
 
-         this.terminal.current.pushToStdout(echoMsg, true);
+      let messageFromUsername = this.getUsernameFromMetaProps(arg.metaProps);
+
+      if (messageFromUsername !== this.props.me.username ) {
+
+         if (arg.messageType !== TerminalClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
+           console.log("message from : " + messageFromUsername);
+
+           let echoMsg =
+             <div>
+               <span className={"sharedTerminalPrompt"}>{output.commandFrom + ">"} </span>
+               <span className={"sharedTerminalInput"}>{output.commandExecuted}</span>
+             </div>;
+
+           this.terminal.current.pushToStdout(echoMsg, true);
+         } else {
+           let joinMsg =
+             <span className={"userJoinedText"}>
+             {messageFromUsername + " joined this circuit."}</span>;
+
+           this.terminal.current.pushToStdout(joinMsg, true);
+         }
        }
-
 
       if (output.resultString) {
         this.terminal.current.pushToStdout(output.resultString);
