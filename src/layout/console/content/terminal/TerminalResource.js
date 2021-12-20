@@ -16,6 +16,9 @@ export default class TerminalResource extends Component {
   constructor(props) {
     super(props);
     this.name = "[TerminalResource]";
+
+    this.terminalHandle = React.createRef();
+
     this.state = {
       resource: props.resource,
       commandManual: null,
@@ -100,8 +103,8 @@ export default class TerminalResource extends Component {
               };
             });
           } else {
-            //TODO should report errors back to terminal async
             console.log(arg.error);
+            this.terminalHandle.current.pushErrorMessage(arg.error);
           }
         });
       } else {
@@ -140,6 +143,7 @@ export default class TerminalResource extends Component {
         <div id="wrapper" className="terminalContent">
           <TerminalContent
             me={this.state.me}
+            ref={this.terminalHandle}
             terminalCircuit={this.state.terminalCircuit}
             commandManual={this.state.commandManual}
             isBaseCircuit={this.state.isBaseCircuit}

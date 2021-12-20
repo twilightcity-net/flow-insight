@@ -107,6 +107,15 @@ export default class TerminalContent extends Component {
     });
   }
 
+  pushErrorMessage(errorMsg) {
+    let msg =
+      <span className={"errorText"}>
+             {errorMsg}</span>;
+
+    this.terminal.current.pushToStdout(msg);
+    this.terminal.current.scrollToBottom();
+  }
+
   getTtyCommands() {
     if (this.props.isBaseCircuit) {
       return {
@@ -160,17 +169,26 @@ export default class TerminalContent extends Component {
 
        let output = arg.data;
 
-       console.log("arg = "+JSON.stringify(arg));
-       console.log("msgType = "+arg.messageType);
-      console.log("msgType = "+arg.messageType);
-
-
       let messageFromUsername = this.getUsernameFromMetaProps(arg.metaProps);
 
       if (messageFromUsername !== this.props.me.username ) {
 
-         if (arg.messageType !== TerminalClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
-           console.log("message from : " + messageFromUsername);
+         if (arg.messageType === TerminalClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
+
+           let msg = "";
+           if (arg.data.statusEvent === "ROOM_MEMBER_JOIN") {
+             msg =
+               <span className={"userSharedText"}>
+             {messageFromUsername + " joined the circuit."}</span>;
+           } else {
+             msg =
+               <span className={"userSharedText"}>
+             {messageFromUsername + " left."}</span>;
+           }
+
+           this.terminal.current.pushToStdout(msg, true);
+
+         } else if (arg.messageType === TerminalClient.MessageTypes.TERMINAL_CMD_RESULT) {
 
            let echoMsg =
              <div>
@@ -179,12 +197,11 @@ export default class TerminalContent extends Component {
              </div>;
 
            this.terminal.current.pushToStdout(echoMsg, true);
-         } else {
-           let joinMsg =
-             <span className={"userJoinedText"}>
-             {messageFromUsername + " joined this circuit."}</span>;
+         } else if (arg.messageType === TerminalClient.MessageTypes.TERMINAL_CIRCUIT_CLOSED) {
+           this.exitJoinedCircuit();
 
-           this.terminal.current.pushToStdout(joinMsg, true);
+         } else {
+           console.log("Unknown talk message type!  Ignoring... "+arg.messageType);
          }
        }
 
@@ -194,6 +211,20 @@ export default class TerminalContent extends Component {
       }
     }
   };
+
+
+  exitJoinedCircuit() {
+    if (!this.props.isBaseCircuit) {
+      let msg =
+        <span className={"userSharedText"}>
+             {"Circuit terminated by owner."}</span>;
+
+      this.terminal.current.pushToStdout(msg);
+      this.terminal.current.scrollToBottom();
+
+      this.props.leaveTty();
+    }
+  }
 
   /**
    * renders our username from the talk message's meta-prop which contains

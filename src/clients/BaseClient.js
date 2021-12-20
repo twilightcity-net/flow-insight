@@ -61,6 +61,9 @@ export class BaseClient {
         "IntentionAbortedDetailsDto",
       JOURNAL_ENTRY_DTO: "JournalEntryDto",
       DICTIONARY_UPDATE: "WordDefinitionDto",
+      TERMINAL_CMD_RESULT: "TerminalResultsDto",
+      TERMINAL_ENVVARIABLE: "EnvironmentVariableDto",
+      TERMINAL_CIRCUIT_CLOSED: "CircuitClosedDto"
     };
   }
 
