@@ -32,12 +32,8 @@ export class TalkToClient extends BaseClient {
    */
   static get Events() {
     return {
-      LOAD_ALL_TALK_MESSAGES_FROM_ROOM:
-        "load-all-talk-messages-from-room",
       GET_ALL_TALK_MESSAGES_FROM_ROOM:
         "get-all-talk-messages-from-room",
-      GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
-        "get-all-status-talk-messages-from-room",
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
@@ -52,28 +48,6 @@ export class TalkToClient extends BaseClient {
     if (!TalkToClient.instance) {
       TalkToClient.instance = new TalkToClient(scope);
     }
-  }
-
-  /**
-   * loads all talk messages from a given room from gridtime
-   * @param roomName
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static loadAllTalkMessagesFromRoom(
-    roomName,
-    scope,
-    callback
-  ) {
-    let event = TalkToClient.instance.createClientEvent(
-      TalkToClient.Events.LOAD_ALL_TALK_MESSAGES_FROM_ROOM,
-      { roomName: roomName },
-      scope,
-      callback
-    );
-    TalkToClient.instance.notifyTalkTo(event);
-    return event;
   }
 
   /**
@@ -94,31 +68,6 @@ export class TalkToClient extends BaseClient {
   ) {
     let event = TalkToClient.instance.createClientEvent(
       TalkToClient.Events.GET_ALL_TALK_MESSAGES_FROM_ROOM,
-      { roomName: roomName, uri: uri },
-      scope,
-      callback
-    );
-    TalkToClient.instance.notifyTalkTo(event);
-    return event;
-  }
-
-  /**
-   * gets all of our status messages specific to this room
-   * @param roomName
-   * @param uri
-   * @param scope
-   * @param callback
-   * @returns {RendererClientEvent}
-   */
-  static getAllStatusTalkMessagesFromRoom(
-    roomName,
-    uri,
-    scope,
-    callback
-  ) {
-    let event = TalkToClient.instance.createClientEvent(
-      TalkToClient.Events
-        .GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM,
       { roomName: roomName, uri: uri },
       scope,
       callback

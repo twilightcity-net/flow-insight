@@ -3,6 +3,7 @@ import TerminalContent from "./components/TerminalContent";
 import { TerminalClient } from "../../../../clients/TerminalClient";
 import { MemberClient } from "../../../../clients/MemberClient";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import {TalkToClient} from "../../../../clients/TalkToClient";
 
 /**
  * this component is the tab panel wrapper for the terminal resource
@@ -54,6 +55,7 @@ export default class TerminalResource extends Component {
        this.loadCount++;
 
        this.initializeWhenLoadingDone();
+
     });
 
   }
@@ -67,6 +69,11 @@ export default class TerminalResource extends Component {
 
       this.resourcesController.joinExistingRoomWithRoomId(this.terminalCircuit.talkRoomId);
 
+      if (this.props.resource.uriArr.length > 1) {
+        let terminalName = this.props.resource.uriArr[1];
+        this.joinTty("/terminal/"+terminalName, true);
+      }
+
     }
   }
 
@@ -78,7 +85,7 @@ export default class TerminalResource extends Component {
   }
 
 
-  joinTty = (terminalPath) => {
+  joinTty = (terminalPath, loadMessages) => {
     let output = "";
     if (terminalPath.includes("/terminal/")) {
       let circuitName = terminalPath.substring(terminalPath.indexOf("/terminal/") + 10);
@@ -102,6 +109,15 @@ export default class TerminalResource extends Component {
                 isBaseCircuit: false
               };
             });
+
+            if (loadMessages) {
+              TalkToClient.getAllTalkMessagesFromRoom(newCircuit.talkRoomId, newCircuit.talkRoomId, this, (arg) => {
+                 if (!arg.error) {
+                   this.terminalHandle.current.pushTalkMessageHistory(arg.data);
+                 }
+              } );
+            }
+
           } else {
             console.log(arg.error);
             this.terminalHandle.current.pushErrorMessage(arg.error);

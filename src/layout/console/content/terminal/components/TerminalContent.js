@@ -107,6 +107,16 @@ export default class TerminalContent extends Component {
     });
   }
 
+  pushTalkMessageHistory(messages) {
+    for (let i = 0; i < messages.length; i++) {
+
+      let messageFromUsername = this.getUsernameFromMetaProps(messages[i].metaProps);
+
+      this.pushTalkMessage(messageFromUsername, messages[i]);
+    }
+    this.terminal.current.scrollToBottom();
+  }
+
   pushErrorMessage(errorMsg) {
     let msg =
       <span className={"errorText"}>
@@ -167,36 +177,14 @@ export default class TerminalContent extends Component {
     if (this.props.terminalCircuit && (arg.uri === this.props.terminalCircuit.talkRoomId)) {
       //message for this terminal circuit
 
-       let output = arg.data;
-
       let messageFromUsername = this.getUsernameFromMetaProps(arg.metaProps);
 
       if (messageFromUsername !== this.props.me.username ) {
+         if (arg.messageType === TerminalClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT
+           || arg.messageType === TerminalClient.MessageTypes.TERMINAL_CMD_RESULT ) {
 
-         if (arg.messageType === TerminalClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
+           this.pushTalkMessage(messageFromUsername, arg);
 
-           let msg = "";
-           if (arg.data.statusEvent === "ROOM_MEMBER_JOIN") {
-             msg =
-               <span className={"userSharedText"}>
-             {messageFromUsername + " joined the circuit."}</span>;
-           } else {
-             msg =
-               <span className={"userSharedText"}>
-             {messageFromUsername + " left."}</span>;
-           }
-
-           this.terminal.current.pushToStdout(msg, true);
-
-         } else if (arg.messageType === TerminalClient.MessageTypes.TERMINAL_CMD_RESULT) {
-
-           let echoMsg =
-             <div>
-               <span className={"sharedTerminalPrompt"}>{output.commandFrom + ">"} </span>
-               <span className={"sharedTerminalInput"}>{output.commandExecuted}</span>
-             </div>;
-
-           this.terminal.current.pushToStdout(echoMsg, true);
          } else if (arg.messageType === TerminalClient.MessageTypes.TERMINAL_CIRCUIT_CLOSED) {
            this.exitJoinedCircuit();
 
@@ -205,13 +193,40 @@ export default class TerminalContent extends Component {
          }
        }
 
-      if (output.resultString) {
-        this.terminal.current.pushToStdout(output.resultString);
-        this.terminal.current.scrollToBottom();
-      }
+      this.terminal.current.scrollToBottom();
     }
   };
 
+  pushTalkMessage(messageFromUsername, arg) {
+    if (arg.messageType === TerminalClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
+
+      let msg = "";
+      if (arg.data.statusEvent === "ROOM_MEMBER_JOIN") {
+        msg =
+          <span className={"userSharedText"}>
+             {messageFromUsername + " joined the circuit."}</span>;
+      } else {
+        msg =
+          <span className={"userSharedText"}>
+             {messageFromUsername + " left."}</span>;
+      }
+
+      this.terminal.current.pushToStdout(msg, true);
+
+    } else if (arg.messageType === TerminalClient.MessageTypes.TERMINAL_CMD_RESULT) {
+
+      let echoMsg =
+        <div>
+          <span className={"sharedTerminalPrompt"}>{arg.data.commandFrom + ">"} </span>
+          <span className={"sharedTerminalInput"}>{arg.data.commandExecuted}</span>
+        </div>;
+
+      this.terminal.current.pushToStdout(echoMsg, true);
+      if (arg.data.resultString) {
+        this.terminal.current.pushToStdout(arg.data.resultString);
+      }
+    }
+  }
 
   exitJoinedCircuit() {
     if (!this.props.isBaseCircuit) {

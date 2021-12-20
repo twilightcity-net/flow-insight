@@ -24,17 +24,13 @@ module.exports = class TalkToController extends (
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_ALL_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string}}
+   * @returns {{GET_ALL_TALK_MESSAGES_FROM_ROOM: string}}
    * @constructor
    */
   static get Events() {
     return {
-      LOAD_ALL_TALK_MESSAGES_FROM_ROOM:
-        "load-all-talk-messages-from-room",
       GET_ALL_TALK_MESSAGES_FROM_ROOM:
         "get-all-talk-messages-from-room",
-      GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
-        "get-all-status-talk-messages-from-room",
       PUBLISH_CHAT_TO_ROOM: "publish-chat-to-room",
       JOIN_EXISTING_ROOM: "join-existing-room",
       LEAVE_EXISTING_ROOM: "leave-existing-room",
@@ -81,22 +77,8 @@ module.exports = class TalkToController extends (
     } else {
       switch (arg.type) {
         case TalkToController.Events
-          .LOAD_ALL_TALK_MESSAGES_FROM_ROOM:
-          this.handleLoadAllTalkNessagesFromRoomEvent(
-            event,
-            arg
-          );
-          break;
-        case TalkToController.Events
           .GET_ALL_TALK_MESSAGES_FROM_ROOM:
           this.handleGetAllTalkMessagesFromRoomEvent(
-            event,
-            arg
-          );
-          break;
-        case TalkToController.Events
-          .GET_ALL_STATUS_TALK_MESSAGES_FROM_ROOM:
-          this.handleGetAllStatusTalkMessagesFromRoomEvent(
             event,
             arg
           );
@@ -273,42 +255,7 @@ module.exports = class TalkToController extends (
           collection
         );
 
-    this.delegateGetAllStatusTalkMessagesFromRoomCallback(
-      roomName,
-      uri,
-      view,
-      event,
-      arg,
-      callback
-    );
-  }
-
-  /**
-   * gets all of our status talk message for a given uri room address
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  handleGetAllStatusTalkMessagesFromRoomEvent(
-    event,
-    arg,
-    callback
-  ) {
-    let roomName = arg.args.roomName,
-      uri = arg.args.uri,
-      database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.TALK
-      ),
-      collection =
-        database.getCollectionForRoomStatusTalkMessages(
-          uri
-        ),
-      view =
-        database.getViewStatusTalkMessagesForCollection(
-          collection
-        );
-
-    this.delegateGetAllStatusTalkMessagesFromRoomCallback(
+    this.delegateGetFromViewOrLoadCallback(
       roomName,
       uri,
       view,
@@ -328,7 +275,7 @@ module.exports = class TalkToController extends (
    * @param arg
    * @param callback
    */
-  delegateGetAllStatusTalkMessagesFromRoomCallback(
+  delegateGetFromViewOrLoadCallback(
     roomName,
     uri,
     view,
@@ -336,20 +283,23 @@ module.exports = class TalkToController extends (
     arg,
     callback
   ) {
-    if (this.hasRoomByRoomName(roomName)) {
-      arg.data = view.data();
-      this.logResults(
-        this.name,
-        arg.type,
-        arg.id,
-        view.count()
-      );
-      this.delegateCallbackOrEventReplyTo(
-        event,
-        arg,
-        callback
-      );
-    } else {
+
+    //these cached messages will be stale as soon as we leave the room,
+    // since we only hear messages for rooms we are joined
+    // if (this.hasRoomByRoomName(roomName)) {
+    //   arg.data = view.data();
+    //   this.logResults(
+    //     this.name,
+    //     arg.type,
+    //     arg.id,
+    //     view.count()
+    //   );
+    //   this.delegateCallbackOrEventReplyTo(
+    //     event,
+    //     arg,
+    //     callback
+    //   );
+    // } else {
       this.handleLoadAllTalkNessagesFromRoomEvent(
         null,
         {
@@ -366,7 +316,6 @@ module.exports = class TalkToController extends (
           );
         }
       );
-    }
   }
 
   /**
