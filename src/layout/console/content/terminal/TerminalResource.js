@@ -116,8 +116,12 @@ export default class TerminalResource extends Component {
 
   leaveTty = () => {
     this.resourcesController.leaveTerminalCircuit(this.state.terminalCircuit.circuitName);
+    this.resourcesController.leaveExistingRoomWithRoomId(this.state.terminalCircuit.talkRoomId);
 
     this.setState(prevState => {
+
+      this.resourcesController.joinExistingRoomWithRoomId(prevState.baseCircuitShelf.talkRoomId);
+
       return {
         baseCircuitShelf: null,
         terminalCircuit: prevState.baseCircuitShelf,
