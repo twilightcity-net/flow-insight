@@ -61,7 +61,6 @@ export class DimensionController {
     return (
       window.innerHeight -
       heights.border -
-      heights.margin -
       heights.padding -
       heights.content
     );

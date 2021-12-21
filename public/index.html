@@ -2322,6 +2322,7 @@
     line-height: 0.420rem;
     font-weight: normal;
     cursor: default;
+    min-height: 100% !important;
   }
 
   #component.terminalContent .terminal .sharedTerminalPrompt {
@@ -2344,9 +2345,7 @@
 
   #component.terminalContent .terminal .errorText {
 
-    color: red;
     font-size: 1rem;
-    font-style: italic;
     line-height: 1rem;
   }
 
@@ -2364,7 +2363,9 @@
 
   }
 
-
+  ::-webkit-scrollbar-corner {
+    background: rgba(0,0,0,0);
+  }
 
 
   /*

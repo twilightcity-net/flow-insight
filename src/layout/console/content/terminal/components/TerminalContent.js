@@ -65,6 +65,7 @@ export default class TerminalContent extends Component {
       let allCommands = {
         ...this.getDefaultTopShellCommands(),
         ...this.getTopShellCommands(),
+        ...this.getAllSubshellCommands(),
         ...this.getTtyCommands()
       };
 
@@ -87,7 +88,7 @@ export default class TerminalContent extends Component {
       prompt = baseConnectPath + "fervie/"+subshell + ">";
       commands = {
         ...this.getDefaultSubShellCommands(subshell),
-        ...this.getSubshellCommands(subshell)
+        ...this.getAllSubshellCommands()
       };
 
     } else {
@@ -95,6 +96,7 @@ export default class TerminalContent extends Component {
       commands = {
         ...this.getDefaultTopShellCommands(),
         ...this.getTopShellCommands(),
+        ...this.getAllSubshellCommands(),
         ...this.getTtyCommands()
       };
     }
@@ -135,7 +137,7 @@ export default class TerminalContent extends Component {
             TerminalClient.getConnectableTtys(this,
               (arg) => {
                 if (arg.error) {
-                  this.terminal.current.pushToStdout(arg.error);
+                  this.pushErrorMessage(arg.error);
                 } else {
                   let output = arg.data.resultString;
                   output += "\nType 'join {ttyLink}' to join";
@@ -184,6 +186,7 @@ export default class TerminalContent extends Component {
            || arg.messageType === TerminalClient.MessageTypes.TERMINAL_CMD_RESULT ) {
 
            this.pushTalkMessage(messageFromUsername, arg);
+           this.terminal.current.scrollToBottom();
 
          } else if (arg.messageType === TerminalClient.MessageTypes.TERMINAL_CIRCUIT_CLOSED) {
            this.exitJoinedCircuit();
@@ -191,9 +194,12 @@ export default class TerminalContent extends Component {
          } else {
            console.log("Unknown talk message type!  Ignoring... "+arg.messageType);
          }
+       } else if (arg.data.resultString) {
+         this.terminal.current.pushToStdout(arg.data.resultString);
+        this.terminal.current.scrollToBottom();
        }
 
-      this.terminal.current.scrollToBottom();
+
     }
   };
 
@@ -308,6 +314,46 @@ export default class TerminalContent extends Component {
     return help;
   }
 
+
+  getAllSubshellCommands() {
+    let commands = {};
+
+    let uniqueCommands = new Set();
+
+    for (let j = 0; j < this.props.commandManual.activityContexts.length ; j++) {
+      let activity = this.props.commandManual.activityContexts[j].context;
+      let manualPage = this.props.commandManual.manualPagesByActivityContext[activity];
+
+      for (let i = 0; i < manualPage.commandDescriptors.length; i++) {
+        let commandDescriptor = manualPage.commandDescriptors[i];
+        let command = commandDescriptor.command.toLowerCase();
+
+        uniqueCommands.add(command);
+      }
+    }
+
+    uniqueCommands.forEach((command) => {
+       commands[command] = {
+         fn: (arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) => {
+
+           let argArray = this.createArgArray(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+
+           TerminalClient.runCommand(
+             this.props.terminalCircuit.circuitName,
+             {command: command.toUpperCase(), args: argArray}, this,
+             (arg) => {
+               //display errors if we get back an error, we wont get a talk message
+               if (arg.error) {
+                 this.pushErrorMessage(arg.error);
+               }
+             });
+         }
+       }
+    });
+
+    return commands;
+  }
+
   getSubshellCommands(subshellName) {
 
     let commands = {};
@@ -329,9 +375,7 @@ export default class TerminalContent extends Component {
               (arg) => {
                   //display errors if we get back an error, we wont get a talk message
                   if (arg.error) {
-
-                    this.terminal.current.pushToStdout(arg.error);
-                    this.terminal.current.scrollToBottom();
+                    this.pushErrorMessage(arg.error);
                   }
               });
           }
