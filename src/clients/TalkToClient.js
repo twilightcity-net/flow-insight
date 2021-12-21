@@ -119,7 +119,7 @@ export class TalkToClient extends BaseClient {
   }
 
   /**
-   * leaves an existing room on our gridtalk server. This is called by our
+   * leaves an existing room on our talknet server. This is called by our
    * circuit resource class. We should leave the rooms on talk  so that
    * we do not get extra messages when we are not active in a circuit.
    * When a room has no one left, talk will automagically  remove the

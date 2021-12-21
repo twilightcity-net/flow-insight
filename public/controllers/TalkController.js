@@ -6,7 +6,7 @@ const log = require("electron-log"),
   DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
- * This class is used to coordinate controllers across the gridtalk service
+ * This class is used to coordinate controllers across the talknet service
  * @type {TalkController}
  */
 module.exports = class TalkController extends (
@@ -145,7 +145,7 @@ module.exports = class TalkController extends (
         );
         this.talkConnectFailedListener.dispatch({
           message:
-            "Oops, The Gridtalk service seems to be offline, please try again soon.",
+            "Oops, The Talknet service seems to be offline, please try again soon.",
         });
       }
     );

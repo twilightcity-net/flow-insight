@@ -4,7 +4,7 @@ const BaseController = require("./BaseController"),
   Util = require("../Util");
 
 /**
- * This class is used to coordinate controllers across the gridtalk service
+ * This class is used to coordinate controllers across the talknet service
  * @type {TalkToController}
  */
 module.exports = class TalkToController extends (
@@ -322,7 +322,7 @@ module.exports = class TalkToController extends (
    * process our publish to chat room service event. This is called by an action
    * from the gui client. This controller posts this request to gridtime,
    * which will update the database. Grid time will subsequentially make a REST
-   * call to Gridtalk server to broadcast this text message. Talk then will route
+   * call to talknet server to broadcast this text message. Talk then will route
    * the message to all connected cliented to that specific room that is
    * stored as a guid.
    * @param event

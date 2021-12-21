@@ -145,7 +145,7 @@ module.exports = class AppLoader {
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "dosing aliens...",
-        text: "Connecting to Gridtalk...",
+        text: "Connecting to Talknet...",
       });
     }, this.eventTimerMs);
   }
@@ -239,7 +239,7 @@ module.exports = class AppLoader {
         this.processLogin();
         break;
       case this.stages.TALK:
-        this.connectToGridtalk();
+        this.connectToTalknet();
         break;
       case this.stages.VOLUMES:
         this.initVolumes();
@@ -333,10 +333,10 @@ module.exports = class AppLoader {
   }
 
   /**
-   * connect to gridtalk service
+   * connect to talknet service
    */
-  connectToGridtalk() {
-    log.info("[AppLoader] connect to gridtalk server");
+  connectToTalknet() {
+    log.info("[AppLoader] connect to talknet server");
     try {
       global.App.TalkManager.createConnection();
     } catch (error) {

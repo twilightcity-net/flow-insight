@@ -5,7 +5,7 @@ const BaseController = require("./BaseController"),
   Util = require("../Util");
 
 /**
- * This class is used to coordinate controllers across the gridtalk service
+ * This class is used to coordinate controllers across the talknet service
  * @type {CircuitController}
  */
 module.exports = class CircuitController extends (
@@ -1561,7 +1561,7 @@ module.exports = class CircuitController extends (
 
   /**
    * processes our callback for saving a circuit description.
-   * After the call, the updated circuit should be broadcast over gridtalk
+   * After the call, the updated circuit should be broadcast over talknet
    * @param store
    * @param event
    * @param arg
@@ -1587,7 +1587,7 @@ module.exports = class CircuitController extends (
 
   /**
    * processes our callback for saving circuit tags
-   * After the call, the updated circuit should be broadcast over gridtalk
+   * After the call, the updated circuit should be broadcast over talknet
    * @param store
    * @param event
    * @param arg

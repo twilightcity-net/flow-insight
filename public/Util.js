@@ -72,13 +72,11 @@ class Util {
   }
 
   /**
-   * gets the url of the Gridtalk Server. returns localhost if it is local
+   * gets the url of the Talknet Server. returns localhost if it is local
    * @returns {string}
    */
   static getAppTalkUrl() {
-    // FIXME use the new secure talk url on heroku (needs to be setup)
-
-    let url = "https://gridtalk.twilightcity.net";
+    let url = "https://talk.twilightcity.net";
     if (isDev) {
       process.argv.forEach((val) => {
         if (val.toLowerCase().startsWith("talk=")) {

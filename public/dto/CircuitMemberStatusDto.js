@@ -1,6 +1,6 @@
 /**
  * this class stores the the client members whom have joined a room within a circuit on the network. These
- * are pushed to the client using the gridtalk service.
+ * are pushed to the client using the talknet service.
  */
 class CircuitMemberStatusDto {
   constructor(json) {

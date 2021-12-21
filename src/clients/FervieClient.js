@@ -47,7 +47,7 @@ export class FervieClient extends BaseClient {
   }
 
   /**
-   * saves configured fervie details like color and accessories then pushes an update over gridtalk
+   * saves configured fervie details like color and accessories then pushes an update over talknet
    * @param fervieColor
    * @param fervieSecondaryColor
    * @param fervieTertiaryColor
