@@ -347,7 +347,7 @@ export default class TeamPanel extends Component {
     let houseTitle = "Teams";
 
     if (this.state.houseName != null) {
-      houseTitle = this.state.houseName + " House";
+      houseTitle = this.state.houseName + " Teams";
     }
 
     return (
