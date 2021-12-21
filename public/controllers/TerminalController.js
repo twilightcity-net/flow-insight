@@ -23,7 +23,7 @@ module.exports = class TerminalController extends (
 
   /**
    * general enum list of all of our possible terminal events
-   * @returns {{CREATE_CIRCUIT: string, RUN_COMMAND: string, GET_MANUAL: string, }}
+   * @returns {{CREATE_CIRCUIT: string, RUN_COMMAND: string, GET_MANUAL: string }}
    * @constructor
    */
   static get Events() {
