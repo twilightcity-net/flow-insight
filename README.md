@@ -14,16 +14,16 @@
 ## TwilightCity Desktop Application ##
 TwilightCity is a desktop application and suite of tools to support optimizing flow and data-driven learning on a team.
  
- It works in tandem with a peer-to-peer socket server called Gridtalk, and a metrics engine called Gridtime. 
+ It works in tandem with a peer-to-peer socket server called Talknet, and a metrics engine called Gridtime. 
  
 ### Install from Source ###
 The following will describe how to install 'TwilightCity' from source code, and connect to production community servers: "https://home.twilightcity.net" 
-and for Gridtalk "https://gridtalk.twilightcity.net".  Please contact us for an API key.
+and for Talknet "https://talk.twilightcity.net".  Please contact us for an API key.
 
 Requirements:
 - Node v16.13.0
 - Xcode-CLI (`xcode-select --install`) (Mac Only)
-- Yarn v1.2.x
+- Yarn v1.22.x
 - Git w/ CLI
 
 0) Install git version control system from here:
@@ -68,7 +68,7 @@ Note: hit `ctrl+c` to terminate the project.
 
 `yarn test`
 
-1) Run the following command in the terminal to execute a specific test (gridtalk service for example:
+1) Run the following command in the terminal to execute a specific test (talknet service for example:
 
 `yarn test:talk`
 
