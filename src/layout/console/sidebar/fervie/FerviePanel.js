@@ -464,12 +464,12 @@ export default class FerviePanel extends Component {
    * @returns {*}
    */
   getFervieCanvas = () => {
-
     return (
       <div
         style={{
-          height: DimensionController.getFervieCanvasHeight(),
-          width: DimensionController.getFervieCanvasWidth()
+          height:
+            DimensionController.getFervieCanvasHeight(),
+          width: DimensionController.getFervieCanvasWidth(),
         }}
       >
         <FervieCanvas
@@ -662,8 +662,10 @@ export default class FerviePanel extends Component {
         <div
           style={{
             margin: "auto",
-            height: DimensionController.getMiniFervieCanvasHeight(),
-            width: DimensionController.getMiniFervieCanvasWidth(),
+            height:
+              DimensionController.getMiniFervieCanvasHeight(),
+            width:
+              DimensionController.getMiniFervieCanvasWidth(),
           }}
         >
           <FervieCanvas
@@ -691,7 +693,8 @@ export default class FerviePanel extends Component {
 
         <div
           style={{
-            height: DimensionController.getColorPickerDivHeight()
+            height:
+              DimensionController.getColorPickerDivHeight(),
           }}
         >
           <HexColorPicker
@@ -816,7 +819,10 @@ export default class FerviePanel extends Component {
           <Segment
             inverted
             className={"fervieContentWrapper"}
-            style={{height: DimensionController.getConsoleLayoutHeight()}}
+            style={{
+              height:
+                DimensionController.getConsoleLayoutHeight(),
+            }}
           >
             <Transition
               visible={this.state.fervieVisible}

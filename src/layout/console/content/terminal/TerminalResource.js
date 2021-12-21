@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import TerminalContent from "./components/TerminalContent";
 import { TerminalClient } from "../../../../clients/TerminalClient";
 import { MemberClient } from "../../../../clients/MemberClient";
-import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
-import {TalkToClient} from "../../../../clients/TalkToClient";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
+import { TalkToClient } from "../../../../clients/TalkToClient";
 
 /**
  * this component is the tab panel wrapper for the terminal resource
@@ -26,8 +26,7 @@ export default class TerminalResource extends Component {
       terminalCircuit: null,
       baseCircuitShelf: null,
       isBaseCircuit: true,
-      me: MemberClient.me
-
+      me: MemberClient.me,
     };
     this.loadCount = 0;
 
@@ -39,115 +38,142 @@ export default class TerminalResource extends Component {
   }
 
   componentDidMount() {
-
     this.loadCount = 0;
 
     TerminalClient.getManual(this, (arg) => {
-       this.commandManual = arg.data;
-       this.loadCount++;
+      this.commandManual = arg.data;
+      this.loadCount++;
 
-       this.initializeWhenLoadingDone();
+      this.initializeWhenLoadingDone();
     });
 
     TerminalClient.createCircuit(this, (arg) => {
+      this.terminalCircuit = arg.data;
+      this.loadCount++;
 
-       this.terminalCircuit = arg.data;
-       this.loadCount++;
-
-       this.initializeWhenLoadingDone();
-
+      this.initializeWhenLoadingDone();
     });
-
   }
 
   initializeWhenLoadingDone() {
     if (this.loadCount === 2) {
       this.setState({
         commandManual: this.commandManual,
-        terminalCircuit: this.terminalCircuit
+        terminalCircuit: this.terminalCircuit,
       });
 
-      this.resourcesController.joinExistingRoomWithRoomId(this.terminalCircuit.talkRoomId);
+      this.resourcesController.joinExistingRoomWithRoomId(
+        this.terminalCircuit.talkRoomId
+      );
 
       if (this.props.resource.uriArr.length > 1) {
         let terminalName = this.props.resource.uriArr[1];
-        this.joinTty("/terminal/"+terminalName, true);
+        this.joinTty("/terminal/" + terminalName, true);
       }
-
     }
   }
 
   componentWillUnmount() {
     if (this.state.terminalCircuit) {
-      this.resourcesController.leaveTerminalCircuit(this.state.terminalCircuit.circuitName);
-      this.resourcesController.leaveExistingRoomWithRoomId(this.state.terminalCircuit.talkRoomId);
+      this.resourcesController.leaveTerminalCircuit(
+        this.state.terminalCircuit.circuitName
+      );
+      this.resourcesController.leaveExistingRoomWithRoomId(
+        this.state.terminalCircuit.talkRoomId
+      );
     }
   }
-
 
   joinTty = (terminalPath, loadMessages) => {
     let output = "";
     if (terminalPath.includes("/terminal/")) {
-      let circuitName = terminalPath.substring(terminalPath.indexOf("/terminal/") + 10);
+      let circuitName = terminalPath.substring(
+        terminalPath.indexOf("/terminal/") + 10
+      );
 
-      if (circuitName !== this.terminalCircuit.circuitName) {
-        output = "Joining "+terminalPath + "...";
+      if (
+        circuitName !== this.terminalCircuit.circuitName
+      ) {
+        output = "Joining " + terminalPath + "...";
         //
         // let that = this;
 
-        TerminalClient.joinCircuit(circuitName, this, (arg) => {
-          if (!arg.error) {
-            let newCircuit = arg.data;
+        TerminalClient.joinCircuit(
+          circuitName,
+          this,
+          (arg) => {
+            if (!arg.error) {
+              let newCircuit = arg.data;
 
-            this.resourcesController.leaveExistingRoomWithRoomId(this.state.terminalCircuit.talkRoomId);
-            this.resourcesController.joinExistingRoomWithRoomId(newCircuit.talkRoomId);
+              this.resourcesController.leaveExistingRoomWithRoomId(
+                this.state.terminalCircuit.talkRoomId
+              );
+              this.resourcesController.joinExistingRoomWithRoomId(
+                newCircuit.talkRoomId
+              );
 
-            this.setState(prevState => {
-              return {
-                baseCircuitShelf: prevState.terminalCircuit,
-                terminalCircuit: newCircuit,
-                isBaseCircuit: false
-              };
-            });
+              this.setState((prevState) => {
+                return {
+                  baseCircuitShelf:
+                    prevState.terminalCircuit,
+                  terminalCircuit: newCircuit,
+                  isBaseCircuit: false,
+                };
+              });
 
-            if (loadMessages) {
-              TalkToClient.getAllTalkMessagesFromRoom(newCircuit.talkRoomId, newCircuit.talkRoomId, this, (arg) => {
-                 if (!arg.error) {
-                   this.terminalHandle.current.pushTalkMessageHistory(arg.data);
-                 }
-              } );
+              if (loadMessages) {
+                TalkToClient.getAllTalkMessagesFromRoom(
+                  newCircuit.talkRoomId,
+                  newCircuit.talkRoomId,
+                  this,
+                  (arg) => {
+                    if (!arg.error) {
+                      this.terminalHandle.current.pushTalkMessageHistory(
+                        arg.data
+                      );
+                    }
+                  }
+                );
+              }
+            } else {
+              console.log(arg.error);
+              this.terminalHandle.current.pushErrorMessage(
+                arg.error
+              );
             }
-
-          } else {
-            console.log(arg.error);
-            this.terminalHandle.current.pushErrorMessage(arg.error);
           }
-        });
+        );
       } else {
-        output = "You are already connected to this circuit.";
+        output =
+          "You are already connected to this circuit.";
       }
     } else {
       output = "Invalid path. Expecting /terminal/{name}";
     }
 
     return output;
-  }
+  };
 
   leaveTty = () => {
-    this.resourcesController.leaveTerminalCircuit(this.state.terminalCircuit.circuitName);
-    this.resourcesController.leaveExistingRoomWithRoomId(this.state.terminalCircuit.talkRoomId);
+    this.resourcesController.leaveTerminalCircuit(
+      this.state.terminalCircuit.circuitName
+    );
+    this.resourcesController.leaveExistingRoomWithRoomId(
+      this.state.terminalCircuit.talkRoomId
+    );
 
-    this.setState(prevState => {
-
-      this.resourcesController.joinExistingRoomWithRoomId(prevState.baseCircuitShelf.talkRoomId);
+    this.setState((prevState) => {
+      this.resourcesController.joinExistingRoomWithRoomId(
+        prevState.baseCircuitShelf.talkRoomId
+      );
 
       return {
         baseCircuitShelf: null,
         terminalCircuit: prevState.baseCircuitShelf,
-        isBaseCircuit: true
+        isBaseCircuit: true,
       };
     });
-  }
+  };
 
   /**
    * renders the terminal layout of the console view

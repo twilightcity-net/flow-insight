@@ -2,7 +2,6 @@
 // dto class for CommandDescriptorDto
 //
 module.exports = class CommandDescriptorDto {
-
   constructor(json) {
     try {
       if (typeof json === "string") json = JSON.parse(json);
@@ -11,10 +10,10 @@ module.exports = class CommandDescriptorDto {
       this.description = json.description;
 
       this.terminalRoutes = json.terminalRoutes;
-
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'CommandDescriptorDto' : " + e.message
+        "Unable to create dto 'CommandDescriptorDto' : " +
+          e.message
       );
     }
   }

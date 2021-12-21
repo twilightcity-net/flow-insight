@@ -2,7 +2,6 @@
 // dto class for TerminalRouteDto
 //
 module.exports = class TerminalRouteDto {
-
   constructor(json) {
     try {
       if (typeof json === "string") json = JSON.parse(json);
@@ -11,10 +10,10 @@ module.exports = class TerminalRouteDto {
       this.argsTemplate = json.argsTemplate;
 
       this.optionsHelp = json.optionsHelp;
-
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'TerminalRouteDto' : " + e.message
+        "Unable to create dto 'TerminalRouteDto' : " +
+          e.message
       );
     }
   }

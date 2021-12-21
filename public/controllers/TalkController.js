@@ -357,7 +357,8 @@ module.exports = class TalkController extends (
         break;
       case TalkController.MessageTypes.TERMINAL_CMD_RESULT:
       case TalkController.MessageTypes.TERMINAL_ENVVARIABLE:
-      case TalkController.MessageTypes.TERMINAL_CIRCUIT_CLOSED:
+      case TalkController.MessageTypes
+        .TERMINAL_CIRCUIT_CLOSED:
         break;
       case TalkController.MessageTypes.WTF_STATUS_UPDATE:
         let data = message.data,

@@ -283,7 +283,6 @@ module.exports = class TalkToController extends (
     arg,
     callback
   ) {
-
     //these cached messages will be stale as soon as we leave the room,
     // since we only hear messages for rooms we are joined
     // if (this.hasRoomByRoomName(roomName)) {
@@ -300,22 +299,22 @@ module.exports = class TalkToController extends (
     //     callback
     //   );
     // } else {
-      this.handleLoadAllTalkNessagesFromRoomEvent(
-        null,
-        {
-          args: { roomName: roomName, uri: uri },
-          type: arg.type,
-          id: arg.id,
-        },
-        () => {
-          arg.data = view.data();
-          this.delegateCallbackOrEventReplyTo(
-            event,
-            arg,
-            callback
-          );
-        }
-      );
+    this.handleLoadAllTalkNessagesFromRoomEvent(
+      null,
+      {
+        args: { roomName: roomName, uri: uri },
+        type: arg.type,
+        id: arg.id,
+      },
+      () => {
+        arg.data = view.data();
+        this.delegateCallbackOrEventReplyTo(
+          event,
+          arg,
+          callback
+        );
+      }
+    );
   }
 
   /**

@@ -59,7 +59,7 @@ module.exports = class BaseController {
       TERMINAL: "/terminal",
       RUN: "/run",
       MANUAL: "/manual",
-      SET: "/set"
+      SET: "/set",
     };
   }
 
@@ -111,7 +111,7 @@ module.exports = class BaseController {
       DICTIONARY_UPDATE: "WordDefinitionDto",
       TERMINAL_CMD_RESULT: "TerminalResultsDto",
       TERMINAL_ENVVARIABLE: "EnvironmentVariableDto",
-      TERMINAL_CIRCUIT_CLOSED: "CircuitClosedDto"
+      TERMINAL_CIRCUIT_CLOSED: "CircuitClosedDto",
     };
   }
 
@@ -198,11 +198,13 @@ module.exports = class BaseController {
       CHART_WTF: "chartWTF",
       CREATE_TERMINAL_SESSION: "createTerminalSession",
       RUN_TERMINAL_COMMAND: "runTerminalCommand",
-      GET_TERMINAL_COMMAND_MANUAL: "getTerminalCommandManual",
+      GET_TERMINAL_COMMAND_MANUAL:
+        "getTerminalCommandManual",
       GET_TERMINAL_TTYS: "getTerminalTtys",
       JOIN_TERMINAL_CIRCUIT: "joinTerminalCircuit",
       LEAVE_TERMINAL_CIRCUIT: "leaveTerminalCircuit",
-      SET_TERMINAL_ENVIRONMENT_VARIABLE: "setTerminalEnvironmentVariable"
+      SET_TERMINAL_ENVIRONMENT_VARIABLE:
+        "setTerminalEnvironmentVariable",
     };
   }
 
@@ -270,7 +272,7 @@ module.exports = class BaseController {
       DICTIONARY_CLIENT: "DictionaryClient",
       FERVIE_CLIENT: "FervieClient",
       CHART_CLIENT: "ChartClient",
-      TERMINAL_CLIENT: "TerminalClient"
+      TERMINAL_CLIENT: "TerminalClient",
     };
   }
 

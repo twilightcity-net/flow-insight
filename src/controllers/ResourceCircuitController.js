@@ -286,18 +286,23 @@ export class ResourceCircuitController extends ActiveViewController {
     });
   }
 
-
   /**
    * leaves the specified terminal circuit
    * If the owner of the circuit, this will close the circuit
    * @param circuitName
    */
   leaveTerminalCircuit(circuitName) {
-    TerminalClient.leaveCircuit(circuitName, this, (arg) => {
-      console.log(
-        this.name + " LEAVE TERMINAL CIRCUIT -> " + circuitName
-      );
-    });
+    TerminalClient.leaveCircuit(
+      circuitName,
+      this,
+      (arg) => {
+        console.log(
+          this.name +
+            " LEAVE TERMINAL CIRCUIT -> " +
+            circuitName
+        );
+      }
+    );
   }
 
   /**
@@ -306,18 +311,14 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param roomId
    */
   joinExistingRoomWithRoomId(roomId) {
-      TalkToClient.joinExistingRoom(
-        roomId,
-        this,
-        (arg) => {
-          console.log(
-            this.name +
-            " JOIN EXISTING ROOM -> " +
-            JSON.stringify(arg)
-          );
-          this.fireJoinExistingRoomNotifyEvent();
-        }
+    TalkToClient.joinExistingRoom(roomId, this, (arg) => {
+      console.log(
+        this.name +
+          " JOIN EXISTING ROOM -> " +
+          JSON.stringify(arg)
       );
+      this.fireJoinExistingRoomNotifyEvent();
+    });
   }
 
   /**
@@ -379,16 +380,10 @@ export class ResourceCircuitController extends ActiveViewController {
    * @param resource
    */
   leaveExistingRoomWithRoomId(roomId) {
-
-      TalkToClient.leaveExistingRoom(
-        roomId,
-        this,
-        (arg) => {
-          this.fireLeaveExistingRoomNotifyEvent();
-        }
-      );
+    TalkToClient.leaveExistingRoom(roomId, this, (arg) => {
+      this.fireLeaveExistingRoomNotifyEvent();
+    });
   }
-
 
   /**
    * leaves a circuit on gridtime. This will implicitly call leave room on gridtime

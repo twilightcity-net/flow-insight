@@ -12,7 +12,7 @@ const helpSubmenu = [
       );
       Util.openExternalBrowser("http://twilightcity.net/");
     },
-  }
+  },
 ];
 
 class AppMenuException extends Error {

@@ -25,7 +25,6 @@ export class TerminalClient extends BaseClient {
     );
   }
 
-
   /**
    * general enum list of all of our possible terminal events
    * @returns {{RUN_COMMAND: string, GET_MANUAL_PAGE: string, GET_MANUAL: string, GET_MANUAL_HELP_TOPICS: string}}
@@ -39,7 +38,7 @@ export class TerminalClient extends BaseClient {
       GET_TTYS: "get-ttys",
       JOIN_CIRCUIT: "join-circuit",
       LEAVE_CIRCUIT: "leave-circuit",
-      SET_VARIABLE: "set-variable"
+      SET_VARIABLE: "set-variable",
     };
   }
 
@@ -71,8 +70,6 @@ export class TerminalClient extends BaseClient {
     return event;
   }
 
-
-
   /**
    * Get a list of all the connectable ttys on the network
    * @param scope
@@ -99,14 +96,20 @@ export class TerminalClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static setVariable(circuitName, variableName, value, scope, callback) {
+  static setVariable(
+    circuitName,
+    variableName,
+    value,
+    scope,
+    callback
+  ) {
     console.log("set variable called!");
     let event = TerminalClient.instance.createClientEvent(
       TerminalClient.Events.SET_VARIABLE,
       {
         circuitName: circuitName,
         variableName: variableName,
-        value: value
+        value: value,
       },
       scope,
       callback
@@ -126,7 +129,7 @@ export class TerminalClient extends BaseClient {
     let event = TerminalClient.instance.createClientEvent(
       TerminalClient.Events.JOIN_CIRCUIT,
       {
-        circuitName: circuitName
+        circuitName: circuitName,
       },
       scope,
       callback
@@ -134,7 +137,6 @@ export class TerminalClient extends BaseClient {
     TerminalClient.instance.notifyTerminal(event);
     return event;
   }
-
 
   /**
    * Leave a terminal circuit on the network, or our own circuit to close
@@ -147,7 +149,7 @@ export class TerminalClient extends BaseClient {
     let event = TerminalClient.instance.createClientEvent(
       TerminalClient.Events.LEAVE_CIRCUIT,
       {
-        circuitName: circuitName
+        circuitName: circuitName,
       },
       scope,
       callback
@@ -156,20 +158,23 @@ export class TerminalClient extends BaseClient {
     return event;
   }
 
-
-
   /**
    * Runs a terminal command on gridtime
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static runCommand(circuitName, commandInput, scope, callback) {
+  static runCommand(
+    circuitName,
+    commandInput,
+    scope,
+    callback
+  ) {
     let event = TerminalClient.instance.createClientEvent(
       TerminalClient.Events.RUN_COMMAND,
       {
         circuitName: circuitName,
-        commandInput: commandInput
+        commandInput: commandInput,
       },
       scope,
       callback
@@ -194,7 +199,6 @@ export class TerminalClient extends BaseClient {
     TerminalClient.instance.notifyTerminal(event);
     return event;
   }
-
 
   /**
    * the event callback used by the event manager. removes the event from

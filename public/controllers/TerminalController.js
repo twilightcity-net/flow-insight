@@ -34,7 +34,7 @@ module.exports = class TerminalController extends (
       GET_TTYS: "get-ttys",
       JOIN_CIRCUIT: "join-circuit",
       LEAVE_CIRCUIT: "leave-circuit",
-      SET_VARIABLE: "set-variable"
+      SET_VARIABLE: "set-variable",
     };
   }
 
@@ -111,7 +111,6 @@ module.exports = class TerminalController extends (
     }
   }
 
-
   /**
    * Create a new terminal session on gridtime,
    * establishing a new talk channel for all terminal activity
@@ -140,7 +139,6 @@ module.exports = class TerminalController extends (
     );
   }
 
-
   /**
    * run terminal commands on gridtime server
    * @param event
@@ -152,12 +150,12 @@ module.exports = class TerminalController extends (
     let circuitName = arg.args.circuitName,
       cmdInput = arg.args.commandInput;
 
-    let urn = TerminalController.Paths.TERMINAL +
+    let urn =
+      TerminalController.Paths.TERMINAL +
       TerminalController.Paths.CIRCUIT +
       TerminalController.Paths.SEPARATOR +
       circuitName +
       TerminalController.Paths.RUN;
-
 
     this.doClientRequest(
       TerminalController.Contexts.TERMINAL_CLIENT,
@@ -175,7 +173,6 @@ module.exports = class TerminalController extends (
     );
   }
 
-
   /**
    * join terminal circuits on the network
    * @param event
@@ -186,12 +183,12 @@ module.exports = class TerminalController extends (
   handleJoinCircuitEvent(event, arg, callback) {
     let circuitName = arg.args.circuitName;
 
-    let urn = TerminalController.Paths.TERMINAL +
+    let urn =
+      TerminalController.Paths.TERMINAL +
       TerminalController.Paths.CIRCUIT +
       TerminalController.Paths.SEPARATOR +
       circuitName +
       TerminalController.Paths.JOIN;
-
 
     this.doClientRequest(
       TerminalController.Contexts.TERMINAL_CLIENT,
@@ -209,7 +206,6 @@ module.exports = class TerminalController extends (
     );
   }
 
-
   /**
    * leave terminal circuits on the network
    * @param event
@@ -220,12 +216,12 @@ module.exports = class TerminalController extends (
   handleLeaveCircuitEvent(event, arg, callback) {
     let circuitName = arg.args.circuitName;
 
-    let urn = TerminalController.Paths.TERMINAL +
+    let urn =
+      TerminalController.Paths.TERMINAL +
       TerminalController.Paths.CIRCUIT +
       TerminalController.Paths.SEPARATOR +
       circuitName +
       TerminalController.Paths.LEAVE;
-
 
     this.doClientRequest(
       TerminalController.Contexts.TERMINAL_CLIENT,
@@ -243,8 +239,6 @@ module.exports = class TerminalController extends (
     );
   }
 
-
-
   /**
    * set environment variable in the context of a terminal circuit
    * @param event
@@ -255,20 +249,21 @@ module.exports = class TerminalController extends (
   handleSetVariableEvent(event, arg, callback) {
     let circuitName = arg.args.circuitName;
 
-    let urn = TerminalController.Paths.TERMINAL +
+    let urn =
+      TerminalController.Paths.TERMINAL +
       TerminalController.Paths.CIRCUIT +
       TerminalController.Paths.SEPARATOR +
       circuitName +
       TerminalController.Paths.SET;
 
-
     this.doClientRequest(
       TerminalController.Contexts.TERMINAL_CLIENT,
       {
         variableName: arg.args.variableName,
-        value: arg.args.value
+        value: arg.args.value,
       },
-      TerminalController.Names.SET_TERMINAL_ENVIRONMENT_VARIABLE,
+      TerminalController.Names
+        .SET_TERMINAL_ENVIRONMENT_VARIABLE,
       TerminalController.Types.POST,
       urn,
       (store) =>
@@ -302,7 +297,6 @@ module.exports = class TerminalController extends (
     );
   }
 
-
   /**
    * handles our dto callback from our rest client
    * @param store
@@ -310,7 +304,12 @@ module.exports = class TerminalController extends (
    * @param arg
    * @param callback
    */
-  delegateCreateSessionCallback(store, event, arg, callback) {
+  delegateCreateSessionCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
@@ -332,7 +331,12 @@ module.exports = class TerminalController extends (
    * @param arg
    * @param callback
    */
-  delegateLeaveCircuitCallback(store, event, arg, callback) {
+  delegateLeaveCircuitCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
@@ -345,7 +349,6 @@ module.exports = class TerminalController extends (
       callback
     );
   }
-
 
   /**
    * handles our dto callback from our rest client
@@ -368,7 +371,6 @@ module.exports = class TerminalController extends (
     );
   }
 
-
   /**
    * handles our dto callback from our rest client
    * @param store
@@ -390,8 +392,6 @@ module.exports = class TerminalController extends (
     );
   }
 
-
-
   /**
    * Retrieves the entire terminal manual from the gridtime server
    * @param event
@@ -399,7 +399,8 @@ module.exports = class TerminalController extends (
    * @param callback
    */
   handleGetTtysEvent(event, arg, callback) {
-    let urn = TerminalController.Paths.TERMINAL +
+    let urn =
+      TerminalController.Paths.TERMINAL +
       TerminalController.Paths.CIRCUIT;
 
     this.doClientRequest(
@@ -425,7 +426,8 @@ module.exports = class TerminalController extends (
    * @param callback
    */
   handleGetManualEvent(event, arg, callback) {
-    let urn = TerminalController.Paths.TERMINAL +
+    let urn =
+      TerminalController.Paths.TERMINAL +
       TerminalController.Paths.MANUAL;
 
     this.doClientRequest(
@@ -488,5 +490,4 @@ module.exports = class TerminalController extends (
       callback
     );
   }
-
 };

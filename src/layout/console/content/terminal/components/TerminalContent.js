@@ -1,24 +1,22 @@
-import React, {Component} from "react";
-import {DimensionController} from "../../../../../controllers/DimensionController";
+import React, { Component } from "react";
+import { DimensionController } from "../../../../../controllers/DimensionController";
 import Terminal from "react-console-emulator";
-import {BrowserRequestFactory} from "../../../../../controllers/BrowserRequestFactory";
-import {RendererControllerFactory} from "../../../../../controllers/RendererControllerFactory";
-import {TerminalClient} from "../../../../../clients/TerminalClient";
-import {RendererEventFactory} from "../../../../../events/RendererEventFactory";
+import { BrowserRequestFactory } from "../../../../../controllers/BrowserRequestFactory";
+import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
+import { TerminalClient } from "../../../../../clients/TerminalClient";
+import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
 
 /**
  * this component is the tab panel wrapper for the terminal content
  * @copyright Twilight City, Inc. 2021©®™√
  */
 export default class TerminalContent extends Component {
-
   /**
    * this is the name of the meta property field which the talk message uses
    * to store the value of the user whom made the request typically.
    * @type {string}
    */
   static fromUserNameMetaPropsStr = "from.username";
-
 
   /**
    * builds the Terminal Content component
@@ -45,59 +43,64 @@ export default class TerminalContent extends Component {
       baseConnectPath: "",
       promptLabel: "fervie>",
       subshell: null,
-      locked : false
+      locked: false,
     };
-    this.state.commands = {}
+    this.state.commands = {};
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-
-    if (this.props.terminalCircuit && prevProps.terminalCircuit &&
-    this.props.terminalCircuit.circuitName !== prevProps.terminalCircuit.circuitName) {
+    if (
+      this.props.terminalCircuit &&
+      prevProps.terminalCircuit &&
+      this.props.terminalCircuit.circuitName !==
+        prevProps.terminalCircuit.circuitName
+    ) {
       //circuit connection changed
 
       this.configShellCommandsAndPrompt(null);
-
     }
 
-    if (this.props.commandManual !== null && prevProps.commandManual === null) {
-
+    if (
+      this.props.commandManual !== null &&
+      prevProps.commandManual === null
+    ) {
       let allCommands = {
         ...this.getDefaultTopShellCommands(),
         ...this.getTopShellCommands(),
         ...this.getAllSubshellCommands(),
-        ...this.getTtyCommands()
+        ...this.getTtyCommands(),
       };
 
-      this.setState({commands: allCommands});
+      this.setState({ commands: allCommands });
     }
   }
 
-
   configShellCommandsAndPrompt(subshell) {
-
     let baseConnectPath = "";
     if (!this.props.isBaseCircuit) {
-      baseConnectPath = this.props.me.username + "@terminal/" + this.props.terminalCircuit.circuitName + "::";
+      baseConnectPath =
+        this.props.me.username +
+        "@terminal/" +
+        this.props.terminalCircuit.circuitName +
+        "::";
     }
 
     let prompt = "";
     let commands = [];
 
     if (subshell) {
-      prompt = baseConnectPath + "fervie/"+subshell + ">";
+      prompt = baseConnectPath + "fervie/" + subshell + ">";
       commands = {
         ...this.getDefaultSubShellCommands(subshell),
-        ...this.getAllSubshellCommands()
+        ...this.getAllSubshellCommands(),
       };
-
     } else {
       prompt = baseConnectPath + "fervie>";
       commands = {
         ...this.getDefaultTopShellCommands(),
         ...this.getTopShellCommands(),
         ...this.getAllSubshellCommands(),
-        ...this.getTtyCommands()
+        ...this.getTtyCommands(),
       };
     }
 
@@ -105,24 +108,29 @@ export default class TerminalContent extends Component {
       baseConnectPath: baseConnectPath,
       subshell: subshell,
       promptLabel: prompt,
-      commands: commands
+      commands: commands,
     });
   }
 
   pushTalkMessageHistory(messages) {
     for (let i = 0; i < messages.length; i++) {
+      let messageFromUsername =
+        this.getUsernameFromMetaProps(
+          messages[i].metaProps
+        );
 
-      let messageFromUsername = this.getUsernameFromMetaProps(messages[i].metaProps);
-
-      this.pushTalkMessage(messageFromUsername, messages[i]);
+      this.pushTalkMessage(
+        messageFromUsername,
+        messages[i]
+      );
     }
     this.terminal.current.scrollToBottom();
   }
 
   pushErrorMessage(errorMsg) {
-    let msg =
-      <span className={"errorText"}>
-             {errorMsg}</span>;
+    let msg = (
+      <span className={"errorText"}>{errorMsg}</span>
+    );
 
     this.terminal.current.pushToStdout(msg);
     this.terminal.current.scrollToBottom();
@@ -134,20 +142,25 @@ export default class TerminalContent extends Component {
         tty: {
           description: "List available ttys to connect to",
           fn: () => {
-            TerminalClient.getConnectableTtys(this,
+            TerminalClient.getConnectableTtys(
+              this,
               (arg) => {
                 if (arg.error) {
                   this.pushErrorMessage(arg.error);
                 } else {
                   let output = arg.data.resultString;
-                  output += "\nType 'join {ttyLink}' to join";
+                  output +=
+                    "\nType 'join {ttyLink}' to join";
 
-                  this.terminal.current.pushToStdout(output);
+                  this.terminal.current.pushToStdout(
+                    output
+                  );
                 }
                 this.terminal.current.scrollToBottom();
-              });
+              }
+            );
             return "";
-          }
+          },
         },
         join: {
           fn: (ttyLink) => {
@@ -158,13 +171,12 @@ export default class TerminalContent extends Component {
               output = "Usage: join {ttyLink}";
             }
             return output;
-          }
-        }
-      }
+          },
+        },
+      };
     } else {
       return {};
     }
-
   }
 
   /**
@@ -175,70 +187,98 @@ export default class TerminalContent extends Component {
    * @param arg
    */
   onTalkRoomMessage = (event, arg) => {
-
-    if (this.props.terminalCircuit && (arg.uri === this.props.terminalCircuit.talkRoomId)) {
+    if (
+      this.props.terminalCircuit &&
+      arg.uri === this.props.terminalCircuit.talkRoomId
+    ) {
       //message for this terminal circuit
 
-      let messageFromUsername = this.getUsernameFromMetaProps(arg.metaProps);
+      let messageFromUsername =
+        this.getUsernameFromMetaProps(arg.metaProps);
 
-      if (messageFromUsername !== this.props.me.username ) {
-         if (arg.messageType === TerminalClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT
-           || arg.messageType === TerminalClient.MessageTypes.TERMINAL_CMD_RESULT ) {
-
-           this.pushTalkMessage(messageFromUsername, arg);
-           this.terminal.current.scrollToBottom();
-
-         } else if (arg.messageType === TerminalClient.MessageTypes.TERMINAL_CIRCUIT_CLOSED) {
-           this.exitJoinedCircuit();
-
-         } else {
-           console.log("Unknown talk message type!  Ignoring... "+arg.messageType);
-         }
-       } else if (arg.data.resultString) {
-         this.terminal.current.pushToStdout(arg.data.resultString);
+      if (messageFromUsername !== this.props.me.username) {
+        if (
+          arg.messageType ===
+            TerminalClient.MessageTypes
+              .ROOM_MEMBER_STATUS_EVENT ||
+          arg.messageType ===
+            TerminalClient.MessageTypes.TERMINAL_CMD_RESULT
+        ) {
+          this.pushTalkMessage(messageFromUsername, arg);
+          this.terminal.current.scrollToBottom();
+        } else if (
+          arg.messageType ===
+          TerminalClient.MessageTypes
+            .TERMINAL_CIRCUIT_CLOSED
+        ) {
+          this.exitJoinedCircuit();
+        } else {
+          console.log(
+            "Unknown talk message type!  Ignoring... " +
+              arg.messageType
+          );
+        }
+      } else if (arg.data.resultString) {
+        this.terminal.current.pushToStdout(
+          arg.data.resultString
+        );
         this.terminal.current.scrollToBottom();
-       }
-
-
+      }
     }
   };
 
   pushTalkMessage(messageFromUsername, arg) {
-    if (arg.messageType === TerminalClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT) {
-
+    if (
+      arg.messageType ===
+      TerminalClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT
+    ) {
       let msg = "";
       if (arg.data.statusEvent === "ROOM_MEMBER_JOIN") {
-        msg =
+        msg = (
           <span className={"userSharedText"}>
-             {messageFromUsername + " joined the circuit."}</span>;
+            {messageFromUsername + " joined the circuit."}
+          </span>
+        );
       } else {
-        msg =
+        msg = (
           <span className={"userSharedText"}>
-             {messageFromUsername + " left."}</span>;
+            {messageFromUsername + " left."}
+          </span>
+        );
       }
 
       this.terminal.current.pushToStdout(msg, true);
-
-    } else if (arg.messageType === TerminalClient.MessageTypes.TERMINAL_CMD_RESULT) {
-
-      let echoMsg =
+    } else if (
+      arg.messageType ===
+      TerminalClient.MessageTypes.TERMINAL_CMD_RESULT
+    ) {
+      let echoMsg = (
         <div>
-          <span className={"sharedTerminalPrompt"}>{arg.data.commandFrom + ">"} </span>
-          <span className={"sharedTerminalInput"}>{arg.data.commandExecuted}</span>
-        </div>;
+          <span className={"sharedTerminalPrompt"}>
+            {arg.data.commandFrom + ">"}{" "}
+          </span>
+          <span className={"sharedTerminalInput"}>
+            {arg.data.commandExecuted}
+          </span>
+        </div>
+      );
 
       this.terminal.current.pushToStdout(echoMsg, true);
       if (arg.data.resultString) {
-        this.terminal.current.pushToStdout(arg.data.resultString);
+        this.terminal.current.pushToStdout(
+          arg.data.resultString
+        );
       }
     }
   }
 
   exitJoinedCircuit() {
     if (!this.props.isBaseCircuit) {
-      let msg =
+      let msg = (
         <span className={"userSharedText"}>
-             {"Circuit terminated by owner."}</span>;
+          {"Circuit terminated by owner."}
+        </span>
+      );
 
       this.terminal.current.pushToStdout(msg);
       this.terminal.current.scrollToBottom();
@@ -260,7 +300,6 @@ export default class TerminalContent extends Component {
     );
   }
 
-
   getDefaultTopShellCommands() {
     return {
       help: {
@@ -268,24 +307,25 @@ export default class TerminalContent extends Component {
         usage: "help",
         fn: () => {
           return this.getShellOptionHelp();
-        }
+        },
       },
       clear: {
         description: "Clear the terminal screen",
         fn: () => {
           this.terminal.current.clearStdout();
           return "";
-        }
+        },
       },
       exit: {
         description: "Exit the terminal of the shell",
         usage: "exit",
         fn: () => {
           if (this.props.isBaseCircuit) {
-            let request = BrowserRequestFactory.createRequest(
-              BrowserRequestFactory.Requests.JOURNAL,
-              "me"
-            );
+            let request =
+              BrowserRequestFactory.createRequest(
+                BrowserRequestFactory.Requests.JOURNAL,
+                "me"
+              );
             setTimeout(() => {
               this.browserController.makeRequest(request);
             }, 420);
@@ -299,94 +339,188 @@ export default class TerminalContent extends Component {
   }
 
   getShellOptionHelp() {
-    let help = "Enter one of the activity types below, to create a subshell that helps you with related tasks.\n\n";
+    let help =
+      "Enter one of the activity types below, to create a subshell that helps you with related tasks.\n\n";
     if (this.props.commandManual) {
-      let activityContexts = this.props.commandManual.activityContexts;
+      let activityContexts =
+        this.props.commandManual.activityContexts;
       for (let i = 0; i < activityContexts.length; i++) {
-         help += activityContexts[i].context.toLowerCase().padEnd(10) + " :: "+activityContexts[i].description + "\n";
+        help +=
+          activityContexts[i].context
+            .toLowerCase()
+            .padEnd(10) +
+          " :: " +
+          activityContexts[i].description +
+          "\n";
       }
     }
 
     if (this.props.isBaseCircuit) {
-      help += "\nType 'tty' to show other terminal circuits on the network";
+      help +=
+        "\nType 'tty' to show other terminal circuits on the network";
     }
 
     return help;
   }
-
 
   getAllSubshellCommands() {
     let commands = {};
 
     let uniqueCommands = new Set();
 
-    for (let j = 0; j < this.props.commandManual.activityContexts.length ; j++) {
-      let activity = this.props.commandManual.activityContexts[j].context;
-      let manualPage = this.props.commandManual.manualPagesByActivityContext[activity];
+    for (
+      let j = 0;
+      j < this.props.commandManual.activityContexts.length;
+      j++
+    ) {
+      let activity =
+        this.props.commandManual.activityContexts[j]
+          .context;
+      let manualPage =
+        this.props.commandManual
+          .manualPagesByActivityContext[activity];
 
-      for (let i = 0; i < manualPage.commandDescriptors.length; i++) {
-        let commandDescriptor = manualPage.commandDescriptors[i];
-        let command = commandDescriptor.command.toLowerCase();
+      for (
+        let i = 0;
+        i < manualPage.commandDescriptors.length;
+        i++
+      ) {
+        let commandDescriptor =
+          manualPage.commandDescriptors[i];
+        let command =
+          commandDescriptor.command.toLowerCase();
 
         uniqueCommands.add(command);
       }
     }
 
     uniqueCommands.forEach((command) => {
-       commands[command] = {
-         fn: (arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) => {
+      commands[command] = {
+        fn: (
+          arg0,
+          arg1,
+          arg2,
+          arg3,
+          arg4,
+          arg5,
+          arg6,
+          arg7,
+          arg8,
+          arg9
+        ) => {
+          let argArray = this.createArgArray(
+            arg0,
+            arg1,
+            arg2,
+            arg3,
+            arg4,
+            arg5,
+            arg6,
+            arg7,
+            arg8,
+            arg9
+          );
 
-           let argArray = this.createArgArray(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
-
-           TerminalClient.runCommand(
-             this.props.terminalCircuit.circuitName,
-             {command: command.toUpperCase(), args: argArray}, this,
-             (arg) => {
-               //display errors if we get back an error, we wont get a talk message
-               if (arg.error) {
-                 this.pushErrorMessage(arg.error);
-               }
-             });
-         }
-       }
+          TerminalClient.runCommand(
+            this.props.terminalCircuit.circuitName,
+            {
+              command: command.toUpperCase(),
+              args: argArray,
+            },
+            this,
+            (arg) => {
+              //display errors if we get back an error, we wont get a talk message
+              if (arg.error) {
+                this.pushErrorMessage(arg.error);
+              }
+            }
+          );
+        },
+      };
     });
 
     return commands;
   }
 
   getSubshellCommands(subshellName) {
-
     let commands = {};
 
     if (this.props.commandManual) {
-      let manualPage = this.props.commandManual.manualPagesByActivityContext[subshellName.toUpperCase()];
+      let manualPage =
+        this.props.commandManual
+          .manualPagesByActivityContext[
+          subshellName.toUpperCase()
+        ];
 
-      for (let i = 0; i < manualPage.commandDescriptors.length; i++) {
-        let commandDescriptor = manualPage.commandDescriptors[i];
-        let command = commandDescriptor.command.toLowerCase();
+      for (
+        let i = 0;
+        i < manualPage.commandDescriptors.length;
+        i++
+      ) {
+        let commandDescriptor =
+          manualPage.commandDescriptors[i];
+        let command =
+          commandDescriptor.command.toLowerCase();
         commands[command] = {
-          fn: (arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) => {
-
-            let argArray = this.createArgArray(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9);
+          fn: (
+            arg0,
+            arg1,
+            arg2,
+            arg3,
+            arg4,
+            arg5,
+            arg6,
+            arg7,
+            arg8,
+            arg9
+          ) => {
+            let argArray = this.createArgArray(
+              arg0,
+              arg1,
+              arg2,
+              arg3,
+              arg4,
+              arg5,
+              arg6,
+              arg7,
+              arg8,
+              arg9
+            );
 
             TerminalClient.runCommand(
               this.props.terminalCircuit.circuitName,
-              {command: command.toUpperCase(), args: argArray}, this,
+              {
+                command: command.toUpperCase(),
+                args: argArray,
+              },
+              this,
               (arg) => {
-                  //display errors if we get back an error, we wont get a talk message
-                  if (arg.error) {
-                    this.pushErrorMessage(arg.error);
-                  }
-              });
-          }
-        }
+                //display errors if we get back an error, we wont get a talk message
+                if (arg.error) {
+                  this.pushErrorMessage(arg.error);
+                }
+              }
+            );
+          },
+        };
       }
     }
 
     return commands;
   }
 
-  createArgArray(arg0, arg1, arg2, arg3, arg4, arg5, arg6, arg7, arg8, arg9) {
+  createArgArray(
+    arg0,
+    arg1,
+    arg2,
+    arg3,
+    arg4,
+    arg5,
+    arg6,
+    arg7,
+    arg8,
+    arg9
+  ) {
     let argArray = [];
     argArray = this.addToArrayIfNotNull(argArray, arg0);
     argArray = this.addToArrayIfNotNull(argArray, arg1);
@@ -410,38 +544,70 @@ export default class TerminalContent extends Component {
   }
 
   getSubshellOptionHelp(subshellName) {
-    let help = "Type 'help <command>' to open manual page details for the below commands.\n\n";
+    let help =
+      "Type 'help <command>' to open manual page details for the below commands.\n\n";
 
     if (this.props.commandManual) {
-      let manualPage = this.props.commandManual.manualPagesByActivityContext[subshellName.toUpperCase()];
+      let manualPage =
+        this.props.commandManual
+          .manualPagesByActivityContext[
+          subshellName.toUpperCase()
+        ];
 
-      for (let i = 0; i < manualPage.commandDescriptors.length; i++) {
-        help += manualPage.commandDescriptors[i].command.toLowerCase().padEnd(10) + " :: "+ manualPage.commandDescriptors[i].description + "\n";
+      for (
+        let i = 0;
+        i < manualPage.commandDescriptors.length;
+        i++
+      ) {
+        help +=
+          manualPage.commandDescriptors[i].command
+            .toLowerCase()
+            .padEnd(10) +
+          " :: " +
+          manualPage.commandDescriptors[i].description +
+          "\n";
       }
     }
     return help;
   }
 
   getSubshellSpecificOptionHelp(subshellName, commandName) {
-    let commandDescriptor = this.findCommandDescriptor(subshellName, commandName);
+    let commandDescriptor = this.findCommandDescriptor(
+      subshellName,
+      commandName
+    );
 
     let help = "";
 
     if (commandDescriptor) {
-      help = "Command: "+commandDescriptor.command;
-      help += "\nDescription: "+commandDescriptor.description;
+      help = "Command: " + commandDescriptor.command;
+      help +=
+        "\nDescription: " + commandDescriptor.description;
 
-      for (let i = 0; i < commandDescriptor.terminalRoutes.length; i++) {
+      for (
+        let i = 0;
+        i < commandDescriptor.terminalRoutes.length;
+        i++
+      ) {
         let route = commandDescriptor.terminalRoutes[i];
-        help += "\n\nUsage: "+commandName.toLowerCase() + " "+ route.argsTemplate;
+        help +=
+          "\n\nUsage: " +
+          commandName.toLowerCase() +
+          " " +
+          route.argsTemplate;
 
-        for (const [option, description] of Object.entries(route.optionsHelp)) {
-          help += "\nOption: "+("{" + option + "}").padEnd(10)+" :: " + description;
+        for (const [option, description] of Object.entries(
+          route.optionsHelp
+        )) {
+          help +=
+            "\nOption: " +
+            ("{" + option + "}").padEnd(10) +
+            " :: " +
+            description;
         }
-
       }
     } else {
-       help = "Command '"+commandName+"' not found!";
+      help = "Command '" + commandName + "' not found!";
     }
 
     return help;
@@ -449,38 +615,54 @@ export default class TerminalContent extends Component {
 
   findCommandDescriptor(subshellName, commandName) {
     if (this.props.commandManual) {
-      let manualPage = this.props.commandManual.manualPagesByActivityContext[subshellName.toUpperCase()];
+      let manualPage =
+        this.props.commandManual
+          .manualPagesByActivityContext[
+          subshellName.toUpperCase()
+        ];
 
-      for (let i = 0; i < manualPage.commandDescriptors.length; i++) {
-        if ( manualPage.commandDescriptors[i].command.toUpperCase() === commandName.toUpperCase()) {
+      for (
+        let i = 0;
+        i < manualPage.commandDescriptors.length;
+        i++
+      ) {
+        if (
+          manualPage.commandDescriptors[
+            i
+          ].command.toUpperCase() ===
+          commandName.toUpperCase()
+        ) {
           return manualPage.commandDescriptors[i];
         }
       }
     }
 
     return null;
-
   }
 
   getDefaultSubShellCommands(subshellName) {
     return {
       help: {
-        description: "Override the help with command manual help",
+        description:
+          "Override the help with command manual help",
         usage: "help",
         fn: (optionalCmd) => {
           if (optionalCmd) {
-            return this.getSubshellSpecificOptionHelp(subshellName, optionalCmd);
+            return this.getSubshellSpecificOptionHelp(
+              subshellName,
+              optionalCmd
+            );
           } else {
             return this.getSubshellOptionHelp(subshellName);
           }
-        }
+        },
       },
       clear: {
         description: "Clear the terminal screen",
         fn: () => {
           this.terminal.current.clearStdout();
           return "";
-        }
+        },
       },
       exit: {
         description: "Exit the subshell",
@@ -493,19 +675,19 @@ export default class TerminalContent extends Component {
     };
   }
 
-
   getTopShellCommands() {
-
     let subshellCommands = {};
 
     if (this.props.commandManual) {
-      let activityContexts = this.props.commandManual.activityContexts;
+      let activityContexts =
+        this.props.commandManual.activityContexts;
       for (let i = 0; i < activityContexts.length; i++) {
-        let subshellName = activityContexts[i].context.toLowerCase();
+        let subshellName =
+          activityContexts[i].context.toLowerCase();
         subshellCommands[subshellName] = {
           fn: () => {
-             this.startSubshell(subshellName);
-          }
+            this.startSubshell(subshellName);
+          },
         };
       }
     }
@@ -514,29 +696,27 @@ export default class TerminalContent extends Component {
   }
 
   startSubshell(subshellName) {
-
     this.configShellCommandsAndPrompt(subshellName);
   }
 
   exitSubshell() {
-
     this.configShellCommandsAndPrompt(null);
   }
 
   getTerminalContent() {
-
     let welcome = "";
     if (this.props.terminalCircuit) {
-      welcome = "This is Fervie Shell, running on "+this.props.terminalCircuit.url +"\n" +
+      welcome =
+        "This is Fervie Shell, running on " +
+        this.props.terminalCircuit.url +
+        "\n" +
         "For more information on commands, type 'help', or 'exit' to exit.";
 
       return (
         <Terminal
           ref={this.terminal}
           commands={this.state.commands}
-          welcomeMessage={[welcome,
-            "~",
-          ]}
+          welcomeMessage={[welcome, "~"]}
           styleEchoBack={"fullInherit"}
           noNewlineParsing={true}
           noDefaults={true}
@@ -572,9 +752,8 @@ export default class TerminalContent extends Component {
         />
       );
     } else {
-      return <div></div>
+      return <div></div>;
     }
-
   }
 
   static doYoda() {

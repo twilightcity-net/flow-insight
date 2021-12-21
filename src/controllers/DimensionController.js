@@ -121,13 +121,13 @@ export class DimensionController {
    * @returns {number}
    */
   static getMiniFervieCanvasHeight() {
-      let consoleSidebarBorderPixels = 4,
-          oneRem = window.innerHeight / 100,
-          relativeHeight = 37;
+    let consoleSidebarBorderPixels = 4,
+      oneRem = window.innerHeight / 100,
+      relativeHeight = 37;
 
-      return (
-          oneRem * relativeHeight - consoleSidebarBorderPixels
-      );
+    return (
+      oneRem * relativeHeight - consoleSidebarBorderPixels
+    );
   }
 
   /**
@@ -137,28 +137,28 @@ export class DimensionController {
   static getMiniFervieCanvasWidth() {
     console.log(window.innerWidth);
 
-      let consoleSidebarWidthPixels = 29,
-          oneRem = window.innerWidth / 100,
-          relativeWidth = 11;
+    let consoleSidebarWidthPixels = 29,
+      oneRem = window.innerWidth / 100,
+      relativeWidth = 11;
 
-      return (
-          oneRem * relativeWidth - consoleSidebarWidthPixels
-      );
+    return (
+      oneRem * relativeWidth - consoleSidebarWidthPixels
+    );
   }
 
-    /**
-     * gets the height dimension for the fervie color picker
-     * @returns {number}
-     */
-    static getColorPickerDivHeight() {
-        let consoleSidebarBorderPixels = 4,
-            oneRem = window.innerHeight / 100,
-            relativeHeight = 37;
+  /**
+   * gets the height dimension for the fervie color picker
+   * @returns {number}
+   */
+  static getColorPickerDivHeight() {
+    let consoleSidebarBorderPixels = 4,
+      oneRem = window.innerHeight / 100,
+      relativeHeight = 37;
 
-        return (
-            oneRem * relativeHeight - consoleSidebarBorderPixels
-        );
-    }
+    return (
+      oneRem * relativeHeight - consoleSidebarBorderPixels
+    );
+  }
 
   /**
    * gets the circuits height dimension for sidebar panel

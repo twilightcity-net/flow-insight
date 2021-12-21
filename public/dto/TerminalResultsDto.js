@@ -2,7 +2,6 @@
 // dto class for TerminalResultsDto
 //
 module.exports = class TerminalResultsDto {
-
   constructor(json) {
     try {
       if (typeof json === "string") json = JSON.parse(json);
@@ -18,17 +17,21 @@ module.exports = class TerminalResultsDto {
       this.gridTileDto = json.gridTileDto;
       this.calendarInfoDto = json.calendarInfoDto;
       this.projectDetailsDto = json.projectDetailsDto;
-      this.environmentVariableDto = json.environmentVariableDto;
-
+      this.environmentVariableDto =
+        json.environmentVariableDto;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'TerminalResultsDto' : " + e.message
+        "Unable to create dto 'TerminalResultsDto' : " +
+          e.message
       );
     }
   }
 
   isValid() {
-    if (this.circuitName != null && this.circuitName != null)
+    if (
+      this.circuitName != null &&
+      this.circuitName != null
+    )
       return true;
     return false;
   }
