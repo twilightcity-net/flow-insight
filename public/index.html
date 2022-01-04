@@ -472,6 +472,47 @@
     background: none;
   }
 
+  #component.consoleSidebar .xpFloat {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    right: 0;
+    font-size: small;
+    color: rgba(140, 110, 250, 1);
+    animation: xp-float-up 1s forwards ease-in;
+  }
+
+  #component.consoleSidebar .fervieHeartFade {
+    opacity: 0.2;
+    animation: xp-heart-fade 1s forwards ease-in;
+  }
+
+  @keyframes xp-float-up {
+    0% {
+      top: 18px;
+      opacity: 1;
+      color: rgba(27, 175, 26, 1);
+    }
+
+    100% {
+      top: 6px;
+      opacity: 0;
+      color: white;
+    }
+  }
+
+  @keyframes xp-heart-fade {
+    0% {
+      opacity: 0.2;
+    }
+
+    100% {
+      opacity: 1;
+    }
+  }
+
+
+
   @keyframes shadow-pulse-menu-item {
     0% {
       box-shadow: 0 0 0 0 rgba(234, 0, 0, 0.169);

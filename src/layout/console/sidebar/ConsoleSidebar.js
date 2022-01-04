@@ -11,6 +11,7 @@ import { DimensionController } from "../../../controllers/DimensionController";
 import { RendererEventFactory } from "../../../events/RendererEventFactory";
 import { BaseClient } from "../../../clients/BaseClient";
 import { MemberClient } from "../../../clients/MemberClient";
+import {JournalClient} from "../../../clients/JournalClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -36,8 +37,11 @@ export default class ConsoleSidebar extends Component {
   constructor(props) {
     super(props);
     this.name = "[ConsoleSidebar]";
+    this.xpTimer = null;
     this.state = {
       isAlarm: false,
+      isXPUpdate: false,
+      xpUpdateAmount: 0,
       activeItem:
         SidePanelViewController.MenuSelection.TEAM,
       iconFervie: "heart outline",
@@ -147,8 +151,30 @@ export default class ConsoleSidebar extends Component {
       if (this.isMe(data.id)) {
         this.setAlarmStateBasedOnStatus(data);
       }
+    } else if (mType === BaseClient.MessageTypes.XP_STATUS_UPDATE) {
+      if (this.isMe(data.memberId)) {
+        this.setXpUpdateState(data);
+      }
     }
   };
+
+  setXpUpdateState(xpUpdate) {
+    let oldXP = xpUpdate.oldXPSummary.totalXP;
+    let newXP = xpUpdate.newXPSummary.totalXP;
+
+    console.log("xp diff = "+(newXP - oldXP));
+
+    this.xpTimer = setTimeout(() => {
+      this.setState({
+        isXPUpdate: false
+      });
+    }, 2000);
+
+    this.setState({
+      isXPUpdate: true,
+      xpUpdateAmount: (newXP - oldXP)
+    });
+  }
 
   setAlarmStateBasedOnStatus(me) {
     let isAlarm = false;
@@ -457,6 +483,18 @@ export default class ConsoleSidebar extends Component {
       iconClassName = "wait";
       iconColor = "grey";
     }
+
+    let heartAnimClass = "";
+    let xpAnimClass = "";
+    let xpAmount = "";
+
+    if (this.state.isXPUpdate) {
+      heartAnimClass = "fervieHeartFade";
+      xpAnimClass = "xpFloat";
+      xpAmount = "+" + this.state.xpUpdateAmount + "XP";
+    }
+
+
     const networkConnectMenuItem = (
       <Menu.Item header className={menuClassName}>
         <Icon name={iconClassName} color={iconColor} />
@@ -470,6 +508,7 @@ export default class ConsoleSidebar extends Component {
       isOnline,
       errorMsg
     );
+
     return (
       <div
         id="component"
@@ -518,7 +557,8 @@ export default class ConsoleSidebar extends Component {
             }
             onClick={this.handleItemClick}
           >
-            <Icon name={this.state.iconFervie} />
+            <Icon className={heartAnimClass} name={this.state.iconFervie} />
+            <div className={xpAnimClass}>{xpAmount}</div>
           </Menu.Item>
           <Menu.Item
             name={

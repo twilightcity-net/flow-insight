@@ -148,9 +148,21 @@ export default class FerviePanel extends Component {
   handleXPUpdateMessage(arg) {
     let data = arg.data;
 
-    this.setState({
-      xpSummary: data.newXPSummary,
-    });
+    if (this.isMe(data.memberId)) {
+      this.setState({
+        xpSummary: data.newXPSummary
+      });
+    }
+  }
+
+  /**
+   * checks to see if this is use based on a member id
+   * @param id
+   * @returns {boolean}
+   */
+  isMe(id) {
+    let me = MemberClient.me;
+    return me && me["id"] === id;
   }
 
   /**
@@ -418,7 +430,11 @@ export default class FerviePanel extends Component {
       xpPercent = UtilRenderer.getXpPercent(
         this.state.xpSummary.xpProgress,
         this.state.xpSummary.xpRequiredToLevel
+      ),
+      xpDisplay = UtilRenderer.getXpDetailDisplay(
+        this.state.xpSummary,
       );
+
 
     return (
       <div className="fervieTitle">
@@ -445,10 +461,7 @@ export default class FerviePanel extends Component {
           }
           content={
             <div className="xpCount">
-              <b>
-                <i>Total:</i>
-              </b>{" "}
-              {this.state.xpSummary.totalXP} XP
+              {xpDisplay}
             </div>
           }
           inverted

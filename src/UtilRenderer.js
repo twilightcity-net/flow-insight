@@ -504,8 +504,27 @@ export default class UtilRenderer {
    * @returns {number}
    */
   static getXpPercent(xpProgress, xpRequiredToLevel) {
-    return ((xpProgress / xpRequiredToLevel) * 100) | 0;
+    if (xpRequiredToLevel > 0) {
+      return ((xpProgress / xpRequiredToLevel) * 100) | 0;
+    } else {
+      return 100;
+    }
+
   }
+
+  /**
+   * gets a detailed XP display to show how much XP to next level
+   * @param xpSummary
+   * @returns {string}
+   */
+  static getXpDetailDisplay(xpSummary) {
+    if (xpSummary.xpRequiredToLevel > 0) {
+      return xpSummary.xpProgress + " / " + xpSummary.xpRequiredToLevel + " XP";
+    } else {
+      return xpSummary.totalXP + " XP";
+    }
+  }
+
 
   /**
    * checks of our member is online by their online status field
