@@ -150,7 +150,7 @@ export default class FerviePanel extends Component {
 
     if (this.isMe(data.memberId)) {
       this.setState({
-        xpSummary: data.newXPSummary
+        xpSummary: data.newXPSummary,
       });
     }
   }
@@ -432,9 +432,8 @@ export default class FerviePanel extends Component {
         this.state.xpSummary.xpRequiredToLevel
       ),
       xpDisplay = UtilRenderer.getXpDetailDisplay(
-        this.state.xpSummary,
+        this.state.xpSummary
       );
-
 
     return (
       <div className="fervieTitle">
@@ -460,9 +459,7 @@ export default class FerviePanel extends Component {
             />
           }
           content={
-            <div className="xpCount">
-              {xpDisplay}
-            </div>
+            <div className="xpCount">{xpDisplay}</div>
           }
           inverted
           hideOnScroll

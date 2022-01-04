@@ -47,6 +47,10 @@ export default class ExecDetail extends Component {
    * @returns {JSX.Element}
    */
   getMetricsDetailContent() {
+    if (!this.props.chartDto) {
+      return <div></div>;
+    }
+
     let execData =
       this.props.chartDto.featureSetsByType[
         UtilRenderer.EXEC_DATA

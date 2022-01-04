@@ -48,6 +48,10 @@ export default class FilesDetail extends Component {
    * @returns {JSX.Element}
    */
   getMetricsDetailContent() {
+    if (!this.props.chartDto) {
+      return <div></div>;
+    }
+
     let fileData =
       this.props.chartDto.featureSetsByType[
         UtilRenderer.FILE_DATA

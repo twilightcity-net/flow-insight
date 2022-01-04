@@ -648,6 +648,10 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarFilesContent() {
+    if (!this.props.chartDto) {
+      return <div></div>;
+    }
+
     let fileData =
       this.props.chartDto.featureSetsByType[
         UtilRenderer.FILE_DATA
@@ -680,6 +684,10 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarExecContent() {
+    if (!this.props.chartDto) {
+      return <div></div>;
+    }
+
     let execData =
       this.props.chartDto.featureSetsByType[
         UtilRenderer.EXEC_DATA

@@ -509,7 +509,6 @@ export default class UtilRenderer {
     } else {
       return 100;
     }
-
   }
 
   /**
@@ -519,12 +518,16 @@ export default class UtilRenderer {
    */
   static getXpDetailDisplay(xpSummary) {
     if (xpSummary.xpRequiredToLevel > 0) {
-      return xpSummary.xpProgress + " / " + xpSummary.xpRequiredToLevel + " XP";
+      return (
+        xpSummary.xpProgress +
+        " / " +
+        xpSummary.xpRequiredToLevel +
+        " XP"
+      );
     } else {
       return xpSummary.totalXP + " XP";
     }
   }
-
 
   /**
    * checks of our member is online by their online status field

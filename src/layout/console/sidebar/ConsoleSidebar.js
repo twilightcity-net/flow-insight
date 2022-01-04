@@ -11,7 +11,6 @@ import { DimensionController } from "../../../controllers/DimensionController";
 import { RendererEventFactory } from "../../../events/RendererEventFactory";
 import { BaseClient } from "../../../clients/BaseClient";
 import { MemberClient } from "../../../clients/MemberClient";
-import {JournalClient} from "../../../clients/JournalClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -151,7 +150,9 @@ export default class ConsoleSidebar extends Component {
       if (this.isMe(data.id)) {
         this.setAlarmStateBasedOnStatus(data);
       }
-    } else if (mType === BaseClient.MessageTypes.XP_STATUS_UPDATE) {
+    } else if (
+      mType === BaseClient.MessageTypes.XP_STATUS_UPDATE
+    ) {
       if (this.isMe(data.memberId)) {
         this.setXpUpdateState(data);
       }
@@ -162,17 +163,17 @@ export default class ConsoleSidebar extends Component {
     let oldXP = xpUpdate.oldXPSummary.totalXP;
     let newXP = xpUpdate.newXPSummary.totalXP;
 
-    console.log("xp diff = "+(newXP - oldXP));
+    console.log("xp diff = " + (newXP - oldXP));
 
     this.xpTimer = setTimeout(() => {
       this.setState({
-        isXPUpdate: false
+        isXPUpdate: false,
       });
     }, 2000);
 
     this.setState({
       isXPUpdate: true,
-      xpUpdateAmount: (newXP - oldXP)
+      xpUpdateAmount: newXP - oldXP,
     });
   }
 
@@ -494,7 +495,6 @@ export default class ConsoleSidebar extends Component {
       xpAmount = "+" + this.state.xpUpdateAmount + "XP";
     }
 
-
     const networkConnectMenuItem = (
       <Menu.Item header className={menuClassName}>
         <Icon name={iconClassName} color={iconColor} />
@@ -557,7 +557,10 @@ export default class ConsoleSidebar extends Component {
             }
             onClick={this.handleItemClick}
           >
-            <Icon className={heartAnimClass} name={this.state.iconFervie} />
+            <Icon
+              className={heartAnimClass}
+              name={this.state.iconFervie}
+            />
             <div className={xpAnimClass}>{xpAmount}</div>
           </Menu.Item>
           <Menu.Item
