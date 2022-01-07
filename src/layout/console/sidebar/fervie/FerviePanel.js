@@ -663,6 +663,15 @@ export default class FerviePanel extends Component {
   };
 
   getColorPickerFervieContent() {
+
+    let whatToColorAvailable = [];
+
+    whatToColorAvailable.push(this.whatToColorOptions[0]);
+    whatToColorAvailable.push(this.whatToColorOptions[1]);
+    if (this.state.fervieAccessory) {
+      whatToColorAvailable.push(this.whatToColorOptions[2]);
+    }
+
     return (
       <div className="fervieContent">
         <div className="chooseColors">
@@ -692,7 +701,7 @@ export default class FerviePanel extends Component {
             id="whatToColor"
             className="whatToColor"
             placeholder="Choose what to color"
-            options={this.whatToColorOptions}
+            options={whatToColorAvailable}
             selection
             fluid
             upward
