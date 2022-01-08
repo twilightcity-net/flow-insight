@@ -11,7 +11,7 @@
     :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:
 
 ## FlowInsight Desktop Application ##
-Flow Insight is a desktop console application that gives you smart stats for your workflow, and helps you learn and improve efficiency of your team.
+Flow Insight is a desktop console application that gives you smart stats for your workflow, to support data-driven learning and improve efficiency of your team.
  
  It works in tandem with a peer-to-peer socket server called Talknet, and a metrics engine called Gridtime. 
  
