@@ -1,24 +1,23 @@
-                                                                                                  
-      .*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.
-      :    __________ ___ ___ ___ ____ ____     ____ _________ _____ _____ ___________    :
-      :   |          |   |   |   |    |    |   |    |      ___|     |     |           |   :
-      :   |_        _|           |    |    |___|    |     |_+-|           |_         _|   :
-      :     |______| |___________|____|________|____|_________|_____|_____|_|_______|     :
-      :  *                       |             |    |              |       |        |     :
-      :           \|/     x      |       ______|    |__          __|__            __|     :
-      :     x    --*--           |_____________|____|  |________|     |__________|     x  :
-      :           /|\         *                       *                                   :
-      :                               x     T W I L I G H T  C I T Y , I N C  © 2 0 2 1   :
-      :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:                                                                                                  
-    
-## TwilightCity Desktop Application ##
-TwilightCity is a desktop application and suite of tools to support optimizing flow and data-driven learning on a team.
+    .*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.
+    :    ____________ _______       _______________ ____        ____          /         :
+    :   |       _____|       |     |               |    |  __  |    |      /\/          :
+    :   |       __|  |       |_____|       |       |     \/  \/     |     /             :
+    :   |______|_____|_____________|_______________|________________|_________________  :
+    :          |     |        |    |   _______|    |      ___|      |     |           | :
+    :          |     |     |       |_______   |    |     |_+-|            |_         _| :
+    :       /  |_____|_____|_______|__________|____|_________|______|_____| |_______|   :
+    :    /\/                                                                            :
+    :   /                              T W I L I G H T  C I T Y , I N C  © 2 0 2 1      :
+    :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:
+
+## FlowInsight Desktop Application ##
+Flow Insight is a desktop console application that gives you smart stats for your workflow, and helps you learn and improve efficiency of your team.
  
  It works in tandem with a peer-to-peer socket server called Talknet, and a metrics engine called Gridtime. 
  
 ### Install from Source ###
-The following will describe how to install 'TwilightCity' from source code, and connect to production community servers: "https://home.twilightcity.net" 
-and for Talknet "https://talk.twilightcity.net".  Please contact us for an API key.
+The following will describe how to install 'FlowInsight' from source code, and connect to production servers: "https://home.flowinsight.com" 
+and for Talknet "https://talk.flowinsight.com".  Please contact us for an API key.
 
 Requirements:
 - Node v16.13.0
@@ -44,7 +43,7 @@ https://yarnpkg.com/lang/en/docs/install/
 
 4) On mac arm64 architecture, electron is not yet supported, workaround this issue by using x64 packages:
 
-export npm_config_arch=x64
+`export npm_config_arch=x64`
 
 4) Using yarn, install the projects module dependencies with the following command in the terminal: 
 
@@ -113,9 +112,9 @@ To generate the static html documentation, run the following command:
 
 * please note that you may need to prefix `sudo` or `su`
 
-Documentation files will be exported to ~/twilightcity-desktop/docs.
+Documentation files will be exported to ~/flow-insight/docs.
 
-### Package & Release TwilightCity ###
+### Package & Release FlowInsight ###
 
 1) Run the following command in the terminal:
 
@@ -135,7 +134,7 @@ Documentation files will be exported to ~/twilightcity-desktop/docs.
 
 `git push`
 
-### Publish TwilightCity Release ###
+### Publish FlowInsight Release ###
 
 1) Save a copy of `electron-builder.env.sample` -> `electron-builder.env` in the root directory of the project.
 
@@ -150,4 +149,4 @@ GitHub personal access token is required. You can generate by going to https://g
 `yarn release`
 
 --------------------------
-contact: [admin@twilightcity.net](mailto:admin@twilightcity.net)
+contact: [admin@flowinsight.com](mailto:admin@flowinsight.com)

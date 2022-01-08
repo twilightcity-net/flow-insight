@@ -25,7 +25,7 @@ export default class LoadingView extends Component {
     super(props);
     this.animationTime = 500;
     this.header = {
-      title: "Twilight City",
+      title: "Flow Insight",
       text: "Loading...",
       icon: "hand spock outline",
     };
@@ -36,7 +36,7 @@ export default class LoadingView extends Component {
       label: "Populating cats and synthesizers",
     };
     this.state = {
-      appVersion: "TC_0.5.11",
+      appVersion: "spark_0.5.12",
       visible: true,
       header: this.header,
       progress: this.progress,

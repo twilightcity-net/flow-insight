@@ -128,7 +128,7 @@ module.exports = class AppLoader {
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "talking to llamas...",
-        text: "Logging in to twilightcity.net...",
+        text: "Logging in to flowinsight.com...",
       });
     }, this.eventTimerMs);
   }

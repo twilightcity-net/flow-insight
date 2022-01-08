@@ -17,7 +17,7 @@ describe("API Resource : /account ", function () {
     let msg =
       "Your account has been successfully activated.";
     let status = "VALID";
-    let email = "admin@twilightcity.net";
+    let email = "admin@flowinsight.com";
     let key = "FASFD423fsfd32d2322d";
     let token = "abcd12345678";
     let dtoReq = new ActivationCodeDto({

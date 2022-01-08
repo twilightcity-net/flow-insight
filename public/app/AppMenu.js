@@ -5,12 +5,12 @@ const { Menu } = require("electron"),
 
 const helpSubmenu = [
   {
-    label: "TwilightCity - Learn More",
+    label: "FlowInsight - Learn More",
     click() {
       log.info(
-        "[AppMenu] open browser-> http://twilightcity.net/"
+        "[AppMenu] open browser-> http://flowinsight.com/"
       );
-      Util.openExternalBrowser("http://twilightcity.net/");
+      Util.openExternalBrowser("http://flowinsight.com/");
     },
   },
 ];
@@ -77,7 +77,7 @@ module.exports = class AppMenu extends Menu {
   static getTemplateForMacOS() {
     return [
       {
-        label: "Twilight City",
+        label: "Flow Insight",
         submenu: [
           { role: "about" },
           { type: "separator" },

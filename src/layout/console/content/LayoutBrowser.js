@@ -16,7 +16,7 @@ export default class LayoutBrowser extends Component {
    * default string we show in the address bar
    * @type {string}
    */
-  static locationStr = "Search Twilight City or type a URI";
+  static locationStr = "Search Flow Insight or type a URI";
 
   /**
    * the constructor for the array of journal items to display

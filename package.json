@@ -1,22 +1,22 @@
 {
-  "name": "twilightcity-desktop",
-  "productName": "TwilightCity",
-  "description": "TwilightCity - © 2021 Twilight City, Inc. All rights reserved.",
-  "version": "0.5.11",
+  "name": "flow-insight",
+  "productName": "FlowInsight",
+  "description": "FlowInsight - © 2021 Twilight City, Inc. All rights reserved.",
+  "version": "0.5.12",
   "engines": {
     "node": "16.13.0"
   },
   "private": true,
   "author": {
     "name": "Twilight City, Inc.",
-    "email": "admin@twilightcity.net"
+    "email": "admin@flowinsight.com"
   },
   "copyright": "Copyright © 2021 - Twilight City, Inc.",
   "homepage": "./",
   "main": "public/electron.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/twilightcity-net/twilightcity-desktop-release.git"
+    "url": "https://github.com/twilightcity-net/flowinsight-release.git"
   },
   "scripts": {
     ".": "clear && yarn dev",
@@ -49,8 +49,8 @@
     "postbundle": "gulp clean",
     "predist": "yarn bundle",
     "prerelease": "yarn bundle",
-    "dist": "electron-builder -c.extraMetadata.main=build/net.twilightcity.desktop.dat --publish=never",
-    "release": "electron-builder -c.extraMetadata.main=build/net.twilightcity.desktop.dat --publish=always",
+    "dist": "electron-builder -c.extraMetadata.main=build/net.twilightcity.flowinsight.dat --publish=never",
+    "release": "electron-builder -c.extraMetadata.main=build/net.twilightcity.flowinsight.dat --publish=always",
     "prerelease:build:update": "yarn prerelease",
     "release:build:update": "gulp releaseBuildUpdate",
     "release:build:update:run": "gulp releaseBuildUpdate && npm run dev"
@@ -185,7 +185,7 @@
       "eval": true
     },
     "output": {
-      "preamble": "/* Copyright © 2021 Twilight City, Inc // TwilightCity */",
+      "preamble": "/* Copyright © 2021 Twilight City, Inc // FlowInsight */",
       "bracketize": true,
       "ecma": 6,
       "indent_level": 0,
@@ -199,7 +199,7 @@
     "warnings": true
   },
   "build": {
-    "appId": "net.twilightcity.desktop",
+    "appId": "net.twilightcity.flowinsight",
     "files": ["build/**/*", "package.json"],
     "directories": {
       "buildResources": "resources"

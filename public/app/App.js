@@ -1,4 +1,4 @@
-const { app, session } = require("electron"),
+const {app, session} = require("electron"),
   chalk = require("chalk"),
   log = require("electron-log"),
   isDev = require("electron-is-dev"),
@@ -20,7 +20,7 @@ const { app, session } = require("electron"),
   FervieManager = require("../managers/FervieManager"),
   TerminalManager = require("../managers/TerminalManager"),
   ChartManager = require("../managers/ChartManager"),
-  { EventManager } = require("../events/EventManager"),
+  {EventManager} = require("../events/EventManager"),
   EventFactory = require("../events/EventFactory"),
   {
     ShortcutManager,
@@ -35,17 +35,17 @@ const { app, session } = require("electron"),
   AppBanner = [
     "                                                                                               ",
     "      .*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.\n" +
-      "      :    __________ ___ ___ ___ ____ ____     ____ _________ _____ _____ ___________    :\n" +
-      "      :   |          |   |   |   |    |    |   |    |      ___|     |     |           |   :\n" +
-      "      :   |_        _|           |    |    |___|    |     |_+-|           |_         _|   :\n" +
-      "      :     |______| |___________|____|________|____|_________|_____|_____|_|_______|     :\n" +
-      "      :  *                       |             |    |              |       |        |     :\n" +
-      "      :           \\|/     x      |       ______|    |__          __|__            __|     :\n" +
-      "      :     x    --*--           |_____________|____|  |________|     |__________|     x  :\n" +
-      "      :           /|\\         *                       *                                   :\n" +
-      "      :                               x     T W I L I G H T  C I T Y , I N C  © 2 0 2 1   :\n" +
-      "      :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:" +
-      "                                                                                               \n",
+    "      :    ____________ _______       _______________ ____        ____          /         :\n" +
+    "      :   |       _____|       |     |               |    |  __  |    |      /\\/          :\n" +
+    "      :   |       __|  |       |_____|       |       |     \\/  \\/     |     /             :\n" +
+    "      :   |______|_____|_____________|_______________|________________|_________________  :\n" +
+    "      :          |     |        |    |   _______|    |      ___|      |     |           | :\n" +
+    "      :          |     |     |       |_______   |    |     |_+-|            |_         _| :\n" +
+    "      :       /  |_____|_____|_______|__________|____|_________|______|_____| |_______|   :\n" +
+    "      :    /\\/                                                                            :\n" +
+    "      :   /                              T W I L I G H T  C I T Y , I N C  © 2 0 2 1      :\n" +
+    "      :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:" +
+    "                                                                                               \n",
   ];
 
 const {
@@ -92,7 +92,7 @@ module.exports = class App {
       } else if (Util.checkIfCalledFromCLI(process.argv)) {
         if (rootPath.startsWith("/Applications")) {
           log.error(
-            "Please pass 'Twilight City' a command or argument."
+            "Please pass 'FlowInsight' a command or argument."
           );
           process.exit(0);
         } else {
@@ -119,9 +119,9 @@ module.exports = class App {
 
     log.info(
       "[App] ready -> " +
-        global.App.name +
-        " : " +
-        global.App.api
+      global.App.name +
+      " : " +
+      global.App.api
     );
     log.info("[App] ready -> talk : " + global.App.talkUrl);
     log.info(
@@ -185,9 +185,9 @@ module.exports = class App {
   onSingleInstance(commandLine, workingDirectory) {
     log.warn(
       "[App] second instance detected -> " +
-        workingDirectory +
-        " => " +
-        commandLine
+      workingDirectory +
+      " => " +
+      commandLine
     );
   }
 

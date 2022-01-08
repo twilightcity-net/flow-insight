@@ -11,7 +11,7 @@ module.exports = class AccountActivate {
           status: "VALID",
           message:
             "Your account has been successfully activated.",
-          email: "admin@twilightcity.net",
+          email: "admin@flowinsight.com",
           apiKey: "FASFD423fsfd32d2322d",
         });
 

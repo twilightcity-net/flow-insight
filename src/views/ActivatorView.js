@@ -327,11 +327,11 @@ export default class ActivatorView extends Component {
             between you (the "Licensee") and Twilight City,
             Inc. (the "Licensor"). The terms of this
             Agreement apply to all current and future
-            versions and updates of Twilight City
-            collaborative learning software ("TC").
+            versions and updates of FlowInsight
+            collaborative learning software ("FlowInsight").
           </p>
           <p>
-            By installing, enabling or using TC, Licensee
+            By installing, enabling or using FlowInsight, Licensee
             agrees with all the terms of this Agreement.
             Licensor reserves all rights not specifically
             granted and transferred to Licensee.
@@ -343,21 +343,21 @@ export default class ActivatorView extends Component {
           <ul>
             <li>
               Licensor grants Licensee a non-exclusive and
-              non-transferable license to use TC for
+              non-transferable license to use FlowInsight for
               non-commercial purposes only. Licensee
-              therefore does not own TC, Licensor remains
-              the owner of TC.
+              therefore does not own FlowInsight, Licensor remains
+              the owner of FlowInsight.
             </li>
             <li>
-              Licensor provides TC on an "as is" basis
+              Licensor provides FlowInsight on an "as is" basis
               without warranty of any kind. Licensor neither
               guarantees the correct, error-free functioning
               of TC nor is Licensor responsible for any
-              damage caused by the use of TC.
+              damage caused by the use of FlowInsight.
             </li>
             <li>
               Licensee may not decompile, disassemble,
-              reverse-engineer, modify or redistribute TC in
+              reverse-engineer, modify or redistribute FlowInsight in
               any way.
             </li>
             <li>
@@ -375,7 +375,7 @@ export default class ActivatorView extends Component {
             </li>
             <li>
               Licensor values Licensee's privacy and does
-              its utmost to protect it at all times. TC does
+              its utmost to protect it at all times. FlowInsight does
               not report any personally identifiable
               information or personal data except for any
               information/data specifically mentioned
@@ -422,7 +422,7 @@ export default class ActivatorView extends Component {
           <Divider clearing />
           <Header as="h3" floated="left" inverted>
             <Header.Content>
-              Activating Twilight City...
+              Activating FlowInsight...
               <Header.Subheader>
                 <i>
                   Please standby while we verify your

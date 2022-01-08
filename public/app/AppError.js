@@ -56,13 +56,13 @@ module.exports = class AppError extends Error {
     }
     if (fatal) {
       dialog.showErrorBox(
-        "Twilight City",
+        "Flow Insight",
         "[FATAL] " + error.toString()
       );
       process.exit(1);
     } else if (!graceful) {
       dialog.showErrorBox(
-        "Twilight City",
+        "Flow Insight",
         error.toString()
       );
     }
