@@ -308,8 +308,7 @@ export default class ActiveCircuit extends Component {
    */
   onTalkRoomMessage = (event, arg) => {
     switch (arg.messageType) {
-      case BaseClient.MessageTypes
-        .CIRCUIT_MEMBER_STATUS_EVENT:
+      case BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT:
         this.handleCircuitMemberStatusEventMessage(arg);
         break;
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
@@ -330,23 +329,6 @@ export default class ActiveCircuit extends Component {
             "Duplicate talk message observed: " +
               JSON.stringify(arg)
           );
-        }
-        break;
-      case BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT:
-        let status = arg.data;
-        switch (status[ActiveCircuit.statusEventPropStr]) {
-          case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
-            console.log("JOIN ROOM", status);
-            // TODO add status message in the feed
-            break;
-          case BaseClient.RoomMemberStatus
-            .ROOM_MEMBER_LEAVE:
-            console.log("LEAVE ROOM", status);
-
-            // TODO add status message in the feed
-            break;
-          default:
-            break;
         }
         break;
       default:
@@ -387,6 +369,32 @@ export default class ActiveCircuit extends Component {
     }
   }
 
+
+  /**
+   * append a join message to the chat feed
+   * @param message
+   */
+  appendCircuitMemberEventMessage(message, time, statusMessage) {
+    let that = this;
+
+    this.setState((prevState) => {
+      prevState.messages.push(message);
+
+      return {
+        messages: prevState.messages,
+        feedEvents: that.addFeedEvent(
+            prevState.feedEvents,
+            "Fervie",
+            null,
+            time,
+            statusMessage,
+            true
+        ),
+      };
+    });
+  }
+
+
   /**
    * adds a chat message to the end of all of our chat
    * message feed events, and update the gui. This assumes we have
@@ -426,7 +434,8 @@ export default class ActiveCircuit extends Component {
           username,
           null,
           time,
-          json.message
+          json.message,
+          false
         ),
       };
     });
@@ -457,11 +466,21 @@ export default class ActiveCircuit extends Component {
     let data = arg.data,
       roomMember = data[ActiveCircuit.roomMemberPropStr];
 
+    let metaProps = arg.metaProps,
+      username = this.getUsernameFromMetaProps(metaProps),
+      time = UtilRenderer.getChatMessageTimeString(
+        arg.messageTime
+      );
+
     switch (data.statusEvent) {
-      case BaseClient.StatusEvents.CIRCUIT_MEMBER_JOINED:
+      case BaseClient.CircuitMemberStatus.CIRCUIT_MEMBER_JOIN:
+        console.log("circuit joined!");
+        this.appendCircuitMemberEventMessage(arg, time, "@" + username + " joined the circuit.");
         this.addCircuitMemberToCircuit(roomMember);
         return;
-      case BaseClient.StatusEvents.CIRCUIT_MEMBER_LEAVE:
+      case BaseClient.CircuitMemberStatus.CIRCUIT_MEMBER_LEAVE:
+        console.log("circuit left!");
+        this.appendCircuitMemberEventMessage(arg, time, "@" + username + " left.");
         this.removeCircuitMemberFromCircuit(roomMember);
         return;
       default:
@@ -612,7 +631,8 @@ export default class ActiveCircuit extends Component {
           username,
           null,
           time,
-          json.message
+          json.message,
+          false
         );
       }
     }
@@ -635,10 +655,12 @@ export default class ActiveCircuit extends Component {
         "Fervie",
         null,
         time,
-        "What's the problem?"
+        "What's the problem?",
+        false
       );
     }
   }
+
 
   /**
    * Add a new feed events array which is used to generate the list of
@@ -647,18 +669,21 @@ export default class ActiveCircuit extends Component {
    * @param feedEvent
    * @param time
    * @param text
+   * @param isStatusEvent
    */
   addFeedEvent(
     feedEvents,
     username,
     feedEvent,
     time,
-    text
+    text,
+    isStatusEvent
   ) {
     if (
       feedEvents.length > 0 &&
       feedEvents[feedEvents.length - 1] &&
-      feedEvents[feedEvents.length - 1].name === username
+      feedEvents[feedEvents.length - 1].name === username &&
+      !isStatusEvent
     ) {
       feedEvent = feedEvents.pop();
       feedEvent.text.push(text);
@@ -667,6 +692,7 @@ export default class ActiveCircuit extends Component {
         name: username,
         time: time,
         text: [text],
+        isStatusEvent: isStatusEvent
       };
     }
 

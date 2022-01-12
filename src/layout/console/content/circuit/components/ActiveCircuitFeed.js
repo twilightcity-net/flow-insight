@@ -188,6 +188,7 @@ export default class ActiveCircuitFeed extends Component {
             circuitMember={this.getCircuitMemberForUsername(
               message.name
             )}
+            isStatusEvent={message.isStatusEvent}
             name={message.name}
             time={message.time}
             texts={message.text}
@@ -203,6 +204,7 @@ export default class ActiveCircuitFeed extends Component {
             circuitMember={this.getCircuitMemberForUsername(
               message.name
             )}
+            isStatusEvent={message.isStatusEvent}
             name={message.name}
             time={message.time}
             texts={message.text}

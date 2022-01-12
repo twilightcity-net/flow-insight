@@ -36,20 +36,29 @@ export default class ActiveCircuitFeedEvent extends Component {
    * @returns {*}
    */
   render() {
-    return (
-      <Feed.Event>
-        <Feed.Label className="feedLabel">
-          {this.getFervieProfileSvg()}
-        </Feed.Label>
-        <Feed.Content>
-          <Feed.Summary>
-            <a>@{this.props.name}</a>
-            <Feed.Date>{this.props.time}</Feed.Date>
-          </Feed.Summary>
-          {this.getFeedExtraTextsContent()}
-        </Feed.Content>
-      </Feed.Event>
-    );
+    console.log("status = "+this.props.isStatusEvent);
+    if (this.props.isStatusEvent) {
+      return (
+        <Feed.Event className="statusUpdate">
+            {this.getFeedExtraTextsContent()}
+        </Feed.Event>
+      );
+    } else {
+      return (
+        <Feed.Event>
+          <Feed.Label className="feedLabel">
+            {this.getFervieProfileSvg()}
+          </Feed.Label>
+          <Feed.Content>
+            <Feed.Summary>
+              <a>@{this.props.name}</a>
+              <Feed.Date>{this.props.time}</Feed.Date>
+            </Feed.Summary>
+            {this.getFeedExtraTextsContent()}
+          </Feed.Content>
+        </Feed.Event>
+      );
+    }
   }
 
   getFervieProfileSvg() {

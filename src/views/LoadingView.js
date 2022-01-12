@@ -36,7 +36,7 @@ export default class LoadingView extends Component {
       label: "Populating cats and synthesizers",
     };
     this.state = {
-      appVersion: "spark_0.5.12",
+      appVersion: "0.5.12",
       visible: true,
       header: this.header,
       progress: this.progress,
@@ -196,7 +196,6 @@ export default class LoadingView extends Component {
           inverted
           align="center"
         >
-          {this.state.header.text}
         </Progress>
       </Container>
     );
@@ -255,7 +254,7 @@ export default class LoadingView extends Component {
       </Container>
     );
     let videoPosterSrc = "./assets/images/TC_intro.png",
-      videoSrc = "./assets/video/TC_intro.mp4",
+      videoSrc = "./assets/video/FlowInsight_Intro.mp4",
       videoType = "video/mp4";
     return (
       <Container className="loading">
