@@ -179,6 +179,7 @@ module.exports = class BaseController {
       PAUSE_WTF_WITH_DO_IT_LATER: "pauseWTFWithDoItLater",
       RESUME_WTF: "resumeWTF",
       START_RETRO_FOR_WTF: "startRetroForWTF",
+      PUBLISH_CHAT_TO_ROOM: "publishChatToRoom",
       JOIN_EXISTING_ROOM: "joinExistingRoom",
       LEAVE_EXISTING_ROOM: "leaveExistingRoom",
       GET_MY_HOME_TEAM: "getMyHomeTeam",

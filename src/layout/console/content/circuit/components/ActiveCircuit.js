@@ -499,12 +499,10 @@ export default class ActiveCircuit extends Component {
 
     switch (data.statusEvent) {
       case BaseClient.CircuitMemberStatus.CIRCUIT_MEMBER_JOIN:
-        console.log("circuit joined!");
         this.appendCircuitMemberEventMessage(arg, time, "@" + username + " joined the circuit.");
         this.addCircuitMemberToCircuit(roomMember);
         return;
       case BaseClient.CircuitMemberStatus.CIRCUIT_MEMBER_LEAVE:
-        console.log("circuit left!");
         this.appendCircuitMemberEventMessage(arg, time, "@" + username + " left.");
         this.removeCircuitMemberFromCircuit(roomMember);
         return;
@@ -563,6 +561,7 @@ export default class ActiveCircuit extends Component {
    * @param arg
    */
   handleWtfStatusUpdateMessage(arg) {
+    console.log("updating for wtf status update!");
     let data = arg.data,
       circuit = data[ActiveCircuit.learningCircuitDtoStr],
       model = this.state.model;

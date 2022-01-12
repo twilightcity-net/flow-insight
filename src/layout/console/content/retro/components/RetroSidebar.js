@@ -85,30 +85,28 @@ export default class RetroSidebar extends Component {
       });
       this.props.toggleTroubleshootPanel();
     }
-
     if (
       (!prevProps.model && this.props.model) ||
       (prevProps.model &&
         this.props.model &&
         prevProps.model.circuitName !==
-          this.props.model.circuitName)
-    ) {
-      let currentTags = [];
+        this.props.model.circuitName)) { //different model
 
-      if (this.props.model.tags) {
-        for (
-          let i = 0;
-          i < this.props.model.tags.length;
-          i++
-        ) {
-          let tag = this.props.model.tags[i];
-          currentTags.push(tag);
-        }
-      }
-
+      let currentTags = this.getTagList(this.props.model);
       this.setState({
-        currentTags: currentTags,
         tagEditEnabled: false,
+        currentTags: currentTags,
+      });
+    }
+
+    if (
+      ((prevProps.model && this.props.model &&
+        (prevProps.model.circuitName === this.props.model.circuitName)
+        && !this.state.tagEditEnabled && this.hasTagChange(this.state.currentTags, this.props.model.tags)) )
+      //same model, updated tags, leave edit mode in place
+    ) {
+      this.setState({
+        currentTags: this.getTagList(this.props.model),
       });
     }
 
@@ -139,6 +137,46 @@ export default class RetroSidebar extends Component {
   }
 
   /**
+   * Returns true if there is any change in the two tag lists
+   * @param oldTags
+   * @param newTags
+   * @returns {boolean}
+   */
+  hasTagChange(oldTags, newTags) {
+    if (!newTags) {
+      return false;
+    } else if (newTags && oldTags.length !== newTags.length) {
+      return true;
+    } else {
+      for (let i = 0; i < oldTags.length; i++) {
+        if (oldTags[i] !== newTags[i]) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Get list of tags from the model
+   * @param model
+   */
+  getTagList(model) {
+    let currentTags = [];
+    if (model.tags) {
+      for (
+        let i = 0;
+        i < model.tags.length;
+        i++
+      ) {
+        let tag = model.tags[i];
+        currentTags.push(tag);
+      }
+    }
+    return currentTags;
+  }
+
+  /**
    * make sure we remove any static timers which are used to update the wtf
    * time on the gui
    */
@@ -166,7 +204,6 @@ export default class RetroSidebar extends Component {
    * click handler for adding tags to a circuit
    */
   onClickAddTags = () => {
-    console.log("Add tags clicked!");
     this.setState({
       tagEditEnabled: true,
     });
@@ -176,17 +213,14 @@ export default class RetroSidebar extends Component {
    * click handler for adding tags to a circuit
    */
   onClickTagsDone = () => {
-    console.log("Tags done!");
-    this.setState({
-      tagEditEnabled: false,
-    });
-
     CircuitClient.saveTags(
       this.props.model.circuitName,
       this.state.currentTags,
       this,
       (arg) => {
-        console.log("callback for tags!");
+        this.setState({
+          tagEditEnabled: false,
+        });
       }
     );
   };
@@ -470,29 +504,14 @@ export default class RetroSidebar extends Component {
    */
   getTitleContent(title) {
     return (
-      <Popup
-        content="Click to change the title."
-        mouseEnterDelay={420}
-        mouseLeaveDelay={210}
-        on="hover"
-        inverted
-        position={"top center"}
-        trigger={
-          <Segment
-            inverted
-            className="title"
-            onClick={this.onClickTitle}
-          >
-            {UtilRenderer.getFormattedCircuitName(title)}
-          </Segment>
-        }
-      />
+        <Segment
+          inverted
+          className="title"
+        >
+          {UtilRenderer.getFormattedCircuitName(title)}
+        </Segment>
     );
   }
-
-  onClickTitle = () => {
-    console.log("clicked on title");
-  };
 
   /**
    * gets our circuit's description content body
