@@ -413,9 +413,9 @@ export default class ActiveCircuit extends Component {
 
     this.setState((prevState) => {
       //if this is our first message, then use it to update the description
-      if (
-        prevState.messages &&
-        !this.hasNonStatusMessagesByMe(prevState.messages)
+      if (prevState.messages &&
+        (!this.hasNonStatusMessagesByMe(prevState.messages))
+        && (this.me.id === prevState.model.ownerId) //only update if I'm the owner
       ) {
         CircuitClient.updateCircuitDescription(
           prevState.model.circuitName,
