@@ -39,7 +39,7 @@ https://yarnpkg.com/lang/en/docs/install/
 
 3) Open up a terminal window and navigate into a secure place where you store source code. The run the  git command:
 
-`git clone https://github.com/twilightcity-net/twilightcity-desktop.git`
+`git clone https://github.com/twilightcity-net/flow-insight.git`
 
 4) On mac arm64 architecture, electron is not yet supported, workaround this issue by using x64 packages:
 

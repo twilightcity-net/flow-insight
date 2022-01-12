@@ -2,7 +2,7 @@
 
 ## Supported Versions
 
-TwilightCity is currently in the alpha phase, and every attempt is made to find and fix vulnerabilities.
+FlowInsight is currently in the alpha phase, and every attempt is made to find and fix vulnerabilities.
 
 | Version | Supported          |
 | ------- | ------------------ |
@@ -10,6 +10,6 @@ TwilightCity is currently in the alpha phase, and every attempt is made to find 
 
 ## Reporting a Vulnerability
 
-please report any security vulnerability to admin@twilightcity.net
+please report any security vulnerability to admin@flowinsight.com
 
-We will immediately begin working on any vulnerability that is discovered. This will then be released and minor version incremented. Please contact admin@twilightcity.net for further instructions.. Thank you.
+We will immediately begin working on any vulnerability that is discovered. This will then be released and minor version incremented. Please contact admin@flowinsight.com for further instructions. Thank you.

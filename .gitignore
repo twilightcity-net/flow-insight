@@ -14,7 +14,7 @@
 /build
 /data
 /dist
-twilightcity-desktop-v*.tgz
+flow-insight-v*.tgz
 
 # misc
 .DS_Store
@@ -23,7 +23,7 @@ twilightcity-desktop-v*.tgz
 .env.test.local
 .env.production.local
 electron-builder.env
-twilightcity-desktop.iml
+flow-insight.iml
 /.vscode
 
 *debug.*log*
@@ -33,7 +33,6 @@ yarn-error.log*
 .yarnclean
 .idea
 .vscode/
-twilightcity-desktop.iml
 
 .jshintrc
 /tmp/
