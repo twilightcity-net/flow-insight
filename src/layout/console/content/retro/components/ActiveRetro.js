@@ -499,10 +499,10 @@ export default class ActiveRetro extends Component {
       roomMember = data[ActiveRetro.roomMemberPropStr];
 
     switch (data.statusEvent) {
-      case BaseClient.StatusEvents.CIRCUIT_MEMBER_JOINED:
+      case BaseClient.CircuitMemberStatus.CIRCUIT_MEMBER_JOIN:
         this.addCircuitMemberToCircuit(roomMember);
         return;
-      case BaseClient.StatusEvents.CIRCUIT_MEMBER_LEAVE:
+      case BaseClient.CircuitMemberStatus.CIRCUIT_MEMBER_LEAVE:
         this.removeCircuitMemberFromCircuit(roomMember);
         return;
       default:

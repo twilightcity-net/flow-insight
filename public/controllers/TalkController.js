@@ -528,8 +528,8 @@ module.exports = class TalkController extends (
       circuitMembers = [data.roomMember];
 
     switch (data.statusEvent) {
-      case TalkController.StatusEvents
-        .CIRCUIT_MEMBER_JOINED:
+      case TalkController.CircuitMemberStatus
+        .CIRCUIT_MEMBER_JOIN:
         circuitDatabase.updateCircuitMembersInCollection(
           message.uri,
           circuitMembers,
@@ -538,7 +538,7 @@ module.exports = class TalkController extends (
           )
         );
         break;
-      case TalkController.StatusEvents.CIRCUIT_MEMBER_LEAVE:
+      case TalkController.CircuitMemberStatus.CIRCUIT_MEMBER_LEAVE:
         circuitDatabase.updateCircuitMembersInCollection(
           message.uri,
           circuitMembers,

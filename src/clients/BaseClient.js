@@ -104,19 +104,7 @@ export class BaseClient {
    */
   static get CircuitMemberStatus() {
     return {
-      CIRCUIT_MEMBER_JOIN: "CIRCUIT_MEMBER_JOINED",
-      CIRCUIT_MEMBER_LEAVE: "CIRCUIT_MEMBER_LEAVE",
-    };
-  }
-
-  /**
-   * our possible circuit member status events  which talk messages use.
-   * @returns {{CIRCUIT_MEMBER_LEAVE: string, CIRCUIT_MEMBER_JOINED: string}}
-   * @constructor
-   */
-  static get StatusEvents() {
-    return {
-      CIRCUIT_MEMBER_JOINED: "CIRCUIT_MEMBER_JOINED",
+      CIRCUIT_MEMBER_JOIN: "CIRCUIT_MEMBER_JOIN",
       CIRCUIT_MEMBER_LEAVE: "CIRCUIT_MEMBER_LEAVE",
     };
   }

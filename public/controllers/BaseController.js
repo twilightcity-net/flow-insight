@@ -213,9 +213,9 @@ module.exports = class BaseController {
    * @returns {{CIRCUIT_MEMBER_LEAVE: string, CIRCUIT_MEMBER_JOINED: string}}
    * @constructor
    */
-  static get StatusEvents() {
+  static get CircuitMemberStatus() {
     return {
-      CIRCUIT_MEMBER_JOINED: "CIRCUIT_MEMBER_JOINED",
+      CIRCUIT_MEMBER_JOIN: "CIRCUIT_MEMBER_JOIN",
       CIRCUIT_MEMBER_LEAVE: "CIRCUIT_MEMBER_LEAVE",
     };
   }
