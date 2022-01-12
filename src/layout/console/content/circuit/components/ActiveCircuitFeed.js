@@ -43,10 +43,19 @@ export default class ActiveCircuitFeed extends Component {
 
   /**
    * this is the name of the meta property field which the talk message uses
-   * to store the value of the user whom made the request typically.
+   * to store the value of the user whom made the request.
    * @type {string}
    */
   static fromUserNameMetaPropsStr = "from.username";
+
+
+  /**
+   * this is the name of the meta property field which the talk message uses
+   * to store the value of the memberId of the user whom made the request.
+   * @type {string}
+   */
+  static fromMemberIdMetaPropsStr = "from.member.id";
+
 
   /**
    * builds the active circuit feed component which is used by the circuit resource

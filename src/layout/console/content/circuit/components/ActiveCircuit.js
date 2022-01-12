@@ -415,7 +415,7 @@ export default class ActiveCircuit extends Component {
       //if this is our first message, then use it to update the description
       if (prevState.messages &&
         (!this.hasNonStatusMessagesByMe(prevState.messages))
-        && (this.me.id === prevState.model.ownerId) //only update if I'm the owner
+        && (this.getMemberIdFromMetaProps(message.metaProps) === prevState.model.ownerId) //only update if I'm the owner
       ) {
         CircuitClient.updateCircuitDescription(
           prevState.model.circuitName,
@@ -463,6 +463,19 @@ export default class ActiveCircuit extends Component {
     return (
       !!metaProps &&
       metaProps[ActiveCircuitFeed.fromUserNameMetaPropsStr]
+    );
+  }
+
+  /**
+   * gets our memberId from the talk message's meta-prop which contains
+   * the sender of the message.
+   * @param metaProps
+   * @returns {boolean|*}
+   */
+  getMemberIdFromMetaProps(metaProps) {
+    return (
+      !!metaProps &&
+      metaProps[ActiveCircuitFeed.fromMemberIdMetaPropsStr]
     );
   }
 
