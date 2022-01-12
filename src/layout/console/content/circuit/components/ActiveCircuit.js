@@ -415,7 +415,7 @@ export default class ActiveCircuit extends Component {
       //if this is our first message, then use it to update the description
       if (
         prevState.messages &&
-        prevState.messages.length === 0
+        !this.hasNonStatusMessagesByMe(prevState.messages)
       ) {
         CircuitClient.updateCircuitDescription(
           prevState.model.circuitName,
@@ -439,6 +439,18 @@ export default class ActiveCircuit extends Component {
         ),
       };
     });
+  }
+
+  hasNonStatusMessagesByMe(messages) {
+    let hasNonStatusMessage = false;
+    for (let i = 0; i < messages.length; i++) {
+      if (messages[i].messageType !== BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT
+          && this.getUsernameFromMetaProps(messages[i].metaProps) === this.me.username) {
+         hasNonStatusMessage = true;
+         break;
+      }
+    }
+    return hasNonStatusMessage;
   }
 
   /**
