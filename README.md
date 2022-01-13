@@ -16,8 +16,8 @@ Flow Insight is a desktop console application that gives you smart stats for you
  It works in tandem with a peer-to-peer socket server called Talknet, and a metrics engine called Gridtime. 
  
 ### Install from Source ###
-The following will describe how to install 'FlowInsight' from source code, and connect to production servers: "https://home.flowinsight.com" 
-and for Talknet "https://talk.flowinsight.com".  Please contact us for an API key.
+The following will describe how to install 'FlowInsight' from source code, and connect to production servers: "https://flow.twilightcity.net" 
+and for Talknet "https://talk.twilightcity.net".  Please contact us for an API key.
 
 Requirements:
 - Node v16.13.0
@@ -149,4 +149,4 @@ GitHub personal access token is required. You can generate by going to https://g
 `yarn release`
 
 --------------------------
-contact: [admin@flowinsight.com](mailto:admin@flowinsight.com)
+contact: [admin@twilightcity.net](mailto:admin@twilightcity.net)
