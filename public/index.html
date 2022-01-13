@@ -1877,6 +1877,11 @@
     width: 100%;
   }
 
+  #component.circuitLayout #component.circuitContentSidebar .overview {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
   #component.circuitLayout #component.circuitContentSidebar .title .ui.grid .row {
     padding-top: 0;
     padding-bottom: 0;
@@ -2836,6 +2841,8 @@
     color: rgba(180, 0, 0, 0.96);
     font-size: 1rem;
     font-weight: bolder;
+    overflow: hidden;
+    max-height: 4rem;
   }
 
   .ui.popup.chunkTitle .alarmDetails,
@@ -2845,7 +2852,9 @@
 
   .ui.popup.chunkTitle .taskhighlight,
   .ui.popup.timeScrubber .taskhighlight {
-    color: rgba(27, 175, 26, 0.96)
+    color: rgba(27, 175, 26, 0.96);
+    overflow: hidden;
+    max-height: 1.5rem;
   }
 
   .ui.popup.bottom:before {

@@ -148,11 +148,12 @@ export default class TeamPanelListItem extends Component {
           <Divider />
           <div>
             <b>
-              <span className="taskhighlight">
+              <div className="taskhighlight">
                 WORK ON:
-                <br />
+              </div>
+              <div className="taskhighlight">
                 {activeTaskName}
-              </span>
+              </div>
             </b>
           </div>
           <div>
