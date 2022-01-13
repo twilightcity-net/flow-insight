@@ -10,7 +10,7 @@ const OsTypeToTargetMap = {
   Darwin: {
     distDir: "./dist/mac/resources",
     releaseAsarFile:
-      "dist/mac/TwilightCity.app/Contents/Resources/app.asar",
+      "dist/mac/FlowInsight.app/Contents/Resources/app.asar",
   },
   Linux: {
     distDir: "./dist/win-unpacked/resources",

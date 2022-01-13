@@ -13,7 +13,7 @@ module.exports = function () {
           console.log(e);
         })
       )
-      .pipe(rename("net.twilightcity.desktop.dat"))
+      .pipe(rename("net.twilightcity.flowinsight.dat"))
       .pipe(gulp.dest("build"));
     return stream;
   };
