@@ -72,11 +72,14 @@ export default class TeamPanel extends Component {
       for (let i = 0; i < teams.length; i++) {
         this.updateTeamMembers(teams[i].teamMembers, data);
       }
+
       this.setState({
         teams: teams,
       });
     }
   };
+
+
 
   /**
    * updates our team members with our components state so that the tiny red light
@@ -88,13 +91,79 @@ export default class TeamPanel extends Component {
    * @returns {*}
    */
   updateTeamMembers(teamMembers, teamMember) {
+    let statusChange = false;
+
     for (let i = 0; i < teamMembers.length; i++) {
       if (teamMembers[i].id === teamMember.id) {
+
+        if ((teamMembers[i].onlineStatus === teamMember.onlineStatus) ||
+          (teamMembers[i].activeCircuit === null && teamMember.activeCircuit !== null) ||
+          (teamMembers[i].activeCircuit !== null && teamMember.activeCircuit === null)) {
+          //online/offline or alarm status change
+          statusChange = true;
+        }
         teamMembers[i] = teamMember;
+
         break;
       }
     }
+
+    if (statusChange) {
+      teamMembers = this.sortTeamMembers(teamMembers);
+    }
+
     return teamMembers;
+  }
+
+  sortTeamMembers(teamMembers) {
+    //you are always at the top.
+    //then, red lights
+    //then, purple lights
+    //then, green lights
+    //then offline
+
+    let myId = MemberClient.me.id;
+
+    let team = teamMembers.sort((a, b) => {
+      let aIsOnline = UtilRenderer.isMemberOnline(a);
+      let bIsOnline = UtilRenderer.isMemberOnline(b)
+
+      if (a.id === myId && b.id !== myId) {
+        return -1;
+      } else if (b.id === myId && a.id !== myId) {
+        return 1;
+      }
+
+      if ( aIsOnline && !bIsOnline) {
+        return -1;
+      } else if (bIsOnline && !aIsOnline) {
+        return 1;
+      } else if (aIsOnline && bIsOnline) {
+        if (a.activeCircuit && !b.activeCircuit) {
+          return -1;
+        } else if (b.activeCircuit && !a.activeCircuit) {
+          return 1;
+        }
+        if (a.activeCircuit && b.activeCircuit) {
+          let aIsHelping = UtilRenderer.isMemberHelping(a);
+          let bIsHelping = UtilRenderer.isMemberHelping(b);
+          if ( !aIsHelping && bIsHelping) {
+            return -1;
+          } else if (aIsHelping && !bIsHelping) {
+            return 1;
+          }
+        }
+
+        if (a.displayName < b.displayName) {
+          return -1;
+        } else if (a.displayName > b.displayName) {
+          return 1;
+        }
+      }
+      return 0;
+    });
+
+    return team;
   }
 
   /**
@@ -134,10 +203,17 @@ export default class TeamPanel extends Component {
           activeItem:
             SidePanelViewController.SubmenuSelection.TEAMS,
           teamVisible: true,
-          teams: arg.data,
+          teams: this.sortAllTeams(arg.data),
         });
       }
     });
+  }
+
+  sortAllTeams(teams) {
+    for (let i = 0; i < teams.length; i++) {
+      teams[i].teamMembers = this.sortTeamMembers(teams[i].teamMembers);
+    }
+    return teams;
   }
 
   /**
