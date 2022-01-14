@@ -36,7 +36,6 @@ export default class ActiveCircuitFeedEvent extends Component {
    * @returns {*}
    */
   render() {
-    console.log("status = "+this.props.isStatusEvent);
     if (this.props.isStatusEvent) {
       return (
         <Feed.Event className="statusUpdate">

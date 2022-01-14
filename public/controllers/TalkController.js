@@ -264,6 +264,7 @@ module.exports = class TalkController extends (
    * not connected, then we should try to reconnect back to talk.
    */
   onAppHeartbeat() {
+    log.info("HEARTBEAT onAppHeartbeat");
     let socket = global.App.TalkManager.socket;
     if (!socket.connected) {
       log.info(

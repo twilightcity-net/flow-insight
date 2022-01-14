@@ -99,11 +99,15 @@ module.exports = class AppHeartbeat {
         try {
           if (err) throw new Error(err);
           global.App.isOnline = true;
+
           dto = new SimpleStatusDto(res.body);
+          log.info("HEARTBEAT STATUS: "+dto.status);
+
           dto.pingTime = this.pingTime;
           dto.latencyTime =
             global.App.TalkManager.getLatency();
           dto.isOnline = dto.isValid();
+          log.info("HEARTBEAT isOnline: "+dto.isOnline);
         } catch (e) {
           global.App.isOnline = false;
           dto = new SimpleStatusDto({
@@ -114,6 +118,7 @@ module.exports = class AppHeartbeat {
           dto.latencyTime =
             global.App.TalkManager.getLatency();
           dto.isOnline = global.App.isOnline;
+          log.info("HEARTBEAT FAIL isOnline: "+dto.isOnline);
         } finally {
           if (dto) {
             dto.server = global.App.api;

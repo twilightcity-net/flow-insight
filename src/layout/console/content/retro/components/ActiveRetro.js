@@ -393,6 +393,9 @@ export default class ActiveRetro extends Component {
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
         this.handleWtfStatusUpdateMessage(arg);
         break;
+      case BaseClient.MessageTypes.TEAM_MEMBER:
+        this.handleTeamMemberStatusUpdate(arg);
+        break;
       case BaseClient.MessageTypes.DICTIONARY_UPDATE:
         this.handleDictionaryUpdateMessage(arg);
         break;
@@ -432,6 +435,33 @@ export default class ActiveRetro extends Component {
         break;
     }
   };
+
+
+  /**
+   * If theres a team member update for one of the members in our circuit,
+   * then update the status fields in our circuit member status.
+   * @param arg
+   */
+  handleTeamMemberStatusUpdate(arg) {
+    let teamMember = arg.data;
+
+    let circuitMembers = this.state.circuitMembers;
+
+    for (let i = 0; i < circuitMembers.length; i++) {
+      let circuitMember = circuitMembers[i];
+      if (circuitMember.memberId === teamMember.id) {
+        circuitMember.displayName = teamMember.displayName;
+        circuitMember.fullName = teamMember.fullName;
+        circuitMember.username = teamMember.username;
+        circuitMember.fervieColor = teamMember.fervieColor;
+        circuitMember.fervieSecondaryColor = teamMember.fervieSecondaryColor;
+        circuitMember.fervieAccessory = teamMember.fervieAccessory;
+        circuitMember.onlineStatus = teamMember.onlineStatus;
+        break;
+      }
+    }
+    this.updateStateCircuitMembers(circuitMembers);
+  }
 
   /**
    * adds a chat message to the end of all of our chat

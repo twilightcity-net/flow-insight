@@ -7,7 +7,6 @@ module.exports = class TeamMemberDto {
     try {
       if (typeof json === "string") json = JSON.parse(json);
       this.id = json.id;
-      this.email = json.email;
       this.fullName = json.fullName;
       this.displayName = json.displayName;
       this.username = json.username;

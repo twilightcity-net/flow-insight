@@ -14,9 +14,6 @@ export default class PartyPanelListItem extends Component {
   constructor(props) {
     super(props);
     this.name = "[PartyPanelListItem]";
-    this.isOnline = UtilRenderer.isMemberOnline(
-      props.model
-    );
   }
 
   /**
@@ -47,7 +44,7 @@ export default class PartyPanelListItem extends Component {
     let name = "circle outline",
       color = "grey";
 
-    if (this.props.isMe || this.isOnline) {
+    if (this.props.isMe || UtilRenderer.isMemberOnline(this.props.model)) {
       name = "circle";
       color = "green";
     }
@@ -59,7 +56,7 @@ export default class PartyPanelListItem extends Component {
    * @returns {string}
    */
   getClassName() {
-    return this.isOnline
+    return UtilRenderer.isMemberOnline(this.props.model)
       ? BaseClient.Strings.ONLINE
       : BaseClient.Strings.OFFLINE;
   }

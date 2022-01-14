@@ -311,6 +311,9 @@ export default class ActiveCircuit extends Component {
       case BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT:
         this.handleCircuitMemberStatusEventMessage(arg);
         break;
+      case BaseClient.MessageTypes.TEAM_MEMBER:
+        this.handleTeamMemberStatusUpdate(arg);
+        break;
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
         this.handleWtfStatusUpdateMessage(arg);
         break;
@@ -335,6 +338,33 @@ export default class ActiveCircuit extends Component {
         break;
     }
   };
+
+  /**
+   * If theres a team member update for one of the members in our circuit,
+   * then update the status fields in our circuit member status.
+   * @param arg
+   */
+  handleTeamMemberStatusUpdate(arg) {
+    let teamMember = arg.data;
+
+    let circuitMembers = this.state.circuitMembers;
+
+    for (let i = 0; i < circuitMembers.length; i++) {
+      let circuitMember = circuitMembers[i];
+      if (circuitMember.memberId === teamMember.id) {
+        circuitMember.displayName = teamMember.displayName;
+        circuitMember.fullName = teamMember.fullName;
+        circuitMember.username = teamMember.username;
+        circuitMember.fervieColor = teamMember.fervieColor;
+        circuitMember.fervieSecondaryColor = teamMember.fervieSecondaryColor;
+        circuitMember.fervieAccessory = teamMember.fervieAccessory;
+        circuitMember.onlineStatus = teamMember.onlineStatus;
+
+        break;
+      }
+    }
+    this.updateStateCircuitMembers(circuitMembers);
+  }
 
   /**
    * processes updates to our dictionary from new terms being added.
@@ -510,6 +540,8 @@ export default class ActiveCircuit extends Component {
         return;
     }
   }
+
+
 
   /**
    * adds a circuit member object to our array of circuit members. the
