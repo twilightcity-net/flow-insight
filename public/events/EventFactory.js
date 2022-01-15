@@ -82,6 +82,11 @@ class EventFactory {
         prefix + "shortcuts-window-console-sidebar-show",
       DATASTORE_LOAD: prefix + "datastore-load",
       DATASTORE_LOADED: prefix + "datastore-loaded",
+      ME_DATA_REFRESH: prefix + "me-data-refresh",
+      TEAM_DATA_REFRESH: prefix + "team-data-refresh",
+      CIRCUIT_DATA_REFRESH: prefix + "circuit-data-refresh",
+      JOURNAL_DATA_REFRESH: prefix + "journal-data-refresh",
+      DICTIONARY_DATA_REFRESH: prefix + "dictionary-data-refresh",
       PREPARE_FOR_SCREENSHOT:
         prefix + "prepare-for-screenshot",
       READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",

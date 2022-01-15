@@ -20,6 +20,7 @@ module.exports = class DictionaryManager {
    * @param callback
    */
   init(callback) {
+    this.loadCount = 0;
     DictionaryController.instance.handleLoadDictionaryEvent(
       {},
       { args: {} },

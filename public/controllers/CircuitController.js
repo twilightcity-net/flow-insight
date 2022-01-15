@@ -95,6 +95,21 @@ module.exports = class CircuitController extends (
   }
 
   /**
+   * Force resets the circuit details database, so if our connection disconnects,
+   * we won't be returning stale data
+   */
+  reset() {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.CIRCUIT
+      ),
+      collection = database.getCollection(
+        CircuitDatabase.Collections.CIRCUITS
+      );
+
+    collection.chain().remove();
+  }
+
+  /**
    * notified when we get a circuit event
    * @param event
    * @param arg
@@ -1646,6 +1661,9 @@ module.exports = class CircuitController extends (
    * @param collection
    */
   updateCircuitsByIdInCollection(circuits, collection) {
+    //since circuits can parish from a set while we were offline, delete the existing contents first
+    collection.chain().remove();
+
     if (circuits && circuits.length > 0) {
       circuits.forEach((circuit) => {
         let model = collection.findOne({ id: circuit.id });

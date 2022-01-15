@@ -34,6 +34,7 @@ export default class FerviePanel extends Component {
   constructor(props) {
     super(props);
     this.name = "[FerviePanel]";
+    this.me = MemberClient.me;
 
     this.whatToColorOptions = [
       {
@@ -114,6 +115,24 @@ export default class FerviePanel extends Component {
         this,
         this.onTalkRoomMessage
       );
+
+    this.meDataRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.ME_DATA_REFRESH,
+        this,
+        this.onMeRefresh
+      );
+  }
+
+
+  /**
+   * Force refresh of me object that happens on disconnect and refresh
+   */
+  onMeRefresh () {
+    MemberClient.getMe(this, (arg) => {
+      this.me = arg.data;
+      this.onRefreshFerviePanel();
+    });
   }
 
   static get Colorables() {
@@ -161,7 +180,7 @@ export default class FerviePanel extends Component {
    * @returns {boolean}
    */
   isMe(id) {
-    let me = MemberClient.me;
+    let me = this.me;
     return me && me["id"] === id;
   }
 
@@ -247,7 +266,6 @@ export default class FerviePanel extends Component {
    * event listener that is notified when the perspective changes views
    */
   onRefreshFerviePanel() {
-    this.me = MemberClient.me;
     switch (
       this.myController.activeFervieSubmenuSelection
     ) {
@@ -278,6 +296,7 @@ export default class FerviePanel extends Component {
       null
     );
     this.talkRoomMessageListener.clear();
+    this.meDataRefreshListener.clear();
   }
 
   /**

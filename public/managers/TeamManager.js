@@ -20,12 +20,14 @@ module.exports = class TeamManager {
    * @param callback
    */
   init(callback) {
+    this.loadCount = 0;
     TeamController.instance.handleLoadAllMyTeamsEvent(
       {},
       { args: {} },
       () => this.handleInitCallback(callback)
     );
   }
+
 
   /**
    * handles our callback in response from our controller event processing

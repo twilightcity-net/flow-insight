@@ -17,6 +17,7 @@ class MemberManager {
    * @param callback
    */
   init(callback) {
+    this.loadCount = 0;
     MemberController.instance.handleLoadMeEvent(
       {},
       { args: {} },

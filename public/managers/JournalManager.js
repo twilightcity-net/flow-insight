@@ -24,4 +24,8 @@ module.exports = class JournalManager {
       callback
     );
   }
+
+  reset(callback) {
+    JournalController.instance.reset(callback);
+  }
 };

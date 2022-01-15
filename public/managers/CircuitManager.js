@@ -19,6 +19,9 @@ module.exports = class CircuitManager {
    * @param callback
    */
   init(callback) {
+    this.loadCount = 0;
+    CircuitController.instance.reset();
+
     CircuitController.instance.handleLoadAllMyParticipatingCircuitsEvent(
       null,
       {},
@@ -52,7 +55,7 @@ module.exports = class CircuitManager {
    */
   handleInitCallback(callback) {
     this.loadCount++;
-    if (callback && this.loadCount === 4) {
+    if (callback && this.loadCount === 5) {
       callback();
     }
   }

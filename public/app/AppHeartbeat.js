@@ -106,19 +106,16 @@ module.exports = class AppHeartbeat {
           dto.pingTime = this.pingTime;
           dto.latencyTime =
             global.App.TalkManager.getLatency();
-          dto.isOnline = dto.isValid();
-          log.info("HEARTBEAT isOnline: "+dto.isOnline);
         } catch (e) {
           global.App.isOnline = false;
           dto = new SimpleStatusDto({
-            message: e.toString(),
+            message: e.message,
             status: "FAILED",
           });
           dto.pingTime = -1;
           dto.latencyTime =
             global.App.TalkManager.getLatency();
-          dto.isOnline = global.App.isOnline;
-          log.info("HEARTBEAT FAIL isOnline: "+dto.isOnline);
+          log.info("HEARTBEAT FAIL");
         } finally {
           if (dto) {
             dto.server = global.App.api;

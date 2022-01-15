@@ -65,6 +65,21 @@ export default class ActiveCircuit extends Component {
         this,
         this.onTalkRoomMessage
       );
+
+    this.circuitsRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.CIRCUIT_DATA_REFRESH,
+        this,
+        this.onCircuitDataRefresh
+      );
+
+    this.dictionaryRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.DICTIONARY_DATA_REFRESH,
+        this,
+        this.onDictionaryDataRefresh
+      );
+
     this.circuitSidebarComponent = null;
     this.circuitFeedComponent = null;
 
@@ -89,6 +104,23 @@ export default class ActiveCircuit extends Component {
   componentDidMount() {
     let circuitName = this.props.resource.uriArr[1];
     this.loadCircuit(circuitName, null, []);
+    this.loadDictionary();
+  }
+
+  /**
+   * Force refresh the circuit data manually on triggering event.  This is called after the connection
+   * goes stale, and reconnects again.  Since we lost messages, easiest way to resync is to refresh again
+   */
+  onCircuitDataRefresh() {
+    let circuitName = this.props.resource.uriArr[1];
+    this.loadCircuit(circuitName, null, []);
+  }
+
+  /**
+   * Force refresh the dictionary data manually on triggering event.  This is called after the connection
+   * goes stale, and reconnects again.  Since we lost messages, easiest way to resync is to refresh again
+   */
+  onDictionaryDataRefresh() {
     this.loadDictionary();
   }
 
@@ -295,6 +327,8 @@ export default class ActiveCircuit extends Component {
    */
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
+    this.circuitsRefreshListener.clear();
+    this.dictionaryRefreshListener.clear();
     UtilRenderer.clearIntervalTimer(this.wtfTimer);
   }
 
@@ -593,7 +627,6 @@ export default class ActiveCircuit extends Component {
    * @param arg
    */
   handleWtfStatusUpdateMessage(arg) {
-    console.log("updating for wtf status update!");
     let data = arg.data,
       circuit = data[ActiveCircuit.learningCircuitDtoStr],
       model = this.state.model;

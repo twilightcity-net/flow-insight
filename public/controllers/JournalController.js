@@ -121,6 +121,19 @@ module.exports = class JournalController extends (
   }
 
   /**
+   * In the case that we lost our network connection, and data in our local store may be
+   * stale and out of date, reset our known user history so the journal gets reloaded
+   * from the server on the next request
+   */
+  reset(callback) {
+    JournalController.instance.userHistory = new Set();
+    if (callback) {
+      callback();
+    }
+  }
+
+
+  /**
    * processes the create journal events for the listener. returns dto to callback.
    * @param event
    * @param arg

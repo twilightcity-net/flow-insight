@@ -53,6 +53,14 @@ export default class TeamPanel extends Component {
         this,
         this.onTalkRoomMessage
       );
+
+    this.teamDataRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TEAM_DATA_REFRESH,
+        this,
+        this.onTeamDataRefresh
+      );
+
   }
 
   /**
@@ -70,7 +78,7 @@ export default class TeamPanel extends Component {
     if (mType === BaseClient.MessageTypes.TEAM_MEMBER) {
       let teams = this.state.teams;
       for (let i = 0; i < teams.length; i++) {
-        this.updateTeamMembers(teams[i].teamMembers, data);
+        teams[i].teamMembers = this.updateTeamMembers(teams[i].teamMembers, data);
       }
 
       this.setState({
@@ -178,6 +186,14 @@ export default class TeamPanel extends Component {
   }
 
   /**
+   * Force refresh the team data manually on triggering event.  This is called after the connection
+   * goes stale, and reconnects again.  Since we lost messages, easiest way to resync is to refresh again
+   */
+  onTeamDataRefresh() {
+    this.refreshTeamPanel();
+  }
+
+  /**
    * called to refresh the team panel with new data
    */
   refreshTeamPanel() {
@@ -222,6 +238,7 @@ export default class TeamPanel extends Component {
    */
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
+    this.teamDataRefreshListener.clear();
     this.myController.configureTeamPanelListener(
       this,
       null

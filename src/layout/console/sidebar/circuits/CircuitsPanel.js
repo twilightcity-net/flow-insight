@@ -54,6 +54,13 @@ export default class CircuitsPanel extends Component {
         this.onTalkRoomMessage
       );
 
+    this.circuitsRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.CIRCUIT_DATA_REFRESH,
+        this,
+        this.onCircuitDataRefresh
+      );
+
     this.animationType =
       SidePanelViewController.AnimationTypes.FLY_DOWN;
     this.animationDelay =
@@ -63,6 +70,14 @@ export default class CircuitsPanel extends Component {
       doItLaterCircuitComponent: null,
       retroCircuitComponent: null,
     };
+  }
+
+  /**
+   * Force refresh the circuit data manually on triggering event.  This is called after the connection
+   * goes stale, and reconnects again.  Since we lost messages, easiest way to resync is to refresh again
+   */
+  onCircuitDataRefresh() {
+    this.onRefreshCircuitsPanel();
   }
 
   /**
@@ -126,6 +141,8 @@ export default class CircuitsPanel extends Component {
    * memory management.
    */
   componentWillUnmount() {
+    this.talkRoomMessageListener.clear();
+    this.circuitsRefreshListener.clear();
     this.circuitStartStopListener.updateCallback(
       this,
       null

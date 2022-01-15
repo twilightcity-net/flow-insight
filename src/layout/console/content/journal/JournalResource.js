@@ -70,6 +70,14 @@ export default class JournalResource extends Component {
         this,
         this.onTalkRoomMessage
       );
+
+    this.journalRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.JOURNAL_DATA_REFRESH,
+        this,
+        this.onJournalDataRefresh
+      );
+
     this.state = {
       lastProject: null,
       lastTask: null,
@@ -80,6 +88,14 @@ export default class JournalResource extends Component {
       error: null,
       activeFlameUpdate: null,
     };
+  }
+
+  /**
+   * Force refresh the journal data manually on triggering event.  This is called after the connection
+   * goes stale, and reconnects again.  Since we lost messages, easiest way to resync is to refresh again
+   */
+  onJournalDataRefresh() {
+    this.refreshJournal(this.props);
   }
 
   /**
@@ -179,6 +195,7 @@ export default class JournalResource extends Component {
    */
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
+    this.journalRefreshListener.clear();
     this.clearKeyboardShortcuts();
   }
 
@@ -297,7 +314,6 @@ export default class JournalResource extends Component {
    * @param combo
    */
   handleKeyPressUp = (e, combo) => {
-    console.log("up");
     this.setState((prevState) => {
       if (prevState.activeIntention) {
         let indexOfActive = this.findIndexOfJournalItem(
@@ -344,7 +360,6 @@ export default class JournalResource extends Component {
    * @param combo
    */
   handleKeyPressDown = (e, combo) => {
-    console.log("down");
     this.setState((prevState) => {
       if (prevState.activeIntention) {
         let indexOfActive = this.findIndexOfJournalItem(
@@ -626,7 +641,6 @@ export default class JournalResource extends Component {
    * event handler that is called when we finish sliding the journal entry in to the user.
    */
   onEntryShown = () => {
-    console.log("onEntryShown");
     this.scrollToJournalItemById(null, true);
 
     if (this.isMyJournal()) {

@@ -98,6 +98,32 @@ module.exports = class TalkController extends (
       EventFactory.Types.TALK_LEAVE_ROOM,
       this
     );
+
+    this.meDataRefreshNotifier = EventFactory.createEvent(
+      EventFactory.Types.ME_DATA_REFRESH,
+      this
+    );
+
+    this.teamDataRefreshNotifier = EventFactory.createEvent(
+      EventFactory.Types.TEAM_DATA_REFRESH,
+      this
+    );
+
+    this.circuitDataRefreshNotifier = EventFactory.createEvent(
+      EventFactory.Types.CIRCUIT_DATA_REFRESH,
+      this
+    );
+
+    this.journalDataRefreshNotifier = EventFactory.createEvent(
+      EventFactory.Types.JOURNAL_DATA_REFRESH,
+      this
+    );
+
+    this.dictionaryDataRefreshNotifier = EventFactory.createEvent(
+      EventFactory.Types.DICTIONARY_DATA_REFRESH,
+      this
+    );
+
   }
 
   /**
@@ -263,9 +289,15 @@ module.exports = class TalkController extends (
    * checks our global socket that we are connected to talk with. if we are
    * not connected, then we should try to reconnect back to talk.
    */
-  onAppHeartbeat() {
-    log.info("HEARTBEAT onAppHeartbeat");
+  onAppHeartbeat(event, dto) {
+    log.info("HEARTBEAT "+JSON.stringify(dto));
+
     let socket = global.App.TalkManager.socket;
+
+    if ((!socket.connected && dto.status === "SUCCESS") || dto.status === "REFRESH") {
+      this.refreshDataFromScratch();
+    }
+
     if (!socket.connected) {
       log.info(
         chalk.yellowBright("[AppHeartbeat]") +
@@ -273,6 +305,31 @@ module.exports = class TalkController extends (
       );
       socket.open();
     }
+
+
+  }
+
+  refreshDataFromScratch() {
+    //first update the DB, then on the callback, tell the UI panels to refresh
+    global.App.MemberManager.init(() => {
+      this.meDataRefreshNotifier.dispatch({});
+
+      global.App.TeamManager.init(() => {
+        this.teamDataRefreshNotifier.dispatch({});
+      });
+
+      global.App.CircuitManager.init(() => {
+        this.circuitDataRefreshNotifier.dispatch({});
+      });
+    });
+
+    global.App.DictionaryManager.init(() => {
+      this.dictionaryDataRefreshNotifier.dispatch({});
+    });
+
+    global.App.JournalManager.reset(() => {
+      this.journalDataRefreshNotifier.dispatch({});
+    });
   }
 
   /**

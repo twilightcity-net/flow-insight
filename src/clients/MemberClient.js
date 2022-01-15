@@ -29,6 +29,13 @@ export class MemberClient extends BaseClient {
       null,
       this.onMemberEventReply
     );
+    this.meDataRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.ME_DATA_REFRESH,
+        this,
+        this.onMeRefresh
+      );
+
     this.controllerEvent = RendererEventFactory.createEvent(
       RendererEventFactory.Events.MEMBER_CONTROLLER,
       this,
@@ -126,6 +133,15 @@ export class MemberClient extends BaseClient {
       clientEvent.callback(event, arg);
     }
   };
+
+  /**
+   * Force refresh of me object that happens on disconnect and refresh
+   */
+  onMeRefresh () {
+    MemberClient.getMe(this, (arg) => {
+      MemberClient.me = arg.data;
+    });
+  }
 
   /**
    * processes any controller based event that is in the main process specifically

@@ -60,6 +60,13 @@ export default class ConsoleSidebar extends Component {
         this,
         this.onTalkRoomMessage
       );
+
+    this.meDataRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.ME_DATA_REFRESH,
+        this,
+        this.onMeRefresh
+      );
   }
 
   /**
@@ -130,6 +137,7 @@ export default class ConsoleSidebar extends Component {
     this.myController.clearMenuListener();
     this.myController.clearPulseListener();
     this.myController.clearSidebarShowListener();
+    this.meDataRefreshListener.clear();
     this.circuitStartStopListener.clear();
     this.circuitPauseResumeListener.clear();
   }
@@ -159,11 +167,19 @@ export default class ConsoleSidebar extends Component {
     }
   };
 
+  /**
+   * For refresh me status data, this happens after disconnect/refresh
+   */
+  onMeRefresh() {
+    MemberClient.getMe(this, (arg) => {
+      this.setAlarmStateBasedOnStatus(arg.data);
+    });
+  }
+
+
   setXpUpdateState(xpUpdate) {
     let oldXP = xpUpdate.oldXPSummary.totalXP;
     let newXP = xpUpdate.newXPSummary.totalXP;
-
-    console.log("xp diff = " + (newXP - oldXP));
 
     this.xpTimer = setTimeout(() => {
       this.setState({
@@ -289,7 +305,7 @@ export default class ConsoleSidebar extends Component {
   onSidebarShow(event, arg) {
     console.log(
       this.name +
-        " shortcut recieved -> sidebar show : " +
+        " shortcut received -> sidebar show : " +
         arg
     );
     switch (arg) {
@@ -387,12 +403,10 @@ export default class ConsoleSidebar extends Component {
       name === SidePanelViewController.MenuSelection.WTF &&
       this.state.isAlarm
     ) {
-      console.log("loadWTF");
       this.myController.loadWTF();
     } else if (
       name === SidePanelViewController.MenuSelection.WTF
     ) {
-      console.log("startWTF");
       this.myController.startWTF();
     } else {
       this.myController.showPanel(name);
