@@ -37,6 +37,26 @@ export default class JournalItem extends Component {
     };
   }
 
+
+  /**
+   * Updates the state of the journal item, could be a state update for a flame override,
+   * or could be a props update for a talk message update that updated this particular entry.
+   * For a props update, set the flame update state back to what's in the props.
+   *
+   * For a state update, do nothing special.
+   * @param prevProps
+   * @param prevState
+   * @param snapshot
+   */
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.model.flameRating !== this.props.model.flameRating) {
+      this.setState({
+        flameRating: this.props.model.flameRating
+      });
+    }
+  }
+
+
   /**
    * handles clicking on our journal item. toggels its active state and called function
    * handler in parent component, by passing this component into parent function
