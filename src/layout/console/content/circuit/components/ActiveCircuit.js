@@ -286,11 +286,7 @@ export default class ActiveCircuit extends Component {
 
     for (let i = 0; i < messages.length; i++) {
       let metaProps = messages[i].metaProps;
-      let username =
-        !!metaProps &&
-        metaProps[
-          ActiveCircuitFeed.fromUserNameMetaPropsStr
-        ];
+      let username = UtilRenderer.getUsernameFromMetaProps(metaProps);
 
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
@@ -467,7 +463,7 @@ export default class ActiveCircuit extends Component {
    */
   appendChatMessage(message) {
     let metaProps = message.metaProps,
-      username = this.getUsernameFromMetaProps(metaProps),
+      username = UtilRenderer.getUsernameFromMetaProps(metaProps),
       time = UtilRenderer.getChatMessageTimeString(
         message.messageTime
       ),
@@ -479,7 +475,7 @@ export default class ActiveCircuit extends Component {
       //if this is our first message, then use it to update the description
       if (prevState.messages &&
         (!this.hasNonStatusMessagesByMe(prevState.messages) && this.me.id === prevState.model.ownerId)
-        && (this.getMemberIdFromMetaProps(message.metaProps) === prevState.model.ownerId) //only update if I'm the owner
+        && (UtilRenderer.getMemberIdFromMetaProps(message.metaProps) === prevState.model.ownerId) //only update if I'm the owner
       ) {
         CircuitClient.updateCircuitDescription(
           prevState.model.circuitName,
@@ -509,7 +505,7 @@ export default class ActiveCircuit extends Component {
     let hasNonStatusMessage = false;
     for (let i = 0; i < messages.length; i++) {
       if (messages[i].messageType !== BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT
-          && this.getUsernameFromMetaProps(messages[i].metaProps) === this.me.username) {
+          && UtilRenderer.getMemberIdFromMetaProps(messages[i].metaProps) === this.me.id) {
          hasNonStatusMessage = true;
          break;
       }
@@ -517,31 +513,6 @@ export default class ActiveCircuit extends Component {
     return hasNonStatusMessage;
   }
 
-  /**
-   * renders our username from the talk message's meta-prop which contains
-   * the string of this.
-   * @param metaProps
-   * @returns {boolean|*}
-   */
-  getUsernameFromMetaProps(metaProps) {
-    return (
-      !!metaProps &&
-      metaProps[ActiveCircuitFeed.fromUserNameMetaPropsStr]
-    );
-  }
-
-  /**
-   * gets our memberId from the talk message's meta-prop which contains
-   * the sender of the message.
-   * @param metaProps
-   * @returns {boolean|*}
-   */
-  getMemberIdFromMetaProps(metaProps) {
-    return (
-      !!metaProps &&
-      metaProps[ActiveCircuitFeed.fromMemberIdMetaPropsStr]
-    );
-  }
 
   /**
    * processes our circuit member status event which is used to notify the
@@ -556,7 +527,7 @@ export default class ActiveCircuit extends Component {
       roomMember = data[ActiveCircuit.roomMemberPropStr];
 
     let metaProps = arg.metaProps,
-      username = this.getUsernameFromMetaProps(metaProps),
+      username = UtilRenderer.getUsernameFromMetaProps(metaProps),
       time = UtilRenderer.getChatMessageTimeString(
         arg.messageTime
       );
@@ -701,11 +672,8 @@ export default class ActiveCircuit extends Component {
     for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
       metaProps = m.metaProps;
-      username =
-        !!metaProps &&
-        metaProps[
-          ActiveCircuitFeed.fromUserNameMetaPropsStr
-        ];
+      username = UtilRenderer.getUsernameFromMetaProps(metaProps);
+
       time = UtilRenderer.getChatMessageTimeString(
         m.messageTime
       );

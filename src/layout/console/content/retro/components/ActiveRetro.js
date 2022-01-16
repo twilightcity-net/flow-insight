@@ -351,9 +351,7 @@ export default class ActiveRetro extends Component {
 
     for (let i = 0; i < messages.length; i++) {
       let metaProps = messages[i].metaProps;
-      let username =
-        !!metaProps &&
-        metaProps[ActiveRetroFeed.fromUserNameMetaPropsStr];
+      let username = UtilRenderer.getUsernameFromMetaProps(metaProps);
 
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
@@ -362,9 +360,7 @@ export default class ActiveRetro extends Component {
 
     for (let i = 0; i < messages2.length; i++) {
       let metaProps = messages2[i].metaProps;
-      let username =
-        !!metaProps &&
-        metaProps[ActiveRetroFeed.fromUserNameMetaPropsStr];
+      let username = UtilRenderer.getUsernameFromMetaProps(metaProps);
 
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
@@ -505,7 +501,7 @@ export default class ActiveRetro extends Component {
    */
   appendChatMessage(message) {
     let metaProps = message.metaProps,
-      username = this.getUsernameFromMetaProps(metaProps),
+      username = UtilRenderer.getUsernameFromMetaProps(metaProps),
       time = UtilRenderer.getChatMessageTimeString(
         message.messageTime
       ),
@@ -537,18 +533,6 @@ export default class ActiveRetro extends Component {
     });
   }
 
-  /**
-   * renders our username from the talk message's meta-prop which contains
-   * the string of this.
-   * @param metaProps
-   * @returns {boolean|*}
-   */
-  getUsernameFromMetaProps(metaProps) {
-    return (
-      !!metaProps &&
-      metaProps[ActiveRetroFeed.fromUserNameMetaPropsStr]
-    );
-  }
 
   /**
    * processes our circuit member status event which is used to notify the
@@ -754,9 +738,7 @@ export default class ActiveRetro extends Component {
     for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
       metaProps = m.metaProps;
-      username =
-        !!metaProps &&
-        metaProps[ActiveRetroFeed.fromUserNameMetaPropsStr];
+      username = UtilRenderer.getUsernameFromMetaProps(metaProps);
       time = UtilRenderer.getChatMessageTimeString(
         m.messageTime
       );

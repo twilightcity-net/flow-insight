@@ -24,6 +24,19 @@ export default class UtilRenderer {
   static EXEC_DATA = "@exec/runtime";
 
   /**
+   * this is the name of the meta property field which the talk message uses
+   * to store the value of the user whom made the request.
+   * @type {string}
+   */
+  static fromUserNameMetaPropsStr = "from.username";
+
+  /**
+   * this is the name of the meta property field which the talk message uses
+   * to store the value of the memberId whom made the request.
+   * @type {string}
+   */
+  static fromMemberIdMetaPropsStr = "from.member.id";
+  /**
    * helper function to return a date time string from a date object that is localized
    * to our current timezone
    * @param date - moment js date object
@@ -709,6 +722,33 @@ export default class UtilRenderer {
       }
     }
     return false;
+  }
+
+
+  /**
+   * renders our username from the talk message's meta-prop which contains
+   * the string of this.
+   * @param metaProps
+   * @returns {boolean|*}
+   */
+  static getUsernameFromMetaProps(metaProps) {
+    return (
+      !!metaProps &&
+      metaProps[UtilRenderer.fromUserNameMetaPropsStr]
+    );
+  }
+
+  /**
+   * renders our memberId from the talk message's meta-prop which contains
+   * the string of this.
+   * @param metaProps
+   * @returns {boolean|*}
+   */
+  static getMemberIdFromMetaProps(metaProps) {
+    return (
+      !!metaProps &&
+      metaProps[UtilRenderer.fromMemberIdMetaPropsStr]
+    );
   }
 
   /**

@@ -44,13 +44,6 @@ export default class ActiveRetroFeed extends Component {
     "circuitContentFeedPanel";
 
   /**
-   * this is the name of the meta property field which the talk message uses
-   * to store the value of the user whom made the request typically.
-   * @type {string}
-   */
-  static fromUserNameMetaPropsStr = "from.username";
-
-  /**
    * builds the active circuit feed component which is used by the circuit resource
    * @param props
    */

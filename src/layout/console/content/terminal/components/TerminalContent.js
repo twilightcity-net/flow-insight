@@ -5,18 +5,13 @@ import { BrowserRequestFactory } from "../../../../../controllers/BrowserRequest
 import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import { TerminalClient } from "../../../../../clients/TerminalClient";
 import { RendererEventFactory } from "../../../../../events/RendererEventFactory";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component is the tab panel wrapper for the terminal content
  * @copyright Twilight City, Inc. 2021©®™√
  */
 export default class TerminalContent extends Component {
-  /**
-   * this is the name of the meta property field which the talk message uses
-   * to store the value of the user whom made the request typically.
-   * @type {string}
-   */
-  static fromUserNameMetaPropsStr = "from.username";
 
   /**
    * builds the Terminal Content component
@@ -115,7 +110,7 @@ export default class TerminalContent extends Component {
   pushTalkMessageHistory(messages) {
     for (let i = 0; i < messages.length; i++) {
       let messageFromUsername =
-        this.getUsernameFromMetaProps(
+        UtilRenderer.getUsernameFromMetaProps(
           messages[i].metaProps
         );
 
@@ -193,10 +188,12 @@ export default class TerminalContent extends Component {
     ) {
       //message for this terminal circuit
 
-      let messageFromUsername =
-        this.getUsernameFromMetaProps(arg.metaProps);
+      //TODO change this to userId
 
-      if (messageFromUsername !== this.props.me.username) {
+      let messageFromId =
+        UtilRenderer.getMemberIdFromMetaProps(arg.metaProps);
+
+      if (messageFromId !== this.props.me.id) {
         if (
           arg.messageType ===
             TerminalClient.MessageTypes
@@ -204,7 +201,8 @@ export default class TerminalContent extends Component {
           arg.messageType ===
             TerminalClient.MessageTypes.TERMINAL_CMD_RESULT
         ) {
-          this.pushTalkMessage(messageFromUsername, arg);
+          let fromUser = UtilRenderer.getUsernameFromMetaProps(arg.metaProps);
+          this.pushTalkMessage(fromUser, arg);
           this.terminal.current.scrollToBottom();
         } else if (
           arg.messageType ===
@@ -287,18 +285,6 @@ export default class TerminalContent extends Component {
     }
   }
 
-  /**
-   * renders our username from the talk message's meta-prop which contains
-   * the string of this.
-   * @param metaProps
-   * @returns {boolean|*}
-   */
-  getUsernameFromMetaProps(metaProps) {
-    return (
-      !!metaProps &&
-      metaProps[TerminalContent.fromUserNameMetaPropsStr]
-    );
-  }
 
   getDefaultTopShellCommands() {
     return {

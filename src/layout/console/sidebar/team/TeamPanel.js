@@ -104,7 +104,7 @@ export default class TeamPanel extends Component {
     for (let i = 0; i < teamMembers.length; i++) {
       if (teamMembers[i].id === teamMember.id) {
 
-        if ((teamMembers[i].onlineStatus === teamMember.onlineStatus) ||
+        if ((teamMembers[i].onlineStatus !== teamMember.onlineStatus) ||
           (teamMembers[i].activeCircuit === null && teamMember.activeCircuit !== null) ||
           (teamMembers[i].activeCircuit !== null && teamMember.activeCircuit === null)) {
           //online/offline or alarm status change
@@ -129,7 +129,7 @@ export default class TeamPanel extends Component {
     //then, purple lights
     //then, green lights
     //then offline
-
+  console.log("sorting!");
     let myId = MemberClient.me.id;
 
     let team = teamMembers.sort((a, b) => {
