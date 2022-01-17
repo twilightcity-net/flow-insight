@@ -3,7 +3,8 @@ const log = require("electron-log"),
   BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory"),
   Util = require("../Util"),
-  DatabaseFactory = require("../database/DatabaseFactory");
+  DatabaseFactory = require("../database/DatabaseFactory"),
+  AppLogin = require("../app/AppLogin");
 
 /**
  * This class is used to coordinate controllers across the talknet service
@@ -183,6 +184,7 @@ module.exports = class TalkController extends (
         );
       }
     );
+
     socket.on(
       TalkController.Events.DISCONNECT,
       (reason) => {
@@ -220,6 +222,7 @@ module.exports = class TalkController extends (
       log.info(
         chalk.green(name) + " latency " + latency + "ms"
       );
+
       global.App.TalkManager.setLatency(latency);
       this.appPulseNotifier.dispatch({
         latencyTime: latency,
@@ -296,17 +299,45 @@ module.exports = class TalkController extends (
 
     if ((!socket.connected && dto.status === "SUCCESS") || dto.status === "REFRESH") {
       this.refreshDataFromScratch();
+      this.reconnectToTalk();
+    } else if (dto.status === "FAILED") {
+      this.reinitializeLogin();
+      //will get a new talk connection, so don't retry to reconnect the existing one
+    } else {
+      this.reconnectToTalk();
     }
+  }
 
+  reconnectToTalk() {
     if (!socket.connected) {
       log.info(
         chalk.yellowBright("[AppHeartbeat]") +
-          " reconnecting to Talk..."
+        " reconnecting to Talk..."
       );
       socket.open();
     }
+  }
 
+  reinitializeLogin() {
+    //see if skipping the disconnect removes the error messages on the server
+    global.App.TalkManager.disconnect();
 
+    AppLogin.doLogin(() => {
+      log.info(
+        chalk.greenBright("[TalkManager]") +
+        " Re-logged in to reset all connections..."
+      );
+      let dto = AppLogin.getConnectionStatus();
+       if (dto.status === "ERROR") {
+         global.App.isOnline = false;
+         global.App.isLoggedIn = false;
+       } else {
+         global.App.isOnline = true;
+         global.App.isLoggedIn = true;
+         global.App.connectionStatus = dto;
+         global.App.TalkManager.createConnection();
+       }
+    });
   }
 
   refreshDataFromScratch() {
