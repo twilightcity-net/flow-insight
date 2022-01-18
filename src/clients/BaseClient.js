@@ -51,6 +51,8 @@ export class BaseClient {
       ROOM_MEMBER_STATUS_EVENT: "RoomMemberStatusEventDto",
       CHAT_MESSAGE_DETAILS: "ChatMessageDetailsDto",
       TEAM_MEMBER: "TeamMemberDto",
+      TEAM_MEMBER_ADDED: "TeamMemberAddedEventDto",
+      TEAM_MEMBER_REMOVED: "TeamMemberRemovedEventDto",
       XP_STATUS_UPDATE: "XPStatusUpdateDto",
       WTF_STATUS_UPDATE: "WTFStatusUpdateDto",
       INTENTION_STARTED_DETAILS:

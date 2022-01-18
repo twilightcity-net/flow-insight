@@ -114,6 +114,67 @@ module.exports = class TeamDatabase extends LokiJS {
     DatabaseUtil.log("update team member", teamMember.id);
   }
 
+
+  /**
+   * adds a missing team member to our team
+   * @param memberAddedEvent
+   */
+  addTeamMemberInTeamsIfMissing(memberAddedEvent) {
+    let teamId = memberAddedEvent.teamId;
+    let teamMember = memberAddedEvent.teamMemberDto;
+
+    let collection = this.getCollection(
+      TeamDatabase.Collections.TEAMS
+    );
+
+    let team = collection.findOne({ id: teamId })
+
+    if (team) {
+      let found = false;
+      for (let j = 0; j < team.teamMembers.length; j++) {
+        if (team.teamMembers[j].id === teamMember.id) {
+          found = true;
+          break;
+        }
+      }
+      if (!found) {
+        team.teamMembers.push(teamMember);
+      }
+    }
+    DatabaseUtil.log("added team member", teamMember.id);
+  }
+
+
+  /**
+   * remove team member from team, or remove the entire team if we're no longer on it
+   * @param memberRemovedEvent
+   */
+  removeTeamMemberFromTeams(isMe, memberRemovedEvent) {
+    let teamId = memberRemovedEvent.teamId;
+    let memberId = memberRemovedEvent.memberId;
+
+    let collection = this.getCollection(
+      TeamDatabase.Collections.TEAMS
+    );
+
+    let team = collection.findOne({ id: teamId })
+
+    if (team) {
+      if (isMe) {
+        collection.remove(team);
+        DatabaseUtil.log("removed team from view", team.id);
+      } else {
+        for (let j = 0; j < team.teamMembers.length; j++) {
+          if (team.teamMembers[j].id === memberId) {
+            team.teamMembers.splice(j, 1);
+            break;
+          }
+        }
+        DatabaseUtil.log("removed team member", memberId);
+      }
+    }
+  }
+
   /**
    * updates the xp summary in the team member dto that is stored in the team
    * @param data

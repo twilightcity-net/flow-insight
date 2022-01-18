@@ -174,6 +174,18 @@ module.exports = class MemberDatabase extends LokiJS {
       global.App.MemberManager.updateMe(member);
     }
   }
+
+  /**
+   * helper function used to determine if the id passed in is our own
+   * @param memberId
+   */
+  isMe(memberId) {
+    let me = this.getMeFromView();
+    if (me.id === memberId) {
+      return true;
+    }
+    return false;
+  }
   /**
    * updates a member dto in our database and checks  to see if we should update our me
    * collection too.

@@ -74,19 +74,74 @@ export default class TeamPanel extends Component {
   onTalkRoomMessage = (event, arg) => {
     let mType = arg.messageType,
       data = arg.data;
+    let teams = this.state.teams;
 
     if (mType === BaseClient.MessageTypes.TEAM_MEMBER) {
-      let teams = this.state.teams;
       for (let i = 0; i < teams.length; i++) {
         teams[i].teamMembers = this.updateTeamMembers(teams[i].teamMembers, data);
       }
-
       this.setState({
         teams: teams,
       });
+    } else if (mType === BaseClient.MessageTypes.TEAM_MEMBER_ADDED) {
+       for (let i = 0;i < teams.length; i++) {
+         if (teams[i].id === data.teamId) {
+           teams[i].teamMembers = this.addTeamMemberToList(teams[i].teamMembers, data);
+           break;
+         }
+       }
+      this.setState({
+        teams: teams,
+      });
+    } else if (mType === BaseClient.MessageTypes.TEAM_MEMBER_REMOVED) {
+      for (let i = 0;i < teams.length; i++) {
+        if (teams[i].id === data.teamId) {
+          if (data.memberId === MemberClient.me.id) {
+            this.refreshTeamPanel();
+          } else {
+            teams[i].teamMembers = this.removeTeamMemberFromList(teams[i].teamMembers, data);
+            this.setState({
+              teams: teams,
+            });
+          }
+
+          break;
+        }
+      }
+
     }
   };
 
+
+
+  /**
+   * updates our team members list by adding a new member that just joined
+   * @param teamMembers
+   * @param teamMemberAddedDto
+   * @returns {*}
+   */
+  addTeamMemberToList(teamMembers, teamMemberAddedDto) {
+    teamMembers.push(teamMemberAddedDto.teamMemberDto);
+    teamMembers = this.sortTeamMembers(teamMembers);
+
+    return teamMembers;
+  }
+
+  /**
+   * Remove a team member from a team member list
+   * @param teamMembers
+   * @param teamMemberAddedDto
+   * @returns {*}
+   */
+  removeTeamMemberFromList(teamMembers, teamMemberRemovedDto) {
+    for (let i = 0; i < teamMembers.length; i++) {
+      if (teamMembers[i].id === teamMemberRemovedDto.memberId) {
+        teamMembers.splice(i, 1);
+      }
+    }
+
+    return teamMembers;
+  }
 
 
   /**
@@ -129,7 +184,6 @@ export default class TeamPanel extends Component {
     //then, purple lights
     //then, green lights
     //then offline
-  console.log("sorting!");
     let myId = MemberClient.me.id;
 
     let team = teamMembers.sort((a, b) => {

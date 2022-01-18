@@ -409,7 +409,7 @@ class EventManager {
           error.stack +
           "\n"
       );
-      App.handleError(error, false);
+      AppError.handleError(error, false);
     }
     return event;
   }

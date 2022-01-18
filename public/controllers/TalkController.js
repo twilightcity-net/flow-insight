@@ -297,18 +297,18 @@ module.exports = class TalkController extends (
 
     let socket = global.App.TalkManager.socket;
 
-    if ((!socket.connected && dto.status === "SUCCESS") || dto.status === "REFRESH") {
+    if (socket && ((!socket.connected && dto.status === "SUCCESS") || dto.status === "REFRESH")) {
       this.refreshDataFromScratch();
-      this.reconnectToTalk();
+      this.reconnectToTalk(socket);
     } else if (dto.status === "FAILED") {
-      this.reinitializeLogin();
       //will get a new talk connection, so don't retry to reconnect the existing one
+      this.reinitializeLogin();
     } else {
-      this.reconnectToTalk();
+      this.reconnectToTalk(socket);
     }
   }
 
-  reconnectToTalk() {
+  reconnectToTalk(socket) {
     if (!socket.connected) {
       log.info(
         chalk.yellowBright("[AppHeartbeat]") +
@@ -319,7 +319,6 @@ module.exports = class TalkController extends (
   }
 
   reinitializeLogin() {
-    //see if skipping the disconnect removes the error messages on the server
     global.App.TalkManager.disconnect();
 
     AppLogin.doLogin(() => {
@@ -430,6 +429,14 @@ module.exports = class TalkController extends (
       case TalkController.MessageTypes.TEAM_MEMBER:
         memberDatabase.updateMemberInMembers(message.data);
         teamDatabase.updateTeamMemberInTeams(message.data);
+        break;
+      case TalkController.MessageTypes.TEAM_MEMBER_ADDED:
+        memberDatabase.updateMemberInMembers(message.data.teamMemberDto);
+        teamDatabase.addTeamMemberInTeamsIfMissing(message.data);
+        break;
+      case TalkController.MessageTypes.TEAM_MEMBER_REMOVED:
+        let isMe = memberDatabase.isMe(message.data.memberId);
+        teamDatabase.removeTeamMemberFromTeams(isMe, message.data);
         break;
       case TalkController.MessageTypes.XP_STATUS_UPDATE:
         memberDatabase.updateXPStatusByTeamMemberId(
