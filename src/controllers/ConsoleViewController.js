@@ -94,7 +94,7 @@ export class ConsoleViewController extends ActiveViewController {
     );
   }
 
-  onUpdateState(event, showHideFlag) {
-    this.consoleIsCollapsed = showHideFlag;
+  onUpdateState(event, arg) {
+    this.consoleIsCollapsed = arg.showHideFlag;
   }
 }

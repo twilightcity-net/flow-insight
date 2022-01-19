@@ -3,6 +3,7 @@ import { MainPanelViewController } from "./MainPanelViewController";
 import { ConsoleViewController } from "./ConsoleViewController";
 import { ResourceCircuitController } from "./ResourceCircuitController";
 import { BrowserController } from "./BrowserController";
+import {NotificationController} from "./NotificationController";
 
 /**
  * generates view controllers for components
@@ -27,6 +28,7 @@ export class RendererControllerFactory {
       LAYOUT_CONTENT: "layout-content",
       LAYOUT_BROWSER: "layout-browser",
       RESOURCES: "resources",
+      NOTIFICATION: "notification"
     };
   }
 
@@ -92,6 +94,8 @@ export class RendererControllerFactory {
         return new ConsoleViewController(scope);
       case RendererControllerFactory.Views.LAYOUT_BROWSER:
         return new BrowserController(scope);
+      case RendererControllerFactory.Views.NOTIFICATION:
+        return new NotificationController(scope);
       default:
         throw new Error(
           "Unknown controller name '" + name + "'"

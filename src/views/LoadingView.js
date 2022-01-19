@@ -79,6 +79,7 @@ export default class LoadingView extends Component {
     console.log(
       "[LoadingView] event -> APPLOADER_LOAD : " + arg.load
     );
+
     this.setState((state) => {
       this.updateHeaderText(arg.text);
       this.updateProgress(arg.value, arg.total, arg.label);
@@ -156,6 +157,8 @@ export default class LoadingView extends Component {
    * toggles the view state to trigger animation on icon
    */
   onHideShow = () => {
+
+
     this.setState({ visible: !this.state.visible });
   };
 

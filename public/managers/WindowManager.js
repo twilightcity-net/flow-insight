@@ -139,9 +139,9 @@ class WindowManager {
       win.consoleShortcut.pressedState = 0;
     }, win.consoleShortcut.delay);
     if (windowState) {
-      this.events.hideConsole.dispatch(windowState);
+      this.events.hideConsole.dispatch({showHideFlag: windowState});
     } else {
-      this.events.hideConsole.dispatch(win.state);
+      this.events.hideConsole.dispatch({showHideFlag: win.state});
     }
   }
 

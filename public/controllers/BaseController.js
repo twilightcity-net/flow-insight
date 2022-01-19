@@ -241,6 +241,7 @@ module.exports = class BaseController {
       TEAM_RETRO_CLOSED: "TEAM_RETRO_CLOSED",
       TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED",
       TEAM_WTF_UPDATED: "TEAM_WTF_UPDATED",
+      TEAM_WTF_THRESHOLD: "TEAM_WTF_THRESHOLD"
     };
   }
 

@@ -14,6 +14,7 @@ import { DictionaryClient } from "../clients/DictionaryClient";
 import { FervieClient } from "../clients/FervieClient";
 import { TerminalClient } from "../clients/TerminalClient";
 import { ChartClient } from "../clients/ChartClient";
+import {NotificationController} from "../controllers/NotificationController";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -66,6 +67,12 @@ export default class ConsoleView extends Component {
     this.myController =
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.CONSOLE_VIEW,
+        this
+      );
+
+    this.notificationController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.NOTIFICATION,
         this
       );
 
@@ -125,6 +132,8 @@ export default class ConsoleView extends Component {
     FervieClient.init(this);
     TerminalClient.init(this);
     ChartClient.init(this);
+
+    NotificationController.showGettingStartedNotification();
   };
 
   componentWillUnmount = () => {
@@ -141,14 +150,15 @@ export default class ConsoleView extends Component {
    * @param arg
    */
   onLoadCb(event, arg) {
-    if (arg === ConsoleView.ConsoleStates.SHOW_CONSOLE) {
+
+    if (arg.showHideFlag === ConsoleView.ConsoleStates.SHOW_CONSOLE) {
       this.keyframes.play({
         name: ConsoleView.animationTypeIn,
         duration: ConsoleView.animationTime + "s",
         timingFunction: ConsoleView.animationTiming,
       });
     } else if (
-      arg === ConsoleView.ConsoleStates.HIDE_CONSOLE
+      arg.showHideFlag === ConsoleView.ConsoleStates.HIDE_CONSOLE
     ) {
       this.keyframes.play({
         name: ConsoleView.animationTypeOut,

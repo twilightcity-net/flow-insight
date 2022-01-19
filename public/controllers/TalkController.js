@@ -467,6 +467,8 @@ module.exports = class TalkController extends (
               circuitDatabase.setActiveCircuit(circuit);
             }
             break;
+          case TalkController.StatusTypes.TEAM_WTF_THRESHOLD:
+            break;
           case TalkController.StatusTypes.TEAM_WTF_UPDATED:
             circuitDatabase.updateCircuitForDescription(
               circuit,
