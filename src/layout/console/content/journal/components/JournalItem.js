@@ -247,12 +247,11 @@ export default class JournalItem extends Component {
   getPopupContent() {
     let model = this.props.model;
     return (
-      <div>
-        <div>
+      <div className="journalPopup">
+        <div className="title">
           <b>
             <span className="taskhighlight">
-              {" "}
-              {model.taskName}{" "}
+              {" "}{model.taskName}{" "}
             </span>
           </b>
         </div>
