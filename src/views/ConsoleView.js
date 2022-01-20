@@ -133,7 +133,7 @@ export default class ConsoleView extends Component {
     TerminalClient.init(this);
     ChartClient.init(this);
 
-    NotificationController.showGettingStartedNotification();
+    this.notificationController.showGettingStartedNotification();
   };
 
   componentWillUnmount = () => {
