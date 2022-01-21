@@ -149,10 +149,11 @@ export default class ActiveRetroFeed extends Component {
   onSecondaryPaneSizeChange = (size) => {
     document.getElementById(
       ActiveRetroFeed.circuitContentFeedPanelID
-    ).style.height =
-      DimensionController.getActiveCircuitFeedContentHeight(
-        size
-      ) + "px";
+    ).style.height = "100%";
+
+    document.getElementById(
+      ActiveRetroFeed.activeCircuitFeedElIdString
+    ).style.height = "100%";
   };
 
   /**
@@ -418,17 +419,3 @@ export default class ActiveRetroFeed extends Component {
     );
   }
 }
-
-// <Segment inverted>
-//   <Menu icon inverted fluid secondary>
-//     <Menu.Item header>Troubleshooting Session</Menu.Item>
-//     <Menu.Item
-//       link
-//       position="right"
-//       icon="window minimize"
-//       onClick={this.handleClick}
-//     />
-//   </Menu>
-//
-// </Segment>
-//

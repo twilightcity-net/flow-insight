@@ -4,7 +4,7 @@ import {
   Image,
   Input,
   Menu,
-  Segment,
+  Segment, TextArea,
 } from "semantic-ui-react";
 
 /**
@@ -24,33 +24,17 @@ export default class ActiveCircuitChat extends Component {
     this.isFocused = false;
     this.isMouseDown = false;
     this.isEnterKeyPressed = false;
+    this.state = {
+      chatValue: ""
+    }
   }
 
-  /**
-   * gets our chat text DOM element
-   * @returns {HTMLElement}
-   */
-  getChatTextEl = () => {
-    return document.getElementById("activeCircuitChatText");
-  };
-
-  /**
-   * gets our chat text input bubble we type into
-   * @returns {string}
-   */
-  getChatTextInnerTextStr = () => {
-    return this.getChatTextEl().innerText;
-  };
 
   /**
    * functional handler which focuses our input field
    */
   focusChat = () => {
     this.isFocused = true;
-
-    document
-      .getElementById("activeCircuitChatCursor")
-      .classList.remove("cursor-hide");
 
     document
       .getElementById("activeCircuitChatContainer")
@@ -65,59 +49,9 @@ export default class ActiveCircuitChat extends Component {
       this.isFocused = false;
 
       document
-        .getElementById("activeCircuitChatCursor")
-        .classList.add("cursor-hide");
-
-      document
         .getElementById("activeCircuitChatContainer")
         .classList.remove("focused");
     }
-  };
-
-  /**
-   * adds a new character to our array and also the html DOM
-   * @param keyCode
-   * @param key
-   */
-  addCharToText = (keyCode, key) => {
-    let el = this.getChatTextEl();
-    this.keyArray.push(keyCode);
-    el.innerText += key;
-  };
-
-  /**
-   * removes the last or top character from our html and array
-   */
-  delCharFromText = () => {
-    let el = this.getChatTextEl();
-    this.keyArray.pop();
-    el.innerText = el.innerText.slice(0, -1);
-  };
-
-  /**
-   * checks to see if we have pressed a valid key, any key listed in here
-   * will be escaped automatically. no exceptions, uses integers against
-   * the current 256 character Unicode ASCII table
-   * @param key
-   * @returns {boolean|boolean}
-   */
-  isValidKey = (key) => {
-    return (
-      key > 31 &&
-      key !== 91 &&
-      key !== 93 &&
-      key !== 45 &&
-      key !== 35 &&
-      key !== 36 &&
-      key !== 33 &&
-      key !== 34 &&
-      key !== 37 &&
-      key !== 39 &&
-      key !== 38 &&
-      key !== 40 &&
-      key !== 124 &&
-      (key < 112 || key > 124)
-    );
   };
 
   /**
@@ -127,14 +61,19 @@ export default class ActiveCircuitChat extends Component {
    * from gridtime returns. This throttles the member to send 1 message.
    */
   handleEnterKey = () => {
-    let text = this.getChatTextInnerTextStr();
+    let text = this.state.chatValue;
+    console.log("text = "+text);
 
     if (text === "" || this.isEnterKeyPressed) {
       return false;
     }
 
     this.isEnterKeyPressed = true;
-    this.clearInnerText();
+
+    this.setState({
+      chatValue: ""
+    });
+
     this.props.onEnterKey(
       text,
       this.delegateEnterKeyCallback
@@ -146,14 +85,6 @@ export default class ActiveCircuitChat extends Component {
    */
   delegateEnterKeyCallback = () => {
     this.isEnterKeyPressed = false;
-  };
-
-  /**
-   * clears our text from our chat text html element
-   */
-  clearInnerText = () => {
-    let el = this.getChatTextEl();
-    el.innerText = "";
   };
 
   /**
@@ -189,42 +120,24 @@ export default class ActiveCircuitChat extends Component {
   };
 
   /**
-   * listens for input from the semantic gui input control
-   * @param e
+   * When chat text is changed, update the state value
    */
-  handleOnKeyDownChatInput = (e) => {
-    switch (e.keyCode) {
-      case 8:
-        this.delCharFromText();
-        break;
-      case 46:
-        this.delCharFromText();
-        break;
-      case 13:
-        this.handleEnterKey();
-        break;
-      default:
-        if (this.isValidKey(e.keyCode)) {
-          this.addCharToText(e.keyCode, e.key);
-        }
-        break;
-    }
+  handleChangeText = (event) => {
+    this.setState({
+      chatValue: event.target.value,
+    });
   };
 
   /**
-   * gets our rendering of our text cursor that blinks
-   * @returns {*}
+   * When enter key is pressed, clear the chat and submit
+   * @param e
    */
-  getTextCursor() {
-    return (
-      <span
-        id="activeCircuitChatCursor"
-        className="chat-cursor"
-      >
-        |
-      </span>
-    );
-  }
+  handleKeyPress = (e) => {
+    if (e.charCode === 13) {
+      e.preventDefault();
+      this.handleEnterKey();
+    }
+  };
 
   /**
    * renders the active circuit chat panel for the feed
@@ -323,23 +236,16 @@ export default class ActiveCircuitChat extends Component {
             onMouseDown={this.handleOnMouseDown}
             onMouseUp={this.handleOnMouseUp}
           >
-            <span
+            <TextArea
               id="activeCircuitChatText"
               className="chat-text"
+              value={this.state.chatValue}
+              ref={this.chatInputRef}
+              onFocus={this.focusChat}
+              onBlur={this.blurChat}
+              onKeyPress={this.handleKeyPress}
+              onChange={this.handleChangeText}
             />
-            {this.getTextCursor()}
-            <span>
-              <Input
-                id="activeCircuitChatInput"
-                className="chat-input"
-                transparent
-                value=""
-                ref={this.chatInputRef}
-                onFocus={this.focusChat}
-                onBlur={this.blurChat}
-                onKeyDown={this.handleOnKeyDownChatInput}
-              />
-            </span>
           </div>
         </Segment>
       </div>

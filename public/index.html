@@ -1722,8 +1722,30 @@
     border: 0.105rem solid #6435c9;
   }
 
-  #component.circuitLayout #component.activeCircuitChat .text-formatted .chat-text {
-    word-break: break-word;
+
+
+  #component.circuitLayout #component.activeCircuitChat .chat-text {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border: 0px solid rgba(74, 74, 74, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+    rows: 3;
+    width: 100%;
+    height: 100%;
+    resize: none;
+  }
+
+  #component.circuitLayout #component.activeCircuitChat .chat-text:focus {
+    outline: none;
+  }
+
+  #component.circuitLayout #component.activeCircuitChat .chat-text::-webkit-scrollbar {
+    display: none;
+  }
+
+  #component.circuitLayout #component.activeCircuitChat .text-formatted {
+    width: 100%;
+    overflow: hidden;
   }
 
   #component.circuitLayout #component.activeCircuitChat .text-formatted .chat-input>input {
