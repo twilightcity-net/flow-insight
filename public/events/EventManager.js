@@ -33,7 +33,13 @@ class MainEvent {
    * @returns {Array}
    */
   dispatch(arg) {
-    return EventManager.dispatch(this.type, arg);
+    let result = null;
+    try {
+      result = EventManager.dispatch(this.type, arg);
+    } catch (error) {
+      log.error("Error: "+error);
+    }
+    return result;
   }
 
   /**
@@ -348,7 +354,6 @@ class EventManager {
       // log.info("sending arg (raw): "+arg);
       // log.info("sending arg: "+JSON.stringify(arg));
       // log.info("eventtype: "+eventType);
-
       windows[j].window.webContents.send(eventType, arg);
     }
 

@@ -20,52 +20,58 @@ module.exports = class AppError extends Error {
 
   static handleError(error, fatal, graceful, stacetrace) {
     if (isDev) graceful = true;
-    if (!(error instanceof AppError)) {
-      if (error.stack === "undefined" || null || "") {
-        error.stack = stackTrace.get();
-      } else {
-        error.stack = cleanStack(error.stack);
+    try {
+      if (!(error instanceof AppError)) {
+        if (error.stack === "undefined" || null || "") {
+          error.stack = stackTrace.get();
+        } else {
+          error.stack = cleanStack(error.stack);
+        }
       }
-    }
-    if (global.App) {
-      if (stacetrace) {
-        log.error(
-          chalk.red((fatal ? "[FATAL] " : "") + "[App] ") +
+      if (global.App) {
+        if (stacetrace) {
+          log.error(
+            chalk.red((fatal ? "[FATAL] " : "") + "[App] ") +
+              error.toString() +
+              "\n\n" +
+              error.stack +
+              "\n"
+          );
+        } else {
+          log.error(
+            chalk.red((fatal ? "[FATAL] " : "") + "[App] ") +
+              error.toString() +
+              "\n\n" +
+              error.stack +
+              "\n"
+          );
+        }
+      } else {
+        console.error(
+          (fatal ? "[FATAL] " : "") +
             error.toString() +
             "\n\n" +
             error.stack +
             "\n"
         );
-      } else {
-        log.error(
-          chalk.red((fatal ? "[FATAL] " : "") + "[App] ") +
-            error.toString() +
-            "\n\n" +
-            error.stack +
-            "\n"
+      }
+
+      if (fatal) {
+        dialog.showErrorBox(
+          "Flow Insight",
+          "[FATAL] " + error.toString()
+        );
+        process.exit(1);
+      } else if (!graceful) {
+        dialog.showErrorBox(
+          "Flow Insight",
+          error.toString()
         );
       }
-    } else {
-      console.error(
-        (fatal ? "[FATAL] " : "") +
-          error.toString() +
-          "\n\n" +
-          error.stack +
-          "\n"
-      );
+    } catch (error) {
+      log.error("Error processing error: "+error);
     }
-    if (fatal) {
-      dialog.showErrorBox(
-        "Flow Insight",
-        "[FATAL] " + error.toString()
-      );
-      process.exit(1);
-    } else if (!graceful) {
-      dialog.showErrorBox(
-        "Flow Insight",
-        error.toString()
-      );
-    }
+
   }
 
   /*

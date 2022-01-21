@@ -128,7 +128,7 @@ module.exports = class AppLoader {
         value: this.incrementStage(),
         total: this.getTotalStages(),
         label: "talking to llamas...",
-        text: "Logging in to flowinsight.com...",
+        text: "Logging in to twilightcity.net...",
       });
     }, this.eventTimerMs);
   }
@@ -310,6 +310,7 @@ module.exports = class AppLoader {
   processLogin() {
     log.info("[AppLoader] process login");
     AppLogin.doLogin((store) => {
+
       let status = AppLogin.getConnectionStatus();
       if (status.isValid()) {
         log.info(

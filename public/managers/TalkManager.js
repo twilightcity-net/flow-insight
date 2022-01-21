@@ -16,10 +16,14 @@ module.exports = class TalkManager {
   }
 
   disconnect() {
-    if (this.socket) {
-      this.socket.disconnect(true);
-      this.socket.destroy();
-      this.socket = null;
+    try {
+      if (this.socket) {
+        this.socket.disconnect(true);
+        this.socket.destroy();
+        this.socket = null;
+      }
+    } catch (error) {
+      log.error("Error while disconnecting from talk: "+error);
     }
   }
 

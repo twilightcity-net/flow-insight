@@ -217,27 +217,33 @@ module.exports = class App {
    * @param event
    */
   onWillQuit(event) {
-    log.info(
-      "[App] before quit -> attempt to logout application"
-    );
+    event.preventDefault();
 
-    if (global.App.isLoggedIn) {
-      event.preventDefault();
-      global.App.TalkManager.disconnect();
-      AppLogin.doLogout((store) => {
-        log.info(
-          "[App] before quit -> logout complete : quit"
-        );
-        app.exit(0);
-      });
+    try {
+      log.info(
+        "[App] before quit -> attempt to logout application"
+      );
 
-      setTimeout(() => {
-        log.info(
-          "[App] before quit -> logout timemout : quit"
-        );
-        app.exit(0);
-      }, 10000);
+      if (global.App.isLoggedIn) {
+        global.App.TalkManager.disconnect();
+        AppLogin.doLogout((store) => {
+          log.info(
+            "[App] before quit -> logout complete : quit"
+          );
+          app.exit(0);
+        });
+
+        setTimeout(() => {
+          log.info(
+            "[App] before quit -> logout timeout : quit"
+          );
+          app.exit(0);
+        }, 10000);
+      }
+    } catch (error) {
+      log.error("Error: "+error);
     }
+
   }
 
   /**
@@ -256,12 +262,7 @@ module.exports = class App {
    */
   //TODO implement https://github.com/electron/electron/blob/master/docs/api/crash-reporter.md
   onCrash(event, killed) {
-    App.handleError(
-      new AppError(
-        "WTF the GPU crashed : killed=" + killed
-      ),
-      true
-    );
+    log.error("WTF the GPU crashed : killed=" + killed);
   }
 
   /**
