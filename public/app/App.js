@@ -210,7 +210,7 @@ module.exports = class App {
    */
   onWindowAllClosed(event) {
     log.info("[App] app windows all closed");
-    this.onWillQuit(event)
+    global.App.onWillQuit(event)
   }
 
   /**
