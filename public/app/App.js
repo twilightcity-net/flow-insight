@@ -208,8 +208,9 @@ module.exports = class App {
   /**
    * idle the app if all windows are closed
    */
-  onWindowAllClosed() {
-    log.info("[App] app idle : no windows");
+  onWindowAllClosed(event) {
+    log.info("[App] app windows all closed");
+    this.onWillQuit(event)
   }
 
   /**
