@@ -149,15 +149,18 @@ export default class ConsoleView extends Component {
    * @param arg
    */
   onLoadCb(event, arg) {
-
-    if (arg.showHideFlag === ConsoleView.ConsoleStates.SHOW_CONSOLE) {
+    if (
+      arg.showHideFlag ===
+      ConsoleView.ConsoleStates.SHOW_CONSOLE
+    ) {
       this.keyframes.play({
         name: ConsoleView.animationTypeIn,
         duration: ConsoleView.animationTime + "s",
         timingFunction: ConsoleView.animationTiming,
       });
     } else if (
-      arg.showHideFlag === ConsoleView.ConsoleStates.HIDE_CONSOLE
+      arg.showHideFlag ===
+      ConsoleView.ConsoleStates.HIDE_CONSOLE
     ) {
       this.keyframes.play({
         name: ConsoleView.animationTypeOut,

@@ -120,7 +120,7 @@ export default class TeamPanelListItem extends Component {
 
     return (
       <Popup
-        style={{maxWidth: "300px" }}
+        style={{ maxWidth: "300px" }}
         trigger={trigger}
         className="teamPanel chunkTitle"
         content={popupContent}
@@ -149,9 +149,7 @@ export default class TeamPanelListItem extends Component {
           <Divider />
           <div>
             <b>
-              <div className="taskhighlight">
-                WORK ON:
-              </div>
+              <div className="taskhighlight">WORK ON:</div>
               <div className="taskhighlight">
                 {activeTaskName}
               </div>

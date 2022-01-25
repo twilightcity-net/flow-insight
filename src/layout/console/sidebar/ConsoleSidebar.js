@@ -176,7 +176,6 @@ export default class ConsoleSidebar extends Component {
     });
   }
 
-
   setXpUpdateState(xpUpdate) {
     let oldXP = xpUpdate.oldXPSummary.totalXP;
     let newXP = xpUpdate.newXPSummary.totalXP;

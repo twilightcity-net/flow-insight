@@ -92,7 +92,8 @@ export class RendererEventFactory {
       TEAM_DATA_REFRESH: prefix + "team-data-refresh",
       CIRCUIT_DATA_REFRESH: prefix + "circuit-data-refresh",
       JOURNAL_DATA_REFRESH: prefix + "journal-data-refresh",
-      DICTIONARY_DATA_REFRESH: prefix + "dictionary-data-refresh",
+      DICTIONARY_DATA_REFRESH:
+        prefix + "dictionary-data-refresh",
       PREPARE_FOR_SCREENSHOT:
         prefix + "prepare-for-screenshot",
       READY_FOR_SCREENSHOT: prefix + "ready-for-screenshot",

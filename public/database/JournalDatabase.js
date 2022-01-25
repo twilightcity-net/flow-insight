@@ -107,7 +107,6 @@ module.exports = class JournalDatabase extends LokiJS {
     ).addDynamicView(JournalDatabase.Views.TASKS);
   }
 
-
   /**
    * gets our view  for our list of intentions
    * @returns {DynamicView}

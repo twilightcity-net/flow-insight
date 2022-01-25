@@ -12,7 +12,6 @@ module.exports = class TeamMemberRemovedEventDto {
 
       this.memberId = json.memberId;
       this.username = json.username;
-
     } catch (e) {
       throw new Error(
         "Unable to create dto 'TeamMemberRemovedEventDto' : " +
@@ -21,8 +20,7 @@ module.exports = class TeamMemberRemovedEventDto {
     }
   }
   isValid() {
-    if (this.teamId != null)
-      return true;
+    if (this.teamId != null) return true;
     return false;
   }
 };

@@ -124,11 +124,10 @@ export default class FerviePanel extends Component {
       );
   }
 
-
   /**
    * Force refresh of me object that happens on disconnect and refresh
    */
-  onMeRefresh () {
+  onMeRefresh() {
     MemberClient.getMe(this, (arg) => {
       this.me = arg.data;
       this.onRefreshFerviePanel();
@@ -682,7 +681,6 @@ export default class FerviePanel extends Component {
   };
 
   getColorPickerFervieContent() {
-
     let whatToColorAvailable = [];
 
     whatToColorAvailable.push(this.whatToColorOptions[0]);

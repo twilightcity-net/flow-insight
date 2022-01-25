@@ -351,7 +351,8 @@ export default class ActiveRetro extends Component {
 
     for (let i = 0; i < messages.length; i++) {
       let metaProps = messages[i].metaProps;
-      let username = UtilRenderer.getUsernameFromMetaProps(metaProps);
+      let username =
+        UtilRenderer.getUsernameFromMetaProps(metaProps);
 
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
@@ -360,7 +361,8 @@ export default class ActiveRetro extends Component {
 
     for (let i = 0; i < messages2.length; i++) {
       let metaProps = messages2[i].metaProps;
-      let username = UtilRenderer.getUsernameFromMetaProps(metaProps);
+      let username =
+        UtilRenderer.getUsernameFromMetaProps(metaProps);
 
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
@@ -466,7 +468,6 @@ export default class ActiveRetro extends Component {
     }
   };
 
-
   /**
    * If theres a team member update for one of the members in our circuit,
    * then update the status fields in our circuit member status.
@@ -484,9 +485,12 @@ export default class ActiveRetro extends Component {
         circuitMember.fullName = teamMember.fullName;
         circuitMember.username = teamMember.username;
         circuitMember.fervieColor = teamMember.fervieColor;
-        circuitMember.fervieSecondaryColor = teamMember.fervieSecondaryColor;
-        circuitMember.fervieAccessory = teamMember.fervieAccessory;
-        circuitMember.onlineStatus = teamMember.onlineStatus;
+        circuitMember.fervieSecondaryColor =
+          teamMember.fervieSecondaryColor;
+        circuitMember.fervieAccessory =
+          teamMember.fervieAccessory;
+        circuitMember.onlineStatus =
+          teamMember.onlineStatus;
         break;
       }
     }
@@ -501,7 +505,8 @@ export default class ActiveRetro extends Component {
    */
   appendChatMessage(message) {
     let metaProps = message.metaProps,
-      username = UtilRenderer.getUsernameFromMetaProps(metaProps),
+      username =
+        UtilRenderer.getUsernameFromMetaProps(metaProps),
       time = UtilRenderer.getChatMessageTimeString(
         message.messageTime
       ),
@@ -533,7 +538,6 @@ export default class ActiveRetro extends Component {
     });
   }
 
-
   /**
    * processes our circuit member status event which is used to notify the
    * current active circuit that another member has joined this active
@@ -547,10 +551,12 @@ export default class ActiveRetro extends Component {
       roomMember = data[ActiveRetro.roomMemberPropStr];
 
     switch (data.statusEvent) {
-      case BaseClient.CircuitMemberStatus.CIRCUIT_MEMBER_JOIN:
+      case BaseClient.CircuitMemberStatus
+        .CIRCUIT_MEMBER_JOIN:
         this.addCircuitMemberToCircuit(roomMember);
         return;
-      case BaseClient.CircuitMemberStatus.CIRCUIT_MEMBER_LEAVE:
+      case BaseClient.CircuitMemberStatus
+        .CIRCUIT_MEMBER_LEAVE:
         this.removeCircuitMemberFromCircuit(roomMember);
         return;
       default:
@@ -738,7 +744,8 @@ export default class ActiveRetro extends Component {
     for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
       metaProps = m.metaProps;
-      username = UtilRenderer.getUsernameFromMetaProps(metaProps);
+      username =
+        UtilRenderer.getUsernameFromMetaProps(metaProps);
       time = UtilRenderer.getChatMessageTimeString(
         m.messageTime
       );

@@ -73,7 +73,7 @@ export class ResourceCircuitController extends ActiveViewController {
       TEAM_WTF_CANCELED: "TEAM_WTF_CANCELED",
       TEAM_RETRO_STARTED: "TEAM_RETRO_STARTED",
       TEAM_WTF_UPDATED: "TEAM_WTF_UPDATED",
-      TEAM_WTF_THRESHOLD: "TEAM_WTF_THRESHOLD"
+      TEAM_WTF_THRESHOLD: "TEAM_WTF_THRESHOLD",
     };
   }
 

@@ -3,7 +3,7 @@ import { MainPanelViewController } from "./MainPanelViewController";
 import { ConsoleViewController } from "./ConsoleViewController";
 import { ResourceCircuitController } from "./ResourceCircuitController";
 import { BrowserController } from "./BrowserController";
-import {NotificationController} from "./NotificationController";
+import { NotificationController } from "./NotificationController";
 
 /**
  * generates view controllers for components
@@ -28,7 +28,7 @@ export class RendererControllerFactory {
       LAYOUT_CONTENT: "layout-content",
       LAYOUT_BROWSER: "layout-browser",
       RESOURCES: "resources",
-      NOTIFICATION: "notification"
+      NOTIFICATION: "notification",
     };
   }
 

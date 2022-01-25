@@ -132,7 +132,6 @@ module.exports = class JournalController extends (
     }
   }
 
-
   /**
    * processes the create journal events for the listener. returns dto to callback.
    * @param event

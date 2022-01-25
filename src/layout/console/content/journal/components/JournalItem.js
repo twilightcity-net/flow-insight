@@ -37,7 +37,6 @@ export default class JournalItem extends Component {
     };
   }
 
-
   /**
    * Updates the state of the journal item, could be a state update for a flame override,
    * or could be a props update for a talk message update that updated this particular entry.
@@ -49,13 +48,15 @@ export default class JournalItem extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.model.flameRating !== this.props.model.flameRating) {
+    if (
+      prevProps.model.flameRating !==
+      this.props.model.flameRating
+    ) {
       this.setState({
-        flameRating: this.props.model.flameRating
+        flameRating: this.props.model.flameRating,
       });
     }
   }
-
 
   /**
    * handles clicking on our journal item. toggels its active state and called function
@@ -251,7 +252,8 @@ export default class JournalItem extends Component {
         <div className="title">
           <b>
             <span className="taskhighlight">
-              {" "}{model.taskName}{" "}
+              {" "}
+              {model.taskName}{" "}
             </span>
           </b>
         </div>

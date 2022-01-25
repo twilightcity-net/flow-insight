@@ -310,7 +310,6 @@ module.exports = class AppLoader {
   processLogin() {
     log.info("[AppLoader] process login");
     AppLogin.doLogin((store) => {
-
       let status = AppLogin.getConnectionStatus();
       if (status.isValid()) {
         log.info(

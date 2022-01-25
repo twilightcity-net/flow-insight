@@ -157,8 +157,6 @@ export default class LoadingView extends Component {
    * toggles the view state to trigger animation on icon
    */
   onHideShow = () => {
-
-
     this.setState({ visible: !this.state.visible });
   };
 
@@ -198,8 +196,7 @@ export default class LoadingView extends Component {
           size="tiny"
           inverted
           align="center"
-        >
-        </Progress>
+        ></Progress>
       </Container>
     );
     const loginFailedContent = (

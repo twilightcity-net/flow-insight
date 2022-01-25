@@ -114,7 +114,6 @@ module.exports = class TeamDatabase extends LokiJS {
     DatabaseUtil.log("update team member", teamMember.id);
   }
 
-
   /**
    * adds a missing team member to our team
    * @param memberAddedEvent
@@ -127,7 +126,7 @@ module.exports = class TeamDatabase extends LokiJS {
       TeamDatabase.Collections.TEAMS
     );
 
-    let team = collection.findOne({ id: teamId })
+    let team = collection.findOne({ id: teamId });
 
     if (team) {
       let found = false;
@@ -144,7 +143,6 @@ module.exports = class TeamDatabase extends LokiJS {
     DatabaseUtil.log("added team member", teamMember.id);
   }
 
-
   /**
    * remove team member from team, or remove the entire team if we're no longer on it
    * @param memberRemovedEvent
@@ -157,7 +155,7 @@ module.exports = class TeamDatabase extends LokiJS {
       TeamDatabase.Collections.TEAMS
     );
 
-    let team = collection.findOne({ id: teamId })
+    let team = collection.findOne({ id: teamId });
 
     if (team) {
       if (isMe) {

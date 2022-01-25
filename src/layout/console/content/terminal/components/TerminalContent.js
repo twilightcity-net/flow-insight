@@ -12,7 +12,6 @@ import UtilRenderer from "../../../../../UtilRenderer";
  * @copyright Twilight City, Inc. 2021©®™√
  */
 export default class TerminalContent extends Component {
-
   /**
    * builds the Terminal Content component
    * @param props
@@ -191,7 +190,9 @@ export default class TerminalContent extends Component {
       //TODO change this to userId
 
       let messageFromId =
-        UtilRenderer.getMemberIdFromMetaProps(arg.metaProps);
+        UtilRenderer.getMemberIdFromMetaProps(
+          arg.metaProps
+        );
 
       if (messageFromId !== this.props.me.id) {
         if (
@@ -201,7 +202,10 @@ export default class TerminalContent extends Component {
           arg.messageType ===
             TerminalClient.MessageTypes.TERMINAL_CMD_RESULT
         ) {
-          let fromUser = UtilRenderer.getUsernameFromMetaProps(arg.metaProps);
+          let fromUser =
+            UtilRenderer.getUsernameFromMetaProps(
+              arg.metaProps
+            );
           this.pushTalkMessage(fromUser, arg);
           this.terminal.current.scrollToBottom();
         } else if (
@@ -284,7 +288,6 @@ export default class TerminalContent extends Component {
       this.props.leaveTty();
     }
   }
-
 
   getDefaultTopShellCommands() {
     return {

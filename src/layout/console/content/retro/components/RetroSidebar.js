@@ -90,7 +90,9 @@ export default class RetroSidebar extends Component {
       (prevProps.model &&
         this.props.model &&
         prevProps.model.circuitName !==
-        this.props.model.circuitName)) { //different model
+          this.props.model.circuitName)
+    ) {
+      //different model
 
       let currentTags = this.getTagList(this.props.model);
       this.setState({
@@ -100,9 +102,15 @@ export default class RetroSidebar extends Component {
     }
 
     if (
-      ((prevProps.model && this.props.model &&
-        (prevProps.model.circuitName === this.props.model.circuitName)
-        && !this.state.tagEditEnabled && this.hasTagChange(this.state.currentTags, this.props.model.tags)) )
+      prevProps.model &&
+      this.props.model &&
+      prevProps.model.circuitName ===
+        this.props.model.circuitName &&
+      !this.state.tagEditEnabled &&
+      this.hasTagChange(
+        this.state.currentTags,
+        this.props.model.tags
+      )
       //same model, updated tags, leave edit mode in place
     ) {
       this.setState({
@@ -145,7 +153,10 @@ export default class RetroSidebar extends Component {
   hasTagChange(oldTags, newTags) {
     if (!newTags) {
       return false;
-    } else if (newTags && oldTags.length !== newTags.length) {
+    } else if (
+      newTags &&
+      oldTags.length !== newTags.length
+    ) {
       return true;
     } else {
       for (let i = 0; i < oldTags.length; i++) {
@@ -164,11 +175,7 @@ export default class RetroSidebar extends Component {
   getTagList(model) {
     let currentTags = [];
     if (model.tags) {
-      for (
-        let i = 0;
-        i < model.tags.length;
-        i++
-      ) {
+      for (let i = 0; i < model.tags.length; i++) {
         let tag = model.tags[i];
         currentTags.push(tag);
       }
@@ -504,12 +511,9 @@ export default class RetroSidebar extends Component {
    */
   getTitleContent(title) {
     return (
-        <Segment
-          inverted
-          className="title"
-        >
-          {UtilRenderer.getFormattedCircuitName(title)}
-        </Segment>
+      <Segment inverted className="title">
+        {UtilRenderer.getFormattedCircuitName(title)}
+      </Segment>
     );
   }
 

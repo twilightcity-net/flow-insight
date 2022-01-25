@@ -101,7 +101,7 @@ module.exports = class AppHeartbeat {
           global.App.isOnline = true;
 
           dto = new SimpleStatusDto(res.body);
-          log.info("HEARTBEAT STATUS: "+dto.status);
+          log.info("HEARTBEAT STATUS: " + dto.status);
 
           dto.pingTime = this.pingTime;
           dto.latencyTime =

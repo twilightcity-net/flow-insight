@@ -286,7 +286,8 @@ export default class ActiveCircuit extends Component {
 
     for (let i = 0; i < messages.length; i++) {
       let metaProps = messages[i].metaProps;
-      let username = UtilRenderer.getUsernameFromMetaProps(metaProps);
+      let username =
+        UtilRenderer.getUsernameFromMetaProps(metaProps);
 
       if (!uniqueUsernames.includes(username)) {
         uniqueUsernames.push(username);
@@ -338,7 +339,8 @@ export default class ActiveCircuit extends Component {
    */
   onTalkRoomMessage = (event, arg) => {
     switch (arg.messageType) {
-      case BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT:
+      case BaseClient.MessageTypes
+        .CIRCUIT_MEMBER_STATUS_EVENT:
         this.handleCircuitMemberStatusEventMessage(arg);
         break;
       case BaseClient.MessageTypes.TEAM_MEMBER:
@@ -386,9 +388,12 @@ export default class ActiveCircuit extends Component {
         circuitMember.fullName = teamMember.fullName;
         circuitMember.username = teamMember.username;
         circuitMember.fervieColor = teamMember.fervieColor;
-        circuitMember.fervieSecondaryColor = teamMember.fervieSecondaryColor;
-        circuitMember.fervieAccessory = teamMember.fervieAccessory;
-        circuitMember.onlineStatus = teamMember.onlineStatus;
+        circuitMember.fervieSecondaryColor =
+          teamMember.fervieSecondaryColor;
+        circuitMember.fervieAccessory =
+          teamMember.fervieAccessory;
+        circuitMember.onlineStatus =
+          teamMember.onlineStatus;
 
         break;
       }
@@ -429,12 +434,15 @@ export default class ActiveCircuit extends Component {
     }
   }
 
-
   /**
    * append a join message to the chat feed
    * @param message
    */
-  appendCircuitMemberEventMessage(message, time, statusMessage) {
+  appendCircuitMemberEventMessage(
+    message,
+    time,
+    statusMessage
+  ) {
     let that = this;
 
     this.setState((prevState) => {
@@ -443,17 +451,16 @@ export default class ActiveCircuit extends Component {
       return {
         messages: prevState.messages,
         feedEvents: that.addFeedEvent(
-            prevState.feedEvents,
-            "Fervie",
-            null,
-            time,
-            statusMessage,
-            true
+          prevState.feedEvents,
+          "Fervie",
+          null,
+          time,
+          statusMessage,
+          true
         ),
       };
     });
   }
-
 
   /**
    * adds a chat message to the end of all of our chat
@@ -463,7 +470,8 @@ export default class ActiveCircuit extends Component {
    */
   appendChatMessage(message) {
     let metaProps = message.metaProps,
-      username = UtilRenderer.getUsernameFromMetaProps(metaProps),
+      username =
+        UtilRenderer.getUsernameFromMetaProps(metaProps),
       time = UtilRenderer.getChatMessageTimeString(
         message.messageTime
       ),
@@ -473,9 +481,15 @@ export default class ActiveCircuit extends Component {
 
     this.setState((prevState) => {
       //if this is our first message, then use it to update the description
-      if (prevState.messages &&
-        (!this.hasNonStatusMessagesByMe(prevState.messages) && this.me.id === prevState.model.ownerId)
-        && (UtilRenderer.getMemberIdFromMetaProps(message.metaProps) === prevState.model.ownerId) //only update if I'm the owner
+      if (
+        prevState.messages &&
+        !this.hasNonStatusMessagesByMe(
+          prevState.messages
+        ) &&
+        this.me.id === prevState.model.ownerId &&
+        UtilRenderer.getMemberIdFromMetaProps(
+          message.metaProps
+        ) === prevState.model.ownerId //only update if I'm the owner
       ) {
         CircuitClient.updateCircuitDescription(
           prevState.model.circuitName,
@@ -504,15 +518,20 @@ export default class ActiveCircuit extends Component {
   hasNonStatusMessagesByMe(messages) {
     let hasNonStatusMessage = false;
     for (let i = 0; i < messages.length; i++) {
-      if (messages[i].messageType !== BaseClient.MessageTypes.CIRCUIT_MEMBER_STATUS_EVENT
-          && UtilRenderer.getMemberIdFromMetaProps(messages[i].metaProps) === this.me.id) {
-         hasNonStatusMessage = true;
-         break;
+      if (
+        messages[i].messageType !==
+          BaseClient.MessageTypes
+            .CIRCUIT_MEMBER_STATUS_EVENT &&
+        UtilRenderer.getMemberIdFromMetaProps(
+          messages[i].metaProps
+        ) === this.me.id
+      ) {
+        hasNonStatusMessage = true;
+        break;
       }
     }
     return hasNonStatusMessage;
   }
-
 
   /**
    * processes our circuit member status event which is used to notify the
@@ -527,26 +546,35 @@ export default class ActiveCircuit extends Component {
       roomMember = data[ActiveCircuit.roomMemberPropStr];
 
     let metaProps = arg.metaProps,
-      username = UtilRenderer.getUsernameFromMetaProps(metaProps),
+      username =
+        UtilRenderer.getUsernameFromMetaProps(metaProps),
       time = UtilRenderer.getChatMessageTimeString(
         arg.messageTime
       );
 
     switch (data.statusEvent) {
-      case BaseClient.CircuitMemberStatus.CIRCUIT_MEMBER_JOIN:
-        this.appendCircuitMemberEventMessage(arg, time, "@" + username + " joined the circuit.");
+      case BaseClient.CircuitMemberStatus
+        .CIRCUIT_MEMBER_JOIN:
+        this.appendCircuitMemberEventMessage(
+          arg,
+          time,
+          "@" + username + " joined the circuit."
+        );
         this.addCircuitMemberToCircuit(roomMember);
         return;
-      case BaseClient.CircuitMemberStatus.CIRCUIT_MEMBER_LEAVE:
-        this.appendCircuitMemberEventMessage(arg, time, "@" + username + " left.");
+      case BaseClient.CircuitMemberStatus
+        .CIRCUIT_MEMBER_LEAVE:
+        this.appendCircuitMemberEventMessage(
+          arg,
+          time,
+          "@" + username + " left."
+        );
         this.removeCircuitMemberFromCircuit(roomMember);
         return;
       default:
         return;
     }
   }
-
-
 
   /**
    * adds a circuit member object to our array of circuit members. the
@@ -672,7 +700,8 @@ export default class ActiveCircuit extends Component {
     for (let i = 0, m = null; i < messagesLength; i++) {
       m = messages[i];
       metaProps = m.metaProps;
-      username = UtilRenderer.getUsernameFromMetaProps(metaProps);
+      username =
+        UtilRenderer.getUsernameFromMetaProps(metaProps);
 
       time = UtilRenderer.getChatMessageTimeString(
         m.messageTime
@@ -718,7 +747,6 @@ export default class ActiveCircuit extends Component {
     }
   }
 
-
   /**
    * Add a new feed events array which is used to generate the list of
    * feed events in the gui which displays all of the chat messages
@@ -749,7 +777,7 @@ export default class ActiveCircuit extends Component {
         name: username,
         time: time,
         text: [text],
-        isStatusEvent: isStatusEvent
+        isStatusEvent: isStatusEvent,
       };
     }
 

@@ -1,4 +1,4 @@
-const {app, session} = require("electron"),
+const { app, session } = require("electron"),
   chalk = require("chalk"),
   log = require("electron-log"),
   isDev = require("electron-is-dev"),
@@ -20,7 +20,7 @@ const {app, session} = require("electron"),
   FervieManager = require("../managers/FervieManager"),
   TerminalManager = require("../managers/TerminalManager"),
   ChartManager = require("../managers/ChartManager"),
-  {EventManager} = require("../events/EventManager"),
+  { EventManager } = require("../events/EventManager"),
   EventFactory = require("../events/EventFactory"),
   {
     ShortcutManager,
@@ -35,17 +35,17 @@ const {app, session} = require("electron"),
   AppBanner = [
     "                                                                                               ",
     "      .*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.\n" +
-    "      :    ____________ _______       _______________ ____        ____          /         :\n" +
-    "      :   |       _____|       |     |               |    |  __  |    |      /\\/          :\n" +
-    "      :   |       __|  |       |_____|       |       |     \\/  \\/     |     /             :\n" +
-    "      :   |______|_____|_____________|_______________|________________|_________________  :\n" +
-    "      :          |     |        |    |   _______|    |      ___|      |     |           | :\n" +
-    "      :          |     |     |       |_______   |    |     |_+-|            |_         _| :\n" +
-    "      :       /  |_____|_____|_______|__________|____|_________|______|_____| |_______|   :\n" +
-    "      :    /\\/                                                                            :\n" +
-    "      :   /                              T W I L I G H T  C I T Y , I N C  © 2 0 2 1      :\n" +
-    "      :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:" +
-    "                                                                                               \n",
+      "      :    ____________ _______       _______________ ____        ____          /         :\n" +
+      "      :   |       _____|       |     |               |    |  __  |    |      /\\/          :\n" +
+      "      :   |       __|  |       |_____|       |       |     \\/  \\/     |     /             :\n" +
+      "      :   |______|_____|_____________|_______________|________________|_________________  :\n" +
+      "      :          |     |        |    |   _______|    |      ___|      |     |           | :\n" +
+      "      :          |     |     |       |_______   |    |     |_+-|            |_         _| :\n" +
+      "      :       /  |_____|_____|_______|__________|____|_________|______|_____| |_______|   :\n" +
+      "      :    /\\/                                                                            :\n" +
+      "      :   /                              T W I L I G H T  C I T Y , I N C  © 2 0 2 1      :\n" +
+      "      :.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.*.:" +
+      "                                                                                               \n",
   ];
 
 const {
@@ -119,9 +119,9 @@ module.exports = class App {
 
     log.info(
       "[App] ready -> " +
-      global.App.name +
-      " : " +
-      global.App.api
+        global.App.name +
+        " : " +
+        global.App.api
     );
     log.info("[App] ready -> talk : " + global.App.talkUrl);
     log.info(
@@ -185,9 +185,9 @@ module.exports = class App {
   onSingleInstance(commandLine, workingDirectory) {
     log.warn(
       "[App] second instance detected -> " +
-      workingDirectory +
-      " => " +
-      commandLine
+        workingDirectory +
+        " => " +
+        commandLine
     );
   }
 
@@ -210,7 +210,7 @@ module.exports = class App {
    */
   onWindowAllClosed(event) {
     log.info("[App] app windows all closed");
-    global.App.onWillQuit(event)
+    global.App.onWillQuit(event);
   }
 
   /**
@@ -242,9 +242,8 @@ module.exports = class App {
         }, 10000);
       }
     } catch (error) {
-      log.error("Error: "+error);
+      log.error("Error: " + error);
     }
-
   }
 
   /**

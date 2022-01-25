@@ -37,7 +37,7 @@ class MainEvent {
     try {
       result = EventManager.dispatch(this.type, arg);
     } catch (error) {
-      log.error("Error: "+error);
+      log.error("Error: " + error);
     }
     return result;
   }

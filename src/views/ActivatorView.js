@@ -331,10 +331,11 @@ export default class ActivatorView extends Component {
             collaborative learning software ("FlowInsight").
           </p>
           <p>
-            By installing, enabling or using FlowInsight, Licensee
-            agrees with all the terms of this Agreement.
-            Licensor reserves all rights not specifically
-            granted and transferred to Licensee.
+            By installing, enabling or using FlowInsight,
+            Licensee agrees with all the terms of this
+            Agreement. Licensor reserves all rights not
+            specifically granted and transferred to
+            Licensee.
           </p>
           <p>
             Licensee understands, acknowledges and agrees
@@ -343,22 +344,23 @@ export default class ActivatorView extends Component {
           <ul>
             <li>
               Licensor grants Licensee a non-exclusive and
-              non-transferable license to use FlowInsight for
-              non-commercial purposes only. Licensee
-              therefore does not own FlowInsight, Licensor remains
-              the owner of FlowInsight.
+              non-transferable license to use FlowInsight
+              for non-commercial purposes only. Licensee
+              therefore does not own FlowInsight, Licensor
+              remains the owner of FlowInsight.
             </li>
             <li>
-              Licensor provides FlowInsight on an "as is" basis
-              without warranty of any kind. Licensor neither
-              guarantees the correct, error-free functioning
-              of TC nor is Licensor responsible for any
-              damage caused by the use of FlowInsight.
+              Licensor provides FlowInsight on an "as is"
+              basis without warranty of any kind. Licensor
+              neither guarantees the correct, error-free
+              functioning of TC nor is Licensor responsible
+              for any damage caused by the use of
+              FlowInsight.
             </li>
             <li>
               Licensee may not decompile, disassemble,
-              reverse-engineer, modify or redistribute FlowInsight in
-              any way.
+              reverse-engineer, modify or redistribute
+              FlowInsight in any way.
             </li>
             <li>
               TC will automatically, without notice to
@@ -375,11 +377,11 @@ export default class ActivatorView extends Component {
             </li>
             <li>
               Licensor values Licensee's privacy and does
-              its utmost to protect it at all times. FlowInsight does
-              not report any personally identifiable
-              information or personal data except for any
-              information/data specifically mentioned
-              herein.
+              its utmost to protect it at all times.
+              FlowInsight does not report any personally
+              identifiable information or personal data
+              except for any information/data specifically
+              mentioned herein.
             </li>
             <li>
               Licensor stores all information collected by

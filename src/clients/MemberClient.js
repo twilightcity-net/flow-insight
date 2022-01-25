@@ -137,7 +137,7 @@ export class MemberClient extends BaseClient {
   /**
    * Force refresh of me object that happens on disconnect and refresh
    */
-  onMeRefresh () {
+  onMeRefresh() {
     MemberClient.getMe(this, (arg) => {
       MemberClient.me = arg.data;
     });

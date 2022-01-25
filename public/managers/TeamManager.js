@@ -28,7 +28,6 @@ module.exports = class TeamManager {
     );
   }
 
-
   /**
    * handles our callback in response from our controller event processing
    * @param callback

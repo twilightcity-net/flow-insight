@@ -4,7 +4,8 @@ import {
   Image,
   Input,
   Menu,
-  Segment, TextArea,
+  Segment,
+  TextArea,
 } from "semantic-ui-react";
 
 /**
@@ -24,10 +25,9 @@ export default class ActiveRetroChat extends Component {
     this.isMouseDown = false;
     this.isEnterKeyPressed = false;
     this.state = {
-      chatValue: ""
-    }
+      chatValue: "",
+    };
   }
-
 
   /**
    * functional handler which focuses our input field
@@ -53,8 +53,6 @@ export default class ActiveRetroChat extends Component {
     }
   };
 
-
-
   /**
    * handles our key press for when we use the enter or return keys. check out
    * text input for sql injection or if null or non characters. This sets a
@@ -63,7 +61,7 @@ export default class ActiveRetroChat extends Component {
    */
   handleEnterKey = () => {
     let text = this.state.chatValue;
-    console.log("text = "+text);
+    console.log("text = " + text);
 
     if (text === "" || this.isEnterKeyPressed) {
       return false;
@@ -72,7 +70,7 @@ export default class ActiveRetroChat extends Component {
     this.isEnterKeyPressed = true;
 
     this.setState({
-      chatValue: ""
+      chatValue: "",
     });
 
     this.props.onEnterKey(
@@ -80,7 +78,6 @@ export default class ActiveRetroChat extends Component {
       this.delegateEnterKeyCallback
     );
   };
-
 
   /**
    * called when gridtime has sent the talk message from pressing enter.
@@ -128,7 +125,6 @@ export default class ActiveRetroChat extends Component {
   handleOnMouseUp = () => {
     this.isMouseDown = false;
   };
-
 
   /**
    * When chat text is changed, update the state value

@@ -23,7 +23,9 @@ module.exports = class TalkManager {
         this.socket = null;
       }
     } catch (error) {
-      log.error("Error while disconnecting from talk: "+error);
+      log.error(
+        "Error while disconnecting from talk: " + error
+      );
     }
   }
 
@@ -69,7 +71,8 @@ module.exports = class TalkManager {
   getConnectionUrl() {
     return (
       global.App.talkUrl +
-      "?connectionId=" + global.App.connectionStatus.connectionId
+      "?connectionId=" +
+      global.App.connectionStatus.connectionId
     );
   }
 

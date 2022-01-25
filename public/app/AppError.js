@@ -31,7 +31,9 @@ module.exports = class AppError extends Error {
       if (global.App) {
         if (stacetrace) {
           log.error(
-            chalk.red((fatal ? "[FATAL] " : "") + "[App] ") +
+            chalk.red(
+              (fatal ? "[FATAL] " : "") + "[App] "
+            ) +
               error.toString() +
               "\n\n" +
               error.stack +
@@ -39,7 +41,9 @@ module.exports = class AppError extends Error {
           );
         } else {
           log.error(
-            chalk.red((fatal ? "[FATAL] " : "") + "[App] ") +
+            chalk.red(
+              (fatal ? "[FATAL] " : "") + "[App] "
+            ) +
               error.toString() +
               "\n\n" +
               error.stack +
@@ -69,9 +73,8 @@ module.exports = class AppError extends Error {
         );
       }
     } catch (error) {
-      log.error("Error processing error: "+error);
+      log.error("Error processing error: " + error);
     }
-
   }
 
   /*

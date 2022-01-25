@@ -110,21 +110,23 @@ module.exports = class TalkController extends (
       this
     );
 
-    this.circuitDataRefreshNotifier = EventFactory.createEvent(
-      EventFactory.Types.CIRCUIT_DATA_REFRESH,
-      this
-    );
+    this.circuitDataRefreshNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.CIRCUIT_DATA_REFRESH,
+        this
+      );
 
-    this.journalDataRefreshNotifier = EventFactory.createEvent(
-      EventFactory.Types.JOURNAL_DATA_REFRESH,
-      this
-    );
+    this.journalDataRefreshNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.JOURNAL_DATA_REFRESH,
+        this
+      );
 
-    this.dictionaryDataRefreshNotifier = EventFactory.createEvent(
-      EventFactory.Types.DICTIONARY_DATA_REFRESH,
-      this
-    );
-
+    this.dictionaryDataRefreshNotifier =
+      EventFactory.createEvent(
+        EventFactory.Types.DICTIONARY_DATA_REFRESH,
+        this
+      );
   }
 
   /**
@@ -293,11 +295,15 @@ module.exports = class TalkController extends (
    * not connected, then we should try to reconnect back to talk.
    */
   onAppHeartbeat(event, dto) {
-    log.info("HEARTBEAT "+JSON.stringify(dto));
+    log.info("HEARTBEAT " + JSON.stringify(dto));
 
     let socket = global.App.TalkManager.socket;
 
-    if (socket && ((!socket.connected && dto.status === "SUCCESS") || dto.status === "REFRESH")) {
+    if (
+      socket &&
+      ((!socket.connected && dto.status === "SUCCESS") ||
+        dto.status === "REFRESH")
+    ) {
       this.refreshDataFromScratch();
       this.reconnectToTalk(socket);
     } else if (dto.status === "FAILED") {
@@ -312,7 +318,7 @@ module.exports = class TalkController extends (
     if (!socket.connected) {
       log.info(
         chalk.yellowBright("[AppHeartbeat]") +
-        " reconnecting to Talk..."
+          " reconnecting to Talk..."
       );
       socket.open();
     }
@@ -324,18 +330,18 @@ module.exports = class TalkController extends (
     AppLogin.doLogin(() => {
       log.info(
         chalk.greenBright("[TalkManager]") +
-        " Re-logged in to reset all connections..."
+          " Re-logged in to reset all connections..."
       );
       let dto = AppLogin.getConnectionStatus();
-       if (dto.status === "ERROR") {
-         global.App.isOnline = false;
-         global.App.isLoggedIn = false;
-       } else {
-         global.App.isOnline = true;
-         global.App.isLoggedIn = true;
-         global.App.connectionStatus = dto;
-         global.App.TalkManager.createConnection();
-       }
+      if (dto.status === "ERROR") {
+        global.App.isOnline = false;
+        global.App.isLoggedIn = false;
+      } else {
+        global.App.isOnline = true;
+        global.App.isLoggedIn = true;
+        global.App.connectionStatus = dto;
+        global.App.TalkManager.createConnection();
+      }
     });
   }
 
@@ -431,12 +437,21 @@ module.exports = class TalkController extends (
         teamDatabase.updateTeamMemberInTeams(message.data);
         break;
       case TalkController.MessageTypes.TEAM_MEMBER_ADDED:
-        memberDatabase.updateMemberInMembers(message.data.teamMemberDto);
-        teamDatabase.addTeamMemberInTeamsIfMissing(message.data);
+        memberDatabase.updateMemberInMembers(
+          message.data.teamMemberDto
+        );
+        teamDatabase.addTeamMemberInTeamsIfMissing(
+          message.data
+        );
         break;
       case TalkController.MessageTypes.TEAM_MEMBER_REMOVED:
-        let isMe = memberDatabase.isMe(message.data.memberId);
-        teamDatabase.removeTeamMemberFromTeams(isMe, message.data);
+        let isMe = memberDatabase.isMe(
+          message.data.memberId
+        );
+        teamDatabase.removeTeamMemberFromTeams(
+          isMe,
+          message.data
+        );
         break;
       case TalkController.MessageTypes.XP_STATUS_UPDATE:
         memberDatabase.updateXPStatusByTeamMemberId(
@@ -467,7 +482,8 @@ module.exports = class TalkController extends (
               circuitDatabase.setActiveCircuit(circuit);
             }
             break;
-          case TalkController.StatusTypes.TEAM_WTF_THRESHOLD:
+          case TalkController.StatusTypes
+            .TEAM_WTF_THRESHOLD:
             break;
           case TalkController.StatusTypes.TEAM_WTF_UPDATED:
             circuitDatabase.updateCircuitForDescription(
@@ -636,7 +652,8 @@ module.exports = class TalkController extends (
           )
         );
         break;
-      case TalkController.CircuitMemberStatus.CIRCUIT_MEMBER_LEAVE:
+      case TalkController.CircuitMemberStatus
+        .CIRCUIT_MEMBER_LEAVE:
         circuitDatabase.updateCircuitMembersInCollection(
           message.uri,
           circuitMembers,

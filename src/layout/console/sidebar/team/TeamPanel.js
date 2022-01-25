@@ -60,7 +60,6 @@ export default class TeamPanel extends Component {
         this,
         this.onTeamDataRefresh
       );
-
   }
 
   /**
@@ -78,28 +77,42 @@ export default class TeamPanel extends Component {
 
     if (mType === BaseClient.MessageTypes.TEAM_MEMBER) {
       for (let i = 0; i < teams.length; i++) {
-        teams[i].teamMembers = this.updateTeamMembers(teams[i].teamMembers, data);
+        teams[i].teamMembers = this.updateTeamMembers(
+          teams[i].teamMembers,
+          data
+        );
       }
       this.setState({
         teams: teams,
       });
-    } else if (mType === BaseClient.MessageTypes.TEAM_MEMBER_ADDED) {
-       for (let i = 0;i < teams.length; i++) {
-         if (teams[i].id === data.teamId) {
-           teams[i].teamMembers = this.addTeamMemberToList(teams[i].teamMembers, data);
-           break;
-         }
-       }
+    } else if (
+      mType === BaseClient.MessageTypes.TEAM_MEMBER_ADDED
+    ) {
+      for (let i = 0; i < teams.length; i++) {
+        if (teams[i].id === data.teamId) {
+          teams[i].teamMembers = this.addTeamMemberToList(
+            teams[i].teamMembers,
+            data
+          );
+          break;
+        }
+      }
       this.setState({
         teams: teams,
       });
-    } else if (mType === BaseClient.MessageTypes.TEAM_MEMBER_REMOVED) {
-      for (let i = 0;i < teams.length; i++) {
+    } else if (
+      mType === BaseClient.MessageTypes.TEAM_MEMBER_REMOVED
+    ) {
+      for (let i = 0; i < teams.length; i++) {
         if (teams[i].id === data.teamId) {
           if (data.memberId === MemberClient.me.id) {
             this.refreshTeamPanel();
           } else {
-            teams[i].teamMembers = this.removeTeamMemberFromList(teams[i].teamMembers, data);
+            teams[i].teamMembers =
+              this.removeTeamMemberFromList(
+                teams[i].teamMembers,
+                data
+              );
             this.setState({
               teams: teams,
             });
@@ -108,11 +121,8 @@ export default class TeamPanel extends Component {
           break;
         }
       }
-
     }
   };
-
-
 
   /**
    * updates our team members list by adding a new member that just joined
@@ -133,16 +143,20 @@ export default class TeamPanel extends Component {
    * @param teamMemberAddedDto
    * @returns {*}
    */
-  removeTeamMemberFromList(teamMembers, teamMemberRemovedDto) {
+  removeTeamMemberFromList(
+    teamMembers,
+    teamMemberRemovedDto
+  ) {
     for (let i = 0; i < teamMembers.length; i++) {
-      if (teamMembers[i].id === teamMemberRemovedDto.memberId) {
+      if (
+        teamMembers[i].id === teamMemberRemovedDto.memberId
+      ) {
         teamMembers.splice(i, 1);
       }
     }
 
     return teamMembers;
   }
-
 
   /**
    * updates our team members with our components state so that the tiny red light
@@ -158,10 +172,14 @@ export default class TeamPanel extends Component {
 
     for (let i = 0; i < teamMembers.length; i++) {
       if (teamMembers[i].id === teamMember.id) {
-
-        if ((teamMembers[i].onlineStatus !== teamMember.onlineStatus) ||
-          (teamMembers[i].activeCircuit === null && teamMember.activeCircuit !== null) ||
-          (teamMembers[i].activeCircuit !== null && teamMember.activeCircuit === null)) {
+        if (
+          teamMembers[i].onlineStatus !==
+            teamMember.onlineStatus ||
+          (teamMembers[i].activeCircuit === null &&
+            teamMember.activeCircuit !== null) ||
+          (teamMembers[i].activeCircuit !== null &&
+            teamMember.activeCircuit === null)
+        ) {
           //online/offline or alarm status change
           statusChange = true;
         }
@@ -188,7 +206,7 @@ export default class TeamPanel extends Component {
 
     let team = teamMembers.sort((a, b) => {
       let aIsOnline = UtilRenderer.isMemberOnline(a);
-      let bIsOnline = UtilRenderer.isMemberOnline(b)
+      let bIsOnline = UtilRenderer.isMemberOnline(b);
 
       if (a.id === myId && b.id !== myId) {
         return -1;
@@ -196,7 +214,7 @@ export default class TeamPanel extends Component {
         return 1;
       }
 
-      if ( aIsOnline && !bIsOnline) {
+      if (aIsOnline && !bIsOnline) {
         return -1;
       } else if (bIsOnline && !aIsOnline) {
         return 1;
@@ -209,7 +227,7 @@ export default class TeamPanel extends Component {
         if (a.activeCircuit && b.activeCircuit) {
           let aIsHelping = UtilRenderer.isMemberHelping(a);
           let bIsHelping = UtilRenderer.isMemberHelping(b);
-          if ( !aIsHelping && bIsHelping) {
+          if (!aIsHelping && bIsHelping) {
             return -1;
           } else if (aIsHelping && !bIsHelping) {
             return 1;
@@ -281,7 +299,9 @@ export default class TeamPanel extends Component {
 
   sortAllTeams(teams) {
     for (let i = 0; i < teams.length; i++) {
-      teams[i].teamMembers = this.sortTeamMembers(teams[i].teamMembers);
+      teams[i].teamMembers = this.sortTeamMembers(
+        teams[i].teamMembers
+      );
     }
     return teams;
   }

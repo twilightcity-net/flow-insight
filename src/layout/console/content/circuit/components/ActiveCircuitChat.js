@@ -4,7 +4,8 @@ import {
   Image,
   Input,
   Menu,
-  Segment, TextArea,
+  Segment,
+  TextArea,
 } from "semantic-ui-react";
 
 /**
@@ -25,10 +26,9 @@ export default class ActiveCircuitChat extends Component {
     this.isMouseDown = false;
     this.isEnterKeyPressed = false;
     this.state = {
-      chatValue: ""
-    }
+      chatValue: "",
+    };
   }
-
 
   /**
    * functional handler which focuses our input field
@@ -62,7 +62,7 @@ export default class ActiveCircuitChat extends Component {
    */
   handleEnterKey = () => {
     let text = this.state.chatValue;
-    console.log("text = "+text);
+    console.log("text = " + text);
 
     if (text === "" || this.isEnterKeyPressed) {
       return false;
@@ -71,7 +71,7 @@ export default class ActiveCircuitChat extends Component {
     this.isEnterKeyPressed = true;
 
     this.setState({
-      chatValue: ""
+      chatValue: "",
     });
 
     this.props.onEnterKey(

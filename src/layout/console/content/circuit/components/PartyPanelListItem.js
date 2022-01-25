@@ -44,7 +44,10 @@ export default class PartyPanelListItem extends Component {
     let name = "circle outline",
       color = "grey";
 
-    if (this.props.isMe || UtilRenderer.isMemberOnline(this.props.model)) {
+    if (
+      this.props.isMe ||
+      UtilRenderer.isMemberOnline(this.props.model)
+    ) {
       name = "circle";
       color = "green";
     }

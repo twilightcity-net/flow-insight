@@ -39,7 +39,7 @@ export default class ActiveCircuitFeedEvent extends Component {
     if (this.props.isStatusEvent) {
       return (
         <Feed.Event className="statusUpdate">
-            {this.getFeedExtraTextsContent()}
+          {this.getFeedExtraTextsContent()}
         </Feed.Event>
       );
     } else {

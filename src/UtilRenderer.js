@@ -1,7 +1,6 @@
 import { BrowserRequestFactory } from "./controllers/BrowserRequestFactory";
 import { BaseClient } from "./clients/BaseClient";
 import moment from "moment";
-import randomQuotes from "random-quotes";
 
 export default class UtilRenderer {
   /**
@@ -60,16 +59,6 @@ export default class UtilRenderer {
       Object.keys(obj).length === 0 &&
       obj.constructor === Object
     );
-  }
-
-  /**
-   * gets a static string of a random quote used for placeholder default
-   * text in the gui.
-   * @returns {string} - the formatted string with the quote body and author
-   */
-  static getRandomQuoteText() {
-    let quote = randomQuotes();
-    return '"' + quote.body + '" ~' + quote.author;
   }
 
   /**
@@ -723,7 +712,6 @@ export default class UtilRenderer {
     }
     return false;
   }
-
 
   /**
    * renders our username from the talk message's meta-prop which contains
