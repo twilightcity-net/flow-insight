@@ -22,12 +22,13 @@ module.exports = class ChartController extends (
 
   /**
    * general enum list of all of our possible circuit events for chart requests
-   * @returns {{CHART_WTF: string}}
+   * @returns {{CHART_WTF: string, CHART_TASK: string}}
    * @constructor
    */
   static get Events() {
     return {
       CHART_WTF: "chart-wtf",
+      CHART_TASK: "chart-task"
     };
   }
 
@@ -73,6 +74,9 @@ module.exports = class ChartController extends (
         case ChartController.Events.CHART_WTF:
           this.handleChartWTFEvent(event, arg);
           break;
+        case ChartController.Events.CHART_TASK:
+          this.handleChartTaskEvent(event, arg);
+          break;
         default:
           throw new Error(
             "Unknown chart client event type '" +
@@ -81,6 +85,49 @@ module.exports = class ChartController extends (
           );
       }
     }
+  }
+
+
+  /**
+   * client event handler for charting a task
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTaskEvent(event, arg, callback) {
+    let projectName = arg.args.projectName,
+      taskName = arg.args.taskName,
+      bucket = arg.args.bucket,
+      urn =
+        ChartController.Paths.CHART +
+        ChartController.Paths.FRICTION +
+        ChartController.Paths.PROJECT +
+        ChartController.Paths.SEPARATOR +
+        projectName +
+        ChartController.Paths.TASK +
+        ChartController.Paths.SEPARATOR +
+        taskName;
+
+
+    if (bucket) {
+      urn +=
+        "?bucket_size=" + bucket;
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TASK,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.delegateChartTaskCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
   }
 
   /**
@@ -103,9 +150,6 @@ module.exports = class ChartController extends (
       "&bucket_size=" +
       bucket;
 
-    //the circuit path, and bucket are query params... so I need to actually append them to the path,
-    //and then pass in blank {}?  Should look at another GET query... yeah looks like thats how it works
-
     this.doClientRequest(
       ChartController.Contexts.CHART_CLIENT,
       {},
@@ -119,6 +163,29 @@ module.exports = class ChartController extends (
           arg,
           callback
         )
+    );
+  }
+
+
+  /**
+   * callback delegator which processes our return from the dto
+   * request to gridtime
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateChartTaskCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
     );
   }
 

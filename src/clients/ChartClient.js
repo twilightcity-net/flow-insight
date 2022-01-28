@@ -32,12 +32,13 @@ export class ChartClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{CHART_WTF: string}}
+   * @returns {{CHART_WTF: string, CHART_TASK: string}}
    * @constructor
    */
   static get Events() {
     return {
       CHART_WTF: "chart-wtf",
+      CHART_TASK: "chart-task"
     };
   }
 
@@ -49,6 +50,33 @@ export class ChartClient extends BaseClient {
     if (!ChartClient.instance) {
       ChartClient.instance = new ChartClient(scope);
     }
+  }
+
+
+  /**
+   * Chart friction for a specific project/task at a specific bucket resolution
+   * Will default to twenties if no bucket is provided
+   * @param projectName
+   * @param taskName
+   * @param bucket (optional)
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartFrictionForTask(projectName, taskName, bucket, scope, callback) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TASK,
+      {
+        projectName: projectName,
+        taskName: taskName,
+        bucket: bucket,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
   }
 
   /**

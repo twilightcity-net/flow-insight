@@ -199,6 +199,7 @@ module.exports = class BaseController {
       SAVE_CIRCUIT_TAGS: "saveCircuitTags",
       GET_TEAM_DICTIONARY: "getTeamDictionary",
       CHART_WTF: "chartWTF",
+      CHART_TASK: "chartTask",
       CREATE_TERMINAL_SESSION: "createTerminalSession",
       RUN_TERMINAL_COMMAND: "runTerminalCommand",
       GET_TERMINAL_COMMAND_MANUAL:

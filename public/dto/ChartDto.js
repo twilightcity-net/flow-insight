@@ -24,6 +24,7 @@ module.exports = class ChartDto {
 
       this.chartSeries = json.chartSeries;
       this.eventSeriesByType = json.eventSeriesByType;
+      this.featureSeriesByType = json.featureSeriesByType;
       this.featureSetsByType = json.featureSetsByType;
     } catch (e) {
       throw new Error(

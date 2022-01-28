@@ -58,11 +58,12 @@ export class DimensionController {
       header: 51,
       content: 0,
     };
+    let addressBar = document.querySelector('#component.browserHeader');
     return (
       window.innerHeight -
       heights.border -
       heights.padding -
-      heights.content
+      addressBar.clientHeight
     );
   }
 
@@ -412,6 +413,33 @@ export class DimensionController {
       rootBorder: 2,
     };
     return window.innerHeight - heights.rootBorder;
+  }
+
+  /**
+   * Get the width of a full panel on the right hand side, without the right side popup window
+   */
+  static getFullRightPanelWidth() {
+    let browserHeader = document.querySelector('#component.browserHeader');
+
+    return (
+      browserHeader.clientWidth
+    );
+  }
+
+  /**
+   * Get the height of a full panel on the right hand side, with the address bar in place
+   */
+  static getFullRightPanelHeight() {
+    let addressbar = document.querySelector('#component.browserHeader');
+    let padding = 8 * 2;
+
+    console.log("height = "+window.innerHeight);
+    console.log("addressbar =" +addressbar.clientHeight);
+    console.log("padding = "+padding);
+
+    return (
+      window.innerHeight - addressbar.clientHeight - padding
+    );
   }
 
   /**

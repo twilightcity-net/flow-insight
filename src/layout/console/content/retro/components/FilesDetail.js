@@ -18,7 +18,7 @@ export default class FilesDetail extends Component {
   static circuitContentFeedPanelID = "pastContentFeedPanel";
 
   /**
-   * builds the active circuit feed component which is used by the circuit resource
+   * builds the file details component
    * @param props
    */
   constructor(props) {
@@ -86,7 +86,7 @@ export default class FilesDetail extends Component {
   };
 
   /**
-   * renders the active circuit feed into the console view
+   * renders the metrics slide out panel for files
    * @returns {*}
    */
   render() {

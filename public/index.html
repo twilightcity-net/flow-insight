@@ -2328,8 +2328,235 @@
        */
   #component.flowContent {
     color: white;
-    padding: 0.420rem;
   }
+
+  #component.flowContent .flowContentWrapper {
+    background-color: rgba(27, 28, 29, 0.96);
+    border-radius: 5px;
+    margin-top: 2px;
+    height: 99.5%;
+  }
+
+  #component.flowContent #chart {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #component.flowContent #chart .axisLabel {
+    fill: rgba(100, 100, 100, 0.96);
+    font: sans-serif;
+    font-size: 12px;
+  }
+
+  /* The flow chart popup */
+  #component.flowContent .chartpopup, #component.flowContent .popupleft, #component.flowContent .popupright{
+    visibility: visible;
+    background-color: rgba(27, 28, 29, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    border-radius: 6px;
+
+    position: absolute;
+    z-index: 1;
+    opacity: 0;
+  }
+
+  /* Popup arrow in the center */
+  #component.flowContent .chartpopup::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 50%; /* the anchor position of the tooltip arrow */
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent rgba(27, 28, 29, 0.96) transparent;
+  }
+
+  /* Popup arrow for aligning left */
+  #component.flowContent .popupleft::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 20%; /* the anchor position of the tooltip arrow */
+    margin-left: -10px;
+    border-width: 10px;
+    border-style: solid;
+    border-color: transparent transparent rgba(27, 28, 29, 0.96) transparent;
+  }
+
+  /* Popup arrow for aligning right */
+  #component.flowContent .popupright::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;
+    left: 95%; /* the anchor position of the tooltip arrow */
+    margin-left: -7px;
+    border-width: 7px;
+    border-style: solid;
+    border-color: transparent transparent rgba(27, 28, 29, 0.96) transparent;
+  }
+
+  #component.flowContent .noactivity {
+    color:  rgba(100, 100, 100, 0.96);
+    font-style: italic;
+  }
+
+  #component.flowContent .modifiedfile {
+    color:  rgba(150, 123, 255, 1);
+    font-style: italic;
+    text-align: left;
+  }
+
+  #component.flowContent .databreak {
+    color:  rgba(130, 130, 130, 0.96);
+    font-style: italic;
+  }
+
+  #component.flowContent .file {
+    color: #fff;
+    text-align: left;
+    font-size: 0.9rem;
+  }
+
+  #component.flowContent .filename {
+    padding-right: 20px;
+  }
+
+  #component.flowContent .process {
+    padding-right: 20px;
+  }
+
+  #component.flowContent .wtftip {
+    color: rgba(180, 0, 0, 0.96);
+    text-align: left;
+  }
+
+  #component.flowContent .exectip {
+    text-align: left;
+  }
+
+  #component.flowContent .haystack {
+    font-style: italic;
+    float:right;
+  }
+
+  #component.flowContent .pass {
+    color: rgba(27, 175, 26, 0.96);
+  }
+
+  #component.flowContent .fail {
+    color: red;
+  }
+
+  #component.flowContent .wtfdescription {
+    max-width: 260px;
+    text-align: left;
+    color: rgba(180, 0, 0, 0.96);
+  }
+
+  #component.flowContent .circuitName {
+    text-decoration: underline;
+    cursor: pointer !important;
+    padding-right: 20px;
+  }
+
+  #component.flowContent .circuitName:hover {
+    color: red;
+  }
+
+  #component.flowContent .duration {
+    font-style: normal;
+    float:right;
+    font-size: 1rem;
+  }
+
+
+
+
+  #component.intentionsList {
+    margin-left: 30px;
+    margin-right: 30px;
+    height: 160px;
+    border: 2px solid rgba(40, 40, 40, 0.96);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  #component.intentionsList .scrolling {
+    height: 120px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+
+  #component.intentionsList .scrolling::-webkit-scrollbar {
+    display: none;
+  }
+
+  #component.intentionsHeader {
+    margin-left: 30px;
+    height: 15px;
+    width: 60%;
+  }
+
+
+
+  #component.intentionsList .ui.grid {
+    margin: 0 0;
+
+  }
+
+  #component.intentionsList .ui.grid>.row.intentionHeaderRow {
+    transition: background 0.6s ease-out;
+    border-bottom: 1px solid rgba(70, 70, 70, 0.96);
+  }
+
+  #component.intentionsList .ui.grid>.row {
+    transition: background 0.6s ease-out;
+    padding: 6px;
+    border-bottom: 1px solid rgba(27, 28, 29, 0.96);
+  }
+
+  #component.intentionsList .ui.grid>.row.intentionRow:hover {
+    background: rgba(40, 40, 40, 0.96);
+  }
+
+  #component.intentionsList .ui.grid>.row .column:first-child {
+    padding-left: 0;
+    left: 14px;
+  }
+
+  #component.intentionsList .ui.grid>.row .column:nth-child(2) {
+    padding-left: 0;
+    left: 10px;
+  }
+
+  #component.intentionsList .ui.grid>.row .column:last-child {
+    padding-right: 0;
+  }
+
+  #component.intentionsList .ui.grid .row .chunkTitle {
+    font-weight: 800;
+    color: #cccccc;
+    font-style: italic;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #component.intentionsList .ui.grid .row .chunkText {
+    font-weight: 400;
+    color: #cccccc;
+    padding-right: 20px;
+  }
+
+  #component.intentionsList .ui.celled.grid>.row>.column {
+    padding: 8px;
+  }
+
 
   /*
        * COMPONENT: FLOW-HEADER

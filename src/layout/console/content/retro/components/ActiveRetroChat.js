@@ -2,7 +2,6 @@ import React, { Component, createRef } from "react";
 import {
   Icon,
   Image,
-  Input,
   Menu,
   Segment,
   TextArea,
