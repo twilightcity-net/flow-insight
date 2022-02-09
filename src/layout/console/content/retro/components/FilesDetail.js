@@ -58,23 +58,29 @@ export default class FilesDetail extends Component {
       ];
 
     return (
-      <Grid id="metrics-row-grid" inverted columns={16}>
-        <FileMetricsHeader />
-        {fileData.rowsOfPaddedCells.map((row, i) => {
-          let box = row[0].trim();
-          let filePath = row[1].trim();
-          let duration = row[2].trim();
+      <div id="component" className="metricsPanel">
+        <Grid id="metrics-row-grid" inverted columns={16}>
+          <FileMetricsHeader/>
+        </Grid>
+        <div className="scrolling" style={{maxHeight: (DimensionController.getActiveCircuitContentHeight() - 90)+"px"}}>
+          <Grid id="metrics-row-grid" className="rows" inverted columns={16}>
+            {fileData.rowsOfPaddedCells.map((row, i) => {
+              let box = row[0].trim();
+              let filePath = row[1].trim();
+              let duration = row[2].trim();
 
-          return (
-            <FileMetricsRow
-              key={i}
-              box={box}
-              filePath={filePath}
-              duration={duration}
-            />
-          );
-        })}
-      </Grid>
+              return (
+                <FileMetricsRow
+                  key={i}
+                  box={box}
+                  filePath={filePath}
+                  duration={duration}
+                />
+              );
+            })}
+          </Grid>
+        </div>
+      </div>
     );
   }
 
@@ -104,10 +110,11 @@ export default class FilesDetail extends Component {
               onClick={this.handleClick}
             />
           </Menu>
-          <div id="component" className="metricsFilePanel">
-            {this.getMetricsDetailContent()}
-          </div>
+          {this.getMetricsDetailContent()}
+
         </Segment>
+
+
       </div>
     );
   }

@@ -18,8 +18,6 @@ export default class FlowChart extends Component {
   }
 
   static CONFUSION = "confusion";
-  static LEARNING = "learning";
-  static PROGRESS = "progress";
   static MOMENTUM = "momentum";
 
   static GREEN_TEST_COLOR = "green";
