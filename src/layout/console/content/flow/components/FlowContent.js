@@ -4,7 +4,7 @@ import FlowIntentionsList from "./FlowIntentionsList";
 import FlowChart from "./FlowChart";
 import {ChartClient} from "../../../../../clients/ChartClient";
 /**
- * this component is the tab panel wrapper for the console content
+ * this component handles the main flow content for the /flow view
  */
 export default class FlowContent extends Component {
   /**
@@ -84,10 +84,5 @@ export default class FlowContent extends Component {
       </div>
     );
   }
-
-  //need to make the whole box fit inside the remaining chart window, so whatever the full space was, minus,
-  //the svg size should have an explicit height here on the section.
-
-  //then the inner section here, should have a fixed height on the inner rows so they scroll
 
 }

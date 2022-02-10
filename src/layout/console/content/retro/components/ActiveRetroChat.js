@@ -243,7 +243,7 @@ export default class ActiveRetroChat extends Component {
             onMouseUp={this.handleOnMouseUp}
           >
             <TextArea
-              id="activeCircuitChatText"
+              id="activeRetroChatInput"
               className="chat-text"
               value={this.state.chatValue}
               ref={this.chatInputRef}

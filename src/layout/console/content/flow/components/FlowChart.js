@@ -23,10 +23,34 @@ export default class FlowChart extends Component {
   static GREEN_TEST_COLOR = "green";
   static RED_TEST_COLOR = "red";
 
+  /**
+   * Initially when we get the first set of props, display our chart.
+   */
+  componentDidMount() {
+    if (this.props.chartDto) {
+      this.displayChart(this.props.chartDto, this.props.selectedWtf);
+    }
+    if (this.props.cursorOffset === null) {
+      this.hideCursor();
+    }
+  }
 
+  /**
+   * If we clicked on another wtf to display a different chart, the chart may need to update.
+   * If we clicked on a different wtf that was in the same task, then the wtf would need to update
+   * but the chart would stay the same.  The cursor position updates also call this, when we're
+   * hovering over different intentions.
+   * @param prevProps
+   * @param prevState
+   * @param snapshot
+   */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!prevProps.chartDto && this.props.chartDto) {
-      this.displayChart(this.props.chartDto);
+
+    if ((!prevProps.chartDto && this.props.chartDto)
+      || (prevProps.chartDto && this.props.chartDto && prevProps.chartDto.featureName !== this.props.chartDto.featureName)) {
+      this.displayChart(this.props.chartDto, this.props.selectedWtf);
+    } else if (this.props.selectedWtf && (!prevProps.selectedWtf || prevProps.selectedWtf.circuitName !== this.props.selectedWtf.circuitName)) {
+      this.redrawArrow(this.props.chartDto, this.props.selectedWtf);
     }
 
     if (this.props.cursorOffset === null) {
@@ -36,31 +60,51 @@ export default class FlowChart extends Component {
     }
   }
 
+  /**
+   * Hide the intention cursor since we're not hovering over an intention
+   */
   hideCursor() {
     let cursorEl = document.getElementById('intention-cursor');
-    cursorEl.style.opacity = 0;
-    cursorEl.style.transform="translate(0px, 0px)";
+    if (cursorEl) {
+      cursorEl.style.opacity = 0;
+      cursorEl.style.transform="translate(0px, 0px)";
+    }
   }
 
+  /**
+   * Move the intention cursor to a specific position in the chart timeline
+   * @param offset
+   */
   moveCursorToPosition(offset) {
     if ( this.xScale) {
       let newPosition = Math.round(this.xScale(offset)) - this.margin;
       let cursorEl = document.getElementById('intention-cursor');
-      cursorEl.style.opacity = 1;
-      cursorEl.style.transform="translate("+newPosition+"px, 0px)";
+      if (cursorEl) {
+        cursorEl.style.opacity = 1;
+        cursorEl.style.transform="translate("+newPosition+"px, 0px)";
+      }
+
     }
   }
 
-  displayChart(chart) {
+  /**
+   * Display the flow chart on the screen, with the selected wtf highlighted with an
+   * arrow.  Repeat calls to this will redraw the whole chart
+   * @param chart
+   * @param selectedWtf
+   */
+  displayChart(chart, selectedWtf) {
     this.margin = 30;
-    let svgHeight = DimensionController.getFullRightPanelHeight() - 180;
+    let svgHeight = DimensionController.getFullRightPanelHeight() - 200;
     this.chartHeight = svgHeight - 2* this.margin;
     this.width = DimensionController.getFullRightPanelWidth();
 
     let data = chart.chartSeries.rowsOfPaddedCells;
 
-    let svg = d3.select('#chart')
-      .append('svg')
+    let chartDiv = document.getElementById("chart");
+    chartDiv.innerHTML = "";
+
+    let svg = d3.select('#chart').append('svg')
       .attr('width', this.width + 'px')
       .attr('height', svgHeight + 'px');
 
@@ -85,6 +129,7 @@ export default class FlowChart extends Component {
       .range(["white", "#9C6EFA", "#7846FB", "#4100cE"]);
 
     let barWidthByCoordsMap = this.createBarWidthByCoordsMap(data, this.xScale);
+    let offsetMap = this.createOffsetMap(data, this.xScale);
     let tileLocationMap = this.createTileLocationDataMap(chart);
     let tileWtfMap = this.createTileWtfDataMap(chart);
     let tileExecMap = this.createTileExecDetailsMap(data, chart);
@@ -105,11 +150,118 @@ export default class FlowChart extends Component {
 
     this.createTimeAxis(chartGroup, xMinMax);
     this.createLegend(svg, chartGroup, interp);
+    this.createTitle(chart, chartGroup);
+
+    this.createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedWtf);
+  }
+
+  /**
+   * If we only need to redraw the wtf arrow and the chart is the same,
+   * can call this alternative top level method to update the display
+   * @param chart
+   * @param selectedWtf
+   */
+  redrawArrow(chart, selectedWtf) {
+    let chartGroup = d3.select('.ifm');
+
+    let data = chart.chartSeries.rowsOfPaddedCells;
+    let barWidthByCoordsMap = this.createBarWidthByCoordsMap(data, this.xScale);
+    let offsetMap = this.createOffsetMap(data, this.xScale);
+
+    this.createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedWtf);
+  }
+
+  /**
+   * Draw the wtf arrow in the location for the wtf
+   * @param chart
+   * @param chartGroup
+   * @param barWidthByCoordsMap
+   * @param offsetMap
+   * @param selectedWtf
+   */
+  createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedWtf) {
+
+    if (!selectedWtf) {
+      return;
+    }
+
+    let wtfData = chart.eventSeriesByType["@flow/wtf"].rowsOfPaddedCells;
+
+    let selectedWtfRow = this.findSelectedWtf(wtfData, selectedWtf);
+    let coords = selectedWtfRow[0].trim();
+
+    let offset = offsetMap[coords];
+    let barWidth = barWidthByCoordsMap[coords];
+    let midpoint = offset + barWidth/2;
+
+    let arrowHeight = 10;
+    let arrowWidth = 20;
+    let arrowBarWidth = 10;
+    let arrowBarHeight = 20;
+    let topMargin = 3;
+
+    let points = (midpoint - arrowWidth/2)+","+(this.chartHeight+topMargin+arrowHeight) +
+      " "+(midpoint) + ","+(this.chartHeight+topMargin) +
+      " "+(midpoint + arrowWidth/2) + ","+(this.chartHeight+topMargin+arrowHeight);
+
+    let arrowGrpEl = document.getElementById('wtfarrow');
+    let arrowGrp;
+    if (arrowGrpEl) {
+      arrowGrpEl.innerHTML = "";
+      arrowGrp = d3.select('#wtfarrow');
+    } else {
+      arrowGrp = chartGroup.append("g")
+        .attr('id', 'wtfarrow');
+    }
+
+    arrowGrp.append('polygon')
+    .attr('points', points)
+    .attr('class', 'arrow')
+
+    arrowGrp.append('rect')
+      .attr('x', midpoint - arrowBarWidth/2)
+      .attr('y', this.chartHeight + topMargin + arrowHeight)
+      .attr('width', arrowBarWidth)
+      .attr('height', arrowBarHeight)
+      .attr('class', 'arrow')
 
   }
 
+  /**
+   * Find the wtf row from the chart data that corresponds to the selected wtf passed in
+   * @param wtfData
+   * @param selectedWtfCircuit
+   * @returns {*}
+   */
+  findSelectedWtf(wtfData, selectedWtfCircuit) {
+    let linkToFind = "/wtf/"+selectedWtfCircuit.circuitName;
+    for (let i = 0; i < wtfData.length; i++) {
+      let circuitLink = wtfData[i][3].trim();
+      if (circuitLink === linkToFind) {
+        return wtfData[i];
+      }
+    }
+    return wtfData[0];
+  }
 
+  createTitle(chart, chartGroup) {
+    let taskName = chart.featureName;
 
+    chartGroup.append('text')
+      .attr('class', 'title')
+      .attr('x', this.margin)
+      .attr('y', this.margin - 8)
+      .attr('text-anchor', 'start')
+      .text('Task: '+taskName);
+  }
+
+  /**
+   * Create the bars on the chart
+   * @param chartGroup
+   * @param data
+   * @param interp
+   * @returns {*}
+   */
   createBars(chartGroup, data, interp) {
     var colorScale = d3.scaleOrdinal()
       .domain([FlowChart.CONFUSION, FlowChart.MOMENTUM])
@@ -163,6 +315,16 @@ export default class FlowChart extends Component {
     return bars;
   }
 
+  /**
+   * Add the tooltips for the bars on the chart, which include the file activity,
+   * and the wtf for the row, or say no activity when there's no file data.
+   * The tooltips will position the #tooltip object, and handle hovers on both the left and right side
+   * @param bars
+   * @param that
+   * @param barWidthByCoordsMap
+   * @param tileLocationMap
+   * @param tileWtfMap
+   */
   addBarActivityTooltip(bars, that, barWidthByCoordsMap, tileLocationMap, tileWtfMap) {
     bars.on('mouseover', function(event, d){
       let html = "";
@@ -192,10 +354,8 @@ export default class FlowChart extends Component {
         html += "<span class='noactivity'>No file activity</span>";
       }
 
-      d3.select('#tooltip')
-        .html(html);
-
       let tooltipEl = document.querySelector('#tooltip');
+      tooltipEl.innerHTML = html;
 
       if (offset < (that.margin + 100) ) {
         tooltipEl.classList.remove("chartpopup");
@@ -203,7 +363,7 @@ export default class FlowChart extends Component {
         tooltipEl.classList.add("popupleft");
 
         d3.select('#tooltip')
-          .style('left', (offset - (tooltipEl.clientWidth * 0.2) + 5) + "px")
+          .style('left', (offset - (tooltipEl.clientWidth * 0.08) + 5) + "px")
           .style('top', (that.chartHeight * 1.3) + "px")
           .style('opacity', 0.95);
       } else if (offset > (that.width - that.margin - 100)) {
@@ -212,7 +372,7 @@ export default class FlowChart extends Component {
         tooltipEl.classList.add("popupright");
 
         d3.select('#tooltip')
-          .style('left', (offset - tooltipEl.clientWidth * 0.95 + 5) + "px")
+          .style('left', (offset - tooltipEl.clientWidth * 0.92 + 5) + "px")
           .style('top', (that.chartHeight * 1.3) + "px")
           .style('opacity', 0.95);
       } else {
@@ -234,6 +394,12 @@ export default class FlowChart extends Component {
     });
   }
 
+  /**
+   * Add the black lines that show where there's data breaks in the chart
+   * @param chart
+   * @param chartGroup
+   * @returns {*}
+   */
   addDataBreakLines(chart, chartGroup) {
     let dataBreaks = chart.featureSeriesByType["@nav/break"].rowsOfPaddedCells;
 
@@ -269,7 +435,7 @@ export default class FlowChart extends Component {
         tooltipEl.classList.add("popupleft");
 
         d3.select('#tooltip')
-          .style('left', (offset - (tooltipEl.clientWidth * 0.2) + 5) + "px")
+          .style('left', (offset - (tooltipEl.clientWidth * 0.08) + 5) + "px")
           .style('top', (that.chartHeight * 1.3) + "px")
           .style('opacity', 0.95);
       } else if (offset > (that.width - that.margin - 100)) {
@@ -278,7 +444,7 @@ export default class FlowChart extends Component {
         tooltipEl.classList.add("popupright");
 
         d3.select('#tooltip')
-          .style('left', (offset - tooltipEl.clientWidth * 0.95 + 5) + "px")
+          .style('left', (offset - tooltipEl.clientWidth * 0.92 + 5) + "px")
           .style('top', (that.chartHeight * 1.3) + "px")
           .style('opacity', 0.95);
       } else {
@@ -303,6 +469,11 @@ export default class FlowChart extends Component {
     return dataBreakLines;
   }
 
+  /**
+   * Create the time axis lines that show the beginning and end of the chart times
+   * @param chartGroup
+   * @param xMinMax
+   */
   createTimeAxis(chartGroup, xMinMax) {
 
     let endTimer = UtilRenderer.getRelativeTimerAsHoursMinutes(parseInt(xMinMax[1], 10));
@@ -341,6 +512,12 @@ export default class FlowChart extends Component {
       .text(endTimer);
   }
 
+  /**
+   * Create the legend that shows the confusion and momentum meanings
+   * @param svg
+   * @param chartGroup
+   * @param interp
+   */
   createLegend(svg, chartGroup, interp) {
     let barsize = 100;
     let margin = 10;
@@ -401,6 +578,12 @@ export default class FlowChart extends Component {
 
   }
 
+  /**
+   * Convert a number of seconds to a rough number of hours or days
+   * for simplified friendly display.
+   * @param seconds
+   * @returns {string}
+   */
   convertSecondsToFriendlyDuration(seconds) {
     if (seconds >=  86400) {
       let days = Math.round((seconds / 86400));
@@ -429,6 +612,11 @@ export default class FlowChart extends Component {
 
   }
 
+  /**
+   * Draw the intention cursor bar
+   * @param chartGroup
+   * @param xMinMax
+   */
   addIntentionCursor(chartGroup, xMinMax) {
     chartGroup.append('line')
       .attr('x1', Math.round(this.xScale(xMinMax[0])))
@@ -443,6 +631,14 @@ export default class FlowChart extends Component {
     cursorEl.style.transition = "1s ease";
   }
 
+  /**
+   * Draw the dots below the bars representing execution activity, along with the exec
+   * tooltips when hovering over them.
+   * @param chart
+   * @param chartGroup
+   * @param barWidthByCoordsMap
+   * @param tileExecMap
+   */
   addExecDots(chart, chartGroup, barWidthByCoordsMap, tileExecMap) {
 
     let execSummaryData = chart.featureSeriesByType["@exec/count"].rowsOfPaddedCells;
@@ -539,7 +735,8 @@ export default class FlowChart extends Component {
       d3.select('#tooltip')
         .html(html);
 
-      let tooltipEl = document.querySelector('#tooltip');
+      let tooltipEl = document.querySelector('#tooltip')
+      let tipWidth = tooltipEl.clientWidth;
 
       if (offset < (that.margin + that.width / 2 - 150) ) {
         tooltipEl.classList.remove("chartpopup");
@@ -547,8 +744,8 @@ export default class FlowChart extends Component {
         tooltipEl.classList.add("popupleft");
 
         d3.select('#tooltip')
-          .style('left', (offset - (tooltipEl.clientWidth * 0.2) + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2) + "px")
-          .style('top', (that.chartHeight * 1.3 + (execYMargin * 4)) + "px")
+          .style('left', (offset - (tipWidth * 0.08) + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2) + "px")
+          .style('top', (that.chartHeight * 1.3 + (execYMargin * 5)) + "px")
           .style('opacity', 0.95);
       } else if (offset > (that.width - that.width / 2 + 150)) {
         tooltipEl.classList.remove("chartpopup");
@@ -556,8 +753,8 @@ export default class FlowChart extends Component {
         tooltipEl.classList.add("popupright");
 
         d3.select('#tooltip')
-          .style('left', (offset - tooltipEl.clientWidth * 0.95 + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2)  + "px")
-          .style('top', (that.chartHeight * 1.3 + (execYMargin * 4)) + "px")
+          .style('left', (offset - tipWidth * 0.92 + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2)  + "px")
+          .style('top', (that.chartHeight * 1.3 + (execYMargin * 5)) + "px")
           .style('opacity', 0.95);
       } else {
         tooltipEl.classList.remove("popupleft");
@@ -565,8 +762,8 @@ export default class FlowChart extends Component {
         tooltipEl.classList.add("chartpopup");
 
         d3.select('#tooltip')
-          .style('left', (offset - tooltipEl.clientWidth/2 + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2) + "px")
-          .style('top', (that.chartHeight * 1.3 + (execYMargin * 4)) + "px")
+          .style('left', (offset - tipWidth/2 + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2) + "px")
+          .style('top', (that.chartHeight * 1.3 + (execYMargin * 5)) + "px")
           .style('opacity', 0.95);
       }
     })
@@ -580,6 +777,14 @@ export default class FlowChart extends Component {
 
   }
 
+  /**
+   * Create an invisible bounding box around the chart so that when we leave the chart
+   * area, the mouse tooltip is turned off.  This creates significantly smoother mouse movement
+   * over using mouseleave on the individual bars which makes the tooltip very blinky.
+   * The tooltip will stay on and just change position, until moving over the invisible bounding box
+   * turns it off.
+   * @param chartGroup
+   */
   createInvisibleBoundingBox(chartGroup) {
 
     let boundingBox = chartGroup.append("g");
@@ -630,6 +835,11 @@ export default class FlowChart extends Component {
     });
   }
 
+  /**
+   * Get the file name part from a full file path
+   * @param filePath
+   * @returns {string|*}
+   */
   extractFileName(filePath) {
     let lastSlash = filePath.lastIndexOf('/');
     if (lastSlash > 0) {
@@ -639,6 +849,12 @@ export default class FlowChart extends Component {
     }
   }
 
+  /**
+   * Lookup the width of a flow chart bar from a mapping by coordinates
+   * @param map
+   * @param coords
+   * @returns {number|*}
+   */
   lookupBarWidth(map, coords) {
     let barWidth = map[coords.trim()];
     if (!barWidth) {
@@ -648,6 +864,28 @@ export default class FlowChart extends Component {
     return barWidth;
   }
 
+  /**
+   * Create a map of all the offset positions for each bar by coords
+   * @param data
+   * @param xScale
+   * @returns {*[]}
+   */
+  createOffsetMap(data, xScale) {
+    let map = [];
+
+    for (let i = 0; i < data.length; i++) {
+      let d = data[i];
+      map[d[0].trim()] = xScale(d[3]);
+    }
+    return map;
+  }
+
+  /**
+   * Create a mapping of bar widths by coordinate
+   * @param data
+   * @param xScale
+   * @returns {*[]}
+   */
   createBarWidthByCoordsMap(data, xScale) {
     let map = [];
 
@@ -658,6 +896,12 @@ export default class FlowChart extends Component {
     return map;
   }
 
+  /**
+   * Create a mapping of execution and haystack details by coords
+   * @param data
+   * @param chart
+   * @returns {*[]}
+   */
   createTileExecDetailsMap(data, chart) {
     let execData = chart.featureSeriesByType["@exec/runtime"].rowsOfPaddedCells;
     let haystackData = chart.eventSeriesByType["@exec/haystak"].rowsOfPaddedCells;
@@ -707,6 +951,11 @@ export default class FlowChart extends Component {
     return execDetailMap;
   }
 
+  /**
+   * Create a mapping of wtf details by coords
+   * @param chart
+   * @returns {*[]}
+   */
   createTileWtfDataMap(chart) {
     let chartSeries = chart.chartSeries.rowsOfPaddedCells;
     let wtfData = chart.eventSeriesByType["@flow/wtf"].rowsOfPaddedCells;
@@ -756,6 +1005,11 @@ export default class FlowChart extends Component {
     return tileWtfMap;
   }
 
+  /**
+   * Create a mapping of file location activity by coords
+   * @param chart
+   * @returns {*[]}
+   */
   createTileLocationDataMap(chart) {
     let locationData = chart.featureSeriesByType["@place/location"].rowsOfPaddedCells;
 
@@ -782,6 +1036,12 @@ export default class FlowChart extends Component {
     return tileLocationMap;
   }
 
+  /**
+   * For the exec dots, get the color of the dot by how many red and green
+   * tests there are
+   * @param d
+   * @returns {string}
+   */
   getFirstDotColor(d) {
     let red = parseInt(d[3], 10);
 
@@ -792,6 +1052,12 @@ export default class FlowChart extends Component {
     }
   }
 
+  /**
+   * For the exec dots, get the color of the second dot by how many red and green
+   * tests there are
+   * @param d
+   * @returns {string}
+   */
   getMidDotColor(d) {
     let red = parseInt(d[3], 10);
     let green = parseInt(d[4], 10);
@@ -803,6 +1069,12 @@ export default class FlowChart extends Component {
     }
   }
 
+  /**
+   * For the exec dots, get the color of the third dot by how many red and green
+   * tests there are
+   * @param d
+   * @returns {string}
+   */
   getThirdDotColor(d) {
     let green = parseInt(d[4], 10);
 
@@ -813,6 +1085,11 @@ export default class FlowChart extends Component {
     }
   }
 
+  /**
+   * If a first exec dot is displayed or not, based on whether tests exist
+   * @param d
+   * @returns {string}
+   */
   hasFirstDot(d) {
     let red = parseInt(d[3], 10);
     let green = parseInt(d[4], 10);
@@ -822,6 +1099,12 @@ export default class FlowChart extends Component {
     return false;
   }
 
+  /**
+   * If a second exec dot is displayed or not, based on whether a medium number
+   * of tests exist
+   * @param d
+   * @returns {string}
+   */
   hasSecondDot(d) {
     let red = parseInt(d[3], 10);
     let green = parseInt(d[4], 10);
@@ -831,6 +1114,11 @@ export default class FlowChart extends Component {
     return false;
   }
 
+  /**
+   * If a third exec dot is displayed or not, based on whether lots of tests exist
+   * @param d
+   * @returns {string}
+   */
   hasThirdDot(d) {
     let red = parseInt(d[3], 10);
     let green = parseInt(d[4], 10);
@@ -843,6 +1131,7 @@ export default class FlowChart extends Component {
 
   /**
    * renders the svg display of the chart with d3 support
+   * These divs are populated via the displayChart() call
    * @returns {*}
    */
   render() {

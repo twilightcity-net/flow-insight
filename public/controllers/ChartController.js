@@ -28,7 +28,8 @@ module.exports = class ChartController extends (
   static get Events() {
     return {
       CHART_WTF: "chart-wtf",
-      CHART_TASK: "chart-task"
+      CHART_TASK: "chart-task",
+      CHART_TASK_FOR_WTF: "chart-task-for-wtf"
     };
   }
 
@@ -76,6 +77,9 @@ module.exports = class ChartController extends (
           break;
         case ChartController.Events.CHART_TASK:
           this.handleChartTaskEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TASK_FOR_WTF:
+          this.handleChartTaskForWtfEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -166,6 +170,66 @@ module.exports = class ChartController extends (
     );
   }
 
+  /**
+   * client event handler for charting a task for a wtf
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTaskForWtfEvent(event, arg, callback) {
+    let circuitPath = arg.args.circuitPath,
+      bucket = arg.args.bucket,
+      urn =
+        ChartController.Paths.CHART +
+        ChartController.Paths.FRICTION +
+        ChartController.Paths.WTF_PATH +
+        ChartController.Paths.TASK;
+
+    urn += "?circuit_path=" + circuitPath;
+
+    if (bucket) {
+      urn += "&bucket_size=" + bucket;
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TASK_FOR_WTF,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.delegateChartTaskForWtfCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+
+  /**
+   * callback delegator which processes our return from the dto
+   * request to gridtime
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateChartTaskForWtfCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
 
   /**
    * callback delegator which processes our return from the dto

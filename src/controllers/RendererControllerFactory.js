@@ -4,6 +4,7 @@ import { ConsoleViewController } from "./ConsoleViewController";
 import { ResourceCircuitController } from "./ResourceCircuitController";
 import { BrowserController } from "./BrowserController";
 import { NotificationController } from "./NotificationController";
+import {ChartPopoutController} from "./ChartPopoutController";
 
 /**
  * generates view controllers for components
@@ -29,6 +30,7 @@ export class RendererControllerFactory {
       LAYOUT_BROWSER: "layout-browser",
       RESOURCES: "resources",
       NOTIFICATION: "notification",
+      CHART_POPOUT: "chart-popout"
     };
   }
 
@@ -96,6 +98,8 @@ export class RendererControllerFactory {
         return new BrowserController(scope);
       case RendererControllerFactory.Views.NOTIFICATION:
         return new NotificationController(scope);
+      case RendererControllerFactory.Views.CHART_POPOUT:
+        return new ChartPopoutController(scope);
       default:
         throw new Error(
           "Unknown controller name '" + name + "'"

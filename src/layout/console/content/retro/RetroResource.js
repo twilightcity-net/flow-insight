@@ -1,11 +1,12 @@
-import React, { Component } from "react";
-import ActiveRetro from "./components/ActiveRetro";
-import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
+import React, {Component} from "react";
+import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import UtilRenderer from "../../../../UtilRenderer";
-import { Icon, Message } from "semantic-ui-react";
-import { BaseClient } from "../../../../clients/BaseClient";
-import { RendererEventFactory } from "../../../../events/RendererEventFactory";
-import { ResourceCircuitController } from "../../../../controllers/ResourceCircuitController";
+import {Icon, Message} from "semantic-ui-react";
+import {BaseClient} from "../../../../clients/BaseClient";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import {ResourceCircuitController} from "../../../../controllers/ResourceCircuitController";
+import {CircuitClient} from "../../../../clients/CircuitClient";
+import ActiveRetro from "./components/ActiveRetro";
 
 /**
  * this component is the top level resource for a circuit retro
@@ -18,8 +19,11 @@ export default class RetroResource extends Component {
   constructor(props) {
     super(props);
     this.name = "[RetroResource]";
+    this.circuit = null;
+
     this.state = {
       error: null,
+      circuit: null,
     };
     this.resourcesController =
       RendererControllerFactory.getViewController(
@@ -32,7 +36,24 @@ export default class RetroResource extends Component {
         this,
         this.onTalkRoomMessage
       );
+
+    this.circuitsRefreshListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.CIRCUIT_DATA_REFRESH,
+        this,
+        this.onCircuitDataRefresh
+      );
   }
+
+  /**
+   * Force refresh the circuit data manually on triggering event.  This is called after the connection
+   * goes stale, and reconnects again.  Since we lost messages, easiest way to resync is to refresh again
+   */
+  onCircuitDataRefresh() {
+    let circuitName = this.props.resource.uriArr[1];
+    this.loadTopLevelCircuit(circuitName);
+  }
+
 
   /**
    * event handler for talk messages. This is called everytime we receive a new talk
@@ -43,17 +64,22 @@ export default class RetroResource extends Component {
    * @param arg
    */
   onTalkRoomMessage = (event, arg) => {
+    let circuitName = this.props.resource.uriArr[1];
+
     switch (arg.messageType) {
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
         let data = arg.data,
           circuit = data[ActiveRetro.learningCircuitDtoStr];
 
-        if (
-          data.statusType ===
-          ResourceCircuitController.StatusTypes
-            .TEAM_RETRO_STARTED
-        ) {
-          this.handleWtfStatusUpdateMessage(circuit);
+        if (circuit && circuitName === circuit.circuitName) {
+
+          if (data.statusType === ResourceCircuitController.StatusTypes.TEAM_RETRO_STARTED) {
+            this.handleRetroStartedMessage(circuit);
+          }
+
+          this.setState({
+             circuit: circuit
+          });
         }
 
         break;
@@ -63,79 +89,93 @@ export default class RetroResource extends Component {
   };
 
   /**
-   * processes our wtf status events. inside this function we check to see
-   * if this is the circuit we are looking for.
-   * If we are transitioning the state from solved to retro,
-   * then we need to connect to the retro room.
+   * processes our retro started event, and joins the created retro room
    * @param arg
    */
-  handleWtfStatusUpdateMessage(circuit) {
-    let circuitName = this.props.resource.uriArr[1];
-
-    if (circuit && circuitName === circuit.circuitName) {
-      if (UtilRenderer.isCircuitInRetro(circuit)) {
-        this.resourcesController.joinExistingRetroRoom(
-          this.props.resource
-        );
-      } else {
-        this.resourcesController.leaveExistingRetroRoom(
-          this.props.resource
-        );
-      }
+  handleRetroStartedMessage(circuit) {
+    if (UtilRenderer.isCircuitInRetro(circuit)) {
+      this.resourcesController.joinExistingRoomWithRoomId(circuit.retroTalkRoomId);
     }
   }
 
   /**
-   * mounts our circuit component. This function checks to see if this is a
-   * circuit with an active feed. if so we need to load and join the room.
+   * mounts our circuit component and supporting top level data.
+   * If there's an active retro feed going, this also joins us to the live retro room.
    */
   componentDidMount() {
-    if (UtilRenderer.isRetroResource(this.props.resource)) {
-      this.resourcesController.joinExistingRetroRoom(
-        this.props.resource
-      );
+    let circuitName = this.props.resource.uriArr[1];
+    this.loadTopLevelCircuit(circuitName);
+  }
+
+  /**
+   * Updates the state of the circuit, based on a state change, or the resource uri
+   * changing entirely
+   * @param prevProps
+   * @param prevState
+   * @param snapshot
+   */
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.resource.uri !== prevProps.resource.uri) {
+      if (prevState.circuit && prevState.circuit.retroTalkRoomId) {
+        this.resourcesController.leaveExistingRoomWithRoomId(prevState.circuit.retroTalkRoomId);
+      }
+
+      if (prevState.error) {
+        this.setState({error: null});
+      }
+
+      let circuitName = this.props.resource.uriArr[1];
+      this.loadTopLevelCircuit(circuitName);
     }
   }
 
   /**
-   * when the component is unmounted besure to leave the existing talk room,
-   * becuase we do not need to keep reciecing talk chat message details from
-   * other users that are still in the circuit chat room.
+   * Loads the data for the top level circuit objects and saves into the state.
+   * These get passed down as properties to the rendering views.
+   * @param circuitName
+   */
+  loadTopLevelCircuit(circuitName) {
+    CircuitClient.getCircuitWithAllDetails(
+      circuitName,
+      this,
+      (arg) => {
+        this.circuit = arg.data;
+
+        if (!arg.error && this.circuit.retroTalkRoomId) {
+          this.resourcesController.joinExistingRoomWithRoomId(this.circuit.retroTalkRoomId);
+        }
+        this.finishLoading(arg.error);
+      });
+  }
+
+  /**
+   * Finish loading a portion of the calls, and if all are finished, set the state
+   * Handle any errors if they come
+   * @param error
+   */
+  finishLoading(error) {
+    if (error) {
+      this.setState({
+        error: error
+      });
+    } else {
+      this.setState({
+        circuit: this.circuit
+      })
+    }
+  }
+
+  /**
+   * when the component is unmounted be sure to leave the existing talk room,
+   * because we don't want to keep receiving talk messages after we've left
+   * from other users that are still in the circuit chat room.
    */
   componentWillUnmount() {
-    this.resourcesController.leaveExistingRetroRoom(
-      this.props.resource
-    );
+    if (this.state.circuit && this.state.circuit.retroTalkRoomId) {
+      this.resourcesController.leaveExistingRoomWithRoomId(this.state.circuit.retroTalkRoomId);
+    }
   }
 
-  /**
-   * this function is similiar to the mount function. This function will first
-   * check to see if we are just reloading the same page or loading a new
-   * circuit. If it is a new circuit and a wtf. the function will join
-   * the user to that room on talk.
-   * @param nextProps
-   * @param nextState
-   * @param nextContext
-   * @returns {boolean}
-   */
-  shouldComponentUpdate(nextProps, nextState, nextContext) {
-    if (
-      this.props.resource.uri !== nextProps.resource.uri &&
-      UtilRenderer.isRetroResource(nextProps.resource)
-    ) {
-      console.log(
-        "joining a new circuit, leave and rejoin rooms"
-      );
-      nextState.error = null;
-      this.resourcesController.leaveExistingRetroRoom(
-        this.props.resource
-      );
-      this.resourcesController.joinExistingRetroRoom(
-        nextProps.resource
-      );
-    }
-    return true;
-  }
 
   /**
    * renders our circuit error with a given string. This is usually not
@@ -158,22 +198,26 @@ export default class RetroResource extends Component {
   }
 
   /**
-   * renders the journal layout of the console view
+   * renders the retro layout
    * @returns {*} - the JSX to render
    */
   render() {
-    let wtfPanel = (
-      <ActiveRetro resource={this.props.resource} />
-    );
+
+    let panel = "";
+
+    if (this.state.circuit) {
+      console.log("has circuit (retro resource)");
+      panel = <ActiveRetro circuit={this.state.circuit}/>
+    }
 
     if (this.state.error) {
-      wtfPanel = this.getCircuitError(this.state.error);
+      panel = this.getCircuitError(this.state.error);
     }
 
     return (
       <div id="component" className="circuitLayout">
         <div id="wrapper" className="circuitContent">
-          {wtfPanel}
+          {panel}
         </div>
       </div>
     );

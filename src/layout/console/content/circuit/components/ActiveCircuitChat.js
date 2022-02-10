@@ -236,7 +236,7 @@ export default class ActiveCircuitChat extends Component {
             onMouseUp={this.handleOnMouseUp}
           >
             <TextArea
-              id="activeCircuitChatText"
+              id="activeCircuitChatInput"
               className="chat-text"
               value={this.state.chatValue}
               ref={this.chatInputRef}

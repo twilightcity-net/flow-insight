@@ -17,6 +17,7 @@ import UtilRenderer from "../../../../../UtilRenderer";
 import PastTroubleshootFeed from "./PastTroubleshootFeed";
 import FilesDetail from "./FilesDetail";
 import ExecDetail from "./ExecDetail";
+import FeedCreator from "../../support/FeedCreator";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -51,8 +52,6 @@ export default class ActiveRetro extends Component {
     this.animationDelay = 210;
     this.me = MemberClient.me;
     this.loadCount = 0;
-    this.missingMemberLoadCount = 0;
-    this.missingMembers = [];
     this.retroMessages = [];
     this.troubleshootMessages = [];
     this.circuitMembers = [];
@@ -89,7 +88,6 @@ export default class ActiveRetro extends Component {
 
     this.state = {
       slidePanelVisible: true,
-      model: null,
       retroMessages: [],
       troubleshootMessages: [],
       troubleshootFeedEvents: [],
@@ -98,7 +96,6 @@ export default class ActiveRetro extends Component {
       circuitMembers: [],
       missingMembers: [],
       dictionaryWords: [],
-      circuitState: null,
       isFilesVisible: false,
       isExecVisible: false,
     };
@@ -110,8 +107,7 @@ export default class ActiveRetro extends Component {
    * child components
    */
   componentDidMount() {
-    let circuitName = this.props.resource.uriArr[1];
-    this.loadCircuit(circuitName, null, []);
+    this.loadCircuitDetails(this.props.circuit);
     this.loadDictionary();
   }
 
@@ -120,8 +116,7 @@ export default class ActiveRetro extends Component {
    * goes stale, and reconnects again.  Since we lost messages, easiest way to resync is to refresh again
    */
   onCircuitDataRefresh() {
-    let circuitName = this.props.resource.uriArr[1];
-    this.loadCircuit(circuitName, null, []);
+    this.loadCircuitDetails(this.props.circuit);
   }
 
   /**
@@ -140,21 +135,12 @@ export default class ActiveRetro extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (
-      prevProps.resource.uri !== this.props.resource.uri
-    ) {
-      console.log(
-        "URI change from: " +
-          prevProps.resource.uri +
-          " to " +
-          this.props.resource.uri
-      );
+    if (prevProps.circuit.circuitName !== this.props.circuit.circuitName) {
 
-      let circuitName = this.props.resource.uriArr[1];
-      this.loadCircuit(circuitName, null, []);
+      this.loadCircuitDetails(this.props.circuit);
     }
 
-    if (this.state.circuitState === "RETRO") {
+    if (this.props.circuit.circuitState === "RETRO") {
       let that = this;
       setTimeout(function () {
         that.focusOnChatInput();
@@ -183,72 +169,62 @@ export default class ActiveRetro extends Component {
 
   /**
    * updates and loads our circuit form gridtime
-   * @param circuitName
+   * @param circuit
    * @param model
    * @param messages
    */
-  loadCircuit(circuitName, model, messages) {
+  loadCircuitDetails(circuit) {
     this.loadCount = 0;
     this.retroMessages = [];
     this.troubleshootMessages = [];
-    this.circuitMembers = [];
-    this.missingMembers = [];
 
-    CircuitClient.getCircuitWithAllDetails(
-      circuitName,
+    TalkToClient.getAllTalkMessagesFromRoom(
+      circuit.wtfTalkRoomName,
+      circuit.wtfTalkRoomId,
       this,
       (arg) => {
-        this.model = arg.data;
-        this.updateStateModels(this.model);
-        TalkToClient.getAllTalkMessagesFromRoom(
-          this.model.wtfTalkRoomName,
-          this.model.wtfTalkRoomId,
-          this,
-          (arg) => {
-            this.troubleshootMessages = arg.data;
-            this.loadCount++;
-            this.updateStateIfDoneLoading();
-          }
-        );
+        this.troubleshootMessages = arg.data;
+        this.loadCount++;
+        this.updateStateIfDoneLoading(arg.error);
+      }
+    );
 
-        if (this.model.retroTalkRoomId) {
-          TalkToClient.getAllTalkMessagesFromRoom(
-            this.model.retroTalkRoomName,
-            this.model.retroTalkRoomId,
-            this,
-            (arg) => {
-              this.retroMessages = arg.data;
-              this.loadCount++;
-              this.updateStateIfDoneLoading();
-            }
-          );
-        } else {
+    if (circuit.retroTalkRoomId) {
+      TalkToClient.getAllTalkMessagesFromRoom(
+        circuit.retroTalkRoomName,
+        circuit.retroTalkRoomId,
+        this,
+        (arg) => {
+          this.retroMessages = arg.data;
           this.loadCount++;
-          this.updateStateIfDoneLoading();
+          this.updateStateIfDoneLoading(arg.error);
         }
+      );
+    } else {
+      this.loadCount++;
+      this.updateStateIfDoneLoading();
+    }
 
-        CircuitClient.loadCircuitMembers(
-          circuitName,
-          this.model.wtfTalkRoomId,
-          this,
-          (arg) => {
-            this.circuitMembers = arg.data;
-            this.loadCount++;
+    CircuitClient.loadCircuitMembers(
+      circuit.circuitName,
+      circuit.wtfTalkRoomId,
+      this,
+      (arg) => {
+        this.circuitMembers = arg.data;
+        this.loadCount++;
 
-            this.updateStateIfDoneLoading();
-          }
-        );
+        this.updateStateIfDoneLoading();
+      }
+    );
 
-        ChartClient.chartFrictionForWTF(
-          this.model,
-          this,
-          (arg) => {
-            this.chartDto = arg.data;
-            this.setState({
-              chartDto: arg.data,
-            });
-          }
-        );
+    ChartClient.chartFrictionForWTF(
+      circuit,
+      this,
+      (arg) => {
+        this.chartDto = arg.data;
+        this.setState({
+          chartDto: arg.data,
+        });
       }
     );
   }
@@ -259,132 +235,27 @@ export default class ActiveRetro extends Component {
    */
   updateStateIfDoneLoading() {
     if (this.loadCount === 3) {
-      this.missingMemberNames = this.findMissingMembers(
-        this.troubleshootMessages,
-        this.retroMessages,
-        this.circuitMembers,
-        MemberClient.me
-      );
-      this.loadMissingMemberProfiles(
-        this.missingMemberNames
-      );
+      let feedCreator = new FeedCreator(this.props.circuit, this.circuitMembers, MemberClient.me);
 
-      let troubleshootFeedEvents =
-        this.createTroubleshootFeedEvents(
-          this.model,
-          this.troubleshootMessages
-        );
-
-      let retroFeedEvents = [];
-
-      if (this.model.retroStartedTime) {
-        retroFeedEvents = this.createRetroFeedEvents(
-          this.model,
-          this.retroMessages
-        );
-      }
-
-      this.setState({
-        circuitMembers: this.circuitMembers,
-        troubleshootMessages: this.troubleshootMessages,
-        troubleshootFeedEvents: troubleshootFeedEvents,
-        retroMessages: this.retroMessages,
-        retroFeedEvents: retroFeedEvents,
-        slidePanelVisible: true,
+      feedCreator.createTroubleshootFeed(this.troubleshootMessages, (arg) => {
+        this.setState({
+          troubleshootMessages: this.troubleshootMessages,
+          troubleshootFeedEvents: arg.feedEvents,
+          circuitMembers: this.circuitMembers,
+          missingMembers: arg.members,
+          slidePanelVisible: true
+        });
       });
+
+      feedCreator.createRetroFeed(this.retroMessages, (arg) => {
+        this.setState({
+          retroMessages: this.retroMessages,
+          retroFeedEvents: arg.feedEvents,
+          missingMembers: arg.members
+        });
+      });
+
     }
-  }
-
-  createTroubleshootFeedEvents(
-    model,
-    troubleshootMessages
-  ) {
-    return this.convertToFeedEvents(
-      "What's the problem?",
-      model.openTime,
-      troubleshootMessages
-    );
-  }
-
-  createRetroFeedEvents(model, retroMessages) {
-    return this.convertToFeedEvents(
-      "What made troubleshooting take so long?  What ideas do you have for improvement?",
-      model.retroStartedTime,
-      retroMessages
-    );
-  }
-
-  loadMissingMemberProfiles(missingUsernames) {
-    this.missingMemberLoadCount = 0;
-
-    for (let i = 0; i < missingUsernames.length; i++) {
-      MemberClient.getMember(
-        missingUsernames[i],
-        this,
-        (arg) => {
-          this.missingMemberLoadCount++;
-          if (!arg.error && arg.data) {
-            this.missingMembers.push(arg.data);
-          } else {
-            console.error("Error: " + arg.error);
-          }
-          if (
-            this.missingMemberLoadCount ===
-            missingUsernames.length
-          ) {
-            this.setState({
-              missingMembers: this.missingMembers,
-            });
-          }
-        }
-      );
-    }
-  }
-
-  findMissingMembers(
-    messages,
-    messages2,
-    circuitMembers,
-    me
-  ) {
-    let uniqueUsernames = [];
-
-    for (let i = 0; i < messages.length; i++) {
-      let metaProps = messages[i].metaProps;
-      let username =
-        UtilRenderer.getUsernameFromMetaProps(metaProps);
-
-      if (!uniqueUsernames.includes(username)) {
-        uniqueUsernames.push(username);
-      }
-    }
-
-    for (let i = 0; i < messages2.length; i++) {
-      let metaProps = messages2[i].metaProps;
-      let username =
-        UtilRenderer.getUsernameFromMetaProps(metaProps);
-
-      if (!uniqueUsernames.includes(username)) {
-        uniqueUsernames.push(username);
-      }
-    }
-
-    if (!uniqueUsernames.includes(me.username)) {
-      uniqueUsernames.push(me.username);
-    }
-
-    let missingMembers = [];
-
-    for (let i = 0; i < uniqueUsernames.length; i++) {
-      let member = this.getCircuitMemberForUsername(
-        circuitMembers,
-        uniqueUsernames[i]
-      );
-      if (member === null) {
-        missingMembers.push(uniqueUsernames[i]);
-      }
-    }
-    return missingMembers;
   }
 
   getCircuitMemberForUsername(circuitMembers, username) {
@@ -514,14 +385,6 @@ export default class ActiveRetro extends Component {
 
     let that = this;
 
-    //so if a message is new from a person, then in addition to adding the message, we also need
-    //to join the circuit as a member, to indicate they are helping which will result in getting XP
-    //for participating in the retro.
-
-    //this call doesnt do the client call to add the chat message, it just updates the state.
-
-    //where is the client call?  This gets called when theres a talk message for a chat update.
-
     this.setState((prevState) => {
       prevState.retroMessages.push(message);
 
@@ -618,7 +481,7 @@ export default class ActiveRetro extends Component {
 
     let data = arg.data,
       circuit = data[ActiveRetro.learningCircuitDtoStr],
-      model = this.state.model;
+      model = this.props.circuit;
 
     if (
       data &&
@@ -626,8 +489,7 @@ export default class ActiveRetro extends Component {
       model &&
       circuit.id === model.id
     ) {
-      model = Object.assign(model, circuit);
-      this.updateStateModelsOnTalkMessageUpdate(model);
+      this.updateStateModelsOnTalkMessageUpdate(circuit);
     }
   }
 
@@ -669,29 +531,25 @@ export default class ActiveRetro extends Component {
    * utilizes callback functions which are way faster then using refs
    * @param model
    */
-  updateStateModelsOnTalkMessageUpdate(model) {
-    this.setState({
-      model: model,
-      circuitState: model.circuitState,
-    });
-
+  updateStateModelsOnTalkMessageUpdate(circuit) {
     if (
-      UtilRenderer.isCircuitInRetro(model) &&
+      UtilRenderer.isCircuitInRetro(circuit) &&
       !UtilRenderer.isMarkedForCloseByMe(
-        model,
+        circuit,
         MemberClient.me
       )
     ) {
+      let feedCreator = new FeedCreator(circuit, this.state.missingMembers, MemberClient.me);
+
       setTimeout(() => {
-        this.setState({
-          retroFeedEvents: this.createRetroFeedEvents(
-            model,
-            this.retroMessages
-          ),
+        feedCreator.createRetroFeed(this.retroMessages, (arg) => {
+          this.setState({
+            retroFeedEvents: arg.feedEvents,
+            missingMembers: arg.members,
+          });
         });
-        document
-          .getElementById("activeRetroChatInput")
-          .focus();
+
+        this.focusOnChatInput();
       }, 400);
     }
   }
@@ -704,85 +562,6 @@ export default class ActiveRetro extends Component {
     this.setState({
       dictionaryWords: words,
     });
-  }
-
-  /**
-   * updates our models in our various child components states. This
-   * utilizes callback functions which are way faster then using refs
-   * @param model
-   */
-  updateStateModels(model) {
-    this.setState({
-      model: model,
-      circuitState: model.circuitState,
-    });
-  }
-
-  /**
-   * updates our Chat Messages that our in our messages array. This is generally setup initially
-   * by our mount or update component functions
-   */
-  convertToFeedEvents = (
-    ferviePromptStr,
-    startedTimestamp,
-    messages
-  ) => {
-    let metaProps = null,
-      username = null,
-      time = null,
-      json = null,
-      messagesLength = messages.length;
-
-    const feedEvents = [];
-
-    this.addFerviePrompt(
-      ferviePromptStr,
-      feedEvents,
-      startedTimestamp
-    );
-
-    for (let i = 0, m = null; i < messagesLength; i++) {
-      m = messages[i];
-      metaProps = m.metaProps;
-      username =
-        UtilRenderer.getUsernameFromMetaProps(metaProps);
-      time = UtilRenderer.getChatMessageTimeString(
-        m.messageTime
-      );
-      json = m.data;
-
-      if (
-        m.messageType ===
-        BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS
-      ) {
-        this.addFeedEvent(
-          feedEvents,
-          username,
-          null,
-          time,
-          json.message
-        );
-      }
-    }
-
-    return feedEvents;
-  };
-
-  /**
-   * Create the fervie "What's the problem?" prompt in chat
-   * @param circuit
-   */
-  addFerviePrompt(ferviePromptStr, feedEvents, timeStamp) {
-    let time =
-      UtilRenderer.getChatMessageTimeString(timeStamp);
-
-    this.addFeedEvent(
-      feedEvents,
-      "Fervie",
-      null,
-      time,
-      ferviePromptStr
-    );
   }
 
   /**
@@ -922,9 +701,8 @@ export default class ActiveRetro extends Component {
     } else {
       sidePanelContent = (
         <PastTroubleshootFeed
-          resource={this.props.resource}
-          model={this.state.model}
-          circuitState={this.state.circuitState}
+          model={this.props.circuit}
+          circuitState={this.props.circuit.circuitState}
           circuitMembers={this.state.circuitMembers}
           missingMembers={this.state.missingMembers}
           feedEvents={this.state.troubleshootFeedEvents}
@@ -942,9 +720,8 @@ export default class ActiveRetro extends Component {
           secondaryInitialSize={DimensionController.getActiveCircuitContentRetroSlideMinWidthDefault()}
         >
           <ActiveRetroFeed
-            resource={this.props.resource}
-            model={this.state.model}
-            circuitState={this.state.circuitState}
+            model={this.props.circuit}
+            circuitState={this.props.circuit.circuitState}
             circuitMembers={this.state.circuitMembers}
             missingMembers={this.state.missingMembers}
             feedEvents={this.state.retroFeedEvents}
@@ -971,8 +748,7 @@ export default class ActiveRetro extends Component {
     return (
       <div id="component" className="circuitContentSidebar">
         <RetroSidebar
-          resource={this.props.resource}
-          model={this.state.model}
+          model={this.props.circuit}
           chartDto={this.state.chartDto}
           dictionaryWords={this.state.dictionaryWords}
           circuitMembers={this.state.circuitMembers}

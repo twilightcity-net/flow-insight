@@ -7,6 +7,7 @@ import {
 import LoadingView from "./LoadingView";
 import ActivatorView from "./ActivatorView";
 import ConsoleView from "./ConsoleView";
+import ChartView from "./ChartView";
 
 /**
  * This class is used to manage the rendering of views in windows. There is a
@@ -16,7 +17,7 @@ export default class ViewManager extends Component {
   /**
    * When adding new views be sure to also update ViewManagerHelper with the name
    * of the view you wish to reference from main process
-   * @returns {{LOADING: *, ACTIVATOR: *, CONSOLE: *, BUGREPORT: *}}
+   * @returns {{LOADING: *, ACTIVATOR: *, CONSOLE: *, CHART: *}}
    * @constructor
    */
   static get Views() {
@@ -24,6 +25,7 @@ export default class ViewManager extends Component {
       LOADING: <LoadingView />,
       ACTIVATOR: <ActivatorView />,
       CONSOLE: <ConsoleView />,
+      CHART: <ChartView />,
     };
   }
 

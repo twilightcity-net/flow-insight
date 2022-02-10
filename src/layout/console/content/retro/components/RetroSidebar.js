@@ -48,9 +48,9 @@ export default class RetroSidebar extends Component {
   static get Views() {
     return {
       OVERVIEW: "overview",
-      PARTY: "party",
       FILES: "files",
       EXEC: "exec",
+      FLOW: "flow"
     };
   }
 
@@ -78,14 +78,6 @@ export default class RetroSidebar extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (
-      prevProps.resource.uri !== this.props.resource.uri
-    ) {
-      this.setState({
-        activeMenuView: RetroSidebar.Views.OVERVIEW,
-      });
-      this.props.toggleTroubleshootPanel();
-    }
-    if (
       (!prevProps.model && this.props.model) ||
       (prevProps.model &&
         this.props.model &&
@@ -93,6 +85,11 @@ export default class RetroSidebar extends Component {
           this.props.model.circuitName)
     ) {
       //different model
+
+      this.setState({
+        activeMenuView: RetroSidebar.Views.OVERVIEW,
+      });
+      this.props.toggleTroubleshootPanel();
 
       let currentTags = this.getTagList(this.props.model);
       this.setState({
@@ -340,12 +337,8 @@ export default class RetroSidebar extends Component {
    * gets the menu item for party content string to display total party members
    * @returns {string}
    */
-  getMenuItemPartyContent() {
-    let circuitMembers = this.props.circuitMembers;
-    if (circuitMembers) {
-      return "Party [" + circuitMembers.length + "]";
-    }
-    return "Party";
+  getMenuItemFlowContent() {
+    return "Flow";
   }
 
   /**
@@ -396,15 +389,13 @@ export default class RetroSidebar extends Component {
             onClick={this.handleMenuExecClick}
           />
           <Menu.Item
-            name={RetroSidebar.Views.PARTY}
+            name={RetroSidebar.Views.FLOW}
             active={
               this.state.activeMenuView ===
-              RetroSidebar.Views.PARTY
+              RetroSidebar.Views.FLOW
             }
             onClick={this.handleMenuClick}
-          >
-            {this.getMenuItemPartyContent()}
-          </Menu.Item>
+          />
         </Menu>
         {this.getCircuitSidebarMenuContent()}
       </Segment>
@@ -419,8 +410,8 @@ export default class RetroSidebar extends Component {
     switch (this.state.activeMenuView) {
       case RetroSidebar.Views.OVERVIEW:
         return this.getCircuitSidebarOverviewContent();
-      case RetroSidebar.Views.PARTY:
-        return this.getCircuitSidebarPartyContent();
+      case RetroSidebar.Views.FLOW:
+        return this.getCircuitSidebarFlowContent();
       case RetroSidebar.Views.FILES:
         return this.getCircuitSidebarFilesContent();
       case RetroSidebar.Views.EXEC:
@@ -651,16 +642,30 @@ export default class RetroSidebar extends Component {
     );
   }
 
+  onClickOpenFlowMap() {
+    console.log("onClickOpenFlowMap!");
+    let chartPopoutController = RendererControllerFactory.getViewController(
+      RendererControllerFactory.Views.CHART_POPOUT, this);
+
+    chartPopoutController.openChartWindow("test");
+  }
+
   /**
    * renders the circuit sidebar menu content for the party members
    * whom have join this active circuits trouble shooting wtf session.
    * @returns {*}
    */
-  getCircuitSidebarPartyContent() {
+  getCircuitSidebarFlowContent() {
     return (
       <div>
         <Segment className="party" inverted>
-          {this.getPartyCircuitMembersContent()}
+          <Button
+            onClick={this.onClickOpenFlowMap}
+            size="medium"
+            color="violet"
+          >
+            <Button.Content>Open Flow Map</Button.Content>
+          </Button>
         </Segment>
       </div>
     );

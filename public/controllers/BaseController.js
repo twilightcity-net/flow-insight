@@ -200,6 +200,7 @@ module.exports = class BaseController {
       GET_TEAM_DICTIONARY: "getTeamDictionary",
       CHART_WTF: "chartWTF",
       CHART_TASK: "chartTask",
+      CHART_TASK_FOR_WTF: "chartTaskForWTF",
       CREATE_TERMINAL_SESSION: "createTerminalSession",
       RUN_TERMINAL_COMMAND: "runTerminalCommand",
       GET_TERMINAL_COMMAND_MANUAL:

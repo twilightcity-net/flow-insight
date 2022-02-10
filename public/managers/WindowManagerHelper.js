@@ -17,7 +17,22 @@ module.exports = class WindowManagerHelper {
       ACTIVATOR:
         "tc-" + ViewManagerHelper.ViewNames.ACTIVATOR,
       CONSOLE: "tc-" + ViewManagerHelper.ViewNames.CONSOLE,
+      CHART: "tc-"+ViewManagerHelper.ViewNames.CHART
     };
+  }
+
+  /**
+   * creates new chart popout window
+   * @returns {*}
+   */
+  static createWindowChartPopout() {
+    let name = WindowManagerHelper.WindowNames.CHART;
+    return global.App.WindowManager.createWindow(name);
+  }
+
+  static closeChartWindow(chartName) {
+    let name = WindowManagerHelper.WindowNames.CHART;
+    return global.App.WindowManager.closeWindowByName(name);
   }
 
   /**

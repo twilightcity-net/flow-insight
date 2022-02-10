@@ -11,7 +11,8 @@ const electron = require("electron"),
   WindowManagerHelper = require("./WindowManagerHelper"),
   LoadingWindow = require("../windows/LoadingWindow"),
   ActivatorWindow = require("../windows/ActivatorWindow"),
-  ConsoleWindow = require("../windows/ConsoleWindow");
+  ConsoleWindow = require("../windows/ConsoleWindow"),
+  ChartWindow = require("../windows/ChartWindow");
 
 /**
  * This class is used to manage the view, state, and display of each
@@ -252,6 +253,21 @@ class WindowManager {
   }
 
   /**
+   * Close the window with the specified name
+   * @param windowName
+   */
+  closeWindowByName(windowName) {
+    log.info("[WindowManager] close window by name -> " + windowName);
+
+    for (var i = this.windows.length - 1; i >= 0; i--) {
+      if (this.windows[i].name === windowName) {
+        log.info("[WindowManager] closing window -> " + windowName);
+        this.closeWindow(this.windows[i], true);
+      }
+    }
+  }
+
+  /**
    * closes the window with and option to destroy the window from
    * Memory
    * @param window
@@ -261,12 +277,18 @@ class WindowManager {
     log.info(
       "[WindowManager] hide window -> " + window.name
     );
-    window.window.hide();
+
+    if (!window.window.isDestroyed()) {
+      window.window.hide();
+    }
+
     if (destroy) {
       log.info(
         "[WindowManager] close window -> " + window.name
       );
-      window.window.close();
+      if (!window.window.isDestroyed()) {
+        window.window.close();
+      }
       window = this.destroyWindow(window);
     }
   }
@@ -332,7 +354,7 @@ class WindowManager {
       });
     }
     this.loadWindow(window);
-    this.windows.push(window);
+    this.windows.push(window); //this seems like it would push duplicates on the array
     return window;
   }
 
@@ -353,6 +375,8 @@ class WindowManager {
         return new ActivatorWindow();
       case WindowManagerHelper.WindowNames.CONSOLE:
         return new ConsoleWindow();
+      case WindowManagerHelper.WindowNames.CHART:
+        return new ChartWindow();
       default:
         return null;
     }

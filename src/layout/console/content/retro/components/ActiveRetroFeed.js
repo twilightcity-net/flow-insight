@@ -80,7 +80,7 @@ export default class ActiveRetroFeed extends Component {
    */
   addChatMessage = (text, callback) => {
     //if this is my first message in the feed, then need to join the circuit too
-    let circuitName = this.props.resource.uriArr[1];
+    let circuitName = this.props.model.circuitName;
 
     let isFirstMessage = this.isFirstMessage(
       MemberClient.me.username,

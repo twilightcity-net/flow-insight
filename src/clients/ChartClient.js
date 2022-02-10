@@ -16,6 +16,8 @@ export class ChartClient extends BaseClient {
   static SECONDS_IN_DAY = 60 * 20 * 12 * 6;
   static SECONDS_IN_WEEK = 60 * 20 * 12 * 6 * 7;
 
+  static CIRCUIT_LINK_PREFIX = "/wtf/";
+
   /**
    * builds the Client for chart requests in Gridtime
    * @param scope
@@ -32,13 +34,14 @@ export class ChartClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{CHART_WTF: string, CHART_TASK: string}}
+   * @returns {{CHART_WTF: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
    * @constructor
    */
   static get Events() {
     return {
       CHART_WTF: "chart-wtf",
-      CHART_TASK: "chart-task"
+      CHART_TASK: "chart-task",
+      CHART_TASK_FOR_WTF: "chart-task-for-wtf"
     };
   }
 
@@ -69,6 +72,30 @@ export class ChartClient extends BaseClient {
       {
         projectName: projectName,
         taskName: taskName,
+        bucket: bucket,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+  /**
+   * Chart friction for a task corresponding to a wtf link
+   * Will default to twenties if no bucket is provided
+   * @param circuitName
+   * @param bucket (optional)
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartFrictionForWTFTask(circuitName, bucket, scope, callback) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TASK_FOR_WTF,
+      {
+        circuitPath: ChartClient.CIRCUIT_LINK_PREFIX + circuitName,
         bucket: bucket,
       },
       scope,

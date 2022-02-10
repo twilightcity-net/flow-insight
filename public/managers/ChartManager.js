@@ -6,7 +6,7 @@ const ChartController = require("../controllers/ChartController"),
  */
 module.exports = class ChartManager {
   /**
-   * builds the circuit manager for the global app scope
+   * builds the chart manager for the global app scope
    */
   constructor() {
     this.name = "[ChartManager]";
