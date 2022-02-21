@@ -18,11 +18,11 @@ module.exports = class ConsoleWindow {
   /**
    * create a new console window
    */
-  constructor() {
-    this.name = WindowManagerHelper.WindowNames.CONSOLE;
+  constructor(windowName, arg) {
+    this.name = windowName;
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
     this.url = global.App.WindowManager.getWindowViewURL(
-      this.view
+      this.view, arg
     );
     this.display = global.App.WindowManager.getDisplay();
     this.icon = Util.getAppIcon("icon.ico");

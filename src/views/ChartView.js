@@ -10,11 +10,22 @@ export default class ChartView extends Component {
     this.state = {};
   }
 
+  componentDidMount() {
+    if (this.props.routeProps) {
+      document.title = "Task Flow for "+this.props.routeProps.circuitName;
+    }
+  }
 
   /// renders the view into our root element of our window
   render() {
+    let circuitName = "";
+
+    if (this.props.routeProps) {
+      circuitName = this.props.routeProps.circuitName;
+    }
+
     return (
-      <div>Chart goes here</div>
+      <div>Chart goes here for circuit {circuitName}</div>
     );
   }
 }

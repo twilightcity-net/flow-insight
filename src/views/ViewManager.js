@@ -36,22 +36,45 @@ export default class ViewManager extends Component {
    */
   static get viewName() {
     let query = queryString.parse(window.location.search);
-    let name = query.view;
-    return name;
+    return query.view;
+  }
+
+  static getViewProps(query) {
+    let props = {};
+    for (let key in query) {
+      if (key !== 'view' && key !== 'render3d') {
+        props[key] = query[key];
+      }
+    }
+
+    return props;
+  }
+
+  static getViewWithProps(viewName, props) {
+    let viewNameUpper = viewName.toUpperCase();
+
+    if (viewNameUpper === "LOADING") {
+      return <LoadingView routeProps={props}/>;
+    } else if (viewNameUpper === "ACTIVATOR") {
+      return <ActivatorView routeProps={props}/>;
+    } else if (viewNameUpper === "CONSOLE") {
+      return <ConsoleView routeProps={props}/>;
+    } else if (viewNameUpper === "CHART") {
+      return <ChartView routeProps={props}/>
+    } else {
+      throw new Error("Unable to render unknown view type "+viewNameUpper);
+    }
   }
 
   /**
-   * if  now view is found in the mapping
-   * @param props - the props to pass into the view
+   * Returns a view component constructed with props passed in from the url arguments
    * @constructor - returns the classes constructor function to render dynamically
    */
-  static View(props) {
+  static View() {
     let query = queryString.parse(window.location.search),
       name = query.view,
-      view = ViewManager.Views[name.toUpperCase()];
-    if (view == null)
-      throw new Error("View '" + name + "' is undefined");
-    return view;
+      props = ViewManager.getViewProps(query);
+      return ViewManager.getViewWithProps(name, props);
   }
 
   /**

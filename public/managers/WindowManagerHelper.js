@@ -25,14 +25,14 @@ module.exports = class WindowManagerHelper {
    * creates new chart popout window
    * @returns {*}
    */
-  static createWindowChartPopout() {
-    let name = WindowManagerHelper.WindowNames.CHART;
-    return global.App.WindowManager.createWindow(name);
+  static createChartWindow(chartWindowName, arg) {
+    let windowClassName = WindowManagerHelper.WindowNames.CHART;
+
+    return global.App.WindowManager.createWindow(chartWindowName, windowClassName, arg);
   }
 
-  static closeChartWindow(chartName) {
-    let name = WindowManagerHelper.WindowNames.CHART;
-    return global.App.WindowManager.closeWindowByName(name);
+  static closeChartWindow(windowName) {
+    return global.App.WindowManager.closeWindowByName(windowName);
   }
 
   /**
@@ -40,8 +40,8 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createWindowLoading() {
-    let name = WindowManagerHelper.WindowNames.LOADING;
-    return global.App.WindowManager.createWindow(name);
+    let windowName = WindowManagerHelper.WindowNames.LOADING;
+    return global.App.WindowManager.createWindow(windowName, windowName);
   }
 
   /**
@@ -49,8 +49,8 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createWindowActivator() {
-    let name = WindowManagerHelper.WindowNames.ACTIVATOR;
-    return global.App.WindowManager.createWindow(name);
+    let windowName = WindowManagerHelper.WindowNames.ACTIVATOR;
+    return global.App.WindowManager.createWindow(windowName, windowName);
   }
 
   /**
@@ -58,7 +58,7 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createWindowConsole() {
-    let name = WindowManagerHelper.WindowNames.CONSOLE;
-    return global.App.WindowManager.createWindow(name);
+    let windowName = WindowManagerHelper.WindowNames.CONSOLE;
+    return global.App.WindowManager.createWindow(windowName, windowName);
   }
 };

@@ -198,15 +198,26 @@ class WindowManager {
   /**
    * Gets the url to load in the window based on a name of a view
    * @param viewName
+   * @param arg json parameters
    * @returns {string}
    */
-  getWindowViewURL(viewName) {
+  getWindowViewURL(viewName, arg) {
+    let argsString = "";
+    if (arg) {
+      for (let key in arg) {
+        if (arg.hasOwnProperty(key)) {
+          argsString += "&"+key + "=" + arg[key];
+        }
+      }
+    }
+
     if (isDev) {
       return (
         "http://localhost:3000?view=" +
         viewName +
         "&render3d=" +
-        global.App.render3D
+        global.App.render3D +
+        argsString
       );
     }
     let filePath = `${path.join(
@@ -215,7 +226,8 @@ class WindowManager {
       "/index.html?view=" +
         viewName +
         "&render3d=" +
-        global.App.render3D
+        global.App.render3D +
+        argsString
     )}`;
     return "file://" + filePath;
   }
@@ -223,13 +235,16 @@ class WindowManager {
   /**
    * Loads a view into a window and creates its event handlers
    * @param window
+   * @param arg to pass to the window
    */
-  loadWindow(window) {
+  loadWindow(window, arg) {
     log.info(
       "[WindowManager] load window -> " + window.name
     );
 
-    window.window.loadURL(window.url);
+    let newUrl = this.getWindowViewURL(window.view, arg);
+
+    window.window.loadURL(newUrl);
     window.window.on("ready-to-show", () => {
       if (window.autoShow) {
         var that = this;
@@ -335,26 +350,29 @@ class WindowManager {
    * creates a new window based off the string name of the window.
    * After creating the window, it is added to a global array to
    * be reused.
-   * @param name
+   * @param windowName
+   * @param windowClassName
+   * @param arg to be sent to the window
    * @returns {*|null}
    */
-  createWindow(name) {
-    log.info("[WindowManager] create window -> " + name);
-    let window = this.getWindow(name);
+  createWindow(windowName, windowClassName, arg) {
+    log.info("[WindowManager] create window -> " + windowName);
+    let window = this.getWindow(windowName);
     if (!window) {
-      log.info(
-        "[WindowManager] └> get or make window -> " + name
-      );
-      window = this.getWindowClassFromName(name);
+      log.info("[WindowManager] └> get or make window -> " + windowName);
+      window = this.getWindowInstanceFromName(windowName, windowClassName, arg);
       window.window.on("focus", (event) => {
         this.events.focusWindow.dispatch(event);
       });
       window.window.on("blur", (event) => {
         this.events.blurWindow.dispatch(event);
       });
+      this.windows.push(window);
+    } else {
+      //if window already exists creating the window should focus it
+      window.window.focus();
     }
-    this.loadWindow(window);
-    this.windows.push(window); //this seems like it would push duplicates on the array
+    this.loadWindow(window, arg);
     return window;
   }
 
@@ -364,19 +382,21 @@ class WindowManager {
    * is to figure out how to use some type of reflection with a
    * factory class.
    * Need to add a new case for each window we wish to open
-   * @param name
+   * @param windowName
+   * @param windowClassName
+   * @param arg to be sent to the window
    * @returns {LoadingWindow|null|ActivatorWindow|ConsoleWindow}
    */
-  getWindowClassFromName(name) {
-    switch (name) {
+  getWindowInstanceFromName(windowName, windowClassName, arg) {
+    switch (windowClassName) {
       case WindowManagerHelper.WindowNames.LOADING:
-        return new LoadingWindow();
+        return new LoadingWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.ACTIVATOR:
-        return new ActivatorWindow();
+        return new ActivatorWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.CONSOLE:
-        return new ConsoleWindow();
+        return new ConsoleWindow(windowName, arg);
       case WindowManagerHelper.WindowNames.CHART:
-        return new ChartWindow();
+        return new ChartWindow(windowName, arg);
       default:
         return null;
     }

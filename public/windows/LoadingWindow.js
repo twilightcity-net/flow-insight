@@ -15,11 +15,11 @@ const { BrowserWindow } = require("electron"),
  * is always show when the application first loads
  */
 module.exports = class LoadingWindow {
-  constructor() {
-    this.name = WindowManagerHelper.WindowNames.LOADING;
+  constructor(windowName, arg) {
+    this.name = windowName;
     this.view = ViewManagerHelper.ViewNames.LOADING;
     this.url = global.App.WindowManager.getWindowViewURL(
-      this.view
+      this.view, arg
     );
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = true;

@@ -642,12 +642,12 @@ export default class RetroSidebar extends Component {
     );
   }
 
-  onClickOpenFlowMap() {
+  onClickOpenFlowMap = () => {
     console.log("onClickOpenFlowMap!");
     let chartPopoutController = RendererControllerFactory.getViewController(
       RendererControllerFactory.Views.CHART_POPOUT, this);
 
-    chartPopoutController.openChartWindow("test");
+    chartPopoutController.openChartWindowForCircuitTask(this.props.model.circuitName);
   }
 
   /**
