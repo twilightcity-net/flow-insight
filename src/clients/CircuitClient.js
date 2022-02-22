@@ -148,15 +148,6 @@ export class CircuitClient extends BaseClient {
   static init(scope) {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
-      CircuitClient.getActiveCircuit(this, (arg) => {
-        let circuit = arg.data[0];
-        if (circuit) {
-          CircuitClient.activeCircuit = circuit;
-          CircuitClient.fireCircuitStartNotifyEvent();
-        } else {
-          CircuitClient.activeCircuit = null;
-        }
-      });
     }
   }
 

@@ -2,6 +2,11 @@ import React, {Component} from "react";
 import {DimensionController} from "../../../../../controllers/DimensionController";
 import FlowIntentionsList from "./FlowIntentionsList";
 import FlowChart from "./FlowChart";
+import {CircuitClient} from "../../../../../clients/CircuitClient";
+import {TalkToClient} from "../../../../../clients/TalkToClient";
+import FlowTroubleshootingFeed from "./FlowTroubleshootingFeed";
+import {MemberClient} from "../../../../../clients/MemberClient";
+
 /**
  * this component handles the main flow content for the /flow view
  */
@@ -18,7 +23,59 @@ export default class FlowContent extends Component {
     }
   }
 
+  componentDidMount() {
+    //if the circuitName is set, then we've got a context coming into this
+    //of the circuit we're on, and we may need to load up the context for that circuit
+  }
 
+  onCircuitClick = (circuitLink) => {
+    console.log("clicked on "+circuitLink);
+
+    let circuitName = circuitLink.substr(circuitLink.lastIndexOf('/')+1);
+    console.log("circuit name = "+circuitName);
+
+    CircuitClient.getCircuitWithAllDetails(circuitName, this, (arg) => {
+      if (!arg.error) {
+        this.circuit = arg.data;
+
+        TalkToClient.getAllTalkMessagesFromRoom(
+          this.circuit.wtfTalkRoomName,
+          this.circuit.wtfTalkRoomId,
+          this, (arg) => {
+            if (!arg.error) {
+              this.messages = arg.data;
+
+              this.setState({
+                circuit: this.circuit,
+                circuitMembers: this.circuit.circuitParticipants,
+                troubleshootMessages: this.messages,
+                me: MemberClient.me
+              });
+
+            } else {
+              console.error("error "+arg.error);
+            }
+          });
+      } else {
+        console.error("error "+arg.error);
+      }
+    });
+
+
+
+    //need the talk messages
+    //the circuit
+
+  }
+
+  onClickOffCircuit = () => {
+    this.setState({
+      circuit: null,
+      circuitMembers: null,
+      troubleshootMessages: null
+    })
+    console.log("on click off circuit");
+  }
   /**
    * When the user hovers over an intention, we need to update the cursor in the chart
    */
@@ -42,23 +99,49 @@ export default class FlowContent extends Component {
    * @returns {*} - the JSX to be rendered in the window
    */
   render() {
+    let flowContent = (<div id="component" className="loadingChart">
+      Loading...
+    </div>);
+
+    let innerDetails;
+
+    if (this.state.circuit && this.state.troubleshootMessages) {
+      innerDetails = (<FlowTroubleshootingFeed circuit={this.state.circuit}
+                               me={this.state.me}
+                               circuitMembers={this.state.circuitMembers}
+                               troubleshootMessages={this.state.troubleshootMessages} />);
+    } else {
+      innerDetails = (<FlowIntentionsList chartDto={this.props.chartDto}
+                                         onHoverIntention={this.onHoverIntention}
+                                         onExitHoverIntention={this.onExitHoverIntention}/>);
+    }
+
+    if (this.props.chartDto) {
+      let selectedCircuitName = this.props.selectedCircuitName;
+      if (this.state.circuit) {
+        selectedCircuitName = this.state.circuit.circuitName;
+      }
+
+      console.log("selected = "+selectedCircuitName);
+
+      flowContent = (
+        <div className="flowContentWrapper">
+        <FlowChart selectedCircuitName={selectedCircuitName} chartDto={this.props.chartDto} cursorOffset={this.state.cursorOffset}
+                   hasRoomForClose={this.props.hasRoomForClose} onCircuitClick={this.onCircuitClick} onClickOffCircuit={this.onClickOffCircuit}/>
+          {innerDetails}
+      </div>);
+    }
+
+    let height = DimensionController.getHeightFor(DimensionController.Components.FLOW_PANEL);
     return (
       <div
         id="component"
         className="flowContent"
         style={{
-          height: DimensionController.getHeightFor(
-            DimensionController.Components.FLOW_PANEL
-          ),
+          height: height,
         }}
       >
-        <div className="flowContentWrapper">
-          <FlowChart chartDto={this.props.chartDto} cursorOffset={this.state.cursorOffset}
-                     hasRoomForClose={this.props.hasRoomForClose}/>
-          <FlowIntentionsList chartDto={this.props.chartDto}
-                              onHoverIntention={this.onHoverIntention}
-                              onExitHoverIntention={this.onExitHoverIntention}/>
-        </div>
+        {flowContent}
       </div>
     );
   }

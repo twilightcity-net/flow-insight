@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {Divider, Feed, Grid, Segment} from "semantic-ui-react";
 import UtilRenderer from "../../../../../UtilRenderer";
-import ActiveRetroFeedEvent from "./ActiveRetroFeedEvent";
-import FeedCreator from "./FeedCreator";
+import FlowFeedEvent from "./FlowFeedEvent";
+import FeedCreator from "../../support/FeedCreator";
 
 /**
  * this is the gui component that displays the wtf troubleshooting session feed
@@ -173,7 +173,7 @@ export default class FlowTroubleshootingFeed extends Component {
     return this.state.feedEvents.map((message, i) => {
       if (i === this.state.feedEvents.length - 1) {
         return (
-          <ActiveRetroFeedEvent
+          <FlowFeedEvent
             key={i}
             circuitMember={this.getCircuitMemberForUsername(
               message.name
@@ -188,7 +188,7 @@ export default class FlowTroubleshootingFeed extends Component {
         );
       } else {
         return (
-          <ActiveRetroFeedEvent
+          <FlowFeedEvent
             key={i}
             circuitMember={this.getCircuitMemberForUsername(
               message.name
@@ -214,7 +214,7 @@ export default class FlowTroubleshootingFeed extends Component {
           <Grid id="intentions-row-grid" inverted columns={16}>
             <Grid.Row className="sessionHeaderRow">
               <Grid.Column width={16}>
-                <div className="troubleHeader">Troubleshooting Session</div>
+                <div className="troubleHeader">Troubleshooting: {UtilRenderer.getFormattedCircuitName(this.props.circuit.circuitName)}</div>
               </Grid.Column>
             </Grid.Row>
           </Grid>

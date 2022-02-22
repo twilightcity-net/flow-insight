@@ -28,7 +28,7 @@ export default class FlowChart extends Component {
    */
   componentDidMount() {
     if (this.props.chartDto) {
-      this.displayChart(this.props.chartDto, this.props.selectedWtf);
+      this.displayChart(this.props.chartDto, this.props.selectedCircuitName);
     }
     if (this.props.cursorOffset === null) {
       this.hideCursor();
@@ -48,9 +48,9 @@ export default class FlowChart extends Component {
 
     if ((!prevProps.chartDto && this.props.chartDto)
       || (prevProps.chartDto && this.props.chartDto && prevProps.chartDto.featureName !== this.props.chartDto.featureName)) {
-      this.displayChart(this.props.chartDto, this.props.selectedWtf);
-    } else if (this.props.selectedWtf && (!prevProps.selectedWtf || prevProps.selectedWtf.circuitName !== this.props.selectedWtf.circuitName)) {
-      this.redrawArrow(this.props.chartDto, this.props.selectedWtf);
+      this.displayChart(this.props.chartDto, this.props.selectedCircuitName);
+    } else if (prevProps.selectedCircuitName !== this.props.selectedCircuitName) {
+      this.redrawArrow(this.props.chartDto, this.props.selectedCircuitName);
     }
 
     if (this.props.cursorOffset === null) {
@@ -91,9 +91,9 @@ export default class FlowChart extends Component {
    * Display the flow chart on the screen, with the selected wtf highlighted with an
    * arrow.  Repeat calls to this will redraw the whole chart
    * @param chart
-   * @param selectedWtf
+   * @param selectedCircuitName
    */
-  displayChart(chart, selectedWtf) {
+  displayChart(chart, selectedCircuitName) {
     this.margin = 30;
     this.tooltipPositionPercent = 0.7;
     let svgHeight = DimensionController.getFullRightPanelHeight() - 200;
@@ -154,6 +154,8 @@ export default class FlowChart extends Component {
 
     this.createInvisibleBoundingBox(chartGroup);
 
+    this.createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedCircuitName);
+
     //exec dots should be on top of the invis box so that exec tips turn on, and bar tips turn off
     this.addExecDots(chart, chartGroup, barWidthByCoordsMap, tileExecMap);
     this.addIntentionCursor(chartGroup, xMinMax);
@@ -161,24 +163,22 @@ export default class FlowChart extends Component {
     this.createTimeAxis(chartGroup, xMinMax);
     this.createLegend(svg, chartGroup, interp);
     this.createTitle(chart, chartGroup);
-
-    this.createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedWtf);
   }
 
   /**
    * If we only need to redraw the wtf arrow and the chart is the same,
    * can call this alternative top level method to update the display
    * @param chart
-   * @param selectedWtf
+   * @param selectedCircuitName
    */
-  redrawArrow(chart, selectedWtf) {
+  redrawArrow(chart, selectedCircuitName) {
     let chartGroup = d3.select('.ifm');
 
     let data = chart.chartSeries.rowsOfPaddedCells;
     let barWidthByCoordsMap = this.createBarWidthByCoordsMap(data, this.xScale);
     let offsetMap = this.createOffsetMap(data, this.xScale);
 
-    this.createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedWtf);
+    this.createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedCircuitName);
   }
 
   /**
@@ -187,18 +187,22 @@ export default class FlowChart extends Component {
    * @param chartGroup
    * @param barWidthByCoordsMap
    * @param offsetMap
-   * @param selectedWtf
+   * @param selectedCircuitName
    */
-  createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedWtf) {
+  createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedCircuitName) {
 
-    if (!selectedWtf) {
+    if (!selectedCircuitName) {
+      let arrowGrpEl = document.getElementById('wtfarrow');
+      if (arrowGrpEl) {
+        arrowGrpEl.innerHTML = "";
+      }
       return;
     }
 
     let wtfData = chart.eventSeriesByType["@flow/wtf"].rowsOfPaddedCells;
 
-    let selectedWtfRow = this.findSelectedWtf(wtfData, selectedWtf);
-    let coords = selectedWtfRow[0].trim();
+    let selectedCircuitRow = this.findSelectedCircuit(wtfData, selectedCircuitName);
+    let coords = selectedCircuitRow[0].trim();
 
     let offset = offsetMap[coords];
     let barWidth = barWidthByCoordsMap[coords];
@@ -207,7 +211,7 @@ export default class FlowChart extends Component {
     let arrowHeight = 10;
     let arrowWidth = 20;
     let arrowBarWidth = 10;
-    let arrowBarHeight = 20;
+    let arrowBarHeight = 22;
     let topMargin = 3;
 
     let points = (midpoint - arrowWidth/2)+","+(this.chartHeight+topMargin+arrowHeight) +
@@ -240,11 +244,11 @@ export default class FlowChart extends Component {
   /**
    * Find the wtf row from the chart data that corresponds to the selected wtf passed in
    * @param wtfData
-   * @param selectedWtfCircuit
+   * @param selectedCircuitName
    * @returns {*}
    */
-  findSelectedWtf(wtfData, selectedWtfCircuit) {
-    let linkToFind = "/wtf/"+selectedWtfCircuit.circuitName;
+  findSelectedCircuit(wtfData, selectedCircuitName) {
+    let linkToFind = "/wtf/"+selectedCircuitName;
     for (let i = 0; i < wtfData.length; i++) {
       let circuitLink = wtfData[i][3].trim();
       if (circuitLink === linkToFind) {
@@ -325,6 +329,10 @@ export default class FlowChart extends Component {
     return bars;
   }
 
+  test() {
+    console.log("XXXX TEST XXX");
+  }
+
   /**
    * Add the tooltips for the bars on the chart, which include the file activity,
    * and the wtf for the row, or say no activity when there's no file data.
@@ -356,7 +364,7 @@ export default class FlowChart extends Component {
 
       if (wtfs && wtfs.length > 0) {
         if (files) { html += "<div>&nbsp;</div>"}
-        html += "<div class='wtftip'><span class='circuitName'>"+wtfs[0].circuitName+"</span><span class='duration'>"+wtfs[0].duration+"</span></div>\n";
+        html += "<div class='wtftip' ><span class='circuitName' id='circuitLink'>"+wtfs[0].circuitName+"</span><span class='duration'>"+wtfs[0].duration+"</span></div>\n";
         html += "<div class='wtfdescription'>"+wtfs[0].description+"</div>";
       }
 
@@ -665,7 +673,9 @@ export default class FlowChart extends Component {
       .attr('cx',(d) => this.xScale(d[1]) + this.lookupBarWidth(barWidthByCoordsMap, d[0])/2 )
       .attr('cy', this.chartHeight + execYMargin)
       .attr('r', execRadius)
-      .attr('fill', (d) => this.getFirstDotColor(d));
+      .attr('fill', (d) => this.getFirstDotColor(d))
+      .attr('stroke-width', "1px")
+      .attr('stroke', "#000");
 
     dotGrp.selectAll('execdot2')
       .data(execSummaryData)
@@ -681,7 +691,9 @@ export default class FlowChart extends Component {
           return 0;
         }
       })
-      .attr('fill', (d) => this.getMidDotColor(d));
+      .attr('fill', (d) => this.getMidDotColor(d))
+      .attr('stroke-width', "1px")
+      .attr('stroke', "#000");
 
     dotGrp.selectAll('execdot3')
       .data(execSummaryData)
@@ -691,6 +703,8 @@ export default class FlowChart extends Component {
       .attr('cx',(d) => this.xScale(d[1]) + this.lookupBarWidth(barWidthByCoordsMap, d[0])/2 )
       .attr('cy', this.chartHeight + (execYMargin * 3))
       .attr('fill', (d) => this.getThirdDotColor(d))
+      .attr('stroke-width', "1px")
+      .attr('stroke', "#000")
       .attr('r', (d) => {
         if (this.hasThirdDot(d)) {
           return execRadius;
@@ -798,24 +812,24 @@ export default class FlowChart extends Component {
   createInvisibleBoundingBox(chartGroup) {
 
     let boundingBox = chartGroup.append("g");
-
+    let lineSize = this.margin;
     //left line
     boundingBox.append("line")
       .attr('x1', this.margin / 2)
       .attr('y1', this.margin / 2)
       .attr('x2', this.margin / 2)
       .attr('y2', this.chartHeight + this.margin / 2)
-      .attr("stroke-width", "30px")
+      .attr("stroke-width", lineSize+ "px")
       .attr("stroke", "blue")
       .attr("opacity", 0);
 
     //bottom line
     boundingBox.append("line")
       .attr('x1', this.margin / 2)
-      .attr('y1', this.chartHeight + this.margin / 2)
+      .attr('y1', this.chartHeight + this.margin)
       .attr('x2', this.width - this.margin / 2)
-      .attr('y2', this.chartHeight + this.margin / 2)
-      .attr("stroke-width", "30px")
+      .attr('y2', this.chartHeight + this.margin)
+      .attr("stroke-width", lineSize * 2 + "px")
       .attr("stroke", "blue")
       .attr("opacity", 0);
 
@@ -825,7 +839,7 @@ export default class FlowChart extends Component {
       .attr('y1', this.margin / 2)
       .attr('x2', this.width - this.margin / 2)
       .attr('y2', this.chartHeight + this.margin / 2)
-      .attr("stroke-width", "30px")
+      .attr("stroke-width", lineSize + "px")
       .attr("stroke", "blue")
       .attr("opacity", 0);
 
@@ -835,13 +849,18 @@ export default class FlowChart extends Component {
       .attr('y1', this.margin / 2)
       .attr('x2', this.width - this.margin / 2)
       .attr('y2', this.margin / 2)
-      .attr("stroke-width", "30px")
+      .attr("stroke-width", lineSize + "px")
       .attr("stroke", "blue")
       .attr("opacity", 0);
 
     boundingBox.on('mouseover', function(event, d){
       d3.select('#tooltip')
         .style('left', "-1000px");
+    });
+
+    let that = this;
+    boundingBox.on('click', function(event, d) {
+      that.props.onClickOffCircuit();
     });
   }
 
@@ -1140,6 +1159,19 @@ export default class FlowChart extends Component {
 
 
   /**
+   * If a user clicks on a tooltip at all, handle checking what the user is hovering over
+   * and if we clicked on a wtf link and need to let the parent component know.
+   */
+  handleTooltipClick = (event) => {
+    var x = event.clientX, y = event.clientY,
+      elementMouseIsOver = document.elementFromPoint(x, y);
+
+    if (elementMouseIsOver.id === "circuitLink") {
+      this.props.onCircuitClick(elementMouseIsOver.innerHTML);
+    }
+  }
+
+  /**
    * renders the svg display of the chart with d3 support
    * These divs are populated via the displayChart() call
    * @returns {*}
@@ -1148,7 +1180,7 @@ export default class FlowChart extends Component {
     return (
       <div>
         <div id="chart" />
-        <div id="tooltip" className="chartpopup">
+        <div id="tooltip" className="chartpopup" onClick={this.handleTooltipClick}>
         </div>
       </div>
     );

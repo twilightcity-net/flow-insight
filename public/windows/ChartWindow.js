@@ -33,7 +33,7 @@ module.exports = class ChartWindow {
       frame: false,
       show: false,
       icon: this.icon,
-      backgroundColor: "#000000",
+      backgroundColor: "#1B1C1D",
       fullscreenable: false,
       webPreferences: {
         toolbar: false,
