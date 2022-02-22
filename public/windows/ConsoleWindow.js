@@ -27,6 +27,7 @@ module.exports = class ConsoleWindow {
     this.display = global.App.WindowManager.getDisplay();
     this.icon = Util.getAppIcon("icon.ico");
     this.window = new BrowserWindow({
+      titleBarStyle: 'customButtonsOnHover',
       name: this.name,
       width: this.display.workAreaSize.width,
       height: Math.floor(

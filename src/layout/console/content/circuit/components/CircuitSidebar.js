@@ -15,6 +15,8 @@ import PartyPanelListItem from "./PartyPanelListItem";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import UtilRenderer from "../../../../../UtilRenderer";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
+import fitty from "fitty";
+
 
 /**
  * the class which defines the circuit sidebar panel
@@ -84,6 +86,11 @@ export default class CircuitSidebar extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    fitty('#sidebarTitle', {
+      minSize: 14,
+      maxSize: 28,
+    });
+
     if (
       (!prevProps.model && this.props.model) ||
       (prevProps.model &&
@@ -527,7 +534,9 @@ export default class CircuitSidebar extends Component {
   getTitleContent(title) {
     return (
       <Segment inverted className="title">
+        <span id="sidebarTitle">
         {UtilRenderer.getFormattedCircuitName(title)}
+        </span>
       </Segment>
     );
   }

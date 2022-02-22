@@ -22,6 +22,7 @@ module.exports = class ChartWindow {
     this.display = global.App.WindowManager.getDisplay();
     this.autoShow = true;
     this.window = new BrowserWindow({
+      titleBarStyle: 'customButtonsOnHover',
       name: this.name,
       width: Math.floor(this.display.workAreaSize.width * 0.75),
       height:  Math.floor(this.display.workAreaSize.height / 2 * 0.90),

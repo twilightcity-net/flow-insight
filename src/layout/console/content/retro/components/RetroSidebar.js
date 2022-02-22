@@ -15,6 +15,7 @@ import RetroPartyListItem from "./RetroPartyListItem";
 import { MemberClient } from "../../../../../clients/MemberClient";
 import UtilRenderer from "../../../../../UtilRenderer";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
+import fitty from "fitty";
 
 /**
  * the class which defines the circuit sidebar panel
@@ -77,6 +78,11 @@ export default class RetroSidebar extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    fitty('#sidebarTitle', {
+      minSize: 14,
+      maxSize: 28,
+    });
+
     if (
       (!prevProps.model && this.props.model) ||
       (prevProps.model &&
@@ -110,6 +116,8 @@ export default class RetroSidebar extends Component {
       )
       //same model, updated tags, leave edit mode in place
     ) {
+
+
       this.setState({
         currentTags: this.getTagList(this.props.model),
       });
@@ -503,7 +511,9 @@ export default class RetroSidebar extends Component {
   getTitleContent(title) {
     return (
       <Segment inverted className="title">
-        {UtilRenderer.getFormattedCircuitName(title)}
+        <span id="sidebarTitle">
+          {UtilRenderer.getFormattedCircuitName(title)}
+          </span>
       </Segment>
     );
   }

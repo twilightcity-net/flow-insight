@@ -1991,21 +1991,17 @@
   }
 
   #component.circuitLayout #component.circuitContentSidebar .ui.segment.title {
-    font-size: 2rem;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box !important;
-    line-height: 2.420rem;
-    max-height: 4.420rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    overflow-wrap: break-word;
     font-weight: bolder;
     margin-bottom: 0;
     margin-top: 0.420rem;
     padding: 0 0.420rem;
-    vertical-align: middle;
-    text-align: center;
+    white-space: nowrap;
+    line-height: 2rem;
   }
 
   #component.circuitLayout #component.circuitContentSidebar .ui.segment.desc {
@@ -2385,13 +2381,13 @@
   }
 
   #component.flowContent #chart .axisLabel {
-    fill: rgba(100, 100, 100, 0.96);
+    fill: rgba(120, 120, 120, 0.96);
     font: sans-serif;
     font-size: 12px;
   }
 
   #component.flowContent #chart .title {
-    fill:  rgba(100, 100, 100, 0.96);
+    fill:  white;
     font-size: 16px;
     font-weight: bolder;
   }

@@ -86,7 +86,8 @@
     "stack-trace": "^0.0.10",
     "superagent": "^6.1.0",
     "yargs": "^14.0.0",
-    "d3": "^7.3.0"
+    "d3": "^7.3.0",
+    "fitty": "2.3.6"
   },
   "devDependencies": {
     "body-parser": "^1.19.0",
