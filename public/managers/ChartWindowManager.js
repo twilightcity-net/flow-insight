@@ -22,7 +22,14 @@ module.exports = class ChartWindowManager {
         this.onOpenChartCb(event, arg)
     );
 
-    this.chartWindowNames = new Set();
+    this.closeChartWindowEvent = EventFactory.createEvent(
+      EventFactory.Types.WINDOW_CLOSE_CHART,
+      this,
+      (event, arg) =>
+        this.onCloseChartCb(event, arg)
+    );
+
+    this.chartWindowsByName = new Map();
 
   }
 
@@ -37,11 +44,27 @@ module.exports = class ChartWindowManager {
   onOpenChartCb(event, arg) {
     let windowName = ChartWindowManager.windowNamePrefix + arg.circuitName;
 
-    arg.chartIndex = this.chartWindowNames.size;
+    arg.chartIndex = this.chartWindowsByName.size;
 
-    WindowManagerHelper.createChartWindow(windowName, arg);
-    this.chartWindowNames.add(windowName);
+    let window = WindowManagerHelper.createChartWindow(windowName, arg);
+    this.chartWindowsByName.set(windowName, window);
   }
+
+  /**
+   * When an open chart window is triggered, opens and creates the window
+   * and passes in the properties.
+   * @param event
+   * @param arg
+   */
+  onCloseChartCb(event, arg) {
+    let windowName = ChartWindowManager.windowNamePrefix + arg.circuitName;
+
+    let window = this.chartWindowsByName.get(windowName);
+    if (window) {
+      window.window.close();
+    }
+  }
+
 
   /**
    * Called when a close event is triggered on the window.
@@ -53,17 +76,17 @@ module.exports = class ChartWindowManager {
 
     WindowManagerHelper.closeChartWindow(windowName);
 
-    this.chartWindowNames.delete(windowName);
+    this.chartWindowsByName.delete(windowName);
   }
 
   /**
    * Close all the open chart windows
    */
   closeAllChartWindows() {
-    for (let windowName of this.chartWindowNames) {
+    for (let windowName of this.chartWindowsByName.keys()) {
       global.App.WindowManager.closeWindowByName(windowName);
     }
-    this.chartWindowNames.clear();
+    this.chartWindowsByName.clear();
   }
 
 };

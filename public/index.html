@@ -19,7 +19,7 @@
   }
 
   div#root {
-    cursor: default !important;
+    cursor: default;
     height: 100%;
     background: none !important;
     opacity: 1;
@@ -32,12 +32,17 @@
 
   a,
   .ui.button {
-    cursor: default !important;
+    cursor: default;
   }
 
   html,
   body.console {
     background: none;
+    opacity: 1;
+  }
+
+  body.chart {
+    background: black;
     opacity: 1;
   }
 
@@ -2324,8 +2329,44 @@
   }
 
   /*
-       * COMPONENT: FLOW-LAYOUT
-       */
+ * COMPONENT: POPUP CHART LAYOUT
+ */
+
+  #component.chartLayout {
+    -webkit-app-region: drag;
+  }
+
+  #component.chartLayout #component.flowContent .flowContentWrapper {
+    padding-top: 10px;
+  }
+
+  #component.chartLayout .closeIcon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    -webkit-app-region: no-drag;
+  }
+
+  #component.chartLayout .closeIcon i {
+    color: rgba(200, 200, 200, 0.96);
+    transition: background-color, color 0.333s ease-out;
+    border-radius: 3px;
+    margin: 0px;
+  }
+
+
+  #component.chartLayout .closeIcon i:hover {
+    color: white;
+    cursor: pointer !important;
+  }
+
+
+
+
+  /*
+   * COMPONENT: FLOW-LAYOUT
+   */
+
   #component.flowContent {
     color: white;
   }
@@ -2351,7 +2392,7 @@
 
   #component.flowContent #chart .title {
     fill:  rgba(100, 100, 100, 0.96);
-    font-size: 14px;
+    font-size: 16px;
     font-weight: bolder;
   }
 
@@ -2372,6 +2413,7 @@
     z-index: 1;
     opacity: 0;
     min-width: 130px;
+    -webkit-app-region: no-drag;
   }
 
 

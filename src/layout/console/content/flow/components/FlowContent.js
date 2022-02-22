@@ -2,7 +2,6 @@ import React, {Component} from "react";
 import {DimensionController} from "../../../../../controllers/DimensionController";
 import FlowIntentionsList from "./FlowIntentionsList";
 import FlowChart from "./FlowChart";
-import {ChartClient} from "../../../../../clients/ChartClient";
 /**
  * this component handles the main flow content for the /flow view
  */
@@ -15,32 +14,10 @@ export default class FlowContent extends Component {
     super(props);
     this.name = "[" + FlowContent.name + "]";
     this.state = {
-      chartDto: null,
       cursorOffset: null
     }
   }
 
-  /**
-   * Load the chart when the component mounts
-   */
-  componentDidMount() {
-    ChartClient.chartFrictionForTask(
-      'tc-desktop',
-      'tty',
-      'TWENTIES',
-      this,
-      (arg) => {
-        console.log("chart data returnedx!");
-
-        if (!arg.error) {
-          console.log(arg.data);
-          this.setState({
-            chartDto: arg.data
-          });
-        }
-      }
-    );
-  }
 
   /**
    * When the user hovers over an intention, we need to update the cursor in the chart
@@ -76,8 +53,9 @@ export default class FlowContent extends Component {
         }}
       >
         <div className="flowContentWrapper">
-          <FlowChart chartDto={this.state.chartDto} cursorOffset={this.state.cursorOffset}/>
-          <FlowIntentionsList chartDto={this.state.chartDto}
+          <FlowChart chartDto={this.props.chartDto} cursorOffset={this.state.cursorOffset}
+                     hasRoomForClose={this.props.hasRoomForClose}/>
+          <FlowIntentionsList chartDto={this.props.chartDto}
                               onHoverIntention={this.onHoverIntention}
                               onExitHoverIntention={this.onExitHoverIntention}/>
         </div>

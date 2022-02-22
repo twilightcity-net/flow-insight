@@ -57,14 +57,17 @@ export class DimensionController {
       padding: 8,
       header: 51,
       content: 0,
+      barHeight: 0
     };
     let addressBar = document.querySelector('#component.browserHeader');
-    return (
-      window.innerHeight -
+    if (addressBar) {
+      return window.innerHeight -
       heights.border -
       heights.padding -
-      addressBar.clientHeight
-    );
+      addressBar.clientHeight;
+    } else {
+      return window.innerHeight;
+    }
   }
 
   /**
@@ -419,26 +422,47 @@ export class DimensionController {
    * Get the width of a full panel on the right hand side, without the right side popup window
    */
   static getFullRightPanelWidth() {
+    let fullWidth = window.innerWidth - 10; // default margin
+
     let browserHeader = document.querySelector('#component.browserHeader');
 
+    if (browserHeader) {
+      fullWidth = browserHeader.clientWidth;
+    }
+
     return (
-      browserHeader.clientWidth
+      fullWidth
     );
+  }
+
+  static getBrowserBarHeight() {
+    let barHeight = 0;
+
+    let addressbar = document.querySelector('#component.browserHeader');
+    if (addressbar) {
+      barHeight = addressbar.clientHeight;
+    }
+    return barHeight;
   }
 
   /**
    * Get the height of a full panel on the right hand side, with the address bar in place
    */
   static getFullRightPanelHeight() {
+    let barHeight = 10;
+
     let addressbar = document.querySelector('#component.browserHeader');
+    if (addressbar) {
+      barHeight = addressbar.clientHeight;
+    }
     let padding = 8 * 2;
 
     console.log("height = "+window.innerHeight);
-    console.log("addressbar =" +addressbar.clientHeight);
+    console.log("addressbar =" +barHeight);
     console.log("padding = "+padding);
 
     return (
-      window.innerHeight - addressbar.clientHeight - padding
+      window.innerHeight - barHeight - padding
     );
   }
 

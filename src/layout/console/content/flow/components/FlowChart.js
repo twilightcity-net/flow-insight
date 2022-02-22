@@ -95,8 +95,18 @@ export default class FlowChart extends Component {
    */
   displayChart(chart, selectedWtf) {
     this.margin = 30;
+    this.tooltipPositionPercent = 0.7;
     let svgHeight = DimensionController.getFullRightPanelHeight() - 200;
     this.chartHeight = svgHeight - 2* this.margin;
+    this.browserBarHeightAdjust = DimensionController.getBrowserBarHeight();
+
+    this.legendOffsetForCloseAction = 0;
+
+    if (this.props.hasRoomForClose) {
+      this.legendOffsetForCloseAction = 30;
+    }
+
+
     this.width = DimensionController.getFullRightPanelWidth();
 
     let data = chart.chartSeries.rowsOfPaddedCells;
@@ -250,7 +260,7 @@ export default class FlowChart extends Component {
     chartGroup.append('text')
       .attr('class', 'title')
       .attr('x', this.margin)
-      .attr('y', this.margin - 8)
+      .attr('y', this.margin - 10)
       .attr('text-anchor', 'start')
       .text('Task: '+taskName);
   }
@@ -364,7 +374,7 @@ export default class FlowChart extends Component {
 
         d3.select('#tooltip')
           .style('left', (offset - (tooltipEl.clientWidth * 0.08) + 5) + "px")
-          .style('top', (that.chartHeight * 1.3) + "px")
+          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
           .style('opacity', 0.95);
       } else if (offset > (that.width - that.margin - 100)) {
         tooltipEl.classList.remove("chartpopup");
@@ -373,7 +383,7 @@ export default class FlowChart extends Component {
 
         d3.select('#tooltip')
           .style('left', (offset - tooltipEl.clientWidth * 0.92 + 5) + "px")
-          .style('top', (that.chartHeight * 1.3) + "px")
+          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
           .style('opacity', 0.95);
       } else {
         tooltipEl.classList.remove("popupleft");
@@ -382,7 +392,7 @@ export default class FlowChart extends Component {
 
         d3.select('#tooltip')
           .style('left', (offset - tooltipEl.clientWidth/2 + 5) + "px")
-          .style('top', (that.chartHeight * 1.3) + "px")
+          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
           .style('opacity', 0.95);
       }
     })
@@ -436,7 +446,7 @@ export default class FlowChart extends Component {
 
         d3.select('#tooltip')
           .style('left', (offset - (tooltipEl.clientWidth * 0.08) + 5) + "px")
-          .style('top', (that.chartHeight * 1.3) + "px")
+          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
           .style('opacity', 0.95);
       } else if (offset > (that.width - that.margin - 100)) {
         tooltipEl.classList.remove("chartpopup");
@@ -445,7 +455,7 @@ export default class FlowChart extends Component {
 
         d3.select('#tooltip')
           .style('left', (offset - tooltipEl.clientWidth * 0.92 + 5) + "px")
-          .style('top', (that.chartHeight * 1.3) + "px")
+          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
           .style('opacity', 0.95);
       } else {
         tooltipEl.classList.remove("popupleft");
@@ -454,7 +464,7 @@ export default class FlowChart extends Component {
 
         d3.select('#tooltip')
           .style('left', (offset - tooltipEl.clientWidth/2 + 5) + "px")
-          .style('top', (that.chartHeight * 1.3) + "px")
+          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
           .style('opacity', 0.95);
       }
     })
@@ -549,13 +559,13 @@ export default class FlowChart extends Component {
     chartGroup.append("rect")
       .attr("fill", "url(#momentumGradient)")
       .attr("stroke", "rgba(74, 74, 74, 0.96)")
-      .attr("x", this.width - this.margin - barsize)
+      .attr("x", this.width - this.margin - barsize - this.legendOffsetForCloseAction)
       .attr("y", 10)
       .attr("width", barsize)
       .attr("height", 10);
 
     chartGroup.append('text')
-      .attr('x', this.width - this.margin - barsize - margin )
+      .attr('x', this.width - this.margin - barsize - margin - this.legendOffsetForCloseAction)
       .attr('y', 19)
       .attr('text-anchor', 'end')
       .attr('class', 'axisLabel')
@@ -564,13 +574,13 @@ export default class FlowChart extends Component {
     chartGroup.append("rect")
       .attr("fill", "#FF2C36")
       .attr("stroke", "rgba(74, 74, 74, 0.96)")
-      .attr("x", this.width - this.margin - barsize - margin - 90)
+      .attr("x", this.width - this.margin - barsize - margin - 90 - this.legendOffsetForCloseAction)
       .attr("y", 10)
       .attr("width", 10)
       .attr("height", 10);
 
     chartGroup.append('text')
-      .attr('x', this.width - this.margin - barsize - margin * 2 - 90 )
+      .attr('x', this.width - this.margin - barsize - margin * 2 - 90 - this.legendOffsetForCloseAction)
       .attr('y', 19)
       .attr('text-anchor', 'end')
       .attr('class', 'axisLabel')
@@ -745,7 +755,7 @@ export default class FlowChart extends Component {
 
         d3.select('#tooltip')
           .style('left', (offset - (tipWidth * 0.08) + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2) + "px")
-          .style('top', (that.chartHeight * 1.3 + (execYMargin * 5)) + "px")
+          .style('top', ((that.margin + that.chartHeight * that.tooltipPositionPercent+ that.browserBarHeightAdjust) + (execYMargin * 5)) + "px")
           .style('opacity', 0.95);
       } else if (offset > (that.width - that.width / 2 + 150)) {
         tooltipEl.classList.remove("chartpopup");
@@ -754,7 +764,7 @@ export default class FlowChart extends Component {
 
         d3.select('#tooltip')
           .style('left', (offset - tipWidth * 0.92 + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2)  + "px")
-          .style('top', (that.chartHeight * 1.3 + (execYMargin * 5)) + "px")
+          .style('top', ((that.margin + that.chartHeight * that.tooltipPositionPercent+ that.browserBarHeightAdjust) + (execYMargin * 5)) + "px")
           .style('opacity', 0.95);
       } else {
         tooltipEl.classList.remove("popupleft");
@@ -763,7 +773,7 @@ export default class FlowChart extends Component {
 
         d3.select('#tooltip')
           .style('left', (offset - tipWidth/2 + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2) + "px")
-          .style('top', (that.chartHeight * 1.3 + (execYMargin * 5)) + "px")
+          .style('top', ((that.margin + that.chartHeight * that.tooltipPositionPercent+ that.browserBarHeightAdjust) + (execYMargin * 5)) + "px")
           .style('opacity', 0.95);
       }
     })

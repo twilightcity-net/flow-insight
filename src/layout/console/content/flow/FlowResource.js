@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import FlowContent from "./components/FlowContent";
+import {ChartClient} from "../../../../clients/ChartClient";
 
 /**
  * this component is the tab panel wrapper for the flow content
@@ -18,6 +19,29 @@ export default class FlowResource extends Component {
     };
   }
 
+
+  /**
+   * Load the chart when the component mounts
+   */
+  componentDidMount() {
+    ChartClient.chartFrictionForTask(
+      'tc-desktop',
+      'tty',
+      'TWENTIES',
+      this,
+      (arg) => {
+        console.log("chart data returnedx!");
+
+        if (!arg.error) {
+          console.log(arg.data);
+          this.setState({
+            chartDto: arg.data
+          });
+        }
+      }
+    );
+  }
+
   /**
    * renders the journal layout of the console view
    * @returns {*} - the rendered components JSX
@@ -26,7 +50,7 @@ export default class FlowResource extends Component {
     return (
       <div id="component" className="flowLayout">
         <div id="wrapper" className="flowContent">
-          <FlowContent />
+          <FlowContent chartDto={this.state.chartDto}/>
         </div>
       </div>
     );

@@ -65,6 +65,8 @@ class EventFactory {
         prefix + "window-activator-close",
       WINDOW_OPEN_CHART:
         prefix + "window-open-chart",
+      WINDOW_CLOSE_CHART:
+        prefix + "window-close-chart",
       WINDOW_CHART_SHOWN:
         prefix + "window-chart-shown",
       WINDOW_CHART_CLOSED:
