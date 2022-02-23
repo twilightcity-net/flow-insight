@@ -184,7 +184,6 @@ export default class ActiveRetro extends Component {
       this,
       (arg) => {
         this.troubleshootMessages = arg.data;
-        this.loadCount++;
         this.updateStateIfDoneLoading(arg.error);
       }
     );
@@ -196,12 +195,10 @@ export default class ActiveRetro extends Component {
         this,
         (arg) => {
           this.retroMessages = arg.data;
-          this.loadCount++;
           this.updateStateIfDoneLoading(arg.error);
         }
       );
     } else {
-      this.loadCount++;
       this.updateStateIfDoneLoading();
     }
 
@@ -211,11 +208,25 @@ export default class ActiveRetro extends Component {
       this,
       (arg) => {
         this.circuitMembers = arg.data;
-        this.loadCount++;
-
-        this.updateStateIfDoneLoading();
+        this.updateStateIfDoneLoading(arg.error);
       }
     );
+
+    CircuitClient.getCircuitTaskSummary(
+      circuit.circuitName,
+      this,
+      (arg) => {
+        console.log("task summary back!");
+        if (!arg.error) {
+          console.log("not error");
+          console.log("summary = "+JSON.stringify(arg.data));
+          this.setState({
+            taskSummary: arg.data
+          })
+        } else {
+          console.error(arg.error);
+        }
+      });
 
     ChartClient.chartFrictionForWTF(
       circuit,
@@ -233,7 +244,12 @@ export default class ActiveRetro extends Component {
    * Make sure the state updates happen at the same time, so we dont load the chat
    * with incorrect profile pics, then fix it.  This loads the state at end, after loadcount == 2
    */
-  updateStateIfDoneLoading() {
+  updateStateIfDoneLoading(error) {
+    if (error) {
+      console.error(error);
+    }
+
+    this.loadCount++;
     if (this.loadCount === 3) {
       let feedCreator = new FeedCreator(this.props.circuit, this.circuitMembers, MemberClient.me);
 
@@ -750,6 +766,7 @@ export default class ActiveRetro extends Component {
         <RetroSidebar
           model={this.props.circuit}
           chartDto={this.state.chartDto}
+          taskSummary={this.state.taskSummary}
           dictionaryWords={this.state.dictionaryWords}
           circuitMembers={this.state.circuitMembers}
           toggleFilesPanel={this.toggleFilesPanel}

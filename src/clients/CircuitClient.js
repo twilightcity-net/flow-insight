@@ -96,7 +96,7 @@ export class CircuitClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_CIRCUIT_MEMBERS: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, LEAVE_WTF: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, JOIN_WTF: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, RESUME_WTF: string}}
+   * @returns {{LOAD_CIRCUIT_MEMBERS: string, GET_CIRCUIT_TASK_SUMMARY: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, LEAVE_WTF: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, JOIN_WTF: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -127,6 +127,8 @@ export class CircuitClient extends BaseClient {
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
+      GET_CIRCUIT_TASK_SUMMARY:
+        "get-circuit-task-summary",
       GET_CIRCUIT_MEMBERS: "get-circuit-members",
       SOLVE_WTF: "solve-wtf",
       CANCEL_WTF: "cancel-wtf",
@@ -148,6 +150,15 @@ export class CircuitClient extends BaseClient {
   static init(scope) {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
+      CircuitClient.getActiveCircuit(this, arg => {
+        let circuit = arg.data[0];
+        if (circuit) {
+          CircuitClient.activeCircuit = circuit;
+          CircuitClient.fireCircuitStartNotifyEvent();
+        } else {
+          CircuitClient.activeCircuit = null;
+        }
+      });
     }
   }
 
@@ -405,6 +416,31 @@ export class CircuitClient extends BaseClient {
     CircuitClient.instance.notifyCircuit(event);
     return event;
   }
+
+
+
+  /**
+   * gets the task summary for our circuit
+   * @param circuitName
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getCircuitTaskSummary(
+    circuitName,
+    scope,
+    callback
+  ) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.GET_CIRCUIT_TASK_SUMMARY,
+      { circuitName: circuitName },
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
 
   /**
    * gets the members for a given circuit. The controller will call load if

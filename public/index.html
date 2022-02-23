@@ -1899,7 +1899,7 @@
     width: 100%;
   }
 
-  #component.circuitLayout #component.circuitContentSidebar .overview {
+  #component.circuitLayout #component.circuitContentSidebar .overview .task {
     overflow: hidden;
     text-overflow: ellipsis;
   }
@@ -2009,7 +2009,7 @@
     text-overflow: ellipsis;
     display: -webkit-box !important;
     line-height: 1.333rem;
-    max-height: 5.333rem;
+    max-height: 4.0rem;
     -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
     overflow-wrap: break-word;
@@ -2017,6 +2017,78 @@
     text-indent: 0.420rem;
     text-align: center;
     padding: 0 0.420rem !important;
+  }
+
+
+  #component.circuitLayout #component.circuitContentSidebar .ui.segment.taskdesc {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box !important;
+    line-height: 1.333rem;
+    height: 4.0rem;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow-wrap: break-word;
+    font-style: italic;
+    text-indent: 0.420rem;
+    text-align: center;
+    padding: 0 0.420rem !important;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .ui.segment.flowSummary {
+    text-overflow: hidden;
+    display: -webkit-box !important;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-align: center;
+    padding-top: 5px;
+    padding-bottom: 0px;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .frictionFlowTitle {
+    color: rgba(120, 120, 120, 0.96);
+    font-size: 12px;
+    padding: 3px;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .flowBar {
+    background-color: rgba(120, 120, 120, 0.96);
+    color: black;
+    border: black 1px solid;
+    border-radius: 5px;
+    font-size: 0.8rem;
+  }
+
+  .flowBarTip {
+    text-align: center;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .flowBar .confusion {
+    background-color: #960000;
+    color: white;
+    border-right: black 1px solid;
+    display: inline-block;
+    border-bottom-left-radius: 2px;
+    border-top-left-radius: 2px;
+    cursor: pointer;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .flowBar .learning {
+    background-color: white;
+    color: black;
+    display: inline-block;
+    border-radius: 2px;
+    cursor: pointer;
+  }
+
+  #component.circuitLayout #component.circuitContentSidebar .flowBar .progress {
+    background-color: #7846FB;
+    color: white;
+    border-left: black 1px solid;
+    display: inline-block;
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+    cursor: pointer;
   }
 
   #component.circuitLayout #component.circuitContentSidebar .tags {

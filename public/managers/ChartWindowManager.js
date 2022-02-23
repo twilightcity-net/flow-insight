@@ -29,10 +29,16 @@ module.exports = class ChartWindowManager {
         this.onCloseChartCb(event, arg)
     );
 
+    this.hideConsoleEvent = EventFactory.createEvent(
+      EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE,
+      this,
+      (event, arg) =>
+        this.onHideConsole(event, arg)
+    );
+
     this.chartWindowsByName = new Map();
 
   }
-
 
 
   /**
@@ -65,6 +71,15 @@ module.exports = class ChartWindowManager {
     }
   }
 
+  /**
+   * When the console hides, close all the chart popups
+   * @param arg
+   */
+  onHideConsole(event, arg) {
+    if (arg.showHideFlag === 1) { //closing
+      this.closeAllChartWindows();
+    }
+  }
 
   /**
    * Called when a close event is triggered on the window.

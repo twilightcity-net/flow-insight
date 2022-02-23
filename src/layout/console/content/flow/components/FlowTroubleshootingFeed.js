@@ -85,16 +85,8 @@ export default class FlowTroubleshootingFeed extends Component {
    * renders our active feed component into the current resource view
    * @returns {*}
    */
-  getActiveCircuitFeedContent(isChatActive) {
-    let circuit = this.props.circuit,
-      openTimeStr = "NOW",
-      height = "95%";
-
-    if (circuit) {
-      openTimeStr = UtilRenderer.getOpenTimeString(
-        circuit.openTime
-      );
-    }
+  getActiveCircuitFeedContent() {
+    let height = "95%";
 
     return (
       <Segment
@@ -214,12 +206,12 @@ export default class FlowTroubleshootingFeed extends Component {
           <Grid id="intentions-row-grid" inverted columns={16}>
             <Grid.Row className="sessionHeaderRow">
               <Grid.Column width={16}>
-                <div className="troubleHeader">Troubleshooting: {UtilRenderer.getFormattedCircuitName(this.props.circuit.circuitName)}</div>
+                <div className="troubleHeader">Troubleshoot: {UtilRenderer.getFormattedCircuitName(this.props.circuit.circuitName)}</div>
               </Grid.Column>
             </Grid.Row>
           </Grid>
           <div className="scrolling">
-            {this.getActiveCircuitFeedContent(false)}
+            {this.getActiveCircuitFeedContent()}
           </div>
         </div>
       </div>

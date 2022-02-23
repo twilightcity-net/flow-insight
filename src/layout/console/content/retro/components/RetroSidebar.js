@@ -43,15 +43,15 @@ export default class RetroSidebar extends Component {
 
   /**
    * the possible view we can display in the circuit sidebar panel
-   * @returns {{PARTY: string, METRICS: string, OVERVIEW: string}}
+   * @returns {{PARTY: string, METRICS: string, TASK: string}}
    * @constructor
    */
   static get Views() {
     return {
-      OVERVIEW: "overview",
+      TASK: "task",
       FILES: "files",
       EXEC: "exec",
-      FLOW: "flow"
+      TAGS: "tags"
     };
   }
 
@@ -69,7 +69,7 @@ export default class RetroSidebar extends Component {
       );
 
     this.state = {
-      activeMenuView: RetroSidebar.Views.OVERVIEW,
+      activeMenuView: RetroSidebar.Views.TASK,
       tagEditEnabled: false,
       currentTags: [],
       tagOptions: [],
@@ -93,7 +93,7 @@ export default class RetroSidebar extends Component {
       //different model
 
       this.setState({
-        activeMenuView: RetroSidebar.Views.OVERVIEW,
+        activeMenuView: RetroSidebar.Views.TASK,
       });
       this.props.toggleTroubleshootPanel();
 
@@ -313,11 +313,11 @@ export default class RetroSidebar extends Component {
   };
 
   /**
-   * custom event handler for when a user clicks on the overview menu item
+   * custom event handler for when a user clicks on the task menu item
    * @param e
    * @param arg
    */
-  handleMenuOverviewClick = (e, arg) => {
+  handleMenuTaskClick = (e, arg) => {
     this.handleMenuClick(e, arg);
     this.props.toggleTroubleshootPanel();
   };
@@ -341,13 +341,6 @@ export default class RetroSidebar extends Component {
     return me && me[RetroSidebar.idFieldStr] === id;
   }
 
-  /**
-   * gets the menu item for party content string to display total party members
-   * @returns {string}
-   */
-  getMenuItemFlowContent() {
-    return "Flow";
-  }
 
   /**
    * renders the circuit sidebar content panel
@@ -373,12 +366,12 @@ export default class RetroSidebar extends Component {
       >
         <Menu size="mini" inverted pointing secondary>
           <Menu.Item
-            name={RetroSidebar.Views.OVERVIEW}
+            name={RetroSidebar.Views.TASK}
             active={
               this.state.activeMenuView ===
-              RetroSidebar.Views.OVERVIEW
+              RetroSidebar.Views.TASK
             }
-            onClick={this.handleMenuOverviewClick}
+            onClick={this.handleMenuTaskClick}
           />
           <Menu.Item
             name={RetroSidebar.Views.FILES}
@@ -397,10 +390,10 @@ export default class RetroSidebar extends Component {
             onClick={this.handleMenuExecClick}
           />
           <Menu.Item
-            name={RetroSidebar.Views.FLOW}
+            name={RetroSidebar.Views.TAGS}
             active={
               this.state.activeMenuView ===
-              RetroSidebar.Views.FLOW
+              RetroSidebar.Views.TAGS
             }
             onClick={this.handleMenuClick}
           />
@@ -416,10 +409,10 @@ export default class RetroSidebar extends Component {
    */
   getCircuitSidebarMenuContent() {
     switch (this.state.activeMenuView) {
-      case RetroSidebar.Views.OVERVIEW:
-        return this.getCircuitSidebarOverviewContent();
-      case RetroSidebar.Views.FLOW:
-        return this.getCircuitSidebarFlowContent();
+      case RetroSidebar.Views.TASK:
+        return this.getCircuitSidebarTaskContent();
+      case RetroSidebar.Views.TAGS:
+        return this.getCircuitSidebarTagsContent();
       case RetroSidebar.Views.FILES:
         return this.getCircuitSidebarFilesContent();
       case RetroSidebar.Views.EXEC:
@@ -461,26 +454,25 @@ export default class RetroSidebar extends Component {
   }
 
   /**
-   * renders the circuit sidebar menu content for the overview section.
+   * renders the circuit sidebar menu content for the task section.
    * This section contains a timer that counts up from start time, a title
    * for the room, as well a a description along with an array of hashtag
    * labels
    * @returns {*}
    */
-  getCircuitSidebarOverviewContent() {
+  getCircuitSidebarTaskContent() {
     let title = "loading...",
       description = "...",
       tags = ["..."];
 
-    if (this.props.model) {
-      title = this.props.model.circuitName;
-      description = this.props.model.description;
+    console.log("summary = "+JSON.stringify(this.props.taskSummary));
+
+    if (this.props.taskSummary && this.props.model) {
+      title = this.props.taskSummary.taskName;
+      description = this.props.taskSummary.description;
       tags = this.props.model.tags
         ? this.props.model.tags
         : tags;
-      if (!description || description === "") {
-        description = "What's the problem?";
-      }
     }
 
     let height = "100%";
@@ -494,12 +486,91 @@ export default class RetroSidebar extends Component {
     }
 
     return (
-      <div className="overview" style={{ height: height }}>
+      <div className="task" style={{ height: height }}>
         {this.getTitleContent(title)}
         {this.getDescriptionContent(description)}
-        {this.getTagsMapContent(tags)}
-        {this.getTagsEditDoneContent()}
+        {this.getFlowMapContent(this.props.taskSummary)}
+        {/*{this.getTagsMapContent(tags)}*/}
+        {/*{this.getTagsEditDoneContent()}*/}
       </div>
+    );
+  }
+
+  getFlowMapContent(taskSummary) {
+
+    let notYetAvailable = "Not Yet Available";
+    let learning = 0;
+    let confusion = 0;
+    let progress = 0;
+
+    if (taskSummary && taskSummary.percentLearning != null) {
+      notYetAvailable = "";
+      learning = Math.round(taskSummary.percentLearning);
+      confusion = Math.round(taskSummary.percentConfusion);
+      progress = Math.round(taskSummary.percentProgress);
+    }
+
+    let confusionBar = "";
+    let learningBar = "";
+    let progressBar = "";
+
+    if (confusion > 0) {
+      confusionBar =
+        <Popup
+          content={<div className="flowBarTip"><b>{"Confusion "+confusion + "%"}</b><br/><i>Click to open FlowMap</i></div>}
+          mouseEnterDelay={420}
+          mouseLeaveDelay={210}
+          on="hover"
+          inverted
+          position={"bottom center"}
+          trigger={<div className="confusion" style={{width: (confusion + "%")}}>{confusion + "%"}</div>}
+        />
+    }
+    if (learning > 0) {
+      learningBar =
+        <Popup
+          content={<div className="flowBarTip"><b>{"Learning "+learning + "%"}</b><br/><i>Click to open FlowMap</i></div>}
+          mouseEnterDelay={420}
+          mouseLeaveDelay={210}
+          on="hover"
+          inverted
+          position={"bottom center"}
+          trigger={ <div className="learning" style={{width: (learning + "%")}}>{learning + "%"}</div>}
+        />
+    }
+
+    if (progress > 0) {
+      progressBar =
+        <Popup
+          content={<div className="flowBarTip"><b>{"Progress "+progress + "%"}</b><br/><i>Click to open FlowMap</i></div>}
+          mouseEnterDelay={420}
+          mouseLeaveDelay={210}
+          on="hover"
+          inverted
+          position={"left center"}
+          trigger={  <div className="progress"style={{width: (progress + "%")}}>{progress + "%"}</div>}
+        />
+
+    }
+
+    let flowBar = (
+      <div className="flowBar" onClick={notYetAvailable? "" : this.onClickOpenFlowMap}>
+      {confusionBar}
+      {learningBar}
+      {progressBar}
+      {notYetAvailable}
+    </div>);
+
+    let title = "";
+    if (!notYetAvailable) {
+      title = <div className="frictionFlowTitle">Friction/Flow</div>
+    }
+
+    return (
+      <Segment inverted className="flowSummary">
+        {flowBar}
+        {title}
+      </Segment>
     );
   }
 
@@ -512,7 +583,7 @@ export default class RetroSidebar extends Component {
     return (
       <Segment inverted className="title">
         <span id="sidebarTitle">
-          {UtilRenderer.getFormattedCircuitName(title)}
+          {title}
           </span>
       </Segment>
     );
@@ -526,14 +597,14 @@ export default class RetroSidebar extends Component {
   getDescriptionContent(description) {
     return (
       <Popup
-        content="Click to change the description."
+        content={description}
         mouseEnterDelay={420}
         mouseLeaveDelay={210}
         on="hover"
         inverted
-        position={"top center"}
+        position={"bottom center"}
         trigger={
-          <Segment inverted className="desc">
+          <Segment inverted className="taskdesc">
             {description}
           </Segment>
         }
@@ -665,7 +736,7 @@ export default class RetroSidebar extends Component {
    * whom have join this active circuits trouble shooting wtf session.
    * @returns {*}
    */
-  getCircuitSidebarFlowContent() {
+  getCircuitSidebarTagsContent() {
     return (
       <div>
         <Segment className="party" inverted>

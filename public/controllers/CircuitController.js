@@ -26,7 +26,7 @@ module.exports = class CircuitController extends (
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_CIRCUIT_MEMBERS: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, LEAVE_WTF: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, JOIN_WTF: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
+   * @returns {{LOAD_CIRCUIT_MEMBERS: string, GET_CIRCUIT_TASK_SUMMARY: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, LEAVE_WTF: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, JOIN_WTF: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -57,6 +57,8 @@ module.exports = class CircuitController extends (
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
+      GET_CIRCUIT_TASK_SUMMARY:
+        "get-circuit-task-summary",
       GET_CIRCUIT_MEMBERS: "get-circuit-members",
       SOLVE_WTF: "solve-wtf",
       CANCEL_WTF: "cancel-wtf",
@@ -203,12 +205,11 @@ module.exports = class CircuitController extends (
         case CircuitController.Events.GET_ACTIVE_CIRCUIT:
           this.handleGetActiveCircuitEvent(event, arg);
           break;
-        case CircuitController.Events
-          .GET_CIRCUIT_WITH_ALL_DETAILS:
-          this.handleGetCircuitWithAllDetailsEvent(
-            event,
-            arg
-          );
+        case CircuitController.Events.GET_CIRCUIT_WITH_ALL_DETAILS:
+          this.handleGetCircuitWithAllDetailsEvent(event, arg);
+          break;
+        case CircuitController.Events.GET_CIRCUIT_TASK_SUMMARY:
+          this.handleGetCircuitTaskSummary(event, arg);
           break;
         case CircuitController.Events.GET_CIRCUIT_MEMBERS:
           this.handleGetCircuitMembersEvent(event, arg);
@@ -1095,6 +1096,62 @@ module.exports = class CircuitController extends (
       );
     }
   }
+
+  /**
+   * gets our circuit task summary from gridtime
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetCircuitTaskSummary(
+    event,
+    arg,
+    callback
+  ) {
+    let circuitName = arg.args.circuitName,
+      urn =
+        CircuitController.Paths.CIRCUIT +
+        CircuitController.Paths.SEPARATOR +
+        CircuitController.Paths.WTF +
+        circuitName +
+        CircuitController.Paths.TASK;
+
+    this.doClientRequest(
+      CircuitController.Contexts.CIRCUIT_CLIENT,
+      {},
+      CircuitController.Names.GET_CIRCUIT_TASK_SUMMARY,
+      CircuitController.Types.GET,
+      urn,
+      (store) =>
+        this.delegateGetCircuitTaskSummaryCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * processes our get circuit task summary request
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateGetCircuitTaskSummaryCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
 
   /**
    * gets our circuit members by call load circuit members in this class if
