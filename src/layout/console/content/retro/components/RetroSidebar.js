@@ -737,17 +737,28 @@ export default class RetroSidebar extends Component {
    * @returns {*}
    */
   getCircuitSidebarTagsContent() {
+    let tags = ["..."];
+
+    if (this.props.model) {
+      tags = this.props.model.tags
+        ? this.props.model.tags
+        : tags;
+    }
+
+    let height = "100%";
+
+    if (this.state.tagEditEnabled) {
+      height =
+        DimensionController.getCircuitSidebarHeight() +
+        DimensionController.getCircuitSidebarTimerHeight() +
+        DimensionController.getCircuitSidebarActionsHeight() -
+        100;
+    }
+
     return (
-      <div>
-        <Segment className="party" inverted>
-          <Button
-            onClick={this.onClickOpenFlowMap}
-            size="medium"
-            color="violet"
-          >
-            <Button.Content>Open Flow Map</Button.Content>
-          </Button>
-        </Segment>
+      <div className="overview" style={{ height: height }}>
+        {this.getTagsMapContent(tags)}
+        {this.getTagsEditDoneContent()}
       </div>
     );
   }

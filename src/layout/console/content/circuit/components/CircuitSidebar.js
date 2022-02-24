@@ -53,15 +53,14 @@ export default class CircuitSidebar extends Component {
 
   /**
    * the possible view we can display in the circuit sidebar panel
-   * @returns {{PARTY: string, CHEST: string, OVERVIEW: string}}
+   * @returns {{PARTY: string, SCRAPBOOK: string, OVERVIEW: string}}
    * @constructor
    */
   static get Views() {
     return {
       OVERVIEW: "overview",
       PARTY: "party",
-      CHEST: "chest",
-      METRICS: "scrapbook",
+      SCRAPBOOK: "scrapbook",
     };
   }
 
@@ -399,6 +398,14 @@ export default class CircuitSidebar extends Component {
             onClick={this.handleMenuClick}
           />
           <Menu.Item
+            name={CircuitSidebar.Views.SCRAPBOOK}
+            active={
+              this.state.activeMenuView ===
+              CircuitSidebar.Views.SCRAPBOOK
+            }
+            onClick={this.handleMenuScrapbookClick}
+          />
+          <Menu.Item
             name={CircuitSidebar.Views.PARTY}
             active={
               this.state.activeMenuView ===
@@ -408,22 +415,6 @@ export default class CircuitSidebar extends Component {
           >
             {this.getMenuItemPartyContent()}
           </Menu.Item>
-          <Menu.Item
-            name={CircuitSidebar.Views.METRICS}
-            active={
-              this.state.activeMenuView ===
-              CircuitSidebar.Views.METRICS
-            }
-            onClick={this.handleMenuScrapbookClick}
-          />
-          <Menu.Item
-            name={CircuitSidebar.Views.CHEST}
-            active={
-              this.state.activeMenuView ===
-              CircuitSidebar.Views.CHEST
-            }
-            onClick={this.handleMenuClick}
-          />
         </Menu>
         {this.getCircuitSidebarMenuContent()}
       </Segment>
@@ -440,10 +431,8 @@ export default class CircuitSidebar extends Component {
         return this.getCircuitSidebarOverviewContent();
       case CircuitSidebar.Views.PARTY:
         return this.getCircuitSidebarPartyContent();
-      case CircuitSidebar.Views.METRICS:
+      case CircuitSidebar.Views.SCRAPBOOK:
         return this.getCircuitSidebarScrapbookContent();
-      case CircuitSidebar.Views.CHEST:
-        return this.getCircuitSidebarChestContent();
       default:
         throw new Error(
           "Unknown circuit sidebar menu type '" +
@@ -508,18 +497,23 @@ export default class CircuitSidebar extends Component {
 
     let height = "100%";
 
+    let titleContent = this.getTitleContent(title);
+    let descriptionContent = this.getDescriptionContent(description);
     if (this.state.tagEditEnabled) {
       height =
         DimensionController.getCircuitSidebarHeight() +
         DimensionController.getCircuitSidebarTimerHeight() +
         DimensionController.getCircuitSidebarActionsHeight() -
         100;
+
+      titleContent = "";
+      descriptionContent = ""
     }
 
     return (
       <div className="overview" style={{ height: height }}>
-        {this.getTitleContent(title)}
-        {this.getDescriptionContent(description)}
+        {titleContent}
+        {descriptionContent}
         {this.getTagsMapContent(tags)}
         {this.getTagsEditDoneContent()}
       </div>
@@ -608,7 +602,7 @@ export default class CircuitSidebar extends Component {
     } else {
       if (this.state.currentTags.length > 0) {
         tagsContent = (
-          <div>
+          <div className="tagsContentBlock">
             {this.state.currentTags.map((s, i) => (
               <Label
                 color="grey"
