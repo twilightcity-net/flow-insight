@@ -682,8 +682,8 @@ export class CircuitClient extends BaseClient {
     );
     if (clientEvent) {
       CircuitClient.replies.delete(arg.id);
+      clientEvent.callback(event, arg);
     }
-    clientEvent.callback(event, arg);
   };
 
   /**

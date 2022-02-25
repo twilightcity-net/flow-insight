@@ -158,8 +158,8 @@ export class TalkToClient extends BaseClient {
     );
     if (clientEvent) {
       TalkToClient.replies.delete(arg.id);
+      clientEvent.callback(event, arg);
     }
-    clientEvent.callback(event, arg);
   };
 
   /**
