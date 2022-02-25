@@ -53,8 +53,10 @@ export default class FlowChart extends Component {
       this.redrawArrow(this.props.chartDto, this.props.selectedCircuitName);
     }
 
-    if (this.props.cursorOffset === null) {
+    if (this.props.cursorOffset === null && this.props.selectedOffset === null) {
       this.hideCursor();
+    } else if (this.props.cursorOffset === null && this.props.selectedOffset) {
+      this.moveCursorToPosition(this.props.selectedOffset);
     } else if (prevProps.cursorOffset !== this.props.cursorOffset) {
       this.moveCursorToPosition(this.props.cursorOffset);
     }
@@ -94,6 +96,7 @@ export default class FlowChart extends Component {
    * @param selectedCircuitName
    */
   displayChart(chart, selectedCircuitName) {
+    console.log(chart);
     this.margin = 30;
     this.tooltipPositionPercent = 0.7;
     let svgHeight = DimensionController.getFullRightPanelHeight() - 200;
@@ -143,6 +146,7 @@ export default class FlowChart extends Component {
     let tileLocationMap = this.createTileLocationDataMap(chart);
     let tileWtfMap = this.createTileWtfDataMap(chart);
     let tileExecMap = this.createTileExecDetailsMap(data, chart);
+    let taskSwitchMap = this.createTaskSwitchMap(chart);
 
     const chartGroup = svg.append("g")
       .attr('class', 'ifm');
@@ -150,7 +154,7 @@ export default class FlowChart extends Component {
     let bars = this.createBars(chartGroup, data, interp);
     this.addBarActivityTooltip(bars, this, barWidthByCoordsMap, tileLocationMap, tileWtfMap);
 
-    this.addDataBreakLines(chart, chartGroup);
+    this.addDataBreakLines(chart, chartGroup, taskSwitchMap);
 
     this.createInvisibleBoundingBox(chartGroup);
 
@@ -418,7 +422,7 @@ export default class FlowChart extends Component {
    * @param chartGroup
    * @returns {*}
    */
-  addDataBreakLines(chart, chartGroup) {
+  addDataBreakLines(chart, chartGroup, taskSwitchMap) {
     let dataBreaks = chart.featureSeriesByType["@nav/break"].rowsOfPaddedCells;
 
     let dataBreakLines = chartGroup.append("g")
@@ -432,8 +436,15 @@ export default class FlowChart extends Component {
       .attr('y2', this.chartHeight)
       .attr('stroke', 'black')
       .attr('stroke-width', 2)
+      .attr('stroke-dasharray', (d) => {
+        let taskSwitch = taskSwitchMap[d[0].trim()];
+        if (taskSwitch) {
+          return '8,1';
+        } else {
+          return '8,0';
+        }
+      })
       .attr('class', 'break');
-
 
     let that = this;
 
@@ -441,6 +452,13 @@ export default class FlowChart extends Component {
       let offset = that.xScale(d[1]);
       let friendlyDuration = that.convertSecondsToFriendlyDuration(parseInt(d[3], 10));
       let html = "<div class='databreak'>Break "+friendlyDuration+"</div>";
+
+      let taskSwitch = taskSwitchMap[d[0].trim()];
+      if (taskSwitch) {
+        console.log("switch!");
+        html = "<div class='databreak'><b>Task switch to "+taskSwitch.taskName+"</b></div>";
+        html += "<div class='databreak'>"+taskSwitch.taskDescription+"</div>";
+      }
 
       d3.select('#tooltip')
         .html(html);
@@ -923,6 +941,24 @@ export default class FlowChart extends Component {
       map[d[0].trim()] = xScale(parseInt(d[3], 10) + parseInt(d[2], 10)) - xScale(parseInt(d[3], 10)) - 0.2;
     }
     return map;
+  }
+
+  createTaskSwitchMap(chart) {
+
+    let taskSwitchMap = [];
+    let taskSwitchData = chart.eventSeriesByType["@work/task"].rowsOfPaddedCells;
+
+    for (let i = 0; i < taskSwitchData.length; i++) {
+      let row = taskSwitchData[i];
+
+      let coords = row[0].trim();
+      let taskName = row[4].trim();
+      let taskDescription = row[5].trim();
+
+      let switchEvent = {taskName: taskName, taskDescription: taskDescription};
+      taskSwitchMap[coords] = switchEvent;
+    }
+    return taskSwitchMap;
   }
 
   /**

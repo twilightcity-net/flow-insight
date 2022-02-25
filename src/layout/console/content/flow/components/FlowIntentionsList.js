@@ -17,6 +17,9 @@ export default class FlowIntentionsList extends Component {
   constructor(props) {
     super(props);
     this.name = "[FlowIntentionsList]";
+    this.state = {
+      selectedRowOffset : null
+    }
   }
 
   /**
@@ -26,6 +29,20 @@ export default class FlowIntentionsList extends Component {
     console.log("handle click!");
   };
 
+  onRowClick = (selectedRowOffset) => {
+    console.log("row click! "+selectedRowOffset);
+
+    let newSelectedOffset = null;
+    if (this.state.selectedRowOffset !== selectedRowOffset) {
+      newSelectedOffset = selectedRowOffset;
+    }
+
+    this.props.onClickIntention(newSelectedOffset);
+
+    this.setState({
+      selectedRowOffset : newSelectedOffset
+    });
+  }
   /**
    * renders the list of intentions belonging to the task
    * @returns {*}
@@ -52,9 +69,11 @@ export default class FlowIntentionsList extends Component {
               let description = d[3];
               let offset = parseInt(d[2], 10);
               let flameRating = d[4].trim();
+              let isActiveRow = (this.state.selectedRowOffset === offset);
 
               return <IntentionRow key={i} time={timer} description={description} flameRating={flameRating}
-                                   offset={offset} onHover={this.props.onHoverIntention}/>
+                                   offset={offset} onHover={this.props.onHoverIntention} isActiveRow={isActiveRow}
+                                   onRowClick={this.onRowClick}/>
 
             })}
           </Grid>

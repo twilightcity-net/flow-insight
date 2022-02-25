@@ -18,9 +18,6 @@ export default class IntentionRow extends Component {
   /**
    * handles clicking on our flow intention item. This should update the cursor position in the flow map
    */
-  handleOnClickRow = () => {
-    // this.props.onRowClick(this);
-  };
 
   /**
    * renders our box cell in the grid.
@@ -120,11 +117,17 @@ export default class IntentionRow extends Component {
    */
   render() {
 
+    let extraActiveClass = "";
+    if (this.props.isActiveRow) {
+      extraActiveClass = " active";
+    }
+
+
     return (
       <Grid.Row
         id={1}
-        className={"intentionRow"}
-        onClick={this.handleOnClickRow}
+        className={"intentionRow"+ extraActiveClass}
+        onClick={() => this.props.onRowClick(this.props.offset)}
         onMouseEnter={() => this.props.onHover(this.props.offset)}
       >
         <Grid.Column width={3}>

@@ -19,7 +19,8 @@ export default class FlowContent extends Component {
     super(props);
     this.name = "[" + FlowContent.name + "]";
     this.state = {
-      cursorOffset: null
+      cursorOffset: null,
+      selectedOffset: null
     }
   }
 
@@ -32,7 +33,6 @@ export default class FlowContent extends Component {
     console.log("clicked on "+circuitLink);
 
     let circuitName = circuitLink.substr(circuitLink.lastIndexOf('/')+1);
-    console.log("circuit name = "+circuitName);
 
     CircuitClient.getCircuitWithAllDetails(circuitName, this, (arg) => {
       if (!arg.error) {
@@ -49,7 +49,8 @@ export default class FlowContent extends Component {
                 circuit: this.circuit,
                 circuitMembers: this.circuit.circuitParticipants,
                 troubleshootMessages: this.messages,
-                me: MemberClient.me
+                me: MemberClient.me,
+                selectedOffset: null
               });
 
             } else {
@@ -86,6 +87,15 @@ export default class FlowContent extends Component {
   }
 
   /**
+   * When the user clicks an intention and it turns active
+   */
+  onClickIntention = (offset) => {
+    this.setState({
+      selectedOffset: offset
+    });
+  }
+
+  /**
    * When the user exits all hovering over intentions, we need to clear the cursor in the chart
    */
   onExitHoverIntention = () => {
@@ -113,6 +123,7 @@ export default class FlowContent extends Component {
     } else {
       innerDetails = (<FlowIntentionsList chartDto={this.props.chartDto}
                                          onHoverIntention={this.onHoverIntention}
+                                         onClickIntention={this.onClickIntention}
                                          onExitHoverIntention={this.onExitHoverIntention}/>);
     }
 
@@ -124,7 +135,8 @@ export default class FlowContent extends Component {
 
       flowContent = (
         <div className="flowContentWrapper">
-        <FlowChart selectedCircuitName={selectedCircuitName} chartDto={this.props.chartDto} cursorOffset={this.state.cursorOffset}
+        <FlowChart selectedCircuitName={selectedCircuitName} chartDto={this.props.chartDto}
+                   cursorOffset={this.state.cursorOffset} selectedOffset={this.state.selectedOffset}
                    hasRoomForClose={this.props.hasRoomForClose} onCircuitClick={this.onCircuitClick} onClickOffCircuit={this.onClickOffCircuit}/>
           {innerDetails}
       </div>);

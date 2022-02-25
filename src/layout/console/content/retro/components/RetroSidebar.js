@@ -462,17 +462,11 @@ export default class RetroSidebar extends Component {
    */
   getCircuitSidebarTaskContent() {
     let title = "loading...",
-      description = "...",
-      tags = ["..."];
-
-    console.log("summary = "+JSON.stringify(this.props.taskSummary));
+      description = "...";
 
     if (this.props.taskSummary && this.props.model) {
       title = this.props.taskSummary.taskName;
       description = this.props.taskSummary.description;
-      tags = this.props.model.tags
-        ? this.props.model.tags
-        : tags;
     }
 
     let height = "100%";
