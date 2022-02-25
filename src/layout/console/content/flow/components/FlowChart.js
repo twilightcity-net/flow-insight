@@ -329,9 +329,6 @@ export default class FlowChart extends Component {
     return bars;
   }
 
-  test() {
-    console.log("XXXX TEST XXX");
-  }
 
   /**
    * Add the tooltips for the bars on the chart, which include the file activity,
@@ -370,7 +367,10 @@ export default class FlowChart extends Component {
 
       if (!wtfs && !files) {
         html += "<span class='noactivity'>No file activity</span>";
+      } else {
+        html += "<hr class='rule'/><div class='gtcoords'>"+coords+"</div>";
       }
+
 
       let tooltipEl = document.querySelector('#tooltip');
       tooltipEl.innerHTML = html;

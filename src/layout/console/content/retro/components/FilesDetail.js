@@ -57,6 +57,7 @@ export default class FilesDetail extends Component {
         UtilRenderer.FILE_DATA
       ];
 
+    console.log(fileData);
     return (
       <div id="component" className="metricsPanel">
         <Grid id="metrics-row-grid" inverted columns={16}>
@@ -68,6 +69,7 @@ export default class FilesDetail extends Component {
               let box = row[0].trim();
               let filePath = row[1].trim();
               let duration = row[2].trim();
+              let modified = row[9].trim();
 
               return (
                 <FileMetricsRow
@@ -75,6 +77,7 @@ export default class FilesDetail extends Component {
                   box={box}
                   filePath={filePath}
                   duration={duration}
+                  modified={modified}
                 />
               );
             })}

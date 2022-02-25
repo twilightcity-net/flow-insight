@@ -28,8 +28,13 @@ export default class FileMetricsRow extends Component {
    * @returns {*}
    */
   getBoxCellContent() {
+    let extraModClass = "";
+    if (this.props.modified === "true") {
+      extraModClass = " modifiedfile"
+    }
+
     return (
-      <div className="chunkTitle">{this.props.box}</div>
+      <div className={"chunkText"+extraModClass}>{this.props.box}</div>
     );
   }
 
@@ -46,7 +51,12 @@ export default class FileMetricsRow extends Component {
       );
     }
 
-    return <div className="chunkTitle">{fileName}</div>;
+    let extraModClass = "";
+    if (this.props.modified === "true") {
+      extraModClass = " modifiedfile"
+    }
+
+    return <div className={"chunkText"+extraModClass}>{fileName}</div>;
   }
 
   /**
@@ -54,8 +64,12 @@ export default class FileMetricsRow extends Component {
    * @returns {*}
    */
   getDurationCellContent() {
+    let extraModClass = "";
+    if (this.props.modified === "true") {
+      extraModClass = " modifiedduration"
+    }
     return (
-      <div className="chunkText">{this.props.duration}</div>
+      <div className={"chunkText"+extraModClass}>{this.props.duration}</div>
     );
   }
 

@@ -51,10 +51,11 @@ export default class FlowIntentionsList extends Component {
               let timer = UtilRenderer.getRelativeTimerAsHoursMinutes(parseInt(d[2], 10));
               let description = d[3];
               let offset = parseInt(d[2], 10);
+              let flameRating = d[4].trim();
 
-              return <IntentionRow key={i} time={timer} description={description}
+              return <IntentionRow key={i} time={timer} description={description} flameRating={flameRating}
                                    offset={offset} onHover={this.props.onHoverIntention}/>
-              
+
             })}
           </Grid>
           </div>

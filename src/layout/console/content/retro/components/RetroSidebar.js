@@ -490,10 +490,12 @@ export default class RetroSidebar extends Component {
         {this.getTitleContent(title)}
         {this.getDescriptionContent(description)}
         {this.getFlowMapContent(this.props.taskSummary)}
-        {/*{this.getTagsMapContent(tags)}*/}
-        {/*{this.getTagsEditDoneContent()}*/}
       </div>
     );
+  }
+
+  /** used for a noOp click handler when there's no data available */
+  noOp() {
   }
 
   getFlowMapContent(taskSummary) {
@@ -553,8 +555,10 @@ export default class RetroSidebar extends Component {
 
     }
 
+
+
     let flowBar = (
-      <div className="flowBar" onClick={notYetAvailable? "" : this.onClickOpenFlowMap}>
+      <div className="flowBar" onClick={notYetAvailable? this.noOp : this.onClickOpenFlowMap}>
       {confusionBar}
       {learningBar}
       {progressBar}

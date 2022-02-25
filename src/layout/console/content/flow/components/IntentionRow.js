@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Divider, Grid} from "semantic-ui-react";
+import {Divider, Grid, Image} from "semantic-ui-react";
 
 /**
  * this component is the individual flow intention item for the FlowMap
@@ -87,6 +87,33 @@ export default class IntentionRow extends Component {
     );
   }
 
+
+  /**
+   * renders our flame rating content block.
+   * This is a whole number between -5 and 5 for display
+   * @returns {*}
+   */
+  getFlameBlockContent(flameRating) {
+      let imgYaySrc = "./assets/images/yay/16x16.png",
+      imgWtfSrc = "./assets/images/wtf/16x16.png";
+
+    if (flameRating && flameRating > 0) {
+      return (
+        <span className="yayFlame">
+          {flameRating}{" "}
+          <Image src={imgYaySrc} verticalAlign="top" />
+        </span>
+      );
+    } else if (flameRating && flameRating < 0) {
+      return (
+        <span className="wtfFlame">
+          {Math.abs(flameRating)}{" "}
+          <Image src={imgWtfSrc} verticalAlign="middle" />
+        </span>
+      );
+    }
+  }
+
   /**
    * renders our flow intention row in our grid
    * @returns {*}
@@ -103,8 +130,11 @@ export default class IntentionRow extends Component {
         <Grid.Column width={3}>
           <div className="chunkText">{this.props.time}</div>
         </Grid.Column>
-        <Grid.Column width={13}>
+        <Grid.Column width={12}>
           <div className="chunkText">{this.props.description}</div>
+        </Grid.Column>
+        <Grid.Column width={1}>
+          <div className="chunkText">{this.getFlameBlockContent(this.props.flameRating)}</div>
         </Grid.Column>
       </Grid.Row>
     );

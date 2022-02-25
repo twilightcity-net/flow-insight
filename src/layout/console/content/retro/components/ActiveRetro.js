@@ -216,10 +216,7 @@ export default class ActiveRetro extends Component {
       circuit.circuitName,
       this,
       (arg) => {
-        console.log("task summary back!");
         if (!arg.error) {
-          console.log("not error");
-          console.log("summary = "+JSON.stringify(arg.data));
           this.setState({
             taskSummary: arg.data
           })

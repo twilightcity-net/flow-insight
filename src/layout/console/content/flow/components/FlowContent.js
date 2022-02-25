@@ -122,8 +122,6 @@ export default class FlowContent extends Component {
         selectedCircuitName = this.state.circuit.circuitName;
       }
 
-      console.log("selected = "+selectedCircuitName);
-
       flowContent = (
         <div className="flowContentWrapper">
         <FlowChart selectedCircuitName={selectedCircuitName} chartDto={this.props.chartDto} cursorOffset={this.state.cursorOffset}

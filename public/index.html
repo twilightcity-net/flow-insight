@@ -2571,6 +2571,19 @@
     text-align: left;
   }
 
+
+  #component.flowContent hr.rule {
+    margin-top: 10px;
+    border: 0.5px solid rgba(80, 80, 80, 0.96);
+  }
+
+  #component.flowContent .gtcoords {
+    color: rgba(90, 90, 90, 0.96);
+    font-style: italic;
+    font-size: 0.8rem;
+    float: right;
+  }
+
   #component.flowContent .exectip {
     text-align: left;
   }
@@ -2969,16 +2982,25 @@
 
   #component.metricsPanel .ui.grid .row .chunkTitle {
     font-weight: 800;
-    color: #cccccc;
+    color: #dddddd;
     font-style: italic;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
+  #component.metricsPanel .ui.grid .row .modifiedfile {
+    color:  rgba(150, 123, 255, 1) !important;
+    font-style: italic;
+  }
+
+  #component.metricsPanel .ui.grid .row .modifiedduration {
+    color:  rgba(150, 123, 255, 1) !important;
+  }
+
   #component.metricsPanel .ui.grid .row .chunkText {
     font-weight: 400;
-    color: #cccccc;
+    color: #dddddd;
   }
 
   #component.metricsPanel .ui.celled.grid>.row>.column {
@@ -3062,13 +3084,13 @@
     color: rgba(180, 0, 0, 0.96);
   }
 
-  #component.journalIntentions .ui.grid .row .wtfFlame {
+  .wtfFlame {
     color: rgba(180, 0, 0, 0.96);
     white-space: nowrap;
     overflow: hidden;
   }
 
-  #component.journalIntentions .ui.grid .row .yayFlame {
+  .yayFlame {
     color: rgba(140, 110, 250, 0.96);
     white-space: nowrap;
     overflow: hidden;
