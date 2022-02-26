@@ -456,7 +456,7 @@ export default class FlowChart extends Component {
       let taskSwitch = taskSwitchMap[d[0].trim()];
       if (taskSwitch) {
         console.log("switch!");
-        html = "<div class='databreak'><b>Task switch to "+taskSwitch.taskName+"</b></div>";
+        html = "<div class='databreak'><b>Task switch to "+taskSwitch.taskName+" "+friendlyDuration+"</b></div>";
         html += "<div class='databreak'>"+taskSwitch.taskDescription+"</div>";
       }
 
