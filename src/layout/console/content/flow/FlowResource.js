@@ -43,7 +43,7 @@ export default class FlowResource extends Component {
   }
 
   /**
-   * renders the journal layout of the console view
+   * renders the flow chart layout of the console view
    * @returns {*} - the rendered components JSX
    */
   render() {

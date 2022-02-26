@@ -359,7 +359,7 @@ export class SidePanelViewController extends ActiveViewController {
       if (circuit) {
         let circuitName = circuit.circuitName,
           request = BrowserRequestFactory.createRequest(
-            BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+            BrowserRequestFactory.Requests.CIRCUIT,
             circuitName
           );
 

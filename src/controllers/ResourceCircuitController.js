@@ -172,7 +172,7 @@ export class ResourceCircuitController extends ActiveViewController {
     CircuitClient.startWtf(this, (arg) => {
       let circuit = arg.data,
         request = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+          BrowserRequestFactory.Requests.CIRCUIT,
           circuit.circuitName
         );
       this.browserController.makeRequest(request);

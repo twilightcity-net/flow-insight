@@ -306,7 +306,7 @@ export default class CircuitsPanel extends Component {
    */
   requestBrowserToLoadActiveCircuit(circuitName) {
     let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+      BrowserRequestFactory.Requests.CIRCUIT,
       circuitName
     );
     this.myController.makeSidebarBrowserRequest(request);
@@ -318,7 +318,7 @@ export default class CircuitsPanel extends Component {
    */
   requestBrowserToLoadDoItLaterCircuit(circuitName) {
     let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.DO_IT_LATER_CIRCUIT,
+      BrowserRequestFactory.Requests.CIRCUIT,
       circuitName
     );
     this.myController.makeSidebarBrowserRequest(request);

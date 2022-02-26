@@ -380,7 +380,7 @@ export default class TeamPanel extends Component {
     teamMember
   ) {
     let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.TEAM,
+      BrowserRequestFactory.Requests.JOURNAL,
       teamMember
     );
     this.myController.makeSidebarBrowserRequest(request);
@@ -392,7 +392,7 @@ export default class TeamPanel extends Component {
    */
   requestBrowserToLoadTeamMemberActiveCircuit(circuitName) {
     let request = BrowserRequestFactory.createRequest(
-      BrowserRequestFactory.Requests.ACTIVE_CIRCUIT,
+      BrowserRequestFactory.Requests.CIRCUIT,
       circuitName
     );
     this.myController.makeSidebarBrowserRequest(request);

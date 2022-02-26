@@ -67,7 +67,7 @@ export class NotificationController {
       msg,
       () => {
         let request = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.TROUBLESHOOT,
+          BrowserRequestFactory.Requests.CIRCUIT,
           circuit.circuitName
         );
 

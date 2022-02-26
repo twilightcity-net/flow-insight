@@ -6,7 +6,7 @@
 export class BrowserRequestFactory {
   /**
    * the possible types of request we have
-   * @returns {{ACTIVE_CIRCUIT: string, TERMINAL: string, BROWSER: string, RETRO_CIRCUIT: string, JOURNAL: string, ERROR: string, COMMAND: string, TEAM: string, DO_IT_LATER_CIRCUIT: string, FLOW: string, TROUBLESHOOT: string}}
+   * @returns {{CIRCUIT: string, TERMINAL: string, BROWSER: string, RETRO_CIRCUIT: string, JOURNAL: string, ERROR: string, COMMAND: string, FLOW: string}}
    * @constructor
    */
   static get Requests() {
@@ -16,22 +16,15 @@ export class BrowserRequestFactory {
       BROWSER: "browser",
       TERMINAL: "terminal",
       JOURNAL: "journal",
-      TROUBLESHOOT: "troubleshoot",
       FLOW: "flow",
-      ACTIVE_CIRCUIT: "active-circuit",
-      DO_IT_LATER_CIRCUIT: "do-it-later-circuit",
-      RETRO_CIRCUIT: "retro-circuit",
-      TEAM: "team",
+      CIRCUIT: "circuit",
+      RETRO_CIRCUIT: "retro-circuit"
     };
   }
 
   static get Commands() {
     return {
-      ERROR: "error",
       OPEN: "open",
-      CLOSE: "close",
-      JOIN: "join",
-      LEAVE: "leave",
       WTF: "wtf",
       JOURNAL: "journal",
       TERMINAL: "terminal",
@@ -144,13 +137,8 @@ export class BrowserRequestFactory {
             args[0],
             args[1]
           );
-        case BrowserRequestFactory.Requests.ACTIVE_CIRCUIT:
+        case BrowserRequestFactory.Requests.CIRCUIT:
           return BrowserRequestFactory._getActiveCircuitRequest(
-            args[0]
-          );
-        case BrowserRequestFactory.Requests
-          .DO_IT_LATER_CIRCUIT:
-          return BrowserRequestFactory._getDoItLaterCircuitRequest(
             args[0]
           );
         case BrowserRequestFactory.Requests.RETRO_CIRCUIT:
@@ -161,16 +149,8 @@ export class BrowserRequestFactory {
           return BrowserRequestFactory._getJournalRequest(
             args[0]
           );
-        case BrowserRequestFactory.Requests.TROUBLESHOOT:
-          return BrowserRequestFactory._getTroubleshootRequest(
-            args[0]
-          );
         case BrowserRequestFactory.Requests.FLOW:
           return BrowserRequestFactory._getFlowRequest(
-            args[0]
-          );
-        case BrowserRequestFactory.Requests.TEAM:
-          return BrowserRequestFactory._getTeamRequest(
             args[0]
           );
         case BrowserRequestFactory.Requests.ERROR:
@@ -208,8 +188,6 @@ export class BrowserRequestFactory {
    * @private
    */
   static _getCommandRequest(arg) {
-    //this doesnt appear to actually be called...
-
     console.log(
       "_getCommandRequest: " + JSON.stringify(arg)
     );
@@ -415,33 +393,6 @@ export class BrowserRequestFactory {
   }
 
   /**
-   * gets a trouble shoot request which if a name is passed in, then
-   * we should create a new circuit using that
-   * @param circuitName
-   * @returns {string}
-   * @private
-   */
-  static _getTroubleshootRequest(circuitName) {
-    if (circuitName) {
-      return (
-        BrowserRequestFactory.Commands.OPEN +
-        BrowserRequestFactory.URI_SEPARATOR +
-        BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.WTF +
-        BrowserRequestFactory.PATH_SEPARATOR +
-        circuitName
-      );
-    } else {
-      return (
-        BrowserRequestFactory.Commands.OPEN +
-        BrowserRequestFactory.URI_SEPARATOR +
-        BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.WTF
-      );
-    }
-  }
-
-  /**
    * gets the request for showing the flow content of a team member
    * @param teamMember
    * @returns {string}
@@ -464,26 +415,4 @@ export class BrowserRequestFactory {
     }
   }
 
-  /**
-   * gets the request for loading a team member into our console
-   * @param teamMember
-   * @returns {string}
-   * @private
-   */
-  static _getTeamRequest(teamMember) {
-    if (teamMember) {
-      return (
-        BrowserRequestFactory.Commands.OPEN +
-        BrowserRequestFactory.URI_SEPARATOR +
-        BrowserRequestFactory.ROOT_SEPARATOR +
-        BrowserRequestFactory.Locations.JOURNAL +
-        BrowserRequestFactory.PATH_SEPARATOR +
-        teamMember
-      );
-    } else {
-      throw new Error(
-        "request: team requires 1 argument, teamMember"
-      );
-    }
-  }
 }
