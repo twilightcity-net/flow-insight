@@ -20,7 +20,7 @@ export class DimensionController {
 
   /**
    * the list of components we wish to manage dimensions for
-   * @returns {{FLOW_PANEL: string, FERVIE_PANEL: string, JOURNAL_ITEMS: string, CONSOLE_LAYOUT: string, TROUBLESHOOT: string}}
+   * @returns {{FLOW_PANEL: string, PLAY_PANEL: string, FERVIE_PANEL: string, JOURNAL_ITEMS: string, CONSOLE_LAYOUT: string, TROUBLESHOOT: string}}
    * @constructor
    */
   static get Components() {
@@ -28,6 +28,7 @@ export class DimensionController {
       FERVIE_PANEL: "[FerviePanel]",
       JOURNAL_ITEMS: "[JournalItems]",
       FLOW_PANEL: "[FlowPanel]",
+      PLAY_PANEL: "[PlayPanel]",
       CONSOLE_LAYOUT: "[ConsoleLayout]",
       TROUBLESHOOT: "[Troubleshoot]",
       SIDEBAR_PANEL: "[SidebarPanel]",
@@ -65,6 +66,27 @@ export class DimensionController {
       heights.border -
       heights.padding -
       addressBar.clientHeight;
+    } else {
+      return window.innerHeight;
+    }
+  }
+
+
+  /**
+   * calculates the play panel height for the console view
+   * @returns {number}
+   */
+  static getPlayPanelHeight() {
+    let heights = {
+      border: 2,
+      padding: 8,
+    };
+    let addressBar = document.querySelector('#component.browserHeader');
+    if (addressBar) {
+      return window.innerHeight -
+        heights.border -
+        heights.padding -
+        addressBar.clientHeight;
     } else {
       return window.innerHeight;
     }
@@ -489,6 +511,11 @@ export class DimensionController {
       DimensionController.Components.FLOW_PANEL
     ) {
       return DimensionController.getFlowPanelHeight();
+    } else if (
+      component ===
+      DimensionController.Components.PLAY_PANEL
+    ) {
+      return DimensionController.getPlayPanelHeight();
     } else if (
       component ===
       DimensionController.Components.CONSOLE_LAYOUT

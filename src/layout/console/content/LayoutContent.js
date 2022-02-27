@@ -12,6 +12,7 @@ import { RendererControllerFactory } from "../../../controllers/RendererControll
 import LayoutBrowser from "./LayoutBrowser";
 import { MainPanelViewController } from "../../../controllers/MainPanelViewController";
 import RetroResource from "./retro/RetroResource";
+import PlayResource from "./play/PlayResource";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -120,6 +121,14 @@ export default class LayoutContent extends Component {
           MainPanelViewController.Resources.FLOW +
           className;
         break;
+      case MainPanelViewController.Resources.PLAY:
+        component = (
+          <PlayResource resource={this.state.resource} />
+        );
+        className =
+          MainPanelViewController.Resources.PLAY +
+          className;
+        break;
       case MainPanelViewController.Resources.NONE:
         component = "";
         className =
@@ -138,12 +147,6 @@ export default class LayoutContent extends Component {
           MainPanelViewController.Resources.ERROR +
           className;
 
-        // component = (
-        //   <div>404 - Unknown location {resource}</div>
-        // );
-        // className =
-        //   MainPanelViewController.Resources.NONE +
-        //   className;
         break;
     }
     return (

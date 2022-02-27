@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import FervieColors from "../../content/support/FervieColors";
 
 /**
  * the 2d html canvas react component class used to load the graphic art for Fervie
@@ -62,51 +63,8 @@ export default class FervieCanvas extends Component {
 
   // 525 x =
 
-  getShoeInsideColor(shoecolor) {
-    let rgb = this.hexToRgb(shoecolor);
-
-    rgb.r -= 70;
-    rgb.g -= 70;
-    rgb.b -= 70;
-
-    if (rgb.r < 0) {
-      rgb.r = 0;
-    }
-
-    if (rgb.g < 0) {
-      rgb.g = 0;
-    }
-
-    if (rgb.b < 0) {
-      rgb.b = 0;
-    }
-
-    return this.rgbToHex(rgb.r, rgb.g, rgb.b);
-  }
-
-  rgbToHex(r, g, b) {
-    return (
-      "#" +
-      ((1 << 24) + (r << 16) + (g << 8) + b)
-        .toString(16)
-        .slice(1)
-    );
-  }
-
-  hexToRgb(hex) {
-    let result =
-      /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result
-      ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16),
-        }
-      : null;
-  }
-
   getFervieSvg() {
-    let insideShoeColor = this.getShoeInsideColor(
+    let insideShoeColor = FervieColors.getShoeInsideColor(
       this.props.shoecolor
     );
 

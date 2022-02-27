@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import FlowContent from "./components/FlowContent";
 import {ChartClient} from "../../../../clients/ChartClient";
+import {DimensionController} from "../../../../controllers/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the flow content
@@ -47,8 +48,10 @@ export default class FlowResource extends Component {
    * @returns {*} - the rendered components JSX
    */
   render() {
+    let height = DimensionController.getHeightFor(DimensionController.Components.FLOW_PANEL);
+
     return (
-      <div id="component" className="flowLayout">
+      <div id="component" className="flowLayout" style={{height: height}}>
         <div id="wrapper" className="flowContent">
           <FlowContent chartDto={this.state.chartDto}/>
         </div>
