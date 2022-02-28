@@ -1623,6 +1623,7 @@ export default class FlowChart extends Component {
   render() {
     return (
       <div>
+        <div id="draggableBanner"/>
         <div id="chart" />
         <div
           id="tooltip"
