@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {DimensionController} from "../../../../../controllers/DimensionController";
+import React, { Component } from "react";
+import { DimensionController } from "../../../../../controllers/DimensionController";
 import * as d3 from "d3";
 import UtilRenderer from "../../../../../UtilRenderer";
 
@@ -7,7 +7,6 @@ import UtilRenderer from "../../../../../UtilRenderer";
  * this is the gui component that displays the IFM chart
  */
 export default class FlowChart extends Component {
-
   /**
    * builds the IFM chart
    * @param props
@@ -28,7 +27,10 @@ export default class FlowChart extends Component {
    */
   componentDidMount() {
     if (this.props.chartDto) {
-      this.displayChart(this.props.chartDto, this.props.selectedCircuitName);
+      this.displayChart(
+        this.props.chartDto,
+        this.props.selectedCircuitName
+      );
     }
     if (this.props.cursorOffset === null) {
       this.hideCursor();
@@ -45,19 +47,40 @@ export default class FlowChart extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-
-    if ((!prevProps.chartDto && this.props.chartDto)
-      || (prevProps.chartDto && this.props.chartDto && prevProps.chartDto.featureName !== this.props.chartDto.featureName)) {
-      this.displayChart(this.props.chartDto, this.props.selectedCircuitName);
-    } else if (prevProps.selectedCircuitName !== this.props.selectedCircuitName) {
-      this.redrawArrow(this.props.chartDto, this.props.selectedCircuitName);
+    if (
+      (!prevProps.chartDto && this.props.chartDto) ||
+      (prevProps.chartDto &&
+        this.props.chartDto &&
+        prevProps.chartDto.featureName !==
+          this.props.chartDto.featureName)
+    ) {
+      this.displayChart(
+        this.props.chartDto,
+        this.props.selectedCircuitName
+      );
+    } else if (
+      prevProps.selectedCircuitName !==
+      this.props.selectedCircuitName
+    ) {
+      this.redrawArrow(
+        this.props.chartDto,
+        this.props.selectedCircuitName
+      );
     }
 
-    if (this.props.cursorOffset === null && this.props.selectedOffset === null) {
+    if (
+      this.props.cursorOffset === null &&
+      this.props.selectedOffset === null
+    ) {
       this.hideCursor();
-    } else if (this.props.cursorOffset === null && this.props.selectedOffset) {
+    } else if (
+      this.props.cursorOffset === null &&
+      this.props.selectedOffset
+    ) {
       this.moveCursorToPosition(this.props.selectedOffset);
-    } else if (prevProps.cursorOffset !== this.props.cursorOffset) {
+    } else if (
+      prevProps.cursorOffset !== this.props.cursorOffset
+    ) {
       this.moveCursorToPosition(this.props.cursorOffset);
     }
   }
@@ -66,10 +89,12 @@ export default class FlowChart extends Component {
    * Hide the intention cursor since we're not hovering over an intention
    */
   hideCursor() {
-    let cursorEl = document.getElementById('intention-cursor');
+    let cursorEl = document.getElementById(
+      "intention-cursor"
+    );
     if (cursorEl) {
       cursorEl.style.opacity = 0;
-      cursorEl.style.transform="translate(0px, 0px)";
+      cursorEl.style.transform = "translate(0px, 0px)";
     }
   }
 
@@ -78,14 +103,17 @@ export default class FlowChart extends Component {
    * @param offset
    */
   moveCursorToPosition(offset) {
-    if ( this.xScale) {
-      let newPosition = Math.round(this.xScale(offset)) - this.margin;
-      let cursorEl = document.getElementById('intention-cursor');
+    if (this.xScale) {
+      let newPosition =
+        Math.round(this.xScale(offset)) - this.margin;
+      let cursorEl = document.getElementById(
+        "intention-cursor"
+      );
       if (cursorEl) {
         cursorEl.style.opacity = 1;
-        cursorEl.style.transform="translate("+newPosition+"px, 0px)";
+        cursorEl.style.transform =
+          "translate(" + newPosition + "px, 0px)";
       }
-
     }
   }
 
@@ -99,9 +127,11 @@ export default class FlowChart extends Component {
     console.log(chart);
     this.margin = 30;
     this.tooltipPositionPercent = 0.7;
-    let svgHeight = DimensionController.getFullRightPanelHeight() - 200;
-    this.chartHeight = svgHeight - 2* this.margin;
-    this.browserBarHeightAdjust = DimensionController.getBrowserBarHeight();
+    let svgHeight =
+      DimensionController.getFullRightPanelHeight() - 200;
+    this.chartHeight = svgHeight - 2 * this.margin;
+    this.browserBarHeightAdjust =
+      DimensionController.getBrowserBarHeight();
 
     this.legendOffsetForCloseAction = 0;
 
@@ -109,59 +139,89 @@ export default class FlowChart extends Component {
       this.legendOffsetForCloseAction = 30;
     }
 
-
-    this.width = DimensionController.getFullRightPanelWidth();
+    this.width =
+      DimensionController.getFullRightPanelWidth();
 
     let data = chart.chartSeries.rowsOfPaddedCells;
 
     let chartDiv = document.getElementById("chart");
     chartDiv.innerHTML = "";
 
-    let svg = d3.select('#chart').append('svg')
-      .attr('width', this.width + 'px')
-      .attr('height', svgHeight + 'px');
+    let svg = d3
+      .select("#chart")
+      .append("svg")
+      .attr("width", this.width + "px")
+      .attr("height", svgHeight + "px");
 
-
-    let xMinMax = d3.extent(data,function(d){
+    let xMinMax = d3.extent(data, function (d) {
       return parseInt(d[3], 10);
     });
 
     //the max will be highest offset + duration
-    xMinMax[1] = xMinMax[1] + parseInt(data[data.length - 1][2], 10);
+    xMinMax[1] =
+      xMinMax[1] + parseInt(data[data.length - 1][2], 10);
 
-    this.xScale = d3.scaleLinear()
-      .domain([xMinMax[0],xMinMax[1]])
-      .range([this.margin,this.width-this.margin]);
+    this.xScale = d3
+      .scaleLinear()
+      .domain([xMinMax[0], xMinMax[1]])
+      .range([this.margin, this.width - this.margin]);
 
-    this.yScale = d3.scaleLinear()
-      .domain([100,0])
-      .range([this.margin,this.chartHeight]);
+    this.yScale = d3
+      .scaleLinear()
+      .domain([100, 0])
+      .range([this.margin, this.chartHeight]);
 
-    var interp = d3.scaleLinear()
+    var interp = d3
+      .scaleLinear()
       .domain([0, 0.2, 0.4, 1])
       .range(["white", "#9C6EFA", "#7846FB", "#4100cE"]);
 
-    let barWidthByCoordsMap = this.createBarWidthByCoordsMap(data, this.xScale);
+    let barWidthByCoordsMap =
+      this.createBarWidthByCoordsMap(data, this.xScale);
     let offsetMap = this.createOffsetMap(data, this.xScale);
-    let tileLocationMap = this.createTileLocationDataMap(chart);
+    let tileLocationMap =
+      this.createTileLocationDataMap(chart);
     let tileWtfMap = this.createTileWtfDataMap(chart);
-    let tileExecMap = this.createTileExecDetailsMap(data, chart);
+    let tileExecMap = this.createTileExecDetailsMap(
+      data,
+      chart
+    );
     let taskSwitchMap = this.createTaskSwitchMap(chart);
 
-    const chartGroup = svg.append("g")
-      .attr('class', 'ifm');
+    const chartGroup = svg.append("g").attr("class", "ifm");
 
     let bars = this.createBars(chartGroup, data, interp);
-    this.addBarActivityTooltip(bars, this, barWidthByCoordsMap, tileLocationMap, tileWtfMap);
+    this.addBarActivityTooltip(
+      bars,
+      this,
+      barWidthByCoordsMap,
+      tileLocationMap,
+      tileWtfMap
+    );
 
-    this.addDataBreakLines(chart, chartGroup, taskSwitchMap);
+    this.addDataBreakLines(
+      chart,
+      chartGroup,
+      taskSwitchMap
+    );
 
     this.createInvisibleBoundingBox(chartGroup);
 
-    this.createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedCircuitName);
+    this.createWtfArrow(
+      chart,
+      chartGroup,
+      barWidthByCoordsMap,
+      offsetMap,
+      selectedCircuitName
+    );
 
     //exec dots should be on top of the invis box so that exec tips turn on, and bar tips turn off
-    this.addExecDots(chart, chartGroup, barWidthByCoordsMap, tileExecMap);
+    this.addExecDots(
+      chart,
+      chartGroup,
+      barWidthByCoordsMap,
+      tileExecMap
+    );
     this.addIntentionCursor(chartGroup, xMinMax);
 
     this.createTimeAxis(chartGroup, xMinMax);
@@ -176,13 +236,20 @@ export default class FlowChart extends Component {
    * @param selectedCircuitName
    */
   redrawArrow(chart, selectedCircuitName) {
-    let chartGroup = d3.select('.ifm');
+    let chartGroup = d3.select(".ifm");
 
     let data = chart.chartSeries.rowsOfPaddedCells;
-    let barWidthByCoordsMap = this.createBarWidthByCoordsMap(data, this.xScale);
+    let barWidthByCoordsMap =
+      this.createBarWidthByCoordsMap(data, this.xScale);
     let offsetMap = this.createOffsetMap(data, this.xScale);
 
-    this.createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedCircuitName);
+    this.createWtfArrow(
+      chart,
+      chartGroup,
+      barWidthByCoordsMap,
+      offsetMap,
+      selectedCircuitName
+    );
   }
 
   /**
@@ -193,24 +260,34 @@ export default class FlowChart extends Component {
    * @param offsetMap
    * @param selectedCircuitName
    */
-  createWtfArrow(chart, chartGroup, barWidthByCoordsMap, offsetMap, selectedCircuitName) {
-
+  createWtfArrow(
+    chart,
+    chartGroup,
+    barWidthByCoordsMap,
+    offsetMap,
+    selectedCircuitName
+  ) {
     if (!selectedCircuitName) {
-      let arrowGrpEl = document.getElementById('wtfarrow');
+      let arrowGrpEl = document.getElementById("wtfarrow");
       if (arrowGrpEl) {
         arrowGrpEl.innerHTML = "";
       }
       return;
     }
 
-    let wtfData = chart.eventSeriesByType["@flow/wtf"].rowsOfPaddedCells;
+    let wtfData =
+      chart.eventSeriesByType["@flow/wtf"]
+        .rowsOfPaddedCells;
 
-    let selectedCircuitRow = this.findSelectedCircuit(wtfData, selectedCircuitName);
+    let selectedCircuitRow = this.findSelectedCircuit(
+      wtfData,
+      selectedCircuitName
+    );
     let coords = selectedCircuitRow[0].trim();
 
     let offset = offsetMap[coords];
     let barWidth = barWidthByCoordsMap[coords];
-    let midpoint = offset + barWidth/2;
+    let midpoint = offset + barWidth / 2;
 
     let arrowHeight = 10;
     let arrowWidth = 20;
@@ -218,31 +295,43 @@ export default class FlowChart extends Component {
     let arrowBarHeight = 22;
     let topMargin = 3;
 
-    let points = (midpoint - arrowWidth/2)+","+(this.chartHeight+topMargin+arrowHeight) +
-      " "+(midpoint) + ","+(this.chartHeight+topMargin) +
-      " "+(midpoint + arrowWidth/2) + ","+(this.chartHeight+topMargin+arrowHeight);
+    let points =
+      midpoint -
+      arrowWidth / 2 +
+      "," +
+      (this.chartHeight + topMargin + arrowHeight) +
+      " " +
+      midpoint +
+      "," +
+      (this.chartHeight + topMargin) +
+      " " +
+      (midpoint + arrowWidth / 2) +
+      "," +
+      (this.chartHeight + topMargin + arrowHeight);
 
-    let arrowGrpEl = document.getElementById('wtfarrow');
+    let arrowGrpEl = document.getElementById("wtfarrow");
     let arrowGrp;
     if (arrowGrpEl) {
       arrowGrpEl.innerHTML = "";
-      arrowGrp = d3.select('#wtfarrow');
+      arrowGrp = d3.select("#wtfarrow");
     } else {
-      arrowGrp = chartGroup.append("g")
-        .attr('id', 'wtfarrow');
+      arrowGrp = chartGroup
+        .append("g")
+        .attr("id", "wtfarrow");
     }
 
-    arrowGrp.append('polygon')
-    .attr('points', points)
-    .attr('class', 'arrow')
+    arrowGrp
+      .append("polygon")
+      .attr("points", points)
+      .attr("class", "arrow");
 
-    arrowGrp.append('rect')
-      .attr('x', midpoint - arrowBarWidth/2)
-      .attr('y', this.chartHeight + topMargin + arrowHeight)
-      .attr('width', arrowBarWidth)
-      .attr('height', arrowBarHeight)
-      .attr('class', 'arrow')
-
+    arrowGrp
+      .append("rect")
+      .attr("x", midpoint - arrowBarWidth / 2)
+      .attr("y", this.chartHeight + topMargin + arrowHeight)
+      .attr("width", arrowBarWidth)
+      .attr("height", arrowBarHeight)
+      .attr("class", "arrow");
   }
 
   /**
@@ -252,7 +341,7 @@ export default class FlowChart extends Component {
    * @returns {*}
    */
   findSelectedCircuit(wtfData, selectedCircuitName) {
-    let linkToFind = "/wtf/"+selectedCircuitName;
+    let linkToFind = "/wtf/" + selectedCircuitName;
     for (let i = 0; i < wtfData.length; i++) {
       let circuitLink = wtfData[i][3].trim();
       if (circuitLink === linkToFind) {
@@ -265,12 +354,13 @@ export default class FlowChart extends Component {
   createTitle(chart, chartGroup) {
     let taskName = chart.featureName;
 
-    chartGroup.append('text')
-      .attr('class', 'title')
-      .attr('x', this.margin)
-      .attr('y', this.margin - 10)
-      .attr('text-anchor', 'start')
-      .text('Task: '+taskName);
+    chartGroup
+      .append("text")
+      .attr("class", "title")
+      .attr("x", this.margin)
+      .attr("y", this.margin - 10)
+      .attr("text-anchor", "start")
+      .text("Task: " + taskName);
   }
 
   /**
@@ -281,58 +371,73 @@ export default class FlowChart extends Component {
    * @returns {*}
    */
   createBars(chartGroup, data, interp) {
-    var colorScale = d3.scaleOrdinal()
+    var colorScale = d3
+      .scaleOrdinal()
       .domain([FlowChart.CONFUSION, FlowChart.MOMENTUM])
       .range(["#FF2C36", "#7846FB"]);
 
-    let mScale = d3.scaleLinear()
-      .domain([0,200])
-      .range([0,1]);
+    let mScale = d3
+      .scaleLinear()
+      .domain([0, 200])
+      .range([0, 1]);
 
-
-    let stackGen = d3.stack()
+    let stackGen = d3
+      .stack()
       .keys([FlowChart.CONFUSION, FlowChart.MOMENTUM])
       .value(function (d, key) {
         if (key === FlowChart.CONFUSION) {
           return parseInt(d[4], 10);
         } else if (key === FlowChart.MOMENTUM) {
-          return (100 - parseInt(d[4], 10));
+          return 100 - parseInt(d[4], 10);
         }
         return 0;
       });
 
     let stackedSeries = stackGen(data);
 
-    let bars = chartGroup.selectAll("g")
+    let bars = chartGroup
+      .selectAll("g")
       .data(stackedSeries)
       .enter()
       .append("g")
       .attr("fill", (d) => {
         return colorScale(d.key);
       })
-      .attr('class', (d) => d.key)
+      .attr("class", (d) => d.key)
       .selectAll("rect")
-      .data(d => {
+      .data((d) => {
         return d;
       })
       .enter()
       .append("rect")
       .attr("x", (d) => this.xScale(d.data[3]))
-      .attr("y",  (d) => this.yScale(d[1]))
-      .attr("height", (d) => this.yScale(d[0]) -  this.yScale(d[1]))
-      .attr("width", (d) => this.xScale(parseInt(d.data[3], 10) + parseInt(d.data[2], 10)) - this.xScale(parseInt(d.data[3], 10)) - 0.2)
+      .attr("y", (d) => this.yScale(d[1]))
+      .attr(
+        "height",
+        (d) => this.yScale(d[0]) - this.yScale(d[1])
+      )
+      .attr(
+        "width",
+        (d) =>
+          this.xScale(
+            parseInt(d.data[3], 10) +
+              parseInt(d.data[2], 10)
+          ) -
+          this.xScale(parseInt(d.data[3], 10)) -
+          0.2
+      )
       .attr("fill", (d) => {
         return interp(mScale(parseInt(d.data[8], 10)));
       });
 
-    chartGroup.selectAll(".confusion rect")
+    chartGroup
+      .selectAll(".confusion rect")
       .attr("fill", (d) => {
         return colorScale(FlowChart.CONFUSION);
       });
 
     return bars;
   }
-
 
   /**
    * Add the tooltips for the bars on the chart, which include the file activity,
@@ -344,76 +449,142 @@ export default class FlowChart extends Component {
    * @param tileLocationMap
    * @param tileWtfMap
    */
-  addBarActivityTooltip(bars, that, barWidthByCoordsMap, tileLocationMap, tileWtfMap) {
-    bars.on('mouseover', function(event, d){
+  addBarActivityTooltip(
+    bars,
+    that,
+    barWidthByCoordsMap,
+    tileLocationMap,
+    tileWtfMap
+  ) {
+    bars.on("mouseover", function (event, d) {
       let html = "";
 
       let coords = d.data[0].trim();
-      let offset = that.xScale(parseInt(d.data[3], 10)) + that.lookupBarWidth(barWidthByCoordsMap, d.data[0])/2;
+      let offset =
+        that.xScale(parseInt(d.data[3], 10)) +
+        that.lookupBarWidth(
+          barWidthByCoordsMap,
+          d.data[0]
+        ) /
+          2;
       let files = tileLocationMap[coords];
       let wtfs = tileWtfMap[coords];
 
       if (files) {
-        for (let i = 0; i < files.length;i++) {
+        for (let i = 0; i < files.length; i++) {
           if (files[i].isModified.trim() === "true") {
-            html += "<div class='modifiedfile'><span class='filename'>"+files[i].file+"</span><span class='duration'>"+files[i].duration+"</span></div>\n";
+            html +=
+              "<div class='modifiedfile'><span class='filename'>" +
+              files[i].file +
+              "</span><span class='duration'>" +
+              files[i].duration +
+              "</span></div>\n";
           } else {
-            html += "<div class='file'><span class='filename'>"+files[i].file+"</span><span class='duration'>"+files[i].duration+"</span></div>\n";
+            html +=
+              "<div class='file'><span class='filename'>" +
+              files[i].file +
+              "</span><span class='duration'>" +
+              files[i].duration +
+              "</span></div>\n";
           }
         }
       }
 
       if (wtfs && wtfs.length > 0) {
-        if (files) { html += "<div>&nbsp;</div>"}
-        html += "<div class='wtftip' ><span class='circuitName' id='circuitLink'>"+wtfs[0].circuitName+"</span><span class='duration'>"+wtfs[0].duration+"</span></div>\n";
-        html += "<div class='wtfdescription'>"+wtfs[0].description+"</div>";
+        if (files) {
+          html += "<div>&nbsp;</div>";
+        }
+        html +=
+          "<div class='wtftip' ><span class='circuitName' id='circuitLink'>" +
+          wtfs[0].circuitName +
+          "</span><span class='duration'>" +
+          wtfs[0].duration +
+          "</span></div>\n";
+        html +=
+          "<div class='wtfdescription'>" +
+          wtfs[0].description +
+          "</div>";
       }
 
       if (!wtfs && !files) {
-        html += "<span class='noactivity'>No file activity</span>";
+        html +=
+          "<span class='noactivity'>No file activity</span>";
       } else {
-        html += "<hr class='rule'/><div class='gtcoords'>"+coords+"</div>";
+        html +=
+          "<hr class='rule'/><div class='gtcoords'>" +
+          coords +
+          "</div>";
       }
 
-
-      let tooltipEl = document.querySelector('#tooltip');
+      let tooltipEl = document.querySelector("#tooltip");
       tooltipEl.innerHTML = html;
 
-      if (offset < (that.margin + 100) ) {
+      if (offset < that.margin + 100) {
         tooltipEl.classList.remove("chartpopup");
         tooltipEl.classList.remove("popupright");
         tooltipEl.classList.add("popupleft");
 
-        d3.select('#tooltip')
-          .style('left', (offset - (tooltipEl.clientWidth * 0.08) + 5) + "px")
-          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
-          .style('opacity', 0.95);
-      } else if (offset > (that.width - that.margin - 100)) {
+        d3.select("#tooltip")
+          .style(
+            "left",
+            offset - tooltipEl.clientWidth * 0.08 + 5 + "px"
+          )
+          .style(
+            "top",
+            that.margin +
+              that.chartHeight *
+                that.tooltipPositionPercent +
+              that.browserBarHeightAdjust +
+              "px"
+          )
+          .style("opacity", 0.95);
+      } else if (offset > that.width - that.margin - 100) {
         tooltipEl.classList.remove("chartpopup");
         tooltipEl.classList.remove("popupleft");
         tooltipEl.classList.add("popupright");
 
-        d3.select('#tooltip')
-          .style('left', (offset - tooltipEl.clientWidth * 0.92 + 5) + "px")
-          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
-          .style('opacity', 0.95);
+        d3.select("#tooltip")
+          .style(
+            "left",
+            offset - tooltipEl.clientWidth * 0.92 + 5 + "px"
+          )
+          .style(
+            "top",
+            that.margin +
+              that.chartHeight *
+                that.tooltipPositionPercent +
+              that.browserBarHeightAdjust +
+              "px"
+          )
+          .style("opacity", 0.95);
       } else {
         tooltipEl.classList.remove("popupleft");
         tooltipEl.classList.remove("popupright");
         tooltipEl.classList.add("chartpopup");
 
-        d3.select('#tooltip')
-          .style('left', (offset - tooltipEl.clientWidth/2 + 5) + "px")
-          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
-          .style('opacity', 0.95);
+        d3.select("#tooltip")
+          .style(
+            "left",
+            offset - tooltipEl.clientWidth / 2 + 5 + "px"
+          )
+          .style(
+            "top",
+            that.margin +
+              that.chartHeight *
+                that.tooltipPositionPercent +
+              that.browserBarHeightAdjust +
+              "px"
+          )
+          .style("opacity", 0.95);
       }
-    })
-
-    d3.select('#tooltip')
-    .on('mouseleave', function(event, d){
-      d3.select('#tooltip')
-        .style('left', "-1000px");
     });
+
+    d3.select("#tooltip").on(
+      "mouseleave",
+      function (event, d) {
+        d3.select("#tooltip").style("left", "-1000px");
+      }
+    );
   }
 
   /**
@@ -423,84 +594,130 @@ export default class FlowChart extends Component {
    * @returns {*}
    */
   addDataBreakLines(chart, chartGroup, taskSwitchMap) {
-    let dataBreaks = chart.featureSeriesByType["@nav/break"].rowsOfPaddedCells;
+    let dataBreaks =
+      chart.featureSeriesByType["@nav/break"]
+        .rowsOfPaddedCells;
 
-    let dataBreakLines = chartGroup.append("g")
+    let dataBreakLines = chartGroup
+      .append("g")
       .selectAll(".break")
       .data(dataBreaks)
       .enter()
-      .append('line')
-      .attr('x1', (d) => this.xScale(d[1]))
-      .attr('x2', (d) => this.xScale(d[1]))
-      .attr('y1', this.margin)
-      .attr('y2', this.chartHeight)
-      .attr('stroke', 'black')
-      .attr('stroke-width', 2)
-      .attr('stroke-dasharray', (d) => {
+      .append("line")
+      .attr("x1", (d) => this.xScale(d[1]))
+      .attr("x2", (d) => this.xScale(d[1]))
+      .attr("y1", this.margin)
+      .attr("y2", this.chartHeight)
+      .attr("stroke", "black")
+      .attr("stroke-width", 2)
+      .attr("stroke-dasharray", (d) => {
         let taskSwitch = taskSwitchMap[d[0].trim()];
         if (taskSwitch) {
-          return '8,1';
+          return "8,1";
         } else {
-          return '8,0';
+          return "8,0";
         }
       })
-      .attr('class', 'break');
+      .attr("class", "break");
 
     let that = this;
 
-    dataBreakLines.on('mouseover', function(event, d){
+    dataBreakLines.on("mouseover", function (event, d) {
       let offset = that.xScale(d[1]);
-      let friendlyDuration = that.convertSecondsToFriendlyDuration(parseInt(d[3], 10));
-      let html = "<div class='databreak'>Break "+friendlyDuration+"</div>";
+      let friendlyDuration =
+        that.convertSecondsToFriendlyDuration(
+          parseInt(d[3], 10)
+        );
+      let html =
+        "<div class='databreak'>Break " +
+        friendlyDuration +
+        "</div>";
 
       let taskSwitch = taskSwitchMap[d[0].trim()];
       if (taskSwitch) {
         console.log("switch!");
-        html = "<div class='databreak'><b>Task switch to "+taskSwitch.taskName+" "+friendlyDuration+"</b></div>";
-        html += "<div class='databreak'>"+taskSwitch.taskDescription+"</div>";
+        html =
+          "<div class='databreak'><b>Task switch to " +
+          taskSwitch.taskName +
+          " " +
+          friendlyDuration +
+          "</b></div>";
+        html +=
+          "<div class='databreak'>" +
+          taskSwitch.taskDescription +
+          "</div>";
       }
 
-      d3.select('#tooltip')
-        .html(html);
+      d3.select("#tooltip").html(html);
 
-      let tooltipEl = document.querySelector('#tooltip');
+      let tooltipEl = document.querySelector("#tooltip");
 
-      if (offset < (that.margin + 100) ) {
+      if (offset < that.margin + 100) {
         tooltipEl.classList.remove("chartpopup");
         tooltipEl.classList.remove("popupright");
         tooltipEl.classList.add("popupleft");
 
-        d3.select('#tooltip')
-          .style('left', (offset - (tooltipEl.clientWidth * 0.08) + 5) + "px")
-          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
-          .style('opacity', 0.95);
-      } else if (offset > (that.width - that.margin - 100)) {
+        d3.select("#tooltip")
+          .style(
+            "left",
+            offset - tooltipEl.clientWidth * 0.08 + 5 + "px"
+          )
+          .style(
+            "top",
+            that.margin +
+              that.chartHeight *
+                that.tooltipPositionPercent +
+              that.browserBarHeightAdjust +
+              "px"
+          )
+          .style("opacity", 0.95);
+      } else if (offset > that.width - that.margin - 100) {
         tooltipEl.classList.remove("chartpopup");
         tooltipEl.classList.remove("popupleft");
         tooltipEl.classList.add("popupright");
 
-        d3.select('#tooltip')
-          .style('left', (offset - tooltipEl.clientWidth * 0.92 + 5) + "px")
-          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
-          .style('opacity', 0.95);
+        d3.select("#tooltip")
+          .style(
+            "left",
+            offset - tooltipEl.clientWidth * 0.92 + 5 + "px"
+          )
+          .style(
+            "top",
+            that.margin +
+              that.chartHeight *
+                that.tooltipPositionPercent +
+              that.browserBarHeightAdjust +
+              "px"
+          )
+          .style("opacity", 0.95);
       } else {
         tooltipEl.classList.remove("popupleft");
         tooltipEl.classList.remove("popupright");
         tooltipEl.classList.add("chartpopup");
 
-        d3.select('#tooltip')
-          .style('left', (offset - tooltipEl.clientWidth/2 + 5) + "px")
-          .style('top', (that.margin + that.chartHeight * that.tooltipPositionPercent + that.browserBarHeightAdjust) + "px")
-          .style('opacity', 0.95);
+        d3.select("#tooltip")
+          .style(
+            "left",
+            offset - tooltipEl.clientWidth / 2 + 5 + "px"
+          )
+          .style(
+            "top",
+            that.margin +
+              that.chartHeight *
+                that.tooltipPositionPercent +
+              that.browserBarHeightAdjust +
+              "px"
+          )
+          .style("opacity", 0.95);
       }
-    })
+    });
 
-    d3.select('#tooltip')
-      .on('mouseleave', function(event, d){
-        d3.select('#tooltip')
-          .style('left', "-1000px");
-      });
-
+    d3.select("#tooltip").on(
+      "mouseleave",
+      function (event, d) {
+        d3.select("#tooltip").style("left", "-1000px");
+      }
+    );
 
     return dataBreakLines;
   }
@@ -511,40 +728,45 @@ export default class FlowChart extends Component {
    * @param xMinMax
    */
   createTimeAxis(chartGroup, xMinMax) {
+    let endTimer =
+      UtilRenderer.getRelativeTimerAsHoursMinutes(
+        parseInt(xMinMax[1], 10)
+      );
 
-    let endTimer = UtilRenderer.getRelativeTimerAsHoursMinutes(parseInt(xMinMax[1], 10));
+    let grp = chartGroup.append("g").attr("class", "axis");
 
-    let grp = chartGroup.append("g")
-      .attr('class', 'axis');
+    grp
+      .append("line")
+      .attr("x1", (d) => this.xScale(xMinMax[0]))
+      .attr("y1", this.margin)
+      .attr("x2", (d) => this.xScale(xMinMax[0]))
+      .attr("y2", this.chartHeight + 25)
+      .attr("stroke", "gray")
+      .attr("stroke-width", 1);
 
-    grp.append('line')
-      .attr('x1', (d) => this.xScale(xMinMax[0]))
-      .attr('y1', this.margin)
-      .attr('x2', (d) => this.xScale(xMinMax[0]))
-      .attr('y2', this.chartHeight + 25)
-      .attr('stroke', 'gray')
-      .attr('stroke-width', 1);
+    grp
+      .append("text")
+      .attr("x", this.xScale(xMinMax[0]))
+      .attr("y", this.chartHeight + 42)
+      .attr("text-anchor", "middle")
+      .attr("class", "axisLabel")
+      .text("00:00");
 
-    grp.append('text')
-      .attr('x', this.xScale(xMinMax[0]))
-      .attr('y', this.chartHeight + 42)
-      .attr('text-anchor', 'middle')
-      .attr('class', 'axisLabel')
-      .text('00:00');
+    grp
+      .append("line")
+      .attr("x1", (d) => this.xScale(xMinMax[1]))
+      .attr("y1", this.margin)
+      .attr("x2", (d) => this.xScale(xMinMax[1]))
+      .attr("y2", this.chartHeight + 25)
+      .attr("stroke", "gray")
+      .attr("stroke-width", 1);
 
-    grp.append('line')
-      .attr('x1', (d) => this.xScale(xMinMax[1]))
-      .attr('y1', this.margin)
-      .attr('x2', (d) => this.xScale(xMinMax[1]))
-      .attr('y2', this.chartHeight + 25)
-      .attr('stroke', 'gray')
-      .attr('stroke-width', 1);
-
-    grp.append('text')
-      .attr('x', this.xScale(xMinMax[1]))
-      .attr('y', this.chartHeight + 42)
-      .attr('text-anchor', 'middle')
-      .attr('class', 'axisLabel')
+    grp
+      .append("text")
+      .attr("x", this.xScale(xMinMax[1]))
+      .attr("y", this.chartHeight + 42)
+      .attr("text-anchor", "middle")
+      .attr("class", "axisLabel")
       .text(endTimer);
   }
 
@@ -559,59 +781,96 @@ export default class FlowChart extends Component {
     let margin = 10;
     let defs = svg.append("defs");
 
-      let gradient = defs.append("linearGradient")
-            .attr("id", "momentumGradient")
-            .attr("x1", "0%")
-            .attr("y1", "0%")
-            .attr("x2", "100%")
-            .attr("y2", "0%");
+    let gradient = defs
+      .append("linearGradient")
+      .attr("id", "momentumGradient")
+      .attr("x1", "0%")
+      .attr("y1", "0%")
+      .attr("x2", "100%")
+      .attr("y2", "0%");
 
-    gradient.append("stop")
+    gradient
+      .append("stop")
       .attr("offset", "0%")
       .attr("stop-color", interp(0));
 
-    gradient.append("stop")
+    gradient
+      .append("stop")
       .attr("offset", "20%")
       .attr("stop-color", interp(0.2));
 
-    gradient.append("stop")
+    gradient
+      .append("stop")
       .attr("offset", "40%")
       .attr("stop-color", interp(0.4));
 
-    gradient.append("stop")
+    gradient
+      .append("stop")
       .attr("offset", "100%")
       .attr("stop-color", interp(1));
 
-    chartGroup.append("rect")
+    chartGroup
+      .append("rect")
       .attr("fill", "url(#momentumGradient)")
       .attr("stroke", "rgba(74, 74, 74, 0.96)")
-      .attr("x", this.width - this.margin - barsize - this.legendOffsetForCloseAction)
+      .attr(
+        "x",
+        this.width -
+          this.margin -
+          barsize -
+          this.legendOffsetForCloseAction
+      )
       .attr("y", 10)
       .attr("width", barsize)
       .attr("height", 10);
 
-    chartGroup.append('text')
-      .attr('x', this.width - this.margin - barsize - margin - this.legendOffsetForCloseAction)
-      .attr('y', 19)
-      .attr('text-anchor', 'end')
-      .attr('class', 'axisLabel')
+    chartGroup
+      .append("text")
+      .attr(
+        "x",
+        this.width -
+          this.margin -
+          barsize -
+          margin -
+          this.legendOffsetForCloseAction
+      )
+      .attr("y", 19)
+      .attr("text-anchor", "end")
+      .attr("class", "axisLabel")
       .text("Momentum:");
 
-    chartGroup.append("rect")
+    chartGroup
+      .append("rect")
       .attr("fill", "#FF2C36")
       .attr("stroke", "rgba(74, 74, 74, 0.96)")
-      .attr("x", this.width - this.margin - barsize - margin - 90 - this.legendOffsetForCloseAction)
+      .attr(
+        "x",
+        this.width -
+          this.margin -
+          barsize -
+          margin -
+          90 -
+          this.legendOffsetForCloseAction
+      )
       .attr("y", 10)
       .attr("width", 10)
       .attr("height", 10);
 
-    chartGroup.append('text')
-      .attr('x', this.width - this.margin - barsize - margin * 2 - 90 - this.legendOffsetForCloseAction)
-      .attr('y', 19)
-      .attr('text-anchor', 'end')
-      .attr('class', 'axisLabel')
+    chartGroup
+      .append("text")
+      .attr(
+        "x",
+        this.width -
+          this.margin -
+          barsize -
+          margin * 2 -
+          90 -
+          this.legendOffsetForCloseAction
+      )
+      .attr("y", 19)
+      .attr("text-anchor", "end")
+      .attr("class", "axisLabel")
       .text("Confusion:");
-
   }
 
   /**
@@ -621,22 +880,22 @@ export default class FlowChart extends Component {
    * @returns {string}
    */
   convertSecondsToFriendlyDuration(seconds) {
-    if (seconds >=  86400) {
-      let days = Math.round((seconds / 86400));
+    if (seconds >= 86400) {
+      let days = Math.round(seconds / 86400);
       if (days > 1) {
         return days + " days";
       } else {
         return days + " day";
       }
     } else if (seconds >= 3600) {
-      let hours =  Math.round((seconds / 3600));
+      let hours = Math.round(seconds / 3600);
       if (hours > 1) {
         return hours + " hours";
       } else {
         return hours + " hour";
       }
     } else if (seconds >= 60) {
-      let minutes =  Math.round((seconds / 60));
+      let minutes = Math.round(seconds / 60);
       if (minutes > 1) {
         return minutes + " minutes";
       } else {
@@ -645,7 +904,6 @@ export default class FlowChart extends Component {
     } else {
       return seconds + " seconds";
     }
-
   }
 
   /**
@@ -654,16 +912,19 @@ export default class FlowChart extends Component {
    * @param xMinMax
    */
   addIntentionCursor(chartGroup, xMinMax) {
-    chartGroup.append('line')
-      .attr('x1', Math.round(this.xScale(xMinMax[0])))
-      .attr('x2', Math.round(this.xScale(xMinMax[0])))
-      .attr('y1', this.margin - 10)
-      .attr('y2', this.chartHeight + 10)
-      .attr('stroke', '#7f0')
-      .attr('stroke-width', 2)
-      .attr('id', 'intention-cursor')
+    chartGroup
+      .append("line")
+      .attr("x1", Math.round(this.xScale(xMinMax[0])))
+      .attr("x2", Math.round(this.xScale(xMinMax[0])))
+      .attr("y1", this.margin - 10)
+      .attr("y2", this.chartHeight + 10)
+      .attr("stroke", "#7f0")
+      .attr("stroke-width", 2)
+      .attr("id", "intention-cursor");
 
-    let cursorEl = document.getElementById('intention-cursor');
+    let cursorEl = document.getElementById(
+      "intention-cursor"
+    );
     cursorEl.style.transition = "1s ease";
   }
 
@@ -675,148 +936,256 @@ export default class FlowChart extends Component {
    * @param barWidthByCoordsMap
    * @param tileExecMap
    */
-  addExecDots(chart, chartGroup, barWidthByCoordsMap, tileExecMap) {
-
-    let execSummaryData = chart.featureSeriesByType["@exec/count"].rowsOfPaddedCells;
+  addExecDots(
+    chart,
+    chartGroup,
+    barWidthByCoordsMap,
+    tileExecMap
+  ) {
+    let execSummaryData =
+      chart.featureSeriesByType["@exec/count"]
+        .rowsOfPaddedCells;
     let execYMargin = 10;
     let execRadius = 3;
 
     let dotGrp = chartGroup.append("g");
 
-    dotGrp.selectAll('execdot1')
+    dotGrp
+      .selectAll("execdot1")
       .data(execSummaryData)
       .enter()
-      .append('circle')
-      .attr('class', 'execdot')
-      .attr('cx',(d) => this.xScale(d[1]) + this.lookupBarWidth(barWidthByCoordsMap, d[0])/2 )
-      .attr('cy', this.chartHeight + execYMargin)
-      .attr('r', execRadius)
-      .attr('fill', (d) => this.getFirstDotColor(d))
-      .attr('stroke-width', "1px")
-      .attr('stroke', "#000");
+      .append("circle")
+      .attr("class", "execdot")
+      .attr(
+        "cx",
+        (d) =>
+          this.xScale(d[1]) +
+          this.lookupBarWidth(barWidthByCoordsMap, d[0]) / 2
+      )
+      .attr("cy", this.chartHeight + execYMargin)
+      .attr("r", execRadius)
+      .attr("fill", (d) => this.getFirstDotColor(d))
+      .attr("stroke-width", "1px")
+      .attr("stroke", "#000");
 
-    dotGrp.selectAll('execdot2')
+    dotGrp
+      .selectAll("execdot2")
       .data(execSummaryData)
       .enter()
-      .append('circle')
-      .attr('class', 'execdot')
-      .attr('cx',(d) => this.xScale(d[1]) + this.lookupBarWidth(barWidthByCoordsMap, d[0])/2 )
-      .attr('cy', this.chartHeight + (execYMargin * 2))
-      .attr('r', (d) => {
+      .append("circle")
+      .attr("class", "execdot")
+      .attr(
+        "cx",
+        (d) =>
+          this.xScale(d[1]) +
+          this.lookupBarWidth(barWidthByCoordsMap, d[0]) / 2
+      )
+      .attr("cy", this.chartHeight + execYMargin * 2)
+      .attr("r", (d) => {
         if (this.hasSecondDot(d)) {
           return execRadius;
         } else {
           return 0;
         }
       })
-      .attr('fill', (d) => this.getMidDotColor(d))
-      .attr('stroke-width', "1px")
-      .attr('stroke', "#000");
+      .attr("fill", (d) => this.getMidDotColor(d))
+      .attr("stroke-width", "1px")
+      .attr("stroke", "#000");
 
-    dotGrp.selectAll('execdot3')
+    dotGrp
+      .selectAll("execdot3")
       .data(execSummaryData)
       .enter()
-      .append('circle')
-      .attr('class', 'execdot')
-      .attr('cx',(d) => this.xScale(d[1]) + this.lookupBarWidth(barWidthByCoordsMap, d[0])/2 )
-      .attr('cy', this.chartHeight + (execYMargin * 3))
-      .attr('fill', (d) => this.getThirdDotColor(d))
-      .attr('stroke-width', "1px")
-      .attr('stroke', "#000")
-      .attr('r', (d) => {
+      .append("circle")
+      .attr("class", "execdot")
+      .attr(
+        "cx",
+        (d) =>
+          this.xScale(d[1]) +
+          this.lookupBarWidth(barWidthByCoordsMap, d[0]) / 2
+      )
+      .attr("cy", this.chartHeight + execYMargin * 3)
+      .attr("fill", (d) => this.getThirdDotColor(d))
+      .attr("stroke-width", "1px")
+      .attr("stroke", "#000")
+      .attr("r", (d) => {
         if (this.hasThirdDot(d)) {
           return execRadius;
         } else {
           return 0;
         }
-      })
-    ;
+      });
 
     let that = this;
 
-    dotGrp.selectAll('exectrigger')
+    dotGrp
+      .selectAll("exectrigger")
       .data(execSummaryData)
       .enter()
-      .append('rect')
-      .attr("x", (d) => (this.xScale(d[1])))
-      .attr("y",  this.chartHeight + execYMargin - execRadius)
-      .attr("height",  execYMargin * 3)
-      .attr("width", (d) => this.lookupBarWidth(barWidthByCoordsMap, d[0]))
-      .attr("fill", 'red')
+      .append("rect")
+      .attr("x", (d) => this.xScale(d[1]))
+      .attr(
+        "y",
+        this.chartHeight + execYMargin - execRadius
+      )
+      .attr("height", execYMargin * 3)
+      .attr("width", (d) =>
+        this.lookupBarWidth(barWidthByCoordsMap, d[0])
+      )
+      .attr("fill", "red")
       .attr("opacity", 0)
 
-      .on('mouseover', function(event, d){
-      let offset = that.xScale(d[1]);
+      .on("mouseover", function (event, d) {
+        let offset = that.xScale(d[1]);
 
-      let execDetails = tileExecMap[d[0].trim()];
+        let execDetails = tileExecMap[d[0].trim()];
 
-      let html = "";
+        let html = "";
 
-      if (execDetails) {
-        if (execDetails[0].haystack != null) {
-          html += "<div class='haystack'>Haystack Size: "+execDetails[0].haystack+"</div>";
-          html += "<br/><br/>";
+        if (execDetails) {
+          if (execDetails[0].haystack != null) {
+            html +=
+              "<div class='haystack'>Haystack Size: " +
+              execDetails[0].haystack +
+              "</div>";
+            html += "<br/><br/>";
+          }
+
+          for (let i = 0; i < execDetails.length; i++) {
+            let row = execDetails[i];
+            let cycles =
+              parseInt(row.red, 10) +
+              parseInt(row.green, 10);
+
+            html +=
+              "<div class='exectip'><span class='process'>" +
+              row.exec +
+              "</span>" +
+              "<span class='duration'>" +
+              row.tExecTime +
+              "<span> | " +
+              cycles +
+              " cycles | </span>" +
+              "<span class='fail'>" +
+              row.red +
+              "</span> | " +
+              "<span class='pass'>" +
+              row.green +
+              "</span> | " +
+              "<span class='debug'>" +
+              row.debug +
+              "<i class='bug icon'></i></span>" +
+              "</span></div>";
+          }
+        } else {
+          console.warn(
+            "No exec details found when expected for gt " +
+              d[0] +
+              "! "
+          );
         }
 
-        for (let i = 0; i < execDetails.length; i++) {
-          let row = execDetails[i];
-          let cycles = parseInt(row.red, 10) + parseInt(row.green, 10);
+        d3.select("#tooltip").html(html);
 
-          html += "<div class='exectip'><span class='process'>"+row.exec+"</span>" +
-            "<span class='duration'>"+row.tExecTime+
-             "<span> | "+cycles+" cycles | </span>" +
-              "<span class='fail'>"+row.red+"</span> | " +
-              "<span class='pass'>"+row.green+"</span> | " +
-              "<span class='debug'>"+row.debug+"<i class='bug icon'></i></span>" +
-            "</span></div>";
+        let tooltipEl = document.querySelector("#tooltip");
+        let tipWidth = tooltipEl.clientWidth;
+
+        if (offset < that.margin + that.width / 2 - 150) {
+          tooltipEl.classList.remove("chartpopup");
+          tooltipEl.classList.remove("popupright");
+          tooltipEl.classList.add("popupleft");
+
+          d3.select("#tooltip")
+            .style(
+              "left",
+              offset -
+                tipWidth * 0.08 +
+                5 +
+                that.lookupBarWidth(
+                  barWidthByCoordsMap,
+                  d[0]
+                ) /
+                  2 +
+                "px"
+            )
+            .style(
+              "top",
+              that.margin +
+                that.chartHeight *
+                  that.tooltipPositionPercent +
+                that.browserBarHeightAdjust +
+                execYMargin * 5 +
+                "px"
+            )
+            .style("opacity", 0.95);
+        } else if (
+          offset >
+          that.width - that.width / 2 + 150
+        ) {
+          tooltipEl.classList.remove("chartpopup");
+          tooltipEl.classList.remove("popupleft");
+          tooltipEl.classList.add("popupright");
+
+          d3.select("#tooltip")
+            .style(
+              "left",
+              offset -
+                tipWidth * 0.92 +
+                5 +
+                that.lookupBarWidth(
+                  barWidthByCoordsMap,
+                  d[0]
+                ) /
+                  2 +
+                "px"
+            )
+            .style(
+              "top",
+              that.margin +
+                that.chartHeight *
+                  that.tooltipPositionPercent +
+                that.browserBarHeightAdjust +
+                execYMargin * 5 +
+                "px"
+            )
+            .style("opacity", 0.95);
+        } else {
+          tooltipEl.classList.remove("popupleft");
+          tooltipEl.classList.remove("popupright");
+          tooltipEl.classList.add("chartpopup");
+
+          d3.select("#tooltip")
+            .style(
+              "left",
+              offset -
+                tipWidth / 2 +
+                5 +
+                that.lookupBarWidth(
+                  barWidthByCoordsMap,
+                  d[0]
+                ) /
+                  2 +
+                "px"
+            )
+            .style(
+              "top",
+              that.margin +
+                that.chartHeight *
+                  that.tooltipPositionPercent +
+                that.browserBarHeightAdjust +
+                execYMargin * 5 +
+                "px"
+            )
+            .style("opacity", 0.95);
         }
-      } else {
-        console.warn("No exec details found when expected for gt "+d[0]+"! ");
-      }
-
-      d3.select('#tooltip')
-        .html(html);
-
-      let tooltipEl = document.querySelector('#tooltip')
-      let tipWidth = tooltipEl.clientWidth;
-
-      if (offset < (that.margin + that.width / 2 - 150) ) {
-        tooltipEl.classList.remove("chartpopup");
-        tooltipEl.classList.remove("popupright");
-        tooltipEl.classList.add("popupleft");
-
-        d3.select('#tooltip')
-          .style('left', (offset - (tipWidth * 0.08) + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2) + "px")
-          .style('top', ((that.margin + that.chartHeight * that.tooltipPositionPercent+ that.browserBarHeightAdjust) + (execYMargin * 5)) + "px")
-          .style('opacity', 0.95);
-      } else if (offset > (that.width - that.width / 2 + 150)) {
-        tooltipEl.classList.remove("chartpopup");
-        tooltipEl.classList.remove("popupleft");
-        tooltipEl.classList.add("popupright");
-
-        d3.select('#tooltip')
-          .style('left', (offset - tipWidth * 0.92 + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2)  + "px")
-          .style('top', ((that.margin + that.chartHeight * that.tooltipPositionPercent+ that.browserBarHeightAdjust) + (execYMargin * 5)) + "px")
-          .style('opacity', 0.95);
-      } else {
-        tooltipEl.classList.remove("popupleft");
-        tooltipEl.classList.remove("popupright");
-        tooltipEl.classList.add("chartpopup");
-
-        d3.select('#tooltip')
-          .style('left', (offset - tipWidth/2 + 5 + that.lookupBarWidth(barWidthByCoordsMap, d[0])/2) + "px")
-          .style('top', ((that.margin + that.chartHeight * that.tooltipPositionPercent+ that.browserBarHeightAdjust) + (execYMargin * 5)) + "px")
-          .style('opacity', 0.95);
-      }
-    })
-
-    d3.select('#tooltip')
-      .on('mouseleave', function(event, d){
-        d3.select('#tooltip')
-          .style('left', "-1000px");
       });
 
-
+    d3.select("#tooltip").on(
+      "mouseleave",
+      function (event, d) {
+        d3.select("#tooltip").style("left", "-1000px");
+      }
+    );
   }
 
   /**
@@ -828,56 +1197,58 @@ export default class FlowChart extends Component {
    * @param chartGroup
    */
   createInvisibleBoundingBox(chartGroup) {
-
     let boundingBox = chartGroup.append("g");
     let lineSize = this.margin;
     //left line
-    boundingBox.append("line")
-      .attr('x1', this.margin / 2)
-      .attr('y1', this.margin / 2)
-      .attr('x2', this.margin / 2)
-      .attr('y2', this.chartHeight + this.margin / 2)
-      .attr("stroke-width", lineSize+ "px")
+    boundingBox
+      .append("line")
+      .attr("x1", this.margin / 2)
+      .attr("y1", this.margin / 2)
+      .attr("x2", this.margin / 2)
+      .attr("y2", this.chartHeight + this.margin / 2)
+      .attr("stroke-width", lineSize + "px")
       .attr("stroke", "blue")
       .attr("opacity", 0);
 
     //bottom line
-    boundingBox.append("line")
-      .attr('x1', this.margin / 2)
-      .attr('y1', this.chartHeight + this.margin)
-      .attr('x2', this.width - this.margin / 2)
-      .attr('y2', this.chartHeight + this.margin)
+    boundingBox
+      .append("line")
+      .attr("x1", this.margin / 2)
+      .attr("y1", this.chartHeight + this.margin)
+      .attr("x2", this.width - this.margin / 2)
+      .attr("y2", this.chartHeight + this.margin)
       .attr("stroke-width", lineSize * 2 + "px")
       .attr("stroke", "blue")
       .attr("opacity", 0);
 
     //right line
-    boundingBox.append("line")
-      .attr('x1', this.width - this.margin / 2)
-      .attr('y1', this.margin / 2)
-      .attr('x2', this.width - this.margin / 2)
-      .attr('y2', this.chartHeight + this.margin / 2)
+    boundingBox
+      .append("line")
+      .attr("x1", this.width - this.margin / 2)
+      .attr("y1", this.margin / 2)
+      .attr("x2", this.width - this.margin / 2)
+      .attr("y2", this.chartHeight + this.margin / 2)
       .attr("stroke-width", lineSize + "px")
       .attr("stroke", "blue")
       .attr("opacity", 0);
 
     //top line
-    boundingBox.append("line")
-      .attr('x1', this.margin / 2)
-      .attr('y1', this.margin / 2)
-      .attr('x2', this.width - this.margin / 2)
-      .attr('y2', this.margin / 2)
+    boundingBox
+      .append("line")
+      .attr("x1", this.margin / 2)
+      .attr("y1", this.margin / 2)
+      .attr("x2", this.width - this.margin / 2)
+      .attr("y2", this.margin / 2)
       .attr("stroke-width", lineSize + "px")
       .attr("stroke", "blue")
       .attr("opacity", 0);
 
-    boundingBox.on('mouseover', function(event, d){
-      d3.select('#tooltip')
-        .style('left', "-1000px");
+    boundingBox.on("mouseover", function (event, d) {
+      d3.select("#tooltip").style("left", "-1000px");
     });
 
     let that = this;
-    boundingBox.on('click', function(event, d) {
+    boundingBox.on("click", function (event, d) {
       that.props.onClickOffCircuit();
     });
   }
@@ -888,7 +1259,7 @@ export default class FlowChart extends Component {
    * @returns {string|*}
    */
   extractFileName(filePath) {
-    let lastSlash = filePath.lastIndexOf('/');
+    let lastSlash = filePath.lastIndexOf("/");
     if (lastSlash > 0) {
       return filePath.substring(lastSlash + 1);
     } else {
@@ -915,7 +1286,7 @@ export default class FlowChart extends Component {
    * Create a map of all the offset positions for each bar by coords
    * @param data
    * @param xScale
-   * @returns {*[]}
+   * @returns {*}
    */
   createOffsetMap(data, xScale) {
     let map = [];
@@ -931,22 +1302,26 @@ export default class FlowChart extends Component {
    * Create a mapping of bar widths by coordinate
    * @param data
    * @param xScale
-   * @returns {*[]}
+   * @returns {*}
    */
   createBarWidthByCoordsMap(data, xScale) {
     let map = [];
 
     for (let i = 0; i < data.length; i++) {
       let d = data[i];
-      map[d[0].trim()] = xScale(parseInt(d[3], 10) + parseInt(d[2], 10)) - xScale(parseInt(d[3], 10)) - 0.2;
+      map[d[0].trim()] =
+        xScale(parseInt(d[3], 10) + parseInt(d[2], 10)) -
+        xScale(parseInt(d[3], 10)) -
+        0.2;
     }
     return map;
   }
 
   createTaskSwitchMap(chart) {
-
     let taskSwitchMap = [];
-    let taskSwitchData = chart.eventSeriesByType["@work/task"].rowsOfPaddedCells;
+    let taskSwitchData =
+      chart.eventSeriesByType["@work/task"]
+        .rowsOfPaddedCells;
 
     for (let i = 0; i < taskSwitchData.length; i++) {
       let row = taskSwitchData[i];
@@ -955,7 +1330,10 @@ export default class FlowChart extends Component {
       let taskName = row[4].trim();
       let taskDescription = row[5].trim();
 
-      let switchEvent = {taskName: taskName, taskDescription: taskDescription};
+      let switchEvent = {
+        taskName: taskName,
+        taskDescription: taskDescription,
+      };
       taskSwitchMap[coords] = switchEvent;
     }
     return taskSwitchMap;
@@ -965,11 +1343,15 @@ export default class FlowChart extends Component {
    * Create a mapping of execution and haystack details by coords
    * @param data
    * @param chart
-   * @returns {*[]}
+   * @returns {*}
    */
   createTileExecDetailsMap(data, chart) {
-    let execData = chart.featureSeriesByType["@exec/runtime"].rowsOfPaddedCells;
-    let haystackData = chart.eventSeriesByType["@exec/haystak"].rowsOfPaddedCells;
+    let execData =
+      chart.featureSeriesByType["@exec/runtime"]
+        .rowsOfPaddedCells;
+    let haystackData =
+      chart.eventSeriesByType["@exec/haystak"]
+        .rowsOfPaddedCells;
 
     let execDetailMap = [];
 
@@ -989,7 +1371,15 @@ export default class FlowChart extends Component {
         execTime = tExecTime;
       }
 
-      let execEntry = {exec: process, offset: offset, red: red, green: green, debug: debug, tExecTime: execTime, haystack: null};
+      let execEntry = {
+        exec: process,
+        offset: offset,
+        red: red,
+        green: green,
+        debug: debug,
+        tExecTime: execTime,
+        haystack: null,
+      };
 
       let coordData = execDetailMap[coords];
       if (!coordData) {
@@ -1009,7 +1399,9 @@ export default class FlowChart extends Component {
       if (execForCoords) {
         execForCoords[0].haystack = haystack;
       } else {
-        console.warn("no execs for haystack at "+coords + "!");
+        console.warn(
+          "no execs for haystack at " + coords + "!"
+        );
       }
     }
 
@@ -1019,11 +1411,13 @@ export default class FlowChart extends Component {
   /**
    * Create a mapping of wtf details by coords
    * @param chart
-   * @returns {*[]}
+   * @returns {*}
    */
   createTileWtfDataMap(chart) {
     let chartSeries = chart.chartSeries.rowsOfPaddedCells;
-    let wtfData = chart.eventSeriesByType["@flow/wtf"].rowsOfPaddedCells;
+    let wtfData =
+      chart.eventSeriesByType["@flow/wtf"]
+        .rowsOfPaddedCells;
 
     let tileWtfMap = [];
 
@@ -1034,7 +1428,11 @@ export default class FlowChart extends Component {
       let duration = row[4].trim();
       let description = row[5].trim();
 
-      let wtfEntry = {circuitName: circuitName, duration: duration, description: description};
+      let wtfEntry = {
+        circuitName: circuitName,
+        duration: duration,
+        description: description,
+      };
 
       let coordData = tileWtfMap[coords];
       if (!coordData) {
@@ -1048,7 +1446,7 @@ export default class FlowChart extends Component {
 
     let lastWtf = null;
 
-    for (let i=0; i < chartSeries.length; i++) {
+    for (let i = 0; i < chartSeries.length; i++) {
       let row = chartSeries[i];
       let coords = row[0].trim();
       let confusion = parseInt(row[4], 10);
@@ -1065,7 +1463,6 @@ export default class FlowChart extends Component {
       } else {
         lastWtf = null;
       }
-
     }
     return tileWtfMap;
   }
@@ -1073,10 +1470,12 @@ export default class FlowChart extends Component {
   /**
    * Create a mapping of file location activity by coords
    * @param chart
-   * @returns {*[]}
+   * @returns {*}
    */
   createTileLocationDataMap(chart) {
-    let locationData = chart.featureSeriesByType["@place/location"].rowsOfPaddedCells;
+    let locationData =
+      chart.featureSeriesByType["@place/location"]
+        .rowsOfPaddedCells;
 
     let tileLocationMap = [];
     //so each row, has coords, file, duration, and modified
@@ -1089,7 +1488,11 @@ export default class FlowChart extends Component {
       let isModified = row[3].trim();
       let duration = row[2].trim();
 
-      let fileEntry = {file: file, isModified: isModified, duration: duration};
+      let fileEntry = {
+        file: file,
+        isModified: isModified,
+        duration: duration,
+      };
       let coordData = tileLocationMap[coords];
       if (!coordData) {
         tileLocationMap[coords] = [fileEntry];
@@ -1127,7 +1530,10 @@ export default class FlowChart extends Component {
     let red = parseInt(d[3], 10);
     let green = parseInt(d[4], 10);
 
-    if (green > red || (green > 0 && !this.hasThirdDot(d))) {
+    if (
+      green > red ||
+      (green > 0 && !this.hasThirdDot(d))
+    ) {
       return FlowChart.GREEN_TEST_COLOR;
     } else {
       return FlowChart.RED_TEST_COLOR;
@@ -1193,19 +1599,21 @@ export default class FlowChart extends Component {
     return false;
   }
 
-
   /**
    * If a user clicks on a tooltip at all, handle checking what the user is hovering over
    * and if we clicked on a wtf link and need to let the parent component know.
    */
   handleTooltipClick = (event) => {
-    var x = event.clientX, y = event.clientY,
+    var x = event.clientX,
+      y = event.clientY,
       elementMouseIsOver = document.elementFromPoint(x, y);
 
     if (elementMouseIsOver.id === "circuitLink") {
-      this.props.onCircuitClick(elementMouseIsOver.innerHTML);
+      this.props.onCircuitClick(
+        elementMouseIsOver.innerHTML
+      );
     }
-  }
+  };
 
   /**
    * renders the svg display of the chart with d3 support
@@ -1216,11 +1624,12 @@ export default class FlowChart extends Component {
     return (
       <div>
         <div id="chart" />
-        <div id="tooltip" className="chartpopup" onClick={this.handleTooltipClick}>
-        </div>
+        <div
+          id="tooltip"
+          className="chartpopup"
+          onClick={this.handleTooltipClick}
+        ></div>
       </div>
     );
   }
-
-
 }

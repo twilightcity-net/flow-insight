@@ -135,8 +135,10 @@ export default class ActiveRetro extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.circuit.circuitName !== this.props.circuit.circuitName) {
-
+    if (
+      prevProps.circuit.circuitName !==
+      this.props.circuit.circuitName
+    ) {
       this.loadCircuitDetails(this.props.circuit);
     }
 
@@ -218,12 +220,13 @@ export default class ActiveRetro extends Component {
       (arg) => {
         if (!arg.error) {
           this.setState({
-            taskSummary: arg.data
-          })
+            taskSummary: arg.data,
+          });
         } else {
           console.error(arg.error);
         }
-      });
+      }
+    );
 
     ChartClient.chartFrictionForWTF(
       circuit,
@@ -248,26 +251,35 @@ export default class ActiveRetro extends Component {
 
     this.loadCount++;
     if (this.loadCount === 3) {
-      let feedCreator = new FeedCreator(this.props.circuit, this.circuitMembers, MemberClient.me);
+      let feedCreator = new FeedCreator(
+        this.props.circuit,
+        this.circuitMembers,
+        MemberClient.me
+      );
 
-      feedCreator.createTroubleshootFeed(this.troubleshootMessages, (arg) => {
-        this.setState({
-          troubleshootMessages: this.troubleshootMessages,
-          troubleshootFeedEvents: arg.feedEvents,
-          circuitMembers: this.circuitMembers,
-          missingMembers: arg.members,
-          slidePanelVisible: true
-        });
-      });
+      feedCreator.createTroubleshootFeed(
+        this.troubleshootMessages,
+        (arg) => {
+          this.setState({
+            troubleshootMessages: this.troubleshootMessages,
+            troubleshootFeedEvents: arg.feedEvents,
+            circuitMembers: this.circuitMembers,
+            missingMembers: arg.members,
+            slidePanelVisible: true,
+          });
+        }
+      );
 
-      feedCreator.createRetroFeed(this.retroMessages, (arg) => {
-        this.setState({
-          retroMessages: this.retroMessages,
-          retroFeedEvents: arg.feedEvents,
-          missingMembers: arg.members
-        });
-      });
-
+      feedCreator.createRetroFeed(
+        this.retroMessages,
+        (arg) => {
+          this.setState({
+            retroMessages: this.retroMessages,
+            retroFeedEvents: arg.feedEvents,
+            missingMembers: arg.members,
+          });
+        }
+      );
     }
   }
 
@@ -301,6 +313,11 @@ export default class ActiveRetro extends Component {
    * @param arg
    */
   onTalkRoomMessage = (event, arg) => {
+    let hasMessage = UtilRenderer.hasMessageByIdInArray(
+      this.state.retroMessages,
+      arg
+    );
+
     switch (arg.messageType) {
       case BaseClient.MessageTypes
         .CIRCUIT_MEMBER_STATUS_EVENT:
@@ -317,10 +334,7 @@ export default class ActiveRetro extends Component {
         break;
 
       case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
-        let hasMessage = UtilRenderer.hasMessageByIdInArray(
-          this.state.retroMessages,
-          arg
-        );
+
         if (!hasMessage) {
           this.appendChatMessage(arg);
         } else {
@@ -331,15 +345,14 @@ export default class ActiveRetro extends Component {
         }
         break;
       case BaseClient.MessageTypes.ROOM_MEMBER_STATUS_EVENT:
-        let status = arg.data;
-        switch (status[ActiveRetro.statusEventPropStr]) {
+        switch (arg.data[ActiveRetro.statusEventPropStr]) {
           case BaseClient.RoomMemberStatus.ROOM_MEMBER_JOIN:
-            console.log("JOIN ROOM", status);
+            console.log("JOIN ROOM", arg.data);
             // TODO add status message in the feed
             break;
           case BaseClient.RoomMemberStatus
             .ROOM_MEMBER_LEAVE:
-            console.log("LEAVE ROOM", status);
+            console.log("LEAVE ROOM", arg.data);
 
             // TODO add status message in the feed
             break;
@@ -552,15 +565,22 @@ export default class ActiveRetro extends Component {
         MemberClient.me
       )
     ) {
-      let feedCreator = new FeedCreator(circuit, this.state.missingMembers, MemberClient.me);
+      let feedCreator = new FeedCreator(
+        circuit,
+        this.state.missingMembers,
+        MemberClient.me
+      );
 
       setTimeout(() => {
-        feedCreator.createRetroFeed(this.retroMessages, (arg) => {
-          this.setState({
-            retroFeedEvents: arg.feedEvents,
-            missingMembers: arg.members,
-          });
-        });
+        feedCreator.createRetroFeed(
+          this.retroMessages,
+          (arg) => {
+            this.setState({
+              retroFeedEvents: arg.feedEvents,
+              missingMembers: arg.members,
+            });
+          }
+        );
 
         this.focusOnChatInput();
       }, 400);

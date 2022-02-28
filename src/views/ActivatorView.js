@@ -264,8 +264,8 @@ export default class ActivatorView extends Component {
           <Header.Content>
             Activate Application
             <Header.Subheader>
-              Please enter your 'Activation Token' provided
-              and click 'Activate'.
+              Please enter your &apos;Activation Token&apos; provided
+              and click &apos;Activate&apos;.
             </Header.Subheader>
           </Header.Content>
         </Header>
@@ -323,12 +323,12 @@ export default class ActivatorView extends Component {
         <Segment className="terms" inverted>
           <p>****** End-User License Agreement ******</p>
           <p>
-            This License Agreement ("Agreement") is made
-            between you (the "Licensee") and Twilight City,
-            Inc. (the "Licensor"). The terms of this
+            This License Agreement (&quot;Agreement&quot;) is made
+            between you (the &quot;Licensee&quot;) and Twilight City,
+            Inc. (the &quot;Licensor&quot;). The terms of this
             Agreement apply to all current and future
             versions and updates of FlowInsight
-            collaborative learning software ("FlowInsight").
+            collaborative learning software (&quot;FlowInsight&quot;).
           </p>
           <p>
             By installing, enabling or using FlowInsight,
@@ -350,7 +350,7 @@ export default class ActivatorView extends Component {
               remains the owner of FlowInsight.
             </li>
             <li>
-              Licensor provides FlowInsight on an "as is"
+              Licensor provides FlowInsight on an &quot;as is&quot;
               basis without warranty of any kind. Licensor
               neither guarantees the correct, error-free
               functioning of TC nor is Licensor responsible
@@ -368,7 +368,7 @@ export default class ActivatorView extends Component {
               time to time.
             </li>
             <li>
-              TC may report and store Licensee's Internet
+              TC may report and store Licensee&apos;s Internet
               Protocol address, account name and identifier,
               in-app nickname, and system-related and
               hardware-related information including, but
@@ -376,7 +376,7 @@ export default class ActivatorView extends Component {
               hardware serial numbers.
             </li>
             <li>
-              Licensor values Licensee's privacy and does
+              Licensor values Licensee&apos;s privacy and does
               its utmost to protect it at all times.
               FlowInsight does not report any personally
               identifiable information or personal data

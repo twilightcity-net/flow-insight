@@ -7,7 +7,6 @@ import { BaseClient } from "../../../../clients/BaseClient";
  * retrieves any missing members, and turns the data into a usable feed
  */
 export default class FeedCreator {
-
   /**
    * Initialize the feed creator with the base information,
    * can then call the two feed creator functions
@@ -18,7 +17,6 @@ export default class FeedCreator {
     this.circuitMembers = circuitMembers;
     this.missingMembers = [];
     this.me = me;
-
   }
 
   /**
@@ -27,12 +25,17 @@ export default class FeedCreator {
    * @param callback
    */
   createTroubleshootFeed(messages, callback) {
-    let feedEvents = this.createTroubleshootFeedEvents(this.circuit, messages);
+    let feedEvents = this.createTroubleshootFeedEvents(
+      this.circuit,
+      messages
+    );
     this.loadMissingMembers(messages, (members) => {
       let allMembers = this.circuitMembers.concat(members);
 
-      let result = { feedEvents: feedEvents,
-                     members: allMembers};
+      let result = {
+        feedEvents: feedEvents,
+        members: allMembers,
+      };
 
       callback(result);
     });
@@ -44,12 +47,17 @@ export default class FeedCreator {
    * @param callback
    */
   createRetroFeed(messages, callback) {
-    let feedEvents = this.createRetroFeedEvents(this.circuit, messages);
+    let feedEvents = this.createRetroFeedEvents(
+      this.circuit,
+      messages
+    );
     this.loadMissingMembers(messages, (members) => {
       let allMembers = this.circuitMembers.concat(members);
 
-      let result = { feedEvents: feedEvents,
-        members: allMembers};
+      let result = {
+        feedEvents: feedEvents,
+        members: allMembers,
+      };
 
       callback(result);
     });
@@ -61,11 +69,18 @@ export default class FeedCreator {
    * @param callback
    */
   loadMissingMembers(messages, callback) {
-    let missingMemberNames = this.findMissingMembers(messages, this.circuitMembers, this.missingMembers, this.me);
+    let missingMemberNames = this.findMissingMembers(
+      messages,
+      this.circuitMembers,
+      this.missingMembers,
+      this.me
+    );
 
-    this.loadMissingMemberProfiles(missingMemberNames, callback);
+    this.loadMissingMemberProfiles(
+      missingMemberNames,
+      callback
+    );
   }
-
 
   /**
    * Load the missing members from the server, this is an async call so
@@ -89,7 +104,10 @@ export default class FeedCreator {
             console.error("Error: " + arg.error);
           }
 
-          if (this.missingMemberLoadCount === missingUsernames.length) {
+          if (
+            this.missingMemberLoadCount ===
+            missingUsernames.length
+          ) {
             callback(this.missingMembers);
           }
         }
@@ -108,7 +126,7 @@ export default class FeedCreator {
    * @param circuitMembers
    * @param missingMembers
    * @param me
-   * @returns {*[]}
+   * @returns {*}
    */
   findMissingMembers(
     messages,
@@ -147,7 +165,6 @@ export default class FeedCreator {
     return missingMemberList;
   }
 
-
   /**
    * Lookup the circuit member object for the username either in the circuitmember list
    * or the missing member list as a fallback, will only return null if it's in neither list
@@ -156,7 +173,11 @@ export default class FeedCreator {
    * @param username
    * @returns {null|*}
    */
-  getCircuitMemberForUsername(circuitMembers, missingMembers, username) {
+  getCircuitMemberForUsername(
+    circuitMembers,
+    missingMembers,
+    username
+  ) {
     for (let i = 0; i < circuitMembers.length; i++) {
       if (circuitMembers[i].username === username) {
         return circuitMembers[i];
@@ -176,7 +197,7 @@ export default class FeedCreator {
    * Creates a troubleshooting feed, starting with the fervie prompt question
    * @param circuit
    * @param troubleshootMessages
-   * @returns {*[]}
+   * @returns {*}
    */
   createTroubleshootFeedEvents(
     circuit,
@@ -193,7 +214,7 @@ export default class FeedCreator {
    * Creates a retro feed starting with the retro prompt question
    * @param circuit
    * @param retroMessages
-   * @returns {*[]}
+   * @returns {*}
    */
   createRetroFeedEvents(circuit, retroMessages) {
     //only create retro events, if the retro has been started
@@ -257,13 +278,11 @@ export default class FeedCreator {
     return feedEvents;
   };
 
-
   /**
    * Create the fervie "What's the problem?" prompt in chat
    * @param circuit
    */
   addFerviePrompt(ferviePromptStr, feedEvents, timeStamp) {
-
     let time =
       UtilRenderer.getChatMessageTimeString(timeStamp);
 
@@ -275,7 +294,6 @@ export default class FeedCreator {
       ferviePromptStr
     );
   }
-
 
   /**
    * Add a new feed events array which is used to generate the list of
@@ -311,8 +329,4 @@ export default class FeedCreator {
 
     return feedEvents;
   }
-
-
-
-
 }

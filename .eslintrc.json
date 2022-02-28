@@ -23,6 +23,8 @@
     "window": false
   },
   "rules": {
-    "no-console": "off"
+    "no-console": "off",
+    "react/prop-types": "off",
+    "no-unused-vars": "off"
   }
 }

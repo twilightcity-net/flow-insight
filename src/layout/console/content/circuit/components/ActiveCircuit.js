@@ -353,11 +353,12 @@ export default class ActiveCircuit extends Component {
         this.handleDictionaryUpdateMessage(arg);
         break;
       case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
-        let hasMessage = UtilRenderer.hasMessageByIdInArray(
-          this.state.messages,
-          arg
-        );
-        if (!hasMessage) {
+        if (
+          !UtilRenderer.hasMessageByIdInArray(
+            this.state.messages,
+            arg
+          )
+        ) {
           this.appendChatMessage(arg);
         } else {
           console.log(

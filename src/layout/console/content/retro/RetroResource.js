@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import React, { Component } from "react";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import UtilRenderer from "../../../../UtilRenderer";
-import {Icon, Message} from "semantic-ui-react";
-import {BaseClient} from "../../../../clients/BaseClient";
-import {RendererEventFactory} from "../../../../events/RendererEventFactory";
-import {ResourceCircuitController} from "../../../../controllers/ResourceCircuitController";
-import {CircuitClient} from "../../../../clients/CircuitClient";
+import { Icon, Message } from "semantic-ui-react";
+import { BaseClient } from "../../../../clients/BaseClient";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
+import { ResourceCircuitController } from "../../../../controllers/ResourceCircuitController";
+import { CircuitClient } from "../../../../clients/CircuitClient";
 import ActiveRetro from "./components/ActiveRetro";
 
 /**
@@ -54,7 +54,6 @@ export default class RetroResource extends Component {
     this.loadTopLevelCircuit(circuitName);
   }
 
-
   /**
    * event handler for talk messages. This is called everytime we receive a new talk
    * message over the event bus. Make sure to check that this is the circuit
@@ -65,20 +64,26 @@ export default class RetroResource extends Component {
    */
   onTalkRoomMessage = (event, arg) => {
     let circuitName = this.props.resource.uriArr[1];
+    let data = arg.data,
+      circuit = data[ActiveRetro.learningCircuitDtoStr];
 
     switch (arg.messageType) {
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
-        let data = arg.data,
-          circuit = data[ActiveRetro.learningCircuitDtoStr];
 
-        if (circuit && circuitName === circuit.circuitName) {
-
-          if (data.statusType === ResourceCircuitController.StatusTypes.TEAM_RETRO_STARTED) {
+        if (
+          circuit &&
+          circuitName === circuit.circuitName
+        ) {
+          if (
+            data.statusType ===
+            ResourceCircuitController.StatusTypes
+              .TEAM_RETRO_STARTED
+          ) {
             this.handleRetroStartedMessage(circuit);
           }
 
           this.setState({
-             circuit: circuit
+            circuit: circuit,
           });
         }
 
@@ -94,7 +99,9 @@ export default class RetroResource extends Component {
    */
   handleRetroStartedMessage(circuit) {
     if (UtilRenderer.isCircuitInRetro(circuit)) {
-      this.resourcesController.joinExistingRoomWithRoomId(circuit.retroTalkRoomId);
+      this.resourcesController.joinExistingRoomWithRoomId(
+        circuit.retroTalkRoomId
+      );
     }
   }
 
@@ -115,13 +122,20 @@ export default class RetroResource extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.resource.uri !== prevProps.resource.uri) {
-      if (prevState.circuit && prevState.circuit.retroTalkRoomId) {
-        this.resourcesController.leaveExistingRoomWithRoomId(prevState.circuit.retroTalkRoomId);
+    if (
+      this.props.resource.uri !== prevProps.resource.uri
+    ) {
+      if (
+        prevState.circuit &&
+        prevState.circuit.retroTalkRoomId
+      ) {
+        this.resourcesController.leaveExistingRoomWithRoomId(
+          prevState.circuit.retroTalkRoomId
+        );
       }
 
       if (prevState.error) {
-        this.setState({error: null});
+        this.setState({ error: null });
       }
 
       let circuitName = this.props.resource.uriArr[1];
@@ -142,10 +156,13 @@ export default class RetroResource extends Component {
         this.circuit = arg.data;
 
         if (!arg.error && this.circuit.retroTalkRoomId) {
-          this.resourcesController.joinExistingRoomWithRoomId(this.circuit.retroTalkRoomId);
+          this.resourcesController.joinExistingRoomWithRoomId(
+            this.circuit.retroTalkRoomId
+          );
         }
         this.finishLoading(arg.error);
-      });
+      }
+    );
   }
 
   /**
@@ -156,12 +173,12 @@ export default class RetroResource extends Component {
   finishLoading(error) {
     if (error) {
       this.setState({
-        error: error
+        error: error,
       });
     } else {
       this.setState({
-        circuit: this.circuit
-      })
+        circuit: this.circuit,
+      });
     }
   }
 
@@ -171,11 +188,15 @@ export default class RetroResource extends Component {
    * from other users that are still in the circuit chat room.
    */
   componentWillUnmount() {
-    if (this.state.circuit && this.state.circuit.retroTalkRoomId) {
-      this.resourcesController.leaveExistingRoomWithRoomId(this.state.circuit.retroTalkRoomId);
+    if (
+      this.state.circuit &&
+      this.state.circuit.retroTalkRoomId
+    ) {
+      this.resourcesController.leaveExistingRoomWithRoomId(
+        this.state.circuit.retroTalkRoomId
+      );
     }
   }
-
 
   /**
    * renders our circuit error with a given string. This is usually not
@@ -202,12 +223,11 @@ export default class RetroResource extends Component {
    * @returns {*} - the JSX to render
    */
   render() {
-
     let panel = "";
 
     if (this.state.circuit) {
       console.log("has circuit (retro resource)");
-      panel = <ActiveRetro circuit={this.state.circuit}/>
+      panel = <ActiveRetro circuit={this.state.circuit} />;
     }
 
     if (this.state.error) {

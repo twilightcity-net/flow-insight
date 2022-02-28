@@ -242,9 +242,8 @@ export class RendererEventManager {
             "\n"
         );
         console.error(event.returnValue.toString());
-      } finally {
-        return event;
       }
+      return event;
     };
 
     ipcRenderer.on(event.type, wrapperFunction);
