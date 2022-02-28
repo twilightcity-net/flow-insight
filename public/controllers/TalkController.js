@@ -296,14 +296,11 @@ module.exports = class TalkController extends (
    */
   onAppHeartbeat(event, dto) {
     log.info("HEARTBEAT " + JSON.stringify(dto));
-
     let socket = global.App.TalkManager.socket;
 
-    if (
-      socket &&
-      ((!socket.connected && dto.status === "SUCCESS") ||
-        dto.status === "REFRESH")
-    ) {
+    if ((socket == null || (socket && !socket.connected)) &&
+      (dto.status === "SUCCESS" || dto.status === "REFRESH"))
+     {
       this.refreshDataFromScratch();
       this.reconnectToTalk(socket);
     } else if (dto.status === "FAILED") {
@@ -315,12 +312,16 @@ module.exports = class TalkController extends (
   }
 
   reconnectToTalk(socket) {
-    if (!socket.connected) {
+    if (socket && !socket.connected) {
       log.info(
-        chalk.yellowBright("[AppHeartbeat]") +
+        chalk.yellowBright("[TalkController]") +
           " reconnecting to Talk..."
       );
       socket.open();
+    }
+
+    if (socket == null) {
+      this.reinitializeLogin();
     }
   }
 
@@ -328,15 +329,16 @@ module.exports = class TalkController extends (
     global.App.TalkManager.disconnect();
 
     AppLogin.doLogin(() => {
-      log.info(
-        chalk.greenBright("[TalkManager]") +
+      log.info(chalk.greenBright("[TalkController]") +
           " Re-logged in to reset all connections..."
       );
       let dto = AppLogin.getConnectionStatus();
       if (dto.status === "ERROR") {
+        log.error("Application is offline.");
         global.App.isOnline = false;
         global.App.isLoggedIn = false;
       } else {
+        log.info("Application is back online.");
         global.App.isOnline = true;
         global.App.isLoggedIn = true;
         global.App.connectionStatus = dto;
