@@ -124,7 +124,6 @@ export default class FlowChart extends Component {
    * @param selectedCircuitName
    */
   displayChart(chart, selectedCircuitName) {
-    console.log(chart);
     this.margin = 30;
     this.tooltipPositionPercent = 0.7;
     let svgHeight =
@@ -142,10 +141,14 @@ export default class FlowChart extends Component {
     this.width =
       DimensionController.getFullRightPanelWidth();
 
-    let data = chart.chartSeries.rowsOfPaddedCells;
-
     let chartDiv = document.getElementById("chart");
     chartDiv.innerHTML = "";
+
+    let data = chart.chartSeries.rowsOfPaddedCells;
+    if (data.length === 0) {
+      //empty chart
+      return;
+    }
 
     let svg = d3
       .select("#chart")
@@ -635,7 +638,6 @@ export default class FlowChart extends Component {
 
       let taskSwitch = taskSwitchMap[d[0].trim()];
       if (taskSwitch) {
-        console.log("switch!");
         html =
           "<div class='databreak'><b>Task switch to " +
           taskSwitch.taskName +
