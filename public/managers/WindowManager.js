@@ -206,7 +206,7 @@ class WindowManager {
     if (arg) {
       for (let key in arg) {
         if (arg.hasOwnProperty(key)) {
-          argsString += "&"+key + "=" + arg[key];
+          argsString += "&" + key + "=" + arg[key];
         }
       }
     }
@@ -272,11 +272,16 @@ class WindowManager {
    * @param windowName
    */
   closeWindowByName(windowName) {
-    log.info("[WindowManager] close window by name -> " + windowName);
+    log.info(
+      "[WindowManager] close window by name -> " +
+        windowName
+    );
 
     for (var i = this.windows.length - 1; i >= 0; i--) {
       if (this.windows[i].name === windowName) {
-        log.info("[WindowManager] closing window -> " + windowName);
+        log.info(
+          "[WindowManager] closing window -> " + windowName
+        );
         this.closeWindow(this.windows[i], true);
       }
     }
@@ -356,11 +361,20 @@ class WindowManager {
    * @returns {*|null}
    */
   createWindow(windowName, windowClassName, arg) {
-    log.info("[WindowManager] create window -> " + windowName);
+    log.info(
+      "[WindowManager] create window -> " + windowName
+    );
     let window = this.getWindow(windowName);
     if (!window) {
-      log.info("[WindowManager] └> get or make window -> " + windowName);
-      window = this.getWindowInstanceFromName(windowName, windowClassName, arg);
+      log.info(
+        "[WindowManager] └> get or make window -> " +
+          windowName
+      );
+      window = this.getWindowInstanceFromName(
+        windowName,
+        windowClassName,
+        arg
+      );
       window.window.on("focus", (event) => {
         this.events.focusWindow.dispatch(event);
       });
@@ -387,7 +401,11 @@ class WindowManager {
    * @param arg to be sent to the window
    * @returns {LoadingWindow|null|ActivatorWindow|ConsoleWindow}
    */
-  getWindowInstanceFromName(windowName, windowClassName, arg) {
+  getWindowInstanceFromName(
+    windowName,
+    windowClassName,
+    arg
+  ) {
     switch (windowClassName) {
       case WindowManagerHelper.WindowNames.LOADING:
         return new LoadingWindow(windowName, arg);

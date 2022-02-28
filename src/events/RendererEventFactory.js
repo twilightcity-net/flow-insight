@@ -42,10 +42,8 @@ export class RendererEventFactory {
         prefix + "window-console-browser-request",
       WINDOW_CONSOLE_BROWSER_LOAD:
         prefix + "window-console-browser-load",
-      WINDOW_OPEN_CHART:
-        prefix + "window-open-chart",
-      WINDOW_CLOSE_CHART:
-        prefix + "window-close-chart",
+      WINDOW_OPEN_CHART: prefix + "window-open-chart",
+      WINDOW_CLOSE_CHART: prefix + "window-close-chart",
       TALK_CONNECTED: prefix + "talk-connected",
       TALK_CONNECT_FAILED: prefix + "talk-connect-failed",
       TALK_MESSAGE_CLIENT: prefix + "talk-message-client",

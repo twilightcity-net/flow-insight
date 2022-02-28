@@ -298,9 +298,10 @@ module.exports = class TalkController extends (
     log.info("HEARTBEAT " + JSON.stringify(dto));
     let socket = global.App.TalkManager.socket;
 
-    if ((socket == null || (socket && !socket.connected)) &&
-      (dto.status === "SUCCESS" || dto.status === "REFRESH"))
-     {
+    if (
+      (socket == null || (socket && !socket.connected)) &&
+      (dto.status === "SUCCESS" || dto.status === "REFRESH")
+    ) {
       this.refreshDataFromScratch();
       this.reconnectToTalk(socket);
     } else if (dto.status === "FAILED") {
@@ -329,7 +330,8 @@ module.exports = class TalkController extends (
     global.App.TalkManager.disconnect();
 
     AppLogin.doLogin(() => {
-      log.info(chalk.greenBright("[TalkController]") +
+      log.info(
+        chalk.greenBright("[TalkController]") +
           " Re-logged in to reset all connections..."
       );
       let dto = AppLogin.getConnectionStatus();

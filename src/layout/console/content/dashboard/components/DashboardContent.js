@@ -15,14 +15,16 @@ export default class DashboardContent extends Component {
   }
 
   showChart() {
-    let height = DimensionController.getFullRightPanelHeight();
-    let width = DimensionController.getFullRightPanelWidth();
+    let height =
+      DimensionController.getFullRightPanelHeight();
+    let width =
+      DimensionController.getFullRightPanelWidth();
 
-    let svg = d3.select('#chart')
-      .append('svg')
-      .attr('width', width + 'px')
-      .attr('height', height + 'px');
-
+    let svg = d3
+      .select("#chart")
+      .append("svg")
+      .attr("width", width + "px")
+      .attr("height", height + "px");
   }
 
   componentDidMount() {

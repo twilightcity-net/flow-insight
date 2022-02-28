@@ -16,18 +16,28 @@ module.exports = class ChartWindow {
     this.name = windowName;
     this.view = ViewManagerHelper.ViewNames.CHART;
     this.url = global.App.WindowManager.getWindowViewURL(
-      this.view, arg
+      this.view,
+      arg
     );
     this.icon = Util.getAppIcon("icon.ico");
     this.display = global.App.WindowManager.getDisplay();
     this.autoShow = true;
     this.window = new BrowserWindow({
-      titleBarStyle: 'customButtonsOnHover',
+      titleBarStyle: "customButtonsOnHover",
       name: this.name,
-      width: Math.floor(this.display.workAreaSize.width * 0.75),
-      height:  Math.floor(this.display.workAreaSize.height / 2 * 0.90),
-      x: Math.floor(this.display.workAreaSize.width * 0.25) - (this.chartIndex * 5),
-      y: Math.floor(this.display.workAreaSize.height / 2 * 1.1 + (this.chartIndex * 5)),
+      width: Math.floor(
+        this.display.workAreaSize.width * 0.75
+      ),
+      height: Math.floor(
+        (this.display.workAreaSize.height / 2) * 0.9
+      ),
+      x:
+        Math.floor(this.display.workAreaSize.width * 0.25) -
+        this.chartIndex * 5,
+      y: Math.floor(
+        (this.display.workAreaSize.height / 2) * 1.1 +
+          this.chartIndex * 5
+      ),
       resizable: false,
       movable: true,
       frame: false,
@@ -63,6 +73,8 @@ module.exports = class ChartWindow {
 
   onClosedCb() {
     log.info("[ChartWindow] closed window");
-    global.App.ChartWindowManager.closeChartWindow(this.arg);
+    global.App.ChartWindowManager.closeChartWindow(
+      this.arg
+    );
   }
 };

@@ -6,7 +6,6 @@ const WindowManagerHelper = require("./WindowManagerHelper");
  * managing class for the popup chart windows
  */
 module.exports = class ChartWindowManager {
-
   static windowNamePrefix = "tc-chart-";
 
   /**
@@ -18,28 +17,23 @@ module.exports = class ChartWindowManager {
     this.openChartWindowEvent = EventFactory.createEvent(
       EventFactory.Types.WINDOW_OPEN_CHART,
       this,
-      (event, arg) =>
-        this.onOpenChartCb(event, arg)
+      (event, arg) => this.onOpenChartCb(event, arg)
     );
 
     this.closeChartWindowEvent = EventFactory.createEvent(
       EventFactory.Types.WINDOW_CLOSE_CHART,
       this,
-      (event, arg) =>
-        this.onCloseChartCb(event, arg)
+      (event, arg) => this.onCloseChartCb(event, arg)
     );
 
     this.hideConsoleEvent = EventFactory.createEvent(
       EventFactory.Types.WINDOW_CONSOLE_SHOW_HIDE,
       this,
-      (event, arg) =>
-        this.onHideConsole(event, arg)
+      (event, arg) => this.onHideConsole(event, arg)
     );
 
     this.chartWindowsByName = new Map();
-
   }
-
 
   /**
    * When an open chart window is triggered, opens and creates the window
@@ -48,11 +42,15 @@ module.exports = class ChartWindowManager {
    * @param arg
    */
   onOpenChartCb(event, arg) {
-    let windowName = ChartWindowManager.windowNamePrefix + arg.circuitName;
+    let windowName =
+      ChartWindowManager.windowNamePrefix + arg.circuitName;
 
     arg.chartIndex = this.chartWindowsByName.size;
 
-    let window = WindowManagerHelper.createChartWindow(windowName, arg);
+    let window = WindowManagerHelper.createChartWindow(
+      windowName,
+      arg
+    );
     this.chartWindowsByName.set(windowName, window);
   }
 
@@ -63,7 +61,8 @@ module.exports = class ChartWindowManager {
    * @param arg
    */
   onCloseChartCb(event, arg) {
-    let windowName = ChartWindowManager.windowNamePrefix + arg.circuitName;
+    let windowName =
+      ChartWindowManager.windowNamePrefix + arg.circuitName;
 
     let window = this.chartWindowsByName.get(windowName);
     if (window) {
@@ -76,7 +75,8 @@ module.exports = class ChartWindowManager {
    * @param arg
    */
   onHideConsole(event, arg) {
-    if (arg.showHideFlag === 1) { //closing
+    if (arg.showHideFlag === 1) {
+      //closing
       this.closeAllChartWindows();
     }
   }
@@ -87,7 +87,8 @@ module.exports = class ChartWindowManager {
    * @param arg
    */
   closeChartWindow(arg) {
-    let windowName = ChartWindowManager.windowNamePrefix + arg.circuitName;
+    let windowName =
+      ChartWindowManager.windowNamePrefix + arg.circuitName;
 
     WindowManagerHelper.closeChartWindow(windowName);
 
@@ -99,9 +100,10 @@ module.exports = class ChartWindowManager {
    */
   closeAllChartWindows() {
     for (let windowName of this.chartWindowsByName.keys()) {
-      global.App.WindowManager.closeWindowByName(windowName);
+      global.App.WindowManager.closeWindowByName(
+        windowName
+      );
     }
     this.chartWindowsByName.clear();
   }
-
 };

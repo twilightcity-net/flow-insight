@@ -2,7 +2,6 @@
  * support class for handling fervie color translations
  */
 export default class FervieColors {
-
   static defaultFervieColor = "#B042FF";
   static defaultShoeColor = "#FFFFFF";
 
@@ -27,7 +26,6 @@ export default class FervieColors {
 
     return this.rgbToHex(rgb.r, rgb.g, rgb.b);
   }
-
 
   static getShoeSoleColor(shoecolor) {
     let rgb = this.hexToRgb(shoecolor);
@@ -65,12 +63,10 @@ export default class FervieColors {
       /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result
       ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16),
-      }
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
       : null;
   }
-
-
 }

@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Grid } from "semantic-ui-react";
 
 /**
  * this component is the intentions header for the FlowMap intentions

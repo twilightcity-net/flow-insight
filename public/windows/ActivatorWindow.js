@@ -14,7 +14,8 @@ module.exports = class ActivatorWindow {
     this.name = windowName;
     this.view = ViewManagerHelper.ViewNames.ACTIVATOR;
     this.url = global.App.WindowManager.getWindowViewURL(
-      this.view, arg
+      this.view,
+      arg
     );
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = true;

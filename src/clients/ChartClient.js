@@ -41,7 +41,7 @@ export class ChartClient extends BaseClient {
     return {
       CHART_WTF: "chart-wtf",
       CHART_TASK: "chart-task",
-      CHART_TASK_FOR_WTF: "chart-task-for-wtf"
+      CHART_TASK_FOR_WTF: "chart-task-for-wtf",
     };
   }
 
@@ -55,7 +55,6 @@ export class ChartClient extends BaseClient {
     }
   }
 
-
   /**
    * Chart friction for a specific project/task at a specific bucket resolution
    * Will default to twenties if no bucket is provided
@@ -66,7 +65,13 @@ export class ChartClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static chartFrictionForTask(projectName, taskName, bucket, scope, callback) {
+  static chartFrictionForTask(
+    projectName,
+    taskName,
+    bucket,
+    scope,
+    callback
+  ) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_TASK,
       {
@@ -91,11 +96,17 @@ export class ChartClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static chartFrictionForWTFTask(circuitName, bucket, scope, callback) {
+  static chartFrictionForWTFTask(
+    circuitName,
+    bucket,
+    scope,
+    callback
+  ) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_TASK_FOR_WTF,
       {
-        circuitPath: ChartClient.CIRCUIT_LINK_PREFIX + circuitName,
+        circuitPath:
+          ChartClient.CIRCUIT_LINK_PREFIX + circuitName,
         bucket: bucket,
       },
       scope,

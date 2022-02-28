@@ -61,36 +61,41 @@ export default class ExecDetail extends Component {
         <Grid id="metrics-row-grid" inverted columns={16}>
           <ExecMetricsHeader />
         </Grid>
-        <div className="scrolling" style={{maxHeight: (DimensionController.getActiveCircuitContentHeight() - 90)+"px"}}>
+        <div
+          className="scrolling"
+          style={{
+            maxHeight:
+              DimensionController.getActiveCircuitContentHeight() -
+              90 +
+              "px",
+          }}
+        >
+          <Grid id="metrics-row-grid" inverted columns={16}>
+            {execData.rowsOfPaddedCells.map((row, i) => {
+              let process = row[0].trim();
+              let tExecTime = row[1].trim();
+              let tHumanTime = row[2].trim();
+              let count = row[5].trim();
+              let red = row[6].trim();
+              let green = row[7].trim();
+              let debug = row[8].trim();
 
-        <Grid id="metrics-row-grid" inverted columns={16}>
-
-          {execData.rowsOfPaddedCells.map((row, i) => {
-            let process = row[0].trim();
-            let tExecTime = row[1].trim();
-            let tHumanTime = row[2].trim();
-            let count = row[5].trim();
-            let red = row[6].trim();
-            let green = row[7].trim();
-            let debug = row[8].trim();
-
-            return (
-              <ExecMetricsRow
-                key={i}
-                process={process}
-                tExecTime={tExecTime}
-                tHumanTime={tHumanTime}
-                count={count}
-                red={red}
-                green={green}
-                debug={debug}
-              />
-            );
-          })}
-        </Grid>
+              return (
+                <ExecMetricsRow
+                  key={i}
+                  process={process}
+                  tExecTime={tExecTime}
+                  tHumanTime={tHumanTime}
+                  count={count}
+                  red={red}
+                  green={green}
+                  debug={debug}
+                />
+              );
+            })}
+          </Grid>
         </div>
       </div>
-
     );
   }
 

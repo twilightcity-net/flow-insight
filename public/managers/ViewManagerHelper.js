@@ -12,7 +12,7 @@ module.exports = class ViewManagerHelper {
       LOADING: "loading",
       ACTIVATOR: "activator",
       CONSOLE: "console",
-      CHART: "chart"
+      CHART: "chart",
     };
   }
 };

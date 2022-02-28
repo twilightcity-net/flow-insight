@@ -127,8 +127,7 @@ export class CircuitClient extends BaseClient {
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
-      GET_CIRCUIT_TASK_SUMMARY:
-        "get-circuit-task-summary",
+      GET_CIRCUIT_TASK_SUMMARY: "get-circuit-task-summary",
       GET_CIRCUIT_MEMBERS: "get-circuit-members",
       SOLVE_WTF: "solve-wtf",
       CANCEL_WTF: "cancel-wtf",
@@ -150,7 +149,7 @@ export class CircuitClient extends BaseClient {
   static init(scope) {
     if (!CircuitClient.instance) {
       CircuitClient.instance = new CircuitClient(scope);
-      CircuitClient.getActiveCircuit(this, arg => {
+      CircuitClient.getActiveCircuit(this, (arg) => {
         let circuit = arg.data[0];
         if (circuit) {
           CircuitClient.activeCircuit = circuit;
@@ -417,8 +416,6 @@ export class CircuitClient extends BaseClient {
     return event;
   }
 
-
-
   /**
    * gets the task summary for our circuit
    * @param circuitName
@@ -440,7 +437,6 @@ export class CircuitClient extends BaseClient {
     CircuitClient.instance.notifyCircuit(event);
     return event;
   }
-
 
   /**
    * gets the members for a given circuit. The controller will call load if

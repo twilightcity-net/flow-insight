@@ -1,5 +1,10 @@
-import React, {Component} from "react";
-import {Divider, Feed, Grid, Segment} from "semantic-ui-react";
+import React, { Component } from "react";
+import {
+  Divider,
+  Feed,
+  Grid,
+  Segment,
+} from "semantic-ui-react";
 import UtilRenderer from "../../../../../UtilRenderer";
 import FlowFeedEvent from "./FlowFeedEvent";
 import FeedCreator from "../../support/FeedCreator";
@@ -9,7 +14,6 @@ import FeedCreator from "../../support/FeedCreator";
  * highlighted in the chart
  */
 export default class FlowTroubleshootingFeed extends Component {
-
   /**
    * this is our active circuit feed's elemental id. This is so we can look
    * up the active circuit feed by getElementById in our DOM.
@@ -24,7 +28,6 @@ export default class FlowTroubleshootingFeed extends Component {
    */
   static circuitContentFeedPanelID = "pastContentFeedPanel";
 
-
   /**
    * builds the troubleshooting session feed below the chart
    * @param props
@@ -34,8 +37,8 @@ export default class FlowTroubleshootingFeed extends Component {
     this.name = "[FlowTroubleshootingFeed]";
     this.state = {
       feedEvents: [],
-      members: []
-    }
+      members: [],
+    };
   }
 
   /**
@@ -49,15 +52,25 @@ export default class FlowTroubleshootingFeed extends Component {
    * Initialize the feed for the first time on mount
    */
   componentDidMount() {
-    this.feedCreator = new FeedCreator(this.props.circuit, this.props.circuitMembers, this.props.me);
+    this.feedCreator = new FeedCreator(
+      this.props.circuit,
+      this.props.circuitMembers,
+      this.props.me
+    );
 
-    this.feedCreator.createTroubleshootFeed(this.props.troubleshootMessages, (feedData) => {
-      console.log("initializing feed events! "+feedData.feedEvents.length);
-      this.setState({
-        feedEvents: feedData.feedEvents,
-        members: feedData.members
-      });
-    });
+    this.feedCreator.createTroubleshootFeed(
+      this.props.troubleshootMessages,
+      (feedData) => {
+        console.log(
+          "initializing feed events! " +
+            feedData.feedEvents.length
+        );
+        this.setState({
+          feedEvents: feedData.feedEvents,
+          members: feedData.members,
+        });
+      }
+    );
   }
 
   /**
@@ -67,19 +80,33 @@ export default class FlowTroubleshootingFeed extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.circuit && this.props.circuit && prevProps.circuit.circuitName !== this.props.circuit.circuitName) {
-      this.feedCreator = new FeedCreator(this.props.circuit, this.props.circuitMembers, this.props.me);
+    if (
+      prevProps.circuit &&
+      this.props.circuit &&
+      prevProps.circuit.circuitName !==
+        this.props.circuit.circuitName
+    ) {
+      this.feedCreator = new FeedCreator(
+        this.props.circuit,
+        this.props.circuitMembers,
+        this.props.me
+      );
 
-      this.feedCreator.createTroubleshootFeed(this.props.troubleshootMessages, (feedData) => {
-        console.log("updating feed events! "+feedData.feedEvents.length);
-        this.setState({
-          feedEvents: feedData.feedEvents,
-          members: feedData.members
-        });
-      });
+      this.feedCreator.createTroubleshootFeed(
+        this.props.troubleshootMessages,
+        (feedData) => {
+          console.log(
+            "updating feed events! " +
+              feedData.feedEvents.length
+          );
+          this.setState({
+            feedEvents: feedData.feedEvents,
+            members: feedData.members,
+          });
+        }
+      );
     }
   }
-
 
   /**
    * renders our active feed component into the current resource view
@@ -91,7 +118,9 @@ export default class FlowTroubleshootingFeed extends Component {
     return (
       <Segment
         inverted
-        id={FlowTroubleshootingFeed.circuitContentFeedPanelID}
+        id={
+          FlowTroubleshootingFeed.circuitContentFeedPanelID
+        }
         style={{
           height: height,
           padding: "0px",
@@ -106,7 +135,7 @@ export default class FlowTroubleshootingFeed extends Component {
             height: height,
           }}
         >
-          <div style={{height:"10px"}}/>
+          <div style={{ height: "10px" }} />
           {this.getFeedEventsFromMessagesArrayContent()}
           <br />
         </Feed>
@@ -125,21 +154,14 @@ export default class FlowTroubleshootingFeed extends Component {
     );
   }
 
-
   /**
    * Get the circuit member that matches the username
    * @param username
    * @returns {*}
    */
   getCircuitMemberForUsername(username) {
-    for (
-      let i = 0;
-      i < this.state.members.length;
-      i++
-    ) {
-      if (
-        this.state.members[i].username === username
-      ) {
+    for (let i = 0; i < this.state.members.length; i++) {
+      if (this.state.members[i].username === username) {
         return this.state.members[i];
       }
     }
@@ -199,14 +221,22 @@ export default class FlowTroubleshootingFeed extends Component {
    * @returns {*}
    */
   render() {
-
     return (
       <div>
         <div id="component" className="flowTroubleFeed">
-          <Grid id="intentions-row-grid" inverted columns={16}>
+          <Grid
+            id="intentions-row-grid"
+            inverted
+            columns={16}
+          >
             <Grid.Row className="sessionHeaderRow">
               <Grid.Column width={16}>
-                <div className="troubleHeader">Troubleshoot: {UtilRenderer.getFormattedCircuitName(this.props.circuit.circuitName)}</div>
+                <div className="troubleHeader">
+                  Troubleshoot:{" "}
+                  {UtilRenderer.getFormattedCircuitName(
+                    this.props.circuit.circuitName
+                  )}
+                </div>
               </Grid.Column>
             </Grid.Row>
           </Grid>

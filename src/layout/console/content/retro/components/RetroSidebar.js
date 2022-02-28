@@ -51,7 +51,7 @@ export default class RetroSidebar extends Component {
       TASK: "task",
       FILES: "files",
       EXEC: "exec",
-      TAGS: "tags"
+      TAGS: "tags",
     };
   }
 
@@ -78,7 +78,7 @@ export default class RetroSidebar extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    fitty('#sidebarTitle', {
+    fitty("#sidebarTitle", {
       minSize: 14,
       maxSize: 28,
     });
@@ -116,8 +116,6 @@ export default class RetroSidebar extends Component {
       )
       //same model, updated tags, leave edit mode in place
     ) {
-
-
       this.setState({
         currentTags: this.getTagList(this.props.model),
       });
@@ -341,7 +339,6 @@ export default class RetroSidebar extends Component {
     return me && me[RetroSidebar.idFieldStr] === id;
   }
 
-
   /**
    * renders the circuit sidebar content panel
    * @returns {*}
@@ -489,17 +486,18 @@ export default class RetroSidebar extends Component {
   }
 
   /** used for a noOp click handler when there's no data available */
-  noOp() {
-  }
+  noOp() {}
 
   getFlowMapContent(taskSummary) {
-
     let notYetAvailable = "Not Yet Available";
     let learning = 0;
     let confusion = 0;
     let progress = 0;
 
-    if (taskSummary && taskSummary.percentLearning != null) {
+    if (
+      taskSummary &&
+      taskSummary.percentLearning != null
+    ) {
       notYetAvailable = "";
       learning = Math.round(taskSummary.percentLearning);
       confusion = Math.round(taskSummary.percentConfusion);
@@ -511,57 +509,108 @@ export default class RetroSidebar extends Component {
     let progressBar = "";
 
     if (confusion > 0) {
-      confusionBar =
+      confusionBar = (
         <Popup
-          content={<div className="flowBarTip"><b>{"Confusion "+confusion + "%"}</b><br/><i>Click to open FlowMap</i></div>}
+          content={
+            <div className="flowBarTip">
+              <b>{"Confusion " + confusion + "%"}</b>
+              <br />
+              <i>Click to open FlowMap</i>
+            </div>
+          }
           mouseEnterDelay={420}
           mouseLeaveDelay={210}
           on="hover"
           inverted
           position={"bottom center"}
-          trigger={<div className="confusion" style={{width: (confusion + "%")}}>{confusion + "%"}</div>}
+          trigger={
+            <div
+              className="confusion"
+              style={{ width: confusion + "%" }}
+            >
+              {confusion + "%"}
+            </div>
+          }
         />
+      );
     }
     if (learning > 0) {
-      learningBar =
+      learningBar = (
         <Popup
-          content={<div className="flowBarTip"><b>{"Learning "+learning + "%"}</b><br/><i>Click to open FlowMap</i></div>}
+          content={
+            <div className="flowBarTip">
+              <b>{"Learning " + learning + "%"}</b>
+              <br />
+              <i>Click to open FlowMap</i>
+            </div>
+          }
           mouseEnterDelay={420}
           mouseLeaveDelay={210}
           on="hover"
           inverted
           position={"bottom center"}
-          trigger={ <div className="learning" style={{width: (learning + "%")}}>{learning + "%"}</div>}
+          trigger={
+            <div
+              className="learning"
+              style={{ width: learning + "%" }}
+            >
+              {learning + "%"}
+            </div>
+          }
         />
+      );
     }
 
     if (progress > 0) {
-      progressBar =
+      progressBar = (
         <Popup
-          content={<div className="flowBarTip"><b>{"Progress "+progress + "%"}</b><br/><i>Click to open FlowMap</i></div>}
+          content={
+            <div className="flowBarTip">
+              <b>{"Progress " + progress + "%"}</b>
+              <br />
+              <i>Click to open FlowMap</i>
+            </div>
+          }
           mouseEnterDelay={420}
           mouseLeaveDelay={210}
           on="hover"
           inverted
           position={"left center"}
-          trigger={  <div className="progress"style={{width: (progress + "%")}}>{progress + "%"}</div>}
+          trigger={
+            <div
+              className="progress"
+              style={{ width: progress + "%" }}
+            >
+              {progress + "%"}
+            </div>
+          }
         />
-
+      );
     }
 
-
-
     let flowBar = (
-      <div className="flowBar" onClick={notYetAvailable? this.noOp : this.onClickOpenFlowMap}>
-      {confusionBar}
-      {learningBar}
-      {progressBar}
-      {notYetAvailable}
-    </div>);
+      <div
+        className="flowBar"
+        onClick={
+          notYetAvailable
+            ? this.noOp
+            : this.onClickOpenFlowMap
+        }
+      >
+        {confusionBar}
+        {learningBar}
+        {progressBar}
+        {notYetAvailable}
+      </div>
+    );
 
     let title = "";
     if (!notYetAvailable) {
-      title = <div className="frictionFlowTitle">Friction/Flow</div>
+      title = (
+        <div className="frictionFlowTitle">
+          Friction/Flow
+        </div>
+      );
     }
 
     return (
@@ -580,9 +629,7 @@ export default class RetroSidebar extends Component {
   getTitleContent(title) {
     return (
       <Segment inverted className="title">
-        <span id="sidebarTitle">
-          {title}
-          </span>
+        <span id="sidebarTitle">{title}</span>
       </Segment>
     );
   }
@@ -723,11 +770,16 @@ export default class RetroSidebar extends Component {
 
   onClickOpenFlowMap = () => {
     console.log("onClickOpenFlowMap!");
-    let chartPopoutController = RendererControllerFactory.getViewController(
-      RendererControllerFactory.Views.CHART_POPOUT, this);
+    let chartPopoutController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.CHART_POPOUT,
+        this
+      );
 
-    chartPopoutController.openChartWindowForCircuitTask(this.props.model.circuitName);
-  }
+    chartPopoutController.openChartWindowForCircuitTask(
+      this.props.model.circuitName
+    );
+  };
 
   /**
    * renders the circuit sidebar menu content for the party members

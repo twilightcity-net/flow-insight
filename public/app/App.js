@@ -21,7 +21,7 @@ const { app, session } = require("electron"),
   TerminalManager = require("../managers/TerminalManager"),
   ChartManager = require("../managers/ChartManager"),
   ChartWindowManager = require("../managers/ChartWindowManager"),
-{ EventManager } = require("../events/EventManager"),
+  { EventManager } = require("../events/EventManager"),
   EventFactory = require("../events/EventFactory"),
   {
     ShortcutManager,
@@ -147,7 +147,8 @@ module.exports = class App {
       global.App.FervieManager = new FervieManager();
       global.App.TerminalManager = new TerminalManager();
       global.App.ChartManager = new ChartManager();
-      global.App.ChartWindowManager = new ChartWindowManager();
+      global.App.ChartWindowManager =
+        new ChartWindowManager();
       global.App.DataStoreManager = new DataStoreManager();
       global.App.AppActivator = new AppActivator();
       global.App.AppLoader = new AppLoader();

@@ -172,8 +172,7 @@ module.exports = class BaseController {
       GET_ACTIVE_CIRCUIT: "getActiveCircuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "getCircuitWithAllDetails",
-      GET_CIRCUIT_TASK_SUMMARY:
-        "getCircuitTaskSummary",
+      GET_CIRCUIT_TASK_SUMMARY: "getCircuitTaskSummary",
       GET_ALL_TALK_MESSAGES_FROM_ROOM:
         "getAllTalkMessagesFromRoom",
       GET_CIRCUIT_MEMBERS: "getCircuitMembers",

@@ -19,7 +19,7 @@ export class BrowserRequestFactory {
       FLOW: "flow",
       CIRCUIT: "circuit",
       RETRO_CIRCUIT: "retro-circuit",
-      PLAY: "play"
+      PLAY: "play",
     };
   }
 
@@ -29,7 +29,7 @@ export class BrowserRequestFactory {
       WTF: "wtf",
       JOURNAL: "journal",
       TERMINAL: "terminal",
-      PLAY: "play"
+      PLAY: "play",
     };
   }
 
@@ -435,5 +435,4 @@ export class BrowserRequestFactory {
       );
     }
   }
-
 }

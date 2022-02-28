@@ -57,8 +57,7 @@ module.exports = class CircuitController extends (
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
-      GET_CIRCUIT_TASK_SUMMARY:
-        "get-circuit-task-summary",
+      GET_CIRCUIT_TASK_SUMMARY: "get-circuit-task-summary",
       GET_CIRCUIT_MEMBERS: "get-circuit-members",
       SOLVE_WTF: "solve-wtf",
       CANCEL_WTF: "cancel-wtf",
@@ -205,10 +204,15 @@ module.exports = class CircuitController extends (
         case CircuitController.Events.GET_ACTIVE_CIRCUIT:
           this.handleGetActiveCircuitEvent(event, arg);
           break;
-        case CircuitController.Events.GET_CIRCUIT_WITH_ALL_DETAILS:
-          this.handleGetCircuitWithAllDetailsEvent(event, arg);
+        case CircuitController.Events
+          .GET_CIRCUIT_WITH_ALL_DETAILS:
+          this.handleGetCircuitWithAllDetailsEvent(
+            event,
+            arg
+          );
           break;
-        case CircuitController.Events.GET_CIRCUIT_TASK_SUMMARY:
+        case CircuitController.Events
+          .GET_CIRCUIT_TASK_SUMMARY:
           this.handleGetCircuitTaskSummary(event, arg);
           break;
         case CircuitController.Events.GET_CIRCUIT_MEMBERS:
@@ -1103,11 +1107,7 @@ module.exports = class CircuitController extends (
    * @param arg
    * @param callback
    */
-  handleGetCircuitTaskSummary(
-    event,
-    arg,
-    callback
-  ) {
+  handleGetCircuitTaskSummary(event, arg, callback) {
     let circuitName = arg.args.circuitName,
       urn =
         CircuitController.Paths.CIRCUIT +
@@ -1139,7 +1139,12 @@ module.exports = class CircuitController extends (
    * @param arg
    * @param callback
    */
-  delegateGetCircuitTaskSummaryCallback(store, event, arg, callback) {
+  delegateGetCircuitTaskSummaryCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {
@@ -1151,7 +1156,6 @@ module.exports = class CircuitController extends (
       callback
     );
   }
-
 
   /**
    * gets our circuit members by call load circuit members in this class if

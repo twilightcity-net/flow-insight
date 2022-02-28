@@ -63,14 +63,10 @@ class EventFactory {
         prefix + "window-console-browser-load",
       WINDOW_ACTIVATOR_CLOSE:
         prefix + "window-activator-close",
-      WINDOW_OPEN_CHART:
-        prefix + "window-open-chart",
-      WINDOW_CLOSE_CHART:
-        prefix + "window-close-chart",
-      WINDOW_CHART_SHOWN:
-        prefix + "window-chart-shown",
-      WINDOW_CHART_CLOSED:
-        prefix + "window-chart-closed",
+      WINDOW_OPEN_CHART: prefix + "window-open-chart",
+      WINDOW_CLOSE_CHART: prefix + "window-close-chart",
+      WINDOW_CHART_SHOWN: prefix + "window-chart-shown",
+      WINDOW_CHART_CLOSED: prefix + "window-chart-closed",
       TALK_CONNECTED: prefix + "talk-connected",
       TALK_CONNECT_FAILED: prefix + "talk-connect-failed",
       TALK_MESSAGE_CLIENT: prefix + "talk-message-client",

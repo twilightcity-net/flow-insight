@@ -12,16 +12,17 @@ module.exports = class CircuitTaskSummaryDto {
       this.percentLearning = json.percentLearning;
       this.percentConfusion = json.percentConfusion;
       this.percentProgress = json.percentProgress;
-
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'CircuitTaskSummaryDto' : " + e.message
+        "Unable to create dto 'CircuitTaskSummaryDto' : " +
+          e.message
       );
     }
   }
 
   isValid() {
-    if (this.taskId != null && this.taskName != null) return true;
+    if (this.taskId != null && this.taskName != null)
+      return true;
     return false;
   }
 };

@@ -22,7 +22,8 @@ module.exports = class ConsoleWindow {
     this.name = windowName;
     this.view = ViewManagerHelper.ViewNames.CONSOLE;
     this.url = global.App.WindowManager.getWindowViewURL(
-      this.view, arg
+      this.view,
+      arg
     );
     this.display = global.App.WindowManager.getDisplay();
     this.icon = Util.getAppIcon("icon.ico");

@@ -34,7 +34,7 @@ export class MainPanelViewController extends ActiveViewController {
       RETRO: "retro",
       CIRCUIT: "circuit",
       FLOW: "flow",
-      PLAY: "play"
+      PLAY: "play",
     };
   }
 

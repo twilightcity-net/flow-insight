@@ -4,7 +4,7 @@ import { ConsoleViewController } from "./ConsoleViewController";
 import { ResourceCircuitController } from "./ResourceCircuitController";
 import { BrowserController } from "./BrowserController";
 import { NotificationController } from "./NotificationController";
-import {ChartPopoutController} from "./ChartPopoutController";
+import { ChartPopoutController } from "./ChartPopoutController";
 
 /**
  * generates view controllers for components
@@ -30,7 +30,7 @@ export class RendererControllerFactory {
       LAYOUT_BROWSER: "layout-browser",
       RESOURCES: "resources",
       NOTIFICATION: "notification",
-      CHART_POPOUT: "chart-popout"
+      CHART_POPOUT: "chart-popout",
     };
   }
 

@@ -17,7 +17,6 @@ import UtilRenderer from "../../../../../UtilRenderer";
 import { CircuitClient } from "../../../../../clients/CircuitClient";
 import fitty from "fitty";
 
-
 /**
  * the class which defines the circuit sidebar panel
  */
@@ -85,7 +84,7 @@ export default class CircuitSidebar extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    fitty('#sidebarTitle', {
+    fitty("#sidebarTitle", {
       minSize: 14,
       maxSize: 28,
     });
@@ -498,7 +497,8 @@ export default class CircuitSidebar extends Component {
     let height = "100%";
 
     let titleContent = this.getTitleContent(title);
-    let descriptionContent = this.getDescriptionContent(description);
+    let descriptionContent =
+      this.getDescriptionContent(description);
     if (this.state.tagEditEnabled) {
       height =
         DimensionController.getCircuitSidebarHeight() +
@@ -507,7 +507,7 @@ export default class CircuitSidebar extends Component {
         100;
 
       titleContent = "";
-      descriptionContent = ""
+      descriptionContent = "";
     }
 
     return (
@@ -529,7 +529,7 @@ export default class CircuitSidebar extends Component {
     return (
       <Segment inverted className="title">
         <span id="sidebarTitle">
-        {UtilRenderer.getFormattedCircuitName(title)}
+          {UtilRenderer.getFormattedCircuitName(title)}
         </span>
       </Segment>
     );

@@ -17,7 +17,7 @@ module.exports = class WindowManagerHelper {
       ACTIVATOR:
         "tc-" + ViewManagerHelper.ViewNames.ACTIVATOR,
       CONSOLE: "tc-" + ViewManagerHelper.ViewNames.CONSOLE,
-      CHART: "tc-"+ViewManagerHelper.ViewNames.CHART
+      CHART: "tc-" + ViewManagerHelper.ViewNames.CHART,
     };
   }
 
@@ -26,13 +26,20 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createChartWindow(chartWindowName, arg) {
-    let windowClassName = WindowManagerHelper.WindowNames.CHART;
+    let windowClassName =
+      WindowManagerHelper.WindowNames.CHART;
 
-    return global.App.WindowManager.createWindow(chartWindowName, windowClassName, arg);
+    return global.App.WindowManager.createWindow(
+      chartWindowName,
+      windowClassName,
+      arg
+    );
   }
 
   static closeChartWindow(windowName) {
-    return global.App.WindowManager.closeWindowByName(windowName);
+    return global.App.WindowManager.closeWindowByName(
+      windowName
+    );
   }
 
   /**
@@ -40,8 +47,12 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createWindowLoading() {
-    let windowName = WindowManagerHelper.WindowNames.LOADING;
-    return global.App.WindowManager.createWindow(windowName, windowName);
+    let windowName =
+      WindowManagerHelper.WindowNames.LOADING;
+    return global.App.WindowManager.createWindow(
+      windowName,
+      windowName
+    );
   }
 
   /**
@@ -49,8 +60,12 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createWindowActivator() {
-    let windowName = WindowManagerHelper.WindowNames.ACTIVATOR;
-    return global.App.WindowManager.createWindow(windowName, windowName);
+    let windowName =
+      WindowManagerHelper.WindowNames.ACTIVATOR;
+    return global.App.WindowManager.createWindow(
+      windowName,
+      windowName
+    );
   }
 
   /**
@@ -58,7 +73,11 @@ module.exports = class WindowManagerHelper {
    * @returns {*}
    */
   static createWindowConsole() {
-    let windowName = WindowManagerHelper.WindowNames.CONSOLE;
-    return global.App.WindowManager.createWindow(windowName, windowName);
+    let windowName =
+      WindowManagerHelper.WindowNames.CONSOLE;
+    return global.App.WindowManager.createWindow(
+      windowName,
+      windowName
+    );
   }
 };

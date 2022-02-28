@@ -197,7 +197,6 @@ export default class UtilRenderer {
     );
   }
 
-
   /**
    * returns the relative elased time based on the number of seconds
    * @param seconds
@@ -206,13 +205,13 @@ export default class UtilRenderer {
     let hours = (seconds / 3600) | 0;
     let minutes = ((seconds / 60) | 0) % 60;
 
-    let timer = (hours < 10 ? "0" + hours : hours) + ":" +
+    let timer =
+      (hours < 10 ? "0" + hours : hours) +
+      ":" +
       (minutes < 10 ? "0" + minutes : minutes);
 
     return timer;
   }
-
-
 
   /**
    * returns our the total amount of time that has elapsed, excluding pause

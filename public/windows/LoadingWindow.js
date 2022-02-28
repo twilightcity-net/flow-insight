@@ -19,7 +19,8 @@ module.exports = class LoadingWindow {
     this.name = windowName;
     this.view = ViewManagerHelper.ViewNames.LOADING;
     this.url = global.App.WindowManager.getWindowViewURL(
-      this.view, arg
+      this.view,
+      arg
     );
     this.icon = Util.getAppIcon("icon.ico");
     this.autoShow = true;

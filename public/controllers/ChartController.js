@@ -29,7 +29,7 @@ module.exports = class ChartController extends (
     return {
       CHART_WTF: "chart-wtf",
       CHART_TASK: "chart-task",
-      CHART_TASK_FOR_WTF: "chart-task-for-wtf"
+      CHART_TASK_FOR_WTF: "chart-task-for-wtf",
     };
   }
 
@@ -91,7 +91,6 @@ module.exports = class ChartController extends (
     }
   }
 
-
   /**
    * client event handler for charting a task
    * @param event
@@ -112,10 +111,8 @@ module.exports = class ChartController extends (
         ChartController.Paths.SEPARATOR +
         taskName;
 
-
     if (bucket) {
-      urn +=
-        "?bucket_size=" + bucket;
+      urn += "?bucket_size=" + bucket;
     }
 
     this.doClientRequest(
@@ -207,8 +204,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
-
   /**
    * callback delegator which processes our return from the dto
    * request to gridtime
@@ -217,7 +212,12 @@ module.exports = class ChartController extends (
    * @param arg
    * @param callback
    */
-  delegateChartTaskForWtfCallback(store, event, arg, callback) {
+  delegateChartTaskForWtfCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
     if (store.error) {
       arg.error = store.error;
     } else {

@@ -69,7 +69,6 @@ export default class RetroResource extends Component {
 
     switch (arg.messageType) {
       case BaseClient.MessageTypes.WTF_STATUS_UPDATE:
-
         if (
           circuit &&
           circuitName === circuit.circuitName

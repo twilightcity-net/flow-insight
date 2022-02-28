@@ -264,8 +264,8 @@ export default class ActivatorView extends Component {
           <Header.Content>
             Activate Application
             <Header.Subheader>
-              Please enter your &apos;Activation Token&apos; provided
-              and click &apos;Activate&apos;.
+              Please enter your &apos;Activation Token&apos;
+              provided and click &apos;Activate&apos;.
             </Header.Subheader>
           </Header.Content>
         </Header>
@@ -314,8 +314,8 @@ export default class ActivatorView extends Component {
           <Header.Content>
             Accept Terms and Conditions
             <Header.Subheader>
-              Please read the following and click 'I Agree
-              to Terms' to continue.
+              Please read the following and click &apos;I
+              Agree to Terms&apos; to continue.
             </Header.Subheader>
           </Header.Content>
         </Header>
@@ -323,12 +323,14 @@ export default class ActivatorView extends Component {
         <Segment className="terms" inverted>
           <p>****** End-User License Agreement ******</p>
           <p>
-            This License Agreement (&quot;Agreement&quot;) is made
-            between you (the &quot;Licensee&quot;) and Twilight City,
-            Inc. (the &quot;Licensor&quot;). The terms of this
+            This License Agreement (&quot;Agreement&quot;)
+            is made between you (the &quot;Licensee&quot;)
+            and Twilight City, Inc. (the
+            &quot;Licensor&quot;). The terms of this
             Agreement apply to all current and future
             versions and updates of FlowInsight
-            collaborative learning software (&quot;FlowInsight&quot;).
+            collaborative learning software
+            (&quot;FlowInsight&quot;).
           </p>
           <p>
             By installing, enabling or using FlowInsight,
@@ -350,12 +352,12 @@ export default class ActivatorView extends Component {
               remains the owner of FlowInsight.
             </li>
             <li>
-              Licensor provides FlowInsight on an &quot;as is&quot;
-              basis without warranty of any kind. Licensor
-              neither guarantees the correct, error-free
-              functioning of TC nor is Licensor responsible
-              for any damage caused by the use of
-              FlowInsight.
+              Licensor provides FlowInsight on an &quot;as
+              is&quot; basis without warranty of any kind.
+              Licensor neither guarantees the correct,
+              error-free functioning of TC nor is Licensor
+              responsible for any damage caused by the use
+              of FlowInsight.
             </li>
             <li>
               Licensee may not decompile, disassemble,
@@ -368,16 +370,17 @@ export default class ActivatorView extends Component {
               time to time.
             </li>
             <li>
-              TC may report and store Licensee&apos;s Internet
-              Protocol address, account name and identifier,
-              in-app nickname, and system-related and
-              hardware-related information including, but
-              not limited to, device identifiers and
-              hardware serial numbers.
+              TC may report and store Licensee&apos;s
+              Internet Protocol address, account name and
+              identifier, in-app nickname, and
+              system-related and hardware-related
+              information including, but not limited to,
+              device identifiers and hardware serial
+              numbers.
             </li>
             <li>
-              Licensor values Licensee&apos;s privacy and does
-              its utmost to protect it at all times.
+              Licensor values Licensee&apos;s privacy and
+              does its utmost to protect it at all times.
               FlowInsight does not report any personally
               identifiable information or personal data
               except for any information/data specifically
@@ -428,7 +431,8 @@ export default class ActivatorView extends Component {
               <Header.Subheader>
                 <i>
                   Please standby while we verify your
-                  'Activation Token' with our servers.
+                  &apos;Activation Token&apos; with our
+                  servers.
                 </i>
               </Header.Subheader>
             </Header.Content>

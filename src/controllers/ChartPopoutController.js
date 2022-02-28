@@ -2,11 +2,9 @@ import { ActiveViewController } from "./ActiveViewController";
 import { RendererEventFactory } from "../events/RendererEventFactory";
 
 export class ChartPopoutController extends ActiveViewController {
-
-
   static get ChartType() {
     return {
-      TASK_FOR_WTF: "task-for-wtf"
+      TASK_FOR_WTF: "task-for-wtf",
     };
   }
 
@@ -16,10 +14,10 @@ export class ChartPopoutController extends ActiveViewController {
     this.consoleIsCollapsed = true;
 
     this.openChartDispatcher =
-    RendererEventFactory.createEvent(
-      RendererEventFactory.Events.WINDOW_OPEN_CHART,
-      this
-    );
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.WINDOW_OPEN_CHART,
+        this
+      );
 
     this.closeChartDispatcher =
       RendererEventFactory.createEvent(
@@ -33,10 +31,11 @@ export class ChartPopoutController extends ActiveViewController {
    * @param circuitName
    */
   openChartWindowForCircuitTask(circuitName) {
-    console.log("circuitName on client: "+circuitName);
+    console.log("circuitName on client: " + circuitName);
     this.openChartDispatcher.dispatch({
-      chartType: ChartPopoutController.ChartType.TASK_FOR_WTF,
-      circuitName: circuitName
+      chartType:
+        ChartPopoutController.ChartType.TASK_FOR_WTF,
+      circuitName: circuitName,
     });
   }
 
@@ -45,10 +44,11 @@ export class ChartPopoutController extends ActiveViewController {
    * @param circuitName
    */
   closeChartWindowForCircuitTask(circuitName) {
-    console.log("circuitName on client: "+circuitName);
-    this.closeChartDispatcher.dispatch( {
-      chartType: ChartPopoutController.ChartType.TASK_FOR_WTF,
-      circuitName: circuitName
-    })
+    console.log("circuitName on client: " + circuitName);
+    this.closeChartDispatcher.dispatch({
+      chartType:
+        ChartPopoutController.ChartType.TASK_FOR_WTF,
+      circuitName: circuitName,
+    });
   }
 }

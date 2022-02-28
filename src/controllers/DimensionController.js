@@ -58,19 +58,22 @@ export class DimensionController {
       padding: 8,
       header: 51,
       content: 0,
-      barHeight: 0
+      barHeight: 0,
     };
-    let addressBar = document.querySelector('#component.browserHeader');
+    let addressBar = document.querySelector(
+      "#component.browserHeader"
+    );
     if (addressBar) {
-      return window.innerHeight -
-      heights.border -
-      heights.padding -
-      addressBar.clientHeight;
+      return (
+        window.innerHeight -
+        heights.border -
+        heights.padding -
+        addressBar.clientHeight
+      );
     } else {
       return window.innerHeight;
     }
   }
-
 
   /**
    * calculates the play panel height for the console view
@@ -81,12 +84,16 @@ export class DimensionController {
       border: 2,
       padding: 8,
     };
-    let addressBar = document.querySelector('#component.browserHeader');
+    let addressBar = document.querySelector(
+      "#component.browserHeader"
+    );
     if (addressBar) {
-      return window.innerHeight -
+      return (
+        window.innerHeight -
         heights.border -
         heights.padding -
-        addressBar.clientHeight;
+        addressBar.clientHeight
+      );
     } else {
       return window.innerHeight;
     }
@@ -446,21 +453,23 @@ export class DimensionController {
   static getFullRightPanelWidth() {
     let fullWidth = window.innerWidth - 10; // default margin
 
-    let browserHeader = document.querySelector('#component.browserHeader');
+    let browserHeader = document.querySelector(
+      "#component.browserHeader"
+    );
 
     if (browserHeader) {
       fullWidth = browserHeader.clientWidth;
     }
 
-    return (
-      fullWidth
-    );
+    return fullWidth;
   }
 
   static getBrowserBarHeight() {
     let barHeight = 0;
 
-    let addressbar = document.querySelector('#component.browserHeader');
+    let addressbar = document.querySelector(
+      "#component.browserHeader"
+    );
     if (addressbar) {
       barHeight = addressbar.clientHeight;
     }
@@ -473,19 +482,19 @@ export class DimensionController {
   static getFullRightPanelHeight() {
     let barHeight = 10;
 
-    let addressbar = document.querySelector('#component.browserHeader');
+    let addressbar = document.querySelector(
+      "#component.browserHeader"
+    );
     if (addressbar) {
       barHeight = addressbar.clientHeight;
     }
     let padding = 8 * 2;
 
-    console.log("height = "+window.innerHeight);
-    console.log("addressbar =" +barHeight);
-    console.log("padding = "+padding);
+    console.log("height = " + window.innerHeight);
+    console.log("addressbar =" + barHeight);
+    console.log("padding = " + padding);
 
-    return (
-      window.innerHeight - barHeight - padding
-    );
+    return window.innerHeight - barHeight - padding;
   }
 
   /**

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import FlowContent from "./components/FlowContent";
-import {ChartClient} from "../../../../clients/ChartClient";
-import {DimensionController} from "../../../../controllers/DimensionController";
+import { ChartClient } from "../../../../clients/ChartClient";
+import { DimensionController } from "../../../../controllers/DimensionController";
 
 /**
  * this component is the tab panel wrapper for the flow content
@@ -20,15 +20,14 @@ export default class FlowResource extends Component {
     };
   }
 
-
   /**
    * Load the chart when the component mounts
    */
   componentDidMount() {
     ChartClient.chartFrictionForTask(
-      'tc-desktop',
-      'tty',
-      'TWENTIES',
+      "tc-desktop",
+      "tty",
+      "TWENTIES",
       this,
       (arg) => {
         console.log("chart data returnedx!");
@@ -36,7 +35,7 @@ export default class FlowResource extends Component {
         if (!arg.error) {
           console.log(arg.data);
           this.setState({
-            chartDto: arg.data
+            chartDto: arg.data,
           });
         }
       }
@@ -48,12 +47,18 @@ export default class FlowResource extends Component {
    * @returns {*} - the rendered components JSX
    */
   render() {
-    let height = DimensionController.getHeightFor(DimensionController.Components.FLOW_PANEL);
+    let height = DimensionController.getHeightFor(
+      DimensionController.Components.FLOW_PANEL
+    );
 
     return (
-      <div id="component" className="flowLayout" style={{height: height}}>
+      <div
+        id="component"
+        className="flowLayout"
+        style={{ height: height }}
+      >
         <div id="wrapper" className="flowContent">
-          <FlowContent chartDto={this.state.chartDto}/>
+          <FlowContent chartDto={this.state.chartDto} />
         </div>
       </div>
     );

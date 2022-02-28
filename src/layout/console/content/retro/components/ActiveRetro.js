@@ -334,7 +334,6 @@ export default class ActiveRetro extends Component {
         break;
 
       case BaseClient.MessageTypes.CHAT_MESSAGE_DETAILS:
-
         if (!hasMessage) {
           this.appendChatMessage(arg);
         } else {

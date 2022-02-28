@@ -42,7 +42,7 @@ export default class ViewManager extends Component {
   static getViewProps(query) {
     let props = {};
     for (let key in query) {
-      if (key !== 'view' && key !== 'render3d') {
+      if (key !== "view" && key !== "render3d") {
         props[key] = query[key];
       }
     }
@@ -54,15 +54,18 @@ export default class ViewManager extends Component {
     let viewNameUpper = viewName.toUpperCase();
 
     if (viewNameUpper === "LOADING") {
-      return <LoadingView routeProps={props}/>;
+      return <LoadingView routeProps={props} />;
     } else if (viewNameUpper === "ACTIVATOR") {
-      return <ActivatorView routeProps={props}/>;
+      return <ActivatorView routeProps={props} />;
     } else if (viewNameUpper === "CONSOLE") {
-      return <ConsoleView routeProps={props}/>;
+      return <ConsoleView routeProps={props} />;
     } else if (viewNameUpper === "CHART") {
-      return <ChartView routeProps={props}/>
+      return <ChartView routeProps={props} />;
     } else {
-      throw new Error("Unable to render unknown view type "+viewNameUpper);
+      throw new Error(
+        "Unable to render unknown view type " +
+          viewNameUpper
+      );
     }
   }
 
@@ -74,7 +77,7 @@ export default class ViewManager extends Component {
     let query = queryString.parse(window.location.search),
       name = query.view,
       props = ViewManager.getViewProps(query);
-      return ViewManager.getViewWithProps(name, props);
+    return ViewManager.getViewWithProps(name, props);
   }
 
   /**
