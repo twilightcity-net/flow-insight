@@ -3,7 +3,10 @@ import {DimensionController} from "../../../../controllers/DimensionController";
 import p5 from "p5";
 import FervieWalkUp from "./components/FervieWalkUp";
 import AnimationLoader from "./components/AnimationLoader";
-import AnimationId from "./components/AnimationId";
+import FervieWalkRight from "./components/FervieWalkRight";
+import FervieWalkDown from "./components/FervieWalkDown";
+import FervieSprite from "./components/FervieSprite";
+import HouseBackground from "./components/HouseBackground";
 
 
 /**
@@ -31,70 +34,26 @@ export default class PlayResource extends Component {
   componentDidMount() {
     this.height = DimensionController.getHeightFor(DimensionController.Components.PLAY_PANEL);
     this.width = DimensionController.getFullRightPanelWidth();
-    this.farAwayXMargin = 200;
-    this.yMargin = 30;
-    this.imageMap = [];
-    this.scaleCount = 1;
-    this.loadCount = 0;
 
-    const sketch = (s) => {
-      s.setup = () => {
-        s.createCanvas(this.width, this.height);
-        s.frameRate(24);
+    const sketch = (p5) => {
+      p5.setup = () => {
+        p5.createCanvas(this.width, this.height);
+        p5.frameRate(24);
 
-        this.fervieGif = this.animationLoader.getAnimationImage(s, AnimationId.Animation.FervieWalkUp, 1, 100);
-        this.fervieGif2 =  this.animationLoader.getAnimationImage(s, AnimationId.Animation.FervieWalkUp, 1, 300);
+        this.fervieSprite = new FervieSprite(this.animationLoader, this.width/2, this.height/2, 220, FervieSprite.Direction.Down);
+        this.fervieSprite.preload(p5);
 
-        for (let i = 1; i <= 24; i++) {
-          this.animationLoader.getAnimationImage(s, AnimationId.Animation.FervieWalkUp, i, 220);
-        }
-
+        this.houseBackground = new HouseBackground(this.animationLoader, this.width, this.height);
       }
 
 
-      s.draw = () => {
-        s.background('#77aaff');
-        // s.circle(10, 10, 10);
+      p5.draw = () => {
+        this.houseBackground.draw(p5);
+        this.fervieSprite.draw(p5);
 
-        //this.fervieGif.resize(100,0);
-        //so each side of a building should fade into the background, with the vanishing point
-        //at width/2
-        // s.quad(0, this.yMargin,
-        //   0, this.height - this.yMargin,
-        //   this.width/2 , this.height/2,
-        //   this.width/2 , this.height/2)
-        //
-        // s.quad(this.width/2 , this.height/2,
-        //   this.width/2 , this.height/2,
-        //   this.width, this.yMargin,
-        //   this.width, this.height - this.yMargin)
-
-        // s.fill('orange');
-
-        s.fill('#777777')
-        s.rect(0, this.height/2, this.width, this.height);
-
-        s.fill('purple');
-
-        s.quad(0, this.yMargin,
-          0, this.height - this.yMargin,
-          this.width/2 - this.farAwayXMargin, this.getYBottom(this.width/2 - this.farAwayXMargin),
-          this.width/2 - this.farAwayXMargin, this.getYTop(this.width/2 - this.farAwayXMargin))
-
-        s.quad(this.width/2 + this.farAwayXMargin, this.getYBottom(this.width/2 - this.farAwayXMargin),
-          this.width/2 + this.farAwayXMargin, this.getYTop(this.width/2 - this.farAwayXMargin),
-          this.width, this.yMargin,
-          this.width, this.height - this.yMargin)
-
-        //animationFrames go from 1 to 24
-        let animationFrame = ((s.frameCount - 1)%24) + 1;
-
-        let animatedImage = this.animationLoader.getAnimationImage(s, AnimationId.Animation.FervieWalkUp, animationFrame, 220);
-
-        s.image(animatedImage,this.width/2 - 110, this.height/2 - 20);
-
+        this.houseBackground.update(p5);
+        this.fervieSprite.update(p5);
       }
-
 
     }
 
@@ -102,15 +61,6 @@ export default class PlayResource extends Component {
   }
 
 
-  getYBottom(x) {
-    let slope = -1*(this.height - this.yMargin - this.height/2)/(this.width/2);
-    return (slope * x) + (this.height - this.yMargin);
-  }
-
-  getYTop(x) {
-    let slope = -1*(this.yMargin - this.height/2)/(this.width/2);
-    return slope * x + this.yMargin;
-  }
   /**
    * renders the journal layout of the console view
    * @returns {*} - the rendered components JSX
@@ -136,6 +86,30 @@ export default class PlayResource extends Component {
           {FervieWalkUp.getFrame( 10, fervieColor, fervieShoeColor)}
           {FervieWalkUp.getFrame( 11, fervieColor, fervieShoeColor)}
           {FervieWalkUp.getFrame( 12, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 1, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 2, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 3, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 4, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 5, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 6, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 7, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 8, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 9, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 10, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 11, fervieColor, fervieShoeColor)}
+          {FervieWalkRight.getFrame( 12, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 1, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 2, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 3, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 4, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 5, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 6, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 7, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 8, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 9, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 10, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 11, fervieColor, fervieShoeColor)}
+          {FervieWalkDown.getFrame( 12, fervieColor, fervieShoeColor)}
         </div>
       </div>
     );

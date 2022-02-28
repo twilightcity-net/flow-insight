@@ -74,6 +74,8 @@ export default class FervieWalkUp {
         return this.getSvgFrame12(
           AnimationId.getIdOn12(animationName, 12),
           fervieColor, shoeColor, insideShoeColor, soleOfShoeColor);
+      default:
+        return null;
     }
 
   }

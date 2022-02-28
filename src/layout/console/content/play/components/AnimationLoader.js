@@ -32,7 +32,6 @@ export default class AnimationLoader {
       return image;
     } else {
       let animationId = AnimationId.getIdOn24(animationName, frameOn24);
-      console.log("animationId = "+animationId);
       let svg1 = document.getElementById(animationId);
       svg1.setAttribute("width", size + "px");
 

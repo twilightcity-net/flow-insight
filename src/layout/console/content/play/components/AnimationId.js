@@ -7,7 +7,7 @@ export default class AnimationId {
 
   /**
    * static enum subclass to store animation types
-   * @returns {{FervieWalkUp: string, FervieWalkDown: string, FervieWalkRight: string}}
+   * @returns {{FervieWalkUp: string, FervieWalkDown: string, FervieWalkRight: string, FervieWalkLeft: string}}
    * @constructor
    */
   static get Animation() {
@@ -27,11 +27,7 @@ export default class AnimationId {
   }
 
   static getIdOn24(animationName, animationFrame) {
-    console.log("animation frame = "+animationFrame);
-
     let frameOnTwos = this.getFrameOnTwos(animationFrame);
-    console.log("frame on twos = "+frameOnTwos);
-
     return animationName + "_" + frameOnTwos;
   }
 }
