@@ -7,6 +7,8 @@ import FervieWalkRight from "./components/FervieWalkRight";
 import FervieWalkDown from "./components/FervieWalkDown";
 import FervieSprite from "./components/FervieSprite";
 import HouseBackground from "./components/HouseBackground";
+import {MemberClient} from "../../../../clients/MemberClient";
+import FervieColors from "../support/FervieColors";
 
 
 /**
@@ -67,8 +69,13 @@ export default class PlayResource extends Component {
    */
   render() {
     let height = DimensionController.getHeightFor(DimensionController.Components.PLAY_PANEL);
-    let fervieColor = "#8C6EFA";
-    let fervieShoeColor = "#CC00CC";
+    let fervieColor = FervieColors.defaultFervieColor;
+    let fervieShoeColor =FervieColors.defaultShoeColor;
+
+    if (MemberClient.me) {
+      fervieColor = MemberClient.me.fervieColor;
+      fervieShoeColor =MemberClient.me.fervieSecondaryColor;
+    }
 
     return (
       <div id="component" className="playLayout" style={{height: height}}>
