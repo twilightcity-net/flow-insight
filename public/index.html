@@ -2401,7 +2401,7 @@
   /*
  * COMPONENT: POPUP CHART LAYOUT
  */
-  #component.chartLayout {
+  #component.chartLayout #chart {
     -webkit-app-region: drag;
   }
 
@@ -2415,9 +2415,13 @@
     justify-content: center;
   }
 
+
+
   #component.chartLayout #component.flowContent .flowContentWrapper {
     padding-top: 10px;
   }
+
+
 
   #component.chartLayout .closeIcon {
     position: absolute;
@@ -2502,6 +2506,11 @@
     z-index: 1;
     opacity: 0;
     min-width: 130px;
+  }
+
+  #component.chartLayout #component.flowContent .chartpopup,
+  #component.chartLayout #component.flowContent .popupleft,
+  #component.chartLayout #component.flowContent .popupright {
     -webkit-app-region: no-drag;
   }
 

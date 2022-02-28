@@ -1197,7 +1197,7 @@ export default class FlowChart extends Component {
    * @param chartGroup
    */
   createInvisibleBoundingBox(chartGroup) {
-    let boundingBox = chartGroup.append("g");
+    let boundingBox = chartGroup.append("g").attr('class', 'invisBox');
     let lineSize = this.margin;
     //left line
     boundingBox
