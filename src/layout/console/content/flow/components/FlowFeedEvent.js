@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Feed } from "semantic-ui-react";
 
-export default class ActiveRetroFeedEvent extends Component {
+export default class FlowFeedEvent extends Component {
   /**
    * builds our feed event component which is used to display basic chat messages in the feed event
    * @param props
@@ -43,7 +43,7 @@ export default class ActiveRetroFeedEvent extends Component {
         </Feed.Label>
         <Feed.Content>
           <Feed.Summary>
-            <a>@{this.props.name}</a>
+            <a href="#">@{this.props.name}</a>
             <Feed.Date>{this.props.time}</Feed.Date>
           </Feed.Summary>
           {this.getFeedExtraTextsContent()}

@@ -6,7 +6,7 @@
 export class BrowserRequestFactory {
   /**
    * the possible types of request we have
-   * @returns {{CIRCUIT: string, PLAY: string, TERMINAL: string, BROWSER: string, RETRO_CIRCUIT: string, JOURNAL: string, ERROR: string, COMMAND: string, FLOW: string}}
+   * @returns {{CIRCUIT: string, DASHBOARD: string, PLAY: string, TERMINAL: string, BROWSER: string, RETRO_CIRCUIT: string, JOURNAL: string, ERROR: string, COMMAND: string, FLOW: string}}
    * @constructor
    */
   static get Requests() {
@@ -20,6 +20,7 @@ export class BrowserRequestFactory {
       CIRCUIT: "circuit",
       RETRO_CIRCUIT: "retro-circuit",
       PLAY: "play",
+      DASHBOARD: "dashboard"
     };
   }
 
@@ -71,7 +72,7 @@ export class BrowserRequestFactory {
 
   /**
    * the possible locations we can use
-   * @returns {{TERMINAL: string, PLAY: string, ERROR: string, ACTIVE: string, JOURNAL: string, WTF: string, ME: string, RETRO: string, ROOM: string, FLOW: string, CIRCUIT: string}}
+   * @returns {{TERMINAL: string, DASHBOARD: string, PLAY: string, ERROR: string, ACTIVE: string, JOURNAL: string, WTF: string, ME: string, RETRO: string, ROOM: string, FLOW: string, CIRCUIT: string}}
    * @constructor
    */
   static get Locations() {
@@ -79,6 +80,7 @@ export class BrowserRequestFactory {
       TERMINAL: "terminal",
       CIRCUIT: "circuit",
       JOURNAL: "journal",
+      DASHBOARD: "dashboard",
       FLOW: "flow",
       PLAY: "play",
       WTF: "wtf",
@@ -154,6 +156,10 @@ export class BrowserRequestFactory {
           );
         case BrowserRequestFactory.Requests.FLOW:
           return BrowserRequestFactory._getFlowRequest(
+            args[0]
+          );
+        case BrowserRequestFactory.Requests.DASHBOARD:
+          return BrowserRequestFactory._getDashboardRequest(
             args[0]
           );
         case BrowserRequestFactory.Requests.PLAY:
@@ -428,6 +434,29 @@ export class BrowserRequestFactory {
         BrowserRequestFactory.Locations.FLOW +
         BrowserRequestFactory.PATH_SEPARATOR +
         teamMember
+      );
+    } else {
+      throw new Error(
+        "request: flow requires 1 argument, teamMember"
+      );
+    }
+  }
+
+  /**
+   * gets the request for showing a dashboard
+   * @param teamMember
+   * @returns {string}
+   * @private
+   */
+  static _getDashboardRequest(dashboardType) {
+    if (dashboardType) {
+      return (
+        BrowserRequestFactory.Commands.OPEN +
+        BrowserRequestFactory.URI_SEPARATOR +
+        BrowserRequestFactory.ROOT_SEPARATOR +
+        BrowserRequestFactory.Locations.DASHBOARD +
+        BrowserRequestFactory.PATH_SEPARATOR +
+        dashboardType
       );
     } else {
       throw new Error(

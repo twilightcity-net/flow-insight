@@ -8,6 +8,7 @@ import FerviePanel from "./console/sidebar/fervie/FerviePanel";
 import { RendererControllerFactory } from "../controllers/RendererControllerFactory";
 import { SidePanelViewController } from "../controllers/SidePanelViewController";
 import { DimensionController } from "../controllers/DimensionController";
+import DashboardPanel from "./console/sidebar/dashboard/DashboardPanel";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -173,6 +174,21 @@ export default class ConsoleLayout extends Component {
   };
 
   /**
+   * renders the sidebar content for dashboard
+   * @returns {*}
+   */
+  getDashboardContent = () => {
+    return (
+     <DashboardPanel
+       width={this.state.sidebarPanelWidth}
+       opacity={this.state.sidebarPanelOpacity}
+       loadStateCb={this.loadStateSidebarPanelCb}
+       saveStateCb={this.saveStateSidebarPanelCb}
+     />
+    );
+  };
+
+  /**
    * renders the notifications content panel for the sidebar
    * @returns {*}
    */
@@ -226,8 +242,9 @@ export default class ConsoleLayout extends Component {
         return this.getTeamPanelContent();
       case SidePanelViewController.MenuSelection.CIRCUITS:
         return this.getCircuitsContent();
-      case SidePanelViewController.MenuSelection
-        .NOTIFICATIONS:
+      case SidePanelViewController.MenuSelection.DASHBOARD:
+        return this.getDashboardContent();
+      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
         return this.getNotificationsContent();
       default:
         throw new Error(

@@ -35,6 +35,7 @@ export class MainPanelViewController extends ActiveViewController {
       CIRCUIT: "circuit",
       FLOW: "flow",
       PLAY: "play",
+      DASHBOARD: "dashboard"
     };
   }
 

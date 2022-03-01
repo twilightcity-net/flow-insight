@@ -41,6 +41,8 @@ export class SidePanelViewController extends ActiveViewController {
       SidePanelViewController.SubmenuSelection.LIVE_CIRCUITS;
     this.activeNotificationsSubmenuSelection =
       SidePanelViewController.SubmenuSelection.NOTIFICATIONS;
+    this.activeDashboardSubmenuSelection =
+      SidePanelViewController.SubmenuSelection.DASHBOARD;
     this.circuitStartStopListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
@@ -110,6 +112,13 @@ export class SidePanelViewController extends ActiveViewController {
           .VIEW_CONSOLE_NOTIFICATIONS_PANEL,
         this
       );
+    this.dashboardPanelListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_DASHBOARD_PANEL,
+        this
+      );
+
     this.browserController =
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.LAYOUT_BROWSER,
@@ -134,7 +143,7 @@ export class SidePanelViewController extends ActiveViewController {
 
   /**
    * enum list of the possible menu types of the console sidebar
-   * @returns {{CIRCUITS: string, WTF: string, FERVIE: string, TEAM: string, NOTIFICATIONS: string, NONE: string}}
+   * @returns {{CIRCUITS: string, DASHBOARD: string, WTF: string, FERVIE: string, TEAM: string, NOTIFICATIONS: string, NONE: string}}
    * @constructor
    */
   static get MenuSelection() {
@@ -144,13 +153,14 @@ export class SidePanelViewController extends ActiveViewController {
       TEAM: "team",
       CIRCUITS: "circuits",
       NOTIFICATIONS: "notifications",
+      DASHBOARD: "dashboard",
       NONE: "none",
     };
   }
 
   /**
    * enum list of the possible sub menu types of the console sidebar
-   * @returns {{BADGES: string, DO_IT_LATER_CIRCUITS: string, LIVE_CIRCUITS: string, TEAMS: string, FERVIE: string, RETRO_CIRCUITS: string, NOTIFICATIONS: string}}
+   * @returns {{BADGES: string, DASHBOARD: string, DO_IT_LATER_CIRCUITS: string, LIVE_CIRCUITS: string, TEAMS: string, FERVIE: string, RETRO_CIRCUITS: string, NOTIFICATIONS: string}}
    * @constructor
    */
   static get SubmenuSelection() {
@@ -163,6 +173,7 @@ export class SidePanelViewController extends ActiveViewController {
       DO_IT_LATER_CIRCUITS: "do-it-later",
       RETRO_CIRCUITS: "retro-circuits",
       NOTIFICATIONS: "notifications",
+      DASHBOARD: "dashboard",
     };
   }
 
@@ -251,6 +262,18 @@ export class SidePanelViewController extends ActiveViewController {
    */
   configureNotificationsPanelListener(scope, callback) {
     this.notificationsPanelListener.updateCallback(
+      scope,
+      callback
+    );
+  }
+
+  /**
+   * menu listener for the dashboard panel
+   * @param scope
+   * @param callback
+   */
+  configureDashboardPanelListener(scope, callback) {
+    this.dashboardPanelListener.updateCallback(
       scope,
       callback
     );

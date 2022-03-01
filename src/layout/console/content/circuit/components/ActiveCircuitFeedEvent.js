@@ -50,7 +50,7 @@ export default class ActiveCircuitFeedEvent extends Component {
           </Feed.Label>
           <Feed.Content>
             <Feed.Summary>
-              <a>@{this.props.name}</a>
+              <a href="#">@{this.props.name}</a>
               <Feed.Date>{this.props.time}</Feed.Date>
             </Feed.Summary>
             {this.getFeedExtraTextsContent()}

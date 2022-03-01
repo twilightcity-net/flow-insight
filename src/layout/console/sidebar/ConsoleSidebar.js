@@ -48,6 +48,7 @@ export default class ConsoleSidebar extends Component {
       iconWTF: "lightning",
       iconCircuit: "shuffle",
       iconNotifications: "bell outline",
+      iconDashboard: "chart line"
     };
     this.myController =
       RendererControllerFactory.getViewController(
@@ -354,6 +355,7 @@ export default class ConsoleSidebar extends Component {
       iconWTF: "lightning",
       iconNotifications: "bell",
       iconCircuit: "shuffle",
+      iconDashboard: "chart line",
     };
     let oStr = " outline";
     switch (activeMenuItem) {
@@ -372,9 +374,14 @@ export default class ConsoleSidebar extends Component {
         //state.iconCircuit += oStr;
         state.iconNotifications += oStr;
         break;
-      case SidePanelViewController.MenuSelection
-        .NOTIFICATIONS:
+      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
         state.iconFervie += oStr;
+        //state.iconTeam += oStr;
+        //state.iconCircuit += oStr;
+        break;
+      case SidePanelViewController.MenuSelection.DASHBOARD:
+        state.iconFervie += oStr;
+        state.iconNotifications += oStr;
         //state.iconTeam += oStr;
         //state.iconCircuit += oStr;
         break;
@@ -590,6 +597,22 @@ export default class ConsoleSidebar extends Component {
           >
             <Icon name={this.state.iconNotifications} />
           </Menu.Item>
+
+          <Menu.Item
+            name={
+              SidePanelViewController.MenuSelection
+                .DASHBOARD
+            }
+            active={
+              activeItem ===
+              SidePanelViewController.MenuSelection
+                .DASHBOARD
+            }
+            onClick={this.handleItemClick}
+          >
+            <Icon name={this.state.iconDashboard} />
+          </Menu.Item>
+
           <Menu.Item
             name={SidePanelViewController.MenuSelection.WTF}
             active={

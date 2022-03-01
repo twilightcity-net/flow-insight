@@ -19,7 +19,7 @@ export default class NotificationsPanel extends Component {
   static className = "notificationsContent";
 
   /**
-   * builds the team panel for the renderer
+   * builds the notification panel for the renderer
    * @param props
    */
   constructor(props) {
@@ -115,7 +115,7 @@ export default class NotificationsPanel extends Component {
   }
 
   /**
-   * updates display to show fervie content
+   * updates display to show notification content
    * @param e
    * @param name
    */
@@ -127,7 +127,7 @@ export default class NotificationsPanel extends Component {
   };
 
   /**
-   * gets the badges content panel for the sidebar
+   * gets the notification content panel for the sidebar
    * @returns {*}
    */
   getNotificationsContent = () => {

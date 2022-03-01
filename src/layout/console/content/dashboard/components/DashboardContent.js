@@ -39,14 +39,14 @@ export default class DashboardContent extends Component {
     return (
       <div
         id="component"
-        className="flowContent"
+        className="dashboardContent"
         style={{
           height: DimensionController.getHeightFor(
             DimensionController.Components.FLOW_PANEL
           ),
         }}
       >
-        <div id="chart"></div>
+       Display dashboard here
       </div>
     );
   }
