@@ -2443,6 +2443,46 @@
     padding-left: 1.260em;
   }
 
+  /**
+  DASHBOARD PANEL
+   */
+
+  #component.dashboardContent {
+    color: white;
+    font-style: italic;
+    background-color: rgba(27, 28, 29, 0.96);
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+  }
+  #component.dashboardContent .node {
+    transition: stroke 0.333s ease-out;
+    stroke: black;
+    cursor: pointer;
+  }
+
+  #component.dashboardContent .node:hover {
+    stroke: white;
+  }
+
+  #component.dashboardContent .circleLabel {
+    fill: #fff;
+    font: sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    pointer-events: none;
+    opacity: .70;
+  }
+
+  #component.dashboardContent .circleMetric {
+    fill: #fff;
+    font: sans-serif;
+    font-size: 11px;
+    pointer-events: none;
+    opacity: .70;
+  }
 
   /*
  * COMPONENT: POPUP CHART LAYOUT
@@ -2465,16 +2505,6 @@
     border-radius: 5px;
   }
 
-  #component.dashboardContent {
-    color: white;
-    font-style: italic;
-    background-color: rgba(27, 28, 29, 0.96);
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 5px;
-  }
 
 
   #component.chartLayout #component.flowContent .flowContentWrapper {

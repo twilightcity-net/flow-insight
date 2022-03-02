@@ -245,6 +245,60 @@ export default class UtilRenderer {
     }
   }
 
+
+  /**
+   * Convert a number of seconds to a rough number of hours or days
+   * for simplified friendly display.
+   * @param seconds
+   * @returns {string}
+   */
+  static convertSecondsToFriendlyDuration(seconds) {
+    if (seconds >= 86400) {
+      let days = Math.round(seconds / 86400);
+      if (days > 1) {
+        return days + " days";
+      } else {
+        return days + " day";
+      }
+    } else if (seconds >= 3600) {
+      let hours = Math.round(seconds / 3600);
+      if (hours > 1) {
+        return hours + " hours";
+      } else {
+        return hours + " hour";
+      }
+    } else if (seconds >= 60) {
+      let minutes = Math.round(seconds / 60);
+      if (minutes > 1) {
+        return minutes + " minutes";
+      } else {
+        return minutes + " minute";
+      }
+    } else {
+      return seconds + " seconds";
+    }
+  }
+
+
+  /**
+   * Convert a duration string in hh:mm:ss format to a number of seconds
+   * @param durationStr
+   */
+  static getSecondsFromDurationString(durationStr) {
+    let splitArray = durationStr.split(':');
+
+    if (splitArray.length !== 3) {
+      console.error("Trying to split duration with invalid format, expecting hh:mm:ss, got "+durationStr);
+      return 0;
+    }
+
+    let hours = parseInt(splitArray[0]);
+    let minutes = parseInt(splitArray[1]);
+    let seconds = parseInt(splitArray[2]);
+
+    return (hours * 60 * 60) + (minutes * 60) + seconds;
+  }
+
   /**
    * calculates a string representation of a total amount of nanoseconds. This
    * is commonly used to calculate the total elapsed paused time for example.

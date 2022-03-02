@@ -628,7 +628,7 @@ export default class FlowChart extends Component {
     dataBreakLines.on("mouseover", function (event, d) {
       let offset = that.xScale(d[1]);
       let friendlyDuration =
-        that.convertSecondsToFriendlyDuration(
+        UtilRenderer.convertSecondsToFriendlyDuration(
           parseInt(d[3], 10)
         );
       let html =
@@ -875,38 +875,6 @@ export default class FlowChart extends Component {
       .text("Confusion:");
   }
 
-  /**
-   * Convert a number of seconds to a rough number of hours or days
-   * for simplified friendly display.
-   * @param seconds
-   * @returns {string}
-   */
-  convertSecondsToFriendlyDuration(seconds) {
-    if (seconds >= 86400) {
-      let days = Math.round(seconds / 86400);
-      if (days > 1) {
-        return days + " days";
-      } else {
-        return days + " day";
-      }
-    } else if (seconds >= 3600) {
-      let hours = Math.round(seconds / 3600);
-      if (hours > 1) {
-        return hours + " hours";
-      } else {
-        return hours + " hour";
-      }
-    } else if (seconds >= 60) {
-      let minutes = Math.round(seconds / 60);
-      if (minutes > 1) {
-        return minutes + " minutes";
-      } else {
-        return minutes + " minute";
-      }
-    } else {
-      return seconds + " seconds";
-    }
-  }
 
   /**
    * Draw the intention cursor bar

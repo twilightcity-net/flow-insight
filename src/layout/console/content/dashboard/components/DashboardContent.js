@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { DimensionController } from "../../../../../controllers/DimensionController";
 import * as d3 from "d3";
 import {ChartClient} from "../../../../../clients/ChartClient";
+import UtilRenderer from "../../../../../UtilRenderer";
+import FrictionBoxBubbleChart from "./FrictionBoxBubbleChart";
 /**
  * this component is the tab panel wrapper for the console content
  */
@@ -16,19 +18,6 @@ export default class DashboardContent extends Component {
     this.state = {
       tableDto: null
     }
-  }
-
-  displayChart() {
-    let height =
-      DimensionController.getFullRightPanelHeight();
-    let width =
-      DimensionController.getFullRightPanelWidth();
-
-    let svg = d3
-      .select("#chart")
-      .append("svg")
-      .attr("width", width + "px")
-      .attr("height", height + "px");
   }
 
   componentDidMount() {
@@ -47,11 +36,6 @@ export default class DashboardContent extends Component {
     );
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!prevState.tableDto && this.state.tableDto) {
-      this.displayChart();
-    }
-  }
 
   /**
    * renders the main flow content body of this console panel
@@ -68,7 +52,7 @@ export default class DashboardContent extends Component {
           ),
         }}
       >
-       <div id="chart" />
+       <FrictionBoxBubbleChart tableDto={this.state.tableDto}/>
       </div>
     );
   }
