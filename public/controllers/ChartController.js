@@ -22,7 +22,7 @@ module.exports = class ChartController extends (
 
   /**
    * general enum list of all of our possible circuit events for chart requests
-   * @returns {{CHART_WTF: string, CHART_TASK: string}}
+   * @returns {{CHART_WTF: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
    * @constructor
    */
   static get Events() {
@@ -30,6 +30,7 @@ module.exports = class ChartController extends (
       CHART_WTF: "chart-wtf",
       CHART_TASK: "chart-task",
       CHART_TASK_FOR_WTF: "chart-task-for-wtf",
+      CHART_TOP_BOXES: "chart-top-boxes"
     };
   }
 
@@ -81,6 +82,9 @@ module.exports = class ChartController extends (
         case ChartController.Events.CHART_TASK_FOR_WTF:
           this.handleChartTaskForWtfEvent(event, arg);
           break;
+        case ChartController.Events.CHART_TOP_BOXES:
+          this.handleChartTopBoxesEvent(event, arg);
+          break;
         default:
           throw new Error(
             "Unknown chart client event type '" +
@@ -123,6 +127,40 @@ module.exports = class ChartController extends (
       urn,
       (store) =>
         this.delegateChartTaskCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * client event handler for charting a task
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopBoxesEvent(event, arg, callback) {
+    let gtTimeRange = arg.args.gtTimeRange;
+
+    let urn =
+        ChartController.Paths.QUERY +
+        ChartController.Paths.TOP +
+        ChartController.Paths.BOX ;
+
+    if (gtTimeRange) {
+      urn += "?gt_exp=" + gtTimeRange;
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_BOXES,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.delegateChartTopBoxesCallback(
           store,
           event,
           arg,
@@ -254,6 +292,28 @@ module.exports = class ChartController extends (
   }
 
   /**
+   * callback delegator which processes our return from the dto
+   * request to gridtime
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateChartTopBoxesCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+    /**
    * callback delegator which processes our return from the dto
    * request to gridtime
    * @param store

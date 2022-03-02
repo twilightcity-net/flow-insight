@@ -34,7 +34,7 @@ export class ChartClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{CHART_WTF: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
+   * @returns {{CHART_WTF: string, CHART_TOP_BOXES: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -42,6 +42,7 @@ export class ChartClient extends BaseClient {
       CHART_WTF: "chart-wtf",
       CHART_TASK: "chart-task",
       CHART_TASK_FOR_WTF: "chart-task-for-wtf",
+      CHART_TOP_BOXES: "chart-top-boxes"
     };
   }
 
@@ -86,6 +87,33 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
+
+
+  /**
+   * Chart top boxes in a particular time period
+   * @param gtTimeRange
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopBoxes(
+    gtTimeRange,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_BOXES,
+      {
+        gtTimeRange: gtTimeRange
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
 
   /**
    * Chart friction for a task corresponding to a wtf link

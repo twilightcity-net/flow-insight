@@ -60,6 +60,9 @@ module.exports = class BaseController {
       RUN: "/run",
       MANUAL: "/manual",
       SET: "/set",
+      QUERY: "/query",
+      TOP: "/top",
+      BOX: "/box",
     };
   }
 
@@ -202,6 +205,7 @@ module.exports = class BaseController {
       CHART_WTF: "chartWTF",
       CHART_TASK: "chartTask",
       CHART_TASK_FOR_WTF: "chartTaskForWTF",
+      CHART_TOP_BOXES: "chartTopBoxes",
       CREATE_TERMINAL_SESSION: "createTerminalSession",
       RUN_TERMINAL_COMMAND: "runTerminalCommand",
       GET_TERMINAL_COMMAND_MANUAL:
