@@ -30,15 +30,27 @@ export default class FrictionBoxBubbleChart extends Component {
     if (prevProps.selectedRowId !== this.props.selectedRowId ) {
       this.updateCircleSelection(prevProps.selectedRowId, this.props.selectedRowId);
     }
+
+    if (prevProps.hoverRowId !== this.props.hoverRowId ) {
+      this.updateCircleHover(prevProps.hoverRowId, this.props.hoverRowId);
+    }
   }
 
   updateCircleSelection(oldId, newId) {
-    console.log("update circle selection!");
     if (oldId) {
       document.getElementById(oldId).classList.remove('active');
     }
     if (newId) {
       document.getElementById(newId).classList.add('active');
+    }
+  }
+
+  updateCircleHover(oldId, newId) {
+    if (oldId) {
+      document.getElementById(oldId).classList.remove('hover');
+    }
+    if (newId) {
+      document.getElementById(newId).classList.add('hover');
     }
   }
 
@@ -61,7 +73,7 @@ export default class FrictionBoxBubbleChart extends Component {
     root.sum(d => Math.max(0, d.value));
 
     const pack = d3.pack()
-      .size([height - margin*2, height - margin*2])
+      .size([height - margin, height - margin])
       .padding(padding);
 
     let packed = pack(root);
@@ -101,6 +113,7 @@ export default class FrictionBoxBubbleChart extends Component {
       .domain([0, 0.5, 1])
       .range(["#FFA500", "#FF2C36", "#720000"]);
 
+    let that = this;
     svg.selectAll('.node')
       .data(packed)
       .enter()
@@ -109,9 +122,16 @@ export default class FrictionBoxBubbleChart extends Component {
       .attr('id', d => d.data.name)
       .attr("fill", d => d.children ? "#fff" : interp(confusionScale(d.data.confusionPercent)))
       .attr("opacity", d => d.children ? 0 : 1)
-      .attr("cx", d => d.x + margin)
-      .attr("cy", d => d.y + margin)
+      .attr("cx", d => d.x+margin)
+      .attr("cy", d => d.y)
       .attr("r", d => d.r)
+      .on("mouseover", function (event, d) {
+        that.props.onHoverCircle(d.data.name);
+      })
+      .on("click", function (event, d) {
+        that.props.onClickCircle(d.data.name);
+      })
+    ;
   }
 
   /**
@@ -132,7 +152,7 @@ export default class FrictionBoxBubbleChart extends Component {
       .append("circle")
       .attr("r", d => d.r)
       .attr("cx", d => d.x + margin)
-      .attr("cy", d => d.y + margin);
+      .attr("cy", d => d.y);
 
 
     svg.selectAll('.circleLabel')
@@ -140,7 +160,7 @@ export default class FrictionBoxBubbleChart extends Component {
       .enter()
       .append("text")
       .attr("x", d => d.x + margin)
-      .attr("y", d => d.y + margin)
+      .attr("y", d => d.y)
       .attr("clip-path", d => "url(#clip-" + d.data.name + ")")
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", d => d.r > minRadius ? "top" : "middle")
@@ -153,7 +173,7 @@ export default class FrictionBoxBubbleChart extends Component {
       .enter()
       .append("text")
       .attr("x", d => d.x + margin)
-      .attr("y", d => d.y + margin + 14)
+      .attr("y", d => d.y + 14)
       .attr("clip-path", d => "url(#clip-" + d.data.name + ")")
       .attr("text-anchor", "middle")
       .attr("class", "circleMetric")

@@ -118,6 +118,8 @@ export default class FrictionMetricRow extends Component {
     let extraActiveClass = "";
     if (this.props.isActiveRow) {
       extraActiveClass = " active";
+    } else if ( this.props.isHoverRow) {
+      extraActiveClass = " hover";
     }
 
     return (

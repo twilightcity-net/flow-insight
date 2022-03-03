@@ -2467,12 +2467,20 @@
     stroke: white;
   }
 
+  #component.dashboardContent .node.hover {
+    stroke: #CCCCCC;
+  }
+
   #component.dashboardContent .active {
     transition: stroke-width 0.333s ease-out;
     stroke: white !important;
   }
 
   #component.dashboardContent .active:hover {
+    stroke-width: 2px !important;
+  }
+
+  #component.dashboardContent .active.hover {
     stroke-width: 2px !important;
   }
 
@@ -2500,7 +2508,7 @@
     margin-right: 30px;
     border: 2px solid rgba(40, 40, 40, 0.96);
     border-radius: 8px;
-    height: 80%;
+    height: 85%;
     overflow: hidden;
   }
 
@@ -2536,6 +2544,9 @@
     background: rgba(40, 40, 40, 0.96);
   }
 
+  #component.frictionMetricList .ui.grid>.row.metricRow.hover {
+    background: rgba(40, 40, 40, 0.96);
+  }
 
   #component.frictionMetricList .ui.grid>.row.active {
     background: rgba(70, 70, 70, 0.96);

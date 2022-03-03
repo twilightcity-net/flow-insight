@@ -17,29 +17,21 @@ export default class FrictionMetricTable extends Component {
   constructor(props) {
     super(props);
     this.name = "[FrictionMetricTable]";
-    this.state = {
-      selectedRowId: null
-    }
   }
 
   onClickMetric = (rowId) => {
-    console.log("row click! " + rowId);
     let newSelectedRowId = null;
     if (
-      this.state.selectedRowId !== rowId
+      this.props.selectedRowId !== rowId
     ) {
       newSelectedRowId = rowId;
     }
 
     this.props.onClickMetricRow(newSelectedRowId);
-
-    this.setState({
-      selectedRowId: newSelectedRowId,
-    });
   };
 
   onHoverMetric = (rowId) => {
-    console.log("hovering! "+rowId);
+    this.props.onHoverMetricRow(rowId);
   }
   /**
    * renders the list of intentions belonging to the task
@@ -87,7 +79,8 @@ export default class FrictionMetricTable extends Component {
                   confusionTime={confusionDurationFriendly}
                   confusionPercent={confusion}
                   feels={feels}
-                  isActiveRow={this.state.selectedRowId === id}
+                  isActiveRow={this.props.selectedRowId === id}
+                  isHoverRow={this.props.hoverRowId === id}
                   onRowClick={this.onClickMetric}
                   onHover={this.onHoverMetric}
                 />);

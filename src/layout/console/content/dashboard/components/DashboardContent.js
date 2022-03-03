@@ -18,7 +18,8 @@ export default class DashboardContent extends Component {
     this.name = "[" + DashboardContent.name + "]";
     this.state = {
       tableDto: null,
-      selectedRowId: null
+      selectedRowId: null,
+      hoverRowId: null
     }
   }
 
@@ -27,19 +28,39 @@ export default class DashboardContent extends Component {
       "gt[*]",
       this,
       (arg) => {
-        console.log("chart boxes returnedx!");
+        console.log("Chart data returned!");
         if (!arg.error) {
           console.log(arg.data);
           this.setState({
             tableDto: arg.data
           });
+        } else {
+          console.error(arg.error);
+          //TODO this should load an error page
         }
       }
     );
   }
 
   onClickMetricRow = (rowId) => {
-    console.log("clicked metric row ID!");
+    this.setState({
+      selectedRowId : rowId
+    });
+  }
+
+  onHoverMetricRow = (rowId) => {
+    this.setState({
+      hoverRowId : rowId
+    });
+  }
+
+  onHoverCircle = (rowId) => {
+    this.setState({
+      hoverRowId : rowId
+    });
+  }
+
+  onClickCircle = (rowId) => {
     this.setState({
       selectedRowId : rowId
     });
@@ -62,8 +83,14 @@ export default class DashboardContent extends Component {
       >
         <FrictionBoxBubbleChart tableDto={this.state.tableDto}
                                 selectedRowId={this.state.selectedRowId}
+                                hoverRowId={this.state.hoverRowId}
+                                onHoverCircle={this.onHoverCircle}
+                                onClickCircle={this.onClickCircle}
         />
         <FrictionMetricTable tableDto={this.state.tableDto}
+                             selectedRowId={this.state.selectedRowId}
+                             hoverRowId={this.state.hoverRowId}
+                             onHoverMetricRow={this.onHoverMetricRow}
                              onClickMetricRow={this.onClickMetricRow}/>
       </div>
     );
