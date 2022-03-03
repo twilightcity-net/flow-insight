@@ -179,6 +179,24 @@ export default class UtilRenderer {
   }
 
   /**
+   * gets our timer string for other functions that the gui uses from seconds
+   * @param hours
+   * @param minutes
+   * @param seconds
+   * @returns {string}
+   */
+  static getTimerString(seconds) {
+    let hours = (seconds / 3600) | 0,
+    minutes = ((seconds / 60) | 0) % 60;
+
+    return (
+      (hours < 10 ? "0" + hours : hours) +
+      ":" +
+      (minutes < 10 ? "0" + minutes : minutes)
+    );
+  }
+
+  /**
    * gets our wtf timer string for other functions that the gui uses.
    * @param hours
    * @param minutes

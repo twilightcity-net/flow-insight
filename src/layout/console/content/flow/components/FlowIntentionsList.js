@@ -21,13 +21,6 @@ export default class FlowIntentionsList extends Component {
     };
   }
 
-  /**
-   * our click handler for clicking intentions
-   */
-  handleClick = () => {
-    console.log("handle click!");
-  };
-
   onRowClick = (selectedRowOffset) => {
     console.log("row click! " + selectedRowOffset);
 

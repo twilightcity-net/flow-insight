@@ -16,13 +16,39 @@ export default class FrictionBoxBubbleChart extends Component {
     this.name = "[" + FrictionBoxBubbleChart.name + "]";
   }
 
+  componentDidMount() {
+    if (this.props.tableDto) {
+      this.displayChart(this.props.tableDto);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (!prevProps.tableDto && this.props.tableDto) {
+      this.displayChart(this.props.tableDto);
+    }
+
+    if (prevProps.selectedRowId !== this.props.selectedRowId ) {
+      this.updateCircleSelection(prevProps.selectedRowId, this.props.selectedRowId);
+    }
+  }
+
+  updateCircleSelection(oldId, newId) {
+    console.log("update circle selection!");
+    if (oldId) {
+      document.getElementById(oldId).classList.remove('active');
+    }
+    if (newId) {
+      document.getElementById(newId).classList.add('active');
+    }
+  }
+
   /**
    * Display the chart on the screen
    * @param tableDto
    */
   displayChart(tableDto) {
     let height = DimensionController.getFullRightPanelHeight();
-    let width = DimensionController.getFullRightPanelWidth();
+    let width = height; //make the chart a square
     let margin = 30;
     let padding = 2;
 
@@ -80,6 +106,7 @@ export default class FrictionBoxBubbleChart extends Component {
       .enter()
       .append("circle")
       .attr('class', d => d.children ? 'parent' : 'node')
+      .attr('id', d => d.data.name)
       .attr("fill", d => d.children ? "#fff" : interp(confusionScale(d.data.confusionPercent)))
       .attr("opacity", d => d.children ? 0 : 1)
       .attr("cx", d => d.x + margin)
@@ -149,7 +176,7 @@ export default class FrictionBoxBubbleChart extends Component {
       let progress = Math.round(parseFloat(d[5].trim()));
       let confusionRate = confusion / (progress > 0? progress : 1);
       let confusionDuration = Math.round((confusion * duration) / 100);
-      let child = {name: d[0].trim() + "."+d[1].trim(), label: d[1].trim(), value: confusionDuration,
+      let child = {name: d[0].trim() + "-"+d[1].trim(), label: d[1].trim(), value: confusionDuration,
         friendlyValue: UtilRenderer.convertSecondsToFriendlyDuration(confusionDuration * 60),
         confusionPercent: confusion, confusionRate: confusionRate, confusionDuration: confusionDuration};
 
@@ -159,17 +186,7 @@ export default class FrictionBoxBubbleChart extends Component {
     return root;
   }
 
-  componentDidMount() {
-    if (this.props.tableDto) {
-      this.displayChart(this.props.tableDto);
-    }
-  }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!prevProps.tableDto && this.props.tableDto) {
-      this.displayChart(this.props.tableDto);
-    }
-  }
 
   /**
    * renders the main flow content body of this console panel

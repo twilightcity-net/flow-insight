@@ -4,6 +4,7 @@ import * as d3 from "d3";
 import {ChartClient} from "../../../../../clients/ChartClient";
 import UtilRenderer from "../../../../../UtilRenderer";
 import FrictionBoxBubbleChart from "./FrictionBoxBubbleChart";
+import FrictionMetricTable from "./FrictionMetricTable";
 /**
  * this component is the tab panel wrapper for the console content
  */
@@ -16,7 +17,8 @@ export default class DashboardContent extends Component {
     super(props);
     this.name = "[" + DashboardContent.name + "]";
     this.state = {
-      tableDto: null
+      tableDto: null,
+      selectedRowId: null
     }
   }
 
@@ -36,6 +38,12 @@ export default class DashboardContent extends Component {
     );
   }
 
+  onClickMetricRow = (rowId) => {
+    console.log("clicked metric row ID!");
+    this.setState({
+      selectedRowId : rowId
+    });
+  }
 
   /**
    * renders the main flow content body of this console panel
@@ -52,7 +60,11 @@ export default class DashboardContent extends Component {
           ),
         }}
       >
-       <FrictionBoxBubbleChart tableDto={this.state.tableDto}/>
+        <FrictionBoxBubbleChart tableDto={this.state.tableDto}
+                                selectedRowId={this.state.selectedRowId}
+        />
+        <FrictionMetricTable tableDto={this.state.tableDto}
+                             onClickMetricRow={this.onClickMetricRow}/>
       </div>
     );
   }
