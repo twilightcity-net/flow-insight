@@ -191,14 +191,13 @@ export default class FrictionBoxBubbleChart extends Component {
 
     for (let i = 0; i < data.length; i++) {
       let d = data[i];
-      let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[2].trim()) / 60);
-      let confusion = Math.round(parseFloat(d[3].trim()));
-      let progress = Math.round(parseFloat(d[5].trim()));
+      let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[3].trim()) / 60);
+      let confusion = Math.round(parseFloat(d[4].trim()));
+      let progress = Math.round(parseFloat(d[6].trim()));
       let confusionRate = confusion / (progress > 0? progress : 1);
-      let confusionDuration = Math.round((confusion * duration) / 100);
-      let child = {name: d[0].trim() + "-"+d[1].trim(), label: d[1].trim(), value: confusionDuration,
-        friendlyValue: UtilRenderer.convertSecondsToFriendlyDuration(confusionDuration * 60),
-        confusionPercent: confusion, confusionRate: confusionRate, confusionDuration: confusionDuration};
+      let child = {name: d[0].trim() + "-"+d[1].trim(), label: d[1].trim(), value: duration,
+        friendlyValue: UtilRenderer.convertSecondsToFriendlyDuration(duration * 60),
+        confusionPercent: confusion, confusionRate: confusionRate, confusionDuration: duration};
 
       root.children.push(child);
     }

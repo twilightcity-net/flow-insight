@@ -100,12 +100,11 @@ export default class FrictionMetricTable extends Component {
               {rows.map((d, i) => {
 
                 let id = d[0].trim() + "-" + d[1].trim();
-                let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[2].trim()));
-                let confusion = Math.round(parseFloat(d[3].trim()));
-                let confusionDuration = Math.round((confusion * duration) / 100);
+                let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[3].trim()));
+                let confusion = Math.round(parseFloat(d[4].trim()));
 
-                let confusionDurationFriendly = UtilRenderer.getTimerString(confusionDuration);
-                let feels = parseFloat(d[8]);
+                let confusionDurationFriendly = UtilRenderer.getTimerString(duration);
+                let feels = parseFloat(d[9]);
 
                 return (<FrictionMetricRow
                   key={i}
