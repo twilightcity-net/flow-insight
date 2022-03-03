@@ -124,7 +124,7 @@ export default class FrictionMetricRow extends Component {
 
     return (
       <Grid.Row
-        id={1}
+        id={this.props.id + "-row"}
         className={"metricRow" + extraActiveClass}
         onClick={() =>
           this.props.onRowClick(this.props.id)

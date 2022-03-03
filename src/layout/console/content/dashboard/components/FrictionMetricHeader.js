@@ -34,12 +34,11 @@ export default class FrictionMetricHeader extends Component {
           <div className="chunkTitle metricRight">Confusion (hh:mm)</div>
         </Grid.Column>
         <Grid.Column width={3}>
-          <div className="chunkTitle metricRight">% Total Time</div>
+          <div className="chunkTitle metricRight">% Density</div>
         </Grid.Column>
         <Grid.Column width={3}>
           <div className="chunkTitle metricRight">Feels
               (<Image src={imgWtfSrc} verticalAlign="middle"/>)
-
           </div>
         </Grid.Column>
       </Grid.Row>

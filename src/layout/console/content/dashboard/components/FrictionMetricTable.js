@@ -3,6 +3,7 @@ import { Grid } from "semantic-ui-react";
 import FrictionMetricHeader from "./FrictionMetricHeader";
 import FrictionMetricRow from "./FrictionMetricRow";
 import UtilRenderer from "../../../../../UtilRenderer";
+import {scrollTo} from "../../../../../UtilScroll";
 
 /**
  * this is the gui component that displays the friction metrics that correspond
@@ -19,6 +20,12 @@ export default class FrictionMetricTable extends Component {
     this.name = "[FrictionMetricTable]";
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.selectedRowId && prevProps.selectedRowId !== this.props.selectedRowId) {
+      this.scrollToItemById(this.props.selectedRowId, () => {});
+    }
+  }
+
   onClickMetric = (rowId) => {
     let newSelectedRowId = null;
     if (
@@ -33,6 +40,36 @@ export default class FrictionMetricTable extends Component {
   onHoverMetric = (rowId) => {
     this.props.onHoverMetricRow(rowId);
   }
+
+  scrollToItemById(id, callback) {
+    let rootElement = document.getElementById(
+        "metric-row-grid"
+      ),
+      parentElement = rootElement.parentElement,
+      smoothStr = "smooth",
+      theHeight = 0;
+
+    let array = rootElement.children;
+    let elementToScrollTo = null;
+    for (let i = 0; i < array.length; i++) {
+      let obj = array[i];
+
+      if (obj.id === id + "-row") {
+        elementToScrollTo = obj;
+        theHeight -=
+          parentElement.offsetHeight / 2 +
+          obj.offsetHeight / 2;
+        break;
+      }
+      theHeight += obj.offsetHeight;
+    }
+
+    scrollTo(parentElement, {
+      behavior: smoothStr,
+      top: theHeight,
+    }).then(callback);
+  }
+
   /**
    * renders the list of intentions belonging to the task
    * @returns {*}
@@ -43,7 +80,6 @@ export default class FrictionMetricTable extends Component {
     }
 
     let rows = this.props.tableDto.rowsOfPaddedCells;
-
 
     return (
         <div id="component" className="frictionMetricList">

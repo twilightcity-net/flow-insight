@@ -5,6 +5,8 @@ import {ChartClient} from "../../../../../clients/ChartClient";
 import UtilRenderer from "../../../../../UtilRenderer";
 import FrictionBoxBubbleChart from "./FrictionBoxBubbleChart";
 import FrictionMetricTable from "./FrictionMetricTable";
+import { scrollTo } from "../../../../../UtilScroll";
+
 /**
  * this component is the tab panel wrapper for the console content
  */
