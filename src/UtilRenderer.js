@@ -74,11 +74,11 @@ export default class UtilRenderer {
 
   /**
    * formats our circuit name string with _ and capitalizes the first character
-   * @param circuitName
+   * @param name
    * @returns {string}
    */
-  static getFormattedCircuitName(circuitName) {
-    return circuitName
+  static getCapitalizedName(name) {
+    return name
       .split("_")
       .map((t) => {
         if (t.length > 1) {

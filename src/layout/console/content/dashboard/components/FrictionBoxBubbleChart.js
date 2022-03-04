@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {DimensionController} from "../../../../../controllers/DimensionController";
 import * as d3 from "d3";
 import UtilRenderer from "../../../../../UtilRenderer";
+import {Icon} from "semantic-ui-react";
 
 /**
  * this component is the bubble chart that shows relative box friction
@@ -18,13 +19,15 @@ export default class FrictionBoxBubbleChart extends Component {
 
   componentDidMount() {
     if (this.props.tableDto) {
-      this.displayChart(this.props.tableDto);
+      this.displayBoxChart(this.props.tableDto);
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (!prevProps.tableDto && this.props.tableDto) {
-      this.displayChart(this.props.tableDto);
+    if (this.props.fileTableDto && prevProps.fileTableDto !== this.props.fileTableDto) {
+      this.displayFileChart(this.props.fileTableDto);
+    } else if ((prevProps.fileTableDto && !this.props.fileTableDto && this.props.tableDto) || (!prevProps.tableDto && this.props.tableDto)) {
+      this.displayBoxChart(this.props.tableDto);
     }
 
     if (prevProps.selectedRowId !== this.props.selectedRowId ) {
@@ -43,10 +46,10 @@ export default class FrictionBoxBubbleChart extends Component {
    */
   updateCircleSelection(oldId, newId) {
     if (oldId) {
-      document.getElementById(oldId).classList.remove('active');
+      this.removeClass(oldId, 'active');
     }
     if (newId) {
-      document.getElementById(newId).classList.add('active');
+      this.addClass(newId, 'active');
     }
   }
 
@@ -57,48 +60,80 @@ export default class FrictionBoxBubbleChart extends Component {
    */
   updateCircleHover(oldId, newId) {
     if (oldId) {
-      document.getElementById(oldId).classList.remove('hover');
+      this.removeClass(oldId, 'hover');
     }
     if (newId) {
-      document.getElementById(newId).classList.add('hover');
+      this.addClass(newId, 'hover');
     }
+  }
+
+  addClass(elementId, className) {
+    let el = document.getElementById(elementId);
+    if (el) {
+      el.classList.add(className);
+    }
+  }
+
+  removeClass(elementId, className) {
+    let el = document.getElementById(elementId);
+    if (el) {
+      el.classList.remove(className);
+    }
+  }
+
+  displayFileChart(tableDto) {
+    let treeData = this.createFileTreeRoot(tableDto.rowsOfPaddedCells);
+
+    this.createChart(treeData);
+  }
+
+  displayBoxChart(tableDto) {
+    let treeData = this.createBoxTreeRoot(tableDto.rowsOfPaddedCells);
+
+    this.createChart(treeData);
   }
 
   /**
    * Display the chart on the screen
-   * @param tableDto
+   * @param treeData
    */
-  displayChart(tableDto) {
-    let height = DimensionController.getFullRightPanelHeight();
-    let width = height; //make the chart a square
-    let margin = 30;
+  createChart(treeData) {
+    let titleMargin = 45;
+    this.height = DimensionController.getFullRightPanelHeight() - titleMargin;
+    this.width = DimensionController.getFullRightPanelHeight() - 10;
+    let margin = 15;
     let padding = 2;
-
-    let treeData = this.createTreeRoot(tableDto.rowsOfPaddedCells);
 
     console.log(treeData);
 
-    const root = d3.hierarchy(treeData, (d) => {return d.children});
-
-    root.sum(d => Math.max(0, d.value));
+    this.root = d3.hierarchy(treeData, (d) => {return d.children});
+    this.root.sum(d => Math.max(0, d.value));
 
     const pack = d3.pack()
-      .size([height - margin, height - margin])
+      .size([this.width - margin*2, this.height - margin*2])
       .padding(padding);
 
-    let packed = pack(root);
+    let packed = pack(this.root);
     console.log(packed);
 
-    let svg = d3
-      .select("#chart")
+    let chartDiv = document.getElementById("chart");
+    chartDiv.innerHTML = "";
+
+    let svg = d3.select("#chart")
       .append("svg")
-      .attr("width", width + "px")
-      .attr("height", height + "px");
+      .attr("width", this.width + "px")
+      .attr("height", this.height + "px")
 
-    this.createCircles(svg, packed, margin);
+    svg.style('transition', 'opacity 0.333s ease-in-out');
+    svg.style("opacity", '0');
 
-    this.createCircleLabels(svg, packed, margin);
+    this.circleGroup = this.createCircles(svg, packed, margin);
 
+    this.labels = this.createCircleLabels(svg, packed, margin);
+
+    setTimeout(() => {
+      svg.style('opacity', '1');
+    }, 100);
   }
 
 
@@ -124,14 +159,31 @@ export default class FrictionBoxBubbleChart extends Component {
       .range(["#FFA500", "#FF2C36", "#720000"]);
 
     let that = this;
-    svg.selectAll('.node')
+
+    let circleGroup = svg.append("g");
+
+    //invis rectangle that matches the svg dimensions
+    circleGroup.append('rect')
+      .attr('x', 0)
+      .attr('y',0)
+      .attr('width', this.width)
+      .attr('height',this.height)
+      .attr('fill', 'blue')
+      .attr('opacity',0);
+
+    let parentOpacity = 0;
+    if (this.props.drilldownBox) {
+      parentOpacity = 0.2;
+    }
+
+    circleGroup.selectAll('.node')
       .data(packed)
       .enter()
       .append("circle")
       .attr('class', d => d.children ? 'parent' : 'node')
       .attr('id', d => d.data.name)
-      .attr("fill", d => d.children ? "#fff" : interp(confusionScale(d.data.confusionPercent)))
-      .attr("opacity", d => d.children ? 0 : 1)
+      .attr("fill", d => d.children ? interp(1) : interp(confusionScale(d.data.confusionPercent)))
+      .attr("opacity", d => d.children ? parentOpacity : 1)
       .attr("cx", d => d.x+margin)
       .attr("cy", d => d.y)
       .attr("r", d => d.r)
@@ -139,10 +191,46 @@ export default class FrictionBoxBubbleChart extends Component {
         that.props.onHoverCircle(d.data.name);
       })
       .on("click", function (event, d) {
-        that.props.onClickCircle(d.data.name);
-      })
-    ;
+        that.onClickCircle(svg, d.x, d.y, d.r, d.data.name, d.data.group, d.data.label);
+      });
+
+    return circleGroup;
+
   }
+
+  onClickCircle = (svg, x, y, r, name, group, label) => {
+    if (this.props.drilldownBox) {
+      this.props.onClickCircle(name, group, label);
+    } else {
+      //otherwise animate transition
+      let el = document.getElementById(name);
+
+      let rRatio = this.root.r / r;
+
+      let newX = Math.round(this.root.x - x);
+      let newY = Math.round(this.root.y - y);
+
+      this.circleGroup.append('use')
+        .attr('href', '#'+name);
+
+      el.style.transition = 'transform 0.7s ease-in-out';
+      el.style.transform = `translate(${newX}px,${newY}px) scale(${rRatio})`;
+      el.style.stroke = 'none';
+      el.style.transformOrigin = 'center';
+      el.style.opacity = '1';
+      el.style.transformBox = 'fill-box';
+
+      svg.style('transition', 'opacity 0.7s ease-in-out');
+      svg.style('opacity', '0.1');
+
+      setTimeout(() => {
+        this.props.onClickCircle(name, group, label);
+      }, 700);
+    }
+  }
+
+
+
 
   /**
    * Create the group and metric labels on the circles
@@ -154,7 +242,8 @@ export default class FrictionBoxBubbleChart extends Component {
     let minRadius = 30;
     let superMinRadius = 10;
 
-    svg.selectAll('.circleClip')
+    let labelGroup = svg.append("g");
+    labelGroup.selectAll('.circleClip')
       .data(packed)
       .enter()
       .append("clipPath")
@@ -165,12 +254,12 @@ export default class FrictionBoxBubbleChart extends Component {
       .attr("cy", d => d.y);
 
 
-    svg.selectAll('.circleLabel')
+    labelGroup.selectAll('.circleLabel')
       .data(packed)
       .enter()
       .append("text")
       .attr("x", d => d.x + margin)
-      .attr("y", d => d.y)
+      .attr("y", d => d.y )
       .attr("clip-path", d => "url(#clip-" + d.data.name + ")")
       .attr("text-anchor", "middle")
       .attr("alignment-baseline", d => d.r > minRadius ? "top" : "middle")
@@ -178,7 +267,7 @@ export default class FrictionBoxBubbleChart extends Component {
       .attr("opacity", d => d.children ? 0 : 1)
       .text(d => d.r > superMinRadius ? d.data.label : "");
 
-    svg.selectAll('.circleMetric')
+    labelGroup.selectAll('.circleMetric')
       .data(packed)
       .enter()
       .append("text")
@@ -189,6 +278,8 @@ export default class FrictionBoxBubbleChart extends Component {
       .attr("class", "circleMetric")
       .attr("opacity", d => d.children ? 0 : 1)
       .text(d => d.r > minRadius ? d.data.friendlyValue : "");
+
+    return labelGroup;
   }
 
   /**
@@ -196,7 +287,7 @@ export default class FrictionBoxBubbleChart extends Component {
    * that can be used for the bubble chart
    * @param data
    */
-  createTreeRoot(data) {
+  createBoxTreeRoot(data) {
     let root = {name: "root", children: []};
 
     for (let i = 0; i < data.length; i++) {
@@ -205,7 +296,7 @@ export default class FrictionBoxBubbleChart extends Component {
       let confusion = Math.round(parseFloat(d[4].trim()));
       let progress = Math.round(parseFloat(d[6].trim()));
       let confusionRate = confusion / (progress > 0? progress : 1);
-      let child = {name: d[0].trim() + "-"+d[1].trim(), label: d[1].trim(), value: duration,
+      let child = {name: d[0].trim() + "-"+d[1].trim(), group: d[0].trim(), label: d[1].trim(), value: duration,
         friendlyValue: UtilRenderer.convertSecondsToFriendlyDuration(duration * 60),
         confusionPercent: confusion, confusionRate: confusionRate, confusionDuration: duration};
 
@@ -215,15 +306,74 @@ export default class FrictionBoxBubbleChart extends Component {
     return root;
   }
 
+  /**
+   * Take the input rows of data and create a tree root data structure
+   * that can be used for the bubble chart
+   * @param data
+   */
+  createFileTreeRoot(data) {
+    let root = {name: "root", children: []};
 
+    for (let i = 0; i < data.length; i++) {
+      let d = data[i];
+      let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[3].trim()) / 60);
+      let confusion = Math.round(parseFloat(d[4].trim()));
+      let progress = Math.round(parseFloat(d[6].trim()));
+      let confusionRate = confusion / (progress > 0? progress : 1);
+      let child = {name: d[0].trim() + "-"+d[1].trim(), label: this.getFileName(d[1].trim()), value: duration,
+        friendlyValue: UtilRenderer.convertSecondsToFriendlyDuration(duration * 60),
+        confusionPercent: confusion, confusionRate: confusionRate, confusionDuration: duration};
+
+      root.children.push(child);
+    }
+
+    return root;
+  }
+
+  getFileName(filePath) {
+    let fileName = filePath;
+    if (fileName != null && fileName.includes("/")) {
+      fileName = fileName.substr(
+        filePath.lastIndexOf("/") + 1
+      );
+    }
+    if (fileName != null && fileName.includes(".")) {
+      fileName = fileName.substr(0,
+        fileName.lastIndexOf(".")
+      );
+    }
+
+    return fileName;
+  }
+
+  clickBackButton = () => {
+    this.props.zoomOutToBoxView();
+  }
 
   /**
    * renders the main flow content body of this console panel
    * @returns {*} - the JSX to be rendered in the window
    */
   render() {
+
+    if (!this.props.tableDto) {
+      return <div>Loading...</div>;
+    }
+
+    let backButton = "";
+    let title = <div className="chartTitle">Top Areas of Confusion</div>;
+
+    if (this.props.drilldownBox) {
+      backButton = <div className="backButton"><Icon name={"backward"} size={"large"} onClick={this.clickBackButton}/></div>;
+      title =  <div className="chartTitle">Top Files in &quot;{UtilRenderer.getCapitalizedName(this.props.drilldownBox)}&quot;</div>
+    }
+
     return (
+      <div>
+        {backButton}
+        {title}
        <div id="chart" />
+      </div>
     );
   }
 }

@@ -529,7 +529,7 @@ export default class CircuitSidebar extends Component {
     return (
       <Segment inverted className="title">
         <span id="sidebarTitle">
-          {UtilRenderer.getFormattedCircuitName(title)}
+          {UtilRenderer.getCapitalizedName(title)}
         </span>
       </Segment>
     );

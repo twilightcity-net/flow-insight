@@ -233,7 +233,7 @@ export default class FlowTroubleshootingFeed extends Component {
               <Grid.Column width={16}>
                 <div className="troubleHeader">
                   Troubleshoot:{" "}
-                  {UtilRenderer.getFormattedCircuitName(
+                  {UtilRenderer.getCapitalizedName(
                     this.props.circuit.circuitName
                   )}
                 </div>

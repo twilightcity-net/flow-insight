@@ -62,7 +62,6 @@ export default class FrictionFileMetricRow extends Component {
   }
 
 
-
   /**
    * renders our file row in the grid
    * @returns {*}
@@ -92,7 +91,7 @@ export default class FrictionFileMetricRow extends Component {
               trigger={this.getFileNameCellContent()}
               className="metricContent"
               content={this.getPopupContent()}
-              position="bottom left"
+              position="bottom center"
               inverted
               hideOnScroll
             />
