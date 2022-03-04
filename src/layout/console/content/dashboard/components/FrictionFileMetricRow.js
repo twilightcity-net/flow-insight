@@ -1,33 +1,20 @@
-import React, { Component } from "react";
-import { Divider, Grid, Image } from "semantic-ui-react";
+import React, {Component} from "react";
+import {Divider, Grid, Popup} from "semantic-ui-react";
 
 /**
- * this component is the individual flow intention item for the FlowMap
+ * this component is the metrics table row for friction-y boxes
  */
-export default class FrictionMetricRow extends Component {
+export default class FrictionFileMetricRow extends Component {
   /**
-   * builds our flow intention item for our console
+   * builds our friction box metric rows
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[FrictionMetricRow]";
+    this.name = "[FrictionBoxMetricRow]";
     this.state = {};
   }
 
-  /**
-   * handles clicking on our flow intention item. This should update the cursor position in the flow map
-   */
-
-  /**
-   * renders our box cell in the grid.
-   * @returns {*}
-   */
-  getBoxCellContent() {
-    return (
-      <div className="chunkTitle">{this.props.box}</div>
-    );
-  }
 
   /**
    * renders our filename cell in the grid.
@@ -43,16 +30,6 @@ export default class FrictionMetricRow extends Component {
     }
 
     return <div className="chunkTitle">{fileName}</div>;
-  }
-
-  /**
-   * renders our duration cell in our grid
-   * @returns {*}
-   */
-  getDurationCellContent() {
-    return (
-      <div className="chunkText">{this.props.duration}</div>
-    );
   }
 
   /**
@@ -84,34 +61,10 @@ export default class FrictionMetricRow extends Component {
     );
   }
 
-  /**
-   * renders our flame rating content block.
-   * This is a whole number between -5 and 5 for display
-   * @returns {*}
-   */
-  getFlameBlockContent(flameRating) {
-    let imgYaySrc = "./assets/images/yay/16x16.png",
-      imgWtfSrc = "./assets/images/wtf/16x16.png";
 
-    if (flameRating && flameRating > 0) {
-      return (
-        <span className="yayFlame">
-          {flameRating}{" "}
-          <Image src={imgYaySrc} verticalAlign="top" />
-        </span>
-      );
-    } else if (flameRating && flameRating < 0) {
-      return (
-        <span className="wtfFlame">
-          {Math.abs(flameRating)}{" "}
-          <Image src={imgWtfSrc} verticalAlign="middle" />
-        </span>
-      );
-    }
-  }
 
   /**
-   * renders our flow intention row in our grid
+   * renders our file row in the grid
    * @returns {*}
    */
   render() {
@@ -133,11 +86,16 @@ export default class FrictionMetricRow extends Component {
           this.props.onHover(this.props.id)
         }
       >
-          <Grid.Column width={3}>
-            <div className="chunkTitle">{this.props.project}</div>
-          </Grid.Column>
-          <Grid.Column width={3}>
-            <div className="chunkTitle">{this.props.box}</div>
+          <Grid.Column width={6}>
+            <Popup
+              flowing
+              trigger={this.getFileNameCellContent()}
+              className="metricContent"
+              content={this.getPopupContent()}
+              position="bottom left"
+              inverted
+              hideOnScroll
+            />
           </Grid.Column>
           <Grid.Column width={4}>
             <div className="chunkText metricRight">{this.props.confusionTime}</div>

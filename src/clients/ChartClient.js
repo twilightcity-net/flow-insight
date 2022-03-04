@@ -34,7 +34,7 @@ export class ChartClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{CHART_WTF: string, CHART_TOP_BOXES: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
+   * @returns {{CHART_WTF: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -42,7 +42,8 @@ export class ChartClient extends BaseClient {
       CHART_WTF: "chart-wtf",
       CHART_TASK: "chart-task",
       CHART_TASK_FOR_WTF: "chart-task-for-wtf",
-      CHART_TOP_BOXES: "chart-top-boxes"
+      CHART_TOP_BOXES: "chart-top-boxes",
+      CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box"
     };
   }
 
@@ -113,6 +114,37 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
+
+
+  /**
+   * Chart top files in a particular time period for a box
+   * @param gtTimeRange
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopFilesForBox(
+    gtTimeRange,
+    project,
+    box,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_FILES_FOR_BOX,
+      {
+        gtTimeRange: gtTimeRange,
+        project: project,
+        box: box
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
 
 
   /**

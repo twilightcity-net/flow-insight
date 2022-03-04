@@ -1,17 +1,17 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import {Grid, Image} from "semantic-ui-react";
 
 /**
- * this component is the intentions header for the FlowMap intentions
+ * this component is the metrics table header for friction-y boxes
  */
-export default class FrictionMetricHeader extends Component {
+export default class FrictionBoxMetricHeader extends Component {
   /**
-   * builds our flow map intention header
+   * builds our friction box header
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[FrictionMetricHeader]";
+    this.name = "[FrictionBoxMetricHeader]";
     this.state = {};
   }
 
@@ -34,7 +34,7 @@ export default class FrictionMetricHeader extends Component {
           <div className="chunkTitle metricRight">Confusion (hh:mm)</div>
         </Grid.Column>
         <Grid.Column width={3}>
-          <div className="chunkTitle metricRight">% Density</div>
+          <div className="chunkTitle metricRight">Pain Density</div>
         </Grid.Column>
         <Grid.Column width={3}>
           <div className="chunkTitle metricRight">Feels

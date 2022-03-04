@@ -4,16 +4,16 @@ import * as d3 from "d3";
 import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
- * this component is the bubble chart that shows relative box friction
+ * this component is the bubble chart that shows relative file friction
  */
-export default class FrictionBoxBubbleChart extends Component {
+export default class FrictionFileBubbleChart extends Component {
   /**
-   * the constructor function which builds the FrictionBoxBubbleChart component
+   * the constructor function which builds the FrictionFileBubbleChart component
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[" + FrictionBoxBubbleChart.name + "]";
+    this.name = "[" + FrictionFileBubbleChart.name + "]";
   }
 
   componentDidMount() {
@@ -205,7 +205,7 @@ export default class FrictionBoxBubbleChart extends Component {
       let confusion = Math.round(parseFloat(d[4].trim()));
       let progress = Math.round(parseFloat(d[6].trim()));
       let confusionRate = confusion / (progress > 0? progress : 1);
-      let child = {name: d[0].trim() + "-"+d[1].trim(), label: d[1].trim(), value: duration,
+      let child = {name: d[0].trim() + "-"+d[1].trim(), label: this.getFileName(d[1].trim()), value: duration,
         friendlyValue: UtilRenderer.convertSecondsToFriendlyDuration(duration * 60),
         confusionPercent: confusion, confusionRate: confusionRate, confusionDuration: duration};
 
@@ -213,6 +213,17 @@ export default class FrictionBoxBubbleChart extends Component {
     }
 
     return root;
+  }
+
+  getFileName(filePath) {
+    let fileName = filePath;
+    if (fileName != null && fileName.includes("/")) {
+      fileName = fileName.substr(
+        filePath.lastIndexOf("/") + 1
+      );
+    }
+
+    return fileName;
   }
 
 
@@ -223,7 +234,7 @@ export default class FrictionBoxBubbleChart extends Component {
    */
   render() {
     return (
-       <div id="chart" />
+      <div id="chart" />
     );
   }
 }

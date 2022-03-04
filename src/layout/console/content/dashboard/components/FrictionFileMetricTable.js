@@ -1,23 +1,23 @@
-import React, { Component } from "react";
-import { Grid } from "semantic-ui-react";
-import FrictionMetricHeader from "./FrictionMetricHeader";
-import FrictionMetricRow from "./FrictionMetricRow";
+import React, {Component} from "react";
+import {Grid} from "semantic-ui-react";
 import UtilRenderer from "../../../../../UtilRenderer";
 import {scrollTo} from "../../../../../UtilScroll";
+import FrictionFileMetricHeader from "./FrictionFileMetricHeader";
+import FrictionFileMetricRow from "./FrictionFileMetricRow";
 
 /**
- * this is the gui component that displays the friction metrics that correspond
+ * this is the gui component that displays the friction metrics for files that correspond
  * to the bubble chart, the rows in the table are correlated on hover with the contents
  * of the chart
  */
-export default class FrictionMetricTable extends Component {
+export default class FrictionFileMetricTable extends Component {
   /**
    * builds the flow intentions list beneath the FlowMap
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[FrictionMetricTable]";
+    this.name = "[FrictionFileMetricTable]";
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -88,7 +88,7 @@ export default class FrictionMetricTable extends Component {
             inverted
             columns={16}
           >
-            <FrictionMetricHeader />
+            <FrictionFileMetricHeader />
           </Grid>
           <div className="scrolling">
             <Grid
@@ -106,11 +106,11 @@ export default class FrictionMetricTable extends Component {
                 let confusionDurationFriendly = UtilRenderer.getTimerString(duration);
                 let feels = parseFloat(d[9]);
 
-                return (<FrictionMetricRow
+                return (<FrictionFileMetricRow
                   key={i}
                   id={id}
-                  project={d[0].trim()}
-                  box={d[1].trim()}
+                  box={d[0].trim()}
+                  filePath={d[1].trim()}
                   confusionTime={confusionDurationFriendly}
                   confusionPercent={confusion}
                   feels={feels}
