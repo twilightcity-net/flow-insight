@@ -1,6 +1,6 @@
 import React from "react";
-import FervieColors from "../../support/FervieColors";
-import AnimationId from "./AnimationId";
+import FervieColors from "../../../support/FervieColors";
+import AnimationId from "../AnimationId";
 
 /**
  * Holds the svg for each frame of the Fervie walk animation, facing upwards/north on the screen,

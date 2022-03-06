@@ -63,7 +63,9 @@ export default class LayoutContent extends Component {
     };
     if (
       resource.uriArr[0] ===
-      MainPanelViewController.Resources.TERMINAL
+      MainPanelViewController.Resources.TERMINAL ||
+      resource.uriArr[0] ===
+      MainPanelViewController.Resources.PLAY
     ) {
       state.browserVisible = false;
     }

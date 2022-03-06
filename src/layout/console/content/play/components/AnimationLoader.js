@@ -7,21 +7,36 @@ import AnimationId from "./AnimationId";
 export default class AnimationLoader {
   constructor() {
     this.imageCaches = [];
+    this.staticImages = [];
   }
 
-  getImageCache(animationName, animationFrame) {
-    let frameOnTwos =
-      AnimationId.getFrameOnTwos(animationFrame);
-
-    let key = animationName + "_" + frameOnTwos;
-
-    let cache = this.imageCaches[key];
-    if (!cache) {
-      cache = [];
-      this.imageCaches[key] = cache;
+  getStaticImage(p5, imagePath) {
+    let staticImage = this.staticImages[imagePath];
+    if (!staticImage) {
+      staticImage = p5.loadImage(imagePath);
+      this.staticImages[imagePath] = staticImage;
     }
-    return cache;
+    return staticImage;
   }
+
+  getStaticSvgImage(p5, animationId) {
+    let imageCache = this.getDefaultImageCache(animationId);
+    let staticImage = imageCache["default"];
+    if (!staticImage) {
+      let svg1 = document.getElementById(animationId);
+      let xml = new XMLSerializer().serializeToString(svg1);
+      var svg = new Blob([xml], { type: "image/svg+xml" });
+
+      var DOMURL = window.URL || window.webkitURL || window;
+      var url = DOMURL.createObjectURL(svg);
+
+      staticImage = p5.loadImage(url);
+      imageCache["default"] = staticImage;
+    }
+
+    return staticImage;
+  }
+
 
   getAnimationImage(p5, animationName, frameOn24, size) {
     let cache = this.getImageCache(
@@ -48,5 +63,28 @@ export default class AnimationLoader {
       cache[size] = p5.loadImage(url);
       return cache[size];
     }
+  }
+
+  getDefaultImageCache(animationId) {
+    let cache = this.imageCaches[animationId];
+    if (!cache) {
+      cache = [];
+      this.imageCaches[animationId] = cache;
+    }
+    return cache;
+  }
+
+  getImageCache(animationName, animationFrame) {
+    let frameOnTwos =
+      AnimationId.getFrameOnTwos(animationFrame);
+
+    let key = animationName + "_" + frameOnTwos;
+
+    let cache = this.imageCaches[key];
+    if (!cache) {
+      cache = [];
+      this.imageCaches[key] = cache;
+    }
+    return cache;
   }
 }

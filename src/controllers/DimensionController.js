@@ -80,23 +80,7 @@ export class DimensionController {
    * @returns {number}
    */
   static getPlayPanelHeight() {
-    let heights = {
-      border: 2,
-      padding: 8,
-    };
-    let addressBar = document.querySelector(
-      "#component.browserHeader"
-    );
-    if (addressBar) {
-      return (
-        window.innerHeight -
-        heights.border -
-        heights.padding -
-        addressBar.clientHeight
-      );
-    } else {
-      return window.innerHeight;
-    }
+    return window.innerHeight;
   }
 
   /**
