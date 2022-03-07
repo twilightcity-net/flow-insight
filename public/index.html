@@ -2404,24 +2404,22 @@
 
   #component.consoleSidebarPanel .riskAreaContent {
     height: 100%;
-    overflow-y: scroll;
+    overflow-y: hidden;
+    overflow-x: hidden;
   }
 
   #component.consoleSidebarPanel .riskAreaContent hr {
     border: rgba(255,255,255,.1) solid 1px;
   }
 
-
   #component.consoleSidebarPanel .riskAreaContent .list {
     padding-top: 0px;
   }
-
 
   #component.consoleSidebarPanel .scopeSelection {
     padding-right: 15px;
     padding-bottom: 5px;
   }
-
 
   #component.consoleSidebarPanel .scopeSelection .ui.dropdown .default.text {
     font-style: italic;
@@ -2442,7 +2440,6 @@
     width: 100%;
     color: rgba(241, 241, 241, 0.96);
   }
-
 
   #component.consoleSidebarPanel .scopeSelection .ui.dropdown .menu {
     transition: border 0.840s ease-out;
@@ -2588,7 +2585,6 @@
     stroke-width: 2px !important;
   }
 
-
   #component.dashboardContent .circleLabel {
     fill: #fff;
     font: sans-serif;
@@ -2606,26 +2602,22 @@
     opacity: .70;
   }
 
-
   #component.dashboardContent #component.frictionMetricList {
     margin-left: 30px;
     margin-right: 30px;
     border: 2px solid rgba(40, 40, 40, 0.96);
     border-radius: 8px;
-    height: 90%;
+    height: 93%;
     overflow: hidden;
-    margin-top: 10px;
+    margin-top: 12px;
     margin-bottom: auto;
   }
-
 
   #component.frictionMetricList .scrolling {
     height: 90%;
     overflow-y: scroll;
     overflow-x: hidden;
   }
-
-
 
   #component.frictionMetricList .scrolling::-webkit-scrollbar {
     display: none;

@@ -34,7 +34,7 @@ export class ChartClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{CHART_WTF: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
+   * @returns {{CHART_WTF: string, CHART_TOP_BOXES: string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -43,7 +43,9 @@ export class ChartClient extends BaseClient {
       CHART_TASK: "chart-task",
       CHART_TASK_FOR_WTF: "chart-task-for-wtf",
       CHART_TOP_BOXES: "chart-top-boxes",
-      CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box"
+      CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box",
+      CHART_TOP_BOXES_FOR_TEAM: "chart-top-boxes-for-team",
+      CHART_TOP_FILES_FOR_BOX_FOR_TEAM: "chart-top-files-for-box-for-team"
     };
   }
 
@@ -92,20 +94,20 @@ export class ChartClient extends BaseClient {
 
   /**
    * Chart top boxes in a particular time period
-   * @param gtTimeRange
+   * @param timeScope
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
   static chartTopBoxes(
-    gtTimeRange,
+    timeScope,
     scope,
     callback
   ) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_TOP_BOXES,
       {
-        gtTimeRange: gtTimeRange
+        timeScope: timeScope,
       },
       scope,
       callback
@@ -116,24 +118,59 @@ export class ChartClient extends BaseClient {
   }
 
 
+
+  /**
+   * Chart top boxes in a particular time period for the team
+   * @param teamName
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopBoxesForTeam(
+    teamName,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_BOXES_FOR_TEAM,
+      {
+        teamName: teamName,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+
   /**
    * Chart top files in a particular time period for a box
-   * @param gtTimeRange
+   * @param timeScope
+   * @param project
+   * @param box
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
   static chartTopFilesForBox(
-    gtTimeRange,
+    timeScope,
     project,
     box,
     scope,
     callback
   ) {
+    console.log("box = "+box);
+    console.log("timescope = "+timeScope);
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_TOP_FILES_FOR_BOX,
       {
-        gtTimeRange: gtTimeRange,
+        timeScope: timeScope,
         project: project,
         box: box
       },
@@ -146,6 +183,41 @@ export class ChartClient extends BaseClient {
   }
 
 
+  /**
+   * Chart top files in a particular time period for a box for a team
+   * @param teamName
+   * @param timeScope
+   * @param project
+   * @param box
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopFilesForBoxForTeam(
+    teamName,
+    timeScope,
+    project,
+    box,
+    scope,
+    callback
+  ) {
+    console.log("box = "+box);
+    console.log("timescope = "+timeScope);
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_FILES_FOR_BOX_FOR_TEAM,
+      {
+        teamName: teamName,
+        timeScope: timeScope,
+        project: project,
+        box: box
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
 
   /**
    * Chart friction for a task corresponding to a wtf link

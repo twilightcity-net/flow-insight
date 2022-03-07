@@ -106,6 +106,10 @@ export default class FrictionBoxMetricTable extends Component {
                 let confusionDurationFriendly = UtilRenderer.getTimerString(duration);
                 let feels = parseFloat(d[9]);
 
+                if (duration <= 0) {
+                  return "";
+                }
+
                 return (<FrictionBoxMetricRow
                   key={i}
                   id={id}

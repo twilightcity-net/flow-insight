@@ -22,7 +22,7 @@ module.exports = class ChartController extends (
 
   /**
    * general enum list of all of our possible circuit events for chart requests
-   * @returns {{CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
+   * @returns {{CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
    * @constructor
    */
   static get Events() {
@@ -31,9 +31,26 @@ module.exports = class ChartController extends (
       CHART_TASK: "chart-task",
       CHART_TASK_FOR_WTF: "chart-task-for-wtf",
       CHART_TOP_BOXES: "chart-top-boxes",
-      CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box"
+      CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box",
+      CHART_TOP_BOXES_FOR_TEAM: "chart-top-boxes-for-team",
+      CHART_TOP_FILES_FOR_BOX_FOR_TEAM: "chart-top-files-for-box-for-team"
     };
   }
+
+  /**
+   * TimeScope options that need to be translated into gt expressions
+   * @returns {{ALL: string, LATEST_TWO: string, LATEST_FOUR: string, LATEST_SIX: string}}
+   * @constructor
+   */
+  static get TimeScope() {
+    return {
+      ALL: "all",
+      LATEST_TWO: "latest.two",
+      LATEST_FOUR: "latest.four",
+      LATEST_SIX: "latest.six"
+    };
+  }
+
 
   /**
    * links associated controller classes here
@@ -88,6 +105,12 @@ module.exports = class ChartController extends (
           break;
         case ChartController.Events.CHART_TOP_FILES_FOR_BOX:
           this.handleChartTopFilesForBoxEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TOP_BOXES_FOR_TEAM:
+          this.handleChartTopBoxesForTeamEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TOP_FILES_FOR_BOX_FOR_TEAM:
+          this.handleChartTopFilesForBoxForTeamEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -146,15 +169,15 @@ module.exports = class ChartController extends (
    * @param callback
    */
   handleChartTopBoxesEvent(event, arg, callback) {
-    let gtTimeRange = arg.args.gtTimeRange;
+    let timeScope = arg.args.timeScope;
 
     let urn =
         ChartController.Paths.QUERY +
         ChartController.Paths.TOP +
         ChartController.Paths.BOX ;
 
-    if (gtTimeRange) {
-      urn += "?gt_exp=" + gtTimeRange;
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("?", timeScope);
     }
 
     this.doClientRequest(
@@ -181,7 +204,7 @@ module.exports = class ChartController extends (
    * @param callback
    */
   handleChartTopFilesForBoxEvent(event, arg, callback) {
-    let gtTimeRange = arg.args.gtTimeRange,
+    let timeScope = arg.args.timeScope,
     project = arg.args.project,
     box = arg.args.box;
 
@@ -194,8 +217,8 @@ module.exports = class ChartController extends (
 
     urn += "?box_path="+project + "." + box;
 
-    if (gtTimeRange) {
-      urn += "&gt_exp=" + gtTimeRange;
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
     }
 
     this.doClientRequest(
@@ -214,6 +237,99 @@ module.exports = class ChartController extends (
     );
   }
 
+  convertToGtTimeScope(joinChar, timeScope) {
+    if (timeScope === ChartController.TimeScope.ALL) {
+      return joinChar + "gt_exp=gt[*]";
+    } else if (timeScope === ChartController.TimeScope.LATEST_TWO) {
+      return joinChar + "scope=TWO";
+    } else if (timeScope === ChartController.TimeScope.LATEST_FOUR) {
+      return joinChar + "scope=FOUR";
+    } else if (timeScope === ChartController.TimeScope.LATEST_SIX) {
+      return joinChar + "scope=SIX";
+    }
+  }
+
+  /**
+   * client event handler for charting top files for a box for a team
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopFilesForBoxForTeamEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope,
+      teamName = arg.args.teamName,
+      project = arg.args.project,
+      box = arg.args.box;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.FILE +
+      ChartController.Paths.IN +
+      ChartController.Paths.BOX ;
+
+    urn += "?box_path="+project + "." + box;
+
+    urn += "&target_type=TEAM&target_name="+teamName;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_FILES_FOR_BOX_FOR_TEAM,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.delegateChartTopFilesInBoxForTeamCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+
+  /**
+   * client event handler for charting top boxes for team
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopBoxesForTeamEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope;
+    let teamName = arg.args.teamName;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.BOX ;
+
+    urn += "?target_type=TEAM&target_name="+teamName;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_BOXES_FOR_TEAM,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.delegateChartTopBoxesForTeamCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
 
   /**
    * client event handler for charting a wtf
@@ -367,7 +483,51 @@ module.exports = class ChartController extends (
    * @param arg
    * @param callback
    */
+  delegateChartTopFilesInBoxForTeamCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * callback delegator which processes our return from the dto
+   * request to gridtime
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
   delegateChartTopBoxesCallback(store, event, arg, callback) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      arg.data = store.data;
+    }
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+  /**
+   * callback delegator which processes our return from the dto
+   * request to gridtime
+   * @param store
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  delegateChartTopBoxesForTeamCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {

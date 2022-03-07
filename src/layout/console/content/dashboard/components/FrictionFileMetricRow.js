@@ -100,7 +100,7 @@ export default class FrictionFileMetricRow extends Component {
             <div className="chunkText metricRight">{this.props.confusionTime}</div>
           </Grid.Column>
           <Grid.Column width={3}>
-            <div className="chunkText metricRight">{this.props.confusionPercent}</div>
+            <div className="chunkText metricRight">{this.props.confusionPercent}%</div>
           </Grid.Column>
           <Grid.Column width={3}>
             <div className="chunkText metricRight">{this.props.feels}</div>

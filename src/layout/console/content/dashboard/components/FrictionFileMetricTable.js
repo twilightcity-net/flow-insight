@@ -106,6 +106,10 @@ export default class FrictionFileMetricTable extends Component {
                 let confusionDurationFriendly = UtilRenderer.getTimerString(duration);
                 let feels = parseFloat(d[9]);
 
+                if (duration <= 0) {
+                  return "";
+                }
+
                 return (<FrictionFileMetricRow
                   key={i}
                   id={id}

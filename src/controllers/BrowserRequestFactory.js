@@ -160,7 +160,7 @@ export class BrowserRequestFactory {
           );
         case BrowserRequestFactory.Requests.DASHBOARD:
           return BrowserRequestFactory._getDashboardRequest(
-            args[0]
+            args
           );
         case BrowserRequestFactory.Requests.PLAY:
           return BrowserRequestFactory._getPlayRequest();
@@ -444,11 +444,20 @@ export class BrowserRequestFactory {
 
   /**
    * gets the request for showing a dashboard
-   * @param teamMember
+   * @param args dashboardType, target, timeScope
    * @returns {string}
    * @private
    */
-  static _getDashboardRequest(dashboardType) {
+  static _getDashboardRequest(args) {
+    let dashboardType = args[0];
+    let targetType = args[1];
+    let target = args[2];
+    let timeScope = args[3];
+
+    console.log("target type = "+targetType);
+    console.log("target = "+target);
+    console.log("timeScope = "+timeScope);
+
     if (dashboardType) {
       return (
         BrowserRequestFactory.Commands.OPEN +
@@ -456,7 +465,13 @@ export class BrowserRequestFactory {
         BrowserRequestFactory.ROOT_SEPARATOR +
         BrowserRequestFactory.Locations.DASHBOARD +
         BrowserRequestFactory.PATH_SEPARATOR +
-        dashboardType
+        dashboardType +
+        BrowserRequestFactory.PATH_SEPARATOR +
+        targetType +
+        BrowserRequestFactory.PATH_SEPARATOR +
+        target +
+        BrowserRequestFactory.PATH_SEPARATOR +
+        timeScope
       );
     } else {
       throw new Error(

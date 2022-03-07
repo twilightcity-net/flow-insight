@@ -25,8 +25,11 @@ export default class FrictionBoxBubbleChart extends Component {
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (this.props.fileTableDto && prevProps.fileTableDto !== this.props.fileTableDto) {
+      console.log("update file data!");
       this.displayFileChart(this.props.fileTableDto);
-    } else if ((prevProps.fileTableDto && !this.props.fileTableDto && this.props.tableDto) || (!prevProps.tableDto && this.props.tableDto)) {
+    } else if ((prevProps.fileTableDto && !this.props.fileTableDto && this.props.tableDto)
+      || (!prevProps.tableDto && this.props.tableDto || (this.props.tableDto && prevProps.tableDto !== this.props.tableDto))) {
+      console.log("update box data!");
       this.displayBoxChart(this.props.tableDto);
     }
 
@@ -317,15 +320,22 @@ export default class FrictionBoxBubbleChart extends Component {
 
     for (let i = 0; i < data.length; i++) {
       let d = data[i];
-      let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[3].trim()) / 60);
+      let duration = UtilRenderer.getSecondsFromDurationString(d[3].trim());
       let confusion = Math.round(parseFloat(d[4].trim()));
       let progress = Math.round(parseFloat(d[6].trim()));
       let confusionRate = confusion / (progress > 0? progress : 1);
-      let child = {name: d[0].trim() + "-"+d[1].trim(), label: this.getFileName(d[1].trim()), value: duration,
-        friendlyValue: UtilRenderer.convertSecondsToFriendlyDuration(duration * 60),
-        confusionPercent: confusion, confusionRate: confusionRate, confusionDuration: duration};
+      let confusionDuration = Math.round(duration / 60);
 
-      root.children.push(child);
+      if (duration > 0) {
+        let child = {name: d[0].trim() + "-"+d[1].trim(), label: this.getFileName(d[1].trim()),
+          value: duration ,
+          friendlyValue: UtilRenderer.convertSecondsToFriendlyDuration(duration),
+          confusionPercent: confusion, confusionRate: confusionRate, confusionDuration: confusionDuration};
+
+        root.children.push(child);
+      } else {
+        console.log("filtering row! "+d[0].trim() + "-"+d[1].trim());
+      }
     }
 
     return root;

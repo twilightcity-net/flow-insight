@@ -17,6 +17,7 @@ export class TeamClient extends BaseClient {
    */
   static houseName = null;
 
+
   /**
    * builds the Client for a Team in Gridtime
    * @param scope

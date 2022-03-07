@@ -4,6 +4,8 @@ import {DimensionController} from "../../../../../controllers/DimensionControlle
 import FrictionBoxBubbleChart from "./FrictionBoxBubbleChart";
 import FrictionBoxMetricTable from "./FrictionBoxMetricTable";
 import FrictionFileMetricTable from "./FrictionFileMetricTable";
+import {TeamClient} from "../../../../../clients/TeamClient";
+import ScopeSelectionDropdown from "../../../sidebar/dashboard/ScopeSelectionDropdown";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -27,13 +29,20 @@ export default class DashboardContent extends Component {
   }
 
   componentDidMount() {
-    this.loadBoxesData();
+    this.loadBoxesData(this.props.targetType, this.props.target, this.props.timeScope);
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevProps.targetType !== this.props.targetType || prevProps.target !== this.props.target
+    || prevProps.timeScope !== this.props.timeScope) {
+      this.loadBoxesData(this.props.targetType, this.props.target, this.props.timeScope);
+    }
   }
 
   drillDownToFileView = (project, box) => {
     console.log("drillDownToFileView");
 
-    this.loadBoxDetailData(project, box);
+    this.loadBoxDetailData(this.props.timeScope, project, box);
 
   }
 
@@ -46,16 +55,20 @@ export default class DashboardContent extends Component {
     });
   }
 
-  loadBoxesData() {
-    ChartClient.chartTopBoxes(
-      "gt[*]",
+  loadBoxesDataForTeam(teamName, timeScope) {
+    ChartClient.chartTopBoxesForTeam(
+      teamName,
+      timeScope,
       this,
       (arg) => {
         console.log("Chart data returned!");
         if (!arg.error) {
           console.log(arg.data);
           this.setState({
-            boxTableDto: arg.data
+            boxTableDto: arg.data,
+            drillDownProject: null,
+            drillDownBox: null,
+            fileTableDto: null
           });
         } else {
           console.error(arg.error);
@@ -65,9 +78,42 @@ export default class DashboardContent extends Component {
     );
   }
 
-  loadBoxDetailData(project, box) {
+  loadBoxesDataForMe(timeScope) {
+    ChartClient.chartTopBoxes(
+      timeScope,
+      this,
+      (arg) => {
+        console.log("Chart data returned!");
+        if (!arg.error) {
+          console.log("boom");
+          console.log(arg.data);
+          console.log("wha?");
+          this.setState({
+            boxTableDto: arg.data,
+            drillDownProject: null,
+            drillDownBox: null,
+            fileTableDto: null
+          });
+        } else {
+          console.error(arg.error);
+          //TODO this should load an error page
+        }
+      }
+    );
+  }
+
+  loadBoxesData(targetType, target, timeScope) {
+    if (targetType === ScopeSelectionDropdown.TargetType.TEAM) {
+      this.loadBoxesDataForTeam(target, timeScope);
+    } else {
+      this.loadBoxesDataForMe(timeScope);
+    }
+
+  }
+
+  loadBoxDetailData(timeScope, project, box) {
     ChartClient.chartTopFilesForBox(
-      "gt[*]", project, box,
+      timeScope, project, box,
       this,
       (arg) => {
         console.log("Chart data returned!");

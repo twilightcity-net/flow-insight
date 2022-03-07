@@ -189,6 +189,10 @@ export default class UtilRenderer {
     let hours = (seconds / 3600) | 0,
     minutes = ((seconds / 60) | 0) % 60;
 
+    if (seconds > 0) {
+      minutes += 1;
+    }
+
     return (
       (hours < 10 ? "0" + hours : hours) +
       ":" +

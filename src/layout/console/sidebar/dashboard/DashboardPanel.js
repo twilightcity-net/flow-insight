@@ -41,7 +41,6 @@ export default class DashboardPanel extends Component {
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.CONSOLE_SIDEBAR
       );
-    console.log("controller = "+this.myController);
   }
 
   /**
@@ -60,6 +59,9 @@ export default class DashboardPanel extends Component {
         animationDelay:
           SidePanelViewController.AnimationDelays.SUBMENU,
         title: "",
+        dashboardTargetType: ScopeSelectionDropdown.TargetType.USER,
+        dashboardTarget: ScopeSelectionDropdown.Target.ME,
+        dashboardTimeScope: ScopeSelectionDropdown.TimeScope.ALL
       };
     }
     return state;
@@ -141,12 +143,13 @@ export default class DashboardPanel extends Component {
    * @param page
    */
   handleRiskAreaClick = (page) => {
-    console.log("page = "+page);
     if (page === DashboardPanel.RiskAreaPage.CODEBASE) {
-      console.log("open!");
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.DASHBOARD,
-        DashboardPanel.RiskAreaPage.CODEBASE
+        DashboardPanel.RiskAreaPage.CODEBASE,
+        this.state.dashboardTargetType,
+        this.state.dashboardTarget,
+        this.state.dashboardTimeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
 
@@ -162,7 +165,10 @@ export default class DashboardPanel extends Component {
   getDashboardContent = () => {
     return (
       <div className="riskAreaContent">
-        <ScopeSelectionDropdown width={this.props.width}/>
+        <ScopeSelectionDropdown
+          width={this.props.width}
+          onChangeTarget={this.onChangeTarget}
+          onChangeTimeScope={this.onChangeTimeScope}/>
         <hr/>
         <List
           inverted
@@ -183,6 +189,21 @@ export default class DashboardPanel extends Component {
       </div>
     );
   };
+
+  onChangeTarget = (target, targetType) => {
+    this.setState({
+      dashboardTarget : target,
+      dashboardTargetType: targetType
+    });
+  }
+
+
+  onChangeTimeScope = (timeScope) => {
+    this.setState({
+      dashboardTimeScope : timeScope
+    });
+  }
+
   /**
    * renders the console sidebar dashboard panel of the console view
    * @returns {*}

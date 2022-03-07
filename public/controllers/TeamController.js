@@ -268,7 +268,7 @@ module.exports = class TeamController extends (
         TeamDatabase.Collections.TEAMS
       );
 
-    arg.data = collection.findOne({ isHomeTeam: true });
+    arg.data = collection.findOne({ homeTeam: true });
 
     this.delegateCallbackOrEventReplyTo(
       event,
