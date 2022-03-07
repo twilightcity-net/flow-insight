@@ -82,7 +82,7 @@ export default class FrictionFileMetricTable extends Component {
     let rows = this.props.tableDto.rowsOfPaddedCells;
 
     return (
-        <div id="component" className="frictionMetricList">
+        <div id="component" className="frictionMetricList" >
           <Grid
             id="metric-header-row-grid"
             inverted

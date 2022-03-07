@@ -101,8 +101,9 @@ export default class FrictionBoxBubbleChart extends Component {
     let titleMargin = 45;
     this.height = DimensionController.getFullRightPanelHeight() - titleMargin;
     this.width = DimensionController.getFullRightPanelHeight() - 10;
-    let margin = 15;
+    let margin = 5;
     let padding = 2;
+
 
     console.log(treeData);
 

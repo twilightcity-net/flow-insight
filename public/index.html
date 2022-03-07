@@ -2407,6 +2407,80 @@
     overflow-y: scroll;
   }
 
+  #component.consoleSidebarPanel .riskAreaContent hr {
+    border: rgba(255,255,255,.1) solid 1px;
+  }
+
+
+  #component.consoleSidebarPanel .riskAreaContent .list {
+    padding-top: 0px;
+  }
+
+
+  #component.consoleSidebarPanel .scopeSelection {
+    padding-right: 15px;
+    padding-bottom: 5px;
+  }
+
+
+  #component.consoleSidebarPanel .scopeSelection .ui.dropdown .default.text {
+    font-style: italic;
+    color: rgba(222, 222, 222, 0.96);
+  }
+
+  #component.consoleSidebarPanel .scopeSelection .ui.dropdown {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    color: rgba(241, 241, 241, 0.96);
+    border: 1px solid rgba(74, 74, 74, 0.96);
+  }
+
+  #component.consoleSidebarPanel .scopeSelection .ui.dropdown div.text {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100%;
+    color: rgba(241, 241, 241, 0.96);
+  }
+
+
+  #component.consoleSidebarPanel .scopeSelection .ui.dropdown .menu {
+    transition: border 0.840s ease-out;
+    background: rgba(27, 28, 29, 0.96);
+    border-color: rgba(72, 72, 72, 0.96);
+  }
+
+  #component.consoleSidebarPanel .scopeSelection .column.focused .ui.dropdown {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.consoleSidebarPanel .scopeSelection .column.focused .ui.dropdown .menu {
+    border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.consoleSidebarPanel .scopeSelection .ui.selection.dropdown .menu>.item {
+    transition: background, color 0.420s ease-out;
+    border-top: 1px solid rgba(72, 72, 72, 0.96);
+    color: rgba(100, 100, 100, 0.96);
+  }
+
+  #component.consoleSidebarPanel .scopeSelection .ui.selection.dropdown .menu>.item:last-child {
+    border-bottom: 1px solid rgba(72, 72, 72, 0.96);
+  }
+
+  #component.consoleSidebarPanel .scopeSelection .ui.selection.dropdown .menu>.item:hover {
+    background: #2b2b2b;
+    font-weight: 800;
+    color: rgba(200, 200, 200, 0.96);
+  }
+
+  #component.consoleSidebarPanel .scopeSelection .ui.selection.dropdown .menu>.selected.item {
+    background: rgba(100, 53, 201, 0.96);
+    color: rgba(255, 255, 255, 0.96);
+  }
+
+
+
   #component.consoleSidebarPanel .riskAreaContent .active {
     background: #272727;
   }
@@ -2468,23 +2542,20 @@
     font-style: normal;
     font-weight: bold;
     padding-left: 15px;
-    padding-top: 10px;
+    padding-top: 16px;
     padding-bottom: 10px;
     text-align: center;
   }
 
-
   #component.dashboardContent .backButton {
     position: relative;
     left: 10px;
-    top: 10px;
+    top: 16px;
     color: rgba(200, 200, 200, 0.96);
     transition: color 0.333s ease-out;
     cursor:pointer;
     float: left;
   }
-
-
 
   #component.dashboardContent .backButton:hover {
     color: white;
@@ -2541,8 +2612,10 @@
     margin-right: 30px;
     border: 2px solid rgba(40, 40, 40, 0.96);
     border-radius: 8px;
-    height: 85%;
+    height: 90%;
     overflow: hidden;
+    margin-top: 10px;
+    margin-bottom: auto;
   }
 
 
@@ -2574,12 +2647,13 @@
   }
 
   #component.frictionMetricList .ui.grid>.row.metricRow:hover {
-    background: rgba(40, 40, 40, 0.96);
+    background: rgba(60, 60, 60, 0.96);
   }
 
   #component.frictionMetricList .ui.grid>.row.metricRow.hover {
-    background: rgba(40, 40, 40, 0.96);
+    background: rgba(60, 60, 60, 0.96);
   }
+
 
   #component.frictionMetricList .ui.grid>.row.active {
     background: rgba(70, 70, 70, 0.96);
