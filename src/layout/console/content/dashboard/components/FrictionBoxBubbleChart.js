@@ -101,13 +101,31 @@ export default class FrictionBoxBubbleChart extends Component {
   displayFileChart(tableDto) {
     let treeData = this.createFileTreeRoot(tableDto.rowsOfPaddedCells);
 
-    this.createChart(treeData);
+    this.blankOutChart();
+
+    if (treeData.children.length > 0) {
+      this.createChart(treeData);
+    } else {
+      console.warn("No data found for chart!");
+    }
   }
 
   displayBoxChart(tableDto) {
     let treeData = this.createBoxTreeRoot(tableDto.rowsOfPaddedCells);
 
-    this.createChart(treeData);
+    this.blankOutChart();
+
+    if (treeData.children.length > 0) {
+      this.createChart(treeData);
+    } else {
+      console.warn("No data found for chart!");
+    }
+
+  }
+
+  blankOutChart() {
+    let chartDiv = document.getElementById("chart");
+    chartDiv.innerHTML = "";
   }
 
   /**
@@ -134,8 +152,6 @@ export default class FrictionBoxBubbleChart extends Component {
     let packed = pack(this.root);
     console.log(packed);
 
-    let chartDiv = document.getElementById("chart");
-    chartDiv.innerHTML = "";
 
     let svg = d3.select("#chart")
       .append("svg")
@@ -381,12 +397,14 @@ export default class FrictionBoxBubbleChart extends Component {
    */
   render() {
 
+    let backButton = "";
+    let title = "";
+
     if (!this.props.tableDto) {
       return <div>Loading...</div>;
+    } else if (this.props.tableDto.rowsOfPaddedCells.length > 0) {
+      title = <div className="chartTitle">Top Areas of Confusion</div>;
     }
-
-    let backButton = "";
-    let title = <div className="chartTitle">Top Areas of Confusion</div>;
 
     if (this.props.drilldownBox) {
       backButton = <div className="backButton"><Icon name={"backward"} size={"large"} onClick={this.clickBackButton}/></div>;

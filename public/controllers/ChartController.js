@@ -246,6 +246,9 @@ module.exports = class ChartController extends (
   }
 
   convertToGtTimeScope(joinChar, timeScope) {
+    if (timeScope.startsWith("gt[") && timeScope.length < 25) {
+      return joinChar + "gt_exp="+timeScope;
+    }
     if (timeScope === ChartController.TimeScope.ALL) {
       return joinChar + "gt_exp=gt[*]";
     } else if (timeScope === ChartController.TimeScope.LATEST_TWO) {
