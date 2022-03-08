@@ -210,7 +210,9 @@ module.exports = class BaseController {
       CHART_TOP_BOXES: "chartTopBoxes",
       CHART_TOP_FILES_FOR_BOX: "chartTopFilesForBox",
       CHART_TOP_BOXES_FOR_TEAM: "chartTopBoxesForTeam",
+      CHART_TOP_BOXES_FOR_USER: "chartTopBoxesForUser",
       CHART_TOP_FILES_FOR_BOX_FOR_TEAM: "chartTopFilesForBoxForTeam",
+      CHART_TOP_FILES_FOR_BOX_FOR_USER: "chartTopFilesForBoxForUser",
       CREATE_TERMINAL_SESSION: "createTerminalSession",
       RUN_TERMINAL_COMMAND: "runTerminalCommand",
       GET_TERMINAL_COMMAND_MANUAL:

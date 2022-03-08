@@ -1,11 +1,10 @@
 import React, {Component} from "react";
-import {Grid, List, Menu, Segment, Transition,} from "semantic-ui-react";
+import {List, Menu, Segment, Transition,} from "semantic-ui-react";
 import {DimensionController} from "../../../../controllers/DimensionController";
 import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import RiskAreaListItem from "./RiskAreaListItem";
 import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
-import FrictionFileMetricHeader from "../../content/dashboard/components/FrictionFileMetricHeader";
 import ScopeSelectionDropdown from "./ScopeSelectionDropdown";
 
 /**

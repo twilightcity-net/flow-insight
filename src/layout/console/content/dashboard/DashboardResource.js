@@ -1,7 +1,6 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import DashboardContent from "./components/DashboardContent";
 import {DimensionController} from "../../../../controllers/DimensionController";
-import FlowContent from "../flow/components/FlowContent";
 
 /**
  * this component is the tab panel wrapper for dashboard content

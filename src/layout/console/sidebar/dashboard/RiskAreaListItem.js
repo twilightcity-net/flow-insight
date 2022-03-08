@@ -1,12 +1,5 @@
-import React, { Component } from "react";
-import {
-  Icon,
-  Label,
-  List,
-  Popup,
-} from "semantic-ui-react";
-import { LearningCircuitModel } from "../../../../models/LearningCircuitModel";
-import UtilRenderer from "../../../../UtilRenderer";
+import React, {Component} from "react";
+import {List, Popup,} from "semantic-ui-react";
 
 export default class RiskAreaListItem extends Component {
   constructor(props) {

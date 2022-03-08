@@ -314,9 +314,9 @@ export default class UtilRenderer {
       return 0;
     }
 
-    let hours = parseInt(splitArray[0]);
-    let minutes = parseInt(splitArray[1]);
-    let seconds = parseInt(splitArray[2]);
+    let hours = parseInt(splitArray[0], 10);
+    let minutes = parseInt(splitArray[1], 10);
+    let seconds = parseInt(splitArray[2], 10);
 
     return (hours * 60 * 60) + (minutes * 60) + seconds;
   }

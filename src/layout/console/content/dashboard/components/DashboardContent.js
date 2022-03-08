@@ -4,7 +4,6 @@ import {DimensionController} from "../../../../../controllers/DimensionControlle
 import FrictionBoxBubbleChart from "./FrictionBoxBubbleChart";
 import FrictionBoxMetricTable from "./FrictionBoxMetricTable";
 import FrictionFileMetricTable from "./FrictionFileMetricTable";
-import {TeamClient} from "../../../../../clients/TeamClient";
 import ScopeSelectionDropdown from "../../../sidebar/dashboard/ScopeSelectionDropdown";
 
 /**
@@ -42,7 +41,7 @@ export default class DashboardContent extends Component {
   drillDownToFileView = (project, box) => {
     console.log("drillDownToFileView");
 
-    this.loadBoxDetailData(this.props.timeScope, project, box);
+    this.loadBoxDetailData(this.props.targetType, this.props.target, this.props.timeScope, project, box);
 
   }
 
@@ -55,81 +54,163 @@ export default class DashboardContent extends Component {
     });
   }
 
+  /**
+   * Load boxes data using the passed in parameters
+   * @param targetType
+   * @param target
+   * @param timeScope
+   */
+  loadBoxesData(targetType, target, timeScope) {
+    if (targetType === ScopeSelectionDropdown.TargetType.TEAM) {
+      this.loadBoxesDataForTeam(target, timeScope);
+    } else if (targetType === ScopeSelectionDropdown.TargetType.USER && target !== ScopeSelectionDropdown.Target.ME) {
+      this.loadBoxesDataForUser(target, timeScope);
+    } else {
+      this.loadBoxesDataForMe(timeScope);
+    }
+  }
+
+  /**
+   * Load box data for a specific team
+   * @param teamName
+   * @param timeScope
+   */
   loadBoxesDataForTeam(teamName, timeScope) {
     ChartClient.chartTopBoxesForTeam(
       teamName,
       timeScope,
       this,
       (arg) => {
-        console.log("Chart data returned!");
-        if (!arg.error) {
-          console.log(arg.data);
-          this.setState({
-            boxTableDto: arg.data,
-            drillDownProject: null,
-            drillDownBox: null,
-            fileTableDto: null
-          });
-        } else {
-          console.error(arg.error);
-          //TODO this should load an error page
-        }
+        this.handleBoxDataResponse(arg);
       }
     );
   }
 
+  /**
+   * Load box data for me (no params default)
+   * @param timeScope
+   */
   loadBoxesDataForMe(timeScope) {
     ChartClient.chartTopBoxes(
       timeScope,
       this,
       (arg) => {
-        console.log("Chart data returned!");
-        if (!arg.error) {
-          console.log("boom");
-          console.log(arg.data);
-          console.log("wha?");
-          this.setState({
-            boxTableDto: arg.data,
-            drillDownProject: null,
-            drillDownBox: null,
-            fileTableDto: null
-          });
-        } else {
-          console.error(arg.error);
-          //TODO this should load an error page
-        }
+        this.handleBoxDataResponse(arg);
       }
     );
   }
 
-  loadBoxesData(targetType, target, timeScope) {
-    if (targetType === ScopeSelectionDropdown.TargetType.TEAM) {
-      this.loadBoxesDataForTeam(target, timeScope);
-    } else {
-      this.loadBoxesDataForMe(timeScope);
-    }
-
-  }
-
-  loadBoxDetailData(timeScope, project, box) {
-    ChartClient.chartTopFilesForBox(
-      timeScope, project, box,
+  /**
+   * Load box data for a specific user
+   * @param target
+   * @param timeScope
+   */
+  loadBoxesDataForUser(target, timeScope) {
+    ChartClient.chartTopBoxesForUser(
+      target,
+      timeScope,
       this,
       (arg) => {
-        console.log("Chart data returned!");
-        if (!arg.error) {
-          console.log(arg.data);
-          this.setState({
-            fileTableDto: arg.data,
-            drillDownProject: project,
-            drillDownBox: box,
-          });
-        } else {
-          console.error(arg.error);
-          //TODO this should load an error page
-        }
+        this.handleBoxDataResponse(arg);
       }
     );
+  }
+
+
+  /**
+   * Load file detail data for a specific box, using the target parameters
+   * for team or user specified in the resource
+   * @param targetType
+   * @param target
+   * @param timeScope
+   * @param project
+   * @param box
+   */
+  loadBoxDetailData(targetType, target, timeScope, project, box) {
+    if (targetType === ScopeSelectionDropdown.TargetType.TEAM) {
+      this.loadBoxDetailDataForTeam(target, timeScope, project, box);
+    } else if (targetType === ScopeSelectionDropdown.TargetType.USER && target !== ScopeSelectionDropdown.Target.ME) {
+      this.loadBoxDetailDataForUser(target, timeScope, project, box);
+    } else {
+      this.loadBoxDetailDataForMe(timeScope, project, box);
+    }
+  }
+
+  /**
+   * Load file detail data for a specific box for a team
+   * @param teamName
+   * @param timeScope
+   * @param project
+   * @param box
+   */
+  loadBoxDetailDataForTeam(teamName, timeScope, project, box) {
+    ChartClient.chartTopFilesForBoxForTeam(teamName, timeScope, project, box, this, (arg) => {
+      this.handleFileDataResponse(arg, project, box);
+    });
+  }
+
+  /**
+   * Load file detail data for a specific box for a user
+   * @param username
+   * @param timeScope
+   * @param project
+   * @param box
+   */
+  loadBoxDetailDataForUser(username, timeScope, project, box) {
+    ChartClient.chartTopFilesForBoxForUser(username, timeScope, project, box, this, (arg) => {
+      this.handleFileDataResponse(arg, project, box);
+    });
+  }
+
+  /**
+   * Load file data for a specific box for me (no params default)
+   * @param timeScope
+   * @param project
+   * @param box
+   */
+  loadBoxDetailDataForMe(timeScope, project, box) {
+    ChartClient.chartTopFilesForBox(timeScope, project, box, this, (arg) => {
+      this.handleFileDataResponse(arg, project, box);
+    });
+  }
+
+  /**
+   * Handle the box data response and set the state
+   * @param response
+   */
+  handleBoxDataResponse(response) {
+    if (!response.error) {
+      console.log(response.data);
+      this.setState({
+        boxTableDto: response.data,
+        drillDownProject: null,
+        drillDownBox: null,
+        fileTableDto: null
+      });
+    } else {
+      console.error(response.error);
+      //TODO this should load an error page
+    }
+  }
+
+  /**
+   * Handle the file data response and set the state
+   * @param response
+   * @param project
+   * @param box
+   */
+  handleFileDataResponse(response, project, box) {
+    if (!response.error) {
+      console.log(response.data);
+      this.setState({
+        fileTableDto: response.data,
+        drillDownProject: project,
+        drillDownBox: box,
+      });
+    } else {
+      console.error(response.error);
+      //TODO this should load an error page
+    }
   }
 
 
@@ -160,7 +241,6 @@ export default class DashboardContent extends Component {
       });
     }
   }
-
 
 
   /**

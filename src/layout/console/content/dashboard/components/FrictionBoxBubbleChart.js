@@ -27,8 +27,10 @@ export default class FrictionBoxBubbleChart extends Component {
     if (this.props.fileTableDto && prevProps.fileTableDto !== this.props.fileTableDto) {
       console.log("update file data!");
       this.displayFileChart(this.props.fileTableDto);
-    } else if ((prevProps.fileTableDto && !this.props.fileTableDto && this.props.tableDto)
-      || (!prevProps.tableDto && this.props.tableDto || (this.props.tableDto && prevProps.tableDto !== this.props.tableDto))) {
+    } else if (
+      this.isGoingBackToBox(prevProps, this.props) ||
+      this.isInitializingBox(prevProps, this.props) ||
+      this.isBoxChange(prevProps, this.props)) {
       console.log("update box data!");
       this.displayBoxChart(this.props.tableDto);
     }
@@ -40,6 +42,18 @@ export default class FrictionBoxBubbleChart extends Component {
     if (prevProps.hoverRowId !== this.props.hoverRowId ) {
       this.updateCircleHover(prevProps.hoverRowId, this.props.hoverRowId);
     }
+  }
+
+  isBoxChange(prevProps, props) {
+    return (props.tableDto && prevProps.tableDto !== props.tableDto)
+  }
+
+  isInitializingBox(prevProps, props) {
+    return !prevProps.tableDto && props.tableDto;
+  }
+
+  isGoingBackToBox(prevProps, props) {
+    return (prevProps.fileTableDto && !props.fileTableDto && props.tableDto);
   }
 
   /**

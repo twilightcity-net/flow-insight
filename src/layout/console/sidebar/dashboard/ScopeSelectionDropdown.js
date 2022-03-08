@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Dropdown, Grid, Image} from "semantic-ui-react";
+import {Dropdown, Grid} from "semantic-ui-react";
 import {TeamClient} from "../../../../clients/TeamClient";
 
 /**

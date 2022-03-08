@@ -22,7 +22,7 @@ module.exports = class ChartController extends (
 
   /**
    * general enum list of all of our possible circuit events for chart requests
-   * @returns {{CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
+   * @returns {{CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
    * @constructor
    */
   static get Events() {
@@ -33,7 +33,9 @@ module.exports = class ChartController extends (
       CHART_TOP_BOXES: "chart-top-boxes",
       CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box",
       CHART_TOP_BOXES_FOR_TEAM: "chart-top-boxes-for-team",
-      CHART_TOP_FILES_FOR_BOX_FOR_TEAM: "chart-top-files-for-box-for-team"
+      CHART_TOP_BOXES_FOR_USER: "chart-top-boxes-for-user",
+      CHART_TOP_FILES_FOR_BOX_FOR_TEAM: "chart-top-files-for-box-for-team",
+      CHART_TOP_FILES_FOR_BOX_FOR_USER: "chart-top-files-for-box-for-user"
     };
   }
 
@@ -109,8 +111,14 @@ module.exports = class ChartController extends (
         case ChartController.Events.CHART_TOP_BOXES_FOR_TEAM:
           this.handleChartTopBoxesForTeamEvent(event, arg);
           break;
+        case ChartController.Events.CHART_TOP_BOXES_FOR_USER:
+          this.handleChartTopBoxesForUserEvent(event, arg);
+          break;
         case ChartController.Events.CHART_TOP_FILES_FOR_BOX_FOR_TEAM:
           this.handleChartTopFilesForBoxForTeamEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TOP_FILES_FOR_BOX_FOR_USER:
+          this.handleChartTopFilesForBoxForUserEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -153,7 +161,7 @@ module.exports = class ChartController extends (
       ChartController.Types.GET,
       urn,
       (store) =>
-        this.delegateChartTaskCallback(
+        this.defaultDelegatorCallback(
           store,
           event,
           arg,
@@ -187,7 +195,7 @@ module.exports = class ChartController extends (
       ChartController.Types.GET,
       urn,
       (store) =>
-        this.delegateChartTopBoxesCallback(
+        this.defaultDelegatorCallback(
           store,
           event,
           arg,
@@ -228,7 +236,7 @@ module.exports = class ChartController extends (
       ChartController.Types.GET,
       urn,
       (store) =>
-        this.delegateChartTopFilesInBoxCallback(
+        this.defaultDelegatorCallback(
           store,
           event,
           arg,
@@ -283,7 +291,7 @@ module.exports = class ChartController extends (
       ChartController.Types.GET,
       urn,
       (store) =>
-        this.delegateChartTopFilesInBoxForTeamCallback(
+        this.defaultDelegatorCallback(
           store,
           event,
           arg,
@@ -292,6 +300,88 @@ module.exports = class ChartController extends (
     );
   }
 
+
+
+  /**
+   * client event handler for charting top files for a box for a specific user
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopFilesForBoxForUserEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope,
+      username = arg.args.username,
+      project = arg.args.project,
+      box = arg.args.box;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.FILE +
+      ChartController.Paths.IN +
+      ChartController.Paths.BOX ;
+
+    urn += "?box_path="+project + "." + box;
+
+    urn += "&target_type=USER&target_name="+username;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_FILES_FOR_BOX_FOR_USER,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting top boxes for specific user
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopBoxesForUserEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope;
+    let username = arg.args.username;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.BOX ;
+
+    urn += "?target_type=USER&target_name="+username;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_BOXES_FOR_USER,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
 
 
   /**
@@ -322,7 +412,7 @@ module.exports = class ChartController extends (
       ChartController.Types.GET,
       urn,
       (store) =>
-        this.delegateChartTopBoxesForTeamCallback(
+        this.defaultDelegatorCallback(
           store,
           event,
           arg,
@@ -358,7 +448,7 @@ module.exports = class ChartController extends (
       ChartController.Types.GET,
       urn,
       (store) =>
-        this.delegateChartWTFCallback(
+        this.defaultDelegatorCallback(
           store,
           event,
           arg,
@@ -395,7 +485,7 @@ module.exports = class ChartController extends (
       ChartController.Types.GET,
       urn,
       (store) =>
-        this.delegateChartTaskForWtfCallback(
+        this.defaultDelegatorCallback(
           store,
           event,
           arg,
@@ -404,42 +494,15 @@ module.exports = class ChartController extends (
     );
   }
 
-  /**
-   * callback delegator which processes our return from the dto
-   * request to gridtime
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateChartTaskForWtfCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
-    if (store.error) {
-      arg.error = store.error;
-    } else {
-      arg.data = store.data;
-    }
-
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
-  }
 
   /**
-   * callback delegator which processes our return from the dto
-   * request to gridtime
+   * Default delegator that just sets the state and callsback with no database actions
    * @param store
    * @param event
    * @param arg
    * @param callback
    */
-  delegateChartTaskCallback(store, event, arg, callback) {
+  defaultDelegatorCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {
@@ -453,122 +516,4 @@ module.exports = class ChartController extends (
     );
   }
 
-  /**
-   * callback delegator which processes our return from the dto
-   * request to gridtime
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateChartTopFilesInBoxCallback(store, event, arg, callback) {
-    if (store.error) {
-      arg.error = store.error;
-    } else {
-      arg.data = store.data;
-    }
-
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
-  }
-
-  /**
-   * callback delegator which processes our return from the dto
-   * request to gridtime
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateChartTopFilesInBoxForTeamCallback(store, event, arg, callback) {
-    if (store.error) {
-      arg.error = store.error;
-    } else {
-      arg.data = store.data;
-    }
-
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
-  }
-
-  /**
-   * callback delegator which processes our return from the dto
-   * request to gridtime
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateChartTopBoxesCallback(store, event, arg, callback) {
-    if (store.error) {
-      arg.error = store.error;
-    } else {
-      arg.data = store.data;
-    }
-
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
-  }
-
-  /**
-   * callback delegator which processes our return from the dto
-   * request to gridtime
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateChartTopBoxesForTeamCallback(store, event, arg, callback) {
-    if (store.error) {
-      arg.error = store.error;
-    } else {
-      arg.data = store.data;
-    }
-
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
-  }
-
-    /**
-   * callback delegator which processes our return from the dto
-   * request to gridtime
-   * @param store
-   * @param event
-   * @param arg
-   * @param callback
-   */
-  delegateChartWTFCallback(store, event, arg, callback) {
-    if (store.error) {
-      arg.error = store.error;
-    } else {
-      //we should push these to a chart DB, but for now, lets just go to the server each time.
-      //it's possible that when we make the call, the tiles arent generated, and later on,
-      //the tiles show up, making the same call return different results.
-
-      //maybe we should put the last cursor position in the chart response, so that if we are missing
-      //data, and we don't want to cache these results it should be easier to tell?
-      //also the flames could be updated, and the tiles end up dirty... there's other reasons the tiles
-      //could grow stale and our local cache become invalid.  The top files/exec data shouldnt change tho.
-
-      arg.data = store.data;
-    }
-
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
-  }
 };

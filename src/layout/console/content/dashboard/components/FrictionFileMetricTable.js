@@ -50,12 +50,10 @@ export default class FrictionFileMetricTable extends Component {
       theHeight = 0;
 
     let array = rootElement.children;
-    let elementToScrollTo = null;
     for (let i = 0; i < array.length; i++) {
       let obj = array[i];
 
       if (obj.id === id + "-row") {
-        elementToScrollTo = obj;
         theHeight -=
           parentElement.offsetHeight / 2 +
           obj.offsetHeight / 2;
