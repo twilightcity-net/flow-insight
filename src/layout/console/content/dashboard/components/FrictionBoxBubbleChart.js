@@ -18,8 +18,8 @@ export default class FrictionBoxBubbleChart extends Component {
   }
 
   componentDidMount() {
-    if (this.props.tableDto) {
-      this.displayBoxChart(this.props.tableDto);
+    if (this.props.moduleTableDto) {
+      this.displayModuleChart(this.props.moduleTableDto);
     }
   }
 
@@ -32,7 +32,13 @@ export default class FrictionBoxBubbleChart extends Component {
       this.isInitializingBox(prevProps, this.props) ||
       this.isBoxChange(prevProps, this.props)) {
       console.log("update box data!");
-      this.displayBoxChart(this.props.tableDto);
+      this.displayBoxChart(this.props.boxTableDto);
+    } else if (
+      this.isGoingBackToModule(prevProps, this.props) ||
+      this.isInitializingModule(prevProps, this.props) ||
+      this.isModuleChange(prevProps, this.props)) {
+      console.log("update box data!");
+      this.displayModuleChart(this.props.moduleTableDto);
     }
 
     if (prevProps.selectedRowId !== this.props.selectedRowId ) {
@@ -45,15 +51,27 @@ export default class FrictionBoxBubbleChart extends Component {
   }
 
   isBoxChange(prevProps, props) {
-    return (props.tableDto && prevProps.tableDto !== props.tableDto)
+    return (props.boxTableDto && prevProps.boxTableDto !== props.boxTableDto)
   }
 
   isInitializingBox(prevProps, props) {
-    return !prevProps.tableDto && props.tableDto;
+    return !prevProps.boxTableDto && props.boxTableDto;
   }
 
   isGoingBackToBox(prevProps, props) {
-    return (prevProps.fileTableDto && !props.fileTableDto && props.tableDto);
+    return (prevProps.fileTableDto && !props.fileTableDto && props.boxTableDto);
+  }
+
+  isModuleChange(prevProps, props) {
+    return (props.moduleTableDto && prevProps.moduleTableDto !== props.moduleTableDto)
+  }
+
+  isInitializingModule(prevProps, props) {
+    return !prevProps.moduleTableDto && props.moduleTableDto;
+  }
+
+  isGoingBackToModule(prevProps, props) {
+    return (prevProps.boxTableDto && !props.boxTableDto && props.moduleTableDto);
   }
 
   /**
@@ -123,9 +141,24 @@ export default class FrictionBoxBubbleChart extends Component {
 
   }
 
+  displayModuleChart(tableDto) {
+    let treeData = this.createModuleTreeRoot(tableDto.rowsOfPaddedCells);
+
+    this.blankOutChart();
+
+    if (treeData.children.length > 0) {
+      this.createChart(treeData);
+    } else {
+      console.warn("No data found for chart!");
+    }
+
+  }
+
   blankOutChart() {
     let chartDiv = document.getElementById("chart");
-    chartDiv.innerHTML = "";
+    if (chartDiv) {
+      chartDiv.innerHTML = "";
+    }
   }
 
   /**
@@ -159,12 +192,13 @@ export default class FrictionBoxBubbleChart extends Component {
       .attr("height", this.height + "px")
 
     svg.style('transition', 'opacity 0.333s ease-in-out');
-    svg.style("opacity", '0');
+    svg.style("opacity", '1');
 
     this.circleGroup = this.createCircles(svg, packed, margin);
 
     this.labels = this.createCircleLabels(svg, packed, margin);
 
+    console.log("Finished the svg part!");
     setTimeout(() => {
       svg.style('opacity', '1');
     }, 100);
@@ -206,7 +240,7 @@ export default class FrictionBoxBubbleChart extends Component {
       .attr('opacity',0);
 
     let parentOpacity = 0;
-    if (this.props.drilldownBox) {
+    if (this.props.drilldownBox || this.props.drilldownModule) {
       parentOpacity = 0.2;
     }
 
@@ -326,15 +360,45 @@ export default class FrictionBoxBubbleChart extends Component {
 
     for (let i = 0; i < data.length; i++) {
       let d = data[i];
-      let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[3].trim()) / 60);
+      let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[3].trim()));
       let confusion = Math.round(parseFloat(d[4].trim()));
       let progress = Math.round(parseFloat(d[6].trim()));
       let confusionRate = confusion / (progress > 0? progress : 1);
       let child = {name: d[0].trim() + "-"+d[1].trim(), group: d[0].trim(), label: d[1].trim(), value: duration,
-        friendlyValue: UtilRenderer.convertSecondsToFriendlyDuration(duration * 60),
+        friendlyValue: UtilRenderer.convertSecondsToFriendlyDuration(duration),
         confusionPercent: confusion, confusionRate: confusionRate, confusionDuration: duration};
 
       root.children.push(child);
+    }
+
+    return root;
+  }
+
+  /**
+   * Take the input rows of data and create a tree root data structure
+   * that can be used for the bubble chart
+   * @param data
+   */
+  createModuleTreeRoot(data) {
+    let root = {name: "root", children: []};
+
+    for (let i = 0; i < data.length; i++) {
+      let d = data[i];
+      let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[1].trim())*parseFloat(d[2])/100);
+      let confusion = Math.round(parseFloat(d[2].trim()));
+      let progress = Math.round(parseFloat(d[3].trim()));
+      let confusionRate = confusion / (progress > 0? progress : 1);
+
+      if (duration > 0) {
+        let child = {name: d[0].trim(), group: d[0].trim(), label: d[0].trim(), value: duration,
+          friendlyValue: UtilRenderer.convertSecondsToFriendlyDuration(duration),
+          confusionPercent: confusion, confusionRate: confusionRate, confusionDuration: duration};
+
+        root.children.push(child);
+      } else {
+        console.log("filtering zero time row! "+d[0].trim());
+      }
+
     }
 
     return root;
@@ -364,7 +428,7 @@ export default class FrictionBoxBubbleChart extends Component {
 
         root.children.push(child);
       } else {
-        console.log("filtering row! "+d[0].trim() + "-"+d[1].trim());
+        console.log("filtering zero time row! "+d[0].trim() + "-"+d[1].trim());
       }
     }
 
@@ -400,15 +464,16 @@ export default class FrictionBoxBubbleChart extends Component {
     let backButton = "";
     let title = "";
 
-    if (!this.props.tableDto) {
+    if (!this.props.moduleTableDto) {
       return <div>Loading...</div>;
-    } else if (this.props.tableDto.rowsOfPaddedCells.length > 0) {
+    } else if (this.props.drilldownModule === null) {
       title = <div className="chartTitle">Top Areas of Confusion</div>;
-    }
-
-    if (this.props.drilldownBox) {
-      backButton = <div className="backButton"><Icon name={"backward"} size={"large"} onClick={this.clickBackButton}/></div>;
-      title =  <div className="chartTitle">Top Files in &quot;{UtilRenderer.getCapitalizedName(this.props.drilldownBox)}&quot;</div>
+    } else if (this.props.drilldownBox === null) {
+      backButton = <div className="backButton"><Icon name={"backward"} size={"large"} onClick={this.props.zoomOutToModuleView}/></div>;
+      title =  <div className="chartTitle">Confusion in &quot;{UtilRenderer.getCapitalizedName(this.props.drilldownModule)}&quot;</div>
+    } else if (this.props.drilldownBox) {
+      backButton = <div className="backButton"><Icon name={"backward"} size={"large"} onClick={this.props.zoomOutToBoxView}/></div>;
+      title =  <div className="chartTitle">Confusion in &quot;{UtilRenderer.getCapitalizedName(this.props.drilldownBox)}&quot;</div>
     }
 
     return (

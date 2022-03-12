@@ -5,6 +5,7 @@ import FrictionBoxBubbleChart from "./FrictionBoxBubbleChart";
 import FrictionBoxMetricTable from "./FrictionBoxMetricTable";
 import FrictionFileMetricTable from "./FrictionFileMetricTable";
 import ScopeSelectionDropdown from "../../../sidebar/dashboard/ScopeSelectionDropdown";
+import FrictionModuleMetricTable from "./FrictionModuleMetricTable";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -18,8 +19,9 @@ export default class DashboardContent extends Component {
     super(props);
     this.name = "[" + DashboardContent.name + "]";
     this.state = {
-      drillDownProject: null,
+      drillDownModule: null,
       drillDownBox: null,
+      moduleTableDto: null,
       boxTableDto: null,
       fileTableDto: null,
       selectedRowId: null,
@@ -28,74 +30,73 @@ export default class DashboardContent extends Component {
   }
 
   componentDidMount() {
-    this.loadBoxesData(this.props.targetType, this.props.target, this.props.timeScope);
+    this.loadModulesData(this.props.targetType, this.props.target, this.props.timeScope);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.targetType !== this.props.targetType || prevProps.target !== this.props.target
     || prevProps.timeScope !== this.props.timeScope) {
-      this.loadBoxesData(this.props.targetType, this.props.target, this.props.timeScope);
+      this.loadModulesData(this.props.targetType, this.props.target, this.props.timeScope);
     }
   }
 
-  drillDownToFileView = (project, box) => {
+  drillDownToFileView = (module, box) => {
     console.log("drillDownToFileView");
+    this.loadFileData(this.props.targetType, this.props.target, this.props.timeScope, module, box);
 
-    this.loadBoxDetailData(this.props.targetType, this.props.target, this.props.timeScope, project, box);
+  }
 
+  drillDownToBoxView = (module) => {
+    console.log("drillDownToBoxView");
+    this.loadBoxesData(this.props.targetType, this.props.target, this.props.timeScope, module);
+
+  }
+
+  zoomOutToModuleView = () => {
+    console.log("zoomOutToBoxView");
+    this.setState({
+      drillDownModule: null,
+      drillDownBox: null,
+      boxTableDto: null,
+      fileTableDto: null
+    });
   }
 
   zoomOutToBoxView = () => {
     console.log("zoomOutToBoxView");
     this.setState({
-      drillDownProject: null,
       drillDownBox: null,
       fileTableDto: null
     });
   }
 
+
   /**
-   * Load boxes data using the passed in parameters
+   * Load modules data using the passed in parameters
    * @param targetType
    * @param target
    * @param timeScope
    */
-  loadBoxesData(targetType, target, timeScope) {
+  loadModulesData(targetType, target, timeScope) {
     if (targetType === ScopeSelectionDropdown.TargetType.TEAM) {
-      this.loadBoxesDataForTeam(target, timeScope);
+      this.loadModulesDataForTeam(target, timeScope);
     } else if (targetType === ScopeSelectionDropdown.TargetType.USER && target !== ScopeSelectionDropdown.Target.ME) {
-      this.loadBoxesDataForUser(target, timeScope);
+      this.loadModulesDataForUser(target, timeScope);
     } else {
-      this.loadBoxesDataForMe(timeScope);
+      this.loadModulesDataForMe(timeScope);
     }
   }
 
   /**
-   * Load box data for a specific team
-   * @param teamName
+   * Load modules data for me (no params default)
    * @param timeScope
    */
-  loadBoxesDataForTeam(teamName, timeScope) {
-    ChartClient.chartTopBoxesForTeam(
-      teamName,
+  loadModulesDataForMe(timeScope) {
+    ChartClient.chartTopModules(
       timeScope,
       this,
       (arg) => {
-        this.handleBoxDataResponse(arg);
-      }
-    );
-  }
-
-  /**
-   * Load box data for me (no params default)
-   * @param timeScope
-   */
-  loadBoxesDataForMe(timeScope) {
-    ChartClient.chartTopBoxes(
-      timeScope,
-      this,
-      (arg) => {
-        this.handleBoxDataResponse(arg);
+        this.handleModuleDataResponse(arg);
       }
     );
   }
@@ -105,13 +106,99 @@ export default class DashboardContent extends Component {
    * @param target
    * @param timeScope
    */
-  loadBoxesDataForUser(target, timeScope) {
-    ChartClient.chartTopBoxesForUser(
+  loadModulesDataForUser(target, timeScope) {
+    ChartClient.chartTopModulesForUser(
       target,
       timeScope,
       this,
       (arg) => {
-        this.handleBoxDataResponse(arg);
+        this.handleModuleDataResponse(arg);
+      }
+    );
+  }
+
+
+  /**
+   * Load box data for a specific team
+   * @param target
+   * @param timeScope
+   */
+  loadModulesDataForTeam(target, timeScope) {
+    ChartClient.chartTopModulesForTeam(
+      target,
+      timeScope,
+      this,
+      (arg) => {
+        this.handleModuleDataResponse(arg);
+      }
+    );
+  }
+
+  /**
+   * Load boxes data using the passed in parameters
+   * @param targetType
+   * @param target
+   * @param timeScope
+   * @param module
+   */
+  loadBoxesData(targetType, target, timeScope, module) {
+    if (targetType === ScopeSelectionDropdown.TargetType.TEAM) {
+      this.loadBoxesDataForTeam(module, target, timeScope);
+    } else if (targetType === ScopeSelectionDropdown.TargetType.USER && target !== ScopeSelectionDropdown.Target.ME) {
+      this.loadBoxesDataForUser(module, target, timeScope);
+    } else {
+      this.loadBoxesDataForMe(module, timeScope);
+    }
+  }
+
+  /**
+   * Load box data for a specific team
+   * @param module
+   * @param teamName
+   * @param timeScope
+   */
+  loadBoxesDataForTeam(module, teamName, timeScope) {
+    ChartClient.chartTopBoxesForModuleForTeam(
+      module,
+      teamName,
+      timeScope,
+      this,
+      (arg) => {
+        this.handleBoxDataResponse(arg, module);
+      }
+    );
+  }
+
+  /**
+   * Load box data for a specific user
+   * @param module
+   * @param target
+   * @param timeScope
+   */
+  loadBoxesDataForUser(module, target, timeScope) {
+    ChartClient.chartTopBoxesForModuleForUser(
+      module,
+      target,
+      timeScope,
+      this,
+      (arg) => {
+        this.handleBoxDataResponse(arg, module);
+      }
+    );
+  }
+
+  /**
+   * Load box data for me (no params default)
+   * @param module
+   * @param timeScope
+   */
+  loadBoxesDataForMe(module, timeScope) {
+    ChartClient.chartTopBoxesForModule(
+      module,
+      timeScope,
+      this,
+      (arg) => {
+        this.handleBoxDataResponse(arg, module);
       }
     );
   }
@@ -123,16 +210,16 @@ export default class DashboardContent extends Component {
    * @param targetType
    * @param target
    * @param timeScope
-   * @param project
+   * @param module
    * @param box
    */
-  loadBoxDetailData(targetType, target, timeScope, project, box) {
+  loadFileData(targetType, target, timeScope, module, box) {
     if (targetType === ScopeSelectionDropdown.TargetType.TEAM) {
-      this.loadBoxDetailDataForTeam(target, timeScope, project, box);
+      this.loadFileDataForTeam(target, timeScope, module, box);
     } else if (targetType === ScopeSelectionDropdown.TargetType.USER && target !== ScopeSelectionDropdown.Target.ME) {
-      this.loadBoxDetailDataForUser(target, timeScope, project, box);
+      this.loadFileDataForUser(target, timeScope, module, box);
     } else {
-      this.loadBoxDetailDataForMe(timeScope, project, box);
+      this.loadFileDataForMe(timeScope, module, box);
     }
   }
 
@@ -140,12 +227,12 @@ export default class DashboardContent extends Component {
    * Load file detail data for a specific box for a team
    * @param teamName
    * @param timeScope
-   * @param project
+   * @param module
    * @param box
    */
-  loadBoxDetailDataForTeam(teamName, timeScope, project, box) {
-    ChartClient.chartTopFilesForBoxForTeam(teamName, timeScope, project, box, this, (arg) => {
-      this.handleFileDataResponse(arg, project, box);
+  loadFileDataForTeam(teamName, timeScope, module, box) {
+    ChartClient.chartTopFilesForBoxForTeam(teamName, timeScope, module, box, this, (arg) => {
+      this.handleFileDataResponse(arg, module, box);
     });
   }
 
@@ -153,37 +240,59 @@ export default class DashboardContent extends Component {
    * Load file detail data for a specific box for a user
    * @param username
    * @param timeScope
-   * @param project
+   * @param module
    * @param box
    */
-  loadBoxDetailDataForUser(username, timeScope, project, box) {
-    ChartClient.chartTopFilesForBoxForUser(username, timeScope, project, box, this, (arg) => {
-      this.handleFileDataResponse(arg, project, box);
+  loadFileDataForUser(username, timeScope, module, box) {
+    ChartClient.chartTopFilesForBoxForUser(username, timeScope, module, box, this, (arg) => {
+      this.handleFileDataResponse(arg, module, box);
     });
   }
 
   /**
    * Load file data for a specific box for me (no params default)
    * @param timeScope
-   * @param project
+   * @param module
    * @param box
    */
-  loadBoxDetailDataForMe(timeScope, project, box) {
-    ChartClient.chartTopFilesForBox(timeScope, project, box, this, (arg) => {
-      this.handleFileDataResponse(arg, project, box);
+  loadFileDataForMe(timeScope, module, box) {
+    ChartClient.chartTopFilesForBox(timeScope, module, box, this, (arg) => {
+      this.handleFileDataResponse(arg, module, box);
     });
+  }
+
+
+  /**
+   * Handle the module data response and set the state
+   * @param response
+   */
+  handleModuleDataResponse(response) {
+    if (!response.error) {
+      console.log(response.data);
+      this.setState({
+        moduleTableDto: response.data,
+        boxTableDto: null,
+        drillDownModule: null,
+        drillDownBox: null,
+        fileTableDto: null
+      });
+    } else {
+      console.error(response.error);
+      //TODO this should load an error page
+    }
   }
 
   /**
    * Handle the box data response and set the state
    * @param response
+   * @param module
    */
-  handleBoxDataResponse(response) {
+  handleBoxDataResponse(response, module) {
     if (!response.error) {
       console.log(response.data);
       this.setState({
         boxTableDto: response.data,
-        drillDownProject: null,
+        drillDownModule: module,
         drillDownBox: null,
         fileTableDto: null
       });
@@ -196,15 +305,14 @@ export default class DashboardContent extends Component {
   /**
    * Handle the file data response and set the state
    * @param response
-   * @param project
+   * @param module
    * @param box
    */
-  handleFileDataResponse(response, project, box) {
+  handleFileDataResponse(response, module, box) {
     if (!response.error) {
       console.log(response.data);
       this.setState({
         fileTableDto: response.data,
-        drillDownProject: project,
         drillDownBox: box,
       });
     } else {
@@ -232,9 +340,11 @@ export default class DashboardContent extends Component {
     });
   }
 
-  onClickCircle = (rowId, project, box) => {
-    if (this.state.drillDownBox === null) {
-      this.drillDownToFileView(project, box);
+  onClickCircle = (rowId, module, box) => {
+    if (this.state.drillDownModule === null) {
+      this.drillDownToBoxView(module);
+    } else if (this.state.drillDownBox === null) {
+      this.drillDownToFileView(module, box);
     } else {
       this.setState({
         selectedRowId : rowId
@@ -250,7 +360,13 @@ export default class DashboardContent extends Component {
   render() {
     let tableContent = "";
 
-    if (this.state.drillDownBox) {
+    if (this.state.drillDownModule === null) {
+      tableContent =  <FrictionModuleMetricTable tableDto={this.state.moduleTableDto}
+                                               selectedRowId={this.state.selectedRowId}
+                                               hoverRowId={this.state.hoverRowId}
+                                               onHoverMetricRow={this.onHoverMetricRow}
+                                               onClickMetricRow={this.onClickMetricRow}/>
+    } else if (this.state.drillDownBox) {
       tableContent =  <FrictionFileMetricTable tableDto={this.state.fileTableDto}
                                                selectedRowId={this.state.selectedRowId}
                                                hoverRowId={this.state.hoverRowId}
@@ -274,14 +390,17 @@ export default class DashboardContent extends Component {
         ),
       }}
     >
-      <FrictionBoxBubbleChart tableDto={this.state.boxTableDto}
+      <FrictionBoxBubbleChart moduleTableDto={this.state.moduleTableDto}
+                              boxTableDto={this.state.boxTableDto}
                               fileTableDto={this.state.fileTableDto}
+                              drilldownModule={this.state.drillDownModule}
                               drilldownBox={this.state.drillDownBox}
                               selectedRowId={this.state.selectedRowId}
                               hoverRowId={this.state.hoverRowId}
                               onHoverCircle={this.onHoverCircle}
                               onClickCircle={this.onClickCircle}
                               zoomOutToBoxView={this.zoomOutToBoxView}
+                              zoomOutToModuleView={this.zoomOutToModuleView}
       />
       {tableContent}
     </div>);

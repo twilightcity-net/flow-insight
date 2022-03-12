@@ -189,8 +189,11 @@ export default class UtilRenderer {
     let hours = (seconds / 3600) | 0,
     minutes = ((seconds / 60) | 0) % 60;
 
-    if (seconds > 0) {
-      minutes += 1;
+    let roundedMinute = Math.round((seconds % 60) / 60 );
+    minutes += roundedMinute;
+
+    if (hours === 0 && minutes === 0 && seconds > 0) {
+      minutes = 1;
     }
 
     return (

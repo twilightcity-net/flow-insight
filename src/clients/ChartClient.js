@@ -34,7 +34,7 @@ export class ChartClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{CHART_WTF: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX_FOR_USER: string, CHART_TOP_BOXES_FOR_USER: string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
+   * @returns {{CHART_WTF: string, CHART_TOP_BOXES_FOR_MODULE: string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER: string, CHART_TOP_MODULES: string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX_FOR_USER: string, CHART_TOP_BOXES_FOR_USER: string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -42,12 +42,18 @@ export class ChartClient extends BaseClient {
       CHART_WTF: "chart-wtf",
       CHART_TASK: "chart-task",
       CHART_TASK_FOR_WTF: "chart-task-for-wtf",
+      CHART_TOP_MODULES: "chart-top-modules",
       CHART_TOP_BOXES: "chart-top-boxes",
-      CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box",
       CHART_TOP_BOXES_FOR_TEAM: "chart-top-boxes-for-team",
       CHART_TOP_BOXES_FOR_USER: "chart-top-boxes-for-user",
+      CHART_TOP_MODULES_FOR_TEAM: "chart-top-modules-for-team",
+      CHART_TOP_MODULES_FOR_USER: "chart-top-modules-for-user",
+      CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box",
       CHART_TOP_FILES_FOR_BOX_FOR_TEAM: "chart-top-files-for-box-for-team",
-      CHART_TOP_FILES_FOR_BOX_FOR_USER: "chart-top-files-for-box-for-user"
+      CHART_TOP_FILES_FOR_BOX_FOR_USER: "chart-top-files-for-box-for-user",
+      CHART_TOP_BOXES_FOR_MODULE: "chart-top-boxes-for-module",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM: "chart-top-boxes-for-module-for-team",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chart-top-boxes-for-module-for-user"
     };
   }
 
@@ -121,6 +127,90 @@ export class ChartClient extends BaseClient {
 
 
 
+  /**
+   * Chart top modules in a particular time period
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopModules(
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_MODULES,
+      {
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart top modules in a particular time period for a specific user
+   * @param username
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopModulesForUser(
+    username,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_MODULES_FOR_USER,
+      {
+        username: username,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart top modules in a particular time period for the team
+   * @param teamName
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopModulesForTeam(
+    teamName,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_MODULES_FOR_TEAM,
+      {
+        teamName: teamName,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
 
   /**
    * Chart top boxes in a particular time period for a specific user
@@ -181,6 +271,98 @@ export class ChartClient extends BaseClient {
   }
 
 
+
+  /**
+   * Chart top boxes in a particular time period for a module
+   * @param moduleName
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopBoxesForModule(
+    moduleName,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_BOXES_FOR_MODULE,
+      {
+        timeScope: timeScope,
+        moduleName: moduleName,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart top boxes in a particular time period for a module for a specific user
+   * @param moduleName
+   * @param username
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopBoxesForModuleForUser(
+    moduleName,
+    username,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_BOXES_FOR_MODULE_FOR_USER,
+      {
+        timeScope: timeScope,
+        moduleName: moduleName,
+        username: username
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart top boxes in a particular time period for a module for a specific user
+   * @param moduleName
+   * @param teamName
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopBoxesForModuleForTeam(
+    moduleName,
+    teamName,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM,
+      {
+        timeScope: timeScope,
+        moduleName: moduleName,
+        teamName: teamName
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
 
   /**
    * Chart top files in a particular time period for a box

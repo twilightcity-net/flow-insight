@@ -63,6 +63,7 @@ module.exports = class BaseController {
       QUERY: "/query",
       TOP: "/top",
       BOX: "/box",
+      MODULE: "/module",
       FILE: "/file",
       IN: "/in"
     };
@@ -213,6 +214,12 @@ module.exports = class BaseController {
       CHART_TOP_BOXES_FOR_USER: "chartTopBoxesForUser",
       CHART_TOP_FILES_FOR_BOX_FOR_TEAM: "chartTopFilesForBoxForTeam",
       CHART_TOP_FILES_FOR_BOX_FOR_USER: "chartTopFilesForBoxForUser",
+      CHART_TOP_MODULES: "chartTopModules",
+      CHART_TOP_MODULES_FOR_TEAM: "chartTopModulesForTeam",
+      CHART_TOP_MODULES_FOR_USER: "chartTopModulesForUser",
+      CHART_TOP_BOXES_FOR_MODULE: "chartTopBoxesForModule",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM: "chartTopBoxesForModuleForTeam",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chartTopBoxesForModuleForUser",
       CREATE_TERMINAL_SESSION: "createTerminalSession",
       RUN_TERMINAL_COMMAND: "runTerminalCommand",
       GET_TERMINAL_COMMAND_MANUAL:

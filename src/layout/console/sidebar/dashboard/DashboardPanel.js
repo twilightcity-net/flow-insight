@@ -180,7 +180,7 @@ export default class DashboardPanel extends Component {
           <RiskAreaListItem
             id={DashboardPanel.RiskAreaPage.CODEBASE}
             title={"Codebase"}
-            description={"Top friction by area of code"}
+            description={"Top confusion by area of code"}
             onItemClick={this.handleRiskAreaClick}
           />
         </List>

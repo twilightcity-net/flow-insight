@@ -22,7 +22,7 @@ module.exports = class ChartController extends (
 
   /**
    * general enum list of all of our possible circuit events for chart requests
-   * @returns {{CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
+   * @returns {{CHART_TOP_BOXES_FOR_MODULE:string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER:string, CHART_TOP_MODULES:string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER:string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
    * @constructor
    */
   static get Events() {
@@ -35,7 +35,13 @@ module.exports = class ChartController extends (
       CHART_TOP_BOXES_FOR_TEAM: "chart-top-boxes-for-team",
       CHART_TOP_BOXES_FOR_USER: "chart-top-boxes-for-user",
       CHART_TOP_FILES_FOR_BOX_FOR_TEAM: "chart-top-files-for-box-for-team",
-      CHART_TOP_FILES_FOR_BOX_FOR_USER: "chart-top-files-for-box-for-user"
+      CHART_TOP_FILES_FOR_BOX_FOR_USER: "chart-top-files-for-box-for-user",
+      CHART_TOP_MODULES: "chart-top-modules",
+      CHART_TOP_MODULES_FOR_TEAM: "chart-top-modules-for-team",
+      CHART_TOP_MODULES_FOR_USER: "chart-top-modules-for-user",
+      CHART_TOP_BOXES_FOR_MODULE: "chart-top-boxes-for-module",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM: "chart-top-boxes-for-module-for-team",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chart-top-boxes-for-module-for-user"
     };
   }
 
@@ -120,6 +126,24 @@ module.exports = class ChartController extends (
         case ChartController.Events.CHART_TOP_FILES_FOR_BOX_FOR_USER:
           this.handleChartTopFilesForBoxForUserEvent(event, arg);
           break;
+        case ChartController.Events.CHART_TOP_MODULES:
+          this.handleChartTopModulesEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TOP_MODULES_FOR_USER:
+          this.handleChartTopModulesForUserEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TOP_MODULES_FOR_TEAM:
+          this.handleChartTopModulesForTeamEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TOP_BOXES_FOR_MODULE:
+          this.handleChartTopBoxesForModuleEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TOP_BOXES_FOR_MODULE_FOR_USER:
+          this.handleChartTopBoxesForModuleForUserEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:
+          this.handleChartTopBoxesForModuleForTeamEvent(event, arg);
+          break;
         default:
           throw new Error(
             "Unknown chart client event type '" +
@@ -169,6 +193,246 @@ module.exports = class ChartController extends (
         )
     );
   }
+
+
+  /**
+   * client event handler for charting top modules
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopModulesEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.MODULE ;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("?", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_MODULES,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting top modules for a specific user
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopModulesForUserEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope;
+    let username = arg.args.username;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.MODULE ;
+
+
+    urn += "?target_type=USER&target_name="+username;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_MODULES_FOR_USER,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting top modules for a specific team
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopModulesForTeamEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope;
+    let teamName = arg.args.teamName;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.MODULE ;
+
+
+    urn += "?target_type=TEAM&target_name="+teamName;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_MODULES_FOR_TEAM,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting top boxes for a specific module
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopBoxesForModuleEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope,
+      moduleName = arg.args.moduleName;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.BOX +
+      ChartController.Paths.IN +
+      ChartController.Paths.MODULE;
+
+    urn += "?module_name="+moduleName;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_BOXES_FOR_MODULE,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting top boxes for a specific module and user
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopBoxesForModuleForUserEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope,
+      moduleName = arg.args.moduleName,
+    username = arg.args.username;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.BOX +
+      ChartController.Paths.IN +
+      ChartController.Paths.MODULE;
+
+    urn += "?module_name="+moduleName;
+
+    urn += "&target_type=USER&target_name="+username;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_BOXES_FOR_MODULE_FOR_USER,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting top boxes for a specific module and user
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopBoxesForModuleForTeamEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope,
+      moduleName = arg.args.moduleName,
+      teamName = arg.args.teamName;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.BOX +
+      ChartController.Paths.IN +
+      ChartController.Paths.MODULE;
+
+    urn += "?module_name="+moduleName;
+
+    urn += "&target_type=TEAM&target_name="+teamName;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
 
   /**
    * client event handler for charting top boxes
