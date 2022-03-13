@@ -2,21 +2,13 @@
  * Creates our mushroom house in the woods environment for Fervie to walk around in
  */
 import AnimationId from "../AnimationId";
+import Environment from "./Environment";
 
 
-export default class ShroomHouseInTheWoods {
+export default class ShroomHouseInTheWoods extends Environment {
   constructor(animationLoader, width, height) {
-    this.animationLoader = animationLoader;
-    this.animationFrame = 1;
-
-    this.scaleAmountX = width / ShroomHouseInTheWoods.IMAGE_WIDTH;
-    this.scaleAmountY = height / ShroomHouseInTheWoods.IMAGE_HEIGHT;
+    super(animationLoader, width, height);
   }
-
-  //1280 image vs 1129 screen width
-
-  static IMAGE_WIDTH = 1280;
-  static IMAGE_HEIGHT = 480;
 
   static GROUND_IMAGE = "./assets/animation/shroomhouse/fervie_home_ground.png";
   static OVERLAY_IMAGE = "./assets/animation/shroomhouse/fervie_home_overlay.png";
@@ -40,9 +32,17 @@ export default class ShroomHouseInTheWoods {
     this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.WALK_BEHIND_AREA_IMAGE);
   }
 
+  getDefaultSpawnPoint() {
+    return this.getLeftSpawnPoint();
+  }
+
   getLeftSpawnPoint() {
     let spawnPoint = [Math.round(40 * this.scaleAmountX), Math.round(170 * this.scaleAmountY)];
     return spawnPoint;
+  }
+
+  getSouthSpawnPoint() {
+    return [Math.round(this.width / 2), Math.round(170 * this.scaleAmountY)];
   }
 
   isValidPosition(p5 ,x, y) {
@@ -108,12 +108,7 @@ export default class ShroomHouseInTheWoods {
    * Update the environment according to where fervie has moved
    */
   update(p5) {
-
-    this.animationFrame++;
-
-    if (this.animationFrame > 24) {
-      this.animationFrame = 1;
-    }
+    super.update(p5);
   }
 
 }

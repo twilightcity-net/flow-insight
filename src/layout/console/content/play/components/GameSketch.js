@@ -7,8 +7,10 @@ import FervieWalkRight from "./fervie/FervieWalkRight";
 import FervieWalkDown from "./fervie/FervieWalkDown";
 import FervieSprite from "./fervie/FervieSprite";
 import FervieColors from "../../support/FervieColors";
-import ShroomHouseInTheWoods from "./places/ShroomHouseInTheWoods";
+import ShroomHouseInTheWoods from "./environment/ShroomHouseInTheWoods";
 import ShroomHouse from "./places/ShroomHouse";
+import BigTreeInTheWoods from "./environment/BigTreeInTheWoods";
+import EnvironmentMap from "./environment/EnvironmentMap";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -40,11 +42,7 @@ export default class GameSketch extends Component {
         p5.createCanvas(this.width, this.height);
         p5.frameRate(24);
 
-        this.environment = new ShroomHouseInTheWoods(
-          this.animationLoader,
-          this.width,
-          this.height
-        );
+        this.environment = new EnvironmentMap(this.animationLoader, this.width, this.height);
         this.environment.preload(p5);
 
         this.fervieSprite = new FervieSprite(
@@ -56,7 +54,7 @@ export default class GameSketch extends Component {
         );
         this.fervieSprite.preload(p5);
 
-        let spawnPoint = this.environment.getLeftSpawnPoint();
+        let spawnPoint = this.environment.getDefaultSpawnPoint();
         this.fervieSprite.moveToPoint(spawnPoint[0], spawnPoint[1]);
 
       };
@@ -67,7 +65,7 @@ export default class GameSketch extends Component {
 
         this.environment.drawOverlay(p5, this.fervieSprite);
 
-        this.environment.update(p5);
+        this.environment.update(p5, this.fervieSprite);
         this.fervieSprite.update(p5, this.environment);
       };
     };

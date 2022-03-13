@@ -16,6 +16,15 @@ export default class FervieSprite {
     this.scale = 1;
     this.animationFrame = 8;
     this.imageHeight = 0;
+
+    this.downTheHill = false;
+    this.upTheHill = false;
+
+    this.yDownTheHill = 0;
+
+    this.originalX = this.x;
+    this.originalY = this.y;
+    this.originalScale = this.scale;
   }
 
   /**
@@ -118,6 +127,12 @@ export default class FervieSprite {
     }
   }
 
+  /**
+   * Shrink or grow fervie based on him being near/far
+   * Mirror image for walking left (mirror of right)
+   * @param p5
+   * @param image
+   */
   scaleAndMirrorAndDrawSprite(p5, image) {
     p5.push();
     p5.translate(
@@ -132,6 +147,11 @@ export default class FervieSprite {
     p5.pop();
   }
 
+  /**
+   * Scale fervie for near/far without any mirroring
+   * @param p5
+   * @param image
+   */
   scaleAndDrawSprite(p5, image) {
     p5.push();
     p5.translate(
@@ -144,7 +164,8 @@ export default class FervieSprite {
     p5.pop();
   }
   /**
-   * Update the fervie sprite properties for each subsquent frame
+   * Update the fervie sprite properties for each subsequent frame,
+   * changing the direction of fervie based on the arrow keys
    */
   update(p5, environment) {
     if (p5.keyIsDown(p5.LEFT_ARROW)) {
@@ -189,6 +210,20 @@ export default class FervieSprite {
     }
   }
 
+  getDirection() {
+    return this.direction;
+  }
+
+  /**
+   * Change our fervies direction.  Take into account if we are walking down a hill
+   * And if our position is valid on the environment walk map.
+   * @param p5
+   * @param environment
+   * @param direction
+   * @param xChange
+   * @param yChange
+   * @param scaleChange
+   */
   changeDirection(p5, environment, direction, xChange, yChange, scaleChange) {
     if (direction === this.direction) { //if direction is the same as it was the last frame
       let newVelocityX = Math.round(xChange * this.scale);
@@ -196,6 +231,28 @@ export default class FervieSprite {
       let newX = this.x + this.velocityX;
       let newY = this.y + this.velocityY;
       let newScale = this.scale + scaleChange;
+
+      if (this.downTheHill && (direction === FervieSprite.Direction.Up)) {
+        newVelocityY = -1 *yChange;
+        this.yDownTheHill += newVelocityY;
+      }
+
+      if (this.upTheHill && direction === FervieSprite.Direction.Down) {
+        newVelocityY = -1 *yChange;
+        this.yDownTheHill += newVelocityY;
+
+        if (this.yDownTheHill <= 0) {
+          this.yDownTheHill = 0;
+          this.upTheHill = false;
+        }
+      }
+
+      if ((this.downTheHill || this.upTheHill) &&
+        (direction === FervieSprite.Direction.Left || direction === FervieSprite.Direction.Right)) {
+        //dont allow left or right movements while we're down the hill
+        newX = this.x;
+        newVelocityX = this.velocityX;
+      }
 
       let footPosition = this.getFervieFootPosition(newX, newY, newScale);
 
@@ -215,6 +272,30 @@ export default class FervieSprite {
       this.velocityY = 0;
     }
     this.direction = direction;
+  }
+
+  triggerUpTheHill() {
+    this.upTheHill = true;
+    this.downTheHill = false;
+  }
+
+  triggerDownTheHill() {
+    this.downTheHill = true;
+    this.upTheHill = false;
+  }
+
+  isBehindTheHill() {
+    return this.yDownTheHill > 0;
+  }
+
+  getDistanceDownTheHill() {
+    return this.yDownTheHill;
+  }
+
+  resetDownTheHill() {
+    this.downTheHill = false;
+    this.upTheHill = false;
+    this.yDownTheHill = 0;
   }
 
   getFervieFootX() {
@@ -244,7 +325,7 @@ export default class FervieSprite {
   moveToPoint(x, y) {
     //whatever size he is now, we need to adjust the scale of where he would be in the new location
 
-    let newScale = this.scale + (y - 20 - this.y) / 2 * 0.01;
+    let newScale = this.originalScale + (y - 20 - this.originalY) / 2 * 0.01;
 
     let newX = x - this.size / 2 * newScale - 10;  //difference I want to move in a negative x
     let newY = y - 20;
