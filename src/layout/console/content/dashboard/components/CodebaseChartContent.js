@@ -8,16 +8,16 @@ import ScopeSelectionDropdown from "../../../sidebar/dashboard/ScopeSelectionDro
 import FrictionModuleMetricTable from "./FrictionModuleMetricTable";
 
 /**
- * this component is the tab panel wrapper for the console content
+ * this component shows the codebase friction drilldown chart and related table
  */
-export default class DashboardContent extends Component {
+export default class CodebaseChartContent extends Component {
   /**
-   * the constructor function which builds the DashboardContent component
+   * the constructor function which builds the CodebaseChartContent component
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[" + DashboardContent.name + "]";
+    this.name = "[" + CodebaseChartContent.name + "]";
     this.state = {
       drillDownModule: null,
       drillDownBox: null,

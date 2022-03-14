@@ -19,12 +19,13 @@ export default class DashboardPanel extends Component {
 
   /**
    * Enumeration of the different available risk area page items
-   * @returns {{CODEBASE: string}}
+   * @returns {{FAMILIARITY: string, CODEBASE: string}}
    * @constructor
    */
   static get RiskAreaPage() {
     return {
-      CODEBASE : "codebase"
+      CODEBASE : "codebase",
+      FAMILIARITY: "familiarity"
     }
   }
 
@@ -151,7 +152,15 @@ export default class DashboardPanel extends Component {
         this.state.dashboardTimeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
-
+    } else if (page === DashboardPanel.RiskAreaPage.FAMILIARITY) {
+      let request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.DASHBOARD,
+        DashboardPanel.RiskAreaPage.FAMILIARITY,
+        this.state.dashboardTargetType,
+        this.state.dashboardTarget,
+        this.state.dashboardTimeScope
+      );
+      this.myController.makeSidebarBrowserRequest(request);
     } else {
       console.error("Unknown risk area page, unable to load");
     }
@@ -181,6 +190,12 @@ export default class DashboardPanel extends Component {
             id={DashboardPanel.RiskAreaPage.CODEBASE}
             title={"Codebase"}
             description={"Top confusion by area of code"}
+            onItemClick={this.handleRiskAreaClick}
+          />
+          <RiskAreaListItem
+            id={DashboardPanel.RiskAreaPage.FAMILIARITY}
+            title={"Familiarity"}
+            description={"Knowledge gaps by area of code"}
             onItemClick={this.handleRiskAreaClick}
           />
         </List>

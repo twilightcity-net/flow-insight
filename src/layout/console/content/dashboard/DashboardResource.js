@@ -1,6 +1,7 @@
 import React, {Component} from "react";
-import DashboardContent from "./components/DashboardContent";
+import CodebaseChartContent from "./components/CodebaseChartContent";
 import {DimensionController} from "../../../../controllers/DimensionController";
+import FamiliarityChartContent from "./components/FamiliarityChartContent";
 
 /**
  * this component is the tab panel wrapper for dashboard content
@@ -24,12 +25,13 @@ export default class DashboardResource extends Component {
 
   /**
    * Enumeration of the different available dashboard page items available
-   * @returns {{CODEBASE: string}}
+   * @returns {{CODEBASE: string, FAMILIARITY: string}}
    * @constructor
    */
   static get DashboardType() {
     return {
-      CODEBASE : "codebase"
+      CODEBASE : "codebase",
+      FAMILIARITY: "familiarity"
     }
   }
 
@@ -48,7 +50,6 @@ export default class DashboardResource extends Component {
     let arr = this.props.resource.uriArr;
 
     if (this.props.resource.uri !== prevProps.resource.uri) {
-      console.log("update!");
       this.setState({
         dashboardType: arr[1],
         targetType: arr[2],
@@ -71,7 +72,9 @@ export default class DashboardResource extends Component {
 
     let contentPanel = "";
     if (this.state.dashboardType === DashboardResource.DashboardType.CODEBASE) {
-      contentPanel = <DashboardContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
+      contentPanel = <CodebaseChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
+    } else if (this.state.dashboardType === DashboardResource.DashboardType.FAMILIARITY) {
+      contentPanel = <FamiliarityChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
     }
 
     return (

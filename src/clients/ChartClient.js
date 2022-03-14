@@ -34,7 +34,7 @@ export class ChartClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{CHART_WTF: string, CHART_TOP_BOXES_FOR_MODULE: string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER: string, CHART_TOP_MODULES: string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX_FOR_USER: string, CHART_TOP_BOXES_FOR_USER: string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
+   * @returns {{CHART_WTF: string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER: string, CHART_FAMILIARITY_FOR_TEAM: string, CHART_TOP_BOXES_FOR_MODULE: string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER: string, CHART_TOP_MODULES: string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX_FOR_USER: string, CHART_TOP_BOXES_FOR_USER: string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -53,7 +53,10 @@ export class ChartClient extends BaseClient {
       CHART_TOP_FILES_FOR_BOX_FOR_USER: "chart-top-files-for-box-for-user",
       CHART_TOP_BOXES_FOR_MODULE: "chart-top-boxes-for-module",
       CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM: "chart-top-boxes-for-module-for-team",
-      CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chart-top-boxes-for-module-for-user"
+      CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chart-top-boxes-for-module-for-user",
+      CHART_FAMILIARITY: "chart-familiarity",
+      CHART_FAMILIARITY_FOR_USER: "chart-familiarity-for-user",
+      CHART_FAMILIARITY_FOR_TEAM: "chart-familiarity-for-team",
     };
   }
 
@@ -99,6 +102,89 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
+
+  /**
+   * Chart familiarity in a particular time period (for default user me)
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartFamiliarity(
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_FAMILIARITY,
+      {
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart familiarity in a particular time period for a specific user
+   * @param username
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartFamiliarityForUser(
+    username,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_FAMILIARITY_FOR_USER,
+      {
+        username: username,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart familiarity in a particular time period for a specific team
+   * @param teamName
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartFamiliarityForTeam(
+    teamName,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_FAMILIARITY_FOR_TEAM,
+      {
+        username: teamName,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
 
   /**
    * Chart top boxes in a particular time period

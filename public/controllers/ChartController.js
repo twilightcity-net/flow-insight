@@ -22,7 +22,7 @@ module.exports = class ChartController extends (
 
   /**
    * general enum list of all of our possible circuit events for chart requests
-   * @returns {{CHART_TOP_BOXES_FOR_MODULE:string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER:string, CHART_TOP_MODULES:string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER:string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
+   * @returns {{CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE:string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER:string, CHART_TOP_MODULES:string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER:string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
    * @constructor
    */
   static get Events() {
@@ -41,7 +41,10 @@ module.exports = class ChartController extends (
       CHART_TOP_MODULES_FOR_USER: "chart-top-modules-for-user",
       CHART_TOP_BOXES_FOR_MODULE: "chart-top-boxes-for-module",
       CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM: "chart-top-boxes-for-module-for-team",
-      CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chart-top-boxes-for-module-for-user"
+      CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chart-top-boxes-for-module-for-user",
+      CHART_FAMILIARITY: "chart-familiarity",
+      CHART_FAMILIARITY_FOR_USER: "chart-familiarity-for-user",
+      CHART_FAMILIARITY_FOR_TEAM: "chart-familiarity-for-team",
     };
   }
 
@@ -144,6 +147,15 @@ module.exports = class ChartController extends (
         case ChartController.Events.CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:
           this.handleChartTopBoxesForModuleForTeamEvent(event, arg);
           break;
+        case ChartController.Events.CHART_FAMILIARITY:
+          this.handleChartFamiliarityEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_FAMILIARITY_FOR_USER:
+          this.handleChartFamiliarityForUserEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_FAMILIARITY_FOR_TEAM:
+          this.handleChartFamiliarityForTeamEvent(event, arg);
+          break;
         default:
           throw new Error(
             "Unknown chart client event type '" +
@@ -182,6 +194,115 @@ module.exports = class ChartController extends (
       ChartController.Contexts.CHART_CLIENT,
       {},
       ChartController.Names.CHART_TASK,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting familiarity for default user (me)
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartFamiliarityEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.FAMILIARITY ;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("?", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_FAMILIARITY,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting familiarity for specific user
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartFamiliarityForUserEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope,
+    username = arg.args.username;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.FAMILIARITY ;
+
+    urn += "?target_type=USER&target_name="+username;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_FAMILIARITY_FOR_USER,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+
+  /**
+   * client event handler for charting familiarity for specific team
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartFamiliarityForTeamEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope,
+      teamName = arg.args.teamName;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.FAMILIARITY ;
+
+    urn += "?target_type=TEAM&target_name="+teamName;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_FAMILIARITY_FOR_TEAM,
       ChartController.Types.GET,
       urn,
       (store) =>
