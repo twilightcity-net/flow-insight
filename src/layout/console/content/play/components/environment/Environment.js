@@ -1,7 +1,6 @@
 /**
  * Parent class for base environment behaviors
  */
-import AnimationId from "../AnimationId";
 
 
 export default class Environment {

@@ -1,15 +1,11 @@
 /**
  * Creates our big tree in the woods environment for Fervie to walk around in
  */
-import AnimationId from "../AnimationId";
 import Environment from "./Environment";
 import FervieSprite from "../fervie/FervieSprite";
 
 
 export default class BigTreeInTheWoods extends Environment {
-  constructor(animationLoader, width, height) {
-    super(animationLoader, width, height);
-  }
 
   static GROUND_IMAGE = "./assets/animation/bigtree/woods_big_tree_ground.png";
   static OVERLAY_IMAGE = "./assets/animation/bigtree/woods_big_tree_overlay.png";

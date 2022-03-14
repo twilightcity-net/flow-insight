@@ -6,9 +6,7 @@ import Environment from "./Environment";
 
 
 export default class ShroomHouseInTheWoods extends Environment {
-  constructor(animationLoader, width, height) {
-    super(animationLoader, width, height);
-  }
+
 
   static GROUND_IMAGE = "./assets/animation/shroomhouse/fervie_home_ground.png";
   static OVERLAY_IMAGE = "./assets/animation/shroomhouse/fervie_home_overlay.png";

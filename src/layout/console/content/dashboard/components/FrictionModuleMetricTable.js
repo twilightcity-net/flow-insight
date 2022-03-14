@@ -1,7 +1,5 @@
 import React, {Component} from "react";
 import {Grid} from "semantic-ui-react";
-import FrictionBoxMetricHeader from "./FrictionBoxMetricHeader";
-import FrictionBoxMetricRow from "./FrictionBoxMetricRow";
 import UtilRenderer from "../../../../../UtilRenderer";
 import {scrollTo} from "../../../../../UtilScroll";
 import FrictionModuleMetricRow from "./FrictionModuleMetricRow";

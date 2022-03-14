@@ -7,9 +7,7 @@ import FervieWalkRight from "./fervie/FervieWalkRight";
 import FervieWalkDown from "./fervie/FervieWalkDown";
 import FervieSprite from "./fervie/FervieSprite";
 import FervieColors from "../../support/FervieColors";
-import ShroomHouseInTheWoods from "./environment/ShroomHouseInTheWoods";
 import ShroomHouse from "./places/ShroomHouse";
-import BigTreeInTheWoods from "./environment/BigTreeInTheWoods";
 import EnvironmentMap from "./environment/EnvironmentMap";
 
 /**
