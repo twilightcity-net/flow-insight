@@ -176,8 +176,6 @@ export default class FamiliarityBoxChart extends Component {
     let rows = groupedByUser.length;
     let columns = 0; //default in case we have no columns
 
-    console.log("rows = "+rows);
-
     if (groupedByUser.length > 0) {
       columns = groupedByUser[0].rows.length;
     }
@@ -187,8 +185,6 @@ export default class FamiliarityBoxChart extends Component {
     let boxHeightY = ((this.height - this.margin*3.5) / rows) - this.marginBetweenBoxesY;
     let boxHeightX = ((this.width - this.margin*2 - boxGroupMargin) / columns) - this.marginBetweenBoxesX;
 
-    console.log("boxHeightY = "+boxHeightY);
-    console.log("boxHeightX = "+boxHeightX);
     let boxHeight = boxHeightY;
     if (boxHeightX < boxHeightY) {
       boxHeight = boxHeightX;
@@ -197,7 +193,6 @@ export default class FamiliarityBoxChart extends Component {
     if (boxHeight > maxBoxHeight) {
       boxHeight = maxBoxHeight;
     }
-    console.log("boxHeight = "+boxHeight);
 
     let extraLeftPaddingToCenter = (this.width -
       (boxHeight * columns + this.marginBetweenBoxesX * columns + boxGroupMargin))/2;
@@ -232,11 +227,6 @@ export default class FamiliarityBoxChart extends Component {
 
   createFamiliarityBoxOverlays(svg, data, groupedByUser, boxGroupBreaks, boxProps) {
 
-
-    let colorMinMax = d3.extent(data, function (d) {
-      return parseInt(d[6], 10);
-    });
-
     var interp = d3
       .scaleLinear()
       .domain([0, 5, 25, 100])
@@ -263,7 +253,7 @@ export default class FamiliarityBoxChart extends Component {
         })
         .attr("width", boxProps.boxHeight)
         .attr("height", (d) => (Math.round(boxProps.boxHeight * (parseInt(d[5], 10) / 100))))
-        .attr("fill", (d) => (interp(parseInt(d[6]))))
+        .attr("fill", (d) => (interp(parseInt(d[6], 10))))
         .attr("class", "boxOverlay");
     }
   }
@@ -305,7 +295,6 @@ export default class FamiliarityBoxChart extends Component {
               .style('opacity', 0.85);
           })
         .on("mouseleave", function(event, d){
-          console.log("mouse out!");
           d3.select('#tooltip')
             .style('left', -1000+"px");
         });
@@ -320,9 +309,6 @@ export default class FamiliarityBoxChart extends Component {
     if (groupedByUser.length > 0) {
       boxRowsForUser = groupedByUser[0].rows;
     }
-
-    console.log("box rows for user");
-    console.log(boxRowsForUser);
 
     let lastModule = null;
     for (let i = 0; i < boxRowsForUser.length; i++) {

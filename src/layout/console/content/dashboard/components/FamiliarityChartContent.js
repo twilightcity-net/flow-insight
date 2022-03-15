@@ -1,11 +1,7 @@
 import React, {Component} from "react";
 import {ChartClient} from "../../../../../clients/ChartClient";
 import {DimensionController} from "../../../../../controllers/DimensionController";
-import FrictionBoxBubbleChart from "./FrictionBoxBubbleChart";
-import FrictionBoxMetricTable from "./FrictionBoxMetricTable";
-import FrictionFileMetricTable from "./FrictionFileMetricTable";
 import ScopeSelectionDropdown from "../../../sidebar/dashboard/ScopeSelectionDropdown";
-import FrictionModuleMetricTable from "./FrictionModuleMetricTable";
 import FamiliarityBoxChart from "./FamiliarityBoxChart";
 
 /**
