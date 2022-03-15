@@ -176,15 +176,19 @@ export default class FamiliarityBoxChart extends Component {
     let rows = groupedByUser.length;
     let columns = 0; //default in case we have no columns
 
+    console.log("rows = "+rows);
+
     if (groupedByUser.length > 0) {
       columns = groupedByUser[0].rows.length;
     }
 
     let boxGroupMargin = (boxGroupBreaks.size) * this.marginBetweenBoxesX;
 
-    let boxHeightY = (this.height / rows) - this.marginBetweenBoxesY;
-    let boxHeightX = ((this.width - boxGroupMargin) / columns) - this.marginBetweenBoxesX;
+    let boxHeightY = ((this.height - this.margin*3.5) / rows) - this.marginBetweenBoxesY;
+    let boxHeightX = ((this.width - this.margin*2 - boxGroupMargin) / columns) - this.marginBetweenBoxesX;
 
+    console.log("boxHeightY = "+boxHeightY);
+    console.log("boxHeightX = "+boxHeightX);
     let boxHeight = boxHeightY;
     if (boxHeightX < boxHeightY) {
       boxHeight = boxHeightX;
@@ -193,6 +197,7 @@ export default class FamiliarityBoxChart extends Component {
     if (boxHeight > maxBoxHeight) {
       boxHeight = maxBoxHeight;
     }
+    console.log("boxHeight = "+boxHeight);
 
     let extraLeftPaddingToCenter = (this.width -
       (boxHeight * columns + this.marginBetweenBoxesX * columns + boxGroupMargin))/2;
@@ -258,7 +263,8 @@ export default class FamiliarityBoxChart extends Component {
         })
         .attr("width", boxProps.boxHeight)
         .attr("height", (d) => (Math.round(boxProps.boxHeight * (parseInt(d[5], 10) / 100))))
-        .attr("fill", (d) => (interp(parseInt(d[6]))));
+        .attr("fill", (d) => (interp(parseInt(d[6]))))
+        .attr("class", "boxOverlay");
     }
   }
 
@@ -266,6 +272,7 @@ export default class FamiliarityBoxChart extends Component {
 
     for (let i = 0; i < groupedByUser.length; i++) {
       let offsetCount = 0;
+      let that = this;
       svg.selectAll('.box'+i)
         .data(groupedByUser[i].rows)
         .enter()
@@ -281,7 +288,27 @@ export default class FamiliarityBoxChart extends Component {
         .attr("width", boxProps.boxHeight)
         .attr("height", boxProps.boxHeight)
         .attr("class", "box")
-        .attr("fill", "black");
+        .attr("fill", "black")
+        .on("mouseover", function (event, d) {
+            let xPosition = parseInt(event.target.getAttribute('x'), 10);
+            let yPosition = parseInt(event.target.getAttribute('y'), 10);
+            let shiftBelowBox = 30;
+
+          let html = "<div class='tipBox'>"+d[0].trim()+ ":: "+d[1].trim() + "."+ d[2]+"</div>";
+            html += "<div class='tipDetail'>"+d[4].trim() + "/" + d[3].trim()+" files</div>";
+            html += "<div class='tipDetail'>"+d[6].trim() + " visits per file</div>";
+
+            d3.select('#tooltip')
+              .html(html)
+              .style('left', (xPosition - that.margin - boxProps.boxHeight/2 - that.marginBetweenBoxesX/2) + "px")
+              .style('top', (yPosition + 45 + 50 + shiftBelowBox) + "px")
+              .style('opacity', 0.85);
+          })
+        .on("mouseleave", function(event, d){
+          console.log("mouse out!");
+          d3.select('#tooltip')
+            .style('left', -1000+"px");
+        });
     }
   }
 
@@ -355,6 +382,10 @@ export default class FamiliarityBoxChart extends Component {
       <div>
         {title}
        <div id="chart" className="familiarityChart"/>
+        <div
+          id="tooltip"
+          className="chartpopup"
+        ></div>
       </div>
     );
   }
