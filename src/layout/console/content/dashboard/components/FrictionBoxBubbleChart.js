@@ -192,7 +192,7 @@ export default class FrictionBoxBubbleChart extends Component {
       .attr("height", this.height + "px")
 
     svg.style('transition', 'opacity 0.333s ease-in-out');
-    svg.style("opacity", '1');
+    svg.style("opacity", '0');
 
     this.circleGroup = this.createCircles(svg, packed, margin);
 
@@ -480,7 +480,7 @@ export default class FrictionBoxBubbleChart extends Component {
       <div>
         {backButton}
         {title}
-       <div id="chart" />
+       <div id="chart" className="frictionCodeChart"/>
       </div>
     );
   }

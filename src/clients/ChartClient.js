@@ -175,7 +175,7 @@ export class ChartClient extends BaseClient {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_FAMILIARITY_FOR_TEAM,
       {
-        username: teamName,
+        teamName: teamName,
         timeScope: timeScope,
       },
       scope,

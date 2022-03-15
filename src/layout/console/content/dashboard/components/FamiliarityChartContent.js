@@ -6,6 +6,7 @@ import FrictionBoxMetricTable from "./FrictionBoxMetricTable";
 import FrictionFileMetricTable from "./FrictionFileMetricTable";
 import ScopeSelectionDropdown from "../../../sidebar/dashboard/ScopeSelectionDropdown";
 import FrictionModuleMetricTable from "./FrictionModuleMetricTable";
+import FamiliarityBoxChart from "./FamiliarityBoxChart";
 
 /**
  * this component shows the familiarity around the codebase per user on the team
@@ -57,7 +58,7 @@ export default class FamiliarityChartContent extends Component {
    * @param timeScope
    */
   loadFamiliarityDataForMe(timeScope) {
-    ChartClient.chartTopModules(
+    ChartClient.chartFamiliarity(
       timeScope,
       this,
       (arg) => {
@@ -72,7 +73,7 @@ export default class FamiliarityChartContent extends Component {
    * @param timeScope
    */
   loadFamiliarityDataForUser(target, timeScope) {
-    ChartClient.chartTopModulesForUser(
+    ChartClient.chartFamiliarityForUser(
       target,
       timeScope,
       this,
@@ -89,7 +90,7 @@ export default class FamiliarityChartContent extends Component {
    * @param timeScope
    */
   loadFamiliarityDataForTeam(target, timeScope) {
-    ChartClient.chartTopModulesForTeam(
+    ChartClient.chartFamiliarityForTeam(
       target,
       timeScope,
       this,
@@ -151,6 +152,12 @@ export default class FamiliarityChartContent extends Component {
         ),
       }}
     >
+      <FamiliarityBoxChart tableDto={this.state.tableDto}
+                              selectedRowId={this.state.selectedRowId}
+                              hoverRowId={this.state.hoverRowId}
+                              onHoverCircle={this.onHoverCircle}
+                              onClickCircle={this.onClickCircle}
+      />
       {tableContent}
     </div>);
 
