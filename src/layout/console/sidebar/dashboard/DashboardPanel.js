@@ -6,6 +6,7 @@ import {RendererControllerFactory} from "../../../../controllers/RendererControl
 import RiskAreaListItem from "./RiskAreaListItem";
 import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
 import ScopeSelectionDropdown from "./ScopeSelectionDropdown";
+import {TeamClient} from "../../../../clients/TeamClient";
 
 /**
  * this component is the left side panel wrapper for the dashboard content
@@ -27,6 +28,29 @@ export default class DashboardPanel extends Component {
       CODEBASE : "codebase",
       FAMILIARITY: "familiarity"
     }
+  }
+
+  static get TargetType() {
+    return {
+      USER: "user",
+      TEAM: "team"
+    };
+  }
+
+  static get Target() {
+    return {
+      ME: "me",
+      TEAM: "team"
+    };
+  }
+
+  static get TimeScope() {
+    return {
+      ALL: "all",
+      LATEST_TWO: "latest.two",
+      LATEST_FOUR: "latest.four",
+      LATEST_SIX: "latest.six"
+    };
   }
 
   /**
@@ -59,9 +83,8 @@ export default class DashboardPanel extends Component {
         animationDelay:
           SidePanelViewController.AnimationDelays.SUBMENU,
         title: "",
-        dashboardTargetType: ScopeSelectionDropdown.TargetType.USER,
-        dashboardTarget: ScopeSelectionDropdown.Target.ME,
-        dashboardTimeScope: ScopeSelectionDropdown.TimeScope.ALL
+        dashboardTarget: DashboardPanel.Target.TEAM,
+        dashboardTimeScope: DashboardPanel.TimeScope.ALL
       };
     }
     return state;
@@ -84,6 +107,15 @@ export default class DashboardPanel extends Component {
       this.onRefreshDashboardPanel
     );
     this.onRefreshDashboardPanel();
+
+    TeamClient.getMyHomeTeam(this, (arg) => {
+      if (!arg.error) {
+        this.homeTeam = arg.data;
+      } else {
+        //TODO raise error page
+        console.error(arg.error);
+      }
+    });
   };
 
   /**
@@ -143,12 +175,15 @@ export default class DashboardPanel extends Component {
    * @param page
    */
   handleRiskAreaClick = (page) => {
+    let targetType = this.getTargetTypeForBrowserRequest();
+    let target = this.getTargetForBrowserRequest();
+
     if (page === DashboardPanel.RiskAreaPage.CODEBASE) {
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.DASHBOARD,
         DashboardPanel.RiskAreaPage.CODEBASE,
-        this.state.dashboardTargetType,
-        this.state.dashboardTarget,
+        targetType,
+        target,
         this.state.dashboardTimeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
@@ -156,8 +191,8 @@ export default class DashboardPanel extends Component {
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.DASHBOARD,
         DashboardPanel.RiskAreaPage.FAMILIARITY,
-        this.state.dashboardTargetType,
-        this.state.dashboardTarget,
+        targetType,
+        target,
         this.state.dashboardTimeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
@@ -175,6 +210,8 @@ export default class DashboardPanel extends Component {
       <div className="riskAreaContent">
         <ScopeSelectionDropdown
           width={this.props.width}
+          target={this.state.dashboardTarget}
+          timeScope={this.state.dashboardTimeScope}
           onChangeTarget={this.onChangeTarget}
           onChangeTimeScope={this.onChangeTimeScope}/>
         <hr/>
@@ -204,10 +241,9 @@ export default class DashboardPanel extends Component {
     );
   };
 
-  onChangeTarget = (target, targetType) => {
+  onChangeTarget = (target) => {
     this.setState({
-      dashboardTarget : target,
-      dashboardTargetType: targetType
+      dashboardTarget : target
     });
   }
 
@@ -259,5 +295,25 @@ export default class DashboardPanel extends Component {
         </Segment.Group>
       </div>
     );
+  }
+
+  getTargetTypeForBrowserRequest() {
+    if (this.state.dashboardTarget === DashboardPanel.Target.ME) {
+      return DashboardPanel.TargetType.USER;
+    } else if (this.state.dashboardTarget === DashboardPanel.Target.TEAM) {
+      return DashboardPanel.TargetType.TEAM;
+    }
+  }
+
+  getTargetForBrowserRequest() {
+    if (this.state.dashboardTarget === DashboardPanel.Target.ME) {
+      return this.state.dashboardTarget;
+    } else if (this.state.dashboardTarget === DashboardPanel.Target.TEAM) {
+      if (this.homeTeam) {
+        return this.homeTeam.name;
+      } else {
+        return "unknown";
+      }
+    }
   }
 }

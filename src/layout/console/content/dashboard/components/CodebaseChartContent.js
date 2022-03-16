@@ -4,8 +4,8 @@ import {DimensionController} from "../../../../../controllers/DimensionControlle
 import FrictionBoxBubbleChart from "./FrictionBoxBubbleChart";
 import FrictionBoxMetricTable from "./FrictionBoxMetricTable";
 import FrictionFileMetricTable from "./FrictionFileMetricTable";
-import ScopeSelectionDropdown from "../../../sidebar/dashboard/ScopeSelectionDropdown";
 import FrictionModuleMetricTable from "./FrictionModuleMetricTable";
+import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
 
 /**
  * this component shows the codebase friction drilldown chart and related table
@@ -78,9 +78,9 @@ export default class CodebaseChartContent extends Component {
    * @param timeScope
    */
   loadModulesData(targetType, target, timeScope) {
-    if (targetType === ScopeSelectionDropdown.TargetType.TEAM) {
+    if (targetType === DashboardPanel.TargetType.TEAM) {
       this.loadModulesDataForTeam(target, timeScope);
-    } else if (targetType === ScopeSelectionDropdown.TargetType.USER && target !== ScopeSelectionDropdown.Target.ME) {
+    } else if (targetType === DashboardPanel.TargetType.USER && target !== DashboardPanel.Target.ME) {
       this.loadModulesDataForUser(target, timeScope);
     } else {
       this.loadModulesDataForMe(timeScope);
@@ -142,9 +142,9 @@ export default class CodebaseChartContent extends Component {
    * @param module
    */
   loadBoxesData(targetType, target, timeScope, module) {
-    if (targetType === ScopeSelectionDropdown.TargetType.TEAM) {
+    if (targetType === DashboardPanel.TargetType.TEAM) {
       this.loadBoxesDataForTeam(module, target, timeScope);
-    } else if (targetType === ScopeSelectionDropdown.TargetType.USER && target !== ScopeSelectionDropdown.Target.ME) {
+    } else if (targetType === DashboardPanel.TargetType.USER && target !== DashboardPanel.Target.ME) {
       this.loadBoxesDataForUser(module, target, timeScope);
     } else {
       this.loadBoxesDataForMe(module, timeScope);
@@ -214,9 +214,9 @@ export default class CodebaseChartContent extends Component {
    * @param box
    */
   loadFileData(targetType, target, timeScope, module, box) {
-    if (targetType === ScopeSelectionDropdown.TargetType.TEAM) {
+    if (targetType === DashboardPanel.TargetType.TEAM) {
       this.loadFileDataForTeam(target, timeScope, module, box);
-    } else if (targetType === ScopeSelectionDropdown.TargetType.USER && target !== ScopeSelectionDropdown.Target.ME) {
+    } else if (targetType === DashboardPanel.TargetType.USER && target !== DashboardPanel.Target.ME) {
       this.loadFileDataForUser(target, timeScope, module, box);
     } else {
       this.loadFileDataForMe(timeScope, module, box);

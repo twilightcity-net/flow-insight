@@ -1,8 +1,8 @@
 import React, {Component} from "react";
 import {ChartClient} from "../../../../../clients/ChartClient";
 import {DimensionController} from "../../../../../controllers/DimensionController";
-import ScopeSelectionDropdown from "../../../sidebar/dashboard/ScopeSelectionDropdown";
 import FamiliarityBoxChart from "./FamiliarityBoxChart";
+import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
 
 /**
  * this component shows the familiarity around the codebase per user on the team
@@ -40,9 +40,9 @@ export default class FamiliarityChartContent extends Component {
    * @param timeScope
    */
   loadFamiliarityData(targetType, target, timeScope) {
-    if (targetType === ScopeSelectionDropdown.TargetType.TEAM) {
+    if (targetType === DashboardPanel.TargetType.TEAM) {
       this.loadFamiliarityDataForTeam(target, timeScope);
-    } else if (targetType === ScopeSelectionDropdown.TargetType.USER && target !== ScopeSelectionDropdown.Target.ME) {
+    } else if (targetType === DashboardPanel.TargetType.USER && target !== DashboardPanel.Target.ME) {
       this.loadFamiliarityDataForUser(target, timeScope);
     } else {
       this.loadFamiliarityDataForMe(timeScope);
