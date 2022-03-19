@@ -29,17 +29,17 @@ export default class Environment {
     return false;
   }
 
-  getDefaultSpawnPoint() {
-    return this.getLeftSpawnPoint();
+  getDefaultSpawnProperties() {
+    return this.getLeftSpawnProperties();
   }
 
-  getLeftSpawnPoint() { return [this.width/2, this.height/2]}
+  getLeftSpawnProperties() { return {x: this.width/2, y: this.height/2, scale: 1}; }
 
-  getRightSpawnPoint() { return [this.width/2, this.height/2]}
+  getRightSpawnProperties() { return {x: this.width/2, y: this.height/2, scale: 1}; }
 
-  getNorthSpawnPoint() { return [this.width/2, this.height/2]}
+  getNorthSpawnProperties()  { return {x: this.width/2, y: this.height/2, scale: 1}; }
 
-  getSouthSpawnPoint() { return [this.width/2, this.height/2]}
+  getSouthSpawnProperties()  { return {x: this.width/2, y: this.height/2, scale: 1}; }
 
   /**
    * Update the environment according to where fervie has moved

@@ -30,17 +30,16 @@ export default class ShroomHouseInTheWoods extends Environment {
     this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.WALK_BEHIND_AREA_IMAGE);
   }
 
-  getDefaultSpawnPoint() {
-    return this.getLeftSpawnPoint();
+  getDefaultSpawnProperties() {
+    return this.getLeftSpawnProperties();
   }
 
-  getLeftSpawnPoint() {
-    let spawnPoint = [Math.round(40 * this.scaleAmountX), Math.round(170 * this.scaleAmountY)];
-    return spawnPoint;
+  getLeftSpawnProperties() {
+    return {x: Math.round(40 * this.scaleAmountX), y:Math.round(170 * this.scaleAmountY)};
   }
 
-  getSouthSpawnPoint() {
-    return [Math.round(this.width / 2), Math.round(170 * this.scaleAmountY)];
+  getSouthSpawnProperties() {
+    return {x:Math.round(this.width / 2), y: Math.round(170 * this.scaleAmountY)};
   }
 
   isValidPosition(p5 ,x, y) {

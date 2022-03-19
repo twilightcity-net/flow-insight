@@ -33,13 +33,22 @@ export default class BigTreeInTheWoods extends Environment {
     this.downTheHill = false;
   }
 
-  getDefaultSpawnPoint() {
-    return this.getLeftSpawnPoint();
+  getDefaultSpawnProperties() {
+    return this.getRightSpawnProperties();
   }
 
-  getRightSpawnPoint() {
+  getRightSpawnProperties() {
     console.log("getRightSpawnPoint");
-    return [Math.round((Environment.IMAGE_WIDTH - 70) * this.scaleAmountX), Math.round(170 * this.scaleAmountY)];
+    return {x: Math.round((Environment.IMAGE_WIDTH - 70) * this.scaleAmountX), y: Math.round(170 * this.scaleAmountY)};
+  }
+
+  getNorthSpawnProperties() {
+    console.log("getNorthSpawnPoint");
+    return {
+      x:Math.round((Environment.IMAGE_WIDTH /2 ) * this.scaleAmountX),
+      y:Math.round(190 * this.scaleAmountY),
+      scale: 0.7,
+      upTheHill: true, yDownTheHill: 40};
   }
 
   isValidPosition(p5 ,x, y) {

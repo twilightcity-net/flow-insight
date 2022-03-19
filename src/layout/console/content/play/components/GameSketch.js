@@ -9,6 +9,7 @@ import FervieSprite from "./fervie/FervieSprite";
 import FervieColors from "../../support/FervieColors";
 import ShroomHouse from "./places/ShroomHouse";
 import EnvironmentMap from "./environment/EnvironmentMap";
+import LadyFervie from "./fervie/LadyFervie";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -52,8 +53,8 @@ export default class GameSketch extends Component {
         );
         this.fervieSprite.preload(p5);
 
-        let spawnPoint = this.environment.getDefaultSpawnPoint();
-        this.fervieSprite.moveToPoint(spawnPoint[0], spawnPoint[1]);
+        let spawnPoint = this.environment.getDefaultSpawnProperties();
+        this.fervieSprite.moveToPoint(spawnPoint.x, spawnPoint.y);
 
       };
 
@@ -280,6 +281,8 @@ export default class GameSketch extends Component {
             fervieShoeColor
           )}
           {ShroomHouse.getDefault()}
+          {LadyFervie.getFrame(1)}
+          {LadyFervie.getFrame(2)}
         </div>
       </div>
     );

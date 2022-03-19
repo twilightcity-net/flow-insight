@@ -3,6 +3,7 @@
  */
 import ShroomHouseInTheWoods from "./ShroomHouseInTheWoods";
 import BigTreeInTheWoods from "./BigTreeInTheWoods";
+import LakeInTheWoods from "./LakeInTheWoods";
 
 
 export default class EnvironmentMap {
@@ -21,10 +22,12 @@ export default class EnvironmentMap {
 
   static ENVIRONMENT_BIG_TREE = "BigTreeInTheWoods";
   static ENVIRONMENT_SHROOMHOUSE = "ShroomHouseInTheWoods";
+  static ENVIRONMENT_LAKE = "LakeInTheWoods";
 
   static MAP_LEFT = "-left";
   static MAP_RIGHT = "-right";
   static MAP_NORTH = "-north";
+  static MAP_SOUTH = "-south";
 
 
   loadEnvironmentMap() {
@@ -32,12 +35,14 @@ export default class EnvironmentMap {
     this.environmentMap = [];
     this.environmentMap[EnvironmentMap.ENVIRONMENT_SHROOMHOUSE] = new ShroomHouseInTheWoods(this.animationLoader, this.width, this.height);
     this.environmentMap[EnvironmentMap.ENVIRONMENT_BIG_TREE] = new BigTreeInTheWoods(this.animationLoader, this.width, this.height);
+    this.environmentMap[EnvironmentMap.ENVIRONMENT_LAKE] = new LakeInTheWoods(this.animationLoader, this.width, this.height);
 
     this.travelMap = [];
 
     this.travelMap[EnvironmentMap.ENVIRONMENT_BIG_TREE + EnvironmentMap.MAP_RIGHT] = EnvironmentMap.ENVIRONMENT_SHROOMHOUSE;
     this.travelMap[EnvironmentMap.ENVIRONMENT_SHROOMHOUSE + EnvironmentMap.MAP_LEFT] = EnvironmentMap.ENVIRONMENT_BIG_TREE;
-    this.travelMap[EnvironmentMap.ENVIRONMENT_BIG_TREE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.ENVIRONMENT_SHROOMHOUSE;
+    this.travelMap[EnvironmentMap.ENVIRONMENT_BIG_TREE + EnvironmentMap.MAP_NORTH] = EnvironmentMap.ENVIRONMENT_LAKE;
+    this.travelMap[EnvironmentMap.ENVIRONMENT_LAKE + EnvironmentMap.MAP_SOUTH] = EnvironmentMap.ENVIRONMENT_BIG_TREE;
 
   }
 
@@ -61,7 +66,7 @@ export default class EnvironmentMap {
     this.loadNewEnvironment(p5, newMapId);
     this.mapShiftInProgress = false;
 
-    let spawnPoint = this.activeEnvironment.getRightSpawnPoint();
+    let spawnPoint = this.activeEnvironment.getRightSpawnProperties();
     console.log(spawnPoint);
     return spawnPoint;
   }
@@ -85,7 +90,32 @@ export default class EnvironmentMap {
     this.loadNewEnvironment(p5, newMapId);
     this.mapShiftInProgress = false;
 
-    let spawnPoint = this.activeEnvironment.getLeftSpawnPoint();
+    let spawnPoint = this.activeEnvironment.getLeftSpawnProperties();
+    console.log(spawnPoint);
+    return spawnPoint;
+  }
+
+  moveMapSouth(p5) {
+    if (this.mapShiftInProgress === true) {
+      return;
+    }
+
+    this.mapShiftInProgress = true;
+
+    console.log("Shifting map south!");
+    let newMapId = this.travelMap[this.activeMapId + EnvironmentMap.MAP_SOUTH];
+    if (!newMapId) {
+      console.error("Walked off the south of the screen and no environment destination set!");
+      this.mapShiftInProgress = false;
+      return;
+    } else {
+      console.log("Moving to map: "+newMapId);
+    }
+
+    this.loadNewEnvironment(p5, newMapId);
+    this.mapShiftInProgress = false;
+
+    let spawnPoint = this.activeEnvironment.getNorthSpawnProperties();
     console.log(spawnPoint);
     return spawnPoint;
   }
@@ -97,7 +127,7 @@ export default class EnvironmentMap {
 
     this.mapShiftInProgress = true;
     console.log("Shifting map north!");
-    let newMapId = this.travelMap[this.activeMapId + EnvironmentMap.MAP_RIGHT];
+    let newMapId = this.travelMap[this.activeMapId + EnvironmentMap.MAP_NORTH];
     if (!newMapId) {
       this.mapShiftInProgress = false;
       console.error("Walked to the north of the screen and no environment destination set!");
@@ -109,7 +139,7 @@ export default class EnvironmentMap {
     this.loadNewEnvironment(p5, newMapId);
     this.mapShiftInProgress = false;
 
-    let spawnPoint = this.activeEnvironment.getSouthSpawnPoint();
+    let spawnPoint = this.activeEnvironment.getSouthSpawnProperties();
     console.log(spawnPoint);
     return spawnPoint;
   }
@@ -139,8 +169,8 @@ export default class EnvironmentMap {
    * Get the default spawn point for the environment (if starting on this screen)
    * @returns {*}
    */
-  getDefaultSpawnPoint() {
-    return this.activeEnvironment.getDefaultSpawnPoint();
+  getDefaultSpawnProperties() {
+    return this.activeEnvironment.getDefaultSpawnProperties();
   }
 
   /**
@@ -179,28 +209,23 @@ export default class EnvironmentMap {
     this.activeEnvironment.update(p5, fervie);
 
     if (this.isEdgeOfScreenLeft(fervie.getFervieFootX(), fervie.getFervieFootY())) {
-      let newSpawnPosition = this.moveMapLeft(p5);
-      if (newSpawnPosition) {
-        fervie.moveToPoint(newSpawnPosition[0], newSpawnPosition[1]);
-        fervie.resetDownTheHill();
-      }
+      let newSpawnProperties = this.moveMapLeft(p5);
+      fervie.spawn(newSpawnProperties);
     }
 
     if (this.isEdgeOfScreenRight(fervie.getFervieFootX(), fervie.getFervieFootY())) {
-      let newSpawnPosition = this.moveMapRight(p5);
+      let newSpawnProperties = this.moveMapRight(p5);
+      fervie.spawn(newSpawnProperties);
+    }
 
-      if (newSpawnPosition) {
-        fervie.moveToPoint(newSpawnPosition[0], newSpawnPosition[1]);
-        fervie.resetDownTheHill();
-      }
+    if (this.isEdgeOfScreenSouth(fervie.getFervieFootX(), fervie.getFervieFootY())) {
+      let newSpawnProperties = this.moveMapSouth(p5);
+      fervie.spawn(newSpawnProperties);
     }
 
     if (this.activeEnvironment.hasFervieMovingNorth(fervie)) {
-      let newSpawnPosition = this.moveMapNorth(p5);
-      if (newSpawnPosition) {
-        fervie.moveToPoint(newSpawnPosition[0], newSpawnPosition[1]);
-        fervie.resetDownTheHill();
-      }
+      let newSpawnProperties = this.moveMapNorth(p5);
+      fervie.spawn(newSpawnProperties);
     }
   }
 
@@ -230,6 +255,17 @@ export default class EnvironmentMap {
     return false;
   }
 
-
+  /**
+   * Position is walking off the south of the screen
+   * @param x
+   * @param y
+   * @returns {boolean}
+   */
+  isEdgeOfScreenSouth(x, y) {
+    if (y > this.height - 10) {
+      return true;
+    }
+    return false;
+  }
 
 }

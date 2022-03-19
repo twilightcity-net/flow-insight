@@ -310,9 +310,44 @@ export default class FervieSprite {
     return Math.round(this.y + adjustedHeight * 0.9 * this.scale);
   }
 
+
+  /**
+   * Spawn the fervie in a new environment using the passed in properties.
+   * @param spawnProps
+   */
+  spawn(spawnProps) {
+    if (!spawnProps) {
+      return;
+    }
+    this.moveToPoint(spawnProps.x, spawnProps.y, spawnProps.scale);
+
+    this.resetDownTheHill();
+
+    if (spawnProps.upTheHill && spawnProps.yDownTheHill) {
+      this.upTheHill = true;
+      this.yDownTheHill = spawnProps.yDownTheHill;
+    }
+  }
+
+  moveToPoint(x, y, scale) {
+
+    if (!scale || scale === 0) {
+      scale = this.originalScale;
+    }
+
+    let newScale = scale + (y - 20 - this.originalY) / 2 * 0.01;
+
+    let newX = x - this.size / 2 * newScale - 10;  //difference I want to move in a negative x
+    let newY = y - 20;
+
+    this.x = newX;
+    this.y = newY;
+    this.scale = newScale;
+  }
+
   getFervieFootPosition(x, y, scale) {
     let footX = Math.round(x + this.size/2 * scale)
-    + Math.round((this.size / 2) * (1 - scale));
+      + Math.round((this.size / 2) * (1 - scale));
 
     let imageScale = this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
     let adjustedHeight = FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
@@ -322,17 +357,5 @@ export default class FervieSprite {
     return [footX, footY];
   }
 
-  moveToPoint(x, y) {
-    //whatever size he is now, we need to adjust the scale of where he would be in the new location
-
-    let newScale = this.originalScale + (y - 20 - this.originalY) / 2 * 0.01;
-
-    let newX = x - this.size / 2 * newScale - 10;  //difference I want to move in a negative x
-    let newY = y - 20;
-
-    this.x = newX;
-    this.y = newY;
-    this.scale = newScale;
-  }
 
 }
