@@ -179,6 +179,20 @@ export default class UtilRenderer {
   }
 
   /**
+   * Retrieves the circuit name from a circuit path
+   * @param circuitPath
+   * @returns {string}
+   */
+  static getCircuitName(circuitPath) {
+    let circuitName = circuitPath;
+    if (circuitPath != null && circuitPath.includes("/wtf")) {
+      circuitName = circuitPath.substr(circuitPath.lastIndexOf("/") + 1);
+    }
+
+    return circuitName;
+  }
+
+  /**
    * gets our timer string for other functions that the gui uses from seconds
    * @param hours
    * @param minutes

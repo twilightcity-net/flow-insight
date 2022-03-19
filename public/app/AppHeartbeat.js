@@ -96,8 +96,7 @@ module.exports = class AppHeartbeat {
             "ms]"
         );
 
-        try {
-          if (err) throw new Error(err);
+        if (!err) {
           global.App.isOnline = true;
 
           dto = new SimpleStatusDto(res.body);
@@ -106,24 +105,22 @@ module.exports = class AppHeartbeat {
           dto.pingTime = this.pingTime;
           dto.latencyTime =
             global.App.TalkManager.getLatency();
-        } catch (e) {
+        } else {
           global.App.isOnline = false;
           dto = new SimpleStatusDto({
-            message: e.message,
+            message: err.message,
             status: "FAILED",
           });
           dto.pingTime = -1;
           dto.latencyTime =
             global.App.TalkManager.getLatency();
           log.info("HEARTBEAT FAIL");
-        } finally {
-          if (dto) {
-            dto.server = global.App.api;
-            dto.talkUrl = global.App.talkUrl;
-            dto.isOnline = global.App.isOnline;
-            this.events.heartbeat.dispatch(dto);
-          }
         }
+
+        dto.server = global.App.api;
+        dto.talkUrl = global.App.talkUrl;
+        dto.isOnline = global.App.isOnline;
+        this.events.heartbeat.dispatch(dto);
       });
     } catch (e) {
       log.error(

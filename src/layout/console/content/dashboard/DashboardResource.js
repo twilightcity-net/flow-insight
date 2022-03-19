@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import CodebaseChartContent from "./components/CodebaseChartContent";
 import {DimensionController} from "../../../../controllers/DimensionController";
 import FamiliarityChartContent from "./components/FamiliarityChartContent";
+import TopTagsChartContent from "./components/TopTagsChartContent";
 
 /**
  * this component is the tab panel wrapper for dashboard content
@@ -25,13 +26,14 @@ export default class DashboardResource extends Component {
 
   /**
    * Enumeration of the different available dashboard page items available
-   * @returns {{CODEBASE: string, FAMILIARITY: string}}
+   * @returns {{CODEBASE: string, FAMILIARITY: string, TAGS:string}}
    * @constructor
    */
   static get DashboardType() {
     return {
       CODEBASE : "codebase",
-      FAMILIARITY: "familiarity"
+      FAMILIARITY: "familiarity",
+      TAGS: "tags"
     }
   }
 
@@ -75,6 +77,8 @@ export default class DashboardResource extends Component {
       contentPanel = <CodebaseChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
     } else if (this.state.dashboardType === DashboardResource.DashboardType.FAMILIARITY) {
       contentPanel = <FamiliarityChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
+    } else if (this.state.dashboardType === DashboardResource.DashboardType.TAGS) {
+      contentPanel = <TopTagsChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
     }
 
     return (

@@ -34,7 +34,7 @@ export class ChartClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{CHART_WTF: string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER: string, CHART_FAMILIARITY_FOR_TEAM: string, CHART_TOP_BOXES_FOR_MODULE: string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER: string, CHART_TOP_MODULES: string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX_FOR_USER: string, CHART_TOP_BOXES_FOR_USER: string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
+   * @returns {{CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS: string, CHART_TOP_WTFS_WITH_TAG: string, CHART_WTF: string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER: string, CHART_FAMILIARITY_FOR_TEAM: string, CHART_TOP_BOXES_FOR_MODULE: string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER: string, CHART_TOP_MODULES: string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX_FOR_USER: string, CHART_TOP_BOXES_FOR_USER: string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -57,6 +57,13 @@ export class ChartClient extends BaseClient {
       CHART_FAMILIARITY: "chart-familiarity",
       CHART_FAMILIARITY_FOR_USER: "chart-familiarity-for-user",
       CHART_FAMILIARITY_FOR_TEAM: "chart-familiarity-for-team",
+      CHART_TOP_TAGS: "chart-top-tags",
+      CHART_TOP_TAGS_FOR_USER: "chart-top-tags-for-user",
+      CHART_TOP_TAGS_FOR_TEAM: "chart-top-tags-for-team",
+      CHART_TOP_WTFS_WITH_TAG: "chart-top-wtfs-with-tag",
+      CHART_TOP_WTFS_WITH_TAG_FOR_USER: "chart-top-wtfs-with-tag-for-user",
+      CHART_TOP_WTFS_WITH_TAG_FOR_TEAM: "chart-top-wtfs-with-tag-for-team",
+
     };
   }
 
@@ -201,6 +208,185 @@ export class ChartClient extends BaseClient {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_TOP_BOXES,
       {
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart top tags in a particular time period
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopTags(
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_TAGS,
+      {
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart top tags in a particular time period for a specific user
+   * @param username
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopTagsForUser(
+    username,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_TAGS_FOR_USER,
+      {
+        username: username,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart top tags in a particular time period for a specific team
+   * @param teamName
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopTagsForTeam(
+    teamName,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_TAGS_FOR_TEAM,
+      {
+        teamName: teamName,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart top wtfs with a specific tag in a particular time period
+   * @param tagName
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopWtfsWithTag(
+    tagName,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_WTFS_WITH_TAG,
+      {
+        tagName: tagName,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+
+  /**
+   * Chart top wtfs with a specific tag in a particular time period for a specific user
+   * @param username
+   * @param tagName
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopWtfsWithTagForUser(
+    username,
+    tagName,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_WTFS_WITH_TAG_FOR_USER,
+      {
+        username: username,
+        tagName: tagName,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+
+  /**
+   * Chart top wtfs with a specific tag in a particular time period for a specific team
+   * @param teamName
+   * @param tagName
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopWtfsWithTagForTeam(
+    teamName,
+    tagName,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_WTFS_WITH_TAG_FOR_TEAM,
+      {
+        teamName: teamName,
+        tagName: tagName,
         timeScope: timeScope,
       },
       scope,

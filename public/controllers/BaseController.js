@@ -51,6 +51,7 @@ module.exports = class BaseController {
       PROPERTY: "/property",
       DESCRIPTION: "/description",
       TAGS: "/tags",
+      TAG: "/tag",
       FERVIE: "/fervie",
       DICTIONARY: "/dictionary",
       SCOPE: "/scope",
@@ -160,7 +161,7 @@ module.exports = class BaseController {
 
   /**
    * define the names of our controllers functions for gridtime
-   * @returns {{CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, GET_MY_HOME_TEAM_CIRCUIT: string, GET_CIRCUIT_TASK_SUMMARY: string, PAUSE_WTF_WITH_DO_IT_LATER: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_TASK: string, LEAVE_WTF: string, GET_ALL_MY_TEAM_CIRCUITS: string, JOIN_WTF: string, GET_MY_HOME_TEAM: string, LEAVE_EXISTING_ROOM: string, GET_ME: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, FIND_OR_CREATE_PROJECT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
+   * @returns {{CHART_TOP_WTFS_WITH_TAG:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_TAGS:string, CHART_TOP_TAGS_FOR_USER: string, CHART_TOP_TAGS_FOR_TEAM: string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, GET_MY_HOME_TEAM_CIRCUIT: string, GET_CIRCUIT_TASK_SUMMARY: string, PAUSE_WTF_WITH_DO_IT_LATER: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_TASK: string, LEAVE_WTF: string, GET_ALL_MY_TEAM_CIRCUITS: string, JOIN_WTF: string, GET_MY_HOME_TEAM: string, LEAVE_EXISTING_ROOM: string, GET_ME: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, FIND_OR_CREATE_PROJECT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Names() {
@@ -218,6 +219,12 @@ module.exports = class BaseController {
       CHART_TOP_MODULES: "chartTopModules",
       CHART_TOP_MODULES_FOR_TEAM: "chartTopModulesForTeam",
       CHART_TOP_MODULES_FOR_USER: "chartTopModulesForUser",
+      CHART_TOP_TAGS: "chartTopTags",
+      CHART_TOP_TAGS_FOR_TEAM: "chartTopTagsForTeam",
+      CHART_TOP_TAGS_FOR_USER: "chartTopTagsForUser",
+      CHART_TOP_WTFS_WITH_TAG: "chartTopWtfsWithTag",
+      CHART_TOP_WTFS_WITH_TAG_FOR_TEAM: "chartTopWtfsWithTagForTeam",
+      CHART_TOP_WTFS_WITH_TAG_FOR_USER: "chartTopWtfsWithTagForUser",
       CHART_FAMILIARITY: "chartFamiliarity",
       CHART_FAMILIARITY_FOR_TEAM: "chartFamiliarityForTeam",
       CHART_FAMILIARITY_FOR_USER: "chartFamiliarityForUser",

@@ -16,9 +16,7 @@ export default class FamiliarityChartContent extends Component {
     super(props);
     this.name = "[" + FamiliarityChartContent.name + "]";
     this.state = {
-      tableDto: null,
-      selectedRowId: null,
-      hoverRowId: null
+      tableDto: null
     }
   }
 
@@ -114,24 +112,6 @@ export default class FamiliarityChartContent extends Component {
     }
   }
 
-  onClickMetricRow = (rowId) => {
-    this.setState({
-      selectedRowId : rowId
-    });
-  }
-
-  onHoverMetricRow = (rowId) => {
-    this.setState({
-      hoverRowId : rowId
-    });
-  }
-
-  onHoverCircle = (rowId) => {
-    this.setState({
-      hoverRowId : rowId
-    });
-  }
-
   /**
    * renders the main dashboard content body of this console panel
    * @returns {*} - the JSX to be rendered in the window
@@ -148,12 +128,7 @@ export default class FamiliarityChartContent extends Component {
         ),
       }}
     >
-      <FamiliarityBoxChart tableDto={this.state.tableDto}
-                              selectedRowId={this.state.selectedRowId}
-                              hoverRowId={this.state.hoverRowId}
-                              onHoverCircle={this.onHoverCircle}
-                              onClickCircle={this.onClickCircle}
-      />
+      <FamiliarityBoxChart tableDto={this.state.tableDto}/>
       {tableContent}
     </div>);
 

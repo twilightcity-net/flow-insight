@@ -195,6 +195,10 @@ module.exports = class TalkController extends (
             " disconnected : " +
             reason
         );
+        if (reason.includes("server disconnect")) {
+          //if the server booted us, clear this socket connection so we can reconnect from scratch
+          global.App.TalkManager.disconnect();
+        }
       }
     );
     socket.on(

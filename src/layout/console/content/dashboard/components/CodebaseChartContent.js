@@ -102,7 +102,7 @@ export default class CodebaseChartContent extends Component {
   }
 
   /**
-   * Load box data for a specific user
+   * Load module data for a specific user
    * @param target
    * @param timeScope
    */
@@ -119,7 +119,7 @@ export default class CodebaseChartContent extends Component {
 
 
   /**
-   * Load box data for a specific team
+   * Load module data for a specific team
    * @param target
    * @param timeScope
    */

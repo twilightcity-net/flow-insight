@@ -7,6 +7,7 @@ import RiskAreaListItem from "./RiskAreaListItem";
 import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
 import ScopeSelectionDropdown from "./ScopeSelectionDropdown";
 import {TeamClient} from "../../../../clients/TeamClient";
+import DashboardResource from "../../content/dashboard/DashboardResource";
 
 /**
  * this component is the left side panel wrapper for the dashboard content
@@ -18,17 +19,6 @@ export default class DashboardPanel extends Component {
    */
   static className = "dashboardContent";
 
-  /**
-   * Enumeration of the different available risk area page items
-   * @returns {{FAMILIARITY: string, CODEBASE: string}}
-   * @constructor
-   */
-  static get RiskAreaPage() {
-    return {
-      CODEBASE : "codebase",
-      FAMILIARITY: "familiarity"
-    }
-  }
 
   static get TargetType() {
     return {
@@ -178,19 +168,28 @@ export default class DashboardPanel extends Component {
     let targetType = this.getTargetTypeForBrowserRequest();
     let target = this.getTargetForBrowserRequest();
 
-    if (page === DashboardPanel.RiskAreaPage.CODEBASE) {
+    if (page === DashboardResource.DashboardType.CODEBASE) {
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.DASHBOARD,
-        DashboardPanel.RiskAreaPage.CODEBASE,
+        DashboardResource.DashboardType.CODEBASE,
         targetType,
         target,
         this.state.dashboardTimeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
-    } else if (page === DashboardPanel.RiskAreaPage.FAMILIARITY) {
+    } else if (page === DashboardResource.DashboardType.FAMILIARITY) {
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.DASHBOARD,
-        DashboardPanel.RiskAreaPage.FAMILIARITY,
+        DashboardResource.DashboardType.FAMILIARITY,
+        targetType,
+        target,
+        this.state.dashboardTimeScope
+      );
+      this.myController.makeSidebarBrowserRequest(request);
+    } else if (page === DashboardResource.DashboardType.TAGS) {
+      let request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.DASHBOARD,
+        DashboardResource.DashboardType.TAGS,
         targetType,
         target,
         this.state.dashboardTimeScope
@@ -224,15 +223,21 @@ export default class DashboardPanel extends Component {
           size="large"
         >
           <RiskAreaListItem
-            id={DashboardPanel.RiskAreaPage.CODEBASE}
+            id={DashboardResource.DashboardType.CODEBASE}
             title={"Codebase"}
             description={"Top confusion by area of code"}
             onItemClick={this.handleRiskAreaClick}
           />
           <RiskAreaListItem
-            id={DashboardPanel.RiskAreaPage.FAMILIARITY}
+            id={DashboardResource.DashboardType.FAMILIARITY}
             title={"Familiarity"}
             description={"Knowledge gaps by area of code"}
+            onItemClick={this.handleRiskAreaClick}
+          />
+          <RiskAreaListItem
+            id={DashboardResource.DashboardType.TAGS}
+            title={"Pain Types"}
+            description={"Top tags from troubleshooting sessions"}
             onItemClick={this.handleRiskAreaClick}
           />
         </List>
