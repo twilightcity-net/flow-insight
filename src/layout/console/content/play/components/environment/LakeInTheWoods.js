@@ -2,9 +2,7 @@
  * Creates our lake in the woods environment for Fervie to walk around in
  */
 import Environment from "./Environment";
-import FervieSprite from "../fervie/FervieSprite";
-import AnimationId from "../AnimationId";
-import LadyFervieSprite from "../fervie/LadyFervieSprite";
+import LadyFervieSprite from "../characters/LadyFervieSprite";
 
 
 export default class LakeInTheWoods extends Environment {
@@ -21,7 +19,7 @@ export default class LakeInTheWoods extends Environment {
    * @param p5
    */
   preload(p5) {
-
+    super.preload(p5);
     this.animationLoader.getStaticImage(p5, LakeInTheWoods.SKY_IMAGE);
     this.animationLoader.getStaticImage(p5, LakeInTheWoods.GROUND_IMAGE);
     this.animationLoader.getStaticImage(p5, LakeInTheWoods.OVERLAY_IMAGE);

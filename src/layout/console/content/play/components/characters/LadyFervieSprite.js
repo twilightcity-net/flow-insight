@@ -16,6 +16,7 @@ export default class LadyFervieSprite {
   static UNSCALED_IMAGE_WIDTH = 376;
   static UNSCALED_IMAGE_HEIGHT = 274;
 
+
   /**
    * Preload all the walk images by processing the svgs with the colors then flattening to images
    * @param p5
@@ -44,6 +45,7 @@ export default class LadyFervieSprite {
     }
 
     p5.image(image, this.x, this.y);
+
   }
 
 

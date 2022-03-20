@@ -3,6 +3,8 @@
  */
 import Environment from "./Environment";
 import FervieSprite from "../fervie/FervieSprite";
+import TreeGlowSprite from "../characters/TreeGlowSprite";
+import BirdSprite from "../characters/BirdSprite";
 
 
 export default class BigTreeInTheWoods extends Environment {
@@ -15,12 +17,19 @@ export default class BigTreeInTheWoods extends Environment {
   static WALK_BEHIND_AREA_IMAGE = "./assets/animation/bigtree/woods_big_tree_walk_area_behind.png";
   static WALK_AREA_TRIGGER_IMAGE = "./assets/animation/bigtree/woods_big_tree_walk_area_trigger.png";
 
+  constructor(animationLoader, width, height) {
+    super(animationLoader, width, height);
+
+    this.treeGlowSprite = new TreeGlowSprite(animationLoader, Math.round(width/4 - 20), Math.round(height/4 - 20));
+    this.birdSprite = new BirdSprite(animationLoader, Math.round(width/5*4), Math.round(height/3));
+  }
+
   /**
    * Preload all the environment images, so they are cached and ready to display
    * @param p5
    */
   preload(p5) {
-
+    super.preload(p5);
     this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.SKY_IMAGE);
     this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.GROUND_IMAGE);
     this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.OVERLAY_IMAGE);
@@ -30,7 +39,11 @@ export default class BigTreeInTheWoods extends Environment {
     this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.WALK_BEHIND_AREA_IMAGE);
     this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.WALK_AREA_TRIGGER_IMAGE);
 
+    this.treeGlowSprite.preload(p5);
+    this.birdSprite.preload(p5);
+
     this.downTheHill = false;
+    this.birdSprite.resetPosition();
   }
 
   getDefaultSpawnProperties() {
@@ -84,6 +97,17 @@ export default class BigTreeInTheWoods extends Environment {
     }
   }
 
+  isOverTreePosition(p5, x, y) {
+    let treeImage = this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.WALK_BEHIND_OVERLAY_IMAGE);
+
+    let color = treeImage.get(Math.round(x/this.scaleAmountX), Math.round(y/this.scaleAmountY));
+    if (color && (color[3] > 0) && x < (this.width - 100)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   hasFervieMovingNorth(fervie) {
     if (fervie.getDistanceDownTheHill() >= 48) {
       return true;
@@ -102,15 +126,23 @@ export default class BigTreeInTheWoods extends Environment {
     let groundImage = this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.GROUND_IMAGE);
     let bigTree =  this.animationLoader.getStaticImage(p5, BigTreeInTheWoods.WALK_BEHIND_OVERLAY_IMAGE);
 
-
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
 
     p5.image(skyImage, 0, 0);
     p5.image(groundImage, 0, 0);
 
+    this.birdSprite.draw(p5);
+
+
     if (!this.isWalkBehindPosition(p5, fervie.getFervieFootX(), fervie.getFervieFootY())) {
       p5.image(bigTree, 0, 0);
+    }
+
+    if (this.isOverTreePosition(p5, p5.mouseX, p5.mouseY)) {
+      p5.cursor(p5.HAND);
+    } else {
+      p5.cursor(p5.ARROW);
     }
 
     p5.pop();
@@ -136,6 +168,9 @@ export default class BigTreeInTheWoods extends Environment {
       p5.image(overlayImage, 0, 0);
     }
 
+
+    this.treeGlowSprite.draw(p5);
+
     p5.pop();
   }
 
@@ -144,6 +179,15 @@ export default class BigTreeInTheWoods extends Environment {
    */
   update(p5, fervie) {
     super.update(p5);
+
+    this.treeGlowSprite.update(p5);
+    this.birdSprite.update(p5);
+
+    if (this.birdSprite.isBirdOnScreen()) {
+      this.treeGlowSprite.startWatchingBird();
+    } else {
+      this.treeGlowSprite.stopWatchingBird();
+    }
 
     if (fervie.getDirection() === FervieSprite.Direction.Up &&
       this.isPathTriggerPosition(p5, fervie.getFervieFootX(), fervie.getFervieFootY())
@@ -158,4 +202,17 @@ export default class BigTreeInTheWoods extends Environment {
     }
   }
 
+  mousePressed(p5, fervie) {
+    if (this.isOverTreePosition(p5, p5.mouseX, p5.mouseY)) {
+      if (!fervie.isTransitioning() && !this.treeGlowSprite.isTransitioning()) {
+        this.treeGlowSprite.startGlowTransition();
+        fervie.startGlowTransition();
+        if (this.treeGlowSprite.isReappearing) {
+          this.birdSprite.startFlyDown();
+        } else if (this.treeGlowSprite.isDisappearing) {
+          this.birdSprite.startFlyAway();
+        }
+      }
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import AnimationId from "../AnimationId";
+import FervieGlowSprite from "./FervieGlowSprite";
 
 /**
  * Creates our fervie sprite animation
@@ -25,6 +26,8 @@ export default class FervieSprite {
     this.originalX = this.x;
     this.originalY = this.y;
     this.originalScale = this.scale;
+
+    this.fervieGlowSprite = new FervieGlowSprite(this.animationLoader, this.size);
   }
 
   /**
@@ -77,6 +80,7 @@ export default class FervieSprite {
       );
     }
 
+    this.fervieGlowSprite.preload(p5);
   }
 
   /**
@@ -86,7 +90,10 @@ export default class FervieSprite {
   draw(p5) {
 
     let image = null;
-    if (this.direction === FervieSprite.Direction.Up) {
+
+    if (!this.fervieGlowSprite.isVisible || this.fervieGlowSprite.isTransitioning()) {
+      this.fervieGlowSprite.draw(p5, this.x, this.y, this.scale);
+    } else if (this.direction === FervieSprite.Direction.Up) {
       image = this.animationLoader.getAnimationImage(
         p5,
         AnimationId.Animation.FervieWalkUp,
@@ -168,6 +175,12 @@ export default class FervieSprite {
    * changing the direction of fervie based on the arrow keys
    */
   update(p5, environment) {
+
+    this.fervieGlowSprite.update(p5, environment);
+    if (!this.fervieGlowSprite.isVisible || this.fervieGlowSprite.isTransitioning()) {
+      return;
+    }
+
     if (p5.keyIsDown(p5.LEFT_ARROW)) {
       this.changeDirection(p5, environment,
         FervieSprite.Direction.Left,
@@ -208,6 +221,7 @@ export default class FervieSprite {
     if (this.animationFrame > 24) {
       this.animationFrame = 1;
     }
+
   }
 
   getDirection() {
@@ -310,6 +324,21 @@ export default class FervieSprite {
     return Math.round(this.y + adjustedHeight * 0.9 * this.scale);
   }
 
+  startGlowTransition() {
+    this.direction = FervieSprite.Direction.Down;
+    this.animationFrame = 10;
+    if (!this.fervieGlowSprite.isTransitioning()) {
+      if (this.fervieGlowSprite.isVisible) {
+        this.fervieGlowSprite.startDisappear();
+      } else {
+        this.fervieGlowSprite.startReappear();
+      }
+    }
+  }
+
+  isTransitioning() {
+    return this.fervieGlowSprite.isTransitioning();
+  }
 
   /**
    * Spawn the fervie in a new environment using the passed in properties.

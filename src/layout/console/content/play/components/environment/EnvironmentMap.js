@@ -192,6 +192,15 @@ export default class EnvironmentMap {
   }
 
   /**
+   * Trigger the button mouse pressed in the active environment
+   * @param p5
+   * @param fervie
+   */
+  mousePressed(p5, fervie) {
+    this.activeEnvironment.mousePressed(p5, fervie);
+  }
+
+  /**
    * Allows fervie to check if he's moving to a valid position
    * @param p5
    * @param footPositionX

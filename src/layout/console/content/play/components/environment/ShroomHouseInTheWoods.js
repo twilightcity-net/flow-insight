@@ -20,7 +20,7 @@ export default class ShroomHouseInTheWoods extends Environment {
    * @param p5
    */
   preload(p5) {
-
+    super.preload(p5);
     this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.SKY_IMAGE);
     this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.GROUND_IMAGE);
     this.animationLoader.getStaticImage(p5, ShroomHouseInTheWoods.OVERLAY_IMAGE);

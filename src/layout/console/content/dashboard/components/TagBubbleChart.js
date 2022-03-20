@@ -183,10 +183,6 @@ export default class TagBubbleChart extends Component {
    */
   createCircles(svg, packed, margin) {
 
-    let xMinMaxConfusion = d3.extent(packed.children, function (d) {
-      return d.data.confusionPercent;
-    });
-
     var interp = d3.scaleLinear()
       .domain([0, 0.5, 1])
       .range(["#FFA500", "#FF2C36", "#720000"]);

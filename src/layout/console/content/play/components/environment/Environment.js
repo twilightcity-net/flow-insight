@@ -19,8 +19,16 @@ export default class Environment {
   static IMAGE_WIDTH = 1280;
   static IMAGE_HEIGHT = 480;
 
+  preload(p5) {
+    p5.cursor(p5.ARROW);
+  }
+
   unload(p5) {
     //TODO unload the image cache so we're not running out of memory
+  }
+
+  mousePressed(p5, fervie) {
+    console.log("placeholder");
   }
 
   //override these in subclasses, or leave as default if not used.
