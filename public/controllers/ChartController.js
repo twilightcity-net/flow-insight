@@ -22,7 +22,7 @@ module.exports = class ChartController extends (
 
   /**
    * general enum list of all of our possible circuit events for chart requests
-   * @returns {{CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS:string, CHART_TOP_WTFS_WITH_TAG:string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE:string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER:string, CHART_TOP_MODULES:string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER:string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
+   * @returns {{CHART_FRICTION_FOR_TEAM:string, CHART_FRICTION_FOR_USER:string, CHART_FRICTION:string,CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS:string, CHART_TOP_WTFS_WITH_TAG:string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE:string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER:string, CHART_TOP_MODULES:string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER:string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
    * @constructor
    */
   static get Events() {
@@ -51,6 +51,9 @@ module.exports = class ChartController extends (
       CHART_TOP_WTFS_WITH_TAG: "chart-top-wtfs-with-tag",
       CHART_TOP_WTFS_WITH_TAG_FOR_USER: "chart-top-wtfs-with-tag-for-user",
       CHART_TOP_WTFS_WITH_TAG_FOR_TEAM: "chart-top-wtfs-with-tag-for-team",
+      CHART_FRICTION: "chart-friction",
+      CHART_FRICTION_FOR_USER: "chart-friction-for-user",
+      CHART_FRICTION_FOR_TEAM: "chart-friction-for-team",
     };
   }
 
@@ -179,6 +182,15 @@ module.exports = class ChartController extends (
           break;
         case ChartController.Events.CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:
           this.handleChartTopWtfsWithTagForTeamEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_FRICTION:
+          this.handleChartFrictionEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_FRICTION_FOR_USER:
+          this.handleChartFrictionForUserEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_FRICTION_FOR_TEAM:
+          this.handleChartFrictionForTeamEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -1056,6 +1068,124 @@ module.exports = class ChartController extends (
       ChartController.Contexts.CHART_CLIENT,
       {},
       ChartController.Names.CHART_TOP_BOXES_FOR_TEAM,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting friction for a period of time
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartFrictionEvent(event, arg, callback) {
+    let bucket = arg.args.bucket,
+      timeScope = arg.args.timeScope,
+      urn =
+        ChartController.Paths.CHART +
+        ChartController.Paths.FRICTION;
+
+    urn +=
+      "?bucket_size=" +
+      bucket;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_FRICTION,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * client event handler for charting friction for a period of time, for a specific user
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartFrictionForUserEvent(event, arg, callback) {
+    let bucket = arg.args.bucket,
+      username = arg.args.username,
+      timeScope = arg.args.timeScope,
+      urn =
+        ChartController.Paths.CHART +
+        ChartController.Paths.FRICTION;
+
+    urn += "?target_type=USER&target_name="+username;
+
+    urn +=
+      "&bucket_size=" +
+      bucket;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_FRICTION,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting friction for a period of time, for a specific team
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartFrictionForTeamEvent(event, arg, callback) {
+    let bucket = arg.args.bucket,
+      teamName = arg.args.teamName,
+      timeScope = arg.args.timeScope,
+      urn =
+        ChartController.Paths.CHART +
+        ChartController.Paths.FRICTION;
+
+    urn += "?target_type=TEAM&target_name="+teamName;
+    urn +=
+      "&bucket_size=" +
+      bucket;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_FRICTION,
       ChartController.Types.GET,
       urn,
       (store) =>

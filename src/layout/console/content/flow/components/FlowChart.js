@@ -359,7 +359,7 @@ export default class FlowChart extends Component {
 
     chartGroup
       .append("text")
-      .attr("class", "title")
+      .attr("class", "axisLabel")
       .attr("x", this.margin)
       .attr("y", this.margin - 10)
       .attr("text-anchor", "start")

@@ -186,6 +186,15 @@ export default class DashboardPanel extends Component {
         this.state.dashboardTimeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
+    } else if (page === DashboardResource.DashboardType.MOMENTUM) {
+        let request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.DASHBOARD,
+          DashboardResource.DashboardType.MOMENTUM,
+          targetType,
+          target,
+          this.state.dashboardTimeScope
+        );
+        this.myController.makeSidebarBrowserRequest(request);
     } else if (page === DashboardResource.DashboardType.TAGS) {
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.DASHBOARD,
@@ -226,18 +235,28 @@ export default class DashboardPanel extends Component {
             id={DashboardResource.DashboardType.CODEBASE}
             title={"Codebase"}
             description={"Top confusion by area of code"}
+            tipInstruction={"Code areas with a high amount of confusion indicate a potential opportunity for refactoring and simplification"}
             onItemClick={this.handleRiskAreaClick}
           />
           <RiskAreaListItem
             id={DashboardResource.DashboardType.FAMILIARITY}
             title={"Familiarity"}
             description={"Knowledge gaps by area of code"}
+            tipInstruction={"Expanding our knowledge of more areas of code reduces the likelihood of mistakes and confusion, and increases momentum"}
+            onItemClick={this.handleRiskAreaClick}
+          />
+          <RiskAreaListItem
+            id={DashboardResource.DashboardType.MOMENTUM}
+            title={"Momentum"}
+            description={"Trending momentum and friction"}
+            tipInstruction={"Overall momentum is an indicator of a healthy codebase and knowledgeable team. Drops in momentum are an indicator of difficulties"}
             onItemClick={this.handleRiskAreaClick}
           />
           <RiskAreaListItem
             id={DashboardResource.DashboardType.TAGS}
             title={"Pain Types"}
             description={"Top tags from troubleshooting sessions"}
+            tipInstruction={"Reoccurring patterns of difficulty may indicate the need for a strategic shift in the approach to development, software libraries, or architecture"}
             onItemClick={this.handleRiskAreaClick}
           />
         </List>

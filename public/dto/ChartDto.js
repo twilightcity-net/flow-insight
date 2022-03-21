@@ -21,6 +21,7 @@ module.exports = class ChartDto {
       this.targetType = json.targetType;
       this.location = json.location;
       this.featureName = json.featureName;
+      this.bucketSize = json.bucketSize;
 
       this.chartSeries = json.chartSeries;
       this.eventSeriesByType = json.eventSeriesByType;

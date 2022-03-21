@@ -34,7 +34,7 @@ export class ChartClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS: string, CHART_TOP_WTFS_WITH_TAG: string, CHART_WTF: string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER: string, CHART_FAMILIARITY_FOR_TEAM: string, CHART_TOP_BOXES_FOR_MODULE: string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER: string, CHART_TOP_MODULES: string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX_FOR_USER: string, CHART_TOP_BOXES_FOR_USER: string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
+   * @returns {{CHART_FRICTION_FOR_TEAM:string, CHART_FRICTION_FOR_USER:string, CHART_FRICTION:string, CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS: string, CHART_TOP_WTFS_WITH_TAG: string, CHART_WTF: string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER: string, CHART_FAMILIARITY_FOR_TEAM: string, CHART_TOP_BOXES_FOR_MODULE: string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER: string, CHART_TOP_MODULES: string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX_FOR_USER: string, CHART_TOP_BOXES_FOR_USER: string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -63,6 +63,9 @@ export class ChartClient extends BaseClient {
       CHART_TOP_WTFS_WITH_TAG: "chart-top-wtfs-with-tag",
       CHART_TOP_WTFS_WITH_TAG_FOR_USER: "chart-top-wtfs-with-tag-for-user",
       CHART_TOP_WTFS_WITH_TAG_FOR_TEAM: "chart-top-wtfs-with-tag-for-team",
+      CHART_FRICTION: "chart-friction",
+      CHART_FRICTION_FOR_USER: "chart-friction-for-user",
+      CHART_FRICTION_FOR_TEAM: "chart-friction-for-team",
 
     };
   }
@@ -99,6 +102,104 @@ export class ChartClient extends BaseClient {
       {
         projectName: projectName,
         taskName: taskName,
+        bucket: bucket,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart daily friction with a relatively short time range, ultimately the bucket size
+   * will need to be negotiated on the server.
+   * @param timeScope
+   * @param bucket
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartFriction(
+    timeScope,
+    bucket,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_FRICTION,
+      {
+        bucket: bucket,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+
+  /**
+   * Chart daily friction with a relatively short time range, ultimately the bucket size
+   * will need to be negotiated on the server.
+   * @param username
+   * @param timeScope
+   * @param bucket
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartFrictionForUser(
+    username,
+    timeScope,
+    bucket,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_FRICTION_FOR_USER,
+      {
+        username: username,
+        timeScope: timeScope,
+        bucket: bucket,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+
+  /**
+   * Chart daily friction with a relatively short time range, ultimately the bucket size
+   * will need to be negotiated on the server.
+   * @param teamName
+   * @param timeScope
+   * @param bucket,
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartFrictionForTeam(
+    teamName,
+    timeScope,
+    bucket,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_FRICTION_FOR_TEAM,
+      {
+        teamName: teamName,
+        timeScope: timeScope,
         bucket: bucket,
       },
       scope,

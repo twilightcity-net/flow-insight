@@ -2100,6 +2100,12 @@
     cursor: pointer;
   }
 
+
+  #component.circuitLayout #component.circuitContentSidebar .tags>.ui.label {
+    margin: 0 0.210rem;
+  }
+
+
   #component.circuitLayout #component.circuitContentSidebar .tagsDone {
     position: absolute;
     right: 10px;
@@ -2208,10 +2214,6 @@
     padding-bottom: 0.840rem;
     padding-top: 0.420rem;
     overflow: hidden;
-  }
-
-  #component.circuitLayout #component.circuitContentSidebar .tags>.ui.label {
-    margin: 0 0.210rem;
   }
 
   #component.circuitLayout #component.circuitContentSidebar .actions .ui.grid .row .column {
@@ -2525,13 +2527,18 @@
 
   #component.dashboardContent {
     color: white;
-    font-style: italic;
     background-color: rgba(27, 28, 29, 0.96);
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 5px;
+  }
+
+  #component.dashboardContent .title {
+    fill: white;
+    font-size: 16px;
+    font-weight: bolder;
   }
 
   #component.dashboardContent .groupDiv {
@@ -2543,6 +2550,18 @@
     fill: rgba(120, 120, 120, 0.96);
     font: sans-serif;
     font-size: 12px;
+  }
+
+  #component.dashboardContent .yearBreakLabel {
+    fill: rgba(120, 120, 120, 0.96);
+    font: sans-serif;
+    font-size: 10px;
+    font-style: italic;
+  }
+
+  #component.dashboardContent .yearBreakLine {
+    stroke: rgba(80, 80, 80, 0.96);
+    stroke-width: 1;
   }
 
   #component.dashboardContent .boxOverlay {
@@ -2561,6 +2580,16 @@
 
   #component.dashboardContent .frictionCodeChart {
     margin-left: 15px;
+  }
+
+  #component.dashboardContent .chartTitleWrapper {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  #component.dashboardContent .chartTitleWrapperWrapper {
+    text-align: center;
   }
 
   #component.dashboardContent .chartTitle {
@@ -2653,11 +2682,36 @@
     padding-right: 20px;
   }
 
-  .ui.popup .dashboardPopup .wtftitle {
-    color: rgba(180, 0, 0, 0.96);
+  .ui.popup .dashboardPopup {
+    pointer-events: none;
+    max-width: 300px;
+  }
+
+  .ui.popup .dashboardPopup .taskTitle {
+    color: #ffffff;
+    font-weight: bold;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .ui.popup .dashboardPopup .wtfTitle {
+    color: rgba(180, 0, 0, 0.96);
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ui.popup .dashboardPopup .tagsContentBlock {
+    text-overflow: ellipsis;
+    line-height: 2rem;
+    overflow-wrap: break-word;
+    padding: 0.420rem 0.420rem 0 0;
+  }
+
+  .ui.popup .dashboardPopup .tagsContentBlock>.ui.label {
+    margin: 0 0.210rem;
   }
 
   .ui.popup .dashboardPopup .date {

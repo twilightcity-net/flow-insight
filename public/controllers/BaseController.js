@@ -231,6 +231,9 @@ module.exports = class BaseController {
       CHART_TOP_BOXES_FOR_MODULE: "chartTopBoxesForModule",
       CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM: "chartTopBoxesForModuleForTeam",
       CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chartTopBoxesForModuleForUser",
+      CHART_FRICTION: "chartFriction",
+      CHART_FRICTION_FOR_USER: "chartFrictionForUser",
+      CHART_FRICTION_FOR_TEAM: "chartFrictionForTeam",
       CREATE_TERMINAL_SESSION: "createTerminalSession",
       RUN_TERMINAL_COMMAND: "runTerminalCommand",
       GET_TERMINAL_COMMAND_MANUAL:

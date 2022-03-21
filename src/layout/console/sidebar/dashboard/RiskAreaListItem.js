@@ -22,7 +22,7 @@ export default class RiskAreaListItem extends Component {
   getPopupContent(trigger) {
     let popupContent = (
       <div>
-        Click to review this risk area
+        <i>{this.props.tipInstruction}</i>
       </div>
     );
 
@@ -49,7 +49,7 @@ export default class RiskAreaListItem extends Component {
             {this.props.title}
           </List.Header>
           <i className="name">
-            ({this.props.description})
+            {this.props.description}
           </i>
         </List.Content>
       </List.Item>

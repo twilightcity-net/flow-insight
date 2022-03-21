@@ -50,6 +50,14 @@ export default class UtilRenderer {
   }
 
   /**
+   * Get simple formatted date string
+   * @param date
+   */
+  static getDateString(date) {
+    return moment.utc(date).format('MMM D');
+  }
+
+  /**
    * checks if an object is empty but not null
    * @param obj
    * @returns {boolean|boolean}

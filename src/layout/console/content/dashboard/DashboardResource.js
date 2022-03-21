@@ -3,6 +3,7 @@ import CodebaseChartContent from "./components/CodebaseChartContent";
 import {DimensionController} from "../../../../controllers/DimensionController";
 import FamiliarityChartContent from "./components/FamiliarityChartContent";
 import TopTagsChartContent from "./components/TopTagsChartContent";
+import MomentumChartContent from "./components/MomentumChartContent";
 
 /**
  * this component is the tab panel wrapper for dashboard content
@@ -26,14 +27,15 @@ export default class DashboardResource extends Component {
 
   /**
    * Enumeration of the different available dashboard page items available
-   * @returns {{CODEBASE: string, FAMILIARITY: string, TAGS:string}}
+   * @returns {{MOMENTUM:string, CODEBASE: string, FAMILIARITY: string, TAGS:string}}
    * @constructor
    */
   static get DashboardType() {
     return {
       CODEBASE : "codebase",
       FAMILIARITY: "familiarity",
-      TAGS: "tags"
+      TAGS: "tags",
+      MOMENTUM: "momentum"
     }
   }
 
@@ -77,6 +79,8 @@ export default class DashboardResource extends Component {
       contentPanel = <CodebaseChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
     } else if (this.state.dashboardType === DashboardResource.DashboardType.FAMILIARITY) {
       contentPanel = <FamiliarityChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
+    } else if (this.state.dashboardType === DashboardResource.DashboardType.MOMENTUM) {
+      contentPanel = <MomentumChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
     } else if (this.state.dashboardType === DashboardResource.DashboardType.TAGS) {
       contentPanel = <TopTagsChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
     }
