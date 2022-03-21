@@ -1,7 +1,7 @@
 import React, {Component} from "react";
 import {ChartClient} from "../../../../../clients/ChartClient";
 import {DimensionController} from "../../../../../controllers/DimensionController";
-import FamiliarityBoxChart from "./FamiliarityBoxChart";
+import FamiliarityBoxChart from "./familiarity/FamiliarityBoxChart";
 import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
 
 /**

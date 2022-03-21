@@ -1,23 +1,23 @@
 import React, {Component} from "react";
 import {Grid} from "semantic-ui-react";
-import UtilRenderer from "../../../../../UtilRenderer";
-import {scrollTo} from "../../../../../UtilScroll";
-import FrictionFileMetricHeader from "./FrictionFileMetricHeader";
-import FrictionFileMetricRow from "./FrictionFileMetricRow";
+import UtilRenderer from "../../../../../../UtilRenderer";
+import {scrollTo} from "../../../../../../UtilScroll";
+import FrictionModuleMetricRow from "./FrictionModuleMetricRow";
+import FrictionModuleMetricHeader from "./FrictionModuleMetricHeader";
 
 /**
- * this is the gui component that displays the friction metrics for files that correspond
+ * this is the gui component that displays the friction metrics that correspond
  * to the bubble chart, the rows in the table are correlated on hover with the contents
  * of the chart
  */
-export default class FrictionFileMetricTable extends Component {
+export default class FrictionModuleMetricTable extends Component {
   /**
-   * builds the flow intentions list beneath the FlowMap
+   * builds the table to the right of the bubble chart
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[FrictionFileMetricTable]";
+    this.name = "[FrictionModuleMetricTable]";
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -86,7 +86,7 @@ export default class FrictionFileMetricTable extends Component {
             inverted
             columns={16}
           >
-            <FrictionFileMetricHeader />
+            <FrictionModuleMetricHeader />
           </Grid>
           <div className="scrolling">
             <Grid
@@ -97,22 +97,21 @@ export default class FrictionFileMetricTable extends Component {
             >
               {rows.map((d, i) => {
 
-                let id = d[0].trim() + "-" + d[1].trim();
-                let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[3].trim()));
-                let confusion = Math.round(parseFloat(d[4].trim()));
+                let id = d[0].trim();
+                let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[1].trim())*parseFloat(d[2])/100);
+                let confusion = Math.round(parseFloat(d[2].trim()));
 
                 let confusionDurationFriendly = UtilRenderer.getTimerString(duration);
-                let feels = parseFloat(d[9]);
+                let feels = parseFloat(d[7]);
 
                 if (duration <= 0) {
                   return "";
                 }
 
-                return (<FrictionFileMetricRow
+                return (<FrictionModuleMetricRow
                   key={i}
                   id={id}
-                  box={d[0].trim()}
-                  filePath={d[1].trim()}
+                  module={id}
                   confusionTime={confusionDurationFriendly}
                   confusionPercent={confusion}
                   feels={feels}

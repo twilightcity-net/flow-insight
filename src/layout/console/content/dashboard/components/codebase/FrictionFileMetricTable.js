@@ -1,23 +1,23 @@
 import React, {Component} from "react";
 import {Grid} from "semantic-ui-react";
-import UtilRenderer from "../../../../../UtilRenderer";
-import {scrollTo} from "../../../../../UtilScroll";
-import TagMetricRow from "./TagMetricRow";
-import TagMetricHeader from "./TagMetricHeader";
+import UtilRenderer from "../../../../../../UtilRenderer";
+import {scrollTo} from "../../../../../../UtilScroll";
+import FrictionFileMetricHeader from "./FrictionFileMetricHeader";
+import FrictionFileMetricRow from "./FrictionFileMetricRow";
 
 /**
- * this is the gui component that displays the top tag metrics that correspond
+ * this is the gui component that displays the friction metrics for files that correspond
  * to the bubble chart, the rows in the table are correlated on hover with the contents
  * of the chart
  */
-export default class TagMetricTable extends Component {
+export default class FrictionFileMetricTable extends Component {
   /**
-   * builds the table to the right of the bubble chart
+   * builds the flow intentions list beneath the FlowMap
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[TagMetricTable]";
+    this.name = "[FrictionFileMetricTable]";
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -86,7 +86,7 @@ export default class TagMetricTable extends Component {
             inverted
             columns={16}
           >
-            <TagMetricHeader />
+            <FrictionFileMetricHeader />
           </Grid>
           <div className="scrolling">
             <Grid
@@ -97,19 +97,25 @@ export default class TagMetricTable extends Component {
             >
               {rows.map((d, i) => {
 
-                let id = d[0].trim();
-                let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[1].trim()));
-                let durationFriendly = UtilRenderer.getTimerString(duration);
+                let id = d[0].trim() + "-" + d[1].trim();
+                let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[3].trim()));
+                let confusion = Math.round(parseFloat(d[4].trim()));
 
-                let count = Math.round(parseInt(d[2].trim(), 10));
+                let confusionDurationFriendly = UtilRenderer.getTimerString(duration);
+                let feels = parseFloat(d[9]);
 
+                if (duration <= 0) {
+                  return "";
+                }
 
-                return (<TagMetricRow
+                return (<FrictionFileMetricRow
                   key={i}
                   id={id}
-                  tag={id}
-                  duration={durationFriendly}
-                  count={count}
+                  box={d[0].trim()}
+                  filePath={d[1].trim()}
+                  confusionTime={confusionDurationFriendly}
+                  confusionPercent={confusion}
+                  feels={feels}
                   isActiveRow={this.props.selectedRowId === id}
                   isHoverRow={this.props.hoverRowId === id}
                   onRowClick={this.onClickMetric}

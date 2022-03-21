@@ -1,23 +1,23 @@
 import React, {Component} from "react";
 import {Grid} from "semantic-ui-react";
-import UtilRenderer from "../../../../../UtilRenderer";
-import {scrollTo} from "../../../../../UtilScroll";
-import WtfMetricRow from "./WtfMetricRow";
-import WtfMetricHeader from "./WtfMetricHeader";
+import FrictionBoxMetricHeader from "./FrictionBoxMetricHeader";
+import FrictionBoxMetricRow from "./FrictionBoxMetricRow";
+import UtilRenderer from "../../../../../../UtilRenderer";
+import {scrollTo} from "../../../../../../UtilScroll";
 
 /**
- * this is the gui component that displays the wtf metrics for a specific tag that correspond
+ * this is the gui component that displays the friction metrics that correspond
  * to the bubble chart, the rows in the table are correlated on hover with the contents
  * of the chart
  */
-export default class WtfMetricTable extends Component {
+export default class FrictionBoxMetricTable extends Component {
   /**
-   * builds the table to the right of the bubble chart
+   * builds the flow intentions list beneath the FlowMap
    * @param props
    */
   constructor(props) {
     super(props);
-    this.name = "[WtfMetricTable]";
+    this.name = "[FrictionBoxMetricTable]";
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
@@ -86,7 +86,7 @@ export default class WtfMetricTable extends Component {
             inverted
             columns={16}
           >
-            <WtfMetricHeader />
+            <FrictionBoxMetricHeader />
           </Grid>
           <div className="scrolling">
             <Grid
@@ -97,32 +97,25 @@ export default class WtfMetricTable extends Component {
             >
               {rows.map((d, i) => {
 
-                let id = UtilRenderer.getCircuitName(d[1].trim());
-                let username = d[0].trim();
-                let taskName = d[7].trim();
-                let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[4].trim()));
-                let durationFriendly = UtilRenderer.getTimerString(duration);
+                let id = d[0].trim() + "-" + d[1].trim();
+                let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[3].trim()));
+                let confusion = Math.round(parseFloat(d[4].trim()));
 
-                let day = d[3].trim();
-                let tags = d[5].trim();
-                let wtfDescription = d[6].trim();
-                let taskDescription = d[8].trim();
+                let confusionDurationFriendly = UtilRenderer.getTimerString(duration);
+                let feels = parseFloat(d[9]);
 
                 if (duration <= 0) {
                   return "";
                 }
 
-                return (<WtfMetricRow
+                return (<FrictionBoxMetricRow
                   key={i}
                   id={id}
-                  circuitName={id}
-                  taskName={taskName}
-                  username={username}
-                  duration={durationFriendly}
-                  day={day}
-                  tags={tags}
-                  wtfDescription={wtfDescription}
-                  taskDescription={taskDescription}
+                  project={d[0].trim()}
+                  box={d[1].trim()}
+                  confusionTime={confusionDurationFriendly}
+                  confusionPercent={confusion}
+                  feels={feels}
                   isActiveRow={this.props.selectedRowId === id}
                   isHoverRow={this.props.hoverRowId === id}
                   onRowClick={this.onClickMetric}

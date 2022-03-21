@@ -1,7 +1,7 @@
 import React, {Component} from "react";
-import {DimensionController} from "../../../../../controllers/DimensionController";
+import {DimensionController} from "../../../../../../controllers/DimensionController";
 import * as d3 from "d3";
-import UtilRenderer from "../../../../../UtilRenderer";
+import UtilRenderer from "../../../../../../UtilRenderer";
 import {Icon} from "semantic-ui-react";
 
 /**

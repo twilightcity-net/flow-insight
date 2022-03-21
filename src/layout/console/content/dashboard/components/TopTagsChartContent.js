@@ -2,9 +2,9 @@ import React, {Component} from "react";
 import {ChartClient} from "../../../../../clients/ChartClient";
 import {DimensionController} from "../../../../../controllers/DimensionController";
 import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
-import TagMetricTable from "./TagMetricTable";
-import WtfMetricTable from "./WtfMetricTable";
-import TagBubbleChart from "./TagBubbleChart";
+import TagMetricTable from "./tags/TagMetricTable";
+import WtfMetricTable from "./tags/WtfMetricTable";
+import TagBubbleChart from "./tags/TagBubbleChart";
 
 /**
  * this component shows the top tags per user on the team

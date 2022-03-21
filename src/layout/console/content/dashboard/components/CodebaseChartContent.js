@@ -1,10 +1,10 @@
 import React, {Component} from "react";
 import {ChartClient} from "../../../../../clients/ChartClient";
 import {DimensionController} from "../../../../../controllers/DimensionController";
-import FrictionBoxBubbleChart from "./FrictionBoxBubbleChart";
-import FrictionBoxMetricTable from "./FrictionBoxMetricTable";
-import FrictionFileMetricTable from "./FrictionFileMetricTable";
-import FrictionModuleMetricTable from "./FrictionModuleMetricTable";
+import FrictionBoxBubbleChart from "./codebase/FrictionBoxBubbleChart";
+import FrictionBoxMetricTable from "./codebase/FrictionBoxMetricTable";
+import FrictionFileMetricTable from "./codebase/FrictionFileMetricTable";
+import FrictionModuleMetricTable from "./codebase/FrictionModuleMetricTable";
 import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
 
 /**
