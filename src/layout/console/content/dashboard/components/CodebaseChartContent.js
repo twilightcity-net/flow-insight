@@ -58,7 +58,9 @@ export default class CodebaseChartContent extends Component {
       drillDownModule: null,
       drillDownBox: null,
       boxTableDto: null,
-      fileTableDto: null
+      fileTableDto: null,
+      selectedRowId: null,
+      hoverRowId: null
     });
   }
 
@@ -66,7 +68,9 @@ export default class CodebaseChartContent extends Component {
     console.log("zoomOutToBoxView");
     this.setState({
       drillDownBox: null,
-      fileTableDto: null
+      fileTableDto: null,
+      selectedRowId: null,
+      hoverRowId: null
     });
   }
 
@@ -346,9 +350,15 @@ export default class CodebaseChartContent extends Component {
     } else if (this.state.drillDownBox === null) {
       this.drillDownToFileView(module, box);
     } else {
-      this.setState({
-        selectedRowId : rowId
-      });
+      if (this.state.selectedRowId === rowId) {
+        this.setState({
+          selectedRowId : null
+        });
+      } else {
+        this.setState({
+          selectedRowId : rowId
+        });
+      }
     }
   }
 

@@ -5,6 +5,7 @@ import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
 import TagMetricTable from "./tags/TagMetricTable";
 import WtfMetricTable from "./tags/WtfMetricTable";
 import TagBubbleChart from "./tags/TagBubbleChart";
+import {RendererControllerFactory} from "../../../../../controllers/RendererControllerFactory";
 
 /**
  * this component shows the top tags per user on the team
@@ -48,7 +49,9 @@ export default class TopTagsChartContent extends Component {
     console.log("zoomOutToTagsView");
     this.setState({
       drillDownTag: null,
-      wtfsTableDto: null
+      wtfsTableDto: null,
+      selectedRowId: null,
+      hoverRowId: null
     });
   }
 
@@ -222,15 +225,21 @@ export default class TopTagsChartContent extends Component {
   }
 
   onClickMetricRow = (rowId) => {
+    if (this.state.drillDownTag) {
+      this.onClickOpenFlowMap(rowId);
+    }
+
     this.setState({
       selectedRowId : rowId
     });
   }
 
   onHoverMetricRow = (rowId) => {
-    this.setState({
-      hoverRowId : rowId
-    });
+    if (this.state.hoverRowId !== rowId) {
+      this.setState({
+        hoverRowId : rowId
+      });
+    }
   }
 
   onHoverCircle = (rowId) => {
@@ -243,10 +252,33 @@ export default class TopTagsChartContent extends Component {
     if (this.state.drillDownTag === null) {
       this.drillDownToWtfsView(tag);
     } else {
-      this.setState({
-        selectedRowId : rowId
-      });
+      this.onClickOpenFlowMap(rowId);
+      if (this.state.selectedRowId === rowId) {
+        this.setState({
+          selectedRowId : null
+        });
+      } else {
+        this.setState({
+          selectedRowId : rowId
+        });
+      }
     }
+  }
+
+  onClickOpenFlowMap(rowId) {
+    if (!rowId) {
+      return;
+    }
+
+    let chartPopoutController =
+      RendererControllerFactory.getViewController(
+        RendererControllerFactory.Views.CHART_POPOUT,
+        this
+      );
+
+    chartPopoutController.openChartWindowForCircuitTask(
+      rowId
+    );
   }
 
 

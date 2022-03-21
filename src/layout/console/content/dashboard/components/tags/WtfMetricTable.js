@@ -88,12 +88,16 @@ export default class WtfMetricTable extends Component {
           >
             <WtfMetricHeader />
           </Grid>
-          <div className="scrolling">
+          <div className="scrolling"
+               onMouseLeave={() => {
+                 this.onHoverMetric(null);
+               }}>
             <Grid
               id="metric-row-grid"
               inverted
               columns={16}
               className="rows"
+
             >
               {rows.map((d, i) => {
 

@@ -88,7 +88,10 @@ export default class FrictionBoxMetricTable extends Component {
           >
             <FrictionBoxMetricHeader />
           </Grid>
-          <div className="scrolling">
+          <div className="scrolling"
+               onMouseLeave={() => {
+                 this.onHoverMetric(null);
+               }}>
             <Grid
               id="metric-row-grid"
               inverted

@@ -19,7 +19,7 @@ export class RendererControllerFactory {
 
   /**
    * the views of the gui that have controllers
-   * @returns {{RESOURCES: string, LAYOUT_BROWSER: string, LAYOUT_CONTENT: string, CONSOLE_VIEW: string, CONSOLE_SIDEBAR: string}}
+   * @returns {{CHART_POPOUT:string, RESOURCES: string, LAYOUT_BROWSER: string, LAYOUT_CONTENT: string, CONSOLE_VIEW: string, CONSOLE_SIDEBAR: string}}
    * @constructor
    */
   static get Views() {

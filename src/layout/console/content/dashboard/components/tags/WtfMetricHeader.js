@@ -23,7 +23,10 @@ export default class WtfMetricHeader extends Component {
   render() {
     return (
       <Grid.Row className="metricHeaderRow">
-        <Grid.Column width={12}>
+        <Grid.Column width={4}>
+          <div className="chunkTitle">Task</div>
+        </Grid.Column>
+        <Grid.Column width={8}>
           <div className="chunkTitle">Troubleshooting Session</div>
         </Grid.Column>
         <Grid.Column width={4}>

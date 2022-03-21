@@ -88,7 +88,11 @@ export default class TagMetricTable extends Component {
           >
             <TagMetricHeader />
           </Grid>
-          <div className="scrolling">
+          <div className="scrolling"
+               onMouseLeave={() => {
+                 this.onHoverMetric(null);
+               }}
+          >
             <Grid
               id="metric-row-grid"
               inverted

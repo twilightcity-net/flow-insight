@@ -3,6 +3,7 @@ import {DimensionController} from "../../../../../../controllers/DimensionContro
 import * as d3 from "d3";
 import UtilRenderer from "../../../../../../UtilRenderer";
 import {Icon} from "semantic-ui-react";
+import fitty from "fitty";
 
 /**
  * this component is the bubble chart that shows relative box friction
@@ -20,10 +21,19 @@ export default class FrictionBoxBubbleChart extends Component {
   componentDidMount() {
     if (this.props.moduleTableDto) {
       this.displayModuleChart(this.props.moduleTableDto);
+      fitty("#chartTitle", {
+        minSize: 14,
+        maxSize: 24,
+      });
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    fitty("#chartTitle", {
+      minSize: 14,
+      maxSize: 24,
+    });
+
     if (this.props.fileTableDto && prevProps.fileTableDto !== this.props.fileTableDto) {
       console.log("update file data!");
       this.displayFileChart(this.props.fileTableDto);
@@ -198,7 +208,6 @@ export default class FrictionBoxBubbleChart extends Component {
 
     this.labels = this.createCircleLabels(svg, packed, margin);
 
-    console.log("Finished the svg part!");
     setTimeout(() => {
       svg.style('opacity', '1');
     }, 100);
@@ -237,7 +246,10 @@ export default class FrictionBoxBubbleChart extends Component {
       .attr('width', this.width)
       .attr('height',this.height)
       .attr('fill', 'blue')
-      .attr('opacity',0);
+      .attr('opacity',0)
+      .on('mouseleave', function (event, d) {
+        that.props.onHoverCircle(null);
+      });
 
     let parentOpacity = 0;
     if (this.props.drilldownBox || this.props.drilldownModule) {
@@ -259,7 +271,9 @@ export default class FrictionBoxBubbleChart extends Component {
         that.props.onHoverCircle(d.data.name);
       })
       .on("click", function (event, d) {
-        that.onClickCircle(svg, d.x, d.y, d.r, d.data.name, d.data.group, d.data.label);
+        if (!d.children) {
+          that.onClickCircle(svg, d.x, d.y, d.r, d.data.name, d.data.group, d.data.label);
+        }
       });
 
     return circleGroup;
@@ -467,19 +481,23 @@ export default class FrictionBoxBubbleChart extends Component {
     if (!this.props.moduleTableDto) {
       return <div>Loading...</div>;
     } else if (this.props.drilldownModule === null) {
-      title = <div className="chartTitle">Top Areas of Confusion</div>;
+      title = <div id="chartTitle" className="chartTitle">Top Areas of Confusion</div>;
     } else if (this.props.drilldownBox === null) {
       backButton = <div className="backButton"><Icon name={"backward"} size={"large"} onClick={this.props.zoomOutToModuleView}/></div>;
-      title =  <div className="chartTitle">Confusion in &quot;{UtilRenderer.getCapitalizedName(this.props.drilldownModule)}&quot;</div>
+      title =  <div id="chartTitle" className="chartTitle">Confusion in &quot;{UtilRenderer.getCapitalizedName(this.props.drilldownModule)}&quot;</div>
     } else if (this.props.drilldownBox) {
       backButton = <div className="backButton"><Icon name={"backward"} size={"large"} onClick={this.props.zoomOutToBoxView}/></div>;
-      title =  <div className="chartTitle">Confusion in &quot;{UtilRenderer.getCapitalizedName(this.props.drilldownBox)}&quot;</div>
+      title =  <div id="chartTitle" className="chartTitle">Confusion in &quot;{UtilRenderer.getCapitalizedName(this.props.drilldownBox)}&quot;</div>
     }
 
     return (
       <div>
         {backButton}
+        <div className="chartTitleWrapperWrapper">
+          <div className="chartTitleWrapper">
         {title}
+          </div>
+        </div>
        <div id="chart" className="frictionCodeChart"/>
       </div>
     );

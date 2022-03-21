@@ -1,5 +1,6 @@
 import React, {Component} from "react";
-import {Divider, Grid, Popup} from "semantic-ui-react";
+import {Divider, Grid, Label, Popup} from "semantic-ui-react";
+import UtilRenderer from "../../../../../../UtilRenderer";
 
 /**
  * this component is the metrics table row for top wtf rows corresponding to a tag
@@ -15,6 +16,77 @@ export default class WtfMetricRow extends Component {
     this.state = {};
   }
 
+  getCircuitPopupForCell(cellContent) {
+
+    let tags = this.props.tags.split(",");
+
+    let popup = <Popup
+      trigger={
+       cellContent
+      }
+      position="bottom left"
+      content={
+        <div className="dashboardPopup">
+          <div className="wtfTitle">
+              Troubleshoot: {UtilRenderer.getCapitalizedName(this.props.circuitName)}{" "}
+          </div>
+          <div>
+            {this.props.wtfDescription}
+          </div>
+          <Divider />
+          <div className="tagsContentBlock">
+            {tags.map((s, i) => (
+              <Label
+                color="grey"
+                size="tiny"
+                key={i}
+              >
+                {s}
+              </Label>
+            ))}
+          </div>
+        </div>
+      }
+      flowing
+      inverted
+      hideOnScroll
+    />;
+
+    return popup;
+  }
+
+  getTaskPopupForCell(cellContent) {
+
+    let popup = <Popup
+      trigger={
+        cellContent
+      }
+      position="bottom left"
+      content={
+        <div className="dashboardPopup">
+          <div className="taskTitle">
+            Task: {this.props.taskName}
+          </div>
+          <div>{this.props.taskDescription}</div>
+          <Divider />
+          <div>
+           <span className="author">
+            {this.props.username}
+          </span>
+            <span className="date">
+            {this.props.day}
+          </span>
+          </div>
+        </div>
+      }
+      inverted
+      hideOnScroll
+    />;
+
+    return popup;
+  }
+
+
   /**
    * renders our row in our grid
    * @returns {*}
@@ -27,56 +99,16 @@ export default class WtfMetricRow extends Component {
       extraActiveClass = " hover";
     }
 
-    // 0: "User   "
-    // 1: "Circuit                   "
-    // 2: "Coords              "
-    // 3: "Day        "
-    // 4: "Timer(h:m:s) "
-    // 5: "Tags                                                                "
-    // 6: "Description                                                            "
-    // 7: "Task             "
-    // 8: "TaskDescription
-    //
+    let troubleContent = <div>
+      <div className="circuitTitle">{this.props.circuitName}</div>
+      <div className="chunkText">{this.props.wtfDescription}</div>
+    </div>;
 
-    //user, task, circuit, timer
+    let taskContent = <div style={{height: "100%"}}>
+      <div className="chunkTitle">{this.props.taskName}</div>
+    </div>;
 
-    //what if we did more of a card layout here?
-
-    let popup = <Popup
-      trigger={
-      <div>
-        <div className="circuitTitle">{this.props.circuitName}</div>
-        <div className="chunkText">{this.props.wtfDescription}</div>
-      </div>
-      }
-      position="bottom center"
-      content={
-        <div className="dashboardPopup">
-          <div className="wtftitle">
-            <b>
-              {this.props.circuitName}{" "}
-            </b>
-          </div>
-          <Divider />
-          <div>
-            <i>Task: {this.props.taskName}</i>
-          </div>
-          <div>{this.props.taskDescription}</div>
-          <Divider />
-          <div>
-           <span className="author">
-            {this.props.username}
-          </span>
-          <span className="date">
-            {this.props.day}
-          </span>
-
-          </div>
-        </div>
-      }
-      inverted
-      hideOnScroll
-    />;
+    let durationContent = <div className="chunkText metricRight">{this.props.duration}</div>
 
     return (
       <Grid.Row
@@ -85,15 +117,18 @@ export default class WtfMetricRow extends Component {
         onClick={() =>
           this.props.onRowClick(this.props.id)
         }
-        onMouseEnter={() =>
-          this.props.onHover(this.props.id)
-        }
+        onMouseOver={() => {
+          this.props.onHover(this.props.id);
+        }}
       >
-        <Grid.Column width={12}>
-          {popup}
+        <Grid.Column width={4}>
+          {this.getTaskPopupForCell(taskContent)}
+        </Grid.Column>
+        <Grid.Column width={8}>
+          {this.getCircuitPopupForCell(troubleContent)}
         </Grid.Column>
         <Grid.Column width={4}>
-          <div className="chunkText metricRight">{this.props.duration}</div>
+          {durationContent}
         </Grid.Column>
       </Grid.Row>
     );

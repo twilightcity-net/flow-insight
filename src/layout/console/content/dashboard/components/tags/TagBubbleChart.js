@@ -3,6 +3,7 @@ import {DimensionController} from "../../../../../../controllers/DimensionContro
 import * as d3 from "d3";
 import UtilRenderer from "../../../../../../UtilRenderer";
 import {Icon} from "semantic-ui-react";
+import fitty from "fitty";
 
 /**
  * this component is the bubble chart that shows relative friction by tag
@@ -20,10 +21,19 @@ export default class TagBubbleChart extends Component {
   componentDidMount() {
     if (this.props.tagsTableDto) {
       this.displayTagsChart(this.props.tagsTableDto);
+      fitty("#chartTitle", {
+        minSize: 14,
+        maxSize: 24,
+      });
     }
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
+    fitty("#chartTitle", {
+      minSize: 14,
+      maxSize: 24,
+    });
+
     if (this.props.wtfsTableDto && prevProps.wtfsTableDto !== this.props.wtfsTableDto) {
       console.log("update wtfs data!");
       this.displayWtfsChart(this.props.wtfsTableDto);
@@ -168,7 +178,6 @@ export default class TagBubbleChart extends Component {
 
     this.labels = this.createCircleLabels(svg, packed, margin);
 
-    console.log("Finished the svg part!");
     setTimeout(() => {
       svg.style('opacity', '1');
     }, 100);
@@ -198,7 +207,11 @@ export default class TagBubbleChart extends Component {
       .attr('width', this.width)
       .attr('height',this.height)
       .attr('fill', 'blue')
-      .attr('opacity',0);
+      .attr('opacity',0)
+      .on('mouseleave', function (event, d) {
+        that.props.onHoverCircle(null);
+      })
+    ;
 
     let parentOpacity = 0;
     if (this.props.drillDownTag) {
@@ -220,7 +233,9 @@ export default class TagBubbleChart extends Component {
         that.props.onHoverCircle(d.data.name);
       })
       .on("click", function (event, d) {
-        that.onClickCircle(svg, d.x, d.y, d.r, d.data.name, d.data.group, d.data.label);
+        if (!d.children) {
+          that.onClickCircle(svg, d.x, d.y, d.r, d.data.name, d.data.group, d.data.label);
+        }
       });
 
     return circleGroup;
@@ -379,16 +394,20 @@ export default class TagBubbleChart extends Component {
     if (!this.props.tagsTableDto) {
       return <div>Loading...</div>;
     } else if (this.props.drillDownTag === null) {
-      title = <div className="chartTitle">Top Pain Types</div>;
+      title = <div id="chartTitle" className="chartTitle">Top Pain Types</div>;
     } else if (this.props.drillDownTag) {
       backButton = <div className="backButton"><Icon name={"backward"} size={"large"} onClick={this.props.zoomOutToTagsView}/></div>;
-      title =  <div className="chartTitle">&quot;{UtilRenderer.getCapitalizedName(this.props.drillDownTag)}&quot; Pain</div>
+      title =  <div id="chartTitle" className="chartTitle">&quot;{UtilRenderer.getCapitalizedName(this.props.drillDownTag)}&quot;</div>
     }
 
     return (
       <div>
         {backButton}
+        <div className="chartTitleWrapperWrapper">
+          <div className="chartTitleWrapper">
         {title}
+          </div>
+        </div>
        <div id="chart" className="frictionCodeChart"/>
       </div>
     );
