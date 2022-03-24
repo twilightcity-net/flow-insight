@@ -25,18 +25,53 @@ export default class ChartView extends Component {
     CircuitClient.init(this);
     ChartClient.init(this);
 
-    if (this.props.routeProps) {
+    if (this.props.routeProps.circuitName) {
       document.title =
         "Task Flow for " +
         this.props.routeProps.circuitName;
+    } else if (this.props.routeProps.taskName) {
+      document.title =
+        "Task Flow for " +
+        this.props.routeProps.taskName;
     }
 
+    if (this.props.routeProps.circuitName) {
+      this.loadChartFromCircuit(this.props.routeProps.circuitName);
+    } else if (this.props.routeProps.taskName) {
+      this.loadChartFromProjectTask(this.props.routeProps.projectName, this.props.routeProps.taskName);
+    }
+
+  }
+
+  loadChartFromCircuit(circuitName) {
+
     ChartClient.chartFrictionForWTFTask(
-      this.props.routeProps.circuitName,
+      circuitName,
       "TWENTIES",
       this,
       (arg) => {
         console.log("chart data returnedx!");
+
+        if (!arg.error) {
+          console.log(arg.data);
+          this.setState({
+            chartDto: arg.data,
+          });
+        } else {
+          console.error(arg.error);
+        }
+      }
+    );
+  }
+
+  loadChartFromProjectTask(projectName, taskName) {
+
+    ChartClient.chartFrictionForTask(
+      projectName, taskName,
+      "TWENTIES",
+      this,
+      (arg) => {
+        console.log("task data returnedx!");
 
         if (!arg.error) {
           console.log(arg.data);
@@ -57,9 +92,16 @@ export default class ChartView extends Component {
         this
       );
 
-    chartPopoutController.closeChartWindowForCircuitTask(
-      this.props.routeProps.circuitName
-    );
+    if (this.props.routeProps.circuitName) {
+      chartPopoutController.closeChartWindowForCircuitTask(
+        this.props.routeProps.circuitName
+      );
+    } else if (this.props.routeProps.taskName) {
+      chartPopoutController.closeChartWindowForTask(
+        this.props.routeProps.projectName,
+        this.props.routeProps.taskName
+      );
+    }
   };
 
   /// renders the view into our root element of our window

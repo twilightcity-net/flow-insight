@@ -202,8 +202,6 @@ export default class UtilRenderer {
 
   /**
    * gets our timer string for other functions that the gui uses from seconds
-   * @param hours
-   * @param minutes
    * @param seconds
    * @returns {string}
    */

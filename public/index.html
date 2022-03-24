@@ -2541,6 +2541,13 @@
     font-weight: bolder;
   }
 
+  #component.dashboardContent .placeholder {
+    color: rgba(120, 120, 120, 0.96);
+    font-size: 16px;
+    font-style: italic;
+    padding: 15px;
+  }
+
   #component.dashboardContent .groupDiv {
     stroke: #272727;
     stroke-width: 2;
@@ -2568,6 +2575,15 @@
     pointer-events: none;
   }
 
+  #component.dashboardContent .box {
+    cursor: pointer;
+  }
+
+  #component.dashboardContent .boxHighlight {
+    stroke-width: 2;
+    stroke: #7f0;
+  }
+
   #component.dashboardContent .tipBox {
     color: #9C6EFA;
     font-weight: bold;
@@ -2577,6 +2593,72 @@
     color: rgba(160, 160, 160, 0.96);
   }
 
+  #component.dashboardContent .tipboxTitle {
+    fill: #9C6EFA;
+    font-weight: bold;
+  }
+
+  #component.dashboardContent .tipboxDetail {
+    fill: rgba(160, 160, 160, 0.96);
+  }
+
+  #component.dashboardContent .tipMetric {
+    float: right;
+  }
+
+  #component.dashboardContent .tipDetailLeft {
+    color: rgba(160, 160, 160, 0.96);
+    text-align: left;
+  }
+
+  #component.dashboardContent hr.rule {
+    margin-top: 10px;
+    border: 0.5px solid rgba(80, 80, 80, 0.96);
+  }
+
+  #component.dashboardContent .gtcoords {
+    color: rgba(90, 90, 90, 0.96);
+    fill:  rgba(90, 90, 90, 0.96);
+    font-style: italic;
+    font-size: 0.8rem;
+    float: right;
+  }
+
+  #component.dashboardContent .flowBar {
+    background-color: rgba(120, 120, 120, 0.96);
+    color: black;
+    border-radius: 2px;
+    font-size: 0.8rem;
+    overflow: hidden;
+  }
+
+  .flowBarTip {
+    text-align: center;
+  }
+
+  #component.dashboardContent .flowBar .confusion {
+    background-color: #960000;
+    color: white;
+    border-right: black 1px solid;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  #component.dashboardContent .flowBar .learning {
+    background-color: rgba(220, 220, 220, 0.96);
+    color: black;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+
+  #component.dashboardContent .flowBar .progress {
+    background-color: #7846FB;
+    color: white;
+    border-left: black 1px solid;
+    display: inline-block;
+    cursor: pointer;
+  }
 
   #component.dashboardContent .frictionCodeChart {
     margin-left: 15px;
@@ -2685,11 +2767,12 @@
   .ui.popup .dashboardPopup {
     pointer-events: none;
     max-width: 300px;
+    z-index: 1000;
   }
 
   .ui.popup .dashboardPopup .taskTitle {
     color: #ffffff;
-    font-weight: bold;
+    font-style: italic;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -2720,6 +2803,7 @@
     float: right;
   }
 
+
   .ui.popup .dashboardPopup .author {
     font-style: italic;
     font-size: 12px;
@@ -2742,9 +2826,9 @@
     padding: 10px;
     border-radius: 6px;
     position: absolute;
-    z-index: 1;
+    z-index: 2000;
     opacity: 0;
-    min-width: 200px;
+    min-width: 150px;
     pointer-events: none;
   }
 
@@ -2814,6 +2898,10 @@
     border-bottom: 1px solid rgba(27, 28, 29, 0.96);
   }
 
+  #component.frictionMetricList .ui.grid>.row.clickableRow {
+    cursor: pointer;
+  }
+
   #component.frictionMetricList .ui.grid>.row.metricRow:hover {
     background: rgba(60, 60, 60, 0.96);
   }
@@ -2821,7 +2909,6 @@
   #component.frictionMetricList .ui.grid>.row.metricRow.hover {
     background: rgba(60, 60, 60, 0.96);
   }
-
 
   #component.frictionMetricList .ui.grid>.row.active {
     background: rgba(70, 70, 70, 0.96);

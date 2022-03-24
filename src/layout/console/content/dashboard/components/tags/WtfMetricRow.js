@@ -28,11 +28,12 @@ export default class WtfMetricRow extends Component {
       content={
         <div className="dashboardPopup">
           <div className="wtfTitle">
-              Troubleshoot: {UtilRenderer.getCapitalizedName(this.props.circuitName)}{" "}
+             {UtilRenderer.getCapitalizedName(this.props.circuitName)}{" "}
           </div>
-          <div>
-            {this.props.wtfDescription}
+          <div className="taskTitle">
+            Task: {this.props.taskName}
           </div>
+          <div>{this.props.taskDescription}</div>
           <Divider />
           <div className="tagsContentBlock">
             {tags.map((s, i) => (
@@ -44,6 +45,15 @@ export default class WtfMetricRow extends Component {
                 {s}
               </Label>
             ))}
+          </div>
+          <Divider />
+          <div>
+           <span className="author">
+            {this.props.username}
+          </span>
+            <span className="date">
+            {this.props.day}
+          </span>
           </div>
         </div>
       }
@@ -122,10 +132,10 @@ export default class WtfMetricRow extends Component {
         }}
       >
         <Grid.Column width={4}>
-          {this.getTaskPopupForCell(taskContent)}
+          {this.getCircuitPopupForCell(taskContent)}
         </Grid.Column>
         <Grid.Column width={8}>
-          {this.getCircuitPopupForCell(troubleContent)}
+          {troubleContent}
         </Grid.Column>
         <Grid.Column width={4}>
           {durationContent}

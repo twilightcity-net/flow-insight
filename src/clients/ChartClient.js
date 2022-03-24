@@ -34,7 +34,7 @@ export class ChartClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{CHART_FRICTION_FOR_TEAM:string, CHART_FRICTION_FOR_USER:string, CHART_FRICTION:string, CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS: string, CHART_TOP_WTFS_WITH_TAG: string, CHART_WTF: string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER: string, CHART_FAMILIARITY_FOR_TEAM: string, CHART_TOP_BOXES_FOR_MODULE: string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER: string, CHART_TOP_MODULES: string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX_FOR_USER: string, CHART_TOP_BOXES_FOR_USER: string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
+   * @returns {{CHART_TOP_TASKS:string, CHART_TOP_TASKS_FOR_USER: string, CHART_TOP_TASKS_FOR_TEAM:string, CHART_FRICTION_FOR_TEAM:string, CHART_FRICTION_FOR_USER:string, CHART_FRICTION:string, CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS: string, CHART_TOP_WTFS_WITH_TAG: string, CHART_WTF: string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER: string, CHART_FAMILIARITY_FOR_TEAM: string, CHART_TOP_BOXES_FOR_MODULE: string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER: string, CHART_TOP_MODULES: string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER: string, CHART_TOP_BOXES: string, CHART_TOP_FILES_FOR_BOX_FOR_USER: string, CHART_TOP_BOXES_FOR_USER: string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK: string, CHART_TASK_FOR_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -46,6 +46,9 @@ export class ChartClient extends BaseClient {
       CHART_TOP_BOXES: "chart-top-boxes",
       CHART_TOP_BOXES_FOR_TEAM: "chart-top-boxes-for-team",
       CHART_TOP_BOXES_FOR_USER: "chart-top-boxes-for-user",
+      CHART_TOP_TASKS: "chart-top-tasks",
+      CHART_TOP_TASKS_FOR_TEAM: "chart-top-tasks-for-team",
+      CHART_TOP_TASKS_FOR_USER: "chart-top-tasks-for-user",
       CHART_TOP_MODULES_FOR_TEAM: "chart-top-modules-for-team",
       CHART_TOP_MODULES_FOR_USER: "chart-top-modules-for-user",
       CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box",
@@ -318,6 +321,90 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
+
+
+  /**
+   * Chart top tasks in a particular time period
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopTasks(
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_TASKS,
+      {
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+
+  /**
+   * Chart top tasks in a particular time period for a specific user
+   * @param username
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopTasksForUser(
+    username,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_TASKS_FOR_USER,
+      {
+        username: username,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
+  /**
+   * Chart top tasks in a particular time period for a specific team
+   * @param teamName
+   * @param timeScope
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static chartTopTasksForTeam(
+    teamName,
+    timeScope,
+    scope,
+    callback
+  ) {
+    let event = ChartClient.instance.createClientEvent(
+      ChartClient.Events.CHART_TOP_TASKS_FOR_TEAM,
+      {
+        teamName: teamName,
+        timeScope: timeScope,
+      },
+      scope,
+      callback
+    );
+
+    ChartClient.instance.notifyChart(event);
+    return event;
+  }
+
 
 
   /**

@@ -22,7 +22,7 @@ module.exports = class ChartController extends (
 
   /**
    * general enum list of all of our possible circuit events for chart requests
-   * @returns {{CHART_FRICTION_FOR_TEAM:string, CHART_FRICTION_FOR_USER:string, CHART_FRICTION:string,CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS:string, CHART_TOP_WTFS_WITH_TAG:string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE:string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER:string, CHART_TOP_MODULES:string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER:string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
+   * @returns {{CHART_TOP_TASKS:string, CHART_TOP_TASKS_FOR_USER:string, CHART_TOP_TASKS_FOR_TEAM:string, CHART_FRICTION_FOR_TEAM:string, CHART_FRICTION_FOR_USER:string, CHART_FRICTION:string,CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS:string, CHART_TOP_WTFS_WITH_TAG:string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE:string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER:string, CHART_TOP_MODULES:string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER:string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
    * @constructor
    */
   static get Events() {
@@ -39,6 +39,9 @@ module.exports = class ChartController extends (
       CHART_TOP_MODULES: "chart-top-modules",
       CHART_TOP_MODULES_FOR_TEAM: "chart-top-modules-for-team",
       CHART_TOP_MODULES_FOR_USER: "chart-top-modules-for-user",
+      CHART_TOP_TASKS: "chart-top-tasks",
+      CHART_TOP_TASKS_FOR_TEAM: "chart-top-tasks-for-team",
+      CHART_TOP_TASKS_FOR_USER: "chart-top-tasks-for-user",
       CHART_TOP_BOXES_FOR_MODULE: "chart-top-boxes-for-module",
       CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM: "chart-top-boxes-for-module-for-team",
       CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chart-top-boxes-for-module-for-user",
@@ -191,6 +194,15 @@ module.exports = class ChartController extends (
           break;
         case ChartController.Events.CHART_FRICTION_FOR_TEAM:
           this.handleChartFrictionForTeamEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TOP_TASKS:
+          this.handleChartTopTasksEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TOP_TASKS_FOR_USER:
+          this.handleChartTopTasksForUserEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TOP_TASKS_FOR_TEAM:
+          this.handleChartTopTasksForTeamEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -574,6 +586,119 @@ module.exports = class ChartController extends (
       ChartController.Contexts.CHART_CLIENT,
       {},
       ChartController.Names.CHART_TOP_WTFS_WITH_TAG_FOR_TEAM,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+
+  /**
+   * client event handler for charting top tasks
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopTasksEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.TASK;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("?", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_TASKS,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+  /**
+   * client event handler for charting top tasks for a specific user
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopTasksForUserEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope;
+    let username = arg.args.username;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.TASK ;
+
+
+    urn += "?target_type=USER&target_name="+username;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_TASKS_FOR_USER,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting top tasks for a specific team
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTopTasksForTeamEvent(event, arg, callback) {
+    let timeScope = arg.args.timeScope;
+    let teamName = arg.args.teamName;
+
+    let urn =
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.TASK ;
+
+
+    urn += "?target_type=TEAM&target_name="+teamName;
+
+    if (timeScope) {
+      urn += this.convertToGtTimeScope("&", timeScope);
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TOP_TASKS_FOR_TEAM,
       ChartController.Types.GET,
       urn,
       (store) =>

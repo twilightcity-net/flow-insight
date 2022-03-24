@@ -35,6 +35,13 @@ module.exports = class ChartWindowManager {
     this.chartWindowsByName = new Map();
   }
 
+  static get ChartType() {
+    return {
+      TASK_FOR_WTF: "task-for-wtf",
+      TASK_BY_NAME: "task-by-name"
+    };
+  }
+
   /**
    * When an open chart window is triggered, opens and creates the window
    * and passes in the properties.
@@ -42,8 +49,8 @@ module.exports = class ChartWindowManager {
    * @param arg
    */
   onOpenChartCb(event, arg) {
-    let windowName =
-      ChartWindowManager.windowNamePrefix + arg.circuitName;
+
+    let windowName = this.getWindowName(arg);
 
     arg.chartIndex = this.chartWindowsByName.size;
 
@@ -54,6 +61,25 @@ module.exports = class ChartWindowManager {
     this.chartWindowsByName.set(windowName, window);
   }
 
+  getWindowName(arg) {
+    let chartType = arg.chartType,
+      circuitName = arg.circuitName,
+      projectName = arg.projectName,
+      taskName = arg.taskName;
+
+    let windowName = ChartWindowManager.windowNamePrefix;
+
+    if (chartType === ChartWindowManager.ChartType.TASK_FOR_WTF) {
+      windowName += circuitName;
+    } else if (chartType === ChartWindowManager.ChartType.TASK_BY_NAME) {
+      windowName += projectName + "."+taskName;
+    } else {
+      throw new Error("Unable to open unknown chart type: "+chartType);
+    }
+
+    return windowName;
+  }
+
   /**
    * When an open chart window is triggered, opens and creates the window
    * and passes in the properties.
@@ -61,8 +87,7 @@ module.exports = class ChartWindowManager {
    * @param arg
    */
   onCloseChartCb(event, arg) {
-    let windowName =
-      ChartWindowManager.windowNamePrefix + arg.circuitName;
+    let windowName = this.getWindowName(arg);
 
     let window = this.chartWindowsByName.get(windowName);
     if (window) {
@@ -87,8 +112,7 @@ module.exports = class ChartWindowManager {
    * @param arg
    */
   closeChartWindow(arg) {
-    let windowName =
-      ChartWindowManager.windowNamePrefix + arg.circuitName;
+    let windowName = this.getWindowName(arg);
 
     WindowManagerHelper.closeChartWindow(windowName);
 

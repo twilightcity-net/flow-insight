@@ -239,17 +239,17 @@ export default class DashboardPanel extends Component {
             onItemClick={this.handleRiskAreaClick}
           />
           <RiskAreaListItem
-            id={DashboardResource.DashboardType.FAMILIARITY}
-            title={"Familiarity"}
-            description={"Knowledge gaps by area of code"}
-            tipInstruction={"Expanding our knowledge of more areas of code reduces the likelihood of mistakes and confusion, and increases momentum"}
-            onItemClick={this.handleRiskAreaClick}
-          />
-          <RiskAreaListItem
             id={DashboardResource.DashboardType.MOMENTUM}
             title={"Momentum"}
             description={"Trending momentum and friction"}
             tipInstruction={"Overall momentum is an indicator of a healthy codebase and knowledgeable team. Drops in momentum are an indicator of difficulties"}
+            onItemClick={this.handleRiskAreaClick}
+          />
+          <RiskAreaListItem
+            id={DashboardResource.DashboardType.FAMILIARITY}
+            title={"Familiarity"}
+            description={"Knowledge gaps by area of code"}
+            tipInstruction={"Expanding our knowledge of more areas of code reduces the likelihood of mistakes and confusion, and increases momentum"}
             onItemClick={this.handleRiskAreaClick}
           />
           <RiskAreaListItem
