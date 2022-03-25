@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import {DimensionController} from "../../../../../../controllers/DimensionController";
 import * as d3 from "d3";
 import UtilRenderer from "../../../../../../UtilRenderer";
+import {Icon} from "semantic-ui-react";
 
 /**
  * this component shows a summary of momentum flow/friction organized according to a calendar
@@ -73,16 +74,37 @@ export default class MomentumFlowChart extends Component {
       //empty chart
       return;
     }
+    //
+    // let doubleRows = [];
+    // for (let i = 0; i < data.length; i++) {
+    //   doubleRows.push(data[i]);
+    // }
+    // for (let i = 0; i < data.length; i++) {
+    //   doubleRows.push(data[i]);
+    // }
+    // for (let i = 0; i < data.length; i++) {
+    //   doubleRows.push(data[i]);
+    // }
+    // for (let i = 0; i < data.length; i++) {
+    //   doubleRows.push(data[i]);
+    // }
+    // for (let i = 0; i < data.length; i++) {
+    //   doubleRows.push(data[i]);
+    // }
+    // for (let i = 0; i < data.length; i++) {
+    //   doubleRows.push(data[i]);
+    // }
+    // data = doubleRows;
 
     let titleMargin = 45;
     this.leftTextMargin = 25;
     this.margin = 30;
     this.marginBetweenBoxesY = 5;
     this.marginBetweenBoxesX = 10;
-    this.maxCellsPerColumn = 9;
+    this.maxCellsPerColumn = 7;
 
     this.height = DimensionController.getFullRightPanelHeight() - titleMargin;
-    this.width = DimensionController.getFullRightPanelWidth() - this.margin *2;
+    this.width = DimensionController.getFullRightPanelWidth();
 
     let calRows = this.mapToBlockCalendar(data);
     let maxYearBreaks = this.getMaxYearBreaks(calRows);
@@ -207,14 +229,19 @@ export default class MomentumFlowChart extends Component {
   updateBoxHighlight(chartDto, oldCoords, newCoords) {
     if (oldCoords) {
       let boxEl = document.getElementById(oldCoords + "-box");
-      boxEl.classList.remove("boxHighlight");
+      if (boxEl) {
+        boxEl.classList.remove("boxHighlight");
+      }
     }
 
     if (newCoords) {
       let boxEl = document.getElementById(newCoords + "-box");
-      boxEl.classList.add("boxHighlight");
-
-      this.boxDetail = this.findBoxWithMatchingCoords(chartDto, newCoords);
+      if (boxEl) {
+        boxEl.classList.add("boxHighlight");
+        this.boxDetail = this.findBoxWithMatchingCoords(chartDto, newCoords);
+      } else {
+        this.boxDetail = null;
+      }
     } else {
       this.boxDetail = null;
     }
@@ -344,6 +371,11 @@ export default class MomentumFlowChart extends Component {
           let box = document.getElementById(coords+"-box");
           box.classList.remove("boxHighlight");
         }
+      })
+      .on("click", function (event, d) {
+        let coords = d.data[0].trim();
+
+       that.props.onClickSummaryBox(coords);
       })
     ;
 
@@ -828,15 +860,21 @@ export default class MomentumFlowChart extends Component {
    */
   render() {
     let title = "";
+    let backButton = "";
 
     if (!this.props.chartDto) {
       return <div>Loading...</div>;
     } else {
       title = <div className="chartTitle">{this.props.chartTitle}</div>;
+
+      if (this.props.drillDownWeek) {
+        backButton = <div className="backButton"><Icon name={"backward"} size={"large"} onClick={this.props.zoomOutToSummaryView}/></div>;
+      }
     }
 
     return (
       <div>
+        {backButton}
         {title}
         <div id="chart" className="momentumChart"/>
         <div

@@ -40,14 +40,35 @@ export default class MomentumChartContent extends Component {
   }
 
   componentDidMount() {
-    this.loadMomentumData(this.props.targetType, this.props.target, this.props.timeScope);
+    this.loadTopLevelMomentumData(this.props.targetType, this.props.target, this.props.timeScope);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     if (prevProps.targetType !== this.props.targetType || prevProps.target !== this.props.target
     || prevProps.timeScope !== this.props.timeScope) {
-      this.loadMomentumData(this.props.targetType, this.props.target, this.props.timeScope);
+      this.loadTopLevelMomentumData(this.props.targetType, this.props.target, this.props.timeScope);
     }
+  }
+
+
+  /**
+   * Load the initial top level momentum data
+   * @param targetType
+   * @param target
+   * @param timeScope
+   */
+  loadTopLevelMomentumData(targetType, target, timeScope) {
+    this.loadMomentumData(targetType, target, timeScope, this.handleMomentumDataResponse);
+  }
+
+  /**
+   * When drilling into a summary box, load the drilldown data
+   * @param targetType
+   * @param target
+   * @param timeScope
+   */
+  loadDrilldownMomentumData(targetType, target, timeScope) {
+    this.loadMomentumData(targetType, target, timeScope, this.handleDrilldownMomentumDataResponse);
   }
 
   /**
@@ -55,14 +76,15 @@ export default class MomentumChartContent extends Component {
    * @param targetType
    * @param target
    * @param timeScope
+   * @param callback
    */
-  loadMomentumData(targetType, target, timeScope) {
+  loadMomentumData(targetType, target, timeScope, callback) {
     if (targetType === DashboardPanel.TargetType.TEAM) {
-      this.loadMomentumDataForTeam(target, timeScope);
+      this.loadMomentumDataForTeam(target, timeScope, callback);
     } else if (targetType === DashboardPanel.TargetType.USER && target !== DashboardPanel.Target.ME) {
-      this.loadMomentumDataForUser(target, timeScope);
+      this.loadMomentumDataForUser(target, timeScope, callback);
     } else {
-      this.loadMomentumDataForMe(timeScope);
+      this.loadMomentumDataForMe(timeScope, callback);
     }
   }
 
@@ -127,20 +149,21 @@ export default class MomentumChartContent extends Component {
   /**
    * Load momentum data for me (no params default)
    * @param timeScope
+   * @param callback
    */
-  loadMomentumDataForMe(timeScope) {
-    if (this.isWeeksScope(timeScope)) {
+  loadMomentumDataForMe(timeScope, callback) {
+    if (this.isDailyScope(timeScope)) {
       ChartClient.chartFriction(timeScope, MomentumChartContent.BucketSize.DAYS,
         this,
         (arg) => {
-          this.handleMomentumDataResponse(arg);
+          callback(this, timeScope, arg);
         }
       );
     } else {
       ChartClient.chartFriction(timeScope, MomentumChartContent.BucketSize.WEEKS,
         this,
         (arg) => {
-          this.handleMomentumDataResponse(arg);
+          callback(this, timeScope, arg);
         }
       );
     }
@@ -150,20 +173,21 @@ export default class MomentumChartContent extends Component {
    * Load momentum data for a specific user
    * @param target
    * @param timeScope
+   * @param callback
    */
-  loadMomentumDataForUser(target, timeScope) {
-    if (this.isWeeksScope(timeScope)) {
+  loadMomentumDataForUser(target, timeScope, callback) {
+    if (this.isDailyScope(timeScope)) {
       ChartClient.chartFrictionForUser(target, timeScope, MomentumChartContent.BucketSize.DAYS,
         this,
         (arg) => {
-          this.handleMomentumDataResponse(arg);
+          callback(this, timeScope, arg);
         }
       );
     } else {
       ChartClient.chartFrictionForUser(target, timeScope, MomentumChartContent.BucketSize.WEEKS,
         this,
         (arg) => {
-          this.handleMomentumDataResponse(arg);
+          callback(this, timeScope, arg);
         }
       );
     }
@@ -174,30 +198,41 @@ export default class MomentumChartContent extends Component {
    * Load familiarity data for a specific team
    * @param target
    * @param timeScope
+   * @param callback
    */
-  loadMomentumDataForTeam(target, timeScope) {
+  loadMomentumDataForTeam(target, timeScope, callback) {
 
-    if (this.isWeeksScope(timeScope)) {
+    if (this.isDailyScope(timeScope)) {
       ChartClient.chartFrictionForTeam(target, timeScope, MomentumChartContent.BucketSize.DAYS,
         this,
         (arg) => {
-          this.handleMomentumDataResponse(arg);
+          callback(this, timeScope, arg);
         }
       );
     } else {
       ChartClient.chartFrictionForTeam(target, timeScope, MomentumChartContent.BucketSize.WEEKS,
         this,
         (arg) => {
-          this.handleMomentumDataResponse(arg);
+          callback(this, timeScope, arg);
         }
       );
     }
   }
 
-  isWeeksScope(timeScope) {
+  isDailyScope(timeScope) {
     return (timeScope === DashboardPanel.TimeScope.LATEST_TWO ||
       timeScope === DashboardPanel.TimeScope.LATEST_FOUR ||
-      timeScope === DashboardPanel.TimeScope.LATEST_SIX );
+      timeScope === DashboardPanel.TimeScope.LATEST_SIX || this.isSpecificWeekCoords(timeScope));
+  }
+
+  isSpecificWeekCoords(timeScope) {
+    if (timeScope.includes("gt[")) {
+      let parts = timeScope.split(',');
+      if (parts.length >= 3 ) {
+        return true;
+      }
+    }
+    return false;
   }
 
   getTitleFromBucketSize(bucketSize) {
@@ -219,9 +254,14 @@ export default class MomentumChartContent extends Component {
   handleTaskDataResponse(timeScope, response) {
     if (!response.error) {
       console.log(response.data);
-      this.setState({
-        taskTableDto: response.data,
-        drillDownDay: timeScope
+      this.setState((prevState) => {
+        if (prevState.selectedRowId === timeScope) {
+          return {
+            taskTableDto: response.data,
+            drillDownDay: timeScope
+          };
+        }
+        return {};
       });
     } else {
       console.error(response.error);
@@ -231,14 +271,16 @@ export default class MomentumChartContent extends Component {
 
   /**
    * Handle the momentum data response and set the state
+   * @param scope
+   * @param timeScope
    * @param response
    */
-  handleMomentumDataResponse(response) {
+  handleMomentumDataResponse(scope, timeScope, response) {
     if (!response.error) {
       console.log(response.data);
-      this.setState({
+      scope.setState({
         bucketSize: response.data.bucketSize,
-        chartTitle: this.getTitleFromBucketSize(response.data.bucketSize),
+        chartTitle: scope.getTitleFromBucketSize(response.data.bucketSize),
         chartDto: response.data,
         selectedRowId: null,
         taskTableDto: null
@@ -247,6 +289,42 @@ export default class MomentumChartContent extends Component {
       console.error(response.error);
       //TODO this should load an error page
     }
+  }
+
+
+  /**
+   * Handle the momentum data response and set the state
+   * @param scope
+   * @param timeScope
+   * @param response
+   */
+  handleDrilldownMomentumDataResponse(scope, timeScope, response) {
+    if (!response.error) {
+      console.log(response.data);
+      scope.setState((prevState) => {
+        return {
+        bucketSize: response.data.bucketSize,
+        chartTitle: scope.getTitleFromBucketSize(response.data.bucketSize),
+        drillDownWeek: timeScope,
+        summaryChartDto: prevState.chartDto,
+        chartDto: response.data,
+        selectedRowId: null,
+        taskTableDto: null
+      };
+      });
+    } else {
+      console.error(response.error);
+      //TODO this should load an error page
+    }
+  }
+
+  onClickSummaryBox = (weekCoords) => {
+    //need to do a daily data query for this specific week
+    this.setState({
+      selectedRowId : weekCoords
+    });
+
+    this.loadDrilldownMomentumData(this.props.targetType, this.props.target, weekCoords);
   }
 
   onClickBox = (dayCoords) => {
@@ -286,6 +364,21 @@ export default class MomentumChartContent extends Component {
   onHoverMetricRow = (rowId) => {
   }
 
+  zoomOutToSummaryView = () => {
+    console.log("zoooom out!");
+
+    this.setState((prevState) => {
+      return {
+        chartDto: prevState.summaryChartDto,
+        bucketSize: prevState.summaryChartDto.bucketSize,
+        chartTitle: this.getTitleFromBucketSize(prevState.summaryChartDto.bucketSize),
+        drillDownWeek: null,
+        drillDownDay: null,
+        taskTableDto: null
+      };
+    })
+  }
+
 
   /**
    * renders the main dashboard content body of this console panel
@@ -294,22 +387,7 @@ export default class MomentumChartContent extends Component {
   render() {
     let tableContent = "";
 
-    if (this.state.drillDownWeek) {
-      tableContent =  <MomentumMetricTable chartDto={this.state.chartDto}
-                                           bucketSize={this.state.bucketSize}
-                                           selectedRowId={this.state.selectedRowId}
-                                           hoverRowId={this.state.hoverRowId}
-                                           onHoverMetricRow={this.onHoverMetricRow}
-                                           onClickMetricRow={this.onClickMetricRow}/>
-    } else if (this.state.drillDownDay) {
-      tableContent =  <TaskMetricTable chartDto={this.state.chartDto}
-                                           taskTableDto={this.state.taskTableDto}
-                                           bucketSize={this.state.bucketSize}
-                                                 selectedRowId={this.state.selectedRowId}
-                                                 hoverRowId={this.state.hoverRowId}
-                                                 onHoverMetricRow={this.onHoverMetricRow}
-                                                 onClickMetricRow={this.onClickMetricRow}/>
-    } else if (this.state.bucketSize === MomentumChartContent.BucketSize.DAYS) {
+    if (this.state.bucketSize === MomentumChartContent.BucketSize.DAYS) {
       tableContent =  <TaskMetricTable chartDto={this.state.chartDto}
                                        taskTableDto={this.state.taskTableDto}
                                        bucketSize={this.state.bucketSize}
@@ -318,6 +396,8 @@ export default class MomentumChartContent extends Component {
                                        onHoverMetricRow={this.onHoverMetricRow}
                                        onClickMetricRow={this.onClickMetricRow}/>
 
+    } else if (this.state.chartDto) {
+      tableContent = <div style={{width: "100%"}}>&nbsp;</div>
     }
 
     return (<div
@@ -333,7 +413,11 @@ export default class MomentumChartContent extends Component {
                          chartTitle={this.state.chartTitle}
                          chartDto={this.state.chartDto}
                          selectedRowId={this.state.selectedRowId}
-                         onClickBox={this.onClickBox}/>
+                         drillDownWeek={this.state.drillDownWeek}
+                         onClickSummaryBox={this.onClickSummaryBox}
+                         onClickBox={this.onClickBox}
+                         zoomOutToSummaryView={this.zoomOutToSummaryView}
+      />
       {tableContent}
     </div>);
 
