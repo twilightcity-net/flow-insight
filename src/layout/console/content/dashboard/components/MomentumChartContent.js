@@ -228,7 +228,7 @@ export default class MomentumChartContent extends Component {
   isSpecificWeekCoords(timeScope) {
     if (timeScope.includes("gt[")) {
       let parts = timeScope.split(',');
-      if (parts.length >= 3 ) {
+      if (parts.length >= 2 && !timeScope.includes('-') && !timeScope.includes('*')) {
         return true;
       }
     }

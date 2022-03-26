@@ -80,8 +80,10 @@ export default class TaskMetricTable extends Component {
     let noRowsRow = "";
     if (this.props.taskTableDto) {
       rows = this.props.taskTableDto.rowsOfPaddedCells;
+    } else if (this.props.chartDto.chartSeries.rowsOfPaddedCells.length > 0) {
+      noRowsRow = <div className="placeholder">Click a box to see task momentum for the day.</div>;
     } else {
-      noRowsRow = <div className="placeholder">Click a box to see task momentum for the day.</div>
+      return <div className="placeholder">No data available</div>;
     }
 
     let mScale = d3

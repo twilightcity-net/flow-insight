@@ -69,32 +69,14 @@ export default class MomentumFlowChart extends Component {
    */
   displayWeeklyChart(chart) {
 
+    let chartDiv = document.getElementById("chart");
+    chartDiv.innerHTML = "";
+
     let data = chart.chartSeries.rowsOfPaddedCells;
     if (data.length === 0) {
       //empty chart
       return;
     }
-    //
-    // let doubleRows = [];
-    // for (let i = 0; i < data.length; i++) {
-    //   doubleRows.push(data[i]);
-    // }
-    // for (let i = 0; i < data.length; i++) {
-    //   doubleRows.push(data[i]);
-    // }
-    // for (let i = 0; i < data.length; i++) {
-    //   doubleRows.push(data[i]);
-    // }
-    // for (let i = 0; i < data.length; i++) {
-    //   doubleRows.push(data[i]);
-    // }
-    // for (let i = 0; i < data.length; i++) {
-    //   doubleRows.push(data[i]);
-    // }
-    // for (let i = 0; i < data.length; i++) {
-    //   doubleRows.push(data[i]);
-    // }
-    // data = doubleRows;
 
     let titleMargin = 45;
     this.leftTextMargin = 25;
@@ -136,8 +118,6 @@ export default class MomentumFlowChart extends Component {
     //this.centeringMargin = (this.width - this.margin * 2 - totalUsedWidth)/2;
     this.centeringMargin = 0;
 
-    let chartDiv = document.getElementById("chart");
-    chartDiv.innerHTML = "";
 
     let svg = d3
       .select("#chart")
@@ -162,6 +142,9 @@ export default class MomentumFlowChart extends Component {
    */
   displayDailyChart(chart) {
 
+    let chartDiv = document.getElementById("chart");
+    chartDiv.innerHTML = "";
+
     let data = chart.chartSeries.rowsOfPaddedCells;
     if (data.length === 0) {
       //empty chart
@@ -175,7 +158,7 @@ export default class MomentumFlowChart extends Component {
     this.marginBetweenBoxesX = 10;
 
     this.height = DimensionController.getFullRightPanelHeight() - titleMargin;
-    this.width = 340;
+    this.width = 333;
 
     let calRows = this.mapToWeekCalendar(data);
 
@@ -197,9 +180,6 @@ export default class MomentumFlowChart extends Component {
     this.centeringMargin = 12;//(this.width - this.margin * 2 - totalUsedWidth)/2;
 
     console.log("centering margin = "+this.centeringMargin);
-
-    let chartDiv = document.getElementById("chart");
-    chartDiv.innerHTML = "";
 
     this.width = (totalUsedWidth + this.margin*2);
 
@@ -864,7 +844,7 @@ export default class MomentumFlowChart extends Component {
 
     if (!this.props.chartDto) {
       return <div>Loading...</div>;
-    } else {
+    } else if (this.props.chartDto && this.props.chartDto.chartSeries.rowsOfPaddedCells.length > 0) {
       title = <div className="chartTitle">{this.props.chartTitle}</div>;
 
       if (this.props.drillDownWeek) {
