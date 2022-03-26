@@ -102,7 +102,7 @@ export default class TaskMetricTable extends Component {
             inverted
             columns={16}
           >
-            <TaskMetricHeader bucketSize={this.props.bucketSize}/>
+            <TaskMetricHeader targetType={this.props.targetType} bucketSize={this.props.bucketSize}/>
           </Grid>
           <div className="scrolling"
                onMouseLeave={() => {
@@ -116,16 +116,15 @@ export default class TaskMetricTable extends Component {
             >
               {noRowsRow}
 
-
-
               {rows.map((d, i) => {
                 let id = i;
                 let projectName = d[0].trim();
                 let taskName = d[1].trim();
-                let duration = UtilRenderer.getSecondsFromDurationString(d[2].trim());
+                let username = d[2].trim();
+                let duration = UtilRenderer.getSecondsFromDurationString(d[3].trim());
                 let friendlyDuration = UtilRenderer.getTimerString(duration);
 
-                let confusionPercent = parseFloat(d[3].trim());
+                let confusionPercent = parseFloat(d[4].trim());
                 let confusionDuration = Math.round(duration * confusionPercent / 100);
                 let friendlyConfusionDuration = UtilRenderer.getTimerString(confusionDuration);
 
@@ -133,9 +132,9 @@ export default class TaskMetricTable extends Component {
                   friendlyConfusionDuration = 'None';
                 }
 
-                let description = d[10].trim();
+                let description = d[11].trim();
 
-                let momentum = parseInt(d[7]);
+                let momentum = parseInt(d[8]);
 
 
                 let momentumColor = interp(mScale(momentum));
@@ -146,11 +145,12 @@ export default class TaskMetricTable extends Component {
                   return "";
                 }
 
-                return (<TaskMetricRow
+                return (<TaskMetricRow targetType={this.props.targetType}
                   key={id}
                   id={id}
                   projectName={projectName}
                   taskName={taskName}
+                  username={username}
                   taskDescription={description}
                   duration={friendlyDuration}
                   confusionPercent={confusionPercent}

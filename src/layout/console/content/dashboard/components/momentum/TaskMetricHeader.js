@@ -32,19 +32,32 @@ export default class TaskMetricHeader extends Component {
       timeHeader = "Week";
     }
 
+    let userColumn = "";
+    let taskColumnSize = 9;
+
+    console.log("targetType ==="+this.props.targetType);
+
+    if (this.props.targetType === "team") {
+      userColumn = (<Grid.Column width={2}>
+        <div className="chunkTitle">User</div>
+      </Grid.Column>);
+      taskColumnSize = 7;
+    }
+
     return (
       <Grid.Row className="metricHeaderRow">
-        <Grid.Column width={7}>
+        {userColumn}
+        <Grid.Column width={taskColumnSize}>
           <div className="chunkTitle">Task</div>
         </Grid.Column>
-        <Grid.Column width={3}>
+        <Grid.Column width={2}>
           <div className="chunkTitle metricRight">Hours</div>
         </Grid.Column>
         <Grid.Column width={3}>
           <div className="chunkTitle metricRight">Confusion</div>
         </Grid.Column>
-        <Grid.Column width={3}>
-          <div className="chunkTitle metricRight">Momentum</div>
+        <Grid.Column width={2}>
+          <div className="chunkTitle metricRight">Flow</div>
         </Grid.Column>
       </Grid.Row>
     );

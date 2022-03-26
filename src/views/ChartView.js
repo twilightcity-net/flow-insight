@@ -38,7 +38,7 @@ export default class ChartView extends Component {
     if (this.props.routeProps.circuitName) {
       this.loadChartFromCircuit(this.props.routeProps.circuitName);
     } else if (this.props.routeProps.taskName) {
-      this.loadChartFromProjectTask(this.props.routeProps.projectName, this.props.routeProps.taskName);
+      this.loadChartFromProjectTask(this.props.routeProps.projectName, this.props.routeProps.taskName, this.props.routeProps.username);
     }
 
   }
@@ -64,10 +64,10 @@ export default class ChartView extends Component {
     );
   }
 
-  loadChartFromProjectTask(projectName, taskName) {
+  loadChartFromProjectTask(projectName, taskName, username) {
 
-    ChartClient.chartFrictionForTask(
-      projectName, taskName,
+    ChartClient.chartFrictionForTaskForUser(
+      projectName, taskName, username,
       "TWENTIES",
       this,
       (arg) => {
@@ -99,7 +99,8 @@ export default class ChartView extends Component {
     } else if (this.props.routeProps.taskName) {
       chartPopoutController.closeChartWindowForTask(
         this.props.routeProps.projectName,
-        this.props.routeProps.taskName
+        this.props.routeProps.taskName,
+        this.props.routeProps.username
       );
     }
   };

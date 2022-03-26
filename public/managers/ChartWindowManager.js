@@ -65,6 +65,7 @@ module.exports = class ChartWindowManager {
     let chartType = arg.chartType,
       circuitName = arg.circuitName,
       projectName = arg.projectName,
+      username = arg.username,
       taskName = arg.taskName;
 
     let windowName = ChartWindowManager.windowNamePrefix;
@@ -72,7 +73,7 @@ module.exports = class ChartWindowManager {
     if (chartType === ChartWindowManager.ChartType.TASK_FOR_WTF) {
       windowName += circuitName;
     } else if (chartType === ChartWindowManager.ChartType.TASK_BY_NAME) {
-      windowName += projectName + "."+taskName;
+      windowName += username + "." + projectName + "."+taskName;
     } else {
       throw new Error("Unable to open unknown chart type: "+chartType);
     }

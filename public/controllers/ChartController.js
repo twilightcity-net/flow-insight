@@ -22,13 +22,14 @@ module.exports = class ChartController extends (
 
   /**
    * general enum list of all of our possible circuit events for chart requests
-   * @returns {{CHART_TOP_TASKS:string, CHART_TOP_TASKS_FOR_USER:string, CHART_TOP_TASKS_FOR_TEAM:string, CHART_FRICTION_FOR_TEAM:string, CHART_FRICTION_FOR_USER:string, CHART_FRICTION:string,CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS:string, CHART_TOP_WTFS_WITH_TAG:string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE:string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER:string, CHART_TOP_MODULES:string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER:string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
+   * @returns {{CHART_TASK_FOR_USER:string, CHART_TOP_TASKS:string, CHART_TOP_TASKS_FOR_USER:string, CHART_TOP_TASKS_FOR_TEAM:string, CHART_FRICTION_FOR_TEAM:string, CHART_FRICTION_FOR_USER:string, CHART_FRICTION:string,CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_TAGS_FOR_USER:string, CHART_TOP_TAGS_FOR_TEAM:string, CHART_TOP_TAGS:string, CHART_TOP_WTFS_WITH_TAG:string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE:string, CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:string, CHART_TOP_BOXES_FOR_MODULE_FOR_USER:string, CHART_TOP_MODULES:string, CHART_TOP_MODULES_FOR_TEAM:string, CHART_TOP_MODULES_FOR_USER:string, CHART_TOP_BOXES_FOR_TEAM: string, CHART_TOP_FILES_FOR_BOX_FOR_USER:string, CHART_TOP_BOXES_FOR_USER:string, CHART_TOP_FILES_FOR_BOX_FOR_TEAM: string, CHART_WTF: string, CHART_TASK: string, CHART_TOP_FILES_FOR_BOX: string, CHART_TASK_FOR_WTF: string, CHART_TOP_BOXES: string}}
    * @constructor
    */
   static get Events() {
     return {
       CHART_WTF: "chart-wtf",
       CHART_TASK: "chart-task",
+      CHART_TASK_FOR_USER: "chart-task-for-user",
       CHART_TASK_FOR_WTF: "chart-task-for-wtf",
       CHART_TOP_BOXES: "chart-top-boxes",
       CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box",
@@ -119,6 +120,9 @@ module.exports = class ChartController extends (
           break;
         case ChartController.Events.CHART_TASK:
           this.handleChartTaskEvent(event, arg);
+          break;
+        case ChartController.Events.CHART_TASK_FOR_USER:
+          this.handleChartTaskForUserEvent(event, arg);
           break;
         case ChartController.Events.CHART_TASK_FOR_WTF:
           this.handleChartTaskForWtfEvent(event, arg);
@@ -236,6 +240,50 @@ module.exports = class ChartController extends (
 
     if (bucket) {
       urn += "?bucket_size=" + bucket;
+    }
+
+    this.doClientRequest(
+      ChartController.Contexts.CHART_CLIENT,
+      {},
+      ChartController.Names.CHART_TASK,
+      ChartController.Types.GET,
+      urn,
+      (store) =>
+        this.defaultDelegatorCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for charting a task for a specific user
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleChartTaskForUserEvent(event, arg, callback) {
+    let projectName = arg.args.projectName,
+      taskName = arg.args.taskName,
+      username = arg.args.username,
+      bucket = arg.args.bucket,
+      urn =
+        ChartController.Paths.CHART +
+        ChartController.Paths.FRICTION +
+        ChartController.Paths.PROJECT +
+        ChartController.Paths.SEPARATOR +
+        projectName +
+        ChartController.Paths.TASK +
+        ChartController.Paths.SEPARATOR +
+        taskName;
+
+    urn += "?target_type=USER&target_name="+username;
+
+    if (bucket) {
+      urn += "&bucket_size=" + bucket;
     }
 
     this.doClientRequest(

@@ -60,6 +60,17 @@ export default class TaskMetricRow extends Component {
   render() {
     let momentumSquare = this.getMomentumSquare(this.props.confusionPercent, this.props.momentumColor, this.props.momentum);
 
+    let userColumn = "";
+    let taskColumnSize = 9;
+
+    if (this.props.targetType === "team") {
+      userColumn = (
+        <Grid.Column width={2}>
+        <div className="chunkText">{this.props.username}</div>
+      </Grid.Column>);
+      taskColumnSize = 7;
+    }
+
     return (
       <Grid.Row
         id={this.props.id + "-row"}
@@ -68,19 +79,20 @@ export default class TaskMetricRow extends Component {
           this.props.onRowClick(this.props.id)
         }
       >
-          <Grid.Column width={7}>
+        {userColumn}
+          <Grid.Column width={taskColumnSize}>
             <div>
             <div className="circuitTitle">{this.props.taskName}</div>
             <div className="chunkText">{this.props.taskDescription}</div>
            </div>
           </Grid.Column>
-        <Grid.Column width={3}>
+        <Grid.Column width={2}>
           <div className="chunkText metricRight">{this.props.duration}</div>
         </Grid.Column>
           <Grid.Column width={3}>
             <div className="chunkText metricRight">{this.props.confusionDuration}</div>
           </Grid.Column>
-          <Grid.Column width={3}>
+          <Grid.Column width={2}>
             <div className="chunkText metricRight">{momentumSquare}</div>
           </Grid.Column>
       </Grid.Row>

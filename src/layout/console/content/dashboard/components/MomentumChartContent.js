@@ -350,6 +350,7 @@ export default class MomentumChartContent extends Component {
     let row = rows[parseInt(rowId, 10)];
     let projectName = row[0].trim();
     let taskName = row[1].trim();
+    let username = row[2].trim();
 
 
     let chartPopoutController =
@@ -358,7 +359,7 @@ export default class MomentumChartContent extends Component {
         this
       );
 
-    chartPopoutController.openChartWindowForTask(projectName, taskName);
+    chartPopoutController.openChartWindowForTask(projectName, taskName, username);
   }
 
   onHoverMetricRow = (rowId) => {
@@ -390,6 +391,7 @@ export default class MomentumChartContent extends Component {
     if (this.state.bucketSize === MomentumChartContent.BucketSize.DAYS) {
       tableContent =  <TaskMetricTable chartDto={this.state.chartDto}
                                        taskTableDto={this.state.taskTableDto}
+                                       targetType={this.props.targetType}
                                        bucketSize={this.state.bucketSize}
                                        selectedRowId={this.state.selectedRowId}
                                        hoverRowId={this.state.hoverRowId}

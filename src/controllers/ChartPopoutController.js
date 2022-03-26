@@ -45,12 +45,13 @@ export class ChartPopoutController extends ActiveViewController {
    * @param projectName
    * @param taskName
    */
-  openChartWindowForTask(projectName, taskName) {
+  openChartWindowForTask(projectName, taskName, username) {
     console.log("taskname on client: " + taskName);
     this.openChartDispatcher.dispatch({
       chartType: ChartPopoutController.ChartType.TASK_BY_NAME,
       projectName: projectName,
-      taskName: taskName
+      taskName: taskName,
+      username: username
     });
   }
 
@@ -74,13 +75,14 @@ export class ChartPopoutController extends ActiveViewController {
    * @param projectName
    * @param taskName
    */
-  closeChartWindowForTask(projectName, taskName) {
+  closeChartWindowForTask(projectName, taskName, username) {
     console.log("taskname on client: " + taskName);
     this.closeChartDispatcher.dispatch({
       chartType:
       ChartPopoutController.ChartType.TASK_BY_NAME,
       projectName: projectName,
-      taskName: taskName
+      taskName: taskName,
+      username: username
     });
   }
 }
