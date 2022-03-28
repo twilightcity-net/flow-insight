@@ -3,7 +3,6 @@ import {ChartClient} from "../../../../../clients/ChartClient";
 import {DimensionController} from "../../../../../controllers/DimensionController";
 import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
 import MomentumFlowChart from "./momentum/MomentumFlowChart";
-import MomentumMetricTable from "./momentum/MomentumMetricTable";
 import TaskMetricTable from "./momentum/TaskMetricTable";
 import {RendererControllerFactory} from "../../../../../controllers/RendererControllerFactory";
 

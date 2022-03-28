@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Grid, Popup, Segment} from "semantic-ui-react";
+import {Grid, Popup} from "semantic-ui-react";
 
 /**
  * this component is the metrics table row for friction-y boxes

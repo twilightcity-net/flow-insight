@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Grid, Image} from "semantic-ui-react";
+import {Grid} from "semantic-ui-react";
 
 /**
  * this component is the metrics table header for friction-y boxes
@@ -24,14 +24,6 @@ export default class TaskMetricHeader extends Component {
    * @returns {*}
    */
   render() {
-    let imgWtfSrc = "./assets/images/wtf/16x16.png";
-
-    let timeHeader = "Day";
-
-    if (this.props.bucketSize === TaskMetricHeader.WEEKS) {
-      timeHeader = "Week";
-    }
-
     let userColumn = "";
     let taskColumnSize = 9;
 

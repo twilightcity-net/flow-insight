@@ -1,9 +1,7 @@
 import React, {Component} from "react";
-import {Grid, Popup, Segment} from "semantic-ui-react";
+import {Grid} from "semantic-ui-react";
 import UtilRenderer from "../../../../../../UtilRenderer";
 import {scrollTo} from "../../../../../../UtilScroll";
-import MomentumMetricHeader from "./MomentumMetricHeader";
-import MomentumMetricRow from "./MomentumMetricRow";
 import TaskMetricRow from "./TaskMetricRow";
 import TaskMetricHeader from "./TaskMetricHeader";
 import * as d3 from "d3";
@@ -136,7 +134,7 @@ export default class TaskMetricTable extends Component {
 
                 let description = d[11].trim();
 
-                let momentum = parseInt(d[8]);
+                let momentum = parseInt(d[8], 10);
 
 
                 let momentumColor = interp(mScale(momentum));
