@@ -1,8 +1,8 @@
-import React, {Component} from "react";
-import {DimensionController} from "../../../../../../controllers/DimensionController";
+import React, { Component } from "react";
+import { DimensionController } from "../../../../../../controllers/DimensionController";
 import * as d3 from "d3";
 import UtilRenderer from "../../../../../../UtilRenderer";
-import {Icon} from "semantic-ui-react";
+import { Icon } from "semantic-ui-react";
 
 /**
  * this component shows a summary of momentum flow/friction organized according to a calendar
@@ -25,14 +25,14 @@ export default class MomentumFlowChart extends Component {
    */
   componentDidMount() {
     if (this.props.chartDto) {
-      if (this.props.bucketSize === MomentumFlowChart.DAYS) {
-        this.displayDailyChart(
-          this.props.chartDto
-        );
-      } else if (this.props.bucketSize === MomentumFlowChart.WEEKS ) {
-        this.displayWeeklyChart(
-          this.props.chartDto
-        );
+      if (
+        this.props.bucketSize === MomentumFlowChart.DAYS
+      ) {
+        this.displayDailyChart(this.props.chartDto);
+      } else if (
+        this.props.bucketSize === MomentumFlowChart.WEEKS
+      ) {
+        this.displayWeeklyChart(this.props.chartDto);
       }
     }
   }
@@ -44,22 +44,30 @@ export default class MomentumFlowChart extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.chartDto && prevProps.chartDto !== this.props.chartDto) {
-      if (this.props.bucketSize === MomentumFlowChart.DAYS) {
-        this.displayDailyChart(
-          this.props.chartDto
-        );
-      } else if (this.props.bucketSize === MomentumFlowChart.WEEKS ) {
-        this.displayWeeklyChart(
-          this.props.chartDto
-        );
+    if (
+      this.props.chartDto &&
+      prevProps.chartDto !== this.props.chartDto
+    ) {
+      if (
+        this.props.bucketSize === MomentumFlowChart.DAYS
+      ) {
+        this.displayDailyChart(this.props.chartDto);
+      } else if (
+        this.props.bucketSize === MomentumFlowChart.WEEKS
+      ) {
+        this.displayWeeklyChart(this.props.chartDto);
       }
     }
 
-    if (this.props.selectedRowId !== prevProps.selectedRowId) {
-      this.updateBoxHighlight(this.props.chartDto, prevProps.selectedRowId, this.props.selectedRowId);
+    if (
+      this.props.selectedRowId !== prevProps.selectedRowId
+    ) {
+      this.updateBoxHighlight(
+        this.props.chartDto,
+        prevProps.selectedRowId,
+        this.props.selectedRowId
+      );
     }
-
   }
 
   /**
@@ -68,7 +76,6 @@ export default class MomentumFlowChart extends Component {
    * @param chart
    */
   displayWeeklyChart(chart) {
-
     let chartDiv = document.getElementById("chart");
     chartDiv.innerHTML = "";
 
@@ -85,15 +92,20 @@ export default class MomentumFlowChart extends Component {
     this.marginBetweenBoxesX = 10;
     this.maxCellsPerColumn = 7;
 
-    this.height = DimensionController.getFullRightPanelHeight() - titleMargin;
-    this.width = DimensionController.getFullRightPanelWidth();
+    this.height =
+      DimensionController.getFullRightPanelHeight() -
+      titleMargin;
+    this.width =
+      DimensionController.getFullRightPanelWidth();
 
     let calRows = this.mapToBlockCalendar(data);
     let maxYearBreaks = this.getMaxYearBreaks(calRows);
 
     let cols = 6;
     let rows = this.getRowCount(calRows);
-    let bigColumns = Math.ceil(rows / this.maxCellsPerColumn);
+    let bigColumns = Math.ceil(
+      rows / this.maxCellsPerColumn
+    );
 
     let maxRowsPerColumn = this.maxCellsPerColumn;
     if (rows < this.maxCellsPerColumn) {
@@ -104,28 +116,51 @@ export default class MomentumFlowChart extends Component {
     this.extraWeekendMargin = 5;
     this.extraYearMargin = 20;
 
-    let maxCellSizeX = Math.round((this.width - this.margin*2 -
-      ((this.margin + this.leftTextMargin) * bigColumns)) / (cols*bigColumns)) - this.cellMargin;
-    let maxCellSizeY = Math.round((this.height - this.margin*2 - maxYearBreaks*this.extraYearMargin) / maxRowsPerColumn) - this.cellMargin;
+    let maxCellSizeX =
+      Math.round(
+        (this.width -
+          this.margin * 2 -
+          (this.margin + this.leftTextMargin) *
+            bigColumns) /
+          (cols * bigColumns)
+      ) - this.cellMargin;
+    let maxCellSizeY =
+      Math.round(
+        (this.height -
+          this.margin * 2 -
+          maxYearBreaks * this.extraYearMargin) /
+          maxRowsPerColumn
+      ) - this.cellMargin;
 
     this.cellSize = maxCellSizeX;
     if (maxCellSizeY < maxCellSizeX) {
       this.cellSize = maxCellSizeY;
     }
 
-    let totalUsedWidth = ((this.cellSize + this.cellMargin)*6 + this.leftTextMargin + this.margin)*bigColumns - this.margin;
+    let totalUsedWidth =
+      ((this.cellSize + this.cellMargin) * 6 +
+        this.leftTextMargin +
+        this.margin) *
+        bigColumns -
+      this.margin;
 
     //this.centeringMargin = (this.width - this.margin * 2 - totalUsedWidth)/2;
     this.centeringMargin = 0;
 
-
     let svg = d3
       .select("#chart")
       .append("svg")
-      .attr("width", (totalUsedWidth + this.margin*2) + "px")
+      .attr(
+        "width",
+        totalUsedWidth + this.margin * 2 + "px"
+      )
       .attr("height", this.height + "px");
 
-    this.drawWeeklyCalendarSquares(svg, this.props.bucketSize, calRows);
+    this.drawWeeklyCalendarSquares(
+      svg,
+      this.props.bucketSize,
+      calRows
+    );
     this.drawWeekInBlockLabels(svg, bigColumns);
 
     let groupRefs = this.createRowReferences(calRows);
@@ -141,7 +176,6 @@ export default class MomentumFlowChart extends Component {
    * @param chart
    */
   displayDailyChart(chart) {
-
     let chartDiv = document.getElementById("chart");
     chartDiv.innerHTML = "";
 
@@ -157,7 +191,9 @@ export default class MomentumFlowChart extends Component {
     this.marginBetweenBoxesY = 5;
     this.marginBetweenBoxesX = 10;
 
-    this.height = DimensionController.getFullRightPanelHeight() - titleMargin;
+    this.height =
+      DimensionController.getFullRightPanelHeight() -
+      titleMargin;
     this.width = 333;
 
     let calRows = this.mapToWeekCalendar(data);
@@ -167,21 +203,35 @@ export default class MomentumFlowChart extends Component {
 
     this.cellMargin = 2;
     this.extraWeekendMargin = 5;
-    let maxCellSizeX = Math.round((this.width - this.margin*2 - this.extraWeekendMargin *2 - this.leftTextMargin) / cols) - this.cellMargin;
-    let maxCellSizeY = Math.round((this.height - this.margin*3.7) / rows) - this.cellMargin;
+    let maxCellSizeX =
+      Math.round(
+        (this.width -
+          this.margin * 2 -
+          this.extraWeekendMargin * 2 -
+          this.leftTextMargin) /
+          cols
+      ) - this.cellMargin;
+    let maxCellSizeY =
+      Math.round((this.height - this.margin * 3.7) / rows) -
+      this.cellMargin;
 
     this.cellSize = maxCellSizeX;
     if (maxCellSizeY < maxCellSizeX) {
       this.cellSize = maxCellSizeY;
     }
 
-    let totalUsedWidth = (this.cellSize + this.cellMargin)*7 + this.leftTextMargin + this.extraWeekendMargin;
+    let totalUsedWidth =
+      (this.cellSize + this.cellMargin) * 7 +
+      this.leftTextMargin +
+      this.extraWeekendMargin;
 
-    this.centeringMargin = 12;//(this.width - this.margin * 2 - totalUsedWidth)/2;
+    this.centeringMargin = 12; //(this.width - this.margin * 2 - totalUsedWidth)/2;
 
-    console.log("centering margin = "+this.centeringMargin);
+    console.log(
+      "centering margin = " + this.centeringMargin
+    );
 
-    this.width = (totalUsedWidth + this.margin*2);
+    this.width = totalUsedWidth + this.margin * 2;
 
     let svg = d3
       .select("#chart")
@@ -189,16 +239,19 @@ export default class MomentumFlowChart extends Component {
       .attr("width", this.width + "px")
       .attr("height", this.height + "px");
 
-    this.drawDailyCalendarSquares(svg, this.props.bucketSize, calRows);
+    this.drawDailyCalendarSquares(
+      svg,
+      this.props.bucketSize,
+      calRows
+    );
 
     this.drawDayOfWeekLabels(svg);
 
     let groupRefs = this.createRowReferences(calRows);
 
     this.drawWeekRowLabels(svg, groupRefs);
-    this.drawTipBox(svg)
+    this.drawTipBox(svg);
   }
-
 
   /**
    * Update the box highlight for the selected box
@@ -208,17 +261,24 @@ export default class MomentumFlowChart extends Component {
    */
   updateBoxHighlight(chartDto, oldCoords, newCoords) {
     if (oldCoords) {
-      let boxEl = document.getElementById(oldCoords + "-box");
+      let boxEl = document.getElementById(
+        oldCoords + "-box"
+      );
       if (boxEl) {
         boxEl.classList.remove("boxHighlight");
       }
     }
 
     if (newCoords) {
-      let boxEl = document.getElementById(newCoords + "-box");
+      let boxEl = document.getElementById(
+        newCoords + "-box"
+      );
       if (boxEl) {
         boxEl.classList.add("boxHighlight");
-        this.boxDetail = this.findBoxWithMatchingCoords(chartDto, newCoords);
+        this.boxDetail = this.findBoxWithMatchingCoords(
+          chartDto,
+          newCoords
+        );
       } else {
         this.boxDetail = null;
       }
@@ -239,20 +299,22 @@ export default class MomentumFlowChart extends Component {
       let coordsOfRow = rows[i][0].trim();
 
       if (coordsOfRow === coords) {
-        let day = UtilRenderer.getDateString(new Date(rows[i][1].trim()));
+        let day = UtilRenderer.getDateString(
+          new Date(rows[i][1].trim())
+        );
         let duration = parseInt(rows[i][2].trim(), 10);
-        let friendlyDuration = UtilRenderer.getTimerString(duration);
+        let friendlyDuration =
+          UtilRenderer.getTimerString(duration);
 
         return {
           day: day,
           hours: friendlyDuration,
-          coords: coordsOfRow
-        }
+          coords: coordsOfRow,
+        };
       }
     }
     return null;
   }
-
 
   /**
    * Draw the tooltip box below the daily chart
@@ -260,54 +322,91 @@ export default class MomentumFlowChart extends Component {
    */
 
   drawTipBox(svg) {
-
     let tipInset = 40;
     let tipHeight = 50;
     let tipMargin = 8;
     let tipPadding = 12;
     let textHeight = 20;
 
-    let overallCellWidth = 7*(this.cellSize + this.cellMargin)+this.extraWeekendMargin;
+    let overallCellWidth =
+      7 * (this.cellSize + this.cellMargin) +
+      this.extraWeekendMargin;
 
-    let tipBox = svg.append("g").attr("id", "tipbox").style('visibility', 'hidden');
+    let tipBox = svg
+      .append("g")
+      .attr("id", "tipbox")
+      .style("visibility", "hidden");
 
-    tipBox.append("rect")
-    .attr('id', 'tipbox')
-    .attr('x', this.centeringMargin + this.margin + this.leftTextMargin + tipInset)
-    .attr('y', this.height - tipHeight - tipPadding)
-    .attr('width', overallCellWidth - tipInset)
-    .attr('height', tipHeight)
-      .attr('rx', '3')
-      .attr('ry', '3')
-    .attr('fill', 'none')
-    .attr('stroke', '#333333')
+    tipBox
+      .append("rect")
+      .attr("id", "tipbox")
+      .attr(
+        "x",
+        this.centeringMargin +
+          this.margin +
+          this.leftTextMargin +
+          tipInset
+      )
+      .attr("y", this.height - tipHeight - tipPadding)
+      .attr("width", overallCellWidth - tipInset)
+      .attr("height", tipHeight)
+      .attr("rx", "3")
+      .attr("ry", "3")
+      .attr("fill", "none")
+      .attr("stroke", "#333333")
 
-      .attr('stroke-width', 1)
+      .attr("stroke-width", 1);
 
-    tipBox.append("text")
-      .attr('id', 'tipboxDay')
+    tipBox
+      .append("text")
+      .attr("id", "tipboxDay")
       .attr("class", "tipboxTitle")
-      .attr("x", this.centeringMargin + this.margin + this.leftTextMargin + overallCellWidth - tipMargin)
+      .attr(
+        "x",
+        this.centeringMargin +
+          this.margin +
+          this.leftTextMargin +
+          overallCellWidth -
+          tipMargin
+      )
       .attr("y", this.height - tipHeight + tipMargin)
       .attr("text-anchor", "end")
       .text("Feb 12");
 
-    tipBox.append("text")
-      .attr('id', 'tipboxHours')
+    tipBox
+      .append("text")
+      .attr("id", "tipboxHours")
       .attr("class", "tipboxDetail")
-      .attr("x", this.centeringMargin + this.margin + this.leftTextMargin + overallCellWidth - tipMargin)
-      .attr("y", this.height - tipHeight + tipMargin + textHeight)
+      .attr(
+        "x",
+        this.centeringMargin +
+          this.margin +
+          this.leftTextMargin +
+          overallCellWidth -
+          tipMargin
+      )
+      .attr(
+        "y",
+        this.height - tipHeight + tipMargin + textHeight
+      )
       .attr("text-anchor", "end")
       .text("Hours: 00:00");
 
-    tipBox.append("text")
-      .attr('id', 'tipboxCoords')
+    tipBox
+      .append("text")
+      .attr("id", "tipboxCoords")
       .attr("class", "gtcoords")
-      .attr("x", this.centeringMargin + this.margin + this.leftTextMargin + tipMargin + tipInset)
+      .attr(
+        "x",
+        this.centeringMargin +
+          this.margin +
+          this.leftTextMargin +
+          tipMargin +
+          tipInset
+      )
       .attr("y", this.height - tipHeight + tipMargin)
       .attr("text-anchor", "start")
       .text("gt[*]");
-
   }
 
   /**
@@ -329,60 +428,125 @@ export default class MomentumFlowChart extends Component {
 
     let that = this;
 
-    svg.selectAll('box')
+    svg
+      .selectAll("box")
       .data(calRows)
       .enter()
-      .append('rect')
-      .attr('id', (d) => (d.data[0].trim()))
-      .attr('class', 'box')
-      .attr('x', (d) => this.getBigColumnOffset(d.relativeRow) + this.centeringMargin + this.leftTextMargin + this.margin + (d.relativeColumn * (this.cellSize + this.cellMargin)))
-      .attr('y', (d) => (this.getBigColumnYReset(d.relativeRow) + this.margin + (d.relativeRow * (this.cellSize + this.cellMargin))) + this.getExtraYearMargin(d.relativeYear))
-      .attr('width', this.cellSize)
-      .attr('height', this.cellSize)
-      .attr('fill', (d) => interp(mScale(parseInt(d.data[8], 10))))
+      .append("rect")
+      .attr("id", (d) => d.data[0].trim())
+      .attr("class", "box")
+      .attr(
+        "x",
+        (d) =>
+          this.getBigColumnOffset(d.relativeRow) +
+          this.centeringMargin +
+          this.leftTextMargin +
+          this.margin +
+          d.relativeColumn *
+            (this.cellSize + this.cellMargin)
+      )
+      .attr(
+        "y",
+        (d) =>
+          this.getBigColumnYReset(d.relativeRow) +
+          this.margin +
+          d.relativeRow *
+            (this.cellSize + this.cellMargin) +
+          this.getExtraYearMargin(d.relativeYear)
+      )
+      .attr("width", this.cellSize)
+      .attr("height", this.cellSize)
+      .attr("fill", (d) =>
+        interp(mScale(parseInt(d.data[8], 10)))
+      )
       .on("mouseover", function (event, d) {
-        let box = document.getElementById(d.data[0].trim()+"-box");
+        let box = document.getElementById(
+          d.data[0].trim() + "-box"
+        );
         box.classList.add("boxHighlight");
       })
       .on("mouseout", function (event, d) {
         let coords = d.data[0].trim();
 
         if (coords !== that.props.selectedRowId) {
-          let box = document.getElementById(coords+"-box");
+          let box = document.getElementById(
+            coords + "-box"
+          );
           box.classList.remove("boxHighlight");
         }
       })
       .on("click", function (event, d) {
         let coords = d.data[0].trim();
 
-       that.props.onClickSummaryBox(coords);
-      })
-    ;
+        that.props.onClickSummaryBox(coords);
+      });
 
-    svg.selectAll('overlay')
+    svg
+      .selectAll("overlay")
       .data(calRows)
       .enter()
-      .append('rect')
-      .attr('class', 'boxOverlay')
-      .attr('x', (d) => this.getBigColumnOffset(d.relativeRow) + this.centeringMargin + this.leftTextMargin + this.margin + (d.relativeColumn * (this.cellSize + this.cellMargin)))
-      .attr('y', (d) => this.getBigColumnYReset(d.relativeRow) + this.margin + (d.relativeRow * (this.cellSize + this.cellMargin)+ this.getExtraYearMargin(d.relativeYear))
-        + Math.floor(this.cellSize * (1 - parseInt(d.data[4], 10) / 100)) )
-      .attr('width', this.cellSize)
-      .attr('height', (d) => Math.ceil(this.cellSize * parseInt(d.data[4], 10) / 100))
-      .attr('fill', "#FF2C36");
+      .append("rect")
+      .attr("class", "boxOverlay")
+      .attr(
+        "x",
+        (d) =>
+          this.getBigColumnOffset(d.relativeRow) +
+          this.centeringMargin +
+          this.leftTextMargin +
+          this.margin +
+          d.relativeColumn *
+            (this.cellSize + this.cellMargin)
+      )
+      .attr(
+        "y",
+        (d) =>
+          this.getBigColumnYReset(d.relativeRow) +
+          this.margin +
+          (d.relativeRow *
+            (this.cellSize + this.cellMargin) +
+            this.getExtraYearMargin(d.relativeYear)) +
+          Math.floor(
+            this.cellSize *
+              (1 - parseInt(d.data[4], 10) / 100)
+          )
+      )
+      .attr("width", this.cellSize)
+      .attr("height", (d) =>
+        Math.ceil(
+          (this.cellSize * parseInt(d.data[4], 10)) / 100
+        )
+      )
+      .attr("fill", "#FF2C36");
 
-    svg.selectAll('overlayStroke')
+    svg
+      .selectAll("overlayStroke")
       .data(calRows)
       .enter()
-      .append('rect')
-      .attr('class', 'boxOverlay')
-      .attr('id', (d) => (d.data[0].trim() + "-box"))
-      .attr('x', (d) => this.getBigColumnOffset(d.relativeRow) + this.centeringMargin + this.leftTextMargin + this.margin + (d.relativeColumn * (this.cellSize + this.cellMargin)))
-      .attr('y', (d) => (this.getBigColumnYReset(d.relativeRow) + this.margin + (d.relativeRow * (this.cellSize + this.cellMargin))) + this.getExtraYearMargin(d.relativeYear))
-      .attr('width', this.cellSize)
-      .attr('height', this.cellSize)
-      .attr('fill', 'none')
-
+      .append("rect")
+      .attr("class", "boxOverlay")
+      .attr("id", (d) => d.data[0].trim() + "-box")
+      .attr(
+        "x",
+        (d) =>
+          this.getBigColumnOffset(d.relativeRow) +
+          this.centeringMargin +
+          this.leftTextMargin +
+          this.margin +
+          d.relativeColumn *
+            (this.cellSize + this.cellMargin)
+      )
+      .attr(
+        "y",
+        (d) =>
+          this.getBigColumnYReset(d.relativeRow) +
+          this.margin +
+          d.relativeRow *
+            (this.cellSize + this.cellMargin) +
+          this.getExtraYearMargin(d.relativeYear)
+      )
+      .attr("width", this.cellSize)
+      .attr("height", this.cellSize)
+      .attr("fill", "none");
   }
 
   /**
@@ -404,36 +568,58 @@ export default class MomentumFlowChart extends Component {
 
     let that = this;
 
-    svg.selectAll('box')
+    svg
+      .selectAll("box")
       .data(calRows)
       .enter()
-      .append('rect')
-      .attr('id', (d) => (d.data[0].trim()))
-      .attr('class', 'box')
-      .attr('x', (d) => this.centeringMargin + this.leftTextMargin + this.margin + (d.relativeColumn * (this.cellSize + this.cellMargin) + this.getExtraWeekendMargin(d.relativeColumn)))
-      .attr('y', (d) => this.margin + (d.relativeRow * (this.cellSize + this.cellMargin)))
-      .attr('width', this.cellSize)
-      .attr('height', this.cellSize)
-      .attr('fill', (d) => interp(mScale(parseInt(d.data[8], 10))))
+      .append("rect")
+      .attr("id", (d) => d.data[0].trim())
+      .attr("class", "box")
+      .attr(
+        "x",
+        (d) =>
+          this.centeringMargin +
+          this.leftTextMargin +
+          this.margin +
+          (d.relativeColumn *
+            (this.cellSize + this.cellMargin) +
+            this.getExtraWeekendMargin(d.relativeColumn))
+      )
+      .attr(
+        "y",
+        (d) =>
+          this.margin +
+          d.relativeRow * (this.cellSize + this.cellMargin)
+      )
+      .attr("width", this.cellSize)
+      .attr("height", this.cellSize)
+      .attr("fill", (d) =>
+        interp(mScale(parseInt(d.data[8], 10)))
+      )
       .on("mouseover", function (event, d) {
-        let coords =  d.data[0].trim();
+        let coords = d.data[0].trim();
         let box = document.getElementById(coords + "-box");
         box.classList.add("boxHighlight");
 
         let tipbox = document.getElementById("tipbox");
         tipbox.style.visibility = "visible";
 
-        let day = UtilRenderer.getDateString(new Date(d.data[1].trim()));
+        let day = UtilRenderer.getDateString(
+          new Date(d.data[1].trim())
+        );
         let duration = parseInt(d.data[2].trim(), 10);
-        let friendlyDuration = UtilRenderer.getTimerString(duration);
+        let friendlyDuration =
+          UtilRenderer.getTimerString(duration);
 
         let dayEl = document.getElementById("tipboxDay");
         dayEl.textContent = day;
 
-        let hoursEl = document.getElementById("tipboxHours");
-        hoursEl.textContent = "Hours: "+friendlyDuration;
+        let hoursEl =
+          document.getElementById("tipboxHours");
+        hoursEl.textContent = "Hours: " + friendlyDuration;
 
-        let coordsEl = document.getElementById("tipboxCoords");
+        let coordsEl =
+          document.getElementById("tipboxCoords");
         coordsEl.textContent = coords;
       })
       .on("click", function (event, d) {
@@ -444,7 +630,9 @@ export default class MomentumFlowChart extends Component {
         let coords = d.data[0].trim();
 
         if (coords !== that.props.selectedRowId) {
-          let box = document.getElementById(coords+"-box");
+          let box = document.getElementById(
+            coords + "-box"
+          );
           box.classList.remove("boxHighlight");
         }
 
@@ -452,41 +640,80 @@ export default class MomentumFlowChart extends Component {
           let dayEl = document.getElementById("tipboxDay");
           dayEl.textContent = that.boxDetail.day;
 
-          let hoursEl = document.getElementById("tipboxHours");
-          hoursEl.textContent = "Hours: "+that.boxDetail.hours;
+          let hoursEl =
+            document.getElementById("tipboxHours");
+          hoursEl.textContent =
+            "Hours: " + that.boxDetail.hours;
 
-          let coordsEl = document.getElementById("tipboxCoords");
+          let coordsEl =
+            document.getElementById("tipboxCoords");
           coordsEl.textContent = that.boxDetail.coords;
-
         } else {
           let tipbox = document.getElementById("tipbox");
           tipbox.style.visibility = "hidden";
         }
-
       });
 
-    svg.selectAll('overlay')
+    svg
+      .selectAll("overlay")
       .data(calRows)
       .enter()
-      .append('rect')
-      .attr('class', 'boxOverlay')
-      .attr('x', (d) => this.centeringMargin + this.leftTextMargin + this.margin + (d.relativeColumn * (this.cellSize + this.cellMargin) + this.getExtraWeekendMargin(d.relativeColumn)))
-      .attr('y', (d) => this.margin + (d.relativeRow * (this.cellSize + this.cellMargin))
-        + Math.floor(this.cellSize * (1 - parseInt(d.data[4], 10) / 100)) )
-      .attr('width', this.cellSize)
-      .attr('height', (d) => Math.ceil(this.cellSize * parseInt(d.data[4], 10) / 100))
-      .attr('fill', "#FF2C36");
+      .append("rect")
+      .attr("class", "boxOverlay")
+      .attr(
+        "x",
+        (d) =>
+          this.centeringMargin +
+          this.leftTextMargin +
+          this.margin +
+          (d.relativeColumn *
+            (this.cellSize + this.cellMargin) +
+            this.getExtraWeekendMargin(d.relativeColumn))
+      )
+      .attr(
+        "y",
+        (d) =>
+          this.margin +
+          d.relativeRow *
+            (this.cellSize + this.cellMargin) +
+          Math.floor(
+            this.cellSize *
+              (1 - parseInt(d.data[4], 10) / 100)
+          )
+      )
+      .attr("width", this.cellSize)
+      .attr("height", (d) =>
+        Math.ceil(
+          (this.cellSize * parseInt(d.data[4], 10)) / 100
+        )
+      )
+      .attr("fill", "#FF2C36");
 
-    svg.selectAll('boxStroke')
+    svg
+      .selectAll("boxStroke")
       .data(calRows)
       .enter()
-      .append('rect')
-      .attr('id', (d) => (d.data[0].trim())+"-box")
-      .attr('x', (d) => this.centeringMargin + this.leftTextMargin + this.margin + (d.relativeColumn * (this.cellSize + this.cellMargin) + this.getExtraWeekendMargin(d.relativeColumn)))
-      .attr('y', (d) => this.margin + (d.relativeRow * (this.cellSize + this.cellMargin)))
-      .attr('width', this.cellSize)
-      .attr('height', this.cellSize)
-      .attr('fill', 'none')
+      .append("rect")
+      .attr("id", (d) => d.data[0].trim() + "-box")
+      .attr(
+        "x",
+        (d) =>
+          this.centeringMargin +
+          this.leftTextMargin +
+          this.margin +
+          (d.relativeColumn *
+            (this.cellSize + this.cellMargin) +
+            this.getExtraWeekendMargin(d.relativeColumn))
+      )
+      .attr(
+        "y",
+        (d) =>
+          this.margin +
+          d.relativeRow * (this.cellSize + this.cellMargin)
+      )
+      .attr("width", this.cellSize)
+      .attr("height", this.cellSize)
+      .attr("fill", "none");
   }
 
   /**
@@ -495,17 +722,34 @@ export default class MomentumFlowChart extends Component {
    * @param groupRefs
    */
   drawBlockRowLabels(svg, groupRefs) {
-
-    let weeksGroup = svg.append('g').attr('class', "weeks");
+    let weeksGroup = svg.append("g").attr("class", "weeks");
 
     for (let i = 0; i < groupRefs.length; i++) {
-      weeksGroup.append("text")
+      weeksGroup
+        .append("text")
         .attr("class", "axisLabel")
-        .attr("x", this.centeringMargin + this.getBigColumnOffset(groupRefs[i].rowIndex) + this.margin + this.leftTextMargin - 10)
-        .attr("y", this.getBigColumnYReset(groupRefs[i].rowIndex) + this.margin + groupRefs[i].rowIndex * (this.cellSize + this.cellMargin) + this.cellSize /2 + this.getExtraYearMargin(groupRefs[i].relativeYear))
+        .attr(
+          "x",
+          this.centeringMargin +
+            this.getBigColumnOffset(groupRefs[i].rowIndex) +
+            this.margin +
+            this.leftTextMargin -
+            10
+        )
+        .attr(
+          "y",
+          this.getBigColumnYReset(groupRefs[i].rowIndex) +
+            this.margin +
+            groupRefs[i].rowIndex *
+              (this.cellSize + this.cellMargin) +
+            this.cellSize / 2 +
+            this.getExtraYearMargin(
+              groupRefs[i].relativeYear
+            )
+        )
         .attr("text-anchor", "end")
         .attr("alignment-baseline", "middle")
-        .text("B"+ groupRefs[i].blockIndex);
+        .text("B" + groupRefs[i].blockIndex);
     }
   }
 
@@ -517,7 +761,9 @@ export default class MomentumFlowChart extends Component {
   drawYearBreakLabels(svg, groupRefs) {
     console.log(groupRefs);
 
-    let yearBreakLabels = svg.append("g").attr("class", "yearBreakLabels");
+    let yearBreakLabels = svg
+      .append("g")
+      .attr("class", "yearBreakLabels");
 
     let lastYear = null;
     for (let i = 0; i < groupRefs.length; i++) {
@@ -525,34 +771,103 @@ export default class MomentumFlowChart extends Component {
       let relRow = groupRefs[i].rowIndex;
       let relYear = groupRefs[i].relativeYear;
       if (lastYear === null || lastYear !== year) {
-        yearBreakLabels.append("line")
+        yearBreakLabels
+          .append("line")
           .attr("class", "yearBreakLine")
-          .attr("x1", this.getBigColumnOffset(relRow) + this.margin + this.centeringMargin + this.leftTextMargin)
-          .attr("x2",this.getBigColumnOffset(relRow) + this.margin + this.centeringMargin + this.leftTextMargin + (this.cellSize + this.cellMargin)*2)
-          .attr("y1",this.getBigColumnYReset(relRow) +this.margin + (relRow * (this.cellSize + this.cellMargin) + this.getExtraYearMargin(relYear) - this.extraYearMargin/2))
-          .attr("y2", this.getBigColumnYReset(relRow) +this.margin + (relRow * (this.cellSize + this.cellMargin) + this.getExtraYearMargin(relYear) - this.extraYearMargin/2));
+          .attr(
+            "x1",
+            this.getBigColumnOffset(relRow) +
+              this.margin +
+              this.centeringMargin +
+              this.leftTextMargin
+          )
+          .attr(
+            "x2",
+            this.getBigColumnOffset(relRow) +
+              this.margin +
+              this.centeringMargin +
+              this.leftTextMargin +
+              (this.cellSize + this.cellMargin) * 2
+          )
+          .attr(
+            "y1",
+            this.getBigColumnYReset(relRow) +
+              this.margin +
+              (relRow * (this.cellSize + this.cellMargin) +
+                this.getExtraYearMargin(relYear) -
+                this.extraYearMargin / 2)
+          )
+          .attr(
+            "y2",
+            this.getBigColumnYReset(relRow) +
+              this.margin +
+              (relRow * (this.cellSize + this.cellMargin) +
+                this.getExtraYearMargin(relYear) -
+                this.extraYearMargin / 2)
+          );
 
-        yearBreakLabels.append("line")
+        yearBreakLabels
+          .append("line")
           .attr("class", "yearBreakLine")
-          .attr("x1", this.getBigColumnOffset(relRow) + this.margin + this.centeringMargin + this.leftTextMargin+ (this.cellSize + this.cellMargin)*4)
-          .attr("x2",this.getBigColumnOffset(relRow) + this.margin + this.centeringMargin + this.leftTextMargin + (this.cellSize + this.cellMargin)*6)
-          .attr("y1",this.getBigColumnYReset(relRow) +this.margin + (relRow * (this.cellSize + this.cellMargin) + this.getExtraYearMargin(relYear) - this.extraYearMargin/2))
-          .attr("y2", this.getBigColumnYReset(relRow) +this.margin + (relRow * (this.cellSize + this.cellMargin) + this.getExtraYearMargin(relYear) - this.extraYearMargin/2));
+          .attr(
+            "x1",
+            this.getBigColumnOffset(relRow) +
+              this.margin +
+              this.centeringMargin +
+              this.leftTextMargin +
+              (this.cellSize + this.cellMargin) * 4
+          )
+          .attr(
+            "x2",
+            this.getBigColumnOffset(relRow) +
+              this.margin +
+              this.centeringMargin +
+              this.leftTextMargin +
+              (this.cellSize + this.cellMargin) * 6
+          )
+          .attr(
+            "y1",
+            this.getBigColumnYReset(relRow) +
+              this.margin +
+              (relRow * (this.cellSize + this.cellMargin) +
+                this.getExtraYearMargin(relYear) -
+                this.extraYearMargin / 2)
+          )
+          .attr(
+            "y2",
+            this.getBigColumnYReset(relRow) +
+              this.margin +
+              (relRow * (this.cellSize + this.cellMargin) +
+                this.getExtraYearMargin(relYear) -
+                this.extraYearMargin / 2)
+          );
 
-        yearBreakLabels.append("text")
+        yearBreakLabels
+          .append("text")
           .attr("class", "yearBreakLabel")
-          .attr("x", this.getBigColumnOffset(relRow) + this.margin + this.centeringMargin + this.leftTextMargin + (this.cellSize + this.cellMargin)*3)
-          .attr("y", this.getBigColumnYReset(relRow) +this.margin + (relRow * (this.cellSize + this.cellMargin) + this.getExtraYearMargin(relYear) - this.extraYearMargin/2))
+          .attr(
+            "x",
+            this.getBigColumnOffset(relRow) +
+              this.margin +
+              this.centeringMargin +
+              this.leftTextMargin +
+              (this.cellSize + this.cellMargin) * 3
+          )
+          .attr(
+            "y",
+            this.getBigColumnYReset(relRow) +
+              this.margin +
+              (relRow * (this.cellSize + this.cellMargin) +
+                this.getExtraYearMargin(relYear) -
+                this.extraYearMargin / 2)
+          )
           .attr("text-anchor", "middle")
           .attr("alignment-baseline", "middle")
           .text(year);
       }
       lastYear = year;
     }
-
   }
-
-
 
   /**
    * Draw the row labels for each week as the calendar date
@@ -560,14 +875,26 @@ export default class MomentumFlowChart extends Component {
    * @param groupRefs
    */
   drawWeekRowLabels(svg, groupRefs) {
-
-    let weeksGroup = svg.append('g').attr('class', "weeks");
+    let weeksGroup = svg.append("g").attr("class", "weeks");
 
     for (let i = 0; i < groupRefs.length; i++) {
-      weeksGroup.append("text")
+      weeksGroup
+        .append("text")
         .attr("class", "axisLabel")
-        .attr("x", this.centeringMargin + this.margin + this.leftTextMargin - 10)
-        .attr("y", this.margin + groupRefs[i].rowIndex * (this.cellSize + this.cellMargin) + this.cellSize /2 )
+        .attr(
+          "x",
+          this.centeringMargin +
+            this.margin +
+            this.leftTextMargin -
+            10
+        )
+        .attr(
+          "y",
+          this.margin +
+            groupRefs[i].rowIndex *
+              (this.cellSize + this.cellMargin) +
+            this.cellSize / 2
+        )
         .attr("text-anchor", "end")
         .attr("alignment-baseline", "middle")
         .text(groupRefs[i].friendlyDate);
@@ -577,10 +904,8 @@ export default class MomentumFlowChart extends Component {
   /**
    * Create a summary set of each row and the corresponding metadata and calendar date for the row
    * @param calRows
-   * @returns {*[]}
    */
   createRowReferences(calRows) {
-
     let rowRefs = [];
 
     let currentRow = null;
@@ -593,8 +918,15 @@ export default class MomentumFlowChart extends Component {
 
       if (currentRow === null || currentRow !== relRow) {
         let calDate = calRows[i].calDate;
-        let friendlyDate = UtilRenderer.getDateString(calDate);
-        rowRefs.push({rowIndex: relRow, blockIndex: blockIndex, year: year, relativeYear: relYear, friendlyDate: friendlyDate})
+        let friendlyDate =
+          UtilRenderer.getDateString(calDate);
+        rowRefs.push({
+          rowIndex: relRow,
+          blockIndex: blockIndex,
+          year: year,
+          relativeYear: relYear,
+          friendlyDate: friendlyDate,
+        });
       }
       currentRow = relRow;
     }
@@ -626,7 +958,7 @@ export default class MomentumFlowChart extends Component {
    * @returns {*}
    */
   getRowCount(calRows) {
-     return calRows[calRows.length - 1].relativeRow + 1;
+    return calRows[calRows.length - 1].relativeRow + 1;
   }
 
   /**
@@ -635,22 +967,35 @@ export default class MomentumFlowChart extends Component {
    * @param bigColumns
    */
   drawWeekInBlockLabels(svg, bigColumns) {
-    let weekDayGroup = svg.append('g').attr('class', "blockweeks");
+    let weekDayGroup = svg
+      .append("g")
+      .attr("class", "blockweeks");
 
     for (let c = 0; c < bigColumns; c++) {
-
-      let bigColumnOffset = c * (this.leftTextMargin + this.margin + ((this.cellSize + this.cellMargin)*6));
+      let bigColumnOffset =
+        c *
+        (this.leftTextMargin +
+          this.margin +
+          (this.cellSize + this.cellMargin) * 6);
 
       for (let i = 0; i < 6; i++) {
-        weekDayGroup.append("text")
+        weekDayGroup
+          .append("text")
           .attr("class", "axisLabel")
-          .attr("x", this.centeringMargin + bigColumnOffset + this.margin + this.leftTextMargin + (i * (this.cellSize + this.cellMargin) + this.cellSize/2))
+          .attr(
+            "x",
+            this.centeringMargin +
+              bigColumnOffset +
+              this.margin +
+              this.leftTextMargin +
+              (i * (this.cellSize + this.cellMargin) +
+                this.cellSize / 2)
+          )
           .attr("y", this.margin - 10)
           .attr("text-anchor", "middle")
           .text("W" + (i + 1));
       }
     }
-
   }
 
   /**
@@ -658,19 +1003,28 @@ export default class MomentumFlowChart extends Component {
    * @param svg
    */
   drawDayOfWeekLabels(svg) {
-
-    let weekDayGroup = svg.append('g').attr('class', "weekdays");
+    let weekDayGroup = svg
+      .append("g")
+      .attr("class", "weekdays");
 
     for (let i = 0; i < 7; i++) {
-      weekDayGroup.append("text")
+      weekDayGroup
+        .append("text")
         .attr("class", "axisLabel")
-        .attr("x", this.centeringMargin + this.margin + this.leftTextMargin + (i * (this.cellSize + this.cellMargin) + this.getExtraWeekendMargin(i) + this.cellSize/2))
+        .attr(
+          "x",
+          this.centeringMargin +
+            this.margin +
+            this.leftTextMargin +
+            (i * (this.cellSize + this.cellMargin) +
+              this.getExtraWeekendMargin(i) +
+              this.cellSize / 2)
+        )
         .attr("y", this.margin - 10)
         .attr("text-anchor", "middle")
         .text(this.formatDay(i));
     }
   }
-
 
   /**
    * Get the extra weekend margin if we're on a day index like (saturday or sunday) otherwise 0
@@ -691,7 +1045,7 @@ export default class MomentumFlowChart extends Component {
    * @returns {number}
    */
   getExtraYearMargin(relativeYear) {
-    return (relativeYear) * this.extraYearMargin;
+    return relativeYear * this.extraYearMargin;
   }
 
   /**
@@ -700,8 +1054,15 @@ export default class MomentumFlowChart extends Component {
    * @returns {number}
    */
   getBigColumnOffset(rowIndex) {
-    let bigColumn = Math.floor(rowIndex / this.maxCellsPerColumn);
-    return bigColumn * ((this.cellSize + this.cellMargin) * 6 + this.leftTextMargin + this.margin);
+    let bigColumn = Math.floor(
+      rowIndex / this.maxCellsPerColumn
+    );
+    return (
+      bigColumn *
+      ((this.cellSize + this.cellMargin) * 6 +
+        this.leftTextMargin +
+        this.margin)
+    );
   }
 
   /**
@@ -711,8 +1072,17 @@ export default class MomentumFlowChart extends Component {
    * @returns {number}
    */
   getBigColumnYReset(rowIndex) {
-    let bigColumn = Math.floor(rowIndex / this.maxCellsPerColumn);
-    return -1 * bigColumn * Math.round(this.maxCellsPerColumn * (this.cellSize + this.cellMargin)) ;
+    let bigColumn = Math.floor(
+      rowIndex / this.maxCellsPerColumn
+    );
+    return (
+      -1 *
+      bigColumn *
+      Math.round(
+        this.maxCellsPerColumn *
+          (this.cellSize + this.cellMargin)
+      )
+    );
   }
 
   /**
@@ -721,16 +1091,15 @@ export default class MomentumFlowChart extends Component {
    * @returns {{week: number, year: string, block: number}}
    */
   parseCoordinates(coords) {
-    let parts = coords.split(',');
-    let week = parts[2].split(']');
-    let year = parts[0].split('[');
+    let parts = coords.split(",");
+    let week = parts[2].split("]");
+    let year = parts[0].split("[");
     return {
       year: year[1],
       block: parseInt(parts[1], 10),
-      week: parseInt(week[0], 10)
-    }
+      week: parseInt(week[0], 10),
+    };
   }
-
 
   /**
    * Organize the row data according to blocks adding some extra metadata fields to the rows
@@ -738,7 +1107,6 @@ export default class MomentumFlowChart extends Component {
    * @param data
    */
   mapToBlockCalendar(data) {
-
     let calendarRows = [];
 
     let lastBlockIndex = null;
@@ -758,7 +1126,10 @@ export default class MomentumFlowChart extends Component {
       let blockIndex = coords.block;
       let weekIndex = coords.week;
       let year = coords.year;
-      if (lastBlockIndex === null || lastBlockIndex !== blockIndex) {
+      if (
+        lastBlockIndex === null ||
+        lastBlockIndex !== blockIndex
+      ) {
         blockCounter++;
       }
 
@@ -766,7 +1137,10 @@ export default class MomentumFlowChart extends Component {
         relativeYearCounter++;
       }
 
-      if (lastBlockIndex !== blockIndex && (blockCounter - 1) % this.maxCellsPerColumn === 0) {
+      if (
+        lastBlockIndex !== blockIndex &&
+        (blockCounter - 1) % this.maxCellsPerColumn === 0
+      ) {
         if (lastYear !== year) {
           relativeYearCounter = 1;
         } else {
@@ -782,18 +1156,16 @@ export default class MomentumFlowChart extends Component {
         relativeYear: relativeYearCounter,
         blockIndex: blockIndex,
         relativeRow: blockCounter - 1,
-        relativeColumn : weekIndex - 1,
-        data: d
+        relativeColumn: weekIndex - 1,
+        data: d,
       });
 
       lastBlockIndex = blockIndex;
-
     }
     console.log(calendarRows);
 
     return calendarRows;
   }
-
 
   /**
    * Organize the row data according to weeks adding some extra metadata fields to the rows
@@ -804,7 +1176,9 @@ export default class MomentumFlowChart extends Component {
     let calendarRows = [];
 
     let firstDate = new Date(data[0][1].trim());
-    let firstDayIndex = this.dayIndex(firstDate.getUTCDay());
+    let firstDayIndex = this.dayIndex(
+      firstDate.getUTCDay()
+    );
 
     let weekCounter = 0;
 
@@ -820,18 +1194,17 @@ export default class MomentumFlowChart extends Component {
       calendarRows.push({
         calDate: calDate,
         relativeColumn: dayIndex,
-        relativeRow: (weekCounter - 1),
-        data: d
+        relativeRow: weekCounter - 1,
+        data: d,
       });
     }
     console.log(calendarRows);
     return calendarRows;
   }
 
-  dayIndex = i => (i + 6) % 7;
+  dayIndex = (i) => (i + 6) % 7;
 
-  formatDay = i => "MTWTFSS"[i];
-
+  formatDay = (i) => "MTWTFSS"[i];
 
   /**
    * renders the svg display of the chart with d3 support
@@ -844,11 +1217,27 @@ export default class MomentumFlowChart extends Component {
 
     if (!this.props.chartDto) {
       return <div>Loading...</div>;
-    } else if (this.props.chartDto && this.props.chartDto.chartSeries.rowsOfPaddedCells.length > 0) {
-      title = <div className="chartTitle">{this.props.chartTitle}</div>;
+    } else if (
+      this.props.chartDto &&
+      this.props.chartDto.chartSeries.rowsOfPaddedCells
+        .length > 0
+    ) {
+      title = (
+        <div className="chartTitle">
+          {this.props.chartTitle}
+        </div>
+      );
 
       if (this.props.drillDownWeek) {
-        backButton = <div className="backButton"><Icon name={"backward"} size={"large"} onClick={this.props.zoomOutToSummaryView}/></div>;
+        backButton = (
+          <div className="backButton">
+            <Icon
+              name={"backward"}
+              size={"large"}
+              onClick={this.props.zoomOutToSummaryView}
+            />
+          </div>
+        );
       }
     }
 
@@ -856,14 +1245,9 @@ export default class MomentumFlowChart extends Component {
       <div>
         {backButton}
         {title}
-        <div id="chart" className="momentumChart"/>
-        <div
-          id="tooltip"
-          className="chartpopup"
-        ></div>
+        <div id="chart" className="momentumChart" />
+        <div id="tooltip" className="chartpopup"></div>
       </div>
     );
   }
-
-
 }
