@@ -228,6 +228,10 @@ export default class FervieSprite {
     return this.direction;
   }
 
+  getVelocityY() {
+    return this.velocityY;
+  }
+
   /**
    * Change our fervies direction.  Take into account if we are walking down a hill
    * And if our position is valid on the environment walk map.
