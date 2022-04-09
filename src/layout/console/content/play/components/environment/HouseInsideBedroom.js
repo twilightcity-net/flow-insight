@@ -8,11 +8,11 @@ export default class HouseInsideBedroom extends Environment {
 
 
   static BACKGROUND_IMAGE = "./assets/animation/insidehouse/house_inside_bedroom_background.png";
-  static FIRE_IMAGE = "./assets/animation/insidehouse/house_inside_bedroom_fire.png";
   static WALK_BEHIND_ITEMS="./assets/animation/insidehouse/house_inside_bedroom_walkbehind.png";
 
   static WALK_AREA_IMAGE = "./assets/animation/insidehouse/house_inside_bedroom_walkarea.png";
   static WALK_BEHIND_AREA_IMAGE ="./assets/animation/insidehouse/house_inside_bedroom_walkarea_behind.png";
+  static FIREPLACE_GIF ="./assets/animation/insidehouse/fire.gif";
 
 
 
@@ -24,11 +24,11 @@ export default class HouseInsideBedroom extends Environment {
     super.preload(p5);
     this.animationLoader.getStaticImage(p5, HouseInsideBedroom.BACKGROUND_IMAGE);
     this.animationLoader.getStaticImage(p5, HouseInsideBedroom.WALK_BEHIND_ITEMS);
-    this.animationLoader.getStaticImage(p5, HouseInsideBedroom.FIRE_IMAGE);
 
     this.animationLoader.getStaticImage(p5, HouseInsideBedroom.WALK_AREA_IMAGE);
     this.animationLoader.getStaticImage(p5, HouseInsideBedroom.WALK_BEHIND_AREA_IMAGE);
 
+    this.animationLoader.getStaticImage(p5, HouseInsideBedroom.FIREPLACE_GIF);
   }
 
   getDefaultSpawnProperties() {
@@ -69,13 +69,12 @@ export default class HouseInsideBedroom extends Environment {
    */
   drawBackground(p5, fervie) {
     let backgroundImage = this.animationLoader.getStaticImage(p5, HouseInsideBedroom.BACKGROUND_IMAGE);
-    let fireImage = this.animationLoader.getStaticImage(p5, HouseInsideBedroom.FIRE_IMAGE);
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
 
     p5.image(backgroundImage, 0, 0);
-    p5.image(fireImage, 0, 0);
+    this.drawFire(p5);
 
     p5.pop();
   }
@@ -89,7 +88,14 @@ export default class HouseInsideBedroom extends Environment {
     if (this.isWalkBehindPosition(p5, fervie.getFervieFootX(), fervie.getFervieFootY())) {
       p5.image(walkBehindItems, 0, 0)
     }
+
+
     p5.pop();
+  }
+
+  drawFire(p5) {
+    let fireImage = this.animationLoader.getStaticImage(p5, HouseInsideBedroom.FIREPLACE_GIF);
+    p5.image(fireImage, 716, 285);
   }
 
   mousePressed(p5, fervie) {
