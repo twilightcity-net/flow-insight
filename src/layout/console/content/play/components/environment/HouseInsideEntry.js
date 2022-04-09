@@ -13,6 +13,13 @@ export default class HouseInsideEntry extends Environment {
   static WALK_BEHIND_AREA_IMAGE ="./assets/animation/insidehouse/house_inside_entry_walkarea_behind.png";
 
   static WALK_BEHIND_WALL="./assets/animation/insidehouse/house_inside_entry_behindwall.png";
+  static CLICKABLE_AREA ="./assets/animation/insidehouse/house_inside_entry_clickable.png";
+
+  static WALL_ART_0 = "./assets/animation/insidehouse/house_inside_entry_wallart0.png";
+  static WALL_ART_1 = "./assets/animation/insidehouse/house_inside_entry_wallart1.png";
+  static WALL_ART_2 = "./assets/animation/insidehouse/house_inside_entry_wallart2.png";
+  static WALL_ART_3 = "./assets/animation/insidehouse/house_inside_entry_wallart3.png";
+
 
   /**
    * Preload all the environment images, so they are cached and ready to display
@@ -25,8 +32,16 @@ export default class HouseInsideEntry extends Environment {
 
     this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALK_AREA_IMAGE);
     this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALK_BEHIND_AREA_IMAGE);
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.CLICKABLE_AREA);
+
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_0);
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_1);
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_2);
+    this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_3);
 
     this.isGoingThroughDoor = false;
+    this.showWallArt = false;
+    this.wallArtIndex = 0;
 
   }
 
@@ -71,6 +86,40 @@ export default class HouseInsideEntry extends Environment {
     }
   }
 
+  isOverWallArtPosition(p5, x, y) {
+    let clickMapImage = this.animationLoader.getStaticImage(p5, HouseInsideEntry.CLICKABLE_AREA);
+
+    let color = clickMapImage.get(Math.round(x/this.scaleAmountX), Math.round(y/this.scaleAmountY));
+    if (color && (color[0] > 0)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  isOverWallArtPopup(p5, x, y) {
+    let wallArtPopupImage = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_0);
+
+    let color = wallArtPopupImage.get(Math.round(x/this.scaleAmountX), Math.round(y/this.scaleAmountY));
+    if (color && (color[3] > 0)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  getWallArtIndexBasedOnPosition(x, y) {
+    if (x > 400 && x < 827) {
+      return 1;
+    } else if (x > 827 && x < 930) {
+      return 2;
+    } else if (x > 930) {
+      return 3;
+    } else {
+      return 0;
+    }
+  }
+
 
   isFervieInFrontOfDoorway(fervie) {
 
@@ -99,6 +148,13 @@ export default class HouseInsideEntry extends Environment {
 
     p5.image(backgroundImage, 0, 0);
 
+    if ((!this.showWallArt && this.isOverWallArtPosition(p5, p5.mouseX, p5.mouseY)) ||
+      (this.showWallArt && !this.isOverWallArtPopup(p5, p5.mouseX, p5.mouseY))) {
+      p5.cursor(p5.HAND);
+    } else {
+      p5.cursor(p5.ARROW);
+    }
+
     p5.pop();
   }
 
@@ -111,7 +167,27 @@ export default class HouseInsideEntry extends Environment {
     if (this.isWalkBehindPosition(p5, fervie.getFervieFootX(), fervie.getFervieFootY())) {
       p5.image(wall, 0, 0)
     }
+
+    if (this.showWallArt) {
+      this.drawWallArt(p5, this.wallArtIndex);
+    }
+
     p5.pop();
+  }
+
+  drawWallArt(p5, wallArtIndex) {
+    console.log("Draw wall art "+wallArtIndex);
+
+    let wallArt = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_0);
+    if (wallArtIndex === 1) {
+      wallArt = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_1);
+    } else if (wallArtIndex === 2) {
+      wallArt = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_2);
+    } else if (wallArtIndex === 3) {
+      wallArt = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALL_ART_3);
+    }
+
+    p5.image(wallArt, 0, 0);
   }
 
   hasFervieMovingNorth(fervie) {
@@ -119,10 +195,18 @@ export default class HouseInsideEntry extends Environment {
   }
 
   mousePressed(p5, fervie) {
-    console.log("x = "+fervie.x + ", y = "+fervie.y);
-    console.log("fx = "+fervie.getFervieFootX() + ", fy = "+fervie.getFervieFootY());
+    let x =  p5.mouseX;
+    let y = p5.mouseY;
 
-    //TODO click on paintings
+    console.log("x = "+x + ", y = "+y);
+    if (!this.showWallArt && this.isOverWallArtPosition(p5,x,y)) {
+      console.log("is over wall art position");
+      this.wallArtIndex = this.getWallArtIndexBasedOnPosition(x, y);
+      this.showWallArt = true;
+    } else if (this.showWallArt && !this.isOverWallArtPopup(p5, x, y)) {
+      console.log("is not over wall art popup");
+      this.showWallArt = false;
+    }
   }
 
   /**
