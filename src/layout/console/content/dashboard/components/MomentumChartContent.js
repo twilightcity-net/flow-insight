@@ -387,6 +387,30 @@ export default class MomentumChartContent extends Component {
   render() {
     let tableContent = "";
 
+    if (!this.state.chartDto) {
+      return (<div
+        id="component"
+        className="dashboardContent"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.FLOW_PANEL
+          ),
+        }}
+      >Loading...</div>);
+    }
+
+    if (this.state.chartDto && this.state.chartDto.chartSeries.rowsOfPaddedCells.length === 0) {
+      return (<div
+        id="component"
+        className="dashboardContent"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.FLOW_PANEL
+          ),
+        }}
+      >No Data Available</div>);
+    }
+
     if (this.state.bucketSize === MomentumChartContent.BucketSize.DAYS) {
       tableContent =  <TaskMetricTable chartDto={this.state.chartDto}
                                        taskTableDto={this.state.taskTableDto}
@@ -400,6 +424,7 @@ export default class MomentumChartContent extends Component {
     } else if (this.state.chartDto) {
       tableContent = <div style={{width: "100%"}}>&nbsp;</div>
     }
+
 
     return (<div
       id="component"

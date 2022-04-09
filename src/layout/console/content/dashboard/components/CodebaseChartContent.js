@@ -370,6 +370,30 @@ export default class CodebaseChartContent extends Component {
   render() {
     let tableContent = "";
 
+    if (!this.state.moduleTableDto) {
+      return (<div
+        id="component"
+        className="dashboardContent"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.FLOW_PANEL
+          ),
+        }}
+      >Loading...</div>);
+    }
+
+    if (this.state.moduleTableDto && this.state.moduleTableDto.rowsOfPaddedCells.length === 0) {
+      return (<div
+        id="component"
+        className="dashboardContent"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.FLOW_PANEL
+          ),
+        }}
+      >No Data Available</div>);
+    }
+
     if (this.state.drillDownModule === null) {
       tableContent =  <FrictionModuleMetricTable tableDto={this.state.moduleTableDto}
                                                selectedRowId={this.state.selectedRowId}

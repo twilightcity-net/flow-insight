@@ -12,10 +12,10 @@ export class TeamClient extends BaseClient {
   static replies = new Map();
 
   /**
-   * Static name of the logged in house
+   * Static name of the logged in org
    * @type {null}
    */
-  static houseName = null;
+  static orgName = null;
 
 
   /**
@@ -34,7 +34,7 @@ export class TeamClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, LOAD_MY_HOME_TEAM: string, LOAD_ALL_MY_TEAMS: string}}
+   * @returns {{GET_ACTIVE_ORG:string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, LOAD_MY_HOME_TEAM: string, LOAD_ALL_MY_TEAMS: string}}
    * @constructor
    */
   static get Events() {
@@ -43,7 +43,7 @@ export class TeamClient extends BaseClient {
       LOAD_ALL_MY_TEAMS: "load-all-my-teams",
       GET_MY_HOME_TEAM: "get-my-home-team",
       GET_ALL_MY_TEAMS: "get-all-my-teams",
-      GET_ACTIVE_HOUSE: "get-active-house",
+      GET_ACTIVE_ORG: "get-active-org",
     };
   }
 
@@ -54,8 +54,8 @@ export class TeamClient extends BaseClient {
   static init(scope) {
     if (!TeamClient.instance) {
       TeamClient.instance = new TeamClient(scope);
-      TeamClient.getActiveHouse(this, (arg) => {
-        TeamClient.houseName = arg.data.houseName;
+      TeamClient.getActiveOrg(this, (arg) => {
+        TeamClient.orgName = arg.data.orgName;
       });
     }
   }
@@ -112,14 +112,14 @@ export class TeamClient extends BaseClient {
   }
 
   /**
-   * gets the actively logged in house information
+   * gets the actively logged in org information
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static getActiveHouse(scope, callback) {
+  static getActiveOrg(scope, callback) {
     let event = TeamClient.instance.createClientEvent(
-      TeamClient.Events.GET_ACTIVE_HOUSE,
+      TeamClient.Events.GET_ACTIVE_ORG,
       {},
       scope,
       callback

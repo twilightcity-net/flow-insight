@@ -36,7 +36,7 @@ export default class TeamPanel extends Component {
         SidePanelViewController.SubmenuSelection.TEAMS,
       teamVisible: false,
       teams: [],
-      houseName: TeamClient.houseName,
+      orgName: TeamClient.orgName,
     };
     this.myController =
       RendererControllerFactory.getViewController(
@@ -269,14 +269,14 @@ export default class TeamPanel extends Component {
    * called to refresh the team panel with new data
    */
   refreshTeamPanel() {
-    if (this.state.houseName == null) {
-      TeamClient.getActiveHouse(this, (arg) => {
+    if (this.state.orgName == null) {
+      TeamClient.getActiveOrg(this, (arg) => {
         if (arg.error) {
           this.error = arg.error;
         } else {
           this.error = null;
           this.setState({
-            houseName: arg.data.houseName,
+            orgName: arg.data.orgName,
           });
         }
       });
@@ -513,8 +513,8 @@ export default class TeamPanel extends Component {
 
     let houseTitle = "Teams";
 
-    if (this.state.houseName != null) {
-      houseTitle = this.state.houseName + " Teams";
+    if (this.state.orgName != null) {
+      houseTitle = this.state.orgName + " Teams";
     }
 
     return (

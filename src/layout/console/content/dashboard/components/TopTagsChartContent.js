@@ -289,6 +289,30 @@ export default class TopTagsChartContent extends Component {
   render() {
     let tableContent = "";
 
+    if (!this.state.tagsTableDto) {
+      return (<div
+        id="component"
+        className="dashboardContent"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.FLOW_PANEL
+          ),
+        }}
+      >Loading...</div>);
+    }
+
+    if (this.state.tagsTableDto && this.state.tagsTableDto.rowsOfPaddedCells.length === 0) {
+      return (<div
+        id="component"
+        className="dashboardContent"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.FLOW_PANEL
+          ),
+        }}
+      >No Data Available</div>);
+    }
+
     if (this.state.drillDownTag === null) {
       tableContent =  <TagMetricTable tableDto={this.state.tagsTableDto}
                                                  selectedRowId={this.state.selectedRowId}

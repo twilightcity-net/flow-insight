@@ -25,7 +25,7 @@ module.exports = class TeamController extends (
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, LOAD_MY_HOME_TEAM: string, LOAD_ALL_MY_TEAMS: string}}
+   * @returns {{GET_ACTIVE_ORG:string, GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, LOAD_MY_HOME_TEAM: string, LOAD_ALL_MY_TEAMS: string}}
    * @constructor
    */
   static get Events() {
@@ -34,7 +34,7 @@ module.exports = class TeamController extends (
       LOAD_ALL_MY_TEAMS: "load-all-my-teams",
       GET_MY_HOME_TEAM: "get-my-home-team",
       GET_ALL_MY_TEAMS: "get-all-my-teams",
-      GET_ACTIVE_HOUSE: "get-active-house",
+      GET_ACTIVE_ORG: "get-active-org",
     };
   }
 
@@ -88,8 +88,8 @@ module.exports = class TeamController extends (
         case TeamController.Events.GET_ALL_MY_TEAMS:
           this.handleGetAllMyTeamsEvent(event, arg);
           break;
-        case TeamController.Events.GET_ACTIVE_HOUSE:
-          this.handleGetActiveHouseEvent(event, arg);
+        case TeamController.Events.GET_ACTIVE_ORG:
+          this.handleGetActiveOrgEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -293,21 +293,21 @@ module.exports = class TeamController extends (
   }
 
   /**
-   * gets the house information from the active connection status
+   * gets the org information from the active connection status
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetActiveHouseEvent(event, arg, callback) {
+  handleGetActiveOrgEvent(event, arg, callback) {
     let connectionStatus = global.App.connectionStatus;
 
-    let house = {
-      houseId: connectionStatus.houseId,
-      houseName: connectionStatus.houseName,
-      houseDomainName: connectionStatus.houseDomainName,
+    let org = {
+      orgId: connectionStatus.orgId,
+      orgName: connectionStatus.orgName,
+      orgDomainName: connectionStatus.orgDomainName,
     };
 
-    arg.data = house;
+    arg.data = org;
 
     this.delegateCallbackOrEventReplyTo(
       event,

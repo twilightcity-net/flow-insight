@@ -119,6 +119,30 @@ export default class FamiliarityChartContent extends Component {
   render() {
     let tableContent = "";
 
+    if (!this.state.tableDto) {
+      return (<div
+        id="component"
+        className="dashboardContent"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.FLOW_PANEL
+          ),
+        }}
+      >Loading...</div>);
+    }
+
+    if (this.state.tableDto && this.state.tableDto.rowsOfPaddedCells.length === 0) {
+      return (<div
+        id="component"
+        className="dashboardContent"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.FLOW_PANEL
+          ),
+        }}
+      >No Data Available</div>);
+    }
+
     return (<div
       id="component"
       className="dashboardContent"
