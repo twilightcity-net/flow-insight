@@ -96,7 +96,7 @@ export class CircuitClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_CIRCUIT_MEMBERS: string, GET_CIRCUIT_TASK_SUMMARY: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, LEAVE_WTF: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, JOIN_WTF: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, RESUME_WTF: string}}
+   * @returns {{GET_ALL_MY_SOLVED_CIRCUITS:string, LOAD_CIRCUIT_MEMBERS: string, GET_CIRCUIT_TASK_SUMMARY: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_RETRO_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, LEAVE_WTF: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, JOIN_WTF: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -124,6 +124,8 @@ export class CircuitClient extends BaseClient {
         "get-all-my-do-it-later-circuits",
       GET_ALL_MY_RETRO_CIRCUITS:
         "get-all-my-retro-circuits",
+      GET_ALL_MY_SOLVED_CIRCUITS:
+        "get-all-my-solved-circuits",
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
@@ -360,7 +362,8 @@ export class CircuitClient extends BaseClient {
   }
 
   /**
-   * gets all of our circuits that are on hold we are part of
+   * gets all of our circuits that are in retro across the team
+   * still waiting for our input
    * @param scope
    * @param callback
    * @returns {RendererClientEvent}
@@ -368,6 +371,24 @@ export class CircuitClient extends BaseClient {
   static getAllMyRetroCircuits(scope, callback) {
     let event = CircuitClient.instance.createClientEvent(
       CircuitClient.Events.GET_ALL_MY_RETRO_CIRCUITS,
+      {},
+      scope,
+      callback
+    );
+    CircuitClient.instance.notifyCircuit(event);
+    return event;
+  }
+
+  /**
+   * gets all of our circuits that are solved across the team
+   * that we haven't dismissed
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getAllMySolvedCircuits(scope, callback) {
+    let event = CircuitClient.instance.createClientEvent(
+      CircuitClient.Events.GET_ALL_MY_SOLVED_CIRCUITS,
       {},
       scope,
       callback

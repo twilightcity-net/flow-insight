@@ -574,6 +574,10 @@ module.exports = class BaseController {
    */
   getMeUsername() {
     let me = this.getMemberMe();
-    return me.username;
+    if (me) {
+      return me.username;
+    } else {
+      return null;
+    }
   }
 };

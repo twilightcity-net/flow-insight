@@ -22,11 +22,17 @@ module.exports = class CircuitController extends (
       CircuitController.instance = this;
       CircuitController.wireControllersTogether();
     }
+
+    this.isParticipatingLoaded = false;
+    this.isDoItLaterLoaded = false;
+    this.isSolvedLoaded = false;
+    this.isRetroLoaded = false;
+
   }
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{LOAD_CIRCUIT_MEMBERS: string, GET_CIRCUIT_TASK_SUMMARY: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, LEAVE_WTF: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, JOIN_WTF: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
+   * @returns {{GET_ALL_MY_SOLVED_CIRCUITS:string, LOAD_CIRCUIT_MEMBERS: string, GET_CIRCUIT_TASK_SUMMARY: string, LOAD_ALL_MY_DO_IT_LATER_CIRCUITS: string, LOAD_ALL_MY_PARTICIPATING_CIRCUITS: string, PAUSE_WTF_WITH_DO_IT_LATER: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, CANCEL_WTF: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, LOAD_ACTIVE_CIRCUIT: string, LEAVE_WTF: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, LOAD_CIRCUIT_WITH_ALL_DETAILS: string, JOIN_WTF: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Events() {
@@ -54,6 +60,8 @@ module.exports = class CircuitController extends (
         "get-all-my-do-it-later-circuits",
       GET_ALL_MY_RETRO_CIRCUITS:
         "get-all-my-retro-circuits",
+      GET_ALL_MY_SOLVED_CIRCUITS:
+        "get-all-my-solved-circuits",
       GET_ACTIVE_CIRCUIT: "get-active-circuit",
       GET_CIRCUIT_WITH_ALL_DETAILS:
         "get-circuit-with-all-details",
@@ -108,6 +116,11 @@ module.exports = class CircuitController extends (
       );
 
     collection.chain().remove();
+
+    this.isParticipatingLoaded = false;
+    this.isDoItLaterLoaded = false;
+    this.isSolvedLoaded = false;
+    this.isRetroLoaded = false;
   }
 
   /**
@@ -185,21 +198,25 @@ module.exports = class CircuitController extends (
           break;
         case CircuitController.Events
           .GET_ALL_MY_PARTICIPATING_CIRCUITS:
-          this.handleGetAllMyParticipatingCircuitsEvent(
+          this.handleGetAllMyParticipatingCircuitsEventWithFallback(
             event,
             arg
           );
           break;
         case CircuitController.Events
           .GET_ALL_MY_DO_IT_LATER_CIRCUITS:
-          this.handleGetAllMyDoItLaterCircuitsEvent(
+          this.handleGetAllMyDoItLaterCircuitsEventWithFallback(
             event,
             arg
           );
           break;
         case CircuitController.Events
           .GET_ALL_MY_RETRO_CIRCUITS:
-          this.handleGetAllMyRetroCircuitsEvent(event, arg);
+          this.handleGetAllMyRetroCircuitsEventWithFallback(event, arg);
+          break;
+        case CircuitController.Events
+          .GET_ALL_MY_SOLVED_CIRCUITS:
+          this.handleGetAllMySolvedCircuitsEventWithFallback(event, arg);
           break;
         case CircuitController.Events.GET_ACTIVE_CIRCUIT:
           this.handleGetActiveCircuitEvent(event, arg);
@@ -483,7 +500,9 @@ module.exports = class CircuitController extends (
   ) {
     if (store.error) {
       arg.error = store.error;
+      this.isParticipatingLoaded = false;
     } else {
+      arg.data = store.data;
       let database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.CIRCUIT
         ),
@@ -495,10 +514,8 @@ module.exports = class CircuitController extends (
         store.data,
         collection
       );
+      this.isParticipatingLoaded = true;
     }
-
-    //this doesn't return the store data, into arg.data, but it does put the items in the DB.
-    //participating would be, any wtf that I've participated in... that isn't closed.
 
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -506,6 +523,7 @@ module.exports = class CircuitController extends (
       callback
     );
   }
+
 
   /**
    * handles loading our do it later circuits into our local database.
@@ -556,7 +574,9 @@ module.exports = class CircuitController extends (
   ) {
     if (store.error) {
       arg.error = store.error;
+      this.isDoItLaterLoaded = false;
     } else {
+      arg.data = store.data;
       let database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.CIRCUIT
         ),
@@ -568,6 +588,8 @@ module.exports = class CircuitController extends (
         store.data,
         collection
       );
+
+      this.isDoItLaterLoaded = true;
     }
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -575,6 +597,8 @@ module.exports = class CircuitController extends (
       callback
     );
   }
+
+
 
   /**
    * handles loading our retro circuits into our local database
@@ -607,6 +631,8 @@ module.exports = class CircuitController extends (
         )
     );
   }
+
+
 
   /**
    * handles loading our retro circuits into our local database
@@ -655,7 +681,9 @@ module.exports = class CircuitController extends (
   ) {
     if (store.error) {
       arg.error = store.error;
+      this.isRetroLoaded = false;
     } else {
+      arg.data = store.data;
       let database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.CIRCUIT
         ),
@@ -667,6 +695,7 @@ module.exports = class CircuitController extends (
         store.data,
         collection
       );
+      this.isRetroLoaded = true;
     }
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -690,7 +719,9 @@ module.exports = class CircuitController extends (
   ) {
     if (store.error) {
       arg.error = store.error;
+      this.isSolvedLoaded = false;
     } else {
+      arg.data = store.data;
       let database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.CIRCUIT
         ),
@@ -702,7 +733,9 @@ module.exports = class CircuitController extends (
         store.data,
         collection
       );
+      this.isSolvedLoaded = true;
     }
+
     this.delegateCallbackOrEventReplyTo(
       event,
       arg,
@@ -930,94 +963,217 @@ module.exports = class CircuitController extends (
   }
 
   /**
-   * gets all of our participating circuits that is stored in our local database
+   * gets our participating circuits with fallback to querying the server
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetAllMyParticipatingCircuitsEvent(
+  handleGetAllMyParticipatingCircuitsEventWithFallback(event, arg, callback) {
+    let database = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.CIRCUIT
+      );
+
+    if (this.isParticipatingLoaded) {
+      let view = database.getViewAllMyParticipatingCircuits();
+
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        view.count()
+      );
+      arg.data = view.data();
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+
+    } else {
+      this.handleLoadAllMyParticipatingCircuitsEvent(
+        {},
+        {},
+        (args) => {
+          if (args.data) {
+            let view = database.getViewAllMyParticipatingCircuits();
+            arg.data = view.data();
+          }
+          if (args.error) {
+            arg.error = args.error;
+          }
+
+          this.delegateCallbackOrEventReplyTo(
+            event,
+            arg,
+            callback
+          );
+        }
+      );
+    }
+  }
+
+
+
+
+  /**
+   * performs a get query to find any circuit that is in our do it later collection
+   * with fallback to server if the data hasnt been successfully loaded yet
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetAllMyDoItLaterCircuitsEventWithFallback(
     event,
     arg,
     callback
   ) {
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.CIRCUIT
-      ),
-      view = database.getViewAllMyParticipatingCircuits();
+      );
 
-    this.logResults(
-      this.name,
-      arg.type,
-      arg.id,
-      view.count()
-    );
-    arg.data = view.data();
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
+    if (this.isDoItLaterLoaded) {
+      let view = database.getViewAllMyDoItLaterCircuits();
+
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        view.count()
+      );
+      arg.data = view.data();
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    } else {
+      this.handleLoadAllMyDoItLaterCircuitsEvent(
+        {},
+        {},
+        (args) => {
+          if (args.data) {
+            let view = database.getViewAllMyDoItLaterCircuits();
+            arg.data = view.data();
+          }
+          if (args.error) {
+            arg.error = args.error;
+          }
+
+          this.delegateCallbackOrEventReplyTo(
+            event,
+            arg,
+            callback
+          );
+        }
+      );
+    }
   }
+
 
   /**
    * performs a get query to find any circuit that is in our do it later collection
+   * and fallback to server request if data hasnt been successfully loaded yet
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetAllMyDoItLaterCircuitsEvent(
-    event,
-    arg,
-    callback
-  ) {
+  handleGetAllMyRetroCircuitsEventWithFallback(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.CIRCUIT
-      ),
-      view = database.getViewAllMyDoItLaterCircuits();
+        DatabaseFactory.Names.CIRCUIT);
 
-    this.logResults(
-      this.name,
-      arg.type,
-      arg.id,
-      view.count()
-    );
-    arg.data = view.data();
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
+    if (this.isRetroLoaded) {
+      let rview = database.getViewAllMyRetroCircuits();
+
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        rview.count()
+      );
+      arg.data = rview.data();
+
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    } else {
+      this.handleLoadAllTeamRetroCircuitsEvent(
+        {},
+        {},
+        (args) => {
+          if (args.data) {
+            let rview = database.getViewAllMyRetroCircuits();
+            arg.data = rview.data();
+          }
+          if (args.error) {
+            arg.error = args.error;
+          }
+
+          this.delegateCallbackOrEventReplyTo(
+            event,
+            arg,
+            callback
+          );
+        }
+      );
+    }
   }
 
+
+
   /**
-   * performs a get query to find any circuit that is in our do it later collection
+   * performs a get query to find any circuit that is in our solved collection
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetAllMyRetroCircuitsEvent(event, arg, callback) {
+  handleGetAllMySolvedCircuitsEventWithFallback(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.CIRCUIT
-      ),
-      rview = database.getViewAllMyRetroCircuits(),
-      sview = database.getViewAllMySolvedCircuits();
-
-    this.logResults(
-      this.name,
-      arg.type,
-      arg.id,
-      sview.count() + rview.count()
+      DatabaseFactory.Names.CIRCUIT
     );
-    arg.data = rview.data();
 
-    arg.data = arg.data.concat(sview.data());
+    if (this.isSolvedLoaded) {
+      let sview = database.getViewAllMySolvedCircuits();
 
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        sview.count()
+      );
+
+      arg.data = sview.data();
+
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    } else {
+      this.handleLoadAllTeamSolvedCircuitsEvent(
+        {},
+        {},
+        (args) => {
+          if (args.data) {
+            let sview = database.getViewAllMySolvedCircuits();
+            arg.data = sview.data();
+          }
+          if (args.error) {
+            arg.error = args.error;
+          }
+
+          this.delegateCallbackOrEventReplyTo(
+            event,
+            arg,
+            callback
+          );
+        }
+      );
+    }
+
   }
+
 
   /**
    * gets our active circuit from our local database

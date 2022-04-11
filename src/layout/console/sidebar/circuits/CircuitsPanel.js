@@ -42,6 +42,7 @@ export default class CircuitsPanel extends Component {
       activeCircuits: [],
       doItLaterCircuits: [],
       retroCircuits: [],
+      solvedCircuits: [],
     };
     this.myController =
       RendererControllerFactory.getViewController(
@@ -255,6 +256,9 @@ export default class CircuitsPanel extends Component {
     CircuitClient.getAllMyRetroCircuits(this, (arg) => {
       that.setState({ retroCircuits: arg.data });
     });
+    CircuitClient.getAllMySolvedCircuits(this, (arg) => {
+      that.setState({ solvedCircuits: arg.data });
+    });
   }
 
   /**
@@ -402,17 +406,9 @@ export default class CircuitsPanel extends Component {
   getRetroCircuitsContent = () => {
     let maxTime = 1;
 
-    for (
-      let i = 0;
-      i < this.state.retroCircuits.length;
-      i++
-    ) {
-      let circuit = this.state.retroCircuits[i];
-      if (circuit.circuitState === "SOLVED") {
-        maxTime =
-          UtilRenderer.getWtfSecondsFromCircuit(circuit);
-        break;
-      }
+    if (this.state.solvedCircuits.length > 0) {
+      let circuit = this.state.solvedCircuits[0];
+      maxTime = UtilRenderer.getWtfSecondsFromCircuit(circuit);
     }
 
     return (
@@ -426,6 +422,19 @@ export default class CircuitsPanel extends Component {
           size="large"
         >
           {this.state.retroCircuits.map((model) => (
+            <RetroCircuitListItem
+              key={model.id}
+              model={model}
+              maxTime={maxTime}
+              onRetroCircuitListItemClick={
+                this.handleClickRetroCircuit
+              }
+              onRetroCloseItemClick={
+                this.handleCloseRetroCircuit
+              }
+            />
+          ))}
+          {this.state.solvedCircuits.map((model) => (
             <RetroCircuitListItem
               key={model.id}
               model={model}
