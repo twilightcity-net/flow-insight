@@ -229,7 +229,12 @@ module.exports = class App {
       );
 
       if (global.App.isLoggedIn) {
+        log.info("[App] logout starting");
+
         global.App.TalkManager.disconnect();
+
+        log.info("[App] after disconnect");
+
         AppLogin.doLogout((store) => {
           log.info(
             "[App] before quit -> logout complete : quit"
@@ -237,12 +242,16 @@ module.exports = class App {
           app.exit(0);
         });
 
+        log.info("[App] after do logout");
+
         setTimeout(() => {
           log.info(
             "[App] before quit -> logout timeout : quit"
           );
           app.exit(0);
         }, 10000);
+      } else {
+        app.exit(0);
       }
     } catch (error) {
       log.error("Error: " + error);
