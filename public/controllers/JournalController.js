@@ -194,14 +194,16 @@ module.exports = class JournalController extends (
         data.recentIntentions
       );
 
-      if (username === JournalController.Strings.ME ) {
-        username = this.getMeUsername();
+      let meUsername = this.getMeUsername();
+
+      if (username === JournalController.Strings.ME && meUsername) {
+        username = meUsername;
       }
 
       //only update recent projects and tasks for the logged in user
       if (
         username === JournalController.Strings.ME ||
-        username === this.getMeUsername()
+        username === meUsername
       ) {
         database.updateJournalProjects(data.recentProjects);
         database.updateJournalTasks(
