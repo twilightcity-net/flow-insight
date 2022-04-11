@@ -99,10 +99,10 @@ module.exports = class JournalController extends (
           this.handleGetRecentIntentionsEvent(event, arg);
           break;
         case JournalController.Events.GET_RECENT_PROJECTS:
-          this.handleGetRecentProjectsEvent(event, arg);
+          this.handleGetRecentProjectsEventWithFallback(event, arg);
           break;
         case JournalController.Events.GET_RECENT_TASKS:
-          this.handleGetRecentTasksEvent(event, arg);
+          this.handleGetRecentTasksEventWithFallback(event, arg);
           break;
         case JournalController.Events.FINISH_INTENTION:
           this.handleFinishIntentionEvent(event, arg);
@@ -194,6 +194,10 @@ module.exports = class JournalController extends (
         data.recentIntentions
       );
 
+      if (username === JournalController.Strings.ME ) {
+        username = this.getMeUsername();
+      }
+
       //only update recent projects and tasks for the logged in user
       if (
         username === JournalController.Strings.ME ||
@@ -204,10 +208,11 @@ module.exports = class JournalController extends (
           data.recentTasksByProjectId
         );
       }
-    }
 
-    JournalController.instance.userHistory.add(username);
-    arg.data = store.data;
+      //only add to user history if the call was successful
+      JournalController.instance.userHistory.add(username);
+      arg.data = store.data;
+    }
 
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -430,6 +435,8 @@ module.exports = class JournalController extends (
     }
   }
 
+
+
   /**
    * gets our recent intentions for a user
    * @param event
@@ -445,12 +452,15 @@ module.exports = class JournalController extends (
       ),
       username = arg.args.username;
 
+    let meUsername = this.getMeUsername();
+
+    if (username === BaseController.Strings.ME && meUsername) {
+      username = meUsername;
+    }
+
     if (
       JournalController.instance.userHistory.has(username)
     ) {
-      if (username === BaseController.Strings.ME) {
-        username = this.getMeUsername();
-      }
 
       arg.data = collection
         .chain()
@@ -489,58 +499,157 @@ module.exports = class JournalController extends (
     }
   }
 
+
+
   /**
-   * queries our local database for recent projects
+   * gets our recent projects for a user with fallback to querying the server
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetRecentProjectsEvent(event, arg, callback) {
+  handleGetRecentProjectsEventWithFallback(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.JOURNAL
-      ),
-      view = database.getViewForProjects();
+      );
 
-    this.logResults(
-      this.name,
-      arg.type,
-      arg.id,
-      view.count()
-    );
-    arg.data = view.data();
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
+    let username = this.getMeUsername();
+
+    if (JournalController.instance.userHistory.has(username)) {
+      let view = database.getViewForProjects();
+
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        view.count()
+      );
+      arg.data = view.data();
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+
+    } else {
+      this.handleLoadRecentProjectTasksEvent(
+        {},
+        {},
+        (args) => {
+
+          if (args.data) {
+            arg.data = args.data.recentProjects;
+          }
+          if (args.error) {
+            arg.error = args.error;
+          }
+
+          this.delegateCallbackOrEventReplyTo(
+            event,
+            arg,
+            callback
+          );
+        }
+      );
+    }
+  }
+
+  handleLoadRecentProjectTasksEvent(event, arg, callback) {
+    let urn =
+        JournalController.Paths.JOURNAL +
+        JournalController.Paths.PROJECT;
+
+    this.doClientRequest(
+      JournalController.Contexts.JOURNAL_CLIENT,
+      {},
+      JournalController.Names.GET_RECENT_PROJECT_TASKS,
+      JournalController.Types.GET,
+      urn,
+      (store) =>
+        this.delegateLoadRecentProjectTasksCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
     );
   }
 
+  delegateLoadRecentProjectTasksCallback(store, event, arg, callback) {
+      if (store.error) {
+        arg.error = store.error;
+      } else {
+        //dont update the DB for this, let the main intentions call update the DB
+        arg.data = store.data;
+      }
+
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+
+  }
+
   /**
-   * queries for our recent task in our local database for the dropdown in the journal
-   * resource view
+   * gets our recent tasks for a user with a fallback query to the server
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetRecentTasksEvent(event, arg, callback) {
+  handleGetRecentTasksEventWithFallback(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.JOURNAL
-      ),
-      view = database.getViewForTasks();
+      DatabaseFactory.Names.JOURNAL
+    );
 
-    this.logResults(
-      this.name,
-      arg.type,
-      arg.id,
-      view.count()
-    );
-    arg.data = view.data();
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
+    let username = this.getMeUsername();
+
+    if (JournalController.instance.userHistory.has(username)) {
+      let view = database.getViewForTasks();
+
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        view.count()
+      );
+      arg.data = view.data();
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+
+    } else {
+      this.handleLoadRecentProjectTasksEvent(
+        {},
+        {},
+        (args) => {
+
+          if (args.data) {
+            let tasks = [];
+
+            for (let [p, t] of Object.entries(args.data.recentTasksByProjectId)) {
+              for (let i = 0; i < t.length; i++) {
+                tasks.push(t[i]);
+              }
+            }
+
+            arg.data = tasks;
+          }
+          if (args.error) {
+            arg.error = args.error;
+          }
+
+          this.delegateCallbackOrEventReplyTo(
+            event,
+            arg,
+            callback
+          );
+        }
+      );
+    }
   }
+
 
   /**
    * controller callback function that processes our finish intention action.

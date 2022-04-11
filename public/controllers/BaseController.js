@@ -202,6 +202,7 @@ module.exports = class BaseController {
       FIND_OR_CREATE_PROJECT: "findOrCreateProject",
       FINISH_INTENTION: "finish-intention",
       UPDATE_FLAME_RATING: "update-flame-rating",
+      GET_RECENT_PROJECT_TASKS: "getRecentProjectTasks",
       SAVE_FERVIE_DETAILS: "saveFervieDetails",
       UPDATE_CIRCUIT_DESCRIPTION:
         "updateCircuitDescription",
