@@ -27,6 +27,7 @@ module.exports = class CircuitController extends (
     this.isDoItLaterLoaded = false;
     this.isSolvedLoaded = false;
     this.isRetroLoaded = false;
+    this.isActiveCircuitLoaded = false;
 
   }
 
@@ -219,7 +220,7 @@ module.exports = class CircuitController extends (
           this.handleGetAllMySolvedCircuitsEventWithFallback(event, arg);
           break;
         case CircuitController.Events.GET_ACTIVE_CIRCUIT:
-          this.handleGetActiveCircuitEvent(event, arg);
+          this.handleGetActiveCircuitEventWithFallback(event, arg);
           break;
         case CircuitController.Events
           .GET_CIRCUIT_WITH_ALL_DETAILS:
@@ -768,6 +769,7 @@ module.exports = class CircuitController extends (
     );
   }
 
+
   /**
    * handles our dto callback from our rest client
    * @param store
@@ -787,7 +789,9 @@ module.exports = class CircuitController extends (
         "load active circuit error: " + store.error
       );
       arg.error = store.error;
+      this.isActiveCircuitLoaded = false;
     } else {
+      arg.data = store.data;
       let database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.CIRCUIT
         ),
@@ -807,6 +811,7 @@ module.exports = class CircuitController extends (
           collection
         );
       }
+      this.isActiveCircuitLoaded = true;
     }
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -1177,28 +1182,47 @@ module.exports = class CircuitController extends (
 
   /**
    * gets our active circuit from our local database
+   * or fallback to a server call if it hasn't been properly initialized
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetActiveCircuitEvent(event, arg, callback) {
+  handleGetActiveCircuitEventWithFallback(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.CIRCUIT
-      ),
-      view = database.getViewActiveCircuit();
+      );
 
-    this.logResults(
-      this.name,
-      arg.type,
-      arg.id,
-      view.count()
-    );
-    arg.data = view.data();
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
+    if (this.isActiveCircuitLoaded) {
+      let view = database.getViewActiveCircuit();
+
+      this.logResults(
+        this.name,
+        arg.type,
+        arg.id,
+        view.count()
+      );
+      arg.data = view.data();
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    } else {
+      this.handleLoadActiveCircuitEvent({}, {}, (args) => {
+        if (args.data) {
+          arg.data = args.data;
+        }
+        if (args.error) {
+          arg.error = args.error;
+        }
+        this.delegateCallbackOrEventReplyTo(
+          event,
+          arg,
+          callback
+        );
+      })
+    }
+
   }
 
   /**
