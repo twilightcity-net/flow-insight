@@ -16,6 +16,8 @@ export class NotificationController {
 
     this.hasNeverBeenOpen = true;
     this.isGettingStartedPopupOpen = false;
+    this.initialPopup = null;
+
     this.talkRoomMessageListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events.TALK_MESSAGE_ROOM,
@@ -95,23 +97,23 @@ export class NotificationController {
    */
   showGettingStartedNotification() {
     setTimeout(() => {
-      this.tryAgainToShowPopup();
+      this.tryAgainToShowGettingStartedPopup();
     }, 2500);
   }
 
   /**
    * Since our popups may be blocked, we may need to wait for permission to show the first popup
    */
-  tryAgainToShowPopup() {
+  tryAgainToShowGettingStartedPopup() {
     if (
       this.hasNeverBeenOpen &&
       Notification.permission !== "blocked"
     ) {
       if (!this.isGettingStartedPopupOpen) {
-        this.showGettingStartedPopupAndAutoClose();
+        this.initialPopup = this.showGettingStartedPopupAndAutoClose();
       }
       setTimeout(() => {
-        this.tryAgainToShowPopup();
+        this.tryAgainToShowGettingStartedPopup();
       }, 10000);
     }
   }
@@ -128,6 +130,8 @@ export class NotificationController {
     setTimeout(() => {
       n.close();
     }, 30000);
+
+    return n;
   }
 
   showNotification(title, body, callback) {
@@ -149,5 +153,11 @@ export class NotificationController {
   onConsoleShowHide(event, arg) {
     this.consoleIsCollapsed = arg.showHideFlag;
     this.hasNeverBeenOpen = false;
+
+    if (!this.consoleIsCollapsed && this.initialPopup != null) {
+      this.initialPopup.close();
+      this.initialPopup = null;
+    }
   }
+
 }
