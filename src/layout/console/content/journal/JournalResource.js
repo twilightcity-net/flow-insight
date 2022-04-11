@@ -135,7 +135,8 @@ export default class JournalResource extends Component {
         }
         break;
       case BaseClient.MessageTypes.JOURNAL_ENTRY_DTO:
-        if (this.isForJournalInView(username)) {
+        if (this.isForJournalInView(username) && !this.isMyJournal()) {
+          //skip this type of update for our own journal since we're already updating flames directly
           this.updateJournalIntentions(data);
         }
         break;
