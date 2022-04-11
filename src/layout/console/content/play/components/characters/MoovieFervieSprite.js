@@ -4,7 +4,7 @@ import AnimationId from "../AnimationId";
  * Creates our fervie sprite animation
  */
 
-export default class LadyFervieSprite {
+export default class MoovieFervieSprite {
   constructor(animationLoader, x, y, size) {
     this.animationLoader = animationLoader;
     this.x = x - size / 2 - 10;
@@ -14,7 +14,7 @@ export default class LadyFervieSprite {
   }
 
   static UNSCALED_IMAGE_WIDTH = 376;
-  static UNSCALED_IMAGE_HEIGHT = 274;
+  static UNSCALED_IMAGE_HEIGHT = 332;
 
 
   /**
@@ -22,9 +22,8 @@ export default class LadyFervieSprite {
    * @param p5
    */
   preload(p5) {
-    this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.LadyFervie, 1, this.size);
-    this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.LadyFervie, 2, this.size);
-
+    this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.MoovieFervie, 1, this.size);
+    this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.MoovieFervie, 2, this.size);
   }
 
   /**
@@ -38,10 +37,10 @@ export default class LadyFervieSprite {
     let image = null;
 
     if (this.animationFrame < 115) {
-      image = this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.LadyFervie, 1, this.size);
+      image = this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.MoovieFervie, 1, this.size);
     } else {
       console.log("blink!");
-      image = this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.LadyFervie, 2, this.size);
+      image = this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.MoovieFervie, 2, this.size);
     }
 
     p5.image(image, this.x, this.y);
@@ -50,7 +49,7 @@ export default class LadyFervieSprite {
 
 
   /**
-   * Update the lady fervie sprite properties for each subsequent frame,
+   * Update the moovie fervie sprite properties for each subsequent frame,
    * updating the relative frame number for tracking the blink loop
    */
   update(p5, environment) {

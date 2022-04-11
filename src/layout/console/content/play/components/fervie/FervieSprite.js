@@ -27,6 +27,8 @@ export default class FervieSprite {
     this.originalY = this.y;
     this.originalScale = this.scale;
 
+    this.isVisible = true;
+
     this.fervieGlowSprite = new FervieGlowSprite(this.animationLoader, this.size);
   }
 
@@ -90,6 +92,8 @@ export default class FervieSprite {
   draw(p5) {
 
     let image = null;
+
+    if (!this.isVisible) return;
 
     if (!this.fervieGlowSprite.isVisible || this.fervieGlowSprite.isTransitioning()) {
       this.fervieGlowSprite.draw(p5, this.x, this.y, this.scale);
@@ -181,6 +185,8 @@ export default class FervieSprite {
       return;
     }
 
+    if (!this.isVisible) return;
+
     if (p5.keyIsDown(p5.LEFT_ARROW)) {
       this.changeDirection(p5, environment,
         FervieSprite.Direction.Left,
@@ -231,6 +237,16 @@ export default class FervieSprite {
   getVelocityY() {
     return this.velocityY;
   }
+
+  hide() {
+    this.isVisible = false;
+  }
+
+  show() {
+    this.isVisible = true;
+  }
+
+
 
   /**
    * Change our fervies direction.  Take into account if we are walking down a hill

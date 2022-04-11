@@ -11,6 +11,7 @@ import ShroomHouse from "./places/ShroomHouse";
 import EnvironmentMap from "./environment/EnvironmentMap";
 import LadyFervie from "./characters/LadyFervie";
 import FervieGlow from "./fervie/FervieGlow";
+import MoovieFervie from "./characters/MoovieFervie";
 
 /**
  * this component is the tab panel wrapper for the game content
@@ -289,6 +290,8 @@ export default class GameSketch extends Component {
           {ShroomHouse.getDefault()}
           {LadyFervie.getFrame(1)}
           {LadyFervie.getFrame(2)}
+          {MoovieFervie.getFrame(1, fervieColor, fervieShoeColor)}
+          {MoovieFervie.getFrame(2, fervieColor, fervieShoeColor)}
         </div>
       </div>
     );

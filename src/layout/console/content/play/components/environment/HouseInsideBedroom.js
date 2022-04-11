@@ -2,6 +2,8 @@
  * Creates our inside house map, the bedroom inside the house
  */
 import Environment from "./Environment";
+import LadyFervieSprite from "../characters/LadyFervieSprite";
+import MoovieFervieSprite from "../characters/MoovieFervieSprite";
 
 
 export default class HouseInsideBedroom extends Environment {
@@ -14,7 +16,7 @@ export default class HouseInsideBedroom extends Environment {
   static WALK_BEHIND_AREA_IMAGE ="./assets/animation/insidehouse/house_inside_bedroom_walkarea_behind.png";
   static FIREPLACE_GIF ="./assets/animation/insidehouse/fire.gif";
 
-
+  static CHAIR_OVERLAY = "./assets/animation/insidehouse/house_inside_bedroom_chairarm.png";
 
   /**
    * Preload all the environment images, so they are cached and ready to display
@@ -29,6 +31,15 @@ export default class HouseInsideBedroom extends Environment {
     this.animationLoader.getStaticImage(p5, HouseInsideBedroom.WALK_BEHIND_AREA_IMAGE);
 
     this.animationLoader.getStaticImage(p5, HouseInsideBedroom.FIREPLACE_GIF);
+    this.animationLoader.getStaticImage(p5, HouseInsideBedroom.CHAIR_OVERLAY);
+
+    this.moovieFervieSprite = new MoovieFervieSprite(
+      this.animationLoader,
+      500,
+      Math.round(HouseInsideBedroom.IMAGE_HEIGHT / 2 + 43),
+      150);
+
+    this.moovieFervieSprite.preload(p5);
   }
 
   getDefaultSpawnProperties() {
@@ -89,8 +100,19 @@ export default class HouseInsideBedroom extends Environment {
       p5.image(walkBehindItems, 0, 0)
     }
 
+    if (this.isFervieSittingDown(p5, fervie)) {
+      fervie.hide();
+      this.moovieFervieSprite.draw(p5);
+
+      let chairArm = this.animationLoader.getStaticImage(p5, HouseInsideBedroom.CHAIR_OVERLAY);
+      p5.image(chairArm, 0, 0);
+    }
 
     p5.pop();
+  }
+
+  isFervieSittingDown(p5, fervie) {
+    return false;
   }
 
   drawFire(p5) {
@@ -107,6 +129,8 @@ export default class HouseInsideBedroom extends Environment {
    */
   update(p5, fervie) {
     super.update(p5);
+
+    this.moovieFervieSprite.update(p5);
   }
 
 }
