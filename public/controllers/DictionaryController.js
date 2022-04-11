@@ -20,11 +20,12 @@ module.exports = class DictionaryController extends (
       DictionaryController.instance = this;
       DictionaryController.wireTogetherControllers();
     }
+    this.isDictionaryLoaded = false;
   }
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_MY_HOME_TEAM: string, GET_ALL_MY_TEAMS: string, LOAD_MY_HOME_TEAM: string, LOAD_ALL_MY_TEAMS: string}}
+   * @returns {{LOAD_DICTIONARY: string, GET_FULL_DICTIONARY: string}}
    * @constructor
    */
   static get Events() {
@@ -80,7 +81,7 @@ module.exports = class DictionaryController extends (
           break;
         case DictionaryController.Events
           .GET_FULL_DICTIONARY:
-          this.handleGetFullDictionaryEvent(event, arg);
+          this.handleGetFullDictionaryEventWithFallback(event, arg);
           break;
         default:
           throw new Error(
@@ -93,28 +94,49 @@ module.exports = class DictionaryController extends (
     }
   }
 
+
   /**
-   * Gets all the dictionary items from the local DB
+   * Gets all the dictionary items from the local DB, or fallsback
+   * to a server query
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetFullDictionaryEvent(event, arg, callback) {
-    //load from the DB
-
+  handleGetFullDictionaryEventWithFallback(event, arg, callback) {
     let database = DatabaseFactory.getDatabase(
       DatabaseFactory.Names.DICTIONARY
     );
 
-    let view = database.getTeamDictionaryView();
-    arg.data = view.data();
+    if (this.isDictionaryLoaded) {
+      let view = database.getTeamDictionaryView();
+      arg.data = view.data();
 
-    this.delegateCallbackOrEventReplyTo(
-      event,
-      arg,
-      callback
-    );
+      this.delegateCallbackOrEventReplyTo(
+        event,
+        arg,
+        callback
+      );
+    } else {
+      this.handleLoadDictionaryEvent({}, {}, (args) => {
+        if (args.error) {
+          arg.error = args.error;
+        }
+        if (args.data) {
+          let view = database.getTeamDictionaryView();
+          arg.data = view.data();
+        }
+
+        this.delegateCallbackOrEventReplyTo(
+          event,
+          arg,
+          callback
+        );
+      })
+    }
+
+
   }
+
 
   /**
    * process dictionary events for the listener. returns dto to callback.
@@ -144,6 +166,7 @@ module.exports = class DictionaryController extends (
     );
   }
 
+
   /**
    * handles our callback for our gridtime request of loading team dictionary
    * @param store
@@ -159,7 +182,9 @@ module.exports = class DictionaryController extends (
   ) {
     if (store.error) {
       arg.error = store.error;
+      this.isDictionaryLoaded = false;
     } else {
+      arg.data = store.data;
       let wordList = store.data,
         database = DatabaseFactory.getDatabase(
           DatabaseFactory.Names.DICTIONARY
@@ -168,6 +193,7 @@ module.exports = class DictionaryController extends (
       if (wordList) {
         database.loadFullDictionary(wordList);
       }
+      this.isDictionaryLoaded = true;
     }
 
     this.delegateCallbackOrEventReplyTo(
