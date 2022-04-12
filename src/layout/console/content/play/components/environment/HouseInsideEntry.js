@@ -141,7 +141,6 @@ export default class HouseInsideEntry extends Environment {
    */
   drawBackground(p5, fervie) {
     let backgroundImage = this.animationLoader.getStaticImage(p5, HouseInsideEntry.BACKGROUND_IMAGE);
-    let wall = this.animationLoader.getStaticImage(p5, HouseInsideEntry.WALK_BEHIND_WALL);
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);

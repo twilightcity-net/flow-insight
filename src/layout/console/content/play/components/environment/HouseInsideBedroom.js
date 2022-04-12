@@ -2,7 +2,6 @@
  * Creates our inside house map, the bedroom inside the house
  */
 import Environment from "./Environment";
-import LadyFervieSprite from "../characters/LadyFervieSprite";
 import MoovieFervieSprite from "../characters/MoovieFervieSprite";
 
 

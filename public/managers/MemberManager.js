@@ -1,4 +1,5 @@
 const MemberController = require("../controllers/MemberController");
+const EventFactory = require("../events/EventFactory");
 
 /**
  * managing class for the team client for the global app scope
@@ -9,6 +10,12 @@ class MemberManager {
     this.myController = new MemberController(this);
     this.myController.configureEvents();
     this.loadCount = 0;
+
+    this.loginConnectionFailed =
+      EventFactory.createEvent(
+        EventFactory.Types.WINDOW_LOADING_LOGIN_FAILED,
+        this
+      );
   }
 
   /**
@@ -21,7 +28,13 @@ class MemberManager {
     MemberController.instance.handleLoadMeEvent(
       {},
       { args: {} },
-      () => this.handleInitCallback(callback)
+      (args) => {
+        if (args.error) {
+          this.loginConnectionFailed.dispatch({message: "Unable to lookup account. "+args.error})
+        } else {
+          this.handleInitCallback(callback)
+        }
+      }
     );
   }
 
