@@ -228,12 +228,10 @@ module.exports = class App {
         "[App] before quit -> attempt to logout application"
       );
 
+      global.App.TalkManager.disconnect();
+
       if (global.App.isLoggedIn) {
         log.info("[App] logout starting");
-
-        global.App.TalkManager.disconnect();
-
-        log.info("[App] after disconnect");
 
         AppLogin.doLogout((store) => {
           log.info(
@@ -241,8 +239,6 @@ module.exports = class App {
           );
           app.exit(0);
         });
-
-        log.info("[App] after do logout");
 
         setTimeout(() => {
           log.info(
