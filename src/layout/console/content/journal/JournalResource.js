@@ -469,7 +469,11 @@ export default class JournalResource extends Component {
           overrideFlame,
           that,
           (arg) => {
-            that.hasCallbackError(arg);
+            if (arg.error) {
+              that.setState({
+                error: arg.error,
+              });
+            }
           }
         );
       }, 500);
@@ -503,7 +507,6 @@ export default class JournalResource extends Component {
    */
   refreshJournal(props) {
     this.loadCount = 0;
-    this.isFlameUpdating = false;
     this.activeJournalItem = null;
 
     this.journalItems = [];

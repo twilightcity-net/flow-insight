@@ -4,6 +4,8 @@ import { TerminalClient } from "../../../../clients/TerminalClient";
 import { MemberClient } from "../../../../clients/MemberClient";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { TalkToClient } from "../../../../clients/TalkToClient";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import UtilRenderer from "../../../../UtilRenderer";
 
 /**
  * this component is the tab panel wrapper for the terminal resource
@@ -35,6 +37,13 @@ export default class TerminalResource extends Component {
         RendererControllerFactory.Views.RESOURCES,
         this
       );
+
+    this.circuitJoinRoomFailListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL,
+        this,
+        this.handleJoinError
+      );
   }
 
   componentDidMount() {
@@ -44,31 +53,35 @@ export default class TerminalResource extends Component {
       this.commandManual = arg.data;
       this.loadCount++;
 
-      this.initializeWhenLoadingDone();
+      this.initializeWhenLoadingDone(arg);
     });
 
     TerminalClient.createCircuit(this, (arg) => {
       this.terminalCircuit = arg.data;
       this.loadCount++;
 
-      this.initializeWhenLoadingDone();
+      this.initializeWhenLoadingDone(arg);
     });
   }
 
-  initializeWhenLoadingDone() {
-    if (this.loadCount === 2) {
-      this.setState({
-        commandManual: this.commandManual,
-        terminalCircuit: this.terminalCircuit,
-      });
+  initializeWhenLoadingDone(arg) {
+    if (arg.error) {
+      this.handleError("Failed to initialize", arg.error);
+    } else {
+      if (this.loadCount === 2) {
+        this.setState({
+          commandManual: this.commandManual,
+          terminalCircuit: this.terminalCircuit,
+        });
 
-      this.resourcesController.joinExistingRoomWithRoomId(
-        this.terminalCircuit.talkRoomId
-      );
+        this.resourcesController.joinExistingRoomWithRoomId(
+          this.terminalCircuit.talkRoomId
+        );
 
-      if (this.props.resource.uriArr.length > 1) {
-        let terminalName = this.props.resource.uriArr[1];
-        this.joinTty("/terminal/" + terminalName, true);
+        if (this.props.resource.uriArr.length > 1) {
+          let terminalName = this.props.resource.uriArr[1];
+          this.joinTty("/terminal/" + terminalName, true);
+        }
       }
     }
   }
@@ -102,7 +115,10 @@ export default class TerminalResource extends Component {
           circuitName,
           this,
           (arg) => {
-            if (!arg.error) {
+            if (arg.error) {
+              console.error(arg.error);
+              this.terminalHandle.current.pushErrorMessage(arg.error);
+            } else {
               let newCircuit = arg.data;
 
               this.resourcesController.leaveExistingRoomWithRoomId(
@@ -127,7 +143,9 @@ export default class TerminalResource extends Component {
                   newCircuit.talkRoomId,
                   this,
                   (arg) => {
-                    if (!arg.error) {
+                    if (arg.error) {
+                      this.handleError("Failed to get room messages", arg.error);
+                    } else {
                       this.terminalHandle.current.pushTalkMessageHistory(
                         arg.data
                       );
@@ -135,11 +153,6 @@ export default class TerminalResource extends Component {
                   }
                 );
               }
-            } else {
-              console.log(arg.error);
-              this.terminalHandle.current.pushErrorMessage(
-                arg.error
-              );
             }
           }
         );
@@ -153,6 +166,18 @@ export default class TerminalResource extends Component {
 
     return output;
   };
+
+  handleError(errorContext, error) {
+    console.error(error);
+    this.setState({errorContext: errorContext, error: error});
+  }
+
+  handleJoinError(event, arg) {
+    console.error(arg.error);
+    if (this.terminalHandle.current && this.terminalHandle.current.pushErrorMessage) {
+      this.terminalHandle.current.pushErrorMessage(arg.error);
+    }
+  }
 
   leaveTty = () => {
     this.resourcesController.leaveTerminalCircuit(
@@ -180,6 +205,10 @@ export default class TerminalResource extends Component {
    * @returns {*} - the rendered components JSX
    */
   render() {
+    if (this.state.error) {
+      return UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
+    }
+
     return (
       <div id="component" className="terminalLayout">
         <div id="wrapper" className="terminalContent">

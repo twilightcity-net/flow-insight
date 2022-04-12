@@ -90,6 +90,10 @@ export default class ActiveRetroFeed extends Component {
     if (isFirstMessage) {
       //join the circuit
       CircuitClient.joinWtf(circuitName, this, (arg) => {
+        if (arg.error) {
+          console.error(arg.error);
+          this.props.reportRetroFeedError("Unable to join circuit, "+arg.error);
+        }
         console.log("retro circuit joined");
       });
     }
@@ -99,6 +103,10 @@ export default class ActiveRetroFeed extends Component {
       text,
       this,
       (arg) => {
+        if (arg.error) {
+          console.error(arg.error);
+          this.props.reportFeedError("Unable to publish message.  Please try again later.");
+        }
         if (callback) {
           callback(arg);
         }
@@ -213,6 +221,7 @@ export default class ActiveRetroFeed extends Component {
             circuitMember={this.getCircuitMemberForUsername(
               message.name
             )}
+            isStatusEvent={message.isStatusEvent}
             name={message.name}
             time={message.time}
             texts={message.text}
@@ -228,9 +237,11 @@ export default class ActiveRetroFeed extends Component {
             circuitMember={this.getCircuitMemberForUsername(
               message.name
             )}
+            isStatusEvent={message.isStatusEvent}
             name={message.name}
             time={message.time}
             texts={message.text}
+
           />
         );
       }

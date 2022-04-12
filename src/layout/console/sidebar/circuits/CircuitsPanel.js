@@ -216,7 +216,11 @@ export default class CircuitsPanel extends Component {
 
     let that = this;
     CircuitClient.getAllMyLiveCircuits(this, (arg) => {
-      that.setState({ activeCircuits: arg.data });
+      if (arg.error) {
+        console.error("Unable to load live circuits, "+arg.error);
+      } else {
+        that.setState({ activeCircuits: arg.data });
+      }
     });
   }
 
@@ -235,7 +239,11 @@ export default class CircuitsPanel extends Component {
     });
     let that = this;
     CircuitClient.getAllMyDoItLaterCircuits(this, (arg) => {
-      that.setState({ doItLaterCircuits: arg.data });
+      if (arg.error) {
+        console.error("Unable to load DoItLater circuits, "+  arg.error);
+      } else {
+        that.setState({ doItLaterCircuits: arg.data });
+      }
     });
   }
 
@@ -254,10 +262,18 @@ export default class CircuitsPanel extends Component {
 
     let that = this;
     CircuitClient.getAllMyRetroCircuits(this, (arg) => {
-      that.setState({ retroCircuits: arg.data });
+      if (arg.error) {
+        console.error("Unable to load retro circuits, "+arg.error);
+      } else {
+        that.setState({ retroCircuits: arg.data });
+      }
     });
     CircuitClient.getAllMySolvedCircuits(this, (arg) => {
-      that.setState({ solvedCircuits: arg.data });
+      if (arg.error) {
+        console.error("Unable to load solved circuits, "+arg.error);
+      } else {
+        that.setState({ solvedCircuits: arg.data });
+      }
     });
   }
 
@@ -293,12 +309,16 @@ export default class CircuitsPanel extends Component {
     let circuitName = component.props.model.circuitName;
 
     CircuitClient.closeWtf(circuitName, this, (arg) => {
-      this.setState((prevState) => {
-        let filteredRetros = prevState.retroCircuits.filter(
-          (item) => item.circuitName !== circuitName
-        );
-        return { retroCircuits: filteredRetros };
-      });
+      if (arg.error) {
+        console.log("Unable to close wtf, "+arg.error);
+      } else {
+        this.setState((prevState) => {
+          let filteredRetros = prevState.retroCircuits.filter(
+            (item) => item.circuitName !== circuitName
+          );
+          return { retroCircuits: filteredRetros };
+        });
+      }
     });
 
     //will need to make this call the close API, then remove from the list

@@ -164,8 +164,12 @@ export default class ActiveRetro extends Component {
    */
   loadDictionary() {
     DictionaryClient.getTeamDictionary(this, (arg) => {
-      this.dictionaryWords = arg.data;
-      this.updateDictionaryState(this.dictionaryWords);
+      if (arg.error) {
+        console.error("Dictionary failed to load, "+arg.error);
+      } else {
+        this.dictionaryWords = arg.data;
+        this.updateDictionaryState(this.dictionaryWords);
+      }
     });
   }
 
@@ -185,8 +189,12 @@ export default class ActiveRetro extends Component {
       circuit.wtfTalkRoomId,
       this,
       (arg) => {
-        this.troubleshootMessages = arg.data;
-        this.updateStateIfDoneLoading(arg.error);
+        if (arg.error) {
+          this.props.handleError("Failed to load troubleshoot messages", arg.error);
+        } else {
+          this.troubleshootMessages = arg.data;
+          this.updateStateIfDoneLoading();
+        }
       }
     );
 
@@ -196,8 +204,12 @@ export default class ActiveRetro extends Component {
         circuit.retroTalkRoomId,
         this,
         (arg) => {
-          this.retroMessages = arg.data;
-          this.updateStateIfDoneLoading(arg.error);
+          if (arg.error) {
+            this.props.handleError("Failed to load retro messages", arg.error);
+          } else {
+            this.retroMessages = arg.data;
+            this.updateStateIfDoneLoading();
+          }
         }
       );
     } else {
@@ -209,8 +221,12 @@ export default class ActiveRetro extends Component {
       circuit.wtfTalkRoomId,
       this,
       (arg) => {
-        this.circuitMembers = arg.data;
-        this.updateStateIfDoneLoading(arg.error);
+        if (arg.error) {
+          console.log("Failed to load circuit members, "+ arg.error);
+        } else {
+          this.circuitMembers = arg.data;
+          this.updateStateIfDoneLoading(arg.error);
+        }
       }
     );
 
@@ -223,7 +239,7 @@ export default class ActiveRetro extends Component {
             taskSummary: arg.data,
           });
         } else {
-          console.error(arg.error);
+          console.error("Failed to load circuit task summary, " + arg.error);
         }
       }
     );
@@ -232,10 +248,14 @@ export default class ActiveRetro extends Component {
       circuit,
       this,
       (arg) => {
-        this.chartDto = arg.data;
-        this.setState({
-          chartDto: arg.data,
-        });
+        if (arg.error) {
+          console.error("Failed to load friction chart, " + arg.error);
+        } else {
+          this.chartDto = arg.data;
+          this.setState({
+            chartDto: arg.data,
+          });
+        }
       }
     );
   }
@@ -244,11 +264,7 @@ export default class ActiveRetro extends Component {
    * Make sure the state updates happen at the same time, so we dont load the chat
    * with incorrect profile pics, then fix it.  This loads the state at end, after loadcount == 2
    */
-  updateStateIfDoneLoading(error) {
-    if (error) {
-      console.error(error);
-    }
-
+  updateStateIfDoneLoading() {
     this.loadCount++;
     if (this.loadCount === 3) {
       let feedCreator = new FeedCreator(
@@ -418,9 +434,9 @@ export default class ActiveRetro extends Component {
         retroFeedEvents: that.addFeedEvent(
           prevState.retroFeedEvents,
           username,
-          null,
           time,
-          json.message
+          json.message,
+          false
         ),
       };
     });
@@ -596,33 +612,38 @@ export default class ActiveRetro extends Component {
     });
   }
 
+
   /**
-   * Add a new feed events array which is used to generate the list of
-   * feed events in the gui which displays all of the chat messages
+   * Add a new feed event to the array which is used to display the chat messages
    * @param username
-   * @param feedEvent
    * @param time
    * @param text
+   * @param isStatusEvent
    */
   addFeedEvent(
     feedEvents,
     username,
-    feedEvent,
     time,
-    text
+    text,
+    isStatusEvent
   ) {
+    let feedEvent = null;
     if (
       feedEvents.length > 0 &&
       feedEvents[feedEvents.length - 1] &&
-      feedEvents[feedEvents.length - 1].name === username
+      feedEvents[feedEvents.length - 1].name === username &&
+      !isStatusEvent
     ) {
+      console.log("if");
       feedEvent = feedEvents.pop();
       feedEvent.text.push(text);
     } else {
+      console.log("else "+isStatusEvent);
       feedEvent = {
         name: username,
         time: time,
         text: [text],
+        isStatusEvent: isStatusEvent,
       };
     }
 
@@ -630,6 +651,7 @@ export default class ActiveRetro extends Component {
 
     return feedEvents;
   }
+
   /**
    * updates our circuit members array in our component states
    * @param circuitMembers
@@ -709,6 +731,32 @@ export default class ActiveRetro extends Component {
     this.circuitFeedComponent = component;
   };
 
+  reportFeedError = (errorMsg) => {
+    this.addErrorMessageToFeed(errorMsg);
+  }
+
+  /**
+   * Adds an error message to the chat feed
+   * @param errorMsg
+   */
+  addErrorMessageToFeed(errorMsg) {
+    let time = "";
+
+    this.setState((prevState) => {
+      let feedEvents = this.addFeedEvent(
+        prevState.retroFeedEvents,
+        "Fervie",
+        time,
+        errorMsg,
+        true
+      );
+
+      return {
+        retroFeedEvents: feedEvents
+      };
+    });
+  }
+
   /**
    * renders our circuit content panel and resizable scrapbook
    * @returns {*}
@@ -758,6 +806,7 @@ export default class ActiveRetro extends Component {
             missingMembers={this.state.missingMembers}
             feedEvents={this.state.retroFeedEvents}
             set={this.setCircuitFeedComponent}
+            reportFeedError={this.reportFeedError}
           />
           <Transition
             visible={this.state.slidePanelVisible}

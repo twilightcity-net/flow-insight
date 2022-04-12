@@ -1,6 +1,8 @@
 import { BrowserRequestFactory } from "./controllers/BrowserRequestFactory";
 import { BaseClient } from "./clients/BaseClient";
 import moment from "moment";
+import {Icon, Message} from "semantic-ui-react";
+import React from "react";
 
 export default class UtilRenderer {
   /**
@@ -95,6 +97,30 @@ export default class UtilRenderer {
         return t.charAt(0).toUpperCase();
       })
       .join(" ");
+  }
+
+  /**
+   * renders our error page when an error occurs on gridtime
+   * @param errorContext
+   * @param error
+   * @returns {*}
+   */
+  static getErrorPage(errorContext, error) {
+    if (!errorContext) {
+      errorContext = "Error Occurred";
+    }
+
+    return (
+      <div id="component" className="errorLayout">
+        <Message icon negative size="large">
+          <Icon name="warning sign" />
+          <Message.Content>
+            <Message.Header>{errorContext} :(</Message.Header>
+            {error}
+          </Message.Content>
+        </Message>
+      </div>
+    );
   }
 
   /**

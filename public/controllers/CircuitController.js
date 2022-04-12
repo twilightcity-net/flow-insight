@@ -122,6 +122,7 @@ module.exports = class CircuitController extends (
     this.isDoItLaterLoaded = false;
     this.isSolvedLoaded = false;
     this.isRetroLoaded = false;
+    this.isActiveCircuitLoaded = false;
   }
 
   /**

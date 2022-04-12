@@ -36,20 +36,28 @@ export default class ActiveRetroFeedEvent extends Component {
    * @returns {*}
    */
   render() {
-    return (
-      <Feed.Event>
-        <Feed.Label className="feedLabel">
-          {this.getFervieProfileSvg()}
-        </Feed.Label>
-        <Feed.Content>
-          <Feed.Summary>
-            <a href="#">@{this.props.name}</a>
-            <Feed.Date>{this.props.time}</Feed.Date>
-          </Feed.Summary>
+    if (this.props.isStatusEvent) {
+      return (
+        <Feed.Event className="statusUpdate">
           {this.getFeedExtraTextsContent()}
-        </Feed.Content>
-      </Feed.Event>
-    );
+        </Feed.Event>
+      );
+    } else {
+      return (
+        <Feed.Event>
+          <Feed.Label className="feedLabel">
+            {this.getFervieProfileSvg()}
+          </Feed.Label>
+          <Feed.Content>
+            <Feed.Summary>
+              <a href="#">@{this.props.name}</a>
+              <Feed.Date>{this.props.time}</Feed.Date>
+            </Feed.Summary>
+            {this.getFeedExtraTextsContent()}
+          </Feed.Content>
+        </Feed.Event>
+      );
+    }
   }
 
   getFervieProfileSvg() {

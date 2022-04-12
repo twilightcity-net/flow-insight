@@ -1,11 +1,10 @@
-import React, { Component } from "react";
-import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
+import React, {Component} from "react";
+import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import UtilRenderer from "../../../../UtilRenderer";
-import { Icon, Message } from "semantic-ui-react";
-import { BaseClient } from "../../../../clients/BaseClient";
-import { RendererEventFactory } from "../../../../events/RendererEventFactory";
-import { ResourceCircuitController } from "../../../../controllers/ResourceCircuitController";
-import { CircuitClient } from "../../../../clients/CircuitClient";
+import {BaseClient} from "../../../../clients/BaseClient";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import {ResourceCircuitController} from "../../../../controllers/ResourceCircuitController";
+import {CircuitClient} from "../../../../clients/CircuitClient";
 import ActiveRetro from "./components/ActiveRetro";
 
 /**
@@ -42,6 +41,13 @@ export default class RetroResource extends Component {
         RendererEventFactory.Events.CIRCUIT_DATA_REFRESH,
         this,
         this.onCircuitDataRefresh
+      );
+
+    this.circuitJoinRoomFailListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL,
+        this,
+        this.handleJoinError
       );
   }
 
@@ -152,33 +158,36 @@ export default class RetroResource extends Component {
       circuitName,
       this,
       (arg) => {
-        this.circuit = arg.data;
-
-        if (!arg.error && this.circuit.retroTalkRoomId) {
-          this.resourcesController.joinExistingRoomWithRoomId(
-            this.circuit.retroTalkRoomId
-          );
+        if (arg.error) {
+          this.handleError("Failed to load circuit", arg.error);
+        } else {
+          this.circuit = arg.data;
+          this.setState({
+            circuit: this.circuit
+          })
+          if (this.circuit.retroTalkRoomId) {
+            this.resourcesController.joinExistingRoomWithRoomId(
+              this.circuit.retroTalkRoomId
+            );
+          }
         }
-        this.finishLoading(arg.error);
       }
     );
   }
 
-  /**
-   * Finish loading a portion of the calls, and if all are finished, set the state
-   * Handle any errors if they come
-   * @param error
-   */
-  finishLoading(error) {
-    if (error) {
-      this.setState({
-        error: error,
-      });
-    } else {
-      this.setState({
-        circuit: this.circuit,
-      });
-    }
+  handleError(errorContext, error) {
+    this.setState({
+      errorContext: errorContext,
+      error: error,
+    });
+  }
+
+  handleJoinError(event, arg) {
+    console.error(arg.error);
+    this.setState({
+      errorContext: arg.context,
+      error: arg.error,
+    });
   }
 
   /**
@@ -198,26 +207,6 @@ export default class RetroResource extends Component {
   }
 
   /**
-   * renders our circuit error with a given string. This is usually not
-   * seen and renders errors from gridtime.
-   * @param error
-   * @returns {*}
-   */
-  getCircuitError(error) {
-    return (
-      <div id="component" className="errorLayout">
-        <Message icon negative size="large">
-          <Icon name="warning sign" />
-          <Message.Content>
-            <Message.Header>Error :(</Message.Header>
-            WTF! {error} =(^.^)=
-          </Message.Content>
-        </Message>
-      </div>
-    );
-  }
-
-  /**
    * renders the retro layout
    * @returns {*} - the JSX to render
    */
@@ -226,11 +215,11 @@ export default class RetroResource extends Component {
 
     if (this.state.circuit) {
       console.log("has circuit (retro resource)");
-      panel = <ActiveRetro circuit={this.state.circuit} />;
+      panel = <ActiveRetro circuit={this.state.circuit} handleError={this.handleError}/>;
     }
 
     if (this.state.error) {
-      panel = this.getCircuitError(this.state.error);
+      panel = UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
     }
 
     return (

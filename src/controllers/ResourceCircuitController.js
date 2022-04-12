@@ -25,6 +25,19 @@ export class ResourceCircuitController extends ActiveViewController {
           .VIEW_CONSOLE_CIRCUIT_JOIN_LEAVE,
         this
       );
+    this.circuitJoinFailNotifier =
+    RendererEventFactory.createEvent(
+      RendererEventFactory.Events
+        .VIEW_CONSOLE_CIRCUIT_JOIN_FAIL,
+      this
+    );
+    this.circuitStateChangeFailNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_STATE_CHANGE_FAIL,
+        this
+      );
+
     this.circuitStartStopNotifier =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
@@ -47,6 +60,12 @@ export class ResourceCircuitController extends ActiveViewController {
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
           .VIEW_CONSOLE_JOIN_EXISTING_ROOM,
+        this
+      );
+    this.joinExistingRoomFailNotifier =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL,
         this
       );
     this.leaveExistingRoomNotifier =
@@ -159,6 +178,33 @@ export class ResourceCircuitController extends ActiveViewController {
   }
 
   /**
+   * notifies the system that we failed to join a room
+   */
+  fireJoinExistingRoomNotifyFailEvent(error) {
+    this.joinExistingRoomFailNotifier.dispatch({context: "Join room failed", error: error});
+  }
+
+  /**
+   * notifies the system that we failed to join a circuit
+   */
+  fireJoinCircuitFailNotifyEvent(error) {
+    this.circuitJoinFailNotifier.dispatch({context: "Join circuit failed", error: error});
+  }
+
+  /**
+   * notifies the system that we failed a circuit state change
+   */
+  fireCircuitStateChangeFailNotifyEvent(error) {
+    this.circuitStateChangeFailNotifier.dispatch({context: "Requested state change failed",  error: error});
+  }
+  /**
+   * notifies the system that we join an active circuit.
+   */
+  fireJoinExistingRoomFailureNotifyEvent() {
+    this.joinExistingRoomNotifier.dispatch(1);
+  }
+
+  /**
    * notifies our local system that we have left our current active circuit.
    */
   fireLeaveExistingRoomNotifyEvent() {
@@ -167,65 +213,104 @@ export class ResourceCircuitController extends ActiveViewController {
 
   /**
    * Start a troubleshooting session by loading the new session into the browser
+   * @param callback
    */
-  startCircuit() {
+  startCircuit(callback) {
     CircuitClient.startWtf(this, (arg) => {
-      let circuit = arg.data,
-        request = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.CIRCUIT,
-          circuit.circuitName
-        );
-      this.browserController.makeRequest(request);
-      this.fireCircuitStartNotifyEvent();
+      if (arg.error) {
+        this.fireCircuitStateChangeFailNotifyEvent(arg.error)
+      } else {
+        let circuit = arg.data,
+          request = BrowserRequestFactory.createRequest(
+            BrowserRequestFactory.Requests.CIRCUIT,
+            circuit.circuitName
+          );
+        this.browserController.makeRequest(request);
+        this.fireCircuitStartNotifyEvent();
+      }
+      if (callback) {
+        callback(arg);
+      }
     });
   }
 
   /**
    * handler that is called when we want to solve a given wtf circuit.
    * @param circuitName the circuit to solve
+   * @param callback
    */
-  solveCircuit(circuitName) {
+  solveCircuit(circuitName, callback) {
     CircuitClient.solveWtf(circuitName, this, (arg) => {
-      let request = BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.JOURNAL,
-        BrowserRequestFactory.Locations.ME
-      );
-      this.browserController.makeRequest(request);
-      this.fireCircuitSolveNotifyEvent();
+      if (arg.error) {
+        this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+      } else {
+        let request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.JOURNAL,
+          BrowserRequestFactory.Locations.ME
+        );
+        this.browserController.makeRequest(request);
+        this.fireCircuitSolveNotifyEvent();
+      }
+      if (callback) {
+        callback(arg);
+      }
     });
   }
 
   /**
    * handler that is called when we want to start the retro for a given circuit.
    * @param circuitName
+   * @param callback
    */
-  startRetro(circuitName) {
+  startRetro(circuitName, callback) {
     CircuitClient.startRetro(circuitName, this, (arg) => {
-      //not sure if we need to do anything here yet
-      console.log("started retro");
+      if (arg.error) {
+        this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+      } else {
+        console.log("started retro");
+      }
+      if (callback) {
+        callback(arg);
+      }
     });
   }
 
   /**
    * handler that is called when we want to close a given retro, (doesnt close the active wtf)
    * @param circuitName
+   * @param callback
    */
-  closeRetro(circuitName) {
+  closeRetro(circuitName, callback) {
     CircuitClient.closeWtf(circuitName, this, (arg) => {
-      console.log("close retro");
+      if (arg.error) {
+        this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+      } else {
+        console.log("close retro");
+      }
+      if (callback) {
+        callback(arg);
+      }
     });
   }
 
   /**
    * handler that is called when we put a circuit on hold
    * @param circuitName the circuit to pause
+   * @param callback
    */
-  pauseCircuit(circuitName) {
+  pauseCircuit(circuitName, callback) {
     CircuitClient.pauseWTFWithDoItLater(
       circuitName,
       this,
       (arg) => {
-        this.fireCircuitPauseNotifyEvent();
+        if (arg.error) {
+          this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+        } else {
+          this.fireCircuitPauseNotifyEvent();
+        }
+        if (callback) {
+          callback(arg);
+        }
       }
     );
   }
@@ -233,25 +318,41 @@ export class ResourceCircuitController extends ActiveViewController {
   /**
    * resumes a given circuit from on_hold status.
    * @param circuitName
+   * @param callback
    */
-  resumeCircuit(circuitName) {
+  resumeCircuit(circuitName, callback) {
     CircuitClient.resumeWtf(circuitName, this, (arg) => {
-      this.fireCircuitResumeNotifyEvent();
+      if (arg.error) {
+        this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+      } else {
+        this.fireCircuitResumeNotifyEvent();
+      }
+      if (callback) {
+        callback(arg);
+      }
     });
   }
 
   /**
    * handler that os called when we cancel a circuit and do not hold it
    * @param circuitName - the circuit to cancel
+   * @param callback
    */
-  cancelCircuit(circuitName) {
+  cancelCircuit(circuitName, callback) {
     CircuitClient.cancelWtf(circuitName, this, (arg) => {
-      let request = BrowserRequestFactory.createRequest(
-        BrowserRequestFactory.Requests.JOURNAL,
-        BrowserRequestFactory.Locations.ME
-      );
-      this.browserController.makeRequest(request);
-      this.fireCircuitStopNotifyEvent();
+      if (arg.error) {
+        this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+      } else {
+        let request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.JOURNAL,
+          BrowserRequestFactory.Locations.ME
+        );
+        this.browserController.makeRequest(request);
+        this.fireCircuitStopNotifyEvent();
+      }
+      if (callback) {
+        callback(arg);
+      }
     });
   }
 
@@ -262,12 +363,17 @@ export class ResourceCircuitController extends ActiveViewController {
    * associated events
    * @param circuitName
    */
-  joinCircuit(circuitName) {
+  joinCircuit(circuitName, callback) {
     CircuitClient.joinWtf(circuitName, this, (arg) => {
-      console.log(
-        this.name + " JOIN WTF -> " + circuitName
-      );
-      this.fireJoinCircuitNotifyEvent();
+      if (arg.error) {
+        this.fireJoinCircuitFailNotifyEvent(arg.error);
+      } else {
+        console.log(this.name + " JOIN WTF -> " + circuitName);
+        this.fireJoinCircuitNotifyEvent();
+      }
+      if (callback) {
+        callback(arg);
+      }
     });
   }
 
@@ -280,6 +386,9 @@ export class ResourceCircuitController extends ActiveViewController {
    */
   leaveCircuit(circuitName) {
     CircuitClient.leaveWtf(circuitName, this, (arg) => {
+      if (arg.error) {
+        console.error(arg.error);
+      }
       console.log(
         this.name + " LEAVE WTF -> " + circuitName
       );
@@ -297,6 +406,9 @@ export class ResourceCircuitController extends ActiveViewController {
       circuitName,
       this,
       (arg) => {
+        if (arg.error) {
+          console.error(arg.error);
+        }
         console.log(
           this.name +
             " LEAVE TERMINAL CIRCUIT -> " +
@@ -313,12 +425,16 @@ export class ResourceCircuitController extends ActiveViewController {
    */
   joinExistingRoomWithRoomId(roomId) {
     TalkToClient.joinExistingRoom(roomId, this, (arg) => {
-      console.log(
-        this.name +
+      if (arg.error) {
+        this.fireJoinExistingRoomNotifyFailEvent(arg.error);
+      } else {
+        console.log(
+          this.name +
           " JOIN EXISTING ROOM -> " +
           JSON.stringify(arg)
-      );
-      this.fireJoinExistingRoomNotifyEvent();
+        );
+        this.fireJoinExistingRoomNotifyEvent();
+      }
     });
   }
 
@@ -337,12 +453,16 @@ export class ResourceCircuitController extends ActiveViewController {
         roomName,
         this,
         (arg) => {
-          console.log(
-            this.name +
+          if (arg.error) {
+            this.fireJoinExistingRoomNotifyFailEvent(arg.error)
+          } else {
+            console.log(
+              this.name +
               " JOIN EXISTING ROOM -> " +
               JSON.stringify(arg)
-          );
-          this.fireJoinExistingRoomNotifyEvent();
+            );
+            this.fireJoinExistingRoomNotifyEvent();
+          }
         }
       );
     }
@@ -363,12 +483,16 @@ export class ResourceCircuitController extends ActiveViewController {
         roomName,
         this,
         (arg) => {
-          console.log(
-            this.name +
+          if (arg.error) {
+            this.fireJoinExistingRoomNotifyFailEvent(arg.error);
+          } else {
+            console.log(
+              this.name +
               " JOIN EXISTING ROOM -> " +
               JSON.stringify(arg)
-          );
-          this.fireJoinExistingRoomNotifyEvent();
+            );
+            this.fireJoinExistingRoomNotifyEvent();
+          }
         }
       );
     }
@@ -382,6 +506,9 @@ export class ResourceCircuitController extends ActiveViewController {
    */
   leaveExistingRoomWithRoomId(roomId) {
     TalkToClient.leaveExistingRoom(roomId, this, (arg) => {
+      if (arg.error) {
+        console.error(arg.error);
+      }
       this.fireLeaveExistingRoomNotifyEvent();
     });
   }
@@ -401,6 +528,9 @@ export class ResourceCircuitController extends ActiveViewController {
         roomName,
         this,
         (arg) => {
+          if (arg.error) {
+            console.error(arg.error);
+          }
           this.fireLeaveExistingRoomNotifyEvent();
         }
       );
@@ -422,6 +552,9 @@ export class ResourceCircuitController extends ActiveViewController {
         roomName,
         this,
         (arg) => {
+          if (arg.error) {
+            console.error(arg.error);
+          }
           this.fireLeaveExistingRoomNotifyEvent();
         }
       );

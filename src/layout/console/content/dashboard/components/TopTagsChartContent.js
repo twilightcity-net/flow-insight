@@ -6,6 +6,7 @@ import TagMetricTable from "./tags/TagMetricTable";
 import WtfMetricTable from "./tags/WtfMetricTable";
 import TagBubbleChart from "./tags/TagBubbleChart";
 import {RendererControllerFactory} from "../../../../../controllers/RendererControllerFactory";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component shows the top tags per user on the team
@@ -198,11 +199,13 @@ export default class TopTagsChartContent extends Component {
       this.setState({
         tagsTableDto: response.data,
         drillDownTag: null,
-        wtfsTableDto: null
+        wtfsTableDto: null,
+        error: null,
+        errorContext: null
       });
     } else {
       console.error(response.error);
-      //TODO this should load an error page
+      this.setState({errorContext: "Tags data load failed", error: response.error});
     }
   }
 
@@ -216,11 +219,13 @@ export default class TopTagsChartContent extends Component {
       console.log(response.data);
       this.setState({
         wtfsTableDto: response.data,
-        drillDownTag: tag
+        drillDownTag: tag,
+        error: null,
+        errorContext: null
       });
     } else {
       console.error(response.error);
-      //TODO this should load an error page
+      this.setState({errorContext: "Circuit data load failed", error: response.error});
     }
   }
 
@@ -288,6 +293,10 @@ export default class TopTagsChartContent extends Component {
    */
   render() {
     let tableContent = "";
+
+    if (this.state.error) {
+      return UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
+    }
 
     if (!this.state.tagsTableDto) {
       return (<div

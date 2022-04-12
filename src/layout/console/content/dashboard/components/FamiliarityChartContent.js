@@ -3,6 +3,7 @@ import {ChartClient} from "../../../../../clients/ChartClient";
 import {DimensionController} from "../../../../../controllers/DimensionController";
 import FamiliarityBoxChart from "./familiarity/FamiliarityBoxChart";
 import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component shows the familiarity around the codebase per user on the team
@@ -104,11 +105,13 @@ export default class FamiliarityChartContent extends Component {
     if (!response.error) {
       console.log(response.data);
       this.setState({
-        tableDto: response.data
+        tableDto: response.data,
+        error: null,
+        errorContext: null
       });
     } else {
       console.error(response.error);
-      //TODO this should load an error page
+      this.setState({errorContext: "Familiarity data load failed", error: response.error});
     }
   }
 
@@ -118,6 +121,10 @@ export default class FamiliarityChartContent extends Component {
    */
   render() {
     let tableContent = "";
+
+    if (this.state.error) {
+      return UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
+    }
 
     if (!this.state.tableDto) {
       return (<div

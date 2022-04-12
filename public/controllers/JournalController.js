@@ -211,6 +211,14 @@ module.exports = class JournalController extends (
         );
       }
 
+      this.logMessage(this.name, "Default journal loaded for user "+username);
+
+
+      if (store.data.recentIntentions.length > 0) {
+        //workaround during initialization, when we dont know the default username yet
+        username = store.data.recentIntentions[0].username;
+      }
+
       //only add to user history if the call was successful
       JournalController.instance.userHistory.add(username);
       arg.data = store.data;

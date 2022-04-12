@@ -5,6 +5,7 @@ import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
 import MomentumFlowChart from "./momentum/MomentumFlowChart";
 import TaskMetricTable from "./momentum/TaskMetricTable";
 import {RendererControllerFactory} from "../../../../../controllers/RendererControllerFactory";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component shows the momentum trends over time for user or the team
@@ -257,14 +258,16 @@ export default class MomentumChartContent extends Component {
         if (prevState.selectedRowId === timeScope) {
           return {
             taskTableDto: response.data,
-            drillDownDay: timeScope
+            drillDownDay: timeScope,
+            error: null,
+            errorContext: null
           };
         }
         return {};
       });
     } else {
       console.error(response.error);
-      //TODO this should load an error page
+      this.setState({errorContext: "Task data load failed", error: response.error});
     }
   }
 
@@ -282,11 +285,13 @@ export default class MomentumChartContent extends Component {
         chartTitle: scope.getTitleFromBucketSize(response.data.bucketSize),
         chartDto: response.data,
         selectedRowId: null,
-        taskTableDto: null
+        taskTableDto: null,
+        error: null,
+        errorContext: null
       });
     } else {
       console.error(response.error);
-      //TODO this should load an error page
+      scope.setState({errorContext: "Momentum data load failed", error: response.error});
     }
   }
 
@@ -313,7 +318,7 @@ export default class MomentumChartContent extends Component {
       });
     } else {
       console.error(response.error);
-      //TODO this should load an error page
+      scope.setState({errorContext: "Drilldown Momentum data load failed", error: response.error});
     }
   }
 
@@ -386,6 +391,10 @@ export default class MomentumChartContent extends Component {
    */
   render() {
     let tableContent = "";
+
+    if (this.state.error) {
+      return UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
+    }
 
     if (!this.state.chartDto) {
       return (<div

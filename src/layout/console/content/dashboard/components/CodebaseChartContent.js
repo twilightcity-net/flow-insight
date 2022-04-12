@@ -6,6 +6,7 @@ import FrictionBoxMetricTable from "./codebase/FrictionBoxMetricTable";
 import FrictionFileMetricTable from "./codebase/FrictionFileMetricTable";
 import FrictionModuleMetricTable from "./codebase/FrictionModuleMetricTable";
 import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
+import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
  * this component shows the codebase friction drilldown chart and related table
@@ -278,11 +279,13 @@ export default class CodebaseChartContent extends Component {
         boxTableDto: null,
         drillDownModule: null,
         drillDownBox: null,
-        fileTableDto: null
+        fileTableDto: null,
+        error: null,
+        errorContext: null
       });
     } else {
       console.error(response.error);
-      //TODO this should load an error page
+      this.setState({errorContext: "Module data load failed", error: response.error});
     }
   }
 
@@ -298,11 +301,13 @@ export default class CodebaseChartContent extends Component {
         boxTableDto: response.data,
         drillDownModule: module,
         drillDownBox: null,
-        fileTableDto: null
+        fileTableDto: null,
+        error: null,
+        errorContext: null
       });
     } else {
       console.error(response.error);
-      //TODO this should load an error page
+      this.setState({errorContext: "Box data load failed", error: response.error});
     }
   }
 
@@ -318,10 +323,12 @@ export default class CodebaseChartContent extends Component {
       this.setState({
         fileTableDto: response.data,
         drillDownBox: box,
+        error: null,
+        errorContext: null
       });
     } else {
       console.error(response.error);
-      //TODO this should load an error page
+      this.setState({errorContext: "File data load failed", error: response.error});
     }
   }
 
@@ -369,6 +376,10 @@ export default class CodebaseChartContent extends Component {
    */
   render() {
     let tableContent = "";
+
+    if (this.state.error) {
+      return UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
+    }
 
     if (!this.state.moduleTableDto) {
       return (<div

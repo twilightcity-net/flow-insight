@@ -168,8 +168,12 @@ export default class ActiveCircuit extends Component {
    */
   loadDictionary() {
     DictionaryClient.getTeamDictionary(this, (arg) => {
-      this.dictionaryWords = arg.data;
-      this.updateDictionaryState(this.dictionaryWords);
+      if (arg.error) {
+        console.error("Dictionary failed to load, "+arg.error);
+      } else {
+        this.dictionaryWords = arg.data;
+        this.updateDictionaryState(this.dictionaryWords);
+      }
     });
   }
 
@@ -195,29 +199,42 @@ export default class ActiveCircuit extends Component {
       circuitName,
       this,
       (arg) => {
-        this.model = arg.data;
-        this.updateStateModels(this.model);
-        TalkToClient.getAllTalkMessagesFromRoom(
-          this.model.wtfTalkRoomName,
-          this.model.wtfTalkRoomId,
-          this,
-          (arg) => {
-            this.messages = arg.data;
-            this.loadCount++;
-            this.updateStateIfDoneLoading();
-          }
-        );
-        CircuitClient.loadCircuitMembers(
-          circuitName,
-          this.model.wtfTalkRoomId,
-          this,
-          (arg) => {
-            this.circuitMembers = arg.data;
-            this.loadCount++;
+        if (arg.error) {
+          this.props.handleError("Failed to load circuit details", arg.error);
+        } else {
+          this.model = arg.data;
+          this.updateStateModels(this.model);
+          TalkToClient.getAllTalkMessagesFromRoom(
+            this.model.wtfTalkRoomName,
+            this.model.wtfTalkRoomId,
+            this,
+            (arg) => {
+              if (arg.error) {
+                this.props.handleError("Failed to load circuit messages", arg.error);
+              } else {
+                this.messages = arg.data;
+                this.loadCount++;
+                this.updateStateIfDoneLoading();
+              }
+            }
+          );
+          CircuitClient.loadCircuitMembers(
+            circuitName,
+            this.model.wtfTalkRoomId,
+            this,
+            (arg) => {
+              if (arg.error) {
+                this.props.handleError("Failed to load circuit members", arg.error);
+              } else {
+                this.circuitMembers = arg.data;
+                this.loadCount++;
 
-            this.updateStateIfDoneLoading();
-          }
-        );
+                this.updateStateIfDoneLoading();
+              }
+            }
+          );
+        }
+
       }
     );
   }
@@ -454,7 +471,6 @@ export default class ActiveCircuit extends Component {
         feedEvents: that.addFeedEvent(
           prevState.feedEvents,
           "Fervie",
-          null,
           time,
           statusMessage,
           true
@@ -507,7 +523,6 @@ export default class ActiveCircuit extends Component {
         feedEvents: that.addFeedEvent(
           prevState.feedEvents,
           username,
-          null,
           time,
           json.message,
           false
@@ -716,7 +731,6 @@ export default class ActiveCircuit extends Component {
         this.addFeedEvent(
           feedEvents,
           username,
-          null,
           time,
           json.message,
           false
@@ -740,7 +754,6 @@ export default class ActiveCircuit extends Component {
       this.addFeedEvent(
         feedEvents,
         "Fervie",
-        null,
         time,
         "What's the problem?",
         false
@@ -749,10 +762,32 @@ export default class ActiveCircuit extends Component {
   }
 
   /**
+   * Adds an error message to the chat feed
+   * @param errorMsg
+   */
+  addErrorMessageToFeed(errorMsg) {
+    let time = new Date();
+
+      this.setState((prevState) => {
+        let feedEvents = this.addFeedEvent(
+          prevState.feedEvents,
+          "Fervie",
+          time,
+          errorMsg,
+          true
+        );
+
+        return {
+          feedEvents : feedEvents
+        };
+
+      });
+  }
+
+  /**
    * Add a new feed events array which is used to generate the list of
    * feed events in the gui which displays all of the chat messages
    * @param username
-   * @param feedEvent
    * @param time
    * @param text
    * @param isStatusEvent
@@ -760,11 +795,11 @@ export default class ActiveCircuit extends Component {
   addFeedEvent(
     feedEvents,
     username,
-    feedEvent,
     time,
     text,
     isStatusEvent
   ) {
+    let feedEvent = null;
     if (
       feedEvents.length > 0 &&
       feedEvents[feedEvents.length - 1] &&
@@ -786,6 +821,7 @@ export default class ActiveCircuit extends Component {
 
     return feedEvents;
   }
+
   /**
    * updates our circuit members array in our component states
    * @param circuitMembers
@@ -841,6 +877,16 @@ export default class ActiveCircuit extends Component {
     this.circuitFeedComponent = component;
   };
 
+
+  /**
+   * When a chat message transaction fails, add an error message to the chat feed
+   * @param errorMsg
+   */
+  reportFeedError = (errorMsg) => {
+    console.log("reportFeedError");
+    this.addErrorMessageToFeed(errorMsg);
+  }
+
   /**
    * renders our circuit content panel and resizable scrapbook
    * @returns {*}
@@ -863,6 +909,7 @@ export default class ActiveCircuit extends Component {
               missingMembers={this.state.missingMembers}
               feedEvents={this.state.feedEvents}
               set={this.setCircuitFeedComponent}
+              reportFeedError={this.reportFeedError}
             />
           </div>
           <Transition
