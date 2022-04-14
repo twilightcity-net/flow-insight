@@ -37,6 +37,7 @@ module.exports = class ActivatorWindow {
       webPreferences: {
         toolbar: false,
         nodeIntegration: true,
+        contextIsolation: false,
       },
     });
 

@@ -48,6 +48,7 @@ module.exports = class ChartWindow {
       webPreferences: {
         toolbar: false,
         nodeIntegration: true,
+        contextIsolation: false,
       },
     });
     this.window.name = this.name;

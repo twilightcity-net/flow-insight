@@ -186,6 +186,10 @@ module.exports = class TalkController extends (
         log.info(
           chalk.green(name) + " connection error : " + err
         );
+        this.talkConnectFailedListener.dispatch({
+          message:
+            "Oops, The Talknet service seems to be offline, please try again soon.",
+        });
       }
     );
 

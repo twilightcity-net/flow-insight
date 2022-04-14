@@ -33,16 +33,6 @@ class WindowManager {
     this.lastFocusWindowName = null;
     this.lastBlurWindowName = null;
     this.events = {
-      focusWindow: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_FOCUS,
-        this,
-        (event, arg) => this.onFocusWindowCb(event, arg)
-      ),
-      blurWindow: EventFactory.createEvent(
-        EventFactory.Types.WINDOW_BLUR,
-        this,
-        (event, arg) => this.onBlurWindowCb(event, arg)
-      ),
       shortcutsRecieved: EventFactory.createEvent(
         EventFactory.Types.SHORTCUTS_RECIEVED,
         this,
@@ -58,10 +48,9 @@ class WindowManager {
   /**
    * callback for native window focus event. Activates any shortcuts associated
    * to that window
-   * @param event
    * @param arg
    */
-  onFocusWindowCb(event, arg) {
+  onFocusWindowCb(arg) {
     log.info(
       "[WindowManager] focus window -> " + arg.sender.name
     );
@@ -75,10 +64,9 @@ class WindowManager {
   /**
    * callback for native window blur event. Deactivates any shortcuts associated
    * to that window
-   * @param event
    * @param arg
    */
-  onBlurWindowCb(event, arg) {
+  onBlurWindowCb(arg) {
     log.info(
       "[WindowManager] blur window -> " + arg.sender.name
     );
@@ -376,10 +364,10 @@ class WindowManager {
         arg
       );
       window.window.on("focus", (event) => {
-        this.events.focusWindow.dispatch(event);
+        this.onFocusWindowCb(event);
       });
       window.window.on("blur", (event) => {
-        this.events.blurWindow.dispatch(event);
+        this.onBlurWindowCb(event);
       });
       this.windows.push(window);
     } else {
