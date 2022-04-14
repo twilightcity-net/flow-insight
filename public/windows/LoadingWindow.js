@@ -41,6 +41,7 @@ module.exports = class LoadingWindow {
       webPreferences: {
         toolbar: false,
         nodeIntegration: true,
+        contextIsolation: false,
       },
     });
     this.window.name = this.name;

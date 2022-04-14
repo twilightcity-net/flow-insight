@@ -50,6 +50,7 @@ module.exports = class ConsoleWindow {
         toolbar: false,
         webSecurity: true,
         nodeIntegration: true,
+        contextIsolation: false,
       },
     });
     this.window.name = this.name;
