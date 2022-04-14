@@ -243,9 +243,6 @@ export default class JournalResource extends Component {
         );
     }
 
-    if (this.isMyJournal()) {
-      document.getElementById("intentionTextInput").focus();
-    }
   }
 
   getJournalItemForIntention(intention) {
@@ -483,9 +480,13 @@ export default class JournalResource extends Component {
         );
       }, 500);
 
-      this.activeJournalItem.setState({
-        flameRating: overrideFlame,
-      });
+      if (this.activeJournalItem) {
+        this.activeJournalItem.setState({
+          flameRating: overrideFlame,
+        });
+      } else {
+        console.error("Active journal item not set!");
+      }
 
       return {
         activeFlameUpdate: overrideFlame,

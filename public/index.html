@@ -3606,7 +3606,7 @@
     overflow-x: hidden;
     margin-top: 0.420em;
     margin-bottom: 0.420em;
-    transition: height 0.210s ease-out;
+
   }
 
   #component.journalIntentions .ui.grid {
@@ -3826,6 +3826,10 @@
 
   #component.journalEntry .column.focused .ui.dropdown .menu {
     border: 1px solid rgba(100, 53, 201, 0.96);
+  }
+
+  #component.journalEntry .column.focused .ui.dropdown .menu::-webkit-scrollbar {
+    display: none;
   }
 
   #component.journalEntry .ui.selection.dropdown .menu>.item {

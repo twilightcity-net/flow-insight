@@ -357,7 +357,7 @@ export default class JournalItem extends Component {
         className={active}
         onClick={this.handleOnClickRow}
       >
-        <Grid.Column width={3}>
+        <Grid.Column width={2}>
           <Popup
             trigger={projectCell}
             className="chunkTitle"
@@ -367,7 +367,7 @@ export default class JournalItem extends Component {
             hideOnScroll
           />
         </Grid.Column>
-        <Grid.Column width={2}>
+        <Grid.Column width={3}>
           <Popup
             trigger={taskCell}
             className="chunkTitle"
@@ -376,11 +376,11 @@ export default class JournalItem extends Component {
             inverted
           />
         </Grid.Column>
-        <Grid.Column width={6} className="chunkCell">
+        <Grid.Column width={7} className="chunkCell">
           {chunkCell}
         </Grid.Column>
         <Grid.Column
-          width={3}
+          width={2}
           textAlign="center"
           verticalAlign="top"
           className="flameCell"
