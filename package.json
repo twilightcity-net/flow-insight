@@ -2,7 +2,7 @@
   "name": "flow-insight",
   "productName": "FlowInsight",
   "description": "FlowInsight - © 2021 Twilight City, Inc. All rights reserved.",
-  "version": "0.5.17",
+  "version": "0.5.18",
   "engines": {
     "node": "16.13.0"
   },
@@ -200,10 +200,7 @@
   },
   "build": {
     "appId": "net.twilightcity.flowinsight",
-    "files": [
-      "build/**/*",
-      "package.json"
-    ],
+    "files": ["build/**/*", "package.json"],
     "directories": {
       "buildResources": "resources"
     },
