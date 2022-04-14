@@ -47,7 +47,7 @@ module.exports = class AppHeartbeat {
         this.intervalMs
     );
     this.previousDeltaTime = new Date().getTime();
-    this.pulse();
+    //this.pulse(); delay the first pulse
     this.interval = setInterval(() => {
       this.pulse();
     }, this.intervalMs);
@@ -61,26 +61,33 @@ module.exports = class AppHeartbeat {
     clearTimeout(this.interval);
   }
 
+  createHeartbeatDto() {
+    this.dto.deltaTime = new Date().getTime() - this.previousDeltaTime;
+    this.dto.messageCounters = global.App.TalkManager.getMessageCounters();
+
+    log.info(this.name +": "+ JSON.stringify(this.dto));
+
+    return this.dto;
+  }
+
   /**
    * fires a heartbeat pulse into the application system framework
    */
   pulse() {
     try {
       /// gets the calculated values for idle and delta time
-      this.dto.idleTime = global.App.idleTime;
-      this.dto.deltaTime =
-        new Date().getTime() - this.previousDeltaTime;
+      let sendDto = this.createHeartbeatDto();
 
       /// build our heartbeat request, no retries
       let req = request
         .post(this.url)
         .timeout(this.timeout)
-        .send(this.dto)
+        .send(sendDto)
         .set("Content-Type", "application/json")
         .set("X-API-Key", global.App.ApiKey);
 
       /// create memory for our response body
-      let dto = new SimpleStatusDto({});
+      let responseDto = new SimpleStatusDto({});
 
       /// store the current time to calculate our ping
       this.previousDeltaTime = new Date().getTime();
@@ -99,28 +106,34 @@ module.exports = class AppHeartbeat {
         if (!err) {
           global.App.isOnline = true;
 
-          dto = new SimpleStatusDto(res.body);
-          log.info("HEARTBEAT STATUS: " + dto.status);
+          responseDto = new SimpleStatusDto(res.body);
+          log.info("HEARTBEAT STATUS: " + responseDto.status);
 
-          dto.pingTime = this.pingTime;
-          dto.latencyTime =
+          responseDto.pingTime = this.pingTime;
+          responseDto.latencyTime =
             global.App.TalkManager.getLatency();
         } else {
           global.App.isOnline = false;
-          dto = new SimpleStatusDto({
+          responseDto = new SimpleStatusDto({
             message: err.message,
             status: "FAILED",
           });
-          dto.pingTime = -1;
-          dto.latencyTime =
+          responseDto.pingTime = -1;
+          responseDto.latencyTime =
             global.App.TalkManager.getLatency();
           log.info("HEARTBEAT FAIL");
         }
 
-        dto.server = global.App.api;
-        dto.talkUrl = global.App.talkUrl;
-        dto.isOnline = global.App.isOnline;
-        this.events.heartbeat.dispatch(dto);
+        if (responseDto.status === "FAILED" || responseDto.status === "REFRESH") {
+          global.App.TalkManager.resetMessageCounters();
+        } else {
+          global.App.TalkManager.pruneMessageCounters();
+        }
+
+        responseDto.server = global.App.api;
+        responseDto.talkUrl = global.App.talkUrl;
+        responseDto.isOnline = global.App.isOnline;
+        this.events.heartbeat.dispatch(responseDto);
       });
     } catch (e) {
       log.error(

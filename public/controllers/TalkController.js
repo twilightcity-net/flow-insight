@@ -17,12 +17,14 @@ module.exports = class TalkController extends (
    *
    * @param scope - this is the wrapping scope to execute callbacks within
    */
-  constructor(scope) {
+  constructor(scope, messageCounter) {
     super(scope, TalkController);
     if (!TalkController.instance) {
       TalkController.instance = this;
       TalkController.wireControllersTogether();
       this.configureEvents();
+
+      this.messageCounter = messageCounter;
     }
   }
 
@@ -308,6 +310,8 @@ module.exports = class TalkController extends (
     ) {
       this.refreshDataFromScratch();
       this.reconnectToTalk(socket);
+    } else if (socket && socket.connected && dto.status === "REFRESH") {
+      this.refreshDataFromScratch();
     } else if (dto.status === "FAILED") {
       //will get a new talk connection, so don't retry to reconnect the existing one
       this.reinitializeLogin();
@@ -376,13 +380,18 @@ module.exports = class TalkController extends (
     });
   }
 
+  trackMessage(uri, nanoTime, message) {
+    this.messageCounter.trackMessage(uri, nanoTime, message);
+  }
+
   /**
    * our event callback handler talk messages. This function sorts incoming talk
    * messages into status and details.s
    * @param message - our message that was received via the talk network socket
    */
   handleTalkMessageRoomCallback(message) {
-    let uri = message.uri,
+    let uri = message.uri, //this is the roomId
+      nanoTime = message.nanoTime,
       metaProps = message.metaProps,
       talkDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.TALK
@@ -410,6 +419,8 @@ module.exports = class TalkController extends (
         ),
       me = this.getMemberMe(),
       model = {};
+
+    this.trackMessage(uri, nanoTime, message);
 
     switch (message.messageType) {
       case TalkController.MessageTypes.CIRCUIT_STATUS:

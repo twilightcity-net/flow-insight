@@ -2,6 +2,7 @@ const log = require("electron-log"),
   chalk = require("chalk"),
   TalkController = require("../controllers/TalkController"),
   io = require("socket.io-client");
+const MessageCounter = require("../controllers/MessageCounter");
 
 /**
  * This class is used to manage the Talknet server connection
@@ -11,7 +12,9 @@ const log = require("electron-log"),
 module.exports = class TalkManager {
   constructor() {
     this.name = "[TalkManager]";
-    this.myController = new TalkController(this);
+    this.messageCounter = new MessageCounter();
+    this.myController = new TalkController(this, this.messageCounter);
+
     this.rooms = [];
   }
 
@@ -90,6 +93,28 @@ module.exports = class TalkManager {
    */
   setLatency(latency) {
     this.latency = latency;
+  }
+
+  /**
+   * Resets the message counters used in synchronization checks
+   */
+  resetMessageCounters() {
+    this.messageCounter.reset();
+  }
+
+  /**
+   * Resets the message counters to the rooms actively in use
+   */
+  pruneMessageCounters() {
+    this.messageCounter.prune(this.rooms);
+  }
+
+  /**
+   * Returns all the latest message counters since the last reset
+   * @returns {*}
+   */
+  getMessageCounters() {
+    return this.messageCounter.getMessageCounters();
   }
 
   /**
