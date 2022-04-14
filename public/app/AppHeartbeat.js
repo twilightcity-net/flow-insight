@@ -47,7 +47,7 @@ module.exports = class AppHeartbeat {
         this.intervalMs
     );
     this.previousDeltaTime = new Date().getTime();
-    //this.pulse(); delay the first pulse
+    this.pulse();
     this.interval = setInterval(() => {
       this.pulse();
     }, this.intervalMs);

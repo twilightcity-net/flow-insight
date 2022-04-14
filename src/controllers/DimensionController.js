@@ -152,7 +152,6 @@ export class DimensionController {
    * @returns {number}
    */
   static getMiniFervieCanvasWidth() {
-    console.log(window.innerWidth);
 
     let consoleSidebarWidthPixels = 29,
       oneRem = window.innerWidth / 100,
@@ -473,10 +472,6 @@ export class DimensionController {
       barHeight = addressbar.clientHeight;
     }
     let padding = 8 * 2;
-
-    console.log("height = " + window.innerHeight);
-    console.log("addressbar =" + barHeight);
-    console.log("padding = " + padding);
 
     return window.innerHeight - barHeight - padding;
   }

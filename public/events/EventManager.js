@@ -162,13 +162,16 @@ class EventManager {
   initSonar() {
     log.info("[EventManager] setup event sonar");
     ipcMain.on("echo-event", (_event, _arg) => {
-      if (!_arg.type) {
+
+      let deserializedJsonEcho = JSON.parse(_arg);
+
+      if (!deserializedJsonEcho.type) {
         throw new EventEchoException(
           "Unknown",
           new Error("Event type is not specified in arg")
         );
       }
-      if (!_arg.arg) {
+      if (!deserializedJsonEcho.arg) {
         throw new EventEchoException(
           "Unknown",
           new Error("Event arg is missing in arg")
@@ -177,11 +180,11 @@ class EventManager {
       log.info(
         "[EventManager]" +
           " sonar echo -> " +
-          _arg.type +
+        deserializedJsonEcho.type +
           " : " +
-          JSON.stringify(_arg.arg)
+          JSON.stringify(deserializedJsonEcho.arg)
       );
-      EventManager.dispatch(_arg.type, _arg.arg);
+      EventManager.dispatch(deserializedJsonEcho.type, deserializedJsonEcho.arg);
     });
   }
 
@@ -216,29 +219,31 @@ class EventManager {
    */
   createListener(event) {
     event.listener = (_event, _arg) => {
+      let deserializedJson = JSON.parse(_arg);
       log.info(
         chalk.bold.cyanBright("[EventManager]") +
           " '" +
           chalk.bold.greenBright(event.type) +
           "' " +
           " -> " +
-          JSON.stringify(_arg)
+          _arg
       );
       try {
         let value = global.App.EventManager.executeCallback(
           event,
-          _arg
+          deserializedJson
         );
         _event.returnValue = value;
+        let serializedValue =  JSON.stringify(value);
         if (event.async) {
           log.info(
             chalk.cyan("[EventManager]") +
               " reply : " +
               event.type +
               "-reply -> " +
-              JSON.stringify(value)
+            serializedValue
           );
-          _event.sender.send(event.type + "-reply", value);
+          _event.sender.send(event.type + "-reply", serializedValue);
         }
       } catch (e) {
         log.error(
@@ -350,11 +355,13 @@ class EventManager {
         " } "
     );
 
+    let jsonArg = JSON.stringify(arg);
+
     for (var j = 0; j < windows.length; j++) {
       // log.info("sending arg (raw): "+arg);
       // log.info("sending arg: "+JSON.stringify(arg));
       // log.info("eventtype: "+eventType);
-      windows[j].window.webContents.send(eventType, arg);
+      windows[j].window.webContents.send(eventType, jsonArg);
     }
 
     for (var i = 0; i < manager.events.length; i++) {

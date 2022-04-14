@@ -208,6 +208,7 @@ export default class JournalResource extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log("componentDidUpdate");
     if (
       prevProps.resource.uri !== this.props.resource.uri
     ) {
@@ -240,6 +241,10 @@ export default class JournalResource extends Component {
         this.getJournalItemForIntention(
           this.state.activeIntention
         );
+    }
+
+    if (this.isMyJournal()) {
+      document.getElementById("intentionTextInput").focus();
     }
   }
 
@@ -506,6 +511,7 @@ export default class JournalResource extends Component {
    * @param props
    */
   refreshJournal(props) {
+    console.log("refreshJournal");
     this.loadCount = 0;
     this.activeJournalItem = null;
 
@@ -645,6 +651,7 @@ export default class JournalResource extends Component {
    * event handler that is called when we finish sliding the journal entry in to the user.
    */
   onEntryShown = () => {
+    console.log("onEntryShown");
     this.scrollToJournalItemById(null, true);
 
     if (this.isMyJournal()) {

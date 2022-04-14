@@ -19,11 +19,11 @@ export class RendererEvent {
    */
   constructor(type, scope, callback, reply) {
     this.type = type;
-    this.scope = scope;
+    this.scope = scope; //this references code object
     this.callback = callback
       ? callback.bind(scope)
       : callback;
-    this.reply = reply ? reply.bind(scope) : reply;
+    this.reply = reply ? reply.bind(scope) : reply; //this references code object
     this.returnValue = null;
     this.replyReturnValue = null;
     this.registerEvents();
@@ -169,9 +169,10 @@ export class RendererEventManager {
     if (!event.reply) return null;
 
     let wrapperFunction = (_event, _arg) => {
+      let deserializedArg = JSON.parse(_arg);
       event.replyReturnValue = null;
       try {
-        event.replyReturnValue = event.reply(_event, _arg);
+        event.replyReturnValue = event.reply(_event, deserializedArg);
       } catch (error) {
         event.replyReturnValue =
           RendererEventManager.createEventError(
@@ -225,9 +226,11 @@ export class RendererEventManager {
     if (!event.callback) return;
 
     let wrapperFunction = (_event, _arg) => {
+
+      let deserializedArg = JSON.parse(_arg);
       event.returnValue = null;
       try {
-        event.returnValue = event.callback(_event, _arg);
+        event.returnValue = event.callback(_event, deserializedArg);
       } catch (error) {
         event.returnValue =
           RendererEventManager.createEventError(
@@ -266,10 +269,11 @@ export class RendererEventManager {
   static dispatch(event, arg, noEcho, isSync) {
     event.returnValue = null;
     try {
+      let jsonArg = JSON.stringify(arg);
       if (noEcho && isSync) {
         event.returnValue = ipcRenderer.sendSync(
           event.type,
-          arg
+          jsonArg
         );
         RendererEventManager.checkEventForError(event);
         event.returnValue = event.callback(
@@ -277,12 +281,11 @@ export class RendererEventManager {
           event.returnValue
         );
       } else if (noEcho) {
-        ipcRenderer.send(event.type, arg);
+        ipcRenderer.send(event.type, jsonArg);
       } else {
-        ipcRenderer.send("echo-event", {
-          type: event.type,
-          arg: arg,
-        });
+        let jsonEcho = JSON.stringify({type: event.type, arg: arg});
+
+        ipcRenderer.send("echo-event", jsonEcho);
       }
     } catch (error) {
       event.returnValue = error;
