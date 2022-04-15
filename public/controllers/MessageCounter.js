@@ -46,12 +46,10 @@ module.exports = class MessageCounter {
 
     let messageCounter = this.messageCounterPerUri.get(uri);
     if (!messageCounter) {
-      this.log("No counter found, creating a new one");
       messageCounter = {uri: uri, count: 1, minNanoTime: nanoTime, maxNanoTime: nanoTime};
       this.messageCounterPerUri.set(uri, messageCounter);
     } else {
       if (nanoTime >= messageCounter.minNanoTime) {
-        this.log("Adding 1!!");
         messageCounter.count = messageCounter.count + 1;
 
         if (nanoTime > messageCounter.maxNanoTime) {
@@ -93,7 +91,6 @@ module.exports = class MessageCounter {
    * Remove all counters except for the specified active rooms
    */
   prune(rooms) {
-    this.log("Pruning counters!");
     let prunedCounters = new Map();
 
     for (let uri of rooms) {
@@ -111,7 +108,7 @@ module.exports = class MessageCounter {
    * will be for a new set of messages.  Reset when we get into a bad state.
    */
   reset() {
-    this.log("Resetting counters!");
+    this.log("Resetting message counters!");
     this.messageCounterPerUri = new Map();
   }
 
