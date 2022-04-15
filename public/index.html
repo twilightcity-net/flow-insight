@@ -7,6 +7,8 @@
         content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="theme-color"
         content="#000000">
+  <meta http-equiv="Content-Security-Policy"
+        content="script-src 'self'; connect-src 'self'; img-src 'self'; base-uri 'self';form-action 'self'">
   <link rel="manifest"
         href="%PUBLIC_URL%/manifest.json">
   <title>FlowInsight</title>
@@ -2100,11 +2102,9 @@
     cursor: pointer;
   }
 
-
   #component.circuitLayout #component.circuitContentSidebar .tags>.ui.label {
     margin: 0 0.210rem;
   }
-
 
   #component.circuitLayout #component.circuitContentSidebar .tagsDone {
     position: absolute;
@@ -2403,7 +2403,6 @@
   /*
   * COMPONENT: DASHBOARD SIDEBAR
    */
-
   #component.consoleSidebarPanel .riskAreaContent {
     height: 100%;
     overflow-y: hidden;
@@ -2411,7 +2410,7 @@
   }
 
   #component.consoleSidebarPanel .riskAreaContent hr {
-    border: rgba(255,255,255,.1) solid 1px;
+    border: rgba(255, 255, 255, .1) solid 1px;
   }
 
   #component.consoleSidebarPanel .riskAreaContent .list {
@@ -2421,7 +2420,6 @@
   #component.consoleSidebarPanel .riskAreaContent .item {
     cursor: pointer;
   }
-
 
   #component.consoleSidebarPanel .scopeSelection {
     padding-right: 15px;
@@ -2483,8 +2481,6 @@
     color: rgba(255, 255, 255, 0.96);
   }
 
-
-
   #component.consoleSidebarPanel .riskAreaContent .active {
     background: #272727;
   }
@@ -2524,7 +2520,6 @@
   /**
   DASHBOARD PANEL
    */
-
   #component.dashboardContent {
     color: white;
     background-color: rgba(27, 28, 29, 0.96);
@@ -2618,7 +2613,7 @@
 
   #component.dashboardContent .gtcoords {
     color: rgba(90, 90, 90, 0.96);
-    fill:  rgba(90, 90, 90, 0.96);
+    fill: rgba(90, 90, 90, 0.96);
     font-style: italic;
     font-size: 0.8rem;
     float: right;
@@ -2650,7 +2645,6 @@
     display: inline-block;
     cursor: pointer;
   }
-
 
   #component.dashboardContent .flowBar .progress {
     background-color: #7846FB;
@@ -2690,7 +2684,7 @@
     top: 16px;
     color: rgba(200, 200, 200, 0.96);
     transition: color 0.333s ease-out;
-    cursor:pointer;
+    cursor: pointer;
     float: left;
   }
 
@@ -2803,7 +2797,6 @@
     float: right;
   }
 
-
   .ui.popup .dashboardPopup .author {
     font-style: italic;
     font-size: 12px;
@@ -2871,7 +2864,6 @@
     border-style: solid;
     border-color: transparent transparent rgba(27, 28, 29, 0.96) transparent;
   }
-
 
   #component.frictionMetricList .scrolling {
     height: 90%;
@@ -2942,13 +2934,11 @@
     padding-right: 20px;
   }
 
-
   #component.frictionMetricList .ui.grid .row .chunkText {
     font-weight: 400;
     color: #cccccc;
     padding-right: 20px;
   }
-
 
   #component.frictionMetricList .ui.grid .row .metricRight {
     text-align: right;
@@ -2958,15 +2948,13 @@
     padding: 8px;
   }
 
-
-
   /*
  * COMPONENT: POPUP CHART LAYOUT
  */
   #component.chartLayout #draggableBanner {
-    position:absolute;
-    width:90%;
-    height:50px;
+    position: absolute;
+    width: 90%;
+    height: 50px;
     -webkit-app-region: drag;
   }
 
@@ -2980,8 +2968,6 @@
     justify-content: center;
     border-radius: 5px;
   }
-
-
 
   #component.chartLayout #component.flowContent .flowContentWrapper {
     padding-top: 10px;
@@ -3009,7 +2995,6 @@
   /*
  * COMPONENT: PLAY-LAYOUT
  */
-
   #playGameWrapper {
     transition: opacity 0.6s ease-out;
     opacity: 0;
@@ -3606,7 +3591,6 @@
     overflow-x: hidden;
     margin-top: 0.420em;
     margin-bottom: 0.420em;
-
   }
 
   #component.journalIntentions .ui.grid {
