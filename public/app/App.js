@@ -87,6 +87,19 @@ module.exports = class App {
         }
       );
 
+      //SECURITY PATCH to prevent exploit, fixed in 13.6.6+
+      app.on('web-contents-created', (event, webContents) => {
+        webContents.on('select-bluetooth-device', (event, devices, callback) => {
+          // Prevent default behavior
+          event.preventDefault();
+          // Cancel the request
+          callback('');
+        });
+      });
+
+      //SECURITY PATCH to prevent exploit
+      delete require('electron').nativeImage.createThumbnailFromPath
+
       //load the rest of the app
       if (isDev) {
         this.start();
@@ -155,6 +168,7 @@ module.exports = class App {
       global.App.AppHeartbeat = new AppHeartbeat();
       global.App.createQuitListener();
       global.App.load();
+
     } catch (error) {
       App.handleError(error, true);
     } finally {
