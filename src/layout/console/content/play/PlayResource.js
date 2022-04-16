@@ -24,7 +24,14 @@ export default class PlayResource extends Component {
     setTimeout(() => {
       this.setState({
         visible: true
-      })
+      });
+    }, 333);
+  }
+
+  onFinishedLoading = () => {
+    console.log("onFinishedLoading");
+    setTimeout(() => {
+      document.getElementById("playGameWrapper").style.opacity = 1;
     }, 333);
   }
 
@@ -35,8 +42,7 @@ export default class PlayResource extends Component {
   render() {
     let content = "";
     if (this.state.visible) {
-      content = <GameSketch me={this.state.me}/>;
-      document.getElementById("playGameWrapper").style.opacity = 1;
+      content = <GameSketch me={this.state.me} onFinishedLoading={this.onFinishedLoading}/>;
     }
 
     return (

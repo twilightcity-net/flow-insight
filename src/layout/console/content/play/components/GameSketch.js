@@ -26,6 +26,7 @@ export default class GameSketch extends Component {
     super(props);
     this.name = "[GameSketch]";
     this.animationLoader = new AnimationLoader();
+    this.isInitialized = false;
   }
 
   /**
@@ -58,6 +59,8 @@ export default class GameSketch extends Component {
         let spawnPoint = this.environment.getDefaultSpawnProperties();
         this.fervieSprite.moveToPoint(spawnPoint.x, spawnPoint.y);
 
+
+
       };
 
       p5.draw = () => {
@@ -68,6 +71,12 @@ export default class GameSketch extends Component {
 
         this.environment.update(p5, this.fervieSprite);
         this.fervieSprite.update(p5, this.environment);
+
+        if (!this.isInitialized) {
+          this.props.onFinishedLoading();
+          this.isInitialized = true;
+          console.log("Finished!");
+        }
       };
 
       p5.mousePressed = () => {
