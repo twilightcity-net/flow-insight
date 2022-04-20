@@ -132,7 +132,6 @@
     "socket.io-client": "^2.4.0",
     "chokidar": "^3.5.3",
     "highlight.js": "^11.5.1",
-    "minimatch": "^5.0.1",
     "lodash": "^4.17.21",
     "immer": "^9.0.6",
     "async": "^2.6.4",
