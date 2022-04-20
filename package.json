@@ -42,7 +42,7 @@
     "test:talk": "node test/talk/RTTest.js",
     "test:app": "cross-env ENV=test electron-mocha test/SetupApp.js test/app/**/*Test.js",
     "prebuild": "gulp prettier lint pretty",
-    "build": "INLINE_RUNTIME_CHUNK=false react-scripts build",
+    "build": "react-scripts build",
     "postbuild": "yarn docs",
     "prebundle": "yarn build",
     "bundle": "gulp browserify && gulp uglify",
