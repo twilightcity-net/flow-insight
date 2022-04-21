@@ -93,7 +93,7 @@ export class DimensionController {
       margin: 12,
       padding: 12,
       header: 51,
-      entry: isEntryShowing ? 50 : 0,
+      entry: 50,
     };
     return (
       window.innerHeight -
@@ -104,6 +104,7 @@ export class DimensionController {
       heights.entry
     );
   }
+
 
   /**
    * gets the fervie panel width of the canvas

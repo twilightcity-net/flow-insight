@@ -1,11 +1,6 @@
-import React, { Component } from "react";
-import {
-  Dropdown,
-  Grid,
-  Input,
-  Segment,
-} from "semantic-ui-react";
-import { MemberClient } from "../../../../../clients/MemberClient";
+import React, {Component} from "react";
+import {Button, Dropdown, Grid, Input, Popup, Segment,} from "semantic-ui-react";
+import {MemberClient} from "../../../../../clients/MemberClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -61,7 +56,18 @@ export default class JournalEntry extends Component {
 
   componentDidMount = () => {
     document.getElementById("intentionTextInput").focus();
+
+    this.initializeProjectTaskSelection();
   };
+
+  initializeProjectTaskSelection() {
+    if (this.props.projects && this.props.tasks && !this.state.currentProjectValue && !this.state.currentTaskValue) {
+      this.setState({
+        currentProjectValue: this.props.lastProject,
+        currentTaskValue: this.props.lastTask
+      })
+    }
+  }
 
   /**
    * this is called right before our parent passes us new props that contain
@@ -75,7 +81,6 @@ export default class JournalEntry extends Component {
     this.projects = [];
     this.tasks = [];
 
-    if (this.isMe(nextProps)) {
       if (
         this.hasProjectUpdated(nextState) &&
         nextState.currentProjectValue !==
@@ -120,10 +125,9 @@ export default class JournalEntry extends Component {
           }
         }
       }
-    }
-
-    return true;
+      return true;
   }
+
 
   containsProject(projects, projectId) {
     let found = false;
@@ -447,6 +451,36 @@ export default class JournalEntry extends Component {
    * @returns {*}
    */
   render() {
+    let linkButtonIfPresent = "";
+    let intentionWidth = 11;
+
+    console.log("is linked! "+this.props.isLinked);
+
+    if (this.props.isLinked) {
+      intentionWidth = 10;
+      linkButtonIfPresent = (
+        <Grid.Column
+          width={1}
+        >
+          <Popup
+            trigger={
+              <Button
+                icon="broken chain"
+                className="breakPair"
+                onClick={this.props.onClickPairingLink}
+              />
+            }
+            position="top center"
+            content={
+              <div className="breakPairTip">Stop<br/>Pairing</div>
+            }
+            inverted
+            hideOnScroll
+          />
+        </Grid.Column>
+        );
+    }
+
     return (
       <div id="component" className="journalEntry">
         <Segment.Group>
@@ -463,11 +497,12 @@ export default class JournalEntry extends Component {
                   {this.getTaskDropdown()}
                 </Grid.Column>
                 <Grid.Column
-                  width={11}
+                  width={intentionWidth}
                   id="createIntentionInput"
                 >
                   {this.getTextInput()}
                 </Grid.Column>
+                {linkButtonIfPresent}
               </Grid.Row>
             </Grid>
           </Segment>

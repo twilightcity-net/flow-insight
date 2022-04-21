@@ -1,20 +1,16 @@
-import React, { Component } from "react";
+import React, {Component} from "react";
 import JournalEntry from "./components/JournalEntry";
-import { DimensionController } from "../../../../controllers/DimensionController";
-import {
-  Grid,
-  Icon,
-  Message,
-  Transition,
-} from "semantic-ui-react";
+import {DimensionController} from "../../../../controllers/DimensionController";
+import {Grid, Icon, Message,} from "semantic-ui-react";
 import JournalItem from "./components/JournalItem";
-import { JournalClient } from "../../../../clients/JournalClient";
-import { scrollTo } from "../../../../UtilScroll";
-import { MemberClient } from "../../../../clients/MemberClient";
-import { RendererEventFactory } from "../../../../events/RendererEventFactory";
+import {JournalClient} from "../../../../clients/JournalClient";
+import {scrollTo} from "../../../../UtilScroll";
+import {MemberClient} from "../../../../clients/MemberClient";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../UtilRenderer";
-import { BaseClient } from "../../../../clients/BaseClient";
+import {BaseClient} from "../../../../clients/BaseClient";
 import Mousetrap from "mousetrap";
+import JournalLinkPanel from "./components/JournalLinkPanel";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -87,6 +83,8 @@ export default class JournalResource extends Component {
       activeIntention: null,
       error: null,
       activeFlameUpdate: null,
+      isLinked: false,
+      isDriver: true
     };
   }
 
@@ -208,7 +206,6 @@ export default class JournalResource extends Component {
    * @param snapshot
    */
   componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log("componentDidUpdate");
     if (
       prevProps.resource.uri !== this.props.resource.uri
     ) {
@@ -243,6 +240,21 @@ export default class JournalResource extends Component {
         );
     }
 
+    if (prevState.journalIntentions.length === 0 && this.state.journalIntentions.length > 0) {
+      this.scrollToJournalItemById();
+    }
+
+    if (prevState.isLinked && !this.state.isLinked) {
+      this.focusOnIntentionIfVisible();
+    }
+  }
+
+  focusOnIntentionIfVisible() {
+    let el = document.getElementById("intentionTextInput");
+
+    if (el) {
+      el.focus();
+    }
   }
 
   getJournalItemForIntention(intention) {
@@ -590,7 +602,7 @@ export default class JournalResource extends Component {
     this.loadCount++;
     if (this.loadCount === 3) {
       //the 3 load calls are asynchronous, so make sure we only update this on the last one
-
+      console.log("3! "+this.projects.length);
       this.setState({
         projects: this.projects,
         tasks: this.tasks,
@@ -659,6 +671,8 @@ export default class JournalResource extends Component {
       document.getElementById("intentionTextInput").focus();
     }
   };
+
+
 
   /**
    * saves the journal entry from the callback event
@@ -826,6 +840,18 @@ export default class JournalResource extends Component {
   }
 
   /**
+   * Invoked when the user clicks the pairing link in the journal
+   */
+  onClickPairingLink = () => {
+    console.log("pairing!!");
+    this.setState((prevState) => {
+      return {
+        isLinked: !prevState.isLinked
+      }
+    });
+  }
+
+  /**
    * renders the array of journal items
    * @returns {array}
    */
@@ -904,27 +930,31 @@ export default class JournalResource extends Component {
    * @returns {*}
    */
   getJournalEntryContent() {
-    return (
-      <Transition
-        visible={this.isMyJournal()}
-        animation="fade"
-        duration={420}
-        onComplete={this.onEntryShown}
-      >
+    if (this.isMyJournal() && (!this.state.isLinked || (this.state.isLinked && this.state.isDriver))) {
+      return (
         <div id="wrapper" className="journalEntry ">
-          <JournalEntry
-            resource={this.props.resource}
-            projects={this.state.projects}
-            tasks={this.state.tasks}
-            lastProject={this.state.lastProject}
-            lastTask={this.state.lastTask}
-            createIntention={this.handleCreateIntention}
-            createTask={this.handleCreateTask}
-            createProject={this.handleCreateProject}
-          />
+        <JournalEntry
+          resource={this.props.resource}
+          projects={this.state.projects}
+          tasks={this.state.tasks}
+          lastProject={this.state.lastProject}
+          lastTask={this.state.lastTask}
+          createIntention={this.handleCreateIntention}
+          createTask={this.handleCreateTask}
+          createProject={this.handleCreateProject}
+          isLinked={this.state.isLinked}
+          onClickPairingLink={this.onClickPairingLink}
+        />
+      </div>
+      );
+    } else {
+      return (
+        <div id="wrapper" className="journalEntry ">
+          <JournalLinkPanel isLinked={this.state.isLinked} onClickPairingLink={this.onClickPairingLink}/>
         </div>
-      </Transition>
-    );
+      );
+    }
+
   }
 
   /**
