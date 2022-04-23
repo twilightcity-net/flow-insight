@@ -27,12 +27,14 @@ export class FervieClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{GET_RECENT_INTENTIONS: string, LOAD_RECENT_JOURNAL: string, CREATE_INTENTION: string, GET_RECENT_TASKS: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, FIND_OR_CREATE_PROJECT: string, GET_RECENT_PROJECTS: string, FIND_OR_CREATE_TASK: string}}
+   * @returns {{SAVE_FERVIE_DETAILS: string, CREATE_PAIR_LINK: string, STOP_PAIRING:string}}
    * @constructor
    */
   static get Events() {
     return {
       SAVE_FERVIE_DETAILS: "save-fervie-details",
+      CREATE_PAIR_LINK: "create-pair-link",
+      STOP_PAIRING: "stop-pairing"
     };
   }
 
@@ -52,6 +54,7 @@ export class FervieClient extends BaseClient {
    * @param fervieSecondaryColor
    * @param fervieTertiaryColor
    * @param fervieAccessory
+   * @param scope
    * @param callback
    * @returns {RendererClientEvent}
    */
@@ -75,7 +78,53 @@ export class FervieClient extends BaseClient {
       callback
     );
 
-    //okay, I'm defining an event here, but I dont think I'm dispatching it maybe
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+  /**
+   * Create a pairing link with the specified team member
+   * @param memberId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static createPairingLink(
+    memberId,
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.CREATE_PAIR_LINK,
+      {
+        memberId: memberId
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+  /**
+   * Stop pairing and break away from any existing pairing networks
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static stopPairing(
+    scope,
+    callback
+  ) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.STOP_PAIRING,
+      {},
+      scope,
+      callback
+    );
+
     FervieClient.instance.notifyFervie(event);
     return event;
   }

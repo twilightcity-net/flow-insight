@@ -12,7 +12,7 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * Retrieves path information for various urls used with gridtime.
-   * @returns {{PARTICIPATING: string, CHAT: string, WTF: string, JOIN: string, TALK: string, RESUME: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, RETRO: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, SOLVE: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
+   * @returns {{PAIR: string, LINK:string, UNLINK:string, PARTICIPATING: string, CHAT: string, WTF: string, JOIN: string, TALK: string, RESUME: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, RETRO: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, SOLVE: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -68,6 +68,9 @@ module.exports = class BaseController {
       FILE: "/file",
       IN: "/in",
       FAMILIARITY: "/familiarity",
+      PAIR: "/pair",
+      LINK: "/link",
+      UNLINK: "/unlink"
     };
   }
 
@@ -204,6 +207,8 @@ module.exports = class BaseController {
       UPDATE_FLAME_RATING: "update-flame-rating",
       GET_RECENT_PROJECT_TASKS: "getRecentProjectTasks",
       SAVE_FERVIE_DETAILS: "saveFervieDetails",
+      CREATE_PAIR_LINK: "createPairLink",
+      STOP_PAIRING: "stopPairing",
       UPDATE_CIRCUIT_DESCRIPTION:
         "updateCircuitDescription",
       SAVE_CIRCUIT_TAGS: "saveCircuitTags",

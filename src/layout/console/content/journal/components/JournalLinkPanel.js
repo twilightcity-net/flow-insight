@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Button, Icon, Segment,} from "semantic-ui-react";
+import {Button, Grid, Icon, Segment,} from "semantic-ui-react";
 import {MemberClient} from "../../../../../clients/MemberClient";
 
 /**
@@ -44,6 +44,10 @@ export default class JournalLinkPanel extends Component {
     this.props.onClickPairingLink();
   }
 
+  onClickCancel = () => {
+    this.props.onClickCancelLink();
+  }
+
   getLinkButton() {
     if (this.props.isLinked) {
       return (<Button icon className="linkButton"
@@ -54,16 +58,42 @@ export default class JournalLinkPanel extends Component {
         Stop Pairing&nbsp;
         <Icon name='broken chain'/>
       </Button>);
-    } else {
+    } else if (this.props.isLinking) {
       return (<Button icon className="linkButton"
-                      onClick={this.onClickLink}
+                      onClick={this.onClickCancel}
                       size="medium"
                       color="grey"
       >
-        Pair&nbsp;
-        <Icon name='chain'/>
+        Cancel&nbsp;
+        <Icon name='broken chain'/>
       </Button>);
+    } else {
+        return (<Button icon className="linkButton"
+                        onClick={this.onClickLink}
+                        size="medium"
+                        color="grey"
+        >
+          Pair&nbsp;
+          <Icon name='chain'/>
+        </Button>);
     }
+  }
+
+  getLinkMessage() {
+    if (this.props.isLinked) {
+      return (<div className="linkMessage">
+        You are pairing with {this.props.username}
+      </div>);
+    } else if (this.props.isLinking) {
+      return (<div className="linkMessage">
+        Waiting for confirmation...
+      </div>);
+    } else if (this.props.error) {
+      return (<div className="linkMessage linkError">
+        {this.props.username} is unavailable.  Please try again later.
+      </div>);
+    }
+
   }
 
   /**
@@ -72,11 +102,22 @@ export default class JournalLinkPanel extends Component {
    */
   render() {
     let linkButton = this.getLinkButton();
+    let linkMessage = this.getLinkMessage();
     return (
       <div id="component" className="journalLink">
         <Segment.Group>
           <Segment inverted>
-            {linkButton}
+            <Grid columns="equal" divided inverted>
+              <Grid.Row stretched>
+                <Grid.Column
+                  width={14}
+                >{linkMessage}
+                </Grid.Column>
+                <Grid.Column width={2}>
+                  {linkButton}
+                </Grid.Column>
+              </Grid.Row>
+            </Grid>
           </Segment>
         </Segment.Group>
       </div>

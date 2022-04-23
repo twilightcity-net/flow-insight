@@ -11,6 +11,7 @@ import UtilRenderer from "../../../../UtilRenderer";
 import {BaseClient} from "../../../../clients/BaseClient";
 import Mousetrap from "mousetrap";
 import JournalLinkPanel from "./components/JournalLinkPanel";
+import {FervieClient} from "../../../../clients/FervieClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -84,7 +85,8 @@ export default class JournalResource extends Component {
       error: null,
       activeFlameUpdate: null,
       isLinked: false,
-      isDriver: true
+      isLinking: false,
+      linkError: null
     };
   }
 
@@ -843,11 +845,58 @@ export default class JournalResource extends Component {
    * Invoked when the user clicks the pairing link in the journal
    */
   onClickPairingLink = () => {
-    console.log("pairing!!");
-    this.setState((prevState) => {
-      return {
-        isLinked: !prevState.isLinked
+    if (this.state.isLinked) {
+     this.handleStopPairing();
+    } else {
+      this.handleStartPairing(this.username);
+    }
+  }
+
+  /**
+   * Invoked when the user clicks the pairing link in the journal
+   */
+  onClickCancelLink = () => {
+    //TODO implement the cancel of pairing
+  }
+
+  handleStartPairing(username) {
+    console.log("start pairing!");
+    MemberClient.getMember(username, this, (arg) => {
+      if (!arg.error) {
+        let member = arg.data;
+        FervieClient.createPairingLink(member.id, this, (arg) => {
+          if (!arg.error) {
+            this.setState(
+              {isLinked: true}
+            );
+          } else {
+            this.handleError(arg.error);
+          }
+
+        })
+      } else {
+        this.handleError(arg.error);
       }
+    });
+
+  }
+
+  handleStopPairing() {
+    console.log("stop pairing!");
+    FervieClient.stopPairing(this, (arg) => {
+      if (!arg.error) {
+        this.setState({
+          isLinked: false
+        });
+      } else {
+        this.handleError(arg.error);
+      }
+    });
+  }
+
+  handleError(error) {
+    this.setState({
+      error: error
     });
   }
 
@@ -930,7 +979,7 @@ export default class JournalResource extends Component {
    * @returns {*}
    */
   getJournalEntryContent() {
-    if (this.isMyJournal() && (!this.state.isLinked || (this.state.isLinked && this.state.isDriver))) {
+    if (this.isMyJournal()) {
       return (
         <div id="wrapper" className="journalEntry ">
         <JournalEntry
@@ -950,7 +999,12 @@ export default class JournalResource extends Component {
     } else {
       return (
         <div id="wrapper" className="journalEntry ">
-          <JournalLinkPanel isLinked={this.state.isLinked} onClickPairingLink={this.onClickPairingLink}/>
+          <JournalLinkPanel isLinked={this.state.isLinked}
+                            isLinking={this.state.isLinking}
+                            onClickPairingLink={this.onClickPairingLink}
+                            onClickCancelLink={this.onClickCancelLink}
+                            username={this.username}
+                            error={this.state.linkError}/>
         </div>
       );
     }

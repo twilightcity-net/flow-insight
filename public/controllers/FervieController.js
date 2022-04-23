@@ -22,12 +22,14 @@ module.exports = class FervieController extends (
 
   /**
    * general enum list of all of our possible circuit events for fervie
-   * @returns {{SAVE_FERVIE_DETAILS: string}}
+   * @returns {{SAVE_FERVIE_DETAILS: string, CREATE_PAIR_LINK:string, STOP_PAIRING:string}}
    * @constructor
    */
   static get Events() {
     return {
       SAVE_FERVIE_DETAILS: "save-fervie-details",
+      CREATE_PAIR_LINK: "create-pair-link",
+      STOP_PAIRING: "stop-pairing"
     };
   }
 
@@ -73,6 +75,12 @@ module.exports = class FervieController extends (
         case FervieController.Events.SAVE_FERVIE_DETAILS:
           this.handleSaveFervieDetailsEvent(event, arg);
           break;
+        case FervieController.Events.CREATE_PAIR_LINK:
+          this.handleCreatePairLinkEvent(event, arg);
+          break;
+        case FervieController.Events.STOP_PAIRING:
+          this.handleStopPairingEvent(event, arg);
+          break;
         default:
           throw new Error(
             "Unknown fervie client event type '" +
@@ -111,7 +119,70 @@ module.exports = class FervieController extends (
       FervieController.Types.POST,
       urn,
       (store) =>
-        this.delegateSaveFervieDetailsCallback(
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+
+  /**
+   * client event handler for our pairing request
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleCreatePairLinkEvent(event, arg, callback) {
+    let memberId = arg.args.memberId,
+      urn =
+        FervieController.Paths.FERVIE +
+        FervieController.Paths.SEPARATOR +
+        memberId +
+        FervieController.Paths.PAIR +
+        FervieController.Paths.LINK ;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {},
+      FervieController.Names.CREATE_PAIR_LINK,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for our stop pairing request
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleStopPairingEvent(event, arg, callback) {
+    let urn =
+        FervieController.Paths.FERVIE +
+        FervieController.Paths.ME +
+        FervieController.Paths.PAIR +
+        FervieController.Paths.UNLINK ;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {},
+      FervieController.Names.STOP_PAIRING,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
           store,
           event,
           arg,
@@ -128,7 +199,7 @@ module.exports = class FervieController extends (
    * @param arg
    * @param callback
    */
-  delegateSaveFervieDetailsCallback(
+  defaultDelegateCallback(
     store,
     event,
     arg,
