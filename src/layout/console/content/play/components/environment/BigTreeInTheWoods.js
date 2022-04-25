@@ -55,6 +55,11 @@ export default class BigTreeInTheWoods extends Environment {
     return {x: Math.round((Environment.IMAGE_WIDTH - 70) * this.scaleAmountX), y: Math.round(170 * this.scaleAmountY)};
   }
 
+  getLeftSpawnProperties() {
+    console.log("getLeftSpawnProperties");
+    return {x: Math.round((100) * this.scaleAmountX), y: Math.round((Environment.IMAGE_HEIGHT - 200) * this.scaleAmountY)};
+  }
+
   getNorthSpawnProperties() {
     console.log("getNorthSpawnPoint");
     return {
