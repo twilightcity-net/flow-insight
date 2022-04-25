@@ -91,10 +91,15 @@ export default class TeamPanelListItem extends Component {
       workingOn = member.workingOn,
       activeCircuit = member.activeCircuit;
 
+    let optionalLinkIcon = "";
+    if (this.props.model.pairingNetwork) {
+      optionalLinkIcon = <Icon name="linkify" size="tiny" className="teamLink" />;
+    }
+
     let popupContent = (
       <div>
         <div>
-          <div className="username">@{username}</div>
+          <div className="username">@{username}{optionalLinkIcon}</div>
           <Label
             className="level"
             color="violet"
@@ -234,7 +239,26 @@ export default class TeamPanelListItem extends Component {
     return className;
   }
 
+  pairingIncludesMe() {
+    if (this.props.model && this.props.model.pairingNetwork) {
+      let links = this.props.model.pairingNetwork.sparkLinks;
+      for (let i = 0; i < links.length; i++) {
+        let username = links[i].name;
+
+        if (username === this.props.meUsername) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
   getTeamMemberListItem() {
+    let optionalLinkIcon = "";
+    if (this.props.model.pairingNetwork && this.pairingIncludesMe()) {
+      optionalLinkIcon = <Icon name="linkify" size="tiny" className="teamLink" />;
+    }
+
     return (
       <List.Item
         className={this.getClassName()}
@@ -243,7 +267,7 @@ export default class TeamPanelListItem extends Component {
       >
         {this.getIcon()}
         <List.Content>
-          <List.Header>{this.getDisplayName()}</List.Header>
+          <List.Header>{this.getDisplayName()}{optionalLinkIcon}</List.Header>
         </List.Content>
       </List.Item>
     );

@@ -171,6 +171,16 @@ module.exports = class MemberDatabase extends LokiJS {
   updateMemberMe(member) {
     let me = this.getMeFromView();
     if (me.id === member.id) {
+      let collection = this.getCollection(
+        MemberDatabase.Collections.ME
+      );
+
+      let batch = this.getViewForMe().data(),
+        doc = Object.assign({}, member);
+
+      collection.removeBatch(batch);
+      collection.insert(doc);
+
       global.App.MemberManager.updateMe(member);
     }
   }
@@ -204,6 +214,14 @@ module.exports = class MemberDatabase extends LokiJS {
     this.updateMemberMe(member);
 
     DatabaseUtil.log("update member -> ME", member.id);
+  }
+
+  isMemberMe(member) {
+    let me = this.getMeFromView();
+    if (me.id === member.id) {
+      return true;
+    }
+    return false;
   }
 
   getMemberByUsername(username) {

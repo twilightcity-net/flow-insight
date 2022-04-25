@@ -84,7 +84,7 @@ export default class JournalResource extends Component {
       activeIntention: null,
       error: null,
       activeFlameUpdate: null,
-      isLinked: false,
+      member: null,
       isLinking: false,
       linkError: null
     };
@@ -111,6 +111,11 @@ export default class JournalResource extends Component {
       username = data.username;
 
     switch (mType) {
+      case BaseClient.MessageTypes.TEAM_MEMBER:
+        if (this.username === data.username) {
+          this.updateMemberStatus(data);
+        }
+       break;
       case BaseClient.MessageTypes
         .INTENTION_STARTED_DETAILS:
         if (
@@ -151,6 +156,13 @@ export default class JournalResource extends Component {
       (!this.isMyJournal() && this.username === username) ||
       (this.isMyJournal() && me.username === username)
     );
+  }
+
+  updateMemberStatus(member) {
+    console.log("Updating member status!");
+    this.setState({
+      member: member
+    });
   }
 
   addIntentionAndSetToActive(journalEntry) {
@@ -246,9 +258,13 @@ export default class JournalResource extends Component {
       this.scrollToJournalItemById();
     }
 
-    if (prevState.isLinked && !this.state.isLinked) {
+    if (this.isMemberBecomingLinked(prevState, this.state)) {
       this.focusOnIntentionIfVisible();
     }
+  }
+
+  isMemberBecomingLinked(prevState, state) {
+    return !!(prevState.member != null && state.member != null && !prevState.member.pairingNetwork && state.member.pairingNetwork);
   }
 
   focusOnIntentionIfVisible() {
@@ -533,6 +549,13 @@ export default class JournalResource extends Component {
     this.journalItems = [];
     this.username = this.getUserNameFromResource(props);
 
+    MemberClient.getMember(this.username, this, (arg) => {
+      if (!this.hasCallbackError(arg)) {
+        this.member = arg.data;
+        this.handleCallback();
+      }
+    });
+
     JournalClient.getRecentProjects(this, (arg) => {
       if (!this.hasCallbackError(arg)) {
         this.projects = arg.data;
@@ -602,16 +625,17 @@ export default class JournalResource extends Component {
    */
   handleCallback() {
     this.loadCount++;
-    if (this.loadCount === 3) {
+    if (this.loadCount === 4) {
       //the 3 load calls are asynchronous, so make sure we only update this on the last one
-      console.log("3! "+this.projects.length);
+
       this.setState({
+        member: this.member,
         projects: this.projects,
         tasks: this.tasks,
         journalIntentions: this.journalIntentions,
         lastProject: this.lastProject,
         lastTask: this.lastTask,
-        error: null,
+        error: null
       });
 
       this.scrollToJournalItemById();
@@ -844,12 +868,15 @@ export default class JournalResource extends Component {
   /**
    * Invoked when the user clicks the pairing link in the journal
    */
-  onClickPairingLink = () => {
-    if (this.state.isLinked) {
-     this.handleStopPairing();
-    } else {
-      this.handleStartPairing(this.username);
-    }
+  onClickStartPairing = () => {
+    this.handleStartPairing(this.username);
+  }
+
+  /**
+   * Invoked when the user clicks the pairing link in the journal
+   */
+  onClickStopPairing = () => {
+    this.handleStopPairing();
   }
 
   /**
@@ -865,14 +892,9 @@ export default class JournalResource extends Component {
       if (!arg.error) {
         let member = arg.data;
         FervieClient.createPairingLink(member.id, this, (arg) => {
-          if (!arg.error) {
-            this.setState(
-              {isLinked: true}
-            );
-          } else {
+          if (arg.error) {
             this.handleError(arg.error);
           }
-
         })
       } else {
         this.handleError(arg.error);
@@ -884,11 +906,7 @@ export default class JournalResource extends Component {
   handleStopPairing() {
     console.log("stop pairing!");
     FervieClient.stopPairing(this, (arg) => {
-      if (!arg.error) {
-        this.setState({
-          isLinked: false
-        });
-      } else {
+      if (arg.error) {
         this.handleError(arg.error);
       }
     });
@@ -991,19 +1009,22 @@ export default class JournalResource extends Component {
           createIntention={this.handleCreateIntention}
           createTask={this.handleCreateTask}
           createProject={this.handleCreateProject}
-          isLinked={this.state.isLinked}
-          onClickPairingLink={this.onClickPairingLink}
+          member={this.state.member}
+          onClickPairingLink={this.onClickStopPairing}
+
         />
       </div>
       );
     } else {
       return (
         <div id="wrapper" className="journalEntry ">
-          <JournalLinkPanel isLinked={this.state.isLinked}
-                            isLinking={this.state.isLinking}
-                            onClickPairingLink={this.onClickPairingLink}
+          <JournalLinkPanel isLinking={this.state.isLinking}
+                            onClickStartPairing={this.onClickStartPairing}
+                            onClickStopPairing={this.onClickStopPairing}
                             onClickCancelLink={this.onClickCancelLink}
+                            me={MemberClient.me}
                             username={this.username}
+                            member={this.state.member}
                             error={this.state.linkError}/>
         </div>
       );

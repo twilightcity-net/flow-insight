@@ -2,7 +2,6 @@
  * Creates our lake in the woods environment for Fervie to walk around in
  */
 import Environment from "./Environment";
-import LadyFervieSprite from "../characters/LadyFervieSprite";
 
 
 export default class CityEntrance extends Environment {

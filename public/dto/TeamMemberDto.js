@@ -23,6 +23,9 @@ module.exports = class TeamMemberDto {
       this.fervieSecondaryColor = json.fervieSecondaryColor;
       this.fervieTertiaryColor = json.fervieTertiaryColor;
       this.fervieAccessory = json.fervieAccessory;
+
+      this.pairingNetwork = json.pairingNetwork;
+      
     } catch (e) {
       throw new Error(
         "Unable to create dto 'TeamMemberDto' : " +

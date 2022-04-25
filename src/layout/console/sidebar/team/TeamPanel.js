@@ -484,6 +484,7 @@ export default class TeamPanel extends Component {
         <TeamPanelListItem
           key={me.id}
           model={me}
+          meUsername={me.username}
           isMe={true}
           onClickRow={this.handleClickRow}
         />
@@ -494,6 +495,7 @@ export default class TeamPanel extends Component {
               UtilRenderer.isMemberOnline(member)) && (
               <TeamPanelListItem
                 key={member.id}
+                meUsername={me.username}
                 model={member}
                 isMe={false}
                 onClickRow={this.handleClickRow}

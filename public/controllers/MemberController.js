@@ -23,7 +23,7 @@ class MemberController extends BaseController {
 
   /**
    * general enum list of all of our possible member events
-   * @returns {{UPDATE_ME: string, LOAD_ME: string, GET_ME: string}}
+   * @returns {{GET_MEMBER:string, UPDATE_ME: string, LOAD_ME: string, GET_ME: string}}
    */
   static get Events() {
     return {
@@ -194,6 +194,10 @@ class MemberController extends BaseController {
     let database = DatabaseFactory.getDatabase(
       DatabaseFactory.Names.MEMBER
     );
+
+    if (username === "me") {
+      username = this.getMemberMe().username;
+    }
 
     arg.data = database.getMemberByUsername(username);
 

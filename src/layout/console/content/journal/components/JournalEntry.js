@@ -446,6 +446,11 @@ export default class JournalEntry extends Component {
     );
   }
 
+  isMemberLinked() {
+    return !!(this.props.member && this.props.member.pairingNetwork);
+  }
+
+
   /**
    * renders the journal entry component of the console view
    * @returns {*}
@@ -454,9 +459,10 @@ export default class JournalEntry extends Component {
     let linkButtonIfPresent = "";
     let intentionWidth = 11;
 
-    console.log("is linked! "+this.props.isLinked);
+    let isLinked = this.isMemberLinked();
+    console.log("is linked! "+isLinked);
 
-    if (this.props.isLinked) {
+    if (isLinked) {
       intentionWidth = 10;
       linkButtonIfPresent = (
         <Grid.Column
