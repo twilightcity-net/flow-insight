@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {Dropdown, Grid} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Dropdown, Grid } from "semantic-ui-react";
 import DashboardPanel from "./DashboardPanel";
 
 /**
@@ -16,25 +16,49 @@ export default class ScopeSelectionDropdown extends Component {
     this.homeTeam = null;
 
     this.targetOptions = [
-      {key: 1, value: DashboardPanel.Target.ME, text: "For: Me"},
-      {key: 2, value: DashboardPanel.Target.TEAM, text: "For: Team"},
-    ]
+      {
+        key: 1,
+        value: DashboardPanel.Target.ME,
+        text: "For: Me",
+      },
+      {
+        key: 2,
+        value: DashboardPanel.Target.TEAM,
+        text: "For: Team",
+      },
+    ];
 
     this.timeScopeOptions = [
-      {key: 1, value: DashboardPanel.TimeScope.ALL, text: "All Time"},
-      {key: 2, value: DashboardPanel.TimeScope.LATEST_TWO, text: "Two Weeks"},
-      {key: 3, value: DashboardPanel.TimeScope.LATEST_FOUR, text: "Four Weeks"},
-      {key: 4, value: DashboardPanel.TimeScope.LATEST_SIX, text: "Six Weeks"},
-    ]
+      {
+        key: 1,
+        value: DashboardPanel.TimeScope.ALL,
+        text: "All Time",
+      },
+      {
+        key: 2,
+        value: DashboardPanel.TimeScope.LATEST_TWO,
+        text: "Two Weeks",
+      },
+      {
+        key: 3,
+        value: DashboardPanel.TimeScope.LATEST_FOUR,
+        text: "Four Weeks",
+      },
+      {
+        key: 4,
+        value: DashboardPanel.TimeScope.LATEST_SIX,
+        text: "Six Weeks",
+      },
+    ];
   }
 
   handleChangeForTarget = (e, { value }) => {
     this.props.onChangeTarget(value);
-  }
+  };
 
   handleChangeForTimeScope = (e, { value }) => {
     this.props.onChangeTimeScope(value);
-  }
+  };
 
   /**
    * renders our select boxes
@@ -47,33 +71,33 @@ export default class ScopeSelectionDropdown extends Component {
         inverted
         columns={16}
         style={{
-          width: this.props.width
+          width: this.props.width,
         }}
       >
-      <Grid.Row className="metricHeaderRow">
-        <Grid.Column width={8}>
-          <Dropdown
-            id="selectTarget"
-            placeholder="Choose Target"
-            options={this.targetOptions}
-            selection
-            fluid
-            value={this.props.target}
-            onChange={this.handleChangeForTarget}
-          />
-        </Grid.Column>
-        <Grid.Column width={8}>
-          <Dropdown
-            id="selectTimeScope"
-            placeholder="Choose TimeScope"
-            options={this.timeScopeOptions}
-            selection
-            fluid
-            value={this.props.timeScope}
-            onChange={this.handleChangeForTimeScope}
-          />
-        </Grid.Column>
-      </Grid.Row>
+        <Grid.Row className="metricHeaderRow">
+          <Grid.Column width={8}>
+            <Dropdown
+              id="selectTarget"
+              placeholder="Choose Target"
+              options={this.targetOptions}
+              selection
+              fluid
+              value={this.props.target}
+              onChange={this.handleChangeForTarget}
+            />
+          </Grid.Column>
+          <Grid.Column width={8}>
+            <Dropdown
+              id="selectTimeScope"
+              placeholder="Choose TimeScope"
+              options={this.timeScopeOptions}
+              selection
+              fluid
+              value={this.props.timeScope}
+              onChange={this.handleChangeForTimeScope}
+            />
+          </Grid.Column>
+        </Grid.Row>
       </Grid>
     );
   }

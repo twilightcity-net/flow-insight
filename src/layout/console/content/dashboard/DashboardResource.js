@@ -1,6 +1,6 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import CodebaseChartContent from "./components/CodebaseChartContent";
-import {DimensionController} from "../../../../controllers/DimensionController";
+import { DimensionController } from "../../../../controllers/DimensionController";
 import FamiliarityChartContent from "./components/FamiliarityChartContent";
 import TopTagsChartContent from "./components/TopTagsChartContent";
 import MomentumChartContent from "./components/MomentumChartContent";
@@ -21,7 +21,7 @@ export default class DashboardResource extends Component {
       resource: props.resource,
       dashboardType: null,
       target: null,
-      timeScope: null
+      timeScope: null,
     };
   }
 
@@ -32,11 +32,11 @@ export default class DashboardResource extends Component {
    */
   static get DashboardType() {
     return {
-      CODEBASE : "codebase",
+      CODEBASE: "codebase",
       FAMILIARITY: "familiarity",
       TAGS: "tags",
-      MOMENTUM: "momentum"
-    }
+      MOMENTUM: "momentum",
+    };
   }
 
   componentDidMount() {
@@ -45,24 +45,24 @@ export default class DashboardResource extends Component {
       dashboardType: arr[1],
       targetType: arr[2],
       target: arr[3],
-      timeScope: arr[4]
-    })
+      timeScope: arr[4],
+    });
     console.log(arr);
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
     let arr = this.props.resource.uriArr;
 
-    if (this.props.resource.uri !== prevProps.resource.uri) {
+    if (
+      this.props.resource.uri !== prevProps.resource.uri
+    ) {
       this.setState({
         dashboardType: arr[1],
         targetType: arr[2],
         target: arr[3],
-        timeScope: arr[4]
+        timeScope: arr[4],
       });
     }
-
-
   }
 
   /**
@@ -75,14 +75,50 @@ export default class DashboardResource extends Component {
     );
 
     let contentPanel = "";
-    if (this.state.dashboardType === DashboardResource.DashboardType.CODEBASE) {
-      contentPanel = <CodebaseChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
-    } else if (this.state.dashboardType === DashboardResource.DashboardType.FAMILIARITY) {
-      contentPanel = <FamiliarityChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
-    } else if (this.state.dashboardType === DashboardResource.DashboardType.MOMENTUM) {
-      contentPanel = <MomentumChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
-    } else if (this.state.dashboardType === DashboardResource.DashboardType.TAGS) {
-      contentPanel = <TopTagsChartContent targetType={this.state.targetType} target={this.state.target} timeScope={this.state.timeScope}/>;
+    if (
+      this.state.dashboardType ===
+      DashboardResource.DashboardType.CODEBASE
+    ) {
+      contentPanel = (
+        <CodebaseChartContent
+          targetType={this.state.targetType}
+          target={this.state.target}
+          timeScope={this.state.timeScope}
+        />
+      );
+    } else if (
+      this.state.dashboardType ===
+      DashboardResource.DashboardType.FAMILIARITY
+    ) {
+      contentPanel = (
+        <FamiliarityChartContent
+          targetType={this.state.targetType}
+          target={this.state.target}
+          timeScope={this.state.timeScope}
+        />
+      );
+    } else if (
+      this.state.dashboardType ===
+      DashboardResource.DashboardType.MOMENTUM
+    ) {
+      contentPanel = (
+        <MomentumChartContent
+          targetType={this.state.targetType}
+          target={this.state.target}
+          timeScope={this.state.timeScope}
+        />
+      );
+    } else if (
+      this.state.dashboardType ===
+      DashboardResource.DashboardType.TAGS
+    ) {
+      contentPanel = (
+        <TopTagsChartContent
+          targetType={this.state.targetType}
+          target={this.state.target}
+          timeScope={this.state.timeScope}
+        />
+      );
     }
 
     return (

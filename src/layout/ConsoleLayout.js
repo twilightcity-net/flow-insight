@@ -179,12 +179,12 @@ export default class ConsoleLayout extends Component {
    */
   getDashboardContent = () => {
     return (
-     <DashboardPanel
-       width={this.state.sidebarPanelWidth}
-       opacity={this.state.sidebarPanelOpacity}
-       loadStateCb={this.loadStateSidebarPanelCb}
-       saveStateCb={this.saveStateSidebarPanelCb}
-     />
+      <DashboardPanel
+        width={this.state.sidebarPanelWidth}
+        opacity={this.state.sidebarPanelOpacity}
+        loadStateCb={this.loadStateSidebarPanelCb}
+        saveStateCb={this.saveStateSidebarPanelCb}
+      />
     );
   };
 
@@ -244,7 +244,8 @@ export default class ConsoleLayout extends Component {
         return this.getCircuitsContent();
       case SidePanelViewController.MenuSelection.DASHBOARD:
         return this.getDashboardContent();
-      case SidePanelViewController.MenuSelection.NOTIFICATIONS:
+      case SidePanelViewController.MenuSelection
+        .NOTIFICATIONS:
         return this.getNotificationsContent();
       default:
         throw new Error(

@@ -70,7 +70,7 @@ module.exports = class BaseController {
       FAMILIARITY: "/familiarity",
       PAIR: "/pair",
       LINK: "/link",
-      UNLINK: "/unlink"
+      UNLINK: "/unlink",
     };
   }
 
@@ -220,8 +220,10 @@ module.exports = class BaseController {
       CHART_TOP_FILES_FOR_BOX: "chartTopFilesForBox",
       CHART_TOP_BOXES_FOR_TEAM: "chartTopBoxesForTeam",
       CHART_TOP_BOXES_FOR_USER: "chartTopBoxesForUser",
-      CHART_TOP_FILES_FOR_BOX_FOR_TEAM: "chartTopFilesForBoxForTeam",
-      CHART_TOP_FILES_FOR_BOX_FOR_USER: "chartTopFilesForBoxForUser",
+      CHART_TOP_FILES_FOR_BOX_FOR_TEAM:
+        "chartTopFilesForBoxForTeam",
+      CHART_TOP_FILES_FOR_BOX_FOR_USER:
+        "chartTopFilesForBoxForUser",
       CHART_TOP_MODULES: "chartTopModules",
       CHART_TOP_MODULES_FOR_TEAM: "chartTopModulesForTeam",
       CHART_TOP_MODULES_FOR_USER: "chartTopModulesForUser",
@@ -232,14 +234,18 @@ module.exports = class BaseController {
       CHART_TOP_TASKS_FOR_TEAM: "chartTopTasksForTeam",
       CHART_TOP_TASKS_FOR_USER: "chartTopTasksForUser",
       CHART_TOP_WTFS_WITH_TAG: "chartTopWtfsWithTag",
-      CHART_TOP_WTFS_WITH_TAG_FOR_TEAM: "chartTopWtfsWithTagForTeam",
-      CHART_TOP_WTFS_WITH_TAG_FOR_USER: "chartTopWtfsWithTagForUser",
+      CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:
+        "chartTopWtfsWithTagForTeam",
+      CHART_TOP_WTFS_WITH_TAG_FOR_USER:
+        "chartTopWtfsWithTagForUser",
       CHART_FAMILIARITY: "chartFamiliarity",
       CHART_FAMILIARITY_FOR_TEAM: "chartFamiliarityForTeam",
       CHART_FAMILIARITY_FOR_USER: "chartFamiliarityForUser",
       CHART_TOP_BOXES_FOR_MODULE: "chartTopBoxesForModule",
-      CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM: "chartTopBoxesForModuleForTeam",
-      CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chartTopBoxesForModuleForUser",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:
+        "chartTopBoxesForModuleForTeam",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_USER:
+        "chartTopBoxesForModuleForUser",
       CHART_FRICTION: "chartFriction",
       CHART_FRICTION_FOR_USER: "chartFrictionForUser",
       CHART_FRICTION_FOR_TEAM: "chartFrictionForTeam",
@@ -269,13 +275,14 @@ module.exports = class BaseController {
 
   /**
    * a list of status types that are referenced by the Wtf Status updates.
-   * @returns {{TEAM_RETRO_STARTED: string, TEAM_WTF_JOINED: string, TEAM_WTF_ON_HOLD: string, TEAM_WTF_CANCELED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_LEAVE: string, TEAM_WTF_SOLVED: string}}
+   * @returns {{TEAM_WTF_PAIR_JOIN:string, TEAM_RETRO_STARTED: string, TEAM_WTF_JOINED: string, TEAM_WTF_ON_HOLD: string, TEAM_WTF_CANCELED: string, TEAM_WTF_RESUMED: string, TEAM_WTF_STARTED: string, TEAM_WTF_LEAVE: string, TEAM_WTF_SOLVED: string}}
    * @constructor
    */
   static get StatusTypes() {
     return {
       TEAM_WTF_STARTED: "TEAM_WTF_STARTED",
       TEAM_WTF_JOINED: "TEAM_WTF_JOINED",
+      TEAM_WTF_PAIR_JOIN: "TEAM_WTF_PAIR_JOIN",
       TEAM_WTF_LEAVE: "TEAM_WTF_LEAVE",
       TEAM_WTF_ON_HOLD: "TEAM_WTF_ON_HOLD",
       TEAM_WTF_RESUMED: "TEAM_WTF_RESUMED",

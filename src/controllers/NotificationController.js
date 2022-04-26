@@ -110,7 +110,8 @@ export class NotificationController {
       Notification.permission !== "blocked"
     ) {
       if (!this.isGettingStartedPopupOpen) {
-        this.initialPopup = this.showGettingStartedPopupAndAutoClose();
+        this.initialPopup =
+          this.showGettingStartedPopupAndAutoClose();
       }
       setTimeout(() => {
         this.tryAgainToShowGettingStartedPopup();
@@ -154,10 +155,12 @@ export class NotificationController {
     this.consoleIsCollapsed = arg.showHideFlag;
     this.hasNeverBeenOpen = false;
 
-    if (!this.consoleIsCollapsed && this.initialPopup != null) {
+    if (
+      !this.consoleIsCollapsed &&
+      this.initialPopup != null
+    ) {
       this.initialPopup.close();
       this.initialPopup = null;
     }
   }
-
 }

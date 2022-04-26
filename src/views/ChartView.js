@@ -31,20 +31,23 @@ export default class ChartView extends Component {
         this.props.routeProps.circuitName;
     } else if (this.props.routeProps.taskName) {
       document.title =
-        "Task Flow for " +
-        this.props.routeProps.taskName;
+        "Task Flow for " + this.props.routeProps.taskName;
     }
 
     if (this.props.routeProps.circuitName) {
-      this.loadChartFromCircuit(this.props.routeProps.circuitName);
+      this.loadChartFromCircuit(
+        this.props.routeProps.circuitName
+      );
     } else if (this.props.routeProps.taskName) {
-      this.loadChartFromProjectTask(this.props.routeProps.projectName, this.props.routeProps.taskName, this.props.routeProps.username);
+      this.loadChartFromProjectTask(
+        this.props.routeProps.projectName,
+        this.props.routeProps.taskName,
+        this.props.routeProps.username
+      );
     }
-
   }
 
   loadChartFromCircuit(circuitName) {
-
     ChartClient.chartFrictionForWTFTask(
       circuitName,
       "TWENTIES",
@@ -64,10 +67,15 @@ export default class ChartView extends Component {
     );
   }
 
-  loadChartFromProjectTask(projectName, taskName, username) {
-
+  loadChartFromProjectTask(
+    projectName,
+    taskName,
+    username
+  ) {
     ChartClient.chartFrictionForTaskForUser(
-      projectName, taskName, username,
+      projectName,
+      taskName,
+      username,
       "TWENTIES",
       this,
       (arg) => {

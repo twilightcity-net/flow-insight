@@ -263,7 +263,9 @@ export default class CircuitSidebar extends Component {
       this,
       (arg) => {
         if (arg.error) {
-          console.error("Failed to save tags, "+arg.error);
+          console.error(
+            "Failed to save tags, " + arg.error
+          );
         }
         this.setState({
           tagEditEnabled: false,

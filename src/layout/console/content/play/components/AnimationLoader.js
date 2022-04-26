@@ -57,13 +57,23 @@ export default class AnimationLoader {
     return staticImage;
   }
 
-  getAnimationImageWithManualFrame(p5, animationName, frame, size) {
-    let cache = this.getDefaultImageCache(animationName + "_" + frame);
+  getAnimationImageWithManualFrame(
+    p5,
+    animationName,
+    frame,
+    size
+  ) {
+    let cache = this.getDefaultImageCache(
+      animationName + "_" + frame
+    );
     let image = cache[size];
     if (image) {
       return image;
     } else {
-      let animationId = AnimationId.getIdOn12(animationName, frame);
+      let animationId = AnimationId.getIdOn12(
+        animationName,
+        frame
+      );
       let svg1 = document.getElementById(animationId);
       svg1.setAttribute("width", size + "px");
 

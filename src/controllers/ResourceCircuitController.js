@@ -26,11 +26,11 @@ export class ResourceCircuitController extends ActiveViewController {
         this
       );
     this.circuitJoinFailNotifier =
-    RendererEventFactory.createEvent(
-      RendererEventFactory.Events
-        .VIEW_CONSOLE_CIRCUIT_JOIN_FAIL,
-      this
-    );
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_JOIN_FAIL,
+        this
+      );
     this.circuitStateChangeFailNotifier =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events
@@ -181,21 +181,30 @@ export class ResourceCircuitController extends ActiveViewController {
    * notifies the system that we failed to join a room
    */
   fireJoinExistingRoomNotifyFailEvent(error) {
-    this.joinExistingRoomFailNotifier.dispatch({context: "Join room failed", error: error});
+    this.joinExistingRoomFailNotifier.dispatch({
+      context: "Join room failed",
+      error: error,
+    });
   }
 
   /**
    * notifies the system that we failed to join a circuit
    */
   fireJoinCircuitFailNotifyEvent(error) {
-    this.circuitJoinFailNotifier.dispatch({context: "Join circuit failed", error: error});
+    this.circuitJoinFailNotifier.dispatch({
+      context: "Join circuit failed",
+      error: error,
+    });
   }
 
   /**
    * notifies the system that we failed a circuit state change
    */
   fireCircuitStateChangeFailNotifyEvent(error) {
-    this.circuitStateChangeFailNotifier.dispatch({context: "Requested state change failed",  error: error});
+    this.circuitStateChangeFailNotifier.dispatch({
+      context: "Requested state change failed",
+      error: error,
+    });
   }
   /**
    * notifies the system that we join an active circuit.
@@ -218,7 +227,9 @@ export class ResourceCircuitController extends ActiveViewController {
   startCircuit(callback) {
     CircuitClient.startWtf(this, (arg) => {
       if (arg.error) {
-        this.fireCircuitStateChangeFailNotifyEvent(arg.error)
+        this.fireCircuitStateChangeFailNotifyEvent(
+          arg.error
+        );
       } else {
         let circuit = arg.data,
           request = BrowserRequestFactory.createRequest(
@@ -242,7 +253,9 @@ export class ResourceCircuitController extends ActiveViewController {
   solveCircuit(circuitName, callback) {
     CircuitClient.solveWtf(circuitName, this, (arg) => {
       if (arg.error) {
-        this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+        this.fireCircuitStateChangeFailNotifyEvent(
+          arg.error
+        );
       } else {
         let request = BrowserRequestFactory.createRequest(
           BrowserRequestFactory.Requests.JOURNAL,
@@ -265,7 +278,9 @@ export class ResourceCircuitController extends ActiveViewController {
   startRetro(circuitName, callback) {
     CircuitClient.startRetro(circuitName, this, (arg) => {
       if (arg.error) {
-        this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+        this.fireCircuitStateChangeFailNotifyEvent(
+          arg.error
+        );
       } else {
         console.log("started retro");
       }
@@ -283,7 +298,9 @@ export class ResourceCircuitController extends ActiveViewController {
   closeRetro(circuitName, callback) {
     CircuitClient.closeWtf(circuitName, this, (arg) => {
       if (arg.error) {
-        this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+        this.fireCircuitStateChangeFailNotifyEvent(
+          arg.error
+        );
       } else {
         console.log("close retro");
       }
@@ -304,7 +321,9 @@ export class ResourceCircuitController extends ActiveViewController {
       this,
       (arg) => {
         if (arg.error) {
-          this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+          this.fireCircuitStateChangeFailNotifyEvent(
+            arg.error
+          );
         } else {
           this.fireCircuitPauseNotifyEvent();
         }
@@ -323,7 +342,9 @@ export class ResourceCircuitController extends ActiveViewController {
   resumeCircuit(circuitName, callback) {
     CircuitClient.resumeWtf(circuitName, this, (arg) => {
       if (arg.error) {
-        this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+        this.fireCircuitStateChangeFailNotifyEvent(
+          arg.error
+        );
       } else {
         this.fireCircuitResumeNotifyEvent();
       }
@@ -341,7 +362,9 @@ export class ResourceCircuitController extends ActiveViewController {
   cancelCircuit(circuitName, callback) {
     CircuitClient.cancelWtf(circuitName, this, (arg) => {
       if (arg.error) {
-        this.fireCircuitStateChangeFailNotifyEvent(arg.error);
+        this.fireCircuitStateChangeFailNotifyEvent(
+          arg.error
+        );
       } else {
         let request = BrowserRequestFactory.createRequest(
           BrowserRequestFactory.Requests.JOURNAL,
@@ -368,7 +391,9 @@ export class ResourceCircuitController extends ActiveViewController {
       if (arg.error) {
         this.fireJoinCircuitFailNotifyEvent(arg.error);
       } else {
-        console.log(this.name + " JOIN WTF -> " + circuitName);
+        console.log(
+          this.name + " JOIN WTF -> " + circuitName
+        );
         this.fireJoinCircuitNotifyEvent();
       }
       if (callback) {
@@ -430,8 +455,8 @@ export class ResourceCircuitController extends ActiveViewController {
       } else {
         console.log(
           this.name +
-          " JOIN EXISTING ROOM -> " +
-          JSON.stringify(arg)
+            " JOIN EXISTING ROOM -> " +
+            JSON.stringify(arg)
         );
         this.fireJoinExistingRoomNotifyEvent();
       }
@@ -454,12 +479,14 @@ export class ResourceCircuitController extends ActiveViewController {
         this,
         (arg) => {
           if (arg.error) {
-            this.fireJoinExistingRoomNotifyFailEvent(arg.error)
+            this.fireJoinExistingRoomNotifyFailEvent(
+              arg.error
+            );
           } else {
             console.log(
               this.name +
-              " JOIN EXISTING ROOM -> " +
-              JSON.stringify(arg)
+                " JOIN EXISTING ROOM -> " +
+                JSON.stringify(arg)
             );
             this.fireJoinExistingRoomNotifyEvent();
           }
@@ -484,12 +511,14 @@ export class ResourceCircuitController extends ActiveViewController {
         this,
         (arg) => {
           if (arg.error) {
-            this.fireJoinExistingRoomNotifyFailEvent(arg.error);
+            this.fireJoinExistingRoomNotifyFailEvent(
+              arg.error
+            );
           } else {
             console.log(
               this.name +
-              " JOIN EXISTING ROOM -> " +
-              JSON.stringify(arg)
+                " JOIN EXISTING ROOM -> " +
+                JSON.stringify(arg)
             );
             this.fireJoinExistingRoomNotifyEvent();
           }

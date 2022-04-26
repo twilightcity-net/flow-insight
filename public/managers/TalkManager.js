@@ -13,7 +13,10 @@ module.exports = class TalkManager {
   constructor() {
     this.name = "[TalkManager]";
     this.messageCounter = new MessageCounter();
-    this.myController = new TalkController(this, this.messageCounter);
+    this.myController = new TalkController(
+      this,
+      this.messageCounter
+    );
 
     this.rooms = [];
   }

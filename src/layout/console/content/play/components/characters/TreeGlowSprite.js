@@ -3,7 +3,6 @@
  */
 
 export default class TreeGlowSprite {
-
   constructor(animationLoader, x, y) {
     this.animationLoader = animationLoader;
     this.x = x;
@@ -24,11 +23,14 @@ export default class TreeGlowSprite {
     this.delayFramesBeforeAppear = 48;
   }
 
-  static GLOW_OVERLAY_IMAGE = "./assets/animation/fervie/fervie_glow_overlay.png";
-  static TREE_EYES_BLINK = "./assets/animation/bigtree/tree_eyes_blink.png";
-  static TREE_EYES_DOWN = "./assets/animation/bigtree/tree_eyes_down.png";
-  static TREE_EYES_RIGHT = "./assets/animation/bigtree/tree_eyes_right.png";
-
+  static GLOW_OVERLAY_IMAGE =
+    "./assets/animation/fervie/fervie_glow_overlay.png";
+  static TREE_EYES_BLINK =
+    "./assets/animation/bigtree/tree_eyes_blink.png";
+  static TREE_EYES_DOWN =
+    "./assets/animation/bigtree/tree_eyes_down.png";
+  static TREE_EYES_RIGHT =
+    "./assets/animation/bigtree/tree_eyes_right.png";
 
   /**
    * static enum subclass to store animation types
@@ -39,21 +41,32 @@ export default class TreeGlowSprite {
     return {
       Right: "Right",
       Down: "Down",
-      Blink: "Blink"
+      Blink: "Blink",
     };
   }
-
 
   /**
    * Preload all the walk images by processing the svgs with the colors then flattening to images
    * @param p5
    */
   preload(p5) {
-    this.animationLoader.getStaticImage(p5, TreeGlowSprite.GLOW_OVERLAY_IMAGE);
+    this.animationLoader.getStaticImage(
+      p5,
+      TreeGlowSprite.GLOW_OVERLAY_IMAGE
+    );
 
-    this.animationLoader.getStaticImage(p5, TreeGlowSprite.TREE_EYES_BLINK);
-    this.animationLoader.getStaticImage(p5, TreeGlowSprite.TREE_EYES_RIGHT);
-    this.animationLoader.getStaticImage(p5, TreeGlowSprite.TREE_EYES_DOWN);
+    this.animationLoader.getStaticImage(
+      p5,
+      TreeGlowSprite.TREE_EYES_BLINK
+    );
+    this.animationLoader.getStaticImage(
+      p5,
+      TreeGlowSprite.TREE_EYES_RIGHT
+    );
+    this.animationLoader.getStaticImage(
+      p5,
+      TreeGlowSprite.TREE_EYES_DOWN
+    );
   }
 
   /**
@@ -61,11 +74,13 @@ export default class TreeGlowSprite {
    * @param p5
    */
   draw(p5) {
-
-    let overlay = this.animationLoader.getStaticImage(p5, TreeGlowSprite.GLOW_OVERLAY_IMAGE);
+    let overlay = this.animationLoader.getStaticImage(
+      p5,
+      TreeGlowSprite.GLOW_OVERLAY_IMAGE
+    );
 
     p5.push();
-    p5.translate(this.x , this.y);
+    p5.translate(this.x, this.y);
     p5.scale(this.scale, this.scale);
     p5.tint(255, Math.round(255 * this.alpha));
     p5.blendMode(p5.ADD);
@@ -74,22 +89,31 @@ export default class TreeGlowSprite {
 
     if (this.alpha > 0.5) {
       let eyesImage = this.getEyesInDirection(p5);
-      p5.tint(255, Math.round(255 * 2*(this.alpha - 0.5)));
+      p5.tint(
+        255,
+        Math.round(255 * 2 * (this.alpha - 0.5))
+      );
       p5.image(eyesImage, 0, 0);
     }
 
     p5.pop();
-
   }
 
   getEyesInDirection(p5) {
     let imagePath = TreeGlowSprite.TREE_EYES_RIGHT;
-    if (this.eyeDirection === TreeGlowSprite.EyePosition.Down) {
+    if (
+      this.eyeDirection === TreeGlowSprite.EyePosition.Down
+    ) {
       imagePath = TreeGlowSprite.TREE_EYES_DOWN;
-    } else if (this.eyeDirection === TreeGlowSprite.EyePosition.Blink) {
+    } else if (
+      this.eyeDirection === TreeGlowSprite.EyePosition.Blink
+    ) {
       imagePath = TreeGlowSprite.TREE_EYES_BLINK;
     }
-    return this.animationLoader.getStaticImage(p5, imagePath);
+    return this.animationLoader.getStaticImage(
+      p5,
+      imagePath
+    );
   }
 
   startGlowTransition() {
@@ -118,7 +142,10 @@ export default class TreeGlowSprite {
   }
 
   isFrameBetween(min, max) {
-    return (this.animationFrame >= min && this.animationFrame < max);
+    return (
+      this.animationFrame >= min &&
+      this.animationFrame < max
+    );
   }
 
   startWatchingBird() {
@@ -145,18 +172,21 @@ export default class TreeGlowSprite {
       this.delayFramesBeforeAppear = 0;
     }
 
-    if (this.isTransitioning() || this.delayFramesBeforeAppear > 0) {
+    if (
+      this.isTransitioning() ||
+      this.delayFramesBeforeAppear > 0
+    ) {
       this.eyeDirection = TreeGlowSprite.EyePosition.Blink;
     } else if (this.isFrameBetween(1, 10)) {
       this.eyeDirection = TreeGlowSprite.EyePosition.Blink;
     } else if (this.isWatchingBird) {
       this.eyeDirection = TreeGlowSprite.EyePosition.Right;
-    } else if (this.isFrameBetween(30,40)) {
+    } else if (this.isFrameBetween(30, 40)) {
       this.eyeDirection = TreeGlowSprite.EyePosition.Down;
     } else if (this.isFrameBetween(50, 110)) {
       this.eyeDirection = TreeGlowSprite.EyePosition.Right;
     } else {
-      this.eyeDirection = TreeGlowSprite.EyePosition.Down
+      this.eyeDirection = TreeGlowSprite.EyePosition.Down;
     }
 
     if (this.delayFramesBeforeAppear < 36) {
@@ -180,7 +210,4 @@ export default class TreeGlowSprite {
       }
     }
   }
-
-
-
 }

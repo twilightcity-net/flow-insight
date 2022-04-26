@@ -35,26 +35,37 @@ module.exports = class ChartController extends (
       CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box",
       CHART_TOP_BOXES_FOR_TEAM: "chart-top-boxes-for-team",
       CHART_TOP_BOXES_FOR_USER: "chart-top-boxes-for-user",
-      CHART_TOP_FILES_FOR_BOX_FOR_TEAM: "chart-top-files-for-box-for-team",
-      CHART_TOP_FILES_FOR_BOX_FOR_USER: "chart-top-files-for-box-for-user",
+      CHART_TOP_FILES_FOR_BOX_FOR_TEAM:
+        "chart-top-files-for-box-for-team",
+      CHART_TOP_FILES_FOR_BOX_FOR_USER:
+        "chart-top-files-for-box-for-user",
       CHART_TOP_MODULES: "chart-top-modules",
-      CHART_TOP_MODULES_FOR_TEAM: "chart-top-modules-for-team",
-      CHART_TOP_MODULES_FOR_USER: "chart-top-modules-for-user",
+      CHART_TOP_MODULES_FOR_TEAM:
+        "chart-top-modules-for-team",
+      CHART_TOP_MODULES_FOR_USER:
+        "chart-top-modules-for-user",
       CHART_TOP_TASKS: "chart-top-tasks",
       CHART_TOP_TASKS_FOR_TEAM: "chart-top-tasks-for-team",
       CHART_TOP_TASKS_FOR_USER: "chart-top-tasks-for-user",
-      CHART_TOP_BOXES_FOR_MODULE: "chart-top-boxes-for-module",
-      CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM: "chart-top-boxes-for-module-for-team",
-      CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chart-top-boxes-for-module-for-user",
+      CHART_TOP_BOXES_FOR_MODULE:
+        "chart-top-boxes-for-module",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:
+        "chart-top-boxes-for-module-for-team",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_USER:
+        "chart-top-boxes-for-module-for-user",
       CHART_FAMILIARITY: "chart-familiarity",
-      CHART_FAMILIARITY_FOR_USER: "chart-familiarity-for-user",
-      CHART_FAMILIARITY_FOR_TEAM: "chart-familiarity-for-team",
+      CHART_FAMILIARITY_FOR_USER:
+        "chart-familiarity-for-user",
+      CHART_FAMILIARITY_FOR_TEAM:
+        "chart-familiarity-for-team",
       CHART_TOP_TAGS: "chart-top-tags",
       CHART_TOP_TAGS_FOR_USER: "chart-top-tags-for-user",
       CHART_TOP_TAGS_FOR_TEAM: "chart-top-tags-for-team",
       CHART_TOP_WTFS_WITH_TAG: "chart-top-wtfs-with-tag",
-      CHART_TOP_WTFS_WITH_TAG_FOR_USER: "chart-top-wtfs-with-tag-for-user",
-      CHART_TOP_WTFS_WITH_TAG_FOR_TEAM: "chart-top-wtfs-with-tag-for-team",
+      CHART_TOP_WTFS_WITH_TAG_FOR_USER:
+        "chart-top-wtfs-with-tag-for-user",
+      CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:
+        "chart-top-wtfs-with-tag-for-team",
       CHART_FRICTION: "chart-friction",
       CHART_FRICTION_FOR_USER: "chart-friction-for-user",
       CHART_FRICTION_FOR_TEAM: "chart-friction-for-team",
@@ -71,10 +82,9 @@ module.exports = class ChartController extends (
       ALL: "all",
       LATEST_TWO: "latest.two",
       LATEST_FOUR: "latest.four",
-      LATEST_SIX: "latest.six"
+      LATEST_SIX: "latest.six",
     };
   }
-
 
   /**
    * links associated controller classes here
@@ -133,44 +143,82 @@ module.exports = class ChartController extends (
         case ChartController.Events.CHART_TOP_FILES_FOR_BOX:
           this.handleChartTopFilesForBoxEvent(event, arg);
           break;
-        case ChartController.Events.CHART_TOP_BOXES_FOR_TEAM:
+        case ChartController.Events
+          .CHART_TOP_BOXES_FOR_TEAM:
           this.handleChartTopBoxesForTeamEvent(event, arg);
           break;
-        case ChartController.Events.CHART_TOP_BOXES_FOR_USER:
+        case ChartController.Events
+          .CHART_TOP_BOXES_FOR_USER:
           this.handleChartTopBoxesForUserEvent(event, arg);
           break;
-        case ChartController.Events.CHART_TOP_FILES_FOR_BOX_FOR_TEAM:
-          this.handleChartTopFilesForBoxForTeamEvent(event, arg);
+        case ChartController.Events
+          .CHART_TOP_FILES_FOR_BOX_FOR_TEAM:
+          this.handleChartTopFilesForBoxForTeamEvent(
+            event,
+            arg
+          );
           break;
-        case ChartController.Events.CHART_TOP_FILES_FOR_BOX_FOR_USER:
-          this.handleChartTopFilesForBoxForUserEvent(event, arg);
+        case ChartController.Events
+          .CHART_TOP_FILES_FOR_BOX_FOR_USER:
+          this.handleChartTopFilesForBoxForUserEvent(
+            event,
+            arg
+          );
           break;
         case ChartController.Events.CHART_TOP_MODULES:
           this.handleChartTopModulesEvent(event, arg);
           break;
-        case ChartController.Events.CHART_TOP_MODULES_FOR_USER:
-          this.handleChartTopModulesForUserEvent(event, arg);
+        case ChartController.Events
+          .CHART_TOP_MODULES_FOR_USER:
+          this.handleChartTopModulesForUserEvent(
+            event,
+            arg
+          );
           break;
-        case ChartController.Events.CHART_TOP_MODULES_FOR_TEAM:
-          this.handleChartTopModulesForTeamEvent(event, arg);
+        case ChartController.Events
+          .CHART_TOP_MODULES_FOR_TEAM:
+          this.handleChartTopModulesForTeamEvent(
+            event,
+            arg
+          );
           break;
-        case ChartController.Events.CHART_TOP_BOXES_FOR_MODULE:
-          this.handleChartTopBoxesForModuleEvent(event, arg);
+        case ChartController.Events
+          .CHART_TOP_BOXES_FOR_MODULE:
+          this.handleChartTopBoxesForModuleEvent(
+            event,
+            arg
+          );
           break;
-        case ChartController.Events.CHART_TOP_BOXES_FOR_MODULE_FOR_USER:
-          this.handleChartTopBoxesForModuleForUserEvent(event, arg);
+        case ChartController.Events
+          .CHART_TOP_BOXES_FOR_MODULE_FOR_USER:
+          this.handleChartTopBoxesForModuleForUserEvent(
+            event,
+            arg
+          );
           break;
-        case ChartController.Events.CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:
-          this.handleChartTopBoxesForModuleForTeamEvent(event, arg);
+        case ChartController.Events
+          .CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:
+          this.handleChartTopBoxesForModuleForTeamEvent(
+            event,
+            arg
+          );
           break;
         case ChartController.Events.CHART_FAMILIARITY:
           this.handleChartFamiliarityEvent(event, arg);
           break;
-        case ChartController.Events.CHART_FAMILIARITY_FOR_USER:
-          this.handleChartFamiliarityForUserEvent(event, arg);
+        case ChartController.Events
+          .CHART_FAMILIARITY_FOR_USER:
+          this.handleChartFamiliarityForUserEvent(
+            event,
+            arg
+          );
           break;
-        case ChartController.Events.CHART_FAMILIARITY_FOR_TEAM:
-          this.handleChartFamiliarityForTeamEvent(event, arg);
+        case ChartController.Events
+          .CHART_FAMILIARITY_FOR_TEAM:
+          this.handleChartFamiliarityForTeamEvent(
+            event,
+            arg
+          );
           break;
         case ChartController.Events.CHART_TOP_TAGS:
           this.handleChartTopTagsEvent(event, arg);
@@ -184,11 +232,19 @@ module.exports = class ChartController extends (
         case ChartController.Events.CHART_TOP_WTFS_WITH_TAG:
           this.handleChartTopWtfsWithTagEvent(event, arg);
           break;
-        case ChartController.Events.CHART_TOP_WTFS_WITH_TAG_FOR_USER:
-          this.handleChartTopWtfsWithTagForUserEvent(event, arg);
+        case ChartController.Events
+          .CHART_TOP_WTFS_WITH_TAG_FOR_USER:
+          this.handleChartTopWtfsWithTagForUserEvent(
+            event,
+            arg
+          );
           break;
-        case ChartController.Events.CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:
-          this.handleChartTopWtfsWithTagForTeamEvent(event, arg);
+        case ChartController.Events
+          .CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:
+          this.handleChartTopWtfsWithTagForTeamEvent(
+            event,
+            arg
+          );
           break;
         case ChartController.Events.CHART_FRICTION:
           this.handleChartFrictionEvent(event, arg);
@@ -202,10 +258,12 @@ module.exports = class ChartController extends (
         case ChartController.Events.CHART_TOP_TASKS:
           this.handleChartTopTasksEvent(event, arg);
           break;
-        case ChartController.Events.CHART_TOP_TASKS_FOR_USER:
+        case ChartController.Events
+          .CHART_TOP_TASKS_FOR_USER:
           this.handleChartTopTasksForUserEvent(event, arg);
           break;
-        case ChartController.Events.CHART_TOP_TASKS_FOR_TEAM:
+        case ChartController.Events
+          .CHART_TOP_TASKS_FOR_TEAM:
           this.handleChartTopTasksForTeamEvent(event, arg);
           break;
         default:
@@ -258,7 +316,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting a task for a specific user
    * @param event
@@ -280,7 +337,7 @@ module.exports = class ChartController extends (
         ChartController.Paths.SEPARATOR +
         taskName;
 
-    urn += "?target_type=USER&target_name="+username;
+    urn += "?target_type=USER&target_name=" + username;
 
     if (bucket) {
       urn += "&bucket_size=" + bucket;
@@ -302,7 +359,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting familiarity for default user (me)
    * @param event
@@ -314,7 +370,7 @@ module.exports = class ChartController extends (
 
     let urn =
       ChartController.Paths.QUERY +
-      ChartController.Paths.FAMILIARITY ;
+      ChartController.Paths.FAMILIARITY;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("?", timeScope);
@@ -336,7 +392,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting familiarity for specific user
    * @param event
@@ -345,13 +400,13 @@ module.exports = class ChartController extends (
    */
   handleChartFamiliarityForUserEvent(event, arg, callback) {
     let timeScope = arg.args.timeScope,
-    username = arg.args.username;
+      username = arg.args.username;
 
     let urn =
       ChartController.Paths.QUERY +
-      ChartController.Paths.FAMILIARITY ;
+      ChartController.Paths.FAMILIARITY;
 
-    urn += "?target_type=USER&target_name="+username;
+    urn += "?target_type=USER&target_name=" + username;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -373,8 +428,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
-
   /**
    * client event handler for charting familiarity for specific team
    * @param event
@@ -387,9 +440,9 @@ module.exports = class ChartController extends (
 
     let urn =
       ChartController.Paths.QUERY +
-      ChartController.Paths.FAMILIARITY ;
+      ChartController.Paths.FAMILIARITY;
 
-    urn += "?target_type=TEAM&target_name="+teamName;
+    urn += "?target_type=TEAM&target_name=" + teamName;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -411,7 +464,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top tags
    * @param event
@@ -424,7 +476,7 @@ module.exports = class ChartController extends (
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
-      ChartController.Paths.TAG ;
+      ChartController.Paths.TAG;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("?", timeScope);
@@ -446,7 +498,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top tags for a specific user
    * @param event
@@ -455,14 +506,14 @@ module.exports = class ChartController extends (
    */
   handleChartTopTagsForUserEvent(event, arg, callback) {
     let timeScope = arg.args.timeScope,
-    username = arg.args.username;
+      username = arg.args.username;
 
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
-      ChartController.Paths.TAG ;
+      ChartController.Paths.TAG;
 
-    urn += "?target_type=USER&target_name="+username;
+    urn += "?target_type=USER&target_name=" + username;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -484,7 +535,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top tags for a specific team
    * @param event
@@ -498,9 +548,9 @@ module.exports = class ChartController extends (
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
-      ChartController.Paths.TAG ;
+      ChartController.Paths.TAG;
 
-    urn += "?target_type=TEAM&target_name="+teamName;
+    urn += "?target_type=TEAM&target_name=" + teamName;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -522,7 +572,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top wtfs with a specific tag
    * @param event
@@ -531,15 +580,15 @@ module.exports = class ChartController extends (
    */
   handleChartTopWtfsWithTagEvent(event, arg, callback) {
     let timeScope = arg.args.timeScope,
-    tagName = arg.args.tagName;
+      tagName = arg.args.tagName;
 
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
       ChartController.Paths.WTF_PATH +
-      ChartController.Paths.TAG ;
+      ChartController.Paths.TAG;
 
-    urn += "?tag_name="+tagName;
+    urn += "?tag_name=" + tagName;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -561,15 +610,17 @@ module.exports = class ChartController extends (
     );
   }
 
-
-
   /**
    * client event handler for charting top wtfs with a specific tag for a specific user
    * @param event
    * @param arg
    * @param callback
    */
-  handleChartTopWtfsWithTagForUserEvent(event, arg, callback) {
+  handleChartTopWtfsWithTagForUserEvent(
+    event,
+    arg,
+    callback
+  ) {
     let timeScope = arg.args.timeScope,
       tagName = arg.args.tagName,
       username = arg.args.username;
@@ -578,11 +629,11 @@ module.exports = class ChartController extends (
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
       ChartController.Paths.WTF_PATH +
-      ChartController.Paths.TAG ;
+      ChartController.Paths.TAG;
 
-    urn += "?tag_name="+tagName;
+    urn += "?tag_name=" + tagName;
 
-    urn += "&target_type=USER&target_name="+username;
+    urn += "&target_type=USER&target_name=" + username;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -591,7 +642,8 @@ module.exports = class ChartController extends (
     this.doClientRequest(
       ChartController.Contexts.CHART_CLIENT,
       {},
-      ChartController.Names.CHART_TOP_WTFS_WITH_TAG_FOR_USER,
+      ChartController.Names
+        .CHART_TOP_WTFS_WITH_TAG_FOR_USER,
       ChartController.Types.GET,
       urn,
       (store) =>
@@ -604,14 +656,17 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top wtfs with a specific tag for a specific team
    * @param event
    * @param arg
    * @param callback
    */
-  handleChartTopWtfsWithTagForTeamEvent(event, arg, callback) {
+  handleChartTopWtfsWithTagForTeamEvent(
+    event,
+    arg,
+    callback
+  ) {
     let timeScope = arg.args.timeScope,
       tagName = arg.args.tagName,
       teamName = arg.args.teamName;
@@ -620,11 +675,11 @@ module.exports = class ChartController extends (
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
       ChartController.Paths.WTF_PATH +
-      ChartController.Paths.TAG ;
+      ChartController.Paths.TAG;
 
-    urn += "?tag_name="+tagName;
+    urn += "?tag_name=" + tagName;
 
-    urn += "&target_type=TEAM&target_name="+teamName;
+    urn += "&target_type=TEAM&target_name=" + teamName;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -633,7 +688,8 @@ module.exports = class ChartController extends (
     this.doClientRequest(
       ChartController.Contexts.CHART_CLIENT,
       {},
-      ChartController.Names.CHART_TOP_WTFS_WITH_TAG_FOR_TEAM,
+      ChartController.Names
+        .CHART_TOP_WTFS_WITH_TAG_FOR_TEAM,
       ChartController.Types.GET,
       urn,
       (store) =>
@@ -645,8 +701,6 @@ module.exports = class ChartController extends (
         )
     );
   }
-
-
 
   /**
    * client event handler for charting top tasks
@@ -695,10 +749,9 @@ module.exports = class ChartController extends (
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
-      ChartController.Paths.TASK ;
+      ChartController.Paths.TASK;
 
-
-    urn += "?target_type=USER&target_name="+username;
+    urn += "?target_type=USER&target_name=" + username;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -720,7 +773,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top tasks for a specific team
    * @param event
@@ -734,10 +786,9 @@ module.exports = class ChartController extends (
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
-      ChartController.Paths.TASK ;
+      ChartController.Paths.TASK;
 
-
-    urn += "?target_type=TEAM&target_name="+teamName;
+    urn += "?target_type=TEAM&target_name=" + teamName;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -759,7 +810,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top modules
    * @param event
@@ -772,7 +822,7 @@ module.exports = class ChartController extends (
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
-      ChartController.Paths.MODULE ;
+      ChartController.Paths.MODULE;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("?", timeScope);
@@ -794,7 +844,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top modules for a specific user
    * @param event
@@ -808,10 +857,9 @@ module.exports = class ChartController extends (
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
-      ChartController.Paths.MODULE ;
+      ChartController.Paths.MODULE;
 
-
-    urn += "?target_type=USER&target_name="+username;
+    urn += "?target_type=USER&target_name=" + username;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -833,7 +881,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top modules for a specific team
    * @param event
@@ -847,10 +894,9 @@ module.exports = class ChartController extends (
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
-      ChartController.Paths.MODULE ;
+      ChartController.Paths.MODULE;
 
-
-    urn += "?target_type=TEAM&target_name="+teamName;
+    urn += "?target_type=TEAM&target_name=" + teamName;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -872,7 +918,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top boxes for a specific module
    * @param event
@@ -890,7 +935,7 @@ module.exports = class ChartController extends (
       ChartController.Paths.IN +
       ChartController.Paths.MODULE;
 
-    urn += "?module_name="+moduleName;
+    urn += "?module_name=" + moduleName;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -912,17 +957,20 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top boxes for a specific module and user
    * @param event
    * @param arg
    * @param callback
    */
-  handleChartTopBoxesForModuleForUserEvent(event, arg, callback) {
+  handleChartTopBoxesForModuleForUserEvent(
+    event,
+    arg,
+    callback
+  ) {
     let timeScope = arg.args.timeScope,
       moduleName = arg.args.moduleName,
-    username = arg.args.username;
+      username = arg.args.username;
 
     let urn =
       ChartController.Paths.QUERY +
@@ -931,9 +979,9 @@ module.exports = class ChartController extends (
       ChartController.Paths.IN +
       ChartController.Paths.MODULE;
 
-    urn += "?module_name="+moduleName;
+    urn += "?module_name=" + moduleName;
 
-    urn += "&target_type=USER&target_name="+username;
+    urn += "&target_type=USER&target_name=" + username;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -942,7 +990,8 @@ module.exports = class ChartController extends (
     this.doClientRequest(
       ChartController.Contexts.CHART_CLIENT,
       {},
-      ChartController.Names.CHART_TOP_BOXES_FOR_MODULE_FOR_USER,
+      ChartController.Names
+        .CHART_TOP_BOXES_FOR_MODULE_FOR_USER,
       ChartController.Types.GET,
       urn,
       (store) =>
@@ -955,14 +1004,17 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top boxes for a specific module and user
    * @param event
    * @param arg
    * @param callback
    */
-  handleChartTopBoxesForModuleForTeamEvent(event, arg, callback) {
+  handleChartTopBoxesForModuleForTeamEvent(
+    event,
+    arg,
+    callback
+  ) {
     let timeScope = arg.args.timeScope,
       moduleName = arg.args.moduleName,
       teamName = arg.args.teamName;
@@ -974,9 +1026,9 @@ module.exports = class ChartController extends (
       ChartController.Paths.IN +
       ChartController.Paths.MODULE;
 
-    urn += "?module_name="+moduleName;
+    urn += "?module_name=" + moduleName;
 
-    urn += "&target_type=TEAM&target_name="+teamName;
+    urn += "&target_type=TEAM&target_name=" + teamName;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -985,7 +1037,8 @@ module.exports = class ChartController extends (
     this.doClientRequest(
       ChartController.Contexts.CHART_CLIENT,
       {},
-      ChartController.Names.CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM,
+      ChartController.Names
+        .CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM,
       ChartController.Types.GET,
       urn,
       (store) =>
@@ -998,7 +1051,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top boxes
    * @param event
@@ -1009,9 +1061,9 @@ module.exports = class ChartController extends (
     let timeScope = arg.args.timeScope;
 
     let urn =
-        ChartController.Paths.QUERY +
-        ChartController.Paths.TOP +
-        ChartController.Paths.BOX ;
+      ChartController.Paths.QUERY +
+      ChartController.Paths.TOP +
+      ChartController.Paths.BOX;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("?", timeScope);
@@ -1033,7 +1085,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top files for a box
    * @param event
@@ -1042,17 +1093,17 @@ module.exports = class ChartController extends (
    */
   handleChartTopFilesForBoxEvent(event, arg, callback) {
     let timeScope = arg.args.timeScope,
-    project = arg.args.project,
-    box = arg.args.box;
+      project = arg.args.project,
+      box = arg.args.box;
 
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
       ChartController.Paths.FILE +
       ChartController.Paths.IN +
-      ChartController.Paths.BOX ;
+      ChartController.Paths.BOX;
 
-    urn += "?box_path="+project + "." + box;
+    urn += "?box_path=" + project + "." + box;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -1075,16 +1126,25 @@ module.exports = class ChartController extends (
   }
 
   convertToGtTimeScope(joinChar, timeScope) {
-    if (timeScope.startsWith("gt[") && timeScope.length < 25) {
-      return joinChar + "gt_exp="+timeScope;
+    if (
+      timeScope.startsWith("gt[") &&
+      timeScope.length < 25
+    ) {
+      return joinChar + "gt_exp=" + timeScope;
     }
     if (timeScope === ChartController.TimeScope.ALL) {
       return joinChar + "gt_exp=gt[*]";
-    } else if (timeScope === ChartController.TimeScope.LATEST_TWO) {
+    } else if (
+      timeScope === ChartController.TimeScope.LATEST_TWO
+    ) {
       return joinChar + "scope=TWO";
-    } else if (timeScope === ChartController.TimeScope.LATEST_FOUR) {
+    } else if (
+      timeScope === ChartController.TimeScope.LATEST_FOUR
+    ) {
       return joinChar + "scope=FOUR";
-    } else if (timeScope === ChartController.TimeScope.LATEST_SIX) {
+    } else if (
+      timeScope === ChartController.TimeScope.LATEST_SIX
+    ) {
       return joinChar + "scope=SIX";
     }
   }
@@ -1095,7 +1155,11 @@ module.exports = class ChartController extends (
    * @param arg
    * @param callback
    */
-  handleChartTopFilesForBoxForTeamEvent(event, arg, callback) {
+  handleChartTopFilesForBoxForTeamEvent(
+    event,
+    arg,
+    callback
+  ) {
     let timeScope = arg.args.timeScope,
       teamName = arg.args.teamName,
       project = arg.args.project,
@@ -1106,11 +1170,11 @@ module.exports = class ChartController extends (
       ChartController.Paths.TOP +
       ChartController.Paths.FILE +
       ChartController.Paths.IN +
-      ChartController.Paths.BOX ;
+      ChartController.Paths.BOX;
 
-    urn += "?box_path="+project + "." + box;
+    urn += "?box_path=" + project + "." + box;
 
-    urn += "&target_type=TEAM&target_name="+teamName;
+    urn += "&target_type=TEAM&target_name=" + teamName;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -1119,7 +1183,8 @@ module.exports = class ChartController extends (
     this.doClientRequest(
       ChartController.Contexts.CHART_CLIENT,
       {},
-      ChartController.Names.CHART_TOP_FILES_FOR_BOX_FOR_TEAM,
+      ChartController.Names
+        .CHART_TOP_FILES_FOR_BOX_FOR_TEAM,
       ChartController.Types.GET,
       urn,
       (store) =>
@@ -1132,15 +1197,17 @@ module.exports = class ChartController extends (
     );
   }
 
-
-
   /**
    * client event handler for charting top files for a box for a specific user
    * @param event
    * @param arg
    * @param callback
    */
-  handleChartTopFilesForBoxForUserEvent(event, arg, callback) {
+  handleChartTopFilesForBoxForUserEvent(
+    event,
+    arg,
+    callback
+  ) {
     let timeScope = arg.args.timeScope,
       username = arg.args.username,
       project = arg.args.project,
@@ -1151,11 +1218,11 @@ module.exports = class ChartController extends (
       ChartController.Paths.TOP +
       ChartController.Paths.FILE +
       ChartController.Paths.IN +
-      ChartController.Paths.BOX ;
+      ChartController.Paths.BOX;
 
-    urn += "?box_path="+project + "." + box;
+    urn += "?box_path=" + project + "." + box;
 
-    urn += "&target_type=USER&target_name="+username;
+    urn += "&target_type=USER&target_name=" + username;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -1164,7 +1231,8 @@ module.exports = class ChartController extends (
     this.doClientRequest(
       ChartController.Contexts.CHART_CLIENT,
       {},
-      ChartController.Names.CHART_TOP_FILES_FOR_BOX_FOR_USER,
+      ChartController.Names
+        .CHART_TOP_FILES_FOR_BOX_FOR_USER,
       ChartController.Types.GET,
       urn,
       (store) =>
@@ -1176,7 +1244,6 @@ module.exports = class ChartController extends (
         )
     );
   }
-
 
   /**
    * client event handler for charting top boxes for specific user
@@ -1191,9 +1258,9 @@ module.exports = class ChartController extends (
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
-      ChartController.Paths.BOX ;
+      ChartController.Paths.BOX;
 
-    urn += "?target_type=USER&target_name="+username;
+    urn += "?target_type=USER&target_name=" + username;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -1215,7 +1282,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting top boxes for team
    * @param event
@@ -1229,9 +1295,9 @@ module.exports = class ChartController extends (
     let urn =
       ChartController.Paths.QUERY +
       ChartController.Paths.TOP +
-      ChartController.Paths.BOX ;
+      ChartController.Paths.BOX;
 
-    urn += "?target_type=TEAM&target_name="+teamName;
+    urn += "?target_type=TEAM&target_name=" + teamName;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -1253,7 +1319,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting friction for a period of time
    * @param event
@@ -1267,9 +1332,7 @@ module.exports = class ChartController extends (
         ChartController.Paths.CHART +
         ChartController.Paths.FRICTION;
 
-    urn +=
-      "?bucket_size=" +
-      bucket;
+    urn += "?bucket_size=" + bucket;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -1305,11 +1368,9 @@ module.exports = class ChartController extends (
         ChartController.Paths.CHART +
         ChartController.Paths.FRICTION;
 
-    urn += "?target_type=USER&target_name="+username;
+    urn += "?target_type=USER&target_name=" + username;
 
-    urn +=
-      "&bucket_size=" +
-      bucket;
+    urn += "&bucket_size=" + bucket;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -1331,7 +1392,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * client event handler for charting friction for a period of time, for a specific team
    * @param event
@@ -1346,10 +1406,8 @@ module.exports = class ChartController extends (
         ChartController.Paths.CHART +
         ChartController.Paths.FRICTION;
 
-    urn += "?target_type=TEAM&target_name="+teamName;
-    urn +=
-      "&bucket_size=" +
-      bucket;
+    urn += "?target_type=TEAM&target_name=" + teamName;
+    urn += "&bucket_size=" + bucket;
 
     if (timeScope) {
       urn += this.convertToGtTimeScope("&", timeScope);
@@ -1444,7 +1502,6 @@ module.exports = class ChartController extends (
     );
   }
 
-
   /**
    * Default delegator that just sets the state and callsback with no database actions
    * @param store
@@ -1465,5 +1522,4 @@ module.exports = class ChartController extends (
       callback
     );
   }
-
 };

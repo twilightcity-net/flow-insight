@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {MemberClient} from "../../../../clients/MemberClient";
+import React, { Component } from "react";
+import { MemberClient } from "../../../../clients/MemberClient";
 import GameSketch from "./components/GameSketch";
 
 /**
@@ -15,15 +15,15 @@ export default class PlayResource extends Component {
     super(props);
     this.name = "[PlayResource]";
     this.state = {
-      me : MemberClient.me,
-      visible: false
+      me: MemberClient.me,
+      visible: false,
     };
   }
 
   componentDidMount() {
     setTimeout(() => {
       this.setState({
-        visible: true
+        visible: true,
       });
     }, 333);
   }
@@ -31,9 +31,11 @@ export default class PlayResource extends Component {
   onFinishedLoading = () => {
     console.log("onFinishedLoading");
     setTimeout(() => {
-      document.getElementById("playGameWrapper").style.opacity = 1;
+      document.getElementById(
+        "playGameWrapper"
+      ).style.opacity = 1;
     }, 333);
-  }
+  };
 
   /**
    * renders the game sketch
@@ -42,12 +44,14 @@ export default class PlayResource extends Component {
   render() {
     let content = "";
     if (this.state.visible) {
-      content = <GameSketch me={this.state.me} onFinishedLoading={this.onFinishedLoading}/>;
+      content = (
+        <GameSketch
+          me={this.state.me}
+          onFinishedLoading={this.onFinishedLoading}
+        />
+      );
     }
 
-    return (
-    <div id="playGameWrapper">
-      {content}
-    </div>);
+    return <div id="playGameWrapper">{content}</div>;
   }
 }

@@ -217,7 +217,9 @@ export default class CircuitsPanel extends Component {
     let that = this;
     CircuitClient.getAllMyLiveCircuits(this, (arg) => {
       if (arg.error) {
-        console.error("Unable to load live circuits, "+arg.error);
+        console.error(
+          "Unable to load live circuits, " + arg.error
+        );
       } else {
         that.setState({ activeCircuits: arg.data });
       }
@@ -240,7 +242,9 @@ export default class CircuitsPanel extends Component {
     let that = this;
     CircuitClient.getAllMyDoItLaterCircuits(this, (arg) => {
       if (arg.error) {
-        console.error("Unable to load DoItLater circuits, "+  arg.error);
+        console.error(
+          "Unable to load DoItLater circuits, " + arg.error
+        );
       } else {
         that.setState({ doItLaterCircuits: arg.data });
       }
@@ -263,14 +267,18 @@ export default class CircuitsPanel extends Component {
     let that = this;
     CircuitClient.getAllMyRetroCircuits(this, (arg) => {
       if (arg.error) {
-        console.error("Unable to load retro circuits, "+arg.error);
+        console.error(
+          "Unable to load retro circuits, " + arg.error
+        );
       } else {
         that.setState({ retroCircuits: arg.data });
       }
     });
     CircuitClient.getAllMySolvedCircuits(this, (arg) => {
       if (arg.error) {
-        console.error("Unable to load solved circuits, "+arg.error);
+        console.error(
+          "Unable to load solved circuits, " + arg.error
+        );
       } else {
         that.setState({ solvedCircuits: arg.data });
       }
@@ -310,12 +318,13 @@ export default class CircuitsPanel extends Component {
 
     CircuitClient.closeWtf(circuitName, this, (arg) => {
       if (arg.error) {
-        console.log("Unable to close wtf, "+arg.error);
+        console.log("Unable to close wtf, " + arg.error);
       } else {
         this.setState((prevState) => {
-          let filteredRetros = prevState.retroCircuits.filter(
-            (item) => item.circuitName !== circuitName
-          );
+          let filteredRetros =
+            prevState.retroCircuits.filter(
+              (item) => item.circuitName !== circuitName
+            );
           return { retroCircuits: filteredRetros };
         });
       }
@@ -428,7 +437,8 @@ export default class CircuitsPanel extends Component {
 
     if (this.state.solvedCircuits.length > 0) {
       let circuit = this.state.solvedCircuits[0];
-      maxTime = UtilRenderer.getWtfSecondsFromCircuit(circuit);
+      maxTime =
+        UtilRenderer.getWtfSecondsFromCircuit(circuit);
     }
 
     return (

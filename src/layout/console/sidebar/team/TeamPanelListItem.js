@@ -93,13 +93,22 @@ export default class TeamPanelListItem extends Component {
 
     let optionalLinkIcon = "";
     if (this.props.model.pairingNetwork) {
-      optionalLinkIcon = <Icon name="linkify" size="tiny" className="teamLink" />;
+      optionalLinkIcon = (
+        <Icon
+          name="linkify"
+          size="tiny"
+          className="teamLink"
+        />
+      );
     }
 
     let popupContent = (
       <div>
         <div>
-          <div className="username">@{username}{optionalLinkIcon}</div>
+          <div className="username">
+            @{username}
+            {optionalLinkIcon}
+          </div>
           <Label
             className="level"
             color="violet"
@@ -240,8 +249,12 @@ export default class TeamPanelListItem extends Component {
   }
 
   pairingIncludesMe() {
-    if (this.props.model && this.props.model.pairingNetwork) {
-      let links = this.props.model.pairingNetwork.sparkLinks;
+    if (
+      this.props.model &&
+      this.props.model.pairingNetwork
+    ) {
+      let links =
+        this.props.model.pairingNetwork.sparkLinks;
       for (let i = 0; i < links.length; i++) {
         let username = links[i].name;
 
@@ -255,8 +268,17 @@ export default class TeamPanelListItem extends Component {
 
   getTeamMemberListItem() {
     let optionalLinkIcon = "";
-    if (this.props.model.pairingNetwork && this.pairingIncludesMe()) {
-      optionalLinkIcon = <Icon name="linkify" size="tiny" className="teamLink" />;
+    if (
+      this.props.model.pairingNetwork &&
+      this.pairingIncludesMe()
+    ) {
+      optionalLinkIcon = (
+        <Icon
+          name="linkify"
+          size="tiny"
+          className="teamLink"
+        />
+      );
     }
 
     return (
@@ -267,7 +289,10 @@ export default class TeamPanelListItem extends Component {
       >
         {this.getIcon()}
         <List.Content>
-          <List.Header>{this.getDisplayName()}{optionalLinkIcon}</List.Header>
+          <List.Header>
+            {this.getDisplayName()}
+            {optionalLinkIcon}
+          </List.Header>
         </List.Content>
       </List.Item>
     );

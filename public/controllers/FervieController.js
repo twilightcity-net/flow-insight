@@ -29,7 +29,7 @@ module.exports = class FervieController extends (
     return {
       SAVE_FERVIE_DETAILS: "save-fervie-details",
       CREATE_PAIR_LINK: "create-pair-link",
-      STOP_PAIRING: "stop-pairing"
+      STOP_PAIRING: "stop-pairing",
     };
   }
 
@@ -128,8 +128,6 @@ module.exports = class FervieController extends (
     );
   }
 
-
-
   /**
    * client event handler for our pairing request
    * @param event
@@ -143,7 +141,7 @@ module.exports = class FervieController extends (
         FervieController.Paths.SEPARATOR +
         memberId +
         FervieController.Paths.PAIR +
-        FervieController.Paths.LINK ;
+        FervieController.Paths.LINK;
 
     this.doClientRequest(
       FervieController.Contexts.FERVIE_CLIENT,
@@ -161,7 +159,6 @@ module.exports = class FervieController extends (
     );
   }
 
-
   /**
    * client event handler for our stop pairing request
    * @param event
@@ -170,10 +167,10 @@ module.exports = class FervieController extends (
    */
   handleStopPairingEvent(event, arg, callback) {
     let urn =
-        FervieController.Paths.FERVIE +
-        FervieController.Paths.ME +
-        FervieController.Paths.PAIR +
-        FervieController.Paths.UNLINK ;
+      FervieController.Paths.FERVIE +
+      FervieController.Paths.ME +
+      FervieController.Paths.PAIR +
+      FervieController.Paths.UNLINK;
 
     this.doClientRequest(
       FervieController.Contexts.FERVIE_CLIENT,
@@ -199,12 +196,7 @@ module.exports = class FervieController extends (
    * @param arg
    * @param callback
    */
-  defaultDelegateCallback(
-    store,
-    event,
-    arg,
-    callback
-  ) {
+  defaultDelegateCallback(store, event, arg, callback) {
     if (store.error) {
       arg.error = store.error;
     } else {

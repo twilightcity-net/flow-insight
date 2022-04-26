@@ -3,7 +3,6 @@
  */
 
 export default class BirdSprite {
-
   constructor(animationLoader, x, y) {
     this.animationLoader = animationLoader;
     this.x = x;
@@ -31,11 +30,16 @@ export default class BirdSprite {
     this.isVisible = false;
   }
 
-  static BIRD_FLY = "./assets/animation/bigtree/bird_fly.png";
-  static BIRD_FLY_FLAP = "./assets/animation/bigtree/bird_fly_flap.png";
-  static BIRD_PECK = "./assets/animation/bigtree/bird_peck.png";
-  static BIRD_PECK_LOW = "./assets/animation/bigtree/bird_peck_low.png";
-  static BIRD_UPRIGHT = "./assets/animation/bigtree/bird_upright.png";
+  static BIRD_FLY =
+    "./assets/animation/bigtree/bird_fly.png";
+  static BIRD_FLY_FLAP =
+    "./assets/animation/bigtree/bird_fly_flap.png";
+  static BIRD_PECK =
+    "./assets/animation/bigtree/bird_peck.png";
+  static BIRD_PECK_LOW =
+    "./assets/animation/bigtree/bird_peck_low.png";
+  static BIRD_UPRIGHT =
+    "./assets/animation/bigtree/bird_upright.png";
 
   /**
    * static enum subclass to store animation types
@@ -46,7 +50,7 @@ export default class BirdSprite {
     return {
       Fly: "Fly",
       Peck: "Peck",
-      Sit: "Sit"
+      Sit: "Sit",
     };
   }
 
@@ -57,11 +61,26 @@ export default class BirdSprite {
    * @param p5
    */
   preload(p5) {
-    this.animationLoader.getStaticImage(p5, BirdSprite.BIRD_FLY);
-    this.animationLoader.getStaticImage(p5, BirdSprite.BIRD_FLY_FLAP);
-    this.animationLoader.getStaticImage(p5, BirdSprite.BIRD_PECK);
-    this.animationLoader.getStaticImage(p5, BirdSprite.BIRD_PECK_LOW);
-    this.animationLoader.getStaticImage(p5, BirdSprite.BIRD_UPRIGHT);
+    this.animationLoader.getStaticImage(
+      p5,
+      BirdSprite.BIRD_FLY
+    );
+    this.animationLoader.getStaticImage(
+      p5,
+      BirdSprite.BIRD_FLY_FLAP
+    );
+    this.animationLoader.getStaticImage(
+      p5,
+      BirdSprite.BIRD_PECK
+    );
+    this.animationLoader.getStaticImage(
+      p5,
+      BirdSprite.BIRD_PECK_LOW
+    );
+    this.animationLoader.getStaticImage(
+      p5,
+      BirdSprite.BIRD_UPRIGHT
+    );
 
     this.isVisible = false;
   }
@@ -71,20 +90,21 @@ export default class BirdSprite {
    * @param p5
    */
   draw(p5) {
-
     if (!this.isVisible) {
       return;
     }
 
-    let birdImage = this.animationLoader.getStaticImage(p5, this.birdFile);
+    let birdImage = this.animationLoader.getStaticImage(
+      p5,
+      this.birdFile
+    );
 
     p5.push();
-    p5.translate(this.x , this.y);
+    p5.translate(this.x, this.y);
     p5.scale(this.scale, this.scale);
     p5.image(birdImage, 0, 0);
 
     p5.pop();
-
   }
 
   startFlyDown() {
@@ -113,7 +133,10 @@ export default class BirdSprite {
   }
 
   isFrameBetween(min, max) {
-    return (this.animationFrame >= min && this.animationFrame < max);
+    return (
+      this.animationFrame >= min &&
+      this.animationFrame < max
+    );
   }
 
   hop() {
@@ -179,12 +202,16 @@ export default class BirdSprite {
       } else {
         this.birdFile = BirdSprite.BIRD_FLY_FLAP;
       }
-    } else if (this.birdActivity === BirdSprite.BirdActivity.Sit) {
+    } else if (
+      this.birdActivity === BirdSprite.BirdActivity.Sit
+    ) {
       this.birdFile = BirdSprite.BIRD_UPRIGHT;
       if (this.isOscillation(50, this.animationFrame)) {
         this.hop();
       }
-    } else if (this.birdActivity === BirdSprite.BirdActivity.Peck) {
+    } else if (
+      this.birdActivity === BirdSprite.BirdActivity.Peck
+    ) {
       if (this.getCycle(10, this.animationFrame) === 0) {
         this.birdFile = BirdSprite.BIRD_PECK;
       } else {
@@ -198,7 +225,6 @@ export default class BirdSprite {
       if (this.isOscillation(50, this.animationFrame)) {
         this.hop();
       }
-
     }
   }
 
@@ -212,13 +238,17 @@ export default class BirdSprite {
       this.y = this.originalY;
       this.velocityY = 0;
       this.velocityX = 0;
-      if (this.birdActivity === BirdSprite.BirdActivity.Fly) {
+      if (
+        this.birdActivity === BirdSprite.BirdActivity.Fly
+      ) {
         this.birdActivity = BirdSprite.BirdActivity.Sit;
       }
     }
 
     if (this.accelerationY < this.accelerationMax) {
-      if (this.birdActivity === BirdSprite.BirdActivity.Fly) {
+      if (
+        this.birdActivity === BirdSprite.BirdActivity.Fly
+      ) {
         this.accelerationY += this.gravityFly;
       } else {
         this.accelerationY += this.gravityFall;
@@ -226,7 +256,5 @@ export default class BirdSprite {
     } else {
       this.accelerationY = this.accelerationMax;
     }
-
   }
-
 }

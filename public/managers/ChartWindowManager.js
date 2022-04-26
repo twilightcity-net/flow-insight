@@ -38,7 +38,7 @@ module.exports = class ChartWindowManager {
   static get ChartType() {
     return {
       TASK_FOR_WTF: "task-for-wtf",
-      TASK_BY_NAME: "task-by-name"
+      TASK_BY_NAME: "task-by-name",
     };
   }
 
@@ -49,7 +49,6 @@ module.exports = class ChartWindowManager {
    * @param arg
    */
   onOpenChartCb(event, arg) {
-
     let windowName = this.getWindowName(arg);
 
     arg.chartIndex = this.chartWindowsByName.size;
@@ -70,12 +69,21 @@ module.exports = class ChartWindowManager {
 
     let windowName = ChartWindowManager.windowNamePrefix;
 
-    if (chartType === ChartWindowManager.ChartType.TASK_FOR_WTF) {
+    if (
+      chartType ===
+      ChartWindowManager.ChartType.TASK_FOR_WTF
+    ) {
       windowName += circuitName;
-    } else if (chartType === ChartWindowManager.ChartType.TASK_BY_NAME) {
-      windowName += username + "." + projectName + "."+taskName;
+    } else if (
+      chartType ===
+      ChartWindowManager.ChartType.TASK_BY_NAME
+    ) {
+      windowName +=
+        username + "." + projectName + "." + taskName;
     } else {
-      throw new Error("Unable to open unknown chart type: "+chartType);
+      throw new Error(
+        "Unable to open unknown chart type: " + chartType
+      );
     }
 
     return windowName;

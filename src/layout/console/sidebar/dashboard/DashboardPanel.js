@@ -1,12 +1,17 @@
-import React, {Component} from "react";
-import {List, Menu, Segment, Transition,} from "semantic-ui-react";
-import {DimensionController} from "../../../../controllers/DimensionController";
-import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
-import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import React, { Component } from "react";
+import {
+  List,
+  Menu,
+  Segment,
+  Transition,
+} from "semantic-ui-react";
+import { DimensionController } from "../../../../controllers/DimensionController";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import RiskAreaListItem from "./RiskAreaListItem";
-import {BrowserRequestFactory} from "../../../../controllers/BrowserRequestFactory";
+import { BrowserRequestFactory } from "../../../../controllers/BrowserRequestFactory";
 import ScopeSelectionDropdown from "./ScopeSelectionDropdown";
-import {TeamClient} from "../../../../clients/TeamClient";
+import { TeamClient } from "../../../../clients/TeamClient";
 import DashboardResource from "../../content/dashboard/DashboardResource";
 
 /**
@@ -19,18 +24,17 @@ export default class DashboardPanel extends Component {
    */
   static className = "dashboardContent";
 
-
   static get TargetType() {
     return {
       USER: "user",
-      TEAM: "team"
+      TEAM: "team",
     };
   }
 
   static get Target() {
     return {
       ME: "me",
-      TEAM: "team"
+      TEAM: "team",
     };
   }
 
@@ -39,7 +43,7 @@ export default class DashboardPanel extends Component {
       ALL: "all",
       LATEST_TWO: "latest.two",
       LATEST_FOUR: "latest.four",
-      LATEST_SIX: "latest.six"
+      LATEST_SIX: "latest.six",
     };
   }
 
@@ -66,7 +70,8 @@ export default class DashboardPanel extends Component {
     if (!state) {
       return {
         activeItem:
-          SidePanelViewController.SubmenuSelection.DASHBOARD,
+          SidePanelViewController.SubmenuSelection
+            .DASHBOARD,
         dashboardVisible: false,
         animationType:
           SidePanelViewController.AnimationTypes.FLY_DOWN,
@@ -74,7 +79,7 @@ export default class DashboardPanel extends Component {
           SidePanelViewController.AnimationDelays.SUBMENU,
         title: "",
         dashboardTarget: DashboardPanel.Target.TEAM,
-        dashboardTimeScope: DashboardPanel.TimeScope.ALL
+        dashboardTimeScope: DashboardPanel.TimeScope.ALL,
       };
     }
     return state;
@@ -126,7 +131,8 @@ export default class DashboardPanel extends Component {
     switch (
       this.myController.activeDashboardSubmenuSelection
     ) {
-      case SidePanelViewController.SubmenuSelection.DASHBOARD:
+      case SidePanelViewController.SubmenuSelection
+        .DASHBOARD:
         this.showDashboardPanel();
         break;
       default:
@@ -142,8 +148,7 @@ export default class DashboardPanel extends Component {
   showDashboardPanel() {
     this.setState({
       activeItem:
-        SidePanelViewController.SubmenuSelection
-          .DASHBOARD,
+        SidePanelViewController.SubmenuSelection.DASHBOARD,
       dashboardVisible: true,
     });
   }
@@ -177,7 +182,9 @@ export default class DashboardPanel extends Component {
         this.state.dashboardTimeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
-    } else if (page === DashboardResource.DashboardType.FAMILIARITY) {
+    } else if (
+      page === DashboardResource.DashboardType.FAMILIARITY
+    ) {
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.DASHBOARD,
         DashboardResource.DashboardType.FAMILIARITY,
@@ -186,16 +193,20 @@ export default class DashboardPanel extends Component {
         this.state.dashboardTimeScope
       );
       this.myController.makeSidebarBrowserRequest(request);
-    } else if (page === DashboardResource.DashboardType.MOMENTUM) {
-        let request = BrowserRequestFactory.createRequest(
-          BrowserRequestFactory.Requests.DASHBOARD,
-          DashboardResource.DashboardType.MOMENTUM,
-          targetType,
-          target,
-          this.state.dashboardTimeScope
-        );
-        this.myController.makeSidebarBrowserRequest(request);
-    } else if (page === DashboardResource.DashboardType.TAGS) {
+    } else if (
+      page === DashboardResource.DashboardType.MOMENTUM
+    ) {
+      let request = BrowserRequestFactory.createRequest(
+        BrowserRequestFactory.Requests.DASHBOARD,
+        DashboardResource.DashboardType.MOMENTUM,
+        targetType,
+        target,
+        this.state.dashboardTimeScope
+      );
+      this.myController.makeSidebarBrowserRequest(request);
+    } else if (
+      page === DashboardResource.DashboardType.TAGS
+    ) {
       let request = BrowserRequestFactory.createRequest(
         BrowserRequestFactory.Requests.DASHBOARD,
         DashboardResource.DashboardType.TAGS,
@@ -205,9 +216,11 @@ export default class DashboardPanel extends Component {
       );
       this.myController.makeSidebarBrowserRequest(request);
     } else {
-      console.error("Unknown risk area page, unable to load");
+      console.error(
+        "Unknown risk area page, unable to load"
+      );
     }
-  }
+  };
 
   /**
    * gets the badges content panel for the sidebar
@@ -221,8 +234,9 @@ export default class DashboardPanel extends Component {
           target={this.state.dashboardTarget}
           timeScope={this.state.dashboardTimeScope}
           onChangeTarget={this.onChangeTarget}
-          onChangeTimeScope={this.onChangeTimeScope}/>
-        <hr/>
+          onChangeTimeScope={this.onChangeTimeScope}
+        />
+        <hr />
         <List
           inverted
           divided
@@ -235,48 +249,56 @@ export default class DashboardPanel extends Component {
             id={DashboardResource.DashboardType.CODEBASE}
             title={"Codebase"}
             description={"Top confusion by area of code"}
-            tipInstruction={"Code areas with a high amount of confusion indicate a potential opportunity for refactoring and simplification"}
+            tipInstruction={
+              "Code areas with a high amount of confusion indicate a potential opportunity for refactoring and simplification"
+            }
             onItemClick={this.handleRiskAreaClick}
           />
           <RiskAreaListItem
             id={DashboardResource.DashboardType.MOMENTUM}
             title={"Momentum"}
             description={"Trending momentum and friction"}
-            tipInstruction={"Overall momentum is an indicator of a healthy codebase and knowledgeable team. Drops in momentum are an indicator of difficulties"}
+            tipInstruction={
+              "Overall momentum is an indicator of a healthy codebase and knowledgeable team. Drops in momentum are an indicator of difficulties"
+            }
             onItemClick={this.handleRiskAreaClick}
           />
           <RiskAreaListItem
             id={DashboardResource.DashboardType.FAMILIARITY}
             title={"Familiarity"}
             description={"Knowledge gaps by area of code"}
-            tipInstruction={"Expanding our knowledge of more areas of code reduces the likelihood of mistakes and confusion, and increases momentum"}
+            tipInstruction={
+              "Expanding our knowledge of more areas of code reduces the likelihood of mistakes and confusion, and increases momentum"
+            }
             onItemClick={this.handleRiskAreaClick}
           />
           <RiskAreaListItem
             id={DashboardResource.DashboardType.TAGS}
             title={"Pain Types"}
-            description={"Top tags from troubleshooting sessions"}
-            tipInstruction={"Reoccurring patterns of difficulty may indicate the need for a strategic shift in the approach to development, software libraries, or architecture"}
+            description={
+              "Top tags from troubleshooting sessions"
+            }
+            tipInstruction={
+              "Reoccurring patterns of difficulty may indicate the need for a strategic shift in the approach to development, software libraries, or architecture"
+            }
             onItemClick={this.handleRiskAreaClick}
           />
         </List>
-
       </div>
     );
   };
 
   onChangeTarget = (target) => {
     this.setState({
-      dashboardTarget : target
+      dashboardTarget: target,
     });
-  }
-
+  };
 
   onChangeTimeScope = (timeScope) => {
     this.setState({
-      dashboardTimeScope : timeScope
+      dashboardTimeScope: timeScope,
     });
-  }
+  };
 
   /**
    * renders the console sidebar dashboard panel of the console view
@@ -322,17 +344,29 @@ export default class DashboardPanel extends Component {
   }
 
   getTargetTypeForBrowserRequest() {
-    if (this.state.dashboardTarget === DashboardPanel.Target.ME) {
+    if (
+      this.state.dashboardTarget ===
+      DashboardPanel.Target.ME
+    ) {
       return DashboardPanel.TargetType.USER;
-    } else if (this.state.dashboardTarget === DashboardPanel.Target.TEAM) {
+    } else if (
+      this.state.dashboardTarget ===
+      DashboardPanel.Target.TEAM
+    ) {
       return DashboardPanel.TargetType.TEAM;
     }
   }
 
   getTargetForBrowserRequest() {
-    if (this.state.dashboardTarget === DashboardPanel.Target.ME) {
+    if (
+      this.state.dashboardTarget ===
+      DashboardPanel.Target.ME
+    ) {
       return this.state.dashboardTarget;
-    } else if (this.state.dashboardTarget === DashboardPanel.Target.TEAM) {
+    } else if (
+      this.state.dashboardTarget ===
+      DashboardPanel.Target.TEAM
+    ) {
       if (this.homeTeam) {
         return this.homeTeam.name;
       } else {

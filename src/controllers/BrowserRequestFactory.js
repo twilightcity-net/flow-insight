@@ -20,7 +20,7 @@ export class BrowserRequestFactory {
       CIRCUIT: "circuit",
       RETRO_CIRCUIT: "retro-circuit",
       PLAY: "play",
-      DASHBOARD: "dashboard"
+      DASHBOARD: "dashboard",
     };
   }
 
@@ -454,9 +454,9 @@ export class BrowserRequestFactory {
     let target = args[2];
     let timeScope = args[3];
 
-    console.log("target type = "+targetType);
-    console.log("target = "+target);
-    console.log("timeScope = "+timeScope);
+    console.log("target type = " + targetType);
+    console.log("target = " + target);
+    console.log("timeScope = " + timeScope);
 
     if (dashboardType) {
       return (

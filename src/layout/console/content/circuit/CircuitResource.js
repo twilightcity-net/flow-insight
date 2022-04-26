@@ -1,9 +1,9 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import ActiveCircuit from "./components/ActiveCircuit";
 import StartCircuit from "./components/StartCircuit";
-import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import UtilRenderer from "../../../../UtilRenderer";
-import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 
 /**
  * this component is the tab panel wrapper for the console cntent
@@ -28,25 +28,27 @@ export default class CircuitResource extends Component {
 
     this.circuitJoinCircuitFailListener =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_JOIN_FAIL,
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_JOIN_FAIL,
         this,
         this.handleError
       );
 
     this.circuitJoinRoomFailListener =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL,
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL,
         this,
         this.handleError
       );
 
     this.circuitStateChangeFailListener =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_CIRCUIT_STATE_CHANGE_FAIL,
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_CIRCUIT_STATE_CHANGE_FAIL,
         this,
         this.handleError
       );
-
   }
 
   /**
@@ -55,18 +57,26 @@ export default class CircuitResource extends Component {
    */
   componentDidMount() {
     if (UtilRenderer.isWTFResource(this.props.resource)) {
-      this.resourcesController.joinExistingRoom(this.props.resource);
+      this.resourcesController.joinExistingRoom(
+        this.props.resource
+      );
     }
   }
 
   handleError(event, arg) {
     console.error(arg.error);
-    this.setState({errorContext: arg.context, error: arg.error});
+    this.setState({
+      errorContext: arg.context,
+      error: arg.error,
+    });
   }
 
   handleDisplayError(errorContext, error) {
     console.error(error);
-    this.setState({errorContext: errorContext, error: error});
+    this.setState({
+      errorContext: errorContext,
+      error: error,
+    });
   }
 
   /**
@@ -120,12 +130,18 @@ export default class CircuitResource extends Component {
 
     if (UtilRenderer.isWTFResource(this.props.resource)) {
       wtfPanel = (
-        <ActiveCircuit resource={this.props.resource} handleError={this.handleDisplayError}/>
+        <ActiveCircuit
+          resource={this.props.resource}
+          handleError={this.handleDisplayError}
+        />
       );
     }
 
     if (this.state.error) {
-      wtfPanel = UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
+      wtfPanel = UtilRenderer.getErrorPage(
+        this.state.errorContext,
+        this.state.error
+      );
     }
 
     return (

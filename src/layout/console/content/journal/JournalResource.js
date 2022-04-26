@@ -1,17 +1,17 @@
-import React, {Component} from "react";
+import React, { Component } from "react";
 import JournalEntry from "./components/JournalEntry";
-import {DimensionController} from "../../../../controllers/DimensionController";
-import {Grid, Icon, Message,} from "semantic-ui-react";
+import { DimensionController } from "../../../../controllers/DimensionController";
+import { Grid, Icon, Message } from "semantic-ui-react";
 import JournalItem from "./components/JournalItem";
-import {JournalClient} from "../../../../clients/JournalClient";
-import {scrollTo} from "../../../../UtilScroll";
-import {MemberClient} from "../../../../clients/MemberClient";
-import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import { JournalClient } from "../../../../clients/JournalClient";
+import { scrollTo } from "../../../../UtilScroll";
+import { MemberClient } from "../../../../clients/MemberClient";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../UtilRenderer";
-import {BaseClient} from "../../../../clients/BaseClient";
+import { BaseClient } from "../../../../clients/BaseClient";
 import Mousetrap from "mousetrap";
 import JournalLinkPanel from "./components/JournalLinkPanel";
-import {FervieClient} from "../../../../clients/FervieClient";
+import { FervieClient } from "../../../../clients/FervieClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -86,7 +86,7 @@ export default class JournalResource extends Component {
       activeFlameUpdate: null,
       member: null,
       isLinking: false,
-      linkError: null
+      linkError: null,
     };
   }
 
@@ -115,7 +115,7 @@ export default class JournalResource extends Component {
         if (this.username === data.username) {
           this.updateMemberStatus(data);
         }
-       break;
+        break;
       case BaseClient.MessageTypes
         .INTENTION_STARTED_DETAILS:
         if (
@@ -140,7 +140,10 @@ export default class JournalResource extends Component {
         }
         break;
       case BaseClient.MessageTypes.JOURNAL_ENTRY_DTO:
-        if (this.isForJournalInView(username) && !this.isMyJournal()) {
+        if (
+          this.isForJournalInView(username) &&
+          !this.isMyJournal()
+        ) {
           //skip this type of update for our own journal since we're already updating flames directly
           this.updateJournalIntentions(data);
         }
@@ -161,7 +164,7 @@ export default class JournalResource extends Component {
   updateMemberStatus(member) {
     console.log("Updating member status!");
     this.setState({
-      member: member
+      member: member,
     });
   }
 
@@ -254,17 +257,26 @@ export default class JournalResource extends Component {
         );
     }
 
-    if (prevState.journalIntentions.length === 0 && this.state.journalIntentions.length > 0) {
+    if (
+      prevState.journalIntentions.length !== this.state.journalIntentions.length
+    ) {
       this.scrollToJournalItemById();
     }
 
-    if (this.isMemberBecomingLinked(prevState, this.state)) {
+    if (
+      this.isMemberBecomingLinked(prevState, this.state)
+    ) {
       this.focusOnIntentionIfVisible();
     }
   }
 
   isMemberBecomingLinked(prevState, state) {
-    return !!(prevState.member != null && state.member != null && !prevState.member.pairingNetwork && state.member.pairingNetwork);
+    return !!(
+      prevState.member != null &&
+      state.member != null &&
+      !prevState.member.pairingNetwork &&
+      state.member.pairingNetwork
+    );
   }
 
   focusOnIntentionIfVisible() {
@@ -552,6 +564,7 @@ export default class JournalResource extends Component {
     MemberClient.getMember(this.username, this, (arg) => {
       if (!this.hasCallbackError(arg)) {
         this.member = arg.data;
+        this.username = this.member.username; //if username is set to me, will get overwritten on load
         this.handleCallback();
       }
     });
@@ -635,7 +648,7 @@ export default class JournalResource extends Component {
         journalIntentions: this.journalIntentions,
         lastProject: this.lastProject,
         lastTask: this.lastTask,
-        error: null
+        error: null,
       });
 
       this.scrollToJournalItemById();
@@ -697,8 +710,6 @@ export default class JournalResource extends Component {
       document.getElementById("intentionTextInput").focus();
     }
   };
-
-
 
   /**
    * saves the journal entry from the callback event
@@ -870,43 +881,48 @@ export default class JournalResource extends Component {
    */
   onClickStartPairing = () => {
     this.handleStartPairing(this.username);
-  }
+  };
 
   /**
    * Invoked when the user clicks the pairing link in the journal
    */
   onClickStopPairing = () => {
     this.handleStopPairing();
-  }
+  };
 
   /**
    * Invoked when the user clicks the pairing link in the journal
    */
   onClickCancelLink = () => {
     //TODO implement the cancel of pairing
-  }
+  };
 
   handleStartPairing(username) {
     console.log("start pairing!");
     MemberClient.getMember(username, this, (arg) => {
       if (!arg.error) {
         let member = arg.data;
-        FervieClient.createPairingLink(member.id, this, (arg) => {
-          if (arg.error) {
-            this.handleError(arg.error);
+        FervieClient.createPairingLink(
+          member.id,
+          this,
+          (arg) => {
+            if (arg.error) {
+              this.handleError(arg.error);
+            }
           }
-        })
+        );
       } else {
         this.handleError(arg.error);
       }
     });
-
   }
 
   handleStopPairing() {
     console.log("stop pairing!");
     FervieClient.stopPairing(this, (arg) => {
-      if (arg.error) {
+      if (!arg.error) {
+        this.focusOnIntentionIfVisible();
+      } else {
         this.handleError(arg.error);
       }
     });
@@ -914,7 +930,7 @@ export default class JournalResource extends Component {
 
   handleError(error) {
     this.setState({
-      error: error
+      error: error,
     });
   }
 
@@ -1000,36 +1016,36 @@ export default class JournalResource extends Component {
     if (this.isMyJournal()) {
       return (
         <div id="wrapper" className="journalEntry ">
-        <JournalEntry
-          resource={this.props.resource}
-          projects={this.state.projects}
-          tasks={this.state.tasks}
-          lastProject={this.state.lastProject}
-          lastTask={this.state.lastTask}
-          createIntention={this.handleCreateIntention}
-          createTask={this.handleCreateTask}
-          createProject={this.handleCreateProject}
-          member={this.state.member}
-          onClickPairingLink={this.onClickStopPairing}
-
-        />
-      </div>
+          <JournalEntry
+            resource={this.props.resource}
+            projects={this.state.projects}
+            tasks={this.state.tasks}
+            lastProject={this.state.lastProject}
+            lastTask={this.state.lastTask}
+            createIntention={this.handleCreateIntention}
+            createTask={this.handleCreateTask}
+            createProject={this.handleCreateProject}
+            member={this.state.member}
+            onClickPairingLink={this.onClickStopPairing}
+          />
+        </div>
       );
     } else {
       return (
         <div id="wrapper" className="journalEntry ">
-          <JournalLinkPanel isLinking={this.state.isLinking}
-                            onClickStartPairing={this.onClickStartPairing}
-                            onClickStopPairing={this.onClickStopPairing}
-                            onClickCancelLink={this.onClickCancelLink}
-                            me={MemberClient.me}
-                            username={this.username}
-                            member={this.state.member}
-                            error={this.state.linkError}/>
+          <JournalLinkPanel
+            isLinking={this.state.isLinking}
+            onClickStartPairing={this.onClickStartPairing}
+            onClickStopPairing={this.onClickStopPairing}
+            onClickCancelLink={this.onClickCancelLink}
+            me={MemberClient.me}
+            username={this.username}
+            member={this.state.member}
+            error={this.state.linkError}
+          />
         </div>
       );
     }
-
   }
 
   /**

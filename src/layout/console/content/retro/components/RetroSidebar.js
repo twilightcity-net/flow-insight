@@ -229,7 +229,9 @@ export default class RetroSidebar extends Component {
       this,
       (arg) => {
         if (arg.error) {
-          console.error("Unable to save tags, "+arg.error);
+          console.error(
+            "Unable to save tags, " + arg.error
+          );
         }
         this.setState({
           tagEditEnabled: false,

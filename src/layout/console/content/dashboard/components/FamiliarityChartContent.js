@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {ChartClient} from "../../../../../clients/ChartClient";
-import {DimensionController} from "../../../../../controllers/DimensionController";
+import React, { Component } from "react";
+import { ChartClient } from "../../../../../clients/ChartClient";
+import { DimensionController } from "../../../../../controllers/DimensionController";
 import FamiliarityBoxChart from "./familiarity/FamiliarityBoxChart";
 import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
 import UtilRenderer from "../../../../../UtilRenderer";
@@ -17,18 +17,29 @@ export default class FamiliarityChartContent extends Component {
     super(props);
     this.name = "[" + FamiliarityChartContent.name + "]";
     this.state = {
-      tableDto: null
-    }
+      tableDto: null,
+    };
   }
 
   componentDidMount() {
-    this.loadFamiliarityData(this.props.targetType, this.props.target, this.props.timeScope);
+    this.loadFamiliarityData(
+      this.props.targetType,
+      this.props.target,
+      this.props.timeScope
+    );
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.targetType !== this.props.targetType || prevProps.target !== this.props.target
-    || prevProps.timeScope !== this.props.timeScope) {
-      this.loadFamiliarityData(this.props.targetType, this.props.target, this.props.timeScope);
+    if (
+      prevProps.targetType !== this.props.targetType ||
+      prevProps.target !== this.props.target ||
+      prevProps.timeScope !== this.props.timeScope
+    ) {
+      this.loadFamiliarityData(
+        this.props.targetType,
+        this.props.target,
+        this.props.timeScope
+      );
     }
   }
 
@@ -41,7 +52,10 @@ export default class FamiliarityChartContent extends Component {
   loadFamiliarityData(targetType, target, timeScope) {
     if (targetType === DashboardPanel.TargetType.TEAM) {
       this.loadFamiliarityDataForTeam(target, timeScope);
-    } else if (targetType === DashboardPanel.TargetType.USER && target !== DashboardPanel.Target.ME) {
+    } else if (
+      targetType === DashboardPanel.TargetType.USER &&
+      target !== DashboardPanel.Target.ME
+    ) {
       this.loadFamiliarityDataForUser(target, timeScope);
     } else {
       this.loadFamiliarityDataForMe(timeScope);
@@ -53,13 +67,9 @@ export default class FamiliarityChartContent extends Component {
    * @param timeScope
    */
   loadFamiliarityDataForMe(timeScope) {
-    ChartClient.chartFamiliarity(
-      timeScope,
-      this,
-      (arg) => {
-        this.handleFamiliarityDataResponse(arg);
-      }
-    );
+    ChartClient.chartFamiliarity(timeScope, this, (arg) => {
+      this.handleFamiliarityDataResponse(arg);
+    });
   }
 
   /**
@@ -78,7 +88,6 @@ export default class FamiliarityChartContent extends Component {
     );
   }
 
-
   /**
    * Load familiarity data for a specific team
    * @param target
@@ -95,8 +104,6 @@ export default class FamiliarityChartContent extends Component {
     );
   }
 
-
-
   /**
    * Handle the familiarity data response and set the state
    * @param response
@@ -107,11 +114,14 @@ export default class FamiliarityChartContent extends Component {
       this.setState({
         tableDto: response.data,
         error: null,
-        errorContext: null
+        errorContext: null,
       });
     } else {
       console.error(response.error);
-      this.setState({errorContext: "Familiarity data load failed", error: response.error});
+      this.setState({
+        errorContext: "Familiarity data load failed",
+        error: response.error,
+      });
     }
   }
 
@@ -123,11 +133,49 @@ export default class FamiliarityChartContent extends Component {
     let tableContent = "";
 
     if (this.state.error) {
-      return UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
+      return UtilRenderer.getErrorPage(
+        this.state.errorContext,
+        this.state.error
+      );
     }
 
     if (!this.state.tableDto) {
-      return (<div
+      return (
+        <div
+          id="component"
+          className="dashboardContent"
+          style={{
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.FLOW_PANEL
+            ),
+          }}
+        >
+          Loading...
+        </div>
+      );
+    }
+
+    if (
+      this.state.tableDto &&
+      this.state.tableDto.rowsOfPaddedCells.length === 0
+    ) {
+      return (
+        <div
+          id="component"
+          className="dashboardContent"
+          style={{
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.FLOW_PANEL
+            ),
+          }}
+        >
+          No Data Available
+        </div>
+      );
+    }
+
+    return (
+      <div
         id="component"
         className="dashboardContent"
         style={{
@@ -135,33 +183,12 @@ export default class FamiliarityChartContent extends Component {
             DimensionController.Components.FLOW_PANEL
           ),
         }}
-      >Loading...</div>);
-    }
-
-    if (this.state.tableDto && this.state.tableDto.rowsOfPaddedCells.length === 0) {
-      return (<div
-        id="component"
-        className="dashboardContent"
-        style={{
-          height: DimensionController.getHeightFor(
-            DimensionController.Components.FLOW_PANEL
-          ),
-        }}
-      >No Data Available</div>);
-    }
-
-    return (<div
-      id="component"
-      className="dashboardContent"
-      style={{
-        height: DimensionController.getHeightFor(
-          DimensionController.Components.FLOW_PANEL
-        ),
-      }}
-    >
-      <FamiliarityBoxChart tableDto={this.state.tableDto}/>
-      {tableContent}
-    </div>);
-
+      >
+        <FamiliarityBoxChart
+          tableDto={this.state.tableDto}
+        />
+        {tableContent}
+      </div>
+    );
   }
 }

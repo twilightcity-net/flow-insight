@@ -29,7 +29,10 @@ export default class FervieSprite {
 
     this.isVisible = true;
 
-    this.fervieGlowSprite = new FervieGlowSprite(this.animationLoader, this.size);
+    this.fervieGlowSprite = new FervieGlowSprite(
+      this.animationLoader,
+      this.size
+    );
   }
 
   /**
@@ -61,7 +64,6 @@ export default class FervieSprite {
         i,
         this.size
       );
-
     }
 
     for (let i = 1; i <= 24; i++) {
@@ -90,14 +92,23 @@ export default class FervieSprite {
    * @param p5
    */
   draw(p5) {
-
     let image = null;
 
     if (!this.isVisible) return;
 
-    if (!this.fervieGlowSprite.isVisible || this.fervieGlowSprite.isTransitioning()) {
-      this.fervieGlowSprite.draw(p5, this.x, this.y, this.scale);
-    } else if (this.direction === FervieSprite.Direction.Up) {
+    if (
+      !this.fervieGlowSprite.isVisible ||
+      this.fervieGlowSprite.isTransitioning()
+    ) {
+      this.fervieGlowSprite.draw(
+        p5,
+        this.x,
+        this.y,
+        this.scale
+      );
+    } else if (
+      this.direction === FervieSprite.Direction.Up
+    ) {
       image = this.animationLoader.getAnimationImage(
         p5,
         AnimationId.Animation.FervieWalkUp,
@@ -179,45 +190,61 @@ export default class FervieSprite {
    * changing the direction of fervie based on the arrow keys
    */
   update(p5, environment) {
-
     this.fervieGlowSprite.update(p5, environment);
-    if (!this.fervieGlowSprite.isVisible || this.fervieGlowSprite.isTransitioning()) {
+    if (
+      !this.fervieGlowSprite.isVisible ||
+      this.fervieGlowSprite.isTransitioning()
+    ) {
       return;
     }
 
     if (!this.isVisible) return;
 
     if (p5.keyIsDown(p5.LEFT_ARROW)) {
-      this.changeDirection(p5, environment,
+      this.changeDirection(
+        p5,
+        environment,
         FervieSprite.Direction.Left,
         -6,
         0,
         0
       );
     } else if (p5.keyIsDown(p5.RIGHT_ARROW)) {
-      this.changeDirection(p5, environment,
+      this.changeDirection(
+        p5,
+        environment,
         FervieSprite.Direction.Right,
         6,
         0,
         0
       );
     } else if (p5.keyIsDown(p5.UP_ARROW)) {
-      this.changeDirection(p5, environment,
+      this.changeDirection(
+        p5,
+        environment,
         FervieSprite.Direction.Up,
         0,
         -2,
         -0.01
       );
     } else if (p5.keyIsDown(p5.DOWN_ARROW)) {
-      this.changeDirection(p5, environment,
+      this.changeDirection(
+        p5,
+        environment,
         FervieSprite.Direction.Down,
         0,
         2,
         0.01
-
       );
     } else {
-      this.changeDirection(p5, environment, this.direction, 0, 0, 0);
+      this.changeDirection(
+        p5,
+        environment,
+        this.direction,
+        0,
+        0,
+        0
+      );
       //skip animation frame update so we can tell when we're stopped
       return;
     }
@@ -227,7 +254,6 @@ export default class FervieSprite {
     if (this.animationFrame > 24) {
       this.animationFrame = 1;
     }
-
   }
 
   getDirection() {
@@ -246,8 +272,6 @@ export default class FervieSprite {
     this.isVisible = true;
   }
 
-
-
   /**
    * Change our fervies direction.  Take into account if we are walking down a hill
    * And if our position is valid on the environment walk map.
@@ -258,21 +282,35 @@ export default class FervieSprite {
    * @param yChange
    * @param scaleChange
    */
-  changeDirection(p5, environment, direction, xChange, yChange, scaleChange) {
-    if (direction === this.direction) { //if direction is the same as it was the last frame
+  changeDirection(
+    p5,
+    environment,
+    direction,
+    xChange,
+    yChange,
+    scaleChange
+  ) {
+    if (direction === this.direction) {
+      //if direction is the same as it was the last frame
       let newVelocityX = Math.round(xChange * this.scale);
       let newVelocityY = yChange;
       let newX = this.x + this.velocityX;
       let newY = this.y + this.velocityY;
       let newScale = this.scale + scaleChange;
 
-      if (this.downTheHill && (direction === FervieSprite.Direction.Up)) {
-        newVelocityY = -1 *yChange;
+      if (
+        this.downTheHill &&
+        direction === FervieSprite.Direction.Up
+      ) {
+        newVelocityY = -1 * yChange;
         this.yDownTheHill += newVelocityY;
       }
 
-      if (this.upTheHill && direction === FervieSprite.Direction.Down) {
-        newVelocityY = -1 *yChange;
+      if (
+        this.upTheHill &&
+        direction === FervieSprite.Direction.Down
+      ) {
+        newVelocityY = -1 * yChange;
         this.yDownTheHill += newVelocityY;
 
         if (this.yDownTheHill <= 0) {
@@ -281,26 +319,38 @@ export default class FervieSprite {
         }
       }
 
-      if ((this.downTheHill || this.upTheHill) &&
-        (direction === FervieSprite.Direction.Left || direction === FervieSprite.Direction.Right)) {
+      if (
+        (this.downTheHill || this.upTheHill) &&
+        (direction === FervieSprite.Direction.Left ||
+          direction === FervieSprite.Direction.Right)
+      ) {
         //dont allow left or right movements while we're down the hill
         newX = this.x;
         newVelocityX = this.velocityX;
       }
 
-      let footPosition = this.getFervieFootPosition(newX, newY, newScale);
+      let footPosition = this.getFervieFootPosition(
+        newX,
+        newY,
+        newScale
+      );
 
-      if (environment.isValidPosition(p5, footPosition[0], footPosition[1])) {
-        p5.fill('red');
+      if (
+        environment.isValidPosition(
+          p5,
+          footPosition[0],
+          footPosition[1]
+        )
+      ) {
+        p5.fill("red");
         this.x = newX;
         this.y = newY;
         this.scale = newScale;
       } else {
-        p5.fill('blue');
+        p5.fill("blue");
       }
       this.velocityX = newVelocityX;
       this.velocityY = newVelocityY;
-
     } else {
       this.velocityX = 0;
       this.velocityY = 0;
@@ -333,15 +383,21 @@ export default class FervieSprite {
   }
 
   getFervieFootX() {
-    return Math.round(this.x + this.size/2 * this.scale)
-      + Math.round((this.size / 2) * (1 - this.scale));
+    return (
+      Math.round(this.x + (this.size / 2) * this.scale) +
+      Math.round((this.size / 2) * (1 - this.scale))
+    );
   }
 
   getFervieFootY() {
-    let imageScale = this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
-    let adjustedHeight = FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
+    let imageScale =
+      this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
+    let adjustedHeight =
+      FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
 
-    return Math.round(this.y + adjustedHeight * 0.9 * this.scale);
+    return Math.round(
+      this.y + adjustedHeight * 0.9 * this.scale
+    );
   }
 
   startGlowTransition() {
@@ -368,7 +424,11 @@ export default class FervieSprite {
     if (!spawnProps) {
       return;
     }
-    this.moveToPoint(spawnProps.x, spawnProps.y, spawnProps.scale);
+    this.moveToPoint(
+      spawnProps.x,
+      spawnProps.y,
+      spawnProps.scale
+    );
 
     this.resetDownTheHill();
 
@@ -379,14 +439,14 @@ export default class FervieSprite {
   }
 
   moveToPoint(x, y, scale) {
-
     if (!scale || scale === 0) {
       scale = this.originalScale;
     }
 
-    let newScale = scale + (y - 20 - this.originalY) / 2 * 0.01;
+    let newScale =
+      scale + ((y - 20 - this.originalY) / 2) * 0.01;
 
-    let newX = x - this.size / 2 * newScale - 10;  //difference I want to move in a negative x
+    let newX = x - (this.size / 2) * newScale - 10; //difference I want to move in a negative x
     let newY = y - 20;
 
     this.x = newX;
@@ -395,16 +455,19 @@ export default class FervieSprite {
   }
 
   getFervieFootPosition(x, y, scale) {
-    let footX = Math.round(x + this.size/2 * scale)
-      + Math.round((this.size / 2) * (1 - scale));
+    let footX =
+      Math.round(x + (this.size / 2) * scale) +
+      Math.round((this.size / 2) * (1 - scale));
 
-    let imageScale = this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
-    let adjustedHeight = FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
+    let imageScale =
+      this.size / FervieSprite.UNSCALED_IMAGE_WIDTH;
+    let adjustedHeight =
+      FervieSprite.UNSCALED_IMAGE_HEIGHT * imageScale;
 
-    let footY = Math.round(y + adjustedHeight * 0.9 * scale);
+    let footY = Math.round(
+      y + adjustedHeight * 0.9 * scale
+    );
 
     return [footX, footY];
   }
-
-
 }

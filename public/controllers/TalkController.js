@@ -314,7 +314,11 @@ module.exports = class TalkController extends (
     ) {
       this.refreshDataFromScratch();
       this.reconnectToTalk(socket);
-    } else if (socket && socket.connected && dto.status === "REFRESH") {
+    } else if (
+      socket &&
+      socket.connected &&
+      dto.status === "REFRESH"
+    ) {
       this.refreshDataFromScratch();
     } else if (dto.status === "FAILED") {
       //will get a new talk connection, so don't retry to reconnect the existing one
@@ -385,7 +389,11 @@ module.exports = class TalkController extends (
   }
 
   trackMessage(uri, nanoTime, message) {
-    this.messageCounter.trackMessage(uri, nanoTime, message);
+    this.messageCounter.trackMessage(
+      uri,
+      nanoTime,
+      message
+    );
   }
 
   /**
@@ -515,6 +523,7 @@ module.exports = class TalkController extends (
             );
             break;
           case TalkController.StatusTypes.TEAM_WTF_JOINED:
+          case TalkController.StatusTypes.TEAM_WTF_PAIR_JOIN:
             this.handleTeamWtfJoined(
               message,
               me,

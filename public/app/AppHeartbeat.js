@@ -62,10 +62,12 @@ module.exports = class AppHeartbeat {
   }
 
   createHeartbeatDto() {
-    this.dto.deltaTime = new Date().getTime() - this.previousDeltaTime;
-    this.dto.messageCounters = global.App.TalkManager.getMessageCounters();
+    this.dto.deltaTime =
+      new Date().getTime() - this.previousDeltaTime;
+    this.dto.messageCounters =
+      global.App.TalkManager.getMessageCounters();
 
-    log.info(this.name +": "+ JSON.stringify(this.dto));
+    log.info(this.name + ": " + JSON.stringify(this.dto));
 
     return this.dto;
   }
@@ -107,7 +109,9 @@ module.exports = class AppHeartbeat {
           global.App.isOnline = true;
 
           responseDto = new SimpleStatusDto(res.body);
-          log.info("HEARTBEAT STATUS: " + responseDto.status);
+          log.info(
+            "HEARTBEAT STATUS: " + responseDto.status
+          );
 
           responseDto.pingTime = this.pingTime;
           responseDto.latencyTime =
@@ -124,7 +128,10 @@ module.exports = class AppHeartbeat {
           log.info("HEARTBEAT FAIL");
         }
 
-        if (responseDto.status === "FAILED" || responseDto.status === "REFRESH") {
+        if (
+          responseDto.status === "FAILED" ||
+          responseDto.status === "REFRESH"
+        ) {
           global.App.TalkManager.resetMessageCounters();
         } else {
           global.App.TalkManager.pruneMessageCounters();

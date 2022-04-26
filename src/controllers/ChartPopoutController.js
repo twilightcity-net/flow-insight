@@ -5,7 +5,7 @@ export class ChartPopoutController extends ActiveViewController {
   static get ChartType() {
     return {
       TASK_FOR_WTF: "task-for-wtf",
-      TASK_BY_NAME: "task-by-name"
+      TASK_BY_NAME: "task-by-name",
     };
   }
 
@@ -48,13 +48,13 @@ export class ChartPopoutController extends ActiveViewController {
   openChartWindowForTask(projectName, taskName, username) {
     console.log("taskname on client: " + taskName);
     this.openChartDispatcher.dispatch({
-      chartType: ChartPopoutController.ChartType.TASK_BY_NAME,
+      chartType:
+        ChartPopoutController.ChartType.TASK_BY_NAME,
       projectName: projectName,
       taskName: taskName,
-      username: username
+      username: username,
     });
   }
-
 
   /**
    * Close a chart popup window for a specific circuit
@@ -69,7 +69,6 @@ export class ChartPopoutController extends ActiveViewController {
     });
   }
 
-
   /**
    * Close a chart popup window for a specific project/task
    * @param projectName
@@ -79,10 +78,10 @@ export class ChartPopoutController extends ActiveViewController {
     console.log("taskname on client: " + taskName);
     this.closeChartDispatcher.dispatch({
       chartType:
-      ChartPopoutController.ChartType.TASK_BY_NAME,
+        ChartPopoutController.ChartType.TASK_BY_NAME,
       projectName: projectName,
       taskName: taskName,
-      username: username
+      username: username,
     });
   }
 }

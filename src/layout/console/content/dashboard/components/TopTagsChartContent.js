@@ -1,11 +1,11 @@
-import React, {Component} from "react";
-import {ChartClient} from "../../../../../clients/ChartClient";
-import {DimensionController} from "../../../../../controllers/DimensionController";
+import React, { Component } from "react";
+import { ChartClient } from "../../../../../clients/ChartClient";
+import { DimensionController } from "../../../../../controllers/DimensionController";
 import DashboardPanel from "../../../sidebar/dashboard/DashboardPanel";
 import TagMetricTable from "./tags/TagMetricTable";
 import WtfMetricTable from "./tags/WtfMetricTable";
 import TagBubbleChart from "./tags/TagBubbleChart";
-import {RendererControllerFactory} from "../../../../../controllers/RendererControllerFactory";
+import { RendererControllerFactory } from "../../../../../controllers/RendererControllerFactory";
 import UtilRenderer from "../../../../../UtilRenderer";
 
 /**
@@ -24,27 +24,41 @@ export default class TopTagsChartContent extends Component {
       tagsTableDto: null,
       wtfsTableDto: null,
       selectedRowId: null,
-      hoverRowId: null
-    }
+      hoverRowId: null,
+    };
   }
 
   componentDidMount() {
-    this.loadTagsData(this.props.targetType, this.props.target, this.props.timeScope);
+    this.loadTagsData(
+      this.props.targetType,
+      this.props.target,
+      this.props.timeScope
+    );
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.targetType !== this.props.targetType || prevProps.target !== this.props.target
-      || prevProps.timeScope !== this.props.timeScope) {
-      this.loadTagsData(this.props.targetType, this.props.target, this.props.timeScope);
+    if (
+      prevProps.targetType !== this.props.targetType ||
+      prevProps.target !== this.props.target ||
+      prevProps.timeScope !== this.props.timeScope
+    ) {
+      this.loadTagsData(
+        this.props.targetType,
+        this.props.target,
+        this.props.timeScope
+      );
     }
   }
 
-
   drillDownToWtfsView = (tag) => {
     console.log("drillDownToWtfsView");
-    this.loadWtfsData(this.props.targetType, this.props.target, this.props.timeScope, tag);
-
-  }
+    this.loadWtfsData(
+      this.props.targetType,
+      this.props.target,
+      this.props.timeScope,
+      tag
+    );
+  };
 
   zoomOutToTagsView = () => {
     console.log("zoomOutToTagsView");
@@ -52,9 +66,9 @@ export default class TopTagsChartContent extends Component {
       drillDownTag: null,
       wtfsTableDto: null,
       selectedRowId: null,
-      hoverRowId: null
+      hoverRowId: null,
     });
-  }
+  };
 
   /**
    * Load tags data using the passed in parameters
@@ -65,7 +79,10 @@ export default class TopTagsChartContent extends Component {
   loadTagsData(targetType, target, timeScope) {
     if (targetType === DashboardPanel.TargetType.TEAM) {
       this.loadTagsDataForTeam(target, timeScope);
-    } else if (targetType === DashboardPanel.TargetType.USER && target !== DashboardPanel.Target.ME) {
+    } else if (
+      targetType === DashboardPanel.TargetType.USER &&
+      target !== DashboardPanel.Target.ME
+    ) {
       this.loadTagsDataForUser(target, timeScope);
     } else {
       this.loadTagsDataForMe(timeScope);
@@ -77,13 +94,9 @@ export default class TopTagsChartContent extends Component {
    * @param timeScope
    */
   loadTagsDataForMe(timeScope) {
-    ChartClient.chartTopTags(
-      timeScope,
-      this,
-      (arg) => {
-        this.handleTagsDataResponse(arg);
-      }
-    );
+    ChartClient.chartTopTags(timeScope, this, (arg) => {
+      this.handleTagsDataResponse(arg);
+    });
   }
 
   /**
@@ -101,7 +114,6 @@ export default class TopTagsChartContent extends Component {
       }
     );
   }
-
 
   /**
    * Load tags data for a specific team
@@ -129,7 +141,10 @@ export default class TopTagsChartContent extends Component {
   loadWtfsData(targetType, target, timeScope, tagName) {
     if (targetType === DashboardPanel.TargetType.TEAM) {
       this.loadWtfsDataForTeam(tagName, target, timeScope);
-    } else if (targetType === DashboardPanel.TargetType.USER && target !== DashboardPanel.Target.ME) {
+    } else if (
+      targetType === DashboardPanel.TargetType.USER &&
+      target !== DashboardPanel.Target.ME
+    ) {
       this.loadWtfsDataForUser(tagName, target, timeScope);
     } else {
       this.loadWtfsDataForMe(tagName, timeScope);
@@ -188,7 +203,6 @@ export default class TopTagsChartContent extends Component {
     );
   }
 
-
   /**
    * Handle the tags data response and set the state
    * @param response
@@ -201,11 +215,14 @@ export default class TopTagsChartContent extends Component {
         drillDownTag: null,
         wtfsTableDto: null,
         error: null,
-        errorContext: null
+        errorContext: null,
       });
     } else {
       console.error(response.error);
-      this.setState({errorContext: "Tags data load failed", error: response.error});
+      this.setState({
+        errorContext: "Tags data load failed",
+        error: response.error,
+      });
     }
   }
 
@@ -221,11 +238,14 @@ export default class TopTagsChartContent extends Component {
         wtfsTableDto: response.data,
         drillDownTag: tag,
         error: null,
-        errorContext: null
+        errorContext: null,
       });
     } else {
       console.error(response.error);
-      this.setState({errorContext: "Circuit data load failed", error: response.error});
+      this.setState({
+        errorContext: "Circuit data load failed",
+        error: response.error,
+      });
     }
   }
 
@@ -235,23 +255,23 @@ export default class TopTagsChartContent extends Component {
     }
 
     this.setState({
-      selectedRowId : rowId
+      selectedRowId: rowId,
     });
-  }
+  };
 
   onHoverMetricRow = (rowId) => {
     if (this.state.hoverRowId !== rowId) {
       this.setState({
-        hoverRowId : rowId
+        hoverRowId: rowId,
       });
     }
-  }
+  };
 
   onHoverCircle = (rowId) => {
     this.setState({
-      hoverRowId : rowId
+      hoverRowId: rowId,
     });
-  }
+  };
 
   onClickCircle = (rowId, tag, box) => {
     if (this.state.drillDownTag === null) {
@@ -260,15 +280,15 @@ export default class TopTagsChartContent extends Component {
       this.onClickOpenFlowMap(rowId);
       if (this.state.selectedRowId === rowId) {
         this.setState({
-          selectedRowId : null
+          selectedRowId: null,
         });
       } else {
         this.setState({
-          selectedRowId : rowId
+          selectedRowId: rowId,
         });
       }
     }
-  }
+  };
 
   onClickOpenFlowMap(rowId) {
     if (!rowId) {
@@ -286,7 +306,6 @@ export default class TopTagsChartContent extends Component {
     );
   }
 
-
   /**
    * renders the main dashboard content body of this console panel
    * @returns {*} - the JSX to be rendered in the window
@@ -295,68 +314,92 @@ export default class TopTagsChartContent extends Component {
     let tableContent = "";
 
     if (this.state.error) {
-      return UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
+      return UtilRenderer.getErrorPage(
+        this.state.errorContext,
+        this.state.error
+      );
     }
 
     if (!this.state.tagsTableDto) {
-      return (<div
-        id="component"
-        className="dashboardContent"
-        style={{
-          height: DimensionController.getHeightFor(
-            DimensionController.Components.FLOW_PANEL
-          ),
-        }}
-      >Loading...</div>);
+      return (
+        <div
+          id="component"
+          className="dashboardContent"
+          style={{
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.FLOW_PANEL
+            ),
+          }}
+        >
+          Loading...
+        </div>
+      );
     }
 
-    if (this.state.tagsTableDto && this.state.tagsTableDto.rowsOfPaddedCells.length === 0) {
-      return (<div
-        id="component"
-        className="dashboardContent"
-        style={{
-          height: DimensionController.getHeightFor(
-            DimensionController.Components.FLOW_PANEL
-          ),
-        }}
-      >No Data Available</div>);
+    if (
+      this.state.tagsTableDto &&
+      this.state.tagsTableDto.rowsOfPaddedCells.length === 0
+    ) {
+      return (
+        <div
+          id="component"
+          className="dashboardContent"
+          style={{
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.FLOW_PANEL
+            ),
+          }}
+        >
+          No Data Available
+        </div>
+      );
     }
 
     if (this.state.drillDownTag === null) {
-      tableContent =  <TagMetricTable tableDto={this.state.tagsTableDto}
-                                                 selectedRowId={this.state.selectedRowId}
-                                                 hoverRowId={this.state.hoverRowId}
-                                                 onHoverMetricRow={this.onHoverMetricRow}
-                                                 onClickMetricRow={this.onClickMetricRow}/>
+      tableContent = (
+        <TagMetricTable
+          tableDto={this.state.tagsTableDto}
+          selectedRowId={this.state.selectedRowId}
+          hoverRowId={this.state.hoverRowId}
+          onHoverMetricRow={this.onHoverMetricRow}
+          onClickMetricRow={this.onClickMetricRow}
+        />
+      );
     } else {
-      tableContent = <WtfMetricTable tableDto={this.state.wtfsTableDto}
-                                             selectedRowId={this.state.selectedRowId}
-                                             hoverRowId={this.state.hoverRowId}
-                                             onHoverMetricRow={this.onHoverMetricRow}
-                                             onClickMetricRow={this.onClickMetricRow}/>
+      tableContent = (
+        <WtfMetricTable
+          tableDto={this.state.wtfsTableDto}
+          selectedRowId={this.state.selectedRowId}
+          hoverRowId={this.state.hoverRowId}
+          onHoverMetricRow={this.onHoverMetricRow}
+          onClickMetricRow={this.onClickMetricRow}
+        />
+      );
     }
 
-    return (<div
-      id="component"
-      className="dashboardContent"
-      style={{
-        height: DimensionController.getHeightFor(
-          DimensionController.Components.FLOW_PANEL
-        ),
-      }}
-    >
-      <TagBubbleChart tagsTableDto={this.state.tagsTableDto}
-                              wtfsTableDto={this.state.wtfsTableDto}
-                              fileTableDto={this.state.fileTableDto}
-                              drillDownTag={this.state.drillDownTag}
-                              selectedRowId={this.state.selectedRowId}
-                              hoverRowId={this.state.hoverRowId}
-                              onHoverCircle={this.onHoverCircle}
-                              onClickCircle={this.onClickCircle}
-                              zoomOutToTagsView={this.zoomOutToTagsView}
-      />
-      {tableContent}
-    </div>);
-
+    return (
+      <div
+        id="component"
+        className="dashboardContent"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.FLOW_PANEL
+          ),
+        }}
+      >
+        <TagBubbleChart
+          tagsTableDto={this.state.tagsTableDto}
+          wtfsTableDto={this.state.wtfsTableDto}
+          fileTableDto={this.state.fileTableDto}
+          drillDownTag={this.state.drillDownTag}
+          selectedRowId={this.state.selectedRowId}
+          hoverRowId={this.state.hoverRowId}
+          onHoverCircle={this.onHoverCircle}
+          onClickCircle={this.onClickCircle}
+          zoomOutToTagsView={this.zoomOutToTagsView}
+        />
+        {tableContent}
+      </div>
+    );
   }
 }

@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Grid } from "semantic-ui-react";
 
 /**
  * this component is the tag metrics table header
@@ -15,8 +15,7 @@ export default class TagMetricHeader extends Component {
     this.state = {};
   }
 
-
-/**
+  /**
    * renders our headers
    * @returns {*}
    */
@@ -27,13 +26,16 @@ export default class TagMetricHeader extends Component {
           <div className="chunkTitle">Tag</div>
         </Grid.Column>
         <Grid.Column width={4}>
-          <div className="chunkTitle metricRight">Confusion (hh:mm)</div>
+          <div className="chunkTitle metricRight">
+            Confusion (hh:mm)
+          </div>
         </Grid.Column>
         <Grid.Column width={4}>
-          <div className="chunkTitle metricRight">Occurrences</div>
+          <div className="chunkTitle metricRight">
+            Occurrences
+          </div>
         </Grid.Column>
       </Grid.Row>
     );
   }
 }
-

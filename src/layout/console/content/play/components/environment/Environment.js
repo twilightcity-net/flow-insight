@@ -2,7 +2,6 @@
  * Parent class for base environment behaviors
  */
 
-
 export default class Environment {
   constructor(animationLoader, width, height) {
     this.animationLoader = animationLoader;
@@ -41,24 +40,46 @@ export default class Environment {
     return this.getLeftSpawnProperties();
   }
 
-  getLeftSpawnProperties() { return {x: this.width/2, y: this.height/2, scale: 1}; }
+  getLeftSpawnProperties() {
+    return {
+      x: this.width / 2,
+      y: this.height / 2,
+      scale: 1,
+    };
+  }
 
-  getRightSpawnProperties() { return {x: this.width/2, y: this.height/2, scale: 1}; }
+  getRightSpawnProperties() {
+    return {
+      x: this.width / 2,
+      y: this.height / 2,
+      scale: 1,
+    };
+  }
 
-  getNorthSpawnProperties()  { return {x: this.width/2, y: this.height/2, scale: 1}; }
+  getNorthSpawnProperties() {
+    return {
+      x: this.width / 2,
+      y: this.height / 2,
+      scale: 1,
+    };
+  }
 
-  getSouthSpawnProperties()  { return {x: this.width/2, y: this.height/2, scale: 1}; }
+  getSouthSpawnProperties() {
+    return {
+      x: this.width / 2,
+      y: this.height / 2,
+      scale: 1,
+    };
+  }
 
   /**
    * Update the environment according to where fervie has moved
    */
   update(p5) {
-
     this.animationFrame++;
 
     if (this.animationFrame > 24) {
       this.animationFrame = 1;
     }
   }
-
 }

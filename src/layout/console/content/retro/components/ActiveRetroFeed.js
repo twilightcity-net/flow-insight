@@ -92,7 +92,9 @@ export default class ActiveRetroFeed extends Component {
       CircuitClient.joinWtf(circuitName, this, (arg) => {
         if (arg.error) {
           console.error(arg.error);
-          this.props.reportRetroFeedError("Unable to join circuit, "+arg.error);
+          this.props.reportRetroFeedError(
+            "Unable to join circuit, " + arg.error
+          );
         }
         console.log("retro circuit joined");
       });
@@ -105,7 +107,9 @@ export default class ActiveRetroFeed extends Component {
       (arg) => {
         if (arg.error) {
           console.error(arg.error);
-          this.props.reportFeedError("Unable to publish message.  Please try again later.");
+          this.props.reportFeedError(
+            "Unable to publish message.  Please try again later."
+          );
         }
         if (callback) {
           callback(arg);
@@ -241,7 +245,6 @@ export default class ActiveRetroFeed extends Component {
             name={message.name}
             time={message.time}
             texts={message.text}
-
           />
         );
       }

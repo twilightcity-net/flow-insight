@@ -85,7 +85,9 @@ export default class ActiveCircuitFeed extends Component {
       (arg) => {
         if (arg.error) {
           console.error(arg.error);
-          this.props.reportFeedError("Unable to publish message.  Please try again later.");
+          this.props.reportFeedError(
+            "Unable to publish message.  Please try again later."
+          );
         }
         if (callback) {
           callback(arg);

@@ -50,27 +50,37 @@ export class ChartClient extends BaseClient {
       CHART_TOP_TASKS: "chart-top-tasks",
       CHART_TOP_TASKS_FOR_TEAM: "chart-top-tasks-for-team",
       CHART_TOP_TASKS_FOR_USER: "chart-top-tasks-for-user",
-      CHART_TOP_MODULES_FOR_TEAM: "chart-top-modules-for-team",
-      CHART_TOP_MODULES_FOR_USER: "chart-top-modules-for-user",
+      CHART_TOP_MODULES_FOR_TEAM:
+        "chart-top-modules-for-team",
+      CHART_TOP_MODULES_FOR_USER:
+        "chart-top-modules-for-user",
       CHART_TOP_FILES_FOR_BOX: "chart-top-files-for-box",
-      CHART_TOP_FILES_FOR_BOX_FOR_TEAM: "chart-top-files-for-box-for-team",
-      CHART_TOP_FILES_FOR_BOX_FOR_USER: "chart-top-files-for-box-for-user",
-      CHART_TOP_BOXES_FOR_MODULE: "chart-top-boxes-for-module",
-      CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM: "chart-top-boxes-for-module-for-team",
-      CHART_TOP_BOXES_FOR_MODULE_FOR_USER: "chart-top-boxes-for-module-for-user",
+      CHART_TOP_FILES_FOR_BOX_FOR_TEAM:
+        "chart-top-files-for-box-for-team",
+      CHART_TOP_FILES_FOR_BOX_FOR_USER:
+        "chart-top-files-for-box-for-user",
+      CHART_TOP_BOXES_FOR_MODULE:
+        "chart-top-boxes-for-module",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM:
+        "chart-top-boxes-for-module-for-team",
+      CHART_TOP_BOXES_FOR_MODULE_FOR_USER:
+        "chart-top-boxes-for-module-for-user",
       CHART_FAMILIARITY: "chart-familiarity",
-      CHART_FAMILIARITY_FOR_USER: "chart-familiarity-for-user",
-      CHART_FAMILIARITY_FOR_TEAM: "chart-familiarity-for-team",
+      CHART_FAMILIARITY_FOR_USER:
+        "chart-familiarity-for-user",
+      CHART_FAMILIARITY_FOR_TEAM:
+        "chart-familiarity-for-team",
       CHART_TOP_TAGS: "chart-top-tags",
       CHART_TOP_TAGS_FOR_USER: "chart-top-tags-for-user",
       CHART_TOP_TAGS_FOR_TEAM: "chart-top-tags-for-team",
       CHART_TOP_WTFS_WITH_TAG: "chart-top-wtfs-with-tag",
-      CHART_TOP_WTFS_WITH_TAG_FOR_USER: "chart-top-wtfs-with-tag-for-user",
-      CHART_TOP_WTFS_WITH_TAG_FOR_TEAM: "chart-top-wtfs-with-tag-for-team",
+      CHART_TOP_WTFS_WITH_TAG_FOR_USER:
+        "chart-top-wtfs-with-tag-for-user",
+      CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:
+        "chart-top-wtfs-with-tag-for-team",
       CHART_FRICTION: "chart-friction",
       CHART_FRICTION_FOR_USER: "chart-friction-for-user",
       CHART_FRICTION_FOR_TEAM: "chart-friction-for-team",
-
     };
   }
 
@@ -116,8 +126,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
-
   /**
    * Chart friction for a specific project/task at a specific bucket resolution,
    * for a specific user.  Will default to twenties if no bucket is provided
@@ -153,7 +161,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
   /**
    * Chart daily friction with a relatively short time range, ultimately the bucket size
    * will need to be negotiated on the server.
@@ -163,12 +170,7 @@ export class ChartClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static chartFriction(
-    timeScope,
-    bucket,
-    scope,
-    callback
-  ) {
+  static chartFriction(timeScope, bucket, scope, callback) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_FRICTION,
       {
@@ -182,8 +184,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
-
 
   /**
    * Chart daily friction with a relatively short time range, ultimately the bucket size
@@ -217,8 +217,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
-
   /**
    * Chart daily friction with a relatively short time range, ultimately the bucket size
    * will need to be negotiated on the server.
@@ -251,7 +249,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
   /**
    * Chart familiarity in a particular time period (for default user me)
    * @param timeScope
@@ -259,11 +256,7 @@ export class ChartClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static chartFamiliarity(
-    timeScope,
-    scope,
-    callback
-  ) {
+  static chartFamiliarity(timeScope, scope, callback) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_FAMILIARITY,
       {
@@ -276,7 +269,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
 
   /**
    * Chart familiarity in a particular time period for a specific user
@@ -305,7 +297,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
 
   /**
    * Chart familiarity in a particular time period for a specific team
@@ -342,11 +333,7 @@ export class ChartClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static chartTopBoxes(
-    timeScope,
-    scope,
-    callback
-  ) {
+  static chartTopBoxes(timeScope, scope, callback) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_TOP_BOXES,
       {
@@ -360,7 +347,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
   /**
    * Chart top tasks in a particular time period
    * @param timeScope
@@ -368,11 +354,7 @@ export class ChartClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static chartTopTasks(
-    timeScope,
-    scope,
-    callback
-  ) {
+  static chartTopTasks(timeScope, scope, callback) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_TOP_TASKS,
       {
@@ -385,7 +367,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
 
   /**
    * Chart top tasks in a particular time period for a specific user
@@ -443,8 +424,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
-
   /**
    * Chart top tags in a particular time period
    * @param timeScope
@@ -452,11 +431,7 @@ export class ChartClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static chartTopTags(
-    timeScope,
-    scope,
-    callback
-  ) {
+  static chartTopTags(timeScope, scope, callback) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_TOP_TAGS,
       {
@@ -469,7 +444,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
 
   /**
    * Chart top tags in a particular time period for a specific user
@@ -499,7 +473,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
   /**
    * Chart top tags in a particular time period for a specific team
    * @param teamName
@@ -528,7 +501,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
   /**
    * Chart top wtfs with a specific tag in a particular time period
    * @param tagName
@@ -556,8 +528,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
-
 
   /**
    * Chart top wtfs with a specific tag in a particular time period for a specific user
@@ -590,8 +560,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
-
   /**
    * Chart top wtfs with a specific tag in a particular time period for a specific team
    * @param teamName
@@ -623,8 +591,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
-
   /**
    * Chart top modules in a particular time period
    * @param timeScope
@@ -632,11 +598,7 @@ export class ChartClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static chartTopModules(
-    timeScope,
-    scope,
-    callback
-  ) {
+  static chartTopModules(timeScope, scope, callback) {
     let event = ChartClient.instance.createClientEvent(
       ChartClient.Events.CHART_TOP_MODULES,
       {
@@ -649,7 +611,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
 
   /**
    * Chart top modules in a particular time period for a specific user
@@ -679,7 +640,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
   /**
    * Chart top modules in a particular time period for the team
    * @param teamName
@@ -707,8 +667,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
-
 
   /**
    * Chart top boxes in a particular time period for a specific user
@@ -738,8 +696,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
-
   /**
    * Chart top boxes in a particular time period for the team
    * @param teamName
@@ -767,8 +723,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
-
 
   /**
    * Chart top boxes in a particular time period for a module
@@ -798,7 +752,6 @@ export class ChartClient extends BaseClient {
     return event;
   }
 
-
   /**
    * Chart top boxes in a particular time period for a module for a specific user
    * @param moduleName
@@ -816,11 +769,12 @@ export class ChartClient extends BaseClient {
     callback
   ) {
     let event = ChartClient.instance.createClientEvent(
-      ChartClient.Events.CHART_TOP_BOXES_FOR_MODULE_FOR_USER,
+      ChartClient.Events
+        .CHART_TOP_BOXES_FOR_MODULE_FOR_USER,
       {
         timeScope: timeScope,
         moduleName: moduleName,
-        username: username
+        username: username,
       },
       scope,
       callback
@@ -829,7 +783,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
 
   /**
    * Chart top boxes in a particular time period for a module for a specific user
@@ -848,11 +801,12 @@ export class ChartClient extends BaseClient {
     callback
   ) {
     let event = ChartClient.instance.createClientEvent(
-      ChartClient.Events.CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM,
+      ChartClient.Events
+        .CHART_TOP_BOXES_FOR_MODULE_FOR_TEAM,
       {
         timeScope: timeScope,
         moduleName: moduleName,
-        teamName: teamName
+        teamName: teamName,
       },
       scope,
       callback
@@ -883,7 +837,7 @@ export class ChartClient extends BaseClient {
       {
         timeScope: timeScope,
         project: project,
-        box: box
+        box: box,
       },
       scope,
       callback
@@ -892,7 +846,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
 
   /**
    * Chart top files in a particular time period for a box for a team
@@ -918,7 +871,7 @@ export class ChartClient extends BaseClient {
         teamName: teamName,
         timeScope: timeScope,
         project: project,
-        box: box
+        box: box,
       },
       scope,
       callback
@@ -927,8 +880,6 @@ export class ChartClient extends BaseClient {
     ChartClient.instance.notifyChart(event);
     return event;
   }
-
-
 
   /**
    * Chart top files in a particular time period for a box for a team
@@ -954,7 +905,7 @@ export class ChartClient extends BaseClient {
         username: username,
         timeScope: timeScope,
         project: project,
-        box: box
+        box: box,
       },
       scope,
       callback

@@ -16,7 +16,7 @@ export default class AnimationId {
       FervieGlow: "FervieGlow",
       ShroomHouse: "ShroomHouse",
       LadyFervie: "LadyFervie",
-      MoovieFervie: "MoovieFervie"
+      MoovieFervie: "MoovieFervie",
     };
   }
 

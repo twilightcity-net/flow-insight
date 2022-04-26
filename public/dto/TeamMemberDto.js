@@ -25,7 +25,6 @@ module.exports = class TeamMemberDto {
       this.fervieAccessory = json.fervieAccessory;
 
       this.pairingNetwork = json.pairingNetwork;
-      
     } catch (e) {
       throw new Error(
         "Unable to create dto 'TeamMemberDto' : " +

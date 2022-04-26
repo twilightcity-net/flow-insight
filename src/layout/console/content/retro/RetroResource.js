@@ -1,10 +1,10 @@
-import React, {Component} from "react";
-import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import React, { Component } from "react";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import UtilRenderer from "../../../../UtilRenderer";
-import {BaseClient} from "../../../../clients/BaseClient";
-import {RendererEventFactory} from "../../../../events/RendererEventFactory";
-import {ResourceCircuitController} from "../../../../controllers/ResourceCircuitController";
-import {CircuitClient} from "../../../../clients/CircuitClient";
+import { BaseClient } from "../../../../clients/BaseClient";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
+import { ResourceCircuitController } from "../../../../controllers/ResourceCircuitController";
+import { CircuitClient } from "../../../../clients/CircuitClient";
 import ActiveRetro from "./components/ActiveRetro";
 
 /**
@@ -45,7 +45,8 @@ export default class RetroResource extends Component {
 
     this.circuitJoinRoomFailListener =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL,
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL,
         this,
         this.handleJoinError
       );
@@ -159,12 +160,15 @@ export default class RetroResource extends Component {
       this,
       (arg) => {
         if (arg.error) {
-          this.handleError("Failed to load circuit", arg.error);
+          this.handleError(
+            "Failed to load circuit",
+            arg.error
+          );
         } else {
           this.circuit = arg.data;
           this.setState({
-            circuit: this.circuit
-          })
+            circuit: this.circuit,
+          });
           if (this.circuit.retroTalkRoomId) {
             this.resourcesController.joinExistingRoomWithRoomId(
               this.circuit.retroTalkRoomId
@@ -215,11 +219,19 @@ export default class RetroResource extends Component {
 
     if (this.state.circuit) {
       console.log("has circuit (retro resource)");
-      panel = <ActiveRetro circuit={this.state.circuit} handleError={this.handleError}/>;
+      panel = (
+        <ActiveRetro
+          circuit={this.state.circuit}
+          handleError={this.handleError}
+        />
+      );
     }
 
     if (this.state.error) {
-      panel = UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
+      panel = UtilRenderer.getErrorPage(
+        this.state.errorContext,
+        this.state.error
+      );
     }
 
     return (

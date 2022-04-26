@@ -1,14 +1,12 @@
-import React, {Component} from "react";
-import {List, Popup,} from "semantic-ui-react";
+import React, { Component } from "react";
+import { List, Popup } from "semantic-ui-react";
 
 export default class RiskAreaListItem extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-    };
+    this.state = {};
   }
-
 
   handleClick = () => {
     this.props.onItemClick(this.props.id);
@@ -45,12 +43,8 @@ export default class RiskAreaListItem extends Component {
         onClick={this.handleClick}
       >
         <List.Content>
-          <List.Header>
-            {this.props.title}
-          </List.Header>
-          <i className="name">
-            {this.props.description}
-          </i>
+          <List.Header>{this.props.title}</List.Header>
+          <i className="name">{this.props.description}</i>
         </List.Content>
       </List.Item>
     );

@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Grid } from "semantic-ui-react";
 
 /**
  * this component is the metrics table header for friction-y boxes
@@ -18,8 +18,7 @@ export default class TaskMetricHeader extends Component {
   static WEEKS = "WEEKS";
   static DAYS = "DAYS";
 
-
-/**
+  /**
    * renders our headers
    * @returns {*}
    */
@@ -27,12 +26,14 @@ export default class TaskMetricHeader extends Component {
     let userColumn = "";
     let taskColumnSize = 9;
 
-    console.log("targetType ==="+this.props.targetType);
+    console.log("targetType ===" + this.props.targetType);
 
     if (this.props.targetType === "team") {
-      userColumn = (<Grid.Column width={2}>
-        <div className="chunkTitle">User</div>
-      </Grid.Column>);
+      userColumn = (
+        <Grid.Column width={2}>
+          <div className="chunkTitle">User</div>
+        </Grid.Column>
+      );
       taskColumnSize = 7;
     }
 
@@ -43,10 +44,14 @@ export default class TaskMetricHeader extends Component {
           <div className="chunkTitle">Task</div>
         </Grid.Column>
         <Grid.Column width={2}>
-          <div className="chunkTitle metricRight">Hours</div>
+          <div className="chunkTitle metricRight">
+            Hours
+          </div>
         </Grid.Column>
         <Grid.Column width={3}>
-          <div className="chunkTitle metricRight">Confusion</div>
+          <div className="chunkTitle metricRight">
+            Confusion
+          </div>
         </Grid.Column>
         <Grid.Column width={2}>
           <div className="chunkTitle metricRight">Flow</div>

@@ -1,11 +1,15 @@
-import React, {Component} from "react";
-import {Button, Grid, Icon, Segment,} from "semantic-ui-react";
+import React, { Component } from "react";
+import {
+  Button,
+  Grid,
+  Icon,
+  Segment,
+} from "semantic-ui-react";
 
 /**
  * this component is the journal link panel for linking/unlinking to other member's journals
  */
 export default class JournalLinkPanel extends Component {
-
   /**
    * builds our journal link panel shown when view other member's journals
    * @param props
@@ -17,15 +21,15 @@ export default class JournalLinkPanel extends Component {
 
   onClickStartPairing = () => {
     this.props.onClickStartPairing();
-  }
+  };
 
   onClickStopPairing = () => {
     this.props.onClickStopPairing();
-  }
+  };
 
   onClickCancel = () => {
     this.props.onClickCancelLink();
-  }
+  };
 
   getLinkButton() {
     let pairingIncludesMe = this.pairingIncludesMe();
@@ -33,44 +37,67 @@ export default class JournalLinkPanel extends Component {
     let isMemberLinked = this.isMemberLinked();
 
     if (isMemberLinked && pairingIncludesMe) {
-      return (<Button icon className="linkButton"
-                      onClick={this.onClickStopPairing}
-                      size="medium"
-                      color="red"
-      >
-        Stop Pairing&nbsp;
-        <Icon name='broken chain'/>
-      </Button>);
-    } else if (!isMemberLinked || (isMemberLinked && !pairingIncludesMe && !iAmLinked)) {
-      return (<Button icon className="linkButton"
-                      onClick={this.onClickStartPairing}
-                      size="medium"
-                      color="grey"
-      >
-        Pair&nbsp;
-        <Icon name='chain'/>
-      </Button>);
-    } else if (isMemberLinked && !pairingIncludesMe && iAmLinked) {
-        return (<Button icon className="linkButton"
-                        onClick={this.onClickStartPairing}
-                        size="medium"
-                        color="grey"
-                        disabled
+      return (
+        <Button
+          icon
+          className="linkButton"
+          onClick={this.onClickStopPairing}
+          size="medium"
+          color="red"
+        >
+          Stop Pairing&nbsp;
+          <Icon name="broken chain" />
+        </Button>
+      );
+    } else if (
+      !isMemberLinked ||
+      (isMemberLinked && !pairingIncludesMe && !iAmLinked)
+    ) {
+      return (
+        <Button
+          icon
+          className="linkButton"
+          onClick={this.onClickStartPairing}
+          size="medium"
+          color="grey"
         >
           Pair&nbsp;
-          <Icon name='chain'/>
-        </Button>);
-      } else if (this.props.isLinking) {
-      return (<Button icon className="linkButton"
-                      onClick={this.onClickCancel}
-                      size="medium"
-                      color="grey"
-      >
-        Cancel&nbsp;
-        <Icon name='broken chain'/>
-      </Button>);
+          <Icon name="chain" />
+        </Button>
+      );
+    } else if (
+      isMemberLinked &&
+      !pairingIncludesMe &&
+      iAmLinked
+    ) {
+      return (
+        <Button
+          icon
+          className="linkButton"
+          onClick={this.onClickStartPairing}
+          size="medium"
+          color="grey"
+          disabled
+        >
+          Pair&nbsp;
+          <Icon name="chain" />
+        </Button>
+      );
+    } else if (this.props.isLinking) {
+      return (
+        <Button
+          icon
+          className="linkButton"
+          onClick={this.onClickCancel}
+          size="medium"
+          color="grey"
+        >
+          Cancel&nbsp;
+          <Icon name="broken chain" />
+        </Button>
+      );
     } else {
-        return "";
+      return "";
     }
   }
 
@@ -78,35 +105,58 @@ export default class JournalLinkPanel extends Component {
     let isMemberLinked = this.isMemberLinked();
 
     if (isMemberLinked && this.pairingIncludesMe()) {
-      return (<div className="linkMessage">
-        You are pairing with {this.getPairingUsersStringExcludingOwner(this.props.me.username)}
-      </div>);
+      return (
+        <div className="linkMessage">
+          You are pairing with{" "}
+          {this.getPairingUsersStringExcludingOwner(
+            this.props.me.username
+          )}
+        </div>
+      );
     } else if (isMemberLinked) {
-      return (<div className="linkMessage">
-        {this.props.username} is pairing with {this.getPairingUsersStringExcludingOwner(this.props.username)}
-      </div>);
+      return (
+        <div className="linkMessage">
+          {this.props.username} is pairing with{" "}
+          {this.getPairingUsersStringExcludingOwner(
+            this.props.username
+          )}
+        </div>
+      );
     } else if (this.props.isLinking) {
-      return (<div className="linkMessage">
-        Waiting for confirmation...
-      </div>);
+      return (
+        <div className="linkMessage">
+          Waiting for confirmation...
+        </div>
+      );
     } else if (this.props.error) {
-      return (<div className="linkMessage linkError">
-        {this.props.username} is unavailable.  Please try again later.
-      </div>);
+      return (
+        <div className="linkMessage linkError">
+          {this.props.username} is unavailable. Please try
+          again later.
+        </div>
+      );
     }
   }
 
   amILinked() {
-    return !!(this.props.me && this.props.me.pairingNetwork);
+    return !!(
+      this.props.me && this.props.me.pairingNetwork
+    );
   }
 
   isMemberLinked() {
-    return !!(this.props.member && this.props.member.pairingNetwork);
+    return !!(
+      this.props.member && this.props.member.pairingNetwork
+    );
   }
 
   pairingIncludesMe() {
-    if (this.props.member && this.props.member.pairingNetwork) {
-      let links = this.props.member.pairingNetwork.sparkLinks;
+    if (
+      this.props.member &&
+      this.props.member.pairingNetwork
+    ) {
+      let links =
+        this.props.member.pairingNetwork.sparkLinks;
       for (let i = 0; i < links.length; i++) {
         let username = links[i].name;
 
@@ -120,8 +170,12 @@ export default class JournalLinkPanel extends Component {
 
   getPairingUsersStringExcludingOwner(username) {
     let usernameStr = "";
-    if (this.props.member && this.props.member.pairingNetwork) {
-      let usernamesNotMe = this.getPairingUsersExcludingOwner(username);
+    if (
+      this.props.member &&
+      this.props.member.pairingNetwork
+    ) {
+      let usernamesNotMe =
+        this.getPairingUsersExcludingOwner(username);
 
       for (let i = 0; i < usernamesNotMe.length; i++) {
         let username = usernamesNotMe[i];
@@ -139,8 +193,12 @@ export default class JournalLinkPanel extends Component {
 
   getPairingUsersExcludingOwner(ownerUsername) {
     let usernames = [];
-    if (this.props.member && this.props.member.pairingNetwork) {
-      let links = this.props.member.pairingNetwork.sparkLinks;
+    if (
+      this.props.member &&
+      this.props.member.pairingNetwork
+    ) {
+      let links =
+        this.props.member.pairingNetwork.sparkLinks;
       for (let i = 0; i < links.length; i++) {
         let username = links[i].name;
 
@@ -165,9 +223,8 @@ export default class JournalLinkPanel extends Component {
           <Segment inverted>
             <Grid columns="equal" divided inverted>
               <Grid.Row stretched>
-                <Grid.Column
-                  width={14}
-                >{linkMessage}
+                <Grid.Column width={14}>
+                  {linkMessage}
                 </Grid.Column>
                 <Grid.Column width={2}>
                   {linkButton}

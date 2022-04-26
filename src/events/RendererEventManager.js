@@ -172,7 +172,10 @@ export class RendererEventManager {
       let deserializedArg = JSON.parse(_arg);
       event.replyReturnValue = null;
       try {
-        event.replyReturnValue = event.reply(_event, deserializedArg);
+        event.replyReturnValue = event.reply(
+          _event,
+          deserializedArg
+        );
       } catch (error) {
         event.replyReturnValue =
           RendererEventManager.createEventError(
@@ -226,11 +229,13 @@ export class RendererEventManager {
     if (!event.callback) return;
 
     let wrapperFunction = (_event, _arg) => {
-
       let deserializedArg = JSON.parse(_arg);
       event.returnValue = null;
       try {
-        event.returnValue = event.callback(_event, deserializedArg);
+        event.returnValue = event.callback(
+          _event,
+          deserializedArg
+        );
       } catch (error) {
         event.returnValue =
           RendererEventManager.createEventError(
@@ -283,7 +288,10 @@ export class RendererEventManager {
       } else if (noEcho) {
         ipcRenderer.send(event.type, jsonArg);
       } else {
-        let jsonEcho = JSON.stringify({type: event.type, arg: arg});
+        let jsonEcho = JSON.stringify({
+          type: event.type,
+          arg: arg,
+        });
 
         ipcRenderer.send("echo-event", jsonEcho);
       }

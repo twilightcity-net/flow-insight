@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Grid } from "semantic-ui-react";
 
 /**
  * this component is the wtfs for tag metrics table header
@@ -15,8 +15,7 @@ export default class WtfMetricHeader extends Component {
     this.state = {};
   }
 
-
-/**
+  /**
    * renders our headers
    * @returns {*}
    */
@@ -27,10 +26,14 @@ export default class WtfMetricHeader extends Component {
           <div className="chunkTitle">Task</div>
         </Grid.Column>
         <Grid.Column width={8}>
-          <div className="chunkTitle">Troubleshooting Session</div>
+          <div className="chunkTitle">
+            Troubleshooting Session
+          </div>
         </Grid.Column>
         <Grid.Column width={4}>
-          <div className="chunkTitle metricRight">Confusion (hh:mm)</div>
+          <div className="chunkTitle metricRight">
+            Confusion (hh:mm)
+          </div>
         </Grid.Column>
       </Grid.Row>
     );

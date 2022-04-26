@@ -1,6 +1,6 @@
-import React, {Component} from "react";
-import {ChartClient} from "../../../../../clients/ChartClient";
-import {DimensionController} from "../../../../../controllers/DimensionController";
+import React, { Component } from "react";
+import { ChartClient } from "../../../../../clients/ChartClient";
+import { DimensionController } from "../../../../../controllers/DimensionController";
 import FrictionBoxBubbleChart from "./codebase/FrictionBoxBubbleChart";
 import FrictionBoxMetricTable from "./codebase/FrictionBoxMetricTable";
 import FrictionFileMetricTable from "./codebase/FrictionFileMetricTable";
@@ -26,32 +26,52 @@ export default class CodebaseChartContent extends Component {
       boxTableDto: null,
       fileTableDto: null,
       selectedRowId: null,
-      hoverRowId: null
-    }
+      hoverRowId: null,
+    };
   }
 
   componentDidMount() {
-    this.loadModulesData(this.props.targetType, this.props.target, this.props.timeScope);
+    this.loadModulesData(
+      this.props.targetType,
+      this.props.target,
+      this.props.timeScope
+    );
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (prevProps.targetType !== this.props.targetType || prevProps.target !== this.props.target
-    || prevProps.timeScope !== this.props.timeScope) {
-      this.loadModulesData(this.props.targetType, this.props.target, this.props.timeScope);
+    if (
+      prevProps.targetType !== this.props.targetType ||
+      prevProps.target !== this.props.target ||
+      prevProps.timeScope !== this.props.timeScope
+    ) {
+      this.loadModulesData(
+        this.props.targetType,
+        this.props.target,
+        this.props.timeScope
+      );
     }
   }
 
   drillDownToFileView = (module, box) => {
     console.log("drillDownToFileView");
-    this.loadFileData(this.props.targetType, this.props.target, this.props.timeScope, module, box);
-
-  }
+    this.loadFileData(
+      this.props.targetType,
+      this.props.target,
+      this.props.timeScope,
+      module,
+      box
+    );
+  };
 
   drillDownToBoxView = (module) => {
     console.log("drillDownToBoxView");
-    this.loadBoxesData(this.props.targetType, this.props.target, this.props.timeScope, module);
-
-  }
+    this.loadBoxesData(
+      this.props.targetType,
+      this.props.target,
+      this.props.timeScope,
+      module
+    );
+  };
 
   zoomOutToModuleView = () => {
     console.log("zoomOutToBoxView");
@@ -61,9 +81,9 @@ export default class CodebaseChartContent extends Component {
       boxTableDto: null,
       fileTableDto: null,
       selectedRowId: null,
-      hoverRowId: null
+      hoverRowId: null,
     });
-  }
+  };
 
   zoomOutToBoxView = () => {
     console.log("zoomOutToBoxView");
@@ -71,10 +91,9 @@ export default class CodebaseChartContent extends Component {
       drillDownBox: null,
       fileTableDto: null,
       selectedRowId: null,
-      hoverRowId: null
+      hoverRowId: null,
     });
-  }
-
+  };
 
   /**
    * Load modules data using the passed in parameters
@@ -85,7 +104,10 @@ export default class CodebaseChartContent extends Component {
   loadModulesData(targetType, target, timeScope) {
     if (targetType === DashboardPanel.TargetType.TEAM) {
       this.loadModulesDataForTeam(target, timeScope);
-    } else if (targetType === DashboardPanel.TargetType.USER && target !== DashboardPanel.Target.ME) {
+    } else if (
+      targetType === DashboardPanel.TargetType.USER &&
+      target !== DashboardPanel.Target.ME
+    ) {
       this.loadModulesDataForUser(target, timeScope);
     } else {
       this.loadModulesDataForMe(timeScope);
@@ -97,13 +119,9 @@ export default class CodebaseChartContent extends Component {
    * @param timeScope
    */
   loadModulesDataForMe(timeScope) {
-    ChartClient.chartTopModules(
-      timeScope,
-      this,
-      (arg) => {
-        this.handleModuleDataResponse(arg);
-      }
-    );
+    ChartClient.chartTopModules(timeScope, this, (arg) => {
+      this.handleModuleDataResponse(arg);
+    });
   }
 
   /**
@@ -121,7 +139,6 @@ export default class CodebaseChartContent extends Component {
       }
     );
   }
-
 
   /**
    * Load module data for a specific team
@@ -149,7 +166,10 @@ export default class CodebaseChartContent extends Component {
   loadBoxesData(targetType, target, timeScope, module) {
     if (targetType === DashboardPanel.TargetType.TEAM) {
       this.loadBoxesDataForTeam(module, target, timeScope);
-    } else if (targetType === DashboardPanel.TargetType.USER && target !== DashboardPanel.Target.ME) {
+    } else if (
+      targetType === DashboardPanel.TargetType.USER &&
+      target !== DashboardPanel.Target.ME
+    ) {
       this.loadBoxesDataForUser(module, target, timeScope);
     } else {
       this.loadBoxesDataForMe(module, timeScope);
@@ -208,7 +228,6 @@ export default class CodebaseChartContent extends Component {
     );
   }
 
-
   /**
    * Load file detail data for a specific box, using the target parameters
    * for team or user specified in the resource
@@ -220,9 +239,22 @@ export default class CodebaseChartContent extends Component {
    */
   loadFileData(targetType, target, timeScope, module, box) {
     if (targetType === DashboardPanel.TargetType.TEAM) {
-      this.loadFileDataForTeam(target, timeScope, module, box);
-    } else if (targetType === DashboardPanel.TargetType.USER && target !== DashboardPanel.Target.ME) {
-      this.loadFileDataForUser(target, timeScope, module, box);
+      this.loadFileDataForTeam(
+        target,
+        timeScope,
+        module,
+        box
+      );
+    } else if (
+      targetType === DashboardPanel.TargetType.USER &&
+      target !== DashboardPanel.Target.ME
+    ) {
+      this.loadFileDataForUser(
+        target,
+        timeScope,
+        module,
+        box
+      );
     } else {
       this.loadFileDataForMe(timeScope, module, box);
     }
@@ -236,9 +268,16 @@ export default class CodebaseChartContent extends Component {
    * @param box
    */
   loadFileDataForTeam(teamName, timeScope, module, box) {
-    ChartClient.chartTopFilesForBoxForTeam(teamName, timeScope, module, box, this, (arg) => {
-      this.handleFileDataResponse(arg, module, box);
-    });
+    ChartClient.chartTopFilesForBoxForTeam(
+      teamName,
+      timeScope,
+      module,
+      box,
+      this,
+      (arg) => {
+        this.handleFileDataResponse(arg, module, box);
+      }
+    );
   }
 
   /**
@@ -249,9 +288,16 @@ export default class CodebaseChartContent extends Component {
    * @param box
    */
   loadFileDataForUser(username, timeScope, module, box) {
-    ChartClient.chartTopFilesForBoxForUser(username, timeScope, module, box, this, (arg) => {
-      this.handleFileDataResponse(arg, module, box);
-    });
+    ChartClient.chartTopFilesForBoxForUser(
+      username,
+      timeScope,
+      module,
+      box,
+      this,
+      (arg) => {
+        this.handleFileDataResponse(arg, module, box);
+      }
+    );
   }
 
   /**
@@ -261,11 +307,16 @@ export default class CodebaseChartContent extends Component {
    * @param box
    */
   loadFileDataForMe(timeScope, module, box) {
-    ChartClient.chartTopFilesForBox(timeScope, module, box, this, (arg) => {
-      this.handleFileDataResponse(arg, module, box);
-    });
+    ChartClient.chartTopFilesForBox(
+      timeScope,
+      module,
+      box,
+      this,
+      (arg) => {
+        this.handleFileDataResponse(arg, module, box);
+      }
+    );
   }
-
 
   /**
    * Handle the module data response and set the state
@@ -281,11 +332,14 @@ export default class CodebaseChartContent extends Component {
         drillDownBox: null,
         fileTableDto: null,
         error: null,
-        errorContext: null
+        errorContext: null,
       });
     } else {
       console.error(response.error);
-      this.setState({errorContext: "Module data load failed", error: response.error});
+      this.setState({
+        errorContext: "Module data load failed",
+        error: response.error,
+      });
     }
   }
 
@@ -303,11 +357,14 @@ export default class CodebaseChartContent extends Component {
         drillDownBox: null,
         fileTableDto: null,
         error: null,
-        errorContext: null
+        errorContext: null,
       });
     } else {
       console.error(response.error);
-      this.setState({errorContext: "Box data load failed", error: response.error});
+      this.setState({
+        errorContext: "Box data load failed",
+        error: response.error,
+      });
     }
   }
 
@@ -324,32 +381,34 @@ export default class CodebaseChartContent extends Component {
         fileTableDto: response.data,
         drillDownBox: box,
         error: null,
-        errorContext: null
+        errorContext: null,
       });
     } else {
       console.error(response.error);
-      this.setState({errorContext: "File data load failed", error: response.error});
+      this.setState({
+        errorContext: "File data load failed",
+        error: response.error,
+      });
     }
   }
 
-
   onClickMetricRow = (rowId) => {
     this.setState({
-      selectedRowId : rowId
+      selectedRowId: rowId,
     });
-  }
+  };
 
   onHoverMetricRow = (rowId) => {
     this.setState({
-      hoverRowId : rowId
+      hoverRowId: rowId,
     });
-  }
+  };
 
   onHoverCircle = (rowId) => {
     this.setState({
-      hoverRowId : rowId
+      hoverRowId: rowId,
     });
-  }
+  };
 
   onClickCircle = (rowId, module, box) => {
     if (this.state.drillDownModule === null) {
@@ -359,16 +418,15 @@ export default class CodebaseChartContent extends Component {
     } else {
       if (this.state.selectedRowId === rowId) {
         this.setState({
-          selectedRowId : null
+          selectedRowId: null,
         });
       } else {
         this.setState({
-          selectedRowId : rowId
+          selectedRowId: rowId,
         });
       }
     }
-  }
-
+  };
 
   /**
    * renders the main dashboard content body of this console panel
@@ -378,77 +436,105 @@ export default class CodebaseChartContent extends Component {
     let tableContent = "";
 
     if (this.state.error) {
-      return UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
+      return UtilRenderer.getErrorPage(
+        this.state.errorContext,
+        this.state.error
+      );
     }
 
     if (!this.state.moduleTableDto) {
-      return (<div
-        id="component"
-        className="dashboardContent"
-        style={{
-          height: DimensionController.getHeightFor(
-            DimensionController.Components.FLOW_PANEL
-          ),
-        }}
-      >Loading...</div>);
+      return (
+        <div
+          id="component"
+          className="dashboardContent"
+          style={{
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.FLOW_PANEL
+            ),
+          }}
+        >
+          Loading...
+        </div>
+      );
     }
 
-    if (this.state.moduleTableDto && this.state.moduleTableDto.rowsOfPaddedCells.length === 0) {
-      return (<div
-        id="component"
-        className="dashboardContent"
-        style={{
-          height: DimensionController.getHeightFor(
-            DimensionController.Components.FLOW_PANEL
-          ),
-        }}
-      >No Data Available</div>);
+    if (
+      this.state.moduleTableDto &&
+      this.state.moduleTableDto.rowsOfPaddedCells.length ===
+        0
+    ) {
+      return (
+        <div
+          id="component"
+          className="dashboardContent"
+          style={{
+            height: DimensionController.getHeightFor(
+              DimensionController.Components.FLOW_PANEL
+            ),
+          }}
+        >
+          No Data Available
+        </div>
+      );
     }
 
     if (this.state.drillDownModule === null) {
-      tableContent =  <FrictionModuleMetricTable tableDto={this.state.moduleTableDto}
-                                               selectedRowId={this.state.selectedRowId}
-                                               hoverRowId={this.state.hoverRowId}
-                                               onHoverMetricRow={this.onHoverMetricRow}
-                                               onClickMetricRow={this.onClickMetricRow}/>
+      tableContent = (
+        <FrictionModuleMetricTable
+          tableDto={this.state.moduleTableDto}
+          selectedRowId={this.state.selectedRowId}
+          hoverRowId={this.state.hoverRowId}
+          onHoverMetricRow={this.onHoverMetricRow}
+          onClickMetricRow={this.onClickMetricRow}
+        />
+      );
     } else if (this.state.drillDownBox) {
-      tableContent =  <FrictionFileMetricTable tableDto={this.state.fileTableDto}
-                                               selectedRowId={this.state.selectedRowId}
-                                               hoverRowId={this.state.hoverRowId}
-                                               onHoverMetricRow={this.onHoverMetricRow}
-                                               onClickMetricRow={this.onClickMetricRow}/>
-
+      tableContent = (
+        <FrictionFileMetricTable
+          tableDto={this.state.fileTableDto}
+          selectedRowId={this.state.selectedRowId}
+          hoverRowId={this.state.hoverRowId}
+          onHoverMetricRow={this.onHoverMetricRow}
+          onClickMetricRow={this.onClickMetricRow}
+        />
+      );
     } else {
-      tableContent = <FrictionBoxMetricTable tableDto={this.state.boxTableDto}
-                                             selectedRowId={this.state.selectedRowId}
-                                             hoverRowId={this.state.hoverRowId}
-                                             onHoverMetricRow={this.onHoverMetricRow}
-                                             onClickMetricRow={this.onClickMetricRow}/>
+      tableContent = (
+        <FrictionBoxMetricTable
+          tableDto={this.state.boxTableDto}
+          selectedRowId={this.state.selectedRowId}
+          hoverRowId={this.state.hoverRowId}
+          onHoverMetricRow={this.onHoverMetricRow}
+          onClickMetricRow={this.onClickMetricRow}
+        />
+      );
     }
 
-    return (<div
-      id="component"
-      className="dashboardContent"
-      style={{
-        height: DimensionController.getHeightFor(
-          DimensionController.Components.FLOW_PANEL
-        ),
-      }}
-    >
-      <FrictionBoxBubbleChart moduleTableDto={this.state.moduleTableDto}
-                              boxTableDto={this.state.boxTableDto}
-                              fileTableDto={this.state.fileTableDto}
-                              drilldownModule={this.state.drillDownModule}
-                              drilldownBox={this.state.drillDownBox}
-                              selectedRowId={this.state.selectedRowId}
-                              hoverRowId={this.state.hoverRowId}
-                              onHoverCircle={this.onHoverCircle}
-                              onClickCircle={this.onClickCircle}
-                              zoomOutToBoxView={this.zoomOutToBoxView}
-                              zoomOutToModuleView={this.zoomOutToModuleView}
-      />
-      {tableContent}
-    </div>);
-
+    return (
+      <div
+        id="component"
+        className="dashboardContent"
+        style={{
+          height: DimensionController.getHeightFor(
+            DimensionController.Components.FLOW_PANEL
+          ),
+        }}
+      >
+        <FrictionBoxBubbleChart
+          moduleTableDto={this.state.moduleTableDto}
+          boxTableDto={this.state.boxTableDto}
+          fileTableDto={this.state.fileTableDto}
+          drilldownModule={this.state.drillDownModule}
+          drilldownBox={this.state.drillDownBox}
+          selectedRowId={this.state.selectedRowId}
+          hoverRowId={this.state.hoverRowId}
+          onHoverCircle={this.onHoverCircle}
+          onClickCircle={this.onClickCircle}
+          zoomOutToBoxView={this.zoomOutToBoxView}
+          zoomOutToModuleView={this.zoomOutToModuleView}
+        />
+        {tableContent}
+      </div>
+    );
   }
 }

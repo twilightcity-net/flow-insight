@@ -28,7 +28,6 @@ module.exports = class CircuitController extends (
     this.isSolvedLoaded = false;
     this.isRetroLoaded = false;
     this.isActiveCircuitLoaded = false;
-
   }
 
   /**
@@ -214,14 +213,23 @@ module.exports = class CircuitController extends (
           break;
         case CircuitController.Events
           .GET_ALL_MY_RETRO_CIRCUITS:
-          this.handleGetAllMyRetroCircuitsEventWithFallback(event, arg);
+          this.handleGetAllMyRetroCircuitsEventWithFallback(
+            event,
+            arg
+          );
           break;
         case CircuitController.Events
           .GET_ALL_MY_SOLVED_CIRCUITS:
-          this.handleGetAllMySolvedCircuitsEventWithFallback(event, arg);
+          this.handleGetAllMySolvedCircuitsEventWithFallback(
+            event,
+            arg
+          );
           break;
         case CircuitController.Events.GET_ACTIVE_CIRCUIT:
-          this.handleGetActiveCircuitEventWithFallback(event, arg);
+          this.handleGetActiveCircuitEventWithFallback(
+            event,
+            arg
+          );
           break;
         case CircuitController.Events
           .GET_CIRCUIT_WITH_ALL_DETAILS:
@@ -526,7 +534,6 @@ module.exports = class CircuitController extends (
     );
   }
 
-
   /**
    * handles loading our do it later circuits into our local database.
    * @param event
@@ -600,8 +607,6 @@ module.exports = class CircuitController extends (
     );
   }
 
-
-
   /**
    * handles loading our retro circuits into our local database
    * @param event
@@ -633,8 +638,6 @@ module.exports = class CircuitController extends (
         )
     );
   }
-
-
 
   /**
    * handles loading our retro circuits into our local database
@@ -769,7 +772,6 @@ module.exports = class CircuitController extends (
         )
     );
   }
-
 
   /**
    * handles our dto callback from our rest client
@@ -974,13 +976,18 @@ module.exports = class CircuitController extends (
    * @param arg
    * @param callback
    */
-  handleGetAllMyParticipatingCircuitsEventWithFallback(event, arg, callback) {
+  handleGetAllMyParticipatingCircuitsEventWithFallback(
+    event,
+    arg,
+    callback
+  ) {
     let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.CIRCUIT
-      );
+      DatabaseFactory.Names.CIRCUIT
+    );
 
     if (this.isParticipatingLoaded) {
-      let view = database.getViewAllMyParticipatingCircuits();
+      let view =
+        database.getViewAllMyParticipatingCircuits();
 
       this.logResults(
         this.name,
@@ -994,14 +1001,14 @@ module.exports = class CircuitController extends (
         arg,
         callback
       );
-
     } else {
       this.handleLoadAllMyParticipatingCircuitsEvent(
         {},
         {},
         (args) => {
           if (args.data) {
-            let view = database.getViewAllMyParticipatingCircuits();
+            let view =
+              database.getViewAllMyParticipatingCircuits();
             arg.data = view.data();
           }
           if (args.error) {
@@ -1018,9 +1025,6 @@ module.exports = class CircuitController extends (
     }
   }
 
-
-
-
   /**
    * performs a get query to find any circuit that is in our do it later collection
    * with fallback to server if the data hasnt been successfully loaded yet
@@ -1034,8 +1038,8 @@ module.exports = class CircuitController extends (
     callback
   ) {
     let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.CIRCUIT
-      );
+      DatabaseFactory.Names.CIRCUIT
+    );
 
     if (this.isDoItLaterLoaded) {
       let view = database.getViewAllMyDoItLaterCircuits();
@@ -1058,7 +1062,8 @@ module.exports = class CircuitController extends (
         {},
         (args) => {
           if (args.data) {
-            let view = database.getViewAllMyDoItLaterCircuits();
+            let view =
+              database.getViewAllMyDoItLaterCircuits();
             arg.data = view.data();
           }
           if (args.error) {
@@ -1075,7 +1080,6 @@ module.exports = class CircuitController extends (
     }
   }
 
-
   /**
    * performs a get query to find any circuit that is in our do it later collection
    * and fallback to server request if data hasnt been successfully loaded yet
@@ -1083,9 +1087,14 @@ module.exports = class CircuitController extends (
    * @param arg
    * @param callback
    */
-  handleGetAllMyRetroCircuitsEventWithFallback(event, arg, callback) {
+  handleGetAllMyRetroCircuitsEventWithFallback(
+    event,
+    arg,
+    callback
+  ) {
     let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.CIRCUIT);
+      DatabaseFactory.Names.CIRCUIT
+    );
 
     if (this.isRetroLoaded) {
       let rview = database.getViewAllMyRetroCircuits();
@@ -1109,7 +1118,8 @@ module.exports = class CircuitController extends (
         {},
         (args) => {
           if (args.data) {
-            let rview = database.getViewAllMyRetroCircuits();
+            let rview =
+              database.getViewAllMyRetroCircuits();
             arg.data = rview.data();
           }
           if (args.error) {
@@ -1126,15 +1136,17 @@ module.exports = class CircuitController extends (
     }
   }
 
-
-
   /**
    * performs a get query to find any circuit that is in our solved collection
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetAllMySolvedCircuitsEventWithFallback(event, arg, callback) {
+  handleGetAllMySolvedCircuitsEventWithFallback(
+    event,
+    arg,
+    callback
+  ) {
     let database = DatabaseFactory.getDatabase(
       DatabaseFactory.Names.CIRCUIT
     );
@@ -1162,7 +1174,8 @@ module.exports = class CircuitController extends (
         {},
         (args) => {
           if (args.data) {
-            let sview = database.getViewAllMySolvedCircuits();
+            let sview =
+              database.getViewAllMySolvedCircuits();
             arg.data = sview.data();
           }
           if (args.error) {
@@ -1177,9 +1190,7 @@ module.exports = class CircuitController extends (
         }
       );
     }
-
   }
-
 
   /**
    * gets our active circuit from our local database
@@ -1188,10 +1199,14 @@ module.exports = class CircuitController extends (
    * @param arg
    * @param callback
    */
-  handleGetActiveCircuitEventWithFallback(event, arg, callback) {
+  handleGetActiveCircuitEventWithFallback(
+    event,
+    arg,
+    callback
+  ) {
     let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.CIRCUIT
-      );
+      DatabaseFactory.Names.CIRCUIT
+    );
 
     if (this.isActiveCircuitLoaded) {
       let view = database.getViewActiveCircuit();
@@ -1221,9 +1236,8 @@ module.exports = class CircuitController extends (
           arg,
           callback
         );
-      })
+      });
     }
-
   }
 
   /**

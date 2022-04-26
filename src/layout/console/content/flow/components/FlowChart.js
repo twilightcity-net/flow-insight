@@ -875,7 +875,6 @@ export default class FlowChart extends Component {
       .text("Confusion:");
   }
 
-
   /**
    * Draw the intention cursor bar
    * @param chartGroup
@@ -1167,7 +1166,9 @@ export default class FlowChart extends Component {
    * @param chartGroup
    */
   createInvisibleBoundingBox(chartGroup) {
-    let boundingBox = chartGroup.append("g").attr('class', 'invisBox');
+    let boundingBox = chartGroup
+      .append("g")
+      .attr("class", "invisBox");
     let lineSize = this.margin;
     //left line
     boundingBox
@@ -1593,7 +1594,7 @@ export default class FlowChart extends Component {
   render() {
     return (
       <div>
-        <div id="draggableBanner"/>
+        <div id="draggableBanner" />
         <div id="chart" />
         <div
           id="tooltip"

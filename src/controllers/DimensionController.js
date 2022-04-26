@@ -105,7 +105,6 @@ export class DimensionController {
     );
   }
 
-
   /**
    * gets the fervie panel width of the canvas
    * @returns {number}
@@ -153,7 +152,6 @@ export class DimensionController {
    * @returns {number}
    */
   static getMiniFervieCanvasWidth() {
-
     let consoleSidebarWidthPixels = 29,
       oneRem = window.innerWidth / 100,
       relativeWidth = 11;

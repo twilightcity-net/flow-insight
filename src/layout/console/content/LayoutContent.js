@@ -63,9 +63,9 @@ export default class LayoutContent extends Component {
     };
     if (
       resource.uriArr[0] ===
-      MainPanelViewController.Resources.TERMINAL ||
+        MainPanelViewController.Resources.TERMINAL ||
       resource.uriArr[0] ===
-      MainPanelViewController.Resources.PLAY
+        MainPanelViewController.Resources.PLAY
     ) {
       state.browserVisible = false;
     }
@@ -126,7 +126,9 @@ export default class LayoutContent extends Component {
         break;
       case MainPanelViewController.Resources.DASHBOARD:
         component = (
-          <DashboardResource resource={this.state.resource} />
+          <DashboardResource
+            resource={this.state.resource}
+          />
         );
         className =
           MainPanelViewController.Resources.DASHBOARD +

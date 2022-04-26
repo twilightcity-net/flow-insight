@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {DimensionController} from "../../../../../controllers/DimensionController";
+import React, { Component } from "react";
+import { DimensionController } from "../../../../../controllers/DimensionController";
 import p5 from "p5";
 import FervieWalkUp from "./fervie/FervieWalkUp";
 import AnimationLoader from "./AnimationLoader";
@@ -44,27 +44,35 @@ export default class GameSketch extends Component {
         p5.createCanvas(this.width, this.height);
         p5.frameRate(24);
 
-        this.environment = new EnvironmentMap(this.animationLoader, this.width, this.height);
+        this.environment = new EnvironmentMap(
+          this.animationLoader,
+          this.width,
+          this.height
+        );
         this.environment.preload(p5);
 
         this.fervieSprite = new FervieSprite(
           this.animationLoader,
           this.width / 2,
-          this.height /2,
+          this.height / 2,
           180,
           FervieSprite.Direction.Right
         );
         this.fervieSprite.preload(p5);
 
-        let spawnPoint = this.environment.getDefaultSpawnProperties();
-        this.fervieSprite.moveToPoint(spawnPoint.x, spawnPoint.y);
-
-
-
+        let spawnPoint =
+          this.environment.getDefaultSpawnProperties();
+        this.fervieSprite.moveToPoint(
+          spawnPoint.x,
+          spawnPoint.y
+        );
       };
 
       p5.draw = () => {
-        this.environment.drawBackground(p5, this.fervieSprite);
+        this.environment.drawBackground(
+          p5,
+          this.fervieSprite
+        );
         this.fervieSprite.draw(p5);
 
         this.environment.drawOverlay(p5, this.fervieSprite);
@@ -80,8 +88,11 @@ export default class GameSketch extends Component {
       };
 
       p5.mousePressed = () => {
-        this.environment.mousePressed(p5, this.fervieSprite);
-      }
+        this.environment.mousePressed(
+          p5,
+          this.fervieSprite
+        );
+      };
     };
 
     this.sketchInstance = new p5(sketch, "mySketch");
@@ -103,8 +114,7 @@ export default class GameSketch extends Component {
 
     if (this.props.me) {
       fervieColor = this.props.me.fervieColor;
-      fervieShoeColor =
-        this.props.me.fervieSecondaryColor;
+      fervieShoeColor = this.props.me.fervieSecondaryColor;
     }
 
     return (
@@ -295,12 +305,24 @@ export default class GameSketch extends Component {
             fervieColor,
             fervieShoeColor
           )}
-          {FervieGlow.getFrame(1, fervieColor, fervieShoeColor)}
+          {FervieGlow.getFrame(
+            1,
+            fervieColor,
+            fervieShoeColor
+          )}
           {ShroomHouse.getDefault()}
           {LadyFervie.getFrame(1)}
           {LadyFervie.getFrame(2)}
-          {MoovieFervie.getFrame(1, fervieColor, fervieShoeColor)}
-          {MoovieFervie.getFrame(2, fervieColor, fervieShoeColor)}
+          {MoovieFervie.getFrame(
+            1,
+            fervieColor,
+            fervieShoeColor
+          )}
+          {MoovieFervie.getFrame(
+            2,
+            fervieColor,
+            fervieShoeColor
+          )}
         </div>
       </div>
     );

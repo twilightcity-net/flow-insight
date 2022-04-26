@@ -99,10 +99,16 @@ module.exports = class JournalController extends (
           this.handleGetRecentIntentionsEvent(event, arg);
           break;
         case JournalController.Events.GET_RECENT_PROJECTS:
-          this.handleGetRecentProjectsEventWithFallback(event, arg);
+          this.handleGetRecentProjectsEventWithFallback(
+            event,
+            arg
+          );
           break;
         case JournalController.Events.GET_RECENT_TASKS:
-          this.handleGetRecentTasksEventWithFallback(event, arg);
+          this.handleGetRecentTasksEventWithFallback(
+            event,
+            arg
+          );
           break;
         case JournalController.Events.FINISH_INTENTION:
           this.handleFinishIntentionEvent(event, arg);
@@ -196,7 +202,10 @@ module.exports = class JournalController extends (
 
       let meUsername = this.getMeUsername();
 
-      if (username === JournalController.Strings.ME && meUsername) {
+      if (
+        username === JournalController.Strings.ME &&
+        meUsername
+      ) {
         username = meUsername;
       }
 
@@ -211,8 +220,10 @@ module.exports = class JournalController extends (
         );
       }
 
-      this.logMessage(this.name, "Default journal loaded for user "+username);
-
+      this.logMessage(
+        this.name,
+        "Default journal loaded for user " + username
+      );
 
       if (store.data.recentIntentions.length > 0) {
         //workaround during initialization, when we dont know the default username yet
@@ -445,8 +456,6 @@ module.exports = class JournalController extends (
     }
   }
 
-
-
   /**
    * gets our recent intentions for a user
    * @param event
@@ -464,14 +473,16 @@ module.exports = class JournalController extends (
 
     let meUsername = this.getMeUsername();
 
-    if (username === BaseController.Strings.ME && meUsername) {
+    if (
+      username === BaseController.Strings.ME &&
+      meUsername
+    ) {
       username = meUsername;
     }
 
     if (
       JournalController.instance.userHistory.has(username)
     ) {
-
       arg.data = collection
         .chain()
         .find({ username: username })
@@ -509,22 +520,26 @@ module.exports = class JournalController extends (
     }
   }
 
-
-
   /**
    * gets our recent projects for a user with fallback to querying the server
    * @param event
    * @param arg
    * @param callback
    */
-  handleGetRecentProjectsEventWithFallback(event, arg, callback) {
+  handleGetRecentProjectsEventWithFallback(
+    event,
+    arg,
+    callback
+  ) {
     let database = DatabaseFactory.getDatabase(
-        DatabaseFactory.Names.JOURNAL
-      );
+      DatabaseFactory.Names.JOURNAL
+    );
 
     let username = this.getMeUsername();
 
-    if (JournalController.instance.userHistory.has(username)) {
+    if (
+      JournalController.instance.userHistory.has(username)
+    ) {
       let view = database.getViewForProjects();
 
       this.logResults(
@@ -539,13 +554,11 @@ module.exports = class JournalController extends (
         arg,
         callback
       );
-
     } else {
       this.handleLoadRecentProjectTasksEvent(
         {},
         {},
         (args) => {
-
           if (args.data) {
             arg.data = args.data.recentProjects;
           }
@@ -565,8 +578,8 @@ module.exports = class JournalController extends (
 
   handleLoadRecentProjectTasksEvent(event, arg, callback) {
     let urn =
-        JournalController.Paths.JOURNAL +
-        JournalController.Paths.PROJECT;
+      JournalController.Paths.JOURNAL +
+      JournalController.Paths.PROJECT;
 
     this.doClientRequest(
       JournalController.Contexts.JOURNAL_CLIENT,
@@ -584,20 +597,24 @@ module.exports = class JournalController extends (
     );
   }
 
-  delegateLoadRecentProjectTasksCallback(store, event, arg, callback) {
-      if (store.error) {
-        arg.error = store.error;
-      } else {
-        //dont update the DB for this, let the main intentions call update the DB
-        arg.data = store.data;
-      }
+  delegateLoadRecentProjectTasksCallback(
+    store,
+    event,
+    arg,
+    callback
+  ) {
+    if (store.error) {
+      arg.error = store.error;
+    } else {
+      //dont update the DB for this, let the main intentions call update the DB
+      arg.data = store.data;
+    }
 
-      this.delegateCallbackOrEventReplyTo(
-        event,
-        arg,
-        callback
-      );
-
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
   }
 
   /**
@@ -606,14 +623,20 @@ module.exports = class JournalController extends (
    * @param arg
    * @param callback
    */
-  handleGetRecentTasksEventWithFallback(event, arg, callback) {
+  handleGetRecentTasksEventWithFallback(
+    event,
+    arg,
+    callback
+  ) {
     let database = DatabaseFactory.getDatabase(
       DatabaseFactory.Names.JOURNAL
     );
 
     let username = this.getMeUsername();
 
-    if (JournalController.instance.userHistory.has(username)) {
+    if (
+      JournalController.instance.userHistory.has(username)
+    ) {
       let view = database.getViewForTasks();
 
       this.logResults(
@@ -628,17 +651,17 @@ module.exports = class JournalController extends (
         arg,
         callback
       );
-
     } else {
       this.handleLoadRecentProjectTasksEvent(
         {},
         {},
         (args) => {
-
           if (args.data) {
             let tasks = [];
 
-            for (let [p, t] of Object.entries(args.data.recentTasksByProjectId)) {
+            for (let [p, t] of Object.entries(
+              args.data.recentTasksByProjectId
+            )) {
               for (let i = 0; i < t.length; i++) {
                 tasks.push(t[i]);
               }
@@ -659,7 +682,6 @@ module.exports = class JournalController extends (
       );
     }
   }
-
 
   /**
    * controller callback function that processes our finish intention action.

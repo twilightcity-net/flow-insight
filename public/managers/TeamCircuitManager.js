@@ -35,7 +35,11 @@ module.exports = class TeamCircuitManager {
       { args: {} },
       (arg) => {
         if (arg.error) {
-          this.talkConnectFailedListener.dispatch({message: "Failed to lookup talk circuit rooms. "+arg.error})
+          this.talkConnectFailedListener.dispatch({
+            message:
+              "Failed to lookup talk circuit rooms. " +
+              arg.error,
+          });
         } else {
           this.connectToTalkRooms(arg.data, callback);
         }
@@ -44,7 +48,6 @@ module.exports = class TeamCircuitManager {
   }
 
   connectToTalkRooms(circuits, callback) {
-
     let loadCountNeeded = circuits.length;
 
     if (circuits && circuits.length > 0) {
@@ -58,14 +61,17 @@ module.exports = class TeamCircuitManager {
           {},
           {
             id: roomId,
-            type: TalkToController.Names
-              .JOIN_EXISTING_ROOM,
+            type: TalkToController.Names.JOIN_EXISTING_ROOM,
             args: {
               roomName: roomName,
             },
           },
           (arg) => {
-            this.handleInitCallback(callback, arg, loadCountNeeded);
+            this.handleInitCallback(
+              callback,
+              arg,
+              loadCountNeeded
+            );
           }
         );
       }
@@ -85,7 +91,11 @@ module.exports = class TeamCircuitManager {
     this.loadCount++;
     if (arg.error) {
       this.loadCount = -100; //make sure the app stops on failure
-      this.talkConnectFailedListener.dispatch({message: "Failed to connect to talk circuit rooms. "+arg.error})
+      this.talkConnectFailedListener.dispatch({
+        message:
+          "Failed to connect to talk circuit rooms. " +
+          arg.error,
+      });
     } else {
       if (callback && this.loadCount === loadCountNeeded) {
         callback(arg);

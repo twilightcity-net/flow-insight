@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Grid } from "semantic-ui-react";
 import UtilRenderer from "../../../../../../UtilRenderer";
-import {scrollTo} from "../../../../../../UtilScroll";
+import { scrollTo } from "../../../../../../UtilScroll";
 import TaskMetricRow from "./TaskMetricRow";
 import TaskMetricHeader from "./TaskMetricHeader";
 import * as d3 from "d3";
@@ -21,16 +21,20 @@ export default class TaskMetricTable extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.selectedRowId && prevProps.selectedRowId !== this.props.selectedRowId) {
-      this.scrollToItemById(this.props.selectedRowId, () => {});
+    if (
+      this.props.selectedRowId &&
+      prevProps.selectedRowId !== this.props.selectedRowId
+    ) {
+      this.scrollToItemById(
+        this.props.selectedRowId,
+        () => {}
+      );
     }
   }
 
   onClickMetric = (rowId) => {
     let newSelectedRowId = null;
-    if (
-      this.props.selectedRowId !== rowId
-    ) {
+    if (this.props.selectedRowId !== rowId) {
       newSelectedRowId = rowId;
     }
 
@@ -39,7 +43,7 @@ export default class TaskMetricTable extends Component {
 
   onHoverMetric = (rowId) => {
     this.props.onHoverMetricRow(rowId);
-  }
+  };
 
   scrollToItemById(id, callback) {
     let rootElement = document.getElementById(
@@ -68,7 +72,6 @@ export default class TaskMetricTable extends Component {
     }).then(callback);
   }
 
-
   /**
    * renders the list of intentions belonging to the task
    * @returns {*}
@@ -78,10 +81,19 @@ export default class TaskMetricTable extends Component {
     let noRowsRow = "";
     if (this.props.taskTableDto) {
       rows = this.props.taskTableDto.rowsOfPaddedCells;
-    } else if (this.props.chartDto.chartSeries.rowsOfPaddedCells.length > 0) {
-      noRowsRow = <div className="placeholder">Click a box to see task momentum for the day.</div>;
+    } else if (
+      this.props.chartDto.chartSeries.rowsOfPaddedCells
+        .length > 0
+    ) {
+      noRowsRow = (
+        <div className="placeholder">
+          Click a box to see task momentum for the day.
+        </div>
+      );
     } else {
-      return <div className="placeholder">No data available</div>;
+      return (
+        <div className="placeholder">No data available</div>
+      );
     }
 
     let mScale = d3
@@ -94,58 +106,74 @@ export default class TaskMetricTable extends Component {
       .domain([0, 0.2, 0.4, 1])
       .range(["white", "#9C6EFA", "#7846FB", "#4100cE"]);
 
-
     return (
-        <div id="component" className="frictionMetricList" >
+      <div id="component" className="frictionMetricList">
+        <Grid
+          id="metric-header-row-grid"
+          inverted
+          columns={16}
+        >
+          <TaskMetricHeader
+            targetType={this.props.targetType}
+            bucketSize={this.props.bucketSize}
+          />
+        </Grid>
+        <div
+          className="scrolling"
+          onMouseLeave={() => {
+            this.onHoverMetric(null);
+          }}
+        >
           <Grid
-            id="metric-header-row-grid"
+            id="metric-row-grid"
             inverted
             columns={16}
+            className="rows"
           >
-            <TaskMetricHeader targetType={this.props.targetType} bucketSize={this.props.bucketSize}/>
-          </Grid>
-          <div className="scrolling"
-               onMouseLeave={() => {
-                 this.onHoverMetric(null);
-               }}>
-            <Grid
-              id="metric-row-grid"
-              inverted
-              columns={16}
-              className="rows"
-            >
-              {noRowsRow}
+            {noRowsRow}
 
-              {rows.map((d, i) => {
-                let id = i;
-                let projectName = d[0].trim();
-                let taskName = d[1].trim();
-                let username = d[2].trim();
-                let duration = UtilRenderer.getSecondsFromDurationString(d[3].trim());
-                let friendlyDuration = UtilRenderer.getTimerString(duration);
+            {rows.map((d, i) => {
+              let id = i;
+              let projectName = d[0].trim();
+              let taskName = d[1].trim();
+              let username = d[2].trim();
+              let duration =
+                UtilRenderer.getSecondsFromDurationString(
+                  d[3].trim()
+                );
+              let friendlyDuration =
+                UtilRenderer.getTimerString(duration);
 
-                let confusionPercent = parseFloat(d[4].trim());
-                let confusionDuration = Math.round(duration * confusionPercent / 100);
-                let friendlyConfusionDuration = UtilRenderer.getTimerString(confusionDuration);
+              let confusionPercent = parseFloat(
+                d[4].trim()
+              );
+              let confusionDuration = Math.round(
+                (duration * confusionPercent) / 100
+              );
+              let friendlyConfusionDuration =
+                UtilRenderer.getTimerString(
+                  confusionDuration
+                );
 
-                if (confusionDuration === 0) {
-                  friendlyConfusionDuration = 'None';
-                }
+              if (confusionDuration === 0) {
+                friendlyConfusionDuration = "None";
+              }
 
-                let description = d[11].trim();
+              let description = d[11].trim();
 
-                let momentum = parseInt(d[8], 10);
+              let momentum = parseInt(d[8], 10);
 
+              let momentumColor = interp(mScale(momentum));
 
-                let momentumColor = interp(mScale(momentum));
+              console.log("color = " + momentumColor);
 
-                console.log("color = "+momentumColor);
+              if (duration <= 0) {
+                return "";
+              }
 
-                if (duration <= 0) {
-                  return "";
-                }
-
-                return (<TaskMetricRow targetType={this.props.targetType}
+              return (
+                <TaskMetricRow
+                  targetType={this.props.targetType}
                   key={id}
                   id={id}
                   projectName={projectName}
@@ -154,19 +182,23 @@ export default class TaskMetricTable extends Component {
                   taskDescription={description}
                   duration={friendlyDuration}
                   confusionPercent={confusionPercent}
-                  confusionDuration={friendlyConfusionDuration}
+                  confusionDuration={
+                    friendlyConfusionDuration
+                  }
                   momentum={momentum}
                   momentumColor={momentumColor}
-                  isActiveRow={this.props.selectedRowId === id}
+                  isActiveRow={
+                    this.props.selectedRowId === id
+                  }
                   isHoverRow={this.props.hoverRowId === id}
                   onRowClick={this.onClickMetric}
                   onHover={this.onHoverMetric}
-                />);
-              })}
-            </Grid>
-
-          </div>
+                />
+              );
+            })}
+          </Grid>
         </div>
+      </div>
     );
   }
 }

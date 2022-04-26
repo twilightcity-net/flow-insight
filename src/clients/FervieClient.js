@@ -34,7 +34,7 @@ export class FervieClient extends BaseClient {
     return {
       SAVE_FERVIE_DETAILS: "save-fervie-details",
       CREATE_PAIR_LINK: "create-pair-link",
-      STOP_PAIRING: "stop-pairing"
+      STOP_PAIRING: "stop-pairing",
     };
   }
 
@@ -82,7 +82,6 @@ export class FervieClient extends BaseClient {
     return event;
   }
 
-
   /**
    * Create a pairing link with the specified team member
    * @param memberId
@@ -90,15 +89,11 @@ export class FervieClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static createPairingLink(
-    memberId,
-    scope,
-    callback
-  ) {
+  static createPairingLink(memberId, scope, callback) {
     let event = FervieClient.instance.createClientEvent(
       FervieClient.Events.CREATE_PAIR_LINK,
       {
-        memberId: memberId
+        memberId: memberId,
       },
       scope,
       callback
@@ -114,10 +109,7 @@ export class FervieClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static stopPairing(
-    scope,
-    callback
-  ) {
+  static stopPairing(scope, callback) {
     let event = FervieClient.instance.createClientEvent(
       FervieClient.Events.STOP_PAIRING,
       {},

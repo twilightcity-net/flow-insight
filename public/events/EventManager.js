@@ -162,7 +162,6 @@ class EventManager {
   initSonar() {
     log.info("[EventManager] setup event sonar");
     ipcMain.on("echo-event", (_event, _arg) => {
-
       let deserializedJsonEcho = JSON.parse(_arg);
 
       if (!deserializedJsonEcho.type) {
@@ -180,11 +179,14 @@ class EventManager {
       log.info(
         "[EventManager]" +
           " sonar echo -> " +
-        deserializedJsonEcho.type +
+          deserializedJsonEcho.type +
           " : " +
           JSON.stringify(deserializedJsonEcho.arg)
       );
-      EventManager.dispatch(deserializedJsonEcho.type, deserializedJsonEcho.arg);
+      EventManager.dispatch(
+        deserializedJsonEcho.type,
+        deserializedJsonEcho.arg
+      );
     });
   }
 
@@ -234,16 +236,19 @@ class EventManager {
           deserializedJson
         );
         _event.returnValue = value;
-        let serializedValue =  JSON.stringify(value);
+        let serializedValue = JSON.stringify(value);
         if (event.async) {
           log.info(
             chalk.cyan("[EventManager]") +
               " reply : " +
               event.type +
               "-reply -> " +
+              serializedValue
+          );
+          _event.sender.send(
+            event.type + "-reply",
             serializedValue
           );
-          _event.sender.send(event.type + "-reply", serializedValue);
         }
       } catch (e) {
         log.error(
@@ -361,7 +366,10 @@ class EventManager {
       // log.info("sending arg (raw): "+arg);
       // log.info("sending arg: "+JSON.stringify(arg));
       // log.info("eventtype: "+eventType);
-      windows[j].window.webContents.send(eventType, jsonArg);
+      windows[j].window.webContents.send(
+        eventType,
+        jsonArg
+      );
     }
 
     for (var i = 0; i < manager.events.length; i++) {

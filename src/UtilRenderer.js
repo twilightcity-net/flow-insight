@@ -1,7 +1,7 @@
 import { BrowserRequestFactory } from "./controllers/BrowserRequestFactory";
 import { BaseClient } from "./clients/BaseClient";
 import moment from "moment";
-import {Icon, Message} from "semantic-ui-react";
+import { Icon, Message } from "semantic-ui-react";
 import React from "react";
 
 export default class UtilRenderer {
@@ -56,7 +56,7 @@ export default class UtilRenderer {
    * @param date
    */
   static getDateString(date) {
-    return moment.utc(date).format('MMM D');
+    return moment.utc(date).format("MMM D");
   }
 
   /**
@@ -115,7 +115,9 @@ export default class UtilRenderer {
         <Message icon negative size="large">
           <Icon name="warning sign" />
           <Message.Content>
-            <Message.Header>{errorContext} :(</Message.Header>
+            <Message.Header>
+              {errorContext} :(
+            </Message.Header>
             {error}
           </Message.Content>
         </Message>
@@ -219,8 +221,13 @@ export default class UtilRenderer {
    */
   static getCircuitName(circuitPath) {
     let circuitName = circuitPath;
-    if (circuitPath != null && circuitPath.includes("/wtf")) {
-      circuitName = circuitPath.substr(circuitPath.lastIndexOf("/") + 1);
+    if (
+      circuitPath != null &&
+      circuitPath.includes("/wtf")
+    ) {
+      circuitName = circuitPath.substr(
+        circuitPath.lastIndexOf("/") + 1
+      );
     }
 
     return circuitName;
@@ -233,9 +240,9 @@ export default class UtilRenderer {
    */
   static getTimerString(seconds) {
     let hours = (seconds / 3600) | 0,
-    minutes = ((seconds / 60) | 0) % 60;
+      minutes = ((seconds / 60) | 0) % 60;
 
-    let roundedMinute = Math.round((seconds % 60) / 60 );
+    let roundedMinute = Math.round((seconds % 60) / 60);
     minutes += roundedMinute;
 
     if (hours === 0 && minutes === 0 && seconds > 0) {
@@ -316,7 +323,6 @@ export default class UtilRenderer {
     }
   }
 
-
   /**
    * Convert a number of seconds to a rough number of hours or days
    * for simplified friendly display.
@@ -350,16 +356,18 @@ export default class UtilRenderer {
     }
   }
 
-
   /**
    * Convert a duration string in hh:mm:ss format to a number of seconds
    * @param durationStr
    */
   static getSecondsFromDurationString(durationStr) {
-    let splitArray = durationStr.split(':');
+    let splitArray = durationStr.split(":");
 
     if (splitArray.length !== 3) {
-      console.error("Trying to split duration with invalid format, expecting hh:mm:ss, got "+durationStr);
+      console.error(
+        "Trying to split duration with invalid format, expecting hh:mm:ss, got " +
+          durationStr
+      );
       return 0;
     }
 
@@ -367,7 +375,7 @@ export default class UtilRenderer {
     let minutes = parseInt(splitArray[1], 10);
     let seconds = parseInt(splitArray[2], 10);
 
-    return (hours * 60 * 60) + (minutes * 60) + seconds;
+    return hours * 60 * 60 + minutes * 60 + seconds;
   }
 
   /**

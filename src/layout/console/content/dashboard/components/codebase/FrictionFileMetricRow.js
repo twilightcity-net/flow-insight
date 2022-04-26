@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {Divider, Grid, Popup} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Divider, Grid, Popup } from "semantic-ui-react";
 
 /**
  * this component is the metrics table row for friction-y boxes
@@ -14,7 +14,6 @@ export default class FrictionFileMetricRow extends Component {
     this.name = "[FrictionBoxMetricRow]";
     this.state = {};
   }
-
 
   /**
    * renders our filename cell in the grid.
@@ -61,7 +60,6 @@ export default class FrictionFileMetricRow extends Component {
     );
   }
 
-
   /**
    * renders our file row in the grid
    * @returns {*}
@@ -70,7 +68,7 @@ export default class FrictionFileMetricRow extends Component {
     let extraActiveClass = "";
     if (this.props.isActiveRow) {
       extraActiveClass = " active";
-    } else if ( this.props.isHoverRow) {
+    } else if (this.props.isHoverRow) {
       extraActiveClass = " hover";
     }
 
@@ -78,33 +76,37 @@ export default class FrictionFileMetricRow extends Component {
       <Grid.Row
         id={this.props.id + "-row"}
         className={"metricRow" + extraActiveClass}
-        onClick={() =>
-          this.props.onRowClick(this.props.id)
-        }
+        onClick={() => this.props.onRowClick(this.props.id)}
         onMouseEnter={() =>
           this.props.onHover(this.props.id)
         }
       >
-          <Grid.Column width={6}>
-            <Popup
-              flowing
-              trigger={this.getFileNameCellContent()}
-              className="metricContent"
-              content={this.getPopupContent()}
-              position="bottom center"
-              inverted
-              hideOnScroll
-            />
-          </Grid.Column>
-          <Grid.Column width={4}>
-            <div className="chunkText metricRight">{this.props.confusionTime}</div>
-          </Grid.Column>
-          <Grid.Column width={3}>
-            <div className="chunkText metricRight">{this.props.confusionPercent}%</div>
-          </Grid.Column>
-          <Grid.Column width={3}>
-            <div className="chunkText metricRight">{this.props.feels}</div>
-          </Grid.Column>
+        <Grid.Column width={6}>
+          <Popup
+            flowing
+            trigger={this.getFileNameCellContent()}
+            className="metricContent"
+            content={this.getPopupContent()}
+            position="bottom center"
+            inverted
+            hideOnScroll
+          />
+        </Grid.Column>
+        <Grid.Column width={4}>
+          <div className="chunkText metricRight">
+            {this.props.confusionTime}
+          </div>
+        </Grid.Column>
+        <Grid.Column width={3}>
+          <div className="chunkText metricRight">
+            {this.props.confusionPercent}%
+          </div>
+        </Grid.Column>
+        <Grid.Column width={3}>
+          <div className="chunkText metricRight">
+            {this.props.feels}
+          </div>
+        </Grid.Column>
       </Grid.Row>
     );
   }

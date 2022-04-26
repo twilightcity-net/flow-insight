@@ -1,6 +1,13 @@
-import React, {Component} from "react";
-import {Button, Dropdown, Grid, Input, Popup, Segment,} from "semantic-ui-react";
-import {MemberClient} from "../../../../../clients/MemberClient";
+import React, { Component } from "react";
+import {
+  Button,
+  Dropdown,
+  Grid,
+  Input,
+  Popup,
+  Segment,
+} from "semantic-ui-react";
+import { MemberClient } from "../../../../../clients/MemberClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -61,11 +68,16 @@ export default class JournalEntry extends Component {
   };
 
   initializeProjectTaskSelection() {
-    if (this.props.projects && this.props.tasks && !this.state.currentProjectValue && !this.state.currentTaskValue) {
+    if (
+      this.props.projects &&
+      this.props.tasks &&
+      !this.state.currentProjectValue &&
+      !this.state.currentTaskValue
+    ) {
       this.setState({
         currentProjectValue: this.props.lastProject,
-        currentTaskValue: this.props.lastTask
-      })
+        currentTaskValue: this.props.lastTask,
+      });
     }
   }
 
@@ -81,53 +93,50 @@ export default class JournalEntry extends Component {
     this.projects = [];
     this.tasks = [];
 
+    if (
+      this.hasProjectUpdated(nextState) &&
+      nextState.currentProjectValue !==
+        nextProps.lastProject
+    ) {
+      this.setState({
+        currentTaskValue: null,
+      });
+      return true;
+    }
+
+    nextProps.projects.forEach((project) => {
+      this.projects.push(
+        this.transformLokiDataStruct(project)
+      );
+    });
+    nextProps.tasks.forEach((task) => {
       if (
-        this.hasProjectUpdated(nextState) &&
-        nextState.currentProjectValue !==
+        nextState.currentProjectValue === task.projectId
+      ) {
+        this.tasks.push(this.transformLokiDataStruct(task));
+      }
+    });
+
+    if (!this.state.currentProjectValue) {
+      if (
+        this.containsProject(
+          this.projects,
           nextProps.lastProject
+        )
       ) {
         this.setState({
-          currentTaskValue: null,
+          currentProjectValue: nextProps.lastProject,
         });
-        return true;
-      }
 
-      nextProps.projects.forEach((project) => {
-        this.projects.push(
-          this.transformLokiDataStruct(project)
-        );
-      });
-      nextProps.tasks.forEach((task) => {
-        if (
-          nextState.currentProjectValue === task.projectId
-        ) {
-          this.tasks.push(
-            this.transformLokiDataStruct(task)
-          );
-        }
-      });
-
-      if (!this.state.currentProjectValue) {
-        if (
-          this.containsProject(
-            this.projects,
-            nextProps.lastProject
-          )
-        ) {
+        if (this.state.currentTaskValue == null) {
           this.setState({
-            currentProjectValue: nextProps.lastProject,
+            currentTaskValue: nextProps.lastTask,
           });
-
-          if (this.state.currentTaskValue == null) {
-            this.setState({
-              currentTaskValue: nextProps.lastTask,
-            });
-          }
         }
       }
-      return true;
+    }
+    return true;
   }
-
 
   containsProject(projects, projectId) {
     let found = false;
@@ -447,9 +456,10 @@ export default class JournalEntry extends Component {
   }
 
   isMemberLinked() {
-    return !!(this.props.member && this.props.member.pairingNetwork);
+    return !!(
+      this.props.member && this.props.member.pairingNetwork
+    );
   }
-
 
   /**
    * renders the journal entry component of the console view
@@ -460,14 +470,12 @@ export default class JournalEntry extends Component {
     let intentionWidth = 11;
 
     let isLinked = this.isMemberLinked();
-    console.log("is linked! "+isLinked);
+    console.log("is linked! " + isLinked);
 
     if (isLinked) {
       intentionWidth = 10;
       linkButtonIfPresent = (
-        <Grid.Column
-          width={1}
-        >
+        <Grid.Column width={1}>
           <Popup
             trigger={
               <Button
@@ -478,13 +486,17 @@ export default class JournalEntry extends Component {
             }
             position="top center"
             content={
-              <div className="breakPairTip">Stop<br/>Pairing</div>
+              <div className="breakPairTip">
+                Stop
+                <br />
+                Pairing
+              </div>
             }
             inverted
             hideOnScroll
           />
         </Grid.Column>
-        );
+      );
     }
 
     return (

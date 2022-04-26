@@ -169,7 +169,9 @@ export default class ActiveCircuit extends Component {
   loadDictionary() {
     DictionaryClient.getTeamDictionary(this, (arg) => {
       if (arg.error) {
-        console.error("Dictionary failed to load, "+arg.error);
+        console.error(
+          "Dictionary failed to load, " + arg.error
+        );
       } else {
         this.dictionaryWords = arg.data;
         this.updateDictionaryState(this.dictionaryWords);
@@ -200,7 +202,10 @@ export default class ActiveCircuit extends Component {
       this,
       (arg) => {
         if (arg.error) {
-          this.props.handleError("Failed to load circuit details", arg.error);
+          this.props.handleError(
+            "Failed to load circuit details",
+            arg.error
+          );
         } else {
           this.model = arg.data;
           this.updateStateModels(this.model);
@@ -210,7 +215,10 @@ export default class ActiveCircuit extends Component {
             this,
             (arg) => {
               if (arg.error) {
-                this.props.handleError("Failed to load circuit messages", arg.error);
+                this.props.handleError(
+                  "Failed to load circuit messages",
+                  arg.error
+                );
               } else {
                 this.messages = arg.data;
                 this.loadCount++;
@@ -224,7 +232,10 @@ export default class ActiveCircuit extends Component {
             this,
             (arg) => {
               if (arg.error) {
-                this.props.handleError("Failed to load circuit members", arg.error);
+                this.props.handleError(
+                  "Failed to load circuit members",
+                  arg.error
+                );
               } else {
                 this.circuitMembers = arg.data;
                 this.loadCount++;
@@ -234,7 +245,6 @@ export default class ActiveCircuit extends Component {
             }
           );
         }
-
       }
     );
   }
@@ -768,20 +778,19 @@ export default class ActiveCircuit extends Component {
   addErrorMessageToFeed(errorMsg) {
     let time = new Date();
 
-      this.setState((prevState) => {
-        let feedEvents = this.addFeedEvent(
-          prevState.feedEvents,
-          "Fervie",
-          time,
-          errorMsg,
-          true
-        );
+    this.setState((prevState) => {
+      let feedEvents = this.addFeedEvent(
+        prevState.feedEvents,
+        "Fervie",
+        time,
+        errorMsg,
+        true
+      );
 
-        return {
-          feedEvents : feedEvents
-        };
-
-      });
+      return {
+        feedEvents: feedEvents,
+      };
+    });
   }
 
   /**
@@ -877,7 +886,6 @@ export default class ActiveCircuit extends Component {
     this.circuitFeedComponent = component;
   };
 
-
   /**
    * When a chat message transaction fails, add an error message to the chat feed
    * @param errorMsg
@@ -885,7 +893,7 @@ export default class ActiveCircuit extends Component {
   reportFeedError = (errorMsg) => {
     console.log("reportFeedError");
     this.addErrorMessageToFeed(errorMsg);
-  }
+  };
 
   /**
    * renders our circuit content panel and resizable scrapbook

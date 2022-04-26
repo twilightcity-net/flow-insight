@@ -3,16 +3,18 @@
  */
 import Environment from "./Environment";
 
-
 export default class HouseInsideKitchen extends Environment {
+  static BACKGROUND_IMAGE =
+    "./assets/animation/insidehouse/house_inside_kitchen_background.png";
+  static OVERLAY_IMAGE =
+    "./assets/animation/insidehouse/house_inside_kitchen_overlay.png";
+  static WALK_AREA_IMAGE =
+    "./assets/animation/insidehouse/house_inside_kitchen_walkarea.png";
+  static WALK_BEHIND_AREA_IMAGE =
+    "./assets/animation/insidehouse/house_inside_kitchen_walkarea_behind.png";
 
-
-  static BACKGROUND_IMAGE = "./assets/animation/insidehouse/house_inside_kitchen_background.png";
-  static OVERLAY_IMAGE = "./assets/animation/insidehouse/house_inside_kitchen_overlay.png";
-  static WALK_AREA_IMAGE = "./assets/animation/insidehouse/house_inside_kitchen_walkarea.png";
-  static WALK_BEHIND_AREA_IMAGE ="./assets/animation/insidehouse/house_inside_kitchen_walkarea_behind.png";
-
-  static WALK_BEHIND_WALL="./assets/animation/insidehouse/house_inside_kitchen_behindwall.png";
+  static WALK_BEHIND_WALL =
+    "./assets/animation/insidehouse/house_inside_kitchen_behindwall.png";
 
   /**
    * Preload all the environment images, so they are cached and ready to display
@@ -20,13 +22,27 @@ export default class HouseInsideKitchen extends Environment {
    */
   preload(p5) {
     super.preload(p5);
-    this.animationLoader.getStaticImage(p5, HouseInsideKitchen.BACKGROUND_IMAGE);
-    this.animationLoader.getStaticImage(p5, HouseInsideKitchen.WALK_BEHIND_WALL);
-    this.animationLoader.getStaticImage(p5, HouseInsideKitchen.OVERLAY_IMAGE);
+    this.animationLoader.getStaticImage(
+      p5,
+      HouseInsideKitchen.BACKGROUND_IMAGE
+    );
+    this.animationLoader.getStaticImage(
+      p5,
+      HouseInsideKitchen.WALK_BEHIND_WALL
+    );
+    this.animationLoader.getStaticImage(
+      p5,
+      HouseInsideKitchen.OVERLAY_IMAGE
+    );
 
-    this.animationLoader.getStaticImage(p5, HouseInsideKitchen.WALK_AREA_IMAGE);
-    this.animationLoader.getStaticImage(p5, HouseInsideKitchen.WALK_BEHIND_AREA_IMAGE);
-
+    this.animationLoader.getStaticImage(
+      p5,
+      HouseInsideKitchen.WALK_AREA_IMAGE
+    );
+    this.animationLoader.getStaticImage(
+      p5,
+      HouseInsideKitchen.WALK_BEHIND_AREA_IMAGE
+    );
   }
 
   getDefaultSpawnProperties() {
@@ -34,39 +50,62 @@ export default class HouseInsideKitchen extends Environment {
   }
 
   getRightSpawnProperties() {
-    return {x: Math.round((HouseInsideKitchen.IMAGE_WIDTH - 150) * this.scaleAmountX),
-      y: Math.round((HouseInsideKitchen.IMAGE_HEIGHT/2) * this.scaleAmountY)};
+    return {
+      x: Math.round(
+        (HouseInsideKitchen.IMAGE_WIDTH - 150) *
+          this.scaleAmountX
+      ),
+      y: Math.round(
+        (HouseInsideKitchen.IMAGE_HEIGHT / 2) *
+          this.scaleAmountY
+      ),
+    };
   }
 
-  isValidPosition(p5 ,x, y) {
-    let walkAreaImage = this.animationLoader.getStaticImage(p5, HouseInsideKitchen.WALK_AREA_IMAGE);
+  isValidPosition(p5, x, y) {
+    let walkAreaImage = this.animationLoader.getStaticImage(
+      p5,
+      HouseInsideKitchen.WALK_AREA_IMAGE
+    );
 
-    let color = walkAreaImage.get(Math.round(x/this.scaleAmountX), Math.round(y/this.scaleAmountY));
-    if (color && (color[0] > 0)) {
+    let color = walkAreaImage.get(
+      Math.round(x / this.scaleAmountX),
+      Math.round(y / this.scaleAmountY)
+    );
+    if (color && color[0] > 0) {
       return true;
     } else {
       return false;
     }
   }
 
-  isWalkBehindPosition(p5 ,x, y) {
-    let walkAreaImage = this.animationLoader.getStaticImage(p5, HouseInsideKitchen.WALK_BEHIND_AREA_IMAGE);
+  isWalkBehindPosition(p5, x, y) {
+    let walkAreaImage = this.animationLoader.getStaticImage(
+      p5,
+      HouseInsideKitchen.WALK_BEHIND_AREA_IMAGE
+    );
 
-    let color = walkAreaImage.get(Math.round(x/this.scaleAmountX), Math.round(y/this.scaleAmountY));
-    if (color && (color[0] > 0)) {
+    let color = walkAreaImage.get(
+      Math.round(x / this.scaleAmountX),
+      Math.round(y / this.scaleAmountY)
+    );
+    if (color && color[0] > 0) {
       return true;
     } else {
       return false;
     }
   }
-
 
   /**
    * Draw the background environment on the screen
    * @param p5
    */
   drawBackground(p5, fervie) {
-    let backgroundImage = this.animationLoader.getStaticImage(p5, HouseInsideKitchen.BACKGROUND_IMAGE);
+    let backgroundImage =
+      this.animationLoader.getStaticImage(
+        p5,
+        HouseInsideKitchen.BACKGROUND_IMAGE
+      );
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
@@ -77,15 +116,27 @@ export default class HouseInsideKitchen extends Environment {
   }
 
   drawOverlay(p5, fervie) {
-    let overlayImage = this.animationLoader.getStaticImage(p5, HouseInsideKitchen.OVERLAY_IMAGE);
+    let overlayImage = this.animationLoader.getStaticImage(
+      p5,
+      HouseInsideKitchen.OVERLAY_IMAGE
+    );
 
-    let wall = this.animationLoader.getStaticImage(p5, HouseInsideKitchen.WALK_BEHIND_WALL);
+    let wall = this.animationLoader.getStaticImage(
+      p5,
+      HouseInsideKitchen.WALK_BEHIND_WALL
+    );
 
     p5.push();
     p5.scale(this.scaleAmountX, this.scaleAmountY);
 
-    if (this.isWalkBehindPosition(p5, fervie.getFervieFootX(), fervie.getFervieFootY())) {
-      p5.image(wall, 0, 0)
+    if (
+      this.isWalkBehindPosition(
+        p5,
+        fervie.getFervieFootX(),
+        fervie.getFervieFootY()
+      )
+    ) {
+      p5.image(wall, 0, 0);
     }
     p5.image(overlayImage, 0, 0);
 
@@ -102,5 +153,4 @@ export default class HouseInsideKitchen extends Environment {
   update(p5, fervie) {
     super.update(p5);
   }
-
 }

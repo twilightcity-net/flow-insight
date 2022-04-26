@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Grid } from "semantic-ui-react";
 import UtilRenderer from "../../../../../../UtilRenderer";
-import {scrollTo} from "../../../../../../UtilScroll";
+import { scrollTo } from "../../../../../../UtilScroll";
 import TagMetricRow from "./TagMetricRow";
 import TagMetricHeader from "./TagMetricHeader";
 
@@ -21,16 +21,20 @@ export default class TagMetricTable extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.selectedRowId && prevProps.selectedRowId !== this.props.selectedRowId) {
-      this.scrollToItemById(this.props.selectedRowId, () => {});
+    if (
+      this.props.selectedRowId &&
+      prevProps.selectedRowId !== this.props.selectedRowId
+    ) {
+      this.scrollToItemById(
+        this.props.selectedRowId,
+        () => {}
+      );
     }
   }
 
   onClickMetric = (rowId) => {
     let newSelectedRowId = null;
-    if (
-      this.props.selectedRowId !== rowId
-    ) {
+    if (this.props.selectedRowId !== rowId) {
       newSelectedRowId = rowId;
     }
 
@@ -39,7 +43,7 @@ export default class TagMetricTable extends Component {
 
   onHoverMetric = (rowId) => {
     this.props.onHoverMetricRow(rowId);
-  }
+  };
 
   scrollToItemById(id, callback) {
     let rootElement = document.getElementById(
@@ -80,49 +84,59 @@ export default class TagMetricTable extends Component {
     let rows = this.props.tableDto.rowsOfPaddedCells;
 
     return (
-        <div id="component" className="frictionMetricList" >
+      <div id="component" className="frictionMetricList">
+        <Grid
+          id="metric-header-row-grid"
+          inverted
+          columns={16}
+        >
+          <TagMetricHeader />
+        </Grid>
+        <div
+          className="scrolling"
+          onMouseLeave={() => {
+            this.onHoverMetric(null);
+          }}
+        >
           <Grid
-            id="metric-header-row-grid"
+            id="metric-row-grid"
             inverted
             columns={16}
+            className="rows"
           >
-            <TagMetricHeader />
-          </Grid>
-          <div className="scrolling"
-               onMouseLeave={() => {
-                 this.onHoverMetric(null);
-               }}
-          >
-            <Grid
-              id="metric-row-grid"
-              inverted
-              columns={16}
-              className="rows"
-            >
-              {rows.map((d, i) => {
+            {rows.map((d, i) => {
+              let id = d[0].trim();
+              let duration = Math.round(
+                UtilRenderer.getSecondsFromDurationString(
+                  d[1].trim()
+                )
+              );
+              let durationFriendly =
+                UtilRenderer.getTimerString(duration);
 
-                let id = d[0].trim();
-                let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[1].trim()));
-                let durationFriendly = UtilRenderer.getTimerString(duration);
+              let count = Math.round(
+                parseInt(d[2].trim(), 10)
+              );
 
-                let count = Math.round(parseInt(d[2].trim(), 10));
-
-
-                return (<TagMetricRow
+              return (
+                <TagMetricRow
                   key={i}
                   id={id}
                   tag={id}
                   duration={durationFriendly}
                   count={count}
-                  isActiveRow={this.props.selectedRowId === id}
+                  isActiveRow={
+                    this.props.selectedRowId === id
+                  }
                   isHoverRow={this.props.hoverRowId === id}
                   onRowClick={this.onClickMetric}
                   onHover={this.onHoverMetric}
-                />);
-              })}
-            </Grid>
-          </div>
+                />
+              );
+            })}
+          </Grid>
         </div>
+      </div>
     );
   }
 }

@@ -22,17 +22,25 @@ export default class FervieGlowSprite {
   static UNSCALED_IMAGE_WIDTH = 280;
   static UNSCALED_IMAGE_HEIGHT = 395;
 
-  static FERVIE_GLOW_OVERLAY_IMAGE = "./assets/animation/fervie/fervie_glow_overlay.png";
-
+  static FERVIE_GLOW_OVERLAY_IMAGE =
+    "./assets/animation/fervie/fervie_glow_overlay.png";
 
   /**
    * Preload all the fervie glow images by flattening the svgs into images, and loading into memory
    * @param p5
    */
   preload(p5) {
-    this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.FervieGlow, 1, this.size);
+    this.animationLoader.getAnimationImageWithManualFrame(
+      p5,
+      AnimationId.Animation.FervieGlow,
+      1,
+      this.size
+    );
 
-    this.animationLoader.getStaticImage(p5, FervieGlowSprite.FERVIE_GLOW_OVERLAY_IMAGE);
+    this.animationLoader.getStaticImage(
+      p5,
+      FervieGlowSprite.FERVIE_GLOW_OVERLAY_IMAGE
+    );
   }
 
   /**
@@ -43,9 +51,17 @@ export default class FervieGlowSprite {
    * @param scale
    */
   draw(p5, x, y, scale) {
-
-    let image = this.animationLoader.getAnimationImageWithManualFrame(p5, AnimationId.Animation.FervieGlow, 1, this.size);
-    let overlay = this.animationLoader.getStaticImage(p5, FervieGlowSprite.FERVIE_GLOW_OVERLAY_IMAGE);
+    let image =
+      this.animationLoader.getAnimationImageWithManualFrame(
+        p5,
+        AnimationId.Animation.FervieGlow,
+        1,
+        this.size
+      );
+    let overlay = this.animationLoader.getStaticImage(
+      p5,
+      FervieGlowSprite.FERVIE_GLOW_OVERLAY_IMAGE
+    );
 
     p5.push();
     p5.translate(
@@ -62,7 +78,6 @@ export default class FervieGlowSprite {
     p5.blendMode(p5.BLEND);
 
     p5.pop();
-
   }
 
   startDisappear() {
@@ -96,7 +111,6 @@ export default class FervieGlowSprite {
     }
 
     if (this.isDisappearing) {
-
       if (this.bodyDelayFading > 0) {
         this.starAlpha += this.alphaDecayRate;
         if (this.starAlpha > 1) {
@@ -135,7 +149,4 @@ export default class FervieGlowSprite {
       }
     }
   }
-
-
-
 }

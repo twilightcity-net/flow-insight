@@ -4,7 +4,7 @@ import { TerminalClient } from "../../../../clients/TerminalClient";
 import { MemberClient } from "../../../../clients/MemberClient";
 import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import { TalkToClient } from "../../../../clients/TalkToClient";
-import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
 import UtilRenderer from "../../../../UtilRenderer";
 
 /**
@@ -40,7 +40,8 @@ export default class TerminalResource extends Component {
 
     this.circuitJoinRoomFailListener =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL,
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_JOIN_EXISTING_ROOM_FAIL,
         this,
         this.handleJoinError
       );
@@ -117,7 +118,9 @@ export default class TerminalResource extends Component {
           (arg) => {
             if (arg.error) {
               console.error(arg.error);
-              this.terminalHandle.current.pushErrorMessage(arg.error);
+              this.terminalHandle.current.pushErrorMessage(
+                arg.error
+              );
             } else {
               let newCircuit = arg.data;
 
@@ -144,7 +147,10 @@ export default class TerminalResource extends Component {
                   this,
                   (arg) => {
                     if (arg.error) {
-                      this.handleError("Failed to get room messages", arg.error);
+                      this.handleError(
+                        "Failed to get room messages",
+                        arg.error
+                      );
                     } else {
                       this.terminalHandle.current.pushTalkMessageHistory(
                         arg.data
@@ -169,13 +175,21 @@ export default class TerminalResource extends Component {
 
   handleError(errorContext, error) {
     console.error(error);
-    this.setState({errorContext: errorContext, error: error});
+    this.setState({
+      errorContext: errorContext,
+      error: error,
+    });
   }
 
   handleJoinError(event, arg) {
     console.error(arg.error);
-    if (this.terminalHandle.current && this.terminalHandle.current.pushErrorMessage) {
-      this.terminalHandle.current.pushErrorMessage(arg.error);
+    if (
+      this.terminalHandle.current &&
+      this.terminalHandle.current.pushErrorMessage
+    ) {
+      this.terminalHandle.current.pushErrorMessage(
+        arg.error
+      );
     }
   }
 
@@ -206,7 +220,10 @@ export default class TerminalResource extends Component {
    */
   render() {
     if (this.state.error) {
-      return UtilRenderer.getErrorPage(this.state.errorContext, this.state.error);
+      return UtilRenderer.getErrorPage(
+        this.state.errorContext,
+        this.state.error
+      );
     }
 
     return (

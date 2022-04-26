@@ -170,7 +170,6 @@ module.exports = class TeamController extends (
     );
   }
 
-
   /**
    * gets all of our participating teams we have loaded from  the db. If the collections are
    * empty, we will try looking for new content on grid.
@@ -293,21 +292,24 @@ module.exports = class TeamController extends (
       view = database.getViewForTeams();
 
     if (view.count() === 0) {
-      this.logMessage(this.name, "No rows found for teams!");
+      this.logMessage(
+        this.name,
+        "No rows found for teams!"
+      );
 
       this.handleLoadAllMyTeamsEvent({}, {}, (args) => {
-          if (args.data) {
-            arg.data = args.data;
-          }
-          if (args.error) {
-            arg.error = args.error;
-          }
+        if (args.data) {
+          arg.data = args.data;
+        }
+        if (args.error) {
+          arg.error = args.error;
+        }
 
-          this.delegateCallbackOrEventReplyTo(
-            event,
-            arg,
-            callback
-          );
+        this.delegateCallbackOrEventReplyTo(
+          event,
+          arg,
+          callback
+        );
       });
 
       //okay this is true here, so I should be able to do the fallback

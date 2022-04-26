@@ -1,5 +1,5 @@
-import React, {Component} from "react";
-import {Grid, Image} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Grid, Image } from "semantic-ui-react";
 
 /**
  * this component is the metrics table header for momentum boxes
@@ -18,8 +18,7 @@ export default class MomentumMetricHeader extends Component {
   static WEEKS = "WEEKS";
   static DAYS = "DAYS";
 
-
-/**
+  /**
    * renders our headers
    * @returns {*}
    */
@@ -28,7 +27,9 @@ export default class MomentumMetricHeader extends Component {
 
     let timeHeader = "Day";
 
-    if (this.props.bucketSize === MomentumMetricHeader.WEEKS) {
+    if (
+      this.props.bucketSize === MomentumMetricHeader.WEEKS
+    ) {
       timeHeader = "Week";
     }
 
@@ -38,17 +39,25 @@ export default class MomentumMetricHeader extends Component {
           <div className="chunkTitle">{timeHeader}</div>
         </Grid.Column>
         <Grid.Column width={3}>
-          <div className="chunkTitle metricRight">WorkHours</div>
+          <div className="chunkTitle metricRight">
+            WorkHours
+          </div>
         </Grid.Column>
         <Grid.Column width={3}>
-          <div className="chunkTitle metricRight">Confusion</div>
+          <div className="chunkTitle metricRight">
+            Confusion
+          </div>
         </Grid.Column>
         <Grid.Column width={3}>
-          <div className="chunkTitle metricRight">Momentum</div>
+          <div className="chunkTitle metricRight">
+            Momentum
+          </div>
         </Grid.Column>
         <Grid.Column width={3}>
-          <div className="chunkTitle metricRight">Feels
-              (<Image src={imgWtfSrc} verticalAlign="middle"/>)
+          <div className="chunkTitle metricRight">
+            Feels (
+            <Image src={imgWtfSrc} verticalAlign="middle" />
+            )
           </div>
         </Grid.Column>
       </Grid.Row>

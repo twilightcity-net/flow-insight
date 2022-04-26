@@ -6,7 +6,6 @@ const log = require("electron-log"),
  * @type {Util}
  */
 module.exports = class MessageCounter {
-
   constructor() {
     this.name = "[MessageCounter]";
     this.messageCounterPerUri = new Map();
@@ -17,11 +16,7 @@ module.exports = class MessageCounter {
    * @param message
    */
   log(message) {
-    log.info(
-      chalk.blueBright(this.name) +
-      " " +
-      message
-    );
+    log.info(chalk.blueBright(this.name) + " " + message);
   }
 
   /**
@@ -31,7 +26,15 @@ module.exports = class MessageCounter {
   logCount(uri, counter) {
     log.info(
       chalk.blueBright(this.name) +
-      " Messages for "+uri.substr(0, 8) + " [count:"+counter.count + ", min:"+counter.minNanoTime + ", max:"+counter.maxNanoTime + "]"
+        " Messages for " +
+        uri.substr(0, 8) +
+        " [count:" +
+        counter.count +
+        ", min:" +
+        counter.minNanoTime +
+        ", max:" +
+        counter.maxNanoTime +
+        "]"
     );
   }
 
@@ -43,10 +46,14 @@ module.exports = class MessageCounter {
    * @param message
    */
   trackMessage(uri, nanoTime, message) {
-
     let messageCounter = this.messageCounterPerUri.get(uri);
     if (!messageCounter) {
-      messageCounter = {uri: uri, count: 1, minNanoTime: nanoTime, maxNanoTime: nanoTime};
+      messageCounter = {
+        uri: uri,
+        count: 1,
+        minNanoTime: nanoTime,
+        maxNanoTime: nanoTime,
+      };
       this.messageCounterPerUri.set(uri, messageCounter);
     } else {
       if (nanoTime >= messageCounter.minNanoTime) {
@@ -96,7 +103,7 @@ module.exports = class MessageCounter {
     for (let uri of rooms) {
       let counter = this.messageCounterPerUri.get(uri);
       if (counter) {
-        prunedCounters.set(uri,counter);
+        prunedCounters.set(uri, counter);
       }
     }
 
@@ -111,5 +118,4 @@ module.exports = class MessageCounter {
     this.log("Resetting message counters!");
     this.messageCounterPerUri = new Map();
   }
-
 };

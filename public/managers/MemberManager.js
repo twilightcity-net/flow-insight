@@ -11,11 +11,10 @@ class MemberManager {
     this.myController.configureEvents();
     this.loadCount = 0;
 
-    this.loginConnectionFailed =
-      EventFactory.createEvent(
-        EventFactory.Types.WINDOW_LOADING_LOGIN_FAILED,
-        this
-      );
+    this.loginConnectionFailed = EventFactory.createEvent(
+      EventFactory.Types.WINDOW_LOADING_LOGIN_FAILED,
+      this
+    );
   }
 
   /**
@@ -30,9 +29,12 @@ class MemberManager {
       { args: {} },
       (args) => {
         if (args.error) {
-          this.loginConnectionFailed.dispatch({message: "Unable to lookup account. "+args.error})
+          this.loginConnectionFailed.dispatch({
+            message:
+              "Unable to lookup account. " + args.error,
+          });
         } else {
-          this.handleInitCallback(callback)
+          this.handleInitCallback(callback);
         }
       }
     );

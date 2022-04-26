@@ -165,7 +165,9 @@ export default class ActiveRetro extends Component {
   loadDictionary() {
     DictionaryClient.getTeamDictionary(this, (arg) => {
       if (arg.error) {
-        console.error("Dictionary failed to load, "+arg.error);
+        console.error(
+          "Dictionary failed to load, " + arg.error
+        );
       } else {
         this.dictionaryWords = arg.data;
         this.updateDictionaryState(this.dictionaryWords);
@@ -190,7 +192,10 @@ export default class ActiveRetro extends Component {
       this,
       (arg) => {
         if (arg.error) {
-          this.props.handleError("Failed to load troubleshoot messages", arg.error);
+          this.props.handleError(
+            "Failed to load troubleshoot messages",
+            arg.error
+          );
         } else {
           this.troubleshootMessages = arg.data;
           this.updateStateIfDoneLoading();
@@ -205,7 +210,10 @@ export default class ActiveRetro extends Component {
         this,
         (arg) => {
           if (arg.error) {
-            this.props.handleError("Failed to load retro messages", arg.error);
+            this.props.handleError(
+              "Failed to load retro messages",
+              arg.error
+            );
           } else {
             this.retroMessages = arg.data;
             this.updateStateIfDoneLoading();
@@ -222,7 +230,9 @@ export default class ActiveRetro extends Component {
       this,
       (arg) => {
         if (arg.error) {
-          console.log("Failed to load circuit members, "+ arg.error);
+          console.log(
+            "Failed to load circuit members, " + arg.error
+          );
         } else {
           this.circuitMembers = arg.data;
           this.updateStateIfDoneLoading(arg.error);
@@ -239,7 +249,10 @@ export default class ActiveRetro extends Component {
             taskSummary: arg.data,
           });
         } else {
-          console.error("Failed to load circuit task summary, " + arg.error);
+          console.error(
+            "Failed to load circuit task summary, " +
+              arg.error
+          );
         }
       }
     );
@@ -249,7 +262,9 @@ export default class ActiveRetro extends Component {
       this,
       (arg) => {
         if (arg.error) {
-          console.error("Failed to load friction chart, " + arg.error);
+          console.error(
+            "Failed to load friction chart, " + arg.error
+          );
         } else {
           this.chartDto = arg.data;
           this.setState({
@@ -612,7 +627,6 @@ export default class ActiveRetro extends Component {
     });
   }
 
-
   /**
    * Add a new feed event to the array which is used to display the chat messages
    * @param username
@@ -638,7 +652,7 @@ export default class ActiveRetro extends Component {
       feedEvent = feedEvents.pop();
       feedEvent.text.push(text);
     } else {
-      console.log("else "+isStatusEvent);
+      console.log("else " + isStatusEvent);
       feedEvent = {
         name: username,
         time: time,
@@ -733,7 +747,7 @@ export default class ActiveRetro extends Component {
 
   reportFeedError = (errorMsg) => {
     this.addErrorMessageToFeed(errorMsg);
-  }
+  };
 
   /**
    * Adds an error message to the chat feed
@@ -752,7 +766,7 @@ export default class ActiveRetro extends Component {
       );
 
       return {
-        retroFeedEvents: feedEvents
+        retroFeedEvents: feedEvents,
       };
     });
   }

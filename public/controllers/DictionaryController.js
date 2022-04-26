@@ -81,7 +81,10 @@ module.exports = class DictionaryController extends (
           break;
         case DictionaryController.Events
           .GET_FULL_DICTIONARY:
-          this.handleGetFullDictionaryEventWithFallback(event, arg);
+          this.handleGetFullDictionaryEventWithFallback(
+            event,
+            arg
+          );
           break;
         default:
           throw new Error(
@@ -94,7 +97,6 @@ module.exports = class DictionaryController extends (
     }
   }
 
-
   /**
    * Gets all the dictionary items from the local DB, or fallsback
    * to a server query
@@ -102,7 +104,11 @@ module.exports = class DictionaryController extends (
    * @param arg
    * @param callback
    */
-  handleGetFullDictionaryEventWithFallback(event, arg, callback) {
+  handleGetFullDictionaryEventWithFallback(
+    event,
+    arg,
+    callback
+  ) {
     let database = DatabaseFactory.getDatabase(
       DatabaseFactory.Names.DICTIONARY
     );
@@ -131,12 +137,9 @@ module.exports = class DictionaryController extends (
           arg,
           callback
         );
-      })
+      });
     }
-
-
   }
-
 
   /**
    * process dictionary events for the listener. returns dto to callback.
@@ -165,7 +168,6 @@ module.exports = class DictionaryController extends (
         )
     );
   }
-
 
   /**
    * handles our callback for our gridtime request of loading team dictionary

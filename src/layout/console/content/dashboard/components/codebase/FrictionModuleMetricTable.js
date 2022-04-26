@@ -1,7 +1,7 @@
-import React, {Component} from "react";
-import {Grid} from "semantic-ui-react";
+import React, { Component } from "react";
+import { Grid } from "semantic-ui-react";
 import UtilRenderer from "../../../../../../UtilRenderer";
-import {scrollTo} from "../../../../../../UtilScroll";
+import { scrollTo } from "../../../../../../UtilScroll";
 import FrictionModuleMetricRow from "./FrictionModuleMetricRow";
 import FrictionModuleMetricHeader from "./FrictionModuleMetricHeader";
 
@@ -21,16 +21,20 @@ export default class FrictionModuleMetricTable extends Component {
   }
 
   componentDidUpdate(prevProps, prevState, snapshot) {
-    if (this.props.selectedRowId && prevProps.selectedRowId !== this.props.selectedRowId) {
-      this.scrollToItemById(this.props.selectedRowId, () => {});
+    if (
+      this.props.selectedRowId &&
+      prevProps.selectedRowId !== this.props.selectedRowId
+    ) {
+      this.scrollToItemById(
+        this.props.selectedRowId,
+        () => {}
+      );
     }
   }
 
   onClickMetric = (rowId) => {
     let newSelectedRowId = null;
-    if (
-      this.props.selectedRowId !== rowId
-    ) {
+    if (this.props.selectedRowId !== rowId) {
       newSelectedRowId = rowId;
     }
 
@@ -39,7 +43,7 @@ export default class FrictionModuleMetricTable extends Component {
 
   onHoverMetric = (rowId) => {
     this.props.onHoverMetricRow(rowId);
-  }
+  };
 
   scrollToItemById(id, callback) {
     let rootElement = document.getElementById(
@@ -80,53 +84,67 @@ export default class FrictionModuleMetricTable extends Component {
     let rows = this.props.tableDto.rowsOfPaddedCells;
 
     return (
-        <div id="component" className="frictionMetricList" >
+      <div id="component" className="frictionMetricList">
+        <Grid
+          id="metric-header-row-grid"
+          inverted
+          columns={16}
+        >
+          <FrictionModuleMetricHeader />
+        </Grid>
+        <div
+          className="scrolling"
+          onMouseLeave={() => {
+            this.onHoverMetric(null);
+          }}
+        >
           <Grid
-            id="metric-header-row-grid"
+            id="metric-row-grid"
             inverted
             columns={16}
+            className="rows"
           >
-            <FrictionModuleMetricHeader />
-          </Grid>
-          <div className="scrolling"
-               onMouseLeave={() => {
-                 this.onHoverMetric(null);
-               }}>
-            <Grid
-              id="metric-row-grid"
-              inverted
-              columns={16}
-              className="rows"
-            >
-              {rows.map((d, i) => {
+            {rows.map((d, i) => {
+              let id = d[0].trim();
+              let duration = Math.round(
+                (UtilRenderer.getSecondsFromDurationString(
+                  d[1].trim()
+                ) *
+                  parseFloat(d[2])) /
+                  100
+              );
+              let confusion = Math.round(
+                parseFloat(d[2].trim())
+              );
 
-                let id = d[0].trim();
-                let duration = Math.round(UtilRenderer.getSecondsFromDurationString(d[1].trim())*parseFloat(d[2])/100);
-                let confusion = Math.round(parseFloat(d[2].trim()));
+              let confusionDurationFriendly =
+                UtilRenderer.getTimerString(duration);
+              let feels = parseFloat(d[7]);
 
-                let confusionDurationFriendly = UtilRenderer.getTimerString(duration);
-                let feels = parseFloat(d[7]);
+              if (duration <= 0) {
+                return "";
+              }
 
-                if (duration <= 0) {
-                  return "";
-                }
-
-                return (<FrictionModuleMetricRow
+              return (
+                <FrictionModuleMetricRow
                   key={i}
                   id={id}
                   module={id}
                   confusionTime={confusionDurationFriendly}
                   confusionPercent={confusion}
                   feels={feels}
-                  isActiveRow={this.props.selectedRowId === id}
+                  isActiveRow={
+                    this.props.selectedRowId === id
+                  }
                   isHoverRow={this.props.hoverRowId === id}
                   onRowClick={this.onClickMetric}
                   onHover={this.onHoverMetric}
-                />);
-              })}
-            </Grid>
-          </div>
+                />
+              );
+            })}
+          </Grid>
         </div>
+      </div>
     );
   }
 }
