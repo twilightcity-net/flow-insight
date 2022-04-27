@@ -125,6 +125,7 @@ module.exports = class BaseController {
       TERMINAL_CMD_RESULT: "TerminalResultsDto",
       TERMINAL_ENVVARIABLE: "EnvironmentVariableDto",
       TERMINAL_CIRCUIT_CLOSED: "CircuitClosedDto",
+      PAIRING_REQUEST: "PairingRequestDto"
     };
   }
 

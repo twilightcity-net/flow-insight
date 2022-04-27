@@ -258,7 +258,8 @@ export default class JournalResource extends Component {
     }
 
     if (
-      prevState.journalIntentions.length !== this.state.journalIntentions.length
+      prevState.journalIntentions.length !==
+      this.state.journalIntentions.length
     ) {
       this.scrollToJournalItemById();
     }

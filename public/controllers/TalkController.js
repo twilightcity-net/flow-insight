@@ -252,9 +252,10 @@ module.exports = class TalkController extends (
       TalkController.Events.MESSAGE_CLIENT,
       (data, fn) => {
         log.info(
-          chalk.green(name) + " client message : " + data
+          chalk.green(name) + " client message : " + JSON.stringify(data)
         );
-        this.talkMessageClientListener.dispatch(data);
+        this.handleTalkMessageDirectCallback(data);
+
         fn();
       }
     );
@@ -396,6 +397,34 @@ module.exports = class TalkController extends (
     );
   }
 
+
+
+  /**
+   * our event callback handler for direct talk messages. This function sorts incoming talk
+   * messages into status and details.s
+   * @param message - our message that was received via the talk network socket
+   */
+  handleTalkMessageDirectCallback(message) {
+    let uri = message.uri, //this is the roomId
+      nanoTime = message.nanoTime,
+      metaProps = message.metaProps;
+
+    switch (message.messageType) {
+      case TalkController.MessageTypes.PAIRING_REQUEST:
+        break;
+      default:
+        console.warn(
+          chalk.bgRed(
+            TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +
+            " '" +
+            message.messageType +
+            "'."
+          )
+        );
+        break;
+    }
+    this.talkMessageClientListener.dispatch(message);
+  }
   /**
    * our event callback handler talk messages. This function sorts incoming talk
    * messages into status and details.s
@@ -523,7 +552,8 @@ module.exports = class TalkController extends (
             );
             break;
           case TalkController.StatusTypes.TEAM_WTF_JOINED:
-          case TalkController.StatusTypes.TEAM_WTF_PAIR_JOIN:
+          case TalkController.StatusTypes
+            .TEAM_WTF_PAIR_JOIN:
             this.handleTeamWtfJoined(
               message,
               me,
