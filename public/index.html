@@ -1130,6 +1130,88 @@
   }
 
   /**
+  * Notification panel contents
+   */
+
+
+  #component.consoleSidebarPanel .notificationsContent {
+    height: 100%;
+    overflow-y: scroll;
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .active {
+    background: #272727;
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item .content .header {
+    font-size: 1rem;
+    line-height: 1rem;
+    padding-left: 0.210em;
+    color: rgba(211, 211, 211, 1);
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item .content i.name {
+    font-weight: normal;
+    font-size: 1rem;
+    padding-left: 0.420em;
+    color: rgba(211, 211, 211, 1);
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .actionButton {
+    margin-top: -0.420em;
+    transform: translateY(50%);
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item .actionButton .ui.violet.label.active {
+    background: #6435c9 !important;
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item.selected {
+    background: rgba(48, 48, 49, 1);
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item.selected .actionButton .ui.label {
+    background: red !important;
+    color: white !important;
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item .actionButton .ui.label {
+    padding: 0.420em 0.840em;
+    background: rgba(48, 48, 48, 1) !important;
+    border: none;
+    color: rgb(233, 233, 233) !important;
+    transition: background 0.420s ease-out;
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item:hover .actionButton .ui.label.violet {
+    background: #6435c9 !important;
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item:hover .actionButton .ui.label.red {
+    background: red !important;
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item:hover .actionButton:hover {
+    cursor: pointer;
+  }
+
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item {
+    padding: 0.840em;
+    transition: background 0.840s ease-out, padding 0.210s ease-out;
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item:hover {
+    padding-left: 1.260em;
+    background: #272727;
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item.selected {
+    padding-left: 1.260em;
+  }
+
+
+  /**
   * Retro circuit panel contents
   */
   #component.consoleSidebarPanel .retroCircuitsContent {

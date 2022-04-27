@@ -24,7 +24,7 @@ module.exports = class DictionaryController extends (
   }
 
   /**
-   * general enum list of all of our possible circuit events
+   * general enum list of all of our possible dictionary events
    * @returns {{LOAD_DICTIONARY: string, GET_FULL_DICTIONARY: string}}
    * @constructor
    */

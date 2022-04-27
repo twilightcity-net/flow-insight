@@ -596,7 +596,10 @@ export default class ConsoleSidebar extends Component {
             }
             onClick={this.handleItemClick}
           >
-            <Icon name={this.state.iconNotifications} />
+            <Icon.Group>
+              <Icon name={this.state.iconNotifications} />
+              <Icon inverted corner='bottom right' name='circle' color="red" />
+            </Icon.Group>
           </Menu.Item>
 
           <Menu.Item

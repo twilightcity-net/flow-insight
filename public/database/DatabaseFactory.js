@@ -3,6 +3,7 @@ const TalkDB = require("./TalkDatabase"),
   CircuitDB = require("./CircuitDatabase"),
   TeamDB = require("./TeamDatabase"),
   MemberDB = require("./MemberDatabase"),
+  NotificationDB = require("./NotificationDatabase"),
   DictionaryDB = require("./DictionaryDatabase");
 
 /**
@@ -12,7 +13,7 @@ const TalkDB = require("./TalkDatabase"),
 class DatabaseFactory {
   /**
    * the names of our databases
-   * @returns {{JOURNAL: string, TEAM: string, TALK: string, CIRCUIT: string, MEMBER: string, DICTIONARY: string}}
+   * @returns {{NOTIFICATION:string, JOURNAL: string, TEAM: string, TALK: string, CIRCUIT: string, MEMBER: string, DICTIONARY: string}}
    * @constructor
    */
   static get Names() {
@@ -23,6 +24,7 @@ class DatabaseFactory {
       TEAM: "team",
       MEMBER: "member",
       DICTIONARY: "dictionary",
+      NOTIFICATION: "notification"
     };
   }
 
@@ -45,6 +47,8 @@ class DatabaseFactory {
         return new MemberDB();
       case DatabaseFactory.Names.DICTIONARY:
         return new DictionaryDB();
+      case DatabaseFactory.Names.NOTIFICATION:
+        return new NotificationDB();
       default:
         throw new Error(
           "Unknown database type '" + name + "'"

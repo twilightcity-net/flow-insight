@@ -6,9 +6,9 @@ import { RendererControllerFactory } from "./RendererControllerFactory";
 import { MemberClient } from "../clients/MemberClient";
 
 /**
- * used to show notifications in the app
+ * used to show popup notifications in the app
  */
-export class NotificationController {
+export class PopupController {
   static notifyHeader = "FlowInsight";
 
   constructor(scope) {
@@ -24,6 +24,13 @@ export class NotificationController {
         this,
         this.onTalkRoomMessage
       );
+
+    this.directMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_CLIENT,
+        this,
+        this.onTalkDirectMessage
+      )
 
     this.consoleViewListener =
       RendererEventFactory.createEvent(
@@ -45,8 +52,7 @@ export class NotificationController {
       arg.messageType ===
         BaseClient.MessageTypes.WTF_STATUS_UPDATE &&
       arg.data.statusType ===
-        ResourceCircuitController.StatusTypes
-          .TEAM_WTF_THRESHOLD &&
+        ResourceCircuitController.StatusTypes.TEAM_WTF_THRESHOLD &&
       arg.data.ownerId === MemberClient.me.id
     ) {
       this.showNotificationForWtf(
@@ -54,6 +60,57 @@ export class NotificationController {
       );
     }
   };
+
+  onTalkDirectMessage = (event, arg) => {
+    if (arg.messageContext === BaseClient.MessageContexts.PAIRING_REQUEST) {
+      this.showNotificationForPairingRequest(arg.data);
+    }
+  };
+
+  /**
+   * When another team member requests to pair with us (or pair with our current pairing team)
+   * we get a notification popup requesting to confirm whether this is okay.
+   *
+   * @param pairingRequest
+   */
+  showNotificationForPairingRequest(pairingRequest) {
+    console.log("showNotificationForPairingRequest");
+
+    let msg = pairingRequest.fromDisplayName + " would like to pair with you. Confirm to join."
+    let n = PopupController.showNotification(
+      "Pairing Request",
+      msg,
+      () => {
+        //I think the left hand side panel navigation might make more sense...
+        //rather than taking away from the nav of the main panel?
+        //but like, we can get back to everything
+
+        //Confirm, Cancel buttons make the most sense.
+
+        //if I click the notifications, do they load up a full page with the request?
+
+        //I kind of like this though...
+        console.log("Do an action for the pairing request");
+
+        // let request = BrowserRequestFactory.createRequest(
+        //   BrowserRequestFactory.Requests.CIRCUIT,
+        //   circuit.circuitName
+        // );
+        //
+        // setTimeout(() => {
+        //   if (this.consoleIsCollapsed) {
+        //     this.consoleViewListener.dispatch({
+        //       showHideFlag: 0,
+        //     });
+        //   }
+        //   this.browserController.makeRequest(request);
+        // }, 420);
+      }
+    );
+    setTimeout(() => {
+      n.close();
+    }, 60000);
+  }
 
   /**
    * When a team member is troubleshooting for a long period of time, send a popup notification that
@@ -64,7 +121,7 @@ export class NotificationController {
     let msg =
       circuit.ownerName +
       " has been troubleshooting for over 20 minutes, maybe you can help?";
-    let n = NotificationController.showNotification(
+    let n = PopupController.showNotification(
       "Friction Alarm",
       msg,
       () => {
@@ -121,7 +178,7 @@ export class NotificationController {
 
   showGettingStartedPopupAndAutoClose() {
     this.isGettingStartedPopupOpen = true;
-    let n = this.showNotification(
+    let n = PopupController.showNotification(
       "FlowInsight",
       "Press ctrl ~ to open the console."
     );
@@ -135,7 +192,7 @@ export class NotificationController {
     return n;
   }
 
-  showNotification(title, body, callback) {
+  static showNotification(title, body, callback) {
     let options = {
       silent: true,
       body: body,

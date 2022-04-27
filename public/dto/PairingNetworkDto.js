@@ -1,7 +1,7 @@
 //
-// dto class for ActiveLinksNetworkDto
+// dto class for PairingNetworkDto
 //
-module.exports = class ActiveLinksNetworkDto {
+module.exports = class PairingNetworkDto {
   constructor(json) {
     try {
       if (typeof json === "string") json = JSON.parse(json);
@@ -10,7 +10,7 @@ module.exports = class ActiveLinksNetworkDto {
       this.sparkLinks = json.sparkLinks;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'XPSummaryDto' : " + e.message
+        "Unable to create dto 'PairingNetworkDto' : " + e.message
       );
     }
   }

@@ -470,7 +470,6 @@ export default class JournalEntry extends Component {
     let intentionWidth = 11;
 
     let isLinked = this.isMemberLinked();
-    console.log("is linked! " + isLinked);
 
     if (isLinked) {
       intentionWidth = 10;

@@ -373,7 +373,6 @@ export default class CircuitsPanel extends Component {
    * get our active circuits content to render in the gui
    * @returns {*}
    */
-  /// TODO refactor component ActiveCircuitListItem to LiveCircuitListItem
   getLiveCircuitsContent = () => {
     return (
       <div className="liveCircuitsContent">

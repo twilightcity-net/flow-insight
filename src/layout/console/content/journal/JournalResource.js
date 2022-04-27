@@ -68,6 +68,13 @@ export default class JournalResource extends Component {
         this.onTalkRoomMessage
       );
 
+    this.directMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_CLIENT,
+        this,
+        this.onTalkDirectMessage
+      )
+
     this.journalRefreshListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events.JOURNAL_DATA_REFRESH,
@@ -86,6 +93,7 @@ export default class JournalResource extends Component {
       activeFlameUpdate: null,
       member: null,
       isLinking: false,
+      pairRequestTo: null,
       linkError: null,
     };
   }
@@ -152,6 +160,23 @@ export default class JournalResource extends Component {
         break;
     }
   };
+
+  /**
+   * On direct messages listen for pairing confirmed to know we can remove our isLinking status
+   * @param event
+   * @param arg
+   */
+  onTalkDirectMessage = (event, arg) => {
+    if (arg.messageContext === BaseClient.MessageContexts.PAIRING_CONFIRMED) {
+      console.log("confirmed for "+arg.data.toUsername);
+      if (arg.data.toUsername === this.username) {
+        this.setState({
+          isLinking: false
+        });
+      }
+    }
+  };
+
 
   isForJournalInView(username) {
     let me = MemberClient.me;
@@ -892,10 +917,19 @@ export default class JournalResource extends Component {
   };
 
   /**
-   * Invoked when the user clicks the pairing link in the journal
+   * Invoked when the user clicks the cancel button in the journal to cancel an existing pair request
    */
   onClickCancelLink = () => {
-    //TODO implement the cancel of pairing
+    FervieClient.cancelPairRequest(this.state.pairRequestTo, this, (arg) =>{
+      if (!arg.error) {
+        this.setState({
+          isLinking: false,
+          pairRequestTo: null
+        })
+      } else {
+        this.handleError(arg.error);
+      }
+    });
   };
 
   handleStartPairing(username) {
@@ -903,12 +937,17 @@ export default class JournalResource extends Component {
     MemberClient.getMember(username, this, (arg) => {
       if (!arg.error) {
         let member = arg.data;
-        FervieClient.createPairingLink(
+        FervieClient.requestPairingLink(
           member.id,
           this,
           (arg) => {
             if (arg.error) {
               this.handleError(arg.error);
+            } else {
+              this.setState({
+                isLinking : true,
+                pairRequestTo: member.id
+              });
             }
           }
         );

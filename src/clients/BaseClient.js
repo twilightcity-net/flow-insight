@@ -40,7 +40,7 @@ export class BaseClient {
 
   /**
    * our possible message type for our controller reference
-   * @returns {{WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, JOURNAL_ENTRY_DTO: string, TEAM_MEMBER: string, INTENTION_ABORTED_DETAILS: string, INTENTION_FINISHED_DETAILS: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, CIRCUIT_MEMBER_STATUS_EVENT: string, XP_STATUS_UPDATE: string}}
+   * @returns {{PAIRING_REQUEST:string, WTF_STATUS_UPDATE: string, INTENTION_STARTED_DETAILS: string, ROOM_MEMBER_STATUS_EVENT: string, JOURNAL_ENTRY_DTO: string, TEAM_MEMBER: string, INTENTION_ABORTED_DETAILS: string, INTENTION_FINISHED_DETAILS: string, CIRCUIT_STATUS: string, CHAT_MESSAGE_DETAILS: string, CIRCUIT_MEMBER_STATUS_EVENT: string, XP_STATUS_UPDATE: string}}
    * @constructor
    */
   static get MessageTypes() {
@@ -66,7 +66,17 @@ export class BaseClient {
       TERMINAL_CMD_RESULT: "TerminalResultsDto",
       TERMINAL_ENVVARIABLE: "EnvironmentVariableDto",
       TERMINAL_CIRCUIT_CLOSED: "CircuitClosedDto",
+      PAIRING_REQUEST: "PairingRequestDto"
     };
+  }
+
+  static get MessageContexts() {
+    return {
+      PAIRING_REQUEST: "PAIRING_REQUEST",
+      PAIRING_CANCELLATION: "PAIRING_CANCELLATION",
+      PAIRING_CONFIRMED: "PAIRING_CONFIRMED"
+
+    }
   }
 
   /**

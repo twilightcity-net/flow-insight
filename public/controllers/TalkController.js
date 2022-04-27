@@ -397,7 +397,12 @@ module.exports = class TalkController extends (
     );
   }
 
+  static fromUserNameMetaPropsStr = "from.username";
+  static fromMemberIdMetaPropsStr = "from.member.id";
 
+  static PAIRING_REQUEST = "PAIRING_REQUEST";
+  static PAIRING_CANCELLATION = "PAIRING_CANCELLATION";
+  static PAIRING_CONFIRMED = "PAIRING_CONFIRMED";
 
   /**
    * our event callback handler for direct talk messages. This function sorts incoming talk
@@ -405,12 +410,35 @@ module.exports = class TalkController extends (
    * @param message - our message that was received via the talk network socket
    */
   handleTalkMessageDirectCallback(message) {
-    let uri = message.uri, //this is the roomId
-      nanoTime = message.nanoTime,
-      metaProps = message.metaProps;
+    let id = message.messageId,
+      messageTime = message.messageTime,
+      messageContext = message.messageContext,
+      metaProps = message.metaProps,
+      notificationDatabase = DatabaseFactory.getDatabase(
+        DatabaseFactory.Names.NOTIFICATION
+      );
 
-    switch (message.messageType) {
-      case TalkController.MessageTypes.PAIRING_REQUEST:
+    let fromMemberId = metaProps[TalkController.fromMemberIdMetaPropsStr];
+    let fromUsername = metaProps[TalkController.fromUserNameMetaPropsStr];
+
+    switch (messageContext) {
+      case TalkController.PAIRING_REQUEST:
+        notificationDatabase.addNotification(
+          {
+            id: id,
+            type: messageContext,
+            timestamp: messageTime,
+            fromMemberId: fromMemberId,
+            fromUsername: fromUsername,
+            read: false,
+            canceled: false,
+            data: message.data});
+        break;
+      case TalkController.PAIRING_CONFIRMED:
+        notificationDatabase.removePairRequest(fromMemberId);
+        break;
+      case TalkController.PAIRING_CANCELLATION:
+        notificationDatabase.cancelNotification(TalkController.PAIRING_REQUEST, fromMemberId);
         break;
       default:
         console.warn(

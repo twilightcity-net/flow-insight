@@ -36,7 +36,20 @@ export default class JournalLinkPanel extends Component {
     let iAmLinked = this.amILinked();
     let isMemberLinked = this.isMemberLinked();
 
-    if (isMemberLinked && pairingIncludesMe) {
+    if (this.props.isLinking) {
+      return (
+        <Button
+          icon
+          className="linkButton"
+          onClick={this.onClickCancel}
+          size="medium"
+          color="grey"
+        >
+          Cancel&nbsp;
+          <Icon name="broken chain"/>
+        </Button>
+      );
+    } else if (isMemberLinked && pairingIncludesMe) {
       return (
         <Button
           icon
@@ -81,19 +94,6 @@ export default class JournalLinkPanel extends Component {
         >
           Pair&nbsp;
           <Icon name="chain" />
-        </Button>
-      );
-    } else if (this.props.isLinking) {
-      return (
-        <Button
-          icon
-          className="linkButton"
-          onClick={this.onClickCancel}
-          size="medium"
-          color="grey"
-        >
-          Cancel&nbsp;
-          <Icon name="broken chain" />
         </Button>
       );
     } else {

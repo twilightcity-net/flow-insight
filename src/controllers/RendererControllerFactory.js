@@ -3,7 +3,7 @@ import { MainPanelViewController } from "./MainPanelViewController";
 import { ConsoleViewController } from "./ConsoleViewController";
 import { ResourceCircuitController } from "./ResourceCircuitController";
 import { BrowserController } from "./BrowserController";
-import { NotificationController } from "./NotificationController";
+import { PopupController } from "./PopupController";
 import { ChartPopoutController } from "./ChartPopoutController";
 
 /**
@@ -97,7 +97,7 @@ export class RendererControllerFactory {
       case RendererControllerFactory.Views.LAYOUT_BROWSER:
         return new BrowserController(scope);
       case RendererControllerFactory.Views.NOTIFICATION:
-        return new NotificationController(scope);
+        return new PopupController(scope);
       case RendererControllerFactory.Views.CHART_POPOUT:
         return new ChartPopoutController(scope);
       default:

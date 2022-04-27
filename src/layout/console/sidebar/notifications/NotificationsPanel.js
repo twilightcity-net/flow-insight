@@ -1,12 +1,10 @@
-import React, { Component } from "react";
-import {
-  Menu,
-  Segment,
-  Transition,
-} from "semantic-ui-react";
-import { DimensionController } from "../../../../controllers/DimensionController";
-import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
-import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
+import React, {Component} from "react";
+import {List, Menu, Segment, Transition,} from "semantic-ui-react";
+import {DimensionController} from "../../../../controllers/DimensionController";
+import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
+import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import PairingRequestListItem from "./PairingRequestListItem";
+import {NotificationClient} from "../../../../clients/NotificationClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -49,6 +47,7 @@ export default class NotificationsPanel extends Component {
         animationDelay:
           SidePanelViewController.AnimationDelays.SUBMENU,
         title: "",
+        notifications: []
       };
     }
     return state;
@@ -106,12 +105,15 @@ export default class NotificationsPanel extends Component {
    * display the notification panel in the sidebar panel
    */
   showNotificationsPanel() {
+    console.log("show notifications!");
     this.setState({
       activeItem:
         SidePanelViewController.SubmenuSelection
           .NOTIFICATIONS,
       notificationsVisible: true,
     });
+
+    this.refreshNotifications();
   }
 
   /**
@@ -126,17 +128,61 @@ export default class NotificationsPanel extends Component {
     });
   };
 
+  refreshNotifications = () => {
+    let that = this;
+    NotificationClient.getNotifications(this, (arg) => {
+      if (arg.error) {
+        console.error("Unable to load notifications, " + arg.error);
+      } else {
+        that.setState({
+          notifications: arg.data
+        });
+      }
+    });
+  }
+
   /**
    * gets the notification content panel for the sidebar
    * @returns {*}
    */
   getNotificationsContent = () => {
-    return (
-      <div className={NotificationsPanel.className}>
+    let notificationCount = this.state.notifications.length;
+
+    console.log("notification count ="+notificationCount);
+    let content = "";
+
+    if (notificationCount > 0) {
+      content = (
+        <div className="notificationsContent">
+          <List
+            inverted
+            divided
+            celled
+            animated
+            verticalAlign="middle"
+            size="large"
+          >
+            {this.state.notifications.map((notification, i) => (
+              <PairingRequestListItem
+                key={i}
+                id={i}
+                model={notification}
+                refresh={this.refreshNotifications}
+              />
+            ))}
+          </List>
+        </div>
+      );
+    } else {
+      content = (<div className={NotificationsPanel.className}>
         <i>No notifications, check back later :)</i>
-      </div>
-    );
+      </div>);
+    }
+
+    return content;
   };
+
+
   /**
    * renders the console sidebar panel of the console view
    * @returns {*}

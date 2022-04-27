@@ -14,6 +14,7 @@ import { DictionaryClient } from "../clients/DictionaryClient";
 import { FervieClient } from "../clients/FervieClient";
 import { TerminalClient } from "../clients/TerminalClient";
 import { ChartClient } from "../clients/ChartClient";
+import {NotificationClient} from "../clients/NotificationClient";
 
 /**
  * This View will contain logic to inject the various tabs of the
@@ -131,6 +132,7 @@ export default class ConsoleView extends Component {
     FervieClient.init(this);
     TerminalClient.init(this);
     ChartClient.init(this);
+    NotificationClient.init(this);
 
     this.notificationController.showGettingStartedNotification();
   };

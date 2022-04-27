@@ -27,14 +27,16 @@ export class FervieClient extends BaseClient {
 
   /**
    * general enum list of all of our possible circuit events
-   * @returns {{SAVE_FERVIE_DETAILS: string, CREATE_PAIR_LINK: string, STOP_PAIRING:string}}
+   * @returns {{CANCEL_PAIR_REQUEST:string, SAVE_FERVIE_DETAILS: string, REQUEST_PAIR_LINK: string, CONFIRM_PAIR_LINK:string, STOP_PAIRING:string}}
    * @constructor
    */
   static get Events() {
     return {
       SAVE_FERVIE_DETAILS: "save-fervie-details",
-      CREATE_PAIR_LINK: "create-pair-link",
+      REQUEST_PAIR_LINK: "request-pair-link",
+      CONFIRM_PAIR_LINK: "confirm-pair-link",
       STOP_PAIRING: "stop-pairing",
+      CANCEL_PAIR_REQUEST: "cancel-pair-request"
     };
   }
 
@@ -89,11 +91,56 @@ export class FervieClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static createPairingLink(memberId, scope, callback) {
+  static requestPairingLink(memberId, scope, callback) {
     let event = FervieClient.instance.createClientEvent(
-      FervieClient.Events.CREATE_PAIR_LINK,
+      FervieClient.Events.REQUEST_PAIR_LINK,
       {
         memberId: memberId,
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+
+  /**
+   * Cancel a pair request to a specified team member
+   * @param memberId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static cancelPairRequest(memberId, scope, callback) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.CANCEL_PAIR_REQUEST,
+      {
+        memberId: memberId,
+      },
+      scope,
+      callback
+    );
+
+    FervieClient.instance.notifyFervie(event);
+    return event;
+  }
+
+  /**
+   * Create a pairing link with the specified team member
+   * @param fromMemberId
+   * @param toMemberId
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static confirmPairingLink(fromMemberId, toMemberId, scope, callback) {
+    let event = FervieClient.instance.createClientEvent(
+      FervieClient.Events.CONFIRM_PAIR_LINK,
+      {
+        fromMemberId: fromMemberId,
+        toMemberId: toMemberId,
       },
       scope,
       callback

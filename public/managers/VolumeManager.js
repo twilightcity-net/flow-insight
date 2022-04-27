@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
-  { EventManager } = require("../events/EventManager"),
+  {EventManager} = require("../events/EventManager"),
   DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
@@ -52,6 +52,9 @@ class VolumeManager {
     );
     VolumeManager.createDatabaseVolume(
       DatabaseFactory.Names.DICTIONARY
+    );
+    VolumeManager.createDatabaseVolume(
+      DatabaseFactory.Names.NOTIFICATION
     );
 
     VolumeManager.loadDefaultJournalDatabase();

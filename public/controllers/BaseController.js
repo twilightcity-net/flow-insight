@@ -12,7 +12,7 @@ const log = require("electron-log"),
 module.exports = class BaseController {
   /**
    * Retrieves path information for various urls used with gridtime.
-   * @returns {{PAIR: string, LINK:string, UNLINK:string, PARTICIPATING: string, CHAT: string, WTF: string, JOIN: string, TALK: string, RESUME: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, RETRO: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, SOLVE: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
+   * @returns {{FERVIE:string, REQUEST:string, CONFIRM:string, PAIR: string, LINK:string, UNLINK:string, PARTICIPATING: string, CHAT: string, WTF: string, JOIN: string, TALK: string, RESUME: string, MEMBER: string, FINISH: string, INTENTION: string, LEAVE: string, ME: string, RETRO: string, PROJECT: string, TASK: string, SEPARATOR: string, CIRCUIT_WTF: string, JOURNAL: string, SOLVE: string, MY: string, FLAME: string, TRANSITION: string, DO_IT_LATER: string, CANCEL: string, TEAM: string, TO: string, ROOM: string, HOME: string, CIRCUIT: string}}
    * @constructor
    */
   static get Paths() {
@@ -69,6 +69,8 @@ module.exports = class BaseController {
       IN: "/in",
       FAMILIARITY: "/familiarity",
       PAIR: "/pair",
+      REQUEST: "/request",
+      CONFIRM: "/confirm",
       LINK: "/link",
       UNLINK: "/unlink",
     };
@@ -165,7 +167,7 @@ module.exports = class BaseController {
 
   /**
    * define the names of our controllers functions for gridtime
-   * @returns {{CHART_TOP_WTFS_WITH_TAG:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_TAGS:string, CHART_TOP_TAGS_FOR_USER: string, CHART_TOP_TAGS_FOR_TEAM: string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, GET_MY_HOME_TEAM_CIRCUIT: string, GET_CIRCUIT_TASK_SUMMARY: string, PAUSE_WTF_WITH_DO_IT_LATER: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_TASK: string, LEAVE_WTF: string, GET_ALL_MY_TEAM_CIRCUITS: string, JOIN_WTF: string, GET_MY_HOME_TEAM: string, LEAVE_EXISTING_ROOM: string, GET_ME: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, FIND_OR_CREATE_PROJECT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
+   * @returns {{CANCEL_PAIR_REQUEST:string, STOP_PAIRING:string, REQUEST_PAIR_LINK:string, CONFIRM_PAIR_LINK:string, CHART_TOP_WTFS_WITH_TAG:string, CHART_TOP_WTFS_WITH_TAG_FOR_USER:string, CHART_TOP_WTFS_WITH_TAG_FOR_TEAM:string, CHART_TOP_TAGS:string, CHART_TOP_TAGS_FOR_USER: string, CHART_TOP_TAGS_FOR_TEAM: string, CHART_FAMILIARITY:string, CHART_FAMILIARITY_FOR_USER:string, CHART_FAMILIARITY_FOR_TEAM:string, GET_MY_HOME_TEAM_CIRCUIT: string, GET_CIRCUIT_TASK_SUMMARY: string, PAUSE_WTF_WITH_DO_IT_LATER: string, CANCEL_WTF: string, FINISH_INTENTION: string, UPDATE_FLAME_RATING: string, START_WTF: string, GET_CIRCUIT_WITH_ALL_DETAILS: string, FIND_OR_CREATE_TASK: string, LEAVE_WTF: string, GET_ALL_MY_TEAM_CIRCUITS: string, JOIN_WTF: string, GET_MY_HOME_TEAM: string, LEAVE_EXISTING_ROOM: string, GET_ME: string, JOIN_EXISTING_ROOM: string, GET_ALL_TALK_MESSAGES_FROM_ROOM: string, SOLVE_WTF: string, GET_ALL_MY_RETRO_CIRCUITS: string, GET_CIRCUIT_MEMBERS: string, FIND_OR_CREATE_PROJECT: string, GET_ACTIVE_CIRCUIT: string, START_WTF_WITH_CUSTOM_CIRCUIT_NAME: string, GET_ALL_MY_PARTICIPATING_CIRCUITS: string, GET_ALL_MY_TEAMS: string, GET_ALL_MY_DO_IT_LATER_CIRCUITS: string, START_RETRO_FOR_WTF: string, RESUME_WTF: string}}
    * @constructor
    */
   static get Names() {
@@ -208,8 +210,10 @@ module.exports = class BaseController {
       UPDATE_FLAME_RATING: "update-flame-rating",
       GET_RECENT_PROJECT_TASKS: "getRecentProjectTasks",
       SAVE_FERVIE_DETAILS: "saveFervieDetails",
-      CREATE_PAIR_LINK: "createPairLink",
+      REQUEST_PAIR_LINK: "requestPairLink",
+      CONFIRM_PAIR_LINK: "confirmPairLink",
       STOP_PAIRING: "stopPairing",
+      CANCEL_PAIR_REQUEST: "cancelPairRequest",
       UPDATE_CIRCUIT_DESCRIPTION:
         "updateCircuitDescription",
       SAVE_CIRCUIT_TAGS: "saveCircuitTags",
@@ -313,7 +317,7 @@ module.exports = class BaseController {
 
   /**
    * our possible client context scopes used by gridtime clients
-   * @returns {{TALK_CLIENT: string, TEAM_CIRCUIT_CLIENT: string, CIRCUIT_CLIENT: string, TEAM_CLIENT: string, MEMBER_CLIENT: string, JOURNAL_CLIENT: string, TALK_TO_CLIENT: string}}
+   * @returns {{FERVIE_CLIENT:string, TALK_CLIENT: string, TEAM_CIRCUIT_CLIENT: string, CIRCUIT_CLIENT: string, TEAM_CLIENT: string, MEMBER_CLIENT: string, JOURNAL_CLIENT: string, TALK_TO_CLIENT: string}}
    * @constructor
    */
   static get Contexts() {

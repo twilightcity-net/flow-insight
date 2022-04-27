@@ -21,6 +21,7 @@ const { app, session } = require("electron"),
   TerminalManager = require("../managers/TerminalManager"),
   ChartManager = require("../managers/ChartManager"),
   ChartWindowManager = require("../managers/ChartWindowManager"),
+  NotificationManager = require("../managers/NotificationManager"),
   { EventManager } = require("../events/EventManager"),
   EventFactory = require("../events/EventFactory"),
   {
@@ -53,6 +54,7 @@ const {
   default: installExtension,
   REACT_DEVELOPER_TOOLS,
 } = require("electron-devtools-installer");
+
 
 module.exports = class App {
   constructor() {
@@ -165,6 +167,7 @@ module.exports = class App {
       global.App.TalkToManager = new TalkToManager();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.FervieManager = new FervieManager();
+      global.App.NotificationManager = new NotificationManager();
       global.App.TerminalManager = new TerminalManager();
       global.App.ChartManager = new ChartManager();
       global.App.ChartWindowManager =

@@ -1,5 +1,6 @@
 const BaseController = require("./BaseController"),
   EventFactory = require("../events/EventFactory");
+const DatabaseFactory = require("../database/DatabaseFactory");
 
 /**
  * This class is used to coordinate calls to gridtime for the Fervie service
@@ -22,14 +23,16 @@ module.exports = class FervieController extends (
 
   /**
    * general enum list of all of our possible circuit events for fervie
-   * @returns {{SAVE_FERVIE_DETAILS: string, CREATE_PAIR_LINK:string, STOP_PAIRING:string}}
+   * @returns {{CANCEL_PAIR_REQUEST:string, SAVE_FERVIE_DETAILS: string, REQUEST_PAIR_LINK:string, CONFIRM_PAIR_LINK:string, STOP_PAIRING:string}}
    * @constructor
    */
   static get Events() {
     return {
       SAVE_FERVIE_DETAILS: "save-fervie-details",
-      CREATE_PAIR_LINK: "create-pair-link",
+      REQUEST_PAIR_LINK: "request-pair-link",
+      CONFIRM_PAIR_LINK: "confirm-pair-link",
       STOP_PAIRING: "stop-pairing",
+      CANCEL_PAIR_REQUEST: "cancel-pair-request"
     };
   }
 
@@ -75,11 +78,17 @@ module.exports = class FervieController extends (
         case FervieController.Events.SAVE_FERVIE_DETAILS:
           this.handleSaveFervieDetailsEvent(event, arg);
           break;
-        case FervieController.Events.CREATE_PAIR_LINK:
-          this.handleCreatePairLinkEvent(event, arg);
+        case FervieController.Events.REQUEST_PAIR_LINK:
+          this.handleRequestPairLinkEvent(event, arg);
+          break;
+        case FervieController.Events.CONFIRM_PAIR_LINK:
+          this.handleConfirmPairLinkEvent(event, arg);
           break;
         case FervieController.Events.STOP_PAIRING:
           this.handleStopPairingEvent(event, arg);
+          break;
+        case FervieController.Events.CANCEL_PAIR_REQUEST:
+          this.handleCancelPairRequestEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -134,19 +143,61 @@ module.exports = class FervieController extends (
    * @param arg
    * @param callback
    */
-  handleCreatePairLinkEvent(event, arg, callback) {
+  handleRequestPairLinkEvent(event, arg, callback) {
+
     let memberId = arg.args.memberId,
       urn =
         FervieController.Paths.FERVIE +
         FervieController.Paths.SEPARATOR +
         memberId +
         FervieController.Paths.PAIR +
-        FervieController.Paths.LINK;
+        FervieController.Paths.LINK +
+        FervieController.Paths.REQUEST;
+
+    let database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.NOTIFICATION
+    );
+
+    database.addPairRequest(memberId);
 
     this.doClientRequest(
       FervieController.Contexts.FERVIE_CLIENT,
       {},
-      FervieController.Names.CREATE_PAIR_LINK,
+      FervieController.Names.REQUEST_PAIR_LINK,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for confirming our pairing request
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleConfirmPairLinkEvent(event, arg, callback) {
+    let fromMemberId = arg.args.fromMemberId,
+      toMemberId = arg.args.toMemberId,
+      urn =
+        FervieController.Paths.FERVIE +
+        FervieController.Paths.SEPARATOR +
+        fromMemberId +
+        FervieController.Paths.PAIR +
+        FervieController.Paths.LINK +
+        FervieController.Paths.CONFIRM;
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {},
+      FervieController.Names.CONFIRM_PAIR_LINK,
       FervieController.Types.POST,
       urn,
       (store) =>
@@ -176,6 +227,45 @@ module.exports = class FervieController extends (
       FervieController.Contexts.FERVIE_CLIENT,
       {},
       FervieController.Names.STOP_PAIRING,
+      FervieController.Types.POST,
+      urn,
+      (store) =>
+        this.defaultDelegateCallback(
+          store,
+          event,
+          arg,
+          callback
+        )
+    );
+  }
+
+
+  /**
+   * client event handler for our cancel pairing request
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleCancelPairRequestEvent(event, arg, callback) {
+    let memberId = arg.args.memberId,
+      urn =
+        FervieController.Paths.FERVIE +
+        FervieController.Paths.SEPARATOR +
+        memberId +
+        FervieController.Paths.PAIR +
+        FervieController.Paths.LINK +
+        FervieController.Paths.CANCEL;
+
+    let database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.NOTIFICATION
+    );
+
+    database.removePairRequest(memberId);
+
+    this.doClientRequest(
+      FervieController.Contexts.FERVIE_CLIENT,
+      {},
+      FervieController.Names.CANCEL_PAIR_REQUEST,
       FervieController.Types.POST,
       urn,
       (store) =>
