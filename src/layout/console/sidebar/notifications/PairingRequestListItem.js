@@ -44,7 +44,7 @@ export default class PairingRequestListItem extends Component {
     );
   }
 
-  handleConfirmClick() {
+  handleConfirmClick = () => {
     console.log("Confirm clicked!");
 
     let fromMemberId = this.props.model.data.fromMemberId;
@@ -53,11 +53,13 @@ export default class PairingRequestListItem extends Component {
       if (arg.error) {
         console.error("Unable to confirm pairing link");
       } else {
+        console.log("confirm pairing returned!");
         NotificationClient.deleteNotification(this.props.model.id, this, (arg) => {
           if (arg.error) {
             console.error("Unable to delete notification");
+          } else {
+            this.props.refresh();
           }
-          this.props.refresh();
         });
       }
     });

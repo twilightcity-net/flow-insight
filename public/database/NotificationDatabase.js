@@ -210,8 +210,8 @@ module.exports = class NotificationDatabase extends LokiJS {
     let result = collection.findOne({type: messageType, fromMemberId: fromMemberId, canceled: false});
     if (result) {
       result.canceled = true;
+      collection.update(result);
     }
-    collection.update(result);
   }
 
   /**
