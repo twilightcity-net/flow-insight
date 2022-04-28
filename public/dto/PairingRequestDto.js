@@ -6,6 +6,8 @@ module.exports = class PairingRequestDto {
     try {
       if (typeof json === "string") json = JSON.parse(json);
 
+      this.messageType = json.messageType;
+
       this.fromMemberId = json.fromMemberId;
       this.fromUsername = json.fromUsername;
       this.fromFullName = json.fromFullName;

@@ -410,9 +410,29 @@ module.exports = class TalkController extends (
    * @param message - our message that was received via the talk network socket
    */
   handleTalkMessageDirectCallback(message) {
+
+    switch (message.messageType) {
+      case TalkController.MessageTypes.PAIRING_REQUEST:
+        this.handlePairingRequest(message);
+        break;
+      default:
+        console.warn(
+          chalk.bgRed(
+            TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +
+            " '" +
+            message.messageType +
+            "'."
+          )
+        );
+        break;
+    }
+    this.talkMessageClientListener.dispatch(message);
+  }
+
+  handlePairingRequest(message) {
     let id = message.messageId,
       messageTime = message.messageTime,
-      messageContext = message.messageContext,
+      messageContext = message.messageType,
       metaProps = message.metaProps,
       notificationDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.NOTIFICATION
@@ -421,7 +441,9 @@ module.exports = class TalkController extends (
     let fromMemberId = metaProps[TalkController.fromMemberIdMetaPropsStr];
     let fromUsername = metaProps[TalkController.fromUserNameMetaPropsStr];
 
-    switch (messageContext) {
+    let pairingRequestType = message.data.pairingRequestType;
+
+    switch (pairingRequestType) {
       case TalkController.PAIRING_REQUEST:
         notificationDatabase.addNotification(
           {
@@ -440,18 +462,8 @@ module.exports = class TalkController extends (
       case TalkController.PAIRING_CANCELLATION:
         notificationDatabase.cancelNotification(TalkController.PAIRING_REQUEST, fromMemberId);
         break;
-      default:
-        console.warn(
-          chalk.bgRed(
-            TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +
-            " '" +
-            message.messageType +
-            "'."
-          )
-        );
-        break;
     }
-    this.talkMessageClientListener.dispatch(message);
+
   }
   /**
    * our event callback handler talk messages. This function sorts incoming talk

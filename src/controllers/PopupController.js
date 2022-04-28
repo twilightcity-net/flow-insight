@@ -62,8 +62,10 @@ export class PopupController {
   };
 
   onTalkDirectMessage = (event, arg) => {
-    if (arg.messageContext === BaseClient.MessageContexts.PAIRING_REQUEST) {
-      this.showNotificationForPairingRequest(arg.data);
+    if (arg.messageType === BaseClient.MessageTypes.PAIRING_REQUEST) {
+      if (arg.data.pairingRequestType === BaseClient.PairingRequestTypes.PAIRING_REQUEST) {
+        this.showNotificationForPairingRequest(arg.data);
+      }
     }
   };
 

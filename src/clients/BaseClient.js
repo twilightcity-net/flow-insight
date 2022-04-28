@@ -70,7 +70,7 @@ export class BaseClient {
     };
   }
 
-  static get MessageContexts() {
+  static get PairingRequestTypes() {
     return {
       PAIRING_REQUEST: "PAIRING_REQUEST",
       PAIRING_CANCELLATION: "PAIRING_CANCELLATION",

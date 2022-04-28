@@ -167,12 +167,14 @@ export default class JournalResource extends Component {
    * @param arg
    */
   onTalkDirectMessage = (event, arg) => {
-    if (arg.messageContext === BaseClient.MessageContexts.PAIRING_CONFIRMED) {
-      console.log("confirmed for "+arg.data.toUsername);
-      if (arg.data.toUsername === this.username) {
-        this.setState({
-          isLinking: false
-        });
+    if (arg.messageType === BaseClient.MessageTypes.PAIRING_REQUEST) {
+      if (arg.data.pairingRequestType === BaseClient.PairingRequestTypes.PAIRING_CONFIRMED) {
+        console.log("confirmed for "+arg.data.toUsername);
+        if (arg.data.toUsername === this.username) {
+          this.setState({
+            isLinking: false
+          });
+        }
       }
     }
   };
