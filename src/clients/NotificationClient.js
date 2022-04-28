@@ -135,7 +135,7 @@ export class NotificationClient extends BaseClient {
    */
   static markAllAsRead(scope, callback) {
     let event = NotificationClient.instance.createClientEvent(
-      NotificationClient.Events.MARK_NOTIFICATION_AS_READ,
+      NotificationClient.Events.MARK_ALL_NOTIFICATION_AS_READ,
       {},
       scope,
       callback

@@ -223,7 +223,8 @@ module.exports = class NotificationController extends (
     );
 
     let view = database.getViewForUnreadNotifications();
-    arg.data = view.count();
+    let count = view.count();
+    arg.data = { count: count}
 
     this.delegateCallbackOrEventReplyTo(
       event,

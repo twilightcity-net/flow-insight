@@ -1132,8 +1132,6 @@
   /**
   * Notification panel contents
    */
-
-
   #component.consoleSidebarPanel .notificationsContent {
     height: 100%;
     overflow-y: scroll;
@@ -1191,10 +1189,21 @@
     background: red !important;
   }
 
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item:hover .actionButton .ui.label.grey:hover {
+    cursor: default !important;
+  }
+
   #component.consoleSidebarPanel .notificationsContent .ui.list .item:hover .actionButton:hover {
     cursor: pointer;
   }
 
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item.unread {
+    background: rgba(35, 35, 35, 1) !important;
+  }
+
+  #component.consoleSidebarPanel .notificationsContent .ui.list .item.canceled {
+    color: grey !important;
+  }
 
   #component.consoleSidebarPanel .notificationsContent .ui.list .item {
     padding: 0.840em;
@@ -1209,7 +1218,6 @@
   #component.consoleSidebarPanel .notificationsContent .ui.list .item.selected {
     padding-left: 1.260em;
   }
-
 
   /**
   * Retro circuit panel contents

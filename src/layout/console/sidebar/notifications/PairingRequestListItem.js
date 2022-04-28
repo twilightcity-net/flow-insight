@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {Label, List, Popup,} from "semantic-ui-react";
+import {Icon, Label, List, Popup,} from "semantic-ui-react";
 import {FervieClient} from "../../../../clients/FervieClient";
 import {NotificationClient} from "../../../../clients/NotificationClient";
 
@@ -19,6 +19,11 @@ export default class PairingRequestListItem extends Component {
   getPopupContent(trigger) {
     let teamMemberName =  this.props.model.data.fromDisplayName;
 
+    let message = teamMemberName + " would like to pair with you.";
+    if (this.props.model.canceled) {
+      message = teamMemberName + " canceled the pairing request.";
+    }
+
     let popupContent = (
       <div>
         <div>
@@ -26,7 +31,7 @@ export default class PairingRequestListItem extends Component {
             <b>Pairing Request</b>
           </div>
           <div>
-            <i>{teamMemberName} would like to pair with you.</i>
+            <i>{message}</i>
           </div>
         </div>
       </div>
@@ -72,9 +77,35 @@ export default class PairingRequestListItem extends Component {
       fullName = this.props.model.data.fromFullName;
     }
 
+    let button = "";
+    if (!this.props.model.canceled) {
+      button = (<Label color="violet" onClick={this.handleConfirmClick}>
+                <span>
+                  Confirm
+                </span>
+            </Label>);
+    } else {
+      button = (<Label color="grey">
+                <span>
+                  Canceled
+                </span>
+      </Label>);
+    }
+
+    let unreadClass = "";
+    if (!this.props.model.read) {
+      unreadClass = " unread";
+    }
+
+    let canceledClass = "";
+    if (this.props.model.canceled) {
+      canceledClass = " canceled";
+    }
+
+
     return this.getPopupContent(
       <List.Item
-        className="notificationItem"
+        className={"notificationItem" + unreadClass + canceledClass}
         key={this.props.id}
       >
         <List.Content
@@ -82,13 +113,10 @@ export default class PairingRequestListItem extends Component {
           verticalAlign="middle"
           className="actionButton"
         >
-          <Label color="violet" onClick={this.handleConfirmClick}>
-            <span>
-              Confirm
-            </span>
-          </Label>
+          {button}
         </List.Content>
         <List.Content>
+
           <List.Header>
             Pairing Request
           </List.Header>

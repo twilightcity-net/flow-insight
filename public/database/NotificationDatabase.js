@@ -91,8 +91,8 @@ module.exports = class NotificationDatabase extends LokiJS {
 
     allNotificationView.applySort(function (obj1, obj2) {
       if (obj1.timestamp === obj2.timestamp) return 0;
-      if (obj1.timestamp > obj2.timestamp) return 1;
-      if (obj1.timestamp < obj2.timestamp) return -1;
+      if (obj1.timestamp > obj2.timestamp) return -1;
+      if (obj1.timestamp < obj2.timestamp) return 1;
     });
 
     let unreadNotificationView = this.getCollection(
@@ -210,6 +210,7 @@ module.exports = class NotificationDatabase extends LokiJS {
     let result = collection.findOne({type: messageType, fromMemberId: fromMemberId, canceled: false});
     if (result) {
       result.canceled = true;
+      result.read = false;
       collection.update(result);
     }
   }
@@ -246,6 +247,7 @@ module.exports = class NotificationDatabase extends LokiJS {
    * Marks all notification from our local DB as read
    */
   markAllAsRead() {
+    console.log("markAllAsRead");
     let collection = this.getCollection(
       NotificationDatabase.Collections.NOTIFICATION
     );
@@ -259,6 +261,8 @@ module.exports = class NotificationDatabase extends LokiJS {
       let record = notifications[i];
       record.read = true;
       collection.update(record);
+
+      console.log("mark as read: "+record.id);
     }
 
   }

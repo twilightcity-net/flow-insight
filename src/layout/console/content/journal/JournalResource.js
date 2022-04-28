@@ -238,6 +238,7 @@ export default class JournalResource extends Component {
    */
   componentWillUnmount() {
     this.talkRoomMessageListener.clear();
+    this.directMessageListener.clear();
     this.journalRefreshListener.clear();
     this.clearKeyboardShortcuts();
   }

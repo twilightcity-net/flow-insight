@@ -11,6 +11,8 @@ import { DimensionController } from "../../../controllers/DimensionController";
 import { RendererEventFactory } from "../../../events/RendererEventFactory";
 import { BaseClient } from "../../../clients/BaseClient";
 import { MemberClient } from "../../../clients/MemberClient";
+import {FervieClient} from "../../../clients/FervieClient";
+import {NotificationClient} from "../../../clients/NotificationClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -41,6 +43,7 @@ export default class ConsoleSidebar extends Component {
       isAlarm: false,
       isXPUpdate: false,
       xpUpdateAmount: 0,
+      unreadNotificationCount: 0,
       activeItem:
         SidePanelViewController.MenuSelection.TEAM,
       iconFervie: "heart outline",
@@ -62,11 +65,25 @@ export default class ConsoleSidebar extends Component {
         this.onTalkRoomMessage
       );
 
+    this.directMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_CLIENT,
+        this,
+        this.onTalkDirectMessage
+      );
+
     this.meDataRefreshListener =
       RendererEventFactory.createEvent(
         RendererEventFactory.Events.ME_DATA_REFRESH,
         this,
         this.onMeRefresh
+      );
+
+    this.notificationReadUpdate =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATION_READ_UPDATE,
+        this,
+        this.onNotificationReadUpdate
       );
   }
 
@@ -128,6 +145,9 @@ export default class ConsoleSidebar extends Component {
       );
 
     this.setAlarmStateBasedOnStatus(MemberClient.me);
+    setTimeout(() => {
+      this.refreshNotificationStatus();
+    }, 3000);
   }
 
   /**
@@ -139,8 +159,35 @@ export default class ConsoleSidebar extends Component {
     this.myController.clearPulseListener();
     this.myController.clearSidebarShowListener();
     this.meDataRefreshListener.clear();
+    this.meUpdateListener.clear();
     this.circuitStartStopListener.clear();
     this.circuitPauseResumeListener.clear();
+    this.talkRoomMessageListener.clear();
+    this.directMessageListener.clear();
+  }
+
+  /**
+   * Called when notifications are read or updated in the notification panel, and the dot needs updating
+   */
+  onNotificationReadUpdate = () => {
+    this.refreshNotificationStatus();
+  }
+
+  /**
+   * Refresh the unread notification count so we update the dot
+   */
+  refreshNotificationStatus = () => {
+    NotificationClient.getUnreadNotificationCount(this, (arg) => {
+      if (arg.error) {
+        console.error("Unable to get unread notification count");
+      } else {
+        let count = arg.data.count;
+        console.log("count = "+count);
+        this.setState({
+          unreadNotificationCount: count
+        });
+      }
+    })
   }
 
   /**
@@ -165,6 +212,17 @@ export default class ConsoleSidebar extends Component {
       if (this.isMe(data.memberId)) {
         this.setXpUpdateState(data);
       }
+    }
+  };
+
+  /**
+   * On direct messages listen for pairing requests to know when we should update the notification count
+   * @param event
+   * @param arg
+   */
+  onTalkDirectMessage = (event, arg) => {
+    if (arg.messageType === BaseClient.MessageTypes.PAIRING_REQUEST) {
+      this.refreshNotificationStatus();
     }
   };
 
@@ -530,6 +588,16 @@ export default class ConsoleSidebar extends Component {
       errorMsg
     );
 
+    let notificationIcon = "";
+    if (this.state.unreadNotificationCount > 0) {
+      notificationIcon = (<Icon.Group>
+        <Icon name={this.state.iconNotifications} />
+        <Icon inverted corner='bottom right' name='circle' color="red" />
+      </Icon.Group>);
+    } else {
+      notificationIcon = <Icon name={this.state.iconNotifications} />
+    }
+
     return (
       <div
         id="component"
@@ -596,10 +664,7 @@ export default class ConsoleSidebar extends Component {
             }
             onClick={this.handleItemClick}
           >
-            <Icon.Group>
-              <Icon name={this.state.iconNotifications} />
-              <Icon inverted corner='bottom right' name='circle' color="red" />
-            </Icon.Group>
+            {notificationIcon}
           </Menu.Item>
 
           <Menu.Item

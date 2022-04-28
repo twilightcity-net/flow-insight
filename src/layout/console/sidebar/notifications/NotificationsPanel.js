@@ -5,6 +5,8 @@ import {SidePanelViewController} from "../../../../controllers/SidePanelViewCont
 import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
 import PairingRequestListItem from "./PairingRequestListItem";
 import {NotificationClient} from "../../../../clients/NotificationClient";
+import {RendererEventFactory} from "../../../../events/RendererEventFactory";
+import {BaseClient} from "../../../../clients/BaseClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -27,6 +29,19 @@ export default class NotificationsPanel extends Component {
     this.myController =
       RendererControllerFactory.getViewController(
         RendererControllerFactory.Views.CONSOLE_SIDEBAR
+      );
+
+    this.directMessageListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.TALK_MESSAGE_CLIENT,
+        this,
+        this.onTalkDirectMessage
+      );
+
+    this.notificationReadUpdate =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATION_READ_UPDATE,
+        this
       );
   }
 
@@ -80,6 +95,24 @@ export default class NotificationsPanel extends Component {
       this,
       null
     );
+    this.directMessageListener.clear();
+  };
+
+  /**
+   * On direct messages listen for pairing requests to know when we should update the panel
+   * @param event
+   * @param arg
+   */
+  onTalkDirectMessage = (event, arg) => {
+    if (arg.messageType === BaseClient.MessageTypes.PAIRING_REQUEST) {
+      if (arg.data.pairingRequestType === BaseClient.PairingRequestTypes.PAIRING_REQUEST) {
+        console.log("Received pairing request");
+        this.refreshNotifications();
+      } else if (arg.data.pairingRequestType === BaseClient.PairingRequestTypes.PAIRING_CANCELLATION) {
+        console.log("Received cancel request");
+        this.refreshNotifications();
+      }
+    }
   };
 
   /**
@@ -137,6 +170,14 @@ export default class NotificationsPanel extends Component {
         that.setState({
           notifications: arg.data
         });
+      }
+    });
+
+    NotificationClient.markAllAsRead(this, (arg) => {
+      if (arg.error) {
+        console.error("Unable to mark notifications as read, " + arg.error);
+      } else {
+        that.notificationReadUpdate.dispatch({});
       }
     });
   }

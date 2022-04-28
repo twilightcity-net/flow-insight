@@ -430,9 +430,8 @@ module.exports = class TalkController extends (
   }
 
   handlePairingRequest(message) {
-    let id = message.messageId,
+    let id = message.id,
       messageTime = message.messageTime,
-      messageContext = message.messageType,
       metaProps = message.metaProps,
       notificationDatabase = DatabaseFactory.getDatabase(
         DatabaseFactory.Names.NOTIFICATION
@@ -448,7 +447,7 @@ module.exports = class TalkController extends (
         notificationDatabase.addNotification(
           {
             id: id,
-            type: messageContext,
+            type: pairingRequestType,
             timestamp: messageTime,
             fromMemberId: fromMemberId,
             fromUsername: fromUsername,
