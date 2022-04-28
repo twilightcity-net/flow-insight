@@ -30,7 +30,6 @@ module.exports = class TalkController extends (
 
   /**
    * general enum list of all of our possible talk events
-   * @returns {String}
    * @constructor
    */
   static get Events() {
@@ -254,7 +253,11 @@ module.exports = class TalkController extends (
         log.info(
           chalk.green(name) + " client message : " + JSON.stringify(data)
         );
-        this.handleTalkMessageDirectCallback(data);
+        try {
+          this.handleTalkMessageDirectCallback(data);
+        } catch (e) {
+          log.error(chalk.red(this.name) + " " + e + "\n\n" + e.stack + "\n");
+        }
 
         fn();
       }
@@ -279,8 +282,13 @@ module.exports = class TalkController extends (
             roomId +
             "'"
         );
-        global.App.TalkManager.addRoom(roomId);
-        this.talkJoinRoomListener.dispatch(roomId);
+        try {
+          global.App.TalkManager.addRoom(roomId);
+          this.talkJoinRoomListener.dispatch(roomId);
+        } catch (e) {
+          log.error(chalk.red(this.name) + " " + e + "\n\n" + e.stack + "\n");
+        }
+
         fn(roomId);
       }
     );
@@ -293,8 +301,13 @@ module.exports = class TalkController extends (
             roomId +
             "'"
         );
-        global.App.TalkManager.removeRoom(roomId);
-        this.talkLeaveRoomListener.dispatch(roomId);
+        try {
+          global.App.TalkManager.removeRoom(roomId);
+          this.talkLeaveRoomListener.dispatch(roomId);
+        } catch (e) {
+          log.error(chalk.red(this.name) + " " + e + "\n\n" + e.stack + "\n");
+        }
+
         fn(roomId);
       }
     );

@@ -271,6 +271,7 @@ export default class JournalResource extends Component {
             this.state.activeIntention))
     ) {
       //there was a change in the selection, scroll to the selection
+      console.log("selection change");
       this.scrollToJournalItemById(
         this.state.activeIntention.id,
         true
@@ -721,11 +722,7 @@ export default class JournalResource extends Component {
         top: theHeight,
       }).then(callback);
     } else if (parentElement && rootElement) {
-      theHeight = rootElement.scrollHeight;
-      scrollTo(parentElement, {
-        behavior: smoothStr,
-        top: theHeight,
-      }).then(callback);
+      parentElement.scrollTop = parentElement.scrollHeight;
     }
   }
 
