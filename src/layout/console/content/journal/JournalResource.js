@@ -126,10 +126,7 @@ export default class JournalResource extends Component {
         break;
       case BaseClient.MessageTypes
         .INTENTION_STARTED_DETAILS:
-        if (
-          !this.isMyJournal() &&
-          this.username === username
-        ) {
+        if (this.username === username && (!this.isMyJournal() || this.isMemberPairing())) {
           this.addIntentionAndSetToActive(
             data.journalEntry
           );
@@ -306,6 +303,10 @@ export default class JournalResource extends Component {
       !prevState.member.pairingNetwork &&
       state.member.pairingNetwork
     );
+  }
+
+  isMemberPairing() {
+    return !!(this.state.member && this.state.member.pairingNetwork);
   }
 
   focusOnIntentionIfVisible() {
