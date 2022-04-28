@@ -38,7 +38,7 @@ export class SidePanelViewController extends ActiveViewController {
     this.activeTeamSubmenuSelection =
       SidePanelViewController.SubmenuSelection.TEAMS;
     this.activeCircuitsSubmenuSelection =
-      SidePanelViewController.SubmenuSelection.LIVE_CIRCUITS;
+      SidePanelViewController.SubmenuSelection.ACTIVE;
     this.activeNotificationsSubmenuSelection =
       SidePanelViewController.SubmenuSelection.NOTIFICATIONS;
     this.activeDashboardSubmenuSelection =
@@ -160,7 +160,7 @@ export class SidePanelViewController extends ActiveViewController {
 
   /**
    * enum list of the possible sub menu types of the console sidebar
-   * @returns {{BADGES: string, DASHBOARD: string, DO_IT_LATER_CIRCUITS: string, LIVE_CIRCUITS: string, TEAMS: string, FERVIE: string, RETRO_CIRCUITS: string, NOTIFICATIONS: string}}
+   * @returns {{BADGES: string, DASHBOARD: string, PAUSED: string, ACTIVE: string, TEAMS: string, FERVIE: string, RETRO: string, NOTIFICATIONS: string}}
    * @constructor
    */
   static get SubmenuSelection() {
@@ -169,9 +169,9 @@ export class SidePanelViewController extends ActiveViewController {
       BADGES: "badges",
       SKILLS: "skills",
       TEAMS: "teams",
-      LIVE_CIRCUITS: "live-circuits",
-      DO_IT_LATER_CIRCUITS: "do-it-later",
-      RETRO_CIRCUITS: "retro-circuits",
+      ACTIVE: "Active",
+      PAUSED: "Paused",
+      RETRO: "Retro",
       NOTIFICATIONS: "notifications",
       DASHBOARD: "dashboard",
     };

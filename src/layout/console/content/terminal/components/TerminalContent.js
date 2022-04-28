@@ -238,7 +238,7 @@ export default class TerminalContent extends Component {
       if (arg.data.statusEvent === "ROOM_MEMBER_JOIN") {
         msg = (
           <span className={"userSharedText"}>
-            {messageFromUsername + " joined the circuit."}
+            {messageFromUsername + " joined the session."}
           </span>
         );
       } else {

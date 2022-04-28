@@ -34,7 +34,7 @@ export default class CircuitsPanel extends Component {
     this.state = {
       activeItem:
         SidePanelViewController.SubmenuSelection
-          .LIVE_CIRCUITS,
+          .ACTIVE,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
       retroCircuitsVisible: false,
@@ -185,15 +185,15 @@ export default class CircuitsPanel extends Component {
       this.myController.activeCircuitsSubmenuSelection
     ) {
       case SidePanelViewController.SubmenuSelection
-        .LIVE_CIRCUITS:
+        .ACTIVE:
         this.showLiveCircuitsPanel();
         break;
       case SidePanelViewController.SubmenuSelection
-        .DO_IT_LATER_CIRCUITS:
+        .PAUSED:
         this.showDoItLaterCircuitsPanel();
         break;
       case SidePanelViewController.SubmenuSelection
-        .RETRO_CIRCUITS:
+        .RETRO:
         this.showRetroCircuitsPanel();
         break;
       default:
@@ -208,7 +208,7 @@ export default class CircuitsPanel extends Component {
     this.setState({
       activeItem:
         SidePanelViewController.SubmenuSelection
-          .LIVE_CIRCUITS,
+          .ACTIVE,
       liveCircuitsVisible: true,
       doItLaterCircuitsVisible: false,
       retroCircuitVisible: false,
@@ -234,7 +234,7 @@ export default class CircuitsPanel extends Component {
     this.setState({
       activeItem:
         SidePanelViewController.SubmenuSelection
-          .DO_IT_LATER_CIRCUITS,
+          .PAUSED,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: true,
       retroCircuitVisible: false,
@@ -258,7 +258,7 @@ export default class CircuitsPanel extends Component {
     this.setState({
       activeItem:
         SidePanelViewController.SubmenuSelection
-          .RETRO_CIRCUITS,
+          .RETRO,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
       retroCircuitsVisible: true,
@@ -504,36 +504,36 @@ export default class CircuitsPanel extends Component {
             <Menu.Item
               name={
                 SidePanelViewController.SubmenuSelection
-                  .LIVE_CIRCUITS
+                  .ACTIVE
               }
               active={
                 activeItem ===
                 SidePanelViewController.SubmenuSelection
-                  .LIVE_CIRCUITS
+                  .ACTIVE
               }
               onClick={this.handleCircuitSubmenuClick}
             />
             <Menu.Item
               name={
                 SidePanelViewController.SubmenuSelection
-                  .DO_IT_LATER_CIRCUITS
+                  .PAUSED
               }
               active={
                 activeItem ===
                 SidePanelViewController.SubmenuSelection
-                  .DO_IT_LATER_CIRCUITS
+                  .PAUSED
               }
               onClick={this.handleCircuitSubmenuClick}
             />
             <Menu.Item
               name={
                 SidePanelViewController.SubmenuSelection
-                  .RETRO_CIRCUITS
+                  .RETRO
               }
               active={
                 activeItem ===
                 SidePanelViewController.SubmenuSelection
-                  .RETRO_CIRCUITS
+                  .RETRO
               }
               onClick={this.handleCircuitSubmenuClick}
             />

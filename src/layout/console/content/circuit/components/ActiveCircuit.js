@@ -584,7 +584,7 @@ export default class ActiveCircuit extends Component {
         this.appendCircuitMemberEventMessage(
           arg,
           time,
-          "@" + username + " joined the circuit."
+          "@" + username + " joined the session."
         );
         this.addCircuitMemberToCircuit(roomMember);
         return;
