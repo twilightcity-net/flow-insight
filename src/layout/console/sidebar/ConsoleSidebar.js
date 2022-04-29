@@ -11,8 +11,8 @@ import { DimensionController } from "../../../controllers/DimensionController";
 import { RendererEventFactory } from "../../../events/RendererEventFactory";
 import { BaseClient } from "../../../clients/BaseClient";
 import { MemberClient } from "../../../clients/MemberClient";
-import {FervieClient} from "../../../clients/FervieClient";
-import {NotificationClient} from "../../../clients/NotificationClient";
+import { FervieClient } from "../../../clients/FervieClient";
+import { NotificationClient } from "../../../clients/NotificationClient";
 
 /**
  * this component is the sidebar to the console. This animates a slide.
@@ -81,7 +81,8 @@ export default class ConsoleSidebar extends Component {
 
     this.notificationReadUpdate =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATION_READ_UPDATE,
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_NOTIFICATION_READ_UPDATE,
         this,
         this.onNotificationReadUpdate
       );
@@ -171,24 +172,28 @@ export default class ConsoleSidebar extends Component {
    */
   onNotificationReadUpdate = () => {
     this.refreshNotificationStatus();
-  }
+  };
 
   /**
    * Refresh the unread notification count so we update the dot
    */
   refreshNotificationStatus = () => {
-    NotificationClient.getUnreadNotificationCount(this, (arg) => {
-      if (arg.error) {
-        console.error("Unable to get unread notification count");
-      } else {
-        let count = arg.data.count;
-        console.log("count = "+count);
-        this.setState({
-          unreadNotificationCount: count
-        });
+    NotificationClient.getUnreadNotificationCount(
+      this,
+      (arg) => {
+        if (arg.error) {
+          console.error(
+            "Unable to get unread notification count"
+          );
+        } else {
+          let count = arg.data.count;
+          this.setState({
+            unreadNotificationCount: count,
+          });
+        }
       }
-    })
-  }
+    );
+  };
 
   /**
    * event handler that is called whenever we receive a talk message
@@ -221,7 +226,10 @@ export default class ConsoleSidebar extends Component {
    * @param arg
    */
   onTalkDirectMessage = (event, arg) => {
-    if (arg.messageType === BaseClient.MessageTypes.PAIRING_REQUEST) {
+    if (
+      arg.messageType ===
+      BaseClient.MessageTypes.PAIRING_REQUEST
+    ) {
       this.refreshNotificationStatus();
     }
   };
@@ -590,12 +598,21 @@ export default class ConsoleSidebar extends Component {
 
     let notificationIcon = "";
     if (this.state.unreadNotificationCount > 0) {
-      notificationIcon = (<Icon.Group>
-        <Icon name={this.state.iconNotifications} />
-        <Icon inverted corner='bottom right' name='circle' color="purple" />
-      </Icon.Group>);
+      notificationIcon = (
+        <Icon.Group>
+          <Icon name={this.state.iconNotifications} />
+          <Icon
+            inverted
+            corner="bottom right"
+            name="circle"
+            color="purple"
+          />
+        </Icon.Group>
+      );
     } else {
-      notificationIcon = <Icon name={this.state.iconNotifications} />
+      notificationIcon = (
+        <Icon name={this.state.iconNotifications} />
+      );
     }
 
     return (

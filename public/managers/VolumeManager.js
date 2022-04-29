@@ -1,7 +1,7 @@
 const log = require("electron-log"),
   Util = require("../Util"),
   EventFactory = require("../events/EventFactory"),
-  {EventManager} = require("../events/EventManager"),
+  { EventManager } = require("../events/EventManager"),
   DatabaseFactory = require("../database/DatabaseFactory");
 
 /**

@@ -17,17 +17,19 @@ module.exports = class PairingRequestDto {
       this.toUsername = json.toUsername;
       this.toFullName = json.toFullName;
       this.toDisplayName = json.toDisplayName;
-
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'PairingRequestDto' : " + e.message
+        "Unable to create dto 'PairingRequestDto' : " +
+          e.message
       );
     }
   }
 
-
   isValid() {
-    if (this.fromMemberId != null && this.toMemberId != null)
+    if (
+      this.fromMemberId != null &&
+      this.toMemberId != null
+    )
       return true;
     return false;
   }

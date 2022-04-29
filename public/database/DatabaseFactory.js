@@ -24,7 +24,7 @@ class DatabaseFactory {
       TEAM: "team",
       MEMBER: "member",
       DICTIONARY: "dictionary",
-      NOTIFICATION: "notification"
+      NOTIFICATION: "notification",
     };
   }
 

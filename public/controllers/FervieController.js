@@ -32,7 +32,7 @@ module.exports = class FervieController extends (
       REQUEST_PAIR_LINK: "request-pair-link",
       CONFIRM_PAIR_LINK: "confirm-pair-link",
       STOP_PAIRING: "stop-pairing",
-      CANCEL_PAIR_REQUEST: "cancel-pair-request"
+      CANCEL_PAIR_REQUEST: "cancel-pair-request",
     };
   }
 
@@ -144,7 +144,6 @@ module.exports = class FervieController extends (
    * @param callback
    */
   handleRequestPairLinkEvent(event, arg, callback) {
-
     let memberId = arg.args.memberId,
       urn =
         FervieController.Paths.FERVIE +
@@ -175,7 +174,6 @@ module.exports = class FervieController extends (
         )
     );
   }
-
 
   /**
    * client event handler for confirming our pairing request
@@ -238,7 +236,6 @@ module.exports = class FervieController extends (
         )
     );
   }
-
 
   /**
    * client event handler for our cancel pairing request

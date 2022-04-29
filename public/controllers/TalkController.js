@@ -251,12 +251,21 @@ module.exports = class TalkController extends (
       TalkController.Events.MESSAGE_CLIENT,
       (data, fn) => {
         log.info(
-          chalk.green(name) + " client message : " + JSON.stringify(data)
+          chalk.green(name) +
+            " client message : " +
+            JSON.stringify(data)
         );
         try {
           this.handleTalkMessageDirectCallback(data);
         } catch (e) {
-          log.error(chalk.red(this.name) + " " + e + "\n\n" + e.stack + "\n");
+          log.error(
+            chalk.red(this.name) +
+              " " +
+              e +
+              "\n\n" +
+              e.stack +
+              "\n"
+          );
         }
 
         fn();
@@ -286,7 +295,14 @@ module.exports = class TalkController extends (
           global.App.TalkManager.addRoom(roomId);
           this.talkJoinRoomListener.dispatch(roomId);
         } catch (e) {
-          log.error(chalk.red(this.name) + " " + e + "\n\n" + e.stack + "\n");
+          log.error(
+            chalk.red(this.name) +
+              " " +
+              e +
+              "\n\n" +
+              e.stack +
+              "\n"
+          );
         }
 
         fn(roomId);
@@ -305,7 +321,14 @@ module.exports = class TalkController extends (
           global.App.TalkManager.removeRoom(roomId);
           this.talkLeaveRoomListener.dispatch(roomId);
         } catch (e) {
-          log.error(chalk.red(this.name) + " " + e + "\n\n" + e.stack + "\n");
+          log.error(
+            chalk.red(this.name) +
+              " " +
+              e +
+              "\n\n" +
+              e.stack +
+              "\n"
+          );
         }
 
         fn(roomId);
@@ -423,7 +446,6 @@ module.exports = class TalkController extends (
    * @param message - our message that was received via the talk network socket
    */
   handleTalkMessageDirectCallback(message) {
-
     switch (message.messageType) {
       case TalkController.MessageTypes.PAIRING_REQUEST:
         this.handlePairingRequest(message);
@@ -432,9 +454,9 @@ module.exports = class TalkController extends (
         console.warn(
           chalk.bgRed(
             TalkController.Error.UNKNOWN_TALK_MESSAGE_TYPE +
-            " '" +
-            message.messageType +
-            "'."
+              " '" +
+              message.messageType +
+              "'."
           )
         );
         break;
@@ -450,32 +472,39 @@ module.exports = class TalkController extends (
         DatabaseFactory.Names.NOTIFICATION
       );
 
-    let fromMemberId = metaProps[TalkController.fromMemberIdMetaPropsStr];
-    let fromUsername = metaProps[TalkController.fromUserNameMetaPropsStr];
+    let fromMemberId =
+      metaProps[TalkController.fromMemberIdMetaPropsStr];
+    let fromUsername =
+      metaProps[TalkController.fromUserNameMetaPropsStr];
 
-    let pairingRequestType = message.data.pairingRequestType;
+    let pairingRequestType =
+      message.data.pairingRequestType;
 
     switch (pairingRequestType) {
       case TalkController.PAIRING_REQUEST:
-        notificationDatabase.addNotification(
-          {
-            id: id,
-            type: pairingRequestType,
-            timestamp: messageTime,
-            fromMemberId: fromMemberId,
-            fromUsername: fromUsername,
-            read: false,
-            canceled: false,
-            data: message.data});
+        notificationDatabase.addNotification({
+          id: id,
+          type: pairingRequestType,
+          timestamp: messageTime,
+          fromMemberId: fromMemberId,
+          fromUsername: fromUsername,
+          read: false,
+          canceled: false,
+          data: message.data,
+        });
         break;
       case TalkController.PAIRING_CONFIRMED:
-        notificationDatabase.removePairRequest(fromMemberId);
+        notificationDatabase.removePairRequest(
+          fromMemberId
+        );
         break;
       case TalkController.PAIRING_CANCELLATION:
-        notificationDatabase.cancelNotification(TalkController.PAIRING_REQUEST, fromMemberId);
+        notificationDatabase.cancelNotification(
+          TalkController.PAIRING_REQUEST,
+          fromMemberId
+        );
         break;
     }
-
   }
   /**
    * our event callback handler talk messages. This function sorts incoming talk

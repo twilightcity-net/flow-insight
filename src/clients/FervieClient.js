@@ -36,7 +36,7 @@ export class FervieClient extends BaseClient {
       REQUEST_PAIR_LINK: "request-pair-link",
       CONFIRM_PAIR_LINK: "confirm-pair-link",
       STOP_PAIRING: "stop-pairing",
-      CANCEL_PAIR_REQUEST: "cancel-pair-request"
+      CANCEL_PAIR_REQUEST: "cancel-pair-request",
     };
   }
 
@@ -105,7 +105,6 @@ export class FervieClient extends BaseClient {
     return event;
   }
 
-
   /**
    * Cancel a pair request to a specified team member
    * @param memberId
@@ -135,7 +134,12 @@ export class FervieClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static confirmPairingLink(fromMemberId, toMemberId, scope, callback) {
+  static confirmPairingLink(
+    fromMemberId,
+    toMemberId,
+    scope,
+    callback
+  ) {
     let event = FervieClient.instance.createClientEvent(
       FervieClient.Events.CONFIRM_PAIR_LINK,
       {

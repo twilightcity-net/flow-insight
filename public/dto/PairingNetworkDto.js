@@ -10,7 +10,8 @@ module.exports = class PairingNetworkDto {
       this.sparkLinks = json.sparkLinks;
     } catch (e) {
       throw new Error(
-        "Unable to create dto 'PairingNetworkDto' : " + e.message
+        "Unable to create dto 'PairingNetworkDto' : " +
+          e.message
       );
     }
   }

@@ -50,20 +50,22 @@ export default class JournalLinkPanel extends Component {
           color="grey"
         >
           Cancel&nbsp;
-          <Icon name="broken chain"/>
+          <Icon name="broken chain" />
         </Button>
       );
     } else if (this.props.incomingPairRequest) {
-      return (<Button
-        icon
-        className="linkButton"
-        onClick={this.onClickConfirm}
-        size="medium"
-        color="violet"
-      >
-        Confirm&nbsp;
-        <Icon name="linkify"/>
-      </Button>);
+      return (
+        <Button
+          icon
+          className="linkButton"
+          onClick={this.onClickConfirm}
+          size="medium"
+          color="violet"
+        >
+          Confirm&nbsp;
+          <Icon name="linkify" />
+        </Button>
+      );
     } else if (isMemberLinked && pairingIncludesMe) {
       return (
         <Button

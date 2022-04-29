@@ -35,9 +35,12 @@ export class NotificationClient extends BaseClient {
       GET_NOTIFICATION_COUNT: "get-notification-count",
       GET_NOTIFICATIONS: "get-notifications",
       DELETE_NOTIFICATION: "delete-notification",
-      MARK_NOTIFICATION_AS_READ: "mark-notification-as-read",
-      MARK_ALL_NOTIFICATION_AS_READ: "mark-all-notification-as-read",
-      GET_NOTIFICATION_OF_TYPE_FOR_USER: "get-notification-of-type-for-user"
+      MARK_NOTIFICATION_AS_READ:
+        "mark-notification-as-read",
+      MARK_ALL_NOTIFICATION_AS_READ:
+        "mark-all-notification-as-read",
+      GET_NOTIFICATION_OF_TYPE_FOR_USER:
+        "get-notification-of-type-for-user",
     };
   }
 
@@ -61,16 +64,16 @@ export class NotificationClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static getNotifications(scope, callback) {
-    let event = NotificationClient.instance.createClientEvent(
-      NotificationClient.Events.GET_NOTIFICATIONS,
-      {},
-      scope,
-      callback
-    );
+    let event =
+      NotificationClient.instance.createClientEvent(
+        NotificationClient.Events.GET_NOTIFICATIONS,
+        {},
+        scope,
+        callback
+      );
     NotificationClient.instance.notifyNotification(event);
     return event;
   }
-
 
   /**
    * gets any incoming pair request notifications for a specific
@@ -81,18 +84,23 @@ export class NotificationClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static getNotificationOfTypeForUser(username, notificationType, scope, callback) {
-    let event = NotificationClient.instance.createClientEvent(
-      NotificationClient.Events.GET_NOTIFICATION_OF_TYPE_FOR_USER,
-      {username: username, type: notificationType},
-      scope,
-      callback
-    );
+  static getNotificationOfTypeForUser(
+    username,
+    notificationType,
+    scope,
+    callback
+  ) {
+    let event =
+      NotificationClient.instance.createClientEvent(
+        NotificationClient.Events
+          .GET_NOTIFICATION_OF_TYPE_FOR_USER,
+        { username: username, type: notificationType },
+        scope,
+        callback
+      );
     NotificationClient.instance.notifyNotification(event);
     return event;
   }
-
-
 
   /**
    * gets the count of our unread notifications so we know
@@ -102,12 +110,13 @@ export class NotificationClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static getUnreadNotificationCount(scope, callback) {
-    let event = NotificationClient.instance.createClientEvent(
-      NotificationClient.Events.GET_NOTIFICATION_COUNT,
-      {},
-      scope,
-      callback
-    );
+    let event =
+      NotificationClient.instance.createClientEvent(
+        NotificationClient.Events.GET_NOTIFICATION_COUNT,
+        {},
+        scope,
+        callback
+      );
     NotificationClient.instance.notifyNotification(event);
     return event;
   }
@@ -119,17 +128,21 @@ export class NotificationClient extends BaseClient {
    * @param callback
    * @returns {RendererClientEvent}
    */
-  static deleteNotification(notificationId, scope, callback) {
-    let event = NotificationClient.instance.createClientEvent(
-      NotificationClient.Events.DELETE_NOTIFICATION,
-      {id : notificationId},
-      scope,
-      callback
-    );
+  static deleteNotification(
+    notificationId,
+    scope,
+    callback
+  ) {
+    let event =
+      NotificationClient.instance.createClientEvent(
+        NotificationClient.Events.DELETE_NOTIFICATION,
+        { id: notificationId },
+        scope,
+        callback
+      );
     NotificationClient.instance.notifyNotification(event);
     return event;
   }
-
 
   /**
    * Marks a specific notification as read
@@ -139,16 +152,16 @@ export class NotificationClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static markAsRead(notificationId, scope, callback) {
-    let event = NotificationClient.instance.createClientEvent(
-      NotificationClient.Events.MARK_NOTIFICATION_AS_READ,
-      {id : notificationId},
-      scope,
-      callback
-    );
+    let event =
+      NotificationClient.instance.createClientEvent(
+        NotificationClient.Events.MARK_NOTIFICATION_AS_READ,
+        { id: notificationId },
+        scope,
+        callback
+      );
     NotificationClient.instance.notifyNotification(event);
     return event;
   }
-
 
   /**
    * Marks a specific notification as read
@@ -157,12 +170,14 @@ export class NotificationClient extends BaseClient {
    * @returns {RendererClientEvent}
    */
   static markAllAsRead(scope, callback) {
-    let event = NotificationClient.instance.createClientEvent(
-      NotificationClient.Events.MARK_ALL_NOTIFICATION_AS_READ,
-      {},
-      scope,
-      callback
-    );
+    let event =
+      NotificationClient.instance.createClientEvent(
+        NotificationClient.Events
+          .MARK_ALL_NOTIFICATION_AS_READ,
+        {},
+        scope,
+        callback
+      );
     NotificationClient.instance.notifyNotification(event);
     return event;
   }
@@ -175,7 +190,9 @@ export class NotificationClient extends BaseClient {
    * @param arg
    */
   onNotificationEventReply = (event, arg) => {
-    let clientEvent = NotificationClient.replies.get(arg.id);
+    let clientEvent = NotificationClient.replies.get(
+      arg.id
+    );
     this.logReply(
       NotificationClient.name,
       NotificationClient.replies.size,

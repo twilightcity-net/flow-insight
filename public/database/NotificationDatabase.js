@@ -24,7 +24,7 @@ module.exports = class NotificationDatabase extends LokiJS {
   static get Collections() {
     return {
       NOTIFICATION: "notification",
-      PAIR_REQUEST: "pair-request"
+      PAIR_REQUEST: "pair-request",
     };
   }
 
@@ -37,7 +37,7 @@ module.exports = class NotificationDatabase extends LokiJS {
     return {
       ALL_NOTIFICATION: "all-notification",
       UNREAD_NOTIFICATION: "unread-notification",
-      ALL_PAIR_REQUEST: "all-pair-request"
+      ALL_PAIR_REQUEST: "all-pair-request",
     };
   }
 
@@ -50,7 +50,7 @@ module.exports = class NotificationDatabase extends LokiJS {
     return {
       ID: "id",
       TYPE: "type",
-      READ: "read"
+      READ: "read",
     };
   }
 
@@ -67,7 +67,7 @@ module.exports = class NotificationDatabase extends LokiJS {
         indices: [
           NotificationDatabase.Indices.ID,
           NotificationDatabase.Indices.TYPE,
-          NotificationDatabase.Indices.READ
+          NotificationDatabase.Indices.READ,
         ],
       }
     );
@@ -75,19 +75,21 @@ module.exports = class NotificationDatabase extends LokiJS {
     this.addCollection(
       NotificationDatabase.Collections.PAIR_REQUEST,
       {
-        indices: [
-          NotificationDatabase.Indices.ID
-        ],
+        indices: [NotificationDatabase.Indices.ID],
       }
     );
 
     let allPairRequestView = this.getCollection(
       NotificationDatabase.Collections.PAIR_REQUEST
-    ).addDynamicView(NotificationDatabase.Views.ALL_PAIR_REQUEST);
+    ).addDynamicView(
+      NotificationDatabase.Views.ALL_PAIR_REQUEST
+    );
 
     let allNotificationView = this.getCollection(
       NotificationDatabase.Collections.NOTIFICATION
-    ).addDynamicView(NotificationDatabase.Views.ALL_NOTIFICATION);
+    ).addDynamicView(
+      NotificationDatabase.Views.ALL_NOTIFICATION
+    );
 
     allNotificationView.applySort(function (obj1, obj2) {
       if (obj1.timestamp === obj2.timestamp) return 0;
@@ -97,7 +99,9 @@ module.exports = class NotificationDatabase extends LokiJS {
 
     let unreadNotificationView = this.getCollection(
       NotificationDatabase.Collections.NOTIFICATION
-    ).addDynamicView(NotificationDatabase.Views.UNREAD_NOTIFICATION);
+    ).addDynamicView(
+      NotificationDatabase.Views.UNREAD_NOTIFICATION
+    );
 
     unreadNotificationView.applyFind({
       read: false,
@@ -116,7 +120,6 @@ module.exports = class NotificationDatabase extends LokiJS {
       NotificationDatabase.Views.ALL_PAIR_REQUEST
     );
   }
-
 
   /**
    * gets our view for all of our notifications
@@ -153,7 +156,7 @@ module.exports = class NotificationDatabase extends LokiJS {
       NotificationDatabase.Collections.PAIR_REQUEST
     );
 
-    let pairRequest = {id: toMemberId};
+    let pairRequest = { id: toMemberId };
 
     DatabaseUtil.findRemoveInsert(pairRequest, collection);
   }
@@ -167,7 +170,7 @@ module.exports = class NotificationDatabase extends LokiJS {
       NotificationDatabase.Collections.PAIR_REQUEST
     );
 
-    let pairRequest = {id: toMemberId};
+    let pairRequest = { id: toMemberId };
 
     DatabaseUtil.findRemove(pairRequest, collection);
   }
@@ -195,9 +198,16 @@ module.exports = class NotificationDatabase extends LokiJS {
     );
 
     //check if this is a duplicate message first, sometimes that happens with lag
-    let duplicate = collection.findOne({type: notificationObj.type, fromMemberId: notificationObj.fromMemberId, canceled: false});
+    let duplicate = collection.findOne({
+      type: notificationObj.type,
+      fromMemberId: notificationObj.fromMemberId,
+      canceled: false,
+    });
     if (!duplicate) {
-      DatabaseUtil.findRemoveInsert(notificationObj, collection);
+      DatabaseUtil.findRemoveInsert(
+        notificationObj,
+        collection
+      );
     }
   }
 
@@ -208,12 +218,15 @@ module.exports = class NotificationDatabase extends LokiJS {
    * @returns {*}
    */
   findByUserAndType(username, type) {
-
     let collection = this.getCollection(
       NotificationDatabase.Collections.NOTIFICATION
     );
 
-    return collection.findOne({type: type, fromUsername: username, canceled: false});
+    return collection.findOne({
+      type: type,
+      fromUsername: username,
+      canceled: false,
+    });
   }
 
   /**
@@ -226,7 +239,11 @@ module.exports = class NotificationDatabase extends LokiJS {
       NotificationDatabase.Collections.NOTIFICATION
     );
 
-    let result = collection.findOne({type: messageType, fromMemberId: fromMemberId, canceled: false});
+    let result = collection.findOne({
+      type: messageType,
+      fromMemberId: fromMemberId,
+      canceled: false,
+    });
     if (result) {
       result.canceled = true;
       result.read = false;
@@ -243,7 +260,10 @@ module.exports = class NotificationDatabase extends LokiJS {
       NotificationDatabase.Collections.NOTIFICATION
     );
 
-    DatabaseUtil.findRemove({id: notificationId}, collection);
+    DatabaseUtil.findRemove(
+      { id: notificationId },
+      collection
+    );
   }
 
   /**
@@ -281,9 +301,7 @@ module.exports = class NotificationDatabase extends LokiJS {
       record.read = true;
       collection.update(record);
 
-      console.log("mark as read: "+record.id);
+      console.log("mark as read: " + record.id);
     }
-
   }
-
 };

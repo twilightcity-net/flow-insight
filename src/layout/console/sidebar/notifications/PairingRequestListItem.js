@@ -1,15 +1,18 @@
-import React, {Component} from "react";
-import {Icon, Label, List, Popup,} from "semantic-ui-react";
-import {FervieClient} from "../../../../clients/FervieClient";
-import {NotificationClient} from "../../../../clients/NotificationClient";
+import React, { Component } from "react";
+import {
+  Icon,
+  Label,
+  List,
+  Popup,
+} from "semantic-ui-react";
+import { FervieClient } from "../../../../clients/FervieClient";
+import { NotificationClient } from "../../../../clients/NotificationClient";
 
 export default class PairingRequestListItem extends Component {
   constructor(props) {
     super(props);
     this.wtfTimer = null;
-
   }
-
 
   /**
    * renders our popup content for our GUI to display to the user
@@ -17,11 +20,14 @@ export default class PairingRequestListItem extends Component {
    * @returns {*}
    */
   getPopupContent(trigger) {
-    let teamMemberName =  this.props.model.data.fromDisplayName;
+    let teamMemberName =
+      this.props.model.data.fromDisplayName;
 
-    let message = teamMemberName + " would like to pair with you.";
+    let message =
+      teamMemberName + " would like to pair with you.";
     if (this.props.model.canceled) {
-      message = teamMemberName + " canceled the pairing request.";
+      message =
+        teamMemberName + " canceled the pairing request.";
     }
 
     let popupContent = (
@@ -53,23 +59,33 @@ export default class PairingRequestListItem extends Component {
     console.log("Confirm clicked!");
 
     let fromMemberId = this.props.model.data.fromMemberId;
-    let toMemberId = this.props.model.data.toMemberId
-    FervieClient.confirmPairingLink(fromMemberId, toMemberId, this, (arg) => {
-      if (arg.error) {
-        console.error("Unable to confirm pairing link");
-      } else {
-        console.log("confirm pairing returned!");
-        NotificationClient.deleteNotification(this.props.model.id, this, (arg) => {
-          if (arg.error) {
-            console.error("Unable to delete notification");
-          } else {
-            this.props.refresh();
-          }
-        });
+    let toMemberId = this.props.model.data.toMemberId;
+    FervieClient.confirmPairingLink(
+      fromMemberId,
+      toMemberId,
+      this,
+      (arg) => {
+        if (arg.error) {
+          console.error("Unable to confirm pairing link");
+        } else {
+          console.log("confirm pairing returned!");
+          NotificationClient.deleteNotification(
+            this.props.model.id,
+            this,
+            (arg) => {
+              if (arg.error) {
+                console.error(
+                  "Unable to delete notification"
+                );
+              } else {
+                this.props.refresh();
+              }
+            }
+          );
+        }
       }
-    });
-
-  }
+    );
+  };
 
   render() {
     let fullName = "Team Member";
@@ -88,24 +104,27 @@ export default class PairingRequestListItem extends Component {
 
     let button = "";
     if (!this.props.model.canceled) {
-      button = (<Label color="violet" onClick={this.handleConfirmClick}>
-                <span>
-                  Confirm
-                </span>
-            </Label>);
+      button = (
+        <Label
+          color="violet"
+          onClick={this.handleConfirmClick}
+        >
+          <span>Confirm</span>
+        </Label>
+      );
     } else {
-      button = (<Label color="grey">
-                <span className={canceledClass}>
-                  Canceled
-                </span>
-      </Label>);
+      button = (
+        <Label color="grey">
+          <span className={canceledClass}>Canceled</span>
+        </Label>
+      );
     }
-
-
 
     return this.getPopupContent(
       <List.Item
-        className={"notificationItem" + unreadClass + canceledClass}
+        className={
+          "notificationItem" + unreadClass + canceledClass
+        }
         key={this.props.id}
       >
         <List.Content
@@ -116,7 +135,6 @@ export default class PairingRequestListItem extends Component {
           {button}
         </List.Content>
         <List.Content>
-
           <List.Header className={canceledClass}>
             Pairing Request
           </List.Header>

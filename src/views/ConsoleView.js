@@ -14,7 +14,7 @@ import { DictionaryClient } from "../clients/DictionaryClient";
 import { FervieClient } from "../clients/FervieClient";
 import { TerminalClient } from "../clients/TerminalClient";
 import { ChartClient } from "../clients/ChartClient";
-import {NotificationClient} from "../clients/NotificationClient";
+import { NotificationClient } from "../clients/NotificationClient";
 
 /**
  * This View will contain logic to inject the various tabs of the

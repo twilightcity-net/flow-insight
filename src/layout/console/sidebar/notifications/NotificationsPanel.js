@@ -1,12 +1,17 @@
-import React, {Component} from "react";
-import {List, Menu, Segment, Transition,} from "semantic-ui-react";
-import {DimensionController} from "../../../../controllers/DimensionController";
-import {SidePanelViewController} from "../../../../controllers/SidePanelViewController";
-import {RendererControllerFactory} from "../../../../controllers/RendererControllerFactory";
+import React, { Component } from "react";
+import {
+  List,
+  Menu,
+  Segment,
+  Transition,
+} from "semantic-ui-react";
+import { DimensionController } from "../../../../controllers/DimensionController";
+import { SidePanelViewController } from "../../../../controllers/SidePanelViewController";
+import { RendererControllerFactory } from "../../../../controllers/RendererControllerFactory";
 import PairingRequestListItem from "./PairingRequestListItem";
-import {NotificationClient} from "../../../../clients/NotificationClient";
-import {RendererEventFactory} from "../../../../events/RendererEventFactory";
-import {BaseClient} from "../../../../clients/BaseClient";
+import { NotificationClient } from "../../../../clients/NotificationClient";
+import { RendererEventFactory } from "../../../../events/RendererEventFactory";
+import { BaseClient } from "../../../../clients/BaseClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -40,13 +45,15 @@ export default class NotificationsPanel extends Component {
 
     this.notificationReadUpdate =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATION_READ_UPDATE,
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_NOTIFICATION_READ_UPDATE,
         this
       );
 
     this.refreshNotificationsListener =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATION_REFRESH,
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_NOTIFICATION_REFRESH,
         this,
         this.refreshNotifications
       );
@@ -69,7 +76,7 @@ export default class NotificationsPanel extends Component {
         animationDelay:
           SidePanelViewController.AnimationDelays.SUBMENU,
         title: "",
-        notifications: []
+        notifications: [],
       };
     }
     return state;
@@ -114,11 +121,20 @@ export default class NotificationsPanel extends Component {
    * @param arg
    */
   onTalkDirectMessage = (event, arg) => {
-    if (arg.messageType === BaseClient.MessageTypes.PAIRING_REQUEST) {
-      if (arg.data.pairingRequestType === BaseClient.PairingRequestTypes.PAIRING_REQUEST) {
+    if (
+      arg.messageType ===
+      BaseClient.MessageTypes.PAIRING_REQUEST
+    ) {
+      if (
+        arg.data.pairingRequestType ===
+        BaseClient.PairingRequestTypes.PAIRING_REQUEST
+      ) {
         console.log("Received pairing request");
         this.refreshNotifications();
-      } else if (arg.data.pairingRequestType === BaseClient.PairingRequestTypes.PAIRING_CANCELLATION) {
+      } else if (
+        arg.data.pairingRequestType ===
+        BaseClient.PairingRequestTypes.PAIRING_CANCELLATION
+      ) {
         console.log("Received cancel request");
         this.refreshNotifications();
       }
@@ -175,22 +191,27 @@ export default class NotificationsPanel extends Component {
     let that = this;
     NotificationClient.getNotifications(this, (arg) => {
       if (arg.error) {
-        console.error("Unable to load notifications, " + arg.error);
+        console.error(
+          "Unable to load notifications, " + arg.error
+        );
       } else {
         that.setState({
-          notifications: arg.data
+          notifications: arg.data,
         });
       }
     });
 
     NotificationClient.markAllAsRead(this, (arg) => {
       if (arg.error) {
-        console.error("Unable to mark notifications as read, " + arg.error);
+        console.error(
+          "Unable to mark notifications as read, " +
+            arg.error
+        );
       } else {
         that.notificationReadUpdate.dispatch({});
       }
     });
-  }
+  };
 
   /**
    * gets the notification content panel for the sidebar
@@ -199,7 +220,7 @@ export default class NotificationsPanel extends Component {
   getNotificationsContent = () => {
     let notificationCount = this.state.notifications.length;
 
-    console.log("notification count ="+notificationCount);
+    console.log("notification count =" + notificationCount);
     let content = "";
 
     if (notificationCount > 0) {
@@ -213,26 +234,29 @@ export default class NotificationsPanel extends Component {
             verticalAlign="middle"
             size="large"
           >
-            {this.state.notifications.map((notification, i) => (
-              <PairingRequestListItem
-                key={i}
-                id={i}
-                model={notification}
-                refresh={this.refreshNotifications}
-              />
-            ))}
+            {this.state.notifications.map(
+              (notification, i) => (
+                <PairingRequestListItem
+                  key={i}
+                  id={i}
+                  model={notification}
+                  refresh={this.refreshNotifications}
+                />
+              )
+            )}
           </List>
         </div>
       );
     } else {
-      content = (<div className={NotificationsPanel.className}>
-        <i>No notifications, check back later :)</i>
-      </div>);
+      content = (
+        <div className={NotificationsPanel.className}>
+          <i>No notifications, check back later :)</i>
+        </div>
+      );
     }
 
     return content;
   };
-
 
   /**
    * renders the console sidebar panel of the console view

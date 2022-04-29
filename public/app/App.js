@@ -55,7 +55,6 @@ const {
   REACT_DEVELOPER_TOOLS,
 } = require("electron-devtools-installer");
 
-
 module.exports = class App {
   constructor() {
     AppBanner.forEach((v) =>
@@ -167,7 +166,8 @@ module.exports = class App {
       global.App.TalkToManager = new TalkToManager();
       global.App.ShortcutManager = new ShortcutManager();
       global.App.FervieManager = new FervieManager();
-      global.App.NotificationManager = new NotificationManager();
+      global.App.NotificationManager =
+        new NotificationManager();
       global.App.TerminalManager = new TerminalManager();
       global.App.ChartManager = new ChartManager();
       global.App.ChartWindowManager =

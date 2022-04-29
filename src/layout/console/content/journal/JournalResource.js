@@ -12,7 +12,7 @@ import { BaseClient } from "../../../../clients/BaseClient";
 import Mousetrap from "mousetrap";
 import JournalLinkPanel from "./components/JournalLinkPanel";
 import { FervieClient } from "../../../../clients/FervieClient";
-import {NotificationClient} from "../../../../clients/NotificationClient";
+import { NotificationClient } from "../../../../clients/NotificationClient";
 
 /**
  * this component is the tab panel wrapper for the console content
@@ -75,7 +75,7 @@ export default class JournalResource extends Component {
         RendererEventFactory.Events.TALK_MESSAGE_CLIENT,
         this,
         this.onTalkDirectMessage
-      )
+      );
 
     this.journalRefreshListener =
       RendererEventFactory.createEvent(
@@ -86,7 +86,8 @@ export default class JournalResource extends Component {
 
     this.refreshNotificationsEvent =
       RendererEventFactory.createEvent(
-        RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATION_REFRESH,
+        RendererEventFactory.Events
+          .VIEW_CONSOLE_NOTIFICATION_REFRESH,
         this
       );
 
@@ -135,7 +136,10 @@ export default class JournalResource extends Component {
         break;
       case BaseClient.MessageTypes
         .INTENTION_STARTED_DETAILS:
-        if (this.username === username && (!this.isMyJournal() || this.isMemberPairing())) {
+        if (
+          this.username === username &&
+          (!this.isMyJournal() || this.isMemberPairing())
+        ) {
           this.addIntentionAndSetToActive(
             data.journalEntry
           );
@@ -173,30 +177,41 @@ export default class JournalResource extends Component {
    * @param arg
    */
   onTalkDirectMessage = (event, arg) => {
-    if (arg.messageType === BaseClient.MessageTypes.PAIRING_REQUEST) {
-      if (arg.data.pairingRequestType === BaseClient.PairingRequestTypes.PAIRING_CONFIRMED) {
-        console.log("confirmed for "+arg.data.toUsername);
+    if (
+      arg.messageType ===
+      BaseClient.MessageTypes.PAIRING_REQUEST
+    ) {
+      if (
+        arg.data.pairingRequestType ===
+        BaseClient.PairingRequestTypes.PAIRING_CONFIRMED
+      ) {
+        console.log("confirmed for " + arg.data.toUsername);
         if (arg.data.toUsername === this.username) {
           this.setState({
-            isLinking: false
+            isLinking: false,
           });
         }
-      } else if (arg.data.pairingRequestType === BaseClient.PairingRequestTypes.PAIRING_REQUEST) {
+      } else if (
+        arg.data.pairingRequestType ===
+        BaseClient.PairingRequestTypes.PAIRING_REQUEST
+      ) {
         if (arg.data.fromUsername === this.username) {
           this.setState({
-            incomingPairRequest: true
+            incomingPairRequest: true,
           });
         }
-      } else if (arg.data.pairingRequestType === BaseClient.PairingRequestTypes.PAIRING_CANCELLATION) {
+      } else if (
+        arg.data.pairingRequestType ===
+        BaseClient.PairingRequestTypes.PAIRING_CANCELLATION
+      ) {
         if (arg.data.fromUsername === this.username) {
           this.setState({
-            incomingPairRequest: false
+            incomingPairRequest: false,
           });
         }
       }
     }
   };
-
 
   isForJournalInView(username) {
     let me = MemberClient.me;
@@ -292,7 +307,6 @@ export default class JournalResource extends Component {
             this.state.activeIntention))
     ) {
       //there was a change in the selection, scroll to the selection
-      console.log("selection change");
       this.scrollToJournalItemById(
         this.state.activeIntention.id,
         true
@@ -328,7 +342,9 @@ export default class JournalResource extends Component {
   }
 
   isMemberPairing() {
-    return !!(this.state.member && this.state.member.pairingNetwork);
+    return !!(
+      this.state.member && this.state.member.pairingNetwork
+    );
   }
 
   focusOnIntentionIfVisible() {
@@ -620,19 +636,21 @@ export default class JournalResource extends Component {
 
         this.handleCallback();
 
-        NotificationClient.getNotificationOfTypeForUser(this.username, BaseClient.PairingRequestTypes.PAIRING_REQUEST,
-          this, (arg) => {
-          if (!this.hasCallbackError(arg)) {
-            if (arg.data) {
-              this.incomingPairRequest = true;
+        NotificationClient.getNotificationOfTypeForUser(
+          this.username,
+          BaseClient.PairingRequestTypes.PAIRING_REQUEST,
+          this,
+          (arg) => {
+            if (!this.hasCallbackError(arg)) {
+              if (arg.data) {
+                this.incomingPairRequest = true;
+              }
             }
+            this.handleCallback();
           }
-          this.handleCallback();
-        });
+        );
       }
     });
-
-
 
     JournalClient.getRecentProjects(this, (arg) => {
       if (!this.hasCallbackError(arg)) {
@@ -792,11 +810,14 @@ export default class JournalResource extends Component {
       (arg) => {
         if (!this.hasCallbackError(arg) && arg.data) {
           this.setState((prevState) => {
-            prevState.journalIntentions.push(arg.data);
+            let updatedItems =
+              UtilRenderer.updateMessageInArrayById(
+                prevState.journalIntentions,
+                arg.data
+              );
 
             return {
-              journalIntentions:
-                prevState.journalIntentions,
+              journalIntentions: updatedItems,
               activeIntention: arg.data,
               error: null,
             };
@@ -956,16 +977,20 @@ export default class JournalResource extends Component {
    * Invoked when the user clicks the cancel button in the journal to cancel an existing pair request
    */
   onClickCancelLink = () => {
-    FervieClient.cancelPairRequest(this.state.pairRequestTo, this, (arg) =>{
-      if (!arg.error) {
-        this.setState({
-          isLinking: false,
-          pairRequestTo: null
-        })
-      } else {
-        this.handleError(arg.error);
+    FervieClient.cancelPairRequest(
+      this.state.pairRequestTo,
+      this,
+      (arg) => {
+        if (!arg.error) {
+          this.setState({
+            isLinking: false,
+            pairRequestTo: null,
+          });
+        } else {
+          this.handleError(arg.error);
+        }
       }
-    });
+    );
   };
 
   /**
@@ -973,39 +998,58 @@ export default class JournalResource extends Component {
    */
   onClickConfirmLink = () => {
     if (this.state.member) {
-      FervieClient.confirmPairingLink(this.state.member.id, MemberClient.me.id, this, (arg) =>{
-        if (!arg.error) {
-          this.setState({
-            isLinking: false,
-            pairRequestTo: null,
-            incomingPairRequest: false
-          });
+      FervieClient.confirmPairingLink(
+        this.state.member.id,
+        MemberClient.me.id,
+        this,
+        (arg) => {
+          if (!arg.error) {
+            this.setState({
+              isLinking: false,
+              pairRequestTo: null,
+              incomingPairRequest: false,
+            });
 
-          this.deleteConsumedPairingNotification();
-
-        } else {
-          this.handleError(arg.error);
+            this.deleteConsumedPairingNotification();
+          } else {
+            this.handleError(arg.error);
+          }
         }
-      });
+      );
     } else {
-      console.log("Page not yet initialized with member data");
+      console.log(
+        "Page not yet initialized with member data"
+      );
     }
   };
 
   deleteConsumedPairingNotification() {
-    NotificationClient.getNotificationOfTypeForUser(this.state.member.username, BaseClient.PairingRequestTypes.PAIRING_REQUEST, this, (arg) => {
-      if (!arg.error) {
-        NotificationClient.deleteNotification(arg.data.id, this, (arg) => {
-          if (!arg.error) {
-            this.refreshNotificationsEvent.dispatch({});
-          } else {
-            console.error("Unable to delete pairing request notification");
-          }
-        });
-      } else {
-        console.error("Unable to retrieve pairing request notification");
+    NotificationClient.getNotificationOfTypeForUser(
+      this.state.member.username,
+      BaseClient.PairingRequestTypes.PAIRING_REQUEST,
+      this,
+      (arg) => {
+        if (!arg.error) {
+          NotificationClient.deleteNotification(
+            arg.data.id,
+            this,
+            (arg) => {
+              if (!arg.error) {
+                this.refreshNotificationsEvent.dispatch({});
+              } else {
+                console.error(
+                  "Unable to delete pairing request notification"
+                );
+              }
+            }
+          );
+        } else {
+          console.error(
+            "Unable to retrieve pairing request notification"
+          );
+        }
       }
-    });
+    );
   }
 
   handleStartPairing(username) {
@@ -1021,8 +1065,8 @@ export default class JournalResource extends Component {
               this.handleError(arg.error);
             } else {
               this.setState({
-                isLinking : true,
-                pairRequestTo: member.id
+                isLinking: true,
+                pairRequestTo: member.id,
               });
             }
           }
@@ -1151,7 +1195,9 @@ export default class JournalResource extends Component {
         <div id="wrapper" className="journalEntry ">
           <JournalLinkPanel
             isLinking={this.state.isLinking}
-            incomingPairRequest={this.state.incomingPairRequest}
+            incomingPairRequest={
+              this.state.incomingPairRequest
+            }
             onClickStartPairing={this.onClickStartPairing}
             onClickStopPairing={this.onClickStopPairing}
             onClickCancelLink={this.onClickCancelLink}

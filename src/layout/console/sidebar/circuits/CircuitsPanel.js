@@ -33,8 +33,7 @@ export default class CircuitsPanel extends Component {
     this.name = "[CircuitsPanel]";
     this.state = {
       activeItem:
-        SidePanelViewController.SubmenuSelection
-          .ACTIVE,
+        SidePanelViewController.SubmenuSelection.ACTIVE,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
       retroCircuitsVisible: false,
@@ -184,16 +183,14 @@ export default class CircuitsPanel extends Component {
     switch (
       this.myController.activeCircuitsSubmenuSelection
     ) {
-      case SidePanelViewController.SubmenuSelection
-        .ACTIVE:
+      case SidePanelViewController.SubmenuSelection.ACTIVE:
         this.showLiveCircuitsPanel();
         break;
       case SidePanelViewController.SubmenuSelection
         .DO_IT_LATER:
         this.showDoItLaterCircuitsPanel();
         break;
-      case SidePanelViewController.SubmenuSelection
-        .RETRO:
+      case SidePanelViewController.SubmenuSelection.RETRO:
         this.showRetroCircuitsPanel();
         break;
       default:
@@ -207,8 +204,7 @@ export default class CircuitsPanel extends Component {
   showLiveCircuitsPanel() {
     this.setState({
       activeItem:
-        SidePanelViewController.SubmenuSelection
-          .ACTIVE,
+        SidePanelViewController.SubmenuSelection.ACTIVE,
       liveCircuitsVisible: true,
       doItLaterCircuitsVisible: false,
       retroCircuitVisible: false,
@@ -257,8 +253,7 @@ export default class CircuitsPanel extends Component {
   showRetroCircuitsPanel() {
     this.setState({
       activeItem:
-        SidePanelViewController.SubmenuSelection
-          .RETRO,
+        SidePanelViewController.SubmenuSelection.RETRO,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: false,
       retroCircuitsVisible: true,

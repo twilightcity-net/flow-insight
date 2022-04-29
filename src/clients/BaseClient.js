@@ -66,7 +66,7 @@ export class BaseClient {
       TERMINAL_CMD_RESULT: "TerminalResultsDto",
       TERMINAL_ENVVARIABLE: "EnvironmentVariableDto",
       TERMINAL_CIRCUIT_CLOSED: "CircuitClosedDto",
-      PAIRING_REQUEST: "PairingRequestDto"
+      PAIRING_REQUEST: "PairingRequestDto",
     };
   }
 
@@ -74,9 +74,8 @@ export class BaseClient {
     return {
       PAIRING_REQUEST: "PAIRING_REQUEST",
       PAIRING_CANCELLATION: "PAIRING_CANCELLATION",
-      PAIRING_CONFIRMED: "PAIRING_CONFIRMED"
-
-    }
+      PAIRING_CONFIRMED: "PAIRING_CONFIRMED",
+    };
   }
 
   /**

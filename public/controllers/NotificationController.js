@@ -32,9 +32,12 @@ module.exports = class NotificationController extends (
       GET_NOTIFICATION_COUNT: "get-notification-count",
       GET_NOTIFICATIONS: "get-notifications",
       DELETE_NOTIFICATION: "delete-notification",
-      MARK_NOTIFICATION_AS_READ: "mark-notification-as-read",
-      MARK_ALL_NOTIFICATION_AS_READ: "mark-all-notification-as-read",
-      GET_NOTIFICATION_OF_TYPE_FOR_USER: "get-notification-of-type-for-user"
+      MARK_NOTIFICATION_AS_READ:
+        "mark-notification-as-read",
+      MARK_ALL_NOTIFICATION_AS_READ:
+        "mark-all-notification-as-read",
+      GET_NOTIFICATION_OF_TYPE_FOR_USER:
+        "get-notification-of-type-for-user",
     };
   }
 
@@ -79,23 +82,38 @@ module.exports = class NotificationController extends (
       );
     } else {
       switch (arg.type) {
-        case NotificationController.Events.GET_NOTIFICATIONS:
+        case NotificationController.Events
+          .GET_NOTIFICATIONS:
           this.handleGetNotificationsEvent(event, arg);
           break;
-        case NotificationController.Events.GET_NOTIFICATION_COUNT:
+        case NotificationController.Events
+          .GET_NOTIFICATION_COUNT:
           this.handleGetNotificationsCountEvent(event, arg);
           break;
-        case NotificationController.Events.DELETE_NOTIFICATION:
+        case NotificationController.Events
+          .DELETE_NOTIFICATION:
           this.handleDeleteNotificationEvent(event, arg);
           break;
-        case NotificationController.Events.MARK_NOTIFICATION_AS_READ:
-          this.handleMarkNotificationAsReadEvent(event, arg);
+        case NotificationController.Events
+          .MARK_NOTIFICATION_AS_READ:
+          this.handleMarkNotificationAsReadEvent(
+            event,
+            arg
+          );
           break;
-        case NotificationController.Events.MARK_ALL_NOTIFICATION_AS_READ:
-          this.handleMarkAllNotificationAsReadEvent(event, arg);
+        case NotificationController.Events
+          .MARK_ALL_NOTIFICATION_AS_READ:
+          this.handleMarkAllNotificationAsReadEvent(
+            event,
+            arg
+          );
           break;
-        case NotificationController.Events.GET_NOTIFICATION_OF_TYPE_FOR_USER:
-          this.handleGetNotificationOfTypeForUserEvent(event, arg);
+        case NotificationController.Events
+          .GET_NOTIFICATION_OF_TYPE_FOR_USER:
+          this.handleGetNotificationOfTypeForUserEvent(
+            event,
+            arg
+          );
           break;
         default:
           throw new Error(
@@ -114,12 +132,7 @@ module.exports = class NotificationController extends (
    * @param arg
    * @param callback
    */
-  handleGetNotificationsEvent(
-    event,
-    arg,
-    callback
-  ) {
-
+  handleGetNotificationsEvent(event, arg, callback) {
     console.log("XXX CALLING getNotifications!");
 
     let database = DatabaseFactory.getDatabase(
@@ -142,11 +155,7 @@ module.exports = class NotificationController extends (
    * @param arg
    * @param callback
    */
-  handleDeleteNotificationEvent(
-    event,
-    arg,
-    callback
-  ) {
+  handleDeleteNotificationEvent(event, arg, callback) {
     let notificationId = arg.args.id;
 
     let database = DatabaseFactory.getDatabase(
@@ -162,19 +171,13 @@ module.exports = class NotificationController extends (
     );
   }
 
-
-
   /**
    * Marks a specific notification from the local store as read
    * @param event
    * @param arg
    * @param callback
    */
-  handleMarkNotificationAsReadEvent(
-    event,
-    arg,
-    callback
-  ) {
+  handleMarkNotificationAsReadEvent(event, arg, callback) {
     let notificationId = arg.args.id;
 
     let database = DatabaseFactory.getDatabase(
@@ -221,14 +224,13 @@ module.exports = class NotificationController extends (
    * @param callback
    */
   handleGetNotificationsCountEvent(event, arg, callback) {
-
     let database = DatabaseFactory.getDatabase(
       DatabaseFactory.Names.NOTIFICATION
     );
 
     let view = database.getViewForUnreadNotifications();
     let count = view.count();
-    arg.data = { count: count}
+    arg.data = { count: count };
 
     this.delegateCallbackOrEventReplyTo(
       event,
@@ -243,12 +245,16 @@ module.exports = class NotificationController extends (
    * @param arg
    * @param callback
    */
-  handleGetNotificationOfTypeForUserEvent(event, arg, callback) {
+  handleGetNotificationOfTypeForUserEvent(
+    event,
+    arg,
+    callback
+  ) {
     let username = arg.args.username,
       type = arg.args.type,
       database = DatabaseFactory.getDatabase(
-      DatabaseFactory.Names.NOTIFICATION
-    );
+        DatabaseFactory.Names.NOTIFICATION
+      );
 
     let result = database.findByUserAndType(username, type);
     arg.data = result;
@@ -259,7 +265,4 @@ module.exports = class NotificationController extends (
       callback
     );
   }
-
-
-
 };
