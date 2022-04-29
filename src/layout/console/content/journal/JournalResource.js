@@ -84,6 +84,12 @@ export default class JournalResource extends Component {
         this.onJournalDataRefresh
       );
 
+    this.refreshNotificationsEvent =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATION_REFRESH,
+        this
+      );
+
     this.state = {
       lastProject: null,
       lastTask: null,
@@ -176,13 +182,13 @@ export default class JournalResource extends Component {
           });
         }
       } else if (arg.data.pairingRequestType === BaseClient.PairingRequestTypes.PAIRING_REQUEST) {
-        if (arg.data.fromUsername === this.fromUsername) {
+        if (arg.data.fromUsername === this.username) {
           this.setState({
             incomingPairRequest: true
           });
         }
       } else if (arg.data.pairingRequestType === BaseClient.PairingRequestTypes.PAIRING_CANCELLATION) {
-        if (arg.data.fromUsername === this.fromUsername) {
+        if (arg.data.fromUsername === this.username) {
           this.setState({
             incomingPairRequest: false
           });
@@ -976,7 +982,7 @@ export default class JournalResource extends Component {
           });
 
           this.deleteConsumedPairingNotification();
-          
+
         } else {
           this.handleError(arg.error);
         }
@@ -990,7 +996,9 @@ export default class JournalResource extends Component {
     NotificationClient.getNotificationOfTypeForUser(this.state.member.username, BaseClient.PairingRequestTypes.PAIRING_REQUEST, this, (arg) => {
       if (!arg.error) {
         NotificationClient.deleteNotification(arg.data.id, this, (arg) => {
-          if (arg.error) {
+          if (!arg.error) {
+            this.refreshNotificationsEvent.dispatch({});
+          } else {
             console.error("Unable to delete pairing request notification");
           }
         });

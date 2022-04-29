@@ -160,7 +160,7 @@ export class SidePanelViewController extends ActiveViewController {
 
   /**
    * enum list of the possible sub menu types of the console sidebar
-   * @returns {{BADGES: string, DASHBOARD: string, PAUSED: string, ACTIVE: string, TEAMS: string, FERVIE: string, RETRO: string, NOTIFICATIONS: string}}
+   * @returns {{BADGES: string, DASHBOARD: string, DO_IT_LATER: string, ACTIVE: string, TEAMS: string, FERVIE: string, RETRO: string, NOTIFICATIONS: string}}
    * @constructor
    */
   static get SubmenuSelection() {
@@ -169,9 +169,9 @@ export class SidePanelViewController extends ActiveViewController {
       BADGES: "badges",
       SKILLS: "skills",
       TEAMS: "teams",
-      ACTIVE: "Active",
-      PAUSED: "Paused",
-      RETRO: "Retro",
+      ACTIVE: "active",
+      DO_IT_LATER: "do-it-later",
+      RETRO: "retro",
       NOTIFICATIONS: "notifications",
       DASHBOARD: "dashboard",
     };

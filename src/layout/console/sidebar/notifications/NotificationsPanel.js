@@ -43,6 +43,13 @@ export default class NotificationsPanel extends Component {
         RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATION_READ_UPDATE,
         this
       );
+
+    this.refreshNotificationsListener =
+      RendererEventFactory.createEvent(
+        RendererEventFactory.Events.VIEW_CONSOLE_NOTIFICATION_REFRESH,
+        this,
+        this.refreshNotifications
+      );
   }
 
   /**
@@ -95,7 +102,10 @@ export default class NotificationsPanel extends Component {
       this,
       null
     );
+
     this.directMessageListener.clear();
+    this.notificationReadUpdate.clear();
+    this.refreshNotificationsListener.clear();
   };
 
   /**

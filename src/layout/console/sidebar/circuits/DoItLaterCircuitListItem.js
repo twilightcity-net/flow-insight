@@ -68,7 +68,7 @@ export default class DoItLaterCircuitListItem extends Component {
       <div>
         <div className="circuit">
           <div className="state">
-            <b>ON HOLD</b>
+            <b>PAUSED</b>
           </div>
           <div className="name">
             <i>{description}</i>

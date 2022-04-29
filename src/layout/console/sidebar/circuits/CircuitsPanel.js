@@ -189,7 +189,7 @@ export default class CircuitsPanel extends Component {
         this.showLiveCircuitsPanel();
         break;
       case SidePanelViewController.SubmenuSelection
-        .PAUSED:
+        .DO_IT_LATER:
         this.showDoItLaterCircuitsPanel();
         break;
       case SidePanelViewController.SubmenuSelection
@@ -234,7 +234,7 @@ export default class CircuitsPanel extends Component {
     this.setState({
       activeItem:
         SidePanelViewController.SubmenuSelection
-          .PAUSED,
+          .DO_IT_LATER,
       liveCircuitsVisible: false,
       doItLaterCircuitsVisible: true,
       retroCircuitVisible: false,
@@ -516,12 +516,12 @@ export default class CircuitsPanel extends Component {
             <Menu.Item
               name={
                 SidePanelViewController.SubmenuSelection
-                  .PAUSED
+                  .DO_IT_LATER
               }
               active={
                 activeItem ===
                 SidePanelViewController.SubmenuSelection
-                  .PAUSED
+                  .DO_IT_LATER
               }
               onClick={this.handleCircuitSubmenuClick}
             />
