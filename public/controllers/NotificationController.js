@@ -24,7 +24,7 @@ module.exports = class NotificationController extends (
 
   /**
    * general enum list of all of our possible notification events
-   * @returns {{MARK_ALL_NOTIFICATION_AS_READ:string, MARK_NOTIFICATION_AS_READ:string, DELETE_NOTIFICATION: string, GET_NOTIFICATION_COUNT: string, GET_NOTIFICATIONS: string}}
+   * @returns {{GET_NOTIFICATION_OF_TYPE_FOR_USER:string, MARK_ALL_NOTIFICATION_AS_READ:string, MARK_NOTIFICATION_AS_READ:string, DELETE_NOTIFICATION: string, GET_NOTIFICATION_COUNT: string, GET_NOTIFICATIONS: string}}
    * @constructor
    */
   static get Events() {
@@ -33,7 +33,8 @@ module.exports = class NotificationController extends (
       GET_NOTIFICATIONS: "get-notifications",
       DELETE_NOTIFICATION: "delete-notification",
       MARK_NOTIFICATION_AS_READ: "mark-notification-as-read",
-      MARK_ALL_NOTIFICATION_AS_READ: "mark-all-notification-as-read"
+      MARK_ALL_NOTIFICATION_AS_READ: "mark-all-notification-as-read",
+      GET_NOTIFICATION_OF_TYPE_FOR_USER: "get-notification-of-type-for-user"
     };
   }
 
@@ -92,6 +93,9 @@ module.exports = class NotificationController extends (
           break;
         case NotificationController.Events.MARK_ALL_NOTIFICATION_AS_READ:
           this.handleMarkAllNotificationAsReadEvent(event, arg);
+          break;
+        case NotificationController.Events.GET_NOTIFICATION_OF_TYPE_FOR_USER:
+          this.handleGetNotificationOfTypeForUserEvent(event, arg);
           break;
         default:
           throw new Error(
@@ -232,5 +236,30 @@ module.exports = class NotificationController extends (
       callback
     );
   }
+
+  /**
+   * Get notification of a particular type from a particular user
+   * @param event
+   * @param arg
+   * @param callback
+   */
+  handleGetNotificationOfTypeForUserEvent(event, arg, callback) {
+    let username = arg.args.username,
+      type = arg.args.type,
+      database = DatabaseFactory.getDatabase(
+      DatabaseFactory.Names.NOTIFICATION
+    );
+
+    let result = database.findByUserAndType(username, type);
+    arg.data = result;
+
+    this.delegateCallbackOrEventReplyTo(
+      event,
+      arg,
+      callback
+    );
+  }
+
+
 
 };

@@ -194,7 +194,26 @@ module.exports = class NotificationDatabase extends LokiJS {
       NotificationDatabase.Collections.NOTIFICATION
     );
 
-    DatabaseUtil.findRemoveInsert(notificationObj, collection);
+    //check if this is a duplicate message first, sometimes that happens with lag
+    let duplicate = collection.findOne({type: notificationObj.type, fromMemberId: notificationObj.fromMemberId, canceled: false});
+    if (!duplicate) {
+      DatabaseUtil.findRemoveInsert(notificationObj, collection);
+    }
+  }
+
+  /**
+   * Find an uncanceled notification by user and type
+   * @param username
+   * @param type
+   * @returns {*}
+   */
+  findByUserAndType(username, type) {
+
+    let collection = this.getCollection(
+      NotificationDatabase.Collections.NOTIFICATION
+    );
+
+    return collection.findOne({type: type, fromUsername: username, canceled: false});
   }
 
   /**

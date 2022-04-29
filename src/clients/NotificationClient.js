@@ -27,7 +27,7 @@ export class NotificationClient extends BaseClient {
 
   /**
    * general enum list of all of our possible notification events
-   * @returns {{MARK_ALL_NOTIFICATION_AS_READ:string, MARK_NOTIFICATION_AS_READ:string, DELETE_NOTIFICATION: string, GET_NOTIFICATION_COUNT: string, GET_NOTIFICATIONS: string}}
+   * @returns {{GET_NOTIFICATION_OF_TYPE_FOR_USER:string, MARK_ALL_NOTIFICATION_AS_READ:string, MARK_NOTIFICATION_AS_READ:string, DELETE_NOTIFICATION: string, GET_NOTIFICATION_COUNT: string, GET_NOTIFICATIONS: string}}
    * @constructor
    */
   static get Events() {
@@ -36,7 +36,8 @@ export class NotificationClient extends BaseClient {
       GET_NOTIFICATIONS: "get-notifications",
       DELETE_NOTIFICATION: "delete-notification",
       MARK_NOTIFICATION_AS_READ: "mark-notification-as-read",
-      MARK_ALL_NOTIFICATION_AS_READ: "mark-all-notification-as-read"
+      MARK_ALL_NOTIFICATION_AS_READ: "mark-all-notification-as-read",
+      GET_NOTIFICATION_OF_TYPE_FOR_USER: "get-notification-of-type-for-user"
     };
   }
 
@@ -69,6 +70,28 @@ export class NotificationClient extends BaseClient {
     NotificationClient.instance.notifyNotification(event);
     return event;
   }
+
+
+  /**
+   * gets any incoming pair request notifications for a specific
+   * user, so we can display on the journal page when applicable
+   * @param username
+   * @param notificationType
+   * @param scope
+   * @param callback
+   * @returns {RendererClientEvent}
+   */
+  static getNotificationOfTypeForUser(username, notificationType, scope, callback) {
+    let event = NotificationClient.instance.createClientEvent(
+      NotificationClient.Events.GET_NOTIFICATION_OF_TYPE_FOR_USER,
+      {username: username, type: notificationType},
+      scope,
+      callback
+    );
+    NotificationClient.instance.notifyNotification(event);
+    return event;
+  }
+
 
 
   /**

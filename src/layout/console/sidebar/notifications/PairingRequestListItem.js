@@ -76,6 +76,15 @@ export default class PairingRequestListItem extends Component {
     if (this.props.model && this.props.model.data) {
       fullName = this.props.model.data.fromFullName;
     }
+    let unreadClass = "";
+    if (!this.props.model.read) {
+      unreadClass = " unread";
+    }
+
+    let canceledClass = "";
+    if (this.props.model.canceled) {
+      canceledClass = " canceled";
+    }
 
     let button = "";
     if (!this.props.model.canceled) {
@@ -86,21 +95,12 @@ export default class PairingRequestListItem extends Component {
             </Label>);
     } else {
       button = (<Label color="grey">
-                <span>
+                <span className={canceledClass}>
                   Canceled
                 </span>
       </Label>);
     }
 
-    let unreadClass = "";
-    if (!this.props.model.read) {
-      unreadClass = " unread";
-    }
-
-    let canceledClass = "";
-    if (this.props.model.canceled) {
-      canceledClass = " canceled";
-    }
 
 
     return this.getPopupContent(
@@ -117,10 +117,10 @@ export default class PairingRequestListItem extends Component {
         </List.Content>
         <List.Content>
 
-          <List.Header>
+          <List.Header className={canceledClass}>
             Pairing Request
           </List.Header>
-          <i className="name">
+          <i className={"name" + canceledClass}>
             ({fullName})
           </i>
         </List.Content>

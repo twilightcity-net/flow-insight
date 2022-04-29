@@ -4,6 +4,7 @@ import { ResourceCircuitController } from "./ResourceCircuitController";
 import { BrowserRequestFactory } from "./BrowserRequestFactory";
 import { RendererControllerFactory } from "./RendererControllerFactory";
 import { MemberClient } from "../clients/MemberClient";
+import {SidePanelViewController} from "./SidePanelViewController";
 
 /**
  * used to show popup notifications in the app
@@ -83,30 +84,28 @@ export class PopupController {
       "Pairing Request",
       msg,
       () => {
-        //I think the left hand side panel navigation might make more sense...
-        //rather than taking away from the nav of the main panel?
-        //but like, we can get back to everything
-
-        //Confirm, Cancel buttons make the most sense.
-
-        //if I click the notifications, do they load up a full page with the request?
-
-        //I kind of like this though...
         console.log("Do an action for the pairing request");
 
-        // let request = BrowserRequestFactory.createRequest(
-        //   BrowserRequestFactory.Requests.CIRCUIT,
-        //   circuit.circuitName
-        // );
-        //
-        // setTimeout(() => {
-        //   if (this.consoleIsCollapsed) {
-        //     this.consoleViewListener.dispatch({
-        //       showHideFlag: 0,
-        //     });
-        //   }
-        //   this.browserController.makeRequest(request);
-        // }, 420);
+        this.myController =
+          RendererControllerFactory.getViewController(
+            RendererControllerFactory.Views.CONSOLE_SIDEBAR
+          );
+
+        let request = BrowserRequestFactory.createRequest(
+          BrowserRequestFactory.Requests.JOURNAL,
+          pairingRequest.fromUsername
+        );
+
+        setTimeout(() => {
+          if (this.consoleIsCollapsed) {
+            this.consoleViewListener.dispatch({
+              showHideFlag: 0,
+            });
+          }
+          this.browserController.makeRequest(request);
+          this.myController.showPanel(SidePanelViewController.MenuSelection.NOTIFICATIONS);
+
+        }, 111);
       }
     );
     setTimeout(() => {

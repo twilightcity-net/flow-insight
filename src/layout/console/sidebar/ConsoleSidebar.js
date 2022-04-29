@@ -592,7 +592,7 @@ export default class ConsoleSidebar extends Component {
     if (this.state.unreadNotificationCount > 0) {
       notificationIcon = (<Icon.Group>
         <Icon name={this.state.iconNotifications} />
-        <Icon inverted corner='bottom right' name='circle' color="red" />
+        <Icon inverted corner='bottom right' name='circle' color="purple" />
       </Icon.Group>);
     } else {
       notificationIcon = <Icon name={this.state.iconNotifications} />

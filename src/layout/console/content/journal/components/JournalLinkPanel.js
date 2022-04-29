@@ -31,6 +31,10 @@ export default class JournalLinkPanel extends Component {
     this.props.onClickCancelLink();
   };
 
+  onClickConfirm = () => {
+    this.props.onClickConfirmLink();
+  };
+
   getLinkButton() {
     let pairingIncludesMe = this.pairingIncludesMe();
     let iAmLinked = this.amILinked();
@@ -49,6 +53,17 @@ export default class JournalLinkPanel extends Component {
           <Icon name="broken chain"/>
         </Button>
       );
+    } else if (this.props.incomingPairRequest) {
+      return (<Button
+        icon
+        className="linkButton"
+        onClick={this.onClickConfirm}
+        size="medium"
+        color="violet"
+      >
+        Confirm&nbsp;
+        <Icon name="linkify"/>
+      </Button>);
     } else if (isMemberLinked && pairingIncludesMe) {
       return (
         <Button
@@ -126,6 +141,12 @@ export default class JournalLinkPanel extends Component {
       return (
         <div className="linkMessage">
           Waiting for confirmation...
+        </div>
+      );
+    } else if (this.props.incomingPairRequest) {
+      return (
+        <div className="linkMessage">
+          {this.props.username} wants to pair with you.
         </div>
       );
     } else if (this.props.error) {
