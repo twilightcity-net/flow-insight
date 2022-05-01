@@ -1,5 +1,5 @@
 /**
- * Creates our lake in the woods environment for Fervie to walk around in
+ * Creates our city entrance environment for Fervie to walk around in
  */
 import Environment from "./Environment";
 
