@@ -71,11 +71,6 @@ module.exports = class AppSettings {
   save(apiUrl, apiKey) {
     // let apiKeyCrypted = crypto.AES.encrypt(apiKey, this.keyToken).toString();
 
-    log.info(
-      "[AppSettings] save api key and url",
-      apiUrl,
-      apiKey
-    );
     settings.set(AppSettings.Keys.APP_API_URL, apiUrl);
     settings.set(AppSettings.Keys.APP_API_KEY, apiKey);
     this.setDisplayIndex(
